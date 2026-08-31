@@ -37,10 +37,20 @@ may extend it deliberately, but implementation convenience alone does not overri
 
 ## Baseline Verification
 
-A clean checkout is acceptable only when all four commands in the README succeed. The evidence
-must also show that:
+A clean checkout is acceptable only when all five commands in the README succeed:
+
+```shell
+dotnet restore FunnySharp.slnx
+dotnet build FunnySharp.slnx --configuration Release --no-restore
+dotnet test FunnySharp.slnx --configuration Release --no-build
+dotnet run --project examples/FunnySharp.Examples/FunnySharp.Examples.csproj --configuration Release --no-build
+dotnet pack FunnySharp.slnx --configuration Release --no-build --output artifacts/packages
+```
+
+The evidence must also show that:
 
 - the xUnit v3 test is discovered and passes through Microsoft.Testing.Platform;
+- the executable example compiles in the release build and runs successfully as usage evidence;
 - packing produces `FunnySharp.0.1.0.nupkg` and `FunnySharp.0.1.0.snupkg`;
 - the package contains a `lib/net10.0` assembly and the repository README;
 - the package dependency group for `net10.0` is empty; and
