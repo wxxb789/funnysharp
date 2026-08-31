@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <IsPackable>true</IsPackable>
+    <PackageId>FunnySharp</PackageId>
+    <VersionPrefix>0.1.0</VersionPrefix>
+    <Authors>FunnySharp contributors</Authors>
+    <Description>Pragmatic, BCL-first functional programming for modern C#.</Description>
+    <PackageTags>functional-programming;csharp;dotnet</PackageTags>
+    <PackageProjectUrl>https://github.com/wxxb789/funnysharp</PackageProjectUrl>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/wxxb789/funnysharp</RepositoryUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <EnablePackageValidation>true</EnablePackageValidation>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="../../README.md" Pack="true" PackagePath="/" />
+  </ItemGroup>
+</Project>

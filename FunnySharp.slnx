@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="src/FunnySharp/FunnySharp.csproj" />
+  <Project Path="tests/FunnySharp.Tests/FunnySharp.Tests.csproj" />
+</Solution>
