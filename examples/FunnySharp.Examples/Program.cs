@@ -1,9 +1,12 @@
 using FunnySharp;
+using System.Globalization;
 
 VerifySynchronousFunctions();
 VerifyOptions();
+VerifyResults();
 await VerifyAsynchronousFunctions();
 await VerifyAsynchronousOptions();
+await VerifyAsynchronousResults();
 
 Console.WriteLine("FunnySharp examples passed.");
 
@@ -70,6 +73,47 @@ static void VerifyOptions()
     AssertEqual(42, mapped.GetValueOrDefault());
     Assert(!lazyFallbackCalled, "OrElseWith must not invoke the fallback for Some.");
 }
+
+static void VerifyResults()
+{
+    IReadOnlyDictionary<string, decimal> prices = new Dictionary<string, decimal>
+    {
+        ["book"] = 12.50m,
+    };
+
+    var request = new CheckoutRequest("book", "2");
+    var total = request.QuantityText
+        .Pipe(ParseQuantity)
+        .ZipWith(() => prices.GetOption(request.Sku).ToResult(new CheckoutError("unknown-sku")))
+        .Map(values => values.First * values.Second);
+    AssertEqual(Result<decimal, CheckoutError>.Success(25.00m), total);
+
+    var invalidQuantity = new CheckoutRequest("book", "zero").QuantityText
+        .Pipe(ParseQuantity)
+        .ZipWith(() => prices.GetOption("book").ToResult(new CheckoutError("unknown-sku")));
+    AssertEqual("invalid-quantity", invalidQuantity.Match(_ => "success", error => error.Code));
+
+    var invalidDeadline = Result.Try<DateTimeOffset, CheckoutError>(
+        () => DateTimeOffset.Parse("not-a-date", CultureInfo.InvariantCulture),
+        exception => new CheckoutError("invalid-deadline", exception));
+    var deadlineError = invalidDeadline.Match(
+        _ => throw new InvalidOperationException("Expected deadline parsing to fail."),
+        error => error);
+    AssertEqual("invalid-deadline", deadlineError.Code);
+    Assert(deadlineError.Cause is FormatException, "The explicit boundary must retain the original exception.");
+
+    var recovered = Result<decimal, CheckoutError>
+        .Failure(new CheckoutError("pricing-unavailable"))
+        .Recover(_ => 0m);
+    AssertEqual(Result<decimal, CheckoutError>.Success(0m), recovered);
+}
+
+static Result<int, CheckoutError> ParseQuantity(string text) =>
+    int.TryParse(text, NumberStyles.Integer, CultureInfo.InvariantCulture, out var quantity)
+        ? Result<int, CheckoutError>
+            .Success(quantity)
+            .Ensure(value => value > 0, new CheckoutError("quantity-not-positive"))
+        : Result<int, CheckoutError>.Failure(new CheckoutError("invalid-quantity"));
 
 static async Task VerifyAsynchronousFunctions()
 {
@@ -162,6 +206,34 @@ static async Task VerifyAsynchronousOptions()
     await AssertCancellationIsPreserved(Task.FromCanceled<string?>(cancellationSource.Token).ToOptionAsync());
 }
 
+static async Task VerifyAsynchronousResults()
+{
+    var price = await Result<string, CheckoutError>
+        .Success("book")
+        .BindAsync(LookUpPriceAsync);
+    var discounted = await price.MapValueAsync(value => ValueTask.FromResult(value * 0.9m));
+    AssertEqual(Result<decimal, CheckoutError>.Success(11.25m), discounted);
+
+    var expectedFailure = new InvalidOperationException("pricing service failed");
+    var boundaryFailure = await Result.TryAsync<decimal>(
+        () => Task.FromException<decimal>(expectedFailure));
+    var actualFailure = boundaryFailure.Match(
+        _ => throw new InvalidOperationException("Expected the pricing boundary to fail."),
+        error => error);
+    Assert(ReferenceEquals(expectedFailure, actualFailure), "The boundary must retain exception identity.");
+
+    using var cancellationSource = new CancellationTokenSource();
+    cancellationSource.Cancel();
+    await AssertCancellationIsPreserved(
+        Result.TryAsync(() => Task.FromCanceled<decimal>(cancellationSource.Token)));
+}
+
+static Task<Result<decimal, CheckoutError>> LookUpPriceAsync(string sku) =>
+    Task.FromResult(
+        sku == "book"
+            ? Result<decimal, CheckoutError>.Success(12.50m)
+            : Result<decimal, CheckoutError>.Failure(new CheckoutError("unknown-sku")));
+
 static async Task AssertFaultIsPreserved(Task operation, Exception expected)
 {
     try
@@ -201,3 +273,7 @@ static void Assert(bool condition, string message)
         throw new InvalidOperationException(message);
     }
 }
+
+internal sealed record CheckoutRequest(string Sku, string QuantityText);
+
+internal sealed record CheckoutError(string Code, Exception? Cause = null);
