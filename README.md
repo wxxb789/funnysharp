@@ -15,6 +15,15 @@ and `ValueTask` composition preserves asynchronous execution without sync-over-a
 - [Semantics and performance evidence](https://github.com/wxxb789/funnysharp/blob/main/docs/function-composition.md)
 - [Compiling examples](https://github.com/wxxb789/funnysharp/blob/main/examples/FunnySharp.Examples/Program.cs)
 
+## Option
+
+`Option<T>` represents explicit presence (`Some`) or absence (`None`) with safe inspection,
+synchronous composition, and focused nullable, Try-pattern, dictionary, `Task`, and `ValueTask`
+bridges. Faults and cancellation remain normal asynchronous failures rather than becoming absence.
+
+- [Semantics](https://github.com/wxxb789/funnysharp/blob/main/docs/option.md)
+- [Compiling examples](https://github.com/wxxb789/funnysharp/blob/main/examples/FunnySharp.Examples/Program.cs)
+
 ## Verify
 
 ```shell
