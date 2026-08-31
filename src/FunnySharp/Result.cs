@@ -86,7 +86,141 @@ public static class Result
 
     private static Exception PreserveException(Exception exception) => exception;
 
-    private static async Task<Result<TValue, TError>> TryAsyncCore<TValue, TError>(
+    internal static Task<TResult> TransformTask<TValue, TResult>(
+        Task<TValue> task,
+        Func<TValue, TResult> success,
+        Func<Exception, TResult>? fault = null)
+    {
+        if (task.IsCompletedSuccessfully)
+        {
+            try
+            {
+                return Task.FromResult(success(task.GetAwaiter().GetResult()));
+            }
+            catch (Exception exception)
+            {
+                return FromException<TResult>(exception);
+            }
+        }
+
+        var completion = new TaskCompletionSource<TResult>(
+            TaskCreationOptions.RunContinuationsAsynchronously);
+
+        if (task.IsCompleted)
+        {
+            CompleteTask(task, completion, success, fault);
+        }
+        else
+        {
+            _ = task.ContinueWith(
+                completed => CompleteTask(completed, completion, success, fault),
+                CancellationToken.None,
+                TaskContinuationOptions.ExecuteSynchronously,
+                TaskScheduler.Default);
+        }
+
+        return completion.Task;
+    }
+
+    internal static ValueTask<TResult> TransformValueTask<TValue, TResult>(
+        ValueTask<TValue> task,
+        Func<TValue, TResult> success,
+        Func<Exception, TResult>? fault = null)
+    {
+        if (task.IsCompletedSuccessfully)
+        {
+            try
+            {
+                return ValueTask.FromResult(success(task.Result));
+            }
+            catch (Exception exception)
+            {
+                return new ValueTask<TResult>(FromException<TResult>(exception));
+            }
+        }
+
+        return new ValueTask<TResult>(TransformTask(task.AsTask(), success, fault));
+    }
+
+    internal static Task<TResult> FromException<TResult>(Exception exception) =>
+        exception is OperationCanceledException cancellation
+            ? CreateCanceledTask<TResult>(cancellation)
+            : Task.FromException<TResult>(exception);
+
+    private static void CompleteTask<TValue, TResult>(
+        Task<TValue> task,
+        TaskCompletionSource<TResult> completion,
+        Func<TValue, TResult> success,
+        Func<Exception, TResult>? fault)
+    {
+        if (task.IsCompletedSuccessfully)
+        {
+            CompleteResult(completion, () => success(task.GetAwaiter().GetResult()));
+            return;
+        }
+
+        if (task.IsCanceled)
+        {
+            completion.TrySetCanceled(GetCancellationToken(task));
+            return;
+        }
+
+        if (fault is null)
+        {
+            completion.TrySetException(task.Exception!.InnerExceptions);
+            return;
+        }
+
+        try
+        {
+            task.GetAwaiter().GetResult();
+        }
+        catch (OperationCanceledException cancellation)
+        {
+            completion.TrySetException(cancellation);
+        }
+        catch (Exception exception)
+        {
+            CompleteResult(completion, () => fault(exception));
+        }
+    }
+
+    private static void CompleteResult<TResult>(
+        TaskCompletionSource<TResult> completion,
+        Func<TResult> resultFactory)
+    {
+        try
+        {
+            completion.TrySetResult(resultFactory());
+        }
+        catch (Exception exception) when (exception is OperationCanceledException cancellation)
+        {
+            completion.TrySetCanceled(cancellation.CancellationToken);
+        }
+        catch (Exception exception)
+        {
+            completion.TrySetException(exception);
+        }
+    }
+
+    private static CancellationToken GetCancellationToken(Task task)
+    {
+        try
+        {
+            task.GetAwaiter().GetResult();
+        }
+        catch (OperationCanceledException cancellation)
+        {
+            return cancellation.CancellationToken;
+        }
+
+        throw new InvalidOperationException("The task was expected to be canceled.");
+    }
+
+    private static async Task<TResult> CreateCanceledTask<TResult>(OperationCanceledException cancellation) =>
+        throw cancellation;
+
+    private static Task<Result<TValue, TError>> TryAsyncCore<TValue, TError>(
         Func<Task<TValue>> operation,
         Func<Exception, TError> errorMapper)
     {
@@ -98,36 +232,60 @@ public static class Result
         }
         catch (Exception exception) when (exception is not OperationCanceledException)
         {
-            return Result<TValue, TError>.Failure(errorMapper(exception));
+            return MapException<TValue, TError>(exception, errorMapper);
+        }
+
+        catch (OperationCanceledException exception)
+        {
+            return FromException<Result<TValue, TError>>(exception);
         }
 
         if (task is null)
         {
-            throw new InvalidOperationException("The operation returned a null task.");
+            return Task.FromException<Result<TValue, TError>>(
+                new InvalidOperationException("The operation returned a null task."));
         }
 
-        try
-        {
-            return Result<TValue, TError>.Success(await task.ConfigureAwait(false));
-        }
-        catch (Exception exception) when (exception is not OperationCanceledException)
-        {
-            return Result<TValue, TError>.Failure(errorMapper(exception));
-        }
+        return TransformTask(
+            task,
+            static value => Result<TValue, TError>.Success(value),
+            exception => Result<TValue, TError>.Failure(errorMapper(exception)));
     }
 
-    private static async ValueTask<Result<TValue, TError>> TryValueAsyncCore<TValue, TError>(
+    private static ValueTask<Result<TValue, TError>> TryValueAsyncCore<TValue, TError>(
         Func<ValueTask<TValue>> operation,
         Func<Exception, TError> errorMapper)
     {
         try
         {
-            return Result<TValue, TError>.Success(
-                await operation().ConfigureAwait(false));
+            return TransformValueTask(
+                operation(),
+                static value => Result<TValue, TError>.Success(value),
+                exception => Result<TValue, TError>.Failure(errorMapper(exception)));
         }
         catch (Exception exception) when (exception is not OperationCanceledException)
         {
-            return Result<TValue, TError>.Failure(errorMapper(exception));
+            return new ValueTask<Result<TValue, TError>>(
+                MapException<TValue, TError>(exception, errorMapper));
+        }
+        catch (OperationCanceledException exception)
+        {
+            return new ValueTask<Result<TValue, TError>>(
+                FromException<Result<TValue, TError>>(exception));
+        }
+    }
+
+    private static Task<Result<TValue, TError>> MapException<TValue, TError>(
+        Exception exception,
+        Func<Exception, TError> errorMapper)
+    {
+        try
+        {
+            return Task.FromResult(Result<TValue, TError>.Failure(errorMapper(exception)));
+        }
+        catch (Exception mapperException)
+        {
+            return FromException<Result<TValue, TError>>(mapperException);
         }
     }
 }

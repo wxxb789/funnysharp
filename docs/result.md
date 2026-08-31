@@ -63,9 +63,11 @@ ValueTask-returning callbacks. Each also has a cancellation-aware overload that 
 supplied `CancellationToken` to the callback without eagerly cancelling.
 
 Failure returns an already-completed failed Result and does not invoke a callback or inspect the
-token. Success invokes the callback once and awaits it once with `ConfigureAwait(false)`. Faults
-and cancellation remain ordinary asynchronous failures, including the original exception object,
-cancellation status, and token. `ValueTask` follows its normal single-consumption rule.
+token. Success invokes the callback once and observes the returned awaitable once. Faults and
+cancellation remain ordinary asynchronous failures, including the original exception object,
+cancellation status, and token. A faulted source containing an `OperationCanceledException` stays
+faulted; only a cancelled source produces a cancelled result operation. `ValueTask` follows its
+normal single-consumption rule.
 
 FunnySharp does not add an async Result wrapper. Await a Result-producing operation at the normal
 C# boundary, then continue with the same synchronous or asynchronous Result methods.
@@ -80,8 +82,10 @@ choice rather than a silent library transformation.
 
 The boundary helpers never convert `OperationCanceledException` or its subclasses into a Result
 failure. Synchronous cancellation is thrown to the caller. Asynchronous cancellation remains a
-cancelled Task or ValueTask with its cancellation token. Delegate validation is synchronous;
-exceptions raised by an async operation are represented by the returned awaitable.
+cancelled Task or ValueTask with its cancellation token. A faulted awaitable containing an
+`OperationCanceledException` remains faulted rather than being reclassified as cancellation.
+Delegate validation is synchronous; exceptions raised by an async operation are represented by
+the returned awaitable.
 
 A `TryAsync` operation that returns a null Task violates the delegate contract. The returned Task
 faults with `InvalidOperationException`, and that programming error is not sent through the domain
@@ -120,8 +124,8 @@ would not be meaningful.
 
 | Scenario | Direct mean | FunnySharp mean | Ratio | Direct allocation | FunnySharp allocation |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Completed `Task` mapping | 21.247 ns | 45.980 ns | 2.17x | 144 B | 224 B |
-| Completed `ValueTask` mapping | 10.684 ns | 28.703 ns | 2.69x | - | - |
+| Completed `Task` mapping | 20.398 ns | 52.580 ns | 2.58x | 144 B | 264 B |
+| Completed `ValueTask` mapping | 10.355 ns | 39.809 ns | 3.85x | - | - |
 | Construction and inspection, failure | 0.009 ns | 0.214 ns | N/A | - | - |
 | Construction and inspection, success | 0.020 ns | 0.046 ns | N/A | - | - |
 | Exception boundary, failure | 2.642 us | 3.230 us | 1.22x | 512 B | 680 B |
@@ -129,7 +133,7 @@ would not be meaningful.
 | Fail-fast pipeline, failure | 0.014 ns | 1.524 ns | N/A | - | - |
 | Fail-fast pipeline, success | 0.000 ns | 8.753 ns | N/A | - | - |
 
-The completed Task path added 80 B per operation in this run, while the completed ValueTask path
+The completed Task path added 120 B per operation in this run, while the completed ValueTask path
 remained allocation-free. The explicit exception boundary added about 28% on success and 22% on
 failure; most failure-path cost still came from throwing and constructing the exception itself.
 The synchronous Result construction and pipeline cases allocated nothing. Their direct baselines,

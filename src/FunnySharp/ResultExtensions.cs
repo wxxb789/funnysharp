@@ -189,49 +189,139 @@ public static class ResultExtensions
         return ValueTask.FromResult(Result<TResult, TError>.Failure(error!));
     }
 
-    private static async Task<Result<TResult, TError>> MapAsyncCore<TValue, TError, TResult>(
+    private static Task<Result<TResult, TError>> MapAsyncCore<TValue, TError, TResult>(
         TValue value,
-        Func<TValue, Task<TResult>> selector) =>
-        Result<TResult, TError>.Success(await selector(value).ConfigureAwait(false));
+        Func<TValue, Task<TResult>> selector)
+    {
+        try
+        {
+            return Result.TransformTask(
+                selector(value),
+                static result => Result<TResult, TError>.Success(result));
+        }
+        catch (Exception exception)
+        {
+            return Result.FromException<Result<TResult, TError>>(exception);
+        }
+    }
 
-    private static async Task<Result<TResult, TError>> MapAsyncCore<TValue, TError, TResult>(
+    private static Task<Result<TResult, TError>> MapAsyncCore<TValue, TError, TResult>(
         TValue value,
         Func<TValue, CancellationToken, Task<TResult>> selector,
-        CancellationToken cancellationToken) =>
-        Result<TResult, TError>.Success(
-            await selector(value, cancellationToken).ConfigureAwait(false));
+        CancellationToken cancellationToken)
+    {
+        try
+        {
+            return Result.TransformTask(
+                selector(value, cancellationToken),
+                static result => Result<TResult, TError>.Success(result));
+        }
+        catch (Exception exception)
+        {
+            return Result.FromException<Result<TResult, TError>>(exception);
+        }
+    }
 
-    private static async Task<Result<TResult, TError>> BindAsyncCore<TValue, TError, TResult>(
+    private static Task<Result<TResult, TError>> BindAsyncCore<TValue, TError, TResult>(
         TValue value,
-        Func<TValue, Task<Result<TResult, TError>>> binder) =>
-        await binder(value).ConfigureAwait(false);
+        Func<TValue, Task<Result<TResult, TError>>> binder)
+    {
+        try
+        {
+            return Result.TransformTask(
+                binder(value),
+                static result => result);
+        }
+        catch (Exception exception)
+        {
+            return Result.FromException<Result<TResult, TError>>(exception);
+        }
+    }
 
-    private static async Task<Result<TResult, TError>> BindAsyncCore<TValue, TError, TResult>(
+    private static Task<Result<TResult, TError>> BindAsyncCore<TValue, TError, TResult>(
         TValue value,
         Func<TValue, CancellationToken, Task<Result<TResult, TError>>> binder,
-        CancellationToken cancellationToken) =>
-        await binder(value, cancellationToken).ConfigureAwait(false);
+        CancellationToken cancellationToken)
+    {
+        try
+        {
+            return Result.TransformTask(
+                binder(value, cancellationToken),
+                static result => result);
+        }
+        catch (Exception exception)
+        {
+            return Result.FromException<Result<TResult, TError>>(exception);
+        }
+    }
 
-    private static async ValueTask<Result<TResult, TError>> MapValueAsyncCore<TValue, TError, TResult>(
+    private static ValueTask<Result<TResult, TError>> MapValueAsyncCore<TValue, TError, TResult>(
         TValue value,
-        Func<TValue, ValueTask<TResult>> selector) =>
-        Result<TResult, TError>.Success(await selector(value).ConfigureAwait(false));
+        Func<TValue, ValueTask<TResult>> selector)
+    {
+        try
+        {
+            return Result.TransformValueTask(
+                selector(value),
+                static result => Result<TResult, TError>.Success(result));
+        }
+        catch (Exception exception)
+        {
+            return new ValueTask<Result<TResult, TError>>(
+                Result.FromException<Result<TResult, TError>>(exception));
+        }
+    }
 
-    private static async ValueTask<Result<TResult, TError>> MapValueAsyncCore<TValue, TError, TResult>(
+    private static ValueTask<Result<TResult, TError>> MapValueAsyncCore<TValue, TError, TResult>(
         TValue value,
         Func<TValue, CancellationToken, ValueTask<TResult>> selector,
-        CancellationToken cancellationToken) =>
-        Result<TResult, TError>.Success(
-            await selector(value, cancellationToken).ConfigureAwait(false));
+        CancellationToken cancellationToken)
+    {
+        try
+        {
+            return Result.TransformValueTask(
+                selector(value, cancellationToken),
+                static result => Result<TResult, TError>.Success(result));
+        }
+        catch (Exception exception)
+        {
+            return new ValueTask<Result<TResult, TError>>(
+                Result.FromException<Result<TResult, TError>>(exception));
+        }
+    }
 
-    private static async ValueTask<Result<TResult, TError>> BindValueAsyncCore<TValue, TError, TResult>(
+    private static ValueTask<Result<TResult, TError>> BindValueAsyncCore<TValue, TError, TResult>(
         TValue value,
-        Func<TValue, ValueTask<Result<TResult, TError>>> binder) =>
-        await binder(value).ConfigureAwait(false);
+        Func<TValue, ValueTask<Result<TResult, TError>>> binder)
+    {
+        try
+        {
+            return Result.TransformValueTask(
+                binder(value),
+                static result => result);
+        }
+        catch (Exception exception)
+        {
+            return new ValueTask<Result<TResult, TError>>(
+                Result.FromException<Result<TResult, TError>>(exception));
+        }
+    }
 
-    private static async ValueTask<Result<TResult, TError>> BindValueAsyncCore<TValue, TError, TResult>(
+    private static ValueTask<Result<TResult, TError>> BindValueAsyncCore<TValue, TError, TResult>(
         TValue value,
         Func<TValue, CancellationToken, ValueTask<Result<TResult, TError>>> binder,
-        CancellationToken cancellationToken) =>
-        await binder(value, cancellationToken).ConfigureAwait(false);
+        CancellationToken cancellationToken)
+    {
+        try
+        {
+            return Result.TransformValueTask(
+                binder(value, cancellationToken),
+                static result => result);
+        }
+        catch (Exception exception)
+        {
+            return new ValueTask<Result<TResult, TError>>(
+                Result.FromException<Result<TResult, TError>>(exception));
+        }
+    }
 }

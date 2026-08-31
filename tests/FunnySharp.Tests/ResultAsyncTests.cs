@@ -187,6 +187,103 @@ public sealed class ResultAsyncTests
     }
 
     [Fact]
+    public async Task AsyncCallbacksKeepFaultedOperationCanceledExceptionsFaulted()
+    {
+        using var cancellationSource = new CancellationTokenSource();
+        cancellationSource.Cancel();
+        var taskMapFailure = new OperationCanceledException(cancellationSource.Token);
+        var taskBindFailure = new OperationCanceledException(cancellationSource.Token);
+        var valueMapFailure = new OperationCanceledException(cancellationSource.Token);
+        var valueBindFailure = new OperationCanceledException(cancellationSource.Token);
+        var taskMapWithTokenFailure = new OperationCanceledException(cancellationSource.Token);
+        var taskBindWithTokenFailure = new OperationCanceledException(cancellationSource.Token);
+        var valueMapWithTokenFailure = new OperationCanceledException(cancellationSource.Token);
+        var valueBindWithTokenFailure = new OperationCanceledException(cancellationSource.Token);
+
+        var taskMap = Result<int, string>.Success(1).MapAsync<int, string, int>(
+            _ => Task.FromException<int>(taskMapFailure));
+        var taskBind = Result<int, string>.Success(1).BindAsync<int, string, int>(
+            _ => Task.FromException<Result<int, string>>(taskBindFailure));
+        var valueMap = Result<int, string>.Success(1).MapValueAsync<int, string, int>(
+            _ => ValueTask.FromException<int>(valueMapFailure)).AsTask();
+        var valueBind = Result<int, string>.Success(1).BindValueAsync<int, string, int>(
+            _ => ValueTask.FromException<Result<int, string>>(valueBindFailure)).AsTask();
+        var taskMapWithToken = Result<int, string>.Success(1).MapAsync(
+            (_, _) => Task.FromException<int>(taskMapWithTokenFailure),
+            cancellationSource.Token);
+        var taskBindWithToken = Result<int, string>.Success(1).BindAsync(
+            (_, _) => Task.FromException<Result<int, string>>(taskBindWithTokenFailure),
+            cancellationSource.Token);
+        var valueMapWithToken = Result<int, string>.Success(1).MapValueAsync(
+            (_, _) => ValueTask.FromException<int>(valueMapWithTokenFailure),
+            cancellationSource.Token).AsTask();
+        var valueBindWithToken = Result<int, string>.Success(1).BindValueAsync(
+            (_, _) => ValueTask.FromException<Result<int, string>>(valueBindWithTokenFailure),
+            cancellationSource.Token).AsTask();
+
+        Assert.Same(taskMapFailure, await Assert.ThrowsAnyAsync<OperationCanceledException>(() => taskMap));
+        Assert.Same(taskBindFailure, await Assert.ThrowsAnyAsync<OperationCanceledException>(() => taskBind));
+        Assert.Same(valueMapFailure, await Assert.ThrowsAnyAsync<OperationCanceledException>(() => valueMap));
+        Assert.Same(valueBindFailure, await Assert.ThrowsAnyAsync<OperationCanceledException>(() => valueBind));
+        Assert.Same(
+            taskMapWithTokenFailure,
+            await Assert.ThrowsAnyAsync<OperationCanceledException>(() => taskMapWithToken));
+        Assert.Same(
+            taskBindWithTokenFailure,
+            await Assert.ThrowsAnyAsync<OperationCanceledException>(() => taskBindWithToken));
+        Assert.Same(
+            valueMapWithTokenFailure,
+            await Assert.ThrowsAnyAsync<OperationCanceledException>(() => valueMapWithToken));
+        Assert.Same(
+            valueBindWithTokenFailure,
+            await Assert.ThrowsAnyAsync<OperationCanceledException>(() => valueBindWithToken));
+        Assert.True(taskMap.IsFaulted);
+        Assert.True(taskBind.IsFaulted);
+        Assert.True(valueMap.IsFaulted);
+        Assert.True(valueBind.IsFaulted);
+        Assert.True(taskMapWithToken.IsFaulted);
+        Assert.True(taskBindWithToken.IsFaulted);
+        Assert.True(valueMapWithToken.IsFaulted);
+        Assert.True(valueBindWithToken.IsFaulted);
+        Assert.False(taskMap.IsCanceled);
+        Assert.False(taskBind.IsCanceled);
+        Assert.False(valueMap.IsCanceled);
+        Assert.False(valueBind.IsCanceled);
+        Assert.False(taskMapWithToken.IsCanceled);
+        Assert.False(taskBindWithToken.IsCanceled);
+        Assert.False(valueMapWithToken.IsCanceled);
+        Assert.False(valueBindWithToken.IsCanceled);
+    }
+
+    [Fact]
+    public async Task PendingFaultedOperationCanceledExceptionsStayFaulted()
+    {
+        using var cancellationSource = new CancellationTokenSource();
+        cancellationSource.Cancel();
+        var taskFailure = new OperationCanceledException(cancellationSource.Token);
+        var valueTaskFailure = new OperationCanceledException(cancellationSource.Token);
+        var taskSource = new TaskCompletionSource<int>(TaskCreationOptions.RunContinuationsAsynchronously);
+        var valueTaskSource = new TaskCompletionSource<int>(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        var task = Result<int, string>.Success(1).MapAsync(_ => taskSource.Task);
+        var valueTask = Result<int, string>.Success(1)
+            .MapValueAsync(_ => new ValueTask<int>(valueTaskSource.Task))
+            .AsTask();
+
+        taskSource.SetException(taskFailure);
+        valueTaskSource.SetException(valueTaskFailure);
+
+        Assert.Same(taskFailure, await Assert.ThrowsAnyAsync<OperationCanceledException>(() => task));
+        Assert.Same(
+            valueTaskFailure,
+            await Assert.ThrowsAnyAsync<OperationCanceledException>(() => valueTask));
+        Assert.True(task.IsFaulted);
+        Assert.True(valueTask.IsFaulted);
+        Assert.False(task.IsCanceled);
+        Assert.False(valueTask.IsCanceled);
+    }
+
+    [Fact]
     public async Task AsyncCallbacksPreserveCancellationStatusAndToken()
     {
         using var cancellationSource = new CancellationTokenSource();

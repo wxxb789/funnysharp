@@ -152,6 +152,41 @@ public sealed class ResultBoundaryTests
     }
 
     [Fact]
+    public async Task AsyncTryKeepsFaultedOperationCanceledExceptionsFaulted()
+    {
+        using var cancellationSource = new CancellationTokenSource();
+        cancellationSource.Cancel();
+        var taskFailure = new OperationCanceledException(cancellationSource.Token);
+        var valueTaskFailure = new OperationCanceledException(cancellationSource.Token);
+        var mapperCalls = 0;
+
+        var task = Result.TryAsync<int, string>(
+            () => Task.FromException<int>(taskFailure),
+            _ =>
+            {
+                mapperCalls++;
+                return "mapped";
+            });
+        var valueTask = Result.TryValueAsync<int, string>(
+            () => ValueTask.FromException<int>(valueTaskFailure),
+            _ =>
+            {
+                mapperCalls++;
+                return "mapped";
+            }).AsTask();
+
+        Assert.Same(taskFailure, await Assert.ThrowsAnyAsync<OperationCanceledException>(() => task));
+        Assert.Same(
+            valueTaskFailure,
+            await Assert.ThrowsAnyAsync<OperationCanceledException>(() => valueTask));
+        Assert.True(task.IsFaulted);
+        Assert.True(valueTask.IsFaulted);
+        Assert.False(task.IsCanceled);
+        Assert.False(valueTask.IsCanceled);
+        Assert.Equal(0, mapperCalls);
+    }
+
+    [Fact]
     public async Task SynchronousAsyncBoundaryThrowsAreReturnedAndClassified()
     {
         var failure = new InvalidOperationException("synchronous operation failure");
