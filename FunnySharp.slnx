@@ -1,4 +1,6 @@
 <Solution>
+  <Project Path="benchmarks/FunnySharp.Benchmarks/FunnySharp.Benchmarks.csproj" />
+  <Project Path="examples/FunnySharp.Examples/FunnySharp.Examples.csproj" />
   <Project Path="src/FunnySharp/FunnySharp.csproj" />
   <Project Path="tests/FunnySharp.Tests/FunnySharp.Tests.csproj" />
 </Solution>

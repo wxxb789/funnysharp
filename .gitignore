@@ -1,6 +1,7 @@
 [Bb]in/
 [Oo]bj/
 artifacts/
+BenchmarkDotNet.Artifacts/
 .vs/
 *.suo
 *.user

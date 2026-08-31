@@ -1,11 +1,19 @@
 # FunnySharp
 
 FunnySharp is a pragmatic, BCL-first functional-programming library for .NET 10 and later.
-The repository is currently an intentionally API-free foundation: feature APIs are added only
-when a later goal defines and verifies them.
+Feature APIs are added only when a goal defines their behavior and verification evidence.
 
 The authoritative design and dependency boundaries are recorded in the
-[product contract](docs/product-contract.md).
+[product contract](https://github.com/wxxb789/funnysharp/blob/main/docs/product-contract.md).
+
+## Function Composition
+
+FunnySharp provides a small standard-delegate surface for piping, left-to-right composition,
+currying, partial application, argument flipping, and side-effect observation. Matching `Task`
+and `ValueTask` composition preserves asynchronous execution without sync-over-async.
+
+- [Semantics and performance evidence](https://github.com/wxxb789/funnysharp/blob/main/docs/function-composition.md)
+- [Compiling examples](https://github.com/wxxb789/funnysharp/blob/main/examples/FunnySharp.Examples/Program.cs)
 
 ## Verify
 
@@ -13,5 +21,12 @@ The authoritative design and dependency boundaries are recorded in the
 dotnet restore FunnySharp.slnx
 dotnet build FunnySharp.slnx --configuration Release --no-restore
 dotnet test FunnySharp.slnx --configuration Release --no-build
+dotnet run --project examples/FunnySharp.Examples/FunnySharp.Examples.csproj --configuration Release --no-build
 dotnet pack FunnySharp.slnx --configuration Release --no-build --output artifacts/packages
+```
+
+## Benchmark
+
+```shell
+dotnet run --project benchmarks/FunnySharp.Benchmarks/FunnySharp.Benchmarks.csproj --configuration Release -- --filter '*'
 ```
