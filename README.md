@@ -24,6 +24,16 @@ bridges. Faults and cancellation remain normal asynchronous failures rather than
 - [Semantics](https://github.com/wxxb789/funnysharp/blob/main/docs/option.md)
 - [Compiling examples](https://github.com/wxxb789/funnysharp/blob/main/examples/FunnySharp.Examples/Program.cs)
 
+## Result
+
+`Result<TValue, TError>` represents explicit success or typed failure with fail-fast mapping,
+binding, validation, recovery, combination, LINQ query syntax, Option interop, and matching
+`Task`/`ValueTask` composition. Explicit `Try` boundaries preserve cancellation and retain the
+original exception unless the caller deliberately maps it to a domain error.
+
+- [Semantics](https://github.com/wxxb789/funnysharp/blob/main/docs/result.md)
+- [Compiling examples](https://github.com/wxxb789/funnysharp/blob/main/examples/FunnySharp.Examples/Program.cs)
+
 ## Verify
 
 ```shell
