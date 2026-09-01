@@ -102,8 +102,9 @@ throwing accessors, or general discriminated-union machinery. Result is fail-fas
 shared `IEnumerable<T>` and `IAsyncEnumerable<T>` `Sequence` and `Traverse` operations; their
 common ordering, materialization, fault, cancellation, and disposal rules are documented in
 [Validation and traversal semantics](validation.md). Error accumulation belongs to
-`Validation<TValue, TError>`. There is no broad collection API, retry policy, exception taxonomy,
-serialization converter, analyzer, or source generator in this surface.
+`Validation<TValue, TError>`. General data transforms remain on BCL carriers rather than a custom
+collection hierarchy. There is no retry policy, exception taxonomy, serialization converter,
+analyzer, or source generator in this surface.
 
 ## Performance Evidence
 

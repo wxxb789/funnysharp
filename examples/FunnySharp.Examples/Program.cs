@@ -2,10 +2,12 @@ using FunnySharp;
 using System.Globalization;
 
 VerifySynchronousFunctions();
+VerifyDataPipelines();
 VerifyOptions();
 VerifyResults();
 VerifyValidations();
 await VerifyAsynchronousFunctions();
+await VerifyAsynchronousDataPipelines();
 await VerifyAsynchronousOptions();
 await VerifyAsynchronousResults();
 await VerifyAsynchronousValidationTraversal();
@@ -33,6 +35,45 @@ static void VerifySynchronousFunctions()
     Assert(ReferenceEquals(original, tapped), "Tap must return the original reference.");
     Assert(ReferenceEquals(original, observed), "Tap must observe the original reference.");
 
+}
+
+static void VerifyDataPipelines()
+{
+    var rows = new[]
+    {
+        "order_id,sku,quantity,status",
+        " A-100 , book , 2 , paid ",
+        "malformed",
+        "B-200,pen,0,paid",
+        "C-300,notebook,3,cancelled",
+        "D-400,notebook,4,paid",
+    };
+
+    var cleanedOrders = rows
+        .Skip(1)
+        .Choose(ParseOrderRow)
+        .OrderBy(order => order.OrderId)
+        .ToArray();
+
+    AssertSequenceEqual(
+        [
+            new CleanOrder("A-100", "BOOK", 2),
+            new CleanOrder("D-400", "NOTEBOOK", 4),
+        ],
+        cleanedOrders);
+
+    ReadOnlySpan<int> rawQuantities = [2, 0, 3, -1, 4];
+    Span<int> normalizedStorage = stackalloc int[rawQuantities.Length];
+    var normalized = rawQuantities.ChooseTo(
+        normalizedStorage,
+        static quantity => quantity > 0 ? Option.Some(quantity * 10) : Option.None<int>());
+    AssertSequenceEqual([20, 30, 40], normalized.ToArray());
+
+    var mutableStorage = new[] { 1, 2, 3, 4 }.AsMemory();
+    var compacted = mutableStorage
+        .SelectInPlace(static quantity => quantity * 10)
+        .WhereInPlace(static quantity => quantity >= 30);
+    AssertSequenceEqual([30, 40], compacted.ToArray());
 }
 
 static void VerifyOptions()
@@ -229,6 +270,31 @@ static async Task VerifyAsynchronousFunctions()
     AssertEqual(11, valueTaskTapObserved);
 }
 
+static async Task VerifyAsynchronousDataPipelines()
+{
+    using var cancellationSource = new CancellationTokenSource();
+    var observedTokens = new List<CancellationToken>();
+
+    var cleanedOrders = await AsyncOrderRows()
+        .ChooseValueAsync(async (row, token) =>
+        {
+            observedTokens.Add(token);
+            await Task.Yield();
+            return ParseOrderRow(row);
+        })
+        .ToListAsync(cancellationSource.Token);
+
+    AssertSequenceEqual(
+        [
+            new CleanOrder("A-100", "BOOK", 2),
+            new CleanOrder("D-400", "NOTEBOOK", 4),
+        ],
+        cleanedOrders);
+    Assert(
+        observedTokens.All(token => token == cancellationSource.Token),
+        "ChooseValueAsync must receive the enumeration token for every reached row.");
+}
+
 static async Task VerifyAsynchronousOptions()
 {
     var taskOption = await Task.FromResult<string?>("42").ToOptionAsync();
@@ -304,6 +370,32 @@ static async IAsyncEnumerable<CreateAccountRequest> AsyncAccountRequests()
     yield return new CreateAccountRequest("Grace", "grace@example.com", 30);
 }
 
+static async IAsyncEnumerable<string> AsyncOrderRows()
+{
+    yield return " A-100 , book , 2 , paid ";
+    await Task.Yield();
+    yield return "malformed";
+    yield return "C-300,notebook,3,cancelled";
+    yield return "D-400,notebook,4,paid";
+}
+
+static Option<CleanOrder> ParseOrderRow(string row)
+{
+    var columns = row.Split(',', StringSplitOptions.TrimEntries);
+    if (columns.Length != 4
+        || !int.TryParse(columns[2], NumberStyles.Integer, CultureInfo.InvariantCulture, out var quantity)
+        || quantity <= 0
+        || !string.Equals(columns[3], "paid", StringComparison.OrdinalIgnoreCase))
+    {
+        return Option.None<CleanOrder>();
+    }
+
+    return Option.Some(new CleanOrder(
+        columns[0].ToUpperInvariant(),
+        columns[1].ToUpperInvariant(),
+        quantity));
+}
+
 static Task<Result<decimal, CheckoutError>> LookUpPriceAsync(string sku) =>
     Task.FromResult(
         sku == "book"
@@ -367,3 +459,5 @@ internal sealed record CreateAccountRequest(string DisplayName, string Email, in
 internal sealed record Account(string DisplayName, string Email, int Age);
 
 internal sealed record AccountValidationError(string Field, string Code);
+
+internal sealed record CleanOrder(string OrderId, string Sku, int Quantity);
