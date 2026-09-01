@@ -17,6 +17,10 @@ may extend it deliberately, but implementation convenience alone does not overri
 - Data pipelines remain on BCL sequence, span, and memory carriers. Streaming operations are
   deferred and single-pass per enumeration; span and memory operations are immediate, respect view
   lifetimes, and use caller-owned storage for zero-copy or fused paths where practical.
+- Effects are thin `readonly struct` wrappers over standard delegates. They defer execution until
+  `RunAsync`, return `ValueTask`, and make an optional caller-owned environment, cancellation, and
+  resource lifetime explicit without changing normal .NET exception or cancellation semantics.
+  `Result<TValue, TError>` remains an explicit value rather than an implicit effect failure.
 
 ## Package And Dependency Boundary
 
@@ -29,7 +33,9 @@ may extend it deliberately, but implementation convenience alone does not overri
 - ASP.NET Core integration, if introduced by a later goal, belongs in a separate integration
   package. The core must not depend on ASP.NET Core.
 - A custom scheduler, fiber/runtime layer, DI container, large functional abstraction stack,
-  higher-kinded-type emulation, and monad-transformer stack are outside the core boundary.
+  higher-kinded-type emulation, monad-transformer stack, and large IO universe are outside the
+  core boundary. `Microsoft.Extensions` is not a core dependency; `TimeProvider` and ordinary DI
+  services are caller-provided environment values.
 
 ## Deliberate Deferrals
 

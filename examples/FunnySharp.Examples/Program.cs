@@ -11,6 +11,7 @@ await VerifyAsynchronousDataPipelines();
 await VerifyAsynchronousOptions();
 await VerifyAsynchronousResults();
 await VerifyAsynchronousValidationTraversal();
+await VerifyEffects();
 await VerifyStateMachines();
 
 Console.WriteLine("FunnySharp examples passed.");
@@ -364,6 +365,60 @@ static async Task VerifyAsynchronousValidationTraversal()
     AssertEqual("Grace", accounts[1].DisplayName);
 }
 
+static async Task VerifyEffects()
+{
+    var trace = new List<string>();
+    var composed = Effect.FromSync(() =>
+        {
+            trace.Add("source");
+            return 2;
+        })
+        .Map(value =>
+        {
+            trace.Add("map");
+            return value + 1;
+        })
+        .Bind(value => Effect.FromSync(() =>
+        {
+            trace.Add("bind");
+            return value * 3;
+        }));
+
+    AssertEqual(0, trace.Count);
+    AssertEqual(9, await composed.RunAsync());
+    AssertSequenceEqual(["source", "map", "bind"], trace);
+
+    var fromTask = Effect.FromTask(() => Task.FromResult(5));
+    var fromValueTask = Effect.FromValueTask(() => ValueTask.FromResult(6));
+    AssertEqual(5, await fromTask.RunAsync());
+    AssertEqual(6, await fromValueTask.RunAsync());
+
+    var environment = new EffectExampleEnvironment(4);
+    var configured = Effect.FromSync<EffectExampleEnvironment, int>(current => current.Offset)
+        .Map(value => value * 2)
+        .Provide(environment);
+    AssertEqual(8, await configured.RunAsync());
+
+    var currentTime = Effect.FromSync((TimeProvider clock) => clock.GetUtcNow())
+        .Provide(TimeProvider.System);
+    AssertEqual(TimeSpan.Zero, (await currentTime.RunAsync()).Offset);
+
+    var failure = Result<int, string>.Failure("denied");
+    AssertEqual(failure, await Effect.FromResult(failure).RunAsync());
+
+    ExampleDisposable? disposable = null;
+    AssertEqual(7, await Effect.FromSync(() => disposable = new ExampleDisposable())
+        .Using(_ => Effect.FromValue(7))
+        .RunAsync());
+    AssertEqual(1, disposable!.DisposeCount);
+
+    ExampleAsyncDisposable? asyncDisposable = null;
+    AssertEqual(8, await Effect.FromSync(() => asyncDisposable = new ExampleAsyncDisposable())
+        .UsingAsync(_ => Effect.FromValue(8))
+        .RunAsync());
+    AssertEqual(1, asyncDisposable!.DisposeAsyncCount);
+}
+
 static async Task VerifyStateMachines()
 {
     var draft = new AccessRequest("AR-100", "ada", AccessRequestStatus.Draft, null);
@@ -583,6 +638,26 @@ internal sealed record Account(string DisplayName, string Email, int Age);
 internal sealed record AccountValidationError(string Field, string Code);
 
 internal sealed record CleanOrder(string OrderId, string Sku, int Quantity);
+
+internal sealed record EffectExampleEnvironment(int Offset);
+
+internal sealed class ExampleDisposable : IDisposable
+{
+    internal int DisposeCount { get; private set; }
+
+    public void Dispose() => DisposeCount++;
+}
+
+internal sealed class ExampleAsyncDisposable : IAsyncDisposable
+{
+    internal int DisposeAsyncCount { get; private set; }
+
+    public ValueTask DisposeAsync()
+    {
+        DisposeAsyncCount++;
+        return ValueTask.CompletedTask;
+    }
+}
 
 internal sealed record AccessRequest(
     string Id,
