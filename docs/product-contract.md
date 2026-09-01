@@ -14,6 +14,9 @@ may extend it deliberately, but implementation convenience alone does not overri
   should avoid hidden allocation, repeated enumeration, reflection, and unnecessary buffering.
 - Immutable data is opt-in. The core package does not impose immutable collections or copying on
   consumers that do not ask for them.
+- Data pipelines remain on BCL sequence, span, and memory carriers. Streaming operations are
+  deferred and single-pass per enumeration; span and memory operations are immediate, respect view
+  lifetimes, and use caller-owned storage for zero-copy or fused paths where practical.
 
 ## Package And Dependency Boundary
 

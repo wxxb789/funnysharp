@@ -43,6 +43,16 @@ independent checks that should all run and report their errors in deterministic 
 - [Semantics and shared traversal behavior](https://github.com/wxxb789/funnysharp/blob/main/docs/validation.md)
 - [Compiling examples](https://github.com/wxxb789/funnysharp/blob/main/examples/FunnySharp.Examples/Program.cs)
 
+## Data Pipelines
+
+FunnySharp keeps pipelines on standard .NET carriers. Use LINQ and .NET 10 async LINQ for ordinary
+projection, filtering, flattening, ordering, and explicit materialization. `Choose` adds a fused
+Option-aware filter-map for synchronous and asynchronous streams, while span and memory helpers
+write to caller-owned storage or transform it in place.
+
+- [Semantics, lifetime rules, and performance evidence](https://github.com/wxxb789/funnysharp/blob/main/docs/data-pipelines.md)
+- [Compiling data-cleaning examples](https://github.com/wxxb789/funnysharp/blob/main/examples/FunnySharp.Examples/Program.cs)
+
 ## Verify
 
 ```shell
