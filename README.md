@@ -34,6 +34,15 @@ original exception unless the caller deliberately maps it to a domain error.
 - [Semantics](https://github.com/wxxb789/funnysharp/blob/main/docs/result.md)
 - [Compiling examples](https://github.com/wxxb789/funnysharp/blob/main/examples/FunnySharp.Examples/Program.cs)
 
+## Validation
+
+`Validation<TValue, TError>` represents a valid value or one or more domain errors. It is for
+independent checks that should all run and report their errors in deterministic order; use
+`Option<T>` or `Result<TValue, TError>` when fail-fast behavior is the intended contract.
+
+- [Semantics and shared traversal behavior](https://github.com/wxxb789/funnysharp/blob/main/docs/validation.md)
+- [Compiling examples](https://github.com/wxxb789/funnysharp/blob/main/examples/FunnySharp.Examples/Program.cs)
+
 ## Verify
 
 ```shell
