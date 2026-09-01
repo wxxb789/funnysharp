@@ -98,10 +98,12 @@ path.
 ## Deliberate Boundaries
 
 The core package has no custom scheduler, effect runtime, async Result type, implicit conversions,
-throwing accessors, or general discriminated-union machinery. Result is fail-fast: error
-accumulation and collection traversal belong to the separate validation and sequence goal. There
-is no broad collection API, retry policy, exception taxonomy, serialization converter, analyzer,
-or source generator in this surface.
+throwing accessors, or general discriminated-union machinery. Result is fail-fast, including the
+shared `IEnumerable<T>` and `IAsyncEnumerable<T>` `Sequence` and `Traverse` operations; their
+common ordering, materialization, fault, cancellation, and disposal rules are documented in
+[Validation and traversal semantics](validation.md). Error accumulation belongs to
+`Validation<TValue, TError>`. There is no broad collection API, retry policy, exception taxonomy,
+serialization converter, analyzer, or source generator in this surface.
 
 ## Performance Evidence
 

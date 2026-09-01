@@ -4,9 +4,11 @@ using System.Globalization;
 VerifySynchronousFunctions();
 VerifyOptions();
 VerifyResults();
+VerifyValidations();
 await VerifyAsynchronousFunctions();
 await VerifyAsynchronousOptions();
 await VerifyAsynchronousResults();
+await VerifyAsynchronousValidationTraversal();
 
 Console.WriteLine("FunnySharp examples passed.");
 
@@ -107,6 +109,59 @@ static void VerifyResults()
         .Recover(_ => 0m);
     AssertEqual(Result<decimal, CheckoutError>.Success(0m), recovered);
 }
+
+static void VerifyValidations()
+{
+    var invalidRequest = new CreateAccountRequest(" ", "not-an-email", 15);
+    var invalidAccount = ValidateAccount(invalidRequest);
+
+    Assert(invalidAccount.TryGetErrors(out var errors), "The invalid account must expose errors.");
+    AssertSequenceEqual(
+        [
+            new AccountValidationError("displayName", "required"),
+            new AccountValidationError("email", "invalid"),
+            new AccountValidationError("age", "must-be-adult"),
+        ],
+        errors!);
+
+    var requests = new[]
+    {
+        new CreateAccountRequest("Ada", "ada@example.com", 36),
+        invalidRequest,
+        new CreateAccountRequest("Grace", "grace@example.com", 30),
+    };
+    var batch = requests.Traverse(ValidateAccount);
+
+    Assert(batch.TryGetErrors(out var batchErrors), "Batch validation must retain every account error.");
+    AssertSequenceEqual(errors!, batchErrors!);
+
+    var account = ValidateAccount(requests[0]).Match(
+        valid => valid,
+        _ => throw new InvalidOperationException("Expected the account request to be valid."));
+    AssertEqual(new Account("Ada", "ada@example.com", 36), account);
+}
+
+static Validation<Account, AccountValidationError> ValidateAccount(CreateAccountRequest request) =>
+    ValidateDisplayName(request.DisplayName)
+        .Zip(ValidateEmail(request.Email))
+        .Zip(ValidateAge(request.Age))
+        .Map(values => new Account(values.First.First, values.First.Second, values.Second));
+
+static Validation<string, AccountValidationError> ValidateDisplayName(string displayName) =>
+    string.IsNullOrWhiteSpace(displayName)
+        ? Validation<string, AccountValidationError>.Invalid(
+            new AccountValidationError("displayName", "required"))
+        : Validation<string, AccountValidationError>.Valid(displayName.Trim());
+
+static Validation<string, AccountValidationError> ValidateEmail(string email) =>
+    string.IsNullOrWhiteSpace(email) || !email.Contains('@')
+        ? Validation<string, AccountValidationError>.Invalid(new AccountValidationError("email", "invalid"))
+        : Validation<string, AccountValidationError>.Valid(email);
+
+static Validation<int, AccountValidationError> ValidateAge(int age) =>
+    age < 18
+        ? Validation<int, AccountValidationError>.Invalid(new AccountValidationError("age", "must-be-adult"))
+        : Validation<int, AccountValidationError>.Valid(age);
 
 static Result<int, CheckoutError> ParseQuantity(string text) =>
     int.TryParse(text, NumberStyles.Integer, CultureInfo.InvariantCulture, out var quantity)
@@ -228,6 +283,27 @@ static async Task VerifyAsynchronousResults()
         Result.TryAsync(() => Task.FromCanceled<decimal>(cancellationSource.Token)));
 }
 
+static async Task VerifyAsynchronousValidationTraversal()
+{
+    var validation = await AsyncAccountRequests().TraverseValueAsync(async request =>
+    {
+        await Task.Yield();
+        return ValidateAccount(request);
+    });
+
+    Assert(validation.TryGetValue(out var accounts), "The asynchronous batch must be valid.");
+    AssertEqual(2, accounts!.Count);
+    AssertEqual("Ada", accounts[0].DisplayName);
+    AssertEqual("Grace", accounts[1].DisplayName);
+}
+
+static async IAsyncEnumerable<CreateAccountRequest> AsyncAccountRequests()
+{
+    yield return new CreateAccountRequest("Ada", "ada@example.com", 36);
+    await Task.Yield();
+    yield return new CreateAccountRequest("Grace", "grace@example.com", 30);
+}
+
 static Task<Result<decimal, CheckoutError>> LookUpPriceAsync(string sku) =>
     Task.FromResult(
         sku == "book"
@@ -274,6 +350,20 @@ static void Assert(bool condition, string message)
     }
 }
 
+static void AssertSequenceEqual<T>(IReadOnlyList<T> expected, IReadOnlyList<T> actual)
+{
+    if (!expected.SequenceEqual(actual))
+    {
+        throw new InvalidOperationException("The sequences were not equal.");
+    }
+}
+
 internal sealed record CheckoutRequest(string Sku, string QuantityText);
 
 internal sealed record CheckoutError(string Code, Exception? Cause = null);
+
+internal sealed record CreateAccountRequest(string DisplayName, string Email, int Age);
+
+internal sealed record Account(string DisplayName, string Email, int Age);
+
+internal sealed record AccountValidationError(string Field, string Code);
