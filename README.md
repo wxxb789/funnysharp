@@ -34,6 +34,16 @@ original exception unless the caller deliberately maps it to a domain error.
 - [Semantics](https://github.com/wxxb789/funnysharp/blob/main/docs/result.md)
 - [Compiling examples](https://github.com/wxxb789/funnysharp/blob/main/examples/FunnySharp.Examples/Program.cs)
 
+## Effects
+
+`Effect<T>` and `Effect<TEnvironment, T>` provide a thin, deferred boundary for standard .NET
+work. They compose through `ValueTask`, make dependencies and resource lifetime explicit, and
+preserve normal exception and cancellation behavior without adding an effect runtime or DI
+container.
+
+- [Semantics and performance evidence](https://github.com/wxxb789/funnysharp/blob/main/docs/effects.md)
+- [Compiling examples](https://github.com/wxxb789/funnysharp/blob/main/examples/FunnySharp.Examples/Program.cs)
+
 ## Validation
 
 `Validation<TValue, TError>` represents a valid value or one or more domain errors. It is for
