@@ -11,6 +11,7 @@ await VerifyAsynchronousDataPipelines();
 await VerifyAsynchronousOptions();
 await VerifyAsynchronousResults();
 await VerifyAsynchronousValidationTraversal();
+await VerifyStateMachines();
 
 Console.WriteLine("FunnySharp examples passed.");
 
@@ -363,6 +364,127 @@ static async Task VerifyAsynchronousValidationTraversal()
     AssertEqual("Grace", accounts[1].DisplayName);
 }
 
+static async Task VerifyStateMachines()
+{
+    var draft = new AccessRequest("AR-100", "ada", AccessRequestStatus.Draft, null);
+    StateMachine<AccessRequest, AccessRequestEvent, AccessRequestCommand, AccessRequestError> lifecycle =
+        HandleAccessRequestLifecycle;
+    StateMachine<AccessRequest, AccessRequestEvent, AccessRequestCommand, AccessRequestError> provisioning =
+        HandleAccessProvisioning;
+    var machine = lifecycle.OrElse(provisioning);
+
+    var submitted = machine(draft, new SubmitAccessRequest());
+    var commands = submitted.Match(
+        change => change.Outputs,
+        rejection => throw new InvalidOperationException($"Unexpected rejection: {rejection.Code}"),
+        failure => throw new InvalidOperationException($"Unexpected failure: {failure.Code}"),
+        () => throw new InvalidOperationException("Expected the submission transition to be defined."));
+    AssertEqual(2, commands.Count);
+    Assert(submitted.TryGetChange(out var submittedChange), "A valid submission must produce a state change.");
+    var submittedState = submittedChange!.State;
+    AssertEqual(AccessRequestStatus.Submitted, submittedState.Status);
+
+    var rejected = machine(draft, new ApproveAccessRequest("grace", true));
+    Assert(rejected.IsRejected, "Approving a draft request must be rejected explicitly.");
+
+    var failed = machine(submittedState, new ApproveAccessRequest("grace", false));
+    Assert(failed.IsFailed, "An unavailable approver directory must be a typed transition failure.");
+
+    var undefined = machine(draft, new ArchiveAccessRequest());
+    Assert(undefined.IsUndefined, "An event with no owning handler must remain detectable.");
+
+    var replay = machine.Replay(
+        draft,
+        [new SubmitAccessRequest(), new ApproveAccessRequest("grace", true)]);
+    Assert(replay.TryGetChange(out var replayChange), "A valid history must replay successfully.");
+    AssertEqual(AccessRequestStatus.Approved, replayChange!.State.Status);
+
+    using var cancellationSource = new CancellationTokenSource();
+    foreach (var command in commands)
+    {
+        await ExecuteAccessRequestCommandAsync(command, cancellationSource.Token);
+    }
+}
+
+static TransitionResult<AccessRequest, AccessRequestCommand, AccessRequestError> HandleAccessRequestLifecycle(
+    AccessRequest request,
+    AccessRequestEvent @event) =>
+    (request.Status, @event) switch
+    {
+        (AccessRequestStatus.Draft, SubmitAccessRequest) when string.IsNullOrWhiteSpace(request.EmployeeId) =>
+            TransitionResult<AccessRequest, AccessRequestCommand, AccessRequestError>.Rejected(
+                new AccessRequestError("employee-required")),
+        (AccessRequestStatus.Draft, SubmitAccessRequest) =>
+            TransitionResult<AccessRequest, AccessRequestCommand, AccessRequestError>.Applied(
+                SubmitForApproval(request)),
+        (AccessRequestStatus.Draft, ApproveAccessRequest) =>
+            TransitionResult<AccessRequest, AccessRequestCommand, AccessRequestError>.Rejected(
+                new AccessRequestError("approval-requires-submission")),
+        (AccessRequestStatus.Submitted, ApproveAccessRequest { DirectoryAvailable: false }) =>
+            TransitionResult<AccessRequest, AccessRequestCommand, AccessRequestError>.Failed(
+                new AccessRequestError("approver-directory-unavailable")),
+        (AccessRequestStatus.Submitted, ApproveAccessRequest { Approver: var approver }) =>
+            TransitionResult<AccessRequest, AccessRequestCommand, AccessRequestError>.Applied(
+                StateChange<AccessRequest, AccessRequestCommand>.To(
+                    request with { Status = AccessRequestStatus.Approved, Approver = approver },
+                    new StoreAccessRequest(request.Id),
+                    new ProvisionAccess(request.Id, request.EmployeeId))),
+        (AccessRequestStatus.Submitted, RejectAccessRequest { Approver: var approver }) =>
+            TransitionResult<AccessRequest, AccessRequestCommand, AccessRequestError>.Applied(
+                StateChange<AccessRequest, AccessRequestCommand>.To(
+                    request with { Status = AccessRequestStatus.Rejected, Approver = approver },
+                    new StoreAccessRequest(request.Id))),
+        _ => TransitionResult<AccessRequest, AccessRequestCommand, AccessRequestError>.Undefined(),
+    };
+
+static TransitionResult<AccessRequest, AccessRequestCommand, AccessRequestError> HandleAccessProvisioning(
+    AccessRequest request,
+    AccessRequestEvent @event) =>
+    (request.Status, @event) switch
+    {
+        (AccessRequestStatus.Approved, RevokeAccessRequest { RequestedBy: var requestedBy }) =>
+            TransitionResult<AccessRequest, AccessRequestCommand, AccessRequestError>.Applied(
+                StateChange<AccessRequest, AccessRequestCommand>.To(
+                    request with { Status = AccessRequestStatus.Revoked, Approver = requestedBy },
+                    new StoreAccessRequest(request.Id),
+                    new RevokeAccess(request.Id, request.EmployeeId))),
+        _ => TransitionResult<AccessRequest, AccessRequestCommand, AccessRequestError>.Undefined(),
+    };
+
+static StateChange<AccessRequest, AccessRequestCommand> SubmitForApproval(AccessRequest request)
+{
+    StateTransition<AccessRequest, AccessRequestCommand> markSubmitted = MarkSubmitted;
+    StateTransition<AccessRequest, AccessRequestCommand> notifyApprover = QueueApproverNotification;
+    return markSubmitted.Then(notifyApprover)(request);
+}
+
+static StateChange<AccessRequest, AccessRequestCommand> MarkSubmitted(AccessRequest request) =>
+    StateChange<AccessRequest, AccessRequestCommand>.To(
+        request with { Status = AccessRequestStatus.Submitted },
+        new StoreAccessRequest(request.Id));
+
+static StateChange<AccessRequest, AccessRequestCommand> QueueApproverNotification(AccessRequest request) =>
+    StateChange<AccessRequest, AccessRequestCommand>.To(
+        request,
+        new NotifyApprover(request.Id));
+
+static async ValueTask ExecuteAccessRequestCommandAsync(
+    AccessRequestCommand command,
+    CancellationToken cancellationToken)
+{
+    cancellationToken.ThrowIfCancellationRequested();
+    await Task.Yield();
+
+    _ = command switch
+    {
+        StoreAccessRequest => "stored",
+        NotifyApprover => "notified",
+        ProvisionAccess => "provisioned",
+        RevokeAccess => "revoked",
+        _ => throw new ArgumentOutOfRangeException(nameof(command)),
+    };
+}
+
 static async IAsyncEnumerable<CreateAccountRequest> AsyncAccountRequests()
 {
     yield return new CreateAccountRequest("Ada", "ada@example.com", 36);
@@ -461,3 +583,42 @@ internal sealed record Account(string DisplayName, string Email, int Age);
 internal sealed record AccountValidationError(string Field, string Code);
 
 internal sealed record CleanOrder(string OrderId, string Sku, int Quantity);
+
+internal sealed record AccessRequest(
+    string Id,
+    string EmployeeId,
+    AccessRequestStatus Status,
+    string? Approver);
+
+internal enum AccessRequestStatus
+{
+    Draft,
+    Submitted,
+    Approved,
+    Rejected,
+    Revoked,
+}
+
+internal abstract record AccessRequestEvent;
+
+internal sealed record SubmitAccessRequest : AccessRequestEvent;
+
+internal sealed record ApproveAccessRequest(string Approver, bool DirectoryAvailable) : AccessRequestEvent;
+
+internal sealed record RejectAccessRequest(string Approver) : AccessRequestEvent;
+
+internal sealed record RevokeAccessRequest(string RequestedBy) : AccessRequestEvent;
+
+internal sealed record ArchiveAccessRequest : AccessRequestEvent;
+
+internal abstract record AccessRequestCommand;
+
+internal sealed record StoreAccessRequest(string RequestId) : AccessRequestCommand;
+
+internal sealed record NotifyApprover(string RequestId) : AccessRequestCommand;
+
+internal sealed record ProvisionAccess(string RequestId, string EmployeeId) : AccessRequestCommand;
+
+internal sealed record RevokeAccess(string RequestId, string EmployeeId) : AccessRequestCommand;
+
+internal sealed record AccessRequestError(string Code);

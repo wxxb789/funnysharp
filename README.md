@@ -53,6 +53,16 @@ write to caller-owned storage or transform it in place.
 - [Semantics, lifetime rules, and performance evidence](https://github.com/wxxb789/funnysharp/blob/main/docs/data-pipelines.md)
 - [Compiling data-cleaning examples](https://github.com/wxxb789/funnysharp/blob/main/examples/FunnySharp.Examples/Program.cs)
 
+## State Machines
+
+FunnySharp models pure state changes and finite-state workflows with explicit state, emitted output
+commands, invalid events, transition failures, undefined transitions, composition, and replay. The
+transition core remains synchronous and can stay deterministic without executing effects; callers
+choose where and how emitted commands perform asynchronous work.
+
+- [Semantics, replay rules, and async boundary](https://github.com/wxxb789/funnysharp/blob/main/docs/state-machines.md)
+- [Compiling approval-workflow example](https://github.com/wxxb789/funnysharp/blob/main/examples/FunnySharp.Examples/Program.cs)
+
 ## Verify
 
 ```shell
