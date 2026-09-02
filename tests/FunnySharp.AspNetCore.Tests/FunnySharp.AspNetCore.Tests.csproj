@@ -17,6 +17,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="../FunnySharp.Tests/CountingValueTaskSource.cs"
+             Link="TestSupport/CountingValueTaskSource.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Using Include="Xunit" />
   </ItemGroup>
 </Project>
