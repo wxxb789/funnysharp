@@ -10,7 +10,15 @@ public static class SpanPipelineExtensions
     /// <summary>
     /// Projects every source item into the destination and returns the written destination prefix.
     /// </summary>
-    /// <remarks>The source and destination must not overlap.</remarks>
+    /// <remarks>The source and destination must not overlap. Destination capacity is validated before any callback or write. If <paramref name="selector"/> throws, completed writes remain.</remarks>
+    /// <typeparam name="TSource">The source item type.</typeparam>
+    /// <typeparam name="TResult">The projected item type.</typeparam>
+    /// <param name="source">The source items to project.</param>
+    /// <param name="destination">The non-overlapping destination buffer, with capacity for every source item.</param>
+    /// <param name="selector">The projection to invoke once for each source item.</param>
+    /// <returns>The prefix of <paramref name="destination"/> containing the projected items.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="selector"/> is null.</exception>
+    /// <exception cref="ArgumentException"><paramref name="destination"/> is shorter than <paramref name="source"/>.</exception>
     public static Span<TResult> SelectTo<TSource, TResult>(
         this scoped ReadOnlySpan<TSource> source,
         Span<TResult> destination,
@@ -30,7 +38,15 @@ public static class SpanPipelineExtensions
     /// <summary>
     /// Projects every source item into the destination and returns the written destination prefix.
     /// </summary>
-    /// <remarks>The source and destination must not overlap.</remarks>
+    /// <remarks>The source and destination must not overlap. Destination capacity is validated before any callback or write. If <paramref name="selector"/> throws, completed writes remain.</remarks>
+    /// <typeparam name="TSource">The source item type.</typeparam>
+    /// <typeparam name="TResult">The projected item type.</typeparam>
+    /// <param name="source">The source items to project.</param>
+    /// <param name="destination">The non-overlapping destination buffer, with capacity for every source item.</param>
+    /// <param name="selector">The projection to invoke once for each source item.</param>
+    /// <returns>The prefix of <paramref name="destination"/> containing the projected items.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="selector"/> is null.</exception>
+    /// <exception cref="ArgumentException"><paramref name="destination"/> is shorter than <paramref name="source"/>.</exception>
     public static Span<TResult> SelectTo<TSource, TResult>(
         this scoped Span<TSource> source,
         Span<TResult> destination,
@@ -40,7 +56,14 @@ public static class SpanPipelineExtensions
     /// <summary>
     /// Copies matching source items into the destination in source order and returns the written prefix.
     /// </summary>
-    /// <remarks>The source and destination must not overlap. Use <see cref="WhereInPlace{T}(Span{T}, Func{T, bool})"/> to compact one span.</remarks>
+    /// <remarks>The source and destination must not overlap. Destination capacity is validated before any callback or write. If <paramref name="predicate"/> throws, completed writes remain. Use <see cref="WhereInPlace{T}(Span{T}, Func{T, bool})"/> to compact one span.</remarks>
+    /// <typeparam name="T">The source and destination item type.</typeparam>
+    /// <param name="source">The source items to filter.</param>
+    /// <param name="destination">The non-overlapping destination buffer, with capacity for every source item.</param>
+    /// <param name="predicate">The predicate to invoke once for each source item.</param>
+    /// <returns>The prefix of <paramref name="destination"/> containing matching items in source order.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="predicate"/> is null.</exception>
+    /// <exception cref="ArgumentException"><paramref name="destination"/> is shorter than <paramref name="source"/>.</exception>
     public static Span<T> WhereTo<T>(
         this scoped ReadOnlySpan<T> source,
         Span<T> destination,
@@ -65,7 +88,14 @@ public static class SpanPipelineExtensions
     /// <summary>
     /// Copies matching source items into the destination in source order and returns the written prefix.
     /// </summary>
-    /// <remarks>The source and destination must not overlap. Use <see cref="WhereInPlace{T}(Span{T}, Func{T, bool})"/> to compact one span.</remarks>
+    /// <remarks>The source and destination must not overlap. Destination capacity is validated before any callback or write. If <paramref name="predicate"/> throws, completed writes remain. Use <see cref="WhereInPlace{T}(Span{T}, Func{T, bool})"/> to compact one span.</remarks>
+    /// <typeparam name="T">The source and destination item type.</typeparam>
+    /// <param name="source">The source items to filter.</param>
+    /// <param name="destination">The non-overlapping destination buffer, with capacity for every source item.</param>
+    /// <param name="predicate">The predicate to invoke once for each source item.</param>
+    /// <returns>The prefix of <paramref name="destination"/> containing matching items in source order.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="predicate"/> is null.</exception>
+    /// <exception cref="ArgumentException"><paramref name="destination"/> is shorter than <paramref name="source"/>.</exception>
     public static Span<T> WhereTo<T>(
         this scoped Span<T> source,
         Span<T> destination,
@@ -75,7 +105,15 @@ public static class SpanPipelineExtensions
     /// <summary>
     /// Applies a chooser once per source item, writes every present result, and returns the written prefix.
     /// </summary>
-    /// <remarks>The source and destination must not overlap.</remarks>
+    /// <remarks>The source and destination must not overlap. Destination capacity is validated before any callback or write. If <paramref name="chooser"/> throws, completed writes remain.</remarks>
+    /// <typeparam name="TSource">The source item type.</typeparam>
+    /// <typeparam name="TResult">The chosen item type.</typeparam>
+    /// <param name="source">The source items to choose from.</param>
+    /// <param name="destination">The non-overlapping destination buffer, with capacity for every source item.</param>
+    /// <param name="chooser">The chooser to invoke once for each source item.</param>
+    /// <returns>The prefix of <paramref name="destination"/> containing present chosen values in source order.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="chooser"/> is null.</exception>
+    /// <exception cref="ArgumentException"><paramref name="destination"/> is shorter than <paramref name="source"/>.</exception>
     public static Span<TResult> ChooseTo<TSource, TResult>(
         this scoped ReadOnlySpan<TSource> source,
         Span<TResult> destination,
@@ -99,7 +137,15 @@ public static class SpanPipelineExtensions
     /// <summary>
     /// Applies a chooser once per source item, writes every present result, and returns the written prefix.
     /// </summary>
-    /// <remarks>The source and destination must not overlap.</remarks>
+    /// <remarks>The source and destination must not overlap. Destination capacity is validated before any callback or write. If <paramref name="chooser"/> throws, completed writes remain.</remarks>
+    /// <typeparam name="TSource">The source item type.</typeparam>
+    /// <typeparam name="TResult">The chosen item type.</typeparam>
+    /// <param name="source">The source items to choose from.</param>
+    /// <param name="destination">The non-overlapping destination buffer, with capacity for every source item.</param>
+    /// <param name="chooser">The chooser to invoke once for each source item.</param>
+    /// <returns>The prefix of <paramref name="destination"/> containing present chosen values in source order.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="chooser"/> is null.</exception>
+    /// <exception cref="ArgumentException"><paramref name="destination"/> is shorter than <paramref name="source"/>.</exception>
     public static Span<TResult> ChooseTo<TSource, TResult>(
         this scoped Span<TSource> source,
         Span<TResult> destination,
@@ -109,6 +155,12 @@ public static class SpanPipelineExtensions
     /// <summary>
     /// Projects every item in place and returns the same span.
     /// </summary>
+    /// <remarks>If <paramref name="selector"/> throws, projections completed before the exception remain.</remarks>
+    /// <typeparam name="T">The item type.</typeparam>
+    /// <param name="source">The items to project in place.</param>
+    /// <param name="selector">The projection to invoke once for each item.</param>
+    /// <returns><paramref name="source"/> after every item has been projected.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="selector"/> is null.</exception>
     public static Span<T> SelectInPlace<T>(this Span<T> source, Func<T, T> selector)
     {
         ArgumentNullException.ThrowIfNull(selector);
@@ -124,7 +176,12 @@ public static class SpanPipelineExtensions
     /// <summary>
     /// Stably compacts matching items in place and returns the valid source prefix.
     /// </summary>
-    /// <remarks>Items beyond the returned prefix have unspecified values.</remarks>
+    /// <remarks>Reference-containing tail slots beyond the returned prefix are cleared; other tail values are unspecified. If <paramref name="predicate"/> throws, compaction completed before the exception remains.</remarks>
+    /// <typeparam name="T">The item type.</typeparam>
+    /// <param name="source">The items to compact in place.</param>
+    /// <param name="predicate">The predicate to invoke once for each item.</param>
+    /// <returns>The prefix of <paramref name="source"/> containing matching items in their original order.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="predicate"/> is null.</exception>
     public static Span<T> WhereInPlace<T>(this Span<T> source, Func<T, bool> predicate)
     {
         ArgumentNullException.ThrowIfNull(predicate);
@@ -155,7 +212,15 @@ public static class SpanPipelineExtensions
     /// <summary>
     /// Projects every source item into the destination and returns the written destination prefix.
     /// </summary>
-    /// <remarks>The source and destination must not overlap.</remarks>
+    /// <remarks>The source and destination must not overlap. Destination capacity is validated before any callback or write. If <paramref name="selector"/> throws, completed writes remain.</remarks>
+    /// <typeparam name="TSource">The source item type.</typeparam>
+    /// <typeparam name="TResult">The projected item type.</typeparam>
+    /// <param name="source">The source items to project.</param>
+    /// <param name="destination">The non-overlapping destination buffer, with capacity for every source item.</param>
+    /// <param name="selector">The projection to invoke once for each source item.</param>
+    /// <returns>The prefix of <paramref name="destination"/> containing the projected items.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="selector"/> is null.</exception>
+    /// <exception cref="ArgumentException"><paramref name="destination"/> is shorter than <paramref name="source"/>.</exception>
     public static Memory<TResult> SelectTo<TSource, TResult>(
         this ReadOnlyMemory<TSource> source,
         Memory<TResult> destination,
@@ -168,7 +233,15 @@ public static class SpanPipelineExtensions
     /// <summary>
     /// Projects every source item into the destination and returns the written destination prefix.
     /// </summary>
-    /// <remarks>The source and destination must not overlap.</remarks>
+    /// <remarks>The source and destination must not overlap. Destination capacity is validated before any callback or write. If <paramref name="selector"/> throws, completed writes remain.</remarks>
+    /// <typeparam name="TSource">The source item type.</typeparam>
+    /// <typeparam name="TResult">The projected item type.</typeparam>
+    /// <param name="source">The source items to project.</param>
+    /// <param name="destination">The non-overlapping destination buffer, with capacity for every source item.</param>
+    /// <param name="selector">The projection to invoke once for each source item.</param>
+    /// <returns>The prefix of <paramref name="destination"/> containing the projected items.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="selector"/> is null.</exception>
+    /// <exception cref="ArgumentException"><paramref name="destination"/> is shorter than <paramref name="source"/>.</exception>
     public static Memory<TResult> SelectTo<TSource, TResult>(
         this Memory<TSource> source,
         Memory<TResult> destination,
@@ -178,7 +251,14 @@ public static class SpanPipelineExtensions
     /// <summary>
     /// Copies matching source items into the destination in source order and returns the written prefix.
     /// </summary>
-    /// <remarks>The source and destination must not overlap. Use <see cref="WhereInPlace{T}(Memory{T}, Func{T, bool})"/> to compact one memory region.</remarks>
+    /// <remarks>The source and destination must not overlap. Destination capacity is validated before any callback or write. If <paramref name="predicate"/> throws, completed writes remain. Use <see cref="WhereInPlace{T}(Memory{T}, Func{T, bool})"/> to compact one memory region.</remarks>
+    /// <typeparam name="T">The source and destination item type.</typeparam>
+    /// <param name="source">The source items to filter.</param>
+    /// <param name="destination">The non-overlapping destination buffer, with capacity for every source item.</param>
+    /// <param name="predicate">The predicate to invoke once for each source item.</param>
+    /// <returns>The prefix of <paramref name="destination"/> containing matching items in source order.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="predicate"/> is null.</exception>
+    /// <exception cref="ArgumentException"><paramref name="destination"/> is shorter than <paramref name="source"/>.</exception>
     public static Memory<T> WhereTo<T>(
         this ReadOnlyMemory<T> source,
         Memory<T> destination,
@@ -191,7 +271,14 @@ public static class SpanPipelineExtensions
     /// <summary>
     /// Copies matching source items into the destination in source order and returns the written prefix.
     /// </summary>
-    /// <remarks>The source and destination must not overlap. Use <see cref="WhereInPlace{T}(Memory{T}, Func{T, bool})"/> to compact one memory region.</remarks>
+    /// <remarks>The source and destination must not overlap. Destination capacity is validated before any callback or write. If <paramref name="predicate"/> throws, completed writes remain. Use <see cref="WhereInPlace{T}(Memory{T}, Func{T, bool})"/> to compact one memory region.</remarks>
+    /// <typeparam name="T">The source and destination item type.</typeparam>
+    /// <param name="source">The source items to filter.</param>
+    /// <param name="destination">The non-overlapping destination buffer, with capacity for every source item.</param>
+    /// <param name="predicate">The predicate to invoke once for each source item.</param>
+    /// <returns>The prefix of <paramref name="destination"/> containing matching items in source order.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="predicate"/> is null.</exception>
+    /// <exception cref="ArgumentException"><paramref name="destination"/> is shorter than <paramref name="source"/>.</exception>
     public static Memory<T> WhereTo<T>(
         this Memory<T> source,
         Memory<T> destination,
@@ -201,7 +288,15 @@ public static class SpanPipelineExtensions
     /// <summary>
     /// Applies a chooser once per source item, writes every present result, and returns the written prefix.
     /// </summary>
-    /// <remarks>The source and destination must not overlap.</remarks>
+    /// <remarks>The source and destination must not overlap. Destination capacity is validated before any callback or write. If <paramref name="chooser"/> throws, completed writes remain.</remarks>
+    /// <typeparam name="TSource">The source item type.</typeparam>
+    /// <typeparam name="TResult">The chosen item type.</typeparam>
+    /// <param name="source">The source items to choose from.</param>
+    /// <param name="destination">The non-overlapping destination buffer, with capacity for every source item.</param>
+    /// <param name="chooser">The chooser to invoke once for each source item.</param>
+    /// <returns>The prefix of <paramref name="destination"/> containing present chosen values in source order.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="chooser"/> is null.</exception>
+    /// <exception cref="ArgumentException"><paramref name="destination"/> is shorter than <paramref name="source"/>.</exception>
     public static Memory<TResult> ChooseTo<TSource, TResult>(
         this ReadOnlyMemory<TSource> source,
         Memory<TResult> destination,
@@ -214,7 +309,15 @@ public static class SpanPipelineExtensions
     /// <summary>
     /// Applies a chooser once per source item, writes every present result, and returns the written prefix.
     /// </summary>
-    /// <remarks>The source and destination must not overlap.</remarks>
+    /// <remarks>The source and destination must not overlap. Destination capacity is validated before any callback or write. If <paramref name="chooser"/> throws, completed writes remain.</remarks>
+    /// <typeparam name="TSource">The source item type.</typeparam>
+    /// <typeparam name="TResult">The chosen item type.</typeparam>
+    /// <param name="source">The source items to choose from.</param>
+    /// <param name="destination">The non-overlapping destination buffer, with capacity for every source item.</param>
+    /// <param name="chooser">The chooser to invoke once for each source item.</param>
+    /// <returns>The prefix of <paramref name="destination"/> containing present chosen values in source order.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="chooser"/> is null.</exception>
+    /// <exception cref="ArgumentException"><paramref name="destination"/> is shorter than <paramref name="source"/>.</exception>
     public static Memory<TResult> ChooseTo<TSource, TResult>(
         this Memory<TSource> source,
         Memory<TResult> destination,
@@ -224,6 +327,12 @@ public static class SpanPipelineExtensions
     /// <summary>
     /// Projects every item in place and returns the same memory region.
     /// </summary>
+    /// <remarks>If <paramref name="selector"/> throws, projections completed before the exception remain.</remarks>
+    /// <typeparam name="T">The item type.</typeparam>
+    /// <param name="source">The items to project in place.</param>
+    /// <param name="selector">The projection to invoke once for each item.</param>
+    /// <returns><paramref name="source"/> after every item has been projected.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="selector"/> is null.</exception>
     public static Memory<T> SelectInPlace<T>(this Memory<T> source, Func<T, T> selector)
     {
         source.Span.SelectInPlace(selector);
@@ -233,7 +342,12 @@ public static class SpanPipelineExtensions
     /// <summary>
     /// Stably compacts matching items in place and returns the valid memory prefix.
     /// </summary>
-    /// <remarks>Items beyond the returned prefix have unspecified values.</remarks>
+    /// <remarks>Reference-containing tail slots beyond the returned prefix are cleared; other tail values are unspecified. If <paramref name="predicate"/> throws, compaction completed before the exception remains.</remarks>
+    /// <typeparam name="T">The item type.</typeparam>
+    /// <param name="source">The items to compact in place.</param>
+    /// <param name="predicate">The predicate to invoke once for each item.</param>
+    /// <returns>The prefix of <paramref name="source"/> containing matching items in their original order.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="predicate"/> is null.</exception>
     public static Memory<T> WhereInPlace<T>(this Memory<T> source, Func<T, bool> predicate)
     {
         var written = source.Span.WhereInPlace(predicate).Length;

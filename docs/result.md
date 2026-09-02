@@ -87,6 +87,13 @@ cancelled Task or ValueTask with its cancellation token. A faulted awaitable con
 Delegate validation is synchronous; exceptions raised by an async operation are represented by
 the returned awaitable.
 
+`TryAsync` and `TryValueAsync` deliberately accept tokenless delegates. They are narrow exception
+boundaries, not cancellation owners: a caller that needs cancellation captures its
+`CancellationToken` and passes it inside the delegate to the underlying API. The helpers do not
+inject, replace, or map that token, and an `OperationCanceledException` is never converted to a
+Result failure or passed to an error mapper. A `ValueTask` returned by the delegate is observed
+once, so its normal single-consumption rule still applies.
+
 A `TryAsync` operation that returns a null Task violates the delegate contract. The returned Task
 faults with `InvalidOperationException`, and that programming error is not sent through the domain
 error mapper.

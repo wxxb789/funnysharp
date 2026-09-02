@@ -92,6 +92,7 @@ a faulted awaitable, completes the returned operation as canceled with that exce
 There are intentionally no Task-selector overloads. An `async` lambda can target the `ValueTask`
 selector overload directly. A named Task-returning method can be wrapped, for example:
 
+<!-- documentation-sample: DocumentationSamples.Validation.TraverseValueAsync -->
 ```csharp
 await source.TraverseValueAsync(item => new ValueTask<Option<string>>(LookupAsync(item)));
 ```
@@ -102,9 +103,11 @@ behavior.
 ## Deliberate Boundaries
 
 Validation does not add a general discriminated-union framework, an async wrapper type, exception
-conversion, retry behavior, serialization support, analyzers, source generators, or AOT- and
-trimming-specific guarantees. Its accumulation model is intentionally limited to independent
-already-created values and sequence traversal.
+conversion, retry behavior, serialization support, analyzers, or source generators. Package-wide
+trimming and Native AOT evidence and limits are recorded in the
+[product contract](product-contract.md) and [release-readiness checklist](release-readiness.md).
+Its accumulation model is intentionally limited to independent already-created values and sequence
+traversal.
 
 ## Performance Evidence
 

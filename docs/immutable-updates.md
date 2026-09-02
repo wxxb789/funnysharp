@@ -17,6 +17,7 @@ copying layer. Use BCL collections and BCL update operations directly.
 Create a lens when every source has the focus. The setter describes how to return an updated
 source; for records, that is normally a `with` expression.
 
+<!-- documentation-sample: DocumentationSamples.ImmutableUpdates.SetNestedLens -->
 ```csharp
 var profile = Lens.Create<Customer, Profile>(
     customer => customer.Profile,
@@ -36,6 +37,7 @@ Composition is written and evaluated from left to right: the example follows `Cu
 `Profile`, then `Address`, then `string`. For ordinary record setters, this is equivalent to the
 direct nested update:
 
+<!-- documentation-sample: DocumentationSamples.ImmutableUpdates.UpdateNestedRecord -->
 ```csharp
 var updated = customer with
 {
@@ -66,6 +68,7 @@ enforce purity.
 Create an `Optional` when the focus may not exist, such as a dictionary key or nullable record
 member. `GetOption` reports absence as `Option<TFocus>.None`.
 
+<!-- documentation-sample: DocumentationSamples.ImmutableUpdates.UpdateOptionalFocus -->
 ```csharp
 var home = Optional.Create<ImmutableDictionary<string, Address>, Address>(
     addresses => addresses.TryGetValue("home", out var value)
@@ -90,6 +93,7 @@ behavior.
 Use `System.Collections.Immutable` operations inside the setter or updater supplied by the
 caller. An optic does not choose a collection operation or implement collection persistence.
 
+<!-- documentation-sample: DocumentationSamples.ImmutableUpdates.UpdateImmutableDictionary -->
 ```csharp
 var addresses = Lens.Create<Customer, ImmutableDictionary<string, Address>>(
     customer => customer.Addresses,
@@ -104,6 +108,7 @@ collection types: use their standard `SetItem`, `Add`, `Remove`, `Replace`, or e
 operations in caller code. For a batch of changes, use a BCL builder and replace the complete
 collection once:
 
+<!-- documentation-sample: DocumentationSamples.ImmutableUpdates.UpdateImmutableList -->
 ```csharp
 var lineItems = Lens.Create<Order, ImmutableList<LineItem>>(
     order => order.LineItems,
@@ -123,6 +128,7 @@ incrementally updatable persistent collections. Query them directly for read-hea
 explicitly construct a replacement snapshot and set the complete value on its containing record.
 Do not hide a frozen-collection rebuild inside a general-purpose optic setter.
 
+<!-- documentation-sample: DocumentationSamples.ImmutableUpdates.ReplaceFrozenDictionary -->
 ```csharp
 var numbers = Lens.Create<Snapshot, FrozenDictionary<string, int>>(
     snapshot => snapshot.Numbers,

@@ -16,6 +16,7 @@ returns `ValueTask<T>`.
 Creating or composing an effect never invokes its delegate. Execution starts only when a caller
 invokes `RunAsync`:
 
+<!-- documentation-sample: DocumentationSamples.Effects.CreateAndRun -->
 ```csharp
 var greeting = Effect.FromSync(() => "hello")
     .Map(text => text.ToUpperInvariant());
@@ -43,6 +44,7 @@ same shape. `Provide` supplies a particular environment and returns an environme
 configuration, and application-specific dependency containers can be supplied directly without
 a `Microsoft.Extensions` dependency or a FunnySharp container.
 
+<!-- documentation-sample: DocumentationSamples.Effects.ProvideEnvironment -->
 ```csharp
 var now = Effect
     .FromSync((TimeProvider clock) => clock.GetUtcNow())

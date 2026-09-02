@@ -19,41 +19,33 @@ Every mapping requires an explicit problem mapper. It must return a non-null `Pr
 the integration layer returns `Results.Ok(value)`. Supply one to select a different success status,
 headers, or body shape.
 
+<!-- documentation-sample: DocumentationSamples.AspNetCore.MappingOutcomes -->
 ```csharp
-IResult ToHttpResult<T>(
-    this Option<T> option,
-    Func<ProblemDetails> none,
-    Func<T, IResult>? some = null);
-
-IResult ToHttpResult<TValue, TError>(
-    this Result<TValue, TError> result,
-    Func<TError, ProblemDetails> failure,
-    Func<TValue, IResult>? success = null);
-
-IResult ToHttpResult<TValue, TError>(
-    this Validation<TValue, TError> validation,
-    Func<IReadOnlyList<TError>, HttpValidationProblemDetails> invalid,
-    Func<TValue, IResult>? valid = null);
+IResult optionResult = option.ToHttpResult(NotFound);
+IResult resultResult = result.ToHttpResult(Conflict);
+IResult validationResult = validation.ToHttpResult(MapValidationFailure);
 ```
 
 Equivalent `ToHttpResultAsync` overloads accept `Task<...>` and `ValueTask<...>` carriers.
 They await the supplied operation normally: faults and cancellation are transparent and are not
 converted into HTTP responses.
 
+<!-- documentation-sample: DocumentationSamples.AspNetCore.MapAsyncOutcomes -->
 ```csharp
 app.MapGet("/inventory/{sku}", (string sku, CancellationToken cancellationToken) =>
-    GetInventoryAsync(sku, cancellationToken).ToHttpResultAsync(MapInventoryFailure));
+    GetInventoryAsync(sku, cancellationToken).ToHttpResultAsync(NotFound));
 
 app.MapGet("/deliveries/{sku}", (string sku, CancellationToken cancellationToken) =>
     GetDeliveryAsync(sku, cancellationToken).ToHttpResultAsync(
-        MapDeliveryFailure,
-        delivery => new AcceptedDeliveryResult(delivery)));
+        Conflict,
+        delivery => Results.Accepted(value: delivery)));
 ```
 
 `ProblemDetails` mappers control both HTTP status and payload. For example, an absent option can
 produce 404 while a typed domain failure produces 409; neither convention is selected by the
 library.
 
+<!-- documentation-sample: DocumentationSamples.AspNetCore.MapProblemDetails -->
 ```csharp
 static ProblemDetails NotFound() => new()
 {
@@ -83,6 +75,7 @@ Effects have overloads for values that produce an `Option`, `Result`, or `Valida
 `context.RequestAborted`; it does not create, link, replace, or swallow the request cancellation
 token.
 
+<!-- documentation-sample: DocumentationSamples.AspNetCore.MapEffect -->
 ```csharp
 app.MapGet("/catalog/{id:int}/refresh", (HttpContext context, int id) =>
     LoadProductEffect(id).ToHttpResultAsync(
@@ -99,15 +92,16 @@ keeps dependency acquisition and HTTP policy visible at the endpoint boundary.
 The mapping keeps the endpoint focused on domain work and chosen HTTP policy while retaining both
 branches visibly in the mapper functions.
 
+<!-- documentation-sample: DocumentationSamples.AspNetCore.CompareBeforeAndAfter -->
 ```csharp
 // Before
 var product = await LoadProductEffect(id).RunAsync(catalog, context.RequestAborted);
-return product.Match(
+_ = product.Match(
     value => Results.Ok(value),
     () => Results.Problem(statusCode: StatusCodes.Status404NotFound));
 
 // After
-return await LoadProductEffect(id).ToHttpResultAsync(
+_ = await LoadProductEffect(id).ToHttpResultAsync(
     catalog,
     context,
     () => new ProblemDetails { Status = StatusCodes.Status404NotFound });

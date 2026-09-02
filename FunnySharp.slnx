@@ -1,6 +1,7 @@
 <Solution>
   <Project Path="benchmarks/FunnySharp.Benchmarks/FunnySharp.Benchmarks.csproj" />
   <Project Path="examples/FunnySharp.AspNetCore.Examples/FunnySharp.AspNetCore.Examples.csproj" />
+  <Project Path="examples/FunnySharp.DocumentationSamples/FunnySharp.DocumentationSamples.csproj" />
   <Project Path="examples/FunnySharp.Examples/FunnySharp.Examples.csproj" />
   <Project Path="src/FunnySharp.AspNetCore/FunnySharp.AspNetCore.csproj" />
   <Project Path="src/FunnySharp/FunnySharp.csproj" />

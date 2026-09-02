@@ -5,6 +5,8 @@ Feature APIs are added only when a goal defines their behavior and verification 
 
 The authoritative design and dependency boundaries are recorded in the
 [product contract](https://github.com/wxxb789/funnysharp/blob/main/docs/product-contract.md).
+The current release gate and its explicit evidence checklist are recorded in
+[Goal 12 release readiness](https://github.com/wxxb789/funnysharp/blob/main/docs/release-readiness.md).
 
 ## Function Composition
 
@@ -104,17 +106,31 @@ ASP.NET Core.
 
 ## Verify
 
-```shell
-dotnet restore FunnySharp.slnx
-dotnet build FunnySharp.slnx --configuration Release --no-restore
-dotnet test FunnySharp.slnx --configuration Release --no-build
-dotnet run --project examples/FunnySharp.Examples/FunnySharp.Examples.csproj --configuration Release --no-build
-dotnet run --project examples/FunnySharp.AspNetCore.Examples/FunnySharp.AspNetCore.Examples.csproj --configuration Release --no-build -- --verify
-dotnet pack FunnySharp.slnx --configuration Release --no-build --output artifacts/packages
+```powershell
+pwsh -NoProfile -File eng/Run-Release.ps1 `
+  -OutputDirectory artifacts/release-run `
+  -CompatibilityPackageFeed https://packagefeedproxy.microsoft.io/nuget/v3/index.json `
+  -Clean
 ```
+
+For the recorded machine, direct `nuget.org` TLS failed before restore, so reproducing the
+recorded candidate requires this `-CompatibilityPackageFeed` override. The script's portable
+default remains `nuget.org`.
+
+The runner performs a clean locked restore, Release build, xUnit tests, both examples, pack,
+formatting verification, the complete BenchmarkDotNet suite, and package-consuming trim/Native AOT
+smokes from one source fingerprint. It records command receipts, public API and XML-documentation
+inventories, package contents, dependency graph, hashes, and documentation-snippet synchronization.
+Compatibility results apply only to their recorded SDK, runtime patch, OS, and RID; see the
+[product contract](https://github.com/wxxb789/funnysharp/blob/main/docs/product-contract.md) for the
+current support and Native AOT limits.
 
 ## Benchmark
 
 ```shell
 dotnet run --project benchmarks/FunnySharp.Benchmarks/FunnySharp.Benchmarks.csproj --configuration Release -- --filter '*'
 ```
+
+## License
+
+FunnySharp is licensed under the [MIT License](LICENSE).

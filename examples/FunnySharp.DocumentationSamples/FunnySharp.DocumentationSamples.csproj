@@ -1,15 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
     <IsPackable>false</IsPackable>
-    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
   </PropertyGroup>
 
   <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
     <ProjectReference Include="../../src/FunnySharp/FunnySharp.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="BenchmarkDotNet" Version="0.15.8" />
+    <ProjectReference Include="../../src/FunnySharp.AspNetCore/FunnySharp.AspNetCore.csproj" />
   </ItemGroup>
 </Project>

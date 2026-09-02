@@ -15,6 +15,7 @@ mutable output objects remain owned by the caller.
 
 `StateTransition<TState, TOutput>` is the standard delegate for a total pure state transformation:
 
+<!-- documentation-sample: DocumentationSamples.StateMachines.CreateTransition -->
 ```csharp
 StateTransition<Account, AuditCommand> submit = account =>
     StateChange<Account, AuditCommand>.To(
@@ -81,6 +82,7 @@ State machines intentionally have no async executor. Model an output as a comman
 pure transition produce it, and execute it only at a visible application boundary. That boundary
 owns I/O, ordering, retries, error handling, and cancellation:
 
+<!-- documentation-sample: DocumentationSamples.StateMachines.ExecuteOutputs -->
 ```csharp
 var commands = result.Match(
     change => change.Outputs,

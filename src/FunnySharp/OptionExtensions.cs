@@ -47,6 +47,12 @@ public static class OptionExtensions
     /// <summary>
     /// Asynchronously transforms a present value with a task-returning selector.
     /// </summary>
+    /// <typeparam name="T">The source value type.</typeparam>
+    /// <typeparam name="TResult">The transformed value type.</typeparam>
+    /// <param name="option">The option to transform.</param>
+    /// <param name="selector">The asynchronous transformation to invoke for a present value.</param>
+    /// <returns>A task that produces the transformed option, or <c>None</c> when <paramref name="option"/> is absent or the transformed value is null.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="selector"/> is null.</exception>
     public static Task<Option<TResult>> MapAsync<T, TResult>(
         this Option<T> option,
         Func<T, Task<TResult>> selector)
@@ -61,6 +67,13 @@ public static class OptionExtensions
     /// <summary>
     /// Asynchronously transforms a present value with a cancellation-aware task-returning selector.
     /// </summary>
+    /// <typeparam name="T">The source value type.</typeparam>
+    /// <typeparam name="TResult">The transformed value type.</typeparam>
+    /// <param name="option">The option to transform.</param>
+    /// <param name="selector">The asynchronous transformation to invoke for a present value.</param>
+    /// <param name="cancellationToken">The token passed unchanged to <paramref name="selector"/> when the option is present.</param>
+    /// <returns>A task that produces the transformed option, or <c>None</c> when <paramref name="option"/> is absent or the transformed value is null.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="selector"/> is null.</exception>
     public static Task<Option<TResult>> MapAsync<T, TResult>(
         this Option<T> option,
         Func<T, CancellationToken, Task<TResult>> selector,
@@ -76,6 +89,12 @@ public static class OptionExtensions
     /// <summary>
     /// Asynchronously binds a present value with a task-returning binder.
     /// </summary>
+    /// <typeparam name="T">The source value type.</typeparam>
+    /// <typeparam name="TResult">The bound value type.</typeparam>
+    /// <param name="option">The option to bind.</param>
+    /// <param name="binder">The asynchronous option-producing function to invoke for a present value.</param>
+    /// <returns>A task that produces the bound option, or <c>None</c> when <paramref name="option"/> is absent.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="binder"/> is null.</exception>
     public static Task<Option<TResult>> BindAsync<T, TResult>(
         this Option<T> option,
         Func<T, Task<Option<TResult>>> binder)
@@ -90,6 +109,13 @@ public static class OptionExtensions
     /// <summary>
     /// Asynchronously binds a present value with a cancellation-aware task-returning binder.
     /// </summary>
+    /// <typeparam name="T">The source value type.</typeparam>
+    /// <typeparam name="TResult">The bound value type.</typeparam>
+    /// <param name="option">The option to bind.</param>
+    /// <param name="binder">The asynchronous option-producing function to invoke for a present value.</param>
+    /// <param name="cancellationToken">The token passed unchanged to <paramref name="binder"/> when the option is present.</param>
+    /// <returns>A task that produces the bound option, or <c>None</c> when <paramref name="option"/> is absent.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="binder"/> is null.</exception>
     public static Task<Option<TResult>> BindAsync<T, TResult>(
         this Option<T> option,
         Func<T, CancellationToken, Task<Option<TResult>>> binder,
@@ -105,6 +131,12 @@ public static class OptionExtensions
     /// <summary>
     /// Asynchronously transforms a present value with a value-task-returning selector.
     /// </summary>
+    /// <typeparam name="T">The source value type.</typeparam>
+    /// <typeparam name="TResult">The transformed value type.</typeparam>
+    /// <param name="option">The option to transform.</param>
+    /// <param name="selector">The asynchronous transformation to invoke for a present value.</param>
+    /// <returns>A value task that produces the transformed option, or <c>None</c> when <paramref name="option"/> is absent or the transformed value is null.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="selector"/> is null.</exception>
     public static ValueTask<Option<TResult>> MapValueAsync<T, TResult>(
         this Option<T> option,
         Func<T, ValueTask<TResult>> selector)
@@ -119,6 +151,13 @@ public static class OptionExtensions
     /// <summary>
     /// Asynchronously transforms a present value with a cancellation-aware value-task-returning selector.
     /// </summary>
+    /// <typeparam name="T">The source value type.</typeparam>
+    /// <typeparam name="TResult">The transformed value type.</typeparam>
+    /// <param name="option">The option to transform.</param>
+    /// <param name="selector">The asynchronous transformation to invoke for a present value.</param>
+    /// <param name="cancellationToken">The token passed unchanged to <paramref name="selector"/> when the option is present.</param>
+    /// <returns>A value task that produces the transformed option, or <c>None</c> when <paramref name="option"/> is absent or the transformed value is null.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="selector"/> is null.</exception>
     public static ValueTask<Option<TResult>> MapValueAsync<T, TResult>(
         this Option<T> option,
         Func<T, CancellationToken, ValueTask<TResult>> selector,
@@ -134,6 +173,12 @@ public static class OptionExtensions
     /// <summary>
     /// Asynchronously binds a present value with a value-task-returning binder.
     /// </summary>
+    /// <typeparam name="T">The source value type.</typeparam>
+    /// <typeparam name="TResult">The bound value type.</typeparam>
+    /// <param name="option">The option to bind.</param>
+    /// <param name="binder">The asynchronous option-producing function to invoke for a present value.</param>
+    /// <returns>A value task that produces the bound option, or <c>None</c> when <paramref name="option"/> is absent.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="binder"/> is null.</exception>
     public static ValueTask<Option<TResult>> BindValueAsync<T, TResult>(
         this Option<T> option,
         Func<T, ValueTask<Option<TResult>>> binder)
@@ -148,6 +193,13 @@ public static class OptionExtensions
     /// <summary>
     /// Asynchronously binds a present value with a cancellation-aware value-task-returning binder.
     /// </summary>
+    /// <typeparam name="T">The source value type.</typeparam>
+    /// <typeparam name="TResult">The bound value type.</typeparam>
+    /// <param name="option">The option to bind.</param>
+    /// <param name="binder">The asynchronous option-producing function to invoke for a present value.</param>
+    /// <param name="cancellationToken">The token passed unchanged to <paramref name="binder"/> when the option is present.</param>
+    /// <returns>A value task that produces the bound option, or <c>None</c> when <paramref name="option"/> is absent.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="binder"/> is null.</exception>
     public static ValueTask<Option<TResult>> BindValueAsync<T, TResult>(
         this Option<T> option,
         Func<T, CancellationToken, ValueTask<Option<TResult>>> binder,
@@ -163,6 +215,10 @@ public static class OptionExtensions
     /// <summary>
     /// Converts a task that produces a nullable reference to a task that produces an option.
     /// </summary>
+    /// <typeparam name="T">The reference type.</typeparam>
+    /// <param name="task">The task producing the nullable reference.</param>
+    /// <returns>A task that produces an option containing the completed value, or <c>None</c> when it is null.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="task"/> is null.</exception>
     public static Task<Option<T>> ToOptionAsync<T>(this Task<T?> task)
         where T : class
     {
@@ -173,6 +229,10 @@ public static class OptionExtensions
     /// <summary>
     /// Converts a task that produces a nullable value type to a task that produces an option.
     /// </summary>
+    /// <typeparam name="T">The underlying value type.</typeparam>
+    /// <param name="task">The task producing the nullable value.</param>
+    /// <returns>A task that produces an option containing the completed value, or <c>None</c> when it has no value.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="task"/> is null.</exception>
     public static Task<Option<T>> ToOptionAsync<T>(this Task<T?> task)
         where T : struct
     {
@@ -183,6 +243,9 @@ public static class OptionExtensions
     /// <summary>
     /// Converts a value task that produces a nullable reference to a value task that produces an option.
     /// </summary>
+    /// <typeparam name="T">The reference type.</typeparam>
+    /// <param name="task">The value task producing the nullable reference.</param>
+    /// <returns>A value task that produces an option containing the completed value, or <c>None</c> when it is null.</returns>
     public static ValueTask<Option<T>> ToOptionAsync<T>(this ValueTask<T?> task)
         where T : class =>
         ReferenceValueTaskToOptionAsyncCore(task);
@@ -190,6 +253,9 @@ public static class OptionExtensions
     /// <summary>
     /// Converts a value task that produces a nullable value type to a value task that produces an option.
     /// </summary>
+    /// <typeparam name="T">The underlying value type.</typeparam>
+    /// <param name="task">The value task producing the nullable value.</param>
+    /// <returns>A value task that produces an option containing the completed value, or <c>None</c> when it has no value.</returns>
     public static ValueTask<Option<T>> ToOptionAsync<T>(this ValueTask<T?> task)
         where T : struct =>
         NullableValueTaskToOptionAsyncCore(task);

@@ -46,6 +46,10 @@ may extend it deliberately, but implementation convenience alone does not overri
 - `FunnySharp` and `FunnySharp.AspNetCore` are the two shipping packages in this baseline and
   target `net10.0`; later .NET runtimes can consume those assets through normal .NET compatibility
   rules.
+- The supported baseline is the latest serviced .NET 10 patch. As of September 2, 2026, Microsoft
+  classifies .NET 10 as LTS through November 14, 2028. Release evidence records the exact SDK,
+  runtime, operating system, and RID used. A later runtime is not claimed as verified until the
+  compatibility smoke suite has been run on that runtime.
 - `src/FunnySharp/FunnySharp.csproj` has no `PackageReference`. Its runtime surface is limited to
   platform assemblies shipped with .NET.
 - `src/FunnySharp.AspNetCore/FunnySharp.AspNetCore.csproj` is the separate optional HTTP
@@ -54,6 +58,7 @@ may extend it deliberately, but implementation convenience alone does not overri
 - Test dependencies remain in the non-packable `FunnySharp.Tests` project and never flow into the
   public packages. ASP.NET Core integration test dependencies remain isolated in the non-packable
   `FunnySharp.AspNetCore.Tests` project.
+- Both packages use the repository's MIT license and include explicit `MIT` NuGet license metadata.
 - The core remains BCL-only and must not depend on ASP.NET Core.
 - A custom scheduler, fiber/runtime layer, DI container, large functional abstraction stack,
   higher-kinded-type emulation, monad-transformer stack, and large IO universe are outside the
@@ -64,21 +69,70 @@ may extend it deliberately, but implementation convenience alone does not overri
 
 - The foundation exposes no speculative feature API. Public APIs require a later goal with usage,
   behavior, and verification evidence.
-- General discriminated unions and first-party analyzers are out of scope. Reconsidering either
-  requires a later goal after the official C# 15/.NET 11 union design has stabilized.
+- First-party analyzers remain out of scope. Reconsidering them requires a later goal with concrete
+  diagnostics, false-positive policy, versioning rules, and measured maintenance cost.
+- General discriminated unions remain out of scope. As of September 2, 2026, the official C# 15
+  union proposal is implemented but still open and marked as needing ECMA specification work, and
+  .NET 11 is available only as Preview 7. FunnySharp targets `net10.0`, so adopting the platform
+  union metadata and syntax before .NET 11 is generally available would either raise the package
+  floor or require a second representation with migration and compatibility costs.
+- A later goal may reconsider native C# unions only after the .NET 11 SDK and runtime are generally
+  available, the language and metadata contracts are stable, and representative FunnySharp usage
+  can be compared with the focused `Option`, `Result`, `Validation`, and transition types.
+- A `net10.0` union compatibility layer is considered only when real consumers must remain on the
+  .NET 10 LTS line while also needing the same general-union source model. Such a proposal must
+  include a fixed public API and semantics, source and binary migration to native unions, a removal
+  plan, trimming and Native AOT results, allocation and throughput comparisons, and evidence that
+  the focused existing types are insufficient. Until every condition is met, no compatibility
+  layer or general union API is added.
+
+## Trimming And Native AOT Policy
+
+- Compatibility is evaluated from self-contained consumer applications built from the produced
+  packages. The trim and Native AOT analyzers run without suppressions. Trimming roots both shipping
+  assemblies so their complete implementations are analyzed; Native AOT compiles and executes
+  representative closed generic usages from both packages.
+- A successful publish is not sufficient: each produced executable must run representative core
+  or ASP.NET Core mappings successfully on the recorded RID.
+- `IsTrimmable` and `IsAotCompatible` are package claims, not warning switches. Both shipping
+  projects set `IsTrimmable` because full-root trim analysis and representative execution pass.
+  They do not set `IsAotCompatible` for the limitation below.
+- Full-assembly Native AOT rooting is not a supported claim for this release. With the .NET 10.0.11
+  compiler, rooting every member of the open generic `Option`, `Result`, and `Validation` surfaces
+  causes artificial, recursively nested `ValueTuple` instantiations that the compiler cannot
+  materialize. Representative closed generic consumers are still published and executed, but the
+  packages do not set `IsAotCompatible` until a future toolchain can analyze the complete surface or
+  the API changes under a separately accepted goal.
+- Compatibility evidence is specific to the recorded SDK, runtime patch, RID, and package hashes.
+  Other operating systems, architectures, later runtimes, and unexercised ASP.NET Core features are
+  not implied by a passing result.
+
+Platform references used for this policy:
+
+- [.NET support policy](https://dotnet.microsoft.com/en-us/platform/support/policy/dotnet-core)
+- [.NET 11 preview downloads](https://dotnet.microsoft.com/en-us/download/dotnet/11.0)
+- [C# union proposal](https://github.com/dotnet/csharplang/blob/main/proposals/csharp-15.0/unions.md)
+- [C# union language-design tracking issue](https://github.com/dotnet/csharplang/issues/9662)
+- [Prepare .NET libraries for trimming](https://learn.microsoft.com/en-us/dotnet/core/deploying/trimming/prepare-libraries-for-trimming)
 
 ## Baseline Verification
 
-A clean checkout is acceptable only when all six commands in the README succeed:
+A release candidate is acceptable only when the complete README verification runner succeeds:
 
-```shell
-dotnet restore FunnySharp.slnx
-dotnet build FunnySharp.slnx --configuration Release --no-restore
-dotnet test FunnySharp.slnx --configuration Release --no-build
-dotnet run --project examples/FunnySharp.Examples/FunnySharp.Examples.csproj --configuration Release --no-build
-dotnet run --project examples/FunnySharp.AspNetCore.Examples/FunnySharp.AspNetCore.Examples.csproj --configuration Release --no-build -- --verify
-dotnet pack FunnySharp.slnx --configuration Release --no-build --output artifacts/packages
+```powershell
+pwsh -NoProfile -File eng/Run-Release.ps1 `
+  -OutputDirectory artifacts/release-run `
+  -CompatibilityPackageFeed https://packagefeedproxy.microsoft.io/nuget/v3/index.json `
+  -Clean
 ```
+
+For the recorded machine, direct `nuget.org` TLS failed before restore, so reproducing the
+recorded candidate requires this `-CompatibilityPackageFeed` override. The script's portable
+default remains `nuget.org`.
+
+The runner records and verifies each underlying command, requires one unchanged source fingerprint,
+and binds the Release assemblies, XML documentation, packages, compatibility consumers, and
+benchmark output to that candidate.
 
 The evidence must also show that:
 

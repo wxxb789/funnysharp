@@ -12,6 +12,7 @@ alternative `Task` type.
 `SelectParallelValueAsync` maps an `IAsyncEnumerable<TSource>` with a
 `ValueTask<TResult>` selector and returns a deferred `IAsyncEnumerable<TResult>`:
 
+<!-- documentation-sample: DocumentationSamples.Concurrency.SelectParallel -->
 ```csharp
 var quotedOrders = orders.SelectParallelValueAsync(
     maxConcurrency: 4,
@@ -57,6 +58,7 @@ example above, so the carrier conversion remains visible.
 `IAsyncEnumerable<TSource>`. It has overloads for `Option<T>`, `Result<TValue, TError>`, and
 `Validation<TValue, TError>`, with token-aware selector overloads for each:
 
+<!-- documentation-sample: DocumentationSamples.Concurrency.TraverseParallel -->
 ```csharp
 var checkedOrders = await orders.TraverseParallelValueAsync(
     maxConcurrency: 4,
@@ -95,6 +97,7 @@ that run. The coordinator snapshots the input once, starts every effect, and ret
 successful `Result` observed in completion order. When successes are already observable in the
 same observation turn, input order breaks the tie.
 
+<!-- documentation-sample: DocumentationSamples.Concurrency.FirstSuccess -->
 ```csharp
 var providers = new[]
 {
