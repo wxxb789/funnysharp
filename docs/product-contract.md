@@ -14,6 +14,18 @@ may extend it deliberately, but implementation convenience alone does not overri
   should avoid hidden allocation, repeated enumeration, reflection, and unnecessary buffering.
 - Immutable data is opt-in. The core package does not impose immutable collections or copying on
   consumers that do not ask for them.
+- Immutable updates use a deliberately small `Lens<TSource, TFocus>` and
+  `Optional<TSource, TFocus>` surface over caller-provided delegates. The core provides no optics
+  hierarchy, traversal API, reflection, property-path API, persistent-collection ecosystem, or
+  hidden source copying. Lens laws and purity remain obligations of the caller-provided delegates.
+- `System.Collections.Immutable` remains the update mechanism for immutable collections. Callers
+  choose its operations and builders inside their own setters or updaters; `FrozenDictionary` and
+  `FrozenSet` remain read-optimized snapshots that callers query directly or replace explicitly as
+  whole values.
+- `IReadOnlyCollection<T>` and `IReadOnlyDictionary<TKey, TValue>` are read-only views, not
+  evidence of immutable backing storage. The core does not provide borrowed-view adapters, clone
+  mutable leaves, or make shallow record copies pure; aliasing, copying, and ownership stay with
+  the caller.
 - Data pipelines remain on BCL sequence, span, and memory carriers. Streaming operations are
   deferred and single-pass per enumeration; span and memory operations are immediate, respect view
   lifetimes, and use caller-owned storage for zero-copy or fused paths where practical.
