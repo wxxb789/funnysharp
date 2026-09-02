@@ -43,14 +43,18 @@ may extend it deliberately, but implementation convenience alone does not overri
 
 ## Package And Dependency Boundary
 
-- `FunnySharp` is the only shipping package in this baseline and targets `net10.0`; later .NET
-  runtimes can consume that asset through normal .NET compatibility rules.
+- `FunnySharp` and `FunnySharp.AspNetCore` are the two shipping packages in this baseline and
+  target `net10.0`; later .NET runtimes can consume those assets through normal .NET compatibility
+  rules.
 - `src/FunnySharp/FunnySharp.csproj` has no `PackageReference`. Its runtime surface is limited to
   platform assemblies shipped with .NET.
+- `src/FunnySharp.AspNetCore/FunnySharp.AspNetCore.csproj` is the separate optional HTTP
+  integration package. It depends only on `FunnySharp` and the `Microsoft.AspNetCore.App`
+  framework reference; it does not add a package dependency to the core.
 - Test dependencies remain in the non-packable `FunnySharp.Tests` project and never flow into the
-  public package.
-- ASP.NET Core integration, if introduced by a later goal, belongs in a separate integration
-  package. The core must not depend on ASP.NET Core.
+  public packages. ASP.NET Core integration test dependencies remain isolated in the non-packable
+  `FunnySharp.AspNetCore.Tests` project.
+- The core remains BCL-only and must not depend on ASP.NET Core.
 - A custom scheduler, fiber/runtime layer, DI container, large functional abstraction stack,
   higher-kinded-type emulation, monad-transformer stack, and large IO universe are outside the
   core boundary. `Microsoft.Extensions` is not a core dependency; `TimeProvider` and ordinary DI
@@ -65,21 +69,25 @@ may extend it deliberately, but implementation convenience alone does not overri
 
 ## Baseline Verification
 
-A clean checkout is acceptable only when all five commands in the README succeed:
+A clean checkout is acceptable only when all six commands in the README succeed:
 
 ```shell
 dotnet restore FunnySharp.slnx
 dotnet build FunnySharp.slnx --configuration Release --no-restore
 dotnet test FunnySharp.slnx --configuration Release --no-build
 dotnet run --project examples/FunnySharp.Examples/FunnySharp.Examples.csproj --configuration Release --no-build
+dotnet run --project examples/FunnySharp.AspNetCore.Examples/FunnySharp.AspNetCore.Examples.csproj --configuration Release --no-build -- --verify
 dotnet pack FunnySharp.slnx --configuration Release --no-build --output artifacts/packages
 ```
 
 The evidence must also show that:
 
 - the xUnit v3 test is discovered and passes through Microsoft.Testing.Platform;
-- the executable example compiles in the release build and runs successfully as usage evidence;
-- packing produces `FunnySharp.0.1.0.nupkg` and `FunnySharp.0.1.0.snupkg`;
-- the package contains a `lib/net10.0` assembly and the repository README;
-- the package dependency group for `net10.0` is empty; and
-- only the `FunnySharp` project is packable.
+- the executable examples compile in the release build and run successfully as usage evidence;
+- packing produces `FunnySharp.0.1.0.nupkg`, `FunnySharp.0.1.0.snupkg`,
+  `FunnySharp.AspNetCore.0.1.0.nupkg`, and `FunnySharp.AspNetCore.0.1.0.snupkg`;
+- each package contains a `lib/net10.0` assembly and the repository README;
+- the `FunnySharp` package dependency group for `net10.0` is empty;
+- the `FunnySharp.AspNetCore` package has only a `FunnySharp` dependency plus the
+  `Microsoft.AspNetCore.App` framework reference; and
+- exactly `FunnySharp` and `FunnySharp.AspNetCore` projects are packable.
