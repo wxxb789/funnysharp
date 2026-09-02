@@ -73,6 +73,15 @@ write to caller-owned storage or transform it in place.
 - [Semantics, lifetime rules, and performance evidence](https://github.com/wxxb789/funnysharp/blob/main/docs/data-pipelines.md)
 - [Compiling data-cleaning examples](https://github.com/wxxb789/funnysharp/blob/main/examples/FunnySharp.Examples/Program.cs)
 
+## Immutable Updates
+
+`Lens<TSource, TFocus>` and `Optional<TSource, TFocus>` provide a small, composable surface for
+total and possibly missing nested updates. They work with record `with` expressions and caller
+chosen BCL immutable collection operations without adding a collection hierarchy or hidden copies.
+
+- [Semantics, BCL collection guidance, and performance evidence](https://github.com/wxxb789/funnysharp/blob/main/docs/immutable-updates.md)
+- [Compiling immutable-update examples](https://github.com/wxxb789/funnysharp/blob/main/examples/FunnySharp.Examples/Program.cs)
+
 ## State Machines
 
 FunnySharp models pure state changes and finite-state workflows with explicit state, emitted output

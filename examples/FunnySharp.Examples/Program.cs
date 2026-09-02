@@ -1,4 +1,6 @@
 using FunnySharp;
+using System.Collections.Frozen;
+using System.Collections.Immutable;
 using System.Globalization;
 
 VerifySynchronousFunctions();
@@ -6,6 +8,7 @@ VerifyDataPipelines();
 VerifyOptions();
 VerifyResults();
 VerifyValidations();
+VerifyImmutableUpdates();
 await VerifyAsynchronousFunctions();
 await VerifyAsynchronousDataPipelines();
 await VerifyAsynchronousOptions();
@@ -206,6 +209,63 @@ static Validation<int, AccountValidationError> ValidateAge(int age) =>
     age < 18
         ? Validation<int, AccountValidationError>.Invalid(new AccountValidationError("age", "must-be-adult"))
         : Validation<int, AccountValidationError>.Valid(age);
+
+static void VerifyImmutableUpdates()
+{
+    var contact = Lens.Create<CustomerSettings, CustomerContact>(
+        customer => customer.Contact,
+        (customer, value) => customer with { Contact = value });
+    var address = Lens.Create<CustomerContact, MailingAddress>(
+        value => value.Address,
+        (value, next) => value with { Address = next });
+    var city = Lens.Create<MailingAddress, string>(
+        value => value.City,
+        (value, next) => value with { City = next });
+    var preferences = Lens.Create<CustomerSettings, ImmutableDictionary<string, string>>(
+        customer => customer.Preferences,
+        (customer, value) => customer with { Preferences = value });
+    var locale = Optional.Create<ImmutableDictionary<string, string>, string>(
+        values => values.GetOption("locale"),
+        (values, value) => values.SetItem("locale", value));
+
+    var metrics = new Dictionary<string, int> { ["orders"] = 42 }.ToFrozenDictionary();
+    var tags = new[] { "active", "priority" }.ToFrozenSet(StringComparer.Ordinal);
+    var customer = new CustomerSettings(
+        new CustomerContact(new MailingAddress("London", "EC1A")),
+        ImmutableDictionary<string, string>.Empty.Add("locale", "en-GB"),
+        metrics,
+        tags);
+
+    var customerCity = contact.Compose(address).Compose(city);
+    var moved = customerCity.Set(customer, "Paris");
+    var direct = customer with
+    {
+        Contact = customer.Contact with
+        {
+            Address = customer.Contact.Address with { City = "Paris" },
+        },
+    };
+    AssertEqual(direct, moved);
+    AssertEqual("London", customer.Contact.Address.City);
+
+    var customerLocale = preferences.Compose(locale);
+    var localized = customerLocale.Update(customer, value => value.ToUpperInvariant());
+    AssertEqual(Option.Some("EN-GB"), customerLocale.GetOption(localized));
+
+    var withoutLocale = customer with { Preferences = ImmutableDictionary<string, string>.Empty };
+    Assert(
+        ReferenceEquals(withoutLocale, customerLocale.Set(withoutLocale, "fr-FR")),
+        "A missing optional focus must preserve source identity.");
+
+    var frozenMetrics = Lens.Create<CustomerSettings, FrozenDictionary<string, int>>(
+        value => value.Metrics,
+        (value, next) => value with { Metrics = next });
+    var replacementMetrics = new Dictionary<string, int> { ["orders"] = 43 }.ToFrozenDictionary();
+    var refreshed = frozenMetrics.Set(customer, replacementMetrics);
+    AssertEqual(Option.Some(42), customer.Metrics.GetOption("orders"));
+    Assert(ReferenceEquals(replacementMetrics, refreshed.Metrics), "Frozen snapshots are replaced explicitly.");
+    Assert(customer.Tags.Contains("active"), "Frozen sets remain direct read-only snapshots.");
+}
 
 static Result<int, CheckoutError> ParseQuantity(string text) =>
     int.TryParse(text, NumberStyles.Integer, CultureInfo.InvariantCulture, out var quantity)
@@ -715,6 +775,16 @@ internal sealed record CreateAccountRequest(string DisplayName, string Email, in
 internal sealed record Account(string DisplayName, string Email, int Age);
 
 internal sealed record AccountValidationError(string Field, string Code);
+
+internal sealed record CustomerSettings(
+    CustomerContact Contact,
+    ImmutableDictionary<string, string> Preferences,
+    FrozenDictionary<string, int> Metrics,
+    FrozenSet<string> Tags);
+
+internal sealed record CustomerContact(MailingAddress Address);
+
+internal sealed record MailingAddress(string City, string PostalCode);
 
 internal sealed record CleanOrder(string OrderId, string Sku, int Quantity);
 
