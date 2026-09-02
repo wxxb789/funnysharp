@@ -92,6 +92,16 @@ choose where and how emitted commands perform asynchronous work.
 - [Semantics, replay rules, and async boundary](https://github.com/wxxb789/funnysharp/blob/main/docs/state-machines.md)
 - [Compiling approval-workflow example](https://github.com/wxxb789/funnysharp/blob/main/examples/FunnySharp.Examples/Program.cs)
 
+## ASP.NET Core
+
+`FunnySharp.AspNetCore` is a separate Minimal API integration package. It maps explicit
+`Option`, `Result`, `Validation`, `Task`, `ValueTask`, and `Effect` outcomes to caller-selected
+`IResult` and RFC-compatible `ProblemDetails` without coupling the BCL-only core package to
+ASP.NET Core.
+
+- [Integration semantics and endpoint examples](https://github.com/wxxb789/funnysharp/blob/main/docs/aspnet-core.md)
+- [Compiling Minimal API example](https://github.com/wxxb789/funnysharp/blob/main/examples/FunnySharp.AspNetCore.Examples/Program.cs)
+
 ## Verify
 
 ```shell
@@ -99,6 +109,7 @@ dotnet restore FunnySharp.slnx
 dotnet build FunnySharp.slnx --configuration Release --no-restore
 dotnet test FunnySharp.slnx --configuration Release --no-build
 dotnet run --project examples/FunnySharp.Examples/FunnySharp.Examples.csproj --configuration Release --no-build
+dotnet run --project examples/FunnySharp.AspNetCore.Examples/FunnySharp.AspNetCore.Examples.csproj --configuration Release --no-build -- --verify
 dotnet pack FunnySharp.slnx --configuration Release --no-build --output artifacts/packages
 ```
 
