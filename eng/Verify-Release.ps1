@@ -319,13 +319,16 @@ function Test-ExactStringSequence {
 }
 
 function Get-ExpectedReleaseCommands {
-    param([Parameter(Mandatory)] [string] $ExecutionDirectory)
+    param(
+        [Parameter(Mandatory)] [string] $ExecutionDirectory,
+        [Parameter(Mandatory)] [string] $CompatibilityPackageFeed
+    )
 
     $packagesDirectory = Join-Path $ExecutionDirectory 'packages'
     $benchmarkArtifactsDirectory = Join-Path $ExecutionDirectory 'benchmark-artifacts'
     return @(
         [pscustomobject] [ordered]@{ name = 'clean'; arguments = @('clean', 'FunnySharp.slnx', '--configuration', 'Release') },
-        [pscustomobject] [ordered]@{ name = 'restore'; arguments = @('restore', 'FunnySharp.slnx', '--locked-mode') },
+        [pscustomobject] [ordered]@{ name = 'restore'; arguments = @('restore', 'FunnySharp.slnx', '--locked-mode', '--source', $CompatibilityPackageFeed) },
         [pscustomobject] [ordered]@{ name = 'build'; arguments = @('build', 'FunnySharp.slnx', '--configuration', 'Release', '--no-restore') },
         [pscustomobject] [ordered]@{ name = 'test'; arguments = @('test', 'FunnySharp.slnx', '--configuration', 'Release', '--no-build', '--no-restore') },
         [pscustomobject] [ordered]@{ name = 'examples'; arguments = @('run', '--project', 'examples/FunnySharp.Examples/FunnySharp.Examples.csproj', '--configuration', 'Release', '--no-build', '--no-restore') },
@@ -597,7 +600,7 @@ function Assert-ReleaseExecutionEvidence {
         throw 'The current source fingerprint does not match the release execution evidence.'
     }
 
-    $expectedCommands = Get-ExpectedReleaseCommands -ExecutionDirectory $executionDirectory
+    $expectedCommands = Get-ExpectedReleaseCommands -ExecutionDirectory $executionDirectory -CompatibilityPackageFeed $CompatibilityPackageFeed
     $expectedNames = @($expectedCommands | ForEach-Object name)
     $candidateCommands = @($evidence.candidateCommands)
     if (-not (Test-ExactStringSequence -Actual $candidateCommands -Expected $expectedNames)) {

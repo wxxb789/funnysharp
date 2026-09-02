@@ -372,7 +372,7 @@ function Invoke-ReleaseStep {
 
 try {
     Invoke-ReleaseStep -Ordinal 1 -Name 'clean' -FileName 'dotnet' -Arguments @('clean', 'FunnySharp.slnx', '--configuration', 'Release')
-    Invoke-ReleaseStep -Ordinal 2 -Name 'restore' -FileName 'dotnet' -Arguments @('restore', 'FunnySharp.slnx', '--locked-mode')
+    Invoke-ReleaseStep -Ordinal 2 -Name 'restore' -FileName 'dotnet' -Arguments @('restore', 'FunnySharp.slnx', '--locked-mode', '--source', $CompatibilityPackageFeed)
     Invoke-ReleaseStep -Ordinal 3 -Name 'build' -FileName 'dotnet' -Arguments @('build', 'FunnySharp.slnx', '--configuration', 'Release', '--no-restore')
     Invoke-ReleaseStep -Ordinal 4 -Name 'test' -FileName 'dotnet' -Arguments @('test', 'FunnySharp.slnx', '--configuration', 'Release', '--no-build', '--no-restore')
     Invoke-ReleaseStep -Ordinal 5 -Name 'examples' -FileName 'dotnet' -Arguments @('run', '--project', 'examples/FunnySharp.Examples/FunnySharp.Examples.csproj', '--configuration', 'Release', '--no-build', '--no-restore')
