@@ -3,6 +3,7 @@ using System.Net.Http.Json;
 using System.Text.Json;
 using FunnySharp;
 using FunnySharp.AspNetCore;
+using FunnySharp.Tests;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -183,6 +184,78 @@ public sealed class HttpResultExtensionsTests
         Assert.Equal(HttpStatusCode.Forbidden, valueTaskResult.StatusCode);
         Assert.Equal(HttpStatusCode.BadRequest, taskValidation.StatusCode);
         Assert.Equal(HttpStatusCode.BadRequest, valueTaskValidation.StatusCode);
+    }
+
+    [Fact]
+    public async Task AsyncSuccessMappersOverrideTheDefaultJsonResult()
+    {
+        var taskMapCalls = 0;
+        var valueTaskMapCalls = 0;
+        var effectMapCalls = 0;
+        var effect = Effect.FromValue(
+            Result<Payload, DomainError>.Success(new Payload("effect-result", 13)));
+
+        await using var host = await TestApplication.StartAsync(app =>
+        {
+            app.MapGet("/task/result/success", () =>
+                Task.FromResult(Result<Payload, DomainError>.Success(new Payload("task-result", 11)))
+                    .ToHttpResultAsync(
+                        Forbidden,
+                        value =>
+                        {
+                            taskMapCalls++;
+                            return Results.Created("/task/result/11", value);
+                        }));
+            app.MapGet("/value-task/result/success", () =>
+                ValueTask.FromResult(Result<Payload, DomainError>.Success(new Payload("value-task-result", 12)))
+                    .ToHttpResultAsync(
+                        Forbidden,
+                        value =>
+                        {
+                            valueTaskMapCalls++;
+                            return Results.Created("/value-task/result/12", value);
+                        }));
+            app.MapGet("/effect/result/success", (HttpContext context) =>
+                effect.ToHttpResultAsync(
+                    context,
+                    Forbidden,
+                    value =>
+                    {
+                        effectMapCalls++;
+                        return Results.Created("/effect/result/13", value);
+                    }));
+        });
+
+        using var taskResponse = await host.Client.GetAsync(
+            "/task/result/success",
+            TestContext.Current.CancellationToken);
+        using var valueTaskResponse = await host.Client.GetAsync(
+            "/value-task/result/success",
+            TestContext.Current.CancellationToken);
+        using var effectResponse = await host.Client.GetAsync(
+            "/effect/result/success",
+            TestContext.Current.CancellationToken);
+
+        Assert.Equal(HttpStatusCode.Created, taskResponse.StatusCode);
+        Assert.Equal("/task/result/11", taskResponse.Headers.Location?.OriginalString);
+        Assert.Equal(
+            new Payload("task-result", 11),
+            await taskResponse.Content.ReadFromJsonAsync<Payload>(TestContext.Current.CancellationToken));
+        Assert.Equal(1, taskMapCalls);
+
+        Assert.Equal(HttpStatusCode.Created, valueTaskResponse.StatusCode);
+        Assert.Equal("/value-task/result/12", valueTaskResponse.Headers.Location?.OriginalString);
+        Assert.Equal(
+            new Payload("value-task-result", 12),
+            await valueTaskResponse.Content.ReadFromJsonAsync<Payload>(TestContext.Current.CancellationToken));
+        Assert.Equal(1, valueTaskMapCalls);
+
+        Assert.Equal(HttpStatusCode.Created, effectResponse.StatusCode);
+        Assert.Equal("/effect/result/13", effectResponse.Headers.Location?.OriginalString);
+        Assert.Equal(
+            new Payload("effect-result", 13),
+            await effectResponse.Content.ReadFromJsonAsync<Payload>(TestContext.Current.CancellationToken));
+        Assert.Equal(1, effectMapCalls);
     }
 
     [Fact]
@@ -462,6 +535,73 @@ public sealed class HttpResultExtensionsTests
         Assert.Throws<InvalidOperationException>(() => Option.None<Payload>().ToHttpResult(() => null!));
         Assert.Throws<InvalidOperationException>(() => Option.Some(new Payload("some", 10))
             .ToHttpResult(NotFound, _ => null!));
+    }
+
+    [Fact]
+    public void AsyncOverloadsValidateEveryRequiredArgument()
+    {
+        var payload = new Payload("guard", 14);
+        var context = new DefaultHttpContext();
+        var environment = new EndpointEnvironment("guard-environment");
+
+        var optionTask = Task.FromResult(Option.Some(payload));
+        var resultTask = Task.FromResult(Result<Payload, DomainError>.Success(payload));
+        var validationTask = Task.FromResult(Validation<Payload, string>.Valid(payload));
+        Task<Option<Payload>>? nullOptionTask = null;
+        Task<Result<Payload, DomainError>>? nullResultTask = null;
+        Task<Validation<Payload, string>>? nullValidationTask = null;
+
+        var optionValueTask = ValueTask.FromResult(Option.Some(payload));
+        var resultValueTask = ValueTask.FromResult(Result<Payload, DomainError>.Success(payload));
+        var validationValueTask = ValueTask.FromResult(Validation<Payload, string>.Valid(payload));
+
+        var optionEffect = Effect.FromValue(Option.Some(payload));
+        var resultEffect = Effect.FromValue(Result<Payload, DomainError>.Success(payload));
+        var validationEffect = Effect.FromValue(Validation<Payload, string>.Valid(payload));
+        var environmentOptionEffect = Effect.FromSync<EndpointEnvironment, Option<Payload>>(_ => Option.Some(payload));
+        var environmentResultEffect = Effect.FromSync<EndpointEnvironment, Result<Payload, DomainError>>(
+            _ => Result<Payload, DomainError>.Success(payload));
+        var environmentValidationEffect = Effect.FromSync<EndpointEnvironment, Validation<Payload, string>>(
+            _ => Validation<Payload, string>.Valid(payload));
+
+        var cases = new (string Name, string ParameterName, Action Invoke)[]
+        {
+            ("Task<Option> source", "option", () => nullOptionTask!.ToHttpResultAsync(NotFound)),
+            ("Task<Result> source", "result", () => nullResultTask!.ToHttpResultAsync(Forbidden)),
+            ("Task<Validation> source", "validation", () => nullValidationTask!.ToHttpResultAsync(Invalid)),
+            ("Task<Option> mapper", "none", () => optionTask.ToHttpResultAsync(null!)),
+            ("Task<Result> mapper", "failure", () => resultTask.ToHttpResultAsync(null!)),
+            ("Task<Validation> mapper", "invalid", () => validationTask.ToHttpResultAsync(null!)),
+            ("ValueTask<Option> mapper", "none", () => optionValueTask.ToHttpResultAsync(null!)),
+            ("ValueTask<Result> mapper", "failure", () => resultValueTask.ToHttpResultAsync(null!)),
+            ("ValueTask<Validation> mapper", "invalid", () => validationValueTask.ToHttpResultAsync(null!)),
+            ("Effect<Option> context", "context", () => optionEffect.ToHttpResultAsync(null!, NotFound)),
+            ("Effect<Result> context", "context", () => resultEffect.ToHttpResultAsync(null!, Forbidden)),
+            ("Effect<Validation> context", "context", () => validationEffect.ToHttpResultAsync(null!, Invalid)),
+            ("Effect<Option> mapper", "none", () => optionEffect.ToHttpResultAsync(context, null!)),
+            ("Effect<Result> mapper", "failure", () => resultEffect.ToHttpResultAsync(context, null!)),
+            ("Effect<Validation> mapper", "invalid", () => validationEffect.ToHttpResultAsync(context, null!)),
+            ("Environment Effect<Option> context", "context", () =>
+                environmentOptionEffect.ToHttpResultAsync(environment, null!, NotFound)),
+            ("Environment Effect<Result> context", "context", () =>
+                environmentResultEffect.ToHttpResultAsync(environment, null!, Forbidden)),
+            ("Environment Effect<Validation> context", "context", () =>
+                environmentValidationEffect.ToHttpResultAsync(environment, null!, Invalid)),
+            ("Environment Effect<Option> mapper", "none", () =>
+                environmentOptionEffect.ToHttpResultAsync(environment, context, null!)),
+            ("Environment Effect<Result> mapper", "failure", () =>
+                environmentResultEffect.ToHttpResultAsync(environment, context, null!)),
+            ("Environment Effect<Validation> mapper", "invalid", () =>
+                environmentValidationEffect.ToHttpResultAsync(environment, context, null!)),
+        };
+
+        foreach (var (name, parameterName, invoke) in cases)
+        {
+            var exception = Assert.Throws<ArgumentNullException>(invoke);
+            Assert.True(
+                string.Equals(parameterName, exception.ParamName, StringComparison.Ordinal),
+                $"{name}: expected parameter '{parameterName}', but received '{exception.ParamName}'.");
+        }
     }
 
     private static ProblemDetails NotFound() => new()
