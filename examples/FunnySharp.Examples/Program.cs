@@ -12,6 +12,7 @@ await VerifyAsynchronousOptions();
 await VerifyAsynchronousResults();
 await VerifyAsynchronousValidationTraversal();
 await VerifyEffects();
+await VerifyConcurrentOrderWorkflow();
 await VerifyStateMachines();
 
 Console.WriteLine("FunnySharp examples passed.");
@@ -419,6 +420,54 @@ static async Task VerifyEffects()
     AssertEqual(1, asyncDisposable!.DisposeAsyncCount);
 }
 
+static async Task VerifyConcurrentOrderWorkflow()
+{
+    using var cancellationSource = new CancellationTokenSource();
+    var quotes = await AsyncShippingOrders()
+        .SelectParallelValueAsync(2, GetShippingQuoteAsync)
+        .ToListAsync(cancellationSource.Token);
+
+    AssertSequenceEqual(
+        [
+            new ShippingQuote("ORD-100", "north", 12.50m),
+            new ShippingQuote("ORD-200", "north", 8.75m),
+            new ShippingQuote("ORD-300", "north", 16.25m),
+        ],
+        quotes);
+
+    var capacityValidation = await AsyncShippingOrders().TraverseParallelValueAsync(
+        2,
+        static (order, token) =>
+        {
+            token.ThrowIfCancellationRequested();
+            return ValueTask.FromResult(
+                order.ItemCount <= 2
+                    ? Validation<ShippingOrder, ShippingError>.Valid(order)
+                    : Validation<ShippingOrder, ShippingError>.Invalid(
+                        new ShippingError(order.OrderId, "capacity-exceeded")));
+        },
+        cancellationSource.Token);
+
+    Assert(capacityValidation.TryGetErrors(out var capacityErrors), "Capacity errors must accumulate.");
+    AssertSequenceEqual(
+        [
+            new ShippingError("ORD-100", "capacity-exceeded"),
+            new ShippingError("ORD-300", "capacity-exceeded"),
+        ],
+        capacityErrors!);
+
+    var reservation = await new[]
+    {
+        Effect.FromTask<Result<CarrierReservation, ShippingError>>(
+            token => ReserveCarrierAsync("north", available: false, token)),
+        Effect.FromTask<Result<CarrierReservation, ShippingError>>(
+            token => ReserveCarrierAsync("south", available: true, token)),
+    }.FirstSuccessAsync(TimeSpan.FromSeconds(1), cancellationSource.Token);
+
+    Assert(reservation.TryGetValue(out var confirmed), "One available carrier must confirm the order.");
+    AssertEqual(new CarrierReservation("south", "RSV-900"), confirmed!);
+}
+
 static async Task VerifyStateMachines()
 {
     var draft = new AccessRequest("AR-100", "ada", AccessRequestStatus.Draft, null);
@@ -556,6 +605,36 @@ static async IAsyncEnumerable<string> AsyncOrderRows()
     yield return "D-400,notebook,4,paid";
 }
 
+static async IAsyncEnumerable<ShippingOrder> AsyncShippingOrders()
+{
+    yield return new ShippingOrder("ORD-100", 5);
+    await Task.Yield();
+    yield return new ShippingOrder("ORD-200", 2);
+    await Task.Yield();
+    yield return new ShippingOrder("ORD-300", 8);
+}
+
+static async ValueTask<ShippingQuote> GetShippingQuoteAsync(
+    ShippingOrder order,
+    CancellationToken cancellationToken)
+{
+    cancellationToken.ThrowIfCancellationRequested();
+    await Task.Yield();
+    return new ShippingQuote(order.OrderId, "north", order.ItemCount * 1.25m + 6.25m);
+}
+
+static async Task<Result<CarrierReservation, ShippingError>> ReserveCarrierAsync(
+    string carrier,
+    bool available,
+    CancellationToken cancellationToken)
+{
+    cancellationToken.ThrowIfCancellationRequested();
+    await Task.Yield();
+    return available
+        ? Result<CarrierReservation, ShippingError>.Success(new CarrierReservation(carrier, "RSV-900"))
+        : Result<CarrierReservation, ShippingError>.Failure(new ShippingError(carrier, "unavailable"));
+}
+
 static Option<CleanOrder> ParseOrderRow(string row)
 {
     var columns = row.Split(',', StringSplitOptions.TrimEntries);
@@ -638,6 +717,14 @@ internal sealed record Account(string DisplayName, string Email, int Age);
 internal sealed record AccountValidationError(string Field, string Code);
 
 internal sealed record CleanOrder(string OrderId, string Sku, int Quantity);
+
+internal sealed record ShippingOrder(string OrderId, int ItemCount);
+
+internal sealed record ShippingQuote(string OrderId, string Carrier, decimal Price);
+
+internal sealed record CarrierReservation(string Carrier, string ConfirmationCode);
+
+internal sealed record ShippingError(string SubjectId, string Code);
 
 internal sealed record EffectExampleEnvironment(int Offset);
 

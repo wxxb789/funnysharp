@@ -92,10 +92,12 @@ before invoking the use effect.
 ## Deliberate Boundaries
 
 Effects are not a scheduler, fiber runtime, dependency-injection container, higher-kinded-type
-emulation layer, monad-transformer stack, or large IO universe. They do not add retries,
-timeouts, supervision, implicit concurrency, parallel execution, or an alternative Task
-implementation. These orchestration concerns remain explicit application code and are outside
-the Goal 08 surface; concurrency and larger IO abstractions are deferred to Goal 09.
+emulation layer, monad-transformer stack, or large IO universe. An `Effect<T>` itself still does
+not add retries, timeouts, supervision, implicit concurrency, parallel execution, or an
+alternative Task implementation. Goal 09 adds narrowly scoped extension methods that can
+coordinate explicitly supplied cold `Effect<Result<TValue, TError>>` values; see
+[Concurrency](concurrency.md). That coordination remains BCL-first, preserves normal exceptions
+and cancellation, drains started work, and does not turn `Effect<T>` into a concurrency runtime.
 
 ## Performance Evidence
 

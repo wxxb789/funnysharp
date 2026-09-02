@@ -21,6 +21,13 @@ may extend it deliberately, but implementation convenience alone does not overri
   `RunAsync`, return `ValueTask`, and make an optional caller-owned environment, cancellation, and
   resource lifetime explicit without changing normal .NET exception or cancellation semantics.
   `Result<TValue, TError>` remains an explicit value rather than an implicit effect failure.
+- Concurrency remains BCL-first and explicit. Bounded parallel mapping streams ordered
+  `IAsyncEnumerable<T>` results with `Channel` backpressure and linked operation cancellation;
+  parallel traversal materializes ordered values and distinguishes Option/Result fail-fast behavior
+  from Validation accumulation. First-success coordination accepts only cold
+  `Effect<Result<TValue, TError>>` values, drains all started work, uses typed failures only for
+  explicit `Result` failures, and supports cooperative `TimeProvider` timeouts. The core provides
+  no naked started-Task racing API, scheduler, fiber runtime, or alternative concurrency carrier.
 
 ## Package And Dependency Boundary
 
