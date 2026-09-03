@@ -42,6 +42,7 @@ The argument-reordering helpers stop at binary delegates. Arbitrary arities woul
 
 There is no `PipeAsync`. `Pipe` applies a delegate without awaiting its result, so an async delegate naturally produces an awaitable that callers can await:
 
+<!-- documentation-sample: DocumentationSamples.FunctionComposition.PipeAsync -->
 ```csharp
 var result = await 4.Pipe(async value =>
 {

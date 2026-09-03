@@ -54,8 +54,9 @@ The collection surface also includes the shared `IEnumerable<T>` and `IAsyncEnum
 `Sequence` and `Traverse` operations. They preserve Option's fail-fast absence behavior; their
 common ordering, materialization, fault, cancellation, and disposal rules are documented in
 [Validation and traversal semantics](validation.md). Result conversion, LINQ query aliases
-(`Select`, `SelectMany`, and `Where`), serialization converters, analyzers, source generators,
-and AOT- or trimming-specific guarantees are also outside this API.
+(`Select`, `SelectMany`, and `Where`), serialization converters, analyzers, and source generators
+are also outside this API. Package-wide trimming and Native AOT evidence and limits are recorded in
+the [product contract](product-contract.md) and [release-readiness checklist](release-readiness.md).
 
 ## Performance Evidence
 

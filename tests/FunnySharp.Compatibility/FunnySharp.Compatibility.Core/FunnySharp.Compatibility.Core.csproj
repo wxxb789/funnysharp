@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <IsPackable>false</IsPackable>
+    <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
+    <EnableAotAnalyzer>true</EnableAotAnalyzer>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FunnySharp" Version="$(FunnySharpPackageVersion)" />
+    <TrimmerRootAssembly Include="FunnySharp" Condition="'$(RootShippingAssemblies)' == 'true'" />
+  </ItemGroup>
+</Project>

@@ -8,6 +8,11 @@ public static class ResultExtensions
     /// <summary>
     /// Converts an option to a result with an eager failure value.
     /// </summary>
+    /// <typeparam name="TValue">The option value type.</typeparam>
+    /// <typeparam name="TError">The failure value type.</typeparam>
+    /// <param name="option">The option to convert.</param>
+    /// <param name="error">The failure value to use when <paramref name="option"/> is absent.</param>
+    /// <returns>A success containing the present option value, or a failure containing <paramref name="error"/>.</returns>
     public static Result<TValue, TError> ToResult<TValue, TError>(
         this Option<TValue> option,
         TError error) =>
@@ -18,6 +23,12 @@ public static class ResultExtensions
     /// <summary>
     /// Converts an option to a result with a lazy failure factory.
     /// </summary>
+    /// <typeparam name="TValue">The option value type.</typeparam>
+    /// <typeparam name="TError">The failure value type.</typeparam>
+    /// <param name="option">The option to convert.</param>
+    /// <param name="errorFactory">The factory invoked when <paramref name="option"/> is absent.</param>
+    /// <returns>A success containing the present option value, or a failure containing the factory result.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="errorFactory"/> is null.</exception>
     public static Result<TValue, TError> ToResult<TValue, TError>(
         this Option<TValue> option,
         Func<TError> errorFactory)
@@ -32,6 +43,10 @@ public static class ResultExtensions
     /// <summary>
     /// Converts a successful result to an option and discards failure details.
     /// </summary>
+    /// <typeparam name="TValue">The successful value type.</typeparam>
+    /// <typeparam name="TError">The failure value type.</typeparam>
+    /// <param name="result">The result to convert.</param>
+    /// <returns>An option containing a non-null successful value, or <c>None</c> for a failure or a null successful value.</returns>
     public static Option<TValue> ToOption<TValue, TError>(
         this Result<TValue, TError> result) =>
         result.TryGetValue(out var value)
@@ -41,6 +56,13 @@ public static class ResultExtensions
     /// <summary>
     /// Asynchronously transforms a successful value with a task-returning selector.
     /// </summary>
+    /// <typeparam name="TValue">The successful value type.</typeparam>
+    /// <typeparam name="TError">The failure value type.</typeparam>
+    /// <typeparam name="TResult">The transformed successful value type.</typeparam>
+    /// <param name="result">The result to transform.</param>
+    /// <param name="selector">The asynchronous transformation to invoke for a success.</param>
+    /// <returns>A task that produces the transformed success or preserves the existing failure.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="selector"/> is null.</exception>
     public static Task<Result<TResult, TError>> MapAsync<TValue, TError, TResult>(
         this Result<TValue, TError> result,
         Func<TValue, Task<TResult>> selector)
@@ -59,6 +81,14 @@ public static class ResultExtensions
     /// <summary>
     /// Asynchronously transforms a successful value with a cancellation-aware task selector.
     /// </summary>
+    /// <typeparam name="TValue">The successful value type.</typeparam>
+    /// <typeparam name="TError">The failure value type.</typeparam>
+    /// <typeparam name="TResult">The transformed successful value type.</typeparam>
+    /// <param name="result">The result to transform.</param>
+    /// <param name="selector">The asynchronous transformation to invoke for a success.</param>
+    /// <param name="cancellationToken">The token passed unchanged to <paramref name="selector"/> when the result is successful.</param>
+    /// <returns>A task that produces the transformed success or preserves the existing failure.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="selector"/> is null.</exception>
     public static Task<Result<TResult, TError>> MapAsync<TValue, TError, TResult>(
         this Result<TValue, TError> result,
         Func<TValue, CancellationToken, Task<TResult>> selector,
@@ -78,6 +108,13 @@ public static class ResultExtensions
     /// <summary>
     /// Asynchronously binds a successful value with a task-returning binder.
     /// </summary>
+    /// <typeparam name="TValue">The successful value type.</typeparam>
+    /// <typeparam name="TError">The failure value type.</typeparam>
+    /// <typeparam name="TResult">The bound successful value type.</typeparam>
+    /// <param name="result">The result to bind.</param>
+    /// <param name="binder">The asynchronous result-producing function to invoke for a success.</param>
+    /// <returns>A task that produces the bound result or preserves the existing failure.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="binder"/> is null.</exception>
     public static Task<Result<TResult, TError>> BindAsync<TValue, TError, TResult>(
         this Result<TValue, TError> result,
         Func<TValue, Task<Result<TResult, TError>>> binder)
@@ -96,6 +133,14 @@ public static class ResultExtensions
     /// <summary>
     /// Asynchronously binds a successful value with a cancellation-aware task binder.
     /// </summary>
+    /// <typeparam name="TValue">The successful value type.</typeparam>
+    /// <typeparam name="TError">The failure value type.</typeparam>
+    /// <typeparam name="TResult">The bound successful value type.</typeparam>
+    /// <param name="result">The result to bind.</param>
+    /// <param name="binder">The asynchronous result-producing function to invoke for a success.</param>
+    /// <param name="cancellationToken">The token passed unchanged to <paramref name="binder"/> when the result is successful.</param>
+    /// <returns>A task that produces the bound result or preserves the existing failure.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="binder"/> is null.</exception>
     public static Task<Result<TResult, TError>> BindAsync<TValue, TError, TResult>(
         this Result<TValue, TError> result,
         Func<TValue, CancellationToken, Task<Result<TResult, TError>>> binder,
@@ -115,6 +160,13 @@ public static class ResultExtensions
     /// <summary>
     /// Asynchronously transforms a successful value with a value-task-returning selector.
     /// </summary>
+    /// <typeparam name="TValue">The successful value type.</typeparam>
+    /// <typeparam name="TError">The failure value type.</typeparam>
+    /// <typeparam name="TResult">The transformed successful value type.</typeparam>
+    /// <param name="result">The result to transform.</param>
+    /// <param name="selector">The asynchronous transformation to invoke for a success.</param>
+    /// <returns>A value task that produces the transformed success or preserves the existing failure.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="selector"/> is null.</exception>
     public static ValueTask<Result<TResult, TError>> MapValueAsync<TValue, TError, TResult>(
         this Result<TValue, TError> result,
         Func<TValue, ValueTask<TResult>> selector)
@@ -133,6 +185,14 @@ public static class ResultExtensions
     /// <summary>
     /// Asynchronously transforms a successful value with a cancellation-aware value-task selector.
     /// </summary>
+    /// <typeparam name="TValue">The successful value type.</typeparam>
+    /// <typeparam name="TError">The failure value type.</typeparam>
+    /// <typeparam name="TResult">The transformed successful value type.</typeparam>
+    /// <param name="result">The result to transform.</param>
+    /// <param name="selector">The asynchronous transformation to invoke for a success.</param>
+    /// <param name="cancellationToken">The token passed unchanged to <paramref name="selector"/> when the result is successful.</param>
+    /// <returns>A value task that produces the transformed success or preserves the existing failure.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="selector"/> is null.</exception>
     public static ValueTask<Result<TResult, TError>> MapValueAsync<TValue, TError, TResult>(
         this Result<TValue, TError> result,
         Func<TValue, CancellationToken, ValueTask<TResult>> selector,
@@ -155,6 +215,13 @@ public static class ResultExtensions
     /// <summary>
     /// Asynchronously binds a successful value with a value-task-returning binder.
     /// </summary>
+    /// <typeparam name="TValue">The successful value type.</typeparam>
+    /// <typeparam name="TError">The failure value type.</typeparam>
+    /// <typeparam name="TResult">The bound successful value type.</typeparam>
+    /// <param name="result">The result to bind.</param>
+    /// <param name="binder">The asynchronous result-producing function to invoke for a success.</param>
+    /// <returns>A value task that produces the bound result or preserves the existing failure.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="binder"/> is null.</exception>
     public static ValueTask<Result<TResult, TError>> BindValueAsync<TValue, TError, TResult>(
         this Result<TValue, TError> result,
         Func<TValue, ValueTask<Result<TResult, TError>>> binder)
@@ -173,6 +240,14 @@ public static class ResultExtensions
     /// <summary>
     /// Asynchronously binds a successful value with a cancellation-aware value-task binder.
     /// </summary>
+    /// <typeparam name="TValue">The successful value type.</typeparam>
+    /// <typeparam name="TError">The failure value type.</typeparam>
+    /// <typeparam name="TResult">The bound successful value type.</typeparam>
+    /// <param name="result">The result to bind.</param>
+    /// <param name="binder">The asynchronous result-producing function to invoke for a success.</param>
+    /// <param name="cancellationToken">The token passed unchanged to <paramref name="binder"/> when the result is successful.</param>
+    /// <returns>A value task that produces the bound result or preserves the existing failure.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="binder"/> is null.</exception>
     public static ValueTask<Result<TResult, TError>> BindValueAsync<TValue, TError, TResult>(
         this Result<TValue, TError> result,
         Func<TValue, CancellationToken, ValueTask<Result<TResult, TError>>> binder,

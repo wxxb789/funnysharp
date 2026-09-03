@@ -44,6 +44,18 @@ public static class Result
     /// <summary>
     /// Invokes a task-returning operation and converts a non-cancellation exception to a failed result.
     /// </summary>
+    /// <typeparam name="TValue">The successful value type.</typeparam>
+    /// <param name="operation">The tokenless asynchronous operation to invoke.</param>
+    /// <returns>A task that produces the operation result or a failure containing the original exception.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="operation"/> is null.</exception>
+    /// <remarks>
+    /// The tokenless delegate is intentional: this exception boundary does not own cancellation. Callers that need
+    /// cancellation must capture and pass their <see cref="CancellationToken"/> inside <paramref name="operation"/>.
+    /// Cancellation remains cancellation of the returned task, and a faulted task containing an
+    /// <see cref="OperationCanceledException"/> remains faulted. Neither is converted to a failure.
+    /// A null task returned by <paramref name="operation"/> faults the returned task with
+    /// <see cref="InvalidOperationException"/>.
+    /// </remarks>
     public static Task<Result<TValue, Exception>> TryAsync<TValue>(Func<Task<TValue>> operation)
     {
         ArgumentNullException.ThrowIfNull(operation);
@@ -53,6 +65,21 @@ public static class Result
     /// <summary>
     /// Invokes a task-returning operation and maps a non-cancellation exception to a typed failure.
     /// </summary>
+    /// <typeparam name="TValue">The successful value type.</typeparam>
+    /// <typeparam name="TError">The failure value type.</typeparam>
+    /// <param name="operation">The tokenless asynchronous operation to invoke.</param>
+    /// <param name="errorMapper">The exception-to-failure mapping for non-cancellation exceptions.</param>
+    /// <returns>A task that produces the operation result or a mapped failure.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="operation"/> or <paramref name="errorMapper"/> is null.</exception>
+    /// <remarks>
+    /// The tokenless delegate is intentional: this exception boundary does not own cancellation. Callers that need
+    /// cancellation must capture and pass their <see cref="CancellationToken"/> inside <paramref name="operation"/>.
+    /// Cancellation remains cancellation of the returned task, and a faulted task containing an
+    /// <see cref="OperationCanceledException"/> remains faulted. Neither is converted to a failure or sent to
+    /// <paramref name="errorMapper"/>.
+    /// A null task returned by <paramref name="operation"/> faults the returned task with
+    /// <see cref="InvalidOperationException"/> and is not sent to <paramref name="errorMapper"/>.
+    /// </remarks>
     public static Task<Result<TValue, TError>> TryAsync<TValue, TError>(
         Func<Task<TValue>> operation,
         Func<Exception, TError> errorMapper)
@@ -65,6 +92,18 @@ public static class Result
     /// <summary>
     /// Invokes a value-task-returning operation and converts a non-cancellation exception to a failed result.
     /// </summary>
+    /// <typeparam name="TValue">The successful value type.</typeparam>
+    /// <param name="operation">The tokenless asynchronous operation to invoke.</param>
+    /// <returns>A value task that produces the operation result or a failure containing the original exception.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="operation"/> is null.</exception>
+    /// <remarks>
+    /// The tokenless delegate is intentional: this exception boundary does not own cancellation. Callers that need
+    /// cancellation must capture and pass their <see cref="CancellationToken"/> inside <paramref name="operation"/>.
+    /// Cancellation remains cancellation of the returned value task, and a faulted value task containing an
+    /// <see cref="OperationCanceledException"/> remains faulted. Neither is converted to a failure.
+    /// The operation result is observed once; callers must follow the normal single-consumption rule for
+    /// <c>ValueTask</c>.
+    /// </remarks>
     public static ValueTask<Result<TValue, Exception>> TryValueAsync<TValue>(
         Func<ValueTask<TValue>> operation)
     {
@@ -75,6 +114,21 @@ public static class Result
     /// <summary>
     /// Invokes a value-task-returning operation and maps a non-cancellation exception to a typed failure.
     /// </summary>
+    /// <typeparam name="TValue">The successful value type.</typeparam>
+    /// <typeparam name="TError">The failure value type.</typeparam>
+    /// <param name="operation">The tokenless asynchronous operation to invoke.</param>
+    /// <param name="errorMapper">The exception-to-failure mapping for non-cancellation exceptions.</param>
+    /// <returns>A value task that produces the operation result or a mapped failure.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="operation"/> or <paramref name="errorMapper"/> is null.</exception>
+    /// <remarks>
+    /// The tokenless delegate is intentional: this exception boundary does not own cancellation. Callers that need
+    /// cancellation must capture and pass their <see cref="CancellationToken"/> inside <paramref name="operation"/>.
+    /// Cancellation remains cancellation of the returned value task, and a faulted value task containing an
+    /// <see cref="OperationCanceledException"/> remains faulted. Neither is converted to a failure or sent to
+    /// <paramref name="errorMapper"/>.
+    /// The operation result is observed once; callers must follow the normal single-consumption rule for
+    /// <c>ValueTask</c>.
+    /// </remarks>
     public static ValueTask<Result<TValue, TError>> TryValueAsync<TValue, TError>(
         Func<ValueTask<TValue>> operation,
         Func<Exception, TError> errorMapper)
@@ -533,11 +587,21 @@ public readonly struct Result<TValue, TError> : IEquatable<Result<TValue, TError
     /// <summary>
     /// Projects a successful value for LINQ query syntax.
     /// </summary>
+    /// <typeparam name="TResult">The projected successful value type.</typeparam>
+    /// <param name="selector">The projection to invoke for a successful value.</param>
+    /// <returns>The projected success or the existing failure.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="selector"/> is null.</exception>
     public Result<TResult, TError> Select<TResult>(Func<TValue, TResult> selector) => Map(selector);
 
     /// <summary>
     /// Binds and projects successful values for LINQ query syntax.
     /// </summary>
+    /// <typeparam name="TIntermediate">The successful value type of the bound result.</typeparam>
+    /// <typeparam name="TResult">The projected successful value type.</typeparam>
+    /// <param name="binder">The result-producing function to invoke for a successful value.</param>
+    /// <param name="projector">The projection to invoke when both results are successful.</param>
+    /// <returns>The projected success, the existing failure, or the failure returned by <paramref name="binder"/>.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="binder"/> or <paramref name="projector"/> is null.</exception>
     public Result<TResult, TError> SelectMany<TIntermediate, TResult>(
         Func<TValue, Result<TIntermediate, TError>> binder,
         Func<TValue, TIntermediate, TResult> projector)
