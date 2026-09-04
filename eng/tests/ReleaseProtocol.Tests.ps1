@@ -110,6 +110,8 @@ try {
         'aspnetcore-examples',
         'pack',
         'format',
+        'performance-protocol-tests',
+        'release-protocol-tests',
         'benchmark-preflight',
         'benchmark',
         'performance-verify',
@@ -125,6 +127,8 @@ try {
         'aspnetcore-examples',
         'pack',
         'format',
+        'performance-protocol-tests',
+        'release-protocol-tests',
         'benchmark-preflight',
         'performance-docs-verify',
         'compatibility'

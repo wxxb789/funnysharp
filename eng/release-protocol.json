@@ -11,6 +11,8 @@
         "aspnetcore-examples",
         "pack",
         "format",
+        "performance-protocol-tests",
+        "release-protocol-tests",
         "benchmark-preflight",
         "benchmark",
         "performance-verify",
@@ -28,6 +30,8 @@
         "aspnetcore-examples",
         "pack",
         "format",
+        "performance-protocol-tests",
+        "release-protocol-tests",
         "benchmark-preflight",
         "performance-docs-verify",
         "compatibility"
@@ -130,6 +134,24 @@
         "FunnySharp.slnx",
         "--verify-no-changes",
         "--no-restore"
+      ]
+    },
+    "performance-protocol-tests": {
+      "fileName": "pwsh",
+      "workingDirectory": "{root}",
+      "arguments": [
+        "-NoProfile",
+        "-File",
+        "{root}/eng/tests/PerformanceProtocol.Tests.ps1"
+      ]
+    },
+    "release-protocol-tests": {
+      "fileName": "pwsh",
+      "workingDirectory": "{root}",
+      "arguments": [
+        "-NoProfile",
+        "-File",
+        "{root}/eng/tests/ReleaseProtocol.Tests.ps1"
       ]
     },
     "benchmark-preflight": {
