@@ -179,21 +179,22 @@ focused benchmark with:
 dotnet run --project benchmarks/FunnySharp.Benchmarks/FunnySharp.Benchmarks.csproj --configuration Release -- --filter '*ImmutableUpdateBenchmarks*'
 ```
 
-The following `ShortRun` was recorded on September 2, 2026 with BenchmarkDotNet 0.15.8, .NET SDK
-10.0.400, .NET 10.0.11, and an AMD EPYC 7763 Hyper-V virtual machine. The job used one launch,
-three warmups, and three measured iterations:
+The exact table below is generated from the approved observation in
+`eng/performance/baseline.json`. Hosted timing is directional; allocation ceilings are the blocking
+contract.
 
-| Scenario | Direct/BCL mean | FunnySharp mean | Ratio | Direct/BCL allocation | FunnySharp allocation |
+<!-- performance-table:start immutable-updates -->
+| Scenario | Baseline mean | FunnySharp mean | Ratio | Baseline allocation | FunnySharp allocation |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Frozen dictionary lookup | 3.656 ns | 3.872 ns | 1.06x | 0 B | 0 B |
-| Immutable collection batch update | 64.059 ns | 55.781 ns | 0.88x | 208 B | 208 B |
-| Immutable dictionary existing-key update | 66.458 ns | 68.637 ns | 1.03x | 104 B | 104 B |
-| Missing optional update | 8.064 ns | 10.659 ns | 1.32x | 0 B | 0 B |
-| Nested record replacement | 18.957 ns | 29.974 ns | 1.58x | 72 B | 72 B |
+| FrozenDictionary lookup | 3.645 ns | 3.888 ns | 1.07x | 0 B | 0 B |
+| Immutable collection batch update | 53.691 ns | 56.519 ns | 1.05x | 208 B | 208 B |
+| ImmutableDictionary existing-key update | 63.338 ns | 65.545 ns | 1.03x | 104 B | 104 B |
+| Missing optional update | 7.878 ns | 10.587 ns | 1.34x | 0 B | 0 B |
+| Nested record replacement | 18.574 ns | 30.655 ns | 1.65x | 72 B | 72 B |
 
-The update paths allocated exactly what the equivalent direct record or BCL operations allocated;
-the optics added delegate dispatch rather than another copied collection or record. The missing
-optional path and frozen lookup remained allocation-free. Timing results at this scale are
-directional: the job has three measured iterations, and virtualization produced wide confidence
-intervals for several nanosecond-level cases. Rerun on representative hardware before using the
-timings for capacity decisions.
+Excluded measurements:
+- Unmeasured optics construction: Optics construction and frozen rebuild costs have no numeric release claim.
+<!-- performance-table:end immutable-updates -->
+
+The generated rows keep update and lookup costs explicit without claiming unmeasured construction
+or rebuild behavior. Rerun timing on representative hardware before capacity decisions.

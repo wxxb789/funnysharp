@@ -123,28 +123,23 @@ Run it with:
 dotnet run --project benchmarks/FunnySharp.Benchmarks/FunnySharp.Benchmarks.csproj --configuration Release -- --filter '*SequenceBenchmarks*'
 ```
 
-The following `ShortRun` was recorded on August 31, 2026 with BenchmarkDotNet 0.15.8,
-.NET SDK 10.0.400, .NET 10.0.11, and an AMD EPYC 7763 2.44 GHz Hyper-V virtual machine.
-The job used one launch, three warmups, and three measured iterations. A dash denotes 0 B
-allocated; `N/A` marks a ratio whose direct baseline was reported as `ZeroMeasurement`.
+The exact table below is generated from the approved observation in
+`eng/performance/baseline.json`. Hosted timing is directional; allocation ceilings are the blocking
+contract. `N/A` means timing was below resolution or unavailable.
 
-| Scenario | Count | Direct mean | FunnySharp mean | Ratio | Direct allocation | FunnySharp allocation |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| Option successful buffering | 16 | 36.959 ns | 46.216 ns | 1.25x | 144 B | 144 B |
-| Option successful buffering | 1,024 | 1.504 us | 2.052 us | 1.37x | 4,176 B | 4,176 B |
-| Result failure at index zero | 16 | 0.403 ns | 3.362 ns | N/A | - | - |
-| Result failure at index zero | 1,024 | 0.417 ns | 3.144 ns | N/A | - | - |
-| Validation full accumulation | 16 | 159.528 ns | 176.521 ns | 1.11x | 392 B | 392 B |
-| Validation full accumulation | 1,024 | 5.236 us | 6.479 us | 1.24x | 12,632 B | 12,632 B |
+<!-- performance-table:start validation -->
+| Scenario | Baseline mean | FunnySharp mean | Ratio | Baseline allocation | FunnySharp allocation |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Option sequence - successful buffering ([Count=1024]) | 1.442 us | 2.005 us | 1.39x | 4176 B | 4176 B |
+| Option sequence - successful buffering ([Count=16]) | 34.902 ns | 43.933 ns | 1.26x | 144 B | 144 B |
+| Result sequence - first failure ([Count=1024]) | 1.043 ns | 3.080 ns | 2.95x | 0 B | 0 B |
+| Result sequence - first failure ([Count=16]) | 1.039 ns | 3.084 ns | 2.97x | 0 B | 0 B |
+| Validation sequence - full accumulation ([Count=1024]) | 5.050 us | 6.485 us | 1.28x | 12632 B | 12632 B |
+| Validation sequence - full accumulation ([Count=16]) | 161.903 ns | 177.332 ns | 1.10x | 392 B | 392 B |
 
-Successful Option traversal allocated exactly the same output buffer and read-only wrapper as the
-direct implementation in this run; the additional cost was execution time rather than hidden
-storage. Result failure at the first item allocated nothing and remained approximately constant as
-the unused tail grew from 15 to 1,023 items, demonstrating fail-fast enumeration. Validation read
-the complete input and retained every error with the same measured allocation as the direct loop;
-its additional measured time was about 11-24% in these cases.
+Excluded measurements:
+- Unmeasured async traversal: Sequential async Result and Validation traversal variants have no numeric release claim.
+<!-- performance-table:end validation -->
 
-The Result direct baseline was below timer resolution, so its sub-nanosecond values and ratios are
-not suitable for performance claims. All measurements are directional: `ShortRun` uses only three
-measured iterations, and the Hyper-V environment can affect timing. Rerun on representative
-hardware before making latency or capacity decisions.
+The generated rows keep fail-fast and accumulating traversal comparisons explicit. Timing remains
+directional; rerun on representative hardware before making latency or capacity decisions.

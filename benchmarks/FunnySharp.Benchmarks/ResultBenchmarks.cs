@@ -1,6 +1,7 @@
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Configs;
 using FunnySharp;
+using System.Threading.Tasks.Sources;
 
 namespace FunnySharp.Benchmarks;
 
@@ -175,6 +176,67 @@ public class ResultBenchmarks
             await success.MapValueAsync(ValueTaskIncrementSelector).ConfigureAwait(false),
             fallbackValue);
 
+    [Benchmark(Baseline = true)]
+    [BenchmarkCategory("Pending Task mapping")]
+    public async Task<int> DirectPendingTaskMap()
+    {
+        var source = new TaskCompletionSource<int>(TaskCreationOptions.RunContinuationsAsynchronously);
+        var operation = AwaitPendingTask(source.Task);
+        AssertPending(operation.IsCompleted);
+        source.SetResult(successValue);
+        return Validate(await operation.ConfigureAwait(false));
+    }
+
+    [Benchmark]
+    [BenchmarkCategory("Pending Task mapping")]
+    public async Task<int> ResultPendingTaskMap()
+    {
+        var source = new TaskCompletionSource<int>(TaskCreationOptions.RunContinuationsAsynchronously);
+        var operation = success.MapAsync(_ => source.Task);
+        AssertPending(operation.IsCompleted);
+        source.SetResult(successValue);
+        return Validate(GetValueOr(await operation.ConfigureAwait(false), fallbackValue));
+    }
+
+    [Benchmark(Baseline = true)]
+    [BenchmarkCategory("Pending ValueTask mapping")]
+    public async ValueTask<int> DirectPendingValueTaskMap()
+    {
+        var source = new PendingValueTaskSource<int>();
+        var operation = AwaitPendingValueTask(source.CreateValueTask());
+        AssertPending(operation.IsCompleted);
+        source.SetResult(successValue);
+        return Validate(await operation.ConfigureAwait(false));
+    }
+
+    [Benchmark]
+    [BenchmarkCategory("Pending ValueTask mapping")]
+    public async ValueTask<int> ResultPendingValueTaskMap()
+    {
+        var source = new PendingValueTaskSource<int>();
+        var operation = success.MapValueAsync(_ => source.CreateValueTask());
+        AssertPending(operation.IsCompleted);
+        source.SetResult(successValue);
+        return Validate(GetValueOr(await operation.ConfigureAwait(false), fallbackValue));
+    }
+
+    internal async Task ValidatePendingTransformSemanticsAsync()
+    {
+        var expected = successValue;
+        var results = new[]
+        {
+            await DirectPendingTaskMap().ConfigureAwait(false),
+            await ResultPendingTaskMap().ConfigureAwait(false),
+            await DirectPendingValueTaskMap().ConfigureAwait(false),
+            await ResultPendingValueTaskMap().ConfigureAwait(false),
+        };
+
+        if (results.Any(result => result != expected))
+        {
+            throw new InvalidOperationException("Pending Result benchmark pairs produced different results.");
+        }
+    }
+
     private static int GetValueOr<TError>(Result<int, TError> result, int fallback) =>
         result.TryGetValue(out var value) ? value : fallback;
 
@@ -196,4 +258,50 @@ public class ResultBenchmarks
     private static Task<int> IncrementTask(int value) => Task.FromResult(Increment(value));
 
     private static ValueTask<int> IncrementValueTask(int value) => ValueTask.FromResult(Increment(value));
+
+    private static async Task<int> AwaitPendingTask(Task<int> task) =>
+        await task.ConfigureAwait(false);
+
+    private static async ValueTask<int> AwaitPendingValueTask(ValueTask<int> task) =>
+        await task.ConfigureAwait(false);
+
+    private static void AssertPending(bool isCompleted)
+    {
+        if (isCompleted)
+        {
+            throw new InvalidOperationException("The pending benchmark source completed before the transform was observed.");
+        }
+    }
+
+    private static int Validate(int value)
+    {
+        if (value != 42)
+        {
+            throw new InvalidOperationException($"Unexpected pending benchmark result: {value}.");
+        }
+
+        return value;
+    }
+
+    private sealed class PendingValueTaskSource<T> : IValueTaskSource<T>
+    {
+        private ManualResetValueTaskSourceCore<T> source;
+
+        public PendingValueTaskSource() => source.RunContinuationsAsynchronously = true;
+
+        public ValueTask<T> CreateValueTask() => new(this, source.Version);
+
+        public void SetResult(T result) => source.SetResult(result);
+
+        public T GetResult(short token) => source.GetResult(token);
+
+        public ValueTaskSourceStatus GetStatus(short token) => source.GetStatus(token);
+
+        public void OnCompleted(
+            Action<object?> continuation,
+            object? state,
+            short token,
+            ValueTaskSourceOnCompletedFlags flags) =>
+            source.OnCompleted(continuation, state, token, flags);
+    }
 }

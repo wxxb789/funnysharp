@@ -316,6 +316,93 @@ public sealed class FirstSuccessTests
         Assert.Equal(42, GetValue(await operation));
     }
 
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
+    public async Task CallerCancellationOverridesTimeoutSelectedBeforeCleanupCompletes(bool hasWinner)
+    {
+        var timeProvider = new ManualTimeProvider();
+        using var callerCancellation = new CancellationTokenSource();
+        var pending = new ControllableValueTaskSource<Result<int, string>>();
+        var pendingCanceled = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var effects = new[]
+        {
+            Effect.FromValueTask<Result<int, string>>(token =>
+            {
+                token.Register(() => pendingCanceled.TrySetResult());
+                return pending.CreateValueTask();
+            }),
+            Effect.FromValueTask<Result<int, string>>(_ =>
+            {
+                timeProvider.Advance(TimeSpan.FromSeconds(5));
+                return ValueTask.FromResult(hasWinner
+                    ? Result<int, string>.Success(42)
+                    : Result<int, string>.Failure("completed"));
+            }),
+        };
+        var operation = AwaitFirstSuccessAsync(
+            effects,
+            TimeSpan.FromSeconds(5),
+            timeProvider,
+            callerCancellation.Token);
+
+        await pendingCanceled.Task;
+        Assert.False(operation.IsCompleted);
+
+        callerCancellation.Cancel();
+        pending.SetResult(Result<int, string>.Failure("late"));
+
+        var actual = await Assert.ThrowsAnyAsync<OperationCanceledException>(() => operation);
+        Assert.Equal(callerCancellation.Token, actual.CancellationToken);
+    }
+
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
+    public async Task CallerCancellationRemainsPrimaryWhenTimeoutCleanupAlsoFails(bool hasWinner)
+    {
+        var timeProvider = new ManualTimeProvider();
+        using var callerCancellation = new CancellationTokenSource();
+        var pending = new ControllableValueTaskSource<Result<int, string>>();
+        var cleanupStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var cleanupFailure = new InvalidOperationException("cleanup callback");
+        var effects = new[]
+        {
+            Effect.FromValueTask<Result<int, string>>(token =>
+            {
+                token.Register(() =>
+                {
+                    cleanupStarted.TrySetResult();
+                    throw cleanupFailure;
+                });
+                return pending.CreateValueTask();
+            }),
+            Effect.FromValueTask<Result<int, string>>(_ =>
+            {
+                timeProvider.Advance(TimeSpan.FromSeconds(5));
+                return ValueTask.FromResult(hasWinner
+                    ? Result<int, string>.Success(42)
+                    : Result<int, string>.Failure("completed"));
+            }),
+        };
+        var operation = AwaitFirstSuccessAsync(
+            effects,
+            TimeSpan.FromSeconds(5),
+            timeProvider,
+            callerCancellation.Token);
+
+        await cleanupStarted.Task;
+        Assert.False(operation.IsCompleted);
+
+        callerCancellation.Cancel();
+        pending.SetResult(Result<int, string>.Failure("late"));
+
+        var actual = await Assert.ThrowsAsync<AggregateException>(() => operation);
+        var primary = Assert.IsAssignableFrom<OperationCanceledException>(actual.InnerExceptions[0]);
+        Assert.Equal(callerCancellation.Token, primary.CancellationToken);
+        Assert.Contains(cleanupFailure, actual.Flatten().InnerExceptions);
+    }
+
     [Fact]
     public async Task FirstSuccessAsyncRejectsAnEmptyInputExplicitly()
     {

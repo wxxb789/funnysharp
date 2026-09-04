@@ -5,7 +5,7 @@ may extend it deliberately, but implementation convenience alone does not overri
 
 ## Product Direction
 
-- FunnySharp is a pragmatic functional-programming library for idiomatic C# on .NET 10 and later.
+- FunnySharp is a pragmatic functional-programming library for idiomatic C# targeting .NET 10.
 - APIs are BCL-first and prefer standard delegates, collections, `Task`, `ValueTask`, and
   `CancellationToken` over a parallel runtime or type universe.
 - Synchronous and asynchronous APIs stay consistent where both forms are meaningful. Async APIs
@@ -43,13 +43,12 @@ may extend it deliberately, but implementation convenience alone does not overri
 
 ## Package And Dependency Boundary
 
-- `FunnySharp` and `FunnySharp.AspNetCore` are the two shipping packages in this baseline and
-  target `net10.0`; later .NET runtimes can consume those assets through normal .NET compatibility
-  rules.
-- The supported baseline is the latest serviced .NET 10 patch. As of September 2, 2026, Microsoft
-  classifies .NET 10 as LTS through November 14, 2028. Release evidence records the exact SDK,
-  runtime, operating system, and RID used. A later runtime is not claimed as verified until the
-  compatibility smoke suite has been run on that runtime.
+- `FunnySharp` and `FunnySharp.AspNetCore` are the two shipping packages and target `net10.0`.
+- The required release matrix treats Windows x64, Linux x64, and macOS arm64 as full supported
+  hosts. Intel macOS is a required bounded package-consumer smoke. Every required host consumes the
+  exact canonical package hashes produced by the Windows full job.
+- Release evidence records the exact SDK, runtime, operating system, architecture, RID, workflow
+  revision, package hashes, and loaded assembly hashes. Passing one host does not imply another.
 - `src/FunnySharp/FunnySharp.csproj` has no `PackageReference`. Its runtime surface is limited to
   platform assemblies shipped with .NET.
 - `src/FunnySharp.AspNetCore/FunnySharp.AspNetCore.csproj` is the separate optional HTTP
@@ -71,11 +70,9 @@ may extend it deliberately, but implementation convenience alone does not overri
   behavior, and verification evidence.
 - First-party analyzers remain out of scope. Reconsidering them requires a later goal with concrete
   diagnostics, false-positive policy, versioning rules, and measured maintenance cost.
-- General discriminated unions remain out of scope. As of September 2, 2026, the official C# 15
-  union proposal is implemented but still open and marked as needing ECMA specification work, and
-  .NET 11 is available only as Preview 7. FunnySharp targets `net10.0`, so adopting the platform
-  union metadata and syntax before .NET 11 is generally available would either raise the package
-  floor or require a second representation with migration and compatibility costs.
+- General discriminated unions remain out of scope. FunnySharp stays on `net10.0` until .NET 11 is
+  generally available and its language/runtime contracts are stable; preview targeting does not
+  count as supported release evidence.
 - A later goal may reconsider native C# unions only after the .NET 11 SDK and runtime are generally
   available, the language and metadata contracts are stable, and representative FunnySharp usage
   can be compared with the focused `Option`, `Result`, `Validation`, and transition types.
@@ -104,8 +101,8 @@ may extend it deliberately, but implementation convenience alone does not overri
   packages do not set `IsAotCompatible` until a future toolchain can analyze the complete surface or
   the API changes under a separately accepted goal.
 - Compatibility evidence is specific to the recorded SDK, runtime patch, RID, and package hashes.
-  Other operating systems, architectures, later runtimes, and unexercised ASP.NET Core features are
-  not implied by a passing result.
+  The required Windows, Linux, and macOS jobs are independent gates; unexercised architectures,
+  later runtimes, and unexercised ASP.NET Core features are not implied by a passing result.
 
 Platform references used for this policy:
 
@@ -121,18 +118,17 @@ A release candidate is acceptable only when the complete README verification run
 
 ```powershell
 pwsh -NoProfile -File eng/Run-Release.ps1 `
-  -OutputDirectory artifacts/release-run `
+  -AttemptId local-full-1 `
+  -CompatibilityRuntimeIdentifier win-x64 `
   -CompatibilityPackageFeed https://packagefeedproxy.microsoft.io/nuget/v3/index.json `
-  -Clean
+  -DistributionFeed https://packagefeedproxy.microsoft.io/nuget/v3/index.json
 ```
 
-For the recorded machine, direct `nuget.org` TLS failed before restore, so reproducing the
-recorded candidate requires this `-CompatibilityPackageFeed` override. The script's portable
-default remains `nuget.org`.
-
-The runner records and verifies each underlying command, requires one unchanged source fingerprint,
-and binds the Release assemblies, XML documentation, packages, compatibility consumers, and
-benchmark output to that candidate.
+The runner records and verifies each protocol step, requires a clean unchanged source fingerprint,
+uses an immutable attempt directory and isolated NuGet cache, and binds Release assemblies, XML
+documentation, packages, compatibility consumers, performance receipts, and generated documentation
+to that candidate. GitHub exposes four required contexts: `release / win-x64`,
+`release / linux-x64`, `release / osx-arm64`, and `release / osx-x64-consumer`.
 
 The evidence must also show that:
 

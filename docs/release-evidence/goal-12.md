@@ -2,6 +2,10 @@
 
 Date: September 2, 2026
 
+> Historical evidence only. This document records the pre-merge Goal 12 candidate and is not a
+> current release acceptance verdict. Current candidates must satisfy `docs/release-readiness.md`
+> and the independent Goal 13 `Audit status` / `Product acceptance` contract.
+
 This record accompanies the reproducible checks in `docs/release-readiness.md`. Generated command
 logs, package archives, publish directories, JSON inventories, and public API text are written under
 `artifacts/` by the release verifier. This tracked summary records the release-relevant outcomes and

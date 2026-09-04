@@ -31,8 +31,6 @@ public class OptionBenchmarks
     private int? presentNullable;
     private int? absentNullable;
     private IReadOnlyDictionary<string, int> values = null!;
-    private LargePayload presentLargePayload;
-    private LargePayload fallbackLargePayload;
 
     [GlobalSetup]
     public void Setup()
@@ -49,49 +47,7 @@ public class OptionBenchmarks
         {
             [ExistingKey] = presentValue,
         };
-        presentLargePayload = new LargePayload(1, 2, 3, 4, 5, 6, 7, 8);
-        fallbackLargePayload = new LargePayload(-1, -2, -3, -4, -5, -6, -7, -8);
     }
-
-    [Benchmark(Baseline = true)]
-    [BenchmarkCategory("Construction and inspection - Some")]
-    public int DirectSomeConstructionAndInspection()
-    {
-        var value = presentValue;
-        return hasPresentValue ? value : fallbackValue;
-    }
-
-    [Benchmark]
-    [BenchmarkCategory("Construction and inspection - Some")]
-    public int OptionSomeConstructionAndInspection() =>
-        Option.Some(presentValue).GetValueOr(fallbackValue);
-
-    [Benchmark(Baseline = true)]
-    [BenchmarkCategory("Construction and inspection - None")]
-    public int DirectNoneConstructionAndInspection()
-    {
-        var hasValue = hasAbsentValue;
-        var value = default(int);
-        return hasValue ? value : fallbackValue;
-    }
-
-    [Benchmark]
-    [BenchmarkCategory("Construction and inspection - None")]
-    public int OptionNoneConstructionAndInspection() =>
-        Option.None<int>().GetValueOr(fallbackValue);
-
-    [Benchmark(Baseline = true)]
-    [BenchmarkCategory("Construction and inspection - large readonly struct")]
-    public long DirectLargePayloadConstructionAndInspection()
-    {
-        var value = presentLargePayload;
-        return (hasPresentValue ? value : fallbackLargePayload).Checksum;
-    }
-
-    [Benchmark]
-    [BenchmarkCategory("Construction and inspection - large readonly struct")]
-    public long OptionLargePayloadConstructionAndInspection() =>
-        Option.Some(presentLargePayload).GetValueOr(fallbackLargePayload).Checksum;
 
     [Benchmark(Baseline = true)]
     [BenchmarkCategory("Map - Some")]
@@ -212,16 +168,4 @@ public class OptionBenchmarks
     // Creates a new completed ValueTask per invocation; none is reused across benchmark iterations.
     private static ValueTask<int> IncrementValueTask(int value) => ValueTask.FromResult(Increment(value));
 
-    private readonly struct LargePayload(
-        long first,
-        long second,
-        long third,
-        long fourth,
-        long fifth,
-        long sixth,
-        long seventh,
-        long eighth)
-    {
-        public long Checksum => first + second + third + fourth + fifth + sixth + seventh + eighth;
-    }
 }

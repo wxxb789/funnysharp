@@ -1,0 +1,215 @@
+{
+  "schemaVersion": 1,
+  "modes": {
+    "full": {
+      "steps": [
+        "clean",
+        "restore",
+        "build",
+        "test",
+        "examples",
+        "aspnetcore-examples",
+        "pack",
+        "format",
+        "benchmark-preflight",
+        "benchmark",
+        "performance-verify",
+        "performance-docs-verify",
+        "compatibility"
+      ]
+    },
+    "benchmarkSkipped": {
+      "steps": [
+        "clean",
+        "restore",
+        "build",
+        "test",
+        "examples",
+        "aspnetcore-examples",
+        "pack",
+        "format",
+        "benchmark-preflight",
+        "performance-docs-verify",
+        "compatibility"
+      ]
+    }
+  },
+  "steps": {
+    "clean": {
+      "fileName": "dotnet",
+      "workingDirectory": "{root}",
+      "arguments": [
+        "clean",
+        "FunnySharp.slnx",
+        "--configuration",
+        "Release"
+      ]
+    },
+    "restore": {
+      "fileName": "dotnet",
+      "workingDirectory": "{root}",
+      "arguments": [
+        "restore",
+        "FunnySharp.slnx",
+        "--locked-mode",
+        "--no-cache",
+        "--source",
+        "{compatibilityFeed}"
+      ]
+    },
+    "build": {
+      "fileName": "dotnet",
+      "workingDirectory": "{root}",
+      "arguments": [
+        "build",
+        "FunnySharp.slnx",
+        "--configuration",
+        "Release",
+        "--no-restore"
+      ]
+    },
+    "test": {
+      "fileName": "dotnet",
+      "workingDirectory": "{root}",
+      "arguments": [
+        "test",
+        "FunnySharp.slnx",
+        "--configuration",
+        "Release",
+        "--no-build",
+        "--no-restore"
+      ]
+    },
+    "examples": {
+      "fileName": "dotnet",
+      "workingDirectory": "{root}",
+      "arguments": [
+        "run",
+        "--project",
+        "examples/FunnySharp.Examples/FunnySharp.Examples.csproj",
+        "--configuration",
+        "Release",
+        "--no-build",
+        "--no-restore"
+      ]
+    },
+    "aspnetcore-examples": {
+      "fileName": "dotnet",
+      "workingDirectory": "{root}",
+      "arguments": [
+        "run",
+        "--project",
+        "examples/FunnySharp.AspNetCore.Examples/FunnySharp.AspNetCore.Examples.csproj",
+        "--configuration",
+        "Release",
+        "--no-build",
+        "--no-restore",
+        "--",
+        "--verify"
+      ]
+    },
+    "pack": {
+      "fileName": "dotnet",
+      "workingDirectory": "{root}",
+      "arguments": [
+        "pack",
+        "FunnySharp.slnx",
+        "--configuration",
+        "Release",
+        "--no-build",
+        "--no-restore",
+        "--output",
+        "{packages}"
+      ]
+    },
+    "format": {
+      "fileName": "dotnet",
+      "workingDirectory": "{root}",
+      "arguments": [
+        "format",
+        "FunnySharp.slnx",
+        "--verify-no-changes",
+        "--no-restore"
+      ]
+    },
+    "benchmark-preflight": {
+      "fileName": "dotnet",
+      "workingDirectory": "{root}",
+      "arguments": [
+        "run",
+        "--project",
+        "benchmarks/FunnySharp.Benchmarks/FunnySharp.Benchmarks.csproj",
+        "--configuration",
+        "Release",
+        "--no-build",
+        "--no-restore",
+        "--",
+        "--preflight"
+      ]
+    },
+    "benchmark": {
+      "fileName": "dotnet",
+      "workingDirectory": "{benchmarkRoot}",
+      "arguments": [
+        "run",
+        "--project",
+        "FunnySharp.Benchmarks.csproj",
+        "--configuration",
+        "Release",
+        "--no-build",
+        "--no-restore",
+        "--",
+        "--filter",
+        "*",
+        "--artifacts",
+        "{benchmarkArtifacts}"
+      ]
+    },
+    "performance-verify": {
+      "fileName": "pwsh",
+      "workingDirectory": "{root}",
+      "arguments": [
+        "-NoProfile",
+        "-File",
+        "{root}/eng/Verify-Performance.ps1",
+        "-RepositoryRoot",
+        "{root}",
+        "-ReceiptDirectory",
+        "{benchmarkResults}",
+        "-ObservationProposalPath",
+        "{performanceObservationProposal}"
+      ]
+    },
+    "performance-docs-verify": {
+      "fileName": "pwsh",
+      "workingDirectory": "{root}",
+      "arguments": [
+        "-NoProfile",
+        "-File",
+        "{root}/eng/Generate-PerformanceDocumentation.ps1",
+        "-RepositoryRoot",
+        "{root}",
+        "-Verify"
+      ]
+    },
+    "compatibility": {
+      "fileName": "pwsh",
+      "workingDirectory": "{root}",
+      "arguments": [
+        "-NoProfile",
+        "-File",
+        "{root}/tests/FunnySharp.Compatibility/Run-Compatibility.ps1",
+        "-RepositoryRoot",
+        "{root}",
+        "-PackageDirectory",
+        "{packages}",
+        "-OutputDirectory",
+        "{compatibilityOutput}",
+        "-RuntimeIdentifier",
+        "{compatibilityRid}",
+        "-PackageFeed",
+        "{compatibilityFeed}"
+      ]
+    }
+  }
+}

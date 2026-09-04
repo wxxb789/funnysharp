@@ -115,26 +115,27 @@ Run the focused benchmark with:
 dotnet run --project benchmarks/FunnySharp.Benchmarks/FunnySharp.Benchmarks.csproj --configuration Release -- --filter '*EffectBenchmarks*'
 ```
 
-The following ShortRun was recorded on September 1, 2026 with BenchmarkDotNet 0.15.8, .NET
-10.0.11, and an AMD EPYC 7763 Hyper-V virtual machine:
+The exact table below is generated from the approved observation in
+`eng/performance/baseline.json`. Hosted timing is directional; allocation ceilings are the blocking
+contract.
 
-| Scenario | Direct mean | FunnySharp mean | Ratio | Direct allocation | FunnySharp allocation |
+<!-- performance-table:start effects -->
+| Scenario | Baseline mean | FunnySharp mean | Ratio | Baseline allocation | FunnySharp allocation |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Wrapper construction | 1.014 ns | 10.131 ns | 10.00x | 0 B | 88 B |
-| Completed value execution | 14.194 ns | 20.205 ns | 1.42x | 0 B | 0 B |
-| Completed synchronous execution | 3.976 ns | 29.458 ns | 7.41x | 0 B | 0 B |
-| Synchronous mapping | 4.325 ns | 71.017 ns | 16.42x | 0 B | 0 B |
-| Completed `Task` mapping | 25.559 ns | 74.844 ns | 2.93x | 80 B | 80 B |
-| Completed `ValueTask` binding | 21.640 ns | 88.503 ns | 4.09x | 24 B | 208 B |
-| Environment provision | 3.939 ns | 41.935 ns | 10.65x | 0 B | 0 B |
-| Synchronous resource scope | 12.483 ns | 116.816 ns | 9.36x | 0 B | 0 B |
-| Asynchronous resource scope | 13.120 ns | 119.344 ns | 9.10x | 0 B | 0 B |
+| Bind ValueTask composition | 21.272 ns | 94.398 ns | 4.44x | 24 B | 208 B |
+| Completed synchronous RunAsync | 4.919 ns | 28.911 ns | 5.88x | 0 B | 0 B |
+| Completed Task composition | 27.960 ns | 76.323 ns | 2.73x | 80 B | 80 B |
+| Completed value RunAsync | 12.339 ns | 23.006 ns | 1.86x | 0 B | 0 B |
+| Completed ValueTask map composition | 17.742 ns | 59.122 ns | 3.33x | 0 B | 0 B |
+| Environment Provide | 3.807 ns | 38.676 ns | 10.16x | 0 B | 0 B |
+| Map composition | 4.158 ns | 72.580 ns | 17.46x | 0 B | 0 B |
+| Using | 12.011 ns | 88.059 ns | 7.33x | 0 B | 0 B |
+| UsingAsync | 12.769 ns | 101.309 ns | 7.93x | 0 B | 0 B |
+| Wrapper construction | 0.860 ns | 10.449 ns | 12.14x | 0 B | 88 B |
 
-The measurements expose the boundary's cost rather than claiming that it is free. Prebuilt
-completed-value, synchronous, mapping, environment, and synchronous-resource effects remained
-allocation-free in this run. Completed `Task` mapping matched direct allocation, while effectful
-`ValueTask` binding allocated 184 B more than its direct counterpart. Both synchronous and
-asynchronous resource scopes remained allocation-free. The workloads are deliberately tiny, so
-ratios amplify tens or hundreds of nanoseconds. The run used only three measured iterations on a
-virtualized host; treat absolute timings as directional and rerun on target hardware before using
-them for capacity decisions.
+Excluded measurements:
+- Unmeasured real resource I/O: Real resource I/O is caller-owned and has no synthetic numeric release claim.
+<!-- performance-table:end effects -->
+
+The generated measurements expose the boundary's cost rather than claiming that it is free. The
+workloads are deliberately small; rerun timing on target hardware before capacity decisions.

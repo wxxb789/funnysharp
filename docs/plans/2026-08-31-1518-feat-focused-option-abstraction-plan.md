@@ -15,7 +15,7 @@ execution: code
 
 - **Objective:** FunnySharp users can represent and compose absence without unsafe value access or ambiguous `null` semantics, while crossing common .NET absence boundaries predictably.
 - **Means:** Add a tagged `Option<T>` value type, inference-friendly factories, and focused nullable, Try-pattern, dictionary, `Task`, and `ValueTask` bridges (KTD1-KTD7).
-- **Authority:** `goals/03-goal.md` defines the feature outcome. `docs/product-contract.md` defines package and runtime boundaries. Existing function-composition code and evidence patterns define repository conventions.
+- **Authority:** `docs/goals/archive/03-goal.md` defines the feature outcome. `docs/product-contract.md` defines package and runtime boundaries. Existing function-composition code and evidence patterns define repository conventions.
 - **Execution profile:** Implement behavior test-first. Land units in dependency order. Keep the shipping library free of third-party dependencies.
 - **Tail ownership:** The active goal owns local implementation, simplification, review, and verification. Pushes and pull requests require separate user authorization.
 - **Stop conditions:** Stop for a product decision if the proposed API cannot preserve the null, default-value, or failure semantics in this plan without widening into a general union, result, or collection system.
@@ -39,7 +39,7 @@ FunnySharp needs one focused abstraction that makes the absence branch explicit 
 - **Absence is a two-case value, not a general union.** The feature exposes only `Some` and `None`. Governs R1, R13.
 - **Present payloads are runtime non-null.** Nullable inputs and mapping results normalize `null` to `None`; explicit `Some(null)` is rejected. Governs R2, R8, R9, R10.
 - **Value access stays total.** The public surface has no throwing `Value` property and no implicit conversion back to `T`. Governs R4.
-- **Collection scope stops at dictionary lookup.** Sequence traversal and accumulation remain owned by `goals/05-goal.md`. Governs R9, R13.
+- **Collection scope stops at dictionary lookup.** Sequence traversal and accumulation remain owned by `docs/goals/archive/05-goal.md`. Governs R9, R13.
 - **Exceptions and cancellation remain failures, not absence.** A false Try result yields `None`; a true output still undergoes runtime-null normalization; arbitrary exceptions are never caught. Governs R5, R8, R10.
 
 ### Requirements
@@ -103,8 +103,8 @@ FunnySharp needs one focused abstraction that makes the absence branch explicit 
 
 **Deferred to Follow-Up Work**
 
-- All `Option`/`Result` interoperation; `goals/04-goal.md` owns that public surface.
-- Sequence, traversal, accumulation, and asynchronous collection combinators owned by `goals/05-goal.md`.
+- All `Option`/`Result` interoperation; `docs/goals/archive/04-goal.md` owns that public surface.
+- Sequence, traversal, accumulation, and asynchronous collection combinators owned by `docs/goals/archive/05-goal.md`.
 - LINQ query-syntax aliases such as `Select`, `SelectMany`, and `Where` unless a later goal demonstrates a concrete clarity benefit.
 - Serialization converters, analyzers, source generators, and AOT- or trimming-specific guarantees.
 
@@ -117,9 +117,9 @@ FunnySharp needs one focused abstraction that makes the absence branch explicit 
 
 ### Sources
 
-- `goals/03-goal.md` defines the requested feature and evidence.
-- `goals/04-goal.md` reserves explicit typed failures for `Result`.
-- `goals/05-goal.md` reserves sequence traversal and accumulation.
+- `docs/goals/archive/03-goal.md` defines the requested feature and evidence.
+- `docs/goals/archive/04-goal.md` reserves explicit typed failures for `Result`.
+- `docs/goals/archive/05-goal.md` reserves sequence traversal and accumulation.
 - `docs/product-contract.md` defines the BCL-first, no-runtime-dependency, async, and performance boundaries.
 - `src/FunnySharp/FunctionExtensions.cs` defines delegate validation, exception propagation, `ConfigureAwait(false)`, and `Task`/`ValueTask` naming patterns.
 - `tests/FunnySharp.Tests/FunctionCompositionTests.cs` and `tests/FunnySharp.Tests/AsyncFunctionCompositionTests.cs` define law, short-circuit, exception-identity, cancellation, and one-consumption test patterns.
@@ -254,8 +254,8 @@ flowchart LR
 - **Nullable values alone:** Rejected because they cannot uniformly represent generic reference/value absence, preserve nested absence, or distinguish missing from `Some(default(T))`.
 - **Reference-type option:** Rejected because a null option reference creates a third invalid state and every `Some` allocation conflicts with the intended small value abstraction.
 - **General discriminated union:** Rejected by the goal and product contract. It expands the type system far beyond absence.
-- **Exception-catching factory:** Rejected because exceptions and cancellation are failures. `goals/04-goal.md` owns explicit failure conversion.
-- **Sequence lookup and traversal family:** Deferred to `goals/05-goal.md` to avoid accidental collection-framework growth.
+- **Exception-catching factory:** Rejected because exceptions and cancellation are failures. `docs/goals/archive/04-goal.md` owns explicit failure conversion.
+- **Sequence lookup and traversal family:** Deferred to `docs/goals/archive/05-goal.md` to avoid accidental collection-framework growth.
 - **Async wrapper type:** Rejected in favor of standard `Task<Option<T>>` and `ValueTask<Option<T>>` return types.
 
 ---

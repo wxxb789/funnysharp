@@ -53,9 +53,11 @@ Faults and cancellation are not absence. `ToOptionAsync`, `MapAsync`, `BindAsync
 The collection surface also includes the shared `IEnumerable<T>` and `IAsyncEnumerable<T>`
 `Sequence` and `Traverse` operations. They preserve Option's fail-fast absence behavior; their
 common ordering, materialization, fault, cancellation, and disposal rules are documented in
-[Validation and traversal semantics](validation.md). Result conversion, LINQ query aliases
-(`Select`, `SelectMany`, and `Where`), serialization converters, analyzers, and source generators
-are also outside this API. Package-wide trimming and Native AOT evidence and limits are recorded in
+[Validation and traversal semantics](validation.md). `Option<T>.ToResult` and
+`Result<TValue, TError>.ToOption` are the shipped explicit conversion boundary documented in
+[Result semantics](result.md). LINQ query aliases (`Select`, `SelectMany`, and `Where`),
+serialization converters, analyzers, and source generators remain outside the Option API.
+Package-wide trimming and Native AOT evidence and limits are recorded in
 the [product contract](product-contract.md) and [release-readiness checklist](release-readiness.md).
 
 ## Performance Evidence
@@ -68,24 +70,32 @@ Run it with:
 dotnet run --project benchmarks/FunnySharp.Benchmarks/FunnySharp.Benchmarks.csproj --configuration Release -- --filter '*OptionBenchmarks*'
 ```
 
-The following `ShortRun` was recorded on August 31, 2026 with BenchmarkDotNet 0.15.8, .NET SDK 10.0.400, .NET 10.0.11, and an AMD EPYC 7763 2.44 GHz Hyper-V virtual machine. The job used one launch, three warmups, and three measured iterations. A dash in an allocation column denotes 0 B; `N/A` denotes that BenchmarkDotNet could not compute a meaningful ratio because a result was at or below timer resolution.
+The exact table below is generated from the approved observation in
+`eng/performance/baseline.json`. Hosted timing is directional; allocation ceilings are the blocking
+contract. `N/A` means timing was below resolution or unavailable.
 
-| Scenario | Direct mean | FunnySharp mean | Ratio | Direct allocation | FunnySharp allocation |
+<!-- performance-table:start option -->
+| Scenario | Baseline mean | FunnySharp mean | Ratio | Baseline allocation | FunnySharp allocation |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Completed `Task` mapping | 18.909 ns | 38.195 ns | 2.02x | 144 B | 216 B |
-| Completed `ValueTask` mapping | 8.148 ns | 25.103 ns | 3.08x | 0 B | 0 B |
-| Construction and inspection, `None` | 0.000 ns | 0.007 ns | N/A | 0 B | 0 B |
-| Construction and inspection, `Some` | 0.000 ns | 0.033 ns | N/A | 0 B | 0 B |
-| Construction and inspection, large readonly struct | 1.230 ns | 0.818 ns | 0.67x | 0 B | 0 B |
-| Dictionary lookup, hit | 5.582 ns | 5.614 ns | 1.01x | 0 B | 0 B |
-| Dictionary lookup, miss | 5.548 ns | 6.156 ns | 1.11x | 0 B | 0 B |
-| `GetValueOr`, `None` | 0.020 ns | 0.019 ns | N/A | 0 B | 0 B |
-| `GetValueOr`, `Some` | 0.018 ns | 0.079 ns | N/A | 0 B | 0 B |
-| `Map`, `None` | 0.000 ns | 0.871 ns | N/A | 0 B | 0 B |
-| `Map`, `Some` | 0.064 ns | 2.250 ns | N/A | 0 B | 0 B |
-| Nullable conversion, `None` | 0.051 ns | 1.218 ns | N/A | 0 B | 0 B |
-| Nullable conversion, `Some` | 0.396 ns | 0.000 ns | N/A | 0 B | 0 B |
-| `TryParse`, hit | 11.447 ns | 12.877 ns | 1.13x | 0 B | 0 B |
-| `TryParse`, miss | 6.605 ns | 8.457 ns | 1.28x | 0 B | 0 B |
+| Completed Task mapping | 22.333 ns | 36.278 ns | 1.62x | 144 B | 216 B |
+| Completed ValueTask mapping | 8.155 ns | 25.326 ns | 3.11x | 0 B | 0 B |
+| Dictionary lookup - hit | 5.608 ns | 5.716 ns | 1.02x | 0 B | 0 B |
+| Dictionary lookup - miss | 5.650 ns | 6.190 ns | 1.10x | 0 B | 0 B |
+| GetValueOr - None | N/A | N/A | N/A | 0 B | 0 B |
+| GetValueOr - Some | N/A | N/A | N/A | 0 B | 0 B |
+| Map - None | 0.378 ns | 0.904 ns | 2.39x | 0 B | 0 B |
+| Map - Some | N/A | 2.969 ns | N/A | 0 B | 0 B |
+| Nullable conversion - None | 0.137 ns | 0.742 ns | 5.41x | 0 B | 0 B |
+| Nullable conversion - Some | N/A | 0.184 ns | N/A | 0 B | 0 B |
+| Try pattern - hit | 13.022 ns | 14.771 ns | 1.13x | 0 B | 0 B |
+| Try pattern - miss | 6.598 ns | 8.374 ns | 1.27x | 0 B | 0 B |
 
-The completed async cases expose measurable wrapper work: the `Task` path added 72 B per operation in this run, while the completed `ValueTask` path remained allocation-free. The `TryParse` adapter added roughly 13-28% without allocation, and dictionary lookup stayed close to the direct branch. The remaining synchronous results are largely sub-nanosecond and several were explicitly reported as `ZeroMeasurement`; neither the apparently favorable ratios nor ratios whose baseline is near timer resolution are meaningful enough for a performance claim. These results are directional only: they were collected on a virtualized host with three measured iterations, so rerun them on representative deployment hardware before making capacity or latency decisions.
+Excluded measurements:
+- Construction and inspection - large readonly struct: Direct and Option paths do not perform equivalent construction work.
+- Construction and inspection - None: Direct and Option paths do not perform equivalent construction work.
+- Construction and inspection - Some: Direct and Option paths do not perform equivalent construction work.
+- Unmeasured Option variants: Bind, Filter, lazy fallback, and combination variants have no numeric release claim.
+<!-- performance-table:end option -->
+
+The generated table exposes measured costs without making a package-wide superiority claim. Rerun
+timing on representative deployment hardware before making capacity or latency decisions.

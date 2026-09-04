@@ -1,5 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 
+using System.Runtime.ExceptionServices;
+
 namespace FunnySharp;
 
 /// <summary>
@@ -215,7 +217,7 @@ public static class Result
 
         if (task.IsCanceled)
         {
-            completion.TrySetCanceled(GetCancellationToken(task));
+            completion.TrySetFromTask(CreateCanceledTask<TResult>(GetCancellationException(task)));
             return;
         }
 
@@ -249,7 +251,7 @@ public static class Result
         }
         catch (Exception exception) when (exception is OperationCanceledException cancellation)
         {
-            completion.TrySetCanceled(cancellation.CancellationToken);
+            completion.TrySetFromTask(CreateCanceledTask<TResult>(cancellation));
         }
         catch (Exception exception)
         {
@@ -257,7 +259,7 @@ public static class Result
         }
     }
 
-    private static CancellationToken GetCancellationToken(Task task)
+    private static OperationCanceledException GetCancellationException(Task task)
     {
         try
         {
@@ -265,14 +267,18 @@ public static class Result
         }
         catch (OperationCanceledException cancellation)
         {
-            return cancellation.CancellationToken;
+            return cancellation;
         }
 
         throw new InvalidOperationException("The task was expected to be canceled.");
     }
 
-    private static async Task<TResult> CreateCanceledTask<TResult>(OperationCanceledException cancellation) =>
-        throw cancellation;
+    private static async Task<TResult> CreateCanceledTask<TResult>(OperationCanceledException cancellation)
+    {
+        await Task.CompletedTask.ConfigureAwait(false);
+        ExceptionDispatchInfo.Capture(cancellation).Throw();
+        return default!;
+    }
 
     private static Task<Result<TValue, TError>> TryAsyncCore<TValue, TError>(
         Func<Task<TValue>> operation,

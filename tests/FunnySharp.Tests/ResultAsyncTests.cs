@@ -379,6 +379,40 @@ public sealed class ResultAsyncTests
     }
 
     [Fact]
+    public async Task SynchronousCallbacksPreserveCancellationDiagnostics()
+    {
+        using var cancellationSource = new CancellationTokenSource();
+        cancellationSource.Cancel();
+        var cancellations = Enumerable.Range(0, 4)
+            .Select(_ => new OperationCanceledException(cancellationSource.Token))
+            .ToArray();
+        var operations = new Task<Result<int, string>>[]
+        {
+            Result<int, string>.Success(1)
+                .MapAsync<int, string, int>(_ => ThrowCancellation<Task<int>>(cancellations[0])),
+            Result<int, string>.Success(1)
+                .BindAsync<int, string, int>(_ => ThrowCancellation<Task<Result<int, string>>>(cancellations[1])),
+            Result<int, string>.Success(1)
+                .MapValueAsync<int, string, int>(_ => ThrowCancellation<ValueTask<int>>(cancellations[2]))
+                .AsTask(),
+            Result<int, string>.Success(1)
+                .BindValueAsync<int, string, int>(
+                    _ => ThrowCancellation<ValueTask<Result<int, string>>>(cancellations[3]))
+                .AsTask(),
+        };
+
+        for (var index = 0; index < operations.Length; index++)
+        {
+            var actual = await Assert.ThrowsAnyAsync<OperationCanceledException>(() => operations[index]);
+
+            Assert.True(operations[index].IsCanceled);
+            Assert.Same(cancellations[index], actual);
+            Assert.Equal(cancellationSource.Token, actual.CancellationToken);
+            Assert.Contains(nameof(ThrowCancellation), actual.StackTrace);
+        }
+    }
+
+    [Fact]
     public async Task PendingCallbacksDoNotBlockTheCaller()
     {
         var taskMapSource = new TaskCompletionSource<int>(TaskCreationOptions.RunContinuationsAsynchronously);
@@ -448,5 +482,8 @@ public sealed class ResultAsyncTests
             _ = ResultExtensions.BindValueAsync<int, string, int>(failure, null!, CancellationToken.None);
         });
     }
+
+    private static TResult ThrowCancellation<TResult>(OperationCanceledException cancellation) =>
+        throw cancellation;
 
 }

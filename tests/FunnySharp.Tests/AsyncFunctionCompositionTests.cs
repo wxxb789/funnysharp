@@ -5,6 +5,52 @@ namespace FunnySharp.Tests;
 public sealed class AsyncFunctionCompositionTests
 {
     [Fact]
+    public async Task TaskCompositionIsAssociativeForValueOrderFaultAndCancellation()
+    {
+        var leftTrace = new List<string>();
+        var rightTrace = new List<string>();
+
+        static Func<int, Task<int>> Step(string name, int increment, ICollection<string> trace) => value =>
+        {
+            trace.Add(name);
+            return Task.FromResult(value + increment);
+        };
+
+        var left = Step("first", 1, leftTrace)
+            .ComposeAsync(Step("second", 2, leftTrace))
+            .ComposeAsync(Step("third", 3, leftTrace));
+        var right = Step("first", 1, rightTrace)
+            .ComposeAsync(Step("second", 2, rightTrace).ComposeAsync(Step("third", 3, rightTrace)));
+
+        Assert.Equal(await left(10), await right(10));
+        Assert.Equal(["first", "second", "third"], leftTrace);
+        Assert.Equal(leftTrace, rightTrace);
+
+        var expectedFault = new InvalidOperationException("middle");
+        Func<int, Task<int>> first = value => Task.FromResult(value + 1);
+        Func<int, Task<int>> fault = _ => Task.FromException<int>(expectedFault);
+        Func<int, Task<int>> skipped = value => Task.FromResult(value + 1);
+
+        Assert.Same(
+            expectedFault,
+            await Assert.ThrowsAsync<InvalidOperationException>(() => first.ComposeAsync(fault).ComposeAsync(skipped)(0)));
+        Assert.Same(
+            expectedFault,
+            await Assert.ThrowsAsync<InvalidOperationException>(() => first.ComposeAsync(fault.ComposeAsync(skipped))(0)));
+
+        using var cancellationSource = new CancellationTokenSource();
+        cancellationSource.Cancel();
+        Func<int, Task<int>> canceled = _ => Task.FromCanceled<int>(cancellationSource.Token);
+
+        var leftCancellation = await Assert.ThrowsAnyAsync<OperationCanceledException>(() =>
+            canceled.ComposeAsync(skipped).ComposeAsync(skipped)(0));
+        var rightCancellation = await Assert.ThrowsAnyAsync<OperationCanceledException>(() =>
+            canceled.ComposeAsync(skipped.ComposeAsync(skipped))(0));
+        Assert.Equal(cancellationSource.Token, leftCancellation.CancellationToken);
+        Assert.Equal(cancellationSource.Token, rightCancellation.CancellationToken);
+    }
+
+    [Fact]
     public async Task TaskComposeEvaluatesInOrderWithoutBlocking()
     {
         var calls = new List<string>();

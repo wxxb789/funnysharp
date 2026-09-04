@@ -63,13 +63,21 @@ Run it with:
 dotnet run --project benchmarks/FunnySharp.Benchmarks/FunnySharp.Benchmarks.csproj --configuration Release -- --filter '*'
 ```
 
-The following ShortRun was recorded on August 31, 2026 with BenchmarkDotNet 0.15.8, .NET 10.0.11, and an AMD EPYC 7763 Hyper-V virtual machine:
+The exact table below is generated from the approved observation in
+`eng/performance/baseline.json`. Hosted timing is directional; allocation ceilings are the blocking
+contract.
 
-| Scenario | Direct mean | FunnySharp mean | Ratio | Direct allocation | FunnySharp allocation |
+<!-- performance-table:start function-composition -->
+| Scenario | Baseline mean | FunnySharp mean | Ratio | Baseline allocation | FunnySharp allocation |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Synchronous invocation | 0.974 ns | 5.590 ns | 5.74x | 0 B | 0 B |
-| Delegate construction | 8.073 ns | 14.250 ns | 1.77x | 64 B | 96 B |
-| Completed `Task` invocation | 28.428 ns | 39.631 ns | 1.39x | 216 B | 216 B |
-| Completed `ValueTask` invocation | 14.307 ns | 15.481 ns | 1.08x | 0 B | 0 B |
+| Completed Task invocation | 27.609 ns | 30.374 ns | 1.10x | 216 B | 216 B |
+| Completed ValueTask invocation | 13.716 ns | 15.642 ns | 1.14x | 0 B | 0 B |
+| Delegate construction | 7.633 ns | 14.771 ns | 1.94x | 64 B | 96 B |
+| Synchronous invocation | 0.956 ns | 5.520 ns | 5.77x | 0 B | 0 B |
 
-These measurements expose the trade-off rather than claiming the wrapper is free. Prebuilding a synchronous composed delegate avoids per-call allocation but adds delegate-dispatch overhead. Creating a composed wrapper costs one additional 32 B on this runtime. For the measured completed operations, `Task` composition adds time without adding allocation over the equivalent direct async delegate, while `ValueTask` remains allocation-free. The run used only three measured iterations and a virtualized host, so the absolute nanosecond values are directional; rerun the benchmark on the target deployment hardware before using them for capacity decisions.
+Excluded measurements:
+- Unmeasured helpers: Pipe, Tap, Curry, Uncurry, Partial, and Flip have no numeric release claim.
+<!-- performance-table:end function-composition -->
+
+These measurements expose the trade-off rather than claiming the wrapper is free. Rerun timing on
+the target deployment hardware before using it for capacity decisions.
