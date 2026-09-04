@@ -167,10 +167,53 @@ function Assert-PackageVersionAbsent {
     }
 }
 
+function Assert-BenchmarkReportRows {
+    param(
+        [Parameter(Mandatory)] [object[]] $ExpectedRows,
+        [Parameter(Mandatory)] [object[]] $ActualRows,
+        [Parameter(Mandatory)] [string] $Description
+    )
+
+    $getCounts = {
+        param([object[]] $Rows)
+
+        $counts = @{}
+        foreach ($row in $Rows) {
+            $benchmarkClass = [string] $row.benchmarkClass
+            $category = [string] $row.category
+            $method = [string] $row.method
+            $parameters = [string] $row.parameters
+            if ([string]::IsNullOrWhiteSpace($benchmarkClass) -or
+                [string]::IsNullOrWhiteSpace($category) -or
+                [string]::IsNullOrWhiteSpace($method)) {
+                throw "$Description contains a row with missing benchmark identity."
+            }
+
+            $key = $benchmarkClass + [char] 0 + $category + [char] 0 + $method + [char] 0 + $parameters
+            $counts[$key] = if ($counts.ContainsKey($key)) { $counts[$key] + 1 } else { 1 }
+        }
+
+        return $counts
+    }
+
+    $expectedCounts = & $getCounts $ExpectedRows
+    $actualCounts = & $getCounts $ActualRows
+    if ($expectedCounts.Count -ne $actualCounts.Count) {
+        throw "$Description does not match the registered benchmark rows."
+    }
+
+    foreach ($key in $expectedCounts.Keys) {
+        if (-not $actualCounts.ContainsKey($key) -or $actualCounts[$key] -ne $expectedCounts[$key]) {
+            throw "$Description does not match the registered benchmark rows."
+        }
+    }
+}
+
 Export-ModuleMember -Function @(
     'Read-ReleaseProtocol',
     'Assert-ReleaseAttemptId',
     'Assert-NewReleaseAttemptPath',
     'Get-ValidatedProjectOutputDirectories',
-    'Assert-PackageVersionAbsent'
+    'Assert-PackageVersionAbsent',
+    'Assert-BenchmarkReportRows'
 )

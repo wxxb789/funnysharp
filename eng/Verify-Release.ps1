@@ -458,25 +458,71 @@ function Get-BenchmarkSourceManifest {
     }
 }
 
+function Get-BenchmarkParameterNames {
+    param(
+        [Parameter(Mandatory)] [object[]] $PolicyRows,
+        [Parameter(Mandatory)] [string] $BenchmarkClass
+    )
+
+    $expectedNames = $null
+    foreach ($parameters in @($PolicyRows | ForEach-Object { [string] $_.parameters } | Sort-Object -Unique)) {
+        if ([string]::IsNullOrEmpty($parameters)) {
+            continue
+        }
+
+        if ($parameters -notmatch '^\[.*\]$') {
+            throw "Benchmark class '$BenchmarkClass' has an invalid parameter identity '$parameters'."
+        }
+        $names = @(
+            [regex]::Matches($parameters, '(?:^\[|, )(?<name>[A-Za-z_][A-Za-z0-9_]*)=') |
+                ForEach-Object { $_.Groups['name'].Value }
+        )
+        if ($names.Count -eq 0) {
+            throw "Benchmark class '$BenchmarkClass' has an invalid parameter identity '$parameters'."
+        }
+        if ($null -eq $expectedNames) {
+            $expectedNames = $names
+            continue
+        }
+        if (-not (Test-ExactStringSequence -Actual $names -Expected $expectedNames)) {
+            throw "Benchmark class '$BenchmarkClass' uses inconsistent parameter identities."
+        }
+    }
+
+    if ($null -eq $expectedNames) {
+        return
+    }
+
+    return $expectedNames
+}
+
 function Assert-BenchmarkReports {
     param(
         [Parameter(Mandatory)] [string] $ExecutionDirectory,
         [Parameter(Mandatory)] [string] $ArtifactsDirectory,
-        [Parameter(Mandatory)] [string] $Root
+        [Parameter(Mandatory)] [string] $Root,
+        [Parameter(Mandatory)] [object[]] $ObservationRows
     )
 
+    $manifestPath = Join-Path $Root 'eng/performance/baseline.json'
+    $manifest = Get-Content -LiteralPath $manifestPath -Raw | ConvertFrom-Json
+    $includedPolicyRows = @($manifest.policy.rows | Where-Object included)
     $expectedReports = @(
-        [pscustomobject]@{ benchmarkClass = 'ConcurrencyBenchmarks'; fileName = 'FunnySharp.Benchmarks.ConcurrencyBenchmarks-report.csv' },
-        [pscustomobject]@{ benchmarkClass = 'DataPipelineBenchmarks'; fileName = 'FunnySharp.Benchmarks.DataPipelineBenchmarks-report.csv' },
-        [pscustomobject]@{ benchmarkClass = 'EffectBenchmarks'; fileName = 'FunnySharp.Benchmarks.EffectBenchmarks-report.csv' },
-        [pscustomobject]@{ benchmarkClass = 'FirstSuccessConcurrencyBenchmarks'; fileName = 'FunnySharp.Benchmarks.FirstSuccessConcurrencyBenchmarks-report.csv' },
-        [pscustomobject]@{ benchmarkClass = 'FunctionCompositionBenchmarks'; fileName = 'FunnySharp.Benchmarks.FunctionCompositionBenchmarks-report.csv' },
-        [pscustomobject]@{ benchmarkClass = 'ImmutableUpdateBenchmarks'; fileName = 'FunnySharp.Benchmarks.ImmutableUpdateBenchmarks-report.csv' },
-        [pscustomobject]@{ benchmarkClass = 'OptionBenchmarks'; fileName = 'FunnySharp.Benchmarks.OptionBenchmarks-report.csv' },
-        [pscustomobject]@{ benchmarkClass = 'ParallelTraverseConcurrencyBenchmarks'; fileName = 'FunnySharp.Benchmarks.ParallelTraverseConcurrencyBenchmarks-report.csv' },
-        [pscustomobject]@{ benchmarkClass = 'ResultBenchmarks'; fileName = 'FunnySharp.Benchmarks.ResultBenchmarks-report.csv' },
-        [pscustomobject]@{ benchmarkClass = 'SequenceBenchmarks'; fileName = 'FunnySharp.Benchmarks.SequenceBenchmarks-report.csv' }
+        $includedPolicyRows |
+            ForEach-Object { [string] $_.benchmarkClass } |
+            Sort-Object -Unique |
+            ForEach-Object {
+                [pscustomobject]@{
+                    benchmarkClass = $_
+                    fileName = "FunnySharp.Benchmarks.$_-report.csv"
+                    receiptName = "$_-performance-receipt.json"
+                }
+            }
     )
+    Assert-BenchmarkReportRows `
+        -ExpectedRows $includedPolicyRows `
+        -ActualRows $ObservationRows `
+        -Description 'Performance observation proposal'
     $benchmarkArtifactsDirectory = Assert-SafeArtifactsSubdirectory -Path (Join-Path $ExecutionDirectory 'benchmark-artifacts') -ArtifactsDirectory $ArtifactsDirectory
     $resultsDirectory = Assert-SafeArtifactsSubdirectory -Path (Join-Path $benchmarkArtifactsDirectory 'results') -ArtifactsDirectory $ArtifactsDirectory
     if (-not (Test-Path -LiteralPath $resultsDirectory -PathType Container)) {
@@ -494,6 +540,16 @@ function Assert-BenchmarkReports {
         throw "Benchmark results must contain exactly these CSV reports: $($expectedCsvNames -join ', ')."
     }
 
+    $actualReceiptNames = @(
+        Get-ChildItem -LiteralPath $resultsDirectory -File -Filter '*-performance-receipt.json' |
+            ForEach-Object Name |
+            Sort-Object
+    )
+    $expectedReceiptNames = @($expectedReports.receiptName | Sort-Object)
+    if (-not (Test-ExactStringSequence -Actual $actualReceiptNames -Expected $expectedReceiptNames)) {
+        throw "Benchmark results must contain exactly these receipts: $($expectedReceiptNames -join ', ')."
+    }
+
     $sourceManifest = Get-BenchmarkSourceManifest -Root $Root
     $expectedClasses = @($expectedReports.benchmarkClass | Sort-Object)
     if (-not (Test-ExactStringSequence -Actual @($sourceManifest.classes | Sort-Object) -Expected $expectedClasses)) {
@@ -509,7 +565,35 @@ function Assert-BenchmarkReports {
     $reportCategories = @{}
     $rowCount = 0
     foreach ($expectedReport in $expectedReports) {
+        $classPolicyRows = @($includedPolicyRows | Where-Object benchmarkClass -ceq $expectedReport.benchmarkClass)
+        $parameterNames = @(Get-BenchmarkParameterNames -PolicyRows $classPolicyRows -BenchmarkClass $expectedReport.benchmarkClass)
         $reportPath = Get-SafeEvidenceFile -Path (Join-Path $resultsDirectory $expectedReport.fileName) -ArtifactsDirectory $ArtifactsDirectory
+        $receiptPath = Get-SafeEvidenceFile -Path (Join-Path $resultsDirectory $expectedReport.receiptName) -ArtifactsDirectory $ArtifactsDirectory
+        $receipt = Get-Content -LiteralPath $receiptPath -Raw | ConvertFrom-Json
+        if ($receipt.schemaVersion -ne 1 -or $receipt.succeeded -ne $true) {
+            throw "Benchmark receipt '$($expectedReport.receiptName)' is malformed or unsuccessful."
+        }
+        $receiptClasses = @($receipt.rows | ForEach-Object { [string] $_.benchmarkClass } | Sort-Object -Unique)
+        if ($receiptClasses.Count -ne 1 -or $receiptClasses[0] -cne $expectedReport.benchmarkClass) {
+            throw "Benchmark receipt '$($expectedReport.receiptName)' does not contain '$($expectedReport.benchmarkClass)'."
+        }
+        $declaredReports = @($receipt.reports)
+        $declaredReportNames = @($declaredReports | ForEach-Object { [string] $_.file } | Sort-Object)
+        $expectedDeclaredReports = @(
+            "FunnySharp.Benchmarks.$($expectedReport.benchmarkClass)-report-github.md",
+            $expectedReport.fileName,
+            "FunnySharp.Benchmarks.$($expectedReport.benchmarkClass)-report.html"
+        ) | Sort-Object
+        if (-not (Test-ExactStringSequence -Actual $declaredReportNames -Expected $expectedDeclaredReports)) {
+            throw "Benchmark receipt '$($expectedReport.receiptName)' does not declare the complete report set."
+        }
+        foreach ($declaredReport in $declaredReports) {
+            $declaredPath = Get-SafeEvidenceFile -Path (Join-Path $resultsDirectory ([string] $declaredReport.file)) -ArtifactsDirectory $ArtifactsDirectory
+            if ((Get-Sha256 -Path $declaredPath) -ne [string] $declaredReport.sha256) {
+                throw "Benchmark report '$($declaredReport.file)' does not match its receipt."
+            }
+        }
+
         try {
             $rows = @(Import-Csv -LiteralPath $reportPath)
         }
@@ -521,13 +605,19 @@ function Assert-BenchmarkReports {
             throw "Benchmark report '$($expectedReport.fileName)' must contain Method and Categories columns with at least one row."
         }
 
+        $reportRows = [System.Collections.Generic.List[object]]::new()
+
         $rowCount += $rows.Count
         foreach ($row in $rows) {
             if ([string]::IsNullOrWhiteSpace([string] $row.Method) -or [string]::IsNullOrWhiteSpace([string] $row.Categories)) {
                 throw "Benchmark report '$($expectedReport.fileName)' contains a row without Method or Categories."
             }
 
-            foreach ($category in ([string] $row.Categories -split '\s*;\s*')) {
+            $categories = @([string] $row.Categories -split '\s*;\s*')
+            if ($categories.Count -ne 1) {
+                throw "Benchmark report '$($expectedReport.fileName)' must contain exactly one category per row."
+            }
+            foreach ($category in $categories) {
                 if ([string]::IsNullOrWhiteSpace($category)) {
                     throw "Benchmark report '$($expectedReport.fileName)' contains an empty category."
                 }
@@ -542,15 +632,41 @@ function Assert-BenchmarkReports {
                     }
                 }
                 $reportCategories[$key].rowCount++
+                $parameterValues = @(
+                    foreach ($parameterName in $parameterNames) {
+                        $property = $row.PSObject.Properties[$parameterName]
+                        if ($null -eq $property) {
+                            throw "Benchmark report '$($expectedReport.fileName)' is missing parameter column '$parameterName'."
+                        }
+                        $parameterName + '=' + [string] $property.Value
+                    }
+                )
+                $reportRows.Add([pscustomobject]@{
+                        benchmarkClass = $expectedReport.benchmarkClass
+                        category = $category
+                        method = [string] $row.Method
+                        parameters = if ($parameterValues.Count -eq 0) { '' } else { '[' + ($parameterValues -join ', ') + ']' }
+                    })
             }
         }
 
+        Assert-BenchmarkReportRows `
+            -ExpectedRows $classPolicyRows `
+            -ActualRows @($receipt.rows) `
+            -Description "Benchmark receipt '$($expectedReport.receiptName)'"
+        Assert-BenchmarkReportRows `
+            -ExpectedRows @($receipt.rows) `
+            -ActualRows @($reportRows) `
+            -Description "Benchmark report '$($expectedReport.fileName)'"
+
         $reportSummaries.Add([pscustomobject] [ordered]@{
-                benchmarkClass = $expectedReport.benchmarkClass
-                report = $expectedReport.fileName
-                sha256 = Get-Sha256 -Path $reportPath
-                rowCount = $rows.Count
-            })
+            benchmarkClass = $expectedReport.benchmarkClass
+            report = $expectedReport.fileName
+            sha256 = Get-Sha256 -Path $reportPath
+            receipt = $expectedReport.receiptName
+            receiptSha256 = Get-Sha256 -Path $receiptPath
+            rowCount = $rows.Count
+        })
     }
 
     $categorySummaries = [System.Collections.Generic.List[object]]::new()
@@ -824,12 +940,15 @@ function Assert-ReleaseExecutionEvidence {
         if ($proposal.schemaVersion -ne 1 -or @($proposal.rows).Count -le 0) {
             throw 'Performance observation proposal is missing or malformed.'
         }
-        $benchmarkEvidence = [pscustomobject] [ordered]@{
-            status = 'verified'
-            executed = $completed.Maximum
-            observationProposal = 'performance-observation-proposal.json'
-            observationProposalSha256 = Get-Sha256 -Path $proposalPath
-        }
+        $benchmarkEvidence = Assert-BenchmarkReports `
+            -ExecutionDirectory $executionDirectory `
+            -ArtifactsDirectory $ArtifactsDirectory `
+            -Root $Root `
+            -ObservationRows @($proposal.rows)
+        $benchmarkEvidence.status = 'verified'
+        $benchmarkEvidence | Add-Member -NotePropertyName executed -NotePropertyValue $completed.Maximum
+        $benchmarkEvidence | Add-Member -NotePropertyName observationProposal -NotePropertyValue 'performance-observation-proposal.json'
+        $benchmarkEvidence | Add-Member -NotePropertyName observationProposalSha256 -NotePropertyValue (Get-Sha256 -Path $proposalPath)
     }
 
     return [pscustomobject] [ordered]@{

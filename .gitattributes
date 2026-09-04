@@ -1,0 +1,7 @@
+*.cs text eol=lf
+*.csproj text eol=lf
+*.json text eol=lf
+*.props text eol=lf
+*.ps1 text eol=lf
+*.psm1 text eol=lf
+/docs/*.md text eol=lf

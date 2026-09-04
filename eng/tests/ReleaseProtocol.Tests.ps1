@@ -140,6 +140,88 @@ try {
         '{compatibilityFeed}'
     )
 
+    $performanceManifest = Get-Content -LiteralPath (Join-Path $repositoryRoot 'eng/performance/baseline.json') -Raw | ConvertFrom-Json
+    $fingerprintPaths = @(
+        'eng/performance/baseline.json'
+        @($performanceManifest.benchmarkInput.files)
+        @($performanceManifest.protocol.files)
+        @($performanceManifest.documentation.path)
+    ) | Sort-Object -Unique
+    foreach ($relativePath in $fingerprintPaths) {
+        $attribute = & git -C $repositoryRoot check-attr eol -- $relativePath
+        if ($LASTEXITCODE -ne 0 -or [string]::Join([Environment]::NewLine, @($attribute)) -notmatch ': eol: lf$') {
+            throw "FAIL performance fingerprint EOL policy: '$relativePath' is not forced to LF."
+        }
+
+        $bytes = [IO.File]::ReadAllBytes((Join-Path $repositoryRoot $relativePath))
+        for ($index = 1; $index -lt $bytes.Length; $index++) {
+            if ($bytes[$index - 1] -eq 13 -and $bytes[$index] -eq 10) {
+                throw "FAIL performance fingerprint EOL policy: '$relativePath' contains CRLF bytes."
+            }
+        }
+    }
+    $script:passed++
+    Write-Output 'PASS performance fingerprint inputs force LF checkout'
+
+    $expectedBenchmarkRows = @(
+        [pscustomobject]@{ benchmarkClass = 'StateMachineBenchmarks'; category = 'Then'; method = 'Direct'; parameters = '[Count=8]' },
+        [pscustomobject]@{ benchmarkClass = 'StateMachineBenchmarks'; category = 'Then'; method = 'FunnySharp'; parameters = '[Count=8]' }
+    )
+    Assert-Passes 'benchmark report row set' {
+        Assert-BenchmarkReportRows -ExpectedRows $expectedBenchmarkRows -ActualRows @($expectedBenchmarkRows) -Description 'Fixture report'
+    }
+    Assert-Fails 'benchmark report rejects missing row' 'does not match' {
+        Assert-BenchmarkReportRows -ExpectedRows $expectedBenchmarkRows -ActualRows @($expectedBenchmarkRows[0]) -Description 'Fixture report'
+    }
+    Assert-Fails 'benchmark report rejects unregistered method' 'does not match' {
+        Assert-BenchmarkReportRows -ExpectedRows $expectedBenchmarkRows -ActualRows @(
+            $expectedBenchmarkRows[0],
+            [pscustomobject]@{ benchmarkClass = 'StateMachineBenchmarks'; category = 'Then'; method = 'Bogus'; parameters = '[Count=8]' }
+        ) -Description 'Fixture report'
+    }
+    Assert-Fails 'benchmark report rejects wrong parameters' 'does not match' {
+        Assert-BenchmarkReportRows -ExpectedRows $expectedBenchmarkRows -ActualRows @(
+            [pscustomobject]@{ benchmarkClass = 'StateMachineBenchmarks'; category = 'Then'; method = 'Direct'; parameters = '[Count=64]' },
+            $expectedBenchmarkRows[1]
+        ) -Description 'Fixture report'
+    }
+
+    $verifyReleasePath = Join-Path $repositoryRoot 'eng/Verify-Release.ps1'
+    $tokens = $null
+    $parseErrors = $null
+    $verifyReleaseAst = [System.Management.Automation.Language.Parser]::ParseFile(
+        $verifyReleasePath,
+        [ref] $tokens,
+        [ref] $parseErrors)
+    if ($parseErrors.Count -ne 0) {
+        throw "FAIL release verifier parsing: $($parseErrors[0].Message)"
+    }
+    $benchmarkVerifierCalls = @($verifyReleaseAst.FindAll({
+                param($node)
+                $node -is [System.Management.Automation.Language.CommandAst] -and
+                $node.GetCommandName() -ceq 'Assert-BenchmarkReports'
+            }, $true))
+    if ($benchmarkVerifierCalls.Count -ne 1) {
+        throw "FAIL release verifier benchmark integration: expected one Assert-BenchmarkReports call, found $($benchmarkVerifierCalls.Count)."
+    }
+    $script:passed++
+    Write-Output 'PASS release verifier invokes independent benchmark report validation'
+
+    $parameterFunction = $verifyReleaseAst.Find({
+            param($node)
+            $node -is [System.Management.Automation.Language.FunctionDefinitionAst] -and
+            $node.Name -ceq 'Get-BenchmarkParameterNames'
+        }, $true)
+    Invoke-Expression $parameterFunction.Extent.Text
+    $parameterNames = @(Get-BenchmarkParameterNames -PolicyRows @(
+            [pscustomobject]@{ parameters = '' }
+        ) -BenchmarkClass 'NoParameterBenchmarks')
+    if ($parameterNames.Count -ne 0) {
+        throw 'FAIL benchmark parameter discovery: a no-parameter class returned a parameter name.'
+    }
+    $script:passed++
+    Write-Output 'PASS benchmark parameter discovery handles no-parameter classes'
+
     $workflowPath = Join-Path $repositoryRoot '.github/workflows/release.yml'
     $workflow = [IO.File]::ReadAllText($workflowPath)
     foreach ($context in @('win-x64', 'linux-x64', 'osx-arm64', 'osx-x64-consumer')) {
