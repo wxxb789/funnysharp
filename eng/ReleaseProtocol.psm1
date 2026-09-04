@@ -156,7 +156,7 @@ function Assert-PackageVersionAbsent {
     param(
         [Parameter(Mandatory)] [string] $PackageId,
         [Parameter(Mandatory)] [string] $Version,
-        [Parameter(Mandatory)] [AllowNull()] [object[]] $Versions
+        [Parameter(Mandatory)] [AllowNull()] [AllowEmptyCollection()] [object[]] $Versions
     )
 
     if ($null -eq $Versions) {

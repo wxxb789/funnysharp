@@ -270,6 +270,9 @@ try {
     Assert-Passes 'unpublished version passes' {
         Assert-PackageVersionAbsent -PackageId 'FunnySharp' -Version '0.1.0' -Versions @('0.0.9')
     }
+    Assert-Passes 'empty package version list passes' {
+        Assert-PackageVersionAbsent -PackageId 'FunnySharp' -Version '0.1.0' -Versions @()
+    }
     Assert-Fails 'published version blocks' 'already contains' {
         Assert-PackageVersionAbsent -PackageId 'FunnySharp' -Version '0.1.0' -Versions @('0.1.0')
     }
