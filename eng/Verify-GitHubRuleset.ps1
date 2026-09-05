@@ -22,6 +22,17 @@ param(
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
+function Assert-StrictRequiredStatusChecksPolicy {
+    param([Parameter(Mandatory)] $Parameters)
+
+    $strictProperty = $Parameters.PSObject.Properties['strict_required_status_checks_policy']
+    if ($null -eq $strictProperty -or $strictProperty.Value -ne $true) {
+        throw 'Required status checks must require branches to be up to date before merging.'
+    }
+
+    return $true
+}
+
 if (-not (Get-Command gh -ErrorAction SilentlyContinue)) {
     throw 'GitHub CLI is required to verify repository rules.'
 }
@@ -77,6 +88,8 @@ $statusRule = @($ruleset.rules | Where-Object type -eq 'required_status_checks')
 if ($statusRule.Count -ne 1) {
     throw "Ruleset $RulesetId must contain exactly one required_status_checks rule."
 }
+$strictRequiredStatusChecksPolicy = Assert-StrictRequiredStatusChecksPolicy `
+    -Parameters $statusRule[0].parameters
 $requiredChecks = @($statusRule[0].parameters.required_status_checks)
 $actual = @($requiredChecks | ForEach-Object { [string] $_.context })
 $missing = @($required | Where-Object { $actual -notcontains $_ })
@@ -114,6 +127,7 @@ $evidence = [pscustomobject] [ordered]@{
     requiredContexts = @($actual | Sort-Object)
     requiredChecks = @($bindings)
     requiredContextsSatisfied = $true
+    strictRequiredStatusChecksPolicy = $strictRequiredStatusChecksPolicy
 }
 
 $fullOutputPath = [IO.Path]::GetFullPath($OutputPath)

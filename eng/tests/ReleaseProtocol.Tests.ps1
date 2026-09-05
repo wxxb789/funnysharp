@@ -312,6 +312,44 @@ try {
     $script:passed++
     Write-Output 'PASS required workflow contexts and action pinning'
 
+    $rulesetVerifierPath = Join-Path $repositoryRoot 'eng/Verify-GitHubRuleset.ps1'
+    $rulesetTokens = $null
+    $rulesetParseErrors = $null
+    $rulesetVerifierAst = [System.Management.Automation.Language.Parser]::ParseFile(
+        $rulesetVerifierPath,
+        [ref] $rulesetTokens,
+        [ref] $rulesetParseErrors)
+    if ($rulesetParseErrors.Count -ne 0) {
+        throw "FAIL ruleset verifier parsing: $($rulesetParseErrors[0].Message)"
+    }
+    $strictPolicyFunction = $rulesetVerifierAst.Find({
+            param($node)
+            $node -is [System.Management.Automation.Language.FunctionDefinitionAst] -and
+            $node.Name -ceq 'Assert-StrictRequiredStatusChecksPolicy'
+        }, $true)
+    if ($null -eq $strictPolicyFunction) {
+        throw 'FAIL ruleset strict policy: Assert-StrictRequiredStatusChecksPolicy was not found.'
+    }
+    Invoke-Expression $strictPolicyFunction.Extent.Text
+    Assert-Fails 'missing ruleset strict policy blocks' 'up to date' {
+        Assert-StrictRequiredStatusChecksPolicy -Parameters ([pscustomobject]@{})
+    }
+    Assert-Fails 'disabled ruleset strict policy blocks' 'up to date' {
+        Assert-StrictRequiredStatusChecksPolicy -Parameters ([pscustomobject]@{
+                strict_required_status_checks_policy = $false
+            })
+    }
+    Assert-Passes 'enabled ruleset strict policy passes' {
+        Assert-StrictRequiredStatusChecksPolicy -Parameters ([pscustomobject]@{
+                strict_required_status_checks_policy = $true
+            })
+    }
+    if ([IO.File]::ReadAllText($rulesetVerifierPath) -notmatch 'strictRequiredStatusChecksPolicy\s*=') {
+        throw 'FAIL ruleset strict policy evidence: verified strictness is not recorded.'
+    }
+    $script:passed++
+    Write-Output 'PASS ruleset strict policy evidence is recorded'
+
     $artifacts = Join-Path $tempRoot 'artifacts'
     [System.IO.Directory]::CreateDirectory($artifacts) | Out-Null
     $commit = '0123456789abcdef0123456789abcdef01234567'
