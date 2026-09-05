@@ -57,11 +57,14 @@ param(
     [Parameter(Mandatory)]
     [string] $ExecutionEvidenceDirectory,
 
+    [switch] $SkipBenchmarks,
+
     [switch] $Clean
 )
 
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
+Import-Module (Join-Path $PSScriptRoot 'ReleaseProtocol.psm1') -Force
 
 function Resolve-FullPath {
     param(
@@ -292,11 +295,21 @@ function Get-ExecutionLogText {
         throw "Execution evidence log hash does not match receipt: '$RelativePath'."
     }
 
+    $text = [System.IO.File]::ReadAllText($path)
     return [pscustomobject] [ordered]@{
         path = $path
         sha256 = $actualSha256
-        text = [System.IO.File]::ReadAllText($path)
+        text = Remove-AnsiControlSequences -Text $text
     }
+}
+
+function Remove-AnsiControlSequences {
+    param(
+        [AllowEmptyString()]
+        [string] $Text
+    )
+
+    return [regex]::Replace($Text, '\x1B\[[0-?]*[ -/]*[@-~]', '')
 }
 
 function Test-ExactStringSequence {
@@ -321,22 +334,48 @@ function Test-ExactStringSequence {
 function Get-ExpectedReleaseCommands {
     param(
         [Parameter(Mandatory)] [string] $ExecutionDirectory,
-        [Parameter(Mandatory)] [string] $CompatibilityPackageFeed
+        [Parameter(Mandatory)] [string] $CompatibilityPackageFeed,
+        [Parameter(Mandatory)] [string] $Root,
+        [Parameter(Mandatory)] [string] $CompatibilityRuntimeIdentifier,
+        [Parameter(Mandatory)] [bool] $BenchmarksSkipped
     )
 
     $packagesDirectory = Join-Path $ExecutionDirectory 'packages'
     $benchmarkArtifactsDirectory = Join-Path $ExecutionDirectory 'benchmark-artifacts'
-    return @(
-        [pscustomobject] [ordered]@{ name = 'clean'; arguments = @('clean', 'FunnySharp.slnx', '--configuration', 'Release') },
-        [pscustomobject] [ordered]@{ name = 'restore'; arguments = @('restore', 'FunnySharp.slnx', '--locked-mode', '--source', $CompatibilityPackageFeed) },
-        [pscustomobject] [ordered]@{ name = 'build'; arguments = @('build', 'FunnySharp.slnx', '--configuration', 'Release', '--no-restore') },
-        [pscustomobject] [ordered]@{ name = 'test'; arguments = @('test', 'FunnySharp.slnx', '--configuration', 'Release', '--no-build', '--no-restore') },
-        [pscustomobject] [ordered]@{ name = 'examples'; arguments = @('run', '--project', 'examples/FunnySharp.Examples/FunnySharp.Examples.csproj', '--configuration', 'Release', '--no-build', '--no-restore') },
-        [pscustomobject] [ordered]@{ name = 'aspnetcore-examples'; arguments = @('run', '--project', 'examples/FunnySharp.AspNetCore.Examples/FunnySharp.AspNetCore.Examples.csproj', '--configuration', 'Release', '--no-build', '--no-restore', '--', '--verify') },
-        [pscustomobject] [ordered]@{ name = 'pack'; arguments = @('pack', 'FunnySharp.slnx', '--configuration', 'Release', '--no-build', '--no-restore', '--output', $packagesDirectory) },
-        [pscustomobject] [ordered]@{ name = 'format'; arguments = @('format', 'FunnySharp.slnx', '--verify-no-changes', '--no-restore') },
-        [pscustomobject] [ordered]@{ name = 'benchmark'; arguments = @('run', '--project', 'benchmarks/FunnySharp.Benchmarks/FunnySharp.Benchmarks.csproj', '--configuration', 'Release', '--no-build', '--no-restore', '--', '--filter', '*', '--artifacts', $benchmarkArtifactsDirectory) }
-    )
+    $protocolPath = Join-Path $Root 'eng/release-protocol.json'
+    $protocol = Read-ReleaseProtocol -Path $protocolPath
+    $mode = if ($BenchmarksSkipped) { 'benchmarkSkipped' } else { 'full' }
+    $tokens = @{
+        root = $Root
+        compatibilityFeed = $CompatibilityPackageFeed
+        packages = $packagesDirectory
+        benchmarkRoot = Join-Path $Root 'benchmarks/FunnySharp.Benchmarks'
+        benchmarkArtifacts = $benchmarkArtifactsDirectory
+        benchmarkResults = Join-Path $benchmarkArtifactsDirectory 'results'
+        performanceObservationProposal = Join-Path $ExecutionDirectory 'performance-observation-proposal.json'
+        compatibilityOutput = Join-Path $ExecutionDirectory 'compatibility-run'
+        compatibilityRid = $CompatibilityRuntimeIdentifier
+    }
+    $commands = [System.Collections.Generic.List[object]]::new()
+    foreach ($name in @($protocol.modes.$mode.steps)) {
+        $definition = $protocol.steps.PSObject.Properties[[string] $name].Value
+        $expand = {
+            param([string] $Value)
+            $expanded = $Value
+            foreach ($token in $tokens.Keys) {
+                $expanded = $expanded.Replace('{' + $token + '}', [string] $tokens[$token])
+            }
+            return $expanded
+        }
+        $commands.Add([pscustomobject] [ordered]@{
+                name = [string] $name
+                fileName = & $expand ([string] $definition.fileName)
+                workingDirectory = & $expand ([string] $definition.workingDirectory)
+                arguments = @($definition.arguments | ForEach-Object { & $expand ([string] $_) })
+            })
+    }
+
+    return @($commands)
 }
 
 function Assert-CanonicalReleaseCommand {
@@ -346,8 +385,10 @@ function Assert-CanonicalReleaseCommand {
         [Parameter(Mandatory)] [string] $Description
     )
 
-    if ($Command.fileName -cne 'dotnet' -or -not (Test-ExactStringSequence -Actual @($Command.arguments) -Expected @($Expected.arguments))) {
-        throw "$Description does not use the canonical dotnet command and ordered arguments for '$($Expected.name)'."
+    if ($Command.fileName -cne $Expected.fileName -or
+        $Command.workingDirectory -cne $Expected.workingDirectory -or
+        -not (Test-ExactStringSequence -Actual @($Command.arguments) -Expected @($Expected.arguments))) {
+        throw "$Description does not use the canonical command, working directory, and ordered arguments for '$($Expected.name)'."
     }
 }
 
@@ -427,25 +468,71 @@ function Get-BenchmarkSourceManifest {
     }
 }
 
+function Get-BenchmarkParameterNames {
+    param(
+        [Parameter(Mandatory)] [object[]] $PolicyRows,
+        [Parameter(Mandatory)] [string] $BenchmarkClass
+    )
+
+    $expectedNames = $null
+    foreach ($parameters in @($PolicyRows | ForEach-Object { [string] $_.parameters } | Sort-Object -Unique)) {
+        if ([string]::IsNullOrEmpty($parameters)) {
+            continue
+        }
+
+        if ($parameters -notmatch '^\[.*\]$') {
+            throw "Benchmark class '$BenchmarkClass' has an invalid parameter identity '$parameters'."
+        }
+        $names = @(
+            [regex]::Matches($parameters, '(?:^\[|, )(?<name>[A-Za-z_][A-Za-z0-9_]*)=') |
+                ForEach-Object { $_.Groups['name'].Value }
+        )
+        if ($names.Count -eq 0) {
+            throw "Benchmark class '$BenchmarkClass' has an invalid parameter identity '$parameters'."
+        }
+        if ($null -eq $expectedNames) {
+            $expectedNames = $names
+            continue
+        }
+        if (-not (Test-ExactStringSequence -Actual $names -Expected $expectedNames)) {
+            throw "Benchmark class '$BenchmarkClass' uses inconsistent parameter identities."
+        }
+    }
+
+    if ($null -eq $expectedNames) {
+        return
+    }
+
+    return $expectedNames
+}
+
 function Assert-BenchmarkReports {
     param(
         [Parameter(Mandatory)] [string] $ExecutionDirectory,
         [Parameter(Mandatory)] [string] $ArtifactsDirectory,
-        [Parameter(Mandatory)] [string] $Root
+        [Parameter(Mandatory)] [string] $Root,
+        [Parameter(Mandatory)] [object[]] $ObservationRows
     )
 
+    $manifestPath = Join-Path $Root 'eng/performance/baseline.json'
+    $manifest = Get-Content -LiteralPath $manifestPath -Raw | ConvertFrom-Json
+    $includedPolicyRows = @($manifest.policy.rows | Where-Object included)
     $expectedReports = @(
-        [pscustomobject]@{ benchmarkClass = 'ConcurrencyBenchmarks'; fileName = 'FunnySharp.Benchmarks.ConcurrencyBenchmarks-report.csv' },
-        [pscustomobject]@{ benchmarkClass = 'DataPipelineBenchmarks'; fileName = 'FunnySharp.Benchmarks.DataPipelineBenchmarks-report.csv' },
-        [pscustomobject]@{ benchmarkClass = 'EffectBenchmarks'; fileName = 'FunnySharp.Benchmarks.EffectBenchmarks-report.csv' },
-        [pscustomobject]@{ benchmarkClass = 'FirstSuccessConcurrencyBenchmarks'; fileName = 'FunnySharp.Benchmarks.FirstSuccessConcurrencyBenchmarks-report.csv' },
-        [pscustomobject]@{ benchmarkClass = 'FunctionCompositionBenchmarks'; fileName = 'FunnySharp.Benchmarks.FunctionCompositionBenchmarks-report.csv' },
-        [pscustomobject]@{ benchmarkClass = 'ImmutableUpdateBenchmarks'; fileName = 'FunnySharp.Benchmarks.ImmutableUpdateBenchmarks-report.csv' },
-        [pscustomobject]@{ benchmarkClass = 'OptionBenchmarks'; fileName = 'FunnySharp.Benchmarks.OptionBenchmarks-report.csv' },
-        [pscustomobject]@{ benchmarkClass = 'ParallelTraverseConcurrencyBenchmarks'; fileName = 'FunnySharp.Benchmarks.ParallelTraverseConcurrencyBenchmarks-report.csv' },
-        [pscustomobject]@{ benchmarkClass = 'ResultBenchmarks'; fileName = 'FunnySharp.Benchmarks.ResultBenchmarks-report.csv' },
-        [pscustomobject]@{ benchmarkClass = 'SequenceBenchmarks'; fileName = 'FunnySharp.Benchmarks.SequenceBenchmarks-report.csv' }
+        $includedPolicyRows |
+            ForEach-Object { [string] $_.benchmarkClass } |
+            Sort-Object -Unique |
+            ForEach-Object {
+                [pscustomobject]@{
+                    benchmarkClass = $_
+                    fileName = "FunnySharp.Benchmarks.$_-report.csv"
+                    receiptName = "$_-performance-receipt.json"
+                }
+            }
     )
+    Assert-BenchmarkReportRows `
+        -ExpectedRows $includedPolicyRows `
+        -ActualRows $ObservationRows `
+        -Description 'Performance observation proposal'
     $benchmarkArtifactsDirectory = Assert-SafeArtifactsSubdirectory -Path (Join-Path $ExecutionDirectory 'benchmark-artifacts') -ArtifactsDirectory $ArtifactsDirectory
     $resultsDirectory = Assert-SafeArtifactsSubdirectory -Path (Join-Path $benchmarkArtifactsDirectory 'results') -ArtifactsDirectory $ArtifactsDirectory
     if (-not (Test-Path -LiteralPath $resultsDirectory -PathType Container)) {
@@ -463,6 +550,16 @@ function Assert-BenchmarkReports {
         throw "Benchmark results must contain exactly these CSV reports: $($expectedCsvNames -join ', ')."
     }
 
+    $actualReceiptNames = @(
+        Get-ChildItem -LiteralPath $resultsDirectory -File -Filter '*-performance-receipt.json' |
+            ForEach-Object Name |
+            Sort-Object
+    )
+    $expectedReceiptNames = @($expectedReports.receiptName | Sort-Object)
+    if (-not (Test-ExactStringSequence -Actual $actualReceiptNames -Expected $expectedReceiptNames)) {
+        throw "Benchmark results must contain exactly these receipts: $($expectedReceiptNames -join ', ')."
+    }
+
     $sourceManifest = Get-BenchmarkSourceManifest -Root $Root
     $expectedClasses = @($expectedReports.benchmarkClass | Sort-Object)
     if (-not (Test-ExactStringSequence -Actual @($sourceManifest.classes | Sort-Object) -Expected $expectedClasses)) {
@@ -478,7 +575,35 @@ function Assert-BenchmarkReports {
     $reportCategories = @{}
     $rowCount = 0
     foreach ($expectedReport in $expectedReports) {
+        $classPolicyRows = @($includedPolicyRows | Where-Object benchmarkClass -ceq $expectedReport.benchmarkClass)
+        $parameterNames = @(Get-BenchmarkParameterNames -PolicyRows $classPolicyRows -BenchmarkClass $expectedReport.benchmarkClass)
         $reportPath = Get-SafeEvidenceFile -Path (Join-Path $resultsDirectory $expectedReport.fileName) -ArtifactsDirectory $ArtifactsDirectory
+        $receiptPath = Get-SafeEvidenceFile -Path (Join-Path $resultsDirectory $expectedReport.receiptName) -ArtifactsDirectory $ArtifactsDirectory
+        $receipt = Get-Content -LiteralPath $receiptPath -Raw | ConvertFrom-Json
+        if ($receipt.schemaVersion -ne 1 -or $receipt.succeeded -ne $true) {
+            throw "Benchmark receipt '$($expectedReport.receiptName)' is malformed or unsuccessful."
+        }
+        $receiptClasses = @($receipt.rows | ForEach-Object { [string] $_.benchmarkClass } | Sort-Object -Unique)
+        if ($receiptClasses.Count -ne 1 -or $receiptClasses[0] -cne $expectedReport.benchmarkClass) {
+            throw "Benchmark receipt '$($expectedReport.receiptName)' does not contain '$($expectedReport.benchmarkClass)'."
+        }
+        $declaredReports = @($receipt.reports)
+        $declaredReportNames = @($declaredReports | ForEach-Object { [string] $_.file } | Sort-Object)
+        $expectedDeclaredReports = @(
+            "FunnySharp.Benchmarks.$($expectedReport.benchmarkClass)-report-github.md",
+            $expectedReport.fileName,
+            "FunnySharp.Benchmarks.$($expectedReport.benchmarkClass)-report.html"
+        ) | Sort-Object
+        if (-not (Test-ExactStringSequence -Actual $declaredReportNames -Expected $expectedDeclaredReports)) {
+            throw "Benchmark receipt '$($expectedReport.receiptName)' does not declare the complete report set."
+        }
+        foreach ($declaredReport in $declaredReports) {
+            $declaredPath = Get-SafeEvidenceFile -Path (Join-Path $resultsDirectory ([string] $declaredReport.file)) -ArtifactsDirectory $ArtifactsDirectory
+            if ((Get-Sha256 -Path $declaredPath) -ne [string] $declaredReport.sha256) {
+                throw "Benchmark report '$($declaredReport.file)' does not match its receipt."
+            }
+        }
+
         try {
             $rows = @(Import-Csv -LiteralPath $reportPath)
         }
@@ -490,13 +615,19 @@ function Assert-BenchmarkReports {
             throw "Benchmark report '$($expectedReport.fileName)' must contain Method and Categories columns with at least one row."
         }
 
+        $reportRows = [System.Collections.Generic.List[object]]::new()
+
         $rowCount += $rows.Count
         foreach ($row in $rows) {
             if ([string]::IsNullOrWhiteSpace([string] $row.Method) -or [string]::IsNullOrWhiteSpace([string] $row.Categories)) {
                 throw "Benchmark report '$($expectedReport.fileName)' contains a row without Method or Categories."
             }
 
-            foreach ($category in ([string] $row.Categories -split '\s*;\s*')) {
+            $categories = @([string] $row.Categories -split '\s*;\s*')
+            if ($categories.Count -ne 1) {
+                throw "Benchmark report '$($expectedReport.fileName)' must contain exactly one category per row."
+            }
+            foreach ($category in $categories) {
                 if ([string]::IsNullOrWhiteSpace($category)) {
                     throw "Benchmark report '$($expectedReport.fileName)' contains an empty category."
                 }
@@ -511,19 +642,41 @@ function Assert-BenchmarkReports {
                     }
                 }
                 $reportCategories[$key].rowCount++
+                $parameterValues = @(
+                    foreach ($parameterName in $parameterNames) {
+                        $property = $row.PSObject.Properties[$parameterName]
+                        if ($null -eq $property) {
+                            throw "Benchmark report '$($expectedReport.fileName)' is missing parameter column '$parameterName'."
+                        }
+                        $parameterName + '=' + [string] $property.Value
+                    }
+                )
+                $reportRows.Add([pscustomobject]@{
+                        benchmarkClass = $expectedReport.benchmarkClass
+                        category = $category
+                        method = [string] $row.Method
+                        parameters = if ($parameterValues.Count -eq 0) { '' } else { '[' + ($parameterValues -join ', ') + ']' }
+                    })
             }
         }
 
-        $reportSummaries.Add([pscustomobject] [ordered]@{
-                benchmarkClass = $expectedReport.benchmarkClass
-                report = $expectedReport.fileName
-                sha256 = Get-Sha256 -Path $reportPath
-                rowCount = $rows.Count
-            })
-    }
+        Assert-BenchmarkReportRows `
+            -ExpectedRows $classPolicyRows `
+            -ActualRows @($receipt.rows) `
+            -Description "Benchmark receipt '$($expectedReport.receiptName)'"
+        Assert-BenchmarkReportRows `
+            -ExpectedRows @($receipt.rows) `
+            -ActualRows @($reportRows) `
+            -Description "Benchmark report '$($expectedReport.fileName)'"
 
-    if ($rowCount -ne 126) {
-        throw "Benchmark CSV reports must contain exactly 126 rows, found $rowCount."
+        $reportSummaries.Add([pscustomobject] [ordered]@{
+            benchmarkClass = $expectedReport.benchmarkClass
+            report = $expectedReport.fileName
+            sha256 = Get-Sha256 -Path $reportPath
+            receipt = $expectedReport.receiptName
+            receiptSha256 = Get-Sha256 -Path $receiptPath
+            rowCount = $rows.Count
+        })
     }
 
     $categorySummaries = [System.Collections.Generic.List[object]]::new()
@@ -558,6 +711,7 @@ function Assert-BenchmarkReports {
     }
 
     return [pscustomobject] [ordered]@{
+        status = 'verified'
         artifactsDirectory = $benchmarkArtifactsDirectory
         resultsDirectory = $resultsDirectory
         reportCount = $reportSummaries.Count
@@ -588,8 +742,45 @@ function Assert-ReleaseExecutionEvidence {
         throw "Execution evidence is not valid JSON: '$evidencePath'."
     }
 
-    if ($evidence.schemaVersion -ne 1 -or $evidence.succeeded -ne $true) {
-        throw 'Execution evidence must use schema version 1 and report succeeded=true.'
+    if ($evidence.schemaVersion -ne 2 -or $evidence.succeeded -ne $true) {
+        throw 'Execution evidence must use schema version 2 and report succeeded=true.'
+    }
+    $expectedMode = if ($SkipBenchmarks) { 'benchmarkSkipped' } else { 'full' }
+    if ($evidence.mode -ne $expectedMode -or $evidence.candidateCommit -notmatch '^[0-9a-f]{40}$') {
+        throw "Execution evidence mode or candidate commit is invalid for '$expectedMode'."
+    }
+    $protocolPath = Join-Path $Root 'eng/release-protocol.json'
+    if ($evidence.protocol.path -ne 'eng/release-protocol.json' -or
+        $evidence.protocol.sha256 -ne (Get-Sha256 -Path $protocolPath)) {
+        throw 'Execution evidence does not match the current release protocol.'
+    }
+    if ($evidence.isolatedNuGetCache -ne $true -or
+        -not (Test-PathAtOrWithin -ChildPath ([string] $evidence.nugetPackagesDirectory) -ParentPath $executionDirectory)) {
+        throw 'Execution evidence does not prove an output-local isolated NuGet package cache.'
+    }
+    $versionPreflightPath = Get-SafeEvidenceFile -Path (Join-Path $executionDirectory ([string] $evidence.versionPreflight)) -ArtifactsDirectory $ArtifactsDirectory
+    if ($evidence.versionPreflightSha256 -ne (Get-Sha256 -Path $versionPreflightPath)) {
+        throw 'Execution evidence does not match the package-version preflight bytes.'
+    }
+    $versionPreflight = Get-Content -LiteralPath $versionPreflightPath -Raw | ConvertFrom-Json
+    if ($versionPreflight.schemaVersion -ne 1 -or
+        $versionPreflight.status -ne 'passed' -or
+        $versionPreflight.candidateCommit -ne $evidence.candidateCommit -or
+        @($versionPreflight.checks).Count -eq 0 -or
+        @($versionPreflight.checks | Where-Object status -ne 'absent').Count -ne 0) {
+        throw 'Execution evidence does not contain a complete passing package-version preflight.'
+    }
+    $versionFinalPath = Get-SafeEvidenceFile -Path (Join-Path $executionDirectory ([string] $evidence.versionFinal)) -ArtifactsDirectory $ArtifactsDirectory
+    if ($evidence.versionFinalSha256 -ne (Get-Sha256 -Path $versionFinalPath)) {
+        throw 'Execution evidence does not match the final package-version check bytes.'
+    }
+    $versionFinal = Get-Content -LiteralPath $versionFinalPath -Raw | ConvertFrom-Json
+    if ($versionFinal.schemaVersion -ne 1 -or
+        $versionFinal.status -ne 'passed' -or
+        $versionFinal.candidateCommit -ne $evidence.candidateCommit -or
+        @($versionFinal.checks).Count -eq 0 -or
+        @($versionFinal.checks | Where-Object status -ne 'absent').Count -ne 0) {
+        throw 'Execution evidence does not contain a complete passing final package-version check.'
     }
     if (-not (Test-EquivalentSourceFingerprint -Left $evidence.sourceFingerprintBefore -Right $evidence.sourceFingerprintAfter)) {
         throw 'Execution evidence source fingerprints do not match.'
@@ -600,7 +791,14 @@ function Assert-ReleaseExecutionEvidence {
         throw 'The current source fingerprint does not match the release execution evidence.'
     }
 
-    $expectedCommands = Get-ExpectedReleaseCommands -ExecutionDirectory $executionDirectory -CompatibilityPackageFeed $CompatibilityPackageFeed
+    $expectedCommandArguments = @{
+        ExecutionDirectory = $executionDirectory
+        CompatibilityPackageFeed = $CompatibilityPackageFeed
+        Root = $Root
+        CompatibilityRuntimeIdentifier = $CompatibilityRuntimeIdentifier
+        BenchmarksSkipped = $SkipBenchmarks.IsPresent
+    }
+    $expectedCommands = Get-ExpectedReleaseCommands @expectedCommandArguments
     $expectedNames = @($expectedCommands | ForEach-Object name)
     $candidateCommands = @($evidence.candidateCommands)
     if (-not (Test-ExactStringSequence -Actual $candidateCommands -Expected $expectedNames)) {
@@ -652,8 +850,9 @@ function Assert-ReleaseExecutionEvidence {
         $logTextByName[$name] = $standardOutput.text + [Environment]::NewLine + $standardError.text
         $verifiedCommands.Add([pscustomobject] [ordered]@{
                 name = $name
-                fileName = 'dotnet'
+                fileName = $expectedCommand.fileName
                 arguments = $expectedCommand.arguments
+                workingDirectory = $expectedCommand.workingDirectory
                 receipt = $expectedReceipt
                 receiptSha256 = Get-Sha256 -Path $receiptPath
                 standardOutputLog = $expectedOutputLog
@@ -708,9 +907,15 @@ function Assert-ReleaseExecutionEvidence {
     }
 
     $testLog = $logTextByName['test']
-    if ($testLog -notmatch '(?is)Test run summary:\s*Passed!.*?\btotal:\s*310.*?\bfailed:\s*0.*?\bsucceeded:\s*310.*?\bskipped:\s*0') {
-        throw 'Test evidence must report 310 passed, 0 failed, and 0 skipped.'
+    $testSummary = [regex]::Match(
+        $testLog,
+        '(?is)Test run summary:\s*Passed!.*?\btotal:\s*(?<total>\d+).*?\bfailed:\s*0.*?\bsucceeded:\s*(?<succeeded>\d+).*?\bskipped:\s*0')
+    if (-not $testSummary.Success -or
+        [int] $testSummary.Groups['total'].Value -le 0 -or
+        $testSummary.Groups['total'].Value -ne $testSummary.Groups['succeeded'].Value) {
+        throw 'Test evidence must report a positive all-passing count with 0 failed and 0 skipped.'
     }
+    $testCount = [int] $testSummary.Groups['total'].Value
     $testAssemblies = @(
         [System.IO.Path]::GetFullPath((Join-Path $Root 'tests/FunnySharp.Tests/bin/Release/net10.0/FunnySharp.Tests.dll')),
         [System.IO.Path]::GetFullPath((Join-Path $Root 'tests/FunnySharp.AspNetCore.Tests/bin/Release/net10.0/FunnySharp.AspNetCore.Tests.dll'))
@@ -729,13 +934,32 @@ function Assert-ReleaseExecutionEvidence {
         throw 'ASP.NET Core examples evidence did not contain the success message.'
     }
 
-    $benchmarkLog = $logTextByName['benchmark']
-    if ($benchmarkLog -notmatch '(?i)\b126\s+benchmark(?:\(s\)|s)?(?=\s|$)' -or
-        $benchmarkLog -notmatch '(?i)BenchmarkRunner:\s*Finish' -or
-        $benchmarkLog -match '(?i)benchmark has failed|failed benchmarks?|build error|error\s+CS\d+') {
-        throw 'Benchmark evidence must report 126 completed benchmarks with no failures.'
+    $benchmarkEvidence = [pscustomobject] [ordered]@{ status = 'skipped-by-protocol' }
+    if (-not $SkipBenchmarks) {
+        $benchmarkLog = $logTextByName['benchmark']
+        $completed = [regex]::Matches($benchmarkLog, '(?i)executed benchmarks:\s*(?<count>\d+)') |
+            ForEach-Object { [int] $_.Groups['count'].Value } |
+            Measure-Object -Maximum
+        if ($benchmarkLog -notmatch '(?i)BenchmarkRunner:\s*Finish' -or
+            $benchmarkLog -match '(?i)benchmark has failed|failed benchmarks?|build error|error\s+CS\d+' -or
+            $null -eq $completed.Maximum -or $completed.Maximum -le 0) {
+            throw 'Benchmark evidence must report completed benchmarks with no failures.'
+        }
+
+        $proposalPath = Get-SafeEvidenceFile -Path (Join-Path $executionDirectory 'performance-observation-proposal.json') -ArtifactsDirectory $ArtifactsDirectory
+        $proposal = Get-Content -LiteralPath $proposalPath -Raw | ConvertFrom-Json
+        if ($proposal.schemaVersion -ne 1 -or @($proposal.rows).Count -le 0) {
+            throw 'Performance observation proposal is missing or malformed.'
+        }
+        $benchmarkEvidence = Assert-BenchmarkReports `
+            -ExecutionDirectory $executionDirectory `
+            -ArtifactsDirectory $ArtifactsDirectory `
+            -Root $Root `
+            -ObservationRows @($proposal.rows)
+        $benchmarkEvidence | Add-Member -NotePropertyName executed -NotePropertyValue $completed.Maximum
+        $benchmarkEvidence | Add-Member -NotePropertyName observationProposal -NotePropertyValue 'performance-observation-proposal.json'
+        $benchmarkEvidence | Add-Member -NotePropertyName observationProposalSha256 -NotePropertyValue (Get-Sha256 -Path $proposalPath)
     }
-    $benchmarkEvidence = Assert-BenchmarkReports -ExecutionDirectory $executionDirectory -ArtifactsDirectory $ArtifactsDirectory -Root $Root
 
     return [pscustomobject] [ordered]@{
         directory = $executionDirectory
@@ -744,7 +968,7 @@ function Assert-ReleaseExecutionEvidence {
         sourceFingerprint = $currentFingerprint
         commands = $verifiedCommands
         build = [pscustomobject] [ordered]@{ warnings = 0; errors = 0 }
-        tests = [pscustomobject] [ordered]@{ total = 310; succeeded = 310; failed = 0; skipped = 0; assemblies = $testAssemblies }
+        tests = [pscustomobject] [ordered]@{ total = $testCount; succeeded = $testCount; failed = 0; skipped = 0; assemblies = $testAssemblies }
         examples = [pscustomobject] [ordered]@{ core = 'passed'; aspNetCore = 'passed' }
         formatter = [pscustomobject] [ordered]@{ exitCode = 0 }
         benchmarks = $benchmarkEvidence

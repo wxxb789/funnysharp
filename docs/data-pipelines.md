@@ -77,21 +77,25 @@ dotnet run --project benchmarks/FunnySharp.Benchmarks/FunnySharp.Benchmarks.cspr
 ShortRun results are directional and should be rerun on deployment hardware before capacity
 decisions.
 
-The following ShortRun was recorded on September 1, 2026 with BenchmarkDotNet 0.15.8,
-.NET 10.0.11, and an AMD EPYC 7763 Hyper-V virtual machine:
+The exact table below is generated from the approved observation in
+`eng/performance/baseline.json`. Hosted timing is directional; allocation ceilings are the blocking
+contract.
 
-| Carrier and count | Direct/BCL baseline | FunnySharp | Ratio | Baseline allocation | FunnySharp allocation |
+<!-- performance-table:start data-pipelines -->
+| Scenario | Baseline mean | FunnySharp mean | Ratio | Baseline allocation | FunnySharp allocation |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| `IEnumerable`, 16 | 145.83 ns | 122.58 ns | 0.84x | 160 B | 112 B |
-| `IEnumerable`, 1024 | 5.95 us | 4.64 us | 0.78x | 160 B | 112 B |
-| `Span`, 16 | 13.59 ns | 50.61 ns | 3.72x | 0 B | 0 B |
-| `Span`, 1024 | 892.17 ns | 3.18 us | 3.57x | 0 B | 0 B |
-| Async stream, 16 | 303.37 ns direct / 762.03 ns async LINQ | 728.20 ns | 2.40x direct | 0 B direct / 400 B async LINQ | 312 B |
-| Async stream, 1024 | 14.71 us direct / 39.41 us async LINQ | 44.17 us | 3.00x direct | 0 B direct / 400 B async LINQ | 312 B |
+| Async stream filter-map ([Count=1024]) - BclAsyncWhereSelect | 14.088 us | 39.543 us | 2.81x | 0 B | 400 B |
+| Async stream filter-map ([Count=1024]) - FunnySharpAsyncChoose | 14.088 us | 42.532 us | 3.02x | 0 B | 312 B |
+| Async stream filter-map ([Count=16]) - BclAsyncWhereSelect | 288.903 ns | 823.194 ns | 2.85x | 0 B | 400 B |
+| Async stream filter-map ([Count=16]) - FunnySharpAsyncChoose | 288.903 ns | 678.530 ns | 2.35x | 0 B | 312 B |
+| IEnumerable filter-map ([Count=1024]) | 6.118 us | 4.426 us | 0.72x | 160 B | 112 B |
+| IEnumerable filter-map ([Count=16]) | 148.812 ns | 120.603 ns | 0.81x | 160 B | 112 B |
+| Span filter-map ([Count=1024]) | 855.300 ns | 3.909 us | 4.57x | 0 B | 0 B |
+| Span filter-map ([Count=16]) | 12.448 ns | 51.962 ns | 4.17x | 0 B | 0 B |
 
-`IEnumerable<T>.Choose` removes one iterator layer compared with `Where` plus `Select` in this
-scenario. The span helper stays allocation-free and uses caller-owned storage, but standard
-delegate calls and `Option<T>` inspection are measurably slower than an inlined handwritten loop.
-The async helper uses 88 B less than the equivalent two-operator async LINQ pipeline; its timing was
-slightly better for 16 items and slightly worse for 1024 items in this short virtualized run. Use a
-direct loop when that measured overhead matters more than the reusable pipeline shape.
+Excluded measurements:
+- Unmeasured pipeline variants: ChooseValueAsync, SelectTo, WhereTo, in-place variants, and Memory wrappers have no numeric release claim.
+<!-- performance-table:end data-pipelines -->
+
+The generated comparisons keep carriers, parameters, and allocation visible. Use a direct loop
+when measured overhead matters more than the reusable pipeline shape.

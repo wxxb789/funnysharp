@@ -16,7 +16,6 @@ param(
     [ValidateNotNullOrEmpty()]
     [string]$PackageFeed = "https://api.nuget.org/v3/index.json",
 
-    [ValidateSet("CoreTrimmed", "CoreNativeAot", "AspNetCoreTrimmed", "AspNetCoreNativeAot")]
     [string[]]$Scenario = @(
         "CoreTrimmed",
         "CoreNativeAot",
@@ -27,6 +26,48 @@ param(
 
 Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
+
+$scriptRoot = Split-Path -Parent $PSCommandPath
+$definitions = @{
+    CoreSmoke = @{
+        Project = Join-Path $scriptRoot "FunnySharp.Compatibility.Core/FunnySharp.Compatibility.Core.csproj"
+        AssemblyName = "FunnySharp.Compatibility.Core"
+        PublishProperties = @()
+    }
+    CoreTrimmed = @{
+        Project = Join-Path $scriptRoot "FunnySharp.Compatibility.Core/FunnySharp.Compatibility.Core.csproj"
+        AssemblyName = "FunnySharp.Compatibility.Core"
+        PublishProperties = @("-p:PublishTrimmed=true", "-p:TrimMode=full", "-p:RootShippingAssemblies=true")
+    }
+    AspNetCoreSmoke = @{
+        Project = Join-Path $scriptRoot "FunnySharp.Compatibility.AspNetCore/FunnySharp.Compatibility.AspNetCore.csproj"
+        AssemblyName = "FunnySharp.Compatibility.AspNetCore"
+        PublishProperties = @()
+    }
+    CoreNativeAot = @{
+        Project = Join-Path $scriptRoot "FunnySharp.Compatibility.Core/FunnySharp.Compatibility.Core.csproj"
+        AssemblyName = "FunnySharp.Compatibility.Core"
+        PublishProperties = @("-p:PublishTrimmed=true", "-p:TrimMode=full", "-p:PublishAot=true", "-p:IsAotCompatible=true", "-p:RootShippingAssemblies=false")
+    }
+    AspNetCoreTrimmed = @{
+        Project = Join-Path $scriptRoot "FunnySharp.Compatibility.AspNetCore/FunnySharp.Compatibility.AspNetCore.csproj"
+        AssemblyName = "FunnySharp.Compatibility.AspNetCore"
+        PublishProperties = @("-p:PublishTrimmed=true", "-p:TrimMode=full", "-p:RootShippingAssemblies=true")
+    }
+    AspNetCoreNativeAot = @{
+        Project = Join-Path $scriptRoot "FunnySharp.Compatibility.AspNetCore/FunnySharp.Compatibility.AspNetCore.csproj"
+        AssemblyName = "FunnySharp.Compatibility.AspNetCore"
+        PublishProperties = @("-p:PublishTrimmed=true", "-p:TrimMode=full", "-p:PublishAot=true", "-p:IsAotCompatible=true", "-p:RootShippingAssemblies=false")
+    }
+}
+$Scenario = @($Scenario | ForEach-Object { $_ -split ',' } | Where-Object { -not [string]::IsNullOrWhiteSpace($_) })
+foreach ($name in $Scenario)
+{
+    if (-not $definitions.ContainsKey($name))
+    {
+        throw "Unknown compatibility scenario '$name'."
+    }
+}
 
 function Get-PathComparison
 {
@@ -96,7 +137,6 @@ function Assert-SafeArtifactsSubdirectory
     return $fullPath
 }
 
-$scriptRoot = Split-Path -Parent $PSCommandPath
 $RepositoryRoot = (Resolve-Path -LiteralPath $RepositoryRoot).Path
 $PackageDirectory = [System.IO.Path]::GetFullPath($PackageDirectory)
 $OutputDirectory = [System.IO.Path]::GetFullPath($OutputDirectory)
@@ -129,10 +169,11 @@ function Get-LocalPackageVersion
     )
 
     $escapedPackageId = [regex]::Escape($PackageId)
+    $packagePattern = "^$escapedPackageId\.(?<version>[0-9][0-9A-Za-z.+-]*)\.nupkg$"
     $packageFiles = @(
         Get-ChildItem -LiteralPath $PackageDirectory -File -Filter "*.nupkg" |
             Where-Object {
-                $_.Name -match "^$escapedPackageId\.(?<version>[0-9][0-9A-Za-z.+-]*)\.nupkg$"
+                $_.Name -match $packagePattern
             })
 
     if ($packageFiles.Count -ne 1)
@@ -140,7 +181,43 @@ function Get-LocalPackageVersion
         throw "Expected exactly one $PackageId package in '$PackageDirectory', but found $($packageFiles.Count)."
     }
 
-    return ([regex]::Match($packageFiles[0].Name, "^$escapedPackageId\.(?<version>[0-9][0-9A-Za-z.+-]*)\.nupkg$")).Groups["version"].Value
+    return ([regex]::Match($packageFiles[0].Name, $packagePattern)).Groups["version"].Value
+}
+
+function Get-PackageAssemblySha256
+{
+    param(
+        [Parameter(Mandatory)]
+        [string]$PackagePath,
+
+        [Parameter(Mandatory)]
+        [string]$EntryPath
+    )
+
+    $archive = [IO.Compression.ZipFile]::OpenRead($PackagePath)
+    try
+    {
+        $entry = $archive.GetEntry($EntryPath)
+        if ($null -eq $entry)
+        {
+            throw "Package '$PackagePath' does not contain '$EntryPath'."
+        }
+
+        $stream = $entry.Open()
+        try
+        {
+            return [Convert]::ToHexString(
+                [Security.Cryptography.SHA256]::HashData($stream)).ToLowerInvariant()
+        }
+        finally
+        {
+            $stream.Dispose()
+        }
+    }
+    finally
+    {
+        $archive.Dispose()
+    }
 }
 
 function Invoke-DotNet
@@ -199,6 +276,22 @@ function Reset-Directory
     New-Item -ItemType Directory -Path $Path -Force | Out-Null
 }
 
+function Get-IsolatedNuGetPackagesDirectory
+{
+    param(
+        [Parameter(Mandatory)]
+        [string]$ArtifactsDirectory,
+
+        [Parameter(Mandatory)]
+        [string]$OutputDirectory
+    )
+
+    $cacheKey = [Convert]::ToHexString(
+        [Security.Cryptography.SHA256]::HashData(
+            [Text.Encoding]::UTF8.GetBytes($OutputDirectory))).Substring(0, 16).ToLowerInvariant()
+    return Join-Path $ArtifactsDirectory (Join-Path ".nuget-packages" $cacheKey)
+}
+
 New-Item -ItemType Directory -Path $OutputDirectory -Force | Out-Null
 $outputRoot = (Resolve-Path -LiteralPath $OutputDirectory).Path
 $coreVersion = Get-LocalPackageVersion -PackageId "FunnySharp"
@@ -207,6 +300,8 @@ $corePackagePath = Join-Path $PackageDirectory "FunnySharp.$coreVersion.nupkg"
 $aspNetCorePackagePath = Join-Path $PackageDirectory "FunnySharp.AspNetCore.$aspNetCoreVersion.nupkg"
 $corePackageSha256 = (Get-FileHash -LiteralPath $corePackagePath -Algorithm SHA256).Hash
 $aspNetCorePackageSha256 = (Get-FileHash -LiteralPath $aspNetCorePackagePath -Algorithm SHA256).Hash
+$coreAssemblySha256 = Get-PackageAssemblySha256 -PackagePath $corePackagePath -EntryPath 'lib/net10.0/FunnySharp.dll'
+$aspNetCoreAssemblySha256 = Get-PackageAssemblySha256 -PackagePath $aspNetCorePackagePath -EntryPath 'lib/net10.0/FunnySharp.AspNetCore.dll'
 $nugetConfigPath = Join-Path $outputRoot "NuGet.Config"
 $localSource = [System.Security.SecurityElement]::Escape($PackageDirectory)
 $upstreamSource = [System.Security.SecurityElement]::Escape($PackageFeed)
@@ -235,31 +330,10 @@ $upstreamSource = [System.Security.SecurityElement]::Escape($PackageFeed)
 </configuration>
 "@ | Set-Content -LiteralPath $nugetConfigPath -Encoding utf8NoBOM
 
-$env:NUGET_PACKAGES = Join-Path $outputRoot ".nuget-packages"
+$env:NUGET_PACKAGES = Get-IsolatedNuGetPackagesDirectory `
+    -ArtifactsDirectory $artifactsDirectory `
+    -OutputDirectory $outputRoot
 Reset-Directory -Path $env:NUGET_PACKAGES
-
-$definitions = @{
-    CoreTrimmed = @{
-        Project = Join-Path $scriptRoot "FunnySharp.Compatibility.Core/FunnySharp.Compatibility.Core.csproj"
-        AssemblyName = "FunnySharp.Compatibility.Core"
-        PublishProperties = @("-p:PublishTrimmed=true", "-p:TrimMode=full", "-p:RootShippingAssemblies=true")
-    }
-    CoreNativeAot = @{
-        Project = Join-Path $scriptRoot "FunnySharp.Compatibility.Core/FunnySharp.Compatibility.Core.csproj"
-        AssemblyName = "FunnySharp.Compatibility.Core"
-        PublishProperties = @("-p:PublishTrimmed=true", "-p:TrimMode=full", "-p:PublishAot=true", "-p:IsAotCompatible=true", "-p:RootShippingAssemblies=false")
-    }
-    AspNetCoreTrimmed = @{
-        Project = Join-Path $scriptRoot "FunnySharp.Compatibility.AspNetCore/FunnySharp.Compatibility.AspNetCore.csproj"
-        AssemblyName = "FunnySharp.Compatibility.AspNetCore"
-        PublishProperties = @("-p:PublishTrimmed=true", "-p:TrimMode=full", "-p:RootShippingAssemblies=true")
-    }
-    AspNetCoreNativeAot = @{
-        Project = Join-Path $scriptRoot "FunnySharp.Compatibility.AspNetCore/FunnySharp.Compatibility.AspNetCore.csproj"
-        AssemblyName = "FunnySharp.Compatibility.AspNetCore"
-        PublishProperties = @("-p:PublishTrimmed=true", "-p:TrimMode=full", "-p:PublishAot=true", "-p:IsAotCompatible=true", "-p:RootShippingAssemblies=false")
-    }
-}
 
 $results = [System.Collections.Generic.List[object]]::new()
 foreach ($name in $Scenario)
@@ -278,8 +352,8 @@ foreach ($name in $Scenario)
             "-p:FunnySharpPackageVersion=$coreVersion",
             "-p:FunnySharpAspNetCorePackageVersion=$aspNetCoreVersion",
             "-p:SelfContained=true",
-            "-p:BaseIntermediateOutputPath=$intermediateDirectory\",
-            "-p:BaseOutputPath=$binaryDirectory\"
+            "-p:BaseIntermediateOutputPath=$intermediateDirectory$([IO.Path]::DirectorySeparatorChar)",
+            "-p:BaseOutputPath=$binaryDirectory$([IO.Path]::DirectorySeparatorChar)"
         )
 
         Invoke-DotNet -Arguments (@(
@@ -307,6 +381,36 @@ foreach ($name in $Scenario)
         ) + $commonProperties + $definition.PublishProperties)
 
         Invoke-PublishedApplication -PublishDirectory $publishDirectory -AssemblyName $definition.AssemblyName
+        $publishedCoreAssembly = Join-Path $publishDirectory 'FunnySharp.dll'
+        $publishedAspNetCoreAssembly = Join-Path $publishDirectory 'FunnySharp.AspNetCore.dll'
+        $publishedCoreAssemblySha256 = if (Test-Path -LiteralPath $publishedCoreAssembly -PathType Leaf)
+        {
+            (Get-FileHash -LiteralPath $publishedCoreAssembly -Algorithm SHA256).Hash.ToLowerInvariant()
+        }
+        else
+        {
+            $null
+        }
+        $publishedAspNetCoreAssemblySha256 = if (Test-Path -LiteralPath $publishedAspNetCoreAssembly -PathType Leaf)
+        {
+            (Get-FileHash -LiteralPath $publishedAspNetCoreAssembly -Algorithm SHA256).Hash.ToLowerInvariant()
+        }
+        else
+        {
+            $null
+        }
+        if ($name.EndsWith('Smoke', [StringComparison]::Ordinal) -and
+            $null -ne $publishedCoreAssemblySha256 -and
+            -not $publishedCoreAssemblySha256.Equals($coreAssemblySha256, [StringComparison]::OrdinalIgnoreCase))
+        {
+            throw "Published FunnySharp.dll does not match the canonical package assembly."
+        }
+        if ($name.EndsWith('Smoke', [StringComparison]::Ordinal) -and
+            $null -ne $publishedAspNetCoreAssemblySha256 -and
+            -not $publishedAspNetCoreAssemblySha256.Equals($aspNetCoreAssemblySha256, [StringComparison]::OrdinalIgnoreCase))
+        {
+            throw "Published FunnySharp.AspNetCore.dll does not match the canonical package assembly."
+        }
         $results.Add([pscustomobject]@{
                 Scenario = $name
                 Outcome = "Passed"
@@ -320,6 +424,10 @@ foreach ($name in $Scenario)
                 AspNetCorePackageVersion = $aspNetCoreVersion
                 CorePackageSha256 = $corePackageSha256
                 AspNetCorePackageSha256 = $aspNetCorePackageSha256
+                CoreAssemblySha256 = $coreAssemblySha256
+                AspNetCoreAssemblySha256 = $aspNetCoreAssemblySha256
+                PublishedCoreAssemblySha256 = $publishedCoreAssemblySha256
+                PublishedAspNetCoreAssemblySha256 = $publishedAspNetCoreAssemblySha256
                 Error = $null
             })
     }
@@ -338,6 +446,10 @@ foreach ($name in $Scenario)
                 AspNetCorePackageVersion = $aspNetCoreVersion
                 CorePackageSha256 = $corePackageSha256
                 AspNetCorePackageSha256 = $aspNetCorePackageSha256
+                CoreAssemblySha256 = $coreAssemblySha256
+                AspNetCoreAssemblySha256 = $aspNetCoreAssemblySha256
+                PublishedCoreAssemblySha256 = $null
+                PublishedAspNetCoreAssemblySha256 = $null
                 Error = $_.Exception.Message
             })
         [Console]::Error.WriteLine("$name failed: $($_.Exception.Message)")
@@ -355,6 +467,8 @@ $evidence = [pscustomobject]@{
     AspNetCorePackageVersion = $aspNetCoreVersion
     CorePackageSha256 = $corePackageSha256
     AspNetCorePackageSha256 = $aspNetCorePackageSha256
+    CoreAssemblySha256 = $coreAssemblySha256
+    AspNetCoreAssemblySha256 = $aspNetCoreAssemblySha256
     Scenarios = $results
 }
 $evidence | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath $resultsPath -Encoding utf8NoBOM

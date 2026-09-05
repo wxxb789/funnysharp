@@ -315,6 +315,44 @@ public sealed class AsyncCollectionTraversalTests
     }
 
     [Fact]
+    public async Task FaultedTraverseValueAsyncSelectorsPropagateOnceAndDisposeTheirSources()
+    {
+        var optionFailure = new InvalidOperationException("option selector");
+        var resultFailure = new InvalidOperationException("result selector");
+        var validationFailure = new InvalidOperationException("validation selector");
+        var optionValueTask = new CountingValueTaskSource<Option<int>>();
+        var resultValueTask = new CountingValueTaskSource<Result<int, string>>();
+        var validationValueTask = new CountingValueTaskSource<Validation<int, string>>();
+        optionValueTask.SetException(optionFailure);
+        resultValueTask.SetException(resultFailure);
+        validationValueTask.SetException(validationFailure);
+        var optionSource = new ProbeAsyncEnumerable<int>([1]);
+        var resultSource = new ProbeAsyncEnumerable<int>([1]);
+        var validationSource = new ProbeAsyncEnumerable<int>([1]);
+
+        Assert.Same(
+            optionFailure,
+            await Assert.ThrowsAsync<InvalidOperationException>(async () =>
+                await optionSource.TraverseValueAsync(_ => optionValueTask.CreateValueTask())));
+        Assert.Same(
+            resultFailure,
+            await Assert.ThrowsAsync<InvalidOperationException>(async () =>
+                await resultSource.TraverseValueAsync<int, int, string>(_ => resultValueTask.CreateValueTask())));
+        Assert.Same(
+            validationFailure,
+            await Assert.ThrowsAsync<InvalidOperationException>(async () =>
+                await validationSource.TraverseValueAsync<int, int, string>(
+                    _ => validationValueTask.CreateValueTask())));
+
+        Assert.Equal(1, optionValueTask.GetResultCount);
+        Assert.Equal(1, resultValueTask.GetResultCount);
+        Assert.Equal(1, validationValueTask.GetResultCount);
+        Assert.Equal(1, optionSource.DisposeCount);
+        Assert.Equal(1, resultSource.DisposeCount);
+        Assert.Equal(1, validationSource.DisposeCount);
+    }
+
+    [Fact]
     public async Task SequenceAsyncConsumesEachMoveNextValueTaskOnce()
     {
         var optionSource = new CountingMoveNextAsyncEnumerable<Option<int>>([Option.Some(1)]);

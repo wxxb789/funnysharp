@@ -112,3 +112,10 @@ Run the compiling Minimal API sample without starting a server:
 ```shell
 dotnet run --project examples/FunnySharp.AspNetCore.Examples/FunnySharp.AspNetCore.Examples.csproj --configuration Release -- --verify
 ```
+
+## Performance Boundary
+
+HTTP mapping overhead is intentionally not assigned a numeric release claim. Request pipeline,
+serialization, dependency injection, transport, and application policy dominate realistic endpoint
+measurements and remain caller-owned. The performance manifest records this exclusion explicitly;
+add a benchmark only when a concrete application workload and comparison contract are accepted.

@@ -17,7 +17,7 @@ public static class ConcurrentEffectExtensions
     /// <returns>
     /// An asynchronous operation that returns the first observed successful value as a valid validation. When every
     /// effect returns a typed failure, it returns an invalid validation containing those failures in input order.
-    /// Started effects receive a linked operation token, and remaining work is canceled and drained after a success.
+    /// Started effects receive an internal operation token, and remaining work is canceled and drained after a success.
     /// Without a success, ordinary faults and source cancellation propagate instead of becoming typed errors.
     /// </returns>
     /// <exception cref="ArgumentNullException"><paramref name="effects"/> is <see langword="null"/>.</exception>
@@ -42,7 +42,7 @@ public static class ConcurrentEffectExtensions
     /// <returns>
     /// An asynchronous operation that returns the first observed successful value as a valid validation. When every
     /// effect returns a typed failure, it returns an invalid validation containing those failures in input order.
-    /// Started effects receive a linked operation token, and remaining work is canceled and drained after a success.
+    /// Started effects receive an internal operation token, and remaining work is canceled and drained after a success.
     /// Without a success, ordinary faults and source cancellation propagate instead of becoming typed errors.
     /// </returns>
     /// <exception cref="ArgumentNullException"><paramref name="effects"/> is <see langword="null"/>.</exception>
@@ -68,7 +68,7 @@ public static class ConcurrentEffectExtensions
     /// <returns>
     /// An asynchronous operation that returns the first observed successful value as a valid validation. When every
     /// effect returns a typed failure, it returns an invalid validation containing those failures in input order.
-    /// Started effects receive a linked operation token, and remaining work is canceled and drained after a success.
+    /// Started effects receive an internal operation token, and remaining work is canceled and drained after a success.
     /// Without a success, ordinary faults and source cancellation propagate instead of becoming typed errors.
     /// </returns>
     /// <exception cref="ArgumentNullException">
@@ -119,11 +119,31 @@ public static class ConcurrentEffectExtensions
     {
         try
         {
-            using var operationCancellationSource = timeoutCancellationSource is null
+            using var operationCancellationSource = new CancellationTokenSource();
+            using var signalCancellationSource = timeoutCancellationSource is null
                 ? CancellationTokenSource.CreateLinkedTokenSource(cancellationToken)
                 : CancellationTokenSource.CreateLinkedTokenSource(
                     cancellationToken,
                     timeoutCancellationSource.Token);
+            Exception? signalCancellationFailure = null;
+            var cancellationSignal = new TaskCompletionSource(
+                TaskCreationOptions.RunContinuationsAsynchronously);
+            using var cancellationRegistration = signalCancellationSource.Token.Register(() =>
+            {
+                try
+                {
+                    operationCancellationSource.Cancel();
+                }
+                catch (Exception exception)
+                {
+                    Interlocked.CompareExchange(ref signalCancellationFailure, exception, null);
+                }
+                finally
+                {
+                    cancellationSignal.TrySetResult();
+                }
+            });
+
             var operationToken = operationCancellationSource.Token;
             var tasks = new Task<Result<TValue, TError>>[effects.Length];
             for (var index = 0; index < effects.Length; index++)
@@ -136,7 +156,6 @@ public static class ConcurrentEffectExtensions
             var hasTypedFailure = new bool[effects.Length];
             var faults = new Exception?[effects.Length];
             var cancellations = new OperationCanceledException?[effects.Length];
-            var cancellationSignal = Task.Delay(Timeout.InfiniteTimeSpan, operationToken);
 
             while (pending.Count > 0)
             {
@@ -183,29 +202,23 @@ public static class ConcurrentEffectExtensions
 
                 if (hasWinner)
                 {
+                    Exception? primaryFailure = null;
                     if (cancellationToken.IsCancellationRequested)
                     {
-                        var cleanupFailure = await CancelAndDrainAsync(pending, operationCancellationSource).ConfigureAwait(false);
-                        throw CreatePrimaryFailure(new OperationCanceledException(cancellationToken), cleanupFailure);
+                        primaryFailure = new OperationCanceledException(cancellationToken);
                     }
-
-                    if (timeoutCancellationSource is { IsCancellationRequested: true })
+                    else if (timeoutCancellationSource is { IsCancellationRequested: true })
                     {
-                        var cleanupFailure = await CancelAndDrainAsync(pending, operationCancellationSource).ConfigureAwait(false);
-                        throw CreatePrimaryFailure(new TimeoutException(), cleanupFailure);
+                        primaryFailure = new TimeoutException();
+                    }
+                    else
+                    {
+                        StopTimeout(timeoutCancellationSource);
                     }
 
-                    StopTimeout(timeoutCancellationSource);
                     var winnerCleanupFailure = await CancelAndDrainAsync(pending, operationCancellationSource).ConfigureAwait(false);
-
-                    if (cancellationToken.IsCancellationRequested)
-                    {
-                        throw CreatePrimaryFailure(
-                            new OperationCanceledException(cancellationToken),
-                            winnerCleanupFailure);
-                    }
-
-                    ThrowCleanupFailure(winnerCleanupFailure);
+                    winnerCleanupFailure ??= Volatile.Read(ref signalCancellationFailure);
+                    ThrowPostDrainFailure(cancellationToken, primaryFailure, winnerCleanupFailure);
 
                     return Validation<TValue, TError>.Valid(winner!);
                 }
@@ -213,13 +226,20 @@ public static class ConcurrentEffectExtensions
                 if (cancellationToken.IsCancellationRequested)
                 {
                     var cleanupFailure = await CancelAndDrainAsync(pending, operationCancellationSource).ConfigureAwait(false);
-                    throw CreatePrimaryFailure(new OperationCanceledException(cancellationToken), cleanupFailure);
+                    cleanupFailure ??= Volatile.Read(ref signalCancellationFailure);
+                    ThrowPostDrainFailure(
+                        cancellationToken,
+                        new OperationCanceledException(cancellationToken),
+                        cleanupFailure);
+                    continue;
                 }
 
                 if (timeoutCancellationSource is { IsCancellationRequested: true })
                 {
                     var cleanupFailure = await CancelAndDrainAsync(pending, operationCancellationSource).ConfigureAwait(false);
-                    throw CreatePrimaryFailure(new TimeoutException(), cleanupFailure);
+                    cleanupFailure ??= Volatile.Read(ref signalCancellationFailure);
+                    ThrowPostDrainFailure(cancellationToken, new TimeoutException(), cleanupFailure);
+                    continue;
                 }
 
                 if (observedCompletion)
@@ -228,22 +248,17 @@ public static class ConcurrentEffectExtensions
                 }
 
                 var taskCompletion = Task.WhenAny(pending);
-                var signal = await Task.WhenAny(taskCompletion, cancellationSignal).ConfigureAwait(false);
-                if (signal == cancellationSignal)
+                var signal = await Task.WhenAny(taskCompletion, cancellationSignal.Task).ConfigureAwait(false);
+                if (signal == cancellationSignal.Task)
                 {
+                    Exception? primaryFailure = cancellationToken.IsCancellationRequested
+                        ? new OperationCanceledException(cancellationToken)
+                        : timeoutCancellationSource is { IsCancellationRequested: true }
+                            ? new TimeoutException()
+                            : null;
                     var cleanupFailure = await CancelAndDrainAsync(pending, operationCancellationSource).ConfigureAwait(false);
-
-                    if (cancellationToken.IsCancellationRequested)
-                    {
-                        throw CreatePrimaryFailure(new OperationCanceledException(cancellationToken), cleanupFailure);
-                    }
-
-                    if (timeoutCancellationSource is { IsCancellationRequested: true })
-                    {
-                        throw CreatePrimaryFailure(new TimeoutException(), cleanupFailure);
-                    }
-
-                    ThrowCleanupFailure(cleanupFailure);
+                    cleanupFailure ??= Volatile.Read(ref signalCancellationFailure);
+                    ThrowPostDrainFailure(cancellationToken, primaryFailure, cleanupFailure);
                 }
             }
 
@@ -311,6 +326,25 @@ public static class ConcurrentEffectExtensions
         cleanupFailure is null
             ? primaryFailure
             : new AggregateException(primaryFailure, cleanupFailure);
+
+    private static void ThrowPostDrainFailure(
+        CancellationToken cancellationToken,
+        Exception? primaryFailure,
+        Exception? cleanupFailure)
+    {
+        if (cancellationToken.IsCancellationRequested)
+        {
+            primaryFailure = new OperationCanceledException(cancellationToken);
+        }
+
+        if (primaryFailure is null)
+        {
+            ThrowCleanupFailure(cleanupFailure);
+            return;
+        }
+
+        ExceptionDispatchInfo.Capture(CreatePrimaryFailure(primaryFailure, cleanupFailure)).Throw();
+    }
 
     private static void ThrowCleanupFailure(Exception? cleanupFailure)
     {

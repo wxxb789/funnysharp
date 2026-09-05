@@ -124,10 +124,13 @@ so that no started work is left unobserved. A failure raised by cancellation cal
 failure and propagates instead of being discarded.
 
 The timeout overload takes `TimeProvider` so callers can test time deterministically. Timeout is
-cooperative: it cancels the linked operation token and waits for started work to drain before
+cooperative: it cancels the internal operation token and waits for started work to drain before
 throwing `TimeoutException`; it cannot forcibly stop non-cooperating work. Caller cancellation
-has precedence over both timeout and a concurrently observed success, and throws
-`OperationCanceledException` with the caller token after cleanup.
+has precedence over both timeout and a concurrently observed success. The coordinator freezes the
+winner/timeout/failure candidate, drains started work, then checks caller cancellation once at the
+shared publication point. Cancellation that occurs during cleanup therefore throws
+`OperationCanceledException` with the caller token; cleanup failures remain secondary through the
+documented aggregate contract.
 
 `FirstSuccessAsync` accepts cold `Effect<Result<...>>` values rather than started `Task`s.
 Wrap a Task-returning method with `Effect.FromTask`, or a ValueTask-returning method with
@@ -156,20 +159,26 @@ Run the focused benchmark with:
 dotnet run --project benchmarks/FunnySharp.Benchmarks/FunnySharp.Benchmarks.csproj --configuration Release -- --filter '*ConcurrencyBenchmarks*'
 ```
 
-The following `ShortRun` was recorded on September 1, 2026 with BenchmarkDotNet 0.15.8,
-.NET SDK 10.0.400, .NET 10.0.11, and an AMD EPYC 7763 Hyper-V virtual machine. The job used one
-launch, three warmups, and three measured iterations:
+The exact table below is generated from the approved observation in
+`eng/performance/baseline.json`. Hosted timing is directional; allocation ceilings are the blocking
+contract.
 
-| Scenario | Size | BCL/direct mean | FunnySharp mean | Ratio | BCL/direct allocation | FunnySharp allocation |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| Ordered bounded map | 16 | 29.44 us | 58.05 us | 2.07x | 5.86 KB | 8.88 KB |
-| Ordered bounded map | 1,024 | 860.53 us | 1.381 ms | 1.61x | 293.35 KB | 335.86 KB |
-| Parallel Option traversal | 16 | 35.95 us | 33.10 us | 0.92x | 5.94 KB | 5.16 KB |
-| Parallel Option traversal | 1,024 | 926.07 us | 705.33 us | 0.76x | 315.83 KB | 166.04 KB |
-| Parallel Validation accumulation | 16 | 36.60 us | 36.94 us | 1.01x | 6.23 KB | 6.27 KB |
-| Parallel Validation accumulation | 1,024 | 941.63 us | 750.73 us | 0.80x | 348.31 KB | 207.66 KB |
-| First success | 4 candidates | 2.376 us | 3.529 us | 1.49x | 1.42 KB | 1.69 KB |
-| First success | 16 candidates | 17.306 us | 19.349 us | 1.12x | 5.31 KB | 4.78 KB |
+<!-- performance-table:start concurrency -->
+| Scenario | Baseline mean | FunnySharp mean | Ratio | Baseline allocation | FunnySharp allocation |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Ordered bounded asynchronous map ([Count=1024]) | 899.447 us | 1,428.815 us | 1.59x | 303614 B | 362829 B |
+| Ordered bounded asynchronous map ([Count=16]) | 32.837 us | 69.493 us | 2.12x | 5246 B | 10252 B |
+| First successful cold Result operation ([CandidateCount=16]) | 19.532 us | 22.478 us | 1.15x | 5553 B | 4656 B |
+| First successful cold Result operation ([CandidateCount=4]) | 3.329 us | 5.315 us | 1.60x | 1476 B | 1643 B |
+| Parallel Option traversal ([Count=1024]) | 946.120 us | 715.345 us | 0.76x | 318427 B | 175064 B |
+| Parallel Option traversal ([Count=16]) | 36.971 us | 30.630 us | 0.83x | 5817 B | 5508 B |
+| Parallel Validation accumulation ([Count=1024]) | 966.967 us | 740.461 us | 0.77x | 361903 B | 213764 B |
+| Parallel Validation accumulation ([Count=16]) | 34.840 us | 42.501 us | 1.22x | 6387 B | 7760 B |
+
+Excluded measurements:
+- Result parallel traversal: The prior supplemental comparison used different input carriers and is not reproducible from tracked sources.
+- Unmeasured failure paths: Failure-path concurrency is covered by deterministic tests rather than timing claims.
+<!-- performance-table:end concurrency -->
 
 The ordered streaming map pays for its reusable enumerator, channel backpressure, ordered delivery,
 and cleanup tracking; in this workload it was 1.6-2.1x slower and allocated 1.1-1.5x as much as the

@@ -1,0 +1,202 @@
+name: release
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  DOTNET_NOLOGO: true
+  NUGET_XMLDOC_MODE: skip
+  COMPATIBILITY_FEED: https://api.nuget.org/v3/index.json
+
+jobs:
+  win-x64:
+    name: win-x64
+    runs-on: windows-2025
+    timeout-minutes: 45
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@67a3573c9a986a3f9c594539f4ab511d57bb3ce9 # v4
+        with:
+          global-json-file: global.json
+
+      - name: Run canonical release
+        shell: pwsh
+        run: >
+          ./eng/Run-Release.ps1
+          -AttemptId "${{ github.run_id }}-${{ github.run_attempt }}-win-x64"
+          -CompatibilityRuntimeIdentifier win-x64
+          -CompatibilityPackageFeed "$env:COMPATIBILITY_FEED"
+
+      - name: Upload canonical candidate
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: canonical-candidate-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            artifacts/release-candidate/${{ github.sha }}/${{ github.run_id }}-${{ github.run_attempt }}-win-x64
+            !artifacts/release-candidate/${{ github.sha }}/${{ github.run_id }}-${{ github.run_attempt }}-win-x64/nuget-packages/**
+          if-no-files-found: error
+          retention-days: 7
+
+      - name: Upload Windows failure evidence
+        if: failure()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: release-evidence-win-x64-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            artifacts/release-candidate/${{ github.sha }}/${{ github.run_id }}-${{ github.run_attempt }}-win-x64
+            !artifacts/release-candidate/${{ github.sha }}/${{ github.run_id }}-${{ github.run_attempt }}-win-x64/nuget-packages/**
+          if-no-files-found: error
+          retention-days: 7
+
+  linux-x64:
+    name: linux-x64
+    needs: win-x64
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@67a3573c9a986a3f9c594539f4ab511d57bb3ce9 # v4
+        with:
+          global-json-file: global.json
+
+      - name: Download canonical candidate
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: canonical-candidate-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/canonical-win
+
+      - name: Run source and platform proof
+        shell: pwsh
+        run: >
+          ./eng/Run-Release.ps1
+          -AttemptId "${{ github.run_id }}-${{ github.run_attempt }}-linux-x64"
+          -CompatibilityRuntimeIdentifier linux-x64
+          -CompatibilityPackageFeed "$env:COMPATIBILITY_FEED"
+          -SkipBenchmarks
+
+      - name: Consume canonical packages
+        shell: pwsh
+        run: >
+          ./tests/FunnySharp.Compatibility/Run-Compatibility.ps1
+          -PackageDirectory artifacts/canonical-win/packages
+          -OutputDirectory artifacts/canonical-consumer/linux-x64
+          -RuntimeIdentifier linux-x64
+          -PackageFeed "$env:COMPATIBILITY_FEED"
+
+      - name: Upload Linux evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: release-evidence-linux-x64-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            artifacts/release-candidate/${{ github.sha }}/${{ github.run_id }}-${{ github.run_attempt }}-linux-x64
+            !artifacts/release-candidate/${{ github.sha }}/${{ github.run_id }}-${{ github.run_attempt }}-linux-x64/nuget-packages/**
+            artifacts/canonical-consumer/linux-x64
+          if-no-files-found: error
+          retention-days: 7
+
+  osx-arm64:
+    name: osx-arm64
+    needs: win-x64
+    runs-on: macos-14
+    timeout-minutes: 35
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@67a3573c9a986a3f9c594539f4ab511d57bb3ce9 # v4
+        with:
+          global-json-file: global.json
+
+      - name: Download canonical candidate
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: canonical-candidate-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/canonical-win
+
+      - name: Run source and platform proof
+        shell: pwsh
+        run: >
+          ./eng/Run-Release.ps1
+          -AttemptId "${{ github.run_id }}-${{ github.run_attempt }}-osx-arm64"
+          -CompatibilityRuntimeIdentifier osx-arm64
+          -CompatibilityPackageFeed "$env:COMPATIBILITY_FEED"
+          -SkipBenchmarks
+
+      - name: Consume canonical packages
+        shell: pwsh
+        run: >
+          ./tests/FunnySharp.Compatibility/Run-Compatibility.ps1
+          -PackageDirectory artifacts/canonical-win/packages
+          -OutputDirectory artifacts/canonical-consumer/osx-arm64
+          -RuntimeIdentifier osx-arm64
+          -PackageFeed "$env:COMPATIBILITY_FEED"
+
+      - name: Upload macOS arm64 evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: release-evidence-osx-arm64-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            artifacts/release-candidate/${{ github.sha }}/${{ github.run_id }}-${{ github.run_attempt }}-osx-arm64
+            !artifacts/release-candidate/${{ github.sha }}/${{ github.run_id }}-${{ github.run_attempt }}-osx-arm64/nuget-packages/**
+            artifacts/canonical-consumer/osx-arm64
+          if-no-files-found: error
+          retention-days: 7
+
+  osx-x64-consumer:
+    name: osx-x64-consumer
+    needs: win-x64
+    runs-on: macos-15-intel
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@67a3573c9a986a3f9c594539f4ab511d57bb3ce9 # v4
+        with:
+          global-json-file: global.json
+
+      - name: Download canonical candidate
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: canonical-candidate-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/canonical-win
+
+      - name: Run bounded canonical-package smoke
+        shell: pwsh
+        run: >
+          ./tests/FunnySharp.Compatibility/Run-Compatibility.ps1
+          -PackageDirectory artifacts/canonical-win/packages
+          -OutputDirectory artifacts/canonical-consumer/osx-x64
+          -RuntimeIdentifier osx-x64
+          -PackageFeed "$env:COMPATIBILITY_FEED"
+          -Scenario CoreSmoke,AspNetCoreSmoke
+
+      - name: Upload macOS x64 evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: release-evidence-osx-x64-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/canonical-consumer/osx-x64
+          if-no-files-found: error
+          retention-days: 7

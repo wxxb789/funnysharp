@@ -1,3 +1,6 @@
+using System.Diagnostics;
+using System.Runtime.ExceptionServices;
+
 namespace FunnySharp.Tests;
 
 public sealed class ResultBoundaryTests
@@ -234,6 +237,101 @@ public sealed class ResultBoundaryTests
     }
 
     [Fact]
+    public async Task SynchronousAsyncCancellationPreservesIdentityStackTokenAndStatus()
+    {
+        using var cancellationSource = new CancellationTokenSource();
+        cancellationSource.Cancel();
+        var taskCancellation = CaptureCancellation(cancellationSource.Token);
+        var valueTaskCancellation = CaptureCancellation(cancellationSource.Token);
+
+        var task = Result.TryAsync<int>(() =>
+            Rethrow<Task<int>>(ExceptionDispatchInfo.Capture(taskCancellation)));
+        var valueTask = Result.TryValueAsync<int>(() =>
+            Rethrow<ValueTask<int>>(ExceptionDispatchInfo.Capture(valueTaskCancellation))).AsTask();
+
+        var actualTaskCancellation = await Assert.ThrowsAnyAsync<OperationCanceledException>(() => task);
+        var actualValueTaskCancellation = await Assert.ThrowsAnyAsync<OperationCanceledException>(
+            () => valueTask);
+
+        AssertCancellation(
+            task,
+            actualTaskCancellation,
+            taskCancellation,
+            cancellationSource.Token,
+            nameof(ThrowOriginalCancellation));
+        AssertCancellation(
+            valueTask,
+            actualValueTaskCancellation,
+            valueTaskCancellation,
+            cancellationSource.Token,
+            nameof(ThrowOriginalCancellation));
+    }
+
+    [Fact]
+    public async Task AsyncErrorMapperCancellationPreservesIdentityStackTokenAndStatus()
+    {
+        using var cancellationSource = new CancellationTokenSource();
+        cancellationSource.Cancel();
+        var taskCancellation = new OperationCanceledException(cancellationSource.Token);
+        var valueTaskCancellation = new OperationCanceledException(cancellationSource.Token);
+
+        var task = Result.TryAsync<int, string>(
+            () => Task.FromException<int>(new InvalidOperationException("task source")),
+            _ => ThrowCancellation<string>(taskCancellation));
+        var valueTask = Result.TryValueAsync<int, string>(
+            () => ValueTask.FromException<int>(new InvalidOperationException("value task source")),
+            _ => ThrowCancellation<string>(valueTaskCancellation)).AsTask();
+
+        var actualTaskCancellation = await Assert.ThrowsAnyAsync<OperationCanceledException>(() => task);
+        var actualValueTaskCancellation = await Assert.ThrowsAnyAsync<OperationCanceledException>(
+            () => valueTask);
+
+        AssertCancellation(
+            task,
+            actualTaskCancellation,
+            taskCancellation,
+            cancellationSource.Token,
+            nameof(ThrowCancellation));
+        AssertCancellation(
+            valueTask,
+            actualValueTaskCancellation,
+            valueTaskCancellation,
+            cancellationSource.Token,
+            nameof(ThrowCancellation));
+    }
+
+    [Fact]
+    public async Task PendingCanceledSourcesPreserveIdentityStackTokenAndStatus()
+    {
+        using var cancellationSource = new CancellationTokenSource();
+        cancellationSource.Cancel();
+        var taskCancellation = CaptureCancellation(cancellationSource.Token);
+        var valueTaskCancellation = CaptureCancellation(cancellationSource.Token);
+        var taskSource = CreateCanceledSourceAsync<int>(taskCancellation);
+        var valueTaskSource = CreateCanceledSourceAsync<int>(valueTaskCancellation);
+
+        var task = Result.TryAsync(() => taskSource);
+        var valueTask = Result.TryValueAsync(() => new ValueTask<int>(valueTaskSource)).AsTask();
+
+        var actualTaskCancellation = await Assert.ThrowsAnyAsync<OperationCanceledException>(() => task);
+        var actualValueTaskCancellation = await Assert.ThrowsAnyAsync<OperationCanceledException>(
+            () => valueTask);
+
+        AssertCancellation(
+            task,
+            actualTaskCancellation,
+            taskCancellation,
+            cancellationSource.Token,
+            nameof(ThrowOriginalCancellation));
+        AssertCancellation(
+            valueTask,
+            actualValueTaskCancellation,
+            valueTaskCancellation,
+            cancellationSource.Token,
+            nameof(ThrowOriginalCancellation));
+    }
+
+    [Fact]
     public async Task TryAsyncRejectsNullTasksWithoutMappingThem()
     {
         var mapperCalls = 0;
@@ -277,6 +375,52 @@ public sealed class ResultBoundaryTests
     }
 
     private static int Throw(Exception exception) => throw exception;
+
+    private static OperationCanceledException CaptureCancellation(CancellationToken cancellationToken)
+    {
+        try
+        {
+            ThrowOriginalCancellation(cancellationToken);
+        }
+        catch (OperationCanceledException exception)
+        {
+            return exception;
+        }
+
+        throw new UnreachableException();
+    }
+
+    private static async Task<T> CreateCanceledSourceAsync<T>(OperationCanceledException cancellation)
+    {
+        await Task.Yield();
+        ExceptionDispatchInfo.Capture(cancellation).Throw();
+        return default!;
+    }
+
+    private static TResult Rethrow<TResult>(ExceptionDispatchInfo dispatchInfo)
+    {
+        dispatchInfo.Throw();
+        throw new UnreachableException();
+    }
+
+    private static TResult ThrowCancellation<TResult>(OperationCanceledException cancellation) =>
+        throw cancellation;
+
+    private static void ThrowOriginalCancellation(CancellationToken cancellationToken) =>
+        throw new OperationCanceledException("prepared cancellation", innerException: null, cancellationToken);
+
+    private static void AssertCancellation<T>(
+        Task<T> operation,
+        OperationCanceledException actual,
+        OperationCanceledException expected,
+        CancellationToken cancellationToken,
+        string stackMarker)
+    {
+        Assert.True(operation.IsCanceled);
+        Assert.Same(expected, actual);
+        Assert.Equal(cancellationToken, actual.CancellationToken);
+        Assert.Contains(stackMarker, actual.StackTrace);
+    }
 
     private sealed record DomainFailure(string Code, Exception Exception);
 

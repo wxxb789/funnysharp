@@ -3,6 +3,62 @@ namespace FunnySharp.Tests;
 public sealed class OptionTests
 {
     [Fact]
+    public void MatchPreservesSelectedCallbackExceptionIdentity()
+    {
+        var someValueFailure = new InvalidOperationException("some value");
+        var noneValueFailure = new InvalidOperationException("none value");
+        var someActionFailure = new InvalidOperationException("some action");
+        var noneActionFailure = new InvalidOperationException("none action");
+
+        Assert.Same(
+            someValueFailure,
+            Assert.Throws<InvalidOperationException>(() =>
+                Option.Some(1).Match<int>(_ => throw someValueFailure, () => 0)));
+        Assert.Same(
+            noneValueFailure,
+            Assert.Throws<InvalidOperationException>(() =>
+                Option.None<int>().Match(_ => 0, () => throw noneValueFailure)));
+        Assert.Same(
+            someActionFailure,
+            Assert.Throws<InvalidOperationException>(() =>
+                Option.Some(1).Match(_ => throw someActionFailure, () => { })));
+        Assert.Same(
+            noneActionFailure,
+            Assert.Throws<InvalidOperationException>(() =>
+                Option.None<int>().Match(_ => { }, () => throw noneActionFailure)));
+    }
+
+    [Fact]
+    public void ZipAndLazyFallbackPreserveDefaultAndNestedValues()
+    {
+        var zippedDefaults = Option.Some(0).Zip(Option.Some(false));
+        Assert.True(zippedDefaults.TryGetValue(out var defaults));
+        Assert.Equal((0, false), defaults);
+
+        var nestedNone = Option.Some(Option.None<int>());
+        var zippedNested = nestedNone.Zip(Option.Some("kept"));
+        Assert.True(zippedNested.TryGetValue(out var nested));
+        Assert.True(nested.First.IsNone);
+        Assert.Equal("kept", nested.Second);
+
+        var fallbackCalls = 0;
+        Assert.Equal(
+            nestedNone,
+            nestedNone.OrElseWith(() =>
+            {
+                fallbackCalls++;
+                return Option.Some(Option.Some(42));
+            }));
+        Assert.Equal(0, fallbackCalls);
+
+        var expected = new InvalidOperationException("fallback");
+        Assert.Same(
+            expected,
+            Assert.Throws<InvalidOperationException>(() =>
+                Option.None<Option<int>>().OrElseWith(() => throw expected)));
+    }
+
+    [Fact]
     public void DefaultAndNoneRepresentAbsenceWhileSomePreservesDefaultValues()
     {
         Option<int> defaultOption = default;

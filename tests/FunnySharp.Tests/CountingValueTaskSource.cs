@@ -22,6 +22,8 @@ internal sealed class CountingValueTaskSource<T> : IValueTaskSource<T>
 
     public void SetResult(T result) => source.SetResult(result);
 
+    public void SetException(Exception exception) => source.SetException(exception);
+
     public T GetResult(short token)
     {
         GetResultCount++;

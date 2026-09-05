@@ -100,6 +100,20 @@ The caller supplies and observes its `CancellationToken`; the pure machine never
 command or inspects cancellation. This keeps replay and transition tests deterministic while
 making the actual asynchronous effects easy to locate and review.
 
+## Performance Characterization
+
+The release benchmark includes representative left-associated `Then` chains. This is a bounded
+characterization of repeated output copying, not a new throughput promise or a reason to add a
+second composition API without measured production demand.
+
+<!-- performance-table:start state-machines -->
+| Scenario | Baseline mean | FunnySharp mean | Ratio | Baseline allocation | FunnySharp allocation |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Left-associated Then chain ([Count=256]) | 141.669 ns | 64.838 us | 457.67x | 1048 B | 187296 B |
+| Left-associated Then chain ([Count=64]) | 40.232 ns | 8.486 us | 210.92x | 280 B | 22176 B |
+| Left-associated Then chain ([Count=8]) | 7.680 ns | 656.079 ns | 85.43x | 56 B | 1792 B |
+<!-- performance-table:end state-machines -->
+
 ## Deliberate Boundaries
 
 This surface is not a workflow engine, actor system, scheduler, persistence layer, distributed

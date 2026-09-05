@@ -1,12 +1,12 @@
 # FunnySharp
 
-FunnySharp is a pragmatic, BCL-first functional-programming library for .NET 10 and later.
+FunnySharp is a pragmatic, BCL-first functional-programming library targeting .NET 10.
 Feature APIs are added only when a goal defines their behavior and verification evidence.
 
 The authoritative design and dependency boundaries are recorded in the
 [product contract](https://github.com/wxxb789/funnysharp/blob/main/docs/product-contract.md).
-The current release gate and its explicit evidence checklist are recorded in
-[Goal 12 release readiness](https://github.com/wxxb789/funnysharp/blob/main/docs/release-readiness.md).
+The current fail-closed release gate and its explicit evidence checklist are recorded in
+[release readiness](https://github.com/wxxb789/funnysharp/blob/main/docs/release-readiness.md).
 
 ## Function Composition
 
@@ -108,22 +108,24 @@ ASP.NET Core.
 
 ```powershell
 pwsh -NoProfile -File eng/Run-Release.ps1 `
-  -OutputDirectory artifacts/release-run `
+  -AttemptId local-full-1 `
+  -CompatibilityRuntimeIdentifier win-x64 `
   -CompatibilityPackageFeed https://packagefeedproxy.microsoft.io/nuget/v3/index.json `
-  -Clean
+  -DistributionFeed https://packagefeedproxy.microsoft.io/nuget/v3/index.json
 ```
 
-For the recorded machine, direct `nuget.org` TLS failed before restore, so reproducing the
-recorded candidate requires this `-CompatibilityPackageFeed` override. The script's portable
-default remains `nuget.org`.
-
-The runner performs a clean locked restore, Release build, xUnit tests, both examples, pack,
-formatting verification, the complete BenchmarkDotNet suite, and package-consuming trim/Native AOT
-smokes from one source fingerprint. It records command receipts, public API and XML-documentation
-inventories, package contents, dependency graph, hashes, and documentation-snippet synchronization.
-Compatibility results apply only to their recorded SDK, runtime patch, OS, and RID; see the
+The runner rejects a dirty candidate, re-used attempt identity, published or ambiguous package
+version, unsafe generated-output path, or non-isolated restore. It performs locked no-cache restore,
+Release build, xUnit tests, both examples, pack, formatting verification, semantic benchmark
+preflight, the complete BenchmarkDotNet suite, allocation-policy verification, generated-table
+verification, and package-consuming trim/Native AOT smokes. Compatibility results apply only to
+their recorded SDK, runtime patch, OS, RID, and canonical package hashes; see the
 [product contract](https://github.com/wxxb789/funnysharp/blob/main/docs/product-contract.md) for the
 current support and Native AOT limits.
+
+GitHub release validation exposes four stable required contexts: `release / win-x64`,
+`release / linux-x64`, `release / osx-arm64`, and `release / osx-x64-consumer`. Repository ruleset
+readback is separate operational evidence; without it, Goal 13 product acceptance remains failed.
 
 ## Benchmark
 

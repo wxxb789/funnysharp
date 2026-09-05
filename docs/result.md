@@ -65,9 +65,11 @@ supplied `CancellationToken` to the callback without eagerly cancelling.
 Failure returns an already-completed failed Result and does not invoke a callback or inspect the
 token. Success invokes the callback once and observes the returned awaitable once. Faults and
 cancellation remain ordinary asynchronous failures, including the original exception object,
-cancellation status, and token. A faulted source containing an `OperationCanceledException` stays
-faulted; only a cancelled source produces a cancelled result operation. `ValueTask` follows its
-normal single-consumption rule.
+cancellation status, established stack trace, and token. A faulted source containing an
+`OperationCanceledException` stays faulted; only a canceled source or callback cancellation produces
+a canceled result operation. Incomplete Task-backed and ValueTask-backed paths transfer that exact
+completed state rather than reconstructing cancellation from a token. `ValueTask` follows its normal
+single-consumption rule.
 
 FunnySharp does not add an async Result wrapper. Await a Result-producing operation at the normal
 C# boundary, then continue with the same synchronous or asynchronous Result methods.
@@ -126,28 +128,25 @@ Run it with:
 dotnet run --project benchmarks/FunnySharp.Benchmarks/FunnySharp.Benchmarks.csproj --configuration Release -- --filter '*ResultBenchmarks*'
 ```
 
-The following `ShortRun` was recorded on August 31, 2026 with BenchmarkDotNet 0.15.8,
-.NET SDK 10.0.400, .NET 10.0.11, and an AMD EPYC 7763 2.44 GHz Hyper-V virtual machine.
-The job used one launch, three warmups, and three measured iterations. A dash in an allocation
-column denotes 0 B; `N/A` denotes that the baseline was at or below timer resolution, so a ratio
-would not be meaningful.
+The exact table below is generated from the approved observation in
+`eng/performance/baseline.json`. It includes genuinely pending Task and ValueTask completion paths.
+Hosted timing is directional; allocation ceilings are the blocking contract. `N/A` means timing was
+below resolution or unavailable.
 
-| Scenario | Direct mean | FunnySharp mean | Ratio | Direct allocation | FunnySharp allocation |
+<!-- performance-table:start result -->
+| Scenario | Baseline mean | FunnySharp mean | Ratio | Baseline allocation | FunnySharp allocation |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Completed `Task` mapping | 20.398 ns | 52.580 ns | 2.58x | 144 B | 264 B |
-| Completed `ValueTask` mapping | 10.355 ns | 39.809 ns | 3.85x | - | - |
-| Construction and inspection, failure | 0.009 ns | 0.214 ns | N/A | - | - |
-| Construction and inspection, success | 0.020 ns | 0.046 ns | N/A | - | - |
-| Exception boundary, failure | 2.642 us | 3.230 us | 1.22x | 512 B | 680 B |
-| Exception boundary, success | 11.407 ns | 14.593 ns | 1.28x | - | - |
-| Fail-fast pipeline, failure | 0.014 ns | 1.524 ns | N/A | - | - |
-| Fail-fast pipeline, success | 0.000 ns | 8.753 ns | N/A | - | - |
+| Completed Task mapping | 23.484 ns | 44.001 ns | 1.87x | 144 B | 264 B |
+| Completed ValueTask mapping | 12.373 ns | 38.734 ns | 3.13x | 0 B | 0 B |
+| Construction and inspection - failure | 0.211 ns | N/A | N/A | 0 B | 0 B |
+| Construction and inspection - success | N/A | N/A | N/A | 0 B | 0 B |
+| Exception boundary - failure | 2.605 us | 3.077 us | 1.18x | 512 B | 680 B |
+| Exception boundary - success | 11.260 ns | 13.472 ns | 1.20x | 0 B | 0 B |
+| Fail-fast pipeline - failure | N/A | 1.570 ns | N/A | 0 B | 0 B |
+| Fail-fast pipeline - success | N/A | 8.552 ns | N/A | 0 B | 0 B |
+| Pending Task mapping | 1.190 us | 2.052 us | 1.72x | 296 B | 720 B |
+| Pending ValueTask mapping | 1.022 us | 1.640 us | 1.60x | 303 B | 815 B |
+<!-- performance-table:end result -->
 
-The completed Task path added 120 B per operation in this run, while the completed ValueTask path
-remained allocation-free. The explicit exception boundary added about 28% on success and 22% on
-failure; most failure-path cost still came from throwing and constructing the exception itself.
-The synchronous Result construction and pipeline cases allocated nothing. Their direct baselines,
-and several Result measurements, were reported as `ZeroMeasurement`, so the sub-nanosecond values
-and ratios are not suitable for performance claims. These results are directional because the run
-used a virtualized host and only three measured iterations; rerun on representative deployment
-hardware before making latency or capacity decisions.
+The generated table exposes measured costs without interpreting below-resolution ratios. Rerun
+timing on representative deployment hardware before making latency or capacity decisions.

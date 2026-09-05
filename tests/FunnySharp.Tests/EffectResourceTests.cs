@@ -291,6 +291,37 @@ public sealed class EffectResourceTests
     }
 
     [Fact]
+    public async Task SynchronousDisposeAsyncThrowsPreserveNativeFinallyPrecedence()
+    {
+        var disposeFailure = new InvalidOperationException("synchronous dispose failure");
+        var successfulResource = new TrackingAsyncDisposable(
+            disposeException: disposeFailure,
+            throwSynchronously: true);
+
+        Assert.Same(
+            disposeFailure,
+            await Assert.ThrowsAsync<InvalidOperationException>(async () =>
+                await Effect.FromValue(successfulResource)
+                    .UsingAsync(_ => Effect.FromValue(1))
+                    .RunAsync(TestContext.Current.CancellationToken)));
+
+        using var cancellationSource = new CancellationTokenSource();
+        cancellationSource.Cancel();
+        var canceledResource = new TrackingAsyncDisposable(
+            disposeException: disposeFailure,
+            throwSynchronously: true);
+        var canceledUse = Effect.FromValue(canceledResource)
+            .UsingAsync(_ => Effect.FromTask<int>(_ => Task.FromCanceled<int>(cancellationSource.Token)))
+            .RunAsync(TestContext.Current.CancellationToken)
+            .AsTask();
+
+        Assert.Same(disposeFailure, await Assert.ThrowsAsync<InvalidOperationException>(() => canceledUse));
+        Assert.True(canceledUse.IsFaulted);
+        Assert.Equal(1, successfulResource.DisposeAsyncCount);
+        Assert.Equal(1, canceledResource.DisposeAsyncCount);
+    }
+
+    [Fact]
     public async Task UsingVariantsDisposeWhenUseSelectorThrowsSynchronously()
     {
         var expected = new InvalidOperationException("selector failure");
@@ -459,7 +490,8 @@ public sealed class EffectResourceTests
     private sealed class TrackingAsyncDisposable(
         TaskCompletionSource<bool>? disposalCompletion = null,
         Exception? disposeException = null,
-        List<string>? trace = null) : IAsyncDisposable
+        List<string>? trace = null,
+        bool throwSynchronously = false) : IAsyncDisposable
     {
         public int DisposeAsyncCount { get; private set; }
 
@@ -469,6 +501,11 @@ public sealed class EffectResourceTests
             trace?.Add("dispose");
             if (disposeException is not null)
             {
+                if (throwSynchronously)
+                {
+                    throw disposeException;
+                }
+
                 return ValueTask.FromException(disposeException);
             }
 
