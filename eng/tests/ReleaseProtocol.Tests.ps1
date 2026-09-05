@@ -211,6 +211,17 @@ try {
     $script:passed++
     Write-Output 'PASS release verifier invokes independent benchmark report validation'
 
+    $benchmarkVerifierFunction = $verifyReleaseAst.Find({
+            param($node)
+            $node -is [System.Management.Automation.Language.FunctionDefinitionAst] -and
+            $node.Name -ceq 'Assert-BenchmarkReports'
+        }, $true)
+    if ($benchmarkVerifierFunction.Extent.Text -notmatch "(?s)return\s+\[pscustomobject\]\s+\[ordered\]@\{\s*status\s*=\s*'verified'") {
+        throw 'FAIL release verifier benchmark result: verified status is missing from the returned evidence.'
+    }
+    $script:passed++
+    Write-Output 'PASS release verifier returns verified benchmark status'
+
     $ansiSanitizerFunction = $verifyReleaseAst.Find({
             param($node)
             $node -is [System.Management.Automation.Language.FunctionDefinitionAst] -and

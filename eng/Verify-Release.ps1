@@ -711,6 +711,7 @@ function Assert-BenchmarkReports {
     }
 
     return [pscustomobject] [ordered]@{
+        status = 'verified'
         artifactsDirectory = $benchmarkArtifactsDirectory
         resultsDirectory = $resultsDirectory
         reportCount = $reportSummaries.Count
@@ -955,7 +956,6 @@ function Assert-ReleaseExecutionEvidence {
             -ArtifactsDirectory $ArtifactsDirectory `
             -Root $Root `
             -ObservationRows @($proposal.rows)
-        $benchmarkEvidence.status = 'verified'
         $benchmarkEvidence | Add-Member -NotePropertyName executed -NotePropertyValue $completed.Maximum
         $benchmarkEvidence | Add-Member -NotePropertyName observationProposal -NotePropertyValue 'performance-observation-proposal.json'
         $benchmarkEvidence | Add-Member -NotePropertyName observationProposalSha256 -NotePropertyValue (Get-Sha256 -Path $proposalPath)
