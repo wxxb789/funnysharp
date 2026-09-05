@@ -4,7 +4,7 @@ using FunnySharp.Benchmarks;
 
 if (args is ["--preflight"])
 {
-    var resultBenchmarks = new ResultBenchmarks();
+    var resultBenchmarks = new FunnySharp.Benchmarks.ResultBenchmarks();
     resultBenchmarks.Setup();
     await resultBenchmarks.ValidatePendingTransformSemanticsAsync().ConfigureAwait(false);
     Console.WriteLine("Benchmark semantic preflight passed.");
