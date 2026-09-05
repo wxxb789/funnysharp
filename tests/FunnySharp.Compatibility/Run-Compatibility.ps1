@@ -27,18 +27,43 @@ param(
 Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
 
-$allowedScenarios = @(
-    "CoreSmoke",
-    "CoreTrimmed",
-    "CoreNativeAot",
-    "AspNetCoreSmoke",
-    "AspNetCoreTrimmed",
-    "AspNetCoreNativeAot"
-)
+$scriptRoot = Split-Path -Parent $PSCommandPath
+$definitions = @{
+    CoreSmoke = @{
+        Project = Join-Path $scriptRoot "FunnySharp.Compatibility.Core/FunnySharp.Compatibility.Core.csproj"
+        AssemblyName = "FunnySharp.Compatibility.Core"
+        PublishProperties = @()
+    }
+    CoreTrimmed = @{
+        Project = Join-Path $scriptRoot "FunnySharp.Compatibility.Core/FunnySharp.Compatibility.Core.csproj"
+        AssemblyName = "FunnySharp.Compatibility.Core"
+        PublishProperties = @("-p:PublishTrimmed=true", "-p:TrimMode=full", "-p:RootShippingAssemblies=true")
+    }
+    AspNetCoreSmoke = @{
+        Project = Join-Path $scriptRoot "FunnySharp.Compatibility.AspNetCore/FunnySharp.Compatibility.AspNetCore.csproj"
+        AssemblyName = "FunnySharp.Compatibility.AspNetCore"
+        PublishProperties = @()
+    }
+    CoreNativeAot = @{
+        Project = Join-Path $scriptRoot "FunnySharp.Compatibility.Core/FunnySharp.Compatibility.Core.csproj"
+        AssemblyName = "FunnySharp.Compatibility.Core"
+        PublishProperties = @("-p:PublishTrimmed=true", "-p:TrimMode=full", "-p:PublishAot=true", "-p:IsAotCompatible=true", "-p:RootShippingAssemblies=false")
+    }
+    AspNetCoreTrimmed = @{
+        Project = Join-Path $scriptRoot "FunnySharp.Compatibility.AspNetCore/FunnySharp.Compatibility.AspNetCore.csproj"
+        AssemblyName = "FunnySharp.Compatibility.AspNetCore"
+        PublishProperties = @("-p:PublishTrimmed=true", "-p:TrimMode=full", "-p:RootShippingAssemblies=true")
+    }
+    AspNetCoreNativeAot = @{
+        Project = Join-Path $scriptRoot "FunnySharp.Compatibility.AspNetCore/FunnySharp.Compatibility.AspNetCore.csproj"
+        AssemblyName = "FunnySharp.Compatibility.AspNetCore"
+        PublishProperties = @("-p:PublishTrimmed=true", "-p:TrimMode=full", "-p:PublishAot=true", "-p:IsAotCompatible=true", "-p:RootShippingAssemblies=false")
+    }
+}
 $Scenario = @($Scenario | ForEach-Object { $_ -split ',' } | Where-Object { -not [string]::IsNullOrWhiteSpace($_) })
 foreach ($name in $Scenario)
 {
-    if ($allowedScenarios -notcontains $name)
+    if (-not $definitions.ContainsKey($name))
     {
         throw "Unknown compatibility scenario '$name'."
     }
@@ -112,7 +137,6 @@ function Assert-SafeArtifactsSubdirectory
     return $fullPath
 }
 
-$scriptRoot = Split-Path -Parent $PSCommandPath
 $RepositoryRoot = (Resolve-Path -LiteralPath $RepositoryRoot).Path
 $PackageDirectory = [System.IO.Path]::GetFullPath($PackageDirectory)
 $OutputDirectory = [System.IO.Path]::GetFullPath($OutputDirectory)
@@ -145,10 +169,11 @@ function Get-LocalPackageVersion
     )
 
     $escapedPackageId = [regex]::Escape($PackageId)
+    $packagePattern = "^$escapedPackageId\.(?<version>[0-9][0-9A-Za-z.+-]*)\.nupkg$"
     $packageFiles = @(
         Get-ChildItem -LiteralPath $PackageDirectory -File -Filter "*.nupkg" |
             Where-Object {
-                $_.Name -match "^$escapedPackageId\.(?<version>[0-9][0-9A-Za-z.+-]*)\.nupkg$"
+                $_.Name -match $packagePattern
             })
 
     if ($packageFiles.Count -ne 1)
@@ -156,7 +181,7 @@ function Get-LocalPackageVersion
         throw "Expected exactly one $PackageId package in '$PackageDirectory', but found $($packageFiles.Count)."
     }
 
-    return ([regex]::Match($packageFiles[0].Name, "^$escapedPackageId\.(?<version>[0-9][0-9A-Za-z.+-]*)\.nupkg$")).Groups["version"].Value
+    return ([regex]::Match($packageFiles[0].Name, $packagePattern)).Groups["version"].Value
 }
 
 function Get-PackageAssemblySha256
@@ -309,39 +334,6 @@ $env:NUGET_PACKAGES = Get-IsolatedNuGetPackagesDirectory `
     -ArtifactsDirectory $artifactsDirectory `
     -OutputDirectory $outputRoot
 Reset-Directory -Path $env:NUGET_PACKAGES
-
-$definitions = @{
-    CoreSmoke = @{
-        Project = Join-Path $scriptRoot "FunnySharp.Compatibility.Core/FunnySharp.Compatibility.Core.csproj"
-        AssemblyName = "FunnySharp.Compatibility.Core"
-        PublishProperties = @()
-    }
-    CoreTrimmed = @{
-        Project = Join-Path $scriptRoot "FunnySharp.Compatibility.Core/FunnySharp.Compatibility.Core.csproj"
-        AssemblyName = "FunnySharp.Compatibility.Core"
-        PublishProperties = @("-p:PublishTrimmed=true", "-p:TrimMode=full", "-p:RootShippingAssemblies=true")
-    }
-    AspNetCoreSmoke = @{
-        Project = Join-Path $scriptRoot "FunnySharp.Compatibility.AspNetCore/FunnySharp.Compatibility.AspNetCore.csproj"
-        AssemblyName = "FunnySharp.Compatibility.AspNetCore"
-        PublishProperties = @()
-    }
-    CoreNativeAot = @{
-        Project = Join-Path $scriptRoot "FunnySharp.Compatibility.Core/FunnySharp.Compatibility.Core.csproj"
-        AssemblyName = "FunnySharp.Compatibility.Core"
-        PublishProperties = @("-p:PublishTrimmed=true", "-p:TrimMode=full", "-p:PublishAot=true", "-p:IsAotCompatible=true", "-p:RootShippingAssemblies=false")
-    }
-    AspNetCoreTrimmed = @{
-        Project = Join-Path $scriptRoot "FunnySharp.Compatibility.AspNetCore/FunnySharp.Compatibility.AspNetCore.csproj"
-        AssemblyName = "FunnySharp.Compatibility.AspNetCore"
-        PublishProperties = @("-p:PublishTrimmed=true", "-p:TrimMode=full", "-p:RootShippingAssemblies=true")
-    }
-    AspNetCoreNativeAot = @{
-        Project = Join-Path $scriptRoot "FunnySharp.Compatibility.AspNetCore/FunnySharp.Compatibility.AspNetCore.csproj"
-        AssemblyName = "FunnySharp.Compatibility.AspNetCore"
-        PublishProperties = @("-p:PublishTrimmed=true", "-p:TrimMode=full", "-p:PublishAot=true", "-p:IsAotCompatible=true", "-p:RootShippingAssemblies=false")
-    }
-}
 
 $results = [System.Collections.Generic.List[object]]::new()
 foreach ($name in $Scenario)
