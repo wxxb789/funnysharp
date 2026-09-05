@@ -211,6 +211,46 @@ try {
     $script:passed++
     Write-Output 'PASS release verifier invokes independent benchmark report validation'
 
+    $compatibilityScriptPath = Join-Path $repositoryRoot 'tests/FunnySharp.Compatibility/Run-Compatibility.ps1'
+    $compatibilityTokens = $null
+    $compatibilityParseErrors = $null
+    $compatibilityAst = [System.Management.Automation.Language.Parser]::ParseFile(
+        $compatibilityScriptPath,
+        [ref] $compatibilityTokens,
+        [ref] $compatibilityParseErrors)
+    if ($compatibilityParseErrors.Count -ne 0) {
+        throw "FAIL compatibility script parsing: $($compatibilityParseErrors[0].Message)"
+    }
+    $cachePathFunction = $compatibilityAst.Find({
+            param($node)
+            $node -is [System.Management.Automation.Language.FunctionDefinitionAst] -and
+            $node.Name -ceq 'Get-IsolatedNuGetPackagesDirectory'
+        }, $true)
+    if ($null -eq $cachePathFunction) {
+        throw 'FAIL compatibility NuGet cache path: Get-IsolatedNuGetPackagesDirectory was not found.'
+    }
+    Invoke-Expression $cachePathFunction.Extent.Text
+
+    $ciArtifactsRootLength = 'D:\a\funnysharp\funnysharp\artifacts'.Length
+    $pathRoot = [IO.Path]::GetPathRoot($repositoryRoot)
+    $ciArtifactsRoot = Join-Path $pathRoot ('a' * ($ciArtifactsRootLength - $pathRoot.Length))
+    $ciOutputDirectory = Join-Path $ciArtifactsRoot 'release-candidate/0123456789abcdef0123456789abcdef01234567/33877879504-1-win-x64/compatibility-run'
+    $cacheDirectory = Get-IsolatedNuGetPackagesDirectory `
+        -ArtifactsDirectory $ciArtifactsRoot `
+        -OutputDirectory $ciOutputDirectory
+    $otherCacheDirectory = Get-IsolatedNuGetPackagesDirectory `
+        -ArtifactsDirectory $ciArtifactsRoot `
+        -OutputDirectory ($ciOutputDirectory + '-other')
+    $nativeAotAsset = Join-Path $cacheDirectory 'microsoft.netcore.app.runtime.nativeaot.win-x64/10.0.11/runtimes/win-x64/native/System.Globalization.Native.Aot.lib'
+    if ($nativeAotAsset.Length -ge 260) {
+        throw "FAIL compatibility NuGet cache path: NativeAOT asset path is $($nativeAotAsset.Length) characters."
+    }
+    if ($cacheDirectory -ceq $otherCacheDirectory) {
+        throw 'FAIL compatibility NuGet cache path: distinct outputs share a cache directory.'
+    }
+    $script:passed++
+    Write-Output 'PASS compatibility NuGet cache stays short and isolated'
+
     $parameterFunction = $verifyReleaseAst.Find({
             param($node)
             $node -is [System.Management.Automation.Language.FunctionDefinitionAst] -and

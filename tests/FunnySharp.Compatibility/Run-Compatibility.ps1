@@ -251,6 +251,22 @@ function Reset-Directory
     New-Item -ItemType Directory -Path $Path -Force | Out-Null
 }
 
+function Get-IsolatedNuGetPackagesDirectory
+{
+    param(
+        [Parameter(Mandatory)]
+        [string]$ArtifactsDirectory,
+
+        [Parameter(Mandatory)]
+        [string]$OutputDirectory
+    )
+
+    $cacheKey = [Convert]::ToHexString(
+        [Security.Cryptography.SHA256]::HashData(
+            [Text.Encoding]::UTF8.GetBytes($OutputDirectory))).Substring(0, 16).ToLowerInvariant()
+    return Join-Path $ArtifactsDirectory (Join-Path ".nuget-packages" $cacheKey)
+}
+
 New-Item -ItemType Directory -Path $OutputDirectory -Force | Out-Null
 $outputRoot = (Resolve-Path -LiteralPath $OutputDirectory).Path
 $coreVersion = Get-LocalPackageVersion -PackageId "FunnySharp"
@@ -289,7 +305,9 @@ $upstreamSource = [System.Security.SecurityElement]::Escape($PackageFeed)
 </configuration>
 "@ | Set-Content -LiteralPath $nugetConfigPath -Encoding utf8NoBOM
 
-$env:NUGET_PACKAGES = Join-Path $outputRoot ".nuget-packages"
+$env:NUGET_PACKAGES = Get-IsolatedNuGetPackagesDirectory `
+    -ArtifactsDirectory $artifactsDirectory `
+    -OutputDirectory $outputRoot
 Reset-Directory -Path $env:NUGET_PACKAGES
 
 $definitions = @{
