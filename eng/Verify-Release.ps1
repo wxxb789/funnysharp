@@ -295,11 +295,21 @@ function Get-ExecutionLogText {
         throw "Execution evidence log hash does not match receipt: '$RelativePath'."
     }
 
+    $text = [System.IO.File]::ReadAllText($path)
     return [pscustomobject] [ordered]@{
         path = $path
         sha256 = $actualSha256
-        text = [System.IO.File]::ReadAllText($path)
+        text = Remove-AnsiControlSequences -Text $text
     }
+}
+
+function Remove-AnsiControlSequences {
+    param(
+        [AllowEmptyString()]
+        [string] $Text
+    )
+
+    return [regex]::Replace($Text, '\x1B\[[0-?]*[ -/]*[@-~]', '')
 }
 
 function Test-ExactStringSequence {

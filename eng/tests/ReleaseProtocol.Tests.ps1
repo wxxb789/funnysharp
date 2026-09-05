@@ -211,6 +211,24 @@ try {
     $script:passed++
     Write-Output 'PASS release verifier invokes independent benchmark report validation'
 
+    $ansiSanitizerFunction = $verifyReleaseAst.Find({
+            param($node)
+            $node -is [System.Management.Automation.Language.FunctionDefinitionAst] -and
+            $node.Name -ceq 'Remove-AnsiControlSequences'
+        }, $true)
+    if ($null -eq $ansiSanitizerFunction) {
+        throw 'FAIL release verifier ANSI normalization: Remove-AnsiControlSequences was not found.'
+    }
+    Invoke-Expression $ansiSanitizerFunction.Extent.Text
+    $escape = [char] 27
+    $coloredTestResult = "${escape}[mC:\tests\FunnySharp.Tests.dll (net10.0|x64) ${escape}[32mpassed${escape}[m ${escape}[90m(1s 598ms)${escape}[m"
+    $normalizedTestResult = Remove-AnsiControlSequences -Text $coloredTestResult
+    if ($normalizedTestResult -cne 'C:\tests\FunnySharp.Tests.dll (net10.0|x64) passed (1s 598ms)') {
+        throw "FAIL release verifier ANSI normalization: '$normalizedTestResult'."
+    }
+    $script:passed++
+    Write-Output 'PASS release verifier strips ANSI control sequences from logs'
+
     $compatibilityScriptPath = Join-Path $repositoryRoot 'tests/FunnySharp.Compatibility/Run-Compatibility.ps1'
     $compatibilityTokens = $null
     $compatibilityParseErrors = $null
