@@ -15,7 +15,7 @@ execution: code
 
 - **Objective:** FunnySharp can be accepted as a release candidate only after its public cancellation behavior, documentation, performance evidence, clean release process, and required cross-platform gates all satisfy the accepted Goals 01-13 contracts.
 - **Means:** Repair the two package-proven correctness defects test-first, replace invalid performance evidence with a tracked allocation contract, harden the existing release pipeline, and require Windows, Linux, and macOS evidence before publishing a corrected Goal 13 verdict (KTD1-KTD8).
-- **Authority:** `docs/goals/archive/01-goal.md` through `docs/goals/archive/12-goal.md` remain the immutable product contracts. `docs/goals/archive/13-goal.md`, `docs/product-contract.md`, and `artifacts/goal13-final-review/final-review.md` define the current audit boundary and findings.
+- **Authority:** `docs/goals/archive/0001-goal.md` through `docs/goals/archive/0012-goal.md` remain the immutable product contracts. `docs/goals/archive/0013-goal.md`, `docs/product-contract.md`, and `artifacts/goal13-final-review/final-review.md` define the current audit boundary and findings.
 - **Execution profile:** Land the acceptance-restoring units before the second-layer hardening units. Start public-behavior changes with deterministic failing tests and treat release/CI changes as protocol changes whose runner, verifier, schema, and fixtures move together.
 - **Tail ownership:** Implementation owns local validation and creation of candidate evidence. Pushes, pull requests, branch-ruleset changes, and releases remain separately authorized operations; without that authorization, the audit may be complete but product acceptance remains fail-closed.
 - **Stop conditions:** Stop for a new product decision if the four-property cancellation contract cannot be preserved, a fix requires broad public API expansion outside the affected surfaces, a required RID cannot execute on a matching host, or a deletion path cannot be proven to remain inside an intended project/output directory.
@@ -41,7 +41,7 @@ The same review found weaker but real evidence problems: several benchmark rows 
 - **Affected public APIs may change only when that yields a smaller and clearer contract.** Compatibility is not a constraint during rapid development, but no redundant type, overload, or abstraction is acceptable. (session-settled: user-directed — chosen over compatibility-first constraints: API clarity is the governing quality bar.) Governs R1-R5, R7.
 - **All three desktop/server operating systems are first-class release gates.** Windows, Linux, and macOS failures block merge and release. (session-settled: user-directed — chosen over informational secondary-platform checks: correctness support must be symmetric across supported operating systems.) Governs R13-R17.
 - **Hosted CI blocks on allocation, not elapsed time.** Fair benchmark shape and allocation ceilings are required; timing is directional until a fixed self-hosted runner establishes a noise floor. (session-settled: user-approved — chosen over noisy hosted timing thresholds: allocation is the stable enforcement signal available now.) Governs R8-R12, R19.
-- **Generated evidence remains outside Git by default.** Source benchmarks, scripts, compact manifests, generated guide tables, and evergreen summaries such as `docs/goals/archive/13-goal.md` and `docs/release-readiness.md` are tracked. Candidate-specific matrices and verdicts remain attempt-scoped GitHub artifacts/job summaries; packages, logs, CSV, HTML, and publish trees remain short-lived CI artifacts unless explicitly requested. (session-settled: user-directed — chosen over committing bulky evidence: the repository stays small while the evidence contract remains reproducible.) Governs R10, R15-R17.
+- **Generated evidence remains outside Git by default.** Source benchmarks, scripts, compact manifests, generated guide tables, and evergreen summaries such as `docs/goals/archive/0013-goal.md` and `docs/release-readiness.md` are tracked. Candidate-specific matrices and verdicts remain attempt-scoped GitHub artifacts/job summaries; packages, logs, CSV, HTML, and publish trees remain short-lived CI artifacts unless explicitly requested. (session-settled: user-directed — chosen over committing bulky evidence: the repository stays small while the evidence contract remains reproducible.) Governs R10, R15-R17.
 - **Archived Goals 01-12 remain immutable.** Correct current documentation and revise Goal 13 rather than rewriting historical acceptance contracts. (session-settled: user-directed — chosen over retrospective contract edits: failures must be fixed rather than erased.) Governs R6-R7, R18.
 - **`.NET 11` targeting begins only after GA.** The current repair remains `net10.0`; the future target and validation matrix are recorded but not implemented now. (session-settled: user-directed — chosen over preview targeting: preview behavior is not a supported release contract.) Governs R19.
 
@@ -61,7 +61,7 @@ The same review found weaker but real evidence problems: several benchmark rows 
 **Documentation and audit truthfulness**
 
 - R6. Current Option documentation must describe the shipped Result conversions, release-readiness material must be fail-closed and candidate-accurate, and Goal 13 must separately report audit completion and product acceptance.
-- R7. `docs/goals/archive/01-goal.md` through `docs/goals/archive/12-goal.md` remain unchanged. Before candidate production, every intended distribution feed must confirm both packages have no `0.1.0`; the version remains `0.1.0` only while that precondition holds, otherwise work stops for a new explicit version decision.
+- R7. `docs/goals/archive/0001-goal.md` through `docs/goals/archive/0012-goal.md` remain unchanged. Before candidate production, every intended distribution feed must confirm both packages have no `0.1.0`; the version remains `0.1.0` only while that precondition holds, otherwise work stops for a new explicit version decision.
 
 **Performance evidence**
 
@@ -573,7 +573,7 @@ U-IDs remain stable references; execution order is `U1, U2, U3, U4, U5, U6, U7, 
   - `docs/product-contract.md`
   - `docs/release-readiness.md`
   - `docs/release-evidence/goal-12.md`
-  - `docs/goals/archive/13-goal.md`
+  - `docs/goals/archive/0013-goal.md`
   - `README.md`
   - `examples/FunnySharp.DocumentationSamples/VerifyDocumentationSnippets.ps1`
 - **Approach:**
