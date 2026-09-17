@@ -1,7 +1,57 @@
 # FunnySharp Product Contract
 
 This document is the authoritative contract for the FunnySharp product baseline. Later goals
-may extend it deliberately, but implementation convenience alone does not override it.
+may extend it deliberately, but implementation convenience alone does not override it. The
+next-stage capability decisions that produced this revision are recorded in
+[`next-stage/decision-record.md`](next-stage/decision-record.md) and
+[`next-stage/api-decisions.md`](next-stage/api-decisions.md); baseline pins, inventories,
+analysis, and compile-verified call sites are in [`next-stage/`](next-stage/).
+
+## Canonical Vocabulary
+
+- FunnySharp has exactly four canonical semantic carriers:
+  - `Option<T>` — absence of a value; never an error.
+  - `Result<TValue, TError>` — fail-fast value-producing work with an explicit typed error.
+  - `UnitResult<TError>` — fail-fast work with no meaningful value (delivered by Goal 15, including
+  `Sequence`/`Traverse` participation and ASP.NET Core mapping integration).
+  - `Validation<TValue, TError>` — independent checks whose errors accumulate deterministically.
+- `Effect<T>` and `Effect<TEnvironment, T>` are the deferred-work boundary, not a fifth outcome
+  carrier. `StateChange`/`StateTransition`/`StateMachine`/`TransitionResult` are the state
+  surface, and `Lens`/`Optional` are the optics surface.
+- No second carrier for any of these meanings may be added. `Maybe`, `Either`, `Fin`, `Try`,
+  `IO`, `Reader`, `State`, `OptionAsync`, and async outcome wrappers remain out of scope.
+- One verb has one meaning. `Map`, `Bind`, `MapError`/`MapErrors`, `Filter`, `Ensure`, `Recover`/
+  `RecoverWith`, `OrElse`/`OrElseWith`, `Zip`, `ZipWith`, `Apply`, `Match`, `TryGet*`, and
+  `GetValueOr*` keep exactly the meanings recorded in the decision record. `Where` is never added
+  to a carrier: a bare predicate cannot produce absence or an error.
+- Async naming: `...ValueAsync` marks a callback returning `ValueTask`; `...Async` marks an
+  awaitable operation that takes no callback or a `Task`-returning callback. The renamed
+  `ComposeValueAsync` removes the only exception. A `CancellationToken` is always an explicit
+  parameter and is forwarded unchanged.
+- LINQ `Select`/`SelectMany` are a secondary bridge that exists only where `Bind` exists;
+  `Validation` never gets them. Documentation presents the member-centric vocabulary first.
+- Cardinality access uses the `*OrNone` suffix; keyed lookups use `GetOption`; value conversion
+  uses `ToOption`. Eager fallbacks are parameters; lazy fallbacks are factories (`...With`/
+  `...Else`); `GetValueOrDefault` is the only member that may return `default(T)`.
+- No naming concession, alias, or carrier conversion for any competitor is allowed.
+
+## Stability Boundary
+
+- **Stable** members are public, XML-documented, covered by semantic tests, included in a
+  committed public-API baseline, and benchmark-characterized (or explicitly excluded with
+  rationale) where performance-relevant. Stable members change only through a later accepted
+  goal.
+- **Experimental** capabilities carry `System.Diagnostics.CodeAnalysis.ExperimentalAttribute`
+  with a documented diagnostic ID, an entry in a tracked stability inventory, no compatibility
+  promise, and removal without a breaking-change process. The next stage begins with no
+  experimental members in the 0.1.0 surface; new uncertain capabilities (for example Goal 17's
+  traversal-location API) enter as experimental unless their goal produces full stable evidence.
+- **Removal** requires an accepted decision row and a migration note in the same goal. Nothing
+  from 0.1.0 is removed by the next-stage decisions; removal is reserved for shapes superseded
+  by the recorded redesigns.
+- `EnablePackageValidation` plus a committed API baseline configures the boundary; the next
+  release also carries release notes and versioning rules. A release candidate that changes the
+  baseline without an accepted goal is invalid.
 
 ## Product Direction
 
@@ -9,15 +59,26 @@ may extend it deliberately, but implementation convenience alone does not overri
 - APIs are BCL-first and prefer standard delegates, collections, `Task`, `ValueTask`, and
   `CancellationToken` over a parallel runtime or type universe.
 - Synchronous and asynchronous APIs stay consistent where both forms are meaningful. Async APIs
-  must preserve cancellation and exception behavior and must never use sync-over-async.
+  must preserve cancellation and exception behavior and must never use sync-over-async. There is
+  no task-carrier operator universe: mixed sync/async chains use ordinary `await` plus the
+  synchronous vocabulary.
 - Performance claims require measurements against equivalent direct C# or BCL code. Hot paths
   should avoid hidden allocation, repeated enumeration, reflection, and unnecessary buffering.
+  Every stable operation has documented complexity, allocation, enumeration, materialization,
+  buffering, and scheduling characteristics; allocation budgets remain blocking while hosted
+  timing stays directional until a fixed-hardware runner exists.
+- `StateTransition.Then` composition must be resolved to single-materialization composition with
+  acceptable measured cost, or excluded from the stable contract; the recorded 0.1.0
+  left-associated chain behavior (85x–457x, up to 187 KB at Count=256) cannot remain stable
+  unchanged (Goal 20).
 - Immutable data is opt-in. The core package does not impose immutable collections or copying on
   consumers that do not ask for them.
 - Immutable updates use a deliberately small `Lens<TSource, TFocus>` and
   `Optional<TSource, TFocus>` surface over caller-provided delegates. The core provides no optics
   hierarchy, traversal API, reflection, property-path API, persistent-collection ecosystem, or
-  hidden source copying. Lens laws and purity remain obligations of the caller-provided delegates.
+  hidden source copying. Lens laws and purity remain obligations of the caller-provided
+  delegates. Lenses are for paths updated in more than one place; a single nested `with`
+  expression is the honest baseline.
 - `System.Collections.Immutable` remains the update mechanism for immutable collections. Callers
   choose its operations and builders inside their own setters or updaters; `FrozenDictionary` and
   `FrozenSet` remain read-optimized snapshots that callers query directly or replace explicitly as
@@ -29,17 +90,70 @@ may extend it deliberately, but implementation convenience alone does not overri
 - Data pipelines remain on BCL sequence, span, and memory carriers. Streaming operations are
   deferred and single-pass per enumeration; span and memory operations are immediate, respect view
   lifetimes, and use caller-owned storage for zero-copy or fused paths where practical.
+  `Choose`, `Sequence`, `Traverse`, the bounded parallel operators, the `*OrNone` cardinality
+  family, `Partition`, `Scan`, and container/`IParsable` option bridges are the adopted additions;
+  they stay on BCL carriers.
+- Collection traversal failures must be able to retain compositional location context (index,
+  key, item name, property path) for failures such as `customers[17].addresses[2].postalCode`.
+  The location carrier is small, value-based, and must not become a collection or error hierarchy.
+- Default and uninitialized values are explicit contracts:
+  - `Option<T>` default is a valid `None`.
+  - `Result<TValue, TError>`, `UnitResult<TError>`, and `Validation<TValue, TError>` defaults
+    must not masquerade as legitimate domain outcomes; uninitialized access is a programming
+    error with an explicit diagnostic, and Goal 15 owns the mechanism.
+  - `TransitionResult<...>` default is `Undefined`, a meaningful machine status.
+  - Uninitialized `Effect` and optics values fail explicitly when used.
 - Effects are thin `readonly struct` wrappers over standard delegates. They defer execution until
   `RunAsync`, return `ValueTask`, and make an optional caller-owned environment, cancellation, and
   resource lifetime explicit without changing normal .NET exception or cancellation semantics.
   `Result<TValue, TError>` remains an explicit value rather than an implicit effect failure.
+  `Effect` is used when deferred execution, environment, cancellation, or resource lifetime pay
+  for the wrapper; a single synchronous call stays direct C#.
+- A general retry, backoff, or scheduling policy layer is not part of the stable surface for this
+  stage. Coordinator-owned timeouts (as in the first-success family) remain. Reconsideration
+  requires a goal with `TimeProvider`, explicit cancellation, cap/jitter rules, and measured
+  comparison against a hand-written loop.
 - Concurrency remains BCL-first and explicit. Bounded parallel mapping streams ordered
   `IAsyncEnumerable<T>` results with `Channel` backpressure and linked operation cancellation;
   parallel traversal materializes ordered values and distinguishes Option/Result fail-fast behavior
   from Validation accumulation. First-success coordination accepts only cold
   `Effect<Result<TValue, TError>>` values, drains all started work, uses typed failures only for
-  explicit `Result` failures, and supports cooperative `TimeProvider` timeouts. The core provides
-  no naked started-Task racing API, scheduler, fiber runtime, or alternative concurrency carrier.
+  explicit `Result` failures, and supports cooperative `TimeProvider` timeouts. Its return shape
+  stays `Validation<TValue, TError>`: a winner is `Valid`, and an all-typed-failure race is
+  `Invalid` with the failures in input order; that race contract is documented explicitly at the
+  method and in the concurrency guide.
+  Completion-order coordination may be added only over `IAsyncEnumerable<T>` and cold effects.
+  The core provides no naked started-Task racing API, unbounded fan-out, scheduler, fiber runtime,
+  or alternative concurrency carrier. Completion-order coordination is limited to
+  `IAsyncEnumerable<T>` and cold effects. Goal 20 comparisons against pinned competitor packages
+  run only in an isolated, non-shipping benchmark project; those results are performance evidence
+  and never API-compatibility or Goal 22 acceptance evidence.
+- State remains pure. `StateChange`, `StateTransition`, and `StateMachine` model next state,
+  emitted commands, rejection, failure, and undefined handling without executing effects; callers
+  own persistence, event storage, and command execution. No workflow engine, actor system, STM,
+  or distributed orchestrator is added.
+- HTTP integration stays a separate package with explicit caller-selected mapping. There is no
+  DI registration, middleware, global error policy, or exception handler, and domain code stays
+  HTTP-free. First-party typed-results/OpenAPI APIs are deferred; the vertical slice documents and
+  tests `.Produces*` usage instead.
+- Serialization of carriers is caller policy today. No `System.Text.Json` converter ships until a
+  goal fixes the wire contract and verifies trimming and Native AOT behavior; callers use DTOs,
+  and `JsonSerializerOptions.Strict` is the recommended executable form of a DTO-only policy.
+
+## Analyzers And Compiler Feedback
+
+- Analyzers ship inside the `FunnySharp` package under `analyzers/dotnet/cs` (the Funcky model),
+  as build assets with no runtime dependency and no separate package to install. The original
+  deferral is deliberately superseded.
+- The reopening conditions from the original contract remain deliverable requirements: concrete
+  diagnostics, a false-positive policy, versioning rules, and measured maintenance cost.
+- Diagnostics must be suppressible by default except for impossible states, use stable ASCII IDs,
+  and document severity behavior. Safe code fixes are provided only where a transformation is
+  unambiguous.
+- Analyzer coverage must at least address uninitialized/default semantic carriers, silently
+  discarded outcomes, `TryGetValue`-style exhaustion where it hides the canonical path, and
+  async/cancellation/enumeration/resource hazards that can be diagnosed with low false-positive
+  risk. Analyzer tooling adds no runtime dependency to shipping packages.
 
 ## Package And Dependency Boundary
 
@@ -63,25 +177,36 @@ may extend it deliberately, but implementation convenience alone does not overri
   higher-kinded-type emulation, monad-transformer stack, and large IO universe are outside the
   core boundary. `Microsoft.Extensions` is not a core dependency; `TimeProvider` and ordinary DI
   services are caller-provided environment values.
+- FunnySharp remains independent of competing functional libraries: no competitor dependency,
+  carrier conversion, compatibility package, naming concession, or migration promise. Comparison
+  tooling may reference pinned competitor packages only in an isolated, non-packable,
+  non-shipping evidence project that is never part of `FunnySharp.slnx` or any release artifact.
 
 ## Deliberate Deferrals
 
-- The foundation exposes no speculative feature API. Public APIs require a later goal with usage,
-  behavior, and verification evidence.
-- First-party analyzers remain out of scope. Reconsidering them requires a later goal with concrete
-  diagnostics, false-positive policy, versioning rules, and measured maintenance cost.
-- General discriminated unions remain out of scope. FunnySharp stays on `net10.0` until .NET 11 is
-  generally available and its language/runtime contracts are stable; preview targeting does not
-  count as supported release evidence.
+- Public APIs require a later goal with usage, behavior, and verification evidence; no
+  speculative feature API is added.
+- General discriminated unions remain out of scope. FunnySharp stays on `net10.0` until .NET 11
+  is generally available and its language/runtime contracts are stable; preview targeting does
+  not count as supported release evidence.
 - A later goal may reconsider native C# unions only after the .NET 11 SDK and runtime are generally
   available, the language and metadata contracts are stable, and representative FunnySharp usage
-  can be compared with the focused `Option`, `Result`, `Validation`, and transition types.
+  can be compared with the focused `Option`, `Result`, `UnitResult`, and `Validation` types.
 - A `net10.0` union compatibility layer is considered only when real consumers must remain on the
   .NET 10 LTS line while also needing the same general-union source model. Such a proposal must
   include a fixed public API and semantics, source and binary migration to native unions, a removal
   plan, trimming and Native AOT results, allocation and throughput comparisons, and evidence that
   the focused existing types are insufficient. Until every condition is met, no compatibility
   layer or general union API is added.
+- Deferred capabilities stay absent from the stable surface: a general retry/backoff layer,
+  `Memoize`/async-buffer carriers, k-way async merge, completion-order operators beyond the
+  recorded constrained form, typed-results/OpenAPI APIs, System.Text.Json converters,
+  non-empty carriers and exact-vs-truncating zip, `Either` as a non-error carrier, Option
+  comparers/ordering, awaitable `Option<Task<T>>` sugar, and `net11.0` targeting. A public
+  `Unit` type is rejected, not deferred: no-value outcomes use `UnitResult<TError>`, and
+  no-value work uses ordinary `void`/`Task`/`ValueTask` shapes.
+- Each deferred item has recorded triggers in the decision record; adopting one requires a goal
+  that satisfies the trigger and the stability boundary above.
 
 ## Trimming And Native AOT Policy
 

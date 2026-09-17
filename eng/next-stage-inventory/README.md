@@ -1,0 +1,31 @@
+# Next-Stage Inventory Tool
+
+This directory is Goal 14 evidence tooling, not a shipping artifact.
+
+- `api-inventory.csproj` / `Program.cs` — a small reflection dumper that lists the
+  public and protected surface of one or more assemblies as markdown and JSON.
+  It supports runtime loading (with nullable reference annotations via
+  `NullabilityInfoContext`) and `MetadataLoadContext` mode for reference assemblies
+  and dependency-incomplete packages.
+- `generate.sh` — reproduces the committed dumps under
+  `docs/next-stage/inventory/generated/` from pinned external packages.
+
+The project is intentionally **not** part of `FunnySharp.slnx`, is not packable,
+and must never become a dependency of the shipping packages or the release
+pipeline. It exists so an auditor can regenerate the Goal 14 inventories from the
+pinned inputs recorded in `docs/next-stage/baselines.md`.
+
+```bash
+# Usage
+bash eng/next-stage-inventory/generate.sh <baseline-root> <ref-pack-dir> <output-dir>
+
+# Example for the 2026-09-17 survey
+bash eng/next-stage-inventory/generate.sh \
+  /tmp/next-stage-baselines \
+  "$HOME/.dotnet/packs/Microsoft.NETCore.App.Ref/10.0.11/ref/net10.0" \
+  /tmp/next-stage-evidence
+```
+
+`<baseline-root>` contains one extracted directory per package named after the
+`.nupkg` file without its extension. See `docs/next-stage/baselines.md` for
+versions, SHA256 hashes, and acquisition instructions.
