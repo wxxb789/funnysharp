@@ -13,6 +13,7 @@ $guides = @(
     'function-composition.md',
     'immutable-updates.md',
     'state-machines.md',
+    'unit-result.md',
     'validation.md'
 )
 $failures = [System.Collections.Generic.List[string]]::new()

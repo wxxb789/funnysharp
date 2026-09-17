@@ -26,6 +26,22 @@ public static class OptionExtensions
         Option.FromNullable(value);
 
     /// <summary>
+    /// Converts an option to a nullable value type.
+    /// </summary>
+    /// <typeparam name="T">The underlying value type.</typeparam>
+    /// <param name="option">The option to convert.</param>
+    /// <returns>The contained value, or <see langword="null"/> when absent.</returns>
+    /// <remarks>
+    /// This bridge exists for value types, where absence has no value representation. For reference
+    /// types, <see cref="Option{T}.GetValueOrDefault"/> already returns a nullable reference
+    /// (annotated <c>[MaybeNull]</c>) and is the explicit conversion member; C# cannot declare two
+    /// extension overloads that differ only by a <c>class</c> or <c>struct</c> constraint.
+    /// </remarks>
+    public static T? ToNullable<T>(this Option<T> option)
+        where T : struct =>
+        option.TryGetValue(out var value) ? value : default(T?);
+
+    /// <summary>
     /// Looks up a key in a read-only dictionary and converts the result to an option.
     /// </summary>
     /// <typeparam name="TKey">The key type.</typeparam>

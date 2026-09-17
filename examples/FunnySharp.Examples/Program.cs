@@ -2,18 +2,21 @@ using FunnySharp;
 using System.Collections.Frozen;
 using System.Collections.Immutable;
 using System.Globalization;
+using System.Runtime.CompilerServices;
 
 VerifySynchronousFunctions();
 VerifyDataPipelines();
 VerifyOptions();
 VerifyResults();
 VerifyValidations();
+VerifyUnitResults();
 VerifyImmutableUpdates();
 await VerifyAsynchronousFunctions();
 await VerifyAsynchronousDataPipelines();
 await VerifyAsynchronousOptions();
 await VerifyAsynchronousResults();
 await VerifyAsynchronousValidationTraversal();
+await VerifyAsynchronousUnitResults();
 await VerifyEffects();
 await VerifyConcurrentOrderWorkflow();
 await VerifyStateMachines();
@@ -209,6 +212,335 @@ static Validation<int, AccountValidationError> ValidateAge(int age) =>
     age < 18
         ? Validation<int, AccountValidationError>.Invalid(new AccountValidationError("age", "must-be-adult"))
         : Validation<int, AccountValidationError>.Valid(age);
+
+static void VerifyUnitResults()
+{
+    var success = UnitResult<CheckoutError>.Success();
+    Assert(success.IsSuccess, "Success must report success.");
+    Assert(!success.IsFailure, "Success must not report failure.");
+    Assert(!success.TryGetError(out var absentError), "TryGetError must be false for a success.");
+    Assert(absentError is null, "TryGetError must not fabricate an error for a success.");
+
+    var error = new CheckoutError("payment-declined");
+    var failure = UnitResult<CheckoutError>.Failure(error);
+    Assert(failure.IsFailure, "Failure must report failure.");
+    Assert(failure.TryGetError(out var capturedError), "TryGetError must be true for a failure.");
+    Assert(ReferenceEquals(error, capturedError), "TryGetError must preserve the failure object.");
+    AssertEqual("payment-declined", failure.Match(() => "success", value => value.Code));
+    AssertEqual("success", success.Match(() => "success", value => value.Code));
+
+    var matchTrace = new List<string>();
+    success.Match(() => matchTrace.Add("success"), value => matchTrace.Add(value.Code));
+    failure.Match(() => matchTrace.Add("success"), value => matchTrace.Add(value.Code));
+    AssertSequenceEqual(["success", "payment-declined"], matchTrace);
+
+    Assert(success == UnitResult<CheckoutError>.Success(), "Equal successes must compare equal.");
+    Assert(
+        failure == UnitResult<CheckoutError>.Failure(new CheckoutError("payment-declined")),
+        "Equal failures must compare equal.");
+    Assert(failure != success, "A failure must not equal a success.");
+    Assert(!failure.Equals(null), "An initialized unit result must not equal null.");
+    Assert(!failure.Equals("payment-declined"), "An initialized unit result must not equal another type.");
+    AssertEqual(UnitResult<CheckoutError>.Success().GetHashCode(), success.GetHashCode());
+    AssertEqual(
+        UnitResult<CheckoutError>.Failure(new CheckoutError("payment-declined")).GetHashCode(),
+        failure.GetHashCode());
+    AssertEqual("Success", success.ToString());
+    AssertEqual("Failure(declined)", UnitResult<string>.Failure("declined").ToString());
+
+    var nullPayloadFailure = UnitResult<string?>.Failure(null);
+    Assert(nullPayloadFailure.IsFailure, "A null error payload must still be a failure.");
+    Assert(nullPayloadFailure.TryGetError(out var nullPayload), "A null error payload must be retrievable.");
+    Assert(nullPayload is null, "A null error payload must be preserved exactly.");
+    AssertEqual("Failure()", nullPayloadFailure.ToString());
+
+    var uninitialized = default(UnitResult<string>);
+    AssertEqual("Uninitialized", uninitialized.ToString());
+    AssertUninitializedThrows(() => uninitialized.IsSuccess);
+    AssertUninitializedThrows(() => uninitialized.IsFailure);
+    AssertUninitializedThrows(() => uninitialized.TryGetError(out _));
+    AssertUninitializedThrows(() => uninitialized.GetHashCode());
+
+    var mapped = success.Map(() => 42);
+    AssertEqual(Result<int, CheckoutError>.Success(42), mapped);
+    AssertEqual(Result<int, CheckoutError>.Failure(error), failure.Map(() => 42));
+
+    var bound = success.Bind(() => UnitResult<CheckoutError>.Failure(new CheckoutError("missing-address")));
+    AssertEqual(UnitResult<CheckoutError>.Failure(new CheckoutError("missing-address")), bound);
+    AssertEqual(
+        failure,
+        failure.Bind(() => throw new InvalidOperationException("Bind must skip a failure.")));
+
+    Assert(
+        success.Ensure(() => true, new CheckoutError("unused")).IsSuccess,
+        "Ensure must keep a success when the predicate is true.");
+    AssertEqual(
+        UnitResult<CheckoutError>.Failure(new CheckoutError("terms-not-accepted")),
+        success.Ensure(() => false, new CheckoutError("terms-not-accepted")));
+    AssertEqual(
+        UnitResult<CheckoutError>.Failure(new CheckoutError("lazy-terms")),
+        success.Ensure(() => false, () => new CheckoutError("lazy-terms")));
+    AssertEqual(
+        failure,
+        failure.Ensure(
+            () => throw new InvalidOperationException("Ensure must skip a failure."),
+            new CheckoutError("unused")));
+
+    var recovered = failure.RecoverWith(value =>
+        value.Code == "payment-declined"
+            ? UnitResult<CheckoutError>.Success()
+            : UnitResult<CheckoutError>.Failure(value));
+    Assert(recovered.IsSuccess, "RecoverWith must invoke the recovery for a failure.");
+    Assert(
+        success.RecoverWith(_ => throw new InvalidOperationException("RecoverWith must skip a success.")).IsSuccess,
+        "RecoverWith must skip a success.");
+
+    AssertEqual(UnitResult<int>.Failure("payment-declined".Length), failure.MapError(value => value.Code.Length));
+    Assert(
+        success.MapError(value => value.Code.Length).IsSuccess,
+        "MapError must preserve a success without invoking the selector.");
+
+    Assert(success.Zip(UnitResult<CheckoutError>.Success()).IsSuccess, "Zipping two successes must succeed.");
+    AssertEqual(
+        UnitResult<CheckoutError>.Failure(new CheckoutError("first")),
+        UnitResult<CheckoutError>.Failure(new CheckoutError("first"))
+            .Zip(UnitResult<CheckoutError>.Failure(new CheckoutError("second"))));
+    AssertEqual(
+        UnitResult<CheckoutError>.Failure(new CheckoutError("second")),
+        success.Zip(UnitResult<CheckoutError>.Failure(new CheckoutError("second"))));
+
+    var zipFactoryInvoked = false;
+    var lazyZip = success.ZipWith(() =>
+    {
+        zipFactoryInvoked = true;
+        return UnitResult<CheckoutError>.Success();
+    });
+    Assert(lazyZip.IsSuccess && zipFactoryInvoked, "ZipWith must invoke the factory for a success.");
+    AssertEqual(
+        UnitResult<CheckoutError>.Failure(new CheckoutError("first")),
+        UnitResult<CheckoutError>.Failure(new CheckoutError("first"))
+            .ZipWith(() => throw new InvalidOperationException("ZipWith must skip the factory for a failure.")));
+
+    var observedException = new InvalidOperationException("ledger unavailable");
+    var caught = UnitResult.Try(() => throw observedException);
+    Assert(caught.TryGetError(out var caughtError), "Try must convert a thrown exception to a failure.");
+    Assert(ReferenceEquals(observedException, caughtError), "Try must preserve the exact exception object.");
+
+    var ran = false;
+    var executed = UnitResult.Try(() => ran = true);
+    Assert(executed.IsSuccess && ran, "Try must invoke the operation and succeed when it returns normally.");
+
+    var mappedBoundary = UnitResult.Try<CheckoutError>(
+        () => throw observedException,
+        exception => new CheckoutError("ledger-unavailable", exception));
+    var mappedBoundaryError = mappedBoundary.Match(
+        () => throw new InvalidOperationException("Expected the boundary to fail."),
+        value => value);
+    AssertEqual("ledger-unavailable", mappedBoundaryError.Code);
+    Assert(
+        ReferenceEquals(observedException, mappedBoundaryError.Cause),
+        "The typed boundary must receive the original exception.");
+
+    using var cancellationSource = new CancellationTokenSource();
+    cancellationSource.Cancel();
+    var cancellationException = new OperationCanceledException(cancellationSource.Token);
+    try
+    {
+        _ = UnitResult.Try(() => throw cancellationException);
+        throw new InvalidOperationException("Try must not convert cancellation into a failure.");
+    }
+    catch (OperationCanceledException actual) when (ReferenceEquals(actual, cancellationException))
+    {
+        Assert(actual.CancellationToken == cancellationSource.Token, "Try must preserve the cancellation token.");
+    }
+
+    var mapperInvoked = false;
+    try
+    {
+        _ = UnitResult.Try<CheckoutError>(
+            () => throw cancellationException,
+            exception =>
+            {
+                mapperInvoked = true;
+                return new CheckoutError("canceled", exception);
+            });
+        throw new InvalidOperationException("Try must not map a cancellation.");
+    }
+    catch (OperationCanceledException actual) when (ReferenceEquals(actual, cancellationException))
+    {
+    }
+
+    Assert(!mapperInvoked, "The error mapper must never receive OperationCanceledException.");
+
+    Assert(
+        Result<int, CheckoutError>.Success(5).ToUnitResult().IsSuccess,
+        "A successful result must bridge to a successful unit result.");
+    var failedResultBridge = Result<int, CheckoutError>.Failure(error).ToUnitResult();
+    Assert(failedResultBridge.TryGetError(out var bridgedError), "A failed result must bridge to a failed unit result.");
+    Assert(ReferenceEquals(error, bridgedError), "The bridge must preserve the failure object.");
+
+    Assert(Option.Some(3).ToUnitResult(new CheckoutError("missing")).IsSuccess, "Some must bridge to success.");
+    var absentBridge = Option.None<int>().ToUnitResult(new CheckoutError("missing"));
+    Assert(absentBridge.TryGetError(out var absentBridgeError), "None must bridge to the supplied failure.");
+    AssertEqual("missing", absentBridgeError!.Code);
+
+    var errorFactoryCalls = 0;
+    var lazySomeBridge = Option.Some(3).ToUnitResult(() =>
+    {
+        errorFactoryCalls++;
+        return new CheckoutError("lazy-missing");
+    });
+    Assert(lazySomeBridge.IsSuccess, "Some must bridge to success without invoking the error factory.");
+    AssertEqual(0, errorFactoryCalls);
+    var lazyNoneBridge = Option.None<int>().ToUnitResult(() =>
+    {
+        errorFactoryCalls++;
+        return new CheckoutError("lazy-missing");
+    });
+    Assert(lazyNoneBridge.TryGetError(out var lazyBridgeError), "None must bridge to the lazy factory result.");
+    AssertEqual(1, errorFactoryCalls);
+    AssertEqual("lazy-missing", lazyBridgeError!.Code);
+
+    Assert(Option.FromBoolean(true, 42).TryGetValue(out var present), "FromBoolean(true, value) must be Some.");
+    AssertEqual(42, present);
+    Assert(Option.FromBoolean(false, 42).IsNone, "FromBoolean(false, value) must be None.");
+
+    var eagerFactoryCalls = 0;
+    var configured = Option.FromBoolean(true, () =>
+    {
+        eagerFactoryCalls++;
+        return "configured";
+    });
+    Assert(configured.TryGetValue(out var configuredValue), "FromBoolean(true, factory) must invoke the factory.");
+    AssertEqual("configured", configuredValue!);
+    AssertEqual(1, eagerFactoryCalls);
+
+    var unused = Option.FromBoolean(false, () =>
+    {
+        eagerFactoryCalls++;
+        return "unused";
+    });
+    Assert(unused.IsNone, "FromBoolean(false, factory) must be None.");
+    AssertEqual(1, eagerFactoryCalls);
+
+    Assert(Option.Some(42).ToNullable() is 42, "Some must bridge to a populated nullable value.");
+    Assert(Option.None<int>().ToNullable() is null, "None must bridge to a null nullable value.");
+
+    AssertEqual(Option.Some(6), Option.Some(2).Zip(Option.Some(3), (quantity, unitPrice) => quantity * unitPrice));
+    Assert(
+        Option.Some(2).Zip(Option.None<int>(), (quantity, unitPrice) => quantity * unitPrice).IsNone,
+        "An absent option operand must short-circuit the combiner.");
+
+    var optionCombinerRan = false;
+    var optionMissingThird = Option.Some(2).Zip(
+        Option.Some(3),
+        Option.None<decimal>(),
+        (quantity, count, price) =>
+        {
+            optionCombinerRan = true;
+            return quantity * count;
+        });
+    Assert(optionMissingThird.IsNone && !optionCombinerRan, "An absent third operand must short-circuit the combiner.");
+    AssertEqual(
+        Option.Some("book|2|12.50"),
+        Option.Some("book").Zip(
+            Option.Some(2),
+            Option.Some(12.50m),
+            (sku, quantity, unitPrice) => $"{sku}|{quantity}|{unitPrice.ToString(CultureInfo.InvariantCulture)}"));
+
+    AssertEqual(
+        Result<int, CheckoutError>.Success(6),
+        Result<int, CheckoutError>.Success(2)
+            .Zip(Result<int, CheckoutError>.Success(3), (quantity, unitPrice) => quantity * unitPrice));
+    AssertEqual(
+        Result<int, CheckoutError>.Failure(new CheckoutError("first")),
+        Result<int, CheckoutError>.Failure(new CheckoutError("first"))
+            .Zip(
+                Result<int, CheckoutError>.Failure(new CheckoutError("second")),
+                (left, right) => left + right));
+    AssertEqual(
+        Result<int, CheckoutError>.Success(6),
+        Result<int, CheckoutError>.Success(1)
+            .Zip(
+                Result<int, CheckoutError>.Success(2),
+                Result<int, CheckoutError>.Success(3),
+                (first, second, third) => first + second + third));
+    AssertEqual(
+        Result<int, CheckoutError>.Failure(new CheckoutError("third")),
+        Result<int, CheckoutError>.Success(1)
+            .Zip(
+                Result<int, CheckoutError>.Success(2),
+                Result<int, CheckoutError>.Failure(new CheckoutError("third")),
+                (first, second, third) => first + second + third));
+
+    AssertEqual(
+        Validation<int, AccountValidationError>.Valid(6),
+        Validation<int, AccountValidationError>.Valid(2)
+            .Zip(
+                Validation<int, AccountValidationError>.Valid(3),
+                (quantity, unitPrice) => quantity * unitPrice));
+    var accumulatedCombination = Validation<int, AccountValidationError>
+        .Invalid(new AccountValidationError("quantity", "required"))
+        .Zip(
+            Validation<int, AccountValidationError>.Invalid(new AccountValidationError("price", "required")),
+            (quantity, unitPrice) => quantity * unitPrice);
+    Assert(accumulatedCombination.TryGetErrors(out var combinationErrors), "Both invalid operands must accumulate.");
+    AssertSequenceEqual(
+        [
+            new AccountValidationError("quantity", "required"),
+            new AccountValidationError("price", "required"),
+        ],
+        combinationErrors!);
+    var threeWayCombination = Validation<int, AccountValidationError>
+        .Invalid(new AccountValidationError("first", "invalid"))
+        .Zip(
+            Validation<int, AccountValidationError>.Valid(2),
+            Validation<int, AccountValidationError>.Invalid(new AccountValidationError("third", "invalid")),
+            (first, second, third) => first + second + third);
+    Assert(
+        threeWayCombination.TryGetErrors(out var threeWayErrors),
+        "Only the invalid third operand must contribute an error.");
+    AssertSequenceEqual(
+        [
+            new AccountValidationError("first", "invalid"),
+            new AccountValidationError("third", "invalid"),
+        ],
+        threeWayErrors!);
+
+    Assert(
+        Array.Empty<UnitResult<CheckoutError>>().Sequence().IsSuccess,
+        "An empty unit-result sequence must succeed.");
+
+    var sequenceError = new CheckoutError("preserved");
+    var preservedSequence = new[] { UnitResult<CheckoutError>.Failure(sequenceError) }.Sequence();
+    Assert(preservedSequence.TryGetError(out var preservedSequenceError), "A failed sequence must expose its error.");
+    Assert(ReferenceEquals(sequenceError, preservedSequenceError), "Sequence must preserve the first failure object.");
+
+    var reached = 0;
+    var failFast = new[]
+    {
+        UnitResult<CheckoutError>.Success(),
+        UnitResult<CheckoutError>.Failure(new CheckoutError("first")),
+        UnitResult<CheckoutError>.Failure(new CheckoutError("second")),
+    }.Traverse(value =>
+    {
+        reached++;
+        return value;
+    });
+    AssertEqual(UnitResult<CheckoutError>.Failure(new CheckoutError("first")), failFast);
+    AssertEqual(2, reached);
+
+    var selectorCalls = 0;
+    var traversed = new[] { "first", "second", "third" }.Traverse(item =>
+    {
+        selectorCalls++;
+        return item == "second"
+            ? UnitResult<CheckoutError>.Failure(new CheckoutError("stopped-at-second"))
+            : UnitResult<CheckoutError>.Success();
+    });
+    AssertEqual(UnitResult<CheckoutError>.Failure(new CheckoutError("stopped-at-second")), traversed);
+    AssertEqual(2, selectorCalls);
+}
 
 static void VerifyImmutableUpdates()
 {
@@ -424,6 +756,299 @@ static async Task VerifyAsynchronousValidationTraversal()
     AssertEqual(2, accounts!.Count);
     AssertEqual("Ada", accounts[0].DisplayName);
     AssertEqual("Grace", accounts[1].DisplayName);
+}
+
+static async Task VerifyAsynchronousUnitResults()
+{
+    var expectedFailure = new InvalidOperationException("ledger unavailable");
+
+    var faulted = await UnitResult.TryAsync(() => Task.FromException(expectedFailure));
+    var faultedError = faulted.Match(
+        () => throw new InvalidOperationException("Expected the unit boundary to fail."),
+        error => error);
+    Assert(ReferenceEquals(expectedFailure, faultedError), "TryAsync must preserve exception identity.");
+
+    var typedFaulted = await UnitResult.TryAsync<CheckoutError>(
+        () => Task.FromException(expectedFailure),
+        exception => new CheckoutError("ledger-unavailable", exception));
+    var typedFaultedError = typedFaulted.Match(
+        () => throw new InvalidOperationException("Expected the unit boundary to fail."),
+        error => error);
+    AssertEqual("ledger-unavailable", typedFaultedError.Code);
+    Assert(
+        ReferenceEquals(expectedFailure, typedFaultedError.Cause),
+        "The typed boundary must receive the original exception.");
+
+    var taskRan = false;
+    var taskSuccess = await UnitResult.TryAsync(() =>
+    {
+        taskRan = true;
+        return Task.CompletedTask;
+    });
+    Assert(taskSuccess.IsSuccess && taskRan, "TryAsync must invoke the operation and succeed when it completes.");
+
+    using var cancellationSource = new CancellationTokenSource();
+    cancellationSource.Cancel();
+    var cancellationMapperInvoked = false;
+    await AssertCancellationIsPreserved(
+        UnitResult.TryAsync<CheckoutError>(
+            () => Task.FromCanceled(cancellationSource.Token),
+            exception =>
+            {
+                cancellationMapperInvoked = true;
+                return new CheckoutError("canceled", exception);
+            }));
+    Assert(!cancellationMapperInvoked, "TryAsync must never map a canceled operation.");
+
+    try
+    {
+        await UnitResult.TryAsync(() => Task.FromCanceled(cancellationSource.Token));
+        throw new InvalidOperationException("TryAsync must preserve a canceled operation.");
+    }
+    catch (OperationCanceledException actual)
+    {
+        Assert(
+            actual.CancellationToken == cancellationSource.Token,
+            "TryAsync must preserve the original cancellation token.");
+    }
+
+    var faultedValue = await UnitResult.TryValueAsync(() => ValueTask.FromException(expectedFailure));
+    var faultedValueError = faultedValue.Match(
+        () => throw new InvalidOperationException("Expected the value boundary to fail."),
+        error => error);
+    Assert(ReferenceEquals(expectedFailure, faultedValueError), "TryValueAsync must preserve exception identity.");
+
+    var valueRan = false;
+    var valueSuccess = await UnitResult.TryValueAsync(() =>
+    {
+        valueRan = true;
+        return ValueTask.CompletedTask;
+    });
+    Assert(
+        valueSuccess.IsSuccess && valueRan,
+        "TryValueAsync must invoke the operation and succeed when it completes.");
+
+    var valueMapperInvoked = false;
+    await AssertCancellationIsPreserved(
+        UnitResult.TryValueAsync<CheckoutError>(
+            () => ValueTask.FromCanceled(cancellationSource.Token),
+            exception =>
+            {
+                valueMapperInvoked = true;
+                return new CheckoutError("value-canceled", exception);
+            })
+        .AsTask());
+    Assert(!valueMapperInvoked, "TryValueAsync must never map a canceled operation.");
+
+    try
+    {
+        await UnitResult.TryValueAsync(() => ValueTask.FromCanceled(cancellationSource.Token));
+        throw new InvalidOperationException("TryValueAsync must preserve a canceled operation.");
+    }
+    catch (OperationCanceledException actual)
+    {
+        Assert(
+            actual.CancellationToken == cancellationSource.Token,
+            "TryValueAsync must preserve the original cancellation token.");
+    }
+
+    var mapSelectorRan = false;
+    var mappedSuccess = await UnitResult<CheckoutError>.Success().MapAsync(() =>
+    {
+        mapSelectorRan = true;
+        return Task.FromResult(21);
+    });
+    AssertEqual(Result<int, CheckoutError>.Success(21), mappedSuccess);
+    Assert(mapSelectorRan, "MapAsync must invoke the selector for a success.");
+
+    var mapShortCircuited = false;
+    var mappedFailure = await UnitResult<CheckoutError>.Failure(new CheckoutError("denied")).MapAsync(() =>
+    {
+        mapShortCircuited = true;
+        return Task.FromResult(21);
+    });
+    AssertEqual(Result<int, CheckoutError>.Failure(new CheckoutError("denied")), mappedFailure);
+    Assert(!mapShortCircuited, "MapAsync must short-circuit a failure without invoking the selector.");
+
+    using var workSource = new CancellationTokenSource();
+    var mapTokens = new List<CancellationToken>();
+    var tokenMapped = await UnitResult<CheckoutError>.Success().MapAsync(
+        token =>
+        {
+            mapTokens.Add(token);
+            return Task.FromResult(42);
+        },
+        workSource.Token);
+    AssertEqual(Result<int, CheckoutError>.Success(42), tokenMapped);
+    Assert(
+        mapTokens.Count == 1 && mapTokens[0] == workSource.Token,
+        "MapAsync must forward the supplied token to the selector.");
+
+    var bindRan = false;
+    var boundSuccess = await UnitResult<CheckoutError>.Success().BindAsync(() =>
+    {
+        bindRan = true;
+        return Task.FromResult(UnitResult<CheckoutError>.Success());
+    });
+    Assert(boundSuccess.IsSuccess && bindRan, "BindAsync must invoke the binder for a success.");
+
+    var bindShortCircuited = false;
+    var boundFailure = await UnitResult<CheckoutError>.Failure(new CheckoutError("denied")).BindAsync(() =>
+    {
+        bindShortCircuited = true;
+        return Task.FromResult(UnitResult<CheckoutError>.Success());
+    });
+    AssertEqual(UnitResult<CheckoutError>.Failure(new CheckoutError("denied")), boundFailure);
+    Assert(!bindShortCircuited, "BindAsync must short-circuit a failure without invoking the binder.");
+
+    var mapValueRan = false;
+    var mappedValue = await UnitResult<CheckoutError>.Success().MapValueAsync(() =>
+    {
+        mapValueRan = true;
+        return ValueTask.FromResult(21);
+    });
+    AssertEqual(Result<int, CheckoutError>.Success(21), mappedValue);
+    Assert(mapValueRan, "MapValueAsync must invoke the selector for a success.");
+
+    var mapValueShortCircuited = false;
+    var mappedValueFailure = await UnitResult<CheckoutError>.Failure(new CheckoutError("denied")).MapValueAsync(() =>
+    {
+        mapValueShortCircuited = true;
+        return ValueTask.FromResult(21);
+    });
+    AssertEqual(Result<int, CheckoutError>.Failure(new CheckoutError("denied")), mappedValueFailure);
+    Assert(!mapValueShortCircuited, "MapValueAsync must short-circuit a failure.");
+
+    var bindValueRan = false;
+    var boundValue = await UnitResult<CheckoutError>.Success().BindValueAsync(() =>
+    {
+        bindValueRan = true;
+        return ValueTask.FromResult(UnitResult<CheckoutError>.Success());
+    });
+    Assert(boundValue.IsSuccess && bindValueRan, "BindValueAsync must invoke the binder for a success.");
+
+    var bindValueShortCircuited = false;
+    var boundValueFailure = await UnitResult<CheckoutError>.Failure(new CheckoutError("denied")).BindValueAsync(() =>
+    {
+        bindValueShortCircuited = true;
+        return ValueTask.FromResult(UnitResult<CheckoutError>.Success());
+    });
+    AssertEqual(UnitResult<CheckoutError>.Failure(new CheckoutError("denied")), boundValueFailure);
+    Assert(!bindValueShortCircuited, "BindValueAsync must short-circuit a failure.");
+
+    var taskBridge = await Task.FromResult(Result<int, CheckoutError>.Success(5)).ToUnitResultAsync();
+    Assert(taskBridge.IsSuccess, "A successful result task must bridge to a successful unit result.");
+
+    var taskFailure = new CheckoutError("task-failure");
+    var taskFailureBridge = await Task
+        .FromResult(Result<int, CheckoutError>.Failure(taskFailure))
+        .ToUnitResultAsync();
+    Assert(taskFailureBridge.TryGetError(out var taskBridgeError), "A failed result task must bridge to a failure.");
+    Assert(ReferenceEquals(taskFailure, taskBridgeError), "The task bridge must preserve the failure object.");
+
+    var valueTaskBridge = await ValueTask
+        .FromResult(Result<int, CheckoutError>.Success(5))
+        .ToUnitResultAsync();
+    Assert(valueTaskBridge.IsSuccess, "A successful result value task must bridge to a successful unit result.");
+
+    var valueTaskFailure = new CheckoutError("value-task-failure");
+    var valueTaskFailureBridge = await ValueTask
+        .FromResult(Result<int, CheckoutError>.Failure(valueTaskFailure))
+        .ToUnitResultAsync();
+    Assert(
+        valueTaskFailureBridge.TryGetError(out var valueTaskBridgeError),
+        "A failed result value task must bridge to a failure.");
+    Assert(
+        ReferenceEquals(valueTaskFailure, valueTaskBridgeError),
+        "The value-task bridge must preserve the failure object.");
+
+    await AssertFaultIsPreserved(
+        Task.FromException<Result<int, CheckoutError>>(expectedFailure).ToUnitResultAsync(),
+        expectedFailure);
+
+    using var traversalSource = new CancellationTokenSource();
+    var traversalTokens = new List<CancellationToken>();
+    var traversal = await AsyncUnitResultCommands().TraverseValueAsync(
+        (command, token) =>
+        {
+            traversalTokens.Add(token);
+            return ValueTask.FromResult(UnitResult<CheckoutError>.Success());
+        },
+        traversalSource.Token);
+    Assert(traversal.IsSuccess, "Every traversed command must succeed.");
+    AssertEqual(2, traversalTokens.Count);
+    Assert(
+        traversalTokens.All(token => token == traversalSource.Token),
+        "TraverseValueAsync must forward the supplied token to the selector.");
+
+    var reached = 0;
+    var failFast = await AsyncUnitResultCommands().TraverseValueAsync(
+        (command, token) =>
+        {
+            reached++;
+            return ValueTask.FromResult(
+                command == "validate"
+                    ? UnitResult<CheckoutError>.Failure(new CheckoutError("first"))
+                    : UnitResult<CheckoutError>.Success());
+        },
+        CancellationToken.None);
+    AssertEqual(UnitResult<CheckoutError>.Failure(new CheckoutError("first")), failFast);
+    AssertEqual(1, reached);
+
+    var sequence = await AsyncUnitResultSteps().SequenceAsync(traversalSource.Token);
+    Assert(sequence.IsSuccess, "SequenceAsync must succeed when every unit result succeeds.");
+
+    var failFastSequence = await AsyncUnitResultAttempts().SequenceAsync();
+    AssertEqual(UnitResult<CheckoutError>.Failure(new CheckoutError("first")), failFastSequence);
+
+    using var canceledTraversalSource = new CancellationTokenSource();
+    canceledTraversalSource.Cancel();
+    await AssertCancellationIsPreserved(
+        AsyncUnitResultCommands()
+            .TraverseValueAsync(
+                static (command, token) =>
+                {
+                    token.ThrowIfCancellationRequested();
+                    return ValueTask.FromResult(UnitResult<CheckoutError>.Success());
+                },
+                canceledTraversalSource.Token)
+            .AsTask());
+    await AssertCancellationIsPreserved(
+        AsyncUnitResultSteps().SequenceAsync(canceledTraversalSource.Token).AsTask());
+
+    var valid = Validation<int, AccountValidationError>.Valid(21);
+    var mappedValid = await valid.MapAsync(value => Task.FromResult(value * 2));
+    AssertEqual(Validation<int, AccountValidationError>.Valid(42), mappedValid);
+
+    var validationErrors = new[]
+    {
+        new AccountValidationError("age", "must-be-adult"),
+    };
+    var invalid = Validation<int, AccountValidationError>.Invalid(validationErrors[0]);
+    var invalidSelectorRan = false;
+    var mappedInvalid = await invalid.MapAsync(value =>
+    {
+        invalidSelectorRan = true;
+        return Task.FromResult(value * 2);
+    });
+    Assert(mappedInvalid.TryGetErrors(out var mappedInvalidErrors), "An invalid validation must keep its errors.");
+    AssertSequenceEqual(validationErrors, mappedInvalidErrors!);
+    Assert(!invalidSelectorRan, "MapAsync must short-circuit an invalid validation.");
+
+    var mappedValidValue = await valid.MapValueAsync(value => ValueTask.FromResult(value * 2));
+    AssertEqual(Validation<int, AccountValidationError>.Valid(42), mappedValidValue);
+
+    var invalidValueSelectorRan = false;
+    var mappedInvalidValue = await invalid.MapValueAsync(value =>
+    {
+        invalidValueSelectorRan = true;
+        return ValueTask.FromResult(value * 2);
+    });
+    Assert(
+        mappedInvalidValue.TryGetErrors(out var mappedInvalidValueErrors),
+        "An invalid validation must keep its errors.");
+    AssertSequenceEqual(validationErrors, mappedInvalidValueErrors!);
+    Assert(!invalidValueSelectorRan, "MapValueAsync must short-circuit an invalid validation.");
 }
 
 static async Task VerifyEffects()
@@ -656,6 +1281,34 @@ static async IAsyncEnumerable<CreateAccountRequest> AsyncAccountRequests()
     yield return new CreateAccountRequest("Grace", "grace@example.com", 30);
 }
 
+static async IAsyncEnumerable<string> AsyncUnitResultCommands(
+    [EnumeratorCancellation] CancellationToken cancellationToken = default)
+{
+    cancellationToken.ThrowIfCancellationRequested();
+    yield return "validate";
+    await Task.Yield();
+    yield return "reserve";
+}
+
+static async IAsyncEnumerable<UnitResult<CheckoutError>> AsyncUnitResultSteps(
+    [EnumeratorCancellation] CancellationToken cancellationToken = default)
+{
+    cancellationToken.ThrowIfCancellationRequested();
+    yield return UnitResult<CheckoutError>.Success();
+    await Task.Yield();
+    yield return UnitResult<CheckoutError>.Success();
+}
+
+static async IAsyncEnumerable<UnitResult<CheckoutError>> AsyncUnitResultAttempts(
+    [EnumeratorCancellation] CancellationToken cancellationToken = default)
+{
+    cancellationToken.ThrowIfCancellationRequested();
+    yield return UnitResult<CheckoutError>.Success();
+    await Task.Yield();
+    yield return UnitResult<CheckoutError>.Failure(new CheckoutError("first"));
+    throw new InvalidOperationException("SequenceAsync must stop at the first failure.");
+}
+
 static async IAsyncEnumerable<string> AsyncOrderRows()
 {
     yield return " A-100 , book , 2 , paid ";
@@ -763,6 +1416,19 @@ static void AssertSequenceEqual<T>(IReadOnlyList<T> expected, IReadOnlyList<T> a
     if (!expected.SequenceEqual(actual))
     {
         throw new InvalidOperationException("The sequences were not equal.");
+    }
+}
+
+static void AssertUninitializedThrows(Func<object?> read)
+{
+    try
+    {
+        _ = read();
+        throw new InvalidOperationException("Expected the uninitialized unit result to throw.");
+    }
+    catch (InvalidOperationException exception) when (
+        exception.Message == "The unit result has not been initialized.")
+    {
     }
 }
 

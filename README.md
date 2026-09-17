@@ -36,6 +36,16 @@ original exception unless the caller deliberately maps it to a domain error.
 - [Semantics](https://github.com/wxxb789/funnysharp/blob/main/docs/result.md)
 - [Compiling examples](https://github.com/wxxb789/funnysharp/blob/main/examples/FunnySharp.Examples/Program.cs)
 
+## UnitResult
+
+`UnitResult<TError>` represents success or typed failure for commands, deletes, and notifications
+that have no meaningful value to carry, without a dummy payload or a public `Unit` type. It offers
+matching inspection, mapping to `Result`, binding, validation, recovery, error mapping, combination,
+fail-fast sequence traversal, and matching `Task`/`ValueTask` composition.
+
+- [Semantics](https://github.com/wxxb789/funnysharp/blob/main/docs/unit-result.md)
+- [Compiling examples](https://github.com/wxxb789/funnysharp/blob/main/examples/FunnySharp.Examples/Program.cs)
+
 ## Effects
 
 `Effect<T>` and `Effect<TEnvironment, T>` provide a thin, deferred boundary for standard .NET
@@ -60,7 +70,8 @@ adding a concurrency runtime or scheduler.
 
 `Validation<TValue, TError>` represents a valid value or one or more domain errors. It is for
 independent checks that should all run and report their errors in deterministic order; use
-`Option<T>` or `Result<TValue, TError>` when fail-fast behavior is the intended contract.
+`Option<T>`, `Result<TValue, TError>`, or `UnitResult<TError>` when fail-fast behavior is the
+intended contract.
 
 - [Semantics and shared traversal behavior](https://github.com/wxxb789/funnysharp/blob/main/docs/validation.md)
 - [Compiling examples](https://github.com/wxxb789/funnysharp/blob/main/examples/FunnySharp.Examples/Program.cs)
@@ -97,9 +108,9 @@ choose where and how emitted commands perform asynchronous work.
 ## ASP.NET Core
 
 `FunnySharp.AspNetCore` is a separate Minimal API integration package. It maps explicit
-`Option`, `Result`, `Validation`, `Task`, `ValueTask`, and `Effect` outcomes to caller-selected
-`IResult` and RFC-compatible `ProblemDetails` without coupling the BCL-only core package to
-ASP.NET Core.
+`Option`, `Result`, `UnitResult`, `Validation`, `Task`, `ValueTask`, and `Effect` outcomes to
+caller-selected `IResult` and RFC-compatible `ProblemDetails` without coupling the BCL-only core
+package to ASP.NET Core.
 
 - [Integration semantics and endpoint examples](https://github.com/wxxb789/funnysharp/blob/main/docs/aspnet-core.md)
 - [Compiling Minimal API example](https://github.com/wxxb789/funnysharp/blob/main/examples/FunnySharp.AspNetCore.Examples/Program.cs)

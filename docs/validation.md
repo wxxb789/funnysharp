@@ -8,8 +8,10 @@ report every discovered error. The compiling examples are in
 
 Create values with `Validation<TValue, TError>.Valid(value)`, `Invalid(error)`, or
 `InvalidMany(errors)`. `Validation<TValue, TError>` is a `readonly struct` with no public constructor.
-Its default value is `Invalid([default(TError)])`. That preserves a total two-case value type, but
-it is not a domain-error shortcut: construct invalid values explicitly with a meaningful error.
+Its default value is uninitialized: every member that reads the case or the errors throws
+`InvalidOperationException` with the message `"The validation has not been initialized."`, and only
+`ToString()` returns the diagnostic text `"Uninitialized"` without throwing. That is a programming
+error, not a domain-error shortcut: construct invalid values explicitly with a meaningful error.
 
 Use `IsValid`, `IsInvalid`, `TryGetValue`, `TryGetErrors`, or `Match` to inspect a validation.
 There is intentionally no throwing value or error accessor. Valid and invalid payloads preserve
@@ -64,6 +66,20 @@ and an enumerator is still disposed when one has been acquired. Traversal is eag
 the returned collection, so it allocates for successful values; invalid Validation traversal also
 allocates to collect errors. Capacity may be pre-sized when a synchronous source reports a count,
 but this is not a streaming or zero-allocation API.
+
+## Asynchronous Mapping
+
+`MapAsync` and `MapValueAsync` transform a valid value with `Task`-returning and
+`ValueTask`-returning selectors; the cancellation-aware overloads pass the exact supplied
+`CancellationToken` to the selector. An invalid validation short-circuits to a completed invalid value
+with the same error snapshot: the selector is not invoked and the token is not inspected. A valid
+validation invokes the selector once and observes the returned awaitable once. Faults and cancellation
+remain ordinary asynchronous failures with the original exception object and token. Delegate null
+checks happen at entry, and an uninitialized validation throws at call time before a task is returned.
+
+These methods transform the valid value only. They do not sequence dependent
+validation-producing callbacks, so the deliberate no-`Bind`/no-`SelectMany` boundary described above
+is unchanged.
 
 ## Asynchronous Sequence And Traverse
 

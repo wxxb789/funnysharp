@@ -253,7 +253,8 @@ public sealed class CollectionTraversalTests
         Assert.Same(
             optionSelectorException,
             Assert.Throws<InvalidOperationException>(() =>
-                optionSelectorSource.Traverse<int, int>(_ => throw optionSelectorException)));
+                optionSelectorSource.Traverse<int, int>(
+                    (Func<int, Option<int>>)(_ => throw optionSelectorException))));
         Assert.Same(
             resultSelectorException,
             Assert.Throws<InvalidOperationException>(() =>

@@ -357,49 +357,72 @@ public static class Result
 /// <typeparam name="TError">The failure value type.</typeparam>
 public readonly struct Result<TValue, TError> : IEquatable<Result<TValue, TError>>
 {
+    private const byte UninitializedState = 0;
+    private const byte SuccessState = 1;
+    private const byte FailureState = 2;
+
     private readonly TValue? value;
     private readonly TError? error;
+    private readonly byte state;
 
-    private Result(TValue? value, TError? error, bool isSuccess)
+    private Result(TValue? value, TError? error, byte state)
     {
         this.value = value;
         this.error = error;
-        IsSuccess = isSuccess;
+        this.state = state;
     }
 
     /// <summary>
     /// Gets a value indicating whether this result is successful.
     /// </summary>
-    public bool IsSuccess { get; }
+    /// <exception cref="InvalidOperationException">This result is uninitialized.</exception>
+    public bool IsSuccess
+    {
+        get
+        {
+            EnsureInitialized();
+            return state == SuccessState;
+        }
+    }
 
     /// <summary>
     /// Gets a value indicating whether this result is a failure.
     /// </summary>
-    public bool IsFailure => !IsSuccess;
+    /// <exception cref="InvalidOperationException">This result is uninitialized.</exception>
+    public bool IsFailure
+    {
+        get
+        {
+            EnsureInitialized();
+            return state == FailureState;
+        }
+    }
 
     /// <summary>
     /// Creates a successful result.
     /// </summary>
     /// <param name="value">The successful value.</param>
     /// <returns>A successful result containing <paramref name="value"/>.</returns>
-    public static Result<TValue, TError> Success(TValue value) => new(value, default, true);
+    public static Result<TValue, TError> Success(TValue value) => new(value, default, SuccessState);
 
     /// <summary>
     /// Creates a failed result.
     /// </summary>
     /// <param name="error">The failure value.</param>
     /// <returns>A failed result containing <paramref name="error"/>.</returns>
-    public static Result<TValue, TError> Failure(TError error) => new(default, error, false);
+    public static Result<TValue, TError> Failure(TError error) => new(default, error, FailureState);
 
     /// <summary>
     /// Attempts to retrieve the successful value.
     /// </summary>
     /// <param name="value">The successful value, or <see langword="default"/> when failed.</param>
     /// <returns><see langword="true"/> when successful; otherwise, <see langword="false"/>.</returns>
+    /// <exception cref="InvalidOperationException">This result is uninitialized.</exception>
     public bool TryGetValue([MaybeNull] out TValue value)
     {
+        EnsureInitialized();
         value = this.value;
-        return IsSuccess;
+        return state == SuccessState;
     }
 
     /// <summary>
@@ -407,10 +430,12 @@ public readonly struct Result<TValue, TError> : IEquatable<Result<TValue, TError
     /// </summary>
     /// <param name="error">The failure value, or <see langword="default"/> when successful.</param>
     /// <returns><see langword="true"/> when failed; otherwise, <see langword="false"/>.</returns>
+    /// <exception cref="InvalidOperationException">This result is uninitialized.</exception>
     public bool TryGetError([MaybeNull] out TError error)
     {
+        EnsureInitialized();
         error = this.error;
-        return IsFailure;
+        return state == FailureState;
     }
 
     /// <summary>
@@ -420,12 +445,14 @@ public readonly struct Result<TValue, TError> : IEquatable<Result<TValue, TError
     /// <param name="success">The branch invoked with a successful value.</param>
     /// <param name="failure">The branch invoked with a failure value.</param>
     /// <returns>The selected branch result.</returns>
+    /// <exception cref="InvalidOperationException">This result is uninitialized.</exception>
     public TResult Match<TResult>(Func<TValue, TResult> success, Func<TError, TResult> failure)
     {
         ArgumentNullException.ThrowIfNull(success);
         ArgumentNullException.ThrowIfNull(failure);
+        EnsureInitialized();
 
-        return IsSuccess ? success(value!) : failure(error!);
+        return state == SuccessState ? success(value!) : failure(error!);
     }
 
     /// <summary>
@@ -433,12 +460,14 @@ public readonly struct Result<TValue, TError> : IEquatable<Result<TValue, TError
     /// </summary>
     /// <param name="success">The branch invoked with a successful value.</param>
     /// <param name="failure">The branch invoked with a failure value.</param>
+    /// <exception cref="InvalidOperationException">This result is uninitialized.</exception>
     public void Match(Action<TValue> success, Action<TError> failure)
     {
         ArgumentNullException.ThrowIfNull(success);
         ArgumentNullException.ThrowIfNull(failure);
+        EnsureInitialized();
 
-        if (IsSuccess)
+        if (state == SuccessState)
         {
             success(value!);
         }
@@ -454,11 +483,13 @@ public readonly struct Result<TValue, TError> : IEquatable<Result<TValue, TError
     /// <typeparam name="TResult">The transformed value type.</typeparam>
     /// <param name="selector">The transformation to apply.</param>
     /// <returns>The transformed result, or the existing failure.</returns>
+    /// <exception cref="InvalidOperationException">This result is uninitialized.</exception>
     public Result<TResult, TError> Map<TResult>(Func<TValue, TResult> selector)
     {
         ArgumentNullException.ThrowIfNull(selector);
+        EnsureInitialized();
 
-        return IsSuccess
+        return state == SuccessState
             ? Result<TResult, TError>.Success(selector(value!))
             : Result<TResult, TError>.Failure(error!);
     }
@@ -469,11 +500,13 @@ public readonly struct Result<TValue, TError> : IEquatable<Result<TValue, TError
     /// <typeparam name="TResult">The bound value type.</typeparam>
     /// <param name="binder">The result-returning function to apply.</param>
     /// <returns>The bound result, or the existing failure.</returns>
+    /// <exception cref="InvalidOperationException">This result is uninitialized.</exception>
     public Result<TResult, TError> Bind<TResult>(Func<TValue, Result<TResult, TError>> binder)
     {
         ArgumentNullException.ThrowIfNull(binder);
+        EnsureInitialized();
 
-        return IsSuccess
+        return state == SuccessState
             ? binder(value!)
             : Result<TResult, TError>.Failure(error!);
     }
@@ -484,11 +517,13 @@ public readonly struct Result<TValue, TError> : IEquatable<Result<TValue, TError
     /// <typeparam name="TResultError">The transformed failure type.</typeparam>
     /// <param name="selector">The failure transformation to apply.</param>
     /// <returns>The transformed failure, or the existing success.</returns>
+    /// <exception cref="InvalidOperationException">This result is uninitialized.</exception>
     public Result<TValue, TResultError> MapError<TResultError>(Func<TError, TResultError> selector)
     {
         ArgumentNullException.ThrowIfNull(selector);
+        EnsureInitialized();
 
-        return IsSuccess
+        return state == SuccessState
             ? Result<TValue, TResultError>.Success(value!)
             : Result<TValue, TResultError>.Failure(selector(error!));
     }
@@ -499,11 +534,13 @@ public readonly struct Result<TValue, TError> : IEquatable<Result<TValue, TError
     /// <param name="predicate">The predicate to evaluate.</param>
     /// <param name="error">The failure returned when the predicate is false.</param>
     /// <returns>This result when already failed or when the value matches; otherwise, a new failure.</returns>
+    /// <exception cref="InvalidOperationException">This result is uninitialized.</exception>
     public Result<TValue, TError> Ensure(Func<TValue, bool> predicate, TError error)
     {
         ArgumentNullException.ThrowIfNull(predicate);
+        EnsureInitialized();
 
-        return IsFailure || predicate(value!) ? this : Failure(error);
+        return state == FailureState || predicate(value!) ? this : Failure(error);
     }
 
     /// <summary>
@@ -512,14 +549,16 @@ public readonly struct Result<TValue, TError> : IEquatable<Result<TValue, TError
     /// <param name="predicate">The predicate to evaluate.</param>
     /// <param name="errorFactory">The failure factory invoked for an unsuccessful validation.</param>
     /// <returns>This result when already failed or when the value matches; otherwise, a new failure.</returns>
+    /// <exception cref="InvalidOperationException">This result is uninitialized.</exception>
     public Result<TValue, TError> Ensure(
         Func<TValue, bool> predicate,
         Func<TValue, TError> errorFactory)
     {
         ArgumentNullException.ThrowIfNull(predicate);
         ArgumentNullException.ThrowIfNull(errorFactory);
+        EnsureInitialized();
 
-        if (IsFailure || predicate(value!))
+        if (state == FailureState || predicate(value!))
         {
             return this;
         }
@@ -532,11 +571,13 @@ public readonly struct Result<TValue, TError> : IEquatable<Result<TValue, TError
     /// </summary>
     /// <param name="recovery">The recovery function.</param>
     /// <returns>This result when successful; otherwise, the recovered success.</returns>
+    /// <exception cref="InvalidOperationException">This result is uninitialized.</exception>
     public Result<TValue, TError> Recover(Func<TError, TValue> recovery)
     {
         ArgumentNullException.ThrowIfNull(recovery);
+        EnsureInitialized();
 
-        return IsSuccess ? this : Success(recovery(error!));
+        return state == SuccessState ? this : Success(recovery(error!));
     }
 
     /// <summary>
@@ -544,11 +585,13 @@ public readonly struct Result<TValue, TError> : IEquatable<Result<TValue, TError
     /// </summary>
     /// <param name="recovery">The result-returning recovery function.</param>
     /// <returns>This result when successful; otherwise, the recovery result.</returns>
+    /// <exception cref="InvalidOperationException">This result is uninitialized.</exception>
     public Result<TValue, TError> RecoverWith(Func<TError, Result<TValue, TError>> recovery)
     {
         ArgumentNullException.ThrowIfNull(recovery);
+        EnsureInitialized();
 
-        return IsSuccess ? this : recovery(error!);
+        return state == SuccessState ? this : recovery(error!);
     }
 
     /// <summary>
@@ -557,21 +600,86 @@ public readonly struct Result<TValue, TError> : IEquatable<Result<TValue, TError
     /// <typeparam name="TSecond">The second successful value type.</typeparam>
     /// <param name="second">The result to combine with.</param>
     /// <returns>Both successful values, or the first failure in left-to-right order.</returns>
+    /// <exception cref="InvalidOperationException">This result or <paramref name="second"/> is uninitialized.</exception>
     public Result<(TValue First, TSecond Second), TError> Zip<TSecond>(
         Result<TSecond, TError> second)
     {
-        if (IsFailure)
+        EnsureInitialized();
+        second.EnsureInitialized();
+
+        if (state == FailureState)
         {
             return Result<(TValue First, TSecond Second), TError>.Failure(error!);
         }
 
-        if (second.TryGetValue(out var secondValue))
+        return second.state == SuccessState
+            ? Result<(TValue First, TSecond Second), TError>.Success((value!, second.value!))
+            : Result<(TValue First, TSecond Second), TError>.Failure(second.error!);
+    }
+
+    /// <summary>
+    /// Combines this result with another result through a combining function.
+    /// </summary>
+    /// <typeparam name="TSecond">The second successful value type.</typeparam>
+    /// <typeparam name="TResult">The combined successful value type.</typeparam>
+    /// <param name="second">The result to combine with.</param>
+    /// <param name="combine">The function invoked with both successful values.</param>
+    /// <returns>The combined success, or the first failure in left-to-right order.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="combine"/> is <see langword="null"/>.</exception>
+    /// <exception cref="InvalidOperationException">This result or <paramref name="second"/> is uninitialized.</exception>
+    public Result<TResult, TError> Zip<TSecond, TResult>(
+        Result<TSecond, TError> second,
+        Func<TValue, TSecond, TResult> combine)
+    {
+        ArgumentNullException.ThrowIfNull(combine);
+        EnsureInitialized();
+        second.EnsureInitialized();
+
+        if (state == FailureState)
         {
-            return Result<(TValue First, TSecond Second), TError>.Success((value!, secondValue!));
+            return Result<TResult, TError>.Failure(error!);
         }
 
-        second.TryGetError(out var secondError);
-        return Result<(TValue First, TSecond Second), TError>.Failure(secondError!);
+        return second.state == SuccessState
+            ? Result<TResult, TError>.Success(combine(value!, second.value!))
+            : Result<TResult, TError>.Failure(second.error!);
+    }
+
+    /// <summary>
+    /// Combines this result with two more results through a combining function.
+    /// </summary>
+    /// <typeparam name="TSecond">The second successful value type.</typeparam>
+    /// <typeparam name="TThird">The third successful value type.</typeparam>
+    /// <typeparam name="TResult">The combined successful value type.</typeparam>
+    /// <param name="second">The second result to combine with.</param>
+    /// <param name="third">The third result to combine with.</param>
+    /// <param name="combine">The function invoked with all three successful values.</param>
+    /// <returns>The combined success, or the first failure in left-to-right order.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="combine"/> is <see langword="null"/>.</exception>
+    /// <exception cref="InvalidOperationException">This result or an operand is uninitialized.</exception>
+    public Result<TResult, TError> Zip<TSecond, TThird, TResult>(
+        Result<TSecond, TError> second,
+        Result<TThird, TError> third,
+        Func<TValue, TSecond, TThird, TResult> combine)
+    {
+        ArgumentNullException.ThrowIfNull(combine);
+        EnsureInitialized();
+        second.EnsureInitialized();
+        third.EnsureInitialized();
+
+        if (state == FailureState)
+        {
+            return Result<TResult, TError>.Failure(error!);
+        }
+
+        if (second.state == FailureState)
+        {
+            return Result<TResult, TError>.Failure(second.error!);
+        }
+
+        return third.state == SuccessState
+            ? Result<TResult, TError>.Success(combine(value!, second.value!, third.value!))
+            : Result<TResult, TError>.Failure(third.error!);
     }
 
     /// <summary>
@@ -580,12 +688,14 @@ public readonly struct Result<TValue, TError> : IEquatable<Result<TValue, TError
     /// <typeparam name="TSecond">The second successful value type.</typeparam>
     /// <param name="secondFactory">The result factory to invoke after success.</param>
     /// <returns>Both successful values, or the first failure in left-to-right order.</returns>
+    /// <exception cref="InvalidOperationException">This result is uninitialized.</exception>
     public Result<(TValue First, TSecond Second), TError> ZipWith<TSecond>(
         Func<Result<TSecond, TError>> secondFactory)
     {
         ArgumentNullException.ThrowIfNull(secondFactory);
+        EnsureInitialized();
 
-        return IsSuccess
+        return state == SuccessState
             ? Zip(secondFactory())
             : Result<(TValue First, TSecond Second), TError>.Failure(error!);
     }
@@ -614,8 +724,9 @@ public readonly struct Result<TValue, TError> : IEquatable<Result<TValue, TError
     {
         ArgumentNullException.ThrowIfNull(binder);
         ArgumentNullException.ThrowIfNull(projector);
+        EnsureInitialized();
 
-        if (IsFailure)
+        if (state == FailureState)
         {
             return Result<TResult, TError>.Failure(error!);
         }
@@ -631,20 +742,39 @@ public readonly struct Result<TValue, TError> : IEquatable<Result<TValue, TError
     }
 
     /// <inheritdoc />
-    public bool Equals(Result<TValue, TError> other) =>
-        IsSuccess == other.IsSuccess &&
-        (IsSuccess
+    /// <exception cref="InvalidOperationException">This result or <paramref name="other"/> is uninitialized.</exception>
+    public bool Equals(Result<TValue, TError> other)
+    {
+        EnsureInitialized();
+        other.EnsureInitialized();
+
+        if (state != other.state)
+        {
+            return false;
+        }
+
+        return state == SuccessState
             ? EqualityComparer<TValue>.Default.Equals(value!, other.value!)
-            : EqualityComparer<TError>.Default.Equals(error!, other.error!));
+            : EqualityComparer<TError>.Default.Equals(error!, other.error!);
+    }
 
     /// <inheritdoc />
-    public override bool Equals(object? obj) => obj is Result<TValue, TError> other && Equals(other);
+    /// <exception cref="InvalidOperationException">This result is uninitialized.</exception>
+    public override bool Equals(object? obj)
+    {
+        EnsureInitialized();
+        return obj is Result<TValue, TError> other && Equals(other);
+    }
 
     /// <inheritdoc />
-    public override int GetHashCode() =>
-        IsSuccess
+    /// <exception cref="InvalidOperationException">This result is uninitialized.</exception>
+    public override int GetHashCode()
+    {
+        EnsureInitialized();
+        return state == SuccessState
             ? HashCode.Combine(true, EqualityComparer<TValue>.Default.GetHashCode(value!))
             : HashCode.Combine(false, EqualityComparer<TError>.Default.GetHashCode(error!));
+    }
 
     /// <summary>
     /// Determines whether two results are equal.
@@ -663,5 +793,19 @@ public readonly struct Result<TValue, TError> : IEquatable<Result<TValue, TError
         !left.Equals(right);
 
     /// <inheritdoc />
-    public override string ToString() => IsSuccess ? $"Success({value})" : $"Failure({error})";
+    public override string ToString() =>
+        state switch
+        {
+            SuccessState => $"Success({value})",
+            FailureState => $"Failure({error})",
+            _ => "Uninitialized",
+        };
+
+    private void EnsureInitialized()
+    {
+        if (state == UninitializedState)
+        {
+            throw new InvalidOperationException("The result has not been initialized.");
+        }
+    }
 }

@@ -230,6 +230,116 @@ public static class AsyncSequenceExtensions
     }
 
     /// <summary>
+    /// Asynchronously collects a sequence of unit results, stopping at the first failure.
+    /// </summary>
+    /// <typeparam name="TError">The failure value type.</typeparam>
+    /// <param name="source">The asynchronous sequence of unit results to collect.</param>
+    /// <param name="cancellationToken">The token passed to the asynchronous enumerator.</param>
+    /// <returns>
+    /// An asynchronous operation that produces success when every source unit result is successful; otherwise,
+    /// the first failure's error.
+    /// </returns>
+    /// <exception cref="ArgumentNullException"><paramref name="source"/> is <see langword="null"/>.</exception>
+    public static ValueTask<UnitResult<TError>> SequenceAsync<TError>(
+        this IAsyncEnumerable<UnitResult<TError>> source,
+        CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(source);
+
+        return TraverseUnitResultValueAsyncCore(
+            source,
+            static (value, _) => ValueTask.FromResult(value),
+            cancellationToken);
+    }
+
+    /// <summary>
+    /// Asynchronously applies a unit-result-producing selector to each source item, stopping at the first
+    /// failure.
+    /// </summary>
+    /// <typeparam name="TSource">The source item type.</typeparam>
+    /// <typeparam name="TError">The failure value type.</typeparam>
+    /// <param name="source">The asynchronous sequence to traverse.</param>
+    /// <param name="selector">The unit-result-producing selector.</param>
+    /// <param name="cancellationToken">The token passed to the asynchronous enumerator.</param>
+    /// <returns>
+    /// An asynchronous operation that produces success when every selector result is successful; otherwise,
+    /// the first failed selector's error.
+    /// </returns>
+    /// <exception cref="ArgumentNullException">
+    /// <paramref name="source"/> or <paramref name="selector"/> is <see langword="null"/>.
+    /// </exception>
+    public static ValueTask<UnitResult<TError>> TraverseAsync<TSource, TError>(
+        this IAsyncEnumerable<TSource> source,
+        Func<TSource, UnitResult<TError>> selector,
+        CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(source);
+        ArgumentNullException.ThrowIfNull(selector);
+
+        return TraverseUnitResultValueAsyncCore(
+            source,
+            (value, _) => ValueTask.FromResult(selector(value)),
+            cancellationToken);
+    }
+
+    /// <summary>
+    /// Asynchronously applies a ValueTask-based unit-result-producing selector to each source item, stopping at
+    /// the first failure.
+    /// </summary>
+    /// <typeparam name="TSource">The source item type.</typeparam>
+    /// <typeparam name="TError">The failure value type.</typeparam>
+    /// <param name="source">The asynchronous sequence to traverse.</param>
+    /// <param name="selector">The ValueTask-based unit-result-producing selector.</param>
+    /// <param name="cancellationToken">The token passed to the asynchronous enumerator.</param>
+    /// <returns>
+    /// An asynchronous operation that produces success when every selector result is successful; otherwise,
+    /// the first failed selector's error.
+    /// </returns>
+    /// <exception cref="ArgumentNullException">
+    /// <paramref name="source"/> or <paramref name="selector"/> is <see langword="null"/>.
+    /// </exception>
+    public static ValueTask<UnitResult<TError>> TraverseValueAsync<TSource, TError>(
+        this IAsyncEnumerable<TSource> source,
+        Func<TSource, ValueTask<UnitResult<TError>>> selector,
+        CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(source);
+        ArgumentNullException.ThrowIfNull(selector);
+
+        return TraverseUnitResultValueAsyncCore(
+            source,
+            (value, _) => selector(value),
+            cancellationToken);
+    }
+
+    /// <summary>
+    /// Asynchronously applies a cancellation-aware ValueTask-based unit-result-producing selector to each source
+    /// item, stopping at the first failure.
+    /// </summary>
+    /// <typeparam name="TSource">The source item type.</typeparam>
+    /// <typeparam name="TError">The failure value type.</typeparam>
+    /// <param name="source">The asynchronous sequence to traverse.</param>
+    /// <param name="selector">The cancellation-aware ValueTask-based unit-result-producing selector.</param>
+    /// <param name="cancellationToken">The token passed to the asynchronous enumerator and selector.</param>
+    /// <returns>
+    /// An asynchronous operation that produces success when every selector result is successful; otherwise,
+    /// the first failed selector's error.
+    /// </returns>
+    /// <exception cref="ArgumentNullException">
+    /// <paramref name="source"/> or <paramref name="selector"/> is <see langword="null"/>.
+    /// </exception>
+    public static ValueTask<UnitResult<TError>> TraverseValueAsync<TSource, TError>(
+        this IAsyncEnumerable<TSource> source,
+        Func<TSource, CancellationToken, ValueTask<UnitResult<TError>>> selector,
+        CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(source);
+        ArgumentNullException.ThrowIfNull(selector);
+
+        return TraverseUnitResultValueAsyncCore(source, selector, cancellationToken);
+    }
+
+    /// <summary>
     /// Asynchronously collects the values from a sequence of validations, accumulating all errors in source
     /// order.
     /// </summary>
@@ -384,6 +494,24 @@ public static class AsyncSequenceExtensions
 
         return Result<IReadOnlyList<TResult>, TError>.Success(
             SequenceExtensions.ToReadOnlyList(values));
+    }
+
+    private static async ValueTask<UnitResult<TError>> TraverseUnitResultValueAsyncCore<TSource, TError>(
+        IAsyncEnumerable<TSource> source,
+        Func<TSource, CancellationToken, ValueTask<UnitResult<TError>>> selector,
+        CancellationToken cancellationToken)
+    {
+        await foreach (var item in source.WithCancellation(cancellationToken).ConfigureAwait(false))
+        {
+            var result = await selector(item, cancellationToken).ConfigureAwait(false);
+            if (!result.IsSuccess)
+            {
+                result.TryGetError(out var error);
+                return UnitResult<TError>.Failure(error!);
+            }
+        }
+
+        return UnitResult<TError>.Success();
     }
 
     private static async ValueTask<Validation<IReadOnlyList<TResult>, TError>> TraverseValidationValueAsyncCore<TSource, TResult, TError>(

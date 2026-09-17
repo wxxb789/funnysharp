@@ -65,6 +65,37 @@ public static class Option
 
         return operation(out var value) ? Option<T>.FromNullable(value) : Option<T>.None;
     }
+
+    /// <summary>
+    /// Converts a Boolean condition and an eager value to an option.
+    /// </summary>
+    /// <typeparam name="T">The value type.</typeparam>
+    /// <param name="condition">The condition that determines presence.</param>
+    /// <param name="value">The value to contain when <paramref name="condition"/> is <see langword="true"/>.</param>
+    /// <returns>
+    /// An option containing <paramref name="value"/> when <paramref name="condition"/> is
+    /// <see langword="true"/> and the value is non-null; otherwise, <c>None</c>.
+    /// </returns>
+    public static Option<T> FromBoolean<T>(bool condition, T value) =>
+        condition ? Option<T>.FromNullable(value) : Option<T>.None;
+
+    /// <summary>
+    /// Converts a Boolean condition and a lazy value factory to an option.
+    /// </summary>
+    /// <typeparam name="T">The value type.</typeparam>
+    /// <param name="condition">The condition that determines presence.</param>
+    /// <param name="valueFactory">The factory invoked only when <paramref name="condition"/> is <see langword="true"/>.</param>
+    /// <returns>
+    /// An option containing the non-null factory result when <paramref name="condition"/> is
+    /// <see langword="true"/>; otherwise, <c>None</c>.
+    /// </returns>
+    /// <exception cref="ArgumentNullException"><paramref name="valueFactory"/> is <see langword="null"/>.</exception>
+    public static Option<T> FromBoolean<T>(bool condition, Func<T> valueFactory)
+    {
+        ArgumentNullException.ThrowIfNull(valueFactory);
+
+        return condition ? Option<T>.FromNullable(valueFactory()) : Option<T>.None;
+    }
 }
 
 /// <summary>
@@ -201,6 +232,55 @@ public readonly struct Option<T> : IEquatable<Option<T>>
         IsSome && second.IsSome
             ? Option<(T First, TSecond Second)>.Some((value!, second.value!))
             : Option<(T First, TSecond Second)>.None;
+
+    /// <summary>
+    /// Combines this option with another option through a combining function.
+    /// </summary>
+    /// <typeparam name="TSecond">The second value type.</typeparam>
+    /// <typeparam name="TResult">The combined value type.</typeparam>
+    /// <param name="second">The option to combine with.</param>
+    /// <param name="combine">The function invoked with both present values.</param>
+    /// <returns>
+    /// An option containing the non-null combined value when both options are present; otherwise, <c>None</c>.
+    /// </returns>
+    /// <exception cref="ArgumentNullException"><paramref name="combine"/> is <see langword="null"/>.</exception>
+    public Option<TResult> Zip<TSecond, TResult>(
+        Option<TSecond> second,
+        Func<T, TSecond, TResult> combine)
+    {
+        ArgumentNullException.ThrowIfNull(combine);
+
+        return TryGetValue(out var first) && second.TryGetValue(out var secondValue)
+            ? Option<TResult>.FromNullable(combine(first!, secondValue!))
+            : Option<TResult>.None;
+    }
+
+    /// <summary>
+    /// Combines this option with two more options through a combining function.
+    /// </summary>
+    /// <typeparam name="TSecond">The second value type.</typeparam>
+    /// <typeparam name="TThird">The third value type.</typeparam>
+    /// <typeparam name="TResult">The combined value type.</typeparam>
+    /// <param name="second">The second option to combine with.</param>
+    /// <param name="third">The third option to combine with.</param>
+    /// <param name="combine">The function invoked with all three present values.</param>
+    /// <returns>
+    /// An option containing the non-null combined value when all options are present; otherwise, <c>None</c>.
+    /// </returns>
+    /// <exception cref="ArgumentNullException"><paramref name="combine"/> is <see langword="null"/>.</exception>
+    public Option<TResult> Zip<TSecond, TThird, TResult>(
+        Option<TSecond> second,
+        Option<TThird> third,
+        Func<T, TSecond, TThird, TResult> combine)
+    {
+        ArgumentNullException.ThrowIfNull(combine);
+
+        return TryGetValue(out var first)
+            && second.TryGetValue(out var secondValue)
+            && third.TryGetValue(out var thirdValue)
+            ? Option<TResult>.FromNullable(combine(first!, secondValue!, thirdValue!))
+            : Option<TResult>.None;
+    }
 
     /// <summary>
     /// Returns the contained value or an eager fallback.

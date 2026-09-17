@@ -19,12 +19,17 @@ before that date may predate this rendering. If an analysis memo pins a line num
 a dump that has been regenerated since, the pin may have drifted: locate the cited
 content by type and member name instead.
 
+The two FunnySharp dumps were regenerated after Goal 15 (the `UnitResult<TError>`
+carrier, the uninitialized/default contract, and the bounded `Zip` combiners). They
+describe the post-Goal-15 surface; the Goal 14 commit-pinned dumps remain in git
+history. Baseline and BCL dumps are unchanged from the Goal 14 pins.
+
 ## Canonical dumps
 
 | File | Input | Mode |
 | --- | --- | --- |
-| `inv-funny-sharp-core.*` | `FunnySharp.dll` 0.1.0 build at commit `4dbebd9` | runtime |
-| `inv-funny-sharp-aspnetcore.*` | `FunnySharp.AspNetCore.dll` 0.1.0 build at commit `4dbebd9` | runtime |
+| `inv-funny-sharp-core.*` | `FunnySharp.dll` 0.1.0 build after Goal 15 | runtime |
+| `inv-funny-sharp-aspnetcore.*` | `FunnySharp.AspNetCore.dll` 0.1.0 build after Goal 15 | runtime |
 | `inv-bcl-sequences-linq.*` | `System.Linq`, `System.Linq.AsyncEnumerable`, `System.Runtime`, `System.Collections`, `System.Memory`, `System.Buffers`, `System.Threading.Tasks.Extensions` ref assemblies | metadata |
 | `inv-bcl-collections-immutable.*` | `System.Collections.Immutable`, `System.Collections`, `System.Collections.Concurrent`, `System.Linq` ref assemblies | metadata |
 | `inv-bcl-async-concurrency.*` | `System.Runtime`, `System.Threading.Channels`, `System.Threading.Tasks.Parallel`, `System.Threading.Tasks`, `System.Threading` ref assemblies | metadata |
@@ -63,8 +68,8 @@ Type and member counts at the pinned survey state (latest regeneration):
 
 | Dump | Types | Members | Operators | Extension members |
 | --- | ---: | ---: | ---: | ---: |
-| funny-sharp-core | 33 | 254 | 8 | 98 |
-| funny-sharp-aspnetcore | 1 | 15 | 0 | 15 |
+| funny-sharp-core | 36 | 315 | 10 | 122 |
+| funny-sharp-aspnetcore | 1 | 20 | 0 | 20 |
 | csharpfunctionalextensions | 42 | 1872 | 31 | 1664 |
 | funcky | 85 | 1156 | 21 | 760 |
 | funcky-analyzers | 2 | 6 | 0 | 0 |

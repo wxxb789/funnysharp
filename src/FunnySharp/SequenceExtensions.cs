@@ -107,6 +107,50 @@ public static class SequenceExtensions
     }
 
     /// <summary>
+    /// Collects a sequence of unit results, stopping at the first failure.
+    /// </summary>
+    /// <typeparam name="TError">The failure value type.</typeparam>
+    /// <param name="source">The sequence of unit results to collect.</param>
+    /// <returns>Success when every source unit result is successful; otherwise, the first failure's error.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="source"/> is <see langword="null"/>.</exception>
+    public static UnitResult<TError> Sequence<TError>(
+        this IEnumerable<UnitResult<TError>> source) =>
+        source.Traverse(static value => value);
+
+    /// <summary>
+    /// Applies a unit-result-producing selector to each source item, stopping at the first failure.
+    /// </summary>
+    /// <typeparam name="TSource">The source item type.</typeparam>
+    /// <typeparam name="TError">The failure value type.</typeparam>
+    /// <param name="source">The sequence to traverse.</param>
+    /// <param name="selector">The unit-result-producing selector.</param>
+    /// <returns>
+    /// Success when every selector result is successful; otherwise, the first failed selector's error.
+    /// </returns>
+    /// <exception cref="ArgumentNullException">
+    /// <paramref name="source"/> or <paramref name="selector"/> is <see langword="null"/>.
+    /// </exception>
+    public static UnitResult<TError> Traverse<TSource, TError>(
+        this IEnumerable<TSource> source,
+        Func<TSource, UnitResult<TError>> selector)
+    {
+        ArgumentNullException.ThrowIfNull(source);
+        ArgumentNullException.ThrowIfNull(selector);
+
+        foreach (var item in source)
+        {
+            var result = selector(item);
+            if (!result.IsSuccess)
+            {
+                result.TryGetError(out var error);
+                return UnitResult<TError>.Failure(error!);
+            }
+        }
+
+        return UnitResult<TError>.Success();
+    }
+
+    /// <summary>
     /// Collects the values from a sequence of validations, accumulating all errors in source order.
     /// </summary>
     /// <typeparam name="TValue">The validation value type.</typeparam>

@@ -19,12 +19,18 @@ The synchronous composition surface is:
 Common .NET absence forms have focused bridges:
 
 - `Option.FromNullable(value)` and `value.ToOption()` convert nullable references and `Nullable<T>` values.
+- `Option.FromBoolean(condition, value)` and `Option.FromBoolean(condition, valueFactory)` adapt a boolean condition; the factory runs only when the condition is true, and a runtime-null result is `None`.
 - `Option.FromTry(operation)` adapts a `bool`/`out` operation. Bind a Try API with input arguments through a lambda.
 - `dictionary.GetOption(key)` adapts `IReadOnlyDictionary<TKey, TValue>.TryGetValue`.
+- `option.ToNullable()` unwraps a value-type option to `Nullable<T>`; `None` becomes `null`.
 - `Task<T?>.ToOptionAsync()` and `ValueTask<T?>.ToOptionAsync()` adapt nullable asynchronous completions.
 - `MapAsync` / `BindAsync` use `Task` callbacks; `MapValueAsync` / `BindValueAsync` use `ValueTask` callbacks. Each also has a cancellation-aware overload.
 
 Dedicated nullable conversions unwrap `Nullable<T>`: `Option.FromNullable((int?)0)` returns `Option<int>`. Generic transforms preserve the declared result type instead: `Map<int?>`, `FromTry<int?>`, and a dictionary whose `TValue` is `int?` return `Option<int?>`. In either form, a runtime-null nullable payload is `None`; a contained `0` is `Some`.
+
+`Option<T>.ToNullable()` is the explicit value-type unwrap: `None` becomes `null`, `Some` returns the contained value, and it never throws for a present option. Reference types use `GetValueOrDefault()` (annotated `[MaybeNull]`) or `Match` instead, because C# cannot declare two extension overloads that differ only by a `struct` or `class` constraint. The `default(Option<T>)` value remains a valid `None` in every case; it is not an uninitialized state.
+
+The two `FromBoolean` overloads differ by the second parameter type. A bare `null` literal as that argument is ambiguous between them; pass a typed variable or cast the value, as in `Option.FromBoolean(condition, (string?)null)`, or pass a typed `Func<T>` variable to select the factory overload.
 
 ## Evaluation And Failure Semantics
 

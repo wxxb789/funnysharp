@@ -10,7 +10,10 @@ control-flow mechanism. Compiling examples are in
 
 Create values with `Result<TValue, TError>.Success(value)` and
 `Result<TValue, TError>.Failure(error)`. `Result<TValue, TError>` is a `readonly struct` with no
-public constructor. `default(Result<TValue, TError>)` is a failure containing `default(TError)`.
+public constructor. `default(Result<TValue, TError>)` is uninitialized, not a failure: every member
+that reads the case or payload throws `InvalidOperationException` with the message
+`"The result has not been initialized."`, and only `ToString()` returns the diagnostic text
+`"Uninitialized"` without throwing. Construct a value explicitly before inspecting or composing it.
 
 Use `IsSuccess`, `IsFailure`, `TryGetValue`, `TryGetError`, or `Match` to inspect a result. There is
 intentionally no throwing value or error accessor. The active case is independent of its payload:
@@ -40,6 +43,11 @@ absence to an explicit failure. The factory is lazy and runs only for `None`.
 does not contain runtime null, converting `Success(null)` produces `None`; this is an explicit,
 potentially lossy boundary.
 
+`Result<TValue, TError>.ToUnitResult()` drops the successful value and preserves the failure object
+when a value-producing step continues into no-value work; `ToUnitResultAsync` does the same for
+`Task<Result<...>>` and `ValueTask<Result<...>>` completions. See
+[Unit result semantics](unit-result.md).
+
 ## Evaluation And Failure Semantics
 
 All callback-taking methods validate their delegates at entry, even when the active case will
@@ -55,6 +63,10 @@ Equality, `==`, and `!=` compare the active case and its payload with the approp
 `EqualityComparer<T>.Default`. Equal results have equal hashes, and success never equals failure
 solely because their payloads compare equally. `ToString()` returns diagnostic `Success(payload)`
 or `Failure(error)` text and is not a serialization contract.
+
+Results do not flatten. `Result<Result<int, string>, string>` is a success whose value is another
+result; comparing two such values compares the inner carriers with their own structural equality, and
+a nested failure is not promoted to the outer failure channel.
 
 ## Asynchronous Composition
 

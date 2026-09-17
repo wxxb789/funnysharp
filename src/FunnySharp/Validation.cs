@@ -9,35 +9,53 @@ namespace FunnySharp;
 /// <typeparam name="TError">The validation error type.</typeparam>
 public readonly struct Validation<TValue, TError> : IEquatable<Validation<TValue, TError>>
 {
-    private static readonly IReadOnlyList<TError> DefaultErrors =
-        Array.AsReadOnly(new TError[] { default! });
+    private const byte UninitializedState = 0;
+    private const byte ValidState = 1;
+    private const byte InvalidState = 2;
 
     private readonly TValue? value;
     private readonly IReadOnlyList<TError>? errors;
+    private readonly byte state;
 
-    private Validation(TValue? value, IReadOnlyList<TError>? errors, bool isValid)
+    private Validation(TValue? value, IReadOnlyList<TError>? errors, byte state)
     {
         this.value = value;
         this.errors = errors;
-        IsValid = isValid;
+        this.state = state;
     }
 
     /// <summary>
     /// Gets a value indicating whether this validation is valid.
     /// </summary>
-    public bool IsValid { get; }
+    /// <exception cref="InvalidOperationException">This validation is uninitialized.</exception>
+    public bool IsValid
+    {
+        get
+        {
+            EnsureInitialized();
+            return state == ValidState;
+        }
+    }
 
     /// <summary>
     /// Gets a value indicating whether this validation is invalid.
     /// </summary>
-    public bool IsInvalid => !IsValid;
+    /// <exception cref="InvalidOperationException">This validation is uninitialized.</exception>
+    public bool IsInvalid
+    {
+        get
+        {
+            EnsureInitialized();
+            return state == InvalidState;
+        }
+    }
 
     /// <summary>
     /// Creates a valid validation.
     /// </summary>
     /// <param name="value">The valid value.</param>
     /// <returns>A valid validation containing <paramref name="value"/>.</returns>
-    public static Validation<TValue, TError> Valid(TValue value) => new(value, default, true);
+    public static Validation<TValue, TError> Valid(TValue value) => new(value, default, ValidState);
 
     /// <summary>
     /// Creates an invalid validation containing one error.
@@ -72,10 +90,12 @@ public readonly struct Validation<TValue, TError> : IEquatable<Validation<TValue
     /// </summary>
     /// <param name="value">The valid value, or <see langword="default"/> when invalid.</param>
     /// <returns><see langword="true"/> when valid; otherwise, <see langword="false"/>.</returns>
+    /// <exception cref="InvalidOperationException">This validation is uninitialized.</exception>
     public bool TryGetValue([MaybeNull] out TValue value)
     {
+        EnsureInitialized();
         value = this.value;
-        return IsValid;
+        return state == ValidState;
     }
 
     /// <summary>
@@ -83,10 +103,12 @@ public readonly struct Validation<TValue, TError> : IEquatable<Validation<TValue
     /// </summary>
     /// <param name="errors">The validation errors, or <see langword="null"/> when valid.</param>
     /// <returns><see langword="true"/> when invalid; otherwise, <see langword="false"/>.</returns>
+    /// <exception cref="InvalidOperationException">This validation is uninitialized.</exception>
     public bool TryGetErrors([NotNullWhen(true)] out IReadOnlyList<TError>? errors)
     {
-        errors = IsInvalid ? Errors : default;
-        return IsInvalid;
+        EnsureInitialized();
+        errors = state == InvalidState ? Errors : default;
+        return state == InvalidState;
     }
 
     /// <summary>
@@ -96,14 +118,16 @@ public readonly struct Validation<TValue, TError> : IEquatable<Validation<TValue
     /// <param name="valid">The branch invoked with a valid value.</param>
     /// <param name="invalid">The branch invoked with validation errors.</param>
     /// <returns>The selected branch result.</returns>
+    /// <exception cref="InvalidOperationException">This validation is uninitialized.</exception>
     public TResult Match<TResult>(
         Func<TValue, TResult> valid,
         Func<IReadOnlyList<TError>, TResult> invalid)
     {
         ArgumentNullException.ThrowIfNull(valid);
         ArgumentNullException.ThrowIfNull(invalid);
+        EnsureInitialized();
 
-        return IsValid ? valid(value!) : invalid(Errors);
+        return state == ValidState ? valid(value!) : invalid(Errors);
     }
 
     /// <summary>
@@ -111,12 +135,14 @@ public readonly struct Validation<TValue, TError> : IEquatable<Validation<TValue
     /// </summary>
     /// <param name="valid">The branch invoked with a valid value.</param>
     /// <param name="invalid">The branch invoked with validation errors.</param>
+    /// <exception cref="InvalidOperationException">This validation is uninitialized.</exception>
     public void Match(Action<TValue> valid, Action<IReadOnlyList<TError>> invalid)
     {
         ArgumentNullException.ThrowIfNull(valid);
         ArgumentNullException.ThrowIfNull(invalid);
+        EnsureInitialized();
 
-        if (IsValid)
+        if (state == ValidState)
         {
             valid(value!);
         }
@@ -132,13 +158,15 @@ public readonly struct Validation<TValue, TError> : IEquatable<Validation<TValue
     /// <typeparam name="TResult">The transformed value type.</typeparam>
     /// <param name="selector">The transformation to apply.</param>
     /// <returns>The transformed validation, or the existing errors.</returns>
+    /// <exception cref="InvalidOperationException">This validation is uninitialized.</exception>
     public Validation<TResult, TError> Map<TResult>(Func<TValue, TResult> selector)
     {
         ArgumentNullException.ThrowIfNull(selector);
+        EnsureInitialized();
 
-        return IsValid
+        return state == ValidState
             ? Validation<TResult, TError>.Valid(selector(value!))
-            : new Validation<TResult, TError>(default, Errors, false);
+            : new Validation<TResult, TError>(default, errors, InvalidState);
     }
 
     /// <summary>
@@ -147,11 +175,13 @@ public readonly struct Validation<TValue, TError> : IEquatable<Validation<TValue
     /// <typeparam name="TResultError">The transformed error type.</typeparam>
     /// <param name="selector">The transformation to apply to each validation error.</param>
     /// <returns>The transformed validation, or the existing valid value.</returns>
+    /// <exception cref="InvalidOperationException">This validation is uninitialized.</exception>
     public Validation<TValue, TResultError> MapErrors<TResultError>(Func<TError, TResultError> selector)
     {
         ArgumentNullException.ThrowIfNull(selector);
+        EnsureInitialized();
 
-        if (IsValid)
+        if (state == ValidState)
         {
             return Validation<TValue, TResultError>.Valid(value!);
         }
@@ -174,63 +204,142 @@ public readonly struct Validation<TValue, TError> : IEquatable<Validation<TValue
     /// A valid pair when both validations are valid; otherwise, an invalid validation containing all errors
     /// in left-to-right order.
     /// </returns>
+    /// <exception cref="InvalidOperationException">This validation or <paramref name="second"/> is uninitialized.</exception>
     public Validation<(TValue First, TSecond Second), TError> Zip<TSecond>(
         Validation<TSecond, TError> second)
     {
-        if (IsValid && second.IsValid)
+        EnsureInitialized();
+        second.EnsureInitialized();
+
+        if (state == ValidState && second.state == ValidState)
         {
-            second.TryGetValue(out var secondValue);
-            return Validation<(TValue First, TSecond Second), TError>.Valid((value!, secondValue!));
+            return Validation<(TValue First, TSecond Second), TError>.Valid((value!, second.value!));
         }
 
-        if (IsInvalid && second.IsInvalid)
+        if (state == InvalidState && second.state == InvalidState)
         {
-            second.TryGetErrors(out var secondErrors);
-            var combinedErrors = new TError[Errors.Count + secondErrors!.Count];
-            for (var index = 0; index < Errors.Count; index++)
-            {
-                combinedErrors[index] = Errors[index];
-            }
-
-            for (var index = 0; index < secondErrors.Count; index++)
-            {
-                combinedErrors[Errors.Count + index] = secondErrors[index];
-            }
-
             return Validation<(TValue First, TSecond Second), TError>.InvalidFromOwnedErrors(
-                combinedErrors);
+                ConcatErrors(Errors, second.Errors));
         }
 
-        if (IsInvalid)
+        return state == InvalidState
+            ? new Validation<(TValue First, TSecond Second), TError>(default, errors, InvalidState)
+            : new Validation<(TValue First, TSecond Second), TError>(
+                default,
+                second.errors,
+                InvalidState);
+    }
+
+    /// <summary>
+    /// Combines this validation with another validation through a combining function.
+    /// </summary>
+    /// <typeparam name="TSecond">The second valid value type.</typeparam>
+    /// <typeparam name="TResult">The combined valid value type.</typeparam>
+    /// <param name="second">The validation to combine with.</param>
+    /// <param name="combine">The function invoked with both valid values.</param>
+    /// <returns>A valid combined value when both validations are valid; otherwise, all errors in
+    /// left-to-right order.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="combine"/> is <see langword="null"/>.</exception>
+    /// <exception cref="InvalidOperationException">This validation or <paramref name="second"/> is uninitialized.</exception>
+    public Validation<TResult, TError> Zip<TSecond, TResult>(
+        Validation<TSecond, TError> second,
+        Func<TValue, TSecond, TResult> combine)
+    {
+        ArgumentNullException.ThrowIfNull(combine);
+        EnsureInitialized();
+        second.EnsureInitialized();
+
+        if (state == ValidState && second.state == ValidState)
         {
-            return new Validation<(TValue First, TSecond Second), TError>(default, Errors, false);
+            return Validation<TResult, TError>.Valid(combine(value!, second.value!));
         }
 
-        second.TryGetErrors(out var errors);
-        return new Validation<(TValue First, TSecond Second), TError>(default, errors, false);
+        if (state == InvalidState && second.state == InvalidState)
+        {
+            return Validation<TResult, TError>.InvalidFromOwnedErrors(
+                ConcatErrors(Errors, second.Errors));
+        }
+
+        return state == InvalidState
+            ? new Validation<TResult, TError>(default, errors, InvalidState)
+            : new Validation<TResult, TError>(default, second.errors, InvalidState);
+    }
+
+    /// <summary>
+    /// Combines this validation with two more validations through a combining function.
+    /// </summary>
+    /// <typeparam name="TSecond">The second valid value type.</typeparam>
+    /// <typeparam name="TThird">The third valid value type.</typeparam>
+    /// <typeparam name="TResult">The combined valid value type.</typeparam>
+    /// <param name="second">The second validation to combine with.</param>
+    /// <param name="third">The third validation to combine with.</param>
+    /// <param name="combine">The function invoked with all three valid values.</param>
+    /// <returns>A valid combined value when all validations are valid; otherwise, all errors in
+    /// left-to-right operand order.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="combine"/> is <see langword="null"/>.</exception>
+    /// <exception cref="InvalidOperationException">This validation or an operand is uninitialized.</exception>
+    public Validation<TResult, TError> Zip<TSecond, TThird, TResult>(
+        Validation<TSecond, TError> second,
+        Validation<TThird, TError> third,
+        Func<TValue, TSecond, TThird, TResult> combine)
+    {
+        ArgumentNullException.ThrowIfNull(combine);
+        EnsureInitialized();
+        second.EnsureInitialized();
+        third.EnsureInitialized();
+
+        if (state == ValidState && second.state == ValidState && third.state == ValidState)
+        {
+            return Validation<TResult, TError>.Valid(
+                combine(value!, second.value!, third.value!));
+        }
+
+        List<TError>? combinedErrors = null;
+        if (state == InvalidState)
+        {
+            combinedErrors = new List<TError>(Errors);
+        }
+
+        if (second.state == InvalidState)
+        {
+            (combinedErrors ??= new List<TError>()).AddRange(second.Errors);
+        }
+
+        if (third.state == InvalidState)
+        {
+            (combinedErrors ??= new List<TError>()).AddRange(third.Errors);
+        }
+
+        return Validation<TResult, TError>.InvalidFromOwnedErrors(combinedErrors!);
     }
 
     /// <inheritdoc />
+    /// <exception cref="InvalidOperationException">This validation or <paramref name="other"/> is uninitialized.</exception>
     public bool Equals(Validation<TValue, TError> other)
     {
-        if (IsValid != other.IsValid)
+        EnsureInitialized();
+        other.EnsureInitialized();
+
+        if (state != other.state)
         {
             return false;
         }
 
-        if (IsValid)
+        if (state == ValidState)
         {
             return EqualityComparer<TValue>.Default.Equals(value!, other.value!);
         }
 
-        if (Errors.Count != other.Errors.Count)
+        var firstErrors = Errors;
+        var secondErrors = other.Errors;
+        if (firstErrors.Count != secondErrors.Count)
         {
             return false;
         }
 
-        for (var index = 0; index < Errors.Count; index++)
+        for (var index = 0; index < firstErrors.Count; index++)
         {
-            if (!EqualityComparer<TError>.Default.Equals(Errors[index], other.Errors[index]))
+            if (!EqualityComparer<TError>.Default.Equals(firstErrors[index], secondErrors[index]))
             {
                 return false;
             }
@@ -240,16 +349,22 @@ public readonly struct Validation<TValue, TError> : IEquatable<Validation<TValue
     }
 
     /// <inheritdoc />
-    public override bool Equals(object? obj) =>
-        obj is Validation<TValue, TError> other && Equals(other);
+    /// <exception cref="InvalidOperationException">This validation is uninitialized.</exception>
+    public override bool Equals(object? obj)
+    {
+        EnsureInitialized();
+        return obj is Validation<TValue, TError> other && Equals(other);
+    }
 
     /// <inheritdoc />
+    /// <exception cref="InvalidOperationException">This validation is uninitialized.</exception>
     public override int GetHashCode()
     {
+        EnsureInitialized();
         var hash = new HashCode();
-        hash.Add(IsValid);
+        hash.Add(state == ValidState);
 
-        if (IsValid)
+        if (state == ValidState)
         {
             hash.Add(value!, EqualityComparer<TValue>.Default);
         }
@@ -284,13 +399,47 @@ public readonly struct Validation<TValue, TError> : IEquatable<Validation<TValue
 
     /// <inheritdoc />
     public override string ToString() =>
-        IsValid ? $"Valid({value})" : $"Invalid([{string.Join(", ", Errors)}])";
+        state switch
+        {
+            ValidState => $"Valid({value})",
+            InvalidState => $"Invalid([{string.Join(", ", Errors)}])",
+            _ => "Uninitialized",
+        };
 
-    private IReadOnlyList<TError> Errors => errors ?? DefaultErrors;
+    private IReadOnlyList<TError> Errors => errors!;
+
+    private static TError[] ConcatErrors(
+        IReadOnlyList<TError> first,
+        IReadOnlyList<TError> second)
+    {
+        var combined = new TError[first.Count + second.Count];
+        for (var index = 0; index < first.Count; index++)
+        {
+            combined[index] = first[index];
+        }
+
+        for (var index = 0; index < second.Count; index++)
+        {
+            combined[first.Count + index] = second[index];
+        }
+
+        return combined;
+    }
 
     private static Validation<TValue, TError> InvalidFromOwnedErrors(TError[] errors) =>
-        new(default, Array.AsReadOnly(errors), false);
+        new(default, Array.AsReadOnly(errors), InvalidState);
 
     internal static Validation<TValue, TError> InvalidFromOwnedErrors(List<TError> errors) =>
-        new(default, errors.AsReadOnly(), false);
+        new(default, errors.AsReadOnly(), InvalidState);
+
+    internal static Validation<TValue, TError> InvalidFromOwnedErrors(IReadOnlyList<TError> errors) =>
+        new(default, errors, InvalidState);
+
+    private void EnsureInitialized()
+    {
+        if (state == UninitializedState)
+        {
+            throw new InvalidOperationException("The validation has not been initialized.");
+        }
+    }
 }

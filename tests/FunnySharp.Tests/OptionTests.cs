@@ -393,4 +393,179 @@ public sealed class OptionTests
         Assert.Equal("Some(0)", Option.Some(0).ToString());
         Assert.Equal("Some(value)", Option.Some("value").ToString());
     }
+
+    [Fact]
+    public void FromBooleanEagerUsesTheConditionAndNormalizesRuntimeNull()
+    {
+        string? nullValue = null;
+
+        Assert.True(Option.FromBoolean(false, 1).IsNone);
+        Assert.True(Option.FromBoolean<string?>(false, "value").IsNone);
+        Assert.Equal(Option.Some(1), Option.FromBoolean(true, 1));
+        Assert.True(Option.FromBoolean<string?>(true, nullValue).IsNone);
+        Assert.Equal(Option.Some(0), Option.FromBoolean(true, 0));
+        Assert.Equal(Option.Some(false), Option.FromBoolean(true, false));
+        Assert.Equal(Option.Some(default(DateTime)), Option.FromBoolean(true, default(DateTime)));
+    }
+
+    [Fact]
+    public void FromBooleanFactoryIsLazyNormalizesNullAndValidatesEagerly()
+    {
+        var calls = 0;
+        var absent = Option.FromBoolean(false, () =>
+        {
+            calls++;
+            return 42;
+        });
+        var present = Option.FromBoolean(true, () =>
+        {
+            calls++;
+            return 42;
+        });
+
+        Assert.True(absent.IsNone);
+        Assert.Equal(Option.Some(42), present);
+        Assert.Equal(1, calls);
+        Assert.True(Option.FromBoolean<string?>(true, () => null).IsNone);
+
+        Func<int> missingFactory = null!;
+        Assert.Throws<ArgumentNullException>(() => Option.FromBoolean(false, missingFactory));
+        Assert.Throws<ArgumentNullException>(() => Option.FromBoolean(true, missingFactory));
+    }
+
+    [Fact]
+    public void ToNullableBridgesValueOptionsWithoutChangingTheirEquality()
+    {
+        Option<int> absent = default;
+        var present = Option.Some(7);
+        var hashBefore = present.GetHashCode();
+
+        Assert.Null(absent.ToNullable());
+        Assert.Null(Option.None<int>().ToNullable());
+        Assert.Null(Option.None<DateTime>().ToNullable());
+
+        var zero = Option.Some(0).ToNullable();
+        var flag = Option.Some(false).ToNullable();
+        var epoch = Option.Some(default(DateTime)).ToNullable();
+
+        Assert.True(zero.HasValue);
+        Assert.Equal(0, zero.Value);
+        Assert.True(flag.HasValue);
+        Assert.False(flag.Value);
+        Assert.True(epoch.HasValue);
+        Assert.Equal(default(DateTime), epoch.Value);
+
+        Assert.Equal((int?)7, present.ToNullable());
+        Assert.Equal(hashBefore, present.GetHashCode());
+        Assert.True(present == Option.Some(7));
+        Assert.True(present.Equals(Option.Some(7)));
+        Assert.NotEqual(Option.None<int>(), present);
+        Assert.NotEqual(Option.None<int>().GetHashCode(), present.GetHashCode());
+    }
+
+    [Fact]
+    public void ZipCombinerOverloadsRunOnlyWhenEveryOptionIsPresent()
+    {
+        var twoCalls = 0;
+        Func<int, string, string> combineTwo = (first, second) =>
+        {
+            twoCalls++;
+            return $"{first}:{second}";
+        };
+        var threeCalls = 0;
+        Func<int, string, bool, string> combineThree = (first, second, third) =>
+        {
+            threeCalls++;
+            return $"{first}:{second}:{third}";
+        };
+
+        Assert.Equal(Option.Some("1:two"), Option.Some(1).Zip(Option.Some("two"), combineTwo));
+        Assert.True(Option.Some(1).Zip(Option.None<string>(), combineTwo).IsNone);
+        Assert.True(Option.None<int>().Zip(Option.Some("two"), combineTwo).IsNone);
+        Assert.True(default(Option<int>).Zip(Option.Some("two"), combineTwo).IsNone);
+        Assert.Equal(1, twoCalls);
+
+        var third = Option.Some(1).Zip(Option.Some("two"), Option.Some(true), combineThree);
+        Assert.True(third.TryGetValue(out var combined));
+        Assert.Equal("1:two:True", combined);
+        Assert.True(Option.Some(1).Zip(Option.None<string>(), Option.Some(true), combineThree).IsNone);
+        Assert.True(Option.Some(1).Zip(Option.Some("two"), Option.None<bool>(), combineThree).IsNone);
+        Assert.True(Option.None<int>().Zip(Option.Some("two"), Option.Some(true), combineThree).IsNone);
+        Assert.True(default(Option<int>).Zip(Option.Some("two"), Option.Some(true), combineThree).IsNone);
+        Assert.True(Option.Some(1).Zip(Option.Some("two"), default(Option<bool>), combineThree).IsNone);
+        Assert.Equal(1, threeCalls);
+    }
+
+    [Fact]
+    public void ZipCombinersNormalizeNullResultsAndPreserveExceptionsAndValidation()
+    {
+        Assert.True(Option.Some(1).Zip(Option.Some(2), (_, _) => (string?)null).IsNone);
+        Assert.Equal(
+            Option.Some(1).Zip(Option.Some(2)).Map(_ => (string?)null),
+            Option.Some(1).Zip(Option.Some(2), (_, _) => (string?)null));
+        Assert.True(Option.Some(1)
+            .Zip(Option.Some(2), Option.Some(3), (_, _, _) => (string?)null)
+            .IsNone);
+        Assert.Equal(
+            Option.Some(1).Zip(Option.Some(2)).Zip(Option.Some(3)).Map(_ => (string?)null),
+            Option.Some(1).Zip(Option.Some(2), Option.Some(3), (_, _, _) => (string?)null));
+
+        var expected = new InvalidOperationException("combine failed");
+        Assert.Same(expected, Assert.Throws<InvalidOperationException>(() =>
+            Option.Some(1).Zip<int, int>(Option.Some(2), (_, _) => throw expected)));
+        Assert.Same(expected, Assert.Throws<InvalidOperationException>(() =>
+            Option.Some(1).Zip<int, int, int>(
+                Option.Some(2),
+                Option.Some(3),
+                (_, _, _) => throw expected)));
+
+        Assert.Throws<ArgumentNullException>(() =>
+            Option.Some(1).Zip(Option.Some(2), (Func<int, int, int>)null!));
+        Assert.Throws<ArgumentNullException>(() =>
+            Option.None<int>().Zip(Option.None<int>(), (Func<int, int, int>)null!));
+        Assert.Throws<ArgumentNullException>(() =>
+            Option.Some(1).Zip(Option.Some(2), Option.Some(3), (Func<int, int, int, int>)null!));
+        Assert.Throws<ArgumentNullException>(() =>
+            Option.None<int>().Zip(
+                Option.None<int>(),
+                Option.None<int>(),
+                (Func<int, int, int, int>)null!));
+    }
+
+    [Fact]
+    public void ZipCombinerOverloadsMatchTupleThenMapForEveryPresenceCombination()
+    {
+        static string CombineTwo(int first, string second) => $"{first}:{second}";
+        static string CombineThree(int first, string second, bool third) => $"{first}:{second}:{third}";
+
+        var firsts = new[] { Option.Some(1), Option.None<int>(), default(Option<int>) };
+        var seconds = new[] { Option.Some("two"), Option.None<string>(), default(Option<string>) };
+        var thirds = new[] { Option.Some(true), Option.None<bool>(), default(Option<bool>) };
+
+        foreach (var first in firsts)
+        {
+            foreach (var second in seconds)
+            {
+                Assert.Equal(
+                    first.Zip(second).Map(pair => CombineTwo(pair.First, pair.Second)),
+                    first.Zip(second, CombineTwo));
+            }
+        }
+
+        foreach (var first in firsts)
+        {
+            foreach (var second in seconds)
+            {
+                foreach (var third in thirds)
+                {
+                    Assert.Equal(
+                        first.Zip(second).Zip(third).Map(pair => CombineThree(
+                            pair.First.First,
+                            pair.First.Second,
+                            pair.Second)),
+                        first.Zip(second, third, CombineThree));
+                }
+            }
+        }
+    }
 }

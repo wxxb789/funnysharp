@@ -3,16 +3,16 @@ namespace FunnySharp.Tests;
 public sealed class ResultTests
 {
     [Fact]
-    public void DefaultResultIsFailureWithTheDefaultError()
+    public void DefaultResultIsUninitializedAndThrowsInsteadOfMasquerading()
     {
         Result<string, int> result = default;
 
-        Assert.True(result.IsFailure);
-        Assert.False(result.IsSuccess);
-        Assert.True(result.TryGetError(out var error));
-        Assert.Equal(0, error);
-        Assert.False(result.TryGetValue(out var value));
-        Assert.Null(value);
+        Assert.Equal("Uninitialized", result.ToString());
+        Assert.Throws<InvalidOperationException>(() => result.IsFailure);
+        Assert.Throws<InvalidOperationException>(() => result.IsSuccess);
+        Assert.Throws<InvalidOperationException>(() => result.TryGetError(out _));
+        Assert.Throws<InvalidOperationException>(() => result.TryGetValue(out _));
+        Assert.Throws<InvalidOperationException>(() => result.GetHashCode());
     }
 
     [Fact]
@@ -370,5 +370,211 @@ public sealed class ResultTests
         Assert.Equal(firstSuccess.GetHashCode(), secondSuccess.GetHashCode());
         Assert.Equal("Success(1)", firstSuccess.ToString());
         Assert.Equal("Failure(1)", failure.ToString());
+    }
+
+    [Fact]
+    public void NestedResultsCompareStructurallyAndDoNotFlatten()
+    {
+        var outerSuccess = Result<Result<int, string>, string>.Success(Result<int, string>.Success(1));
+        var nestedFailure = Result<Result<int, string>, string>.Success(Result<int, string>.Failure("inner"));
+        var equalNestedFailure = Result<Result<int, string>, string>.Success(Result<int, string>.Failure("inner"));
+
+        Assert.NotEqual(outerSuccess, nestedFailure);
+        Assert.Equal(nestedFailure, equalNestedFailure);
+        Assert.Equal(nestedFailure.GetHashCode(), equalNestedFailure.GetHashCode());
+        Assert.True(nestedFailure.TryGetValue(out var inner));
+        Assert.True(inner!.IsFailure);
+        Assert.True(inner.TryGetError(out var innerError));
+        Assert.Equal("inner", innerError);
+    }
+
+    [Fact]
+    public void ZipCombinerOverloadsReturnTheLeftmostFailureWithoutInvokingTheCombiner()
+    {
+        var firstError = new InvalidOperationException("first");
+        var secondError = new FormatException("second");
+        var thirdError = new ArgumentException("third");
+        var twoCalls = 0;
+        Func<int, string, string> combineTwo = (first, second) =>
+        {
+            twoCalls++;
+            return $"{first}:{second}";
+        };
+        var threeCalls = 0;
+        Func<int, string, bool, string> combineThree = (first, second, third) =>
+        {
+            threeCalls++;
+            return $"{first}:{second}:{third}";
+        };
+        var success = Result<int, Exception>.Success(1);
+        var secondSuccess = Result<string, Exception>.Success("two");
+        var thirdSuccess = Result<bool, Exception>.Success(true);
+
+        AssertSuccess("1:two", success.Zip(secondSuccess, combineTwo));
+        AssertFailureSame(
+            firstError,
+            Result<int, Exception>.Failure(firstError).Zip(
+                Result<string, Exception>.Failure(secondError),
+                combineTwo));
+        AssertFailureSame(
+            secondError,
+            success.Zip(Result<string, Exception>.Failure(secondError), combineTwo));
+        Assert.Equal(1, twoCalls);
+
+        AssertSuccess("1:two:True", success.Zip(secondSuccess, thirdSuccess, combineThree));
+        AssertFailureSame(
+            firstError,
+            Result<int, Exception>.Failure(firstError).Zip(
+                Result<string, Exception>.Failure(secondError),
+                Result<bool, Exception>.Failure(thirdError),
+                combineThree));
+        AssertFailureSame(
+            secondError,
+            success.Zip(
+                Result<string, Exception>.Failure(secondError),
+                Result<bool, Exception>.Failure(thirdError),
+                combineThree));
+        AssertFailureSame(
+            thirdError,
+            success.Zip(
+                secondSuccess,
+                Result<bool, Exception>.Failure(thirdError),
+                combineThree));
+        Assert.Equal(1, threeCalls);
+    }
+
+    [Fact]
+    public void ZipCombinerOverloadsStillRejectUninitializedOperands()
+    {
+        const string message = "The result has not been initialized.";
+        Func<int, int, int> combineTwo = (first, second) => first + second;
+        Func<int, int, int, int> combineThree = (first, second, third) => first + second + third;
+        var initialized = Result<int, Exception>.Success(1);
+        var failure = Result<int, Exception>.Failure(new InvalidOperationException("first"));
+        var uninitialized = default(Result<int, Exception>);
+
+        var secondException = Assert.Throws<InvalidOperationException>(
+            () => initialized.Zip(uninitialized, combineTwo));
+        var secondAfterFailure = Assert.Throws<InvalidOperationException>(
+            () => failure.Zip(uninitialized, combineTwo));
+        var thirdException = Assert.Throws<InvalidOperationException>(
+            () => initialized.Zip(initialized, uninitialized, combineThree));
+        var secondUninitializedAfterFailure = Assert.Throws<InvalidOperationException>(
+            () => failure.Zip(uninitialized, initialized, combineThree));
+        var thirdAfterFailure = Assert.Throws<InvalidOperationException>(
+            () => failure.Zip(initialized, uninitialized, combineThree));
+
+        Assert.Equal(message, secondException.Message);
+        Assert.Equal(message, secondAfterFailure.Message);
+        Assert.Equal(message, thirdException.Message);
+        Assert.Equal(message, secondUninitializedAfterFailure.Message);
+        Assert.Equal(message, thirdAfterFailure.Message);
+    }
+
+    [Fact]
+    public void ZipCombinerOverloadsMatchTupleThenMapForSuccessAndFailure()
+    {
+        static string CombineTwo(int first, string second) => $"{first}:{second}";
+        static string CombineThree(int first, string second, bool third) => $"{first}:{second}:{third}";
+
+        var firsts = new[]
+        {
+            Result<int, string>.Success(1),
+            Result<int, string>.Failure("first-error"),
+        };
+        var seconds = new[]
+        {
+            Result<string, string>.Success("two"),
+            Result<string, string>.Failure("second-error"),
+        };
+        var thirds = new[]
+        {
+            Result<bool, string>.Success(true),
+            Result<bool, string>.Failure("third-error"),
+        };
+
+        foreach (var first in firsts)
+        {
+            foreach (var second in seconds)
+            {
+                Assert.Equal(
+                    first.Zip(second).Map(pair => CombineTwo(pair.First, pair.Second)),
+                    first.Zip(second, CombineTwo));
+            }
+        }
+
+        foreach (var first in firsts)
+        {
+            foreach (var second in seconds)
+            {
+                foreach (var third in thirds)
+                {
+                    Assert.Equal(
+                        first.Zip(second).Zip(third).Map(pair => CombineThree(
+                            pair.First.First,
+                            pair.First.Second,
+                            pair.Second)),
+                        first.Zip(second, third, CombineThree));
+                }
+            }
+        }
+    }
+
+    [Fact]
+    public void ZipCombinerOverloadsPropagateExceptionsAndValidateTheDelegate()
+    {
+        var expected = new InvalidOperationException("combine failed");
+
+        Assert.Same(expected, Assert.Throws<InvalidOperationException>(() =>
+            Result<int, string>.Success(1).Zip<int, int>(
+                Result<int, string>.Success(2),
+                (_, _) => throw expected)));
+        Assert.Same(expected, Assert.Throws<InvalidOperationException>(() =>
+            Result<int, string>.Success(1).Zip<int, int, int>(
+                Result<int, string>.Success(2),
+                Result<int, string>.Success(3),
+                (_, _, _) => throw expected)));
+
+        Assert.Throws<ArgumentNullException>(() =>
+            Result<int, string>.Success(1).Zip(
+                Result<int, string>.Success(2),
+                (Func<int, int, int>)null!));
+        Assert.Throws<ArgumentNullException>(() =>
+            Result<int, string>.Failure("bad").Zip(
+                Result<int, string>.Success(2),
+                (Func<int, int, int>)null!));
+        Assert.Throws<ArgumentNullException>(() =>
+            Result<int, string>.Success(1).Zip(
+                Result<int, string>.Success(2),
+                Result<int, string>.Success(3),
+                (Func<int, int, int, int>)null!));
+        Assert.Throws<ArgumentNullException>(() =>
+            Result<int, string>.Failure("bad").Zip(
+                Result<int, string>.Success(2),
+                Result<int, string>.Success(3),
+                (Func<int, int, int, int>)null!));
+        Assert.Throws<ArgumentNullException>(() =>
+            default(Result<int, string>).Zip(
+                Result<int, string>.Success(2),
+                (Func<int, int, int>)null!));
+        Assert.Throws<ArgumentNullException>(() =>
+            default(Result<int, string>).Zip(
+                Result<int, string>.Success(2),
+                Result<int, string>.Success(3),
+                (Func<int, int, int, int>)null!));
+    }
+
+    private static void AssertSuccess<TValue>(TValue expected, Result<TValue, Exception> result)
+    {
+        Assert.True(result.TryGetValue(out var value));
+        Assert.Equal(expected, value);
+    }
+
+    private static void AssertFailureSame<TValue>(
+        Exception expected,
+        Result<TValue, Exception> result)
+    {
+        Assert.True(result.TryGetError(out var error));
+        Assert.Same(expected, error);
     }
 }

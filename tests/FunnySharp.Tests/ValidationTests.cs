@@ -3,16 +3,16 @@ namespace FunnySharp.Tests;
 public sealed class ValidationTests
 {
     [Fact]
-    public void DefaultValidationIsInvalidWithExactlyTheDefaultError()
+    public void DefaultValidationIsUninitializedAndThrowsInsteadOfMasquerading()
     {
         Validation<string, int> validation = default;
 
-        Assert.True(validation.IsInvalid);
-        Assert.False(validation.IsValid);
-        Assert.False(validation.TryGetValue(out var value));
-        Assert.Null(value);
-        Assert.True(validation.TryGetErrors(out var errors));
-        Assert.Equal([0], errors);
+        Assert.Equal("Uninitialized", validation.ToString());
+        Assert.Throws<InvalidOperationException>(() => validation.IsInvalid);
+        Assert.Throws<InvalidOperationException>(() => validation.IsValid);
+        Assert.Throws<InvalidOperationException>(() => validation.TryGetValue(out _));
+        Assert.Throws<InvalidOperationException>(() => validation.TryGetErrors(out _));
+        Assert.Throws<InvalidOperationException>(() => validation.GetHashCode());
     }
 
     [Fact]
@@ -252,5 +252,319 @@ public sealed class ValidationTests
         Assert.Equal(
             Validation<int, string>.InvalidMany(["u", "v", "w"]),
             invalidComposition.Apply(middle).Apply(right));
+    }
+
+    [Fact]
+    public void ZipAndApplyObeyApplicativeLawsForValidAndInvalidInputs()
+    {
+        static int Increment(int value) => value + 1;
+        static int Double(int value) => value * 2;
+        static int Compose(Func<int, int> outer, Func<int, int> inner, int value) => outer(inner(value));
+
+        var value = Validation<int, string>.Valid(3);
+        var identity = Validation<Func<int, int>, string>.Valid(static item => item);
+        var increment = Validation<Func<int, int>, string>.Valid(Increment);
+        var doubleFunction = Validation<Func<int, int>, string>.Valid(Double);
+
+        Assert.Equal(value, identity.Apply(value));
+        Assert.Equal(Validation<int, string>.Valid(4), increment.Apply(value));
+        Assert.Equal(
+            increment.Apply(value),
+            Validation<Func<Func<int, int>, int>, string>.Valid(function => function(3)).Apply(increment));
+
+        var composition = doubleFunction.Map(
+            first => (Func<Func<int, int>, Func<int, int>>)(second => item => Compose(first, second, item)));
+
+        Assert.Equal(
+            composition.Apply(increment).Apply(value),
+            doubleFunction.Apply(increment.Apply(value)));
+        Assert.Equal(
+            Validation<int, string>.Valid(Double(Increment(3))),
+            composition.Apply(increment).Apply(value));
+
+        var functionErrors = Validation<Func<int, int>, string>.InvalidMany(["function-1", "function-2"]);
+        var argumentErrors = Validation<int, string>.InvalidMany(["argument-1", "argument-2"]);
+
+        Assert.Equal(
+            Validation<int, string>.InvalidMany(["function-1", "function-2", "argument-1", "argument-2"]),
+            functionErrors.Apply(argumentErrors));
+        Assert.Equal(
+            Validation<int, string>.InvalidMany(["argument-1", "argument-2"]),
+            identity.Apply(argumentErrors));
+        Assert.Equal(
+            Validation<int, string>.InvalidMany(["function-1", "function-2"]),
+            functionErrors.Apply(value));
+        Assert.Equal(
+            functionErrors.Apply(value),
+            Validation<Func<Func<int, int>, int>, string>.Valid(function => function(3)).Apply(functionErrors));
+
+        var left = Validation<Func<int, int>, string>.InvalidMany(["left-1", "left-2"]);
+        var middle = Validation<Func<int, int>, string>.InvalidMany(["middle-1"]);
+        var right = Validation<int, string>.InvalidMany(["right-1", "right-2", "right-3"]);
+        var leftComposition = left.Map(
+            first => (Func<Func<int, int>, Func<int, int>>)(second => item => Compose(first, second, item)));
+
+        Assert.Equal(
+            Validation<int, string>.InvalidMany(["left-1", "left-2", "middle-1", "right-1", "right-2", "right-3"]),
+            leftComposition.Apply(middle).Apply(right));
+        Assert.Equal(
+            leftComposition.Apply(middle).Apply(right),
+            left.Apply(middle.Apply(right)));
+    }
+
+    [Fact]
+    public void ZipCombinerOverloadsInvokeTheCombinerOnlyWhenEveryOperandIsValid()
+    {
+        var calls = 0;
+        var validFirst = Validation<int, string>.Valid(2);
+        var second = Validation<string, string>.Valid("middle");
+        var third = Validation<long, string>.Valid(7);
+
+        var pair = validFirst.Zip(second, (first, middle) =>
+        {
+            calls++;
+            return $"{first}:{middle}";
+        });
+        var triple = validFirst.Zip(second, third, (first, middle, last) =>
+        {
+            calls++;
+            return $"{first}:{middle}:{last}";
+        });
+
+        Assert.Equal(Validation<string, string>.Valid("2:middle"), pair);
+        Assert.Equal(Validation<string, string>.Valid("2:middle:7"), triple);
+        Assert.Equal(2, calls);
+
+        var invalidFirst = Validation<int, string>.Invalid("first-error");
+        var invalidSecond = Validation<string, string>.Invalid("second-error");
+        var invalidThird = Validation<long, string>.Invalid("third-error");
+
+        Assert.Equal(
+            Validation<string, string>.Invalid("first-error"),
+            invalidFirst.Zip(second, (first, middle) =>
+            {
+                calls++;
+                return $"{first}:{middle}";
+            }));
+        Assert.Equal(
+            Validation<string, string>.Invalid("second-error"),
+            validFirst.Zip(invalidSecond, (first, middle) =>
+            {
+                calls++;
+                return $"{first}:{middle}";
+            }));
+        Assert.Equal(
+            Validation<string, string>.InvalidMany(["first-error", "second-error"]),
+            invalidFirst.Zip(invalidSecond, (first, middle) =>
+            {
+                calls++;
+                return $"{first}:{middle}";
+            }));
+        Assert.Equal(
+            Validation<string, string>.InvalidMany(["first-error", "second-error", "third-error"]),
+            invalidFirst.Zip(invalidSecond, invalidThird, (first, middle, last) =>
+            {
+                calls++;
+                return $"{first}:{middle}:{last}";
+            }));
+        Assert.Equal(
+            Validation<string, string>.Invalid("third-error"),
+            validFirst.Zip(second, invalidThird, (first, middle, last) =>
+            {
+                calls++;
+                return $"{first}:{middle}:{last}";
+            }));
+        Assert.Equal(2, calls);
+    }
+
+    [Fact]
+    public void ZipCombinerAccumulatesErrorsLeftToRightAndPreservesEachOperandsOwnOrder()
+    {
+        var calls = 0;
+        var first = Validation<int, string>.InvalidMany(["first-1", "first-2", "first-3"]);
+        var second = Validation<string, string>.InvalidMany(["second-1", "second-2"]);
+        var third = Validation<long, string>.InvalidMany(["third-1"]);
+        var validFirst = Validation<int, string>.Valid(1);
+        var validSecond = Validation<string, string>.Valid("ok");
+        var validThird = Validation<long, string>.Valid(7);
+
+        string Combine(int left, string right)
+        {
+            calls++;
+            return $"{left}:{right}";
+        }
+
+        string CombineThree(int left, string middle, long right)
+        {
+            calls++;
+            return $"{left}:{middle}:{right}";
+        }
+
+        Assert.Equal(
+            Validation<string, string>.InvalidMany(["first-1", "first-2", "first-3", "second-1", "second-2"]),
+            first.Zip(second, Combine));
+        Assert.Equal(
+            Validation<string, string>.InvalidMany(["first-1", "first-2", "first-3"]),
+            first.Zip(validSecond, Combine));
+        Assert.Equal(
+            Validation<string, string>.InvalidMany(["first-1", "first-2", "first-3", "second-1", "second-2", "third-1"]),
+            first.Zip(second, third, CombineThree));
+        Assert.Equal(
+            Validation<string, string>.InvalidMany(["second-1", "second-2", "third-1"]),
+            validFirst.Zip(second, third, CombineThree));
+        Assert.Equal(
+            Validation<string, string>.InvalidMany(["first-1", "first-2", "first-3", "third-1"]),
+            first.Zip(validSecond, third, CombineThree));
+        Assert.Equal(
+            Validation<string, string>.InvalidMany(["third-1"]),
+            validFirst.Zip(validSecond, third, CombineThree));
+        Assert.Equal(0, calls);
+    }
+
+    [Fact]
+    public void ZipCombinerPropagatesExceptionsAndRejectsNullAndUninitializedOperands()
+    {
+        var second = Validation<string, string>.Valid("ok");
+        var third = Validation<long, string>.Valid(7);
+        var invalidFirst = Validation<int, string>.InvalidMany(["first-1"]);
+        var invalidSecond = Validation<string, string>.InvalidMany(["second-1"]);
+        var expected = new InvalidOperationException("combine failed");
+        Validation<int, string> uninitializedFirst = default;
+        Validation<string, string> uninitializedSecond = default;
+        Validation<long, string> uninitializedThird = default;
+
+        Assert.Same(
+            expected,
+            Assert.Throws<InvalidOperationException>(() =>
+                Validation<int, string>.Valid(1).Zip<string, string>(second, (_, _) => throw expected)));
+        Assert.Same(
+            expected,
+            Assert.Throws<InvalidOperationException>(() =>
+                Validation<int, string>.Valid(1).Zip<string, long, string>(second, third, (_, _, _) => throw expected)));
+
+        Assert.Throws<ArgumentNullException>(() =>
+            Validation<int, string>.Valid(1).Zip<string, string>(second, null!));
+        Assert.Throws<ArgumentNullException>(() =>
+            invalidFirst.Zip<string, string>(invalidSecond, null!));
+        Assert.Throws<ArgumentNullException>(() =>
+            Validation<int, string>.Valid(1).Zip<string, long, string>(second, third, null!));
+        Assert.Throws<ArgumentNullException>(() =>
+            invalidFirst.Zip<string, long, string>(invalidSecond, third, null!));
+        Assert.Throws<ArgumentNullException>(() =>
+            uninitializedFirst.Zip<string, string>(second, null!));
+        Assert.Throws<ArgumentNullException>(() =>
+            uninitializedFirst.Zip<string, long, string>(second, third, null!));
+
+        Assert.Throws<InvalidOperationException>(() =>
+            uninitializedFirst.Zip<string, string>(second, (_, _) => "value"));
+        Assert.Throws<InvalidOperationException>(() =>
+            Validation<int, string>.Valid(1).Zip<string, string>(uninitializedSecond, (_, _) => "value"));
+        Assert.Throws<InvalidOperationException>(() =>
+            uninitializedFirst.Zip<string, long, string>(second, third, (_, _, _) => "value"));
+        Assert.Throws<InvalidOperationException>(() =>
+            Validation<int, string>.Valid(1).Zip<string, long, string>(uninitializedSecond, third, (_, _, _) => "value"));
+        Assert.Throws<InvalidOperationException>(() =>
+            Validation<int, string>.Valid(1).Zip<string, long, string>(second, uninitializedThird, (_, _, _) => "value"));
+    }
+
+    [Fact]
+    public void ZipCombinerMatchesTheTupledZipThenMapFormForEveryCombination()
+    {
+        static string Combine(int first, string second) => $"{first}:{second}";
+        static string CombineThree(int first, string second, long third) => $"{first}:{second}:{third}";
+
+        var firsts = new[]
+        {
+            Validation<int, string>.Valid(2),
+            Validation<int, string>.InvalidMany(["first-1", "first-2"]),
+        };
+        var seconds = new[]
+        {
+            Validation<string, string>.Valid("ok"),
+            Validation<string, string>.InvalidMany(["second-1"]),
+        };
+        var thirds = new[]
+        {
+            Validation<long, string>.Valid(7),
+            Validation<long, string>.InvalidMany(["third-1", "third-2"]),
+        };
+
+        foreach (var first in firsts)
+        {
+            foreach (var second in seconds)
+            {
+                Assert.Equal(
+                    first.Zip(second).Map(pair => Combine(pair.First, pair.Second)),
+                    first.Zip(second, Combine));
+            }
+        }
+
+        foreach (var first in firsts)
+        {
+            foreach (var second in seconds)
+            {
+                foreach (var third in thirds)
+                {
+                    Assert.Equal(
+                        first.Zip(second, (left, right) => (left, right))
+                            .Zip(third, (pair, value) => CombineThree(pair.left, pair.right, value)),
+                        first.Zip(second, third, CombineThree));
+                }
+            }
+        }
+    }
+
+    [Fact]
+    public void EqualityAndHashingAreStructuralForNestedAndMultiErrorValidations()
+    {
+        var nestedInvalid = Validation<Validation<int, int>, string>.Valid(
+            Validation<int, int>.InvalidMany([1, 2, 3]));
+        var nestedInvalidCopy = Validation<Validation<int, int>, string>.Valid(
+            Validation<int, int>.InvalidMany([1, 2, 3]));
+        var nestedReordered = Validation<Validation<int, int>, string>.Valid(
+            Validation<int, int>.InvalidMany([3, 2, 1]));
+        var nestedValid = Validation<Validation<int, int>, string>.Valid(Validation<int, int>.Valid(1));
+
+        Assert.Equal(nestedInvalid, nestedInvalidCopy);
+        Assert.Equal(nestedInvalid.GetHashCode(), nestedInvalidCopy.GetHashCode());
+        Assert.NotEqual(nestedInvalid, nestedReordered);
+        Assert.NotEqual(nestedInvalid, nestedValid);
+
+        var valid = Validation<int, int>.Valid(1);
+        var invalid = Validation<int, int>.Invalid(1);
+        var multiError = Validation<int, int>.InvalidMany([1, 1, 2]);
+
+        Assert.NotEqual(valid, invalid);
+        Assert.False(valid.Equals((object)invalid));
+        Assert.False(invalid.Equals((object)valid));
+        Assert.True(valid.Equals((object)Validation<int, int>.Valid(1)));
+        Assert.False(valid.Equals(null));
+        Assert.False(valid.Equals("Valid(1)"));
+
+        Assert.Equal(multiError, Validation<int, int>.InvalidMany([1, 1, 2]));
+        Assert.Equal(multiError.GetHashCode(), Validation<int, int>.InvalidMany([1, 1, 2]).GetHashCode());
+        Assert.NotEqual(multiError, Validation<int, int>.InvalidMany([1, 2, 1]));
+        Assert.NotEqual(multiError, Validation<int, int>.InvalidMany([1, 1]));
+        Assert.NotEqual(multiError, Validation<int, int>.InvalidMany([1, 1, 2, 2]));
+
+        var stringErrors = Validation<int, string>.InvalidMany(["first", "second"]);
+        Assert.NotEqual(stringErrors, Validation<int, string>.InvalidMany(["second", "first"]));
+    }
+
+    [Fact]
+    public void MapErrorsPreservesOrderCountAndDuplicatesForManyErrors()
+    {
+        var errors = new[] { 5, 1, 4, 2, 3, 5, 1, 0, 9, 8, 7, 6 };
+        var validation = Validation<string, int>.InvalidMany(errors);
+
+        var mapped = validation.MapErrors(error => $"e{error}");
+
+        Assert.True(mapped.TryGetErrors(out var mappedErrors));
+        Assert.Equal(errors.Select(error => $"e{error}"), mappedErrors);
+
+        var folded = validation.MapErrors(error => error % 4);
+
+        Assert.True(folded.TryGetErrors(out var foldedErrors));
+        Assert.Equal([1, 1, 0, 2, 3, 1, 1, 0, 1, 0, 3, 2], foldedErrors);
     }
 }

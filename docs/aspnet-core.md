@@ -1,8 +1,8 @@
 # ASP.NET Core Integration
 
 `FunnySharp.AspNetCore` is the optional HTTP-boundary package for Minimal APIs. It maps
-`Option<T>`, `Result<TValue, TError>`, and `Validation<TValue, TError>` to `IResult` without
-introducing ASP.NET Core types into the `FunnySharp` core package.
+`Option<T>`, `Result<TValue, TError>`, `UnitResult<TError>`, and `Validation<TValue, TError>` to
+`IResult` without introducing ASP.NET Core types into the `FunnySharp` core package.
 
 ## Package Boundary
 
@@ -68,12 +68,27 @@ order. The integration forwards `Errors`, the standard `ProblemDetails` fields, 
 put application-specific data in `Extensions` rather than custom subclass properties. The compiled
 example shows this explicitly.
 
+For `UnitResult<TError>`, the failure mapper returns a `ProblemDetails` with a status exactly like
+`Result`. Because there is no successful value, the default success result is `204 No Content`;
+supply a success mapper to select a different status, headers, or body.
+
+<!-- documentation-sample: DocumentationSamples.AspNetCore.UnitResultOutcome -->
+```csharp
+app.MapDelete("/carts/{id:int}", (int id, CancellationToken cancellationToken) =>
+    DeleteCartAsync(id, cancellationToken).ToHttpResultAsync(OrderConflict));
+
+app.MapPost("/orders/{id:int}/confirm", (int id, CancellationToken cancellationToken) =>
+    ConfirmOrderAsync(id, cancellationToken).ToHttpResultAsync(
+        OrderConflict,
+        () => Results.Accepted()));
+```
+
 ## Effects And Cancellation
 
-Effects have overloads for values that produce an `Option`, `Result`, or `Validation`. The
-`HttpContext` argument is intentional: the integration calls `RunAsync` with exactly
-`context.RequestAborted`; it does not create, link, replace, or swallow the request cancellation
-token.
+Effects have overloads for values that produce an `Option`, `Result`, `UnitResult`, or
+`Validation`. The `HttpContext` argument is intentional: the integration calls `RunAsync` with
+exactly `context.RequestAborted`; it does not create, link, replace, or swallow the request
+cancellation token.
 
 <!-- documentation-sample: DocumentationSamples.AspNetCore.MapEffect -->
 ```csharp

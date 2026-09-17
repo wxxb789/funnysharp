@@ -63,6 +63,23 @@ public static class HttpResultExtensions
     }
 
     /// <summary>
+    /// Maps a unit result to a successful result or a mapped problem result.
+    /// </summary>
+    /// <typeparam name="TError">The failure value type.</typeparam>
+    /// <param name="result">The unit result to map.</param>
+    /// <param name="failure">Maps failure to a problem with a status.</param>
+    /// <param name="success">Optionally maps success; the default produces <see cref="Results.NoContent()"/>.</param>
+    /// <returns>The mapped HTTP result.</returns>
+    public static IResult ToHttpResult<TError>(
+        this UnitResult<TError> result,
+        Func<TError, ProblemDetails> failure,
+        Func<IResult>? success = null)
+    {
+        ArgumentNullException.ThrowIfNull(failure);
+        return ToHttpResultCore(result, failure, success);
+    }
+
+    /// <summary>
     /// Asynchronously maps an option task to an HTTP result.
     /// </summary>
     /// <typeparam name="T">The option value type.</typeparam>
@@ -119,6 +136,24 @@ public static class HttpResultExtensions
     }
 
     /// <summary>
+    /// Asynchronously maps a unit result task to an HTTP result.
+    /// </summary>
+    /// <typeparam name="TError">The failure value type.</typeparam>
+    /// <param name="result">The unit result task to map.</param>
+    /// <param name="failure">Maps failure to a problem with a status.</param>
+    /// <param name="success">Optionally maps success.</param>
+    /// <returns>A task that produces the mapped HTTP result.</returns>
+    public static Task<IResult> ToHttpResultAsync<TError>(
+        this Task<UnitResult<TError>> result,
+        Func<TError, ProblemDetails> failure,
+        Func<IResult>? success = null)
+    {
+        ArgumentNullException.ThrowIfNull(result);
+        ArgumentNullException.ThrowIfNull(failure);
+        return ToHttpResultAsyncCore(result, failure, success);
+    }
+
+    /// <summary>
     /// Asynchronously maps an option value task to an HTTP result.
     /// </summary>
     /// <typeparam name="T">The option value type.</typeparam>
@@ -169,6 +204,23 @@ public static class HttpResultExtensions
     {
         ArgumentNullException.ThrowIfNull(invalid);
         return ToHttpResultAsyncCore(validation, invalid, valid);
+    }
+
+    /// <summary>
+    /// Asynchronously maps a unit result value task to an HTTP result.
+    /// </summary>
+    /// <typeparam name="TError">The failure value type.</typeparam>
+    /// <param name="result">The unit result value task to map.</param>
+    /// <param name="failure">Maps failure to a problem with a status.</param>
+    /// <param name="success">Optionally maps success.</param>
+    /// <returns>A value task that produces the mapped HTTP result.</returns>
+    public static ValueTask<IResult> ToHttpResultAsync<TError>(
+        this ValueTask<UnitResult<TError>> result,
+        Func<TError, ProblemDetails> failure,
+        Func<IResult>? success = null)
+    {
+        ArgumentNullException.ThrowIfNull(failure);
+        return ToHttpResultAsyncCore(result, failure, success);
     }
 
     /// <summary>
@@ -231,6 +283,26 @@ public static class HttpResultExtensions
         ArgumentNullException.ThrowIfNull(context);
         ArgumentNullException.ThrowIfNull(invalid);
         return ToHttpResultAsyncCore(effect.RunAsync(context.RequestAborted), invalid, valid);
+    }
+
+    /// <summary>
+    /// Runs a unit-result-producing effect with the request cancellation token and maps its result.
+    /// </summary>
+    /// <typeparam name="TError">The failure value type.</typeparam>
+    /// <param name="effect">The effect to run.</param>
+    /// <param name="context">The current HTTP context.</param>
+    /// <param name="failure">Maps failure to a problem with a status.</param>
+    /// <param name="success">Optionally maps success.</param>
+    /// <returns>A value task that produces the mapped HTTP result.</returns>
+    public static ValueTask<IResult> ToHttpResultAsync<TError>(
+        this Effect<UnitResult<TError>> effect,
+        HttpContext context,
+        Func<TError, ProblemDetails> failure,
+        Func<IResult>? success = null)
+    {
+        ArgumentNullException.ThrowIfNull(context);
+        ArgumentNullException.ThrowIfNull(failure);
+        return ToHttpResultAsyncCore(effect.RunAsync(context.RequestAborted), failure, success);
     }
 
     /// <summary>
@@ -304,6 +376,30 @@ public static class HttpResultExtensions
         return ToHttpResultAsyncCore(effect.RunAsync(environment, context.RequestAborted), invalid, valid);
     }
 
+    /// <summary>
+    /// Runs an environment-dependent unit-result-producing effect with the request cancellation token and maps
+    /// its result.
+    /// </summary>
+    /// <typeparam name="TEnvironment">The effect environment type.</typeparam>
+    /// <typeparam name="TError">The failure value type.</typeparam>
+    /// <param name="effect">The effect to run.</param>
+    /// <param name="environment">The explicit environment supplied to the effect.</param>
+    /// <param name="context">The current HTTP context.</param>
+    /// <param name="failure">Maps failure to a problem with a status.</param>
+    /// <param name="success">Optionally maps success.</param>
+    /// <returns>A value task that produces the mapped HTTP result.</returns>
+    public static ValueTask<IResult> ToHttpResultAsync<TEnvironment, TError>(
+        this Effect<TEnvironment, UnitResult<TError>> effect,
+        TEnvironment environment,
+        HttpContext context,
+        Func<TError, ProblemDetails> failure,
+        Func<IResult>? success = null)
+    {
+        ArgumentNullException.ThrowIfNull(context);
+        ArgumentNullException.ThrowIfNull(failure);
+        return ToHttpResultAsyncCore(effect.RunAsync(environment, context.RequestAborted), failure, success);
+    }
+
     private static IResult ToHttpResultCore<T>(
         Option<T> option,
         Func<ProblemDetails> none,
@@ -342,6 +438,26 @@ public static class HttpResultExtensions
         return ToValidationProblemResult(invalid(errors!));
     }
 
+    private static IResult ToHttpResultCore<TError>(
+        UnitResult<TError> result,
+        Func<TError, ProblemDetails> failure,
+        Func<IResult>? success)
+    {
+        if (result.IsFailure)
+        {
+            _ = result.TryGetError(out var error);
+            return ToProblemResult(failure(error!));
+        }
+
+        return ToUnitSuccessResult(success);
+    }
+
+    private static async Task<IResult> ToHttpResultAsyncCore<TError>(
+        Task<UnitResult<TError>> result,
+        Func<TError, ProblemDetails> failure,
+        Func<IResult>? success) =>
+        ToHttpResultCore(await result.ConfigureAwait(false), failure, success);
+
     private static async Task<IResult> ToHttpResultAsyncCore<T>(
         Task<Option<T>> option,
         Func<ProblemDetails> none,
@@ -359,6 +475,12 @@ public static class HttpResultExtensions
         Func<IReadOnlyList<TError>, HttpValidationProblemDetails> invalid,
         Func<TValue, IResult>? valid) =>
         ToHttpResultCore(await validation.ConfigureAwait(false), invalid, valid);
+
+    private static async ValueTask<IResult> ToHttpResultAsyncCore<TError>(
+        ValueTask<UnitResult<TError>> result,
+        Func<TError, ProblemDetails> failure,
+        Func<IResult>? success) =>
+        ToHttpResultCore(await result.ConfigureAwait(false), failure, success);
 
     private static async ValueTask<IResult> ToHttpResultAsyncCore<T>(
         ValueTask<Option<T>> option,
@@ -380,6 +502,11 @@ public static class HttpResultExtensions
 
     private static IResult ToSuccessResult<T>(T value, Func<T, IResult>? mapper) =>
         mapper is null ? Results.Ok(value) : mapper(value) ?? throw new InvalidOperationException("The success mapper returned null.");
+
+    private static IResult ToUnitSuccessResult(Func<IResult>? mapper) =>
+        mapper is null
+            ? Results.NoContent()
+            : mapper() ?? throw new InvalidOperationException("The success mapper returned null.");
 
     private static IResult ToProblemResult(ProblemDetails problem)
     {

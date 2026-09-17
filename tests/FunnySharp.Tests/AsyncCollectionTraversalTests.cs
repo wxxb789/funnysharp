@@ -240,7 +240,8 @@ public sealed class AsyncCollectionTraversalTests
         await AssertFaultIsSame(resultSource.SequenceAsync().AsTask(), resultSourceException);
         await AssertFaultIsSame(validationSource.SequenceAsync().AsTask(), validationSourceException);
         await AssertFaultIsSame(
-            optionSelectorSource.TraverseAsync<int, int>(_ => throw selectorException).AsTask(),
+            optionSelectorSource.TraverseAsync<int, int>(
+                (Func<int, Option<int>>)(_ => throw selectorException)).AsTask(),
             selectorException);
         await AssertFaultIsSame(
             resultSelectorSource.TraverseAsync<int, int, string>(

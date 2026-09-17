@@ -25,6 +25,9 @@ app.MapGet("/deliveries/{sku}", (string sku, CancellationToken cancellationToken
     GetDeliveryAsync(sku, cancellationToken)
         .ToHttpResultAsync(MapDeliveryFailure, delivery => new AcceptedDeliveryResult(delivery)));
 
+app.MapDelete("/orders/{id}", (string id) =>
+    CancelOrder(id).ToHttpResult(MapOrderFailure));
+
 app.MapGet("/catalog/{id:int}/refresh", (HttpContext context, int id) =>
     LoadProductEffect(id).ToHttpResultAsync(
         catalog,
@@ -48,6 +51,11 @@ static Result<Order, OrderFailure> FindOrder(string id) =>
     id == "ORD-42"
         ? Result<Order, OrderFailure>.Success(new Order(id, "book", 2))
         : Result<Order, OrderFailure>.Failure(new OrderFailure("order-not-found", id));
+
+static UnitResult<OrderFailure> CancelOrder(string id) =>
+    id == "ORD-42"
+        ? UnitResult<OrderFailure>.Success()
+        : UnitResult<OrderFailure>.Failure(new OrderFailure("order-not-found", id));
 
 static Validation<Order, InputError> ValidateOrder(CreateOrderRequest request)
 {
