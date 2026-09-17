@@ -1,0 +1,3073 @@
+# Public API inventory: LanguageExt.Core 4.4.9 global-namespace types
+
+Assemblies: LanguageExt.Core 4.0.0.0
+
+Type count: 49
+
+### ArrExtensions (class [static])
+
+- `[ext] public static TSource Aggregate<TSource>(this LanguageExt.Arr<TSource> source, System.Func<TSource, TSource, TSource> func)`
+- `[ext] public static TAccumulate Aggregate<TSource, TAccumulate>(this LanguageExt.Arr<TSource> source, TAccumulate seed, System.Func<TAccumulate, TSource, TAccumulate> func)`
+- `[ext] public static TResult Aggregate<TSource, TAccumulate, TResult>(this LanguageExt.Arr<TSource> source, TAccumulate seed, System.Func<TAccumulate, TSource, TAccumulate> func, System.Func<TAccumulate, TResult> resultSelector)`
+- `[ext] public static System.Boolean All<TSource>(this LanguageExt.Arr<TSource> source, System.Func<TSource, System.Boolean> predicate)`
+- `[ext] public static System.Boolean Any<TSource>(this LanguageExt.Arr<TSource> source)`
+- `[ext] public static System.Boolean Any<TSource>(this LanguageExt.Arr<TSource> source, System.Func<TSource, System.Boolean> predicate)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> AsEnumerable<TSource>(this LanguageExt.Arr<TSource> source)`
+- `[ext] public static System.Linq.IQueryable<TElement> AsQueryable<TElement>(this LanguageExt.Arr<TElement> source)`
+- `[ext] public static System.Decimal Average(this LanguageExt.Arr<System.Decimal> source)`
+- `[ext] public static System.Decimal? Average(this LanguageExt.Arr<System.Decimal?> source)`
+- `[ext] public static System.Double Average(this LanguageExt.Arr<System.Double> source)`
+- `[ext] public static System.Double Average(this LanguageExt.Arr<System.Int32> source)`
+- `[ext] public static System.Double Average(this LanguageExt.Arr<System.Int64> source)`
+- `[ext] public static System.Double? Average(this LanguageExt.Arr<System.Double?> source)`
+- `[ext] public static System.Double? Average(this LanguageExt.Arr<System.Int32?> source)`
+- `[ext] public static System.Double? Average(this LanguageExt.Arr<System.Int64?> source)`
+- `[ext] public static System.Single Average(this LanguageExt.Arr<System.Single> source)`
+- `[ext] public static System.Single? Average(this LanguageExt.Arr<System.Single?> source)`
+- `[ext] public static System.Decimal Average<TSource>(this LanguageExt.Arr<TSource> source, System.Func<TSource, System.Decimal> selector)`
+- `[ext] public static System.Decimal? Average<TSource>(this LanguageExt.Arr<TSource> source, System.Func<TSource, System.Decimal?> selector)`
+- `[ext] public static System.Double Average<TSource>(this LanguageExt.Arr<TSource> source, System.Func<TSource, System.Double> selector)`
+- `[ext] public static System.Double Average<TSource>(this LanguageExt.Arr<TSource> source, System.Func<TSource, System.Int32> selector)`
+- `[ext] public static System.Double Average<TSource>(this LanguageExt.Arr<TSource> source, System.Func<TSource, System.Int64> selector)`
+- `[ext] public static System.Double? Average<TSource>(this LanguageExt.Arr<TSource> source, System.Func<TSource, System.Double?> selector)`
+- `[ext] public static System.Double? Average<TSource>(this LanguageExt.Arr<TSource> source, System.Func<TSource, System.Int32?> selector)`
+- `[ext] public static System.Double? Average<TSource>(this LanguageExt.Arr<TSource> source, System.Func<TSource, System.Int64?> selector)`
+- `[ext] public static System.Single Average<TSource>(this LanguageExt.Arr<TSource> source, System.Func<TSource, System.Single> selector)`
+- `[ext] public static System.Single? Average<TSource>(this LanguageExt.Arr<TSource> source, System.Func<TSource, System.Single?> selector)`
+- `[ext] public static LanguageExt.Arr<B> Bind<A, B>(this LanguageExt.Arr<A> ma, System.Func<A, LanguageExt.Arr<B>> f)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> Concat<TSource>(this LanguageExt.Arr<TSource> first, System.Collections.Generic.IEnumerable<TSource> second)`
+- `[ext] public static System.Boolean Contains<TSource>(this LanguageExt.Arr<TSource> source, TSource value)`
+- `[ext] public static System.Boolean Contains<TSource>(this LanguageExt.Arr<TSource> source, TSource value, System.Collections.Generic.IEqualityComparer<TSource> comparer)`
+- `[ext] public static System.Int32 Count<TSource>(this LanguageExt.Arr<TSource> source)`
+- `[ext] public static System.Int32 Count<TSource>(this LanguageExt.Arr<TSource> source, System.Func<TSource, System.Boolean> predicate)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> DefaultIfEmpty<TSource>(this LanguageExt.Arr<TSource> source)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> DefaultIfEmpty<TSource>(this LanguageExt.Arr<TSource> source, TSource defaultValue)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> Distinct<TSource>(this LanguageExt.Arr<TSource> source)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> Distinct<TSource>(this LanguageExt.Arr<TSource> source, System.Collections.Generic.IEqualityComparer<TSource> comparer)`
+- `[ext] public static TSource ElementAt<TSource>(this LanguageExt.Arr<TSource> source, System.Int32 index)`
+- `[ext] public static TSource ElementAtOrDefault<TSource>(this LanguageExt.Arr<TSource> source, System.Int32 index)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> Except<TSource>(this LanguageExt.Arr<TSource> first, System.Collections.Generic.IEnumerable<TSource> second)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> Except<TSource>(this LanguageExt.Arr<TSource> first, System.Collections.Generic.IEnumerable<TSource> second, System.Collections.Generic.IEqualityComparer<TSource> comparer)`
+- `[ext] public static LanguageExt.Arr<A> Filter<A>(this LanguageExt.Arr<A> ma, System.Func<A, System.Boolean> f)`
+- `[ext] public static TSource First<TSource>(this LanguageExt.Arr<TSource> source)`
+- `[ext] public static TSource First<TSource>(this LanguageExt.Arr<TSource> source, System.Func<TSource, System.Boolean> predicate)`
+- `[ext] public static TSource FirstOrDefault<TSource>(this LanguageExt.Arr<TSource> source)`
+- `[ext] public static TSource FirstOrDefault<TSource>(this LanguageExt.Arr<TSource> source, System.Func<TSource, System.Boolean> predicate)`
+- `[ext] public static A[] Flatten<A>(this A[][] ma)`
+- `[ext] public static LanguageExt.Arr<A> Flatten<A>(this LanguageExt.Arr<LanguageExt.Arr<A>> ma)`
+- `[ext] public static System.Collections.Generic.IEnumerable<System.Linq.IGrouping<TKey, TSource>> GroupBy<TSource, TKey>(this LanguageExt.Arr<TSource> source, System.Func<TSource, TKey> keySelector)`
+- `[ext] public static System.Collections.Generic.IEnumerable<System.Linq.IGrouping<TKey, TElement>> GroupBy<TSource, TKey, TElement>(this LanguageExt.Arr<TSource> source, System.Func<TSource, TKey> keySelector, System.Func<TSource, TElement> elementSelector)`
+- `[ext] public static System.Collections.Generic.IEnumerable<System.Linq.IGrouping<TKey, TSource>> GroupBy<TSource, TKey>(this LanguageExt.Arr<TSource> source, System.Func<TSource, TKey> keySelector, System.Collections.Generic.IEqualityComparer<TKey> comparer)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TResult> GroupBy<TSource, TKey, TResult>(this LanguageExt.Arr<TSource> source, System.Func<TSource, TKey> keySelector, System.Func<TKey, System.Collections.Generic.IEnumerable<TSource>, TResult> resultSelector)`
+- `[ext] public static System.Collections.Generic.IEnumerable<System.Linq.IGrouping<TKey, TElement>> GroupBy<TSource, TKey, TElement>(this LanguageExt.Arr<TSource> source, System.Func<TSource, TKey> keySelector, System.Func<TSource, TElement> elementSelector, System.Collections.Generic.IEqualityComparer<TKey> comparer)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TResult> GroupBy<TSource, TKey, TElement, TResult>(this LanguageExt.Arr<TSource> source, System.Func<TSource, TKey> keySelector, System.Func<TSource, TElement> elementSelector, System.Func<TKey, System.Collections.Generic.IEnumerable<TElement>, TResult> resultSelector)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TResult> GroupBy<TSource, TKey, TResult>(this LanguageExt.Arr<TSource> source, System.Func<TSource, TKey> keySelector, System.Func<TKey, System.Collections.Generic.IEnumerable<TSource>, TResult> resultSelector, System.Collections.Generic.IEqualityComparer<TKey> comparer)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TResult> GroupBy<TSource, TKey, TElement, TResult>(this LanguageExt.Arr<TSource> source, System.Func<TSource, TKey> keySelector, System.Func<TSource, TElement> elementSelector, System.Func<TKey, System.Collections.Generic.IEnumerable<TElement>, TResult> resultSelector, System.Collections.Generic.IEqualityComparer<TKey> comparer)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TResult> GroupJoin<TOuter, TInner, TKey, TResult>(this LanguageExt.Arr<TOuter> outer, System.Collections.Generic.IEnumerable<TInner> inner, System.Func<TOuter, TKey> outerKeySelector, System.Func<TInner, TKey> innerKeySelector, System.Func<TOuter, System.Collections.Generic.IEnumerable<TInner>, TResult> resultSelector)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TResult> GroupJoin<TOuter, TInner, TKey, TResult>(this LanguageExt.Arr<TOuter> outer, System.Collections.Generic.IEnumerable<TInner> inner, System.Func<TOuter, TKey> outerKeySelector, System.Func<TInner, TKey> innerKeySelector, System.Func<TOuter, System.Collections.Generic.IEnumerable<TInner>, TResult> resultSelector, System.Collections.Generic.IEqualityComparer<TKey> comparer)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> Intersect<TSource>(this LanguageExt.Arr<TSource> first, System.Collections.Generic.IEnumerable<TSource> second)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> Intersect<TSource>(this LanguageExt.Arr<TSource> first, System.Collections.Generic.IEnumerable<TSource> second, System.Collections.Generic.IEqualityComparer<TSource> comparer)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TResult> Join<TOuter, TInner, TKey, TResult>(this LanguageExt.Arr<TOuter> outer, System.Collections.Generic.IEnumerable<TInner> inner, System.Func<TOuter, TKey> outerKeySelector, System.Func<TInner, TKey> innerKeySelector, System.Func<TOuter, TInner, TResult> resultSelector)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TResult> Join<TOuter, TInner, TKey, TResult>(this LanguageExt.Arr<TOuter> outer, System.Collections.Generic.IEnumerable<TInner> inner, System.Func<TOuter, TKey> outerKeySelector, System.Func<TInner, TKey> innerKeySelector, System.Func<TOuter, TInner, TResult> resultSelector, System.Collections.Generic.IEqualityComparer<TKey> comparer)`
+- `[ext] public static TSource Last<TSource>(this LanguageExt.Arr<TSource> source)`
+- `[ext] public static TSource Last<TSource>(this LanguageExt.Arr<TSource> source, System.Func<TSource, System.Boolean> predicate)`
+- `[ext] public static TSource LastOrDefault<TSource>(this LanguageExt.Arr<TSource> source)`
+- `[ext] public static TSource LastOrDefault<TSource>(this LanguageExt.Arr<TSource> source, System.Func<TSource, System.Boolean> predicate)`
+- `[ext] public static System.Int64 LongCount<TSource>(this LanguageExt.Arr<TSource> source)`
+- `[ext] public static System.Int64 LongCount<TSource>(this LanguageExt.Arr<TSource> source, System.Func<TSource, System.Boolean> predicate)`
+- `[ext] public static LanguageExt.Arr<B> Map<A, B>(this LanguageExt.Arr<A> ma, System.Func<A, B> f)`
+- `[ext] public static System.Decimal Max(this LanguageExt.Arr<System.Decimal> source)`
+- `[ext] public static System.Decimal? Max(this LanguageExt.Arr<System.Decimal?> source)`
+- `[ext] public static System.Double Max(this LanguageExt.Arr<System.Double> source)`
+- `[ext] public static System.Double? Max(this LanguageExt.Arr<System.Double?> source)`
+- `[ext] public static System.Single Max(this LanguageExt.Arr<System.Single> source)`
+- `[ext] public static System.Single? Max(this LanguageExt.Arr<System.Single?> source)`
+- `[ext] public static System.Int32 Max(this LanguageExt.Arr<System.Int32> source)`
+- `[ext] public static System.Int32? Max(this LanguageExt.Arr<System.Int32?> source)`
+- `[ext] public static System.Int64 Max(this LanguageExt.Arr<System.Int64> source)`
+- `[ext] public static System.Int64? Max(this LanguageExt.Arr<System.Int64?> source)`
+- `[ext] public static TSource Max<TSource>(this LanguageExt.Arr<TSource> source)`
+- `[ext] public static System.Decimal Max<TSource>(this LanguageExt.Arr<TSource> source, System.Func<TSource, System.Decimal> selector)`
+- `[ext] public static System.Decimal? Max<TSource>(this LanguageExt.Arr<TSource> source, System.Func<TSource, System.Decimal?> selector)`
+- `[ext] public static System.Double Max<TSource>(this LanguageExt.Arr<TSource> source, System.Func<TSource, System.Double> selector)`
+- `[ext] public static System.Double? Max<TSource>(this LanguageExt.Arr<TSource> source, System.Func<TSource, System.Double?> selector)`
+- `[ext] public static System.Single Max<TSource>(this LanguageExt.Arr<TSource> source, System.Func<TSource, System.Single> selector)`
+- `[ext] public static System.Single? Max<TSource>(this LanguageExt.Arr<TSource> source, System.Func<TSource, System.Single?> selector)`
+- `[ext] public static System.Int32 Max<TSource>(this LanguageExt.Arr<TSource> source, System.Func<TSource, System.Int32> selector)`
+- `[ext] public static System.Int32? Max<TSource>(this LanguageExt.Arr<TSource> source, System.Func<TSource, System.Int32?> selector)`
+- `[ext] public static System.Int64 Max<TSource>(this LanguageExt.Arr<TSource> source, System.Func<TSource, System.Int64> selector)`
+- `[ext] public static System.Int64? Max<TSource>(this LanguageExt.Arr<TSource> source, System.Func<TSource, System.Int64?> selector)`
+- `[ext] public static TResult Max<TSource, TResult>(this LanguageExt.Arr<TSource> source, System.Func<TSource, TResult> selector)`
+- `[ext] public static System.Decimal Min(this LanguageExt.Arr<System.Decimal> source)`
+- `[ext] public static System.Decimal? Min(this LanguageExt.Arr<System.Decimal?> source)`
+- `[ext] public static System.Double Min(this LanguageExt.Arr<System.Double> source)`
+- `[ext] public static System.Double? Min(this LanguageExt.Arr<System.Double?> source)`
+- `[ext] public static System.Single Min(this LanguageExt.Arr<System.Single> source)`
+- `[ext] public static System.Single? Min(this LanguageExt.Arr<System.Single?> source)`
+- `[ext] public static System.Int32 Min(this LanguageExt.Arr<System.Int32> source)`
+- `[ext] public static System.Int32? Min(this LanguageExt.Arr<System.Int32?> source)`
+- `[ext] public static System.Int64 Min(this LanguageExt.Arr<System.Int64> source)`
+- `[ext] public static System.Int64? Min(this LanguageExt.Arr<System.Int64?> source)`
+- `[ext] public static TSource Min<TSource>(this LanguageExt.Arr<TSource> source)`
+- `[ext] public static System.Decimal Min<TSource>(this LanguageExt.Arr<TSource> source, System.Func<TSource, System.Decimal> selector)`
+- `[ext] public static System.Decimal? Min<TSource>(this LanguageExt.Arr<TSource> source, System.Func<TSource, System.Decimal?> selector)`
+- `[ext] public static System.Double Min<TSource>(this LanguageExt.Arr<TSource> source, System.Func<TSource, System.Double> selector)`
+- `[ext] public static System.Double? Min<TSource>(this LanguageExt.Arr<TSource> source, System.Func<TSource, System.Double?> selector)`
+- `[ext] public static System.Single Min<TSource>(this LanguageExt.Arr<TSource> source, System.Func<TSource, System.Single> selector)`
+- `[ext] public static System.Single? Min<TSource>(this LanguageExt.Arr<TSource> source, System.Func<TSource, System.Single?> selector)`
+- `[ext] public static System.Int32 Min<TSource>(this LanguageExt.Arr<TSource> source, System.Func<TSource, System.Int32> selector)`
+- `[ext] public static System.Int32? Min<TSource>(this LanguageExt.Arr<TSource> source, System.Func<TSource, System.Int32?> selector)`
+- `[ext] public static System.Int64 Min<TSource>(this LanguageExt.Arr<TSource> source, System.Func<TSource, System.Int64> selector)`
+- `[ext] public static System.Int64? Min<TSource>(this LanguageExt.Arr<TSource> source, System.Func<TSource, System.Int64?> selector)`
+- `[ext] public static TResult Min<TSource, TResult>(this LanguageExt.Arr<TSource> source, System.Func<TSource, TResult> selector)`
+- `[ext] public static System.Linq.IOrderedEnumerable<TSource> OrderBy<TSource, TKey>(this LanguageExt.Arr<TSource> source, System.Func<TSource, TKey> keySelector)`
+- `[ext] public static System.Linq.IOrderedEnumerable<TSource> OrderBy<TSource, TKey>(this LanguageExt.Arr<TSource> source, System.Func<TSource, TKey> keySelector, System.Collections.Generic.IComparer<TKey> comparer)`
+- `[ext] public static System.Linq.IOrderedEnumerable<TSource> OrderByDescending<TSource, TKey>(this LanguageExt.Arr<TSource> source, System.Func<TSource, TKey> keySelector)`
+- `[ext] public static System.Linq.IOrderedEnumerable<TSource> OrderByDescending<TSource, TKey>(this LanguageExt.Arr<TSource> source, System.Func<TSource, TKey> keySelector, System.Collections.Generic.IComparer<TKey> comparer)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> Reverse<TSource>(this LanguageExt.Arr<TSource> source)`
+- `[ext] public static LanguageExt.Arr<B> Select<A, B>(this LanguageExt.Arr<A> ma, System.Func<A, B> f)`
+- `[ext] public static LanguageExt.Arr<B> SelectMany<A, B>(this LanguageExt.Arr<A> ma, System.Func<A, LanguageExt.Arr<B>> f)`
+- `[ext] public static LanguageExt.Arr<C> SelectMany<A, B, C>(this LanguageExt.Arr<A> ma, System.Func<A, LanguageExt.Arr<B>> bind, System.Func<A, B, C> project)`
+- `[ext] public static System.Boolean SequenceEqual<TSource>(this LanguageExt.Arr<TSource> first, System.Collections.Generic.IEnumerable<TSource> second)`
+- `[ext] public static System.Boolean SequenceEqual<TSource>(this LanguageExt.Arr<TSource> first, System.Collections.Generic.IEnumerable<TSource> second, System.Collections.Generic.IEqualityComparer<TSource> comparer)`
+- `[ext] public static TSource Single<TSource>(this LanguageExt.Arr<TSource> source)`
+- `[ext] public static TSource Single<TSource>(this LanguageExt.Arr<TSource> source, System.Func<TSource, System.Boolean> predicate)`
+- `[ext] public static TSource SingleOrDefault<TSource>(this LanguageExt.Arr<TSource> source)`
+- `[ext] public static TSource SingleOrDefault<TSource>(this LanguageExt.Arr<TSource> source, System.Func<TSource, System.Boolean> predicate)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> Skip<TSource>(this LanguageExt.Arr<TSource> source, System.Int32 count)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> SkipWhile<TSource>(this LanguageExt.Arr<TSource> source, System.Func<TSource, System.Boolean> predicate)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> SkipWhile<TSource>(this LanguageExt.Arr<TSource> source, System.Func<TSource, System.Int32, System.Boolean> predicate)`
+- `[ext] public static System.Decimal Sum(this LanguageExt.Arr<System.Decimal> source)`
+- `[ext] public static System.Decimal? Sum(this LanguageExt.Arr<System.Decimal?> source)`
+- `[ext] public static System.Double Sum(this LanguageExt.Arr<System.Double> source)`
+- `[ext] public static System.Double? Sum(this LanguageExt.Arr<System.Double?> source)`
+- `[ext] public static System.Single Sum(this LanguageExt.Arr<System.Single> source)`
+- `[ext] public static System.Single? Sum(this LanguageExt.Arr<System.Single?> source)`
+- `[ext] public static System.Int32 Sum(this LanguageExt.Arr<System.Int32> source)`
+- `[ext] public static System.Int32? Sum(this LanguageExt.Arr<System.Int32?> source)`
+- `[ext] public static System.Int64 Sum(this LanguageExt.Arr<System.Int64> source)`
+- `[ext] public static System.Int64? Sum(this LanguageExt.Arr<System.Int64?> source)`
+- `[ext] public static System.Decimal Sum<TSource>(this LanguageExt.Arr<TSource> source, System.Func<TSource, System.Decimal> selector)`
+- `[ext] public static System.Decimal? Sum<TSource>(this LanguageExt.Arr<TSource> source, System.Func<TSource, System.Decimal?> selector)`
+- `[ext] public static System.Double Sum<TSource>(this LanguageExt.Arr<TSource> source, System.Func<TSource, System.Double> selector)`
+- `[ext] public static System.Double? Sum<TSource>(this LanguageExt.Arr<TSource> source, System.Func<TSource, System.Double?> selector)`
+- `[ext] public static System.Single Sum<TSource>(this LanguageExt.Arr<TSource> source, System.Func<TSource, System.Single> selector)`
+- `[ext] public static System.Single? Sum<TSource>(this LanguageExt.Arr<TSource> source, System.Func<TSource, System.Single?> selector)`
+- `[ext] public static System.Int32 Sum<TSource>(this LanguageExt.Arr<TSource> source, System.Func<TSource, System.Int32> selector)`
+- `[ext] public static System.Int32? Sum<TSource>(this LanguageExt.Arr<TSource> source, System.Func<TSource, System.Int32?> selector)`
+- `[ext] public static System.Int64 Sum<TSource>(this LanguageExt.Arr<TSource> source, System.Func<TSource, System.Int64> selector)`
+- `[ext] public static System.Int64? Sum<TSource>(this LanguageExt.Arr<TSource> source, System.Func<TSource, System.Int64?> selector)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> Take<TSource>(this LanguageExt.Arr<TSource> source, System.Int32 count)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> TakeWhile<TSource>(this LanguageExt.Arr<TSource> source, System.Func<TSource, System.Boolean> predicate)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> TakeWhile<TSource>(this LanguageExt.Arr<TSource> source, System.Func<TSource, System.Int32, System.Boolean> predicate)`
+- `[ext] public static TSource[] ToArray<TSource>(this LanguageExt.Arr<TSource> source)`
+- `[ext] public static System.Collections.Generic.Dictionary<TKey, TSource> ToDictionary<TSource, TKey>(this LanguageExt.Arr<TSource> source, System.Func<TSource, TKey> keySelector)`
+- `[ext] public static System.Collections.Generic.Dictionary<TKey, TElement> ToDictionary<TSource, TKey, TElement>(this LanguageExt.Arr<TSource> source, System.Func<TSource, TKey> keySelector, System.Func<TSource, TElement> elementSelector)`
+- `[ext] public static System.Collections.Generic.Dictionary<TKey, TSource> ToDictionary<TSource, TKey>(this LanguageExt.Arr<TSource> source, System.Func<TSource, TKey> keySelector, System.Collections.Generic.IEqualityComparer<TKey> comparer)`
+- `[ext] public static System.Collections.Generic.Dictionary<TKey, TElement> ToDictionary<TSource, TKey, TElement>(this LanguageExt.Arr<TSource> source, System.Func<TSource, TKey> keySelector, System.Func<TSource, TElement> elementSelector, System.Collections.Generic.IEqualityComparer<TKey> comparer)`
+- `[ext] public static System.Collections.Generic.List<TSource> ToList<TSource>(this LanguageExt.Arr<TSource> source)`
+- `[ext] public static System.Linq.ILookup<TKey, TSource> ToLookup<TSource, TKey>(this LanguageExt.Arr<TSource> source, System.Func<TSource, TKey> keySelector)`
+- `[ext] public static System.Linq.ILookup<TKey, TElement> ToLookup<TSource, TKey, TElement>(this LanguageExt.Arr<TSource> source, System.Func<TSource, TKey> keySelector, System.Func<TSource, TElement> elementSelector)`
+- `[ext] public static System.Linq.ILookup<TKey, TSource> ToLookup<TSource, TKey>(this LanguageExt.Arr<TSource> source, System.Func<TSource, TKey> keySelector, System.Collections.Generic.IEqualityComparer<TKey> comparer)`
+- `[ext] public static System.Linq.ILookup<TKey, TElement> ToLookup<TSource, TKey, TElement>(this LanguageExt.Arr<TSource> source, System.Func<TSource, TKey> keySelector, System.Func<TSource, TElement> elementSelector, System.Collections.Generic.IEqualityComparer<TKey> comparer)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> Union<TSource>(this LanguageExt.Arr<TSource> first, System.Collections.Generic.IEnumerable<TSource> second)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> Union<TSource>(this LanguageExt.Arr<TSource> first, System.Collections.Generic.IEnumerable<TSource> second, System.Collections.Generic.IEqualityComparer<TSource> comparer)`
+- `[ext] public static LanguageExt.Arr<A> Where<A>(this LanguageExt.Arr<A> ma, System.Func<A, System.Boolean> f)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TResult> Zip<TFirst, TSecond, TResult>(this LanguageExt.Arr<TFirst> first, System.Collections.Generic.IEnumerable<TSecond> second, System.Func<TFirst, TSecond, TResult> resultSelector)`
+
+### CompositionsExt (class [static])
+
+- `[ext] public static LanguageExt.Compositions<A> Cons<MonoidA, A>(this A a, LanguageExt.Compositions<A> ma)`
+- `where MonoidA : struct, LanguageExt.TypeClasses.Monoid<A>`
+
+### EitherAsyncExtensions (class [static])
+
+- `[ext] public static LanguageExt.EitherAsync<L, B> Action<L, A, B>(this LanguageExt.EitherAsync<L, A> fa, LanguageExt.EitherAsync<L, B> fb)`
+- `[ext] public static LanguageExt.EitherAsync<L, B> Apply<L, A, B>(this LanguageExt.EitherAsync<L, System.Func<A, B>> fab, LanguageExt.EitherAsync<L, A> fa)`
+- `[ext] public static LanguageExt.EitherAsync<L, B> Apply<L, A, B>(this System.Func<A, B> fab, LanguageExt.EitherAsync<L, A> fa)`
+- `[ext] public static LanguageExt.EitherAsync<L, System.Func<B, C>> Apply<L, A, B, C>(this LanguageExt.EitherAsync<L, System.Func<A, B, C>> fabc, LanguageExt.EitherAsync<L, A> fa)`
+- `[ext] public static LanguageExt.EitherAsync<L, System.Func<B, C>> Apply<L, A, B, C>(this System.Func<A, B, C> fabc, LanguageExt.EitherAsync<L, A> fa)`
+- `[ext] public static LanguageExt.EitherAsync<L, System.Func<B, C>> Apply<L, A, B, C>(this LanguageExt.EitherAsync<L, System.Func<A, System.Func<B, C>>> fabc, LanguageExt.EitherAsync<L, A> fa)`
+- `[ext] public static LanguageExt.EitherAsync<L, System.Func<B, C>> Apply<L, A, B, C>(this System.Func<A, System.Func<B, C>> fabc, LanguageExt.EitherAsync<L, A> fa)`
+- `[ext] public static LanguageExt.EitherAsync<L, C> Apply<L, A, B, C>(this LanguageExt.EitherAsync<L, System.Func<A, B, C>> fabc, LanguageExt.EitherAsync<L, A> fa, LanguageExt.EitherAsync<L, B> fb)`
+- `[ext] public static LanguageExt.EitherAsync<L, C> Apply<L, A, B, C>(this System.Func<A, B, C> fabc, LanguageExt.EitherAsync<L, A> fa, LanguageExt.EitherAsync<L, B> fb)`
+- `[ext] public static LanguageExt.EitherAsync<L, R> Divide<NUM, L, R>(this LanguageExt.EitherAsync<L, R> x, LanguageExt.EitherAsync<L, R> y)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<R>`
+- `[ext] public static LanguageExt.EitherAsync<L, R> Flatten<L, R>(this LanguageExt.EitherAsync<L, LanguageExt.EitherAsync<L, R>> ma)`
+- `[ext] public static LanguageExt.EitherAsync<L, R> Flatten<L, R>(this LanguageExt.EitherAsync<LanguageExt.EitherAsync<L, R>, LanguageExt.EitherAsync<L, R>> ma)`
+- `[ext] public static System.Threading.Tasks.Task<System.Collections.Generic.IEnumerable<L>> Lefts<L, R>(this System.Collections.Generic.IEnumerable<LanguageExt.EitherAsync<L, R>> self)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Seq<L>> Lefts<L, R>(this LanguageExt.Seq<LanguageExt.EitherAsync<L, R>> self)`
+- `[ext] public static LanguageExt.EitherAsync<L, System.Func<T2, R>> ParMap<L, T1, T2, R>(this LanguageExt.EitherAsync<L, T1> self, System.Func<T1, T2, R> func)`
+- `[ext] public static LanguageExt.EitherAsync<L, System.Func<T2, System.Func<T3, R>>> ParMap<L, T1, T2, T3, R>(this LanguageExt.EitherAsync<L, T1> self, System.Func<T1, T2, T3, R> func)`
+- `[ext] public static System.Threading.Tasks.Task<System.ValueTuple<LanguageExt.Seq<L>, LanguageExt.Seq<R>>> Partition<L, R>(this LanguageExt.Seq<LanguageExt.EitherAsync<L, R>> self)`
+- `[ext] public static System.Threading.Tasks.Task<System.ValueTuple<System.Collections.Generic.IEnumerable<L>, System.Collections.Generic.IEnumerable<R>>> Partition<L, R>(this System.Collections.Generic.IEnumerable<LanguageExt.EitherAsync<L, R>> self)`
+- `[ext] public static LanguageExt.EitherAsync<L, R> Plus<NUM, L, R>(this LanguageExt.EitherAsync<L, R> x, LanguageExt.EitherAsync<L, R> y)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<R>`
+- `[ext] public static LanguageExt.EitherAsync<L, R> Product<NUM, L, R>(this LanguageExt.EitherAsync<L, R> x, LanguageExt.EitherAsync<L, R> y)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<R>`
+- `[ext] public static System.Threading.Tasks.Task<System.Collections.Generic.IEnumerable<R>> Rights<L, R>(this System.Collections.Generic.IEnumerable<LanguageExt.EitherAsync<L, R>> self)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Seq<R>> Rights<L, R>(this LanguageExt.Seq<LanguageExt.EitherAsync<L, R>> self)`
+- `[ext] public static LanguageExt.EitherAsync<L, R> Subtract<NUM, L, R>(this LanguageExt.EitherAsync<L, R> x, LanguageExt.EitherAsync<L, R> y)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<R>`
+- `[ext] public static System.Threading.Tasks.Task<R> Sum<NUM, L, R>(this LanguageExt.EitherAsync<L, R> self)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<R>`
+- `[ext] public static System.Threading.Tasks.Task<System.Int32> Sum<L>(this LanguageExt.EitherAsync<L, System.Int32> self)`
+- `public static LanguageExt.Aff<R> ToAff<R>(LanguageExt.EitherAsync<LanguageExt.Common.Error, R> ma)`
+- `public static LanguageExt.Aff<R> ToAff<R>(LanguageExt.EitherAsync<System.Exception, R> ma)`
+- `public static LanguageExt.Aff<R> ToAff<R>(LanguageExt.EitherAsync<System.String, R> ma)`
+
+### EitherExtensions (class [static])
+
+- `[ext] public static LanguageExt.Either<L, B> Action<L, A, B>(this LanguageExt.Either<L, A> fa, LanguageExt.Either<L, B> fb)`
+- `[ext] public static LanguageExt.Either<L, B> Apply<L, A, B>(this LanguageExt.Either<L, System.Func<A, B>> fab, LanguageExt.Either<L, A> fa)`
+- `[ext] public static LanguageExt.Either<L, B> Apply<L, A, B>(this System.Func<A, B> fab, LanguageExt.Either<L, A> fa)`
+- `[ext] public static LanguageExt.Either<L, System.Func<B, C>> Apply<L, A, B, C>(this LanguageExt.Either<L, System.Func<A, B, C>> fabc, LanguageExt.Either<L, A> fa)`
+- `[ext] public static LanguageExt.Either<L, System.Func<B, C>> Apply<L, A, B, C>(this System.Func<A, B, C> fabc, LanguageExt.Either<L, A> fa)`
+- `[ext] public static LanguageExt.Either<L, System.Func<B, C>> Apply<L, A, B, C>(this LanguageExt.Either<L, System.Func<A, System.Func<B, C>>> fabc, LanguageExt.Either<L, A> fa)`
+- `[ext] public static LanguageExt.Either<L, System.Func<B, C>> Apply<L, A, B, C>(this System.Func<A, System.Func<B, C>> fabc, LanguageExt.Either<L, A> fa)`
+- `[ext] public static LanguageExt.Either<L, C> Apply<L, A, B, C>(this LanguageExt.Either<L, System.Func<A, B, C>> fabc, LanguageExt.Either<L, A> fa, LanguageExt.Either<L, B> fb)`
+- `[ext] public static LanguageExt.Either<L, C> Apply<L, A, B, C>(this System.Func<A, B, C> fabc, LanguageExt.Either<L, A> fa, LanguageExt.Either<L, B> fb)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Either<L, R2>> BindAsync<L, R, R2>(this LanguageExt.Either<L, R> self, System.Func<R, System.Threading.Tasks.Task<LanguageExt.Either<L, R2>>> bind)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Either<L, R2>> BindAsync<L, R, R2>(this System.Threading.Tasks.Task<LanguageExt.Either<L, R>> self, System.Func<R, System.Threading.Tasks.Task<LanguageExt.Either<L, R2>>> bind)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Either<L, R2>> BindAsync<L, R, R2>(this System.Threading.Tasks.Task<LanguageExt.Either<L, R>> self, System.Func<R, LanguageExt.Either<L, R2>> bind)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Either<L, R2>> BindAsync<L, R, R2>(this LanguageExt.Either<L, System.Threading.Tasks.Task<R>> self, System.Func<R, LanguageExt.Either<L, R2>> bind)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Either<L, R2>> BindAsync<L, R, R2>(this LanguageExt.Either<L, System.Threading.Tasks.Task<R>> self, System.Func<R, System.Threading.Tasks.Task<LanguageExt.Either<L, R2>>> bind)`
+- `[ext] public static System.Threading.Tasks.Task<System.Int32> CountAsync<L, R>(this System.Threading.Tasks.Task<LanguageExt.Either<L, R>> self)`
+- `[ext] public static LanguageExt.Either<L, R> Divide<NUM, L, R>(this LanguageExt.Either<L, R> x, LanguageExt.Either<L, R> y)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<R>`
+- `[ext] public static System.Threading.Tasks.Task<System.Boolean> ExistsAsync<L, R>(this System.Threading.Tasks.Task<LanguageExt.Either<L, R>> self, System.Func<R, System.Boolean> pred)`
+- `[ext] public static System.Threading.Tasks.Task<System.Boolean> ExistsAsync<L, R>(this LanguageExt.Either<L, System.Threading.Tasks.Task<R>> self, System.Func<R, System.Boolean> pred)`
+- `[ext] public static LanguageExt.Either<L, R> Flatten<L, R>(this LanguageExt.Either<L, LanguageExt.Either<L, R>> ma)`
+- `[ext] public static System.Threading.Tasks.Task<S> FoldAsync<L, R, S>(this System.Threading.Tasks.Task<LanguageExt.Either<L, R>> self, S state, System.Func<S, R, S> folder)`
+- `[ext] public static System.Threading.Tasks.Task<S> FoldAsync<L, R, S>(this LanguageExt.Either<L, System.Threading.Tasks.Task<R>> self, S state, System.Func<S, R, S> folder)`
+- `[ext] public static System.Threading.Tasks.Task<System.Boolean> ForAllAsync<L, R>(this System.Threading.Tasks.Task<LanguageExt.Either<L, R>> self, System.Func<R, System.Boolean> pred)`
+- `[ext] public static System.Threading.Tasks.Task<System.Boolean> ForAllAsync<L, R>(this LanguageExt.Either<L, System.Threading.Tasks.Task<R>> self, System.Func<R, System.Boolean> pred)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Unit> IterAsync<L, R>(this System.Threading.Tasks.Task<LanguageExt.Either<L, R>> self, System.Action<R> action)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Unit> IterAsync<L, R>(this LanguageExt.Either<L, System.Threading.Tasks.Task<R>> self, System.Action<R> action)`
+- `[ext] public static System.Collections.Generic.IEnumerable<L> Lefts<L, R>(this System.Collections.Generic.IEnumerable<LanguageExt.Either<L, R>> self)`
+- `[ext] public static LanguageExt.Seq<L> Lefts<L, R>(this LanguageExt.Seq<LanguageExt.Either<L, R>> self)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Either<L, R2>> MapAsync<L, R, R2>(this LanguageExt.Either<L, R> self, System.Func<R, System.Threading.Tasks.Task<R2>> map)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Either<L, R2>> MapAsync<L, R, R2>(this System.Threading.Tasks.Task<LanguageExt.Either<L, R>> self, System.Func<R, System.Threading.Tasks.Task<R2>> map)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Either<L, R2>> MapAsync<L, R, R2>(this System.Threading.Tasks.Task<LanguageExt.Either<L, R>> self, System.Func<R, R2> map)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Either<L, R2>> MapAsync<L, R, R2>(this LanguageExt.Either<L, System.Threading.Tasks.Task<R>> self, System.Func<R, R2> map)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Either<L, R2>> MapAsync<L, R, R2>(this LanguageExt.Either<L, System.Threading.Tasks.Task<R>> self, System.Func<R, System.Threading.Tasks.Task<R2>> map)`
+- `[ext] public static System.Threading.Tasks.Task<R2> MatchAsync<L, R, R2>(this LanguageExt.Either<L, System.Threading.Tasks.Task<R>> self, System.Func<R, R2> Right, System.Func<L, R2> Left)`
+- `[ext] public static LanguageExt.Either<L, System.Func<T2, R>> ParMap<L, T1, T2, R>(this LanguageExt.Either<L, T1> self, System.Func<T1, T2, R> func)`
+- `[ext] public static LanguageExt.Either<L, System.Func<T2, System.Func<T3, R>>> ParMap<L, T1, T2, T3, R>(this LanguageExt.Either<L, T1> self, System.Func<T1, T2, T3, R> func)`
+- `[ext] public static System.ValueTuple<System.Collections.Generic.IEnumerable<L>, System.Collections.Generic.IEnumerable<R>> Partition<L, R>(this System.Collections.Generic.IEnumerable<LanguageExt.Either<L, R>> self)`
+- `[ext] public static System.ValueTuple<LanguageExt.Seq<L>, LanguageExt.Seq<R>> Partition<L, R>(this LanguageExt.Seq<LanguageExt.Either<L, R>> self)`
+- `[ext] public static LanguageExt.Either<L, R> Plus<NUM, L, R>(this LanguageExt.Either<L, R> x, LanguageExt.Either<L, R> y)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<R>`
+- `[ext] public static LanguageExt.Either<L, R> Product<NUM, L, R>(this LanguageExt.Either<L, R> x, LanguageExt.Either<L, R> y)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<R>`
+- `[ext] public static System.Collections.Generic.IEnumerable<R> Rights<L, R>(this System.Collections.Generic.IEnumerable<LanguageExt.Either<L, R>> self)`
+- `[ext] public static LanguageExt.Seq<R> Rights<L, R>(this LanguageExt.Seq<LanguageExt.Either<L, R>> self)`
+- `[ext] public static LanguageExt.Either<L, R> Subtract<NUM, L, R>(this LanguageExt.Either<L, R> x, LanguageExt.Either<L, R> y)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<R>`
+- `[ext] public static R Sum<NUM, L, R>(this LanguageExt.Either<L, R> self)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<R>`
+- `[ext] public static System.Int32 Sum<L>(this LanguageExt.Either<L, System.Int32> self)`
+- `[ext] public static System.Threading.Tasks.Task<System.Int32> SumAsync<L>(this System.Threading.Tasks.Task<LanguageExt.Either<L, System.Int32>> self)`
+- `[ext] public static System.Threading.Tasks.Task<System.Int32> SumAsync<L>(this LanguageExt.Either<L, System.Threading.Tasks.Task<System.Int32>> self)`
+- `[ext] public static LanguageExt.Aff<R> ToAff<R>(this LanguageExt.Either<LanguageExt.Common.Error, R> ma)`
+- `[ext] public static LanguageExt.Aff<R> ToAff<R>(this LanguageExt.Either<System.Exception, R> ma)`
+- `[ext] public static LanguageExt.Aff<R> ToAff<R>(this LanguageExt.Either<System.String, R> ma)`
+- `[ext] public static LanguageExt.Eff<R> ToEff<R>(this LanguageExt.Either<LanguageExt.Common.Error, R> ma)`
+- `[ext] public static LanguageExt.Eff<R> ToEff<R>(this LanguageExt.Either<System.Exception, R> ma)`
+- `[ext] public static LanguageExt.Eff<R> ToEff<R>(this LanguageExt.Either<System.String, R> ma)`
+
+### EitherRightLeftExt (class [static])
+
+- `[ext] public static LanguageExt.EitherRight<B> Apply<A, B>(this LanguageExt.EitherRight<System.Func<A, B>> mf, LanguageExt.EitherRight<A> ma)`
+- `[ext] public static LanguageExt.EitherRight<System.Func<B, C>> Apply<A, B, C>(this LanguageExt.EitherRight<System.Func<A, B, C>> mf, LanguageExt.EitherRight<A> ma)`
+- `[ext] public static LanguageExt.Either<L, B> Apply<L, A, B>(this LanguageExt.EitherRight<System.Func<A, B>> mf, LanguageExt.Either<L, A> ma)`
+- `[ext] public static LanguageExt.Either<L, System.Func<B, C>> Apply<L, A, B, C>(this LanguageExt.EitherRight<System.Func<A, B, C>> mf, LanguageExt.Either<L, A> ma)`
+- `[ext] public static LanguageExt.EitherRight<C> Apply<A, B, C>(this LanguageExt.EitherRight<System.Func<A, B, C>> mf, LanguageExt.EitherRight<A> ma, LanguageExt.EitherRight<B> mb)`
+- `[ext] public static LanguageExt.Either<L, C> Apply<L, A, B, C>(this LanguageExt.EitherRight<System.Func<A, B, C>> mf, LanguageExt.Either<L, A> ma, LanguageExt.Either<L, B> mb)`
+- `[ext] public static LanguageExt.Either<L, C> SelectMany<L, R, B, C>(this LanguageExt.Either<L, R> ma, System.Func<R, LanguageExt.EitherRight<B>> bind, System.Func<R, B, C> project)`
+- `[ext] public static LanguageExt.Either<L, C> SelectMany<L, R, C>(this LanguageExt.Either<L, R> ma, System.Func<R, LanguageExt.EitherRight<L>> bind, System.Func<R, LanguageExt.Unit, C> project)`
+
+### EitherUnsafeExtensions (class [static])
+
+- `[ext] public static LanguageExt.EitherUnsafe<L, B> Action<L, A, B>(this LanguageExt.EitherUnsafe<L, A> fa, LanguageExt.EitherUnsafe<L, B> fb)`
+- `[ext] public static LanguageExt.EitherUnsafe<L, B> Apply<L, A, B>(this LanguageExt.EitherUnsafe<L, System.Func<A, B>> fab, LanguageExt.EitherUnsafe<L, A> fa)`
+- `[ext] public static LanguageExt.EitherUnsafe<L, B> Apply<L, A, B>(this System.Func<A, B> fab, LanguageExt.EitherUnsafe<L, A> fa)`
+- `[ext] public static LanguageExt.EitherUnsafe<L, System.Func<B, C>> Apply<L, A, B, C>(this LanguageExt.EitherUnsafe<L, System.Func<A, B, C>> fabc, LanguageExt.EitherUnsafe<L, A> fa)`
+- `[ext] public static LanguageExt.EitherUnsafe<L, System.Func<B, C>> Apply<L, A, B, C>(this System.Func<A, B, C> fabc, LanguageExt.EitherUnsafe<L, A> fa)`
+- `[ext] public static LanguageExt.EitherUnsafe<L, System.Func<B, C>> Apply<L, A, B, C>(this LanguageExt.EitherUnsafe<L, System.Func<A, System.Func<B, C>>> fabc, LanguageExt.EitherUnsafe<L, A> fa)`
+- `[ext] public static LanguageExt.EitherUnsafe<L, C> Apply<L, A, B, C>(this LanguageExt.EitherUnsafe<L, System.Func<A, B, C>> fabc, LanguageExt.EitherUnsafe<L, A> fa, LanguageExt.EitherUnsafe<L, B> fb)`
+- `[ext] public static LanguageExt.EitherUnsafe<L, C> Apply<L, A, B, C>(this System.Func<A, B, C> fabc, LanguageExt.EitherUnsafe<L, A> fa, LanguageExt.EitherUnsafe<L, B> fb)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.EitherUnsafe<L, R2>> BindAsync<L, R, R2>(this LanguageExt.EitherUnsafe<L, R> self, System.Func<R, System.Threading.Tasks.Task<LanguageExt.EitherUnsafe<L, R2>>> bind)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.EitherUnsafe<L, R2>> BindAsync<L, R, R2>(this System.Threading.Tasks.Task<LanguageExt.EitherUnsafe<L, R>> self, System.Func<R, System.Threading.Tasks.Task<LanguageExt.EitherUnsafe<L, R2>>> bind)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.EitherUnsafe<L, R2>> BindAsync<L, R, R2>(this System.Threading.Tasks.Task<LanguageExt.EitherUnsafe<L, R>> self, System.Func<R, LanguageExt.EitherUnsafe<L, R2>> bind)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.EitherUnsafe<L, R2>> BindAsync<L, R, R2>(this LanguageExt.EitherUnsafe<L, System.Threading.Tasks.Task<R>> self, System.Func<R, LanguageExt.EitherUnsafe<L, R2>> bind)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.EitherUnsafe<L, R2>> BindAsync<L, R, R2>(this LanguageExt.EitherUnsafe<L, System.Threading.Tasks.Task<R>> self, System.Func<R, System.Threading.Tasks.Task<LanguageExt.EitherUnsafe<L, R2>>> bind)`
+- `[ext] public static System.Threading.Tasks.Task<System.Int32> CountAsync<L, R>(this System.Threading.Tasks.Task<LanguageExt.EitherUnsafe<L, R>> self)`
+- `[ext] public static LanguageExt.EitherUnsafe<L, R> Divide<NUM, L, R>(this LanguageExt.EitherUnsafe<L, R> x, LanguageExt.EitherUnsafe<L, R> y)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<R>`
+- `[ext] public static System.Threading.Tasks.Task<System.Boolean> ExistsAsync<L, R>(this System.Threading.Tasks.Task<LanguageExt.EitherUnsafe<L, R>> self, System.Func<R, System.Boolean> pred)`
+- `[ext] public static System.Threading.Tasks.Task<System.Boolean> ExistsAsync<L, R>(this LanguageExt.EitherUnsafe<L, System.Threading.Tasks.Task<R>> self, System.Func<R, System.Boolean> pred)`
+- `[ext] public static LanguageExt.EitherUnsafe<L, R> Flatten<L, R>(this LanguageExt.EitherUnsafe<L, LanguageExt.EitherUnsafe<L, R>> ma)`
+- `[ext] public static System.Threading.Tasks.Task<S> FoldAsync<L, R, S>(this System.Threading.Tasks.Task<LanguageExt.EitherUnsafe<L, R>> self, S state, System.Func<S, R, S> folder)`
+- `[ext] public static System.Threading.Tasks.Task<S> FoldAsync<L, R, S>(this LanguageExt.EitherUnsafe<L, System.Threading.Tasks.Task<R>> self, S state, System.Func<S, R, S> folder)`
+- `[ext] public static System.Threading.Tasks.Task<System.Boolean> ForAllAsync<L, R>(this System.Threading.Tasks.Task<LanguageExt.EitherUnsafe<L, R>> self, System.Func<R, System.Boolean> pred)`
+- `[ext] public static System.Threading.Tasks.Task<System.Boolean> ForAllAsync<L, R>(this LanguageExt.EitherUnsafe<L, System.Threading.Tasks.Task<R>> self, System.Func<R, System.Boolean> pred)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Unit> IterAsync<L, R>(this System.Threading.Tasks.Task<LanguageExt.EitherUnsafe<L, R>> self, System.Action<R> action)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Unit> IterAsync<L, R>(this LanguageExt.EitherUnsafe<L, System.Threading.Tasks.Task<R>> self, System.Action<R> action)`
+- `[ext] public static System.Collections.Generic.IEnumerable<L> Lefts<L, R>(this System.Collections.Generic.IEnumerable<LanguageExt.EitherUnsafe<L, R>> self)`
+- `[ext] public static LanguageExt.Seq<L> Lefts<L, R>(this LanguageExt.Seq<LanguageExt.EitherUnsafe<L, R>> self)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.EitherUnsafe<L, R2>> MapAsync<L, R, R2>(this LanguageExt.EitherUnsafe<L, R> self, System.Func<R, System.Threading.Tasks.Task<R2>> map)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.EitherUnsafe<L, R2>> MapAsync<L, R, R2>(this System.Threading.Tasks.Task<LanguageExt.EitherUnsafe<L, R>> self, System.Func<R, System.Threading.Tasks.Task<R2>> map)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.EitherUnsafe<L, R2>> MapAsync<L, R, R2>(this System.Threading.Tasks.Task<LanguageExt.EitherUnsafe<L, R>> self, System.Func<R, R2> map)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.EitherUnsafe<L, R2>> MapAsync<L, R, R2>(this LanguageExt.EitherUnsafe<L, System.Threading.Tasks.Task<R>> self, System.Func<R, R2> map)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.EitherUnsafe<L, R2>> MapAsync<L, R, R2>(this LanguageExt.EitherUnsafe<L, System.Threading.Tasks.Task<R>> self, System.Func<R, System.Threading.Tasks.Task<R2>> map)`
+- `[ext] public static System.Threading.Tasks.Task<R2> MatchAsync<L, R, R2>(this LanguageExt.EitherUnsafe<L, System.Threading.Tasks.Task<R>> self, System.Func<R, R2> Right, System.Func<L, R2> Left)`
+- `[ext] public static LanguageExt.EitherUnsafe<L, System.Func<T2, R>> ParMap<L, T1, T2, R>(this LanguageExt.EitherUnsafe<L, T1> self, System.Func<T1, T2, R> func)`
+- `[ext] public static LanguageExt.EitherUnsafe<L, System.Func<T2, System.Func<T3, R>>> ParMap<L, T1, T2, T3, R>(this LanguageExt.EitherUnsafe<L, T1> self, System.Func<T1, T2, T3, R> func)`
+- `[ext] public static System.ValueTuple<System.Collections.Generic.IEnumerable<L>, System.Collections.Generic.IEnumerable<R>> Partition<L, R>(this System.Collections.Generic.IEnumerable<LanguageExt.EitherUnsafe<L, R>> self)`
+- `[ext] public static System.ValueTuple<LanguageExt.Seq<L>, LanguageExt.Seq<R>> Partition<L, R>(this LanguageExt.Seq<LanguageExt.EitherUnsafe<L, R>> self)`
+- `[ext] public static LanguageExt.EitherUnsafe<L, R> Plus<NUM, L, R>(this LanguageExt.EitherUnsafe<L, R> x, LanguageExt.EitherUnsafe<L, R> y)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<R>`
+- `[ext] public static LanguageExt.EitherUnsafe<L, R> Product<NUM, L, R>(this LanguageExt.EitherUnsafe<L, R> x, LanguageExt.EitherUnsafe<L, R> y)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<R>`
+- `[ext] public static System.Collections.Generic.IEnumerable<R> Rights<L, R>(this System.Collections.Generic.IEnumerable<LanguageExt.EitherUnsafe<L, R>> self)`
+- `[ext] public static LanguageExt.Seq<R> Rights<L, R>(this LanguageExt.Seq<LanguageExt.EitherUnsafe<L, R>> self)`
+- `[ext] public static LanguageExt.EitherUnsafe<L, R> Subtract<NUM, L, R>(this LanguageExt.EitherUnsafe<L, R> x, LanguageExt.EitherUnsafe<L, R> y)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<R>`
+- `[ext] public static R Sum<NUM, L, R>(this LanguageExt.EitherUnsafe<L, R> self)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<R>`
+- `[ext] public static System.Int32 Sum<L>(this LanguageExt.EitherUnsafe<L, System.Int32> self)`
+- `[ext] public static System.Threading.Tasks.Task<System.Int32> SumAsync<L>(this System.Threading.Tasks.Task<LanguageExt.EitherUnsafe<L, System.Int32>> self)`
+- `[ext] public static System.Threading.Tasks.Task<System.Int32> SumAsync<L>(this LanguageExt.EitherUnsafe<L, System.Threading.Tasks.Task<System.Int32>> self)`
+- `[ext] public static LanguageExt.Aff<R> ToAff<R>(this LanguageExt.EitherUnsafe<LanguageExt.Common.Error, R> ma)`
+- `[ext] public static LanguageExt.Aff<R> ToAff<R>(this LanguageExt.EitherUnsafe<System.Exception, R> ma)`
+- `[ext] public static LanguageExt.Aff<R> ToAff<R>(this LanguageExt.EitherUnsafe<System.String, R> ma)`
+- `[ext] public static LanguageExt.Eff<R> ToEff<R>(this LanguageExt.EitherUnsafe<LanguageExt.Common.Error, R> ma)`
+- `[ext] public static LanguageExt.Eff<R> ToEff<R>(this LanguageExt.EitherUnsafe<System.Exception, R> ma)`
+- `[ext] public static LanguageExt.Eff<R> ToEff<R>(this LanguageExt.EitherUnsafe<System.String, R> ma)`
+
+### FinExtensions (class [static])
+
+- `[ext] public static LanguageExt.Fin<B> Action<A, B>(this LanguageExt.Fin<A> fa, LanguageExt.Fin<B> fb)`
+- `[ext] public static LanguageExt.Fin<B> Apply<A, B>(this LanguageExt.Fin<System.Func<A, B>> fab, LanguageExt.Fin<A> fa)`
+- `[ext] public static LanguageExt.Fin<B> Apply<A, B>(this System.Func<A, B> fab, LanguageExt.Fin<A> fa)`
+- `[ext] public static LanguageExt.Fin<System.Func<B, C>> Apply<A, B, C>(this LanguageExt.Fin<System.Func<A, B, C>> fabc, LanguageExt.Fin<A> fa)`
+- `[ext] public static LanguageExt.Fin<System.Func<B, C>> Apply<A, B, C>(this System.Func<A, B, C> fabc, LanguageExt.Fin<A> fa)`
+- `[ext] public static LanguageExt.Fin<System.Func<B, C>> Apply<A, B, C>(this LanguageExt.Fin<System.Func<A, System.Func<B, C>>> fabc, LanguageExt.Fin<A> fa)`
+- `[ext] public static LanguageExt.Fin<System.Func<B, C>> Apply<A, B, C>(this System.Func<A, System.Func<B, C>> fabc, LanguageExt.Fin<A> fa)`
+- `[ext] public static LanguageExt.Fin<C> Apply<A, B, C>(this LanguageExt.Fin<System.Func<A, B, C>> fabc, LanguageExt.Fin<A> fa, LanguageExt.Fin<B> fb)`
+- `[ext] public static LanguageExt.Fin<C> Apply<A, B, C>(this System.Func<A, B, C> fabc, LanguageExt.Fin<A> fa, LanguageExt.Fin<B> fb)`
+- `[ext] public static LanguageExt.Fin<R> Divide<NUM, R>(this LanguageExt.Fin<R> x, LanguageExt.Fin<R> y)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<R>`
+- `[ext] public static System.Collections.Generic.IEnumerable<LanguageExt.Common.Error> Fails<A>(this System.Collections.Generic.IEnumerable<LanguageExt.Fin<A>> xs)`
+- `[ext] public static LanguageExt.Seq<LanguageExt.Common.Error> Fails<A>(this LanguageExt.Seq<LanguageExt.Fin<A>> xs)`
+- `[ext] public static LanguageExt.Fin<R> Flatten<R>(this LanguageExt.Fin<LanguageExt.Fin<R>> ma)`
+- `[ext] public static System.ValueTuple<System.Collections.Generic.IEnumerable<LanguageExt.Common.Error>, System.Collections.Generic.IEnumerable<A>> Partition<A>(this System.Collections.Generic.IEnumerable<LanguageExt.Fin<A>> xs)`
+- `[ext] public static System.ValueTuple<LanguageExt.Seq<LanguageExt.Common.Error>, LanguageExt.Seq<A>> Partition<A>(this LanguageExt.Seq<LanguageExt.Fin<A>> xs)`
+- `[ext] public static LanguageExt.Fin<R> Plus<NUM, R>(this LanguageExt.Fin<R> x, LanguageExt.Fin<R> y)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<R>`
+- `[ext] public static LanguageExt.Fin<R> Product<NUM, R>(this LanguageExt.Fin<R> x, LanguageExt.Fin<R> y)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<R>`
+- `[ext] public static LanguageExt.Fin<R> Subtract<NUM, R>(this LanguageExt.Fin<R> x, LanguageExt.Fin<R> y)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<R>`
+- `[ext] public static System.Collections.Generic.IEnumerable<A> Succs<A>(this System.Collections.Generic.IEnumerable<LanguageExt.Fin<A>> xs)`
+- `[ext] public static LanguageExt.Seq<A> Succs<A>(this LanguageExt.Seq<LanguageExt.Fin<A>> xs)`
+
+### HashMapEqExtensions (class [static])
+
+- `[ext] public static System.Int32 Count<EqK, K, V>(this LanguageExt.HashMap<EqK, K, V> self)`
+- `where EqK : struct, LanguageExt.TypeClasses.Eq<K>`
+- `[ext] public static System.Int32 Sum<EqK, K>(this LanguageExt.HashMap<EqK, K, System.Int32> self)`
+- `where EqK : struct, LanguageExt.TypeClasses.Eq<K>`
+
+### HashMapExtensions (class [static])
+
+- `[ext] public static LanguageExt.HashMap<A, LanguageExt.HashMap<B, T>> AddOrUpdate<A, B, T>(this LanguageExt.HashMap<A, LanguageExt.HashMap<B, T>> self, A outerKey, B innerKey, T value)`
+- `[ext] public static LanguageExt.HashMap<A, LanguageExt.HashMap<B, T>> AddOrUpdate<A, B, T>(this LanguageExt.HashMap<A, LanguageExt.HashMap<B, T>> self, A outerKey, B innerKey, System.Func<T, T> Some, System.Func<T> None)`
+- `[ext] public static LanguageExt.HashMap<A, LanguageExt.HashMap<B, LanguageExt.HashMap<C, T>>> AddOrUpdate<A, B, C, T>(this LanguageExt.HashMap<A, LanguageExt.HashMap<B, LanguageExt.HashMap<C, T>>> self, A aKey, B bKey, C cKey, T value)`
+- `[ext] public static LanguageExt.HashMap<A, LanguageExt.HashMap<B, LanguageExt.HashMap<C, T>>> AddOrUpdate<A, B, C, T>(this LanguageExt.HashMap<A, LanguageExt.HashMap<B, LanguageExt.HashMap<C, T>>> self, A aKey, B bKey, C cKey, System.Func<T, T> Some, System.Func<T> None)`
+- `[ext] public static LanguageExt.HashMap<A, LanguageExt.HashMap<B, LanguageExt.HashMap<C, LanguageExt.HashMap<D, T>>>> AddOrUpdate<A, B, C, D, T>(this LanguageExt.HashMap<A, LanguageExt.HashMap<B, LanguageExt.HashMap<C, LanguageExt.HashMap<D, T>>>> self, A aKey, B bKey, C cKey, D dKey, T value)`
+- `[ext] public static LanguageExt.HashMap<A, LanguageExt.HashMap<B, LanguageExt.HashMap<C, LanguageExt.HashMap<D, T>>>> AddOrUpdate<A, B, C, D, T>(this LanguageExt.HashMap<A, LanguageExt.HashMap<B, LanguageExt.HashMap<C, LanguageExt.HashMap<D, T>>>> self, A aKey, B bKey, C cKey, D dKey, System.Func<T, T> Some, System.Func<T> None)`
+- `[ext] public static System.Int32 Count<K, V>(this LanguageExt.HashMap<K, V> self)`
+- `[ext] public static System.Boolean Exists<A, B, T>(this LanguageExt.HashMap<A, LanguageExt.HashMap<B, T>> self, System.Func<T, System.Boolean> pred)`
+- `[ext] public static System.Boolean Exists<A, B, C, T>(this LanguageExt.HashMap<A, LanguageExt.HashMap<B, LanguageExt.HashMap<C, T>>> self, System.Func<T, System.Boolean> pred)`
+- `[ext] public static System.Boolean Exists<A, B, C, D, T>(this LanguageExt.HashMap<A, LanguageExt.HashMap<B, LanguageExt.HashMap<C, LanguageExt.HashMap<D, T>>>> self, System.Func<T, System.Boolean> pred)`
+- `[ext] public static LanguageExt.HashMap<A, LanguageExt.HashMap<B, T>> FilterRemoveT<A, B, T>(this LanguageExt.HashMap<A, LanguageExt.HashMap<B, T>> self, System.Func<T, System.Boolean> pred)`
+- `[ext] public static LanguageExt.HashMap<A, LanguageExt.HashMap<B, LanguageExt.HashMap<C, T>>> FilterRemoveT<A, B, C, T>(this LanguageExt.HashMap<A, LanguageExt.HashMap<B, LanguageExt.HashMap<C, T>>> self, System.Func<T, System.Boolean> pred)`
+- `[ext] public static LanguageExt.HashMap<A, LanguageExt.HashMap<B, LanguageExt.HashMap<C, LanguageExt.HashMap<D, T>>>> FilterRemoveT<A, B, C, D, T>(this LanguageExt.HashMap<A, LanguageExt.HashMap<B, LanguageExt.HashMap<C, LanguageExt.HashMap<D, T>>>> self, System.Func<T, System.Boolean> pred)`
+- `[ext] public static LanguageExt.HashMap<A, LanguageExt.HashMap<B, T>> FilterT<A, B, T>(this LanguageExt.HashMap<A, LanguageExt.HashMap<B, T>> self, System.Func<T, System.Boolean> pred)`
+- `[ext] public static LanguageExt.HashMap<A, LanguageExt.HashMap<B, LanguageExt.HashMap<C, T>>> FilterT<A, B, C, T>(this LanguageExt.HashMap<A, LanguageExt.HashMap<B, LanguageExt.HashMap<C, T>>> self, System.Func<T, System.Boolean> pred)`
+- `[ext] public static LanguageExt.HashMap<A, LanguageExt.HashMap<B, LanguageExt.HashMap<C, LanguageExt.HashMap<D, T>>>> FilterT<A, B, C, D, T>(this LanguageExt.HashMap<A, LanguageExt.HashMap<B, LanguageExt.HashMap<C, LanguageExt.HashMap<D, T>>>> self, System.Func<T, System.Boolean> pred)`
+- `[ext] public static LanguageExt.Option<T> Find<A, B, T>(this LanguageExt.HashMap<A, LanguageExt.HashMap<B, T>> self, A outerKey, B innerKey)`
+- `[ext] public static LanguageExt.Option<T> Find<A, B, C, T>(this LanguageExt.HashMap<A, LanguageExt.HashMap<B, LanguageExt.HashMap<C, T>>> self, A aKey, B bKey, C cKey)`
+- `[ext] public static R Find<A, B, T, R>(this LanguageExt.HashMap<A, LanguageExt.HashMap<B, T>> self, A outerKey, B innerKey, System.Func<T, R> Some, System.Func<R> None)`
+- `[ext] public static R Find<A, B, C, T, R>(this LanguageExt.HashMap<A, LanguageExt.HashMap<B, LanguageExt.HashMap<C, T>>> self, A aKey, B bKey, C cKey, System.Func<T, R> Some, System.Func<R> None)`
+- `[ext] public static R Find<A, B, C, D, T, R>(this LanguageExt.HashMap<A, LanguageExt.HashMap<B, LanguageExt.HashMap<C, LanguageExt.HashMap<D, T>>>> self, A aKey, B bKey, C cKey, D dKey, System.Func<T, R> Some, System.Func<R> None)`
+- `[ext] public static S FoldT<A, B, S, V>(this LanguageExt.HashMap<A, LanguageExt.HashMap<B, V>> map, S state, System.Func<S, V, S> folder)`
+- `[ext] public static S FoldT<A, B, C, S, V>(this LanguageExt.HashMap<A, LanguageExt.HashMap<B, LanguageExt.HashMap<C, V>>> map, S state, System.Func<S, V, S> folder)`
+- `[ext] public static S FoldT<A, B, C, D, S, V>(this LanguageExt.HashMap<A, LanguageExt.HashMap<B, LanguageExt.HashMap<C, LanguageExt.HashMap<D, V>>>> map, S state, System.Func<S, V, S> folder)`
+- `[ext] public static System.Boolean ForAll<A, B, T>(this LanguageExt.HashMap<A, LanguageExt.HashMap<B, T>> self, System.Func<T, System.Boolean> pred)`
+- `[ext] public static System.Boolean ForAll<A, B, C, T>(this LanguageExt.HashMap<A, LanguageExt.HashMap<B, LanguageExt.HashMap<C, T>>> self, System.Func<T, System.Boolean> pred)`
+- `[ext] public static System.Boolean ForAll<A, B, C, D, T>(this LanguageExt.HashMap<A, LanguageExt.HashMap<B, LanguageExt.HashMap<C, LanguageExt.HashMap<D, T>>>> self, System.Func<T, System.Boolean> pred)`
+- `[ext] public static LanguageExt.HashMap<A, LanguageExt.HashMap<B, V>> MapRemoveT<A, B, T, V>(this LanguageExt.HashMap<A, LanguageExt.HashMap<B, T>> self, System.Func<LanguageExt.HashMap<B, T>, LanguageExt.HashMap<B, V>> map)`
+- `[ext] public static LanguageExt.HashMap<A, LanguageExt.HashMap<B, LanguageExt.HashMap<C, V>>> MapRemoveT<A, B, C, T, V>(this LanguageExt.HashMap<A, LanguageExt.HashMap<B, LanguageExt.HashMap<C, T>>> self, System.Func<LanguageExt.HashMap<C, T>, LanguageExt.HashMap<C, V>> map)`
+- `[ext] public static LanguageExt.HashMap<A, LanguageExt.HashMap<B, LanguageExt.HashMap<C, LanguageExt.HashMap<D, V>>>> MapRemoveT<A, B, C, D, T, V>(this LanguageExt.HashMap<A, LanguageExt.HashMap<B, LanguageExt.HashMap<C, LanguageExt.HashMap<D, T>>>> self, System.Func<LanguageExt.HashMap<D, T>, LanguageExt.HashMap<D, V>> map)`
+- `[ext] public static LanguageExt.HashMap<A, LanguageExt.HashMap<B, V>> MapT<A, B, T, V>(this LanguageExt.HashMap<A, LanguageExt.HashMap<B, T>> self, System.Func<T, V> map)`
+- `[ext] public static LanguageExt.HashMap<A, LanguageExt.HashMap<B, LanguageExt.HashMap<C, V>>> MapT<A, B, C, T, V>(this LanguageExt.HashMap<A, LanguageExt.HashMap<B, LanguageExt.HashMap<C, T>>> self, System.Func<T, V> map)`
+- `[ext] public static LanguageExt.HashMap<A, LanguageExt.HashMap<B, LanguageExt.HashMap<C, LanguageExt.HashMap<D, V>>>> MapT<A, B, C, D, T, V>(this LanguageExt.HashMap<A, LanguageExt.HashMap<B, LanguageExt.HashMap<C, LanguageExt.HashMap<D, T>>>> self, System.Func<T, V> map)`
+- `[ext] public static LanguageExt.HashMap<A, LanguageExt.HashMap<B, T>> Remove<A, B, T>(this LanguageExt.HashMap<A, LanguageExt.HashMap<B, T>> self, A outerKey, B innerKey)`
+- `[ext] public static LanguageExt.HashMap<A, LanguageExt.HashMap<B, LanguageExt.HashMap<C, T>>> Remove<A, B, C, T>(this LanguageExt.HashMap<A, LanguageExt.HashMap<B, LanguageExt.HashMap<C, T>>> self, A aKey, B bKey, C cKey)`
+- `[ext] public static LanguageExt.HashMap<A, LanguageExt.HashMap<B, V>> SetItemT<A, B, V>(this LanguageExt.HashMap<A, LanguageExt.HashMap<B, V>> map, A aKey, B bKey, V value)`
+- `[ext] public static LanguageExt.HashMap<A, LanguageExt.HashMap<B, V>> SetItemT<A, B, V>(this LanguageExt.HashMap<A, LanguageExt.HashMap<B, V>> map, A aKey, B bKey, System.Func<V, V> Some)`
+- `[ext] public static LanguageExt.HashMap<A, LanguageExt.HashMap<B, LanguageExt.HashMap<C, V>>> SetItemT<A, B, C, V>(this LanguageExt.HashMap<A, LanguageExt.HashMap<B, LanguageExt.HashMap<C, V>>> map, A aKey, B bKey, C cKey, V value)`
+- `[ext] public static LanguageExt.HashMap<A, LanguageExt.HashMap<B, LanguageExt.HashMap<C, V>>> SetItemT<A, B, C, V>(this LanguageExt.HashMap<A, LanguageExt.HashMap<B, LanguageExt.HashMap<C, V>>> map, A aKey, B bKey, C cKey, System.Func<V, V> Some)`
+- `[ext] public static LanguageExt.HashMap<A, LanguageExt.HashMap<B, LanguageExt.HashMap<C, LanguageExt.HashMap<D, V>>>> SetItemT<A, B, C, D, V>(this LanguageExt.HashMap<A, LanguageExt.HashMap<B, LanguageExt.HashMap<C, LanguageExt.HashMap<D, V>>>> map, A aKey, B bKey, C cKey, D dKey, V value)`
+- `[ext] public static LanguageExt.HashMap<A, LanguageExt.HashMap<B, LanguageExt.HashMap<C, LanguageExt.HashMap<D, V>>>> SetItemT<A, B, C, D, V>(this LanguageExt.HashMap<A, LanguageExt.HashMap<B, LanguageExt.HashMap<C, LanguageExt.HashMap<D, V>>>> map, A aKey, B bKey, C cKey, D dKey, System.Func<V, V> Some)`
+- `[ext] public static System.Int32 Sum<K>(this LanguageExt.HashMap<K, System.Int32> self)`
+- `[ext] public static LanguageExt.HashMap<K, V> ToHashMap<K, V>(this System.Collections.Generic.IEnumerable<System.ValueTuple<K, V>> items)`
+- `[ext] public static LanguageExt.HashMap<K, V> ToHashMap<K, V>(this System.Collections.Generic.IEnumerable<System.Tuple<K, V>> items)`
+- `[ext] public static LanguageExt.HashMap<K, V> ToHashMap<K, V>(this System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<K, V>> items)`
+- `[ext] public static LanguageExt.HashMap<K1, LanguageExt.HashMap<K2, V>> ToHashMap<K1, K2, V>(this System.Collections.Generic.IEnumerable<System.ValueTuple<K1, K2, V>> items)`
+- `[ext] public static LanguageExt.HashMap<K1, LanguageExt.HashMap<K2, V>> ToHashMap<K1, K2, V>(this System.Collections.Generic.IEnumerable<System.Tuple<K1, K2, V>> items)`
+- `[ext] public static LanguageExt.HashMap<K1, LanguageExt.HashMap<K2, LanguageExt.HashMap<K3, V>>> ToHashMap<K1, K2, K3, V>(this System.Collections.Generic.IEnumerable<System.ValueTuple<K1, K2, K3, V>> items)`
+- `[ext] public static LanguageExt.HashMap<K1, LanguageExt.HashMap<K2, LanguageExt.HashMap<K3, V>>> ToHashMap<K1, K2, K3, V>(this System.Collections.Generic.IEnumerable<System.Tuple<K1, K2, K3, V>> items)`
+- `[ext] public static LanguageExt.HashMap<K1, LanguageExt.HashMap<K2, LanguageExt.HashMap<K3, LanguageExt.HashMap<K4, V>>>> ToHashMap<K1, K2, K3, K4, V>(this System.Collections.Generic.IEnumerable<System.ValueTuple<K1, K2, K3, K4, V>> items)`
+- `[ext] public static LanguageExt.HashMap<K1, LanguageExt.HashMap<K2, LanguageExt.HashMap<K3, LanguageExt.HashMap<K4, V>>>> ToHashMap<K1, K2, K3, K4, V>(this System.Collections.Generic.IEnumerable<System.Tuple<K1, K2, K3, K4, V>> items)`
+- `[ext] public static LanguageExt.HashMap<A, LanguageExt.HashMap<B, V>> TrySetItemT<A, B, V>(this LanguageExt.HashMap<A, LanguageExt.HashMap<B, V>> map, A aKey, B bKey, V value)`
+- `[ext] public static LanguageExt.HashMap<A, LanguageExt.HashMap<B, V>> TrySetItemT<A, B, V>(this LanguageExt.HashMap<A, LanguageExt.HashMap<B, V>> map, A aKey, B bKey, System.Func<V, V> Some)`
+- `[ext] public static LanguageExt.HashMap<A, LanguageExt.HashMap<B, LanguageExt.HashMap<C, V>>> TrySetItemT<A, B, C, V>(this LanguageExt.HashMap<A, LanguageExt.HashMap<B, LanguageExt.HashMap<C, V>>> map, A aKey, B bKey, C cKey, V value)`
+- `[ext] public static LanguageExt.HashMap<A, LanguageExt.HashMap<B, LanguageExt.HashMap<C, V>>> TrySetItemT<A, B, C, V>(this LanguageExt.HashMap<A, LanguageExt.HashMap<B, LanguageExt.HashMap<C, V>>> map, A aKey, B bKey, C cKey, System.Func<V, V> Some)`
+- `[ext] public static LanguageExt.HashMap<A, LanguageExt.HashMap<B, LanguageExt.HashMap<C, LanguageExt.HashMap<D, V>>>> TrySetItemT<A, B, C, D, V>(this LanguageExt.HashMap<A, LanguageExt.HashMap<B, LanguageExt.HashMap<C, LanguageExt.HashMap<D, V>>>> map, A aKey, B bKey, C cKey, D dKey, V value)`
+- `[ext] public static LanguageExt.HashMap<A, LanguageExt.HashMap<B, LanguageExt.HashMap<C, LanguageExt.HashMap<D, V>>>> TrySetItemT<A, B, C, D, V>(this LanguageExt.HashMap<A, LanguageExt.HashMap<B, LanguageExt.HashMap<C, LanguageExt.HashMap<D, V>>>> map, A aKey, B bKey, C cKey, D dKey, System.Func<V, V> Some)`
+
+### IEnumerableEitherTransExt (class [static])
+
+- `[ext] public static System.Boolean BiExistsT<L, R>(this System.Collections.Generic.IEnumerable<LanguageExt.Either<L, R>> self, System.Func<R, System.Boolean> Right, System.Func<L, System.Boolean> Left)`
+- `[ext] public static S BiFoldT<L, R, S>(this System.Collections.Generic.IEnumerable<LanguageExt.Either<L, R>> self, S state, System.Func<S, R, S> Right, System.Func<S, L, S> Left)`
+- `[ext] public static System.Boolean BiForAllT<L, R>(this System.Collections.Generic.IEnumerable<LanguageExt.Either<L, R>> self, System.Func<R, System.Boolean> Right, System.Func<L, System.Boolean> Left)`
+- `[ext] public static System.Collections.Generic.IEnumerable<LanguageExt.Either<LRet, RRet>> BiMapT<L, R, LRet, RRet>(this System.Collections.Generic.IEnumerable<LanguageExt.Either<L, R>> self, System.Func<R, RRet> Right, System.Func<L, LRet> Left)`
+- `[ext] public static System.Collections.Generic.IEnumerable<LanguageExt.Either<Ret, R>> MapLeftT<L, R, Ret>(this System.Collections.Generic.IEnumerable<LanguageExt.Either<L, R>> self, System.Func<L, Ret> mapper)`
+
+### IEnumerableEitherUnsafeTransExt (class [static])
+
+- `[ext] public static System.Boolean BiExistsT<L, R>(this System.Collections.Generic.IEnumerable<LanguageExt.EitherUnsafe<L, R>> self, System.Func<R, System.Boolean> Right, System.Func<L, System.Boolean> Left)`
+- `[ext] public static S BiFoldT<L, R, S>(this System.Collections.Generic.IEnumerable<LanguageExt.EitherUnsafe<L, R>> self, S state, System.Func<S, R, S> Right, System.Func<S, L, S> Left)`
+- `[ext] public static System.Boolean BiForAllT<L, R>(this System.Collections.Generic.IEnumerable<LanguageExt.EitherUnsafe<L, R>> self, System.Func<R, System.Boolean> Right, System.Func<L, System.Boolean> Left)`
+- `[ext] public static System.Collections.Generic.IEnumerable<LanguageExt.EitherUnsafe<LRet, RRet>> BiMapT<L, R, LRet, RRet>(this System.Collections.Generic.IEnumerable<LanguageExt.EitherUnsafe<L, R>> self, System.Func<R, RRet> Right, System.Func<L, LRet> Left)`
+- `[ext] public static System.Collections.Generic.IEnumerable<LanguageExt.EitherUnsafe<Ret, R>> MapLeftT<L, R, Ret>(this System.Collections.Generic.IEnumerable<LanguageExt.EitherUnsafe<L, R>> self, System.Func<L, Ret> mapper)`
+
+### ListExtensions (class [static])
+
+- `[ext] public static System.Collections.Generic.IEnumerable<B> Action<A, B>(this System.Collections.Generic.IEnumerable<A> fa, System.Collections.Generic.IEnumerable<B> fb)`
+- `[ext] public static TSource Aggregate<TSource>(this LanguageExt.Lst<TSource> source, System.Func<TSource, TSource, TSource> func)`
+- `[ext] public static TAccumulate Aggregate<TSource, TAccumulate>(this LanguageExt.Lst<TSource> source, TAccumulate seed, System.Func<TAccumulate, TSource, TAccumulate> func)`
+- `[ext] public static TResult Aggregate<TSource, TAccumulate, TResult>(this LanguageExt.Lst<TSource> source, TAccumulate seed, System.Func<TAccumulate, TSource, TAccumulate> func, System.Func<TAccumulate, TResult> resultSelector)`
+- `[ext] public static System.Boolean All<TSource>(this LanguageExt.Lst<TSource> source, System.Func<TSource, System.Boolean> predicate)`
+- `[ext] public static System.Boolean Any<TSource>(this LanguageExt.Lst<TSource> source)`
+- `[ext] public static System.Boolean Any<TSource>(this LanguageExt.Lst<TSource> source, System.Func<TSource, System.Boolean> predicate)`
+- `[ext] public static System.Collections.Generic.IEnumerable<A> Append<A>(this System.Collections.Generic.IEnumerable<A> lhs, System.Collections.Generic.IEnumerable<A> rhs)`
+- `[ext] public static System.Collections.Generic.IEnumerable<B> Apply<A, B>(this System.Collections.Generic.IEnumerable<System.Func<A, B>> fabc, System.Collections.Generic.IEnumerable<A> fa)`
+- `[ext] public static System.Collections.Generic.IEnumerable<B> Apply<A, B>(this System.Func<A, B> fabc, System.Collections.Generic.IEnumerable<A> fa)`
+- `[ext] public static System.Collections.Generic.IEnumerable<System.Func<B, C>> Apply<A, B, C>(this System.Collections.Generic.IEnumerable<System.Func<A, B, C>> fabc, System.Collections.Generic.IEnumerable<A> fa)`
+- `[ext] public static System.Collections.Generic.IEnumerable<System.Func<B, C>> Apply<A, B, C>(this System.Func<A, B, C> fabc, System.Collections.Generic.IEnumerable<A> fa)`
+- `[ext] public static System.Collections.Generic.IEnumerable<System.Func<B, C>> Apply<A, B, C>(this System.Collections.Generic.IEnumerable<System.Func<A, System.Func<B, C>>> fabc, System.Collections.Generic.IEnumerable<A> fa)`
+- `[ext] public static System.Collections.Generic.IEnumerable<System.Func<B, C>> Apply<A, B, C>(this System.Func<A, System.Func<B, C>> fabc, System.Collections.Generic.IEnumerable<A> fa)`
+- `[ext] public static System.Collections.Generic.IEnumerable<C> Apply<A, B, C>(this System.Collections.Generic.IEnumerable<System.Func<A, B, C>> fabc, System.Collections.Generic.IEnumerable<A> fa, System.Collections.Generic.IEnumerable<B> fb)`
+- `[ext] public static System.Collections.Generic.IEnumerable<C> Apply<A, B, C>(this System.Func<A, B, C> fabc, System.Collections.Generic.IEnumerable<A> fa, System.Collections.Generic.IEnumerable<B> fb)`
+- `[ext] public static System.Collections.Generic.IEnumerable<C> Apply<A, B, C>(this System.Collections.Generic.IEnumerable<System.Func<A, System.Func<B, C>>> fabc, System.Collections.Generic.IEnumerable<A> fa, System.Collections.Generic.IEnumerable<B> fb)`
+- `[ext] public static System.Collections.Generic.IEnumerable<C> Apply<A, B, C>(this System.Func<A, System.Func<B, C>> fabc, System.Collections.Generic.IEnumerable<A> fa, System.Collections.Generic.IEnumerable<B> fb)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> AsEnumerable<TSource>(this LanguageExt.Lst<TSource> source)`
+- `[ext] public static System.Linq.IQueryable<TElement> AsQueryable<TElement>(this LanguageExt.Lst<TElement> source)`
+- `[ext] public static System.Decimal Average(this LanguageExt.Lst<System.Decimal> source)`
+- `[ext] public static System.Decimal? Average(this LanguageExt.Lst<System.Decimal?> source)`
+- `[ext] public static System.Double Average(this LanguageExt.Lst<System.Double> source)`
+- `[ext] public static System.Double Average(this LanguageExt.Lst<System.Int32> source)`
+- `[ext] public static System.Double Average(this LanguageExt.Lst<System.Int64> source)`
+- `[ext] public static System.Double? Average(this LanguageExt.Lst<System.Double?> source)`
+- `[ext] public static System.Double? Average(this LanguageExt.Lst<System.Int32?> source)`
+- `[ext] public static System.Double? Average(this LanguageExt.Lst<System.Int64?> source)`
+- `[ext] public static System.Single Average(this LanguageExt.Lst<System.Single> source)`
+- `[ext] public static System.Single? Average(this LanguageExt.Lst<System.Single?> source)`
+- `[ext] public static System.Decimal Average<TSource>(this LanguageExt.Lst<TSource> source, System.Func<TSource, System.Decimal> selector)`
+- `[ext] public static System.Decimal? Average<TSource>(this LanguageExt.Lst<TSource> source, System.Func<TSource, System.Decimal?> selector)`
+- `[ext] public static System.Double Average<TSource>(this LanguageExt.Lst<TSource> source, System.Func<TSource, System.Double> selector)`
+- `[ext] public static System.Double Average<TSource>(this LanguageExt.Lst<TSource> source, System.Func<TSource, System.Int32> selector)`
+- `[ext] public static System.Double Average<TSource>(this LanguageExt.Lst<TSource> source, System.Func<TSource, System.Int64> selector)`
+- `[ext] public static System.Double? Average<TSource>(this LanguageExt.Lst<TSource> source, System.Func<TSource, System.Double?> selector)`
+- `[ext] public static System.Double? Average<TSource>(this LanguageExt.Lst<TSource> source, System.Func<TSource, System.Int32?> selector)`
+- `[ext] public static System.Double? Average<TSource>(this LanguageExt.Lst<TSource> source, System.Func<TSource, System.Int64?> selector)`
+- `[ext] public static System.Single Average<TSource>(this LanguageExt.Lst<TSource> source, System.Func<TSource, System.Single> selector)`
+- `[ext] public static System.Single? Average<TSource>(this LanguageExt.Lst<TSource> source, System.Func<TSource, System.Single?> selector)`
+- `[ext] public static System.Collections.Generic.IEnumerable<R> Bind<T, R>(this System.Collections.Generic.IEnumerable<T> self, System.Func<T, System.Collections.Generic.IEnumerable<R>> binder)`
+- `[ext] public static LanguageExt.Lst<B> Bind<A, B>(this LanguageExt.Lst<A> self, System.Func<A, LanguageExt.Lst<B>> binder)`
+- `[ext] public static LanguageExt.Lst<PredList, B> Bind<PredList, A, B>(this LanguageExt.Lst<PredList, A> self, System.Func<A, LanguageExt.Lst<PredList, B>> binder)`
+- `where PredList : struct, LanguageExt.TypeClasses.Pred<LanguageExt.ListInfo>`
+- `[ext] public static LanguageExt.Lst<PredList, PredItemB, B> Bind<PredList, PredItemA, PredItemB, A, B>(this LanguageExt.Lst<PredList, PredItemA, A> self, System.Func<A, LanguageExt.Lst<PredList, PredItemB, B>> binder)`
+- `where PredList : struct, LanguageExt.TypeClasses.Pred<LanguageExt.ListInfo>`
+- `where PredItemA : struct, LanguageExt.TypeClasses.Pred<A>`
+- `where PredItemB : struct, LanguageExt.TypeClasses.Pred<B>`
+- `[ext] public static System.Collections.Generic.IEnumerable<B> BindEnumerable<A, B>(this LanguageExt.Lst<A> self, System.Func<A, LanguageExt.Lst<B>> binder)`
+- `[ext] public static System.Collections.Generic.IEnumerable<B> BindEnumerable<PredList, A, B>(this LanguageExt.Lst<PredList, A> self, System.Func<A, LanguageExt.Lst<PredList, B>> binder)`
+- `where PredList : struct, LanguageExt.TypeClasses.Pred<LanguageExt.ListInfo>`
+- `[ext] public static System.Collections.Generic.IEnumerable<B> BindEnumerable<PredList, PredItemA, PredItemB, A, B>(this LanguageExt.Lst<PredList, PredItemA, A> self, System.Func<A, LanguageExt.Lst<PredList, PredItemB, B>> binder)`
+- `where PredList : struct, LanguageExt.TypeClasses.Pred<LanguageExt.ListInfo>`
+- `where PredItemA : struct, LanguageExt.TypeClasses.Pred<A>`
+- `where PredItemB : struct, LanguageExt.TypeClasses.Pred<B>`
+- `[ext] public static System.Collections.Generic.IEnumerable<R> Choose<T, R>(this System.Collections.Generic.IEnumerable<T> list, System.Func<T, LanguageExt.Option<R>> selector)`
+- `[ext] public static System.Collections.Generic.IEnumerable<R> Choose<T, R>(this System.Collections.Generic.IEnumerable<T> list, System.Func<System.Int32, T, LanguageExt.Option<R>> selector)`
+- `[ext] public static System.Collections.Generic.IEnumerable<R> Collect<T, R>(this System.Collections.Generic.IEnumerable<T> list, System.Func<T, System.Collections.Generic.IEnumerable<R>> map)`
+- `[ext] public static System.String Concat(this System.Collections.Generic.IEnumerable<System.String> xs)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> Concat<TSource>(this LanguageExt.Lst<TSource> first, System.Collections.Generic.IEnumerable<TSource> second)`
+- `[ext] public static LanguageExt.Unit Consume<T>(this System.Collections.Generic.IEnumerable<T> list)`
+- `[ext] public static System.Boolean Contains<TSource>(this LanguageExt.Lst<TSource> source, TSource value)`
+- `[ext] public static System.Boolean Contains<TSource>(this LanguageExt.Lst<TSource> source, TSource value, System.Collections.Generic.IEqualityComparer<TSource> comparer)`
+- `[ext] public static System.Int32 Count<A>(this LanguageExt.Lst<A> self)`
+- `[ext] public static System.Int32 Count<PredList, A>(this LanguageExt.Lst<PredList, A> self)`
+- `where PredList : struct, LanguageExt.TypeClasses.Pred<LanguageExt.ListInfo>`
+- `[ext] public static System.Int32 Count<PredList, PredItem, A>(this LanguageExt.Lst<PredList, PredItem, A> self)`
+- `where PredList : struct, LanguageExt.TypeClasses.Pred<LanguageExt.ListInfo>`
+- `where PredItem : struct, LanguageExt.TypeClasses.Pred<A>`
+- `[ext] public static System.Int32 Count<TSource>(this LanguageExt.Lst<TSource> source, System.Func<TSource, System.Boolean> predicate)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> DefaultIfEmpty<TSource>(this LanguageExt.Lst<TSource> source)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> DefaultIfEmpty<TSource>(this LanguageExt.Lst<TSource> source, TSource defaultValue)`
+- `[ext] public static System.Collections.Generic.IEnumerable<T> Distinct<EQ, T>(this System.Collections.Generic.IEnumerable<T> list)`
+- `where EQ : struct, LanguageExt.TypeClasses.Eq<T>`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> Distinct<TSource>(this LanguageExt.Lst<TSource> source)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> Distinct<TSource>(this LanguageExt.Lst<TSource> source, System.Collections.Generic.IEqualityComparer<TSource> comparer)`
+- `[ext] public static TSource ElementAt<TSource>(this LanguageExt.Lst<TSource> source, System.Int32 index)`
+- `[ext] public static TSource ElementAtOrDefault<TSource>(this LanguageExt.Lst<TSource> source, System.Int32 index)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> Except<TSource>(this LanguageExt.Lst<TSource> first, System.Collections.Generic.IEnumerable<TSource> second)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> Except<TSource>(this LanguageExt.Lst<TSource> first, System.Collections.Generic.IEnumerable<TSource> second, System.Collections.Generic.IEqualityComparer<TSource> comparer)`
+- `[ext] public static System.Boolean Exists<T>(this System.Collections.Generic.IEnumerable<T> list, System.Func<T, System.Boolean> pred)`
+- `[ext] public static System.Collections.Generic.IEnumerable<T> Filter<T>(this System.Collections.Generic.IEnumerable<T> list, System.Func<T, System.Boolean> predicate)`
+- `[ext] public static LanguageExt.Option<T> Find<T>(this System.Collections.Generic.IEnumerable<T> list, System.Func<T, System.Boolean> pred)`
+- `[ext] public static System.Collections.Generic.IEnumerable<T> FindSeq<T>(this System.Collections.Generic.IEnumerable<T> list, System.Func<T, System.Boolean> pred)`
+- `[ext] public static TSource First<TSource>(this LanguageExt.Lst<TSource> source)`
+- `[ext] public static TSource First<TSource>(this LanguageExt.Lst<TSource> source, System.Func<TSource, System.Boolean> predicate)`
+- `[ext] public static TSource FirstOrDefault<TSource>(this LanguageExt.Lst<TSource> source)`
+- `[ext] public static TSource FirstOrDefault<TSource>(this LanguageExt.Lst<TSource> source, System.Func<TSource, System.Boolean> predicate)`
+- `[ext] public static LanguageExt.Lst<A> Flatten<A>(this LanguageExt.Lst<LanguageExt.Lst<A>> ma)`
+- `[ext] public static System.Collections.Generic.IEnumerable<A> Flatten<A>(this System.Collections.Generic.IEnumerable<System.Collections.Generic.IEnumerable<A>> ma)`
+- `[ext] public static S Fold<S, T>(this System.Collections.Generic.IEnumerable<T> list, S state, System.Func<S, T, S> folder)`
+- `[ext] public static S FoldBack<S, T>(this System.Collections.Generic.IEnumerable<T> list, S state, System.Func<S, T, S> folder)`
+- `[ext] public static S FoldBackUntil<S, T>(this System.Collections.Generic.IEnumerable<T> list, S state, System.Func<S, T, S> folder, System.Func<T, System.Boolean> preditem)`
+- `[ext] public static S FoldBackUntil<S, T>(this System.Collections.Generic.IEnumerable<T> list, S state, System.Func<S, T, S> folder, System.Func<S, System.Boolean> predstate)`
+- `[ext] public static S FoldBackWhile<S, T>(this System.Collections.Generic.IEnumerable<T> list, S state, System.Func<S, T, S> folder, System.Func<T, System.Boolean> preditem)`
+- `[ext] public static S FoldBackWhile<S, T>(this System.Collections.Generic.IEnumerable<T> list, S state, System.Func<S, T, S> folder, System.Func<S, System.Boolean> predstate)`
+- `[ext] public static S FoldUntil<S, T>(this System.Collections.Generic.IEnumerable<T> list, S state, System.Func<S, T, S> folder, System.Func<T, System.Boolean> preditem)`
+- `[ext] public static S FoldUntil<S, T>(this System.Collections.Generic.IEnumerable<T> list, S state, System.Func<S, T, S> folder, System.Func<S, System.Boolean> predstate)`
+- `[ext] public static S FoldWhile<S, T>(this System.Collections.Generic.IEnumerable<T> list, S state, System.Func<S, T, S> folder, System.Func<T, System.Boolean> preditem)`
+- `[ext] public static S FoldWhile<S, T>(this System.Collections.Generic.IEnumerable<T> list, S state, System.Func<S, T, S> folder, System.Func<S, System.Boolean> predstate)`
+- `[ext] public static System.Boolean ForAll<T>(this System.Collections.Generic.IEnumerable<T> list, System.Func<T, System.Boolean> pred)`
+- `[ext] public static LanguageExt.Lst<T> Freeze<T>(this System.Collections.Generic.IEnumerable<T> list)`
+- `[ext] public static LanguageExt.Lst<PredList, T> Freeze<PredList, T>(this System.Collections.Generic.IEnumerable<T> list)`
+- `where PredList : struct, LanguageExt.TypeClasses.Pred<LanguageExt.ListInfo>`
+- `[ext] public static LanguageExt.Lst<PredList, PredItem, T> Freeze<PredList, PredItem, T>(this System.Collections.Generic.IEnumerable<T> list)`
+- `where PredList : struct, LanguageExt.TypeClasses.Pred<LanguageExt.ListInfo>`
+- `where PredItem : struct, LanguageExt.TypeClasses.Pred<T>`
+- `[ext] public static System.Collections.Generic.IEnumerable<System.Linq.IGrouping<TKey, TSource>> GroupBy<TSource, TKey>(this LanguageExt.Lst<TSource> source, System.Func<TSource, TKey> keySelector)`
+- `[ext] public static System.Collections.Generic.IEnumerable<System.Linq.IGrouping<TKey, TElement>> GroupBy<TSource, TKey, TElement>(this LanguageExt.Lst<TSource> source, System.Func<TSource, TKey> keySelector, System.Func<TSource, TElement> elementSelector)`
+- `[ext] public static System.Collections.Generic.IEnumerable<System.Linq.IGrouping<TKey, TSource>> GroupBy<TSource, TKey>(this LanguageExt.Lst<TSource> source, System.Func<TSource, TKey> keySelector, System.Collections.Generic.IEqualityComparer<TKey> comparer)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TResult> GroupBy<TSource, TKey, TResult>(this LanguageExt.Lst<TSource> source, System.Func<TSource, TKey> keySelector, System.Func<TKey, System.Collections.Generic.IEnumerable<TSource>, TResult> resultSelector)`
+- `[ext] public static System.Collections.Generic.IEnumerable<System.Linq.IGrouping<TKey, TElement>> GroupBy<TSource, TKey, TElement>(this LanguageExt.Lst<TSource> source, System.Func<TSource, TKey> keySelector, System.Func<TSource, TElement> elementSelector, System.Collections.Generic.IEqualityComparer<TKey> comparer)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TResult> GroupBy<TSource, TKey, TElement, TResult>(this LanguageExt.Lst<TSource> source, System.Func<TSource, TKey> keySelector, System.Func<TSource, TElement> elementSelector, System.Func<TKey, System.Collections.Generic.IEnumerable<TElement>, TResult> resultSelector)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TResult> GroupBy<TSource, TKey, TResult>(this LanguageExt.Lst<TSource> source, System.Func<TSource, TKey> keySelector, System.Func<TKey, System.Collections.Generic.IEnumerable<TSource>, TResult> resultSelector, System.Collections.Generic.IEqualityComparer<TKey> comparer)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TResult> GroupBy<TSource, TKey, TElement, TResult>(this LanguageExt.Lst<TSource> source, System.Func<TSource, TKey> keySelector, System.Func<TSource, TElement> elementSelector, System.Func<TKey, System.Collections.Generic.IEnumerable<TElement>, TResult> resultSelector, System.Collections.Generic.IEqualityComparer<TKey> comparer)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TResult> GroupJoin<TOuter, TInner, TKey, TResult>(this LanguageExt.Lst<TOuter> outer, System.Collections.Generic.IEnumerable<TInner> inner, System.Func<TOuter, TKey> outerKeySelector, System.Func<TInner, TKey> innerKeySelector, System.Func<TOuter, System.Collections.Generic.IEnumerable<TInner>, TResult> resultSelector)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TResult> GroupJoin<TOuter, TInner, TKey, TResult>(this LanguageExt.Lst<TOuter> outer, System.Collections.Generic.IEnumerable<TInner> inner, System.Func<TOuter, TKey> outerKeySelector, System.Func<TInner, TKey> innerKeySelector, System.Func<TOuter, System.Collections.Generic.IEnumerable<TInner>, TResult> resultSelector, System.Collections.Generic.IEqualityComparer<TKey> comparer)`
+- `[ext] public static T Head<T>(this System.Collections.Generic.IEnumerable<T> list)`
+- `[ext] public static LanguageExt.Validation<Fail, Success> HeadOrInvalid<Fail, Success>(this System.Collections.Generic.IEnumerable<Success> list, Fail fail)`
+- `[ext] public static LanguageExt.Validation<Fail, Success> HeadOrInvalid<Fail, Success>(this System.Collections.Generic.IEnumerable<Success> list, LanguageExt.Seq<Fail> fail)`
+- `[ext] public static LanguageExt.Validation<MonoidFail, Fail, Success> HeadOrInvalid<MonoidFail, Fail, Success>(this System.Collections.Generic.IEnumerable<Success> list, Fail fail)`
+- `where MonoidFail : struct, LanguageExt.TypeClasses.Monoid<Fail>, LanguageExt.TypeClasses.Eq<Fail>`
+- `[ext] public static LanguageExt.Either<L, R> HeadOrLeft<L, R>(this System.Collections.Generic.IEnumerable<R> list, L left)`
+- `[ext] public static LanguageExt.Option<T> HeadOrNone<T>(this System.Collections.Generic.IEnumerable<T> list)`
+- `[ext] public static LanguageExt.Option<T> HeadSafe<T>(this System.Collections.Generic.IEnumerable<T> list)`
+- `[ext] public static LanguageExt.Seq<A> Init<A>(this System.Collections.Generic.IEnumerable<A> list)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> Intersect<TSource>(this LanguageExt.Lst<TSource> first, System.Collections.Generic.IEnumerable<TSource> second)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> Intersect<TSource>(this LanguageExt.Lst<TSource> first, System.Collections.Generic.IEnumerable<TSource> second, System.Collections.Generic.IEqualityComparer<TSource> comparer)`
+- `[ext] public static System.Collections.Generic.IEnumerable<A> Intersperse<A>(this System.Collections.Generic.IEnumerable<A> ma, A value)`
+- `[ext] public static LanguageExt.Unit Iter<T>(this System.Collections.Generic.IEnumerable<T> list, System.Action<T> action)`
+- `[ext] public static LanguageExt.Unit Iter<T>(this System.Collections.Generic.IEnumerable<T> list, System.Action<System.Int32, T> action)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TResult> Join<TOuter, TInner, TKey, TResult>(this LanguageExt.Lst<TOuter> outer, System.Collections.Generic.IEnumerable<TInner> inner, System.Func<TOuter, TKey> outerKeySelector, System.Func<TInner, TKey> innerKeySelector, System.Func<TOuter, TInner, TResult> resultSelector)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TResult> Join<TOuter, TInner, TKey, TResult>(this LanguageExt.Lst<TOuter> outer, System.Collections.Generic.IEnumerable<TInner> inner, System.Func<TOuter, TKey> outerKeySelector, System.Func<TInner, TKey> innerKeySelector, System.Func<TOuter, TInner, TResult> resultSelector, System.Collections.Generic.IEqualityComparer<TKey> comparer)`
+- `[ext] public static TSource Last<TSource>(this LanguageExt.Lst<TSource> source)`
+- `[ext] public static TSource Last<TSource>(this LanguageExt.Lst<TSource> source, System.Func<TSource, System.Boolean> predicate)`
+- `[ext] public static TSource LastOrDefault<TSource>(this LanguageExt.Lst<TSource> source)`
+- `[ext] public static TSource LastOrDefault<TSource>(this LanguageExt.Lst<TSource> source, System.Func<TSource, System.Boolean> predicate)`
+- `[ext] public static LanguageExt.Validation<Fail, Success> LastOrInvalid<Fail, Success>(this System.Collections.Generic.IEnumerable<Success> list, Fail fail)`
+- `[ext] public static LanguageExt.Validation<Fail, Success> LastOrInvalid<Fail, Success>(this System.Collections.Generic.IEnumerable<Success> list, LanguageExt.Seq<Fail> fail)`
+- `[ext] public static LanguageExt.Validation<MonoidFail, Fail, Success> LastOrInvalid<MonoidFail, Fail, Success>(this System.Collections.Generic.IEnumerable<Success> list, Fail fail)`
+- `where MonoidFail : struct, LanguageExt.TypeClasses.Monoid<Fail>, LanguageExt.TypeClasses.Eq<Fail>`
+- `[ext] public static LanguageExt.Either<L, R> LastOrLeft<L, R>(this System.Collections.Generic.IEnumerable<R> list, L left)`
+- `[ext] public static LanguageExt.Option<A> LastOrNone<A>(this System.Collections.Generic.IEnumerable<A> list)`
+- `[ext] public static System.Int32 Length<T>(this System.Collections.Generic.IEnumerable<T> list)`
+- `[ext] public static System.Int64 LongCount<TSource>(this LanguageExt.Lst<TSource> source)`
+- `[ext] public static System.Int64 LongCount<TSource>(this LanguageExt.Lst<TSource> source, System.Func<TSource, System.Boolean> predicate)`
+- `[ext] public static System.Collections.Generic.IEnumerable<R> Map<T, R>(this System.Collections.Generic.IEnumerable<T> list, System.Func<T, R> map)`
+- `[ext] public static System.Collections.Generic.IEnumerable<R> Map<T, R>(this System.Collections.Generic.IEnumerable<T> list, System.Func<System.Int32, T, R> map)`
+- `[ext] public static B Match<A, B>(this System.Collections.Generic.IEnumerable<A> list, System.Func<B> Empty, System.Func<LanguageExt.Seq<A>, B> More)`
+- `[ext] public static B Match<A, B>(this System.Collections.Generic.IEnumerable<A> list, System.Func<B> Empty, System.Func<A, LanguageExt.Seq<A>, B> More)`
+- `[ext] public static R Match<T, R>(this System.Collections.Generic.IEnumerable<T> list, System.Func<R> Empty, System.Func<T, R> One, System.Func<T, LanguageExt.Seq<T>, R> More)`
+- `[ext] public static System.Decimal Max(this LanguageExt.Lst<System.Decimal> source)`
+- `[ext] public static System.Decimal? Max(this LanguageExt.Lst<System.Decimal?> source)`
+- `[ext] public static System.Double Max(this LanguageExt.Lst<System.Double> source)`
+- `[ext] public static System.Double? Max(this LanguageExt.Lst<System.Double?> source)`
+- `[ext] public static System.Single Max(this LanguageExt.Lst<System.Single> source)`
+- `[ext] public static System.Single? Max(this LanguageExt.Lst<System.Single?> source)`
+- `[ext] public static System.Int32 Max(this LanguageExt.Lst<System.Int32> source)`
+- `[ext] public static System.Int32? Max(this LanguageExt.Lst<System.Int32?> source)`
+- `[ext] public static System.Int64 Max(this LanguageExt.Lst<System.Int64> source)`
+- `[ext] public static System.Int64? Max(this LanguageExt.Lst<System.Int64?> source)`
+- `[ext] public static TSource Max<TSource>(this LanguageExt.Lst<TSource> source)`
+- `[ext] public static System.Decimal Max<TSource>(this LanguageExt.Lst<TSource> source, System.Func<TSource, System.Decimal> selector)`
+- `[ext] public static System.Decimal? Max<TSource>(this LanguageExt.Lst<TSource> source, System.Func<TSource, System.Decimal?> selector)`
+- `[ext] public static System.Double Max<TSource>(this LanguageExt.Lst<TSource> source, System.Func<TSource, System.Double> selector)`
+- `[ext] public static System.Double? Max<TSource>(this LanguageExt.Lst<TSource> source, System.Func<TSource, System.Double?> selector)`
+- `[ext] public static System.Single Max<TSource>(this LanguageExt.Lst<TSource> source, System.Func<TSource, System.Single> selector)`
+- `[ext] public static System.Single? Max<TSource>(this LanguageExt.Lst<TSource> source, System.Func<TSource, System.Single?> selector)`
+- `[ext] public static System.Int32 Max<TSource>(this LanguageExt.Lst<TSource> source, System.Func<TSource, System.Int32> selector)`
+- `[ext] public static System.Int32? Max<TSource>(this LanguageExt.Lst<TSource> source, System.Func<TSource, System.Int32?> selector)`
+- `[ext] public static System.Int64 Max<TSource>(this LanguageExt.Lst<TSource> source, System.Func<TSource, System.Int64> selector)`
+- `[ext] public static System.Int64? Max<TSource>(this LanguageExt.Lst<TSource> source, System.Func<TSource, System.Int64?> selector)`
+- `[ext] public static TResult Max<TSource, TResult>(this LanguageExt.Lst<TSource> source, System.Func<TSource, TResult> selector)`
+- `[ext] public static System.Decimal Min(this LanguageExt.Lst<System.Decimal> source)`
+- `[ext] public static System.Decimal? Min(this LanguageExt.Lst<System.Decimal?> source)`
+- `[ext] public static System.Double Min(this LanguageExt.Lst<System.Double> source)`
+- `[ext] public static System.Double? Min(this LanguageExt.Lst<System.Double?> source)`
+- `[ext] public static System.Single Min(this LanguageExt.Lst<System.Single> source)`
+- `[ext] public static System.Single? Min(this LanguageExt.Lst<System.Single?> source)`
+- `[ext] public static System.Int32 Min(this LanguageExt.Lst<System.Int32> source)`
+- `[ext] public static System.Int32? Min(this LanguageExt.Lst<System.Int32?> source)`
+- `[ext] public static System.Int64 Min(this LanguageExt.Lst<System.Int64> source)`
+- `[ext] public static System.Int64? Min(this LanguageExt.Lst<System.Int64?> source)`
+- `[ext] public static TSource Min<TSource>(this LanguageExt.Lst<TSource> source)`
+- `[ext] public static System.Decimal Min<TSource>(this LanguageExt.Lst<TSource> source, System.Func<TSource, System.Decimal> selector)`
+- `[ext] public static System.Decimal? Min<TSource>(this LanguageExt.Lst<TSource> source, System.Func<TSource, System.Decimal?> selector)`
+- `[ext] public static System.Double Min<TSource>(this LanguageExt.Lst<TSource> source, System.Func<TSource, System.Double> selector)`
+- `[ext] public static System.Double? Min<TSource>(this LanguageExt.Lst<TSource> source, System.Func<TSource, System.Double?> selector)`
+- `[ext] public static System.Single Min<TSource>(this LanguageExt.Lst<TSource> source, System.Func<TSource, System.Single> selector)`
+- `[ext] public static System.Single? Min<TSource>(this LanguageExt.Lst<TSource> source, System.Func<TSource, System.Single?> selector)`
+- `[ext] public static System.Int32 Min<TSource>(this LanguageExt.Lst<TSource> source, System.Func<TSource, System.Int32> selector)`
+- `[ext] public static System.Int32? Min<TSource>(this LanguageExt.Lst<TSource> source, System.Func<TSource, System.Int32?> selector)`
+- `[ext] public static System.Int64 Min<TSource>(this LanguageExt.Lst<TSource> source, System.Func<TSource, System.Int64> selector)`
+- `[ext] public static System.Int64? Min<TSource>(this LanguageExt.Lst<TSource> source, System.Func<TSource, System.Int64?> selector)`
+- `[ext] public static TResult Min<TSource, TResult>(this LanguageExt.Lst<TSource> source, System.Func<TSource, TResult> selector)`
+- `[ext] public static System.Linq.IOrderedEnumerable<TSource> OrderBy<TSource, TKey>(this LanguageExt.Lst<TSource> source, System.Func<TSource, TKey> keySelector)`
+- `[ext] public static System.Linq.IOrderedEnumerable<TSource> OrderBy<TSource, TKey>(this LanguageExt.Lst<TSource> source, System.Func<TSource, TKey> keySelector, System.Collections.Generic.IComparer<TKey> comparer)`
+- `[ext] public static System.Linq.IOrderedEnumerable<TSource> OrderByDescending<TSource, TKey>(this LanguageExt.Lst<TSource> source, System.Func<TSource, TKey> keySelector)`
+- `[ext] public static System.Linq.IOrderedEnumerable<TSource> OrderByDescending<TSource, TKey>(this LanguageExt.Lst<TSource> source, System.Func<TSource, TKey> keySelector, System.Collections.Generic.IComparer<TKey> comparer)`
+- `[ext] public static System.Collections.Generic.IEnumerable<System.Func<T2, R>> ParMap<T1, T2, R>(this System.Collections.Generic.IEnumerable<T1> list, System.Func<T1, T2, R> func)`
+- `[ext] public static System.Collections.Generic.IEnumerable<System.Func<T2, System.Func<T3, R>>> ParMap<T1, T2, T3, R>(this System.Collections.Generic.IEnumerable<T1> list, System.Func<T1, T2, T3, R> func)`
+- `[ext] public static T Reduce<T>(this System.Collections.Generic.IEnumerable<T> list, System.Func<T, T, T> reducer)`
+- `[ext] public static T ReduceBack<T>(this System.Collections.Generic.IEnumerable<T> list, System.Func<T, T, T> reducer)`
+- `[ext] public static System.Collections.Generic.IEnumerable<T> Rev<T>(this System.Collections.Generic.IEnumerable<T> list)`
+- `[ext] public static LanguageExt.Lst<A> Rev<A>(this LanguageExt.Lst<A> list)`
+- `[ext] public static LanguageExt.Lst<PredList, A> Rev<PredList, A>(this LanguageExt.Lst<PredList, A> list)`
+- `where PredList : struct, LanguageExt.TypeClasses.Pred<LanguageExt.ListInfo>`
+- `[ext] public static LanguageExt.Lst<PredList, PredItem, A> Rev<PredList, PredItem, A>(this LanguageExt.Lst<PredList, PredItem, A> list)`
+- `where PredList : struct, LanguageExt.TypeClasses.Pred<LanguageExt.ListInfo>`
+- `where PredItem : struct, LanguageExt.TypeClasses.Pred<A>`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> Reverse<TSource>(this LanguageExt.Lst<TSource> source)`
+- `[ext] public static System.Collections.Generic.IEnumerable<S> Scan<S, T>(this System.Collections.Generic.IEnumerable<T> list, S state, System.Func<S, T, S> folder)`
+- `[ext] public static System.Collections.Generic.IEnumerable<S> ScanBack<S, T>(this System.Collections.Generic.IEnumerable<T> list, S state, System.Func<S, T, S> folder)`
+- `[ext] public static LanguageExt.Lst<B> Select<A, B>(this LanguageExt.Lst<A> self, System.Func<A, B> map)`
+- `[ext] public static LanguageExt.Lst<PredList, B> Select<PredList, A, B>(this LanguageExt.Lst<PredList, A> self, System.Func<A, B> map)`
+- `where PredList : struct, LanguageExt.TypeClasses.Pred<LanguageExt.ListInfo>`
+- `[ext] public static LanguageExt.Lst<C> SelectMany<A, B, C>(this LanguageExt.Lst<A> self, System.Func<A, LanguageExt.Lst<B>> bind, System.Func<A, B, C> project)`
+- `[ext] public static LanguageExt.Lst<PredList, C> SelectMany<PredList, A, B, C>(this LanguageExt.Lst<PredList, A> self, System.Func<A, LanguageExt.Lst<PredList, B>> bind, System.Func<A, B, C> project)`
+- `where PredList : struct, LanguageExt.TypeClasses.Pred<LanguageExt.ListInfo>`
+- `[ext] public static System.Boolean SequenceEqual<TSource>(this LanguageExt.Lst<TSource> first, System.Collections.Generic.IEnumerable<TSource> second)`
+- `[ext] public static System.Boolean SequenceEqual<TSource>(this LanguageExt.Lst<TSource> first, System.Collections.Generic.IEnumerable<TSource> second, System.Collections.Generic.IEqualityComparer<TSource> comparer)`
+- `[ext] public static TSource Single<TSource>(this LanguageExt.Lst<TSource> source)`
+- `[ext] public static TSource Single<TSource>(this LanguageExt.Lst<TSource> source, System.Func<TSource, System.Boolean> predicate)`
+- `[ext] public static TSource SingleOrDefault<TSource>(this LanguageExt.Lst<TSource> source)`
+- `[ext] public static TSource SingleOrDefault<TSource>(this LanguageExt.Lst<TSource> source, System.Func<TSource, System.Boolean> predicate)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> Skip<TSource>(this LanguageExt.Lst<TSource> source, System.Int32 count)`
+- `[ext] public static System.Collections.Generic.IEnumerable<T> SkipLast<T>(this System.Collections.Generic.IEnumerable<T> self)`
+- `[ext] public static System.Collections.Generic.IEnumerable<T> SkipLast<T>(this System.Collections.Generic.IEnumerable<T> self, System.Int32 n)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> SkipWhile<TSource>(this LanguageExt.Lst<TSource> source, System.Func<TSource, System.Boolean> predicate)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> SkipWhile<TSource>(this LanguageExt.Lst<TSource> source, System.Func<TSource, System.Int32, System.Boolean> predicate)`
+- `[ext] public static System.ValueTuple<System.Collections.Generic.IEnumerable<T>, System.Collections.Generic.IEnumerable<T>> Span<T>(this System.Collections.Generic.IEnumerable<T> self, System.Func<T, System.Boolean> pred)`
+- `[ext] public static System.Decimal Sum(this LanguageExt.Lst<System.Decimal> source)`
+- `[ext] public static System.Decimal? Sum(this LanguageExt.Lst<System.Decimal?> source)`
+- `[ext] public static System.Double Sum(this LanguageExt.Lst<System.Double> source)`
+- `[ext] public static System.Double? Sum(this LanguageExt.Lst<System.Double?> source)`
+- `[ext] public static System.Single Sum(this LanguageExt.Lst<System.Single> source)`
+- `[ext] public static System.Single? Sum(this LanguageExt.Lst<System.Single?> source)`
+- `[ext] public static System.Int32 Sum(this LanguageExt.Lst<System.Int32> source)`
+- `[ext] public static System.Int32? Sum(this LanguageExt.Lst<System.Int32?> source)`
+- `[ext] public static System.Int64 Sum(this LanguageExt.Lst<System.Int64> source)`
+- `[ext] public static System.Int64? Sum(this LanguageExt.Lst<System.Int64?> source)`
+- `[ext] public static System.Decimal Sum<TSource>(this LanguageExt.Lst<TSource> source, System.Func<TSource, System.Decimal> selector)`
+- `[ext] public static System.Decimal? Sum<TSource>(this LanguageExt.Lst<TSource> source, System.Func<TSource, System.Decimal?> selector)`
+- `[ext] public static System.Double Sum<TSource>(this LanguageExt.Lst<TSource> source, System.Func<TSource, System.Double> selector)`
+- `[ext] public static System.Double? Sum<TSource>(this LanguageExt.Lst<TSource> source, System.Func<TSource, System.Double?> selector)`
+- `[ext] public static System.Single Sum<TSource>(this LanguageExt.Lst<TSource> source, System.Func<TSource, System.Single> selector)`
+- `[ext] public static System.Single? Sum<TSource>(this LanguageExt.Lst<TSource> source, System.Func<TSource, System.Single?> selector)`
+- `[ext] public static System.Int32 Sum<TSource>(this LanguageExt.Lst<TSource> source, System.Func<TSource, System.Int32> selector)`
+- `[ext] public static System.Int32? Sum<TSource>(this LanguageExt.Lst<TSource> source, System.Func<TSource, System.Int32?> selector)`
+- `[ext] public static System.Int64 Sum<TSource>(this LanguageExt.Lst<TSource> source, System.Func<TSource, System.Int64> selector)`
+- `[ext] public static System.Int64? Sum<TSource>(this LanguageExt.Lst<TSource> source, System.Func<TSource, System.Int64?> selector)`
+- `[ext] public static System.Collections.Generic.IEnumerable<T> Tail<T>(this System.Collections.Generic.IEnumerable<T> list)`
+- `[ext] public static System.Collections.Generic.IEnumerable<System.Collections.Generic.IEnumerable<T>> Tails<T>(this System.Collections.Generic.IEnumerable<T> self)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> Take<TSource>(this LanguageExt.Lst<TSource> source, System.Int32 count)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> TakeWhile<TSource>(this LanguageExt.Lst<TSource> source, System.Func<TSource, System.Boolean> predicate)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> TakeWhile<TSource>(this LanguageExt.Lst<TSource> source, System.Func<TSource, System.Int32, System.Boolean> predicate)`
+- `[ext] public static LanguageExt.Arr<A> ToArr<A>(this System.Collections.Generic.IEnumerable<A> list)`
+- `[ext] public static TSource[] ToArray<TSource>(this LanguageExt.Lst<TSource> source)`
+- `[ext] public static System.Collections.Generic.Dictionary<TKey, TSource> ToDictionary<TSource, TKey>(this LanguageExt.Lst<TSource> source, System.Func<TSource, TKey> keySelector)`
+- `[ext] public static System.Collections.Generic.Dictionary<TKey, TElement> ToDictionary<TSource, TKey, TElement>(this LanguageExt.Lst<TSource> source, System.Func<TSource, TKey> keySelector, System.Func<TSource, TElement> elementSelector)`
+- `[ext] public static System.Collections.Generic.Dictionary<TKey, TSource> ToDictionary<TSource, TKey>(this LanguageExt.Lst<TSource> source, System.Func<TSource, TKey> keySelector, System.Collections.Generic.IEqualityComparer<TKey> comparer)`
+- `[ext] public static System.Collections.Generic.Dictionary<TKey, TElement> ToDictionary<TSource, TKey, TElement>(this LanguageExt.Lst<TSource> source, System.Func<TSource, TKey> keySelector, System.Func<TSource, TElement> elementSelector, System.Collections.Generic.IEqualityComparer<TKey> comparer)`
+- `[ext] public static System.Collections.Generic.List<TSource> ToList<TSource>(this LanguageExt.Lst<TSource> source)`
+- `[ext] public static System.Linq.ILookup<TKey, TSource> ToLookup<TSource, TKey>(this LanguageExt.Lst<TSource> source, System.Func<TSource, TKey> keySelector)`
+- `[ext] public static System.Linq.ILookup<TKey, TElement> ToLookup<TSource, TKey, TElement>(this LanguageExt.Lst<TSource> source, System.Func<TSource, TKey> keySelector, System.Func<TSource, TElement> elementSelector)`
+- `[ext] public static System.Linq.ILookup<TKey, TSource> ToLookup<TSource, TKey>(this LanguageExt.Lst<TSource> source, System.Func<TSource, TKey> keySelector, System.Collections.Generic.IEqualityComparer<TKey> comparer)`
+- `[ext] public static System.Linq.ILookup<TKey, TElement> ToLookup<TSource, TKey, TElement>(this LanguageExt.Lst<TSource> source, System.Func<TSource, TKey> keySelector, System.Func<TSource, TElement> elementSelector, System.Collections.Generic.IEqualityComparer<TKey> comparer)`
+- `[ext] public static LanguageExt.Option<A> ToOption<A>(this System.Collections.Generic.IEnumerable<A> self)`
+- `[ext] public static LanguageExt.Seq<A> ToSeq<A>(this System.Collections.Generic.IEnumerable<A> enumerable)`
+- `[ext] public static LanguageExt.Seq<A> ToSeq<A>(this System.Collections.Generic.IList<A> enumerable)`
+- `[ext] public static LanguageExt.Seq<A> ToSeq<A>(this A[] array)`
+- `[ext] public static LanguageExt.TryOption<A> ToTryOption<A>(this System.Collections.Generic.IEnumerable<A> self)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> Union<TSource>(this LanguageExt.Lst<TSource> first, System.Collections.Generic.IEnumerable<TSource> second)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> Union<TSource>(this LanguageExt.Lst<TSource> first, System.Collections.Generic.IEnumerable<TSource> second, System.Collections.Generic.IEqualityComparer<TSource> comparer)`
+- `[ext] public static System.Collections.Generic.IEnumerable<System.ValueTuple<T, U>> Zip<T, U>(this System.Collections.Generic.IEnumerable<T> list, System.Collections.Generic.IEnumerable<U> other)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TResult> Zip<TFirst, TSecond, TResult>(this LanguageExt.Lst<TFirst> first, System.Collections.Generic.IEnumerable<TSecond> second, System.Func<TFirst, TSecond, TResult> resultSelector)`
+
+### OptionAsyncExtensions (class [static])
+
+- `[ext] public static LanguageExt.OptionAsync<B> Action<A, B>(this LanguageExt.OptionAsync<A> fa, LanguageExt.OptionAsync<B> fb)`
+- `[ext] public static LanguageExt.OptionAsync<B> ActionAsync<A, B>(this LanguageExt.Option<A> fa, LanguageExt.Option<B> fb)`
+- `[ext] public static LanguageExt.OptionAsync<A> Add<ARITH, A>(this LanguageExt.OptionAsync<A> x, LanguageExt.OptionAsync<A> y)`
+- `where ARITH : struct, LanguageExt.TypeClasses.Arithmetic<A>`
+- `[ext] public static LanguageExt.OptionAsync<A> AddAsync<NUM, A>(this LanguageExt.Option<A> x, LanguageExt.Option<A> y)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<A>`
+- `[ext] public static LanguageExt.OptionAsync<B> Apply<A, B>(this LanguageExt.OptionAsync<System.Func<A, B>> fab, LanguageExt.OptionAsync<A> fa)`
+- `[ext] public static LanguageExt.OptionAsync<B> Apply<A, B>(this System.Func<A, B> fab, LanguageExt.OptionAsync<A> fa)`
+- `[ext] public static LanguageExt.OptionAsync<System.Func<B, C>> Apply<A, B, C>(this LanguageExt.OptionAsync<System.Func<A, B, C>> fabc, LanguageExt.OptionAsync<A> fa)`
+- `[ext] public static LanguageExt.OptionAsync<System.Func<B, C>> Apply<A, B, C>(this System.Func<A, B, C> fabc, LanguageExt.OptionAsync<A> fa)`
+- `[ext] public static LanguageExt.OptionAsync<System.Func<B, C>> Apply<A, B, C>(this LanguageExt.OptionAsync<System.Func<A, System.Func<B, C>>> fabc, LanguageExt.OptionAsync<A> fa)`
+- `[ext] public static LanguageExt.OptionAsync<System.Func<B, C>> Apply<A, B, C>(this System.Func<A, System.Func<B, C>> fabc, LanguageExt.OptionAsync<A> fa)`
+- `[ext] public static LanguageExt.OptionAsync<C> Apply<A, B, C>(this LanguageExt.OptionAsync<System.Func<A, B, C>> fabc, LanguageExt.OptionAsync<A> fa, LanguageExt.OptionAsync<B> fb)`
+- `[ext] public static LanguageExt.OptionAsync<C> Apply<A, B, C>(this System.Func<A, B, C> fabc, LanguageExt.OptionAsync<A> fa, LanguageExt.OptionAsync<B> fb)`
+- `[ext] public static LanguageExt.OptionAsync<B> ApplyAsync<A, B>(this LanguageExt.Option<System.Func<A, B>> fab, LanguageExt.Option<A> fa)`
+- `[ext] public static LanguageExt.OptionAsync<B> ApplyAsync<A, B>(this System.Func<A, B> fab, LanguageExt.Option<A> fa)`
+- `[ext] public static LanguageExt.OptionAsync<System.Func<B, C>> ApplyAsync<A, B, C>(this LanguageExt.Option<System.Func<A, B, C>> fabc, LanguageExt.Option<A> fa)`
+- `[ext] public static LanguageExt.OptionAsync<System.Func<B, C>> ApplyAsync<A, B, C>(this System.Func<A, B, C> fabc, LanguageExt.Option<A> fa)`
+- `[ext] public static LanguageExt.OptionAsync<System.Func<B, C>> ApplyAsync<A, B, C>(this LanguageExt.Option<System.Func<A, System.Func<B, C>>> fabc, LanguageExt.Option<A> fa)`
+- `[ext] public static LanguageExt.OptionAsync<System.Func<B, C>> ApplyAsync<A, B, C>(this System.Func<A, System.Func<B, C>> fabc, LanguageExt.Option<A> fa)`
+- `[ext] public static LanguageExt.OptionAsync<C> ApplyAsync<A, B, C>(this LanguageExt.Option<System.Func<A, B, C>> fabc, LanguageExt.Option<A> fa, LanguageExt.Option<B> fb)`
+- `[ext] public static LanguageExt.OptionAsync<C> ApplyAsync<A, B, C>(this System.Func<A, B, C> fabc, LanguageExt.Option<A> fa, LanguageExt.Option<B> fb)`
+- `[ext] public static System.Threading.Tasks.Task<System.Collections.Generic.IEnumerable<A>> AsEnumerableAsync<A>(this LanguageExt.Option<A> self)`
+- `[ext] public static System.Threading.Tasks.Task<System.Boolean> BiExistsAsync<A>(this LanguageExt.Option<A> self, System.Func<A, System.Boolean> Some, System.Func<LanguageExt.Unit, System.Boolean> None)`
+- `[ext] public static System.Threading.Tasks.Task<System.Boolean> BiExistsAsync<A>(this LanguageExt.Option<A> self, System.Func<A, System.Boolean> Some, System.Func<System.Boolean> None)`
+- `[ext] public static System.Threading.Tasks.Task<S> BiFoldAsync<S, A>(this LanguageExt.Option<A> self, S state, System.Func<S, A, S> Some, System.Func<S, LanguageExt.Unit, S> None)`
+- `[ext] public static System.Threading.Tasks.Task<S> BiFoldAsync<S, A>(this LanguageExt.Option<A> self, S state, System.Func<S, A, System.Threading.Tasks.Task<S>> Some, System.Func<S, LanguageExt.Unit, S> None)`
+- `[ext] public static System.Threading.Tasks.Task<S> BiFoldAsync<S, A>(this LanguageExt.Option<A> self, S state, System.Func<S, A, S> Some, System.Func<S, LanguageExt.Unit, System.Threading.Tasks.Task<S>> None)`
+- `[ext] public static System.Threading.Tasks.Task<S> BiFoldAsync<S, A>(this LanguageExt.Option<A> self, S state, System.Func<S, A, System.Threading.Tasks.Task<S>> Some, System.Func<S, LanguageExt.Unit, System.Threading.Tasks.Task<S>> None)`
+- `[ext] public static System.Threading.Tasks.Task<S> BiFoldAsync<S, A>(this LanguageExt.Option<A> self, S state, System.Func<S, A, S> Some, System.Func<S, S> None)`
+- `[ext] public static System.Threading.Tasks.Task<S> BiFoldAsync<S, A>(this LanguageExt.Option<A> self, S state, System.Func<S, A, System.Threading.Tasks.Task<S>> Some, System.Func<S, S> None)`
+- `[ext] public static System.Threading.Tasks.Task<S> BiFoldAsync<S, A>(this LanguageExt.Option<A> self, S state, System.Func<S, A, S> Some, System.Func<S, System.Threading.Tasks.Task<S>> None)`
+- `[ext] public static System.Threading.Tasks.Task<S> BiFoldAsync<S, A>(this LanguageExt.Option<A> self, S state, System.Func<S, A, System.Threading.Tasks.Task<S>> Some, System.Func<S, System.Threading.Tasks.Task<S>> None)`
+- `[ext] public static System.Threading.Tasks.Task<System.Boolean> BiForAllAsync<A>(this LanguageExt.Option<A> self, System.Func<A, System.Boolean> Some, System.Func<LanguageExt.Unit, System.Boolean> None)`
+- `[ext] public static System.Threading.Tasks.Task<System.Boolean> BiForAllAsync<A>(this LanguageExt.Option<A> self, System.Func<A, System.Boolean> Some, System.Func<System.Boolean> None)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Unit> BiIterAsync<A>(this LanguageExt.Option<A> self, System.Action<A> Some, System.Action<LanguageExt.Unit> None)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Unit> BiIterAsync<A>(this LanguageExt.Option<A> self, System.Action<A> Some, System.Action None)`
+- `[ext] public static LanguageExt.OptionAsync<B> BiMapAsync<A, B>(this LanguageExt.Option<A> self, System.Func<A, B> Some, System.Func<LanguageExt.Unit, B> None)`
+- `[ext] public static LanguageExt.OptionAsync<B> BiMapAsync<A, B>(this LanguageExt.Option<A> self, System.Func<A, B> Some, System.Func<B> None)`
+- `[ext] public static LanguageExt.OptionAsync<B> BindAsync<A, B>(this LanguageExt.Option<A> self, System.Func<A, LanguageExt.OptionAsync<B>> f)`
+- `[ext] public static LanguageExt.OptionAsync<B> BindAsync<A, B>(this LanguageExt.Option<A> self, System.Func<A, System.Threading.Tasks.Task<LanguageExt.OptionAsync<B>>> f)`
+- `[ext] public static System.Threading.Tasks.Task<System.Int32> CountAsync<A>(this LanguageExt.Option<A> self)`
+- `[ext] public static LanguageExt.OptionAsync<A> Divide<NUM, A>(this LanguageExt.OptionAsync<A> x, LanguageExt.OptionAsync<A> y)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<A>`
+- `[ext] public static LanguageExt.OptionAsync<A> DivideAsync<NUM, A>(this LanguageExt.Option<A> x, LanguageExt.Option<A> y)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<A>`
+- `[ext] public static System.Threading.Tasks.Task<System.Boolean> ExistsAsync<A>(this LanguageExt.Option<A> self, System.Func<A, System.Boolean> pred)`
+- `[ext] public static LanguageExt.OptionAsync<A> FilterAsync<A>(this LanguageExt.Option<A> self, System.Func<A, System.Boolean> pred)`
+- `[ext] public static LanguageExt.OptionAsync<A> FilterAsync<A>(this LanguageExt.Option<A> self, System.Func<A, System.Threading.Tasks.Task<System.Boolean>> pred)`
+- `[ext] public static LanguageExt.OptionAsync<A> Flatten<A>(this LanguageExt.OptionAsync<LanguageExt.OptionAsync<A>> ma)`
+- `[ext] public static System.Threading.Tasks.Task<S> FoldAsync<S, A>(this LanguageExt.Option<A> self, S state, System.Func<S, A, S> folder)`
+- `[ext] public static System.Threading.Tasks.Task<S> FoldAsync<S, A>(this LanguageExt.Option<A> self, S state, System.Func<S, A, System.Threading.Tasks.Task<S>> folder)`
+- `[ext] public static System.Threading.Tasks.Task<S> FoldBackAsync<S, A>(this LanguageExt.Option<A> self, S state, System.Func<S, A, S> folder)`
+- `[ext] public static System.Threading.Tasks.Task<S> FoldBackAsync<S, A>(this LanguageExt.Option<A> self, S state, System.Func<S, A, System.Threading.Tasks.Task<S>> folder)`
+- `[ext] public static System.Threading.Tasks.Task<System.Boolean> ForAllAsync<A>(this LanguageExt.Option<A> self, System.Func<A, System.Boolean> pred)`
+- `[ext] public static System.Threading.Tasks.Task<A> IfNoneAsync<A>(this LanguageExt.Option<A> self, System.Func<A> None)`
+- `[ext] public static System.Threading.Tasks.Task<A> IfNoneAsync<A>(this LanguageExt.Option<A> self, System.Func<System.Threading.Tasks.Task<A>> None)`
+- `[ext] public static System.Threading.Tasks.Task<A> IfNoneAsync<A>(this LanguageExt.Option<A> self, A noneValue)`
+- `[ext] public static System.Threading.Tasks.Task<A> IfNoneUnsafeAsync<A>(this LanguageExt.Option<A> self, System.Func<A> None)`
+- `[ext] public static System.Threading.Tasks.Task<A> IfNoneUnsafeAsync<A>(this LanguageExt.Option<A> self, System.Func<System.Threading.Tasks.Task<A>> None)`
+- `[ext] public static System.Threading.Tasks.Task<A> IfNoneUnsafeAsync<A>(this LanguageExt.Option<A> self, A noneValue)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Unit> IfSomeAsync<A>(this LanguageExt.Option<A> self, System.Action<A> f)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Unit> IfSomeAsync<A>(this LanguageExt.Option<A> self, System.Func<A, System.Threading.Tasks.Task<LanguageExt.Unit>> f)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Unit> IfSomeAsync<A>(this LanguageExt.Option<A> self, System.Func<A, System.Threading.Tasks.Task> f)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Unit> IfSomeAsync<A>(this LanguageExt.Option<A> self, System.Func<A, LanguageExt.Unit> f)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Unit> IterAsync<A>(this LanguageExt.Option<A> self, System.Action<A> Some)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Unit> IterAsync<A>(this LanguageExt.Option<A> self, System.Func<A, System.Threading.Tasks.Task<LanguageExt.Unit>> Some)`
+- `[ext] public static LanguageExt.OptionAsync<B> MapAsync<A, B>(this LanguageExt.Option<A> self, System.Func<A, B> f)`
+- `[ext] public static LanguageExt.OptionAsync<B> MapAsync<A, B>(this LanguageExt.Option<A> self, System.Func<A, System.Threading.Tasks.Task<B>> f)`
+- `[ext] public static System.Threading.Tasks.Task<System.Collections.Generic.IEnumerable<R>> Match<T, R>(this System.Collections.Generic.IEnumerable<LanguageExt.OptionAsync<T>> list, System.Func<T, System.Collections.Generic.IEnumerable<R>> Some, System.Func<System.Collections.Generic.IEnumerable<R>> None)`
+- `[ext] public static System.Threading.Tasks.Task<System.Collections.Generic.IEnumerable<R>> Match<T, R>(this System.Collections.Generic.IEnumerable<LanguageExt.OptionAsync<T>> list, System.Func<T, System.Collections.Generic.IEnumerable<R>> Some, System.Collections.Generic.IEnumerable<R> None)`
+- `[ext] public static System.Threading.Tasks.Task<B> MatchAsync<A, B>(this LanguageExt.Option<A> self, System.Func<A, System.Threading.Tasks.Task<B>> Some, System.Func<B> None)`
+- `[ext] public static System.Threading.Tasks.Task<B> MatchAsync<A, B>(this LanguageExt.Option<A> self, System.Func<A, B> Some, System.Func<System.Threading.Tasks.Task<B>> None)`
+- `[ext] public static System.Threading.Tasks.Task<B> MatchAsync<A, B>(this LanguageExt.Option<A> self, System.Func<A, System.Threading.Tasks.Task<B>> Some, System.Func<System.Threading.Tasks.Task<B>> None)`
+- `[ext] public static System.Threading.Tasks.Task<B> MatchUnsafeAsync<A, B>(this LanguageExt.Option<A> self, System.Func<A, System.Threading.Tasks.Task<B>> Some, System.Func<B> None)`
+- `[ext] public static System.Threading.Tasks.Task<B> MatchUnsafeAsync<A, B>(this LanguageExt.Option<A> self, System.Func<A, B> Some, System.Func<System.Threading.Tasks.Task<B>> None)`
+- `[ext] public static System.Threading.Tasks.Task<B> MatchUnsafeAsync<A, B>(this LanguageExt.Option<A> self, System.Func<A, System.Threading.Tasks.Task<B>> Some, System.Func<System.Threading.Tasks.Task<B>> None)`
+- `[ext] public static System.Threading.Tasks.Task<R> MatchUntypedAsync<A, R>(this LanguageExt.Option<A> self, System.Func<System.Object, R> Some, System.Func<R> None)`
+- `[ext] public static System.Threading.Tasks.Task<R> MatchUntypedAsync<A, R>(this LanguageExt.Option<A> self, System.Func<System.Object, System.Threading.Tasks.Task<R>> Some, System.Func<R> None)`
+- `[ext] public static System.Threading.Tasks.Task<R> MatchUntypedAsync<A, R>(this LanguageExt.Option<A> self, System.Func<System.Object, R> Some, System.Func<System.Threading.Tasks.Task<R>> None)`
+- `[ext] public static System.Threading.Tasks.Task<R> MatchUntypedAsync<A, R>(this LanguageExt.Option<A> self, System.Func<System.Object, System.Threading.Tasks.Task<R>> Some, System.Func<System.Threading.Tasks.Task<R>> None)`
+- `[ext] public static LanguageExt.OptionAsync<A> Product<ARITH, A>(this LanguageExt.OptionAsync<A> x, LanguageExt.OptionAsync<A> y)`
+- `where ARITH : struct, LanguageExt.TypeClasses.Arithmetic<A>`
+- `[ext] public static LanguageExt.OptionAsync<A> ProductAsync<NUM, A>(this LanguageExt.Option<A> x, LanguageExt.Option<A> y)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<A>`
+- `[ext] public static System.Threading.Tasks.Task<System.Collections.Generic.IEnumerable<A>> Somes<A>(this System.Collections.Generic.IEnumerable<LanguageExt.OptionAsync<A>> self)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Seq<A>> Somes<A>(this LanguageExt.Seq<LanguageExt.OptionAsync<A>> self)`
+- `[ext] public static LanguageExt.OptionAsync<A> Subtract<ARITH, A>(this LanguageExt.OptionAsync<A> x, LanguageExt.OptionAsync<A> y)`
+- `where ARITH : struct, LanguageExt.TypeClasses.Arithmetic<A>`
+- `[ext] public static LanguageExt.OptionAsync<A> SubtractAsync<NUM, A>(this LanguageExt.Option<A> x, LanguageExt.Option<A> y)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<A>`
+- `[ext] public static System.Threading.Tasks.Task<System.Int32> Sum(this LanguageExt.OptionAsync<System.Int32> a)`
+- `[ext] public static System.Threading.Tasks.Task<A> Sum<NUM, A>(this LanguageExt.OptionAsync<A> self)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<A>`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Arr<A>> ToArrayAsync<A>(this LanguageExt.Option<A> self)`
+- `[ext] public static LanguageExt.OptionAsync<A> ToAsync<A>(this LanguageExt.Option<A> self)`
+- `[ext] public static LanguageExt.EitherAsync<L, A> ToEitherAsync<L, A>(this LanguageExt.Option<A> self, L defaultLeftValue)`
+- `[ext] public static LanguageExt.EitherAsync<L, A> ToEitherAsync<L, A>(this LanguageExt.Option<A> self, System.Func<L> Left)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.EitherUnsafe<L, A>> ToEitherUnsafeAsync<L, A>(this LanguageExt.Option<A> self, L defaultLeftValue)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.EitherUnsafe<L, A>> ToEitherUnsafeAsync<L, A>(this LanguageExt.Option<A> self, System.Func<L> Left)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Lst<A>> ToListAsync<A>(this LanguageExt.Option<A> self)`
+- `[ext] public static System.Threading.Tasks.Task<A?> ToNullable<A>(this LanguageExt.OptionAsync<A> ma)`
+- `where A : struct`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.OptionUnsafe<A>> ToOptionUnsafeAsync<A>(this LanguageExt.Option<A> self)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Seq<A>> ToSeqAsync<A>(this LanguageExt.Option<A> self)`
+- `[ext] public static LanguageExt.TryAsync<A> ToTryAsync<A>(this LanguageExt.Option<A> self)`
+- `[ext] public static LanguageExt.TryOptionAsync<A> ToTryOptionAsync<A>(this LanguageExt.Option<A> self)`
+
+### OptionExtensions (class [static])
+
+- `[ext] public static LanguageExt.Option<B> Action<A, B>(this LanguageExt.Option<A> fa, LanguageExt.Option<B> fb)`
+- `[ext] public static LanguageExt.Option<A> Add<ARITH, A>(this LanguageExt.Option<A> x, LanguageExt.Option<A> y)`
+- `where ARITH : struct, LanguageExt.TypeClasses.Arithmetic<A>`
+- `[ext] public static LanguageExt.Option<B> Apply<A, B>(this LanguageExt.Option<System.Func<A, B>> fab, LanguageExt.Option<A> fa)`
+- `[ext] public static LanguageExt.Option<B> Apply<A, B>(this System.Func<A, B> fab, LanguageExt.Option<A> fa)`
+- `[ext] public static LanguageExt.Option<System.Func<B, C>> Apply<A, B, C>(this LanguageExt.Option<System.Func<A, B, C>> fabc, LanguageExt.Option<A> fa)`
+- `[ext] public static LanguageExt.Option<System.Func<B, C>> Apply<A, B, C>(this System.Func<A, B, C> fabc, LanguageExt.Option<A> fa)`
+- `[ext] public static LanguageExt.Option<System.Func<B, C>> Apply<A, B, C>(this LanguageExt.Option<System.Func<A, System.Func<B, C>>> fabc, LanguageExt.Option<A> fa)`
+- `[ext] public static LanguageExt.Option<System.Func<B, C>> Apply<A, B, C>(this System.Func<A, System.Func<B, C>> fabc, LanguageExt.Option<A> fa)`
+- `[ext] public static LanguageExt.Option<C> Apply<A, B, C>(this LanguageExt.Option<System.Func<A, B, C>> fabc, LanguageExt.Option<A> fa, LanguageExt.Option<B> fb)`
+- `[ext] public static LanguageExt.Option<C> Apply<A, B, C>(this System.Func<A, B, C> fabc, LanguageExt.Option<A> fa, LanguageExt.Option<B> fb)`
+- `[ext] public static LanguageExt.Option<A> Divide<NUM, A>(this LanguageExt.Option<A> x, LanguageExt.Option<A> y)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<A>`
+- `[ext] public static LanguageExt.Option<A> Flatten<A>(this LanguageExt.Option<LanguageExt.Option<A>> ma)`
+- `[ext] public static System.Collections.Generic.IEnumerable<R> Match<T, R>(this System.Collections.Generic.IEnumerable<LanguageExt.Option<T>> list, System.Func<T, System.Collections.Generic.IEnumerable<R>> Some, System.Func<System.Collections.Generic.IEnumerable<R>> None)`
+- `[ext] public static System.Collections.Generic.IEnumerable<R> Match<T, R>(this System.Collections.Generic.IEnumerable<LanguageExt.Option<T>> list, System.Func<T, System.Collections.Generic.IEnumerable<R>> Some, System.Collections.Generic.IEnumerable<R> None)`
+- `[ext] public static R Match<R>(this LanguageExt.Option<System.Boolean> ma, System.Func<R> True, System.Func<R> False, System.Func<R> None)`
+- `[ext] public static LanguageExt.Option<A> Product<ARITH, A>(this LanguageExt.Option<A> x, LanguageExt.Option<A> y)`
+- `where ARITH : struct, LanguageExt.TypeClasses.Arithmetic<A>`
+- `[ext] public static System.Collections.Generic.IEnumerable<A> Somes<A>(this System.Collections.Generic.IEnumerable<LanguageExt.Option<A>> self)`
+- `[ext] public static LanguageExt.Seq<A> Somes<A>(this LanguageExt.Seq<LanguageExt.Option<A>> self)`
+- `[ext] public static LanguageExt.Option<A> Subtract<ARITH, A>(this LanguageExt.Option<A> x, LanguageExt.Option<A> y)`
+- `where ARITH : struct, LanguageExt.TypeClasses.Arithmetic<A>`
+- `[ext] public static System.Int32 Sum(this LanguageExt.Option<System.Int32> a)`
+- `[ext] public static A Sum<NUM, A>(this LanguageExt.Option<A> self)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<A>`
+- `[ext] public static A? ToNullable<A>(this LanguageExt.Option<A> ma)`
+- `where A : struct`
+
+### OptionNoneExt (class [static])
+
+- `[ext] public static LanguageExt.Option<C> SelectMany<A, C>(this LanguageExt.Option<A> ma, System.Func<A, LanguageExt.OptionNone> bind, System.Func<A, LanguageExt.Unit, C> project)`
+
+### OptionUnsafeExtensions (class [static])
+
+- `[ext] public static LanguageExt.OptionUnsafe<B> Action<A, B>(this LanguageExt.OptionUnsafe<A> fa, LanguageExt.OptionUnsafe<B> fb)`
+- `[ext] public static LanguageExt.OptionUnsafe<A> Add<ARITH, A>(this LanguageExt.OptionUnsafe<A> x, LanguageExt.OptionUnsafe<A> y)`
+- `where ARITH : struct, LanguageExt.TypeClasses.Arithmetic<A>`
+- `[ext] public static LanguageExt.OptionUnsafe<B> Apply<A, B>(this LanguageExt.OptionUnsafe<System.Func<A, B>> fab, LanguageExt.OptionUnsafe<A> fa)`
+- `[ext] public static LanguageExt.OptionUnsafe<B> Apply<A, B>(this System.Func<A, B> fab, LanguageExt.OptionUnsafe<A> fa)`
+- `[ext] public static LanguageExt.OptionUnsafe<System.Func<B, C>> Apply<A, B, C>(this LanguageExt.OptionUnsafe<System.Func<A, B, C>> fabc, LanguageExt.OptionUnsafe<A> fa)`
+- `[ext] public static LanguageExt.OptionUnsafe<System.Func<B, C>> Apply<A, B, C>(this System.Func<A, B, C> fabc, LanguageExt.OptionUnsafe<A> fa)`
+- `[ext] public static LanguageExt.OptionUnsafe<System.Func<B, C>> Apply<A, B, C>(this LanguageExt.OptionUnsafe<System.Func<A, System.Func<B, C>>> fabc, LanguageExt.OptionUnsafe<A> fa)`
+- `[ext] public static LanguageExt.OptionUnsafe<System.Func<B, C>> Apply<A, B, C>(this System.Func<A, System.Func<B, C>> fabc, LanguageExt.OptionUnsafe<A> fa)`
+- `[ext] public static LanguageExt.OptionUnsafe<C> Apply<A, B, C>(this LanguageExt.OptionUnsafe<System.Func<A, B, C>> fabc, LanguageExt.OptionUnsafe<A> fa, LanguageExt.OptionUnsafe<B> fb)`
+- `[ext] public static LanguageExt.OptionUnsafe<C> Apply<A, B, C>(this System.Func<A, B, C> fabc, LanguageExt.OptionUnsafe<A> fa, LanguageExt.OptionUnsafe<B> fb)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.OptionUnsafe<B>> BindAsync<A, B>(this LanguageExt.OptionUnsafe<A> self, System.Func<A, System.Threading.Tasks.Task<LanguageExt.OptionUnsafe<B>>> bind)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.OptionUnsafe<B>> BindAsync<A, B>(this System.Threading.Tasks.Task<LanguageExt.OptionUnsafe<A>> self, System.Func<A, System.Threading.Tasks.Task<LanguageExt.OptionUnsafe<B>>> bind)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.OptionUnsafe<B>> BindAsync<A, B>(this System.Threading.Tasks.Task<LanguageExt.OptionUnsafe<A>> self, System.Func<A, LanguageExt.OptionUnsafe<B>> bind)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.OptionUnsafe<B>> BindAsync<A, B>(this LanguageExt.OptionUnsafe<System.Threading.Tasks.Task<A>> self, System.Func<A, LanguageExt.OptionUnsafe<B>> bind)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.OptionUnsafe<B>> BindAsync<A, B>(this LanguageExt.OptionUnsafe<System.Threading.Tasks.Task<A>> self, System.Func<A, System.Threading.Tasks.Task<LanguageExt.OptionUnsafe<B>>> bind)`
+- `[ext] public static System.Threading.Tasks.Task<System.Int32> CountAsync<A>(this System.Threading.Tasks.Task<LanguageExt.OptionUnsafe<A>> self)`
+- `[ext] public static LanguageExt.OptionUnsafe<A> Divide<NUM, A>(this LanguageExt.OptionUnsafe<A> x, LanguageExt.OptionUnsafe<A> y)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<A>`
+- `[ext] public static System.Threading.Tasks.Task<System.Boolean> ExistsAsync<A>(this System.Threading.Tasks.Task<LanguageExt.OptionUnsafe<A>> self, System.Func<A, System.Boolean> pred)`
+- `[ext] public static System.Threading.Tasks.Task<System.Boolean> ExistsAsync<A>(this LanguageExt.OptionUnsafe<System.Threading.Tasks.Task<A>> self, System.Func<A, System.Boolean> pred)`
+- `[ext] public static LanguageExt.OptionUnsafe<A> Flatten<A>(this LanguageExt.OptionUnsafe<LanguageExt.OptionUnsafe<A>> ma)`
+- `[ext] public static System.Threading.Tasks.Task<S> FoldAsync<A, S>(this System.Threading.Tasks.Task<LanguageExt.OptionUnsafe<A>> self, S state, System.Func<S, A, S> folder)`
+- `[ext] public static System.Threading.Tasks.Task<S> FoldAsync<A, S>(this LanguageExt.OptionUnsafe<System.Threading.Tasks.Task<A>> self, S state, System.Func<S, A, S> folder)`
+- `[ext] public static System.Threading.Tasks.Task<System.Boolean> ForAllAsync<A>(this System.Threading.Tasks.Task<LanguageExt.OptionUnsafe<A>> self, System.Func<A, System.Boolean> pred)`
+- `[ext] public static System.Threading.Tasks.Task<System.Boolean> ForAllAsync<A>(this LanguageExt.OptionUnsafe<System.Threading.Tasks.Task<A>> self, System.Func<A, System.Boolean> pred)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Unit> IterAsync<A>(this System.Threading.Tasks.Task<LanguageExt.OptionUnsafe<A>> self, System.Action<A> Some)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Unit> IterAsync<A>(this LanguageExt.OptionUnsafe<System.Threading.Tasks.Task<A>> self, System.Action<A> Some)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.OptionUnsafe<B>> MapAsync<A, B>(this System.Threading.Tasks.Task<LanguageExt.OptionUnsafe<A>> self, System.Func<A, System.Threading.Tasks.Task<B>> map)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.OptionUnsafe<B>> MapAsync<A, B>(this System.Threading.Tasks.Task<LanguageExt.OptionUnsafe<A>> self, System.Func<A, B> map)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.OptionUnsafe<B>> MapAsync<A, B>(this LanguageExt.OptionUnsafe<System.Threading.Tasks.Task<A>> self, System.Func<A, B> map)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.OptionUnsafe<B>> MapAsync<A, B>(this LanguageExt.OptionUnsafe<System.Threading.Tasks.Task<A>> self, System.Func<A, System.Threading.Tasks.Task<B>> map)`
+- `[ext] public static System.Collections.Generic.IEnumerable<R> Match<T, R>(this System.Collections.Generic.IEnumerable<LanguageExt.OptionUnsafe<T>> list, System.Func<T, System.Collections.Generic.IEnumerable<R>> Some, System.Func<System.Collections.Generic.IEnumerable<R>> None)`
+- `[ext] public static System.Collections.Generic.IEnumerable<R> Match<T, R>(this System.Collections.Generic.IEnumerable<LanguageExt.OptionUnsafe<T>> list, System.Func<T, System.Collections.Generic.IEnumerable<R>> Some, System.Collections.Generic.IEnumerable<R> None)`
+- `[ext] public static System.Threading.Tasks.Task<B> MatchAsync<A, B>(this LanguageExt.OptionUnsafe<A> ma, System.Func<A, System.Threading.Tasks.Task<B>> Some, System.Func<B> None)`
+- `[ext] public static System.Threading.Tasks.Task<B> MatchAsync<A, B>(this LanguageExt.OptionUnsafe<A> ma, System.Func<A, System.Threading.Tasks.Task<B>> Some, System.Func<System.Threading.Tasks.Task<B>> None)`
+- `[ext] public static LanguageExt.OptionUnsafe<A> Product<ARITH, A>(this LanguageExt.OptionUnsafe<A> x, LanguageExt.OptionUnsafe<A> y)`
+- `where ARITH : struct, LanguageExt.TypeClasses.Arithmetic<A>`
+- `[ext] public static System.Collections.Generic.IEnumerable<A> Somes<A>(this System.Collections.Generic.IEnumerable<LanguageExt.OptionUnsafe<A>> self)`
+- `[ext] public static LanguageExt.Seq<A> Somes<A>(this LanguageExt.Seq<LanguageExt.OptionUnsafe<A>> self)`
+- `[ext] public static LanguageExt.OptionUnsafe<A> Subtract<ARITH, A>(this LanguageExt.OptionUnsafe<A> x, LanguageExt.OptionUnsafe<A> y)`
+- `where ARITH : struct, LanguageExt.TypeClasses.Arithmetic<A>`
+- `[ext] public static System.Int32 Sum(this LanguageExt.OptionUnsafe<System.Int32> a)`
+- `[ext] public static A Sum<NUM, A>(this LanguageExt.OptionUnsafe<A> self)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<A>`
+- `[ext] public static A? ToNullable<A>(this LanguageExt.OptionUnsafe<A> ma)`
+- `where A : struct`
+
+### QueryExtensions (class [static])
+
+- `[ext] public static System.Linq.IQueryable<T> Append<T>(this System.Linq.IQueryable<T> lhs, System.Linq.IQueryable<T> rhs)`
+- `[ext] public static System.Linq.IQueryable<U> Choose<T, U>(this System.Linq.IQueryable<T> list, System.Linq.Expressions.Expression<System.Func<T, LanguageExt.Option<U>>> selector)`
+- `[ext] public static System.Linq.IQueryable<U> Choose<T, U>(this System.Linq.IQueryable<T> list, System.Linq.Expressions.Expression<System.Func<System.Int32, T, LanguageExt.Option<U>>> selector)`
+- `[ext] public static System.Linq.IQueryable<R> Collect<T, R>(this System.Linq.IQueryable<T> list, System.Linq.Expressions.Expression<System.Func<T, System.Collections.Generic.IEnumerable<R>>> map)`
+- `[ext] public static System.Linq.IQueryable<T> Distinct<T>(this System.Linq.IQueryable<T> list)`
+- `[ext] public static System.Boolean Exists<T>(this System.Linq.IQueryable<T> list, System.Linq.Expressions.Expression<System.Func<T, System.Boolean>> pred)`
+- `[ext] public static System.Linq.IQueryable<T> Filter<T>(this System.Linq.IQueryable<T> list, System.Linq.Expressions.Expression<System.Func<T, System.Boolean>> predicate)`
+- `[ext] public static S Fold<S, T>(this System.Linq.IQueryable<T> list, S state, System.Linq.Expressions.Expression<System.Func<S, T, S>> folder)`
+- `[ext] public static S FoldBack<S, T>(this System.Linq.IQueryable<T> list, S state, System.Linq.Expressions.Expression<System.Func<S, T, S>> folder)`
+- `[ext] public static System.Boolean ForAll<T>(this System.Linq.IQueryable<T> list, System.Linq.Expressions.Expression<System.Func<T, System.Boolean>> pred)`
+- `[ext] public static LanguageExt.Lst<T> Freeze<T>(this System.Linq.IQueryable<T> list)`
+- `[ext] public static T Head<T>(this System.Linq.IQueryable<T> list)`
+- `[ext] public static LanguageExt.Validation<S, T> HeadOrInvalid<S, T>(this System.Linq.IQueryable<T> list, S fail)`
+- `[ext] public static LanguageExt.Either<S, T> HeadOrLeft<S, T>(this System.Linq.IQueryable<T> list, S left)`
+- `[ext] public static LanguageExt.Option<T> HeadOrNone<T>(this System.Linq.IQueryable<T> list)`
+- `[ext] public static System.Int32 Length<T>(this System.Linq.IQueryable<T> list)`
+- `[ext] public static System.Linq.IQueryable<R> Map<T, R>(this System.Linq.IQueryable<T> list, System.Linq.Expressions.Expression<System.Func<T, R>> map)`
+- `[ext] public static System.Linq.IQueryable<R> Map<T, R>(this System.Linq.IQueryable<T> list, System.Linq.Expressions.Expression<System.Func<System.Int32, T, R>> map)`
+- `[ext] public static T Reduce<T>(this System.Linq.IQueryable<T> list, System.Linq.Expressions.Expression<System.Func<T, T, T>> reducer)`
+- `[ext] public static T ReduceBack<T>(this System.Linq.IQueryable<T> list, System.Linq.Expressions.Expression<System.Func<T, T, T>> reducer)`
+- `[ext] public static System.Linq.IQueryable<T> Rev<T>(this System.Linq.IQueryable<T> list)`
+- `[ext] public static System.Linq.IQueryable<T> Tail<T>(this System.Linq.IQueryable<T> list)`
+- `[ext] public static System.Linq.IQueryable<V> Zip<T, U, V>(this System.Linq.IQueryable<T> list, System.Collections.Generic.IEnumerable<U> other, System.Linq.Expressions.Expression<System.Func<T, U, V>> zipper)`
+
+### RWSExtensions (class [static])
+
+- `[ext] public static LanguageExt.RWS<MonoidW, R, W, S, LanguageExt.Seq<A>> AsEnumerable<MonoidW, R, W, S, A>(this LanguageExt.RWS<MonoidW, R, W, S, A> self)`
+- `where MonoidW : struct, LanguageExt.TypeClasses.Monoid<W>`
+- `[ext] public static LanguageExt.Seq<A> AsEnumerable<MonoidW, R, W, S, A>(this LanguageExt.RWS<MonoidW, R, W, S, A> self, R env, S state)`
+- `where MonoidW : struct, LanguageExt.TypeClasses.Monoid<W>`
+- `[ext] public static LanguageExt.RWS<MonoidW, R, W, S, B> Bind<MonoidW, R, W, S, A, B>(this LanguageExt.RWS<MonoidW, R, W, S, A> ma, System.Func<A, LanguageExt.RWS<MonoidW, R, W, S, B>> f)`
+- `where MonoidW : struct, LanguageExt.TypeClasses.Monoid<W>`
+- `[ext] public static LanguageExt.RWS<MonoidW, R, W, S, A> Censor<MonoidW, R, W, S, A>(this LanguageExt.RWS<MonoidW, R, W, S, A> ma, System.Func<W, W> f)`
+- `where MonoidW : struct, LanguageExt.TypeClasses.Monoid<W>`
+- `[ext] public static LanguageExt.RWS<MonoidW, R, W, S, System.Int32> Count<MonoidW, R, W, S, A>(this LanguageExt.RWS<MonoidW, R, W, S, A> self)`
+- `where MonoidW : struct, LanguageExt.TypeClasses.Monoid<W>`
+- `[ext] public static LanguageExt.RWS<MonoidW, R, W, S, A> Do<MonoidW, R, W, S, A>(this LanguageExt.RWS<MonoidW, R, W, S, A> ma, System.Action<A> f)`
+- `where MonoidW : struct, LanguageExt.TypeClasses.Monoid<W>`
+- `[ext] public static LanguageExt.RWS<MonoidW, R, W, S, System.Boolean> Exists<MonoidW, R, W, S, A>(this LanguageExt.RWS<MonoidW, R, W, S, A> self, System.Func<A, System.Boolean> pred)`
+- `where MonoidW : struct, LanguageExt.TypeClasses.Monoid<W>`
+- `[ext] public static LanguageExt.RWS<MonoidW, R, W, S, A> Filter<MonoidW, R, W, S, A>(this LanguageExt.RWS<MonoidW, R, W, S, A> self, System.Func<A, System.Boolean> pred)`
+- `where MonoidW : struct, LanguageExt.TypeClasses.Monoid<W>`
+- `[ext] public static LanguageExt.RWS<MonoidW, R, W, S, A> Flatten<MonoidW, R, W, S, A>(this LanguageExt.RWS<MonoidW, R, W, S, LanguageExt.RWS<MonoidW, R, W, S, A>> ma)`
+- `where MonoidW : struct, LanguageExt.TypeClasses.Monoid<W>`
+- `[ext] public static LanguageExt.RWS<MonoidW, R, W, S, R> Fold<MonoidW, R, W, S, A>(this LanguageExt.RWS<MonoidW, R, W, S, A> self, System.Func<R, A, R> f)`
+- `where MonoidW : struct, LanguageExt.TypeClasses.Monoid<W>`
+- `[ext] public static LanguageExt.RWS<MonoidW, R, W, S, B> Fold<MonoidW, R, W, S, A, B>(this LanguageExt.RWS<MonoidW, R, W, S, A> self, B initialValue, System.Func<B, A, B> f)`
+- `where MonoidW : struct, LanguageExt.TypeClasses.Monoid<W>`
+- `[ext] public static LanguageExt.RWS<MonoidW, R, W, S, System.Boolean> ForAll<MonoidW, R, W, S, A>(this LanguageExt.RWS<MonoidW, R, W, S, A> self, System.Func<A, System.Boolean> pred)`
+- `where MonoidW : struct, LanguageExt.TypeClasses.Monoid<W>`
+- `[ext] public static LanguageExt.RWS<MonoidW, R, W, S, LanguageExt.Unit> Iter<MonoidW, R, W, S, A>(this LanguageExt.RWS<MonoidW, R, W, S, A> self, System.Action<A> action)`
+- `where MonoidW : struct, LanguageExt.TypeClasses.Monoid<W>`
+- `[ext] public static LanguageExt.RWS<MonoidW, R, W, S, System.ValueTuple<A, B>> Listen<MonoidW, R, W, S, A, B>(this LanguageExt.RWS<MonoidW, R, W, S, A> ma, System.Func<W, B> f)`
+- `where MonoidW : struct, LanguageExt.TypeClasses.Monoid<W>`
+- `[ext] public static LanguageExt.RWS<MonoidW, R, W, S, B> Map<MonoidW, R, W, S, A, B>(this LanguageExt.RWS<MonoidW, R, W, S, A> self, System.Func<A, B> project)`
+- `where MonoidW : struct, LanguageExt.TypeClasses.Monoid<W>`
+- `public static LanguageExt.RWS<MonoidW, R, W, S, LanguageExt.Unit> Modify<MonoidW, R, W, S, A>(LanguageExt.RWS<MonoidW, R, W, S, A> self, System.Func<S, S> f)`
+- `where MonoidW : struct, LanguageExt.TypeClasses.Monoid<W>`
+- `[ext] public static LanguageExt.RWS<MonoidW, R, W, S, A> Pass<MonoidW, R, W, S, A>(this LanguageExt.RWS<MonoidW, R, W, S, System.ValueTuple<A, System.Func<W, W>>> self)`
+- `where MonoidW : struct, LanguageExt.TypeClasses.Monoid<W>`
+- `[ext] public static LanguageExt.RWSResult<MonoidW, R, W, S, A> Run<MonoidW, R, W, S, A>(this LanguageExt.RWS<MonoidW, R, W, S, A> self, R env, S state)`
+- `where MonoidW : struct, LanguageExt.TypeClasses.Monoid<W>`
+- `[ext] public static LanguageExt.RWS<MonoidW, R, W, S, B> Select<MonoidW, R, W, S, A, B>(this LanguageExt.RWS<MonoidW, R, W, S, A> ma, System.Func<A, B> f)`
+- `where MonoidW : struct, LanguageExt.TypeClasses.Monoid<W>`
+- `[ext] public static LanguageExt.RWS<MonoidW, R, W, S, C> SelectMany<MonoidW, R, W, S, A, B, C>(this LanguageExt.RWS<MonoidW, R, W, S, A> ma, System.Func<A, LanguageExt.RWS<MonoidW, R, W, S, B>> bind, System.Func<A, B, C> project)`
+- `where MonoidW : struct, LanguageExt.TypeClasses.Monoid<W>`
+- `[ext] public static LanguageExt.RWS<MonoidW, R, W, S, A> Strict<MonoidW, R, W, S, A>(this LanguageExt.RWS<MonoidW, R, W, S, A> ma)`
+- `where MonoidW : struct, LanguageExt.TypeClasses.Monoid<W>`
+- `[ext] public static LanguageExt.RWS<MonoidW, R, W, S, System.Int32> Sum<MonoidW, R, W, S>(this LanguageExt.RWS<MonoidW, R, W, S, System.Int32> self)`
+- `where MonoidW : struct, LanguageExt.TypeClasses.Monoid<W>`
+- `[ext] public static LanguageExt.RWS<MonoidW, R, W, S, LanguageExt.Seq<A>> ToSeq<MonoidW, R, W, S, A>(this LanguageExt.RWS<MonoidW, R, W, S, A> self)`
+- `where MonoidW : struct, LanguageExt.TypeClasses.Monoid<W>`
+- `[ext] public static LanguageExt.Seq<A> ToSeq<MonoidW, R, W, S, A>(this LanguageExt.RWS<MonoidW, R, W, S, A> self, R env, S state)`
+- `where MonoidW : struct, LanguageExt.TypeClasses.Monoid<W>`
+- `[ext] public static LanguageExt.RWS<MonoidW, R, W, S, A> Where<MonoidW, R, W, S, A>(this LanguageExt.RWS<MonoidW, R, W, S, A> self, System.Func<A, System.Boolean> pred)`
+- `where MonoidW : struct, LanguageExt.TypeClasses.Monoid<W>`
+
+### ReaderExt (class [static])
+
+- `[ext] public static LanguageExt.Reader<Env, LanguageExt.Seq<A>> AsEnumerable<Env, A>(this LanguageExt.Reader<Env, A> self)`
+- `[ext] public static System.Collections.Generic.IEnumerable<A> AsEnumerable<Env, A>(this LanguageExt.Reader<Env, A> self, Env env)`
+- `[ext] public static LanguageExt.Reader<Env, B> Bind<Env, A, B>(this LanguageExt.Reader<Env, A> self, System.Func<A, LanguageExt.Reader<Env, B>> binder)`
+- `[ext] public static LanguageExt.Reader<Env, System.Int32> Count<Env, T>(this LanguageExt.Reader<Env, T> self)`
+- `[ext] public static LanguageExt.Reader<Env, A> Do<Env, A>(this LanguageExt.Reader<Env, A> ma, System.Action<A> f)`
+- `[ext] public static LanguageExt.Reader<Env, System.Boolean> Exists<Env, A>(this LanguageExt.Reader<Env, A> self, System.Func<A, System.Boolean> pred)`
+- `[ext] public static LanguageExt.Reader<Env, A> Flatten<Env, A>(this LanguageExt.Reader<Env, LanguageExt.Reader<Env, A>> ma)`
+- `[ext] public static LanguageExt.Reader<Env, Env> Fold<Env, A>(this LanguageExt.Reader<Env, A> self, System.Func<Env, A, Env> f)`
+- `[ext] public static LanguageExt.Reader<Env, S> Fold<Env, S, A>(this LanguageExt.Reader<Env, A> self, S state, System.Func<S, A, S> folder)`
+- `[ext] public static LanguageExt.Reader<Env, System.Boolean> ForAll<Env, A>(this LanguageExt.Reader<Env, A> self, System.Func<A, System.Boolean> pred)`
+- `[ext] public static LanguageExt.Reader<Env, LanguageExt.Unit> Iter<Env, A>(this LanguageExt.Reader<Env, A> self, System.Action<A> action)`
+- `[ext] public static LanguageExt.Reader<Env, R> Map<Env, A, R>(this LanguageExt.Reader<Env, A> self, System.Func<A, R> mapper)`
+- `[ext] public static LanguageExt.ReaderResult<A> Run<Env, A>(this LanguageExt.Reader<Env, A> self, Env env)`
+- `[ext] public static LanguageExt.Reader<Env, B> Select<Env, A, B>(this LanguageExt.Reader<Env, A> self, System.Func<A, B> map)`
+- `[ext] public static LanguageExt.Reader<Env, C> SelectMany<Env, A, B, C>(this LanguageExt.Reader<Env, A> self, System.Func<A, LanguageExt.Reader<Env, B>> bind, System.Func<A, B, C> project)`
+- `[ext] public static LanguageExt.Reader<Env, A> Strict<Env, A>(this LanguageExt.Reader<Env, A> ma)`
+- `[ext] public static LanguageExt.Reader<Env, System.Int32> Sum<Env>(this LanguageExt.Reader<Env, System.Int32> self)`
+- `[ext] public static LanguageExt.Either<LanguageExt.Common.Error, A> ToEither<Env, A>(this LanguageExt.Reader<Env, A> self, Env env)`
+- `[ext] public static LanguageExt.Either<L, A> ToEither<Env, L, A>(this LanguageExt.Reader<Env, A> self, Env env, System.Func<LanguageExt.Common.Error, L> Left)`
+- `[ext] public static LanguageExt.EitherAsync<LanguageExt.Common.Error, A> ToEitherAsync<Env, A>(this LanguageExt.Reader<Env, A> self, Env env)`
+- `[ext] public static LanguageExt.EitherAsync<L, A> ToEitherAsync<Env, L, A>(this LanguageExt.Reader<Env, A> self, Env env, System.Func<LanguageExt.Common.Error, L> Left)`
+- `[ext] public static LanguageExt.EitherUnsafe<LanguageExt.Common.Error, A> ToEitherUnsafe<Env, A>(this LanguageExt.Reader<Env, A> self, Env env)`
+- `[ext] public static LanguageExt.EitherUnsafe<L, A> ToEitherUnsafe<Env, L, A>(this LanguageExt.Reader<Env, A> self, Env env, System.Func<LanguageExt.Common.Error, L> Left)`
+- `[ext] public static LanguageExt.Lst<A> ToList<Env, A>(this LanguageExt.Reader<Env, A> self, Env env)`
+- `[ext] public static LanguageExt.Option<A> ToOption<Env, A>(this LanguageExt.Reader<Env, A> self, Env env)`
+- `[ext] public static LanguageExt.OptionAsync<A> ToOptionAsync<Env, A>(this LanguageExt.Reader<Env, A> self, Env env)`
+- `[ext] public static LanguageExt.OptionUnsafe<A> ToOptionUnsafe<Env, A>(this LanguageExt.Reader<Env, A> self, Env env)`
+- `[ext] public static LanguageExt.Seq<A> ToSeq<Env, A>(this LanguageExt.Reader<Env, A> self, Env env)`
+- `[ext] public static LanguageExt.Try<A> ToTry<Env, A>(this LanguageExt.Reader<Env, A> self, Env env)`
+- `[ext] public static LanguageExt.TryAsync<A> ToTryAsync<Env, A>(this LanguageExt.Reader<Env, A> self, Env env)`
+
+### SeqExtensions (class [static])
+
+- `[ext] public static LanguageExt.Seq<B> Action<A, B>(this LanguageExt.Seq<A> fa, LanguageExt.Seq<B> fb)`
+- `[ext] public static TSource Aggregate<TSource>(this LanguageExt.Seq<TSource> source, System.Func<TSource, TSource, TSource> func)`
+- `[ext] public static TAccumulate Aggregate<TSource, TAccumulate>(this LanguageExt.Seq<TSource> source, TAccumulate seed, System.Func<TAccumulate, TSource, TAccumulate> func)`
+- `[ext] public static TResult Aggregate<TSource, TAccumulate, TResult>(this LanguageExt.Seq<TSource> source, TAccumulate seed, System.Func<TAccumulate, TSource, TAccumulate> func, System.Func<TAccumulate, TResult> resultSelector)`
+- `[ext] public static System.Boolean All<TSource>(this LanguageExt.Seq<TSource> source, System.Func<TSource, System.Boolean> predicate)`
+- `[ext] public static System.Boolean Any<TSource>(this LanguageExt.Seq<TSource> source)`
+- `[ext] public static System.Boolean Any<TSource>(this LanguageExt.Seq<TSource> source, System.Func<TSource, System.Boolean> predicate)`
+- `[ext] public static LanguageExt.Seq<T> Append<T>(this LanguageExt.Seq<T> lhs, LanguageExt.Seq<T> rhs)`
+- `[ext] public static LanguageExt.Seq<T> Append<T>(this LanguageExt.Seq<T> x, LanguageExt.Seq<LanguageExt.Seq<T>> xs)`
+- `[ext] public static LanguageExt.Seq<B> Apply<A, B>(this LanguageExt.Seq<System.Func<A, B>> fabc, LanguageExt.Seq<A> fa)`
+- `[ext] public static LanguageExt.Seq<B> Apply<A, B>(this System.Func<A, B> fabc, LanguageExt.Seq<A> fa)`
+- `[ext] public static LanguageExt.Seq<System.Func<B, C>> Apply<A, B, C>(this LanguageExt.Seq<System.Func<A, B, C>> fabc, LanguageExt.Seq<A> fa)`
+- `[ext] public static LanguageExt.Seq<System.Func<B, C>> Apply<A, B, C>(this System.Func<A, B, C> fabc, LanguageExt.Seq<A> fa)`
+- `[ext] public static LanguageExt.Seq<System.Func<B, C>> Apply<A, B, C>(this LanguageExt.Seq<System.Func<A, System.Func<B, C>>> fabc, LanguageExt.Seq<A> fa)`
+- `[ext] public static LanguageExt.Seq<System.Func<B, C>> Apply<A, B, C>(this System.Func<A, System.Func<B, C>> fabc, LanguageExt.Seq<A> fa)`
+- `[ext] public static LanguageExt.Seq<C> Apply<A, B, C>(this LanguageExt.Seq<System.Func<A, B, C>> fabc, LanguageExt.Seq<A> fa, LanguageExt.Seq<B> fb)`
+- `[ext] public static LanguageExt.Seq<C> Apply<A, B, C>(this System.Func<A, B, C> fabc, LanguageExt.Seq<A> fa, LanguageExt.Seq<B> fb)`
+- `[ext] public static LanguageExt.Seq<C> Apply<A, B, C>(this LanguageExt.Seq<System.Func<A, System.Func<B, C>>> fabc, LanguageExt.Seq<A> fa, LanguageExt.Seq<B> fb)`
+- `[ext] public static LanguageExt.Seq<C> Apply<A, B, C>(this System.Func<A, System.Func<B, C>> fabc, LanguageExt.Seq<A> fa, LanguageExt.Seq<B> fb)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> AsEnumerable<TSource>(this LanguageExt.Seq<TSource> source)`
+- `[ext] public static System.Linq.IQueryable<TElement> AsQueryable<TElement>(this LanguageExt.Seq<TElement> source)`
+- `[ext] public static System.Decimal Average(this LanguageExt.Seq<System.Decimal> source)`
+- `[ext] public static System.Decimal? Average(this LanguageExt.Seq<System.Decimal?> source)`
+- `[ext] public static System.Double Average(this LanguageExt.Seq<System.Double> source)`
+- `[ext] public static System.Double Average(this LanguageExt.Seq<System.Int32> source)`
+- `[ext] public static System.Double Average(this LanguageExt.Seq<System.Int64> source)`
+- `[ext] public static System.Double? Average(this LanguageExt.Seq<System.Double?> source)`
+- `[ext] public static System.Double? Average(this LanguageExt.Seq<System.Int32?> source)`
+- `[ext] public static System.Double? Average(this LanguageExt.Seq<System.Int64?> source)`
+- `[ext] public static System.Single Average(this LanguageExt.Seq<System.Single> source)`
+- `[ext] public static System.Single? Average(this LanguageExt.Seq<System.Single?> source)`
+- `[ext] public static System.Decimal Average<TSource>(this LanguageExt.Seq<TSource> source, System.Func<TSource, System.Decimal> selector)`
+- `[ext] public static System.Decimal? Average<TSource>(this LanguageExt.Seq<TSource> source, System.Func<TSource, System.Decimal?> selector)`
+- `[ext] public static System.Double Average<TSource>(this LanguageExt.Seq<TSource> source, System.Func<TSource, System.Double> selector)`
+- `[ext] public static System.Double Average<TSource>(this LanguageExt.Seq<TSource> source, System.Func<TSource, System.Int32> selector)`
+- `[ext] public static System.Double Average<TSource>(this LanguageExt.Seq<TSource> source, System.Func<TSource, System.Int64> selector)`
+- `[ext] public static System.Double? Average<TSource>(this LanguageExt.Seq<TSource> source, System.Func<TSource, System.Double?> selector)`
+- `[ext] public static System.Double? Average<TSource>(this LanguageExt.Seq<TSource> source, System.Func<TSource, System.Int32?> selector)`
+- `[ext] public static System.Double? Average<TSource>(this LanguageExt.Seq<TSource> source, System.Func<TSource, System.Int64?> selector)`
+- `[ext] public static System.Single Average<TSource>(this LanguageExt.Seq<TSource> source, System.Func<TSource, System.Single> selector)`
+- `[ext] public static System.Single? Average<TSource>(this LanguageExt.Seq<TSource> source, System.Func<TSource, System.Single?> selector)`
+- `[ext] public static LanguageExt.Seq<B> Choose<A, B>(this LanguageExt.Seq<A> list, System.Func<A, LanguageExt.Option<B>> selector)`
+- `[ext] public static LanguageExt.Seq<B> Choose<A, B>(this LanguageExt.Seq<A> list, System.Func<System.Int32, A, LanguageExt.Option<B>> selector)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> Concat<TSource>(this LanguageExt.Seq<TSource> first, System.Collections.Generic.IEnumerable<TSource> second)`
+- `[ext] public static System.Boolean Contains<TSource>(this LanguageExt.Seq<TSource> source, TSource value)`
+- `[ext] public static System.Boolean Contains<TSource>(this LanguageExt.Seq<TSource> source, TSource value, System.Collections.Generic.IEqualityComparer<TSource> comparer)`
+- `[ext] public static System.Int32 Count<A>(this LanguageExt.ISeq<A> seq)`
+- `[ext] public static System.Int32 Count<A>(this LanguageExt.Seq<A> seq)`
+- `[ext] public static System.Int32 Count<TSource>(this LanguageExt.Seq<TSource> source, System.Func<TSource, System.Boolean> predicate)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> DefaultIfEmpty<TSource>(this LanguageExt.Seq<TSource> source)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> DefaultIfEmpty<TSource>(this LanguageExt.Seq<TSource> source, TSource defaultValue)`
+- `[ext] public static LanguageExt.Seq<T> Distinct<T>(this LanguageExt.Seq<T> list)`
+- `[ext] public static LanguageExt.Seq<T> Distinct<EQ, T>(this LanguageExt.Seq<T> list)`
+- `where EQ : struct, LanguageExt.TypeClasses.Eq<T>`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> Distinct<TSource>(this LanguageExt.Seq<TSource> source, System.Collections.Generic.IEqualityComparer<TSource> comparer)`
+- `[ext] public static LanguageExt.Seq<T> Distinct<T, K>(this LanguageExt.Seq<T> list, System.Func<T, K> keySelector, LanguageExt.Option<System.Func<K, K, System.Boolean>> compare)`
+- `[ext] public static TSource ElementAt<TSource>(this LanguageExt.Seq<TSource> source, System.Int32 index)`
+- `[ext] public static TSource ElementAtOrDefault<TSource>(this LanguageExt.Seq<TSource> source, System.Int32 index)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> Except<TSource>(this LanguageExt.Seq<TSource> first, System.Collections.Generic.IEnumerable<TSource> second)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> Except<TSource>(this LanguageExt.Seq<TSource> first, System.Collections.Generic.IEnumerable<TSource> second, System.Collections.Generic.IEqualityComparer<TSource> comparer)`
+- `[ext] public static LanguageExt.Option<T> Find<T>(this LanguageExt.Seq<T> list, System.Func<T, System.Boolean> pred)`
+- `[ext] public static LanguageExt.Seq<T> FindSeq<T>(this LanguageExt.Seq<T> list, System.Func<T, System.Boolean> pred)`
+- `[ext] public static A First<A>(this LanguageExt.ISeq<A> seq)`
+- `[ext] public static A First<A>(this LanguageExt.Seq<A> seq)`
+- `[ext] public static TSource First<TSource>(this LanguageExt.Seq<TSource> source, System.Func<TSource, System.Boolean> predicate)`
+- `[ext] public static A FirstOrDefault<A>(this LanguageExt.ISeq<A> seq)`
+- `[ext] public static A FirstOrDefault<A>(this LanguageExt.Seq<A> seq)`
+- `[ext] public static TSource FirstOrDefault<TSource>(this LanguageExt.Seq<TSource> source, System.Func<TSource, System.Boolean> predicate)`
+- `[ext] public static LanguageExt.Seq<A> Flatten<A>(this LanguageExt.Seq<LanguageExt.Seq<A>> ma)`
+- `[ext] public static S FoldBackUntil<S, T>(this LanguageExt.Seq<T> list, S state, System.Func<S, T, S> folder, System.Func<T, System.Boolean> preditem)`
+- `[ext] public static S FoldBackUntil<S, T>(this LanguageExt.Seq<T> list, S state, System.Func<S, T, S> folder, System.Func<S, System.Boolean> predstate)`
+- `[ext] public static S FoldBackWhile<S, T>(this LanguageExt.Seq<T> list, S state, System.Func<S, T, S> folder, System.Func<T, System.Boolean> preditem)`
+- `[ext] public static S FoldBackWhile<S, T>(this LanguageExt.Seq<T> list, S state, System.Func<S, T, S> folder, System.Func<S, System.Boolean> predstate)`
+- `[ext] public static S FoldUntil<S, T>(this LanguageExt.Seq<T> list, S state, System.Func<S, T, S> folder, System.Func<T, System.Boolean> preditem)`
+- `[ext] public static S FoldUntil<S, T>(this LanguageExt.Seq<T> list, S state, System.Func<S, T, S> folder, System.Func<S, System.Boolean> predstate)`
+- `[ext] public static S FoldWhile<S, T>(this LanguageExt.Seq<T> list, S state, System.Func<S, T, S> folder, System.Func<T, System.Boolean> preditem)`
+- `[ext] public static S FoldWhile<S, T>(this LanguageExt.Seq<T> list, S state, System.Func<S, T, S> folder, System.Func<S, System.Boolean> predstate)`
+- `[ext] public static System.Collections.Generic.IEnumerable<System.Linq.IGrouping<TKey, TSource>> GroupBy<TSource, TKey>(this LanguageExt.Seq<TSource> source, System.Func<TSource, TKey> keySelector)`
+- `[ext] public static System.Collections.Generic.IEnumerable<System.Linq.IGrouping<TKey, TElement>> GroupBy<TSource, TKey, TElement>(this LanguageExt.Seq<TSource> source, System.Func<TSource, TKey> keySelector, System.Func<TSource, TElement> elementSelector)`
+- `[ext] public static System.Collections.Generic.IEnumerable<System.Linq.IGrouping<TKey, TSource>> GroupBy<TSource, TKey>(this LanguageExt.Seq<TSource> source, System.Func<TSource, TKey> keySelector, System.Collections.Generic.IEqualityComparer<TKey> comparer)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TResult> GroupBy<TSource, TKey, TResult>(this LanguageExt.Seq<TSource> source, System.Func<TSource, TKey> keySelector, System.Func<TKey, System.Collections.Generic.IEnumerable<TSource>, TResult> resultSelector)`
+- `[ext] public static System.Collections.Generic.IEnumerable<System.Linq.IGrouping<TKey, TElement>> GroupBy<TSource, TKey, TElement>(this LanguageExt.Seq<TSource> source, System.Func<TSource, TKey> keySelector, System.Func<TSource, TElement> elementSelector, System.Collections.Generic.IEqualityComparer<TKey> comparer)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TResult> GroupBy<TSource, TKey, TElement, TResult>(this LanguageExt.Seq<TSource> source, System.Func<TSource, TKey> keySelector, System.Func<TSource, TElement> elementSelector, System.Func<TKey, System.Collections.Generic.IEnumerable<TElement>, TResult> resultSelector)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TResult> GroupBy<TSource, TKey, TResult>(this LanguageExt.Seq<TSource> source, System.Func<TSource, TKey> keySelector, System.Func<TKey, System.Collections.Generic.IEnumerable<TSource>, TResult> resultSelector, System.Collections.Generic.IEqualityComparer<TKey> comparer)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TResult> GroupBy<TSource, TKey, TElement, TResult>(this LanguageExt.Seq<TSource> source, System.Func<TSource, TKey> keySelector, System.Func<TSource, TElement> elementSelector, System.Func<TKey, System.Collections.Generic.IEnumerable<TElement>, TResult> resultSelector, System.Collections.Generic.IEqualityComparer<TKey> comparer)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TResult> GroupJoin<TOuter, TInner, TKey, TResult>(this LanguageExt.Seq<TOuter> outer, System.Collections.Generic.IEnumerable<TInner> inner, System.Func<TOuter, TKey> outerKeySelector, System.Func<TInner, TKey> innerKeySelector, System.Func<TOuter, System.Collections.Generic.IEnumerable<TInner>, TResult> resultSelector)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TResult> GroupJoin<TOuter, TInner, TKey, TResult>(this LanguageExt.Seq<TOuter> outer, System.Collections.Generic.IEnumerable<TInner> inner, System.Func<TOuter, TKey> outerKeySelector, System.Func<TInner, TKey> innerKeySelector, System.Func<TOuter, System.Collections.Generic.IEnumerable<TInner>, TResult> resultSelector, System.Collections.Generic.IEqualityComparer<TKey> comparer)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> Intersect<TSource>(this LanguageExt.Seq<TSource> first, System.Collections.Generic.IEnumerable<TSource> second)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> Intersect<TSource>(this LanguageExt.Seq<TSource> first, System.Collections.Generic.IEnumerable<TSource> second, System.Collections.Generic.IEqualityComparer<TSource> comparer)`
+- `[ext] public static LanguageExt.Unit Iter<T>(this LanguageExt.Seq<T> list, System.Action<T> action)`
+- `[ext] public static LanguageExt.Unit Iter<T>(this LanguageExt.Seq<T> list, System.Action<System.Int32, T> action)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TResult> Join<TOuter, TInner, TKey, TResult>(this LanguageExt.Seq<TOuter> outer, System.Collections.Generic.IEnumerable<TInner> inner, System.Func<TOuter, TKey> outerKeySelector, System.Func<TInner, TKey> innerKeySelector, System.Func<TOuter, TInner, TResult> resultSelector)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TResult> Join<TOuter, TInner, TKey, TResult>(this LanguageExt.Seq<TOuter> outer, System.Collections.Generic.IEnumerable<TInner> inner, System.Func<TOuter, TKey> outerKeySelector, System.Func<TInner, TKey> innerKeySelector, System.Func<TOuter, TInner, TResult> resultSelector, System.Collections.Generic.IEqualityComparer<TKey> comparer)`
+- `[ext] public static TSource Last<TSource>(this LanguageExt.Seq<TSource> source)`
+- `[ext] public static TSource Last<TSource>(this LanguageExt.Seq<TSource> source, System.Func<TSource, System.Boolean> predicate)`
+- `[ext] public static TSource LastOrDefault<TSource>(this LanguageExt.Seq<TSource> source)`
+- `[ext] public static TSource LastOrDefault<TSource>(this LanguageExt.Seq<TSource> source, System.Func<TSource, System.Boolean> predicate)`
+- `[ext] public static System.Int64 LongCount<TSource>(this LanguageExt.Seq<TSource> source)`
+- `[ext] public static System.Int64 LongCount<TSource>(this LanguageExt.Seq<TSource> source, System.Func<TSource, System.Boolean> predicate)`
+- `[ext] public static System.Decimal Max(this LanguageExt.Seq<System.Decimal> source)`
+- `[ext] public static System.Decimal? Max(this LanguageExt.Seq<System.Decimal?> source)`
+- `[ext] public static System.Double Max(this LanguageExt.Seq<System.Double> source)`
+- `[ext] public static System.Double? Max(this LanguageExt.Seq<System.Double?> source)`
+- `[ext] public static System.Single Max(this LanguageExt.Seq<System.Single> source)`
+- `[ext] public static System.Single? Max(this LanguageExt.Seq<System.Single?> source)`
+- `[ext] public static System.Int32 Max(this LanguageExt.Seq<System.Int32> source)`
+- `[ext] public static System.Int32? Max(this LanguageExt.Seq<System.Int32?> source)`
+- `[ext] public static System.Int64 Max(this LanguageExt.Seq<System.Int64> source)`
+- `[ext] public static System.Int64? Max(this LanguageExt.Seq<System.Int64?> source)`
+- `[ext] public static TSource Max<TSource>(this LanguageExt.Seq<TSource> source)`
+- `[ext] public static System.Decimal Max<TSource>(this LanguageExt.Seq<TSource> source, System.Func<TSource, System.Decimal> selector)`
+- `[ext] public static System.Decimal? Max<TSource>(this LanguageExt.Seq<TSource> source, System.Func<TSource, System.Decimal?> selector)`
+- `[ext] public static System.Double Max<TSource>(this LanguageExt.Seq<TSource> source, System.Func<TSource, System.Double> selector)`
+- `[ext] public static System.Double? Max<TSource>(this LanguageExt.Seq<TSource> source, System.Func<TSource, System.Double?> selector)`
+- `[ext] public static System.Single Max<TSource>(this LanguageExt.Seq<TSource> source, System.Func<TSource, System.Single> selector)`
+- `[ext] public static System.Single? Max<TSource>(this LanguageExt.Seq<TSource> source, System.Func<TSource, System.Single?> selector)`
+- `[ext] public static System.Int32 Max<TSource>(this LanguageExt.Seq<TSource> source, System.Func<TSource, System.Int32> selector)`
+- `[ext] public static System.Int32? Max<TSource>(this LanguageExt.Seq<TSource> source, System.Func<TSource, System.Int32?> selector)`
+- `[ext] public static System.Int64 Max<TSource>(this LanguageExt.Seq<TSource> source, System.Func<TSource, System.Int64> selector)`
+- `[ext] public static System.Int64? Max<TSource>(this LanguageExt.Seq<TSource> source, System.Func<TSource, System.Int64?> selector)`
+- `[ext] public static TResult Max<TSource, TResult>(this LanguageExt.Seq<TSource> source, System.Func<TSource, TResult> selector)`
+- `[ext] public static System.Decimal Min(this LanguageExt.Seq<System.Decimal> source)`
+- `[ext] public static System.Decimal? Min(this LanguageExt.Seq<System.Decimal?> source)`
+- `[ext] public static System.Double Min(this LanguageExt.Seq<System.Double> source)`
+- `[ext] public static System.Double? Min(this LanguageExt.Seq<System.Double?> source)`
+- `[ext] public static System.Single Min(this LanguageExt.Seq<System.Single> source)`
+- `[ext] public static System.Single? Min(this LanguageExt.Seq<System.Single?> source)`
+- `[ext] public static System.Int32 Min(this LanguageExt.Seq<System.Int32> source)`
+- `[ext] public static System.Int32? Min(this LanguageExt.Seq<System.Int32?> source)`
+- `[ext] public static System.Int64 Min(this LanguageExt.Seq<System.Int64> source)`
+- `[ext] public static System.Int64? Min(this LanguageExt.Seq<System.Int64?> source)`
+- `[ext] public static TSource Min<TSource>(this LanguageExt.Seq<TSource> source)`
+- `[ext] public static System.Decimal Min<TSource>(this LanguageExt.Seq<TSource> source, System.Func<TSource, System.Decimal> selector)`
+- `[ext] public static System.Decimal? Min<TSource>(this LanguageExt.Seq<TSource> source, System.Func<TSource, System.Decimal?> selector)`
+- `[ext] public static System.Double Min<TSource>(this LanguageExt.Seq<TSource> source, System.Func<TSource, System.Double> selector)`
+- `[ext] public static System.Double? Min<TSource>(this LanguageExt.Seq<TSource> source, System.Func<TSource, System.Double?> selector)`
+- `[ext] public static System.Single Min<TSource>(this LanguageExt.Seq<TSource> source, System.Func<TSource, System.Single> selector)`
+- `[ext] public static System.Single? Min<TSource>(this LanguageExt.Seq<TSource> source, System.Func<TSource, System.Single?> selector)`
+- `[ext] public static System.Int32 Min<TSource>(this LanguageExt.Seq<TSource> source, System.Func<TSource, System.Int32> selector)`
+- `[ext] public static System.Int32? Min<TSource>(this LanguageExt.Seq<TSource> source, System.Func<TSource, System.Int32?> selector)`
+- `[ext] public static System.Int64 Min<TSource>(this LanguageExt.Seq<TSource> source, System.Func<TSource, System.Int64> selector)`
+- `[ext] public static System.Int64? Min<TSource>(this LanguageExt.Seq<TSource> source, System.Func<TSource, System.Int64?> selector)`
+- `[ext] public static TResult Min<TSource, TResult>(this LanguageExt.Seq<TSource> source, System.Func<TSource, TResult> selector)`
+- `[ext] public static System.Linq.IOrderedEnumerable<TSource> OrderBy<TSource, TKey>(this LanguageExt.Seq<TSource> source, System.Func<TSource, TKey> keySelector)`
+- `[ext] public static System.Linq.IOrderedEnumerable<TSource> OrderBy<TSource, TKey>(this LanguageExt.Seq<TSource> source, System.Func<TSource, TKey> keySelector, System.Collections.Generic.IComparer<TKey> comparer)`
+- `[ext] public static System.Linq.IOrderedEnumerable<TSource> OrderByDescending<TSource, TKey>(this LanguageExt.Seq<TSource> source, System.Func<TSource, TKey> keySelector)`
+- `[ext] public static System.Linq.IOrderedEnumerable<TSource> OrderByDescending<TSource, TKey>(this LanguageExt.Seq<TSource> source, System.Func<TSource, TKey> keySelector, System.Collections.Generic.IComparer<TKey> comparer)`
+- `[ext] public static T Reduce<T>(this LanguageExt.Seq<T> list, System.Func<T, T, T> reducer)`
+- `[ext] public static T ReduceBack<T>(this LanguageExt.Seq<T> list, System.Func<T, T, T> reducer)`
+- `[ext] public static LanguageExt.Seq<T> Rev<T>(this LanguageExt.Seq<T> list)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> Reverse<TSource>(this LanguageExt.Seq<TSource> source)`
+- `[ext] public static LanguageExt.Seq<S> Scan<S, T>(this LanguageExt.Seq<T> list, S state, System.Func<S, T, S> folder)`
+- `[ext] public static LanguageExt.Seq<S> ScanBack<S, T>(this LanguageExt.Seq<T> list, S state, System.Func<S, T, S> folder)`
+- `[ext] public static System.Boolean SequenceEqual<TSource>(this LanguageExt.Seq<TSource> first, System.Collections.Generic.IEnumerable<TSource> second)`
+- `[ext] public static System.Boolean SequenceEqual<TSource>(this LanguageExt.Seq<TSource> first, System.Collections.Generic.IEnumerable<TSource> second, System.Collections.Generic.IEqualityComparer<TSource> comparer)`
+- `[ext] public static TSource Single<TSource>(this LanguageExt.Seq<TSource> source)`
+- `[ext] public static TSource Single<TSource>(this LanguageExt.Seq<TSource> source, System.Func<TSource, System.Boolean> predicate)`
+- `[ext] public static TSource SingleOrDefault<TSource>(this LanguageExt.Seq<TSource> source)`
+- `[ext] public static TSource SingleOrDefault<TSource>(this LanguageExt.Seq<TSource> source, System.Func<TSource, System.Boolean> predicate)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> Skip<TSource>(this LanguageExt.Seq<TSource> source, System.Int32 count)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> SkipWhile<TSource>(this LanguageExt.Seq<TSource> source, System.Func<TSource, System.Boolean> predicate)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> SkipWhile<TSource>(this LanguageExt.Seq<TSource> source, System.Func<TSource, System.Int32, System.Boolean> predicate)`
+- `[ext] public static System.ValueTuple<LanguageExt.Seq<T>, LanguageExt.Seq<T>> Span<T>(this LanguageExt.Seq<T> self, System.Func<T, System.Boolean> pred)`
+- `[ext] public static A Sum<MonoidA, A>(this LanguageExt.Seq<A> list)`
+- `where MonoidA : struct, LanguageExt.TypeClasses.Monoid<A>`
+- `[ext] public static System.Int32 Sum(this LanguageExt.Seq<System.Int32> list)`
+- `[ext] public static System.Single Sum(this LanguageExt.Seq<System.Single> list)`
+- `[ext] public static System.Double Sum(this LanguageExt.Seq<System.Double> list)`
+- `[ext] public static System.Decimal Sum(this LanguageExt.Seq<System.Decimal> list)`
+- `[ext] public static System.Decimal? Sum(this LanguageExt.Seq<System.Decimal?> source)`
+- `[ext] public static System.Double? Sum(this LanguageExt.Seq<System.Double?> source)`
+- `[ext] public static System.Single? Sum(this LanguageExt.Seq<System.Single?> source)`
+- `[ext] public static System.Int32? Sum(this LanguageExt.Seq<System.Int32?> source)`
+- `[ext] public static System.Int64 Sum(this LanguageExt.Seq<System.Int64> source)`
+- `[ext] public static System.Int64? Sum(this LanguageExt.Seq<System.Int64?> source)`
+- `[ext] public static System.Decimal Sum<TSource>(this LanguageExt.Seq<TSource> source, System.Func<TSource, System.Decimal> selector)`
+- `[ext] public static System.Decimal? Sum<TSource>(this LanguageExt.Seq<TSource> source, System.Func<TSource, System.Decimal?> selector)`
+- `[ext] public static System.Double Sum<TSource>(this LanguageExt.Seq<TSource> source, System.Func<TSource, System.Double> selector)`
+- `[ext] public static System.Double? Sum<TSource>(this LanguageExt.Seq<TSource> source, System.Func<TSource, System.Double?> selector)`
+- `[ext] public static System.Single Sum<TSource>(this LanguageExt.Seq<TSource> source, System.Func<TSource, System.Single> selector)`
+- `[ext] public static System.Single? Sum<TSource>(this LanguageExt.Seq<TSource> source, System.Func<TSource, System.Single?> selector)`
+- `[ext] public static System.Int32 Sum<TSource>(this LanguageExt.Seq<TSource> source, System.Func<TSource, System.Int32> selector)`
+- `[ext] public static System.Int32? Sum<TSource>(this LanguageExt.Seq<TSource> source, System.Func<TSource, System.Int32?> selector)`
+- `[ext] public static System.Int64 Sum<TSource>(this LanguageExt.Seq<TSource> source, System.Func<TSource, System.Int64> selector)`
+- `[ext] public static System.Int64? Sum<TSource>(this LanguageExt.Seq<TSource> source, System.Func<TSource, System.Int64?> selector)`
+- `[ext] public static LanguageExt.Seq<LanguageExt.Seq<A>> Tails<A>(this LanguageExt.Seq<A> self)`
+- `[ext] public static LanguageExt.Seq<LanguageExt.Seq<A>> Tailsr<A>(this LanguageExt.Seq<A> self)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> Take<TSource>(this LanguageExt.Seq<TSource> source, System.Int32 count)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> TakeWhile<TSource>(this LanguageExt.Seq<TSource> source, System.Func<TSource, System.Boolean> predicate)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> TakeWhile<TSource>(this LanguageExt.Seq<TSource> source, System.Func<TSource, System.Int32, System.Boolean> predicate)`
+- `[ext] public static TSource[] ToArray<TSource>(this LanguageExt.Seq<TSource> source)`
+- `[ext] public static System.Collections.Generic.Dictionary<TKey, TSource> ToDictionary<TSource, TKey>(this LanguageExt.Seq<TSource> source, System.Func<TSource, TKey> keySelector)`
+- `[ext] public static System.Collections.Generic.Dictionary<TKey, TElement> ToDictionary<TSource, TKey, TElement>(this LanguageExt.Seq<TSource> source, System.Func<TSource, TKey> keySelector, System.Func<TSource, TElement> elementSelector)`
+- `[ext] public static System.Collections.Generic.Dictionary<TKey, TSource> ToDictionary<TSource, TKey>(this LanguageExt.Seq<TSource> source, System.Func<TSource, TKey> keySelector, System.Collections.Generic.IEqualityComparer<TKey> comparer)`
+- `[ext] public static System.Collections.Generic.Dictionary<TKey, TElement> ToDictionary<TSource, TKey, TElement>(this LanguageExt.Seq<TSource> source, System.Func<TSource, TKey> keySelector, System.Func<TSource, TElement> elementSelector, System.Collections.Generic.IEqualityComparer<TKey> comparer)`
+- `[ext] public static System.Collections.Generic.List<TSource> ToList<TSource>(this LanguageExt.Seq<TSource> source)`
+- `[ext] public static System.Linq.ILookup<TKey, TSource> ToLookup<TSource, TKey>(this LanguageExt.Seq<TSource> source, System.Func<TSource, TKey> keySelector)`
+- `[ext] public static System.Linq.ILookup<TKey, TElement> ToLookup<TSource, TKey, TElement>(this LanguageExt.Seq<TSource> source, System.Func<TSource, TKey> keySelector, System.Func<TSource, TElement> elementSelector)`
+- `[ext] public static System.Linq.ILookup<TKey, TSource> ToLookup<TSource, TKey>(this LanguageExt.Seq<TSource> source, System.Func<TSource, TKey> keySelector, System.Collections.Generic.IEqualityComparer<TKey> comparer)`
+- `[ext] public static System.Linq.ILookup<TKey, TElement> ToLookup<TSource, TKey, TElement>(this LanguageExt.Seq<TSource> source, System.Func<TSource, TKey> keySelector, System.Func<TSource, TElement> elementSelector, System.Collections.Generic.IEqualityComparer<TKey> comparer)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> Union<TSource>(this LanguageExt.Seq<TSource> first, System.Collections.Generic.IEnumerable<TSource> second)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> Union<TSource>(this LanguageExt.Seq<TSource> first, System.Collections.Generic.IEnumerable<TSource> second, System.Collections.Generic.IEqualityComparer<TSource> comparer)`
+- `[ext] public static LanguageExt.Seq<System.ValueTuple<T, U>> Zip<T, U>(this LanguageExt.Seq<T> list, LanguageExt.Seq<U> other)`
+- `[ext] public static LanguageExt.Seq<V> Zip<T, U, V>(this LanguageExt.Seq<T> list, LanguageExt.Seq<U> other, System.Func<T, U, V> zipper)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TResult> Zip<TFirst, TSecond, TResult>(this LanguageExt.Seq<TFirst> first, System.Collections.Generic.IEnumerable<TSecond> second, System.Func<TFirst, TSecond, TResult> resultSelector)`
+
+### SetExtensions (class [static])
+
+- `[ext] public static TSource Aggregate<TSource>(this LanguageExt.Set<TSource> source, System.Func<TSource, TSource, TSource> func)`
+- `[ext] public static TAccumulate Aggregate<TSource, TAccumulate>(this LanguageExt.Set<TSource> source, TAccumulate seed, System.Func<TAccumulate, TSource, TAccumulate> func)`
+- `[ext] public static TResult Aggregate<TSource, TAccumulate, TResult>(this LanguageExt.Set<TSource> source, TAccumulate seed, System.Func<TAccumulate, TSource, TAccumulate> func, System.Func<TAccumulate, TResult> resultSelector)`
+- `[ext] public static System.Boolean All<TSource>(this LanguageExt.Set<TSource> source, System.Func<TSource, System.Boolean> predicate)`
+- `[ext] public static System.Boolean Any<TSource>(this LanguageExt.Set<TSource> source)`
+- `[ext] public static System.Boolean Any<TSource>(this LanguageExt.Set<TSource> source, System.Func<TSource, System.Boolean> predicate)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> AsEnumerable<TSource>(this LanguageExt.Set<TSource> source)`
+- `[ext] public static System.Linq.IQueryable<TElement> AsQueryable<TElement>(this LanguageExt.Set<TElement> source)`
+- `[ext] public static System.Decimal Average(this LanguageExt.Set<System.Decimal> source)`
+- `[ext] public static System.Decimal? Average(this LanguageExt.Set<System.Decimal?> source)`
+- `[ext] public static System.Double Average(this LanguageExt.Set<System.Double> source)`
+- `[ext] public static System.Double Average(this LanguageExt.Set<System.Int32> source)`
+- `[ext] public static System.Double Average(this LanguageExt.Set<System.Int64> source)`
+- `[ext] public static System.Double? Average(this LanguageExt.Set<System.Double?> source)`
+- `[ext] public static System.Double? Average(this LanguageExt.Set<System.Int32?> source)`
+- `[ext] public static System.Double? Average(this LanguageExt.Set<System.Int64?> source)`
+- `[ext] public static System.Single Average(this LanguageExt.Set<System.Single> source)`
+- `[ext] public static System.Single? Average(this LanguageExt.Set<System.Single?> source)`
+- `[ext] public static System.Decimal Average<TSource>(this LanguageExt.Set<TSource> source, System.Func<TSource, System.Decimal> selector)`
+- `[ext] public static System.Decimal? Average<TSource>(this LanguageExt.Set<TSource> source, System.Func<TSource, System.Decimal?> selector)`
+- `[ext] public static System.Double Average<TSource>(this LanguageExt.Set<TSource> source, System.Func<TSource, System.Double> selector)`
+- `[ext] public static System.Double Average<TSource>(this LanguageExt.Set<TSource> source, System.Func<TSource, System.Int32> selector)`
+- `[ext] public static System.Double Average<TSource>(this LanguageExt.Set<TSource> source, System.Func<TSource, System.Int64> selector)`
+- `[ext] public static System.Double? Average<TSource>(this LanguageExt.Set<TSource> source, System.Func<TSource, System.Double?> selector)`
+- `[ext] public static System.Double? Average<TSource>(this LanguageExt.Set<TSource> source, System.Func<TSource, System.Int32?> selector)`
+- `[ext] public static System.Double? Average<TSource>(this LanguageExt.Set<TSource> source, System.Func<TSource, System.Int64?> selector)`
+- `[ext] public static System.Single Average<TSource>(this LanguageExt.Set<TSource> source, System.Func<TSource, System.Single> selector)`
+- `[ext] public static System.Single? Average<TSource>(this LanguageExt.Set<TSource> source, System.Func<TSource, System.Single?> selector)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> Concat<TSource>(this LanguageExt.Set<TSource> first, System.Collections.Generic.IEnumerable<TSource> second)`
+- `[ext] public static System.Boolean Contains<TSource>(this LanguageExt.Set<TSource> source, TSource value)`
+- `[ext] public static System.Boolean Contains<TSource>(this LanguageExt.Set<TSource> source, TSource value, System.Collections.Generic.IEqualityComparer<TSource> comparer)`
+- `[ext] public static System.Int32 Count<TSource>(this LanguageExt.Set<TSource> source)`
+- `[ext] public static System.Int32 Count<TSource>(this LanguageExt.Set<TSource> source, System.Func<TSource, System.Boolean> predicate)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> DefaultIfEmpty<TSource>(this LanguageExt.Set<TSource> source)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> DefaultIfEmpty<TSource>(this LanguageExt.Set<TSource> source, TSource defaultValue)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> Distinct<TSource>(this LanguageExt.Set<TSource> source)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> Distinct<TSource>(this LanguageExt.Set<TSource> source, System.Collections.Generic.IEqualityComparer<TSource> comparer)`
+- `[ext] public static TSource ElementAt<TSource>(this LanguageExt.Set<TSource> source, System.Int32 index)`
+- `[ext] public static TSource ElementAtOrDefault<TSource>(this LanguageExt.Set<TSource> source, System.Int32 index)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> Except<TSource>(this LanguageExt.Set<TSource> first, System.Collections.Generic.IEnumerable<TSource> second)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> Except<TSource>(this LanguageExt.Set<TSource> first, System.Collections.Generic.IEnumerable<TSource> second, System.Collections.Generic.IEqualityComparer<TSource> comparer)`
+- `[ext] public static TSource First<TSource>(this LanguageExt.Set<TSource> source)`
+- `[ext] public static TSource First<TSource>(this LanguageExt.Set<TSource> source, System.Func<TSource, System.Boolean> predicate)`
+- `[ext] public static TSource FirstOrDefault<TSource>(this LanguageExt.Set<TSource> source)`
+- `[ext] public static TSource FirstOrDefault<TSource>(this LanguageExt.Set<TSource> source, System.Func<TSource, System.Boolean> predicate)`
+- `[ext] public static System.Collections.Generic.IEnumerable<System.Linq.IGrouping<TKey, TSource>> GroupBy<TSource, TKey>(this LanguageExt.Set<TSource> source, System.Func<TSource, TKey> keySelector)`
+- `[ext] public static System.Collections.Generic.IEnumerable<System.Linq.IGrouping<TKey, TElement>> GroupBy<TSource, TKey, TElement>(this LanguageExt.Set<TSource> source, System.Func<TSource, TKey> keySelector, System.Func<TSource, TElement> elementSelector)`
+- `[ext] public static System.Collections.Generic.IEnumerable<System.Linq.IGrouping<TKey, TSource>> GroupBy<TSource, TKey>(this LanguageExt.Set<TSource> source, System.Func<TSource, TKey> keySelector, System.Collections.Generic.IEqualityComparer<TKey> comparer)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TResult> GroupBy<TSource, TKey, TResult>(this LanguageExt.Set<TSource> source, System.Func<TSource, TKey> keySelector, System.Func<TKey, System.Collections.Generic.IEnumerable<TSource>, TResult> resultSelector)`
+- `[ext] public static System.Collections.Generic.IEnumerable<System.Linq.IGrouping<TKey, TElement>> GroupBy<TSource, TKey, TElement>(this LanguageExt.Set<TSource> source, System.Func<TSource, TKey> keySelector, System.Func<TSource, TElement> elementSelector, System.Collections.Generic.IEqualityComparer<TKey> comparer)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TResult> GroupBy<TSource, TKey, TElement, TResult>(this LanguageExt.Set<TSource> source, System.Func<TSource, TKey> keySelector, System.Func<TSource, TElement> elementSelector, System.Func<TKey, System.Collections.Generic.IEnumerable<TElement>, TResult> resultSelector)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TResult> GroupBy<TSource, TKey, TResult>(this LanguageExt.Set<TSource> source, System.Func<TSource, TKey> keySelector, System.Func<TKey, System.Collections.Generic.IEnumerable<TSource>, TResult> resultSelector, System.Collections.Generic.IEqualityComparer<TKey> comparer)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TResult> GroupBy<TSource, TKey, TElement, TResult>(this LanguageExt.Set<TSource> source, System.Func<TSource, TKey> keySelector, System.Func<TSource, TElement> elementSelector, System.Func<TKey, System.Collections.Generic.IEnumerable<TElement>, TResult> resultSelector, System.Collections.Generic.IEqualityComparer<TKey> comparer)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TResult> GroupJoin<TOuter, TInner, TKey, TResult>(this LanguageExt.Set<TOuter> outer, System.Collections.Generic.IEnumerable<TInner> inner, System.Func<TOuter, TKey> outerKeySelector, System.Func<TInner, TKey> innerKeySelector, System.Func<TOuter, System.Collections.Generic.IEnumerable<TInner>, TResult> resultSelector)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TResult> GroupJoin<TOuter, TInner, TKey, TResult>(this LanguageExt.Set<TOuter> outer, System.Collections.Generic.IEnumerable<TInner> inner, System.Func<TOuter, TKey> outerKeySelector, System.Func<TInner, TKey> innerKeySelector, System.Func<TOuter, System.Collections.Generic.IEnumerable<TInner>, TResult> resultSelector, System.Collections.Generic.IEqualityComparer<TKey> comparer)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> Intersect<TSource>(this LanguageExt.Set<TSource> first, System.Collections.Generic.IEnumerable<TSource> second)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> Intersect<TSource>(this LanguageExt.Set<TSource> first, System.Collections.Generic.IEnumerable<TSource> second, System.Collections.Generic.IEqualityComparer<TSource> comparer)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TResult> Join<TOuter, TInner, TKey, TResult>(this LanguageExt.Set<TOuter> outer, System.Collections.Generic.IEnumerable<TInner> inner, System.Func<TOuter, TKey> outerKeySelector, System.Func<TInner, TKey> innerKeySelector, System.Func<TOuter, TInner, TResult> resultSelector)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TResult> Join<TOuter, TInner, TKey, TResult>(this LanguageExt.Set<TOuter> outer, System.Collections.Generic.IEnumerable<TInner> inner, System.Func<TOuter, TKey> outerKeySelector, System.Func<TInner, TKey> innerKeySelector, System.Func<TOuter, TInner, TResult> resultSelector, System.Collections.Generic.IEqualityComparer<TKey> comparer)`
+- `[ext] public static TSource Last<TSource>(this LanguageExt.Set<TSource> source)`
+- `[ext] public static TSource Last<TSource>(this LanguageExt.Set<TSource> source, System.Func<TSource, System.Boolean> predicate)`
+- `[ext] public static TSource LastOrDefault<TSource>(this LanguageExt.Set<TSource> source)`
+- `[ext] public static TSource LastOrDefault<TSource>(this LanguageExt.Set<TSource> source, System.Func<TSource, System.Boolean> predicate)`
+- `[ext] public static System.Int64 LongCount<TSource>(this LanguageExt.Set<TSource> source)`
+- `[ext] public static System.Int64 LongCount<TSource>(this LanguageExt.Set<TSource> source, System.Func<TSource, System.Boolean> predicate)`
+- `[ext] public static System.Decimal Max(this LanguageExt.Set<System.Decimal> source)`
+- `[ext] public static System.Decimal? Max(this LanguageExt.Set<System.Decimal?> source)`
+- `[ext] public static System.Double Max(this LanguageExt.Set<System.Double> source)`
+- `[ext] public static System.Double? Max(this LanguageExt.Set<System.Double?> source)`
+- `[ext] public static System.Single Max(this LanguageExt.Set<System.Single> source)`
+- `[ext] public static System.Single? Max(this LanguageExt.Set<System.Single?> source)`
+- `[ext] public static System.Int32 Max(this LanguageExt.Set<System.Int32> source)`
+- `[ext] public static System.Int32? Max(this LanguageExt.Set<System.Int32?> source)`
+- `[ext] public static System.Int64 Max(this LanguageExt.Set<System.Int64> source)`
+- `[ext] public static System.Int64? Max(this LanguageExt.Set<System.Int64?> source)`
+- `[ext] public static TSource Max<TSource>(this LanguageExt.Set<TSource> source)`
+- `[ext] public static System.Decimal Max<TSource>(this LanguageExt.Set<TSource> source, System.Func<TSource, System.Decimal> selector)`
+- `[ext] public static System.Decimal? Max<TSource>(this LanguageExt.Set<TSource> source, System.Func<TSource, System.Decimal?> selector)`
+- `[ext] public static System.Double Max<TSource>(this LanguageExt.Set<TSource> source, System.Func<TSource, System.Double> selector)`
+- `[ext] public static System.Double? Max<TSource>(this LanguageExt.Set<TSource> source, System.Func<TSource, System.Double?> selector)`
+- `[ext] public static System.Single Max<TSource>(this LanguageExt.Set<TSource> source, System.Func<TSource, System.Single> selector)`
+- `[ext] public static System.Single? Max<TSource>(this LanguageExt.Set<TSource> source, System.Func<TSource, System.Single?> selector)`
+- `[ext] public static System.Int32 Max<TSource>(this LanguageExt.Set<TSource> source, System.Func<TSource, System.Int32> selector)`
+- `[ext] public static System.Int32? Max<TSource>(this LanguageExt.Set<TSource> source, System.Func<TSource, System.Int32?> selector)`
+- `[ext] public static System.Int64 Max<TSource>(this LanguageExt.Set<TSource> source, System.Func<TSource, System.Int64> selector)`
+- `[ext] public static System.Int64? Max<TSource>(this LanguageExt.Set<TSource> source, System.Func<TSource, System.Int64?> selector)`
+- `[ext] public static TResult Max<TSource, TResult>(this LanguageExt.Set<TSource> source, System.Func<TSource, TResult> selector)`
+- `[ext] public static System.Decimal Min(this LanguageExt.Set<System.Decimal> source)`
+- `[ext] public static System.Decimal? Min(this LanguageExt.Set<System.Decimal?> source)`
+- `[ext] public static System.Double Min(this LanguageExt.Set<System.Double> source)`
+- `[ext] public static System.Double? Min(this LanguageExt.Set<System.Double?> source)`
+- `[ext] public static System.Single Min(this LanguageExt.Set<System.Single> source)`
+- `[ext] public static System.Single? Min(this LanguageExt.Set<System.Single?> source)`
+- `[ext] public static System.Int32 Min(this LanguageExt.Set<System.Int32> source)`
+- `[ext] public static System.Int32? Min(this LanguageExt.Set<System.Int32?> source)`
+- `[ext] public static System.Int64 Min(this LanguageExt.Set<System.Int64> source)`
+- `[ext] public static System.Int64? Min(this LanguageExt.Set<System.Int64?> source)`
+- `[ext] public static TSource Min<TSource>(this LanguageExt.Set<TSource> source)`
+- `[ext] public static System.Decimal Min<TSource>(this LanguageExt.Set<TSource> source, System.Func<TSource, System.Decimal> selector)`
+- `[ext] public static System.Decimal? Min<TSource>(this LanguageExt.Set<TSource> source, System.Func<TSource, System.Decimal?> selector)`
+- `[ext] public static System.Double Min<TSource>(this LanguageExt.Set<TSource> source, System.Func<TSource, System.Double> selector)`
+- `[ext] public static System.Double? Min<TSource>(this LanguageExt.Set<TSource> source, System.Func<TSource, System.Double?> selector)`
+- `[ext] public static System.Single Min<TSource>(this LanguageExt.Set<TSource> source, System.Func<TSource, System.Single> selector)`
+- `[ext] public static System.Single? Min<TSource>(this LanguageExt.Set<TSource> source, System.Func<TSource, System.Single?> selector)`
+- `[ext] public static System.Int32 Min<TSource>(this LanguageExt.Set<TSource> source, System.Func<TSource, System.Int32> selector)`
+- `[ext] public static System.Int32? Min<TSource>(this LanguageExt.Set<TSource> source, System.Func<TSource, System.Int32?> selector)`
+- `[ext] public static System.Int64 Min<TSource>(this LanguageExt.Set<TSource> source, System.Func<TSource, System.Int64> selector)`
+- `[ext] public static System.Int64? Min<TSource>(this LanguageExt.Set<TSource> source, System.Func<TSource, System.Int64?> selector)`
+- `[ext] public static TResult Min<TSource, TResult>(this LanguageExt.Set<TSource> source, System.Func<TSource, TResult> selector)`
+- `[ext] public static System.Linq.IOrderedEnumerable<TSource> OrderBy<TSource, TKey>(this LanguageExt.Set<TSource> source, System.Func<TSource, TKey> keySelector)`
+- `[ext] public static System.Linq.IOrderedEnumerable<TSource> OrderBy<TSource, TKey>(this LanguageExt.Set<TSource> source, System.Func<TSource, TKey> keySelector, System.Collections.Generic.IComparer<TKey> comparer)`
+- `[ext] public static System.Linq.IOrderedEnumerable<TSource> OrderByDescending<TSource, TKey>(this LanguageExt.Set<TSource> source, System.Func<TSource, TKey> keySelector)`
+- `[ext] public static System.Linq.IOrderedEnumerable<TSource> OrderByDescending<TSource, TKey>(this LanguageExt.Set<TSource> source, System.Func<TSource, TKey> keySelector, System.Collections.Generic.IComparer<TKey> comparer)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> Reverse<TSource>(this LanguageExt.Set<TSource> source)`
+- `[ext] public static System.Boolean SequenceEqual<TSource>(this LanguageExt.Set<TSource> first, System.Collections.Generic.IEnumerable<TSource> second)`
+- `[ext] public static System.Boolean SequenceEqual<TSource>(this LanguageExt.Set<TSource> first, System.Collections.Generic.IEnumerable<TSource> second, System.Collections.Generic.IEqualityComparer<TSource> comparer)`
+- `[ext] public static TSource Single<TSource>(this LanguageExt.Set<TSource> source)`
+- `[ext] public static TSource Single<TSource>(this LanguageExt.Set<TSource> source, System.Func<TSource, System.Boolean> predicate)`
+- `[ext] public static TSource SingleOrDefault<TSource>(this LanguageExt.Set<TSource> source)`
+- `[ext] public static TSource SingleOrDefault<TSource>(this LanguageExt.Set<TSource> source, System.Func<TSource, System.Boolean> predicate)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> Skip<TSource>(this LanguageExt.Set<TSource> source, System.Int32 count)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> SkipWhile<TSource>(this LanguageExt.Set<TSource> source, System.Func<TSource, System.Boolean> predicate)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> SkipWhile<TSource>(this LanguageExt.Set<TSource> source, System.Func<TSource, System.Int32, System.Boolean> predicate)`
+- `[ext] public static System.Decimal Sum(this LanguageExt.Set<System.Decimal> source)`
+- `[ext] public static System.Decimal? Sum(this LanguageExt.Set<System.Decimal?> source)`
+- `[ext] public static System.Double Sum(this LanguageExt.Set<System.Double> source)`
+- `[ext] public static System.Double? Sum(this LanguageExt.Set<System.Double?> source)`
+- `[ext] public static System.Single Sum(this LanguageExt.Set<System.Single> source)`
+- `[ext] public static System.Single? Sum(this LanguageExt.Set<System.Single?> source)`
+- `[ext] public static System.Int32 Sum(this LanguageExt.Set<System.Int32> source)`
+- `[ext] public static System.Int32? Sum(this LanguageExt.Set<System.Int32?> source)`
+- `[ext] public static System.Int64 Sum(this LanguageExt.Set<System.Int64> source)`
+- `[ext] public static System.Int64? Sum(this LanguageExt.Set<System.Int64?> source)`
+- `[ext] public static System.Decimal Sum<TSource>(this LanguageExt.Set<TSource> source, System.Func<TSource, System.Decimal> selector)`
+- `[ext] public static System.Decimal? Sum<TSource>(this LanguageExt.Set<TSource> source, System.Func<TSource, System.Decimal?> selector)`
+- `[ext] public static System.Double Sum<TSource>(this LanguageExt.Set<TSource> source, System.Func<TSource, System.Double> selector)`
+- `[ext] public static System.Double? Sum<TSource>(this LanguageExt.Set<TSource> source, System.Func<TSource, System.Double?> selector)`
+- `[ext] public static System.Single Sum<TSource>(this LanguageExt.Set<TSource> source, System.Func<TSource, System.Single> selector)`
+- `[ext] public static System.Single? Sum<TSource>(this LanguageExt.Set<TSource> source, System.Func<TSource, System.Single?> selector)`
+- `[ext] public static System.Int32 Sum<TSource>(this LanguageExt.Set<TSource> source, System.Func<TSource, System.Int32> selector)`
+- `[ext] public static System.Int32? Sum<TSource>(this LanguageExt.Set<TSource> source, System.Func<TSource, System.Int32?> selector)`
+- `[ext] public static System.Int64 Sum<TSource>(this LanguageExt.Set<TSource> source, System.Func<TSource, System.Int64> selector)`
+- `[ext] public static System.Int64? Sum<TSource>(this LanguageExt.Set<TSource> source, System.Func<TSource, System.Int64?> selector)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> Take<TSource>(this LanguageExt.Set<TSource> source, System.Int32 count)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> TakeWhile<TSource>(this LanguageExt.Set<TSource> source, System.Func<TSource, System.Boolean> predicate)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> TakeWhile<TSource>(this LanguageExt.Set<TSource> source, System.Func<TSource, System.Int32, System.Boolean> predicate)`
+- `[ext] public static TSource[] ToArray<TSource>(this LanguageExt.Set<TSource> source)`
+- `[ext] public static System.Collections.Generic.Dictionary<TKey, TSource> ToDictionary<TSource, TKey>(this LanguageExt.Set<TSource> source, System.Func<TSource, TKey> keySelector)`
+- `[ext] public static System.Collections.Generic.Dictionary<TKey, TElement> ToDictionary<TSource, TKey, TElement>(this LanguageExt.Set<TSource> source, System.Func<TSource, TKey> keySelector, System.Func<TSource, TElement> elementSelector)`
+- `[ext] public static System.Collections.Generic.Dictionary<TKey, TSource> ToDictionary<TSource, TKey>(this LanguageExt.Set<TSource> source, System.Func<TSource, TKey> keySelector, System.Collections.Generic.IEqualityComparer<TKey> comparer)`
+- `[ext] public static System.Collections.Generic.Dictionary<TKey, TElement> ToDictionary<TSource, TKey, TElement>(this LanguageExt.Set<TSource> source, System.Func<TSource, TKey> keySelector, System.Func<TSource, TElement> elementSelector, System.Collections.Generic.IEqualityComparer<TKey> comparer)`
+- `[ext] public static System.Collections.Generic.List<TSource> ToList<TSource>(this LanguageExt.Set<TSource> source)`
+- `[ext] public static System.Linq.ILookup<TKey, TSource> ToLookup<TSource, TKey>(this LanguageExt.Set<TSource> source, System.Func<TSource, TKey> keySelector)`
+- `[ext] public static System.Linq.ILookup<TKey, TElement> ToLookup<TSource, TKey, TElement>(this LanguageExt.Set<TSource> source, System.Func<TSource, TKey> keySelector, System.Func<TSource, TElement> elementSelector)`
+- `[ext] public static System.Linq.ILookup<TKey, TSource> ToLookup<TSource, TKey>(this LanguageExt.Set<TSource> source, System.Func<TSource, TKey> keySelector, System.Collections.Generic.IEqualityComparer<TKey> comparer)`
+- `[ext] public static System.Linq.ILookup<TKey, TElement> ToLookup<TSource, TKey, TElement>(this LanguageExt.Set<TSource> source, System.Func<TSource, TKey> keySelector, System.Func<TSource, TElement> elementSelector, System.Collections.Generic.IEqualityComparer<TKey> comparer)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> Union<TSource>(this LanguageExt.Set<TSource> first, System.Collections.Generic.IEnumerable<TSource> second)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TSource> Union<TSource>(this LanguageExt.Set<TSource> first, System.Collections.Generic.IEnumerable<TSource> second, System.Collections.Generic.IEqualityComparer<TSource> comparer)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TResult> Zip<TFirst, TSecond, TResult>(this LanguageExt.Set<TFirst> first, System.Collections.Generic.IEnumerable<TSecond> second, System.Func<TFirst, TSecond, TResult> resultSelector)`
+
+### StackExtensions (class [static])
+
+- `[ext] public static LanguageExt.Stck<U> Choose<T, U>(this LanguageExt.Stck<T> stack, System.Func<T, LanguageExt.Option<U>> selector)`
+- `[ext] public static LanguageExt.Stck<U> Choose<T, U>(this LanguageExt.Stck<T> stack, System.Func<System.Int32, T, LanguageExt.Option<U>> selector)`
+- `[ext] public static LanguageExt.Stck<R> Collect<T, R>(this LanguageExt.Stck<T> stack, System.Func<T, System.Collections.Generic.IEnumerable<R>> map)`
+- `[ext] public static LanguageExt.Stck<T> Distinct<T>(this LanguageExt.Stck<T> stack)`
+- `[ext] public static LanguageExt.Stck<T> Distinct<EQ, T>(this LanguageExt.Stck<T> stack)`
+- `where EQ : struct, LanguageExt.TypeClasses.Eq<T>`
+- `[ext] public static LanguageExt.Stck<T> Distinct<T, K>(this LanguageExt.Stck<T> stack, System.Func<T, K> keySelector, LanguageExt.Option<System.Func<K, K, System.Boolean>> compare)`
+- `[ext] public static System.Boolean Exists<T>(this LanguageExt.Stck<T> stack, System.Func<T, System.Boolean> pred)`
+- `[ext] public static LanguageExt.Stck<T> Filter<T>(this LanguageExt.Stck<T> stack, System.Func<T, System.Boolean> predicate)`
+- `[ext] public static LanguageExt.Option<T> Find<T>(this LanguageExt.Stck<T> stack, System.Func<T, System.Boolean> pred)`
+- `[ext] public static S Fold<S, T>(this LanguageExt.Stck<T> stack, S state, System.Func<S, T, S> folder)`
+- `[ext] public static S FoldBack<S, T>(this LanguageExt.Stck<T> stack, S state, System.Func<S, T, S> folder)`
+- `[ext] public static S FoldBackWhile<S, T>(this LanguageExt.Stck<T> stack, S state, System.Func<S, T, S> folder, System.Func<T, System.Boolean> preditem)`
+- `[ext] public static S FoldBackWhile<S, T>(this LanguageExt.Stck<T> stack, S state, System.Func<S, T, S> folder, System.Func<S, System.Boolean> predstate)`
+- `[ext] public static S FoldWhile<S, T>(this LanguageExt.Stck<T> stack, S state, System.Func<S, T, S> folder, System.Func<T, System.Boolean> preditem)`
+- `[ext] public static S FoldWhile<S, T>(this LanguageExt.Stck<T> stack, S state, System.Func<S, T, S> folder, System.Func<S, System.Boolean> predstate)`
+- `[ext] public static System.Boolean ForAll<T>(this LanguageExt.Stck<T> stack, System.Func<T, System.Boolean> pred)`
+- `[ext] public static LanguageExt.Unit Iter<T>(this LanguageExt.Stck<T> stack, System.Action<T> action)`
+- `[ext] public static LanguageExt.Unit Iter<T>(this LanguageExt.Stck<T> stack, System.Action<System.Int32, T> action)`
+- `[ext] public static System.Int32 Length<T>(this LanguageExt.Stck<T> stack)`
+- `[ext] public static LanguageExt.Stck<R> Map<T, R>(this LanguageExt.Stck<T> stack, System.Func<T, R> map)`
+- `[ext] public static LanguageExt.Stck<R> Map<T, R>(this LanguageExt.Stck<T> stack, System.Func<System.Int32, T, R> map)`
+- `[ext] public static T Reduce<T>(this LanguageExt.Stck<T> stack, System.Func<T, T, T> reducer)`
+- `public static T ReduceBack<T>(LanguageExt.Stck<T> stack, System.Func<T, T, T> reducer)`
+- `[ext] public static LanguageExt.Stck<T> Rev<T>(this LanguageExt.Stck<T> stack)`
+- `[ext] public static LanguageExt.Stck<S> Scan<S, T>(this LanguageExt.Stck<T> stack, S state, System.Func<S, T, S> folder)`
+- `[ext] public static LanguageExt.Stck<S> ScanBack<S, T>(this LanguageExt.Stck<T> stack, S state, System.Func<S, T, S> folder)`
+- `[ext] public static LanguageExt.Stck<T> Take<T>(this LanguageExt.Stck<T> stack, System.Int32 count)`
+- `[ext] public static LanguageExt.Stck<T> TakeWhile<T>(this LanguageExt.Stck<T> stack, System.Func<T, System.Boolean> pred)`
+- `[ext] public static LanguageExt.Stck<T> TakeWhile<T>(this LanguageExt.Stck<T> stack, System.Func<T, System.Int32, System.Boolean> pred)`
+
+### StateExtensions (class [static])
+
+- `[ext] public static LanguageExt.State<S, LanguageExt.Seq<A>> AsEnumerable<S, A>(this LanguageExt.State<S, A> self)`
+- `[ext] public static LanguageExt.Seq<A> AsEnumerable<S, A>(this LanguageExt.State<S, A> self, S state)`
+- `[ext] public static LanguageExt.State<S, B> Bind<S, A, B>(this LanguageExt.State<S, A> self, System.Func<A, LanguageExt.State<S, B>> f)`
+- `[ext] public static LanguageExt.State<S, System.Int32> Count<S>(this LanguageExt.State<S, System.Int32> self)`
+- `[ext] public static LanguageExt.State<S, A> Do<S, A>(this LanguageExt.State<S, A> ma, System.Action<A> f)`
+- `[ext] public static LanguageExt.State<S, System.Boolean> Exists<S, A>(this LanguageExt.State<S, A> self, System.Func<A, System.Boolean> pred)`
+- `[ext] public static LanguageExt.State<S, A> Filter<S, A>(this LanguageExt.State<S, A> self, System.Func<A, System.Boolean> pred)`
+- `[ext] public static LanguageExt.State<Env, A> Flatten<Env, A>(this LanguageExt.State<Env, LanguageExt.State<Env, A>> ma)`
+- `[ext] public static LanguageExt.State<S, S> Fold<S, A>(this LanguageExt.State<S, A> self, System.Func<S, A, S> f)`
+- `[ext] public static LanguageExt.State<S, FState> Fold<FState, S, A>(this LanguageExt.State<S, A> self, FState initialState, System.Func<FState, A, FState> f)`
+- `[ext] public static LanguageExt.State<S, System.Boolean> ForAll<S, A>(this LanguageExt.State<S, A> self, System.Func<A, System.Boolean> pred)`
+- `[ext] public static LanguageExt.State<S, LanguageExt.Unit> Iter<S, A>(this LanguageExt.State<S, A> self, System.Action<A> action)`
+- `[ext] public static LanguageExt.State<S, B> Map<S, A, B>(this LanguageExt.State<S, A> self, System.Func<A, B> f)`
+- `[ext] public static LanguageExt.State<S, LanguageExt.Unit> Modify<S, A>(this LanguageExt.State<S, A> self, System.Func<S, S> f)`
+- `[ext] public static System.ValueTuple<LanguageExt.TryOption<A>, S> Run<S, A>(this LanguageExt.State<S, A> self, S state)`
+- `[ext] public static LanguageExt.State<S, B> Select<S, A, B>(this LanguageExt.State<S, A> self, System.Func<A, B> f)`
+- `[ext] public static LanguageExt.State<S, C> SelectMany<S, A, B, C>(this LanguageExt.State<S, A> self, System.Func<A, LanguageExt.State<S, B>> bind, System.Func<A, B, C> project)`
+- `[ext] public static LanguageExt.State<S, A> Strict<S, A>(this LanguageExt.State<S, A> ma)`
+- `[ext] public static LanguageExt.State<S, System.Int32> Sum<S>(this LanguageExt.State<S, System.Int32> self)`
+- `[ext] public static LanguageExt.State<S, LanguageExt.Seq<A>> ToSeq<S, A>(this LanguageExt.State<S, A> self)`
+- `[ext] public static LanguageExt.Seq<A> ToSeq<S, A>(this LanguageExt.State<S, A> self, S state)`
+- `[ext] public static LanguageExt.State<S, A> Where<S, A>(this LanguageExt.State<S, A> self, System.Func<A, System.Boolean> pred)`
+
+### TaskEitherAsyncExtensions (class [static])
+
+- `[ext] public static LanguageExt.EitherAsync<L, B> Action<L, A, B>(this System.Threading.Tasks.Task<LanguageExt.Either<L, A>> fa, System.Threading.Tasks.Task<LanguageExt.Either<L, B>> fb)`
+- `[ext] public static LanguageExt.EitherAsync<L, B> Apply<L, A, B>(this System.Threading.Tasks.Task<LanguageExt.Either<L, System.Func<A, B>>> fab, System.Threading.Tasks.Task<LanguageExt.Either<L, A>> fa)`
+- `[ext] public static LanguageExt.EitherAsync<L, B> Apply<L, A, B>(this System.Func<A, B> fab, System.Threading.Tasks.Task<LanguageExt.Either<L, A>> fa)`
+- `[ext] public static LanguageExt.EitherAsync<L, System.Func<B, C>> Apply<L, A, B, C>(this System.Threading.Tasks.Task<LanguageExt.Either<L, System.Func<A, B, C>>> fabc, System.Threading.Tasks.Task<LanguageExt.Either<L, A>> fa)`
+- `[ext] public static LanguageExt.EitherAsync<L, System.Func<B, C>> Apply<L, A, B, C>(this System.Func<A, B, C> fabc, System.Threading.Tasks.Task<LanguageExt.Either<L, A>> fa)`
+- `[ext] public static LanguageExt.EitherAsync<L, System.Func<B, C>> Apply<L, A, B, C>(this System.Threading.Tasks.Task<LanguageExt.Either<L, System.Func<A, System.Func<B, C>>>> fabc, System.Threading.Tasks.Task<LanguageExt.Either<L, A>> fa)`
+- `[ext] public static LanguageExt.EitherAsync<L, System.Func<B, C>> Apply<L, A, B, C>(this System.Func<A, System.Func<B, C>> fabc, System.Threading.Tasks.Task<LanguageExt.Either<L, A>> fa)`
+- `[ext] public static LanguageExt.EitherAsync<L, C> Apply<L, A, B, C>(this System.Threading.Tasks.Task<LanguageExt.Either<L, System.Func<A, B, C>>> fabc, System.Threading.Tasks.Task<LanguageExt.Either<L, A>> fa, System.Threading.Tasks.Task<LanguageExt.Either<L, B>> fb)`
+- `[ext] public static LanguageExt.EitherAsync<L, C> Apply<L, A, B, C>(this System.Func<A, B, C> fabc, System.Threading.Tasks.Task<LanguageExt.Either<L, A>> fa, System.Threading.Tasks.Task<LanguageExt.Either<L, B>> fb)`
+- `[ext] public static LanguageExt.EitherAsync<L, R> Divide<NUM, L, R>(this System.Threading.Tasks.Task<LanguageExt.Either<L, R>> x, System.Threading.Tasks.Task<LanguageExt.Either<L, R>> y)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<R>`
+- `[ext] public static LanguageExt.EitherAsync<L, R> Plus<NUM, L, R>(this System.Threading.Tasks.Task<LanguageExt.Either<L, R>> x, System.Threading.Tasks.Task<LanguageExt.Either<L, R>> y)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<R>`
+- `[ext] public static LanguageExt.EitherAsync<L, R> Product<NUM, L, R>(this System.Threading.Tasks.Task<LanguageExt.Either<L, R>> x, System.Threading.Tasks.Task<LanguageExt.Either<L, R>> y)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<R>`
+- `[ext] public static LanguageExt.EitherAsync<L, R> Subtract<NUM, L, R>(this System.Threading.Tasks.Task<LanguageExt.Either<L, R>> x, System.Threading.Tasks.Task<LanguageExt.Either<L, R>> y)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<R>`
+- `[ext] public static LanguageExt.EitherAsync<L, R> ToAsync<L, R>(this System.Threading.Tasks.Task<LanguageExt.Either<L, R>> ma)`
+
+### TaskOptionAsyncExtensions (class [static])
+
+- `[ext] public static LanguageExt.OptionAsync<B> ActionAsync<A, B>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> fa, LanguageExt.Option<B> fb)`
+- `[ext] public static LanguageExt.OptionAsync<A> AddAsync<NUM, A>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> x, System.Threading.Tasks.Task<LanguageExt.Option<A>> y)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<A>`
+- `[ext] public static LanguageExt.OptionAsync<B> ApplyAsync<A, B>(this LanguageExt.Option<System.Func<A, B>> fab, System.Threading.Tasks.Task<LanguageExt.Option<A>> fa)`
+- `[ext] public static LanguageExt.OptionAsync<B> ApplyAsync<A, B>(this System.Func<A, B> fab, System.Threading.Tasks.Task<LanguageExt.Option<A>> fa)`
+- `[ext] public static LanguageExt.OptionAsync<System.Func<B, C>> ApplyAsync<A, B, C>(this LanguageExt.Option<System.Func<A, B, C>> fabc, System.Threading.Tasks.Task<LanguageExt.Option<A>> fa)`
+- `[ext] public static LanguageExt.OptionAsync<System.Func<B, C>> ApplyAsync<A, B, C>(this System.Func<A, B, C> fabc, System.Threading.Tasks.Task<LanguageExt.Option<A>> fa)`
+- `[ext] public static LanguageExt.OptionAsync<System.Func<B, C>> ApplyAsync<A, B, C>(this LanguageExt.Option<System.Func<A, System.Func<B, C>>> fabc, System.Threading.Tasks.Task<LanguageExt.Option<A>> fa)`
+- `[ext] public static LanguageExt.OptionAsync<System.Func<B, C>> ApplyAsync<A, B, C>(this System.Func<A, System.Func<B, C>> fabc, System.Threading.Tasks.Task<LanguageExt.Option<A>> fa)`
+- `[ext] public static LanguageExt.OptionAsync<C> ApplyAsync<A, B, C>(this LanguageExt.Option<System.Func<A, B, C>> fabc, System.Threading.Tasks.Task<LanguageExt.Option<A>> fa, LanguageExt.Option<B> fb)`
+- `[ext] public static LanguageExt.OptionAsync<C> ApplyAsync<A, B, C>(this System.Func<A, B, C> fabc, System.Threading.Tasks.Task<LanguageExt.Option<A>> fa, LanguageExt.Option<B> fb)`
+- `[ext] public static System.Threading.Tasks.Task<System.Collections.Generic.IEnumerable<A>> AsEnumerableAsync<A>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self)`
+- `[ext] public static System.Threading.Tasks.Task<System.Boolean> BiExistsAsync<A>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self, System.Func<A, System.Boolean> Some, System.Func<LanguageExt.Unit, System.Boolean> None)`
+- `[ext] public static System.Threading.Tasks.Task<System.Boolean> BiExistsAsync<A>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self, System.Func<A, System.Boolean> Some, System.Func<System.Boolean> None)`
+- `[ext] public static System.Threading.Tasks.Task<S> BiFoldAsync<S, A>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self, S state, System.Func<S, A, S> Some, System.Func<S, LanguageExt.Unit, S> None)`
+- `[ext] public static System.Threading.Tasks.Task<S> BiFoldAsync<S, A>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self, S state, System.Func<S, A, System.Threading.Tasks.Task<S>> Some, System.Func<S, LanguageExt.Unit, S> None)`
+- `[ext] public static System.Threading.Tasks.Task<S> BiFoldAsync<S, A>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self, S state, System.Func<S, A, S> Some, System.Func<S, LanguageExt.Unit, System.Threading.Tasks.Task<S>> None)`
+- `[ext] public static System.Threading.Tasks.Task<S> BiFoldAsync<S, A>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self, S state, System.Func<S, A, System.Threading.Tasks.Task<S>> Some, System.Func<S, LanguageExt.Unit, System.Threading.Tasks.Task<S>> None)`
+- `[ext] public static System.Threading.Tasks.Task<S> BiFoldAsync<S, A>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self, S state, System.Func<S, A, S> Some, System.Func<S, S> None)`
+- `[ext] public static System.Threading.Tasks.Task<S> BiFoldAsync<S, A>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self, S state, System.Func<S, A, System.Threading.Tasks.Task<S>> Some, System.Func<S, S> None)`
+- `[ext] public static System.Threading.Tasks.Task<S> BiFoldAsync<S, A>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self, S state, System.Func<S, A, S> Some, System.Func<S, System.Threading.Tasks.Task<S>> None)`
+- `[ext] public static System.Threading.Tasks.Task<S> BiFoldAsync<S, A>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self, S state, System.Func<S, A, System.Threading.Tasks.Task<S>> Some, System.Func<S, System.Threading.Tasks.Task<S>> None)`
+- `[ext] public static System.Threading.Tasks.Task<System.Boolean> BiForAllAsync<A>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self, System.Func<A, System.Boolean> Some, System.Func<LanguageExt.Unit, System.Boolean> None)`
+- `[ext] public static System.Threading.Tasks.Task<System.Boolean> BiForAllAsync<A>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self, System.Func<A, System.Boolean> Some, System.Func<System.Boolean> None)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Unit> BiIterAsync<A>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self, System.Action<A> Some, System.Action<LanguageExt.Unit> None)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Unit> BiIterAsync<A>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self, System.Action<A> Some, System.Action None)`
+- `[ext] public static LanguageExt.OptionAsync<B> BiMapAsync<A, B>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self, System.Func<A, B> Some, System.Func<LanguageExt.Unit, B> None)`
+- `[ext] public static LanguageExt.OptionAsync<B> BiMapAsync<A, B>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self, System.Func<A, System.Threading.Tasks.Task<B>> Some, System.Func<LanguageExt.Unit, B> None)`
+- `[ext] public static LanguageExt.OptionAsync<B> BiMapAsync<A, B>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self, System.Func<A, System.Threading.Tasks.Task<B>> Some, System.Func<LanguageExt.Unit, System.Threading.Tasks.Task<B>> None)`
+- `[ext] public static LanguageExt.OptionAsync<B> BiMapAsync<A, B>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self, System.Func<A, B> Some, System.Func<LanguageExt.Unit, System.Threading.Tasks.Task<B>> None)`
+- `[ext] public static LanguageExt.OptionAsync<B> BiMapAsync<A, B>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self, System.Func<A, B> Some, System.Func<B> None)`
+- `[ext] public static LanguageExt.OptionAsync<B> BiMapAsync<A, B>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self, System.Func<A, System.Threading.Tasks.Task<B>> Some, System.Func<B> None)`
+- `[ext] public static LanguageExt.OptionAsync<B> BiMapAsync<A, B>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self, System.Func<A, System.Threading.Tasks.Task<B>> Some, System.Func<System.Threading.Tasks.Task<B>> None)`
+- `[ext] public static LanguageExt.OptionAsync<B> BiMapAsync<A, B>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self, System.Func<A, B> Some, System.Func<System.Threading.Tasks.Task<B>> None)`
+- `[ext] public static LanguageExt.OptionAsync<B> BindAsync<A, B>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self, System.Func<A, LanguageExt.Option<B>> f)`
+- `[ext] public static LanguageExt.OptionAsync<B> BindAsync<A, B>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self, System.Func<A, System.Threading.Tasks.Task<LanguageExt.Option<B>>> f)`
+- `[ext] public static LanguageExt.OptionAsync<B> BindAsync<A, B>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self, System.Func<A, LanguageExt.OptionAsync<B>> f)`
+- `[ext] public static LanguageExt.OptionAsync<B> BindAsync<A, B>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self, System.Func<A, System.Threading.Tasks.Task<LanguageExt.OptionAsync<B>>> f)`
+- `[ext] public static System.Threading.Tasks.Task<System.Int32> CountAsync<A>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self)`
+- `[ext] public static LanguageExt.OptionAsync<A> DivideAsync<NUM, A>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> x, System.Threading.Tasks.Task<LanguageExt.Option<A>> y)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<A>`
+- `[ext] public static System.Threading.Tasks.Task<System.Boolean> ExistsAsync<A>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self, System.Func<A, System.Boolean> pred)`
+- `[ext] public static LanguageExt.OptionAsync<A> FilterAsync<A>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self, System.Func<A, System.Boolean> pred)`
+- `[ext] public static LanguageExt.OptionAsync<A> FilterAsync<A>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self, System.Func<A, System.Threading.Tasks.Task<System.Boolean>> pred)`
+- `[ext] public static System.Threading.Tasks.Task<S> FoldAsync<S, A>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self, S state, System.Func<S, A, S> folder)`
+- `[ext] public static System.Threading.Tasks.Task<S> FoldAsync<S, A>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self, S state, System.Func<S, A, System.Threading.Tasks.Task<S>> folder)`
+- `[ext] public static System.Threading.Tasks.Task<S> FoldBackAsync<S, A>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self, S state, System.Func<S, A, S> folder)`
+- `[ext] public static System.Threading.Tasks.Task<S> FoldBackAsync<S, A>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self, S state, System.Func<S, A, System.Threading.Tasks.Task<S>> folder)`
+- `[ext] public static System.Threading.Tasks.Task<System.Boolean> ForAllAsync<A>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self, System.Func<A, System.Boolean> pred)`
+- `[ext] public static System.Threading.Tasks.Task<A> IfNoneAsync<A>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self, System.Func<A> None)`
+- `[ext] public static System.Threading.Tasks.Task<A> IfNoneAsync<A>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self, System.Func<System.Threading.Tasks.Task<A>> None)`
+- `[ext] public static System.Threading.Tasks.Task<A> IfNoneAsync<A>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self, A noneValue)`
+- `[ext] public static System.Threading.Tasks.Task<A> IfNoneUnsafeAsync<A>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self, System.Func<A> None)`
+- `[ext] public static System.Threading.Tasks.Task<A> IfNoneUnsafeAsync<A>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self, System.Func<System.Threading.Tasks.Task<A>> None)`
+- `[ext] public static System.Threading.Tasks.Task<A> IfNoneUnsafeAsync<A>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self, A noneValue)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Unit> IfSomeAsync<A>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self, System.Action<A> f)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Unit> IfSomeAsync<A>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self, System.Func<A, System.Threading.Tasks.Task<LanguageExt.Unit>> f)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Unit> IfSomeAsync<A>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self, System.Func<A, System.Threading.Tasks.Task> f)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Unit> IfSomeAsync<A>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self, System.Func<A, LanguageExt.Unit> f)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Unit> IterAsync<A>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self, System.Action<A> Some)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Unit> IterAsync<A>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self, System.Func<A, System.Threading.Tasks.Task<LanguageExt.Unit>> Some)`
+- `[ext] public static LanguageExt.OptionAsync<B> MapAsync<A, B>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self, System.Func<A, B> f)`
+- `[ext] public static LanguageExt.OptionAsync<B> MapAsync<A, B>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self, System.Func<A, System.Threading.Tasks.Task<B>> f)`
+- `[ext] public static System.Threading.Tasks.Task<B> Match<A, B>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self, System.Func<A, B> Some, System.Func<B> None)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Unit> Match<A>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self, System.Action<A> Some, System.Action None)`
+- `[ext] public static System.Threading.Tasks.Task<B> MatchAsync<A, B>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self, System.Func<A, System.Threading.Tasks.Task<B>> Some, System.Func<B> None)`
+- `[ext] public static System.Threading.Tasks.Task<B> MatchAsync<A, B>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self, System.Func<A, B> Some, System.Func<System.Threading.Tasks.Task<B>> None)`
+- `[ext] public static System.Threading.Tasks.Task<B> MatchAsync<A, B>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self, System.Func<A, System.Threading.Tasks.Task<B>> Some, System.Func<System.Threading.Tasks.Task<B>> None)`
+- `[ext] public static System.Threading.Tasks.Task<B> MatchUnsafe<A, B>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self, System.Func<A, B> Some, System.Func<B> None)`
+- `[ext] public static System.Threading.Tasks.Task<B> MatchUnsafeAsync<A, B>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self, System.Func<A, System.Threading.Tasks.Task<B>> Some, System.Func<B> None)`
+- `[ext] public static System.Threading.Tasks.Task<B> MatchUnsafeAsync<A, B>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self, System.Func<A, B> Some, System.Func<System.Threading.Tasks.Task<B>> None)`
+- `[ext] public static System.Threading.Tasks.Task<B> MatchUnsafeAsync<A, B>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self, System.Func<A, System.Threading.Tasks.Task<B>> Some, System.Func<System.Threading.Tasks.Task<B>> None)`
+- `[ext] public static System.Threading.Tasks.Task<R> MatchUntypedAsync<A, R>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self, System.Func<System.Object, R> Some, System.Func<R> None)`
+- `[ext] public static System.Threading.Tasks.Task<R> MatchUntypedAsync<A, R>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self, System.Func<System.Object, System.Threading.Tasks.Task<R>> Some, System.Func<R> None)`
+- `[ext] public static System.Threading.Tasks.Task<R> MatchUntypedAsync<A, R>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self, System.Func<System.Object, R> Some, System.Func<System.Threading.Tasks.Task<R>> None)`
+- `[ext] public static System.Threading.Tasks.Task<R> MatchUntypedAsync<A, R>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self, System.Func<System.Object, System.Threading.Tasks.Task<R>> Some, System.Func<System.Threading.Tasks.Task<R>> None)`
+- `[ext] public static LanguageExt.OptionAsync<A> ProductAsync<NUM, A>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> x, System.Threading.Tasks.Task<LanguageExt.Option<A>> y)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<A>`
+- `[ext] public static LanguageExt.OptionAsync<A> SubtractAsync<NUM, A>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> x, System.Threading.Tasks.Task<LanguageExt.Option<A>> y)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<A>`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Arr<A>> ToArrayAsync<A>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self)`
+- `[ext] public static LanguageExt.OptionAsync<A> ToAsync<A>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> ma)`
+- `[ext] public static LanguageExt.EitherAsync<L, A> ToEitherAsync<L, A>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self, L defaultLeftValue)`
+- `[ext] public static LanguageExt.EitherAsync<L, A> ToEitherAsync<L, A>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self, System.Func<L> Left)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.EitherUnsafe<L, A>> ToEitherUnsafeAsync<L, A>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self, L defaultLeftValue)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.EitherUnsafe<L, A>> ToEitherUnsafeAsync<L, A>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self, System.Func<L> Left)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Lst<A>> ToListAsync<A>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.OptionUnsafe<A>> ToOptionUnsafeAsync<A>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Seq<A>> ToSeqAsync<A>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self)`
+- `[ext] public static LanguageExt.TryAsync<A> ToTryAsync<A>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self)`
+- `[ext] public static LanguageExt.TryOptionAsync<A> ToTryOptionAsync<A>(this System.Threading.Tasks.Task<LanguageExt.Option<A>> self)`
+
+### TaskTryExtensions (class [static])
+
+- `[ext] public static LanguageExt.TryAsync<A> Add<NUM, A>(this System.Threading.Tasks.Task<LanguageExt.Try<A>> lhs, System.Threading.Tasks.Task<LanguageExt.Try<A>> rhs)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<A>`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Seq<A>> AsEnumerable<A>(this System.Threading.Tasks.Task<LanguageExt.Try<A>> self)`
+- `[ext] public static System.Threading.Tasks.Task<System.String> AsString<A>(this System.Threading.Tasks.Task<LanguageExt.Try<A>> self)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Try<A>> BiFilter<A>(this System.Threading.Tasks.Task<LanguageExt.Try<A>> self, System.Func<A, System.Boolean> Succ, System.Func<System.Exception, System.Boolean> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Try<A>> BiFilter<A>(this System.Threading.Tasks.Task<LanguageExt.Try<A>> self, System.Func<A, System.Threading.Tasks.Task<System.Boolean>> Succ, System.Func<System.Exception, System.Boolean> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Try<A>> BiFilter<A>(this System.Threading.Tasks.Task<LanguageExt.Try<A>> self, System.Func<A, System.Boolean> Succ, System.Func<System.Exception, System.Threading.Tasks.Task<System.Boolean>> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Try<A>> BiFilter<A>(this System.Threading.Tasks.Task<LanguageExt.Try<A>> self, System.Func<A, System.Threading.Tasks.Task<System.Boolean>> Succ, System.Func<System.Exception, System.Threading.Tasks.Task<System.Boolean>> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<S> BiFold<A, S>(this System.Threading.Tasks.Task<LanguageExt.Try<A>> self, S state, System.Func<S, A, S> Succ, System.Func<S, System.Exception, S> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<S> BiFold<A, S>(this System.Threading.Tasks.Task<LanguageExt.Try<A>> self, S state, System.Func<S, A, System.Threading.Tasks.Task<S>> Succ, System.Func<S, System.Exception, S> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<S> BiFold<A, S>(this System.Threading.Tasks.Task<LanguageExt.Try<A>> self, S state, System.Func<S, A, S> Succ, System.Func<S, System.Exception, System.Threading.Tasks.Task<S>> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<S> BiFold<A, S>(this System.Threading.Tasks.Task<LanguageExt.Try<A>> self, S state, System.Func<S, A, System.Threading.Tasks.Task<S>> Succ, System.Func<S, System.Exception, System.Threading.Tasks.Task<S>> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Try<R>> BiMap<A, R>(this System.Threading.Tasks.Task<LanguageExt.Try<A>> self, System.Func<A, R> Succ, System.Func<System.Exception, R> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Try<R>> BiMap<A, R>(this System.Threading.Tasks.Task<LanguageExt.Try<A>> self, System.Func<A, System.Threading.Tasks.Task<R>> Succ, System.Func<System.Exception, R> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Try<R>> BiMap<A, R>(this System.Threading.Tasks.Task<LanguageExt.Try<A>> self, System.Func<A, R> Succ, System.Func<System.Exception, System.Threading.Tasks.Task<R>> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Try<R>> BiMap<A, R>(this System.Threading.Tasks.Task<LanguageExt.Try<A>> self, System.Func<A, System.Threading.Tasks.Task<R>> Succ, System.Func<System.Exception, System.Threading.Tasks.Task<R>> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Try<B>> Bind<A, B>(this System.Threading.Tasks.Task<LanguageExt.Try<A>> self, System.Func<A, System.Threading.Tasks.Task<LanguageExt.Try<B>>> binder)`
+- `[ext] public static System.Threading.Tasks.Task<System.Int32> Compare<ORD, A>(this System.Threading.Tasks.Task<LanguageExt.Try<A>> lhs, System.Threading.Tasks.Task<LanguageExt.Try<A>> rhs)`
+- `where ORD : struct, LanguageExt.TypeClasses.Ord<A>`
+- `[ext] public static System.Threading.Tasks.Task<System.Int32> Count<A>(this System.Threading.Tasks.Task<LanguageExt.Try<A>> self)`
+- `[ext] public static LanguageExt.TryAsync<A> Divide<NUM, A>(this System.Threading.Tasks.Task<LanguageExt.Try<A>> lhs, System.Threading.Tasks.Task<LanguageExt.Try<A>> rhs)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<A>`
+- `[ext] public static System.Threading.Tasks.Task<System.Boolean> Exists<A>(this System.Threading.Tasks.Task<LanguageExt.Try<A>> self, System.Func<A, System.Boolean> pred)`
+- `[ext] public static System.Threading.Tasks.Task<System.Boolean> ExistsAsync<A>(this System.Threading.Tasks.Task<LanguageExt.Try<A>> self, System.Func<A, System.Threading.Tasks.Task<System.Boolean>> pred)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Try<A>> Filter<A>(this System.Threading.Tasks.Task<LanguageExt.Try<A>> self, System.Func<A, System.Boolean> pred)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Try<A>> Filter<A>(this System.Threading.Tasks.Task<LanguageExt.Try<A>> self, System.Func<A, System.Threading.Tasks.Task<System.Boolean>> pred)`
+- `[ext] public static System.Threading.Tasks.Task<S> Fold<A, S>(this System.Threading.Tasks.Task<LanguageExt.Try<A>> self, S state, System.Func<S, A, S> folder)`
+- `[ext] public static System.Threading.Tasks.Task<S> FoldAsync<A, S>(this System.Threading.Tasks.Task<LanguageExt.Try<A>> self, S state, System.Func<S, A, System.Threading.Tasks.Task<S>> folder)`
+- `[ext] public static System.Threading.Tasks.Task<System.Boolean> ForAll<A>(this System.Threading.Tasks.Task<LanguageExt.Try<A>> self, System.Func<A, System.Boolean> pred)`
+- `[ext] public static System.Threading.Tasks.Task<System.Boolean> ForAllAsync<A>(this System.Threading.Tasks.Task<LanguageExt.Try<A>> self, System.Func<A, System.Threading.Tasks.Task<System.Boolean>> pred)`
+- `[ext] public static LanguageExt.ExceptionMatchAsync<A> IfFail<A>(this System.Threading.Tasks.Task<LanguageExt.Try<A>> self)`
+- `[ext] public static System.Threading.Tasks.Task<A> IfFail<A>(this System.Threading.Tasks.Task<LanguageExt.Try<A>> self, A failValue)`
+- `[ext] public static System.Threading.Tasks.Task<A> IfFail<A>(this System.Threading.Tasks.Task<LanguageExt.Try<A>> self, System.Func<A> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<A> IfFail<A>(this System.Threading.Tasks.Task<LanguageExt.Try<A>> self, System.Func<System.Exception, A> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<A> IfFailThrow<A>(this System.Threading.Tasks.Task<LanguageExt.Try<A>> self)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Unit> IfSucc<A>(this System.Threading.Tasks.Task<LanguageExt.Try<A>> self, System.Action<A> Succ)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Unit> Iter<A>(this System.Threading.Tasks.Task<LanguageExt.Try<A>> self, System.Action<A> action)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Try<R>> Map<A, R>(this System.Threading.Tasks.Task<LanguageExt.Try<A>> self, System.Func<A, R> mapper)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Try<R>> Map<A, R>(this System.Threading.Tasks.Task<LanguageExt.Try<A>> self, System.Func<A, System.Threading.Tasks.Task<R>> mapper)`
+- `[ext] public static System.Threading.Tasks.Task<R> Match<A, R>(this System.Threading.Tasks.Task<LanguageExt.Try<A>> self, System.Func<A, R> Succ, System.Func<System.Exception, R> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<R> Match<A, R>(this System.Threading.Tasks.Task<LanguageExt.Try<A>> self, System.Func<A, R> Succ, R Fail)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Unit> Match<A>(this System.Threading.Tasks.Task<LanguageExt.Try<A>> self, System.Action<A> Succ, System.Action<System.Exception> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<R> Match<A, R>(this System.Threading.Tasks.Task<LanguageExt.Try<A>> self, System.Func<A, System.Threading.Tasks.Task<R>> Succ, System.Func<System.Exception, R> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<R> Match<A, R>(this System.Threading.Tasks.Task<LanguageExt.Try<A>> self, System.Func<A, System.Threading.Tasks.Task<R>> Succ, System.Func<System.Exception, System.Threading.Tasks.Task<R>> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<R> Match<A, R>(this System.Threading.Tasks.Task<LanguageExt.Try<A>> self, System.Func<A, R> Succ, System.Func<System.Exception, System.Threading.Tasks.Task<R>> Fail)`
+- `[ext] public static LanguageExt.TryAsync<A> Memo<A>(this System.Threading.Tasks.Task<LanguageExt.Try<A>> self)`
+- `[ext] public static LanguageExt.TryAsync<A> Product<NUM, A>(this System.Threading.Tasks.Task<LanguageExt.Try<A>> lhs, System.Threading.Tasks.Task<LanguageExt.Try<A>> rhs)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<A>`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Try<B>> Select<A, B>(this System.Threading.Tasks.Task<LanguageExt.Try<A>> self, System.Func<A, B> f)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Try<B>> Select<A, B>(this System.Threading.Tasks.Task<LanguageExt.Try<A>> self, System.Func<A, System.Threading.Tasks.Task<B>> f)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Try<C>> SelectMany<A, B, C>(this System.Threading.Tasks.Task<LanguageExt.Try<A>> self, System.Func<A, System.Threading.Tasks.Task<LanguageExt.Try<B>>> bind, System.Func<A, B, C> project)`
+- `[ext] public static LanguageExt.TryAsync<A> Subtract<NUM, A>(this System.Threading.Tasks.Task<LanguageExt.Try<A>> lhs, System.Threading.Tasks.Task<LanguageExt.Try<A>> rhs)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<A>`
+- `[ext] public static System.Threading.Tasks.Task<System.Int32> Sum(this System.Threading.Tasks.Task<LanguageExt.Try<System.Int32>> self)`
+- `[ext] public static LanguageExt.Aff<A> ToAff<A>(this LanguageExt.Try<A> ma)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Arr<A>> ToArray<A>(this System.Threading.Tasks.Task<LanguageExt.Try<A>> self)`
+- `[ext] public static LanguageExt.TryAsync<A> ToAsync<A>(this System.Threading.Tasks.Task<LanguageExt.Try<A>> self)`
+- `[ext] public static LanguageExt.TryAsync<LanguageExt.Unit> ToAsync(this LanguageExt.Try<System.Threading.Tasks.Task> self)`
+- `[ext] public static LanguageExt.TryAsync<A> ToAsync<A>(this LanguageExt.Try<System.Threading.Tasks.Task<A>> self)`
+- `[ext] public static LanguageExt.Eff<A> ToEff<A>(this LanguageExt.Try<A> ma)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Lst<A>> ToList<A>(this System.Threading.Tasks.Task<LanguageExt.Try<A>> self)`
+- `[ext] public static System.Threading.Tasks.Task<A?> ToNullable<A>(this System.Threading.Tasks.Task<LanguageExt.Try<A>> ma)`
+- `where A : struct`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Option<A>> ToOption<A>(this System.Threading.Tasks.Task<LanguageExt.Try<A>> self)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Seq<A>> ToSeq<A>(this System.Threading.Tasks.Task<LanguageExt.Try<A>> self)`
+- `[ext] public static LanguageExt.TryOptionAsync<A> ToTryOption<A>(this System.Threading.Tasks.Task<LanguageExt.Try<A>> self)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Try<A>> Where<A>(this System.Threading.Tasks.Task<LanguageExt.Try<A>> self, System.Func<A, System.Boolean> pred)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Try<A>> Where<A>(this System.Threading.Tasks.Task<LanguageExt.Try<A>> self, System.Func<A, System.Threading.Tasks.Task<System.Boolean>> pred)`
+
+### TaskTryOptionExtensions (class [static])
+
+- `[ext] public static LanguageExt.TryOptionAsync<A> Add<NUM, A>(this System.Threading.Tasks.Task<LanguageExt.TryOption<A>> lhs, System.Threading.Tasks.Task<LanguageExt.TryOption<A>> rhs)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<A>`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Seq<A>> AsEnumerable<A>(this System.Threading.Tasks.Task<LanguageExt.TryOption<A>> self)`
+- `[ext] public static System.Threading.Tasks.Task<System.String> AsString<A>(this System.Threading.Tasks.Task<LanguageExt.TryOption<A>> self)`
+- `[ext] public static System.Threading.Tasks.Task<S> BiFold<A, S>(this System.Threading.Tasks.Task<LanguageExt.TryOption<A>> self, S state, System.Func<S, A, S> Succ, System.Func<S, S> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<S> BiFold<A, S>(this System.Threading.Tasks.Task<LanguageExt.TryOption<A>> self, S state, System.Func<S, A, System.Threading.Tasks.Task<S>> Succ, System.Func<S, S> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<S> BiFold<A, S>(this System.Threading.Tasks.Task<LanguageExt.TryOption<A>> self, S state, System.Func<S, A, S> Succ, System.Func<S, System.Threading.Tasks.Task<S>> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<S> BiFold<A, S>(this System.Threading.Tasks.Task<LanguageExt.TryOption<A>> self, S state, System.Func<S, A, System.Threading.Tasks.Task<S>> Succ, System.Func<S, System.Threading.Tasks.Task<S>> Fail)`
+- `[ext] public static LanguageExt.TryOptionAsync<B> BiMap<A, B>(this System.Threading.Tasks.Task<LanguageExt.TryOption<A>> self, System.Func<A, B> Succ, System.Func<B> Fail)`
+- `[ext] public static LanguageExt.TryOptionAsync<B> BiMap<A, B>(this System.Threading.Tasks.Task<LanguageExt.TryOption<A>> self, System.Func<A, System.Threading.Tasks.Task<B>> Succ, System.Func<B> Fail)`
+- `[ext] public static LanguageExt.TryOptionAsync<B> BiMap<A, B>(this System.Threading.Tasks.Task<LanguageExt.TryOption<A>> self, System.Func<A, B> Succ, System.Func<System.Threading.Tasks.Task<B>> Fail)`
+- `[ext] public static LanguageExt.TryOptionAsync<B> BiMap<A, B>(this System.Threading.Tasks.Task<LanguageExt.TryOption<A>> self, System.Func<A, System.Threading.Tasks.Task<B>> Succ, System.Func<System.Threading.Tasks.Task<B>> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<System.Int32> Count<A>(this System.Threading.Tasks.Task<LanguageExt.TryOption<A>> self)`
+- `[ext] public static LanguageExt.TryOptionAsync<A> Divide<NUM, A>(this System.Threading.Tasks.Task<LanguageExt.TryOption<A>> lhs, System.Threading.Tasks.Task<LanguageExt.TryOption<A>> rhs)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<A>`
+- `[ext] public static System.Threading.Tasks.Task<System.Boolean> Exists<A>(this System.Threading.Tasks.Task<LanguageExt.TryOption<A>> self, System.Func<A, System.Boolean> pred)`
+- `[ext] public static System.Threading.Tasks.Task<System.Boolean> ExistsAsync<A>(this System.Threading.Tasks.Task<LanguageExt.TryOption<A>> self, System.Func<A, System.Threading.Tasks.Task<System.Boolean>> pred)`
+- `[ext] public static LanguageExt.TryOptionAsync<A> Filter<A>(this System.Threading.Tasks.Task<LanguageExt.TryOption<A>> self, System.Func<A, System.Boolean> pred)`
+- `[ext] public static LanguageExt.TryOptionAsync<A> Filter<A>(this System.Threading.Tasks.Task<LanguageExt.TryOption<A>> self, System.Func<A, System.Threading.Tasks.Task<System.Boolean>> pred)`
+- `[ext] public static System.Threading.Tasks.Task<S> Fold<A, S>(this System.Threading.Tasks.Task<LanguageExt.TryOption<A>> self, S state, System.Func<S, A, S> folder)`
+- `[ext] public static System.Threading.Tasks.Task<S> FoldAsync<A, S>(this System.Threading.Tasks.Task<LanguageExt.TryOption<A>> self, S state, System.Func<S, A, System.Threading.Tasks.Task<S>> folder)`
+- `[ext] public static System.Threading.Tasks.Task<System.Boolean> ForAll<A>(this System.Threading.Tasks.Task<LanguageExt.TryOption<A>> self, System.Func<A, System.Boolean> pred)`
+- `[ext] public static System.Threading.Tasks.Task<System.Boolean> ForAllAsync<A>(this System.Threading.Tasks.Task<LanguageExt.TryOption<A>> self, System.Func<A, System.Threading.Tasks.Task<System.Boolean>> pred)`
+- `[ext] public static LanguageExt.ExceptionMatchOptionalAsync<A> IfFail<A>(this System.Threading.Tasks.Task<LanguageExt.TryOption<A>> self)`
+- `[ext] public static System.Threading.Tasks.Task<A> IfFailThrow<A>(this System.Threading.Tasks.Task<LanguageExt.TryOption<A>> self)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Unit> IfNoneOrFail<A>(this System.Threading.Tasks.Task<LanguageExt.TryOption<A>> self, System.Action None)`
+- `[ext] public static System.Threading.Tasks.Task<A> IfNoneOrFail<A>(this System.Threading.Tasks.Task<LanguageExt.TryOption<A>> self, A defaultValue)`
+- `[ext] public static System.Threading.Tasks.Task<A> IfNoneOrFail<A>(this System.Threading.Tasks.Task<LanguageExt.TryOption<A>> self, System.Func<A> None)`
+- `[ext] public static System.Threading.Tasks.Task<A> IfNoneOrFail<A>(this System.Threading.Tasks.Task<LanguageExt.TryOption<A>> self, System.Func<System.Threading.Tasks.Task<A>> None)`
+- `[ext] public static System.Threading.Tasks.Task<A> IfNoneOrFail<A>(this System.Threading.Tasks.Task<LanguageExt.TryOption<A>> self, System.Func<A> None, System.Func<System.Exception, A> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<A> IfNoneOrFail<A>(this System.Threading.Tasks.Task<LanguageExt.TryOption<A>> self, System.Func<System.Threading.Tasks.Task<A>> None, System.Func<System.Exception, A> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<A> IfNoneOrFail<A>(this System.Threading.Tasks.Task<LanguageExt.TryOption<A>> self, System.Func<A> None, System.Func<System.Exception, System.Threading.Tasks.Task<A>> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<A> IfNoneOrFail<A>(this System.Threading.Tasks.Task<LanguageExt.TryOption<A>> self, System.Func<System.Threading.Tasks.Task<A>> None, System.Func<System.Exception, System.Threading.Tasks.Task<A>> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Unit> IfSome<A>(this System.Threading.Tasks.Task<LanguageExt.TryOption<A>> self, System.Action<A> Some)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Unit> Iter<A>(this System.Threading.Tasks.Task<LanguageExt.TryOption<A>> self, System.Action<A> action)`
+- `[ext] public static LanguageExt.TryOptionAsync<R> Map<A, R>(this System.Threading.Tasks.Task<LanguageExt.TryOption<A>> self, System.Func<A, R> mapper)`
+- `[ext] public static LanguageExt.TryOptionAsync<R> MapAsync<A, R>(this System.Threading.Tasks.Task<LanguageExt.TryOption<A>> self, System.Func<A, System.Threading.Tasks.Task<R>> mapper)`
+- `[ext] public static System.Threading.Tasks.Task<R> Match<A, R>(this System.Threading.Tasks.Task<LanguageExt.TryOption<A>> self, System.Func<A, R> Succ, System.Func<R> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<R> Match<A, R>(this System.Threading.Tasks.Task<LanguageExt.TryOption<A>> self, System.Func<A, R> Succ, R Fail)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Unit> Match<A>(this System.Threading.Tasks.Task<LanguageExt.TryOption<A>> self, System.Action<A> Succ, System.Action Fail)`
+- `[ext] public static System.Threading.Tasks.Task<R> Match<A, R>(this System.Threading.Tasks.Task<LanguageExt.TryOption<A>> self, System.Func<A, R> Some, System.Func<R> None, System.Func<System.Exception, R> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Unit> Match<A>(this System.Threading.Tasks.Task<LanguageExt.TryOption<A>> self, System.Action<A> Some, System.Action None, System.Action<System.Exception> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<R> MatchAsync<A, R>(this System.Threading.Tasks.Task<LanguageExt.TryOption<A>> self, System.Func<A, System.Threading.Tasks.Task<R>> Succ, System.Func<System.Threading.Tasks.Task<R>> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<R> MatchAsync<A, R>(this System.Threading.Tasks.Task<LanguageExt.TryOption<A>> self, System.Func<A, R> Succ, System.Func<System.Threading.Tasks.Task<R>> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<R> MatchAsync<A, R>(this System.Threading.Tasks.Task<LanguageExt.TryOption<A>> self, System.Func<A, System.Threading.Tasks.Task<R>> Some, System.Func<R> None, System.Func<System.Exception, R> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<R> MatchAsync<A, R>(this System.Threading.Tasks.Task<LanguageExt.TryOption<A>> self, System.Func<A, System.Threading.Tasks.Task<R>> Some, System.Func<System.Threading.Tasks.Task<R>> None, System.Func<System.Exception, System.Threading.Tasks.Task<R>> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<R> MatchAsync<A, R>(this System.Threading.Tasks.Task<LanguageExt.TryOption<A>> self, System.Func<A, R> Some, System.Func<System.Threading.Tasks.Task<R>> None, System.Func<System.Exception, System.Threading.Tasks.Task<R>> Fail)`
+- `[ext] public static LanguageExt.TryOptionAsync<A> Product<NUM, A>(this System.Threading.Tasks.Task<LanguageExt.TryOption<A>> lhs, System.Threading.Tasks.Task<LanguageExt.TryOption<A>> rhs)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<A>`
+- `[ext] public static LanguageExt.TryOptionAsync<A> Subtract<NUM, A>(this System.Threading.Tasks.Task<LanguageExt.TryOption<A>> lhs, System.Threading.Tasks.Task<LanguageExt.TryOption<A>> rhs)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<A>`
+- `[ext] public static System.Threading.Tasks.Task<System.Int32> Sum(this System.Threading.Tasks.Task<LanguageExt.TryOption<System.Int32>> self)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Arr<A>> ToArray<A>(this System.Threading.Tasks.Task<LanguageExt.TryOption<A>> self)`
+- `[ext] public static LanguageExt.TryOptionAsync<A> ToAsync<A>(this System.Threading.Tasks.Task<LanguageExt.TryOption<A>> self)`
+- `[ext] public static LanguageExt.TryOptionAsync<A> ToAsync<A>(this LanguageExt.TryOption<System.Threading.Tasks.Task<A>> self)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Lst<A>> ToList<A>(this System.Threading.Tasks.Task<LanguageExt.TryOption<A>> self)`
+- `[ext] public static System.Threading.Tasks.Task<A?> ToNullable<A>(this System.Threading.Tasks.Task<LanguageExt.TryOption<A>> ma)`
+- `where A : struct`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Option<A>> ToOption<A>(this System.Threading.Tasks.Task<LanguageExt.TryOption<A>> self)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Seq<A>> ToSeq<A>(this System.Threading.Tasks.Task<LanguageExt.TryOption<A>> self)`
+- `[ext] public static System.Threading.Tasks.Task<S> TriFold<A, S>(this System.Threading.Tasks.Task<LanguageExt.TryOption<A>> self, S state, System.Func<S, A, S> Some, System.Func<S, S> None, System.Func<S, System.Exception, S> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<S> TriFold<A, S>(this System.Threading.Tasks.Task<LanguageExt.TryOption<A>> self, S state, System.Func<S, A, System.Threading.Tasks.Task<S>> Some, System.Func<S, S> None, System.Func<S, System.Exception, S> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<S> TriFold<A, S>(this System.Threading.Tasks.Task<LanguageExt.TryOption<A>> self, S state, System.Func<S, A, S> Some, System.Func<S, System.Threading.Tasks.Task<S>> None, System.Func<S, System.Exception, S> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<S> TriFold<A, S>(this System.Threading.Tasks.Task<LanguageExt.TryOption<A>> self, S state, System.Func<S, A, S> Some, System.Func<S, S> None, System.Func<S, System.Exception, System.Threading.Tasks.Task<S>> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<S> TriFold<A, S>(this System.Threading.Tasks.Task<LanguageExt.TryOption<A>> self, S state, System.Func<S, A, System.Threading.Tasks.Task<S>> Some, System.Func<S, System.Threading.Tasks.Task<S>> None, System.Func<S, System.Exception, S> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<S> TriFold<A, S>(this System.Threading.Tasks.Task<LanguageExt.TryOption<A>> self, S state, System.Func<S, A, S> Some, System.Func<S, System.Threading.Tasks.Task<S>> None, System.Func<S, System.Exception, System.Threading.Tasks.Task<S>> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<S> TriFold<A, S>(this System.Threading.Tasks.Task<LanguageExt.TryOption<A>> self, S state, System.Func<S, A, System.Threading.Tasks.Task<S>> Some, System.Func<S, System.Threading.Tasks.Task<S>> None, System.Func<S, System.Exception, System.Threading.Tasks.Task<S>> Fail)`
+- `[ext] public static LanguageExt.TryOptionAsync<B> TriMap<A, B>(this System.Threading.Tasks.Task<LanguageExt.TryOption<A>> self, System.Func<A, B> Some, System.Func<B> None, System.Func<System.Exception, B> Fail)`
+- `[ext] public static LanguageExt.TryOptionAsync<B> TriMap<A, B>(this System.Threading.Tasks.Task<LanguageExt.TryOption<A>> self, System.Func<A, System.Threading.Tasks.Task<B>> Some, System.Func<B> None, System.Func<System.Exception, B> Fail)`
+- `[ext] public static LanguageExt.TryOptionAsync<B> TriMap<A, B>(this System.Threading.Tasks.Task<LanguageExt.TryOption<A>> self, System.Func<A, B> Some, System.Func<System.Threading.Tasks.Task<B>> None, System.Func<System.Exception, B> Fail)`
+- `[ext] public static LanguageExt.TryOptionAsync<B> TriMap<A, B>(this System.Threading.Tasks.Task<LanguageExt.TryOption<A>> self, System.Func<A, B> Some, System.Func<B> None, System.Func<System.Exception, System.Threading.Tasks.Task<B>> Fail)`
+- `[ext] public static LanguageExt.TryOptionAsync<B> TriMap<A, B>(this System.Threading.Tasks.Task<LanguageExt.TryOption<A>> self, System.Func<A, System.Threading.Tasks.Task<B>> Some, System.Func<System.Threading.Tasks.Task<B>> None, System.Func<System.Exception, B> Fail)`
+- `[ext] public static LanguageExt.TryOptionAsync<B> TriMap<A, B>(this System.Threading.Tasks.Task<LanguageExt.TryOption<A>> self, System.Func<A, B> Some, System.Func<System.Threading.Tasks.Task<B>> None, System.Func<System.Exception, System.Threading.Tasks.Task<B>> Fail)`
+- `[ext] public static LanguageExt.TryOptionAsync<B> TriMap<A, B>(this System.Threading.Tasks.Task<LanguageExt.TryOption<A>> self, System.Func<A, System.Threading.Tasks.Task<B>> Some, System.Func<System.Threading.Tasks.Task<B>> None, System.Func<System.Exception, System.Threading.Tasks.Task<B>> Fail)`
+- `[ext] public static LanguageExt.TryOptionAsync<A> Where<A>(this System.Threading.Tasks.Task<LanguageExt.TryOption<A>> self, System.Func<A, System.Boolean> pred)`
+- `[ext] public static LanguageExt.TryOptionAsync<A> Where<A>(this System.Threading.Tasks.Task<LanguageExt.TryOption<A>> self, System.Func<A, System.Threading.Tasks.Task<System.Boolean>> pred)`
+
+### TrackingHashMapExtensions (class [static])
+
+- `[ext] public static LanguageExt.TrackingHashMap<A, LanguageExt.TrackingHashMap<B, T>> AddOrUpdate<A, B, T>(this LanguageExt.TrackingHashMap<A, LanguageExt.TrackingHashMap<B, T>> self, A outerKey, B innerKey, T value)`
+- `[ext] public static LanguageExt.TrackingHashMap<A, LanguageExt.TrackingHashMap<B, T>> AddOrUpdate<A, B, T>(this LanguageExt.TrackingHashMap<A, LanguageExt.TrackingHashMap<B, T>> self, A outerKey, B innerKey, System.Func<T, T> Some, System.Func<T> None)`
+- `[ext] public static LanguageExt.TrackingHashMap<A, LanguageExt.TrackingHashMap<B, LanguageExt.TrackingHashMap<C, T>>> AddOrUpdate<A, B, C, T>(this LanguageExt.TrackingHashMap<A, LanguageExt.TrackingHashMap<B, LanguageExt.TrackingHashMap<C, T>>> self, A aKey, B bKey, C cKey, T value)`
+- `[ext] public static LanguageExt.TrackingHashMap<A, LanguageExt.TrackingHashMap<B, LanguageExt.TrackingHashMap<C, T>>> AddOrUpdate<A, B, C, T>(this LanguageExt.TrackingHashMap<A, LanguageExt.TrackingHashMap<B, LanguageExt.TrackingHashMap<C, T>>> self, A aKey, B bKey, C cKey, System.Func<T, T> Some, System.Func<T> None)`
+- `[ext] public static LanguageExt.TrackingHashMap<A, LanguageExt.TrackingHashMap<B, LanguageExt.TrackingHashMap<C, LanguageExt.TrackingHashMap<D, T>>>> AddOrUpdate<A, B, C, D, T>(this LanguageExt.TrackingHashMap<A, LanguageExt.TrackingHashMap<B, LanguageExt.TrackingHashMap<C, LanguageExt.TrackingHashMap<D, T>>>> self, A aKey, B bKey, C cKey, D dKey, T value)`
+- `[ext] public static LanguageExt.TrackingHashMap<A, LanguageExt.TrackingHashMap<B, LanguageExt.TrackingHashMap<C, LanguageExt.TrackingHashMap<D, T>>>> AddOrUpdate<A, B, C, D, T>(this LanguageExt.TrackingHashMap<A, LanguageExt.TrackingHashMap<B, LanguageExt.TrackingHashMap<C, LanguageExt.TrackingHashMap<D, T>>>> self, A aKey, B bKey, C cKey, D dKey, System.Func<T, T> Some, System.Func<T> None)`
+- `[ext] public static System.Int32 Count<K, V>(this LanguageExt.TrackingHashMap<K, V> self)`
+- `[ext] public static LanguageExt.Option<T> Find<A, B, T>(this LanguageExt.TrackingHashMap<A, LanguageExt.TrackingHashMap<B, T>> self, A outerKey, B innerKey)`
+- `[ext] public static LanguageExt.Option<T> Find<A, B, C, T>(this LanguageExt.TrackingHashMap<A, LanguageExt.TrackingHashMap<B, LanguageExt.TrackingHashMap<C, T>>> self, A aKey, B bKey, C cKey)`
+- `[ext] public static R Find<A, B, T, R>(this LanguageExt.TrackingHashMap<A, LanguageExt.TrackingHashMap<B, T>> self, A outerKey, B innerKey, System.Func<T, R> Some, System.Func<R> None)`
+- `[ext] public static R Find<A, B, C, T, R>(this LanguageExt.TrackingHashMap<A, LanguageExt.TrackingHashMap<B, LanguageExt.TrackingHashMap<C, T>>> self, A aKey, B bKey, C cKey, System.Func<T, R> Some, System.Func<R> None)`
+- `[ext] public static R Find<A, B, C, D, T, R>(this LanguageExt.TrackingHashMap<A, LanguageExt.TrackingHashMap<B, LanguageExt.TrackingHashMap<C, LanguageExt.TrackingHashMap<D, T>>>> self, A aKey, B bKey, C cKey, D dKey, System.Func<T, R> Some, System.Func<R> None)`
+- `[ext] public static LanguageExt.TrackingHashMap<A, LanguageExt.TrackingHashMap<B, T>> Remove<A, B, T>(this LanguageExt.TrackingHashMap<A, LanguageExt.TrackingHashMap<B, T>> self, A outerKey, B innerKey)`
+- `[ext] public static LanguageExt.TrackingHashMap<A, LanguageExt.TrackingHashMap<B, LanguageExt.TrackingHashMap<C, T>>> Remove<A, B, C, T>(this LanguageExt.TrackingHashMap<A, LanguageExt.TrackingHashMap<B, LanguageExt.TrackingHashMap<C, T>>> self, A aKey, B bKey, C cKey)`
+- `[ext] public static System.Int32 Sum<K>(this LanguageExt.TrackingHashMap<K, System.Int32> self)`
+- `[ext] public static LanguageExt.TrackingHashMap<K, V> ToTrackingHashMap<K, V>(this System.Collections.Generic.IEnumerable<System.ValueTuple<K, V>> items)`
+- `[ext] public static LanguageExt.TrackingHashMap<K, V> ToTrackingHashMap<K, V>(this System.Collections.Generic.IEnumerable<System.Tuple<K, V>> items)`
+- `[ext] public static LanguageExt.TrackingHashMap<K, V> ToTrackingHashMap<K, V>(this System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<K, V>> items)`
+- `[ext] public static LanguageExt.TrackingHashMap<K1, LanguageExt.TrackingHashMap<K2, V>> ToTrackingHashMap<K1, K2, V>(this System.Collections.Generic.IEnumerable<System.ValueTuple<K1, K2, V>> items)`
+- `[ext] public static LanguageExt.TrackingHashMap<K1, LanguageExt.TrackingHashMap<K2, V>> ToTrackingHashMap<K1, K2, V>(this System.Collections.Generic.IEnumerable<System.Tuple<K1, K2, V>> items)`
+- `[ext] public static LanguageExt.TrackingHashMap<K1, LanguageExt.TrackingHashMap<K2, LanguageExt.TrackingHashMap<K3, V>>> ToTrackingHashMap<K1, K2, K3, V>(this System.Collections.Generic.IEnumerable<System.ValueTuple<K1, K2, K3, V>> items)`
+- `[ext] public static LanguageExt.TrackingHashMap<K1, LanguageExt.TrackingHashMap<K2, LanguageExt.TrackingHashMap<K3, V>>> ToTrackingHashMap<K1, K2, K3, V>(this System.Collections.Generic.IEnumerable<System.Tuple<K1, K2, K3, V>> items)`
+- `[ext] public static LanguageExt.TrackingHashMap<K1, LanguageExt.TrackingHashMap<K2, LanguageExt.TrackingHashMap<K3, LanguageExt.TrackingHashMap<K4, V>>>> ToTrackingHashMap<K1, K2, K3, K4, V>(this System.Collections.Generic.IEnumerable<System.ValueTuple<K1, K2, K3, K4, V>> items)`
+- `[ext] public static LanguageExt.TrackingHashMap<K1, LanguageExt.TrackingHashMap<K2, LanguageExt.TrackingHashMap<K3, LanguageExt.TrackingHashMap<K4, V>>>> ToTrackingHashMap<K1, K2, K3, K4, V>(this System.Collections.Generic.IEnumerable<System.Tuple<K1, K2, K3, K4, V>> items)`
+- `[ext] public static LanguageExt.TrackingHashMap<EqK, K, V> ToTrackingHashMap<EqK, K, V>(this System.Collections.Generic.IEnumerable<System.ValueTuple<K, V>> items)`
+- `where EqK : struct, LanguageExt.TypeClasses.Eq<K>`
+- `[ext] public static LanguageExt.TrackingHashMap<EqK, K, V> ToTrackingHashMap<EqK, K, V>(this System.Collections.Generic.IEnumerable<System.Tuple<K, V>> items)`
+- `where EqK : struct, LanguageExt.TypeClasses.Eq<K>`
+- `[ext] public static LanguageExt.TrackingHashMap<EqK, K, V> ToTrackingHashMap<EqK, K, V>(this System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<K, V>> items)`
+- `where EqK : struct, LanguageExt.TypeClasses.Eq<K>`
+
+### TryAsyncExtensions (class [static])
+
+- `[ext] public static LanguageExt.TryAsync<B> Action<A, B>(this LanguageExt.TryAsync<A> fa, LanguageExt.TryAsync<B> fb)`
+- `[ext] public static LanguageExt.TryAsync<A> Add<ARITH, A>(this LanguageExt.TryAsync<A> lhs, LanguageExt.TryAsync<A> rhs)`
+- `where ARITH : struct, LanguageExt.TypeClasses.Arithmetic<A>`
+- `[ext] public static LanguageExt.TryAsync<A> Append<SEMI, A>(this LanguageExt.TryAsync<A> lhs, LanguageExt.TryAsync<A> rhs)`
+- `where SEMI : struct, LanguageExt.TypeClasses.Semigroup<A>`
+- `[ext] public static LanguageExt.TryAsync<B> Apply<A, B>(this LanguageExt.TryAsync<System.Func<A, B>> fab, LanguageExt.TryAsync<A> fa)`
+- `[ext] public static LanguageExt.TryAsync<B> Apply<A, B>(this System.Func<A, B> fab, LanguageExt.TryAsync<A> fa)`
+- `[ext] public static LanguageExt.TryAsync<System.Func<B, C>> Apply<A, B, C>(this LanguageExt.TryAsync<System.Func<A, B, C>> fabc, LanguageExt.TryAsync<A> fa)`
+- `[ext] public static LanguageExt.TryAsync<System.Func<B, C>> Apply<A, B, C>(this System.Func<A, B, C> fabc, LanguageExt.TryAsync<A> fa)`
+- `[ext] public static LanguageExt.TryAsync<System.Func<B, C>> Apply<A, B, C>(this LanguageExt.TryAsync<System.Func<A, System.Func<B, C>>> fabc, LanguageExt.TryAsync<A> fa)`
+- `[ext] public static LanguageExt.TryAsync<System.Func<B, C>> Apply<A, B, C>(this System.Func<A, System.Func<B, C>> fabc, LanguageExt.TryAsync<A> fa)`
+- `[ext] public static LanguageExt.TryAsync<C> Apply<A, B, C>(this LanguageExt.TryAsync<System.Func<A, B, C>> fabc, LanguageExt.TryAsync<A> fa, LanguageExt.TryAsync<B> fb)`
+- `[ext] public static LanguageExt.TryAsync<C> Apply<A, B, C>(this System.Func<A, B, C> fabc, LanguageExt.TryAsync<A> fa, LanguageExt.TryAsync<B> fb)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Seq<A>> AsEnumerable<A>(this LanguageExt.TryAsync<A> self)`
+- `[ext] public static System.Threading.Tasks.Task<System.String> AsString<A>(this LanguageExt.TryAsync<A> self)`
+- `[ext] public static LanguageExt.TryAsync<R> BiBind<A, R>(this LanguageExt.TryAsync<A> self, System.Func<A, LanguageExt.TryAsync<R>> Succ, System.Func<System.Exception, LanguageExt.TryAsync<R>> Fail)`
+- `[ext] public static LanguageExt.TryAsync<A> BiFilter<A>(this LanguageExt.TryAsync<A> self, System.Func<A, System.Boolean> Succ, System.Func<System.Exception, System.Boolean> Fail)`
+- `[ext] public static LanguageExt.TryAsync<A> BiFilter<A>(this LanguageExt.TryAsync<A> self, System.Func<A, System.Threading.Tasks.Task<System.Boolean>> Succ, System.Func<System.Exception, System.Boolean> Fail)`
+- `[ext] public static LanguageExt.TryAsync<A> BiFilter<A>(this LanguageExt.TryAsync<A> self, System.Func<A, System.Boolean> Succ, System.Func<System.Exception, System.Threading.Tasks.Task<System.Boolean>> Fail)`
+- `[ext] public static LanguageExt.TryAsync<A> BiFilter<A>(this LanguageExt.TryAsync<A> self, System.Func<A, System.Threading.Tasks.Task<System.Boolean>> Succ, System.Func<System.Exception, System.Threading.Tasks.Task<System.Boolean>> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<S> BiFold<A, S>(this LanguageExt.TryAsync<A> self, S state, System.Func<S, A, S> Succ, System.Func<S, System.Exception, S> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<S> BiFold<A, S>(this LanguageExt.TryAsync<A> self, S state, System.Func<S, A, S> Succ, System.Func<S, System.Exception, System.Threading.Tasks.Task<S>> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<S> BiFold<A, S>(this LanguageExt.TryAsync<A> self, S state, System.Func<S, A, System.Threading.Tasks.Task<S>> Succ, System.Func<S, System.Exception, S> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<S> BiFold<A, S>(this LanguageExt.TryAsync<A> self, S state, System.Func<S, A, System.Threading.Tasks.Task<S>> Succ, System.Func<S, System.Exception, System.Threading.Tasks.Task<S>> Fail)`
+- `[ext] public static LanguageExt.TryAsync<B> BiMap<A, B>(this LanguageExt.TryAsync<A> self, System.Func<A, B> Succ, System.Func<System.Exception, B> Fail)`
+- `[ext] public static LanguageExt.TryAsync<B> BiMap<A, B>(this LanguageExt.TryAsync<A> self, System.Func<A, System.Threading.Tasks.Task<B>> Succ, System.Func<System.Exception, B> Fail)`
+- `[ext] public static LanguageExt.TryAsync<B> BiMap<A, B>(this LanguageExt.TryAsync<A> self, System.Func<A, B> Succ, System.Func<System.Exception, System.Threading.Tasks.Task<B>> Fail)`
+- `[ext] public static LanguageExt.TryAsync<B> BiMap<A, B>(this LanguageExt.TryAsync<A> self, System.Func<A, System.Threading.Tasks.Task<B>> Succ, System.Func<System.Exception, System.Threading.Tasks.Task<B>> Fail)`
+- `[ext] public static LanguageExt.TryAsync<B> Bind<A, B>(this LanguageExt.TryAsync<A> ma, System.Func<A, LanguageExt.TryAsync<B>> f)`
+- `[ext] public static LanguageExt.TryAsync<B> BindAsync<A, B>(this LanguageExt.TryAsync<A> ma, System.Func<A, System.Threading.Tasks.Task<LanguageExt.TryAsync<B>>> f)`
+- `[ext] public static System.Threading.Tasks.ValueTask<System.Object> Case<A>(this LanguageExt.TryAsync<A> ma)`
+- `[ext] public static System.Threading.Tasks.Task<System.Int32> Compare<ORD, A>(this LanguageExt.TryAsync<A> lhs, LanguageExt.TryAsync<A> rhs)`
+- `where ORD : struct, LanguageExt.TypeClasses.Ord<A>`
+- `[ext] public static System.Threading.Tasks.Task<System.Int32> Count<A>(this LanguageExt.TryAsync<A> self)`
+- `[ext] public static LanguageExt.TryAsync<A> Divide<NUM, A>(this LanguageExt.TryAsync<A> lhs, LanguageExt.TryAsync<A> rhs)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<A>`
+- `[ext] public static LanguageExt.TryAsync<A> Do<A>(this LanguageExt.TryAsync<A> ma, System.Action<A> f)`
+- `[ext] public static System.Threading.Tasks.Task<System.Boolean> Exists<A>(this LanguageExt.TryAsync<A> self, System.Func<A, System.Boolean> pred)`
+- `[ext] public static System.Threading.Tasks.Task<System.Boolean> ExistsAsync<A>(this LanguageExt.TryAsync<A> self, System.Func<A, System.Threading.Tasks.Task<System.Boolean>> pred)`
+- `[ext] public static LanguageExt.TryAsync<A> Filter<A>(this LanguageExt.TryAsync<A> self, System.Func<A, System.Boolean> pred)`
+- `[ext] public static LanguageExt.TryAsync<A> Filter<A>(this LanguageExt.TryAsync<A> self, System.Func<A, System.Threading.Tasks.Task<System.Boolean>> pred)`
+- `[ext] public static LanguageExt.TryAsync<T> Flatten<T>(this LanguageExt.TryAsync<LanguageExt.TryAsync<T>> self)`
+- `[ext] public static LanguageExt.TryAsync<T> Flatten<T>(this LanguageExt.TryAsync<LanguageExt.TryAsync<LanguageExt.TryAsync<T>>> self)`
+- `[ext] public static LanguageExt.TryAsync<T> Flatten<T>(this LanguageExt.TryAsync<LanguageExt.TryAsync<LanguageExt.TryAsync<LanguageExt.TryAsync<T>>>> self)`
+- `[ext] public static System.Threading.Tasks.Task<S> Fold<A, S>(this LanguageExt.TryAsync<A> self, S state, System.Func<S, A, S> folder)`
+- `[ext] public static System.Threading.Tasks.Task<S> FoldAsync<A, S>(this LanguageExt.TryAsync<A> self, S state, System.Func<S, A, System.Threading.Tasks.Task<S>> folder)`
+- `[ext] public static System.Threading.Tasks.Task<System.Boolean> ForAll<A>(this LanguageExt.TryAsync<A> self, System.Func<A, System.Boolean> pred)`
+- `[ext] public static System.Threading.Tasks.Task<System.Boolean> ForAllAsync<A>(this LanguageExt.TryAsync<A> self, System.Func<A, System.Threading.Tasks.Task<System.Boolean>> pred)`
+- `[ext] public static System.Runtime.CompilerServices.TaskAwaiter<LanguageExt.Try<A>> GetAwaiter<A>(this LanguageExt.TryAsync<A> ma)`
+- `[ext] public static LanguageExt.ExceptionMatchAsync<A> IfFail<A>(this LanguageExt.TryAsync<A> self)`
+- `[ext] public static System.Threading.Tasks.Task<A> IfFail<A>(this LanguageExt.TryAsync<A> self, A failValue)`
+- `[ext] public static System.Threading.Tasks.Task<A> IfFail<A>(this LanguageExt.TryAsync<A> self, System.Func<System.Threading.Tasks.Task<A>> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<A> IfFail<A>(this LanguageExt.TryAsync<A> self, System.Func<A> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<A> IfFail<A>(this LanguageExt.TryAsync<A> self, System.Func<System.Exception, System.Threading.Tasks.Task<A>> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<A> IfFail<A>(this LanguageExt.TryAsync<A> self, System.Func<System.Exception, A> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Unit> IfFail<A>(this LanguageExt.TryAsync<A> self, System.Action<System.Exception> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<A> IfFailThrow<A>(this LanguageExt.TryAsync<A> self)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Unit> IfSucc<A>(this LanguageExt.TryAsync<A> self, System.Action<A> Succ)`
+- `[ext] public static System.Threading.Tasks.Task<System.Boolean> IsFail<A>(this LanguageExt.TryAsync<A> ma)`
+- `[ext] public static System.Threading.Tasks.Task<System.Boolean> IsSucc<A>(this LanguageExt.TryAsync<A> ma)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Unit> Iter<A>(this LanguageExt.TryAsync<A> self, System.Action<A> action)`
+- `[ext] public static LanguageExt.TryAsync<V> Join<A, U, K, V>(this LanguageExt.TryAsync<A> self, LanguageExt.TryAsync<U> inner, System.Func<A, K> outerKeyMap, System.Func<U, K> innerKeyMap, System.Func<A, U, V> project)`
+- `[ext] public static LanguageExt.TryAsync<B> Map<A, B>(this LanguageExt.TryAsync<A> self, System.Func<A, B> f)`
+- `[ext] public static LanguageExt.TryAsync<B> MapAsync<A, B>(this LanguageExt.TryAsync<A> self, System.Func<A, System.Threading.Tasks.Task<B>> f)`
+- `[ext] public static System.Threading.Tasks.Task<R> Match<A, R>(this LanguageExt.TryAsync<A> self, System.Func<A, R> Succ, System.Func<System.Exception, R> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<R> Match<A, R>(this LanguageExt.TryAsync<A> self, System.Func<A, System.Threading.Tasks.Task<R>> Succ, System.Func<System.Exception, R> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<R> Match<A, R>(this LanguageExt.TryAsync<A> self, System.Func<A, R> Succ, System.Func<System.Exception, System.Threading.Tasks.Task<R>> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<R> Match<A, R>(this LanguageExt.TryAsync<A> self, System.Func<A, System.Threading.Tasks.Task<R>> Succ, System.Func<System.Exception, System.Threading.Tasks.Task<R>> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<R> Match<A, R>(this LanguageExt.TryAsync<A> self, System.Func<A, R> Succ, R Fail)`
+- `[ext] public static System.Threading.Tasks.Task<R> Match<A, R>(this LanguageExt.TryAsync<A> self, System.Func<A, System.Threading.Tasks.Task<R>> Succ, R Fail)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Unit> Match<A>(this LanguageExt.TryAsync<A> self, System.Action<A> Succ, System.Action<System.Exception> Fail)`
+- `[ext] public static LanguageExt.TryAsync<A> Memo<A>(this LanguageExt.TryAsync<A> ma)`
+- `[ext] public static LanguageExt.TryAsync<System.Func<B, R>> ParMap<A, B, R>(this LanguageExt.TryAsync<A> self, System.Func<A, B, R> func)`
+- `[ext] public static LanguageExt.TryAsync<System.Func<B, System.Func<C, R>>> ParMap<A, B, C, R>(this LanguageExt.TryAsync<A> self, System.Func<A, B, C, R> func)`
+- `[ext] public static LanguageExt.TryAsync<A> Plus<A>(this LanguageExt.TryAsync<A> ma, LanguageExt.TryAsync<A> mb)`
+- `[ext] public static LanguageExt.TryAsync<A> PlusFirst<A>(this LanguageExt.TryAsync<A> ma, LanguageExt.TryAsync<A> mb)`
+- `[ext] public static LanguageExt.TryAsync<A> Product<ARITH, A>(this LanguageExt.TryAsync<A> lhs, LanguageExt.TryAsync<A> rhs)`
+- `where ARITH : struct, LanguageExt.TypeClasses.Arithmetic<A>`
+- `public static LanguageExt.TryAsync<A> Retry<A>(LanguageExt.TryAsync<A> ma, System.Int32 amount)`
+- `public static LanguageExt.TryAsync<A> RetryBackOff<A>(LanguageExt.TryAsync<A> ma, System.Int32 backOffMilliSeconds, System.Int32 amount)`
+- `[ext] public static LanguageExt.TryAsync<B> Select<A, B>(this LanguageExt.TryAsync<A> self, System.Func<A, B> select)`
+- `[ext] public static LanguageExt.TryAsync<B> Select<A, B>(this LanguageExt.TryAsync<A> self, System.Func<A, System.Threading.Tasks.Task<B>> select)`
+- `[ext] public static LanguageExt.TryAsync<C> SelectMany<A, B, C>(this LanguageExt.TryAsync<A> ma, System.Func<A, LanguageExt.TryAsync<B>> bind, System.Func<A, B, C> project)`
+- `[ext] public static LanguageExt.TryAsync<C> SelectMany<A, B, C>(this LanguageExt.TryAsync<A> ma, System.Func<A, System.Threading.Tasks.Task<LanguageExt.TryAsync<B>>> bind, System.Func<A, B, C> project)`
+- `[ext] public static LanguageExt.TryAsync<C> SelectMany<A, B, C>(this LanguageExt.TryAsync<A> ma, System.Func<A, System.Threading.Tasks.Task<LanguageExt.TryAsync<B>>> bind, System.Func<A, B, System.Threading.Tasks.Task<C>> project)`
+- `[ext] public static LanguageExt.TryAsync<C> SelectMany<A, B, C>(this LanguageExt.TryAsync<A> ma, System.Func<A, LanguageExt.TryAsync<B>> bind, System.Func<A, B, System.Threading.Tasks.Task<C>> project)`
+- `[ext] public static LanguageExt.TryAsync<A> Strict<A>(this LanguageExt.TryAsync<A> ma)`
+- `[ext] public static LanguageExt.TryAsync<A> Subtract<ARITH, A>(this LanguageExt.TryAsync<A> lhs, LanguageExt.TryAsync<A> rhs)`
+- `where ARITH : struct, LanguageExt.TypeClasses.Arithmetic<A>`
+- `[ext] public static LanguageExt.TryAsyncSuccContext<A, R> Succ<A, R>(this LanguageExt.TryAsync<A> self, System.Func<A, R> succHandler)`
+- `[ext] public static LanguageExt.TryAsyncSuccUnitContext<A> Succ<A>(this LanguageExt.TryAsync<A> self, System.Action<A> succHandler)`
+- `[ext] public static System.Threading.Tasks.Task<System.Int32> Sum(this LanguageExt.TryAsync<System.Int32> self)`
+- `[ext] public static LanguageExt.Aff<A> ToAff<A>(this LanguageExt.TryAsync<A> ma)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Arr<A>> ToArray<A>(this LanguageExt.TryAsync<A> self)`
+- `[ext] public static LanguageExt.EitherAsync<LanguageExt.Common.Error, A> ToEither<A>(this LanguageExt.TryAsync<A> self)`
+- `[ext] public static LanguageExt.EitherAsync<L, A> ToEither<A, L>(this LanguageExt.TryAsync<A> self, System.Func<LanguageExt.Common.Error, L> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.EitherUnsafe<LanguageExt.Common.Error, A>> ToEitherUnsafe<A>(this LanguageExt.TryAsync<A> self)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.EitherUnsafe<L, A>> ToEitherUnsafe<A, L>(this LanguageExt.TryAsync<A> self, System.Func<LanguageExt.Common.Error, L> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Lst<A>> ToList<A>(this LanguageExt.TryAsync<A> self)`
+- `[ext] public static System.Threading.Tasks.Task<A?> ToNullable<A>(this LanguageExt.TryAsync<A> ma)`
+- `where A : struct`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Option<A>> ToOption<A>(this LanguageExt.TryAsync<A> self)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.OptionUnsafe<A>> ToOptionUnsafe<A>(this LanguageExt.TryAsync<A> self)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Seq<A>> ToSeq<A>(this LanguageExt.TryAsync<A> self)`
+- `[ext] public static LanguageExt.TryOptionAsync<A> ToTryOption<A>(this LanguageExt.TryAsync<A> self)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Validation<FAIL, A>> ToValidation<A, FAIL>(this LanguageExt.TryAsync<A> self, System.Func<System.Exception, FAIL> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Common.Result<T>> Try<T>(this LanguageExt.TryAsync<T> self)`
+- `[ext] public static LanguageExt.TryAsync<U> Use<T, U>(this LanguageExt.TryAsync<T> self, System.Func<T, U> select)`
+- `where T : System.IDisposable`
+- `[ext] public static LanguageExt.TryAsync<U> Use<T, U>(this LanguageExt.TryAsync<T> self, System.Func<T, LanguageExt.TryAsync<U>> select)`
+- `where T : System.IDisposable`
+- `[ext] public static LanguageExt.TryAsync<A> Where<A>(this LanguageExt.TryAsync<A> self, System.Func<A, System.Boolean> pred)`
+- `[ext] public static LanguageExt.TryAsync<A> Where<A>(this LanguageExt.TryAsync<A> self, System.Func<A, System.Threading.Tasks.Task<System.Boolean>> pred)`
+
+### TryExtensions (class [static])
+
+- `[ext] public static LanguageExt.Try<B> Action<A, B>(this LanguageExt.Try<A> fa, LanguageExt.Try<B> fb)`
+- `[ext] public static LanguageExt.Try<A> Add<ARITH, A>(this LanguageExt.Try<A> lhs, LanguageExt.Try<A> rhs)`
+- `where ARITH : struct, LanguageExt.TypeClasses.Arithmetic<A>`
+- `[ext] public static LanguageExt.Try<A> Append<SEMI, A>(this LanguageExt.Try<A> lhs, LanguageExt.Try<A> rhs)`
+- `where SEMI : struct, LanguageExt.TypeClasses.Semigroup<A>`
+- `[ext] public static LanguageExt.Try<B> Apply<A, B>(this LanguageExt.Try<System.Func<A, B>> fab, LanguageExt.Try<A> fa)`
+- `[ext] public static LanguageExt.Try<B> Apply<A, B>(this System.Func<A, B> fab, LanguageExt.Try<A> fa)`
+- `[ext] public static LanguageExt.Try<System.Func<B, C>> Apply<A, B, C>(this LanguageExt.Try<System.Func<A, B, C>> fabc, LanguageExt.Try<A> fa)`
+- `[ext] public static LanguageExt.Try<System.Func<B, C>> Apply<A, B, C>(this System.Func<A, B, C> fabc, LanguageExt.Try<A> fa)`
+- `[ext] public static LanguageExt.Try<System.Func<B, C>> Apply<A, B, C>(this LanguageExt.Try<System.Func<A, System.Func<B, C>>> fabc, LanguageExt.Try<A> fa)`
+- `[ext] public static LanguageExt.Try<System.Func<B, C>> Apply<A, B, C>(this System.Func<A, System.Func<B, C>> fabc, LanguageExt.Try<A> fa)`
+- `[ext] public static LanguageExt.Try<C> Apply<A, B, C>(this LanguageExt.Try<System.Func<A, B, C>> fabc, LanguageExt.Try<A> fa, LanguageExt.Try<B> fb)`
+- `[ext] public static LanguageExt.Try<C> Apply<A, B, C>(this System.Func<A, B, C> fabc, LanguageExt.Try<A> fa, LanguageExt.Try<B> fb)`
+- `[ext] public static LanguageExt.Seq<A> AsEnumerable<A>(this LanguageExt.Try<A> self)`
+- `[ext] public static System.String AsString<A>(this LanguageExt.Try<A> self)`
+- `[ext] public static LanguageExt.Try<R> BiBind<A, R>(this LanguageExt.Try<A> self, System.Func<A, LanguageExt.Try<R>> Succ, System.Func<System.Exception, LanguageExt.Try<R>> Fail)`
+- `[ext] public static LanguageExt.Try<A> BiFilter<A>(this LanguageExt.Try<A> self, System.Func<A, System.Boolean> Succ, System.Func<System.Exception, System.Boolean> Fail)`
+- `[ext] public static S BiFold<A, S>(this LanguageExt.Try<A> self, S state, System.Func<S, A, S> Succ, System.Func<S, System.Exception, S> Fail)`
+- `[ext] public static LanguageExt.Try<R> BiMap<A, R>(this LanguageExt.Try<A> self, System.Func<A, R> Succ, System.Func<System.Exception, R> Fail)`
+- `[ext] public static LanguageExt.Try<B> Bind<A, B>(this LanguageExt.Try<A> ma, System.Func<A, LanguageExt.Try<B>> f)`
+- `[ext] public static System.Object Case<A>(this LanguageExt.Try<A> ma)`
+- `[ext] public static System.Int32 Compare<ORD, A>(this LanguageExt.Try<A> lhs, LanguageExt.Try<A> rhs)`
+- `where ORD : struct, LanguageExt.TypeClasses.Ord<A>`
+- `[ext] public static System.Int32 Count<A>(this LanguageExt.Try<A> self)`
+- `[ext] public static LanguageExt.Try<A> Divide<NUM, A>(this LanguageExt.Try<A> lhs, LanguageExt.Try<A> rhs)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<A>`
+- `[ext] public static LanguageExt.Try<A> Do<A>(this LanguageExt.Try<A> ma, System.Action<A> f)`
+- `[ext] public static System.Boolean Exists<A>(this LanguageExt.Try<A> self, System.Func<A, System.Boolean> pred)`
+- `[ext] public static LanguageExt.Seq<System.Exception> Fails<A>(this LanguageExt.Seq<LanguageExt.Try<A>> self)`
+- `[ext] public static System.Collections.Generic.IEnumerable<System.Exception> Fails<A>(this System.Collections.Generic.IEnumerable<LanguageExt.Try<A>> self)`
+- `[ext] public static LanguageExt.Try<A> Filter<A>(this LanguageExt.Try<A> self, System.Func<A, System.Boolean> pred)`
+- `[ext] public static LanguageExt.Try<T> Flatten<T>(this LanguageExt.Try<LanguageExt.Try<T>> self)`
+- `[ext] public static LanguageExt.Try<T> Flatten<T>(this LanguageExt.Try<LanguageExt.Try<LanguageExt.Try<T>>> self)`
+- `[ext] public static LanguageExt.Try<T> Flatten<T>(this LanguageExt.Try<LanguageExt.Try<LanguageExt.Try<LanguageExt.Try<T>>>> self)`
+- `[ext] public static S Fold<A, S>(this LanguageExt.Try<A> self, S state, System.Func<S, A, S> folder)`
+- `[ext] public static System.Boolean ForAll<A>(this LanguageExt.Try<A> self, System.Func<A, System.Boolean> pred)`
+- `[ext] public static LanguageExt.ExceptionMatch<A> IfFail<A>(this LanguageExt.Try<A> self)`
+- `[ext] public static A IfFail<A>(this LanguageExt.Try<A> self, A failValue)`
+- `[ext] public static A IfFail<A>(this LanguageExt.Try<A> self, System.Func<A> Fail)`
+- `[ext] public static A IfFail<A>(this LanguageExt.Try<A> self, System.Func<System.Exception, A> Fail)`
+- `[ext] public static LanguageExt.Unit IfFail<A>(this LanguageExt.Try<A> self, System.Action<System.Exception> Fail)`
+- `[ext] public static A IfFailThrow<A>(this LanguageExt.Try<A> self)`
+- `[ext] public static LanguageExt.Unit IfSucc<A>(this LanguageExt.Try<A> self, System.Action<A> Succ)`
+- `[ext] public static System.Boolean IsFail<A>(this LanguageExt.Try<A> ma)`
+- `[ext] public static System.Boolean IsSucc<A>(this LanguageExt.Try<A> ma)`
+- `[ext] public static LanguageExt.Unit Iter<A>(this LanguageExt.Try<A> self, System.Action<A> action)`
+- `[ext] public static LanguageExt.Try<V> Join<A, U, K, V>(this LanguageExt.Try<A> self, LanguageExt.Try<U> inner, System.Func<A, K> outerKeyMap, System.Func<U, K> innerKeyMap, System.Func<A, U, V> project)`
+- `[ext] public static LanguageExt.Try<B> Map<A, B>(this LanguageExt.Try<A> self, System.Func<A, B> f)`
+- `[ext] public static R Match<A, R>(this LanguageExt.Try<A> self, System.Func<A, R> Succ, System.Func<System.Exception, R> Fail)`
+- `[ext] public static R Match<A, R>(this LanguageExt.Try<A> self, System.Func<A, R> Succ, R Fail)`
+- `[ext] public static LanguageExt.Unit Match<A>(this LanguageExt.Try<A> self, System.Action<A> Succ, System.Action<System.Exception> Fail)`
+- `[ext] public static LanguageExt.Try<A> Memo<A>(this LanguageExt.Try<A> ma)`
+- `[ext] public static LanguageExt.Try<System.Func<B, R>> ParMap<A, B, R>(this LanguageExt.Try<A> self, System.Func<A, B, R> func)`
+- `[ext] public static LanguageExt.Try<System.Func<B, System.Func<C, R>>> ParMap<A, B, C, R>(this LanguageExt.Try<A> self, System.Func<A, B, C, R> func)`
+- `[ext] public static System.ValueTuple<System.Collections.Generic.IEnumerable<System.Exception>, System.Collections.Generic.IEnumerable<A>> Partition<A>(this System.Collections.Generic.IEnumerable<LanguageExt.Try<A>> self)`
+- `[ext] public static System.ValueTuple<LanguageExt.Seq<System.Exception>, LanguageExt.Seq<A>> Partition<A>(this LanguageExt.Seq<LanguageExt.Try<A>> self)`
+- `[ext] public static LanguageExt.Try<A> Plus<A>(this LanguageExt.Try<A> ma, LanguageExt.Try<A> mb)`
+- `[ext] public static LanguageExt.Try<A> Product<ARITH, A>(this LanguageExt.Try<A> lhs, LanguageExt.Try<A> rhs)`
+- `where ARITH : struct, LanguageExt.TypeClasses.Arithmetic<A>`
+- `public static LanguageExt.Try<A> Retry<A>(LanguageExt.Try<A> ma, System.Int32 amount)`
+- `[ext] public static LanguageExt.Try<B> Select<A, B>(this LanguageExt.Try<A> self, System.Func<A, B> f)`
+- `[ext] public static LanguageExt.Try<C> SelectMany<A, B, C>(this LanguageExt.Try<A> ma, System.Func<A, LanguageExt.Try<B>> bind, System.Func<A, B, C> project)`
+- `[ext] public static LanguageExt.Try<A> Strict<A>(this LanguageExt.Try<A> ma)`
+- `[ext] public static LanguageExt.Try<A> Subtract<ARITH, A>(this LanguageExt.Try<A> lhs, LanguageExt.Try<A> rhs)`
+- `where ARITH : struct, LanguageExt.TypeClasses.Arithmetic<A>`
+- `[ext] public static LanguageExt.TrySuccContext<A, R> Succ<A, R>(this LanguageExt.Try<A> self, System.Func<A, R> succHandler)`
+- `[ext] public static LanguageExt.TrySuccUnitContext<A> Succ<A>(this LanguageExt.Try<A> self, System.Action<A> succHandler)`
+- `[ext] public static LanguageExt.Seq<A> Succs<A>(this LanguageExt.Seq<LanguageExt.Try<A>> self)`
+- `[ext] public static System.Collections.Generic.IEnumerable<A> Succs<A>(this System.Collections.Generic.IEnumerable<LanguageExt.Try<A>> self)`
+- `[ext] public static System.Int32 Sum(this LanguageExt.Try<System.Int32> self)`
+- `[ext] public static LanguageExt.Arr<A> ToArray<A>(this LanguageExt.Try<A> self)`
+- `[ext] public static LanguageExt.Either<System.Exception, A> ToEither<A>(this LanguageExt.Try<A> self)`
+- `[ext] public static LanguageExt.Either<L, A> ToEither<A, L>(this LanguageExt.Try<A> self, System.Func<System.Exception, L> Fail)`
+- `[ext] public static LanguageExt.EitherUnsafe<System.Exception, A> ToEitherUnsafe<A>(this LanguageExt.Try<A> self)`
+- `[ext] public static LanguageExt.EitherUnsafe<L, A> ToEitherUnsafe<A, L>(this LanguageExt.Try<A> self, System.Func<System.Exception, L> Fail)`
+- `[ext] public static LanguageExt.Lst<A> ToList<A>(this LanguageExt.Try<A> self)`
+- `[ext] public static A? ToNullable<A>(this LanguageExt.Try<A> ma)`
+- `where A : struct`
+- `[ext] public static LanguageExt.Option<A> ToOption<A>(this LanguageExt.Try<A> self)`
+- `[ext] public static LanguageExt.OptionUnsafe<A> ToOptionUnsafe<A>(this LanguageExt.Try<A> self)`
+- `[ext] public static LanguageExt.TryOption<A> ToTryOption<A>(this LanguageExt.Try<A> self)`
+- `[ext] public static LanguageExt.Validation<System.Exception, A> ToValidation<A>(this LanguageExt.Try<A> self)`
+- `[ext] public static LanguageExt.Validation<FAIL, A> ToValidation<A, FAIL>(this LanguageExt.Try<A> self, System.Func<System.Exception, FAIL> Fail)`
+- `[ext] public static LanguageExt.Common.Result<T> Try<T>(this LanguageExt.Try<T> self)`
+- `[ext] public static LanguageExt.Try<U> Use<T, U>(this LanguageExt.Try<T> self, System.Func<T, U> select)`
+- `where T : System.IDisposable`
+- `[ext] public static LanguageExt.Try<U> Use<T, U>(this LanguageExt.Try<T> self, System.Func<T, LanguageExt.Try<U>> select)`
+- `where T : System.IDisposable`
+- `[ext] public static LanguageExt.Try<A> Where<A>(this LanguageExt.Try<A> self, System.Func<A, System.Boolean> pred)`
+
+### TryExtensionsAsync (class [static])
+
+- `[ext] public static LanguageExt.TryAsync<A> AddAsync<NUM, A>(this LanguageExt.Try<A> lhs, LanguageExt.Try<A> rhs)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<A>`
+- `[ext] public static LanguageExt.TryAsync<A> AppendAsync<SEMI, A>(this LanguageExt.Try<A> lhs, LanguageExt.Try<A> rhs)`
+- `where SEMI : struct, LanguageExt.TypeClasses.Semigroup<A>`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Seq<A>> AsEnumerableAsync<A>(this LanguageExt.Try<A> self)`
+- `[ext] public static System.Threading.Tasks.Task<System.String> AsStringAsync<A>(this LanguageExt.Try<A> self)`
+- `[ext] public static LanguageExt.TryAsync<A> BiFilterAsync<A>(this LanguageExt.Try<A> self, System.Func<A, System.Boolean> Succ, System.Func<System.Exception, System.Boolean> Fail)`
+- `[ext] public static LanguageExt.TryAsync<A> BiFilterAsync<A>(this LanguageExt.Try<A> self, System.Func<A, System.Threading.Tasks.Task<System.Boolean>> Succ, System.Func<System.Exception, System.Boolean> Fail)`
+- `[ext] public static LanguageExt.TryAsync<A> BiFilterAsync<A>(this LanguageExt.Try<A> self, System.Func<A, System.Boolean> Succ, System.Func<System.Exception, System.Threading.Tasks.Task<System.Boolean>> Fail)`
+- `[ext] public static LanguageExt.TryAsync<A> BiFilterAsync<A>(this LanguageExt.Try<A> self, System.Func<A, System.Threading.Tasks.Task<System.Boolean>> Succ, System.Func<System.Exception, System.Threading.Tasks.Task<System.Boolean>> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<S> BiFoldAsync<A, S>(this LanguageExt.Try<A> self, S state, System.Func<S, A, S> Succ, System.Func<S, System.Exception, S> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<S> BiFoldAsync<A, S>(this LanguageExt.Try<A> self, S state, System.Func<S, A, System.Threading.Tasks.Task<S>> Succ, System.Func<S, System.Exception, S> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<S> BiFoldAsync<A, S>(this LanguageExt.Try<A> self, S state, System.Func<S, A, S> Succ, System.Func<S, System.Exception, System.Threading.Tasks.Task<S>> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<S> BiFoldAsync<A, S>(this LanguageExt.Try<A> self, S state, System.Func<S, A, System.Threading.Tasks.Task<S>> Succ, System.Func<S, System.Exception, System.Threading.Tasks.Task<S>> Fail)`
+- `[ext] public static LanguageExt.TryAsync<R> BiMapAsync<A, R>(this LanguageExt.Try<A> self, System.Func<A, R> Succ, System.Func<System.Exception, R> Fail)`
+- `[ext] public static LanguageExt.TryAsync<R> BiMapAsync<A, R>(this LanguageExt.Try<A> self, System.Func<A, System.Threading.Tasks.Task<R>> Succ, System.Func<System.Exception, R> Fail)`
+- `[ext] public static LanguageExt.TryAsync<R> BiMapAsync<A, R>(this LanguageExt.Try<A> self, System.Func<A, R> Succ, System.Func<System.Exception, System.Threading.Tasks.Task<R>> Fail)`
+- `[ext] public static LanguageExt.TryAsync<R> BiMapAsync<A, R>(this LanguageExt.Try<A> self, System.Func<A, System.Threading.Tasks.Task<R>> Succ, System.Func<System.Exception, System.Threading.Tasks.Task<R>> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<System.Int32> CompareAsync<ORD, A>(this LanguageExt.Try<A> lhs, LanguageExt.Try<A> rhs)`
+- `where ORD : struct, LanguageExt.TypeClasses.Ord<A>`
+- `[ext] public static System.Threading.Tasks.Task<System.Int32> CountAsync<A>(this LanguageExt.Try<A> self)`
+- `[ext] public static LanguageExt.TryAsync<A> DivideAsync<NUM, A>(this LanguageExt.Try<A> lhs, LanguageExt.Try<A> rhs)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<A>`
+- `[ext] public static System.Threading.Tasks.Task<System.Boolean> ExistsAsync<A>(this LanguageExt.Try<A> self, System.Func<A, System.Boolean> pred)`
+- `[ext] public static System.Threading.Tasks.Task<System.Boolean> ExistsAsync<A>(this LanguageExt.Try<A> self, System.Func<A, System.Threading.Tasks.Task<System.Boolean>> pred)`
+- `[ext] public static LanguageExt.TryAsync<A> FilterAsync<A>(this LanguageExt.Try<A> self, System.Func<A, System.Boolean> pred)`
+- `[ext] public static LanguageExt.TryAsync<A> FilterAsync<A>(this LanguageExt.Try<A> self, System.Func<A, System.Threading.Tasks.Task<System.Boolean>> pred)`
+- `[ext] public static System.Threading.Tasks.Task<S> FoldAsync<A, S>(this LanguageExt.Try<A> self, S state, System.Func<S, A, S> folder)`
+- `[ext] public static System.Threading.Tasks.Task<S> FoldAsync<A, S>(this LanguageExt.Try<A> self, S state, System.Func<S, A, System.Threading.Tasks.Task<S>> folder)`
+- `[ext] public static System.Threading.Tasks.Task<System.Boolean> ForAllAsync<A>(this LanguageExt.Try<A> self, System.Func<A, System.Boolean> pred)`
+- `[ext] public static System.Threading.Tasks.Task<System.Boolean> ForAllAsync<A>(this LanguageExt.Try<A> self, System.Func<A, System.Threading.Tasks.Task<System.Boolean>> pred)`
+- `[ext] public static LanguageExt.ExceptionMatchAsync<A> IfFailAsync<A>(this LanguageExt.Try<A> self)`
+- `[ext] public static System.Threading.Tasks.Task<A> IfFailAsync<A>(this LanguageExt.Try<A> self, A failValue)`
+- `[ext] public static System.Threading.Tasks.Task<A> IfFailAsync<A>(this LanguageExt.Try<A> self, System.Func<System.Threading.Tasks.Task<A>> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<A> IfFailAsync<A>(this LanguageExt.Try<A> self, System.Func<System.Exception, System.Threading.Tasks.Task<A>> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Unit> IfFailAsync<A>(this LanguageExt.Try<A> self, System.Action<System.Exception> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<A> IfFailThrowAsync<A>(this LanguageExt.Try<A> self)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Unit> IfSuccAsync<A>(this LanguageExt.Try<A> self, System.Action<A> Succ)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Unit> IterAsync<A>(this LanguageExt.Try<A> self, System.Action<A> action)`
+- `[ext] public static LanguageExt.TryAsync<R> MapAsync<A, R>(this LanguageExt.Try<A> self, System.Func<A, R> mapper)`
+- `[ext] public static LanguageExt.TryAsync<R> MapAsync<A, R>(this LanguageExt.Try<A> self, System.Func<A, System.Threading.Tasks.Task<R>> mapper)`
+- `[ext] public static System.Threading.Tasks.Task<R> MatchAsync<A, R>(this LanguageExt.Try<A> self, System.Func<A, R> Succ, System.Func<System.Exception, R> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<R> MatchAsync<A, R>(this LanguageExt.Try<A> self, System.Func<A, R> Succ, R Fail)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Unit> MatchAsync<A>(this LanguageExt.Try<A> self, System.Action<A> Succ, System.Action<System.Exception> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<R> MatchAsync<A, R>(this LanguageExt.Try<A> self, System.Func<A, System.Threading.Tasks.Task<R>> Succ, System.Func<System.Exception, R> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<R> MatchAsync<A, R>(this LanguageExt.Try<A> self, System.Func<A, System.Threading.Tasks.Task<R>> Succ, System.Func<System.Exception, System.Threading.Tasks.Task<R>> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<R> MatchAsync<A, R>(this LanguageExt.Try<A> self, System.Func<A, R> Succ, System.Func<System.Exception, System.Threading.Tasks.Task<R>> Fail)`
+- `[ext] public static LanguageExt.TryAsync<A> ProductAsync<NUM, A>(this LanguageExt.Try<A> lhs, LanguageExt.Try<A> rhs)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<A>`
+- `[ext] public static LanguageExt.TryAsync<B> Select<A, B>(this LanguageExt.Try<A> self, System.Func<A, System.Threading.Tasks.Task<B>> f)`
+- `[ext] public static LanguageExt.TryAsync<A> SubtractAsync<NUM, A>(this LanguageExt.Try<A> lhs, LanguageExt.Try<A> rhs)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<A>`
+- `[ext] public static System.Threading.Tasks.Task<System.Int32> SumAsync(this LanguageExt.Try<System.Int32> self)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Arr<A>> ToArrayAsync<A>(this LanguageExt.Try<A> self)`
+- `[ext] public static LanguageExt.TryAsync<A> ToAsync<A>(this LanguageExt.Try<A> self)`
+- `[ext] public static LanguageExt.EitherAsync<LanguageExt.Common.Error, A> ToEitherAsync<A>(this LanguageExt.Try<A> self)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.EitherUnsafe<LanguageExt.Common.Error, A>> ToEitherUnsafeAsync<A>(this LanguageExt.Try<A> self)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Lst<A>> ToListAsync<A>(this LanguageExt.Try<A> self)`
+- `[ext] public static System.Threading.Tasks.Task<A?> ToNullableAsync<A>(this LanguageExt.Try<A> ma)`
+- `where A : struct`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Option<A>> ToOptionAsync<A>(this LanguageExt.Try<A> self)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.OptionUnsafe<A>> ToOptionUnsafeAsync<A>(this LanguageExt.Try<A> self)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Seq<A>> ToSeqAsync<A>(this LanguageExt.Try<A> self)`
+- `[ext] public static LanguageExt.TryAsync<A> Where<A>(this LanguageExt.Try<A> self, System.Func<A, System.Threading.Tasks.Task<System.Boolean>> pred)`
+
+### TryOptionAsyncExtensions (class [static])
+
+- `[ext] public static LanguageExt.TryOptionAsync<B> Action<A, B>(this LanguageExt.TryOptionAsync<A> fa, LanguageExt.TryOptionAsync<B> fb)`
+- `[ext] public static LanguageExt.TryOptionAsync<A> Add<NUM, A>(this LanguageExt.TryOptionAsync<A> lhs, LanguageExt.TryOptionAsync<A> rhs)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<A>`
+- `[ext] public static LanguageExt.TryOptionAsync<A> Append<SEMI, A>(this LanguageExt.TryOptionAsync<A> lhs, LanguageExt.TryOptionAsync<A> rhs)`
+- `where SEMI : struct, LanguageExt.TypeClasses.Semigroup<A>`
+- `[ext] public static LanguageExt.TryOptionAsync<B> Apply<A, B>(this LanguageExt.TryOptionAsync<System.Func<A, B>> fab, LanguageExt.TryOptionAsync<A> fa)`
+- `[ext] public static LanguageExt.TryOptionAsync<B> Apply<A, B>(this System.Func<A, B> fab, LanguageExt.TryOptionAsync<A> fa)`
+- `[ext] public static LanguageExt.TryOptionAsync<System.Func<B, C>> Apply<A, B, C>(this LanguageExt.TryOptionAsync<System.Func<A, B, C>> fabc, LanguageExt.TryOptionAsync<A> fa)`
+- `[ext] public static LanguageExt.TryOptionAsync<System.Func<B, C>> Apply<A, B, C>(this System.Func<A, B, C> fabc, LanguageExt.TryOptionAsync<A> fa)`
+- `[ext] public static LanguageExt.TryOptionAsync<System.Func<B, C>> Apply<A, B, C>(this LanguageExt.TryOptionAsync<System.Func<A, System.Func<B, C>>> fabc, LanguageExt.TryOptionAsync<A> fa)`
+- `[ext] public static LanguageExt.TryOptionAsync<System.Func<B, C>> Apply<A, B, C>(this System.Func<A, System.Func<B, C>> fabc, LanguageExt.TryOptionAsync<A> fa)`
+- `[ext] public static LanguageExt.TryOptionAsync<C> Apply<A, B, C>(this LanguageExt.TryOptionAsync<System.Func<A, B, C>> fabc, LanguageExt.TryOptionAsync<A> fa, LanguageExt.TryOptionAsync<B> fb)`
+- `[ext] public static LanguageExt.TryOptionAsync<C> Apply<A, B, C>(this System.Func<A, B, C> fabc, LanguageExt.TryOptionAsync<A> fa, LanguageExt.TryOptionAsync<B> fb)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Seq<A>> AsEnumerable<A>(this LanguageExt.TryOptionAsync<A> self)`
+- `[ext] public static System.Threading.Tasks.Task<System.String> AsString<A>(this LanguageExt.TryOptionAsync<A> self)`
+- `[ext] public static LanguageExt.TryOptionAsync<R> BiBind<A, R>(this LanguageExt.TryOptionAsync<A> self, System.Func<A, LanguageExt.TryOptionAsync<R>> Succ, System.Func<LanguageExt.TryOptionAsync<R>> Fail)`
+- `[ext] public static LanguageExt.TryOptionAsync<A> BiFilter<A>(this LanguageExt.TryOptionAsync<A> self, System.Func<A, System.Boolean> Succ, System.Func<System.Boolean> Fail)`
+- `[ext] public static LanguageExt.TryOptionAsync<A> BiFilter<A>(this LanguageExt.TryOptionAsync<A> self, System.Func<A, System.Threading.Tasks.Task<System.Boolean>> Succ, System.Func<System.Boolean> Fail)`
+- `[ext] public static LanguageExt.TryOptionAsync<A> BiFilter<A>(this LanguageExt.TryOptionAsync<A> self, System.Func<A, System.Boolean> Succ, System.Func<System.Threading.Tasks.Task<System.Boolean>> Fail)`
+- `[ext] public static LanguageExt.TryOptionAsync<A> BiFilter<A>(this LanguageExt.TryOptionAsync<A> self, System.Func<A, System.Threading.Tasks.Task<System.Boolean>> Succ, System.Func<System.Threading.Tasks.Task<System.Boolean>> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<S> BiFold<A, S>(this LanguageExt.TryOptionAsync<A> self, S state, System.Func<S, A, S> Succ, System.Func<S, S> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<S> BiFold<A, S>(this LanguageExt.TryOptionAsync<A> self, S state, System.Func<S, A, S> Succ, System.Func<S, System.Threading.Tasks.Task<S>> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<S> BiFold<A, S>(this LanguageExt.TryOptionAsync<A> self, S state, System.Func<S, A, System.Threading.Tasks.Task<S>> Succ, System.Func<S, S> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<S> BiFold<A, S>(this LanguageExt.TryOptionAsync<A> self, S state, System.Func<S, A, System.Threading.Tasks.Task<S>> Succ, System.Func<S, System.Threading.Tasks.Task<S>> Fail)`
+- `[ext] public static LanguageExt.TryOptionAsync<B> BiMap<A, B>(this LanguageExt.TryOptionAsync<A> self, System.Func<A, B> Succ, System.Func<B> Fail)`
+- `[ext] public static LanguageExt.TryOptionAsync<B> BiMap<A, B>(this LanguageExt.TryOptionAsync<A> self, System.Func<A, System.Threading.Tasks.Task<B>> Succ, System.Func<B> Fail)`
+- `[ext] public static LanguageExt.TryOptionAsync<B> BiMap<A, B>(this LanguageExt.TryOptionAsync<A> self, System.Func<A, B> Succ, System.Func<System.Threading.Tasks.Task<B>> Fail)`
+- `[ext] public static LanguageExt.TryOptionAsync<B> BiMap<A, B>(this LanguageExt.TryOptionAsync<A> self, System.Func<A, System.Threading.Tasks.Task<B>> Succ, System.Func<System.Threading.Tasks.Task<B>> Fail)`
+- `[ext] public static LanguageExt.TryOptionAsync<B> Bind<A, B>(this LanguageExt.TryOptionAsync<A> ma, System.Func<A, LanguageExt.TryOptionAsync<B>> f)`
+- `[ext] public static LanguageExt.TryOptionAsync<B> BindAsync<A, B>(this LanguageExt.TryOptionAsync<A> self, System.Func<A, System.Threading.Tasks.Task<LanguageExt.TryOptionAsync<B>>> binder)`
+- `[ext] public static System.Threading.Tasks.ValueTask<System.Object> Case<A>(this LanguageExt.TryOptionAsync<A> ma)`
+- `[ext] public static System.Threading.Tasks.Task<System.Int32> Compare<ORD, A>(this LanguageExt.TryOptionAsync<A> lhs, LanguageExt.TryOptionAsync<A> rhs)`
+- `where ORD : struct, LanguageExt.TypeClasses.Ord<A>`
+- `[ext] public static System.Threading.Tasks.Task<System.Int32> Count<A>(this LanguageExt.TryOptionAsync<A> self)`
+- `[ext] public static LanguageExt.TryOptionAsync<A> Divide<NUM, A>(this LanguageExt.TryOptionAsync<A> lhs, LanguageExt.TryOptionAsync<A> rhs)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<A>`
+- `[ext] public static LanguageExt.TryOptionAsync<A> Do<A>(this LanguageExt.TryOptionAsync<A> ma, System.Action<A> f)`
+- `[ext] public static System.Threading.Tasks.Task<System.Boolean> Exists<A>(this LanguageExt.TryOptionAsync<A> self, System.Func<A, System.Boolean> pred)`
+- `[ext] public static System.Threading.Tasks.Task<System.Boolean> ExistsAsync<A>(this LanguageExt.TryOptionAsync<A> self, System.Func<A, System.Threading.Tasks.Task<System.Boolean>> pred)`
+- `[ext] public static LanguageExt.TryOptionAsync<A> Filter<A>(this LanguageExt.TryOptionAsync<A> self, System.Func<A, System.Boolean> pred)`
+- `[ext] public static LanguageExt.TryOptionAsync<A> Filter<A>(this LanguageExt.TryOptionAsync<A> self, System.Func<A, System.Threading.Tasks.Task<System.Boolean>> pred)`
+- `[ext] public static LanguageExt.TryOptionAsync<T> Flatten<T>(this LanguageExt.TryOptionAsync<LanguageExt.TryOptionAsync<T>> self)`
+- `[ext] public static LanguageExt.TryOptionAsync<T> Flatten<T>(this LanguageExt.TryOptionAsync<LanguageExt.TryOptionAsync<LanguageExt.TryOptionAsync<T>>> self)`
+- `[ext] public static LanguageExt.TryOptionAsync<T> Flatten<T>(this LanguageExt.TryOptionAsync<LanguageExt.TryOptionAsync<LanguageExt.TryOptionAsync<LanguageExt.TryOptionAsync<T>>>> self)`
+- `[ext] public static System.Threading.Tasks.Task<S> Fold<A, S>(this LanguageExt.TryOptionAsync<A> self, S state, System.Func<S, A, S> folder)`
+- `[ext] public static System.Threading.Tasks.Task<S> FoldAsync<A, S>(this LanguageExt.TryOptionAsync<A> self, S state, System.Func<S, A, System.Threading.Tasks.Task<S>> folder)`
+- `[ext] public static System.Threading.Tasks.Task<System.Boolean> ForAll<A>(this LanguageExt.TryOptionAsync<A> self, System.Func<A, System.Boolean> pred)`
+- `[ext] public static System.Threading.Tasks.Task<System.Boolean> ForAllAsync<A>(this LanguageExt.TryOptionAsync<A> self, System.Func<A, System.Threading.Tasks.Task<System.Boolean>> pred)`
+- `[ext] public static System.Runtime.CompilerServices.TaskAwaiter<LanguageExt.TryOption<A>> GetAwaiter<A>(this LanguageExt.TryOptionAsync<A> ma)`
+- `[ext] public static LanguageExt.ExceptionMatchOptionalAsync<A> IfFail<A>(this LanguageExt.TryOptionAsync<A> self)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Unit> IfFail<A>(this LanguageExt.TryOptionAsync<A> self, System.Action<System.Exception> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<A> IfFailThrow<A>(this LanguageExt.TryOptionAsync<A> self)`
+- `[ext] public static System.Threading.Tasks.Task<A> IfNoneOrFail<A>(this LanguageExt.TryOptionAsync<A> self, A defaultValue)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Unit> IfNoneOrFail<A>(this LanguageExt.TryOptionAsync<A> self, System.Action None)`
+- `[ext] public static System.Threading.Tasks.Task<A> IfNoneOrFail<A>(this LanguageExt.TryOptionAsync<A> self, System.Func<A> None)`
+- `[ext] public static System.Threading.Tasks.Task<A> IfNoneOrFail<A>(this LanguageExt.TryOptionAsync<A> self, System.Func<System.Threading.Tasks.Task<A>> None)`
+- `[ext] public static System.Threading.Tasks.Task<A> IfNoneOrFail<A>(this LanguageExt.TryOptionAsync<A> self, System.Func<A> None, System.Func<System.Exception, A> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<A> IfNoneOrFail<A>(this LanguageExt.TryOptionAsync<A> self, System.Func<System.Threading.Tasks.Task<A>> None, System.Func<System.Exception, A> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<A> IfNoneOrFail<A>(this LanguageExt.TryOptionAsync<A> self, System.Func<A> None, System.Func<System.Exception, System.Threading.Tasks.Task<A>> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<A> IfNoneOrFail<A>(this LanguageExt.TryOptionAsync<A> self, System.Func<System.Threading.Tasks.Task<A>> None, System.Func<System.Exception, System.Threading.Tasks.Task<A>> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Unit> IfSome<A>(this LanguageExt.TryOptionAsync<A> self, System.Action<A> Some)`
+- `[ext] public static System.Threading.Tasks.Task<System.Boolean> IsFail<A>(this LanguageExt.TryOptionAsync<A> ma)`
+- `[ext] public static System.Threading.Tasks.Task<System.Boolean> IsNone<A>(this LanguageExt.TryOptionAsync<A> ma)`
+- `[ext] public static System.Threading.Tasks.Task<System.Boolean> IsNoneOrFail<A>(this LanguageExt.TryOptionAsync<A> ma)`
+- `[ext] public static System.Threading.Tasks.Task<System.Boolean> IsSome<A>(this LanguageExt.TryOptionAsync<A> ma)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Unit> Iter<A>(this LanguageExt.TryOptionAsync<A> self, System.Action<A> action)`
+- `[ext] public static LanguageExt.TryOptionAsync<D> Join<A, B, C, D>(this LanguageExt.TryOptionAsync<A> self, LanguageExt.TryOptionAsync<B> inner, System.Func<A, C> outerKeyMap, System.Func<B, C> innerKeyMap, System.Func<A, B, D> project)`
+- `[ext] public static LanguageExt.TryOptionAsync<B> Map<A, B>(this LanguageExt.TryOptionAsync<A> self, System.Func<A, B> f)`
+- `[ext] public static LanguageExt.TryOptionAsync<B> MapAsync<A, B>(this LanguageExt.TryOptionAsync<A> self, System.Func<A, System.Threading.Tasks.Task<B>> f)`
+- `[ext] public static System.Threading.Tasks.Task<R> Match<A, R>(this LanguageExt.TryOptionAsync<A> self, System.Func<A, R> Succ, R Fail)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Unit> Match<A>(this LanguageExt.TryOptionAsync<A> self, System.Action<A> Succ, System.Action Fail)`
+- `[ext] public static System.Threading.Tasks.Task<R> Match<A, R>(this LanguageExt.TryOptionAsync<A> self, System.Func<A, R> Succ, System.Func<R> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<R> Match<A, R>(this LanguageExt.TryOptionAsync<A> self, System.Func<A, R> Some, System.Func<R> None, System.Func<System.Exception, R> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<R> Match<A, R>(this LanguageExt.TryOptionAsync<A> self, System.Func<A, R> Some, System.Func<R> None, R Fail)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Unit> Match<A>(this LanguageExt.TryOptionAsync<A> self, System.Action<A> Some, System.Action None, System.Action<System.Exception> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Unit> MatchAsync<A>(this LanguageExt.TryOptionAsync<A> self, System.Func<A, System.Threading.Tasks.Task> SuccAsync, System.Action Fail)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Unit> MatchAsync<A>(this LanguageExt.TryOptionAsync<A> self, System.Action<A> Succ, System.Func<System.Threading.Tasks.Task> FailAsync)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Unit> MatchAsync<A>(this LanguageExt.TryOptionAsync<A> self, System.Func<A, System.Threading.Tasks.Task> SuccAsync, System.Func<System.Threading.Tasks.Task> FailAsync)`
+- `[ext] public static System.Threading.Tasks.Task<R> MatchAsync<A, R>(this LanguageExt.TryOptionAsync<A> self, System.Func<A, R> Succ, System.Func<System.Threading.Tasks.Task<R>> FailAsync)`
+- `[ext] public static System.Threading.Tasks.Task<R> MatchAsync<A, R>(this LanguageExt.TryOptionAsync<A> self, System.Func<A, System.Threading.Tasks.Task<R>> SuccAsync, System.Func<R> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<R> MatchAsync<A, R>(this LanguageExt.TryOptionAsync<A> self, System.Func<A, System.Threading.Tasks.Task<R>> SuccAsync, System.Func<System.Threading.Tasks.Task<R>> FailAsync)`
+- `[ext] public static System.Threading.Tasks.Task<R> MatchAsync<A, R>(this LanguageExt.TryOptionAsync<A> self, System.Func<A, R> Some, System.Func<System.Threading.Tasks.Task<R>> NoneAsync, System.Func<System.Exception, R> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<R> MatchAsync<A, R>(this LanguageExt.TryOptionAsync<A> self, System.Func<A, System.Threading.Tasks.Task<R>> SomeAsync, System.Func<R> None, System.Func<System.Exception, R> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<R> MatchAsync<A, R>(this LanguageExt.TryOptionAsync<A> self, System.Func<A, System.Threading.Tasks.Task<R>> SomeAsync, System.Func<System.Threading.Tasks.Task<R>> NoneAsync, System.Func<System.Exception, R> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<R> MatchAsync<A, R>(this LanguageExt.TryOptionAsync<A> self, System.Func<A, R> Some, System.Func<R> None, System.Func<System.Exception, System.Threading.Tasks.Task<R>> FailAsync)`
+- `[ext] public static System.Threading.Tasks.Task<R> MatchAsync<A, R>(this LanguageExt.TryOptionAsync<A> self, System.Func<A, R> Some, System.Func<System.Threading.Tasks.Task<R>> NoneAsync, System.Func<System.Exception, System.Threading.Tasks.Task<R>> FailAsync)`
+- `[ext] public static System.Threading.Tasks.Task<R> MatchAsync<A, R>(this LanguageExt.TryOptionAsync<A> self, System.Func<A, System.Threading.Tasks.Task<R>> SomeAsync, System.Func<R> None, System.Func<System.Exception, System.Threading.Tasks.Task<R>> FailAsync)`
+- `[ext] public static System.Threading.Tasks.Task<R> MatchAsync<A, R>(this LanguageExt.TryOptionAsync<A> self, System.Func<A, System.Threading.Tasks.Task<R>> SomeAsync, System.Func<System.Threading.Tasks.Task<R>> NoneAsync, System.Func<System.Exception, System.Threading.Tasks.Task<R>> FailAsync)`
+- `[ext] public static System.Threading.Tasks.Task<R> MatchAsync<A, R>(this LanguageExt.TryOptionAsync<A> self, System.Func<A, R> Some, System.Func<System.Threading.Tasks.Task<R>> NoneAsync, R Fail)`
+- `[ext] public static System.Threading.Tasks.Task<R> MatchAsync<A, R>(this LanguageExt.TryOptionAsync<A> self, System.Func<A, System.Threading.Tasks.Task<R>> SomeAsync, System.Func<R> None, R Fail)`
+- `[ext] public static System.Threading.Tasks.Task<R> MatchAsync<A, R>(this LanguageExt.TryOptionAsync<A> self, System.Func<A, System.Threading.Tasks.Task<R>> SomeAsync, System.Func<System.Threading.Tasks.Task<R>> NoneAsync, R Fail)`
+- `[ext] public static System.Threading.Tasks.Task<R> MatchUnsafe<A, R>(this LanguageExt.TryOptionAsync<A> self, System.Func<A, R> Succ, R Fail)`
+- `[ext] public static System.Threading.Tasks.Task<R> MatchUnsafe<A, R>(this LanguageExt.TryOptionAsync<A> self, System.Func<A, R> Succ, System.Func<R> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<R> MatchUnsafe<A, R>(this LanguageExt.TryOptionAsync<A> self, System.Func<A, R> Succ, System.Func<R> None, System.Func<System.Exception, R> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<R> MatchUnsafe<A, R>(this LanguageExt.TryOptionAsync<A> self, System.Func<A, R> Some, System.Func<R> None, R Fail)`
+- `[ext] public static System.Threading.Tasks.Task<R> MatchUnsafeAsync<A, R>(this LanguageExt.TryOptionAsync<A> self, System.Func<A, R> Succ, System.Func<System.Threading.Tasks.Task<R>> FailAsync)`
+- `[ext] public static System.Threading.Tasks.Task<R> MatchUnsafeAsync<A, R>(this LanguageExt.TryOptionAsync<A> self, System.Func<A, System.Threading.Tasks.Task<R>> SuccAsync, System.Func<R> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<R> MatchUnsafeAsync<A, R>(this LanguageExt.TryOptionAsync<A> self, System.Func<A, System.Threading.Tasks.Task<R>> SuccAsync, System.Func<System.Threading.Tasks.Task<R>> FailAsync)`
+- `[ext] public static System.Threading.Tasks.Task<R> MatchUnsafeAsync<A, R>(this LanguageExt.TryOptionAsync<A> self, System.Func<A, R> Some, System.Func<System.Threading.Tasks.Task<R>> NoneAsync, System.Func<System.Exception, R> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<R> MatchUnsafeAsync<A, R>(this LanguageExt.TryOptionAsync<A> self, System.Func<A, System.Threading.Tasks.Task<R>> SomeAsync, System.Func<R> None, System.Func<System.Exception, R> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<R> MatchUnsafeAsync<A, R>(this LanguageExt.TryOptionAsync<A> self, System.Func<A, System.Threading.Tasks.Task<R>> SomeAsync, System.Func<System.Threading.Tasks.Task<R>> NoneAsync, System.Func<System.Exception, R> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<R> MatchUnsafeAsync<A, R>(this LanguageExt.TryOptionAsync<A> self, System.Func<A, R> Some, System.Func<R> None, System.Func<System.Exception, System.Threading.Tasks.Task<R>> FailAsync)`
+- `[ext] public static System.Threading.Tasks.Task<R> MatchUnsafeAsync<A, R>(this LanguageExt.TryOptionAsync<A> self, System.Func<A, R> Some, System.Func<System.Threading.Tasks.Task<R>> NoneAsync, System.Func<System.Exception, System.Threading.Tasks.Task<R>> FailAsync)`
+- `[ext] public static System.Threading.Tasks.Task<R> MatchUnsafeAsync<A, R>(this LanguageExt.TryOptionAsync<A> self, System.Func<A, System.Threading.Tasks.Task<R>> SomeAsync, System.Func<R> None, System.Func<System.Exception, System.Threading.Tasks.Task<R>> FailAsync)`
+- `[ext] public static System.Threading.Tasks.Task<R> MatchUnsafeAsync<A, R>(this LanguageExt.TryOptionAsync<A> self, System.Func<A, System.Threading.Tasks.Task<R>> SomeAsync, System.Func<System.Threading.Tasks.Task<R>> NoneAsync, System.Func<System.Exception, System.Threading.Tasks.Task<R>> FailAsync)`
+- `[ext] public static System.Threading.Tasks.Task<R> MatchUnsafeAsync<A, R>(this LanguageExt.TryOptionAsync<A> self, System.Func<A, R> Some, System.Func<System.Threading.Tasks.Task<R>> NoneAsync, R Fail)`
+- `[ext] public static System.Threading.Tasks.Task<R> MatchUnsafeAsync<A, R>(this LanguageExt.TryOptionAsync<A> self, System.Func<A, System.Threading.Tasks.Task<R>> SomeAsync, System.Func<R> None, R Fail)`
+- `[ext] public static System.Threading.Tasks.Task<R> MatchUnsafeAsync<A, R>(this LanguageExt.TryOptionAsync<A> self, System.Func<A, System.Threading.Tasks.Task<R>> SomeAsync, System.Func<System.Threading.Tasks.Task<R>> NoneAsync, R Fail)`
+- `[ext] public static System.Threading.Tasks.Task<R> MatchUntypedUnsafe<A, R>(this LanguageExt.TryOptionAsync<A> self, System.Func<A, R> Some, System.Func<R> None, System.Func<System.Exception, R> Fail)`
+- `[ext] public static LanguageExt.TryOptionAsync<A> Memo<A>(this LanguageExt.TryOptionAsync<A> ma)`
+- `[ext] public static LanguageExt.TryOptionAsync<System.Func<B, R>> ParMap<A, B, R>(this LanguageExt.TryOptionAsync<A> self, System.Func<A, B, R> func)`
+- `[ext] public static LanguageExt.TryOptionAsync<System.Func<B, System.Func<C, R>>> ParMap<A, B, C, R>(this LanguageExt.TryOptionAsync<A> self, System.Func<A, B, C, R> func)`
+- `[ext] public static LanguageExt.TryOptionAsync<A> Plus<A>(this LanguageExt.TryOptionAsync<A> ma, LanguageExt.TryOptionAsync<A> mb)`
+- `[ext] public static LanguageExt.TryOptionAsync<A> PlusFirst<A>(this LanguageExt.TryOptionAsync<A> ma, LanguageExt.TryOptionAsync<A> mb)`
+- `[ext] public static LanguageExt.TryOptionAsync<A> Product<NUM, A>(this LanguageExt.TryOptionAsync<A> lhs, LanguageExt.TryOptionAsync<A> rhs)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<A>`
+- `public static LanguageExt.TryOptionAsync<A> Retry<A>(LanguageExt.TryOptionAsync<A> ma, System.Int32 amount)`
+- `public static LanguageExt.TryOptionAsync<A> RetryBackOff<A>(LanguageExt.TryOptionAsync<A> ma, System.Int32 backOffMilliSeconds, System.Int32 amount)`
+- `[ext] public static LanguageExt.TryOptionAsync<B> Select<A, B>(this LanguageExt.TryOptionAsync<A> self, System.Func<A, B> select)`
+- `[ext] public static LanguageExt.TryOptionAsync<B> Select<A, B>(this LanguageExt.TryOptionAsync<A> self, System.Func<A, System.Threading.Tasks.Task<B>> select)`
+- `[ext] public static LanguageExt.TryOptionAsync<C> SelectMany<A, B, C>(this LanguageExt.TryOptionAsync<A> ma, System.Func<A, LanguageExt.TryOptionAsync<B>> bind, System.Func<A, B, C> project)`
+- `[ext] public static LanguageExt.TryOptionAsync<C> SelectMany<A, B, C>(this LanguageExt.TryOptionAsync<A> ma, System.Func<A, System.Threading.Tasks.Task<LanguageExt.TryOptionAsync<B>>> bind, System.Func<A, B, C> project)`
+- `[ext] public static LanguageExt.TryOptionAsync<C> SelectMany<A, B, C>(this LanguageExt.TryOptionAsync<A> ma, System.Func<A, System.Threading.Tasks.Task<LanguageExt.TryOptionAsync<B>>> bind, System.Func<A, B, System.Threading.Tasks.Task<C>> project)`
+- `[ext] public static LanguageExt.TryOptionAsync<C> SelectMany<A, B, C>(this LanguageExt.TryOptionAsync<A> ma, System.Func<A, LanguageExt.TryOptionAsync<B>> bind, System.Func<A, B, System.Threading.Tasks.Task<C>> project)`
+- `[ext] public static LanguageExt.TryOptionAsyncSuccContext<A, R> Some<A, R>(this LanguageExt.TryOptionAsync<A> self, System.Func<A, R> succHandler)`
+- `[ext] public static LanguageExt.TryOptionAsyncSuccContext<A> Some<A>(this LanguageExt.TryOptionAsync<A> self, System.Action<A> succHandler)`
+- `[ext] public static LanguageExt.TryOptionAsync<A> Strict<A>(this LanguageExt.TryOptionAsync<A> ma)`
+- `[ext] public static LanguageExt.TryOptionAsync<A> Subtract<NUM, A>(this LanguageExt.TryOptionAsync<A> lhs, LanguageExt.TryOptionAsync<A> rhs)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<A>`
+- `[ext] public static System.Threading.Tasks.Task<System.Int32> Sum(this LanguageExt.TryOptionAsync<System.Int32> self)`
+- `[ext] public static LanguageExt.Aff<A> ToAff<A>(this LanguageExt.TryOptionAsync<A> ma)`
+- `[ext] public static LanguageExt.Aff<A> ToAff<A>(this LanguageExt.TryOptionAsync<A> ma, LanguageExt.Common.Error None)`
+- `[ext] public static LanguageExt.Aff<A> ToAff<A>(this LanguageExt.TryOptionAsync<A> ma, System.Func<LanguageExt.Common.Error> None)`
+- `[ext] public static LanguageExt.Aff<A> ToAff<A>(this LanguageExt.TryOptionAsync<A> ma, A None)`
+- `[ext] public static LanguageExt.Aff<A> ToAff<A>(this LanguageExt.TryOptionAsync<A> ma, System.Func<A> None)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Arr<A>> ToArray<A>(this LanguageExt.TryOptionAsync<A> self)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Either<System.Exception, LanguageExt.Option<A>>> ToEither<A>(this LanguageExt.TryOptionAsync<A> self)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Either<L, LanguageExt.Option<A>>> ToEither<A, L>(this LanguageExt.TryOptionAsync<A> self, System.Func<System.Exception, L> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.EitherUnsafe<System.Exception, LanguageExt.Option<A>>> ToEitherUnsafe<A>(this LanguageExt.TryOptionAsync<A> self)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.EitherUnsafe<L, LanguageExt.Option<A>>> ToEitherUnsafe<A, L>(this LanguageExt.TryOptionAsync<A> self, System.Func<System.Exception, L> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Lst<A>> ToList<A>(this LanguageExt.TryOptionAsync<A> self)`
+- `[ext] public static System.Threading.Tasks.Task<A?> ToNullable<A>(this LanguageExt.TryOptionAsync<A> ma)`
+- `where A : struct`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Option<A>> ToOption<A>(this LanguageExt.TryOptionAsync<A> self)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.OptionUnsafe<A>> ToOptionUnsafe<A>(this LanguageExt.TryOptionAsync<A> self)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Seq<A>> ToSeq<A>(this LanguageExt.TryOptionAsync<A> self)`
+- `[ext] public static LanguageExt.TryAsync<LanguageExt.Option<A>> ToTry<A>(this LanguageExt.TryOptionAsync<A> self)`
+- `[ext] public static LanguageExt.TryAsync<A> ToTry<A>(this LanguageExt.TryOptionAsync<A> self, System.Func<A> None)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Validation<System.Exception, LanguageExt.Option<A>>> ToValidation<A>(this LanguageExt.TryOptionAsync<A> self)`
+- `[ext] public static System.Threading.Tasks.Task<S> TriFold<A, S>(this LanguageExt.TryOptionAsync<A> self, S state, System.Func<S, A, S> Some, System.Func<S, S> None, System.Func<S, System.Exception, S> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<S> TriFold<A, S>(this LanguageExt.TryOptionAsync<A> self, S state, System.Func<S, A, System.Threading.Tasks.Task<S>> Some, System.Func<S, S> None, System.Func<S, System.Exception, S> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<S> TriFold<A, S>(this LanguageExt.TryOptionAsync<A> self, S state, System.Func<S, A, S> Some, System.Func<S, System.Threading.Tasks.Task<S>> None, System.Func<S, System.Exception, S> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<S> TriFold<A, S>(this LanguageExt.TryOptionAsync<A> self, S state, System.Func<S, A, S> Some, System.Func<S, S> None, System.Func<S, System.Exception, System.Threading.Tasks.Task<S>> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<S> TriFold<A, S>(this LanguageExt.TryOptionAsync<A> self, S state, System.Func<S, A, System.Threading.Tasks.Task<S>> Some, System.Func<S, System.Threading.Tasks.Task<S>> None, System.Func<S, System.Exception, S> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<S> TriFold<A, S>(this LanguageExt.TryOptionAsync<A> self, S state, System.Func<S, A, S> Some, System.Func<S, System.Threading.Tasks.Task<S>> None, System.Func<S, System.Exception, System.Threading.Tasks.Task<S>> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<S> TriFold<A, S>(this LanguageExt.TryOptionAsync<A> self, S state, System.Func<S, A, System.Threading.Tasks.Task<S>> Some, System.Func<S, System.Threading.Tasks.Task<S>> None, System.Func<S, System.Exception, System.Threading.Tasks.Task<S>> Fail)`
+- `[ext] public static LanguageExt.TryOptionAsync<B> TriMap<A, B>(this LanguageExt.TryOptionAsync<A> self, System.Func<A, B> Some, System.Func<B> None, System.Func<System.Exception, B> Fail)`
+- `[ext] public static LanguageExt.TryOptionAsync<B> TriMap<A, B>(this LanguageExt.TryOptionAsync<A> self, System.Func<A, System.Threading.Tasks.Task<B>> Some, System.Func<B> None, System.Func<System.Exception, B> Fail)`
+- `[ext] public static LanguageExt.TryOptionAsync<B> TriMap<A, B>(this LanguageExt.TryOptionAsync<A> self, System.Func<A, B> Some, System.Func<System.Threading.Tasks.Task<B>> None, System.Func<System.Exception, B> Fail)`
+- `[ext] public static LanguageExt.TryOptionAsync<B> TriMap<A, B>(this LanguageExt.TryOptionAsync<A> self, System.Func<A, B> Some, System.Func<B> None, System.Func<System.Exception, System.Threading.Tasks.Task<B>> Fail)`
+- `[ext] public static LanguageExt.TryOptionAsync<B> TriMap<A, B>(this LanguageExt.TryOptionAsync<A> self, System.Func<A, System.Threading.Tasks.Task<B>> Some, System.Func<System.Threading.Tasks.Task<B>> None, System.Func<System.Exception, B> Fail)`
+- `[ext] public static LanguageExt.TryOptionAsync<B> TriMap<A, B>(this LanguageExt.TryOptionAsync<A> self, System.Func<A, B> Some, System.Func<System.Threading.Tasks.Task<B>> None, System.Func<System.Exception, System.Threading.Tasks.Task<B>> Fail)`
+- `[ext] public static LanguageExt.TryOptionAsync<B> TriMap<A, B>(this LanguageExt.TryOptionAsync<A> self, System.Func<A, System.Threading.Tasks.Task<B>> Some, System.Func<System.Threading.Tasks.Task<B>> None, System.Func<System.Exception, System.Threading.Tasks.Task<B>> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Common.OptionalResult<T>> Try<T>(this LanguageExt.TryOptionAsync<T> self)`
+- `[ext] public static LanguageExt.TryOptionAsync<U> Use<T, U>(this LanguageExt.TryOptionAsync<T> self, System.Func<T, U> select)`
+- `where T : System.IDisposable`
+- `[ext] public static LanguageExt.TryOptionAsync<U> Use<T, U>(this LanguageExt.TryOptionAsync<T> self, System.Func<T, LanguageExt.TryOptionAsync<U>> select)`
+- `where T : System.IDisposable`
+- `[ext] public static LanguageExt.TryOptionAsync<A> Where<A>(this LanguageExt.TryOptionAsync<A> self, System.Func<A, System.Boolean> pred)`
+- `[ext] public static LanguageExt.TryOptionAsync<A> Where<A>(this LanguageExt.TryOptionAsync<A> self, System.Func<A, System.Threading.Tasks.Task<System.Boolean>> pred)`
+
+### TryOptionExtensions (class [static])
+
+- `[ext] public static LanguageExt.TryOption<B> Action<A, B>(this LanguageExt.TryOption<A> fa, LanguageExt.TryOption<B> fb)`
+- `[ext] public static LanguageExt.TryOption<A> Add<ARITH, A>(this LanguageExt.TryOption<A> lhs, LanguageExt.TryOption<A> rhs)`
+- `where ARITH : struct, LanguageExt.TypeClasses.Arithmetic<A>`
+- `[ext] public static LanguageExt.TryOption<B> Apply<A, B>(this LanguageExt.TryOption<System.Func<A, B>> fab, LanguageExt.TryOption<A> fa)`
+- `[ext] public static LanguageExt.TryOption<B> Apply<A, B>(this System.Func<A, B> fab, LanguageExt.TryOption<A> fa)`
+- `[ext] public static LanguageExt.TryOption<System.Func<B, C>> Apply<A, B, C>(this LanguageExt.TryOption<System.Func<A, B, C>> fabc, LanguageExt.TryOption<A> fa)`
+- `[ext] public static LanguageExt.TryOption<System.Func<B, C>> Apply<A, B, C>(this System.Func<A, B, C> fabc, LanguageExt.TryOption<A> fa)`
+- `[ext] public static LanguageExt.TryOption<System.Func<B, C>> Apply<A, B, C>(this LanguageExt.TryOption<System.Func<A, System.Func<B, C>>> fabc, LanguageExt.TryOption<A> fa)`
+- `[ext] public static LanguageExt.TryOption<C> Apply<A, B, C>(this LanguageExt.TryOption<System.Func<A, B, C>> fabc, LanguageExt.TryOption<A> fa, LanguageExt.TryOption<B> fb)`
+- `[ext] public static LanguageExt.TryOption<C> Apply<A, B, C>(this System.Func<A, B, C> fabc, LanguageExt.TryOption<A> fa, LanguageExt.TryOption<B> fb)`
+- `[ext] public static LanguageExt.Seq<A> AsEnumerable<A>(this LanguageExt.TryOption<A> self)`
+- `[ext] public static System.String AsString<A>(this LanguageExt.TryOption<A> self)`
+- `[ext] public static LanguageExt.TryOption<R> BiBind<A, R>(this LanguageExt.TryOption<A> self, System.Func<A, LanguageExt.TryOption<R>> Some, System.Func<LanguageExt.TryOption<R>> Fail)`
+- `[ext] public static S BiFold<A, S>(this LanguageExt.TryOption<A> self, S state, System.Func<S, A, S> Some, System.Func<S, S> Fail)`
+- `[ext] public static LanguageExt.TryOption<R> BiMap<A, R>(this LanguageExt.TryOption<A> self, System.Func<A, R> Some, System.Func<R> Fail)`
+- `[ext] public static LanguageExt.TryOption<B> Bind<A, B>(this LanguageExt.TryOption<A> ma, System.Func<A, LanguageExt.TryOption<B>> f)`
+- `[ext] public static System.Object Case<A>(this LanguageExt.TryOption<A> ma)`
+- `[ext] public static System.Int32 Count<A>(this LanguageExt.TryOption<A> self)`
+- `[ext] public static LanguageExt.TryOption<A> Divide<NUM, A>(this LanguageExt.TryOption<A> lhs, LanguageExt.TryOption<A> rhs)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<A>`
+- `[ext] public static LanguageExt.TryOption<A> Do<A>(this LanguageExt.TryOption<A> ma, System.Action<A> f)`
+- `[ext] public static System.Boolean Exists<A>(this LanguageExt.TryOption<A> self, System.Func<A, System.Boolean> pred)`
+- `[ext] public static LanguageExt.TryOption<A> Filter<A>(this LanguageExt.TryOption<A> self, System.Func<A, System.Boolean> pred)`
+- `[ext] public static LanguageExt.TryOption<T> Flatten<T>(this LanguageExt.TryOption<LanguageExt.TryOption<T>> self)`
+- `[ext] public static LanguageExt.TryOption<T> Flatten<T>(this LanguageExt.TryOption<LanguageExt.TryOption<LanguageExt.TryOption<T>>> self)`
+- `[ext] public static LanguageExt.TryOption<T> Flatten<T>(this LanguageExt.TryOption<LanguageExt.TryOption<LanguageExt.TryOption<LanguageExt.TryOption<T>>>> self)`
+- `[ext] public static S Fold<A, S>(this LanguageExt.TryOption<A> self, S state, System.Func<S, A, S> folder)`
+- `[ext] public static System.Boolean ForAll<A>(this LanguageExt.TryOption<A> self, System.Func<A, System.Boolean> pred)`
+- `[ext] public static LanguageExt.ExceptionMatch<LanguageExt.Option<A>> IfFail<A>(this LanguageExt.TryOption<A> self)`
+- `[ext] public static LanguageExt.Unit IfFail<A>(this LanguageExt.TryOption<A> self, System.Action<System.Exception> Fail)`
+- `[ext] public static A IfFailThrow<A>(this LanguageExt.TryOption<A> self)`
+- `[ext] public static LanguageExt.Unit IfNoneOrFail<A>(this LanguageExt.TryOption<A> self, System.Action None)`
+- `[ext] public static A IfNoneOrFail<A>(this LanguageExt.TryOption<A> self, A defaultValue)`
+- `[ext] public static A IfNoneOrFail<A>(this LanguageExt.TryOption<A> self, System.Func<A> None)`
+- `[ext] public static A IfNoneOrFail<A>(this LanguageExt.TryOption<A> self, System.Func<A> None, System.Func<System.Exception, A> Fail)`
+- `[ext] public static LanguageExt.Unit IfSome<A>(this LanguageExt.TryOption<A> self, System.Action<A> Some)`
+- `[ext] public static System.Boolean IsFail<A>(this LanguageExt.TryOption<A> ma)`
+- `[ext] public static System.Boolean IsNone<A>(this LanguageExt.TryOption<A> ma)`
+- `[ext] public static System.Boolean IsNoneOrFail<A>(this LanguageExt.TryOption<A> ma)`
+- `[ext] public static System.Boolean IsSome<A>(this LanguageExt.TryOption<A> ma)`
+- `[ext] public static LanguageExt.Unit Iter<A>(this LanguageExt.TryOption<A> self, System.Action<A> action)`
+- `[ext] public static LanguageExt.TryOption<V> Join<A, U, K, V>(this LanguageExt.TryOption<A> self, LanguageExt.TryOption<U> inner, System.Func<A, K> outerKeyMap, System.Func<U, K> innerKeyMap, System.Func<A, U, V> project)`
+- `[ext] public static LanguageExt.TryOption<B> Map<A, B>(this LanguageExt.TryOption<A> self, System.Func<A, B> f)`
+- `[ext] public static R Match<A, R>(this LanguageExt.TryOption<A> self, System.Func<A, R> Some, System.Func<R> Fail)`
+- `[ext] public static R Match<A, R>(this LanguageExt.TryOption<A> self, System.Func<A, R> Some, R Fail)`
+- `[ext] public static LanguageExt.Unit Match<A>(this LanguageExt.TryOption<A> self, System.Action<A> Some, System.Action Fail)`
+- `[ext] public static R Match<A, R>(this LanguageExt.TryOption<A> self, System.Func<A, R> Some, System.Func<R> None, System.Func<System.Exception, R> Fail)`
+- `[ext] public static LanguageExt.Unit Match<A>(this LanguageExt.TryOption<A> self, System.Action<A> Some, System.Action None, System.Action<System.Exception> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<R> MatchAsync<T, R>(this System.Threading.Tasks.Task<LanguageExt.TryOption<T>> self, System.Func<T, R> Some, System.Func<R> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<R> MatchAsync<T, R>(this System.Threading.Tasks.Task<LanguageExt.TryOption<T>> self, System.Func<T, System.Threading.Tasks.Task<R>> Some, System.Func<R> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<R> MatchAsync<T, R>(this System.Threading.Tasks.Task<LanguageExt.TryOption<T>> self, System.Func<T, R> Some, System.Func<R> None, System.Func<System.Exception, R> Fail)`
+- `[ext] public static LanguageExt.TryOption<A> Memo<A>(this LanguageExt.TryOption<A> ma)`
+- `[ext] public static LanguageExt.TryOption<System.Func<B, R>> ParMap<A, B, R>(this LanguageExt.TryOption<A> self, System.Func<A, B, R> func)`
+- `[ext] public static LanguageExt.TryOption<System.Func<B, System.Func<C, R>>> ParMap<A, B, C, R>(this LanguageExt.TryOption<A> self, System.Func<A, B, C, R> func)`
+- `[ext] public static LanguageExt.TryOption<A> Plus<A>(this LanguageExt.TryOption<A> ma, LanguageExt.TryOption<A> mb)`
+- `[ext] public static LanguageExt.TryOption<A> Product<ARITH, A>(this LanguageExt.TryOption<A> lhs, LanguageExt.TryOption<A> rhs)`
+- `where ARITH : struct, LanguageExt.TypeClasses.Arithmetic<A>`
+- `public static LanguageExt.TryOption<A> Retry<A>(LanguageExt.TryOption<A> ma, System.Int32 amount)`
+- `[ext] public static LanguageExt.TryOption<B> Select<A, B>(this LanguageExt.TryOption<A> self, System.Func<A, B> select)`
+- `[ext] public static LanguageExt.TryOption<C> SelectMany<A, B, C>(this LanguageExt.TryOption<A> ma, System.Func<A, LanguageExt.TryOption<B>> bind, System.Func<A, B, C> project)`
+- `[ext] public static LanguageExt.TryOptionSomeContext<A, R> Some<A, R>(this LanguageExt.TryOption<A> self, System.Func<A, R> Some)`
+- `[ext] public static LanguageExt.TryOptionSomeUnitContext<A> Some<A>(this LanguageExt.TryOption<A> self, System.Action<A> Some)`
+- `[ext] public static LanguageExt.TryOption<A> Strict<A>(this LanguageExt.TryOption<A> ma)`
+- `[ext] public static LanguageExt.TryOption<A> Subtract<ARITH, A>(this LanguageExt.TryOption<A> lhs, LanguageExt.TryOption<A> rhs)`
+- `where ARITH : struct, LanguageExt.TypeClasses.Arithmetic<A>`
+- `[ext] public static System.Int32 Sum(this LanguageExt.TryOption<System.Int32> self)`
+- `[ext] public static LanguageExt.Aff<A> ToAff<A>(this LanguageExt.TryOption<A> ma)`
+- `[ext] public static LanguageExt.Aff<A> ToAff<A>(this LanguageExt.TryOption<A> ma, LanguageExt.Common.Error None)`
+- `[ext] public static LanguageExt.Aff<A> ToAff<A>(this LanguageExt.TryOption<A> ma, System.Func<LanguageExt.Common.Error> None)`
+- `[ext] public static LanguageExt.Aff<A> ToAff<A>(this LanguageExt.TryOption<A> ma, A None)`
+- `[ext] public static LanguageExt.Aff<A> ToAff<A>(this LanguageExt.TryOption<A> ma, System.Func<A> None)`
+- `[ext] public static LanguageExt.Arr<A> ToArray<A>(this LanguageExt.TryOption<A> self)`
+- `[ext] public static LanguageExt.Eff<A> ToEff<A>(this LanguageExt.TryOption<A> ma)`
+- `[ext] public static LanguageExt.Eff<A> ToEff<A>(this LanguageExt.TryOption<A> ma, LanguageExt.Common.Error None)`
+- `[ext] public static LanguageExt.Eff<A> ToEff<A>(this LanguageExt.TryOption<A> ma, System.Func<LanguageExt.Common.Error> None)`
+- `[ext] public static LanguageExt.Eff<A> ToEff<A>(this LanguageExt.TryOption<A> ma, A None)`
+- `[ext] public static LanguageExt.Eff<A> ToEff<A>(this LanguageExt.TryOption<A> ma, System.Func<A> None)`
+- `[ext] public static LanguageExt.Either<System.Exception, LanguageExt.Option<A>> ToEither<A>(this LanguageExt.TryOption<A> self)`
+- `[ext] public static LanguageExt.Either<L, LanguageExt.Option<A>> ToEither<A, L>(this LanguageExt.TryOption<A> self, System.Func<System.Exception, L> Fail)`
+- `[ext] public static LanguageExt.EitherUnsafe<System.Exception, LanguageExt.Option<A>> ToEitherUnsafe<A>(this LanguageExt.TryOption<A> self)`
+- `[ext] public static LanguageExt.EitherUnsafe<L, LanguageExt.Option<A>> ToEitherUnsafe<A, L>(this LanguageExt.TryOption<A> self, System.Func<System.Exception, L> Fail)`
+- `[ext] public static LanguageExt.Lst<A> ToList<A>(this LanguageExt.TryOption<A> self)`
+- `[ext] public static A? ToNullable<A>(this LanguageExt.TryOption<A> ma)`
+- `where A : struct`
+- `[ext] public static LanguageExt.Option<A> ToOption<A>(this LanguageExt.TryOption<A> self)`
+- `[ext] public static LanguageExt.OptionUnsafe<A> ToOptionUnsafe<A>(this LanguageExt.TryOption<A> self)`
+- `[ext] public static LanguageExt.Seq<A> ToSeq<A>(this LanguageExt.TryOption<A> self)`
+- `[ext] public static LanguageExt.Try<LanguageExt.Option<A>> ToTry<A>(this LanguageExt.TryOption<A> self)`
+- `[ext] public static LanguageExt.Try<A> ToTry<A>(this LanguageExt.TryOption<A> self, System.Func<A> None)`
+- `[ext] public static LanguageExt.Validation<System.Exception, LanguageExt.Option<A>> ToValidation<A>(this LanguageExt.TryOption<A> self)`
+- `[ext] public static LanguageExt.Validation<FAIL, LanguageExt.Option<A>> ToValidation<A, FAIL>(this LanguageExt.TryOption<A> self, System.Func<System.Exception, FAIL> Fail)`
+- `[ext] public static LanguageExt.TryOption<R> TriBind<A, R>(this LanguageExt.TryOption<A> self, System.Func<A, LanguageExt.TryOption<R>> Some, System.Func<LanguageExt.TryOption<R>> None, System.Func<System.Exception, LanguageExt.TryOption<R>> Fail)`
+- `[ext] public static S TriFold<A, S>(this LanguageExt.TryOption<A> self, S state, System.Func<S, A, S> Some, System.Func<S, S> None, System.Func<S, System.Exception, S> Fail)`
+- `[ext] public static LanguageExt.TryOption<R> TriMap<A, R>(this LanguageExt.TryOption<A> self, System.Func<A, R> Some, System.Func<R> None, System.Func<System.Exception, R> Fail)`
+- `[ext] public static LanguageExt.Common.OptionalResult<T> Try<T>(this LanguageExt.TryOption<T> self)`
+- `[ext] public static LanguageExt.TryOption<U> Use<T, U>(this LanguageExt.TryOption<T> self, System.Func<T, U> select)`
+- `where T : System.IDisposable`
+- `[ext] public static LanguageExt.TryOption<A> Where<A>(this LanguageExt.TryOption<A> self, System.Func<A, System.Boolean> pred)`
+
+### TryOptionExtensionsAsync (class [static])
+
+- `[ext] public static LanguageExt.TryOptionAsync<A> AddAsync<NUM, A>(this LanguageExt.TryOption<A> lhs, LanguageExt.TryOption<A> rhs)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<A>`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Seq<A>> AsEnumerableAsync<A>(this LanguageExt.TryOption<A> self)`
+- `[ext] public static System.Threading.Tasks.Task<System.String> AsStringAsync<A>(this LanguageExt.TryOption<A> self)`
+- `[ext] public static System.Threading.Tasks.Task<S> BiFoldAsync<A, S>(this LanguageExt.TryOption<A> self, S state, System.Func<S, A, S> Succ, System.Func<S, S> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<S> BiFoldAsync<A, S>(this LanguageExt.TryOption<A> self, S state, System.Func<S, A, System.Threading.Tasks.Task<S>> Succ, System.Func<S, S> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<S> BiFoldAsync<A, S>(this LanguageExt.TryOption<A> self, S state, System.Func<S, A, S> Succ, System.Func<S, System.Threading.Tasks.Task<S>> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<S> BiFoldAsync<A, S>(this LanguageExt.TryOption<A> self, S state, System.Func<S, A, System.Threading.Tasks.Task<S>> Succ, System.Func<S, System.Threading.Tasks.Task<S>> Fail)`
+- `[ext] public static LanguageExt.TryOptionAsync<B> BiMapAsync<A, B>(this LanguageExt.TryOption<A> self, System.Func<A, B> Succ, System.Func<B> Fail)`
+- `[ext] public static LanguageExt.TryOptionAsync<B> BiMapAsync<A, B>(this LanguageExt.TryOption<A> self, System.Func<A, System.Threading.Tasks.Task<B>> Succ, System.Func<B> Fail)`
+- `[ext] public static LanguageExt.TryOptionAsync<B> BiMapAsync<A, B>(this LanguageExt.TryOption<A> self, System.Func<A, B> Succ, System.Func<System.Threading.Tasks.Task<B>> Fail)`
+- `[ext] public static LanguageExt.TryOptionAsync<B> BiMapAsync<A, B>(this LanguageExt.TryOption<A> self, System.Func<A, System.Threading.Tasks.Task<B>> Succ, System.Func<System.Threading.Tasks.Task<B>> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<System.Int32> CountAsync<A>(this LanguageExt.TryOption<A> self)`
+- `[ext] public static LanguageExt.TryOptionAsync<A> DivideAsync<NUM, A>(this LanguageExt.TryOption<A> lhs, LanguageExt.TryOption<A> rhs)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<A>`
+- `[ext] public static System.Threading.Tasks.Task<System.Boolean> ExistsAsync<A>(this LanguageExt.TryOption<A> self, System.Func<A, System.Boolean> pred)`
+- `[ext] public static System.Threading.Tasks.Task<System.Boolean> ExistsAsync<A>(this LanguageExt.TryOption<A> self, System.Func<A, System.Threading.Tasks.Task<System.Boolean>> pred)`
+- `[ext] public static LanguageExt.TryOptionAsync<A> FilterAsync<A>(this LanguageExt.TryOption<A> self, System.Func<A, System.Boolean> pred)`
+- `[ext] public static LanguageExt.TryOptionAsync<A> FilterAsync<A>(this LanguageExt.TryOption<A> self, System.Func<A, System.Threading.Tasks.Task<System.Boolean>> pred)`
+- `[ext] public static System.Threading.Tasks.Task<S> FoldAsync<A, S>(this LanguageExt.TryOption<A> self, S state, System.Func<S, A, S> folder)`
+- `[ext] public static System.Threading.Tasks.Task<S> FoldAsync<A, S>(this LanguageExt.TryOption<A> self, S state, System.Func<S, A, System.Threading.Tasks.Task<S>> folder)`
+- `[ext] public static System.Threading.Tasks.Task<System.Boolean> ForAllAsync<A>(this LanguageExt.TryOption<A> self, System.Func<A, System.Boolean> pred)`
+- `[ext] public static System.Threading.Tasks.Task<System.Boolean> ForAllAsync<A>(this LanguageExt.TryOption<A> self, System.Func<A, System.Threading.Tasks.Task<System.Boolean>> pred)`
+- `[ext] public static LanguageExt.ExceptionMatchOptionalAsync<A> IfFailAsync<A>(this LanguageExt.TryOption<A> self)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Unit> IfFailAsync(this LanguageExt.TryOption<System.Exception> self, System.Action<System.Exception> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<A> IfFailThrowAsync<A>(this LanguageExt.TryOption<A> self)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Unit> IfNoneOrFailAsync<A>(this LanguageExt.TryOption<A> self, System.Action None)`
+- `[ext] public static System.Threading.Tasks.Task<A> IfNoneOrFailAsync<A>(this LanguageExt.TryOption<A> self, A defaultValue)`
+- `[ext] public static System.Threading.Tasks.Task<A> IfNoneOrFailAsync<A>(this LanguageExt.TryOption<A> self, System.Func<A> None)`
+- `[ext] public static System.Threading.Tasks.Task<A> IfNoneOrFailAsync<A>(this LanguageExt.TryOption<A> self, System.Func<System.Threading.Tasks.Task<A>> None)`
+- `[ext] public static System.Threading.Tasks.Task<A> IfNoneOrFailAsync<A>(this LanguageExt.TryOption<A> self, System.Func<A> None, System.Func<System.Exception, A> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<A> IfNoneOrFailAsync<A>(this LanguageExt.TryOption<A> self, System.Func<System.Threading.Tasks.Task<A>> None, System.Func<System.Exception, A> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<A> IfNoneOrFailAsync<A>(this LanguageExt.TryOption<A> self, System.Func<A> None, System.Func<System.Exception, System.Threading.Tasks.Task<A>> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<A> IfNoneOrFailAsync<A>(this LanguageExt.TryOption<A> self, System.Func<System.Threading.Tasks.Task<A>> None, System.Func<System.Exception, System.Threading.Tasks.Task<A>> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Unit> IfSomeAsync<A>(this LanguageExt.TryOption<A> self, System.Action<A> Some)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Unit> IterAsync<A>(this LanguageExt.TryOption<A> self, System.Action<A> action)`
+- `[ext] public static LanguageExt.TryOptionAsync<R> MapAsync<A, R>(this LanguageExt.TryOption<A> self, System.Func<A, R> mapper)`
+- `[ext] public static LanguageExt.TryOptionAsync<R> MapAsync<A, R>(this LanguageExt.TryOption<A> self, System.Func<A, System.Threading.Tasks.Task<R>> mapper)`
+- `[ext] public static System.Threading.Tasks.Task<R> MatchAsync<A, R>(this LanguageExt.TryOption<A> self, System.Func<A, R> Succ, System.Func<R> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<R> MatchAsync<A, R>(this LanguageExt.TryOption<A> self, System.Func<A, R> Succ, R Fail)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Unit> MatchAsync<A>(this LanguageExt.TryOption<A> self, System.Action<A> Succ, System.Action Fail)`
+- `[ext] public static System.Threading.Tasks.Task<R> MatchAsync<A, R>(this LanguageExt.TryOption<A> self, System.Func<A, System.Threading.Tasks.Task<R>> Succ, System.Func<System.Threading.Tasks.Task<R>> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<R> MatchAsync<A, R>(this LanguageExt.TryOption<A> self, System.Func<A, R> Succ, System.Func<System.Threading.Tasks.Task<R>> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<R> MatchAsync<A, R>(this LanguageExt.TryOption<A> self, System.Func<A, R> Some, System.Func<R> None, System.Func<System.Exception, R> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Unit> MatchAsync<A>(this LanguageExt.TryOption<A> self, System.Action<A> Some, System.Action None, System.Action<System.Exception> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<R> MatchAsync<A, R>(this LanguageExt.TryOption<A> self, System.Func<A, System.Threading.Tasks.Task<R>> Some, System.Func<R> None, System.Func<System.Exception, R> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<R> MatchAsync<A, R>(this LanguageExt.TryOption<A> self, System.Func<A, System.Threading.Tasks.Task<R>> Some, System.Func<System.Threading.Tasks.Task<R>> None, System.Func<System.Exception, System.Threading.Tasks.Task<R>> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<R> MatchAsync<A, R>(this LanguageExt.TryOption<A> self, System.Func<A, R> Some, System.Func<System.Threading.Tasks.Task<R>> None, System.Func<System.Exception, System.Threading.Tasks.Task<R>> Fail)`
+- `[ext] public static LanguageExt.TryOptionAsync<A> ProductAsync<NUM, A>(this LanguageExt.TryOption<A> lhs, LanguageExt.TryOption<A> rhs)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<A>`
+- `[ext] public static LanguageExt.TryOptionAsync<U> Select<A, U>(this LanguageExt.TryOption<A> self, System.Func<A, System.Threading.Tasks.Task<U>> select)`
+- `[ext] public static LanguageExt.TryOptionAsync<A> SubtractAsync<NUM, A>(this LanguageExt.TryOption<A> lhs, LanguageExt.TryOption<A> rhs)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<A>`
+- `[ext] public static System.Threading.Tasks.Task<System.Int32> SumAsync(this LanguageExt.TryOption<System.Int32> self)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Arr<A>> ToArrayAsync<A>(this LanguageExt.TryOption<A> self)`
+- `[ext] public static LanguageExt.TryOptionAsync<A> ToAsync<A>(this LanguageExt.TryOption<A> self)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Either<System.Exception, LanguageExt.Option<A>>> ToEitherAsync<A>(this LanguageExt.TryOption<A> self)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.EitherUnsafe<System.Exception, LanguageExt.Option<A>>> ToEitherUnsafeAsync<A>(this LanguageExt.TryOption<A> self)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Lst<A>> ToListAsync<A>(this LanguageExt.TryOption<A> self)`
+- `[ext] public static System.Threading.Tasks.Task<A?> ToNullableAsync<A>(this LanguageExt.TryOption<A> ma)`
+- `where A : struct`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Option<A>> ToOptionAsync<A>(this LanguageExt.TryOption<A> self)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.OptionUnsafe<A>> ToOptionUnsafeAsync<A>(this LanguageExt.TryOption<A> self)`
+- `[ext] public static System.Threading.Tasks.Task<LanguageExt.Seq<A>> ToSeqAsync<A>(this LanguageExt.TryOption<A> self)`
+- `[ext] public static System.Threading.Tasks.Task<S> TriFoldAsync<A, S>(this LanguageExt.TryOption<A> self, S state, System.Func<S, A, S> Some, System.Func<S, S> None, System.Func<S, System.Exception, S> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<S> TriFoldAsync<A, S>(this LanguageExt.TryOption<A> self, S state, System.Func<S, A, System.Threading.Tasks.Task<S>> Some, System.Func<S, S> None, System.Func<S, System.Exception, S> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<S> TriFoldAsync<A, S>(this LanguageExt.TryOption<A> self, S state, System.Func<S, A, S> Some, System.Func<S, System.Threading.Tasks.Task<S>> None, System.Func<S, System.Exception, S> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<S> TriFoldAsync<A, S>(this LanguageExt.TryOption<A> self, S state, System.Func<S, A, S> Some, System.Func<S, S> None, System.Func<S, System.Exception, System.Threading.Tasks.Task<S>> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<S> TriFoldAsync<A, S>(this LanguageExt.TryOption<A> self, S state, System.Func<S, A, System.Threading.Tasks.Task<S>> Some, System.Func<S, System.Threading.Tasks.Task<S>> None, System.Func<S, System.Exception, S> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<S> TriFoldAsync<A, S>(this LanguageExt.TryOption<A> self, S state, System.Func<S, A, S> Some, System.Func<S, System.Threading.Tasks.Task<S>> None, System.Func<S, System.Exception, System.Threading.Tasks.Task<S>> Fail)`
+- `[ext] public static System.Threading.Tasks.Task<S> TriFoldAsync<A, S>(this LanguageExt.TryOption<A> self, S state, System.Func<S, A, System.Threading.Tasks.Task<S>> Some, System.Func<S, System.Threading.Tasks.Task<S>> None, System.Func<S, System.Exception, System.Threading.Tasks.Task<S>> Fail)`
+- `[ext] public static LanguageExt.TryOptionAsync<B> TriMapAsync<A, B>(this LanguageExt.TryOption<A> self, System.Func<A, B> Some, System.Func<B> None, System.Func<System.Exception, B> Fail)`
+- `[ext] public static LanguageExt.TryOptionAsync<B> TriMapAsync<A, B>(this LanguageExt.TryOption<A> self, System.Func<A, System.Threading.Tasks.Task<B>> Some, System.Func<B> None, System.Func<System.Exception, B> Fail)`
+- `[ext] public static LanguageExt.TryOptionAsync<B> TriMapAsync<A, B>(this LanguageExt.TryOption<A> self, System.Func<A, B> Some, System.Func<System.Threading.Tasks.Task<B>> None, System.Func<System.Exception, B> Fail)`
+- `[ext] public static LanguageExt.TryOptionAsync<B> TriMapAsync<A, B>(this LanguageExt.TryOption<A> self, System.Func<A, B> Some, System.Func<B> None, System.Func<System.Exception, System.Threading.Tasks.Task<B>> Fail)`
+- `[ext] public static LanguageExt.TryOptionAsync<B> TriMapAsync<A, B>(this LanguageExt.TryOption<A> self, System.Func<A, System.Threading.Tasks.Task<B>> Some, System.Func<System.Threading.Tasks.Task<B>> None, System.Func<System.Exception, B> Fail)`
+- `[ext] public static LanguageExt.TryOptionAsync<B> TriMapAsync<A, B>(this LanguageExt.TryOption<A> self, System.Func<A, B> Some, System.Func<System.Threading.Tasks.Task<B>> None, System.Func<System.Exception, System.Threading.Tasks.Task<B>> Fail)`
+- `[ext] public static LanguageExt.TryOptionAsync<B> TriMapAsync<A, B>(this LanguageExt.TryOption<A> self, System.Func<A, System.Threading.Tasks.Task<B>> Some, System.Func<System.Threading.Tasks.Task<B>> None, System.Func<System.Exception, System.Threading.Tasks.Task<B>> Fail)`
+- `[ext] public static LanguageExt.TryOptionAsync<A> WhereAsync<A>(this LanguageExt.TryOption<A> self, System.Func<A, System.Boolean> pred)`
+- `[ext] public static LanguageExt.TryOptionAsync<A> WhereAsync<A>(this LanguageExt.TryOption<A> self, System.Func<A, System.Threading.Tasks.Task<System.Boolean>> pred)`
+
+### Tuple1Extensions (class [static])
+
+- `[ext] public static System.Tuple<A, B> Add<A, B>(this System.Tuple<A> self, B second)`
+- `[ext] public static System.Tuple<A> Append<SemiA, A>(this System.Tuple<A> a, System.Tuple<A> b)`
+- `where SemiA : struct, LanguageExt.TypeClasses.Semigroup<A>`
+- `[ext] public static System.Tuple<A> Concat<MonoidA, A>(this System.Tuple<A> a, System.Tuple<A> b)`
+- `where MonoidA : struct, LanguageExt.TypeClasses.Monoid<A>`
+- `[ext] public static System.Boolean Contains<EQ, A>(this System.Tuple<A> self, A value)`
+- `where EQ : struct, LanguageExt.TypeClasses.Eq<A>`
+- `[ext] public static S Fold<A, S>(this System.Tuple<A> self, S state, System.Func<S, A, S> fold)`
+- `[ext] public static A Head<A>(this System.Tuple<A> self)`
+- `[ext] public static LanguageExt.Unit Iter<A>(this System.Tuple<A> self, System.Action<A> func)`
+- `[ext] public static A Last<A>(this System.Tuple<A> self)`
+- `[ext] public static System.Tuple<R> Map<A, R>(this System.Tuple<A> self, System.Func<A, R> map)`
+- `[ext] public static A Product<NUM, A>(this System.Tuple<A> self)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<A>`
+- `[ext] public static System.Tuple<R> Select<A, R>(this System.Tuple<A> self, System.Func<A, R> map)`
+- `[ext] public static A Sum<NUM, A>(this System.Tuple<A> self)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<A>`
+
+### Tuple2Extensions (class [static])
+
+- `[ext] public static A Append<SemiA, A>(this System.Tuple<A, A> a)`
+- `where SemiA : struct, LanguageExt.TypeClasses.Semigroup<A>`
+- `[ext] public static System.Tuple<A, B> Append<SemiA, SemiB, A, B>(this System.Tuple<A, B> a, System.Tuple<A, B> b)`
+- `where SemiA : struct, LanguageExt.TypeClasses.Semigroup<A>`
+- `where SemiB : struct, LanguageExt.TypeClasses.Semigroup<B>`
+- `[ext] public static S BiFold<T1, T2, S>(this System.Tuple<T1, T2> self, S state, System.Func<S, T1, S> firstFold, System.Func<S, T2, S> secondFold)`
+- `[ext] public static S BiFoldBack<T1, T2, S>(this System.Tuple<T1, T2> self, S state, System.Func<S, T2, S> firstFold, System.Func<S, T1, S> secondFold)`
+- `[ext] public static System.Tuple<R1, R2> BiMap<T1, T2, R1, R2>(this System.Tuple<T1, T2> self, System.Func<T1, R1> firstMap, System.Func<T2, R2> secondMap)`
+- `[ext] public static A Concat<MonoidA, A>(this System.Tuple<A, A> a)`
+- `where MonoidA : struct, LanguageExt.TypeClasses.Monoid<A>`
+- `[ext] public static System.Tuple<A, B> Concat<MonoidA, MonoidB, A, B>(this System.Tuple<A, B> a, System.Tuple<A, B> b)`
+- `where MonoidA : struct, LanguageExt.TypeClasses.Monoid<A>`
+- `where MonoidB : struct, LanguageExt.TypeClasses.Monoid<B>`
+- `[ext] public static System.Boolean Contains<EQ, A>(this System.Tuple<A, A> self, A value)`
+- `where EQ : struct, LanguageExt.TypeClasses.Eq<A>`
+- `[ext] public static S Fold<T1, T2, S>(this System.Tuple<T1, T2> self, S state, System.Func<S, T1, T2, S> fold)`
+- `[ext] public static T1 Head<T1, T2>(this System.Tuple<T1, T2> self)`
+- `[ext] public static LanguageExt.Unit Iter<T1, T2>(this System.Tuple<T1, T2> self, System.Action<T1, T2> func)`
+- `[ext] public static LanguageExt.Unit Iter<T1, T2>(this System.Tuple<T1, T2> self, System.Action<T1> first, System.Action<T2> second)`
+- `[ext] public static T2 Last<T1, T2>(this System.Tuple<T1, T2> self)`
+- `[ext] public static R Map<T1, T2, R>(this System.Tuple<T1, T2> self, System.Func<T1, T2, R> map)`
+- `[ext] public static R Map<A, B, R>(this System.Tuple<A, B> self, System.Func<System.Tuple<A, B>, R> map)`
+- `[ext] public static System.Tuple<Y, Z> Map<A, B, Y, Z>(this System.Tuple<A, B> self, System.Func<A, B, System.Tuple<Y, Z>> map)`
+- `[ext] public static System.Tuple<R1, R2> Map<T1, T2, R1, R2>(this System.Tuple<T1, T2> self, System.Func<System.Tuple<T1, T2>, System.Tuple<R1, R2>> map)`
+- `[ext] public static System.Tuple<R1, T2> MapFirst<T1, T2, R1>(this System.Tuple<T1, T2> self, System.Func<T1, R1> firstMap)`
+- `[ext] public static System.Tuple<T1, R2> MapSecond<T1, T2, R2>(this System.Tuple<T1, T2> self, System.Func<T2, R2> secondMap)`
+- `[ext] public static A Product<NUM, A>(this System.Tuple<A, A> self)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<A>`
+- `[ext] public static System.Tuple<R1, R2> Select<T1, T2, R1, R2>(this System.Tuple<T1, T2> self, System.Func<System.Tuple<T1, T2>, System.Tuple<R1, R2>> map)`
+- `[ext] public static A Sum<NUM, A>(this System.Tuple<A, A> self)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<A>`
+- `[ext] public static System.Tuple<T2> Tail<T1, T2>(this System.Tuple<T1, T2> self)`
+- `[ext] public static System.Tuple<A, B, C> add<A, B, C>(this System.Tuple<A, B> self, C third)`
+
+### Tuple3Extensions (class [static])
+
+- `[ext] public static System.Tuple<T1, T2, T3, T4> Add<T1, T2, T3, T4>(this System.Tuple<T1, T2, T3> self, T4 fourth)`
+- `[ext] public static A Append<SemiA, A>(this System.Tuple<A, A, A> a)`
+- `where SemiA : struct, LanguageExt.TypeClasses.Semigroup<A>`
+- `[ext] public static System.Tuple<A, B, C> Append<SemiA, SemiB, SemiC, A, B, C>(this System.Tuple<A, B, C> a, System.Tuple<A, B, C> b)`
+- `where SemiA : struct, LanguageExt.TypeClasses.Semigroup<A>`
+- `where SemiB : struct, LanguageExt.TypeClasses.Semigroup<B>`
+- `where SemiC : struct, LanguageExt.TypeClasses.Semigroup<C>`
+- `[ext] public static A Concat<MonoidA, A>(this System.Tuple<A, A, A> a)`
+- `where MonoidA : struct, LanguageExt.TypeClasses.Monoid<A>`
+- `[ext] public static System.Tuple<A, B, C> Concat<MonoidA, MonoidB, MonoidC, A, B, C>(this System.Tuple<A, B, C> a, System.Tuple<A, B, C> b)`
+- `where MonoidA : struct, LanguageExt.TypeClasses.Monoid<A>`
+- `where MonoidB : struct, LanguageExt.TypeClasses.Monoid<B>`
+- `where MonoidC : struct, LanguageExt.TypeClasses.Monoid<C>`
+- `[ext] public static System.Boolean Contains<EQ, A>(this System.Tuple<A, A, A> self, A value)`
+- `where EQ : struct, LanguageExt.TypeClasses.Eq<A>`
+- `[ext] public static S Fold<T1, T2, T3, S>(this System.Tuple<T1, T2, T3> self, S state, System.Func<S, T1, T2, T3, S> fold)`
+- `[ext] public static T1 Head<T1, T2, T3>(this System.Tuple<T1, T2, T3> self)`
+- `[ext] public static LanguageExt.Unit Iter<T1, T2, T3>(this System.Tuple<T1, T2, T3> self, System.Action<T1, T2, T3> func)`
+- `[ext] public static LanguageExt.Unit Iter<T1, T2, T3>(this System.Tuple<T1, T2, T3> self, System.Action<T1> first, System.Action<T2> second, System.Action<T3> third)`
+- `[ext] public static T3 Last<T1, T2, T3>(this System.Tuple<T1, T2, T3> self)`
+- `[ext] public static R Map<A, B, C, R>(this System.Tuple<A, B, C> self, System.Func<System.Tuple<A, B, C>, R> map)`
+- `[ext] public static R Map<A, B, C, R>(this System.Tuple<A, B, C> self, System.Func<A, B, C, R> map)`
+- `[ext] public static System.Tuple<X, Y, Z> Map<A, B, C, X, Y, Z>(this System.Tuple<A, B, C> self, System.Func<A, B, C, System.Tuple<X, Y, Z>> map)`
+- `[ext] public static System.Tuple<R1, R2, R3> Map<T1, T2, T3, R1, R2, R3>(this System.Tuple<T1, T2, T3> self, System.Func<T1, R1> firstMap, System.Func<T2, R2> secondMap, System.Func<T3, R3> thirdMap)`
+- `[ext] public static System.Tuple<R1, T2, T3> MapFirst<T1, T2, T3, R1>(this System.Tuple<T1, T2, T3> self, System.Func<T1, R1> firstMap)`
+- `[ext] public static System.Tuple<T1, R2, T3> MapSecond<T1, T2, T3, R2>(this System.Tuple<T1, T2, T3> self, System.Func<T2, R2> secondMap)`
+- `[ext] public static System.Tuple<T1, T2, R3> MapThird<T1, T2, T3, R3>(this System.Tuple<T1, T2, T3> self, System.Func<T3, R3> thirdMap)`
+- `[ext] public static A Product<NUM, A>(this System.Tuple<A, A, A> self)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<A>`
+- `[ext] public static System.Tuple<R1, R2, R3> Select<T1, T2, T3, R1, R2, R3>(this System.Tuple<T1, T2, T3> self, System.Func<System.Tuple<T1, T2, T3>, System.Tuple<R1, R2, R3>> map)`
+- `[ext] public static A Sum<NUM, A>(this System.Tuple<A, A, A> self)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<A>`
+- `[ext] public static System.Tuple<T2, T3> Tail<T1, T2, T3>(this System.Tuple<T1, T2, T3> self)`
+- `[ext] public static S TriFold<T1, T2, T3, S>(this System.Tuple<T1, T2, T3> self, S state, System.Func<S, T1, S> firstFold, System.Func<S, T2, S> secondFold, System.Func<S, T3, S> thirdFold)`
+- `[ext] public static S TriFoldBack<T1, T2, T3, S>(this System.Tuple<T1, T2, T3> self, S state, System.Func<S, T3, S> firstFold, System.Func<S, T2, S> secondFold, System.Func<S, T1, S> thirdFold)`
+
+### Tuple4Extensions (class [static])
+
+- `[ext] public static System.Tuple<A, B, C, D, E> Add<A, B, C, D, E>(this System.Tuple<A, B, C, D> self, E fifth)`
+- `[ext] public static A Append<SemiA, A>(this System.Tuple<A, A, A, A> a)`
+- `where SemiA : struct, LanguageExt.TypeClasses.Semigroup<A>`
+- `[ext] public static System.Tuple<A, B, C, D> Append<SemiA, SemiB, SemiC, SemiD, A, B, C, D>(this System.Tuple<A, B, C, D> a, System.Tuple<A, B, C, D> b)`
+- `where SemiA : struct, LanguageExt.TypeClasses.Semigroup<A>`
+- `where SemiB : struct, LanguageExt.TypeClasses.Semigroup<B>`
+- `where SemiC : struct, LanguageExt.TypeClasses.Semigroup<C>`
+- `where SemiD : struct, LanguageExt.TypeClasses.Semigroup<D>`
+- `[ext] public static A Concat<MonoidA, A>(this System.Tuple<A, A, A, A> a)`
+- `where MonoidA : struct, LanguageExt.TypeClasses.Monoid<A>`
+- `[ext] public static System.Tuple<A, B, C, D> Concat<MonoidA, MonoidB, MonoidC, MonoidD, A, B, C, D>(this System.Tuple<A, B, C, D> a, System.Tuple<A, B, C, D> b)`
+- `where MonoidA : struct, LanguageExt.TypeClasses.Monoid<A>`
+- `where MonoidB : struct, LanguageExt.TypeClasses.Monoid<B>`
+- `where MonoidC : struct, LanguageExt.TypeClasses.Monoid<C>`
+- `where MonoidD : struct, LanguageExt.TypeClasses.Monoid<D>`
+- `[ext] public static System.Boolean Contains<EQ, A>(this System.Tuple<A, A, A, A> self, A value)`
+- `where EQ : struct, LanguageExt.TypeClasses.Eq<A>`
+- `[ext] public static S Fold<A, B, C, D, S>(this System.Tuple<A, B, C, D> self, S state, System.Func<S, A, B, C, D, S> fold)`
+- `[ext] public static A Head<A, B, C, D>(this System.Tuple<A, B, C, D> self)`
+- `[ext] public static LanguageExt.Unit Iter<A, B, C, D>(this System.Tuple<A, B, C, D> self, System.Action<A, B, C, D> func)`
+- `[ext] public static LanguageExt.Unit Iter<A, B, C, D>(this System.Tuple<A, B, C, D> self, System.Action<A> first, System.Action<B> second, System.Action<C> third, System.Action<D> fourth)`
+- `[ext] public static D Last<A, B, C, D>(this System.Tuple<A, B, C, D> self)`
+- `[ext] public static R Map<A, B, C, D, R>(this System.Tuple<A, B, C, D> self, System.Func<System.Tuple<A, B, C, D>, R> map)`
+- `[ext] public static R Map<A, B, C, D, R>(this System.Tuple<A, B, C, D> self, System.Func<A, B, C, D, R> map)`
+- `[ext] public static System.Tuple<W, X, Y, Z> Map<A, B, C, D, W, X, Y, Z>(this System.Tuple<A, B, C, D> self, System.Func<A, W> firstMap, System.Func<B, X> secondMap, System.Func<C, Y> thirdMap, System.Func<D, Z> fourthMap)`
+- `[ext] public static System.Tuple<R1, B, C, D> MapFirst<A, B, C, D, R1>(this System.Tuple<A, B, C, D> self, System.Func<A, R1> firstMap)`
+- `[ext] public static System.Tuple<A, B, C, R4> MapFourth<A, B, C, D, R4>(this System.Tuple<A, B, C, D> self, System.Func<D, R4> fourthMap)`
+- `[ext] public static System.Tuple<A, R2, C, D> MapSecond<A, B, C, D, R2>(this System.Tuple<A, B, C, D> self, System.Func<B, R2> secondMap)`
+- `[ext] public static System.Tuple<A, B, R3, D> MapThird<A, B, C, D, R3>(this System.Tuple<A, B, C, D> self, System.Func<C, R3> thirdMap)`
+- `[ext] public static A Product<NUM, A>(this System.Tuple<A, A, A, A> self)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<A>`
+- `[ext] public static S QuadFold<A, B, C, D, S>(this System.Tuple<A, B, C, D> self, S state, System.Func<S, A, S> firstFold, System.Func<S, B, S> secondFold, System.Func<S, C, S> thirdFold, System.Func<S, D, S> fourthFold)`
+- `[ext] public static S QuadFoldBack<A, B, C, D, S>(this System.Tuple<A, B, C, D> self, S state, System.Func<S, D, S> firstFold, System.Func<S, C, S> secondFold, System.Func<S, B, S> thirdFold, System.Func<S, A, S> fourthFold)`
+- `[ext] public static System.Tuple<W, X, Y, Z> Select<A, B, C, D, W, X, Y, Z>(this System.Tuple<A, B, C, D> self, System.Func<System.Tuple<A, B, C, D>, System.Tuple<W, X, Y, Z>> map)`
+- `[ext] public static A Sum<NUM, A>(this System.Tuple<A, A, A, A> self)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<A>`
+- `[ext] public static System.Tuple<B, C, D> Tail<A, B, C, D>(this System.Tuple<A, B, C, D> self)`
+
+### Tuple5Extensions (class [static])
+
+- `[ext] public static System.Tuple<A, B, C, D, E, F> Add<A, B, C, D, E, F>(this System.Tuple<A, B, C, D, E> self, F sixth)`
+- `[ext] public static A Append<SemiA, A>(this System.Tuple<A, A, A, A, A> a)`
+- `where SemiA : struct, LanguageExt.TypeClasses.Semigroup<A>`
+- `[ext] public static System.Tuple<A, B, C, D, E> Append<SemiA, SemiB, SemiC, SemiD, SemiE, A, B, C, D, E>(this System.Tuple<A, B, C, D, E> a, System.Tuple<A, B, C, D, E> b)`
+- `where SemiA : struct, LanguageExt.TypeClasses.Semigroup<A>`
+- `where SemiB : struct, LanguageExt.TypeClasses.Semigroup<B>`
+- `where SemiC : struct, LanguageExt.TypeClasses.Semigroup<C>`
+- `where SemiD : struct, LanguageExt.TypeClasses.Semigroup<D>`
+- `where SemiE : struct, LanguageExt.TypeClasses.Semigroup<E>`
+- `[ext] public static A Concat<MonoidA, A>(this System.Tuple<A, A, A, A, A> a)`
+- `where MonoidA : struct, LanguageExt.TypeClasses.Monoid<A>`
+- `[ext] public static System.Tuple<A, B, C, D, E> Concat<MonoidA, MonoidB, MonoidC, MonoidD, MonoidE, A, B, C, D, E>(this System.Tuple<A, B, C, D, E> a, System.Tuple<A, B, C, D, E> b)`
+- `where MonoidA : struct, LanguageExt.TypeClasses.Monoid<A>`
+- `where MonoidB : struct, LanguageExt.TypeClasses.Monoid<B>`
+- `where MonoidC : struct, LanguageExt.TypeClasses.Monoid<C>`
+- `where MonoidD : struct, LanguageExt.TypeClasses.Monoid<D>`
+- `where MonoidE : struct, LanguageExt.TypeClasses.Monoid<E>`
+- `[ext] public static System.Boolean Contains<EQ, A>(this System.Tuple<A, A, A, A, A> self, A value)`
+- `where EQ : struct, LanguageExt.TypeClasses.Eq<A>`
+- `[ext] public static S Fold<A, B, C, D, E, S>(this System.Tuple<A, B, C, D, E> self, S state, System.Func<S, A, B, C, D, E, S> fold)`
+- `[ext] public static A Head<A, B, C, D, E>(this System.Tuple<A, B, C, D, E> self)`
+- `[ext] public static LanguageExt.Unit Iter<A, B, C, D, E>(this System.Tuple<A, B, C, D, E> self, System.Action<A, B, C, D, E> func)`
+- `[ext] public static LanguageExt.Unit Iter<A, B, C, D, E>(this System.Tuple<A, B, C, D, E> self, System.Action<A> first, System.Action<B> second, System.Action<C> third, System.Action<D> fourth, System.Action<E> fifth)`
+- `[ext] public static E Last<A, B, C, D, E>(this System.Tuple<A, B, C, D, E> self)`
+- `[ext] public static R Map<A, B, C, D, E, R>(this System.Tuple<A, B, C, D, E> self, System.Func<System.Tuple<A, B, C, D, E>, R> map)`
+- `[ext] public static R Map<A, B, C, D, E, R>(this System.Tuple<A, B, C, D, E> self, System.Func<A, B, C, D, E, R> map)`
+- `[ext] public static System.Tuple<V, W, X, Y, Z> Map<A, B, C, D, E, V, W, X, Y, Z>(this System.Tuple<A, B, C, D, E> self, System.Func<A, B, C, D, E, System.Tuple<V, W, X, Y, Z>> map)`
+- `[ext] public static System.Tuple<V, W, X, Y, Z> Map<A, B, C, D, E, V, W, X, Y, Z>(this System.Tuple<A, B, C, D, E> self, System.Func<A, V> firstMap, System.Func<B, W> secondMap, System.Func<C, X> thirdMap, System.Func<D, Y> fourthMap, System.Func<E, Z> fifthMap)`
+- `[ext] public static System.Tuple<A, B, C, D, R5> MapFifth<A, B, C, D, E, R5>(this System.Tuple<A, B, C, D, E> self, System.Func<E, R5> fifthMap)`
+- `[ext] public static System.Tuple<R1, B, C, D, E> MapFirst<A, B, C, D, E, R1>(this System.Tuple<A, B, C, D, E> self, System.Func<A, R1> firstMap)`
+- `[ext] public static System.Tuple<A, B, C, R4, E> MapFourth<A, B, C, D, E, R4>(this System.Tuple<A, B, C, D, E> self, System.Func<D, R4> fourthMap)`
+- `[ext] public static System.Tuple<A, R2, C, D, E> MapSecond<A, B, C, D, E, R2>(this System.Tuple<A, B, C, D, E> self, System.Func<B, R2> secondMap)`
+- `[ext] public static System.Tuple<A, B, R3, D, E> MapThird<A, B, C, D, E, R3>(this System.Tuple<A, B, C, D, E> self, System.Func<C, R3> thirdMap)`
+- `[ext] public static A Product<NUM, A>(this System.Tuple<A, A, A, A, A> self)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<A>`
+- `[ext] public static S QuintFold<A, B, C, D, E, S>(this System.Tuple<A, B, C, D, E> self, S state, System.Func<S, A, S> firstFold, System.Func<S, B, S> secondFold, System.Func<S, C, S> thirdFold, System.Func<S, D, S> fourthFold, System.Func<S, E, S> fifthFold)`
+- `[ext] public static S QuintFoldBack<A, B, C, D, E, S>(this System.Tuple<A, B, C, D, E> self, S state, System.Func<S, E, S> firstFold, System.Func<S, D, S> secondFold, System.Func<S, C, S> thirdFold, System.Func<S, B, S> fourthFold, System.Func<S, A, S> fifthFold)`
+- `[ext] public static System.Tuple<V, W, X, Y, Z> Select<A, B, C, D, E, V, W, X, Y, Z>(this System.Tuple<A, B, C, D, E> self, System.Func<System.Tuple<A, B, C, D, E>, System.Tuple<V, W, X, Y, Z>> map)`
+- `[ext] public static A Sum<NUM, A>(this System.Tuple<A, A, A, A, A> self)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<A>`
+- `[ext] public static System.Tuple<B, C, D, E> Tail<A, B, C, D, E>(this System.Tuple<A, B, C, D, E> self)`
+
+### Tuple6Extensions (class [static])
+
+- `[ext] public static System.Tuple<A, B, C, D, E, F, G> Add<A, B, C, D, E, F, G>(this System.Tuple<A, B, C, D, E, F> self, G seventh)`
+- `[ext] public static A Append<SemiA, A>(this System.Tuple<A, A, A, A, A, A> a)`
+- `where SemiA : struct, LanguageExt.TypeClasses.Semigroup<A>`
+- `[ext] public static System.Tuple<A, B, C, D, E, F> Append<SemiA, SemiB, SemiC, SemiD, SemiE, SemiF, A, B, C, D, E, F>(this System.Tuple<A, B, C, D, E, F> a, System.Tuple<A, B, C, D, E, F> b)`
+- `where SemiA : struct, LanguageExt.TypeClasses.Semigroup<A>`
+- `where SemiB : struct, LanguageExt.TypeClasses.Semigroup<B>`
+- `where SemiC : struct, LanguageExt.TypeClasses.Semigroup<C>`
+- `where SemiD : struct, LanguageExt.TypeClasses.Semigroup<D>`
+- `where SemiE : struct, LanguageExt.TypeClasses.Semigroup<E>`
+- `where SemiF : struct, LanguageExt.TypeClasses.Semigroup<F>`
+- `[ext] public static A Concat<MonoidA, A>(this System.Tuple<A, A, A, A, A, A> a)`
+- `where MonoidA : struct, LanguageExt.TypeClasses.Monoid<A>`
+- `[ext] public static System.Tuple<A, B, C, D, E, F> Concat<MonoidA, MonoidB, MonoidC, MonoidD, MonoidE, MonoidF, A, B, C, D, E, F>(this System.Tuple<A, B, C, D, E, F> a, System.Tuple<A, B, C, D, E, F> b)`
+- `where MonoidA : struct, LanguageExt.TypeClasses.Monoid<A>`
+- `where MonoidB : struct, LanguageExt.TypeClasses.Monoid<B>`
+- `where MonoidC : struct, LanguageExt.TypeClasses.Monoid<C>`
+- `where MonoidD : struct, LanguageExt.TypeClasses.Monoid<D>`
+- `where MonoidE : struct, LanguageExt.TypeClasses.Monoid<E>`
+- `where MonoidF : struct, LanguageExt.TypeClasses.Monoid<F>`
+- `[ext] public static System.Boolean Contains<EQ, A>(this System.Tuple<A, A, A, A, A, A> self, A value)`
+- `where EQ : struct, LanguageExt.TypeClasses.Eq<A>`
+- `[ext] public static S Fold<A, B, C, D, E, F, S>(this System.Tuple<A, B, C, D, E, F> self, S state, System.Func<S, A, B, C, D, E, F, S> fold)`
+- `[ext] public static A Head<A, B, C, D, E, F>(this System.Tuple<A, B, C, D, E, F> self)`
+- `[ext] public static LanguageExt.Unit Iter<A, B, C, D, E, F>(this System.Tuple<A, B, C, D, E, F> self, System.Action<A, B, C, D, E, F> func)`
+- `[ext] public static LanguageExt.Unit Iter<A, B, C, D, E, F>(this System.Tuple<A, B, C, D, E, F> self, System.Action<A> first, System.Action<B> second, System.Action<C> third, System.Action<D> fourth, System.Action<E> fifth, System.Action<F> sixth)`
+- `[ext] public static F Last<A, B, C, D, E, F>(this System.Tuple<A, B, C, D, E, F> self)`
+- `[ext] public static R Map<A, B, C, D, E, F, R>(this System.Tuple<A, B, C, D, E, F> self, System.Func<System.Tuple<A, B, C, D, E, F>, R> map)`
+- `[ext] public static R Map<A, B, C, D, E, F, R>(this System.Tuple<A, B, C, D, E, F> self, System.Func<A, B, C, D, E, F, R> map)`
+- `[ext] public static System.Tuple<U, V, W, X, Y, Z> Map<A, B, C, D, E, F, U, V, W, X, Y, Z>(this System.Tuple<A, B, C, D, E, F> self, System.Func<A, B, C, D, E, F, System.Tuple<U, V, W, X, Y, Z>> map)`
+- `[ext] public static System.Tuple<U, V, W, X, Y, Z> Map<A, B, C, D, E, F, U, V, W, X, Y, Z>(this System.Tuple<A, B, C, D, E, F> self, System.Func<A, U> firstMap, System.Func<B, V> secondMap, System.Func<C, W> thirdMap, System.Func<D, X> fourthMap, System.Func<E, Y> fifthMap, System.Func<F, Z> sixthMap)`
+- `[ext] public static System.Tuple<A, B, C, D, R5, F> MapFifth<A, B, C, D, E, F, R5>(this System.Tuple<A, B, C, D, E, F> self, System.Func<E, R5> fifthMap)`
+- `[ext] public static System.Tuple<R1, B, C, D, E, F> MapFirst<A, B, C, D, E, F, R1>(this System.Tuple<A, B, C, D, E, F> self, System.Func<A, R1> firstMap)`
+- `[ext] public static System.Tuple<A, B, C, R4, E, F> MapFourth<A, B, C, D, E, F, R4>(this System.Tuple<A, B, C, D, E, F> self, System.Func<D, R4> fourthMap)`
+- `[ext] public static System.Tuple<A, R2, C, D, E, F> MapSecond<A, B, C, D, E, F, R2>(this System.Tuple<A, B, C, D, E, F> self, System.Func<B, R2> secondMap)`
+- `[ext] public static System.Tuple<A, B, C, D, E, R6> MapSixth<A, B, C, D, E, F, R6>(this System.Tuple<A, B, C, D, E, F> self, System.Func<F, R6> sixthMap)`
+- `[ext] public static System.Tuple<A, B, R3, D, E, F> MapThird<A, B, C, D, E, F, R3>(this System.Tuple<A, B, C, D, E, F> self, System.Func<C, R3> thirdMap)`
+- `[ext] public static A Product<NUM, A>(this System.Tuple<A, A, A, A, A, A> self)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<A>`
+- `[ext] public static System.Tuple<U, V, W, X, Y, Z> Select<A, B, C, D, E, F, U, V, W, X, Y, Z>(this System.Tuple<A, B, C, D, E, F> self, System.Func<System.Tuple<A, B, C, D, E, F>, System.Tuple<U, V, W, X, Y, Z>> map)`
+- `[ext] public static S SextFold<A, B, C, D, E, F, S>(this System.Tuple<A, B, C, D, E, F> self, S state, System.Func<S, A, S> firstFold, System.Func<S, B, S> secondFold, System.Func<S, C, S> thirdFold, System.Func<S, D, S> fourthFold, System.Func<S, E, S> fifthFold, System.Func<S, F, S> sixthFold)`
+- `[ext] public static S SextFoldBack<A, B, C, D, E, F, S>(this System.Tuple<A, B, C, D, E, F> self, S state, System.Func<S, F, S> firstFold, System.Func<S, E, S> secondFold, System.Func<S, D, S> thirdFold, System.Func<S, C, S> fourthFold, System.Func<S, B, S> fifthFold, System.Func<S, A, S> sixthFold)`
+- `[ext] public static A Sum<NUM, A>(this System.Tuple<A, A, A, A, A, A> self)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<A>`
+- `[ext] public static System.Tuple<B, C, D, E, F> Tail<A, B, C, D, E, F>(this System.Tuple<A, B, C, D, E, F> self)`
+
+### Tuple7Extensions (class [static])
+
+- `[ext] public static A Append<SemiA, A>(this System.Tuple<A, A, A, A, A, A, A> a)`
+- `where SemiA : struct, LanguageExt.TypeClasses.Semigroup<A>`
+- `[ext] public static System.Tuple<A, B, C, D, E, F, G> Append<SemiA, SemiB, SemiC, SemiD, SemiE, SemiF, SemiG, A, B, C, D, E, F, G>(this System.Tuple<A, B, C, D, E, F, G> a, System.Tuple<A, B, C, D, E, F, G> b)`
+- `where SemiA : struct, LanguageExt.TypeClasses.Semigroup<A>`
+- `where SemiB : struct, LanguageExt.TypeClasses.Semigroup<B>`
+- `where SemiC : struct, LanguageExt.TypeClasses.Semigroup<C>`
+- `where SemiD : struct, LanguageExt.TypeClasses.Semigroup<D>`
+- `where SemiE : struct, LanguageExt.TypeClasses.Semigroup<E>`
+- `where SemiF : struct, LanguageExt.TypeClasses.Semigroup<F>`
+- `where SemiG : struct, LanguageExt.TypeClasses.Semigroup<G>`
+- `[ext] public static A Concat<MonoidA, A>(this System.Tuple<A, A, A, A, A, A, A> a)`
+- `where MonoidA : struct, LanguageExt.TypeClasses.Monoid<A>`
+- `[ext] public static System.Tuple<A, B, C, D, E, F, G> Concat<MonoidA, MonoidB, MonoidC, MonoidD, MonoidE, MonoidF, MonoidG, A, B, C, D, E, F, G>(this System.Tuple<A, B, C, D, E, F, G> a, System.Tuple<A, B, C, D, E, F, G> b)`
+- `where MonoidA : struct, LanguageExt.TypeClasses.Monoid<A>`
+- `where MonoidB : struct, LanguageExt.TypeClasses.Monoid<B>`
+- `where MonoidC : struct, LanguageExt.TypeClasses.Monoid<C>`
+- `where MonoidD : struct, LanguageExt.TypeClasses.Monoid<D>`
+- `where MonoidE : struct, LanguageExt.TypeClasses.Monoid<E>`
+- `where MonoidF : struct, LanguageExt.TypeClasses.Monoid<F>`
+- `where MonoidG : struct, LanguageExt.TypeClasses.Monoid<G>`
+- `[ext] public static System.Boolean Contains<EQ, A>(this System.Tuple<A, A, A, A, A, A, A> self, A value)`
+- `where EQ : struct, LanguageExt.TypeClasses.Eq<A>`
+- `[ext] public static S Fold<A, B, C, D, E, F, G, S>(this System.Tuple<A, B, C, D, E, F, G> self, S state, System.Func<S, A, B, C, D, E, F, G, S> fold)`
+- `[ext] public static A Head<A, B, C, D, E, F, G>(this System.Tuple<A, B, C, D, E, F, G> self)`
+- `[ext] public static LanguageExt.Unit Iter<A, B, C, D, E, F, G>(this System.Tuple<A, B, C, D, E, F, G> self, System.Action<A, B, C, D, E, F, G> func)`
+- `[ext] public static LanguageExt.Unit Iter<A, B, C, D, E, F, G>(this System.Tuple<A, B, C, D, E, F, G> self, System.Action<A> first, System.Action<B> second, System.Action<C> third, System.Action<D> fourth, System.Action<E> fifth, System.Action<F> sixth, System.Action<G> seventh)`
+- `[ext] public static G Last<A, B, C, D, E, F, G>(this System.Tuple<A, B, C, D, E, F, G> self)`
+- `[ext] public static R Map<A, B, C, D, E, F, G, R>(this System.Tuple<A, B, C, D, E, F, G> self, System.Func<System.Tuple<A, B, C, D, E, F, G>, R> map)`
+- `[ext] public static R Map<A, B, C, D, E, F, G, R>(this System.Tuple<A, B, C, D, E, F, G> self, System.Func<A, B, C, D, E, F, G, R> map)`
+- `[ext] public static System.Tuple<T, U, V, W, X, Y, Z> Map<A, B, C, D, E, F, G, T, U, V, W, X, Y, Z>(this System.Tuple<A, B, C, D, E, F, G> self, System.Func<A, T> firstMap, System.Func<B, U> secondMap, System.Func<C, V> thirdMap, System.Func<D, W> fourthMap, System.Func<E, X> fifthMap, System.Func<F, Y> sixthMap, System.Func<G, Z> seventhMap)`
+- `[ext] public static System.Tuple<A, B, C, D, R5, F, G> MapFifth<A, B, C, D, E, F, G, R5>(this System.Tuple<A, B, C, D, E, F, G> self, System.Func<E, R5> fifthMap)`
+- `[ext] public static System.Tuple<R1, B, C, D, E, F, G> MapFirst<A, B, C, D, E, F, G, R1>(this System.Tuple<A, B, C, D, E, F, G> self, System.Func<A, R1> firstMap)`
+- `[ext] public static System.Tuple<A, B, C, R4, E, F, G> MapFourth<A, B, C, D, E, F, G, R4>(this System.Tuple<A, B, C, D, E, F, G> self, System.Func<D, R4> fourthMap)`
+- `[ext] public static System.Tuple<A, R2, C, D, E, F, G> MapSecond<A, B, C, D, E, F, G, R2>(this System.Tuple<A, B, C, D, E, F, G> self, System.Func<B, R2> secondMap)`
+- `[ext] public static System.Tuple<A, B, C, D, E, F, R7> MapSeventh<A, B, C, D, E, F, G, R7>(this System.Tuple<A, B, C, D, E, F, G> self, System.Func<G, R7> seventhMap)`
+- `[ext] public static System.Tuple<A, B, C, D, E, R6, G> MapSixth<A, B, C, D, E, F, G, R6>(this System.Tuple<A, B, C, D, E, F, G> self, System.Func<F, R6> sixthMap)`
+- `[ext] public static System.Tuple<A, B, R3, D, E, F, G> MapThird<A, B, C, D, E, F, G, R3>(this System.Tuple<A, B, C, D, E, F, G> self, System.Func<C, R3> thirdMap)`
+- `[ext] public static A Product<NUM, A>(this System.Tuple<A, A, A, A, A, A, A> self)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<A>`
+- `[ext] public static System.Tuple<U, V, W, X, Y, Z> Select<A, B, C, D, E, F, G, U, V, W, X, Y, Z>(this System.Tuple<A, B, C, D, E, F, G> self, System.Func<System.Tuple<A, B, C, D, E, F, G>, System.Tuple<U, V, W, X, Y, Z>> map)`
+- `[ext] public static S SeptFold<A, B, C, D, E, F, G, S>(this System.Tuple<A, B, C, D, E, F, G> self, S state, System.Func<S, A, S> firstFold, System.Func<S, B, S> secondFold, System.Func<S, C, S> thirdFold, System.Func<S, D, S> fourthFold, System.Func<S, E, S> fifthFold, System.Func<S, F, S> sixthFold, System.Func<S, G, S> seventhFold)`
+- `[ext] public static S SeptFoldBack<A, B, C, D, E, F, G, S>(this System.Tuple<A, B, C, D, E, F, G> self, S state, System.Func<S, G, S> firstFold, System.Func<S, F, S> secondFold, System.Func<S, E, S> thirdFold, System.Func<S, D, S> fourthFold, System.Func<S, C, S> fifthFold, System.Func<S, B, S> sixthFold, System.Func<S, A, S> seventhFold)`
+- `[ext] public static A Sum<NUM, A>(this System.Tuple<A, A, A, A, A, A, A> self)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<A>`
+- `[ext] public static System.ValueTuple<B, C, D, E, F, G> Tail<A, B, C, D, E, F, G>(this System.Tuple<A, B, C, D, E, F, G> self)`
+
+### ValueTuple1Extensions (class [static])
+
+- `[ext] public static System.ValueTuple<A, B> Add<A, B>(this System.ValueTuple<A> self, B second)`
+- `[ext] public static System.ValueTuple<A> Append<SemiA, SemiB, A, B>(this System.ValueTuple<A> a, System.ValueTuple<A> b)`
+- `where SemiA : struct, LanguageExt.TypeClasses.Semigroup<A>`
+- `[ext] public static System.ValueTuple<A> Concat<MonoidA, MonoidB, A, B>(this System.ValueTuple<A> a, System.ValueTuple<A> b)`
+- `where MonoidA : struct, LanguageExt.TypeClasses.Monoid<A>`
+- `where MonoidB : struct, LanguageExt.TypeClasses.Monoid<B>`
+- `[ext] public static System.Boolean Contains<EQ, A>(this System.ValueTuple<A> self, A value)`
+- `where EQ : struct, LanguageExt.TypeClasses.Eq<A>`
+- `[ext] public static S Fold<A, S>(this System.ValueTuple<A> self, S state, System.Func<S, A, S> fold)`
+- `[ext] public static A Head<A>(this System.ValueTuple<A> self)`
+- `[ext] public static LanguageExt.Unit Iter<A>(this System.ValueTuple<A> self, System.Action<A> func)`
+- `[ext] public static A Last<A>(this System.ValueTuple<A> self)`
+- `[ext] public static System.ValueTuple<R> Map<A, R>(this System.ValueTuple<A> self, System.Func<A, R> map)`
+- `[ext] public static A Product<NUM, A>(this System.ValueTuple<A> self)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<A>`
+- `[ext] public static System.ValueTuple<R> Select<A, R>(this System.ValueTuple<A> self, System.Func<A, R> map)`
+- `[ext] public static A Sum<NUM, A>(this System.ValueTuple<A> self)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<A>`
+
+### ValueTuple2Extensions (class [static])
+
+- `[ext] public static System.ValueTuple<A, B, C> Add<A, B, C>(this System.ValueTuple<A, B> self, C third)`
+- `[ext] public static A Append<SemiA, A>(this System.ValueTuple<A, A> a)`
+- `where SemiA : struct, LanguageExt.TypeClasses.Semigroup<A>`
+- `[ext] public static System.ValueTuple<A, B> Append<SemiA, SemiB, A, B>(this System.ValueTuple<A, B> a, System.ValueTuple<A, B> b)`
+- `where SemiA : struct, LanguageExt.TypeClasses.Semigroup<A>`
+- `where SemiB : struct, LanguageExt.TypeClasses.Semigroup<B>`
+- `[ext] public static S BiFold<T1, T2, S>(this System.ValueTuple<T1, T2> self, S state, System.Func<S, T1, S> firstFold, System.Func<S, T2, S> secondFold)`
+- `[ext] public static S BiFoldBack<T1, T2, S>(this System.ValueTuple<T1, T2> self, S state, System.Func<S, T2, S> firstFold, System.Func<S, T1, S> secondFold)`
+- `[ext] public static System.ValueTuple<R1, R2> BiMap<T1, T2, R1, R2>(this System.ValueTuple<T1, T2> self, System.Func<T1, R1> firstMap, System.Func<T2, R2> secondMap)`
+- `[ext] public static A Concat<MonoidA, A>(this System.ValueTuple<A, A> a)`
+- `where MonoidA : struct, LanguageExt.TypeClasses.Monoid<A>`
+- `[ext] public static System.ValueTuple<A, B> Concat<MonoidA, MonoidB, A, B>(this System.ValueTuple<A, B> a, System.ValueTuple<A, B> b)`
+- `where MonoidA : struct, LanguageExt.TypeClasses.Monoid<A>`
+- `where MonoidB : struct, LanguageExt.TypeClasses.Monoid<B>`
+- `[ext] public static System.Boolean Contains<EQ, A>(this System.ValueTuple<A, A> self, A value)`
+- `where EQ : struct, LanguageExt.TypeClasses.Eq<A>`
+- `[ext] public static S Fold<T1, T2, S>(this System.ValueTuple<T1, T2> self, S state, System.Func<S, T1, T2, S> fold)`
+- `[ext] public static T1 Head<T1, T2>(this System.ValueTuple<T1, T2> self)`
+- `[ext] public static LanguageExt.Unit Iter<T1, T2>(this System.ValueTuple<T1, T2> self, System.Action<T1, T2> func)`
+- `[ext] public static LanguageExt.Unit Iter<T1, T2>(this System.ValueTuple<T1, T2> self, System.Action<T1> first, System.Action<T2> second)`
+- `[ext] public static T2 Last<T1, T2>(this System.ValueTuple<T1, T2> self)`
+- `[ext] public static R Map<A, B, R>(this System.ValueTuple<A, B> self, System.Func<System.ValueTuple<A, B>, R> map)`
+- `[ext] public static R Map<A, B, R>(this System.ValueTuple<A, B> self, System.Func<A, B, R> map)`
+- `[ext] public static System.ValueTuple<R1, T2> MapFirst<T1, T2, R1>(this System.ValueTuple<T1, T2> self, System.Func<T1, R1> firstMap)`
+- `[ext] public static System.ValueTuple<T1, R2> MapSecond<T1, T2, R2>(this System.ValueTuple<T1, T2> self, System.Func<T2, R2> secondMap)`
+- `[ext] public static A Product<NUM, A>(this System.ValueTuple<A, A> self)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<A>`
+- `[ext] public static System.ValueTuple<R1, R2> Select<T1, T2, R1, R2>(this System.ValueTuple<T1, T2> self, System.Func<System.ValueTuple<T1, T2>, System.ValueTuple<R1, R2>> map)`
+- `[ext] public static LanguageExt.Arr<System.ValueTuple<A, B>> Sequence<A, B>(this System.ValueTuple<LanguageExt.Arr<A>, LanguageExt.Arr<B>> tuple)`
+- `[ext] public static LanguageExt.Either<L, System.ValueTuple<A, B>> Sequence<L, A, B>(this System.ValueTuple<LanguageExt.Either<L, A>, LanguageExt.Either<L, B>> tuple)`
+- `[ext] public static LanguageExt.EitherUnsafe<L, System.ValueTuple<A, B>> Sequence<L, A, B>(this System.ValueTuple<LanguageExt.EitherUnsafe<L, A>, LanguageExt.EitherUnsafe<L, B>> tuple)`
+- `[ext] public static LanguageExt.EitherAsync<L, System.ValueTuple<A, B>> Sequence<L, A, B>(this System.ValueTuple<LanguageExt.EitherAsync<L, A>, LanguageExt.EitherAsync<L, B>> tuple)`
+- `[ext] public static LanguageExt.HashSet<System.ValueTuple<A, B>> Sequence<A, B>(this System.ValueTuple<LanguageExt.HashSet<A>, LanguageExt.HashSet<B>> tuple)`
+- `[ext] public static LanguageExt.Lst<System.ValueTuple<A, B>> Sequence<A, B>(this System.ValueTuple<LanguageExt.Lst<A>, LanguageExt.Lst<B>> tuple)`
+- `[ext] public static LanguageExt.Option<System.ValueTuple<A, B>> Sequence<A, B>(this System.ValueTuple<LanguageExt.Option<A>, LanguageExt.Option<B>> tuple)`
+- `[ext] public static LanguageExt.OptionUnsafe<System.ValueTuple<A, B>> Sequence<A, B>(this System.ValueTuple<LanguageExt.OptionUnsafe<A>, LanguageExt.OptionUnsafe<B>> tuple)`
+- `[ext] public static LanguageExt.OptionAsync<System.ValueTuple<A, B>> Sequence<A, B>(this System.ValueTuple<LanguageExt.OptionAsync<A>, LanguageExt.OptionAsync<B>> tuple)`
+- `[ext] public static LanguageExt.Reader<Env, System.ValueTuple<A, B>> Sequence<Env, A, B>(this System.ValueTuple<LanguageExt.Reader<Env, A>, LanguageExt.Reader<Env, B>> tuple)`
+- `[ext] public static LanguageExt.Set<System.ValueTuple<A, B>> Sequence<A, B>(this System.ValueTuple<LanguageExt.Set<A>, LanguageExt.Set<B>> tuple)`
+- `[ext] public static LanguageExt.State<S, System.ValueTuple<A, B>> Sequence<S, A, B>(this System.ValueTuple<LanguageExt.State<S, A>, LanguageExt.State<S, B>> tuple)`
+- `[ext] public static System.Threading.Tasks.Task<System.ValueTuple<A, B>> Sequence<A, B>(this System.ValueTuple<System.Threading.Tasks.Task<A>, System.Threading.Tasks.Task<B>> tuple)`
+- `[ext] public static LanguageExt.Try<System.ValueTuple<A, B>> Sequence<A, B>(this System.ValueTuple<LanguageExt.Try<A>, LanguageExt.Try<B>> tuple)`
+- `[ext] public static LanguageExt.TryAsync<System.ValueTuple<A, B>> Sequence<A, B>(this System.ValueTuple<LanguageExt.TryAsync<A>, LanguageExt.TryAsync<B>> tuple)`
+- `[ext] public static LanguageExt.TryOption<System.ValueTuple<A, B>> Sequence<A, B>(this System.ValueTuple<LanguageExt.TryOption<A>, LanguageExt.TryOption<B>> tuple)`
+- `[ext] public static LanguageExt.TryOptionAsync<System.ValueTuple<A, B>> Sequence<A, B>(this System.ValueTuple<LanguageExt.TryOptionAsync<A>, LanguageExt.TryOptionAsync<B>> tuple)`
+- `[ext] public static LanguageExt.Validation<MonoidFail, L, System.ValueTuple<A, B>> Sequence<MonoidFail, L, A, B>(this System.ValueTuple<LanguageExt.Validation<MonoidFail, L, A>, LanguageExt.Validation<MonoidFail, L, B>> tuple)`
+- `where MonoidFail : struct, LanguageExt.TypeClasses.Monoid<L>, LanguageExt.TypeClasses.Eq<L>`
+- `[ext] public static LanguageExt.Validation<L, System.ValueTuple<A, B>> Sequence<L, A, B>(this System.ValueTuple<LanguageExt.Validation<L, A>, LanguageExt.Validation<L, B>> tuple)`
+- `[ext] public static A Sum<NUM, A>(this System.ValueTuple<A, A> self)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<A>`
+- `[ext] public static System.ValueTuple<T2> Tail<T1, T2>(this System.ValueTuple<T1, T2> self)`
+- `[ext] public static LanguageExt.Arr<System.ValueTuple<C, D>> Traverse<A, B, C, D>(this System.ValueTuple<LanguageExt.Arr<A>, LanguageExt.Arr<B>> tuple, System.Func<System.ValueTuple<A, B>, System.ValueTuple<C, D>> f)`
+- `[ext] public static LanguageExt.Arr<System.ValueTuple<C, D>> Traverse<A, B, C, D>(this System.ValueTuple<LanguageExt.Arr<A>, LanguageExt.Arr<B>> tuple, System.Func<A, B, System.ValueTuple<C, D>> f)`
+- `[ext] public static LanguageExt.Either<L, System.ValueTuple<C, D>> Traverse<L, A, B, C, D>(this System.ValueTuple<LanguageExt.Either<L, A>, LanguageExt.Either<L, B>> tuple, System.Func<System.ValueTuple<A, B>, System.ValueTuple<C, D>> f)`
+- `[ext] public static LanguageExt.Either<L, System.ValueTuple<C, D>> Traverse<L, A, B, C, D>(this System.ValueTuple<LanguageExt.Either<L, A>, LanguageExt.Either<L, B>> tuple, System.Func<A, B, System.ValueTuple<C, D>> f)`
+- `[ext] public static LanguageExt.EitherUnsafe<L, System.ValueTuple<C, D>> Traverse<L, A, B, C, D>(this System.ValueTuple<LanguageExt.EitherUnsafe<L, A>, LanguageExt.EitherUnsafe<L, B>> tuple, System.Func<System.ValueTuple<A, B>, System.ValueTuple<C, D>> f)`
+- `[ext] public static LanguageExt.EitherUnsafe<L, System.ValueTuple<C, D>> Traverse<L, A, B, C, D>(this System.ValueTuple<LanguageExt.EitherUnsafe<L, A>, LanguageExt.EitherUnsafe<L, B>> tuple, System.Func<A, B, System.ValueTuple<C, D>> f)`
+- `[ext] public static LanguageExt.EitherAsync<L, System.ValueTuple<C, D>> Traverse<L, A, B, C, D>(this System.ValueTuple<LanguageExt.EitherAsync<L, A>, LanguageExt.EitherAsync<L, B>> tuple, System.Func<System.ValueTuple<A, B>, System.ValueTuple<C, D>> f)`
+- `[ext] public static LanguageExt.EitherAsync<L, System.ValueTuple<C, D>> Traverse<L, A, B, C, D>(this System.ValueTuple<LanguageExt.EitherAsync<L, A>, LanguageExt.EitherAsync<L, B>> tuple, System.Func<A, B, System.ValueTuple<C, D>> f)`
+- `[ext] public static LanguageExt.HashSet<System.ValueTuple<C, D>> Traverse<A, B, C, D>(this System.ValueTuple<LanguageExt.HashSet<A>, LanguageExt.HashSet<B>> tuple, System.Func<System.ValueTuple<A, B>, System.ValueTuple<C, D>> f)`
+- `[ext] public static LanguageExt.HashSet<System.ValueTuple<C, D>> Traverse<A, B, C, D>(this System.ValueTuple<LanguageExt.HashSet<A>, LanguageExt.HashSet<B>> tuple, System.Func<A, B, System.ValueTuple<C, D>> f)`
+- `[ext] public static LanguageExt.Lst<System.ValueTuple<C, D>> Traverse<A, B, C, D>(this System.ValueTuple<LanguageExt.Lst<A>, LanguageExt.Lst<B>> tuple, System.Func<System.ValueTuple<A, B>, System.ValueTuple<C, D>> f)`
+- `[ext] public static LanguageExt.Lst<System.ValueTuple<C, D>> Traverse<A, B, C, D>(this System.ValueTuple<LanguageExt.Lst<A>, LanguageExt.Lst<B>> tuple, System.Func<A, B, System.ValueTuple<C, D>> f)`
+- `[ext] public static LanguageExt.Option<System.ValueTuple<C, D>> Traverse<A, B, C, D>(this System.ValueTuple<LanguageExt.Option<A>, LanguageExt.Option<B>> tuple, System.Func<System.ValueTuple<A, B>, System.ValueTuple<C, D>> f)`
+- `[ext] public static LanguageExt.Option<System.ValueTuple<C, D>> Traverse<A, B, C, D>(this System.ValueTuple<LanguageExt.Option<A>, LanguageExt.Option<B>> tuple, System.Func<A, B, System.ValueTuple<C, D>> f)`
+- `[ext] public static LanguageExt.OptionUnsafe<System.ValueTuple<C, D>> Traverse<A, B, C, D>(this System.ValueTuple<LanguageExt.OptionUnsafe<A>, LanguageExt.OptionUnsafe<B>> tuple, System.Func<System.ValueTuple<A, B>, System.ValueTuple<C, D>> f)`
+- `[ext] public static LanguageExt.OptionUnsafe<System.ValueTuple<C, D>> Traverse<A, B, C, D>(this System.ValueTuple<LanguageExt.OptionUnsafe<A>, LanguageExt.OptionUnsafe<B>> tuple, System.Func<A, B, System.ValueTuple<C, D>> f)`
+- `[ext] public static LanguageExt.OptionAsync<System.ValueTuple<C, D>> Traverse<A, B, C, D>(this System.ValueTuple<LanguageExt.OptionAsync<A>, LanguageExt.OptionAsync<B>> tuple, System.Func<System.ValueTuple<A, B>, System.ValueTuple<C, D>> f)`
+- `[ext] public static LanguageExt.OptionAsync<System.ValueTuple<C, D>> Traverse<A, B, C, D>(this System.ValueTuple<LanguageExt.OptionAsync<A>, LanguageExt.OptionAsync<B>> tuple, System.Func<A, B, System.ValueTuple<C, D>> f)`
+- `[ext] public static LanguageExt.Reader<Env, System.ValueTuple<C, D>> Traverse<Env, A, B, C, D>(this System.ValueTuple<LanguageExt.Reader<Env, A>, LanguageExt.Reader<Env, B>> tuple, System.Func<System.ValueTuple<A, B>, System.ValueTuple<C, D>> f)`
+- `[ext] public static LanguageExt.Reader<Env, System.ValueTuple<C, D>> Traverse<Env, A, B, C, D>(this System.ValueTuple<LanguageExt.Reader<Env, A>, LanguageExt.Reader<Env, B>> tuple, System.Func<A, B, System.ValueTuple<C, D>> f)`
+- `[ext] public static LanguageExt.Set<System.ValueTuple<C, D>> Traverse<A, B, C, D>(this System.ValueTuple<LanguageExt.Set<A>, LanguageExt.Set<B>> tuple, System.Func<System.ValueTuple<A, B>, System.ValueTuple<C, D>> f)`
+- `[ext] public static LanguageExt.Set<System.ValueTuple<C, D>> Traverse<A, B, C, D>(this System.ValueTuple<LanguageExt.Set<A>, LanguageExt.Set<B>> tuple, System.Func<A, B, System.ValueTuple<C, D>> f)`
+- `[ext] public static LanguageExt.State<S, System.ValueTuple<C, D>> Traverse<S, A, B, C, D>(this System.ValueTuple<LanguageExt.State<S, A>, LanguageExt.State<S, B>> tuple, System.Func<System.ValueTuple<A, B>, System.ValueTuple<C, D>> f)`
+- `[ext] public static LanguageExt.State<S, System.ValueTuple<C, D>> Traverse<S, A, B, C, D>(this System.ValueTuple<LanguageExt.State<S, A>, LanguageExt.State<S, B>> tuple, System.Func<A, B, System.ValueTuple<C, D>> f)`
+- `[ext] public static System.Threading.Tasks.Task<System.ValueTuple<C, D>> Traverse<A, B, C, D>(this System.ValueTuple<System.Threading.Tasks.Task<A>, System.Threading.Tasks.Task<B>> tuple, System.Func<System.ValueTuple<A, B>, System.ValueTuple<C, D>> f)`
+- `[ext] public static System.Threading.Tasks.Task<System.ValueTuple<C, D>> Traverse<A, B, C, D>(this System.ValueTuple<System.Threading.Tasks.Task<A>, System.Threading.Tasks.Task<B>> tuple, System.Func<A, B, System.ValueTuple<C, D>> f)`
+- `[ext] public static LanguageExt.Try<System.ValueTuple<C, D>> Traverse<A, B, C, D>(this System.ValueTuple<LanguageExt.Try<A>, LanguageExt.Try<B>> tuple, System.Func<System.ValueTuple<A, B>, System.ValueTuple<C, D>> f)`
+- `[ext] public static LanguageExt.Try<System.ValueTuple<C, D>> Traverse<A, B, C, D>(this System.ValueTuple<LanguageExt.Try<A>, LanguageExt.Try<B>> tuple, System.Func<A, B, System.ValueTuple<C, D>> f)`
+- `[ext] public static LanguageExt.TryAsync<System.ValueTuple<C, D>> Traverse<A, B, C, D>(this System.ValueTuple<LanguageExt.TryAsync<A>, LanguageExt.TryAsync<B>> tuple, System.Func<System.ValueTuple<A, B>, System.ValueTuple<C, D>> f)`
+- `[ext] public static LanguageExt.TryAsync<System.ValueTuple<C, D>> Traverse<A, B, C, D>(this System.ValueTuple<LanguageExt.TryAsync<A>, LanguageExt.TryAsync<B>> tuple, System.Func<A, B, System.ValueTuple<C, D>> f)`
+- `[ext] public static LanguageExt.TryOption<System.ValueTuple<C, D>> Traverse<A, B, C, D>(this System.ValueTuple<LanguageExt.TryOption<A>, LanguageExt.TryOption<B>> tuple, System.Func<System.ValueTuple<A, B>, System.ValueTuple<C, D>> f)`
+- `[ext] public static LanguageExt.TryOption<System.ValueTuple<C, D>> Traverse<A, B, C, D>(this System.ValueTuple<LanguageExt.TryOption<A>, LanguageExt.TryOption<B>> tuple, System.Func<A, B, System.ValueTuple<C, D>> f)`
+- `[ext] public static LanguageExt.TryOptionAsync<System.ValueTuple<C, D>> Traverse<A, B, C, D>(this System.ValueTuple<LanguageExt.TryOptionAsync<A>, LanguageExt.TryOptionAsync<B>> tuple, System.Func<System.ValueTuple<A, B>, System.ValueTuple<C, D>> f)`
+- `[ext] public static LanguageExt.TryOptionAsync<System.ValueTuple<C, D>> Traverse<A, B, C, D>(this System.ValueTuple<LanguageExt.TryOptionAsync<A>, LanguageExt.TryOptionAsync<B>> tuple, System.Func<A, B, System.ValueTuple<C, D>> f)`
+- `[ext] public static LanguageExt.Validation<MonoidFail, L, System.ValueTuple<C, D>> Traverse<MonoidFail, L, A, B, C, D>(this System.ValueTuple<LanguageExt.Validation<MonoidFail, L, A>, LanguageExt.Validation<MonoidFail, L, B>> tuple, System.Func<System.ValueTuple<A, B>, System.ValueTuple<C, D>> f)`
+- `where MonoidFail : struct, LanguageExt.TypeClasses.Monoid<L>, LanguageExt.TypeClasses.Eq<L>`
+- `[ext] public static LanguageExt.Validation<MonoidFail, L, System.ValueTuple<C, D>> Traverse<MonoidFail, L, A, B, C, D>(this System.ValueTuple<LanguageExt.Validation<MonoidFail, L, A>, LanguageExt.Validation<MonoidFail, L, B>> tuple, System.Func<A, B, System.ValueTuple<C, D>> f)`
+- `where MonoidFail : struct, LanguageExt.TypeClasses.Monoid<L>, LanguageExt.TypeClasses.Eq<L>`
+- `[ext] public static LanguageExt.Validation<L, System.ValueTuple<C, D>> Traverse<L, A, B, C, D>(this System.ValueTuple<LanguageExt.Validation<L, A>, LanguageExt.Validation<L, B>> tuple, System.Func<System.ValueTuple<A, B>, System.ValueTuple<C, D>> f)`
+- `[ext] public static LanguageExt.Validation<L, System.ValueTuple<C, D>> Traverse<L, A, B, C, D>(this System.ValueTuple<LanguageExt.Validation<L, A>, LanguageExt.Validation<L, B>> tuple, System.Func<A, B, System.ValueTuple<C, D>> f)`
+
+### ValueTuple3Extensions (class [static])
+
+- `[ext] public static System.ValueTuple<T1, T2, T3, T4> Add<T1, T2, T3, T4>(this System.ValueTuple<T1, T2, T3> self, T4 fourth)`
+- `[ext] public static A Append<SemiA, A>(this System.ValueTuple<A, A, A> a)`
+- `where SemiA : struct, LanguageExt.TypeClasses.Semigroup<A>`
+- `[ext] public static System.ValueTuple<A, B, C> Append<SemiA, SemiB, SemiC, A, B, C>(this System.ValueTuple<A, B, C> a, System.ValueTuple<A, B, C> b)`
+- `where SemiA : struct, LanguageExt.TypeClasses.Semigroup<A>`
+- `where SemiB : struct, LanguageExt.TypeClasses.Semigroup<B>`
+- `where SemiC : struct, LanguageExt.TypeClasses.Semigroup<C>`
+- `[ext] public static A Concat<MonoidA, A>(this System.ValueTuple<A, A, A> a)`
+- `where MonoidA : struct, LanguageExt.TypeClasses.Monoid<A>`
+- `[ext] public static System.ValueTuple<A, B, C> Concat<MonoidA, MonoidB, MonoidC, A, B, C>(this System.ValueTuple<A, B, C> a, System.ValueTuple<A, B, C> b)`
+- `where MonoidA : struct, LanguageExt.TypeClasses.Monoid<A>`
+- `where MonoidB : struct, LanguageExt.TypeClasses.Monoid<B>`
+- `where MonoidC : struct, LanguageExt.TypeClasses.Monoid<C>`
+- `[ext] public static System.Boolean Contains<EQ, A>(this System.ValueTuple<A, A, A> self, A value)`
+- `where EQ : struct, LanguageExt.TypeClasses.Eq<A>`
+- `[ext] public static S Fold<T1, T2, T3, S>(this System.ValueTuple<T1, T2, T3> self, S state, System.Func<S, T1, T2, T3, S> fold)`
+- `[ext] public static T1 Head<T1, T2, T3>(this System.ValueTuple<T1, T2, T3> self)`
+- `[ext] public static LanguageExt.Unit Iter<T1, T2, T3>(this System.ValueTuple<T1, T2, T3> self, System.Action<T1, T2, T3> func)`
+- `[ext] public static LanguageExt.Unit Iter<T1, T2, T3>(this System.ValueTuple<T1, T2, T3> self, System.Action<T1> first, System.Action<T2> second, System.Action<T3> third)`
+- `[ext] public static T3 Last<T1, T2, T3>(this System.ValueTuple<T1, T2, T3> self)`
+- `[ext] public static R Map<A, B, C, R>(this System.ValueTuple<A, B, C> self, System.Func<System.ValueTuple<A, B, C>, R> map)`
+- `[ext] public static R Map<A, B, C, R>(this System.ValueTuple<A, B, C> self, System.Func<A, B, C, R> map)`
+- `[ext] public static System.ValueTuple<R1, R2, R3> Map<T1, T2, T3, R1, R2, R3>(this System.ValueTuple<T1, T2, T3> self, System.Func<T1, R1> firstMap, System.Func<T2, R2> secondMap, System.Func<T3, R3> thirdMap)`
+- `[ext] public static System.ValueTuple<R1, T2, T3> MapFirst<T1, T2, T3, R1>(this System.ValueTuple<T1, T2, T3> self, System.Func<T1, R1> firstMap)`
+- `[ext] public static System.ValueTuple<T1, R2, T3> MapSecond<T1, T2, T3, R2>(this System.ValueTuple<T1, T2, T3> self, System.Func<T2, R2> secondMap)`
+- `[ext] public static System.ValueTuple<T1, T2, R3> MapThird<T1, T2, T3, R3>(this System.ValueTuple<T1, T2, T3> self, System.Func<T3, R3> thirdMap)`
+- `[ext] public static A Product<NUM, A>(this System.ValueTuple<A, A, A> self)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<A>`
+- `[ext] public static System.ValueTuple<R1, R2, R3> Select<T1, T2, T3, R1, R2, R3>(this System.ValueTuple<T1, T2, T3> self, System.Func<System.ValueTuple<T1, T2, T3>, System.ValueTuple<R1, R2, R3>> map)`
+- `[ext] public static A Sum<NUM, A>(this System.ValueTuple<A, A, A> self)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<A>`
+- `[ext] public static System.ValueTuple<T2, T3> Tail<T1, T2, T3>(this System.ValueTuple<T1, T2, T3> self)`
+- `[ext] public static S TriFold<T1, T2, T3, S>(this System.ValueTuple<T1, T2, T3> self, S state, System.Func<S, T1, S> firstFold, System.Func<S, T2, S> secondFold, System.Func<S, T3, S> thirdFold)`
+- `[ext] public static S TriFoldBack<T1, T2, T3, S>(this System.ValueTuple<T1, T2, T3> self, S state, System.Func<S, T3, S> firstFold, System.Func<S, T2, S> secondFold, System.Func<S, T1, S> thirdFold)`
+
+### ValueTuple4Extensions (class [static])
+
+- `[ext] public static System.ValueTuple<A, B, C, D, E> Add<A, B, C, D, E>(this System.ValueTuple<A, B, C, D> self, E fifth)`
+- `[ext] public static A Append<SemiA, A>(this System.ValueTuple<A, A, A, A> a)`
+- `where SemiA : struct, LanguageExt.TypeClasses.Semigroup<A>`
+- `[ext] public static System.ValueTuple<A, B, C, D> Append<SemiA, SemiB, SemiC, SemiD, A, B, C, D>(this System.ValueTuple<A, B, C, D> a, System.ValueTuple<A, B, C, D> b)`
+- `where SemiA : struct, LanguageExt.TypeClasses.Semigroup<A>`
+- `where SemiB : struct, LanguageExt.TypeClasses.Semigroup<B>`
+- `where SemiC : struct, LanguageExt.TypeClasses.Semigroup<C>`
+- `where SemiD : struct, LanguageExt.TypeClasses.Semigroup<D>`
+- `[ext] public static A Concat<MonoidA, A>(this System.ValueTuple<A, A, A, A> a)`
+- `where MonoidA : struct, LanguageExt.TypeClasses.Monoid<A>`
+- `[ext] public static System.ValueTuple<A, B, C, D> Concat<MonoidA, MonoidB, MonoidC, MonoidD, A, B, C, D>(this System.ValueTuple<A, B, C, D> a, System.ValueTuple<A, B, C, D> b)`
+- `where MonoidA : struct, LanguageExt.TypeClasses.Monoid<A>`
+- `where MonoidB : struct, LanguageExt.TypeClasses.Monoid<B>`
+- `where MonoidC : struct, LanguageExt.TypeClasses.Monoid<C>`
+- `where MonoidD : struct, LanguageExt.TypeClasses.Monoid<D>`
+- `[ext] public static System.Boolean Contains<EQ, A>(this System.ValueTuple<A, A, A, A> self, A value)`
+- `where EQ : struct, LanguageExt.TypeClasses.Eq<A>`
+- `[ext] public static S Fold<A, B, C, D, S>(this System.ValueTuple<A, B, C, D> self, S state, System.Func<S, A, B, C, D, S> fold)`
+- `[ext] public static A Head<A, B, C, D>(this System.ValueTuple<A, B, C, D> self)`
+- `[ext] public static LanguageExt.Unit Iter<A, B, C, D>(this System.ValueTuple<A, B, C, D> self, System.Action<A, B, C, D> func)`
+- `[ext] public static LanguageExt.Unit Iter<A, B, C, D>(this System.ValueTuple<A, B, C, D> self, System.Action<A> first, System.Action<B> second, System.Action<C> third, System.Action<D> fourth)`
+- `[ext] public static D Last<A, B, C, D>(this System.ValueTuple<A, B, C, D> self)`
+- `[ext] public static R Map<A, B, C, D, R>(this System.ValueTuple<A, B, C, D> self, System.Func<System.ValueTuple<A, B, C, D>, R> map)`
+- `[ext] public static R Map<A, B, C, D, R>(this System.ValueTuple<A, B, C, D> self, System.Func<A, B, C, D, R> map)`
+- `[ext] public static System.ValueTuple<W, X, Y, Z> Map<A, B, C, D, W, X, Y, Z>(this System.ValueTuple<A, B, C, D> self, System.Func<A, W> firstMap, System.Func<B, X> secondMap, System.Func<C, Y> thirdMap, System.Func<D, Z> fourthMap)`
+- `[ext] public static System.ValueTuple<R1, B, C, D> MapFirst<A, B, C, D, R1>(this System.ValueTuple<A, B, C, D> self, System.Func<A, R1> firstMap)`
+- `[ext] public static System.ValueTuple<A, B, C, R4> MapFourth<A, B, C, D, R4>(this System.ValueTuple<A, B, C, D> self, System.Func<D, R4> fourthMap)`
+- `[ext] public static System.ValueTuple<A, R2, C, D> MapSecond<A, B, C, D, R2>(this System.ValueTuple<A, B, C, D> self, System.Func<B, R2> secondMap)`
+- `[ext] public static System.ValueTuple<A, B, R3, D> MapThird<A, B, C, D, R3>(this System.ValueTuple<A, B, C, D> self, System.Func<C, R3> thirdMap)`
+- `[ext] public static A Product<NUM, A>(this System.ValueTuple<A, A, A, A> self)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<A>`
+- `[ext] public static S QuadFold<A, B, C, D, S>(this System.ValueTuple<A, B, C, D> self, S state, System.Func<S, A, S> firstFold, System.Func<S, B, S> secondFold, System.Func<S, C, S> thirdFold, System.Func<S, D, S> fourthFold)`
+- `[ext] public static S QuadFoldBack<A, B, C, D, S>(this System.ValueTuple<A, B, C, D> self, S state, System.Func<S, D, S> firstFold, System.Func<S, C, S> secondFold, System.Func<S, B, S> thirdFold, System.Func<S, A, S> fourthFold)`
+- `[ext] public static System.ValueTuple<W, X, Y, Z> Select<A, B, C, D, W, X, Y, Z>(this System.ValueTuple<A, B, C, D> self, System.Func<System.ValueTuple<A, B, C, D>, System.ValueTuple<W, X, Y, Z>> map)`
+- `[ext] public static A Sum<NUM, A>(this System.ValueTuple<A, A, A, A> self)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<A>`
+- `[ext] public static System.ValueTuple<B, C, D> Tail<A, B, C, D>(this System.ValueTuple<A, B, C, D> self)`
+
+### ValueTuple5Extensions (class [static])
+
+- `[ext] public static System.ValueTuple<A, B, C, D, E, F> Add<A, B, C, D, E, F>(this System.ValueTuple<A, B, C, D, E> self, F sixth)`
+- `[ext] public static A Append<SemiA, A>(this System.ValueTuple<A, A, A, A, A> a)`
+- `where SemiA : struct, LanguageExt.TypeClasses.Semigroup<A>`
+- `[ext] public static System.ValueTuple<A, B, C, D, E> Append<SemiA, SemiB, SemiC, SemiD, SemiE, A, B, C, D, E>(this System.ValueTuple<A, B, C, D, E> a, System.ValueTuple<A, B, C, D, E> b)`
+- `where SemiA : struct, LanguageExt.TypeClasses.Semigroup<A>`
+- `where SemiB : struct, LanguageExt.TypeClasses.Semigroup<B>`
+- `where SemiC : struct, LanguageExt.TypeClasses.Semigroup<C>`
+- `where SemiD : struct, LanguageExt.TypeClasses.Semigroup<D>`
+- `where SemiE : struct, LanguageExt.TypeClasses.Semigroup<E>`
+- `[ext] public static A Concat<MonoidA, A>(this System.ValueTuple<A, A, A, A, A> a)`
+- `where MonoidA : struct, LanguageExt.TypeClasses.Monoid<A>`
+- `[ext] public static System.ValueTuple<A, B, C, D, E> Concat<MonoidA, MonoidB, MonoidC, MonoidD, MonoidE, A, B, C, D, E>(this System.ValueTuple<A, B, C, D, E> a, System.ValueTuple<A, B, C, D, E> b)`
+- `where MonoidA : struct, LanguageExt.TypeClasses.Monoid<A>`
+- `where MonoidB : struct, LanguageExt.TypeClasses.Monoid<B>`
+- `where MonoidC : struct, LanguageExt.TypeClasses.Monoid<C>`
+- `where MonoidD : struct, LanguageExt.TypeClasses.Monoid<D>`
+- `where MonoidE : struct, LanguageExt.TypeClasses.Monoid<E>`
+- `[ext] public static System.Boolean Contains<EQ, A>(this System.ValueTuple<A, A, A, A, A> self, A value)`
+- `where EQ : struct, LanguageExt.TypeClasses.Eq<A>`
+- `[ext] public static S Fold<A, B, C, D, E, S>(this System.ValueTuple<A, B, C, D, E> self, S state, System.Func<S, A, B, C, D, E, S> fold)`
+- `[ext] public static A Head<A, B, C, D, E>(this System.ValueTuple<A, B, C, D, E> self)`
+- `[ext] public static LanguageExt.Unit Iter<A, B, C, D, E>(this System.ValueTuple<A, B, C, D, E> self, System.Action<A, B, C, D, E> func)`
+- `[ext] public static LanguageExt.Unit Iter<A, B, C, D, E>(this System.ValueTuple<A, B, C, D, E> self, System.Action<A> first, System.Action<B> second, System.Action<C> third, System.Action<D> fourth, System.Action<E> fifth)`
+- `[ext] public static E Last<A, B, C, D, E>(this System.ValueTuple<A, B, C, D, E> self)`
+- `[ext] public static R Map<A, B, C, D, E, R>(this System.ValueTuple<A, B, C, D, E> self, System.Func<System.ValueTuple<A, B, C, D, E>, R> map)`
+- `[ext] public static R Map<A, B, C, D, E, R>(this System.ValueTuple<A, B, C, D, E> self, System.Func<A, B, C, D, E, R> map)`
+- `[ext] public static System.ValueTuple<V, W, X, Y, Z> Map<A, B, C, D, E, V, W, X, Y, Z>(this System.ValueTuple<A, B, C, D, E> self, System.Func<A, V> firstMap, System.Func<B, W> secondMap, System.Func<C, X> thirdMap, System.Func<D, Y> fourthMap, System.Func<E, Z> fifthMap)`
+- `[ext] public static System.ValueTuple<A, B, C, D, R5> MapFifth<A, B, C, D, E, R5>(this System.ValueTuple<A, B, C, D, E> self, System.Func<E, R5> fifthMap)`
+- `[ext] public static System.ValueTuple<R1, B, C, D, E> MapFirst<A, B, C, D, E, R1>(this System.ValueTuple<A, B, C, D, E> self, System.Func<A, R1> firstMap)`
+- `[ext] public static System.ValueTuple<A, B, C, R4, E> MapFourth<A, B, C, D, E, R4>(this System.ValueTuple<A, B, C, D, E> self, System.Func<D, R4> fourthMap)`
+- `[ext] public static System.ValueTuple<A, R2, C, D, E> MapSecond<A, B, C, D, E, R2>(this System.ValueTuple<A, B, C, D, E> self, System.Func<B, R2> secondMap)`
+- `[ext] public static System.ValueTuple<A, B, R3, D, E> MapThird<A, B, C, D, E, R3>(this System.ValueTuple<A, B, C, D, E> self, System.Func<C, R3> thirdMap)`
+- `[ext] public static A Product<NUM, A>(this System.ValueTuple<A, A, A, A, A> self)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<A>`
+- `[ext] public static S QuintFold<A, B, C, D, E, S>(this System.ValueTuple<A, B, C, D, E> self, S state, System.Func<S, A, S> firstFold, System.Func<S, B, S> secondFold, System.Func<S, C, S> thirdFold, System.Func<S, D, S> fourthFold, System.Func<S, E, S> fifthFold)`
+- `[ext] public static S QuintFoldBack<A, B, C, D, E, S>(this System.ValueTuple<A, B, C, D, E> self, S state, System.Func<S, E, S> firstFold, System.Func<S, D, S> secondFold, System.Func<S, C, S> thirdFold, System.Func<S, B, S> fourthFold, System.Func<S, A, S> fifthFold)`
+- `[ext] public static System.ValueTuple<V, W, X, Y, Z> Select<A, B, C, D, E, V, W, X, Y, Z>(this System.ValueTuple<A, B, C, D, E> self, System.Func<System.ValueTuple<A, B, C, D, E>, System.ValueTuple<V, W, X, Y, Z>> map)`
+- `[ext] public static A Sum<NUM, A>(this System.ValueTuple<A, A, A, A, A> self)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<A>`
+- `[ext] public static System.ValueTuple<B, C, D, E> Tail<A, B, C, D, E>(this System.ValueTuple<A, B, C, D, E> self)`
+
+### ValueTuple6Extensions (class [static])
+
+- `[ext] public static System.ValueTuple<A, B, C, D, E, F, G> Add<A, B, C, D, E, F, G>(this System.ValueTuple<A, B, C, D, E, F> self, G seventh)`
+- `[ext] public static A Append<SemiA, A>(this System.ValueTuple<A, A, A, A, A, A> a)`
+- `where SemiA : struct, LanguageExt.TypeClasses.Semigroup<A>`
+- `[ext] public static System.ValueTuple<A, B, C, D, E, F> Append<SemiA, SemiB, SemiC, SemiD, SemiE, SemiF, A, B, C, D, E, F>(this System.ValueTuple<A, B, C, D, E, F> a, System.ValueTuple<A, B, C, D, E, F> b)`
+- `where SemiA : struct, LanguageExt.TypeClasses.Semigroup<A>`
+- `where SemiB : struct, LanguageExt.TypeClasses.Semigroup<B>`
+- `where SemiC : struct, LanguageExt.TypeClasses.Semigroup<C>`
+- `where SemiD : struct, LanguageExt.TypeClasses.Semigroup<D>`
+- `where SemiE : struct, LanguageExt.TypeClasses.Semigroup<E>`
+- `where SemiF : struct, LanguageExt.TypeClasses.Semigroup<F>`
+- `[ext] public static A Concat<MonoidA, A>(this System.ValueTuple<A, A, A, A, A, A> a)`
+- `where MonoidA : struct, LanguageExt.TypeClasses.Monoid<A>`
+- `[ext] public static System.ValueTuple<A, B, C, D, E, F> Concat<MonoidA, MonoidB, MonoidC, MonoidD, MonoidE, MonoidF, A, B, C, D, E, F>(this System.ValueTuple<A, B, C, D, E, F> a, System.ValueTuple<A, B, C, D, E, F> b)`
+- `where MonoidA : struct, LanguageExt.TypeClasses.Monoid<A>`
+- `where MonoidB : struct, LanguageExt.TypeClasses.Monoid<B>`
+- `where MonoidC : struct, LanguageExt.TypeClasses.Monoid<C>`
+- `where MonoidD : struct, LanguageExt.TypeClasses.Monoid<D>`
+- `where MonoidE : struct, LanguageExt.TypeClasses.Monoid<E>`
+- `where MonoidF : struct, LanguageExt.TypeClasses.Monoid<F>`
+- `[ext] public static System.Boolean Contains<EQ, A>(this System.ValueTuple<A, A, A, A, A, A> self, A value)`
+- `where EQ : struct, LanguageExt.TypeClasses.Eq<A>`
+- `[ext] public static S Fold<A, B, C, D, E, F, S>(this System.ValueTuple<A, B, C, D, E, F> self, S state, System.Func<S, A, B, C, D, E, F, S> fold)`
+- `[ext] public static A Head<A, B, C, D, E, F>(this System.ValueTuple<A, B, C, D, E, F> self)`
+- `[ext] public static LanguageExt.Unit Iter<A, B, C, D, E, F>(this System.ValueTuple<A, B, C, D, E, F> self, System.Action<A, B, C, D, E, F> func)`
+- `[ext] public static LanguageExt.Unit Iter<A, B, C, D, E, F>(this System.ValueTuple<A, B, C, D, E, F> self, System.Action<A> first, System.Action<B> second, System.Action<C> third, System.Action<D> fourth, System.Action<E> fifth, System.Action<F> sixth)`
+- `[ext] public static F Last<A, B, C, D, E, F>(this System.ValueTuple<A, B, C, D, E, F> self)`
+- `[ext] public static R Map<A, B, C, D, E, F, R>(this System.ValueTuple<A, B, C, D, E, F> self, System.Func<System.ValueTuple<A, B, C, D, E, F>, R> map)`
+- `[ext] public static R Map<A, B, C, D, E, F, R>(this System.ValueTuple<A, B, C, D, E, F> self, System.Func<A, B, C, D, E, F, R> map)`
+- `[ext] public static System.ValueTuple<U, V, W, X, Y, Z> Map<A, B, C, D, E, F, U, V, W, X, Y, Z>(this System.ValueTuple<A, B, C, D, E, F> self, System.Func<A, U> firstMap, System.Func<B, V> secondMap, System.Func<C, W> thirdMap, System.Func<D, X> fourthMap, System.Func<E, Y> fifthMap, System.Func<F, Z> sixthMap)`
+- `[ext] public static System.ValueTuple<A, B, C, D, R5, F> MapFifth<A, B, C, D, E, F, R5>(this System.ValueTuple<A, B, C, D, E, F> self, System.Func<E, R5> fifthMap)`
+- `[ext] public static System.ValueTuple<R1, B, C, D, E, F> MapFirst<A, B, C, D, E, F, R1>(this System.ValueTuple<A, B, C, D, E, F> self, System.Func<A, R1> firstMap)`
+- `[ext] public static System.ValueTuple<A, B, C, R4, E, F> MapFourth<A, B, C, D, E, F, R4>(this System.ValueTuple<A, B, C, D, E, F> self, System.Func<D, R4> fourthMap)`
+- `[ext] public static System.ValueTuple<A, R2, C, D, E, F> MapSecond<A, B, C, D, E, F, R2>(this System.ValueTuple<A, B, C, D, E, F> self, System.Func<B, R2> secondMap)`
+- `[ext] public static System.ValueTuple<A, B, C, D, E, R6> MapSixth<A, B, C, D, E, F, R6>(this System.ValueTuple<A, B, C, D, E, F> self, System.Func<F, R6> sixthMap)`
+- `[ext] public static System.ValueTuple<A, B, R3, D, E, F> MapThird<A, B, C, D, E, F, R3>(this System.ValueTuple<A, B, C, D, E, F> self, System.Func<C, R3> thirdMap)`
+- `[ext] public static A Product<NUM, A>(this System.ValueTuple<A, A, A, A, A, A> self)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<A>`
+- `[ext] public static System.ValueTuple<U, V, W, X, Y, Z> Select<A, B, C, D, E, F, U, V, W, X, Y, Z>(this System.ValueTuple<A, B, C, D, E, F> self, System.Func<System.ValueTuple<A, B, C, D, E, F>, System.ValueTuple<U, V, W, X, Y, Z>> map)`
+- `[ext] public static S SextFold<A, B, C, D, E, F, S>(this System.ValueTuple<A, B, C, D, E, F> self, S state, System.Func<S, A, S> firstFold, System.Func<S, B, S> secondFold, System.Func<S, C, S> thirdFold, System.Func<S, D, S> fourthFold, System.Func<S, E, S> fifthFold, System.Func<S, F, S> sixthFold)`
+- `[ext] public static S SextFoldBack<A, B, C, D, E, F, S>(this System.ValueTuple<A, B, C, D, E, F> self, S state, System.Func<S, F, S> firstFold, System.Func<S, E, S> secondFold, System.Func<S, D, S> thirdFold, System.Func<S, C, S> fourthFold, System.Func<S, B, S> fifthFold, System.Func<S, A, S> sixthFold)`
+- `[ext] public static A Sum<NUM, A>(this System.ValueTuple<A, A, A, A, A, A> self)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<A>`
+- `[ext] public static System.ValueTuple<B, C, D, E, F> Tail<A, B, C, D, E, F>(this System.ValueTuple<A, B, C, D, E, F> self)`
+
+### ValueTuple7Extensions (class [static])
+
+- `[ext] public static System.ValueTuple<A, B, C, D, E, F, G, System.ValueTuple<H>> Add<A, B, C, D, E, F, G, H>(this System.ValueTuple<A, B, C, D, E, F, G> self, H eighth)`
+- `[ext] public static A Append<SemiA, A>(this System.ValueTuple<A, A, A, A, A, A, A> a)`
+- `where SemiA : struct, LanguageExt.TypeClasses.Semigroup<A>`
+- `[ext] public static System.ValueTuple<A, B, C, D, E, F, G> Append<SemiA, SemiB, SemiC, SemiD, SemiE, SemiF, SemiG, A, B, C, D, E, F, G>(this System.ValueTuple<A, B, C, D, E, F, G> a, System.ValueTuple<A, B, C, D, E, F, G> b)`
+- `where SemiA : struct, LanguageExt.TypeClasses.Semigroup<A>`
+- `where SemiB : struct, LanguageExt.TypeClasses.Semigroup<B>`
+- `where SemiC : struct, LanguageExt.TypeClasses.Semigroup<C>`
+- `where SemiD : struct, LanguageExt.TypeClasses.Semigroup<D>`
+- `where SemiE : struct, LanguageExt.TypeClasses.Semigroup<E>`
+- `where SemiF : struct, LanguageExt.TypeClasses.Semigroup<F>`
+- `where SemiG : struct, LanguageExt.TypeClasses.Semigroup<G>`
+- `[ext] public static A Concat<MonoidA, A>(this System.ValueTuple<A, A, A, A, A, A, A> a)`
+- `where MonoidA : struct, LanguageExt.TypeClasses.Monoid<A>`
+- `[ext] public static System.ValueTuple<A, B, C, D, E, F, G> Concat<MonoidA, MonoidB, MonoidC, MonoidD, MonoidE, MonoidF, MonoidG, A, B, C, D, E, F, G>(this System.ValueTuple<A, B, C, D, E, F, G> a, System.ValueTuple<A, B, C, D, E, F, G> b)`
+- `where MonoidA : struct, LanguageExt.TypeClasses.Monoid<A>`
+- `where MonoidB : struct, LanguageExt.TypeClasses.Monoid<B>`
+- `where MonoidC : struct, LanguageExt.TypeClasses.Monoid<C>`
+- `where MonoidD : struct, LanguageExt.TypeClasses.Monoid<D>`
+- `where MonoidE : struct, LanguageExt.TypeClasses.Monoid<E>`
+- `where MonoidF : struct, LanguageExt.TypeClasses.Monoid<F>`
+- `where MonoidG : struct, LanguageExt.TypeClasses.Monoid<G>`
+- `[ext] public static System.Boolean Contains<EQ, A>(this System.ValueTuple<A, A, A, A, A, A, A> self, A value)`
+- `where EQ : struct, LanguageExt.TypeClasses.Eq<A>`
+- `[ext] public static S Fold<A, B, C, D, E, F, G, S>(this System.ValueTuple<A, B, C, D, E, F, G> self, S state, System.Func<S, A, B, C, D, E, F, G, S> fold)`
+- `[ext] public static A Head<A, B, C, D, E, F, G>(this System.ValueTuple<A, B, C, D, E, F, G> self)`
+- `[ext] public static LanguageExt.Unit Iter<A, B, C, D, E, F, G>(this System.ValueTuple<A, B, C, D, E, F, G> self, System.Action<A, B, C, D, E, F, G> func)`
+- `[ext] public static LanguageExt.Unit Iter<A, B, C, D, E, F, G>(this System.ValueTuple<A, B, C, D, E, F, G> self, System.Action<A> first, System.Action<B> second, System.Action<C> third, System.Action<D> fourth, System.Action<E> fifth, System.Action<F> sixth, System.Action<G> seventh)`
+- `[ext] public static G Last<A, B, C, D, E, F, G>(this System.ValueTuple<A, B, C, D, E, F, G> self)`
+- `[ext] public static R Map<A, B, C, D, E, F, G, R>(this System.ValueTuple<A, B, C, D, E, F, G> self, System.Func<System.ValueTuple<A, B, C, D, E, F, G>, R> map)`
+- `[ext] public static R Map<A, B, C, D, E, F, G, R>(this System.ValueTuple<A, B, C, D, E, F, G> self, System.Func<A, B, C, D, E, F, G, R> map)`
+- `[ext] public static System.ValueTuple<T, U, V, W, X, Y, Z> Map<A, B, C, D, E, F, G, T, U, V, W, X, Y, Z>(this System.ValueTuple<A, B, C, D, E, F, G> self, System.Func<A, T> firstMap, System.Func<B, U> secondMap, System.Func<C, V> thirdMap, System.Func<D, W> fourthMap, System.Func<E, X> fifthMap, System.Func<F, Y> sixthMap, System.Func<G, Z> seventhMap)`
+- `[ext] public static System.ValueTuple<A, B, C, D, R5, F, G> MapFifth<A, B, C, D, E, F, G, R5>(this System.ValueTuple<A, B, C, D, E, F, G> self, System.Func<E, R5> fifthMap)`
+- `[ext] public static System.ValueTuple<R1, B, C, D, E, F, G> MapFirst<A, B, C, D, E, F, G, R1>(this System.ValueTuple<A, B, C, D, E, F, G> self, System.Func<A, R1> firstMap)`
+- `[ext] public static System.ValueTuple<A, B, C, R4, E, F, G> MapFourth<A, B, C, D, E, F, G, R4>(this System.ValueTuple<A, B, C, D, E, F, G> self, System.Func<D, R4> fourthMap)`
+- `[ext] public static System.ValueTuple<A, R2, C, D, E, F, G> MapSecond<A, B, C, D, E, F, G, R2>(this System.ValueTuple<A, B, C, D, E, F, G> self, System.Func<B, R2> secondMap)`
+- `[ext] public static System.ValueTuple<A, B, C, D, E, F, R7> MapSeventh<A, B, C, D, E, F, G, R7>(this System.ValueTuple<A, B, C, D, E, F, G> self, System.Func<G, R7> seventhMap)`
+- `[ext] public static System.ValueTuple<A, B, C, D, E, R6, G> MapSixth<A, B, C, D, E, F, G, R6>(this System.ValueTuple<A, B, C, D, E, F, G> self, System.Func<F, R6> sixthMap)`
+- `[ext] public static System.ValueTuple<A, B, R3, D, E, F, G> MapThird<A, B, C, D, E, F, G, R3>(this System.ValueTuple<A, B, C, D, E, F, G> self, System.Func<C, R3> thirdMap)`
+- `[ext] public static A Product<NUM, A>(this System.ValueTuple<A, A, A, A, A, A, A> self)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<A>`
+- `[ext] public static System.ValueTuple<U, V, W, X, Y, Z> Select<A, B, C, D, E, F, G, U, V, W, X, Y, Z>(this System.ValueTuple<A, B, C, D, E, F, G> self, System.Func<System.ValueTuple<A, B, C, D, E, F, G>, System.ValueTuple<U, V, W, X, Y, Z>> map)`
+- `[ext] public static S SeptFold<A, B, C, D, E, F, G, S>(this System.ValueTuple<A, B, C, D, E, F, G> self, S state, System.Func<S, A, S> firstFold, System.Func<S, B, S> secondFold, System.Func<S, C, S> thirdFold, System.Func<S, D, S> fourthFold, System.Func<S, E, S> fifthFold, System.Func<S, F, S> sixthFold, System.Func<S, G, S> seventhFold)`
+- `[ext] public static S SeptFoldBack<A, B, C, D, E, F, G, S>(this System.ValueTuple<A, B, C, D, E, F, G> self, S state, System.Func<S, G, S> firstFold, System.Func<S, F, S> secondFold, System.Func<S, E, S> thirdFold, System.Func<S, D, S> fourthFold, System.Func<S, C, S> fifthFold, System.Func<S, B, S> sixthFold, System.Func<S, A, S> seventhFold)`
+- `[ext] public static A Sum<NUM, A>(this System.ValueTuple<A, A, A, A, A, A, A> self)`
+- `where NUM : struct, LanguageExt.TypeClasses.Num<A>`
+- `[ext] public static System.ValueTuple<B, C, D, E, F, G> Tail<A, B, C, D, E, F, G>(this System.ValueTuple<A, B, C, D, E, F, G> self)`
+
+### WriterExtensions (class [static])
+
+- `[ext] public static LanguageExt.Writer<MonoidW, W, LanguageExt.Seq<A>> AsEnumerable<MonoidW, W, A>(this LanguageExt.Writer<MonoidW, W, A> self)`
+- `where MonoidW : struct, LanguageExt.TypeClasses.Monoid<W>`
+- `[ext] public static LanguageExt.Writer<LanguageExt.ClassInstances.MSeq<W>, LanguageExt.Seq<W>, B> Bind<W, A, B>(this LanguageExt.Writer<LanguageExt.ClassInstances.MSeq<W>, LanguageExt.Seq<W>, A> self, System.Func<A, LanguageExt.Writer<LanguageExt.ClassInstances.MSeq<W>, LanguageExt.Seq<W>, B>> f)`
+- `[ext] public static LanguageExt.Writer<MonoidW, W, B> Bind<MonoidW, W, A, B>(this LanguageExt.Writer<MonoidW, W, A> self, System.Func<A, LanguageExt.Writer<MonoidW, W, B>> f)`
+- `where MonoidW : struct, LanguageExt.TypeClasses.Monoid<W>`
+- `[ext] public static LanguageExt.Writer<LanguageExt.ClassInstances.MSeq<W>, LanguageExt.Seq<W>, A> Censor<W, A>(this LanguageExt.Writer<LanguageExt.ClassInstances.MSeq<W>, LanguageExt.Seq<W>, A> self, System.Func<LanguageExt.Seq<W>, LanguageExt.Seq<W>> f)`
+- `[ext] public static LanguageExt.Writer<MonoidW, W, A> Censor<MonoidW, W, A>(this LanguageExt.Writer<MonoidW, W, A> self, System.Func<W, W> f)`
+- `where MonoidW : struct, LanguageExt.TypeClasses.Monoid<W>`
+- `[ext] public static LanguageExt.Writer<LanguageExt.ClassInstances.MSeq<W>, LanguageExt.Seq<W>, System.Int32> Count<W>(this LanguageExt.Writer<LanguageExt.ClassInstances.MSeq<W>, LanguageExt.Seq<W>, System.Int32> self)`
+- `[ext] public static LanguageExt.Writer<MonoidW, W, System.Int32> Count<MonoidW, W>(this LanguageExt.Writer<MonoidW, W, System.Int32> self)`
+- `where MonoidW : struct, LanguageExt.TypeClasses.Monoid<W>`
+- `[ext] public static LanguageExt.Writer<LanguageExt.ClassInstances.MSeq<W>, LanguageExt.Seq<W>, A> Do<W, A>(this LanguageExt.Writer<LanguageExt.ClassInstances.MSeq<W>, LanguageExt.Seq<W>, A> ma, System.Action<A> f)`
+- `[ext] public static LanguageExt.Writer<MonoidW, W, A> Do<MonoidW, W, A>(this LanguageExt.Writer<MonoidW, W, A> ma, System.Action<A> f)`
+- `where MonoidW : struct, LanguageExt.TypeClasses.Monoid<W>`
+- `[ext] public static LanguageExt.Writer<LanguageExt.ClassInstances.MSeq<W>, LanguageExt.Seq<W>, System.Boolean> Exists<W, A>(this LanguageExt.Writer<LanguageExt.ClassInstances.MSeq<W>, LanguageExt.Seq<W>, A> self, System.Func<A, System.Boolean> pred)`
+- `[ext] public static LanguageExt.Writer<MonoidW, W, System.Boolean> Exists<MonoidW, W, A>(this LanguageExt.Writer<MonoidW, W, A> self, System.Func<A, System.Boolean> pred)`
+- `where MonoidW : struct, LanguageExt.TypeClasses.Monoid<W>`
+- `[ext] public static LanguageExt.Writer<LanguageExt.ClassInstances.MSeq<W>, LanguageExt.Seq<W>, A> Filter<W, A>(this LanguageExt.Writer<LanguageExt.ClassInstances.MSeq<W>, LanguageExt.Seq<W>, A> self, System.Func<A, System.Boolean> pred)`
+- `[ext] public static LanguageExt.Writer<MonoidW, W, A> Filter<MonoidW, W, A>(this LanguageExt.Writer<MonoidW, W, A> self, System.Func<A, System.Boolean> pred)`
+- `where MonoidW : struct, LanguageExt.TypeClasses.Monoid<W>`
+- `[ext] public static LanguageExt.Writer<LanguageExt.ClassInstances.MSeq<W>, LanguageExt.Seq<W>, A> Flatten<W, A>(this LanguageExt.Writer<LanguageExt.ClassInstances.MSeq<W>, LanguageExt.Seq<W>, LanguageExt.Writer<LanguageExt.ClassInstances.MSeq<W>, LanguageExt.Seq<W>, A>> ma)`
+- `[ext] public static LanguageExt.Writer<MonoidW, W, A> Flatten<MonoidW, W, A>(this LanguageExt.Writer<MonoidW, W, LanguageExt.Writer<MonoidW, W, A>> ma)`
+- `where MonoidW : struct, LanguageExt.TypeClasses.Monoid<W>`
+- `[ext] public static LanguageExt.Writer<LanguageExt.ClassInstances.MSeq<W>, LanguageExt.Seq<W>, LanguageExt.Seq<W>> Fold<W, A>(this LanguageExt.Writer<LanguageExt.ClassInstances.MSeq<W>, LanguageExt.Seq<W>, A> self, System.Func<LanguageExt.Seq<W>, A, LanguageExt.Seq<W>> f)`
+- `[ext] public static LanguageExt.Writer<MonoidW, W, W> Fold<MonoidW, W, A>(this LanguageExt.Writer<MonoidW, W, A> self, System.Func<W, A, W> f)`
+- `where MonoidW : struct, LanguageExt.TypeClasses.Monoid<W>`
+- `[ext] public static LanguageExt.Writer<LanguageExt.ClassInstances.MSeq<W>, LanguageExt.Seq<W>, FState> Fold<FState, W, A>(this LanguageExt.Writer<LanguageExt.ClassInstances.MSeq<W>, LanguageExt.Seq<W>, A> self, FState initialState, System.Func<FState, A, FState> f)`
+- `[ext] public static LanguageExt.Writer<MonoidW, W, FState> Fold<FState, MonoidW, W, A>(this LanguageExt.Writer<MonoidW, W, A> self, FState initialState, System.Func<FState, A, FState> f)`
+- `where MonoidW : struct, LanguageExt.TypeClasses.Monoid<W>`
+- `[ext] public static LanguageExt.Writer<LanguageExt.ClassInstances.MSeq<W>, LanguageExt.Seq<W>, System.Boolean> ForAll<W, A>(this LanguageExt.Writer<LanguageExt.ClassInstances.MSeq<W>, LanguageExt.Seq<W>, A> self, System.Func<A, System.Boolean> pred)`
+- `[ext] public static LanguageExt.Writer<MonoidW, W, System.Boolean> ForAll<MonoidW, W, A>(this LanguageExt.Writer<MonoidW, W, A> self, System.Func<A, System.Boolean> pred)`
+- `where MonoidW : struct, LanguageExt.TypeClasses.Monoid<W>`
+- `[ext] public static LanguageExt.Writer<LanguageExt.ClassInstances.MSeq<W>, LanguageExt.Seq<W>, LanguageExt.Unit> Iter<W, A>(this LanguageExt.Writer<LanguageExt.ClassInstances.MSeq<W>, LanguageExt.Seq<W>, A> self, System.Action<A> action)`
+- `[ext] public static LanguageExt.Writer<MonoidW, W, LanguageExt.Unit> Iter<MonoidW, W, A>(this LanguageExt.Writer<MonoidW, W, A> self, System.Action<A> action)`
+- `where MonoidW : struct, LanguageExt.TypeClasses.Monoid<W>`
+- `[ext] public static LanguageExt.Writer<LanguageExt.ClassInstances.MSeq<W>, LanguageExt.Seq<W>, System.ValueTuple<A, B>> Listen<W, A, B>(this LanguageExt.Writer<LanguageExt.ClassInstances.MSeq<W>, LanguageExt.Seq<W>, A> self, System.Func<LanguageExt.Seq<W>, B> f)`
+- `[ext] public static LanguageExt.Writer<MonoidW, W, System.ValueTuple<A, B>> Listen<MonoidW, W, A, B>(this LanguageExt.Writer<MonoidW, W, A> self, System.Func<W, B> f)`
+- `where MonoidW : struct, LanguageExt.TypeClasses.Monoid<W>`
+- `[ext] public static LanguageExt.Writer<LanguageExt.ClassInstances.MSeq<W>, LanguageExt.Seq<W>, B> Map<W, A, B>(this LanguageExt.Writer<LanguageExt.ClassInstances.MSeq<W>, LanguageExt.Seq<W>, A> self, System.Func<A, B> f)`
+- `[ext] public static LanguageExt.Writer<MonoidW, W, B> Map<MonoidW, W, A, B>(this LanguageExt.Writer<MonoidW, W, A> self, System.Func<A, B> f)`
+- `where MonoidW : struct, LanguageExt.TypeClasses.Monoid<W>`
+- `[ext] public static LanguageExt.Writer<LanguageExt.ClassInstances.MSeq<W>, LanguageExt.Seq<W>, A> Pass<W, A>(this LanguageExt.Writer<LanguageExt.ClassInstances.MSeq<W>, LanguageExt.Seq<W>, System.ValueTuple<A, System.Func<LanguageExt.Seq<W>, LanguageExt.Seq<W>>>> self)`
+- `[ext] public static LanguageExt.Writer<MonoidW, W, A> Pass<MonoidW, W, A>(this LanguageExt.Writer<MonoidW, W, System.ValueTuple<A, System.Func<W, W>>> self)`
+- `where MonoidW : struct, LanguageExt.TypeClasses.Monoid<W>`
+- `[ext] public static System.ValueTuple<LanguageExt.TryOption<A>, LanguageExt.Seq<W>> Run<W, A>(this LanguageExt.Writer<LanguageExt.ClassInstances.MSeq<W>, LanguageExt.Seq<W>, A> self)`
+- `[ext] public static System.ValueTuple<LanguageExt.TryOption<A>, W> Run<MonoidW, W, A>(this LanguageExt.Writer<MonoidW, W, A> self)`
+- `where MonoidW : struct, LanguageExt.TypeClasses.Monoid<W>`
+- `[ext] public static LanguageExt.Writer<LanguageExt.ClassInstances.MSeq<W>, LanguageExt.Seq<W>, B> Select<W, A, B>(this LanguageExt.Writer<LanguageExt.ClassInstances.MSeq<W>, LanguageExt.Seq<W>, A> self, System.Func<A, B> f)`
+- `[ext] public static LanguageExt.Writer<MonoidW, W, B> Select<MonoidW, W, A, B>(this LanguageExt.Writer<MonoidW, W, A> self, System.Func<A, B> f)`
+- `where MonoidW : struct, LanguageExt.TypeClasses.Monoid<W>`
+- `[ext] public static LanguageExt.Writer<LanguageExt.ClassInstances.MSeq<W>, LanguageExt.Seq<W>, C> SelectMany<W, A, B, C>(this LanguageExt.Writer<LanguageExt.ClassInstances.MSeq<W>, LanguageExt.Seq<W>, A> self, System.Func<A, LanguageExt.Writer<LanguageExt.ClassInstances.MSeq<W>, LanguageExt.Seq<W>, B>> bind, System.Func<A, B, C> project)`
+- `[ext] public static LanguageExt.Writer<MonoidW, W, C> SelectMany<MonoidW, W, A, B, C>(this LanguageExt.Writer<MonoidW, W, A> self, System.Func<A, LanguageExt.Writer<MonoidW, W, B>> bind, System.Func<A, B, C> project)`
+- `where MonoidW : struct, LanguageExt.TypeClasses.Monoid<W>`
+- `[ext] public static LanguageExt.Writer<LanguageExt.ClassInstances.MSeq<W>, LanguageExt.Seq<W>, A> Strict<W, A>(this LanguageExt.Writer<LanguageExt.ClassInstances.MSeq<W>, LanguageExt.Seq<W>, A> ma)`
+- `[ext] public static LanguageExt.Writer<MonoidW, W, A> Strict<MonoidW, W, A>(this LanguageExt.Writer<MonoidW, W, A> ma)`
+- `where MonoidW : struct, LanguageExt.TypeClasses.Monoid<W>`
+- `[ext] public static LanguageExt.Writer<LanguageExt.ClassInstances.MSeq<W>, LanguageExt.Seq<W>, LanguageExt.Seq<A>> ToSeq<W, A>(this LanguageExt.Writer<LanguageExt.ClassInstances.MSeq<W>, LanguageExt.Seq<W>, A> self)`
+- `[ext] public static LanguageExt.Writer<MonoidW, W, LanguageExt.Seq<A>> ToSeq<MonoidW, W, A>(this LanguageExt.Writer<MonoidW, W, A> self)`
+- `where MonoidW : struct, LanguageExt.TypeClasses.Monoid<W>`
+- `[ext] public static LanguageExt.Writer<LanguageExt.ClassInstances.MSeq<W>, LanguageExt.Seq<W>, A> ToWriter<W, A>(this System.ValueTuple<A, LanguageExt.Seq<W>> ma)`
+- `[ext] public static LanguageExt.Writer<MonoidW, W, A> ToWriter<MonoidW, W, A>(this System.ValueTuple<A, W> ma)`
+- `where MonoidW : struct, LanguageExt.TypeClasses.Monoid<W>`
+- `[ext] public static LanguageExt.Writer<LanguageExt.ClassInstances.MSeq<W>, LanguageExt.Seq<W>, A> Where<W, A>(this LanguageExt.Writer<LanguageExt.ClassInstances.MSeq<W>, LanguageExt.Seq<W>, A> self, System.Func<A, System.Boolean> pred)`
+- `[ext] public static LanguageExt.Writer<MonoidW, W, A> Where<MonoidW, W, A>(this LanguageExt.Writer<MonoidW, W, A> self, System.Func<A, System.Boolean> pred)`
+- `where MonoidW : struct, LanguageExt.TypeClasses.Monoid<W>`
+
