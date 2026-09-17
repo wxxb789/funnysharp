@@ -312,9 +312,10 @@ Additional reconciliations:
 
 ## Unverified judgments in this record
 
-- Maintainer acceptance of the vocabulary and stability boundary (`api-decisions.md`).
-- Retry policy choice (E102): deferred on the lead's recommendation; the Funcky memo supports a
-  narrower adapt. Both positions are evidence-based; the maintainer arbitrates.
+- ~~Maintainer acceptance of the vocabulary and stability boundary~~ **Resolved 2026-09-17**:
+  recorded in `maintainer-acceptance.md` (A-1=A, A-2=B, A-3=A, A-4=A, A-5=A, A-6=A, A-7=A, A-8=A).
+- Retry policy choice (E102): deferred on the lead's recommendation, with the Funcky memo's
+  narrower adapt recorded as the alternative; the maintainer accepted the deferral (A-7=A).
 - Closed-generic AOT-safe JSON converters (E10/E32/E142) were not prototyped.
 - language-ext `Try*` 4.4.9 cancellation handling was not exercised (LE UNVERIFIED).
 - No competitor benchmarks were run; LOC and API evidence exist, timing does not (CS §18).

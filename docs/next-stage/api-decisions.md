@@ -206,7 +206,7 @@ behavior for an uninitialized value).**
   synchronous call the direct BCL expression is the honest baseline (W9: 9→10 semantic units;
   `call-sites.md` §16 item 7).
 - Retry/timeout policy: a general retry layer stays out of the stable surface for this stage
-  (see the decision record, E58). Only coordinator-owned timeouts (as in the first-success
+  (see the decision record, E102). Only coordinator-owned timeouts (as in the first-success
   family) exist today.
 
 ## AD-8 State transitions and machines

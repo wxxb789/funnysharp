@@ -241,7 +241,7 @@ items 21-24 below; item 25 restates the no-speculative-API rule stated in the sa
 24. **Independence: no competitor dependency, carrier conversion, compatibility package, naming
     concession, or migration promise.** No competitor compatibility is required or permitted as
     acceptance evidence; a general union framework and competitor compatibility APIs are out of scope.
-    Source: `docs/goals/0014-goal.md:2`; `/tmp/opencode/next-stage-brief.md:80-85` (goal brief);
+    Source: `docs/goals/archive/0014-goal.md:2`; `/tmp/opencode/next-stage-brief.md:80-85` (goal brief);
     `docs/goals/0015-goal.md:2`; `docs/goals/0022-goal.md:2`; `docs/goals/0023-goal.md:2`.
     Classification: **(a) restate**; the benchmark-comparison tension is C5.
 
@@ -436,7 +436,7 @@ Each entry names both sides.
 - **C5 — Competitor comparisons required by Goal 20 vs the independence constraint.**
   `docs/goals/0020-goal.md:2` requires reproducible comparisons against "FSharp.Core where the
   representation and semantics are comparable, and relevant Funcky, CSharpFunctionalExtensions, or
-  language-ext operations" vs `docs/goals/0014-goal.md:2`, `/tmp/opencode/next-stage-brief.md:80-85`,
+  language-ext operations" vs `docs/goals/archive/0014-goal.md:2`, `/tmp/opencode/next-stage-brief.md:80-85`,
   `docs/goals/0015-goal.md:2`, `docs/goals/0022-goal.md:2`, and `docs/goals/0023-goal.md:2`
   ("no competitor dependency", "No compatibility ... permitted as acceptance evidence"). Current
   state: `benchmarks/FunnySharp.Benchmarks/FunnySharp.Benchmarks.csproj:12-13` references only

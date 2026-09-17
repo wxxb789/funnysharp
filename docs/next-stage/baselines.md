@@ -6,7 +6,10 @@ were produced. It is the provenance anchor for every decision in the
 
 - Survey date: **2026-09-17**
 - FunnySharp pin: commit `4dbebd94b7b58648632112b7ca47c39cc517f153` (`main`, package
-  version 0.1.0). Release build outputs:
+  version 0.1.0). The assembly hashes below are reproducible only for a Release build of that
+  exact commit (the informational version embeds `0.1.0+<commit-sha>` and the PDB path is
+  embedded, so a rebuild of another commit does not reproduce the bytes even with
+  `Deterministic=true`). Release build outputs:
   - `src/FunnySharp/bin/Release/net10.0/FunnySharp.dll` — SHA256
     `793c8532333776ed6dc2bada5457c264ab0c6eab8a150628fa54d5d67a9bf9d4`
   - `src/FunnySharp.AspNetCore/bin/Release/net10.0/FunnySharp.AspNetCore.dll` — SHA256

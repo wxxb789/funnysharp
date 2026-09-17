@@ -34,6 +34,10 @@ analysis, and compile-verified call sites are in [`next-stage/`](next-stage/).
   uses `ToOption`. Eager fallbacks are parameters; lazy fallbacks are factories (`...With`/
   `...Else`); `GetValueOrDefault` is the only member that may return `default(T)`.
 - No naming concession, alias, or carrier conversion for any competitor is allowed.
+- **Scope rejections that remain in force** (product-scope rejections, not deferrals): no custom
+  runtime or scheduler, no replacement collection universe, no pervasive immutability, no
+  higher-kinded-type, typeclass, or monad-transformer hierarchy, and no premature general
+  discriminated-union system.
 
 ## Stability Boundary
 

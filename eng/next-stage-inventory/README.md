@@ -3,7 +3,7 @@
 This directory is Goal 14 evidence tooling, not a shipping artifact.
 
 - `api-inventory.csproj` / `Program.cs` — a small reflection dumper that lists the
-  public and protected surface of one or more assemblies as markdown and JSON.
+  public surface (declared public members; protected members are not emitted) of one or more assemblies as markdown and JSON.
   It supports runtime loading (with nullable reference annotations via
   `NullabilityInfoContext`) and `MetadataLoadContext` mode for reference assemblies
   and dependency-incomplete packages.
