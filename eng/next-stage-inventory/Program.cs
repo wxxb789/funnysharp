@@ -257,7 +257,7 @@ internal static class Runner
             var invoke = t.GetMethod("Invoke");
             if (invoke is not null)
             {
-                var sig = $"delegate {FormatType(invoke.ReturnType)} Invoke{RenderParameters(invoke.GetParameters(), nullability)}";
+                var sig = $"delegate {FormatReturn(invoke.ReturnType, invoke.ReturnParameter, nullability)} Invoke{RenderParameters(invoke.GetParameters(), nullability)}";
                 md.AppendLine($"- `{sig}`");
                 members.Add(new { kind = "delegate", signature = sig });
             }
@@ -294,7 +294,7 @@ internal static class Runner
                      .ThenBy(m => m.GetParameters().Length))
         {
             var isExtension = HasAttr(m, "System.Runtime.CompilerServices.ExtensionAttribute");
-            var returnText = FormatType(m.ReturnType);
+            var returnText = FormatReturn(m.ReturnType, m.ReturnParameter, nullability);
             var generic = GenericSuffix(m);
             var parameters = RenderParameters(m.GetParameters(), nullability, extension: isExtension);
             var constraints = ConstraintText(m.GetGenericArguments());
@@ -372,6 +372,18 @@ internal static class Runner
             return $"{prefix}{FormatType(p.ParameterType)}{nullableText} {p.Name}";
         });
         return "(" + string.Join(", ", parts) + ")";
+    }
+
+    // Return types follow the same rendering rule as parameters: a Nullable state appends "?"
+    // unless the type already is System.Nullable<T>; NotNull and Unknown add nothing.
+    private static string FormatReturn(Type returnType, ParameterInfo returnParameter, Func<object, string?>? nullability)
+    {
+        var text = FormatType(returnType);
+        if (nullability?.Invoke(returnParameter) != "Nullable") return text;
+        // FullName is null on open generics such as Nullable<T>, so compare the definition.
+        var isNullableValue = returnType.IsGenericType &&
+            returnType.GetGenericTypeDefinition().FullName == "System.Nullable`1";
+        return isNullableValue ? text : text + "?";
     }
 
     private static string GenericSuffix(Type t) => GenericSuffix(t.GetGenericArguments());

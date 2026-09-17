@@ -12,6 +12,13 @@ tables below are tracked; the `.json` machine dumps are not tracked (they are la
 fully regenerable with `generate.sh`). The independent audit ran its member-coverage and
 count checks against the working-tree JSON at the pinned state.
 
+As of 2026-09-17, runtime-mode canonical dumps also decode return-parameter
+nullability (a `?` on the return type for `Nullable` states, except on
+`System.Nullable<T>`, which already renders as `T?`); supplementary dumps generated
+before that date may predate this rendering. If an analysis memo pins a line number in
+a dump that has been regenerated since, the pin may have drifted: locate the cited
+content by type and member name instead.
+
 ## Canonical dumps
 
 | File | Input | Mode |

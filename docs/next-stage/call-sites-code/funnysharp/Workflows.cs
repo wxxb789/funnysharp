@@ -194,9 +194,9 @@ public static class Workflows
             : Validation<string, string>.Invalid("email must contain '@'");
 
     private static Validation<string, string> ValidatePassword(string password) =>
-        password.Length is >= 12 and <= 128
+        password.Length is >= 12
             ? Validation<string, string>.Valid(password)
-            : Validation<string, string>.Invalid("password must have 12..128 characters");
+            : Validation<string, string>.Invalid("password must have at least 12 characters");
 
     private static Validation<int, string> ValidateAge(int age) =>
         age is >= 18 and <= 130

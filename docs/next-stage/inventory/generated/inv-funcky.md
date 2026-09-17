@@ -61,7 +61,7 @@ Type count: 85
 - `public System.Boolean Equals(Funcky.EitherOrBoth<TLeft, TRight> other)`
 - `public System.Int32 GetHashCode()`
 - `public static Funcky.EitherOrBoth<TLeft, TRight> Left(TLeft left)`
-- `public TMatchResult Match<TMatchResult>(System.Func<TLeft, TMatchResult> left, System.Func<TRight, TMatchResult> right, System.Func<TLeft, TRight, TMatchResult> both)`
+- `public TMatchResult? Match<TMatchResult>(System.Func<TLeft, TMatchResult> left, System.Func<TRight, TMatchResult> right, System.Func<TLeft, TRight, TMatchResult> both)`
 - `public static Funcky.EitherOrBoth<TLeft, TRight> Right(TRight right)`
 - `public System.Void Switch(System.Action<TLeft> left, System.Action<TRight> right, System.Action<TLeft, TRight> both)`
 - `public static System.Boolean op_Equality(Funcky.EitherOrBoth<TLeft, TRight> left, Funcky.EitherOrBoth<TLeft, TRight> right)`
@@ -165,8 +165,8 @@ Type count: 85
 - `public static System.Action<T2, T1, T3, T4, T5, T6> Flip<T1, T2, T3, T4, T5, T6>(System.Action<T1, T2, T3, T4, T5, T6> action)`
 - `public static System.Action<T2, T1, T3, T4, T5, T6, T7> Flip<T1, T2, T3, T4, T5, T6, T7>(System.Action<T1, T2, T3, T4, T5, T6, T7> action)`
 - `public static System.Action<T2, T1, T3, T4, T5, T6, T7, T8> Flip<T1, T2, T3, T4, T5, T6, T7, T8>(System.Action<T1, T2, T3, T4, T5, T6, T7, T8> action)`
-- `public static T Fn<T>(T? value)`
-- `public static T Identity<T>(T? value)`
+- `public static T? Fn<T>(T? value)`
+- `public static T? Identity<T>(T? value)`
 - `public static System.Void NoOperation()`
 - `public static System.Void NoOperation<T1>(T1? ω1)`
 - `public static System.Void NoOperation<T1, T2>(T1? ω1, T2? ω2)`
@@ -177,9 +177,9 @@ Type count: 85
 - `public static System.Void NoOperation<T1, T2, T3, T4, T5, T6, T7>(T1? ω1, T2? ω2, T3? ω3, T4? ω4, T5? ω5, T6? ω6, T7? ω7)`
 - `public static System.Void NoOperation<T1, T2, T3, T4, T5, T6, T7, T8>(T1? ω1, T2? ω2, T3? ω3, T4? ω4, T5? ω5, T6? ω6, T7? ω7, T8? ω8)`
 - `public static System.Func<T, System.Boolean> Not<T>(System.Func<T, System.Boolean> predicate)`
-- `public static TResult Retry<TResult>(System.Func<Funcky.Monads.Option<TResult>> producer)`
+- `public static TResult? Retry<TResult>(System.Func<Funcky.Monads.Option<TResult>> producer)`
 - `public static Funcky.Monads.Option<TResult> Retry<TResult>(System.Func<Funcky.Monads.Option<TResult>> producer, Funcky.RetryPolicies.IRetryPolicy retryPolicy)`
-- `public static TResult Retry<TResult>(System.Func<TResult> producer, System.Func<System.Exception, System.Boolean> shouldRetry, Funcky.RetryPolicies.IRetryPolicy retryPolicy)`
+- `public static TResult? Retry<TResult>(System.Func<TResult> producer, System.Func<System.Exception, System.Boolean> shouldRetry, Funcky.RetryPolicies.IRetryPolicy retryPolicy)`
 - `public static System.Void Retry(System.Action action, System.Func<System.Exception, System.Boolean> shouldRetry, Funcky.RetryPolicies.IRetryPolicy retryPolicy)`
 - `public static System.Boolean True()`
 - `public static System.Boolean True<T1>(T1? ω1)`
@@ -577,11 +577,11 @@ Type count: 85
 - `[ext] public static Funcky.Extensions.EitherPartitions<TLeft, TRight> Partition<TLeft, TRight>(this System.Collections.Generic.IEnumerable<Funcky.Monads.Either<TLeft, TRight>> source)`
 - `[ext] public static Funcky.Extensions.ResultPartitions<TValidResult> Partition<TValidResult>(this System.Collections.Generic.IEnumerable<Funcky.Monads.Result<TValidResult>> source)`
 - `[ext] public static Funcky.Extensions.Partitions<TSource> Partition<TSource>(this System.Collections.Generic.IEnumerable<TSource> source, System.Func<TSource, System.Boolean> predicate)`
-- `[ext] public static TResult Partition<TLeft, TRight, TResult>(this System.Collections.Generic.IEnumerable<Funcky.Monads.Either<TLeft, TRight>> source, System.Func<System.Collections.Generic.IReadOnlyList<TLeft>, System.Collections.Generic.IReadOnlyList<TRight>, TResult> resultSelector)`
+- `[ext] public static TResult? Partition<TLeft, TRight, TResult>(this System.Collections.Generic.IEnumerable<Funcky.Monads.Either<TLeft, TRight>> source, System.Func<System.Collections.Generic.IReadOnlyList<TLeft>, System.Collections.Generic.IReadOnlyList<TRight>, TResult> resultSelector)`
 - `[ext] public static Funcky.Extensions.EitherPartitions<TLeft, TRight> Partition<TSource, TLeft, TRight>(this System.Collections.Generic.IEnumerable<TSource> source, System.Func<TSource, Funcky.Monads.Either<TLeft, TRight>> selector)`
-- `[ext] public static TResult Partition<TValidResult, TResult>(this System.Collections.Generic.IEnumerable<Funcky.Monads.Result<TValidResult>> source, System.Func<System.Collections.Generic.IReadOnlyList<System.Exception>, System.Collections.Generic.IReadOnlyList<TValidResult>, TResult> resultSelector)`
-- `[ext] public static TResult Partition<TSource, TResult>(this System.Collections.Generic.IEnumerable<TSource> source, System.Func<TSource, System.Boolean> predicate, System.Func<System.Collections.Generic.IReadOnlyList<TSource>, System.Collections.Generic.IReadOnlyList<TSource>, TResult> resultSelector)`
-- `[ext] public static TResult Partition<TSource, TLeft, TRight, TResult>(this System.Collections.Generic.IEnumerable<TSource> source, System.Func<TSource, Funcky.Monads.Either<TLeft, TRight>> selector, System.Func<System.Collections.Generic.IReadOnlyList<TLeft>, System.Collections.Generic.IReadOnlyList<TRight>, TResult> resultSelector)`
+- `[ext] public static TResult? Partition<TValidResult, TResult>(this System.Collections.Generic.IEnumerable<Funcky.Monads.Result<TValidResult>> source, System.Func<System.Collections.Generic.IReadOnlyList<System.Exception>, System.Collections.Generic.IReadOnlyList<TValidResult>, TResult> resultSelector)`
+- `[ext] public static TResult? Partition<TSource, TResult>(this System.Collections.Generic.IEnumerable<TSource> source, System.Func<TSource, System.Boolean> predicate, System.Func<System.Collections.Generic.IReadOnlyList<TSource>, System.Collections.Generic.IReadOnlyList<TSource>, TResult> resultSelector)`
+- `[ext] public static TResult? Partition<TSource, TLeft, TRight, TResult>(this System.Collections.Generic.IEnumerable<TSource> source, System.Func<TSource, Funcky.Monads.Either<TLeft, TRight>> selector, System.Func<System.Collections.Generic.IReadOnlyList<TLeft>, System.Collections.Generic.IReadOnlyList<TRight>, TResult> resultSelector)`
 - `[ext] public static System.Collections.Generic.IEnumerable<System.Collections.Generic.IEnumerable<TSource>> PowerSet<TSource>(this System.Collections.Generic.IEnumerable<TSource> source)`
 - `[ext] public static Funcky.Monads.Either<TLeft, System.Collections.Generic.IReadOnlyList<TSource>> Sequence<TLeft, TSource>(this System.Collections.Generic.IEnumerable<Funcky.Monads.Either<TLeft, TSource>> source)`
 - `[ext] public static Funcky.Monads.Option<System.Collections.Generic.IReadOnlyList<TSource>> Sequence<TSource>(this System.Collections.Generic.IEnumerable<Funcky.Monads.Option<TSource>> source)`
@@ -1187,7 +1187,7 @@ Type count: 85
 - `public Funcky.Monads.Either<TLeft, TRight> Inspect(System.Action<TRight> inspector)`
 - `public Funcky.Monads.Either<TLeft, TRight> InspectLeft(System.Action<TLeft> inspector)`
 - `public static Funcky.Monads.Either<TLeft, TRight> Left(TLeft left)`
-- `public TMatchResult Match<TMatchResult>(System.Func<TLeft, TMatchResult> left, System.Func<TRight, TMatchResult> right)`
+- `public TMatchResult? Match<TMatchResult>(System.Func<TLeft, TMatchResult> left, System.Func<TRight, TMatchResult> right)`
 - `public Funcky.Monads.Either<TLeft, TRight> OrElse(Funcky.Monads.Either<TLeft, TRight> fallback)`
 - `public Funcky.Monads.Either<TLeft, TRight> OrElse(System.Func<TLeft, Funcky.Monads.Either<TLeft, TRight>> fallback)`
 - `public static Funcky.Monads.Either<TLeft, TRight> Right(TRight right)`
@@ -1278,7 +1278,7 @@ Type count: 85
 - `[ext] public static Funcky.Monads.Either<TLeft, TRight> ToEither<TLeft, TRight>(this Funcky.Monads.Option<TRight> option, System.Func<TLeft> left)`
 - `[ext] public static TItem? ToNullable<TItem>(this Funcky.Monads.Option<TItem> option, Funcky.RequireStruct<TItem>? ω)`
 - `where TItem : struct`
-- `[ext] public static TItem ToNullable<TItem>(this Funcky.Monads.Option<TItem> option, Funcky.RequireClass<TItem>? ω)`
+- `[ext] public static TItem? ToNullable<TItem>(this Funcky.Monads.Option<TItem> option, Funcky.RequireClass<TItem>? ω)`
 - `where TItem : class`
 - `[ext] public static Funcky.Monads.Either<TLeft, Funcky.Monads.Option<TRight>> Traverse<TItem, TLeft, TRight>(this Funcky.Monads.Option<TItem> option, System.Func<TItem, Funcky.Monads.Either<TLeft, TRight>> selector)`
 - `[ext] public static Funcky.Monads.Result<Funcky.Monads.Option<TValidResult>> Traverse<TItem, TValidResult>(this Funcky.Monads.Option<TItem> option, System.Func<TItem, Funcky.Monads.Result<TValidResult>> selector)`
@@ -1333,8 +1333,8 @@ Type count: 85
 - `public TItem GetOrElse(System.Func<TItem> fallback)`
 - `public Funcky.Monads.Option<TItem> Inspect(System.Action<TItem> inspector)`
 - `public Funcky.Monads.Option<TItem> InspectNone(System.Action inspector)`
-- `public TResult Match<TResult>(TResult? none, System.Func<TItem, TResult> some)`
-- `public TResult Match<TResult>(System.Func<TResult> none, System.Func<TItem, TResult> some)`
+- `public TResult? Match<TResult>(TResult? none, System.Func<TItem, TResult> some)`
+- `public TResult? Match<TResult>(System.Func<TResult> none, System.Func<TItem, TResult> some)`
 - `public Funcky.Monads.Option<TItem> OrElse(Funcky.Monads.Option<TItem> fallback)`
 - `public Funcky.Monads.Option<TItem> OrElse(System.Func<Funcky.Monads.Option<TItem>> fallback)`
 - `public Funcky.Monads.Option<TResult> Select<TResult>(System.Func<TItem, TResult> selector)`
@@ -1412,7 +1412,7 @@ Type count: 85
 - `public TValidResult GetOrThrow()`
 - `public Funcky.Monads.Result<TValidResult> Inspect(System.Action<TValidResult> inspector)`
 - `public Funcky.Monads.Result<TValidResult> InspectError(System.Action<System.Exception> inspector)`
-- `public TMatchResult Match<TMatchResult>(System.Func<TValidResult, TMatchResult> ok, System.Func<System.Exception, TMatchResult> error)`
+- `public TMatchResult? Match<TMatchResult>(System.Func<TValidResult, TMatchResult> ok, System.Func<System.Exception, TMatchResult> error)`
 - `public Funcky.Monads.Result<TValidResult> OrElse(Funcky.Monads.Result<TValidResult> fallback)`
 - `public Funcky.Monads.Result<TValidResult> OrElse(System.Func<System.Exception, Funcky.Monads.Result<TValidResult>> fallback)`
 - `public Funcky.Monads.Result<TResult> Select<TResult>(System.Func<TValidResult, TResult> selector)`

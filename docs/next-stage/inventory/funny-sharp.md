@@ -8,8 +8,8 @@ Machine dumps (verbatim copies in `docs/next-stage/inventory/generated/`):
 
 - `generated/inv-funny-sharp-core.md` / `.json` — FunnySharp 0.1.0.0, 33 types, 254 members
   (222 methods incl. 98 extension methods, 14 properties, 8 operators, 3 constructors, 3 delegate
-  Invoke members, 4 enum values). SHA256 (md) `8660a1f1ca14328c3c681bcc5fe0ccbd6d6969fe4f4323f2af30cec5d7916567`,
-  (json) `f5324bc3d5cdacc30ac6ec6d2d0545a773d3b5c105fa669f5cf1be7aa43b72e8`.
+  Invoke members, 4 enum values). SHA256 (md) `95cd11da03735613c1ad757d67e3ba74b4e338a1265dbac6cbcd69a2690bd998`,
+  (json) `e5f50f283e91f5f07a34dfb69238cdebcc806abc2892c9aa2e4fd8039b9bdb7b`.
 - `generated/inv-funny-sharp-aspnetcore.md` / `.json` — FunnySharp.AspNetCore 0.1.0.0, 1 type,
   15 extension methods. SHA256 (md) `a33cde57ebbea808bffff6b07b287ab4513fda1d9060ec7c4e94fd13e608cc8e`.
 
@@ -66,7 +66,7 @@ dictionary, `Task`, and `ValueTask` conventions. Semantics:
 | Case / factory | `bool IsSome { get; }`; `bool IsNone { get; }`; `static Option<T> None { get; }`; `static Option<T> Some(T value)` | `default(Option<T>)` is `None` (`Option.cs:87`; test `tests/FunnySharp.Tests/OptionTests.cs:64-73`). |
 | Inspection | `bool TryGetValue([NotNullWhen(true)] out T? value)`; `TResult Match<TResult>(Func<T,TResult> some, Func<TResult> none)`; `void Match(Action<T>, Action)` | No throwing accessor, no implicit conversion (`docs/option.md:10`). |
 | Transform | `Option<TResult> Map<TResult>(Func<T,TResult>)`; `Option<TResult> Bind<TResult>(Func<T,Option<TResult>>)`; `Option<T> Filter(Func<T,bool>)`; `Option<(T First,TSecond Second)> Zip<TSecond>(Option<TSecond>)` | `Map` normalizes null to `None`; `Bind` returns the callback option unchanged (`Option.cs:162-180`; `docs/option.md:35`). |
-| Value fallback | `T GetValueOr(T fallback)`; `T GetValueOrElse(Func<T> fallbackFactory)`; `T GetValueOrDefault()` | Eager fallback validated before case inspection; lazy factory invoked only for `None`; `GetValueOrDefault` may return runtime-null (`Option.cs:212-245`; `docs/option.md:37`). |
+| Value fallback | `T GetValueOr(T fallback)`; `T GetValueOrElse(Func<T> fallbackFactory)`; `T? GetValueOrDefault()` (`[return: MaybeNull]`) | Eager fallback validated before case inspection; lazy factory invoked only for `None`; `GetValueOrDefault` may return runtime-null (`Option.cs:212-245`; `docs/option.md:37`). |
 | Option fallback | `Option<T> OrElse(Option<T> fallback)`; `Option<T> OrElseWith(Func<Option<T>> fallbackFactory)` | `OrElseWith` validates at entry, invokes only for `None` (`Option.cs:259-263`). |
 | Equality / text | `bool Equals(Option<T>)`; `GetHashCode`; `static ==`/`!=`; `ToString()` | `None == None`; `Some` uses `EqualityComparer<T>.Default` (`docs/option.md:41`). |
 | LINQ aliases | none | Deliberate; see `docs/option.md:58-59`. |
@@ -382,12 +382,17 @@ Purpose: optional Minimal API mapping from core outcomes/effects to `IResult` an
   `default(TError)`; `Validation<,>` = `Invalid([default(TError)])`; `TransitionResult<...>` =
   `Undefined`; `Effect<T>` / `Effect<,>` / optics throw `InvalidOperationException` when run/used
   uninitialized.
-- Nullability: XML docs and `[DisallowNull]`/`[MaybeNull]`/`[NotNullWhen]`/`[return: NotNull]`
-  annotations exist on Option/Result/Validation/TransitionResult members; the generated dump only
-  records Nullable states when they are not `NotNull` (the single property flagged Nullable is
-  `StateChange<TState,TOutput>.State`, dump line 284). Unconstrained type parameters render as
-  `T?` in the dump (e.g. `Success(TValue? value)`), which is a dump rendering artifact, not a
-  source-level annotation.
+- Nullability: XML docs and `[DisallowNull]`/`[MaybeNull]`/`[NotNullWhen]`/`[return: MaybeNull]`/
+  `[return: NotNull]` annotations exist on Option/Result/Validation/TransitionResult members. The
+  runtime-mode dump decodes nullability for parameters and return types: `?` is appended when the
+  decoded state is `Nullable` (`NotNull`/`Unknown` add nothing) and not appended when the type is
+  already `System.Nullable<T>`, which renders as `T?`. Properties additionally note non-`NotNull`
+  states as `(nullability: ...)` (the single property flagged Nullable is
+  `StateChange<TState,TOutput>.State`, dump line 284). Unconstrained type parameters decode as
+  `Nullable`, so they render as `T?` in parameter and return position (e.g. `Success(TValue? value)`,
+  `TSource? Set(TSource? source, TFocus? focus)`), which is a dump decoding artifact, not a
+  source-level annotation; a genuine return annotation such as `[return: MaybeNull]` on
+  `Option<T>.GetValueOrDefault()` is now visible as `T?` too.
 - XML documentation: 275 core members and 16 AspNetCore members documented; no member lacks
   `summary` or `inheritdoc`; `GenerateDocumentationFile` + `TreatWarningsAsErrors` enforce coverage
   (`Directory.Build.props:1-9`, `src/FunnySharp/FunnySharp.csproj:20`).

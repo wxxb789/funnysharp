@@ -648,10 +648,10 @@ Type count: 42
 - `public static System.Threading.Tasks.Task<CSharpFunctionalExtensions.Maybe<T>> From(System.Threading.Tasks.Task<T> valueTask)`
 - `public static System.Threading.Tasks.Task<CSharpFunctionalExtensions.Maybe<T>> From(System.Func<System.Threading.Tasks.Task<T>> valueTaskFunc)`
 - `public System.Int32 GetHashCode()`
-- `public T GetValueOrDefault()`
-- `public T GetValueOrDefault(T? defaultValue)`
-- `public T GetValueOrThrow(System.String? errorMessage)`
-- `public T GetValueOrThrow(System.Exception exception)`
+- `public T? GetValueOrDefault()`
+- `public T? GetValueOrDefault(T? defaultValue)`
+- `public T? GetValueOrThrow(System.String? errorMessage)`
+- `public T? GetValueOrThrow(System.Exception exception)`
 - `public System.String ToString()`
 - `public System.Boolean TryGetValue(out T&? value)`
 - `public static System.Boolean op_Equality(CSharpFunctionalExtensions.Maybe<T> maybe, T? value)`

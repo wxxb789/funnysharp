@@ -8,7 +8,9 @@ This directory is Goal 14 evidence tooling, not a shipping artifact.
   `NullabilityInfoContext`) and `MetadataLoadContext` mode for reference assemblies
   and dependency-incomplete packages.
 - `generate.sh` — reproduces the committed dumps under
-  `docs/next-stage/inventory/generated/` from pinned external packages.
+  `docs/next-stage/inventory/generated/` from pinned external packages and the
+  repository's Release build outputs. It exits non-zero when any target fails, so a
+  partial evidence set is never reported as success.
 
 The project is intentionally **not** part of `FunnySharp.slnx`, is not packable,
 and must never become a dependency of the shipping packages or the release
@@ -29,3 +31,8 @@ bash eng/next-stage-inventory/generate.sh \
 `<baseline-root>` contains one extracted directory per package named after the
 `.nupkg` file without its extension. See `docs/next-stage/baselines.md` for
 versions, SHA256 hashes, and acquisition instructions.
+
+The FunnySharp inventories are generated from the repository's Release build outputs.
+Override their location and the ASP.NET shared framework with `FUNNY_SHARP_BIN`,
+`FUNNY_SHARP_ASPNET_BIN`, `DOTNET_ROOT`, or `ASPNET_FRAMEWORK_DIR` when the defaults
+do not apply.

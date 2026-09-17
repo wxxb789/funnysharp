@@ -69,7 +69,7 @@ contradicts intuition, the prose says so (W3 is the main case).
 | | FunnySharp | 6 | 22 | **28** | 28 |
 | | CFE 3.7.0 | 6 | 21 | **27** | 21 |
 | W3 accumulating validation | idiomatic C# | 8 | 11 | **19** | 17 |
-| | FunnySharp | 4 | 20 | **24** | 17 |
+| | FunnySharp | 4 | 19 | **23** | 17 |
 | | language-ext 4.4.9 | 4 | 18 | **22** | 15 |
 | | CFE 3.7.0 (alt) | 4 | 28 | **32** | 20 |
 | W4 unit-result delete | idiomatic C# | 6 | 8 | **14** | 15 |
@@ -80,7 +80,7 @@ contradicts intuition, the prose says so (W3 is the main case).
 | | CFE 3.7.0 | 1 | 12 | **13** | 3 |
 | W6 traversal + index | idiomatic C# | 11 | 18 | **29** | 27 |
 | | FunnySharp (workaround) | 5 | 18 | **23** | 16 |
-| W7 bounded parallel stream | idiomatic C# (operator + consumer) | 16 | 15 | **31** | 49 |
+| W7 bounded parallel stream | idiomatic C# (operator + consumer) | 24 | 22 | **46** | 65 |
 | | FunnySharp (consumer only) | 4 | 3 | **7** | 14 |
 | W8 first success + timeout | idiomatic C# | 11 | 14 | **25** | 25 |
 | | FunnySharp | 4 | 10 | **14** | 14 |
@@ -304,7 +304,7 @@ just the first.
 | Variant | S | O | Semantic | Raw |
 | --- | ---: | ---: | ---: | ---: |
 | Idiomatic C# | 8 | 11 | 19 | 17 |
-| FunnySharp | 4 | 20 | 24 | 17 |
+| FunnySharp | 4 | 19 | 23 | 17 |
 | language-ext 4.4.9 | 4 | 18 | 22 | 15 |
 | CFE 3.7.0 (alternative) | 4 | 28 | 32 | 20 |
 
@@ -348,9 +348,9 @@ private static Validation<string, string> ValidateEmail(string email) =>
         : Validation<string, string>.Invalid("email must contain '@'");
 
 private static Validation<string, string> ValidatePassword(string password) =>
-    password.Length is >= 12 and <= 128
+    password.Length is >= 12
         ? Validation<string, string>.Valid(password)
-        : Validation<string, string>.Invalid("password must have 12..128 characters");
+        : Validation<string, string>.Invalid("password must have at least 12 characters");
 
 private static Validation<int, string> ValidateAge(int age) =>
     age is >= 18 and <= 130
@@ -399,7 +399,7 @@ has no `Apply`, and accumulation comes from `LanguageExt.ValidationSeqExtensions
 tuple overloads, whose `FAIL` must be wrapped in `Seq<FAIL>` for `Fail(...)`.
 
 **Assessment.** This is the one workflow where FunnySharp is clearly *larger* than the
-idiomatic baseline at this scale (24 vs 19), and the language-ext form is smaller again
+idiomatic baseline at this scale (23 vs 19), and the language-ext form is smaller again
 (22) because its tuple `Apply` avoids the nested-pair `Map`. The honest read: for three
 inline field rules checked once, a `List<string>` and three `if`s is hard to beat. What
 FunnySharp adds: errors are typed per field, validators are reusable and independently
@@ -656,10 +656,10 @@ results in source order, and stop promptly on cancellation.
 
 | Variant | S | O | Semantic | Raw |
 | --- | ---: | ---: | ---: | ---: |
-| Idiomatic C# (operator + consumer) | 16 | 15 | 31 | 49 |
+| Idiomatic C# (operator + consumer) | 24 | 22 | 46 | 65 |
 | FunnySharp (consumer only) | 4 | 3 | 7 | 14 |
 
-Idiomatic C# operator + consumer (`Channel` + linked CTS + local producer; 37 raw lines
+Idiomatic C# operator + consumer (`Channel` + linked CTS + local producer; 53 raw lines
 for the operator alone):
 
 ```csharp
@@ -670,13 +670,21 @@ public static async IAsyncEnumerable<TResult> SelectParallelAsync<TResult>(
     [EnumeratorCancellation] CancellationToken cancellationToken = default)
 {
     using var operation = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+    using var concurrency = new SemaphoreSlim(maxConcurrency);
     var channel = Channel.CreateBounded<Task<TResult>>(maxConcurrency);
     var producer = ProduceAsync();
     try
     {
         await foreach (var pending in channel.Reader.ReadAllAsync(operation.Token))
         {
-            yield return await pending.ConfigureAwait(false);
+            try
+            {
+                yield return await pending.ConfigureAwait(false);
+            }
+            finally
+            {
+                concurrency.Release();
+            }
         }
     }
     finally
@@ -693,13 +701,21 @@ public static async IAsyncEnumerable<TResult> SelectParallelAsync<TResult>(
 
     async Task ProduceAsync()
     {
-        await foreach (var item in source.WithCancellation(operation.Token).ConfigureAwait(false))
+        try
         {
-            var pending = selector(item, operation.Token);
-            await channel.Writer.WriteAsync(pending, operation.Token).ConfigureAwait(false);
-        }
+            await foreach (var item in source.WithCancellation(operation.Token).ConfigureAwait(false))
+            {
+                await concurrency.WaitAsync(operation.Token).ConfigureAwait(false);
+                var pending = selector(item, operation.Token);
+                await channel.Writer.WriteAsync(pending, operation.Token).ConfigureAwait(false);
+            }
 
-        channel.Writer.Complete();
+            channel.Writer.Complete();
+        }
+        catch (Exception exception) when (exception is not OperationCanceledException)
+        {
+            channel.Writer.TryComplete(exception);
+        }
     }
 }
 
@@ -741,9 +757,13 @@ public static async Task<int> SumFetchedAsync(
 **Compile evidence.** Both variants compile (`§17.2`); the FunnySharp operator itself is
 part of the referenced local library and was built as part of the same solution.
 
-**Assessment.** This is the largest consumer-side reduction in the set (31 → 7 semantic;
-49 → 14 raw): an entire correctness-sensitive concurrency protocol is replaced by one
-operator call. FunnySharp removes admission control, ordering, backpressure, linked
+**Assessment.** This is the largest consumer-side reduction in the set (46 → 7 semantic;
+65 → 14 raw): an entire correctness-sensitive concurrency protocol is replaced by one
+operator call. The baseline grew in review (31/49 → 46/65 semantic/raw): bounding
+started selectors to `maxConcurrency` needs its own semaphore slot, and surfacing an
+upstream producer fault needs its own complete-with-exception path — precisely the
+admission-control and failure-drain work the library owns for the consumer. FunnySharp
+removes admission control, ordering, backpressure, linked
 cancellation, and the failure-drain protocol from application code; the documented
 contract is ordered output, at most `maxConcurrency` started selectors, first-failure
 stop/cancel/drain, and the caller's token forwarded exactly
@@ -1177,7 +1197,7 @@ pinned baselines and was not surveyed
 
 ## 16. Cross-cutting observations
 
-1. **Reduction is concentrated where FunnySharp owns a protocol.** W7 (31→7), W8 (25→14),
+1. **Reduction is concentrated where FunnySharp owns a protocol.** W7 (46→7), W8 (25→14),
    and W11 (34→21) are the only workflows with double-digit semantic savings, and all
    three are cases where the library implements a coordination/cancellation/mapping
    protocol that application code would otherwise hand-roll.
@@ -1185,7 +1205,7 @@ pinned baselines and was not surveyed
    become favorable with composition; their gain is compile-time verifiability and
    elimination of conventions, not statement count.
 3. **Accumulation is the exception**: at three fields, `Validation` costs more semantic
-   LOC than a `List<string>` loop (W3 19→24). The justification for `Validation` is typed
+   LOC than a `List<string>` loop (W3 19→23). The justification for `Validation` is typed
    reusable validators and guaranteed error retention, not density.
 4. **The async seam is the sharpest friction point found.** `BindAsync` returns
    `Task<Result<...>>` and there is no `Map` on task carriers, so a single mixed
@@ -1214,7 +1234,7 @@ pinned baselines and was not surveyed
    tested.
 10. **Raw LOC and semantic LOC disagree in both directions.** Fluent chains compress
     raw lines far more than semantic operations (W5 raw 8→3, semantic 12→11), and the
-    idiomatic channel operator is 37 raw lines, which would overstate its semantic cost.
+    idiomatic channel operator is 53 raw lines, which would overstate its semantic cost.
     The semantic metric is the one to use for the Goal 14 criterion.
 11. **All scratch builds are warning-clean.** Every variant compiled with 0 warnings and
     0 errors in Release, with no suppressions, which means the evidence does not depend

@@ -93,8 +93,8 @@ Type count: 33
 - `[ext] public static System.Func<TFirst, System.Func<TSecond, TResult>> Curry<TFirst, TSecond, TResult>(this System.Func<TFirst, TSecond, TResult> function)`
 - `[ext] public static System.Func<TSecond, TFirst, TResult> Flip<TFirst, TSecond, TResult>(this System.Func<TFirst, TSecond, TResult> function)`
 - `[ext] public static System.Func<TSecond, TResult> Partial<TFirst, TSecond, TResult>(this System.Func<TFirst, TSecond, TResult> function, TFirst? first)`
-- `[ext] public static TResult Pipe<T, TResult>(this T? value, System.Func<T, TResult> function)`
-- `[ext] public static T Tap<T>(this T? value, System.Action<T> observer)`
+- `[ext] public static TResult? Pipe<T, TResult>(this T? value, System.Func<T, TResult> function)`
+- `[ext] public static T? Tap<T>(this T? value, System.Action<T> observer)`
 - `[ext] public static System.Threading.Tasks.Task<T> TapAsync<T>(this T? value, System.Func<T, System.Threading.Tasks.Task> observer)`
 - `[ext] public static System.Threading.Tasks.Task<T> TapAsync<T>(this T? value, System.Func<T, System.Threading.CancellationToken, System.Threading.Tasks.Task> observer, System.Threading.CancellationToken cancellationToken)`
 - `[ext] public static System.Threading.Tasks.ValueTask<T> TapValueAsync<T>(this T? value, System.Func<T, System.Threading.Tasks.ValueTask> observer)`
@@ -110,9 +110,9 @@ Type count: 33
 
 - `public FunnySharp.Lens<TSource, TNext> Compose<TNext>(FunnySharp.Lens<TFocus, TNext> next)`
 - `public FunnySharp.Optional<TSource, TNext> Compose<TNext>(FunnySharp.Optional<TFocus, TNext> next)`
-- `public TFocus Get(TSource? source)`
-- `public TSource Set(TSource? source, TFocus? focus)`
-- `public TSource Update(TSource? source, System.Func<TFocus, TFocus> update)`
+- `public TFocus? Get(TSource? source)`
+- `public TSource? Set(TSource? source, TFocus? focus)`
+- `public TSource? Update(TSource? source, System.Func<TFocus, TFocus> update)`
 
 ### Option (class [static])
 
@@ -159,10 +159,10 @@ Type count: 33
 - `public FunnySharp.Option<T> Filter(System.Func<T, System.Boolean> predicate)`
 - `public System.Int32 GetHashCode()`
 - `public T GetValueOr(T? fallback)`
-- `public T GetValueOrDefault()`
+- `public T? GetValueOrDefault()`
 - `public T GetValueOrElse(System.Func<T> fallbackFactory)`
 - `public FunnySharp.Option<TResult> Map<TResult>(System.Func<T, TResult> selector)`
-- `public TResult Match<TResult>(System.Func<T, TResult> some, System.Func<TResult> none)`
+- `public TResult? Match<TResult>(System.Func<T, TResult> some, System.Func<TResult> none)`
 - `public System.Void Match(System.Action<T> some, System.Action none)`
 - `public FunnySharp.Option<T> OrElse(FunnySharp.Option<T> fallback)`
 - `public FunnySharp.Option<T> OrElseWith(System.Func<FunnySharp.Option<T>> fallbackFactory)`
@@ -182,8 +182,8 @@ Type count: 33
 - `public FunnySharp.Optional<TSource, TNext> Compose<TNext>(FunnySharp.Lens<TFocus, TNext> next)`
 - `public FunnySharp.Optional<TSource, TNext> Compose<TNext>(FunnySharp.Optional<TFocus, TNext> next)`
 - `public FunnySharp.Option<TFocus> GetOption(TSource? source)`
-- `public TSource Set(TSource? source, TFocus? focus)`
-- `public TSource Update(TSource? source, System.Func<TFocus, TFocus> update)`
+- `public TSource? Set(TSource? source, TFocus? focus)`
+- `public TSource? Update(TSource? source, System.Func<TFocus, TFocus> update)`
 
 ### ParallelAsyncEnumerableExtensions (class [static])
 
@@ -235,7 +235,7 @@ Type count: 33
 - `public System.Int32 GetHashCode()`
 - `public FunnySharp.Result<TResult, TError> Map<TResult>(System.Func<TValue, TResult> selector)`
 - `public FunnySharp.Result<TValue, TResultError> MapError<TResultError>(System.Func<TError, TResultError> selector)`
-- `public TResult Match<TResult>(System.Func<TValue, TResult> success, System.Func<TError, TResult> failure)`
+- `public TResult? Match<TResult>(System.Func<TValue, TResult> success, System.Func<TError, TResult> failure)`
 - `public System.Void Match(System.Action<TValue> success, System.Action<TError> failure)`
 - `public FunnySharp.Result<TValue, TError> Recover(System.Func<TError, TValue> recovery)`
 - `public FunnySharp.Result<TValue, TError> RecoverWith(System.Func<TError, FunnySharp.Result<TValue, TError>> recovery)`
@@ -323,7 +323,7 @@ Type count: 33
 - `public System.Boolean Equals(System.Object? obj)`
 - `public static FunnySharp.TransitionResult<TState, TOutput, TError> Failed(TError? error)`
 - `public System.Int32 GetHashCode()`
-- `public TResult Match<TResult>(System.Func<FunnySharp.StateChange<TState, TOutput>, TResult> applied, System.Func<TError, TResult> rejected, System.Func<TError, TResult> failed, System.Func<TResult> undefined)`
+- `public TResult? Match<TResult>(System.Func<FunnySharp.StateChange<TState, TOutput>, TResult> applied, System.Func<TError, TResult> rejected, System.Func<TError, TResult> failed, System.Func<TResult> undefined)`
 - `public static FunnySharp.TransitionResult<TState, TOutput, TError> Rejected(TError? error)`
 - `public System.String ToString()`
 - `public System.Boolean TryGetChange(out FunnySharp.StateChange<TState, TOutput>&? change)`
@@ -361,7 +361,7 @@ Type count: 33
 - `public static FunnySharp.Validation<TValue, TError> InvalidMany(System.Collections.Generic.IEnumerable<TError> errors)`
 - `public FunnySharp.Validation<TResult, TError> Map<TResult>(System.Func<TValue, TResult> selector)`
 - `public FunnySharp.Validation<TValue, TResultError> MapErrors<TResultError>(System.Func<TError, TResultError> selector)`
-- `public TResult Match<TResult>(System.Func<TValue, TResult> valid, System.Func<System.Collections.Generic.IReadOnlyList<TError>, TResult> invalid)`
+- `public TResult? Match<TResult>(System.Func<TValue, TResult> valid, System.Func<System.Collections.Generic.IReadOnlyList<TError>, TResult> invalid)`
 - `public System.Void Match(System.Action<TValue> valid, System.Action<System.Collections.Generic.IReadOnlyList<TError>> invalid)`
 - `public System.String ToString()`
 - `public System.Boolean TryGetErrors(out System.Collections.Generic.IReadOnlyList<TError>&? errors)`

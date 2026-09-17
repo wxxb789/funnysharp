@@ -56,8 +56,8 @@ FunnySharp,FunnySharp.FunctionExtensions,keep,AD-4,method,"[ext] public static S
 FunnySharp,FunnySharp.FunctionExtensions,keep,AD-4,method,"[ext] public static System.Func<TFirst, System.Func<TSecond, TResult>> Curry<TFirst, TSecond, TResult>(this System.Func<TFirst, TSecond, TResult> function)",keep
 FunnySharp,FunnySharp.FunctionExtensions,keep,AD-4,method,"[ext] public static System.Func<TSecond, TFirst, TResult> Flip<TFirst, TSecond, TResult>(this System.Func<TFirst, TSecond, TResult> function)",keep
 FunnySharp,FunnySharp.FunctionExtensions,keep,AD-4,method,"[ext] public static System.Func<TSecond, TResult> Partial<TFirst, TSecond, TResult>(this System.Func<TFirst, TSecond, TResult> function, TFirst? first)",keep
-FunnySharp,FunnySharp.FunctionExtensions,keep,AD-4,method,"[ext] public static TResult Pipe<T, TResult>(this T? value, System.Func<T, TResult> function)",keep
-FunnySharp,FunnySharp.FunctionExtensions,keep,AD-4,method,"[ext] public static T Tap<T>(this T? value, System.Action<T> observer)",keep
+FunnySharp,FunnySharp.FunctionExtensions,keep,AD-4,method,"[ext] public static TResult? Pipe<T, TResult>(this T? value, System.Func<T, TResult> function)",keep
+FunnySharp,FunnySharp.FunctionExtensions,keep,AD-4,method,"[ext] public static T? Tap<T>(this T? value, System.Action<T> observer)",keep
 FunnySharp,FunnySharp.FunctionExtensions,keep,AD-4,method,"[ext] public static System.Threading.Tasks.Task<T> TapAsync<T>(this T? value, System.Func<T, System.Threading.Tasks.Task> observer)",keep
 FunnySharp,FunnySharp.FunctionExtensions,keep,AD-4,method,"[ext] public static System.Threading.Tasks.Task<T> TapAsync<T>(this T? value, System.Func<T, System.Threading.CancellationToken, System.Threading.Tasks.Task> observer, System.Threading.CancellationToken cancellationToken)",keep
 FunnySharp,FunnySharp.FunctionExtensions,keep,AD-4,method,"[ext] public static System.Threading.Tasks.ValueTask<T> TapValueAsync<T>(this T? value, System.Func<T, System.Threading.Tasks.ValueTask> observer)",keep
@@ -67,9 +67,9 @@ FunnySharp,FunnySharp.Lens,keep,AD-9,method,"public static FunnySharp.Lens<TSour
 FunnySharp,FunnySharp.Lens,keep,AD-9,method,"public static FunnySharp.Lens<T, T> Identity<T>()",keep
 FunnySharp,FunnySharp.Lens`2,keep,AD-9,method,"public FunnySharp.Lens<TSource, TNext> Compose<TNext>(FunnySharp.Lens<TFocus, TNext> next)",keep
 FunnySharp,FunnySharp.Lens`2,keep,AD-9,method,"public FunnySharp.Optional<TSource, TNext> Compose<TNext>(FunnySharp.Optional<TFocus, TNext> next)",keep
-FunnySharp,FunnySharp.Lens`2,keep,AD-9,method,public TFocus Get(TSource? source),keep
-FunnySharp,FunnySharp.Lens`2,keep,AD-9,method,"public TSource Set(TSource? source, TFocus? focus)",keep
-FunnySharp,FunnySharp.Lens`2,keep,AD-9,method,"public TSource Update(TSource? source, System.Func<TFocus, TFocus> update)",keep
+FunnySharp,FunnySharp.Lens`2,keep,AD-9,method,public TFocus? Get(TSource? source),keep
+FunnySharp,FunnySharp.Lens`2,keep,AD-9,method,"public TSource? Set(TSource? source, TFocus? focus)",keep
+FunnySharp,FunnySharp.Lens`2,keep,AD-9,method,"public TSource? Update(TSource? source, System.Func<TFocus, TFocus> update)",keep
 FunnySharp,FunnySharp.Option,keep,AD-1,method,public static FunnySharp.Option<T> FromNullable<T>(T? value),keep
 FunnySharp,FunnySharp.Option,keep,AD-1,method,public static FunnySharp.Option<T> FromNullable<T>(T?? value),keep
 FunnySharp,FunnySharp.Option,keep,AD-1,method,public static FunnySharp.Option<T> FromTry<T>(FunnySharp.TryOperation<T> operation),keep
@@ -99,10 +99,10 @@ FunnySharp,FunnySharp.Option`1,keep,AD-1,method,public System.Boolean Equals(Sys
 FunnySharp,FunnySharp.Option`1,keep,AD-1,method,"public FunnySharp.Option<T> Filter(System.Func<T, System.Boolean> predicate)",keep
 FunnySharp,FunnySharp.Option`1,keep,AD-1,method,public System.Int32 GetHashCode(),keep
 FunnySharp,FunnySharp.Option`1,keep,AD-1,method,public T GetValueOr(T? fallback),keep
-FunnySharp,FunnySharp.Option`1,keep,AD-1,method,public T GetValueOrDefault(),keep
+FunnySharp,FunnySharp.Option`1,keep,AD-1,method,public T? GetValueOrDefault(),keep
 FunnySharp,FunnySharp.Option`1,keep,AD-1,method,public T GetValueOrElse(System.Func<T> fallbackFactory),keep
 FunnySharp,FunnySharp.Option`1,keep,AD-1,method,"public FunnySharp.Option<TResult> Map<TResult>(System.Func<T, TResult> selector)",keep
-FunnySharp,FunnySharp.Option`1,keep,AD-1,method,"public TResult Match<TResult>(System.Func<T, TResult> some, System.Func<TResult> none)",keep
+FunnySharp,FunnySharp.Option`1,keep,AD-1,method,"public TResult? Match<TResult>(System.Func<T, TResult> some, System.Func<TResult> none)",keep
 FunnySharp,FunnySharp.Option`1,keep,AD-1,method,"public System.Void Match(System.Action<T> some, System.Action none)",keep
 FunnySharp,FunnySharp.Option`1,keep,AD-1,method,public FunnySharp.Option<T> OrElse(FunnySharp.Option<T> fallback),keep
 FunnySharp,FunnySharp.Option`1,keep,AD-1,method,public FunnySharp.Option<T> OrElseWith(System.Func<FunnySharp.Option<T>> fallbackFactory),keep
@@ -116,8 +116,8 @@ FunnySharp,FunnySharp.Optional,keep,AD-9,method,"public static FunnySharp.Option
 FunnySharp,FunnySharp.Optional`2,keep,AD-9,method,"public FunnySharp.Optional<TSource, TNext> Compose<TNext>(FunnySharp.Lens<TFocus, TNext> next)",keep
 FunnySharp,FunnySharp.Optional`2,keep,AD-9,method,"public FunnySharp.Optional<TSource, TNext> Compose<TNext>(FunnySharp.Optional<TFocus, TNext> next)",keep
 FunnySharp,FunnySharp.Optional`2,keep,AD-9,method,public FunnySharp.Option<TFocus> GetOption(TSource? source),keep
-FunnySharp,FunnySharp.Optional`2,keep,AD-9,method,"public TSource Set(TSource? source, TFocus? focus)",keep
-FunnySharp,FunnySharp.Optional`2,keep,AD-9,method,"public TSource Update(TSource? source, System.Func<TFocus, TFocus> update)",keep
+FunnySharp,FunnySharp.Optional`2,keep,AD-9,method,"public TSource? Set(TSource? source, TFocus? focus)",keep
+FunnySharp,FunnySharp.Optional`2,keep,AD-9,method,"public TSource? Update(TSource? source, System.Func<TFocus, TFocus> update)",keep
 FunnySharp,FunnySharp.ParallelAsyncEnumerableExtensions,keep,AD-6,method,"[ext] public static System.Collections.Generic.IAsyncEnumerable<TResult> SelectParallelValueAsync<TSource, TResult>(this System.Collections.Generic.IAsyncEnumerable<TSource> source, System.Int32 maxConcurrency, System.Func<TSource, System.Threading.Tasks.ValueTask<TResult>> selector)",keep
 FunnySharp,FunnySharp.ParallelAsyncEnumerableExtensions,keep,AD-6,method,"[ext] public static System.Collections.Generic.IAsyncEnumerable<TResult> SelectParallelValueAsync<TSource, TResult>(this System.Collections.Generic.IAsyncEnumerable<TSource> source, System.Int32 maxConcurrency, System.Func<TSource, System.Threading.CancellationToken, System.Threading.Tasks.ValueTask<TResult>> selector)",keep
 FunnySharp,FunnySharp.ParallelAsyncSequenceExtensions,keep,AD-6,method,"[ext] public static System.Threading.Tasks.ValueTask<FunnySharp.Option<System.Collections.Generic.IReadOnlyList<TResult>>> TraverseParallelValueAsync<TSource, TResult>(this System.Collections.Generic.IAsyncEnumerable<TSource> source, System.Int32 maxConcurrency, System.Func<TSource, System.Threading.Tasks.ValueTask<FunnySharp.Option<TResult>>> selector, System.Threading.CancellationToken cancellationToken)",keep
@@ -154,7 +154,7 @@ FunnySharp,FunnySharp.Result`2,redesign,AD-2,method,"public static FunnySharp.Re
 FunnySharp,FunnySharp.Result`2,redesign,AD-2,method,public System.Int32 GetHashCode(),redesign
 FunnySharp,FunnySharp.Result`2,redesign,AD-2,method,"public FunnySharp.Result<TResult, TError> Map<TResult>(System.Func<TValue, TResult> selector)",redesign
 FunnySharp,FunnySharp.Result`2,redesign,AD-2,method,"public FunnySharp.Result<TValue, TResultError> MapError<TResultError>(System.Func<TError, TResultError> selector)",redesign
-FunnySharp,FunnySharp.Result`2,redesign,AD-2,method,"public TResult Match<TResult>(System.Func<TValue, TResult> success, System.Func<TError, TResult> failure)",redesign
+FunnySharp,FunnySharp.Result`2,redesign,AD-2,method,"public TResult? Match<TResult>(System.Func<TValue, TResult> success, System.Func<TError, TResult> failure)",redesign
 FunnySharp,FunnySharp.Result`2,redesign,AD-2,method,"public System.Void Match(System.Action<TValue> success, System.Action<TError> failure)",redesign
 FunnySharp,FunnySharp.Result`2,redesign,AD-2,method,"public FunnySharp.Result<TValue, TError> Recover(System.Func<TError, TValue> recovery)",redesign
 FunnySharp,FunnySharp.Result`2,redesign,AD-2,method,"public FunnySharp.Result<TValue, TError> RecoverWith(System.Func<TError, FunnySharp.Result<TValue, TError>> recovery)",redesign
@@ -218,7 +218,7 @@ FunnySharp,FunnySharp.TransitionResult`3,keep,AD-8,method,"public System.Boolean
 FunnySharp,FunnySharp.TransitionResult`3,keep,AD-8,method,public System.Boolean Equals(System.Object? obj),keep
 FunnySharp,FunnySharp.TransitionResult`3,keep,AD-8,method,"public static FunnySharp.TransitionResult<TState, TOutput, TError> Failed(TError? error)",keep
 FunnySharp,FunnySharp.TransitionResult`3,keep,AD-8,method,public System.Int32 GetHashCode(),keep
-FunnySharp,FunnySharp.TransitionResult`3,keep,AD-8,method,"public TResult Match<TResult>(System.Func<FunnySharp.StateChange<TState, TOutput>, TResult> applied, System.Func<TError, TResult> rejected, System.Func<TError, TResult> failed, System.Func<TResult> undefined)",keep
+FunnySharp,FunnySharp.TransitionResult`3,keep,AD-8,method,"public TResult? Match<TResult>(System.Func<FunnySharp.StateChange<TState, TOutput>, TResult> applied, System.Func<TError, TResult> rejected, System.Func<TError, TResult> failed, System.Func<TResult> undefined)",keep
 FunnySharp,FunnySharp.TransitionResult`3,keep,AD-8,method,"public static FunnySharp.TransitionResult<TState, TOutput, TError> Rejected(TError? error)",keep
 FunnySharp,FunnySharp.TransitionResult`3,keep,AD-8,method,public System.String ToString(),keep
 FunnySharp,FunnySharp.TransitionResult`3,keep,AD-8,method,"public System.Boolean TryGetChange(out FunnySharp.StateChange<TState, TOutput>&? change)",keep
@@ -244,7 +244,7 @@ FunnySharp,FunnySharp.Validation`2,redesign,AD-3,method,"public static FunnyShar
 FunnySharp,FunnySharp.Validation`2,redesign,AD-3,method,"public static FunnySharp.Validation<TValue, TError> InvalidMany(System.Collections.Generic.IEnumerable<TError> errors)",redesign
 FunnySharp,FunnySharp.Validation`2,redesign,AD-3,method,"public FunnySharp.Validation<TResult, TError> Map<TResult>(System.Func<TValue, TResult> selector)",redesign
 FunnySharp,FunnySharp.Validation`2,redesign,AD-3,method,"public FunnySharp.Validation<TValue, TResultError> MapErrors<TResultError>(System.Func<TError, TResultError> selector)",redesign
-FunnySharp,FunnySharp.Validation`2,redesign,AD-3,method,"public TResult Match<TResult>(System.Func<TValue, TResult> valid, System.Func<System.Collections.Generic.IReadOnlyList<TError>, TResult> invalid)",redesign
+FunnySharp,FunnySharp.Validation`2,redesign,AD-3,method,"public TResult? Match<TResult>(System.Func<TValue, TResult> valid, System.Func<System.Collections.Generic.IReadOnlyList<TError>, TResult> invalid)",redesign
 FunnySharp,FunnySharp.Validation`2,redesign,AD-3,method,"public System.Void Match(System.Action<TValue> valid, System.Action<System.Collections.Generic.IReadOnlyList<TError>> invalid)",redesign
 FunnySharp,FunnySharp.Validation`2,redesign,AD-3,method,public System.String ToString(),redesign
 FunnySharp,FunnySharp.Validation`2,redesign,AD-3,method,public System.Boolean TryGetErrors(out System.Collections.Generic.IReadOnlyList<TError>&? errors),redesign

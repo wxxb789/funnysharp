@@ -131,13 +131,21 @@ public static class Workflows
         [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
         using var operation = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+        using var concurrency = new SemaphoreSlim(maxConcurrency);
         var channel = Channel.CreateBounded<Task<TResult>>(maxConcurrency);
         var producer = ProduceAsync();
         try
         {
             await foreach (var pending in channel.Reader.ReadAllAsync(operation.Token))
             {
-                yield return await pending.ConfigureAwait(false);
+                try
+                {
+                    yield return await pending.ConfigureAwait(false);
+                }
+                finally
+                {
+                    concurrency.Release();
+                }
             }
         }
         finally
@@ -154,13 +162,21 @@ public static class Workflows
 
         async Task ProduceAsync()
         {
-            await foreach (var item in source.WithCancellation(operation.Token).ConfigureAwait(false))
+            try
             {
-                var pending = selector(item, operation.Token);
-                await channel.Writer.WriteAsync(pending, operation.Token).ConfigureAwait(false);
-            }
+                await foreach (var item in source.WithCancellation(operation.Token).ConfigureAwait(false))
+                {
+                    await concurrency.WaitAsync(operation.Token).ConfigureAwait(false);
+                    var pending = selector(item, operation.Token);
+                    await channel.Writer.WriteAsync(pending, operation.Token).ConfigureAwait(false);
+                }
 
-            channel.Writer.Complete();
+                channel.Writer.Complete();
+            }
+            catch (Exception exception) when (exception is not OperationCanceledException)
+            {
+                channel.Writer.TryComplete(exception);
+            }
         }
     }
 
