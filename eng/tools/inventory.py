@@ -46,6 +46,11 @@ from collections.abc import Callable, Mapping, Sequence
 from dataclasses import dataclass
 from pathlib import Path
 
+CommandRunner = Callable[
+    [Sequence[str], Mapping[str, str]], subprocess.CompletedProcess[bytes]
+]
+
+
 # ---------------------------------------------------------------------------
 # Target table
 # ---------------------------------------------------------------------------
@@ -464,10 +469,11 @@ def print_missing_inputs(missing: Sequence[RequiredInput]) -> None:
 
 def check_inputs(inputs: Inputs) -> int:
     items = required_inputs(inputs)
-    for item in items:
-        state = "OK" if item.present else "MISSING"
+    presence = [(item, item.present) for item in items]
+    for item, present in presence:
+        state = "OK" if present else "MISSING"
         print(f"{state}: {item.display} ({item.purpose})")
-    missing = [item for item in items if not item.present]
+    missing = [item for item, present in presence if not present]
     if missing:
         print(
             f"INPUT CHECK FAILED: {len(missing)} of {len(items)} required inputs are missing.",
@@ -487,9 +493,7 @@ def check_inputs(inputs: Inputs) -> int:
 def _same_path(left: Path, right: Path) -> bool:
     left_real = os.path.normcase(os.path.realpath(left))
     right_real = os.path.normcase(os.path.realpath(right))
-    if left_real == right_real:
-        return True
-    return os.path.normcase(os.path.abspath(left)) == os.path.normcase(os.path.abspath(right))
+    return left_real == right_real
 
 
 def _is_reparse_point(path: Path) -> bool:
@@ -500,7 +504,7 @@ def _is_reparse_point(path: Path) -> bool:
             attributes = path.stat(follow_symlinks=False).st_file_attributes
         except OSError:
             return False
-        return bool(attributes & getattr(stat, "FILE_ATTRIBUTE_REPARSE_POINT", 0))
+        return bool(attributes & stat.FILE_ATTRIBUTE_REPARSE_POINT)
     return False
 
 
@@ -509,7 +513,7 @@ def validate_output_dir(output_dir: str | os.PathLike[str], repo_root: Path) -> 
     if _same_path(absolute, repo_root):
         raise UsageFailure(f"output directory must not be the repository root: {absolute}")
     for component in [*reversed(absolute.parents), absolute]:
-        if component.exists() and _is_reparse_point(component):
+        if _is_reparse_point(component):
             raise UsageFailure(
                 f"output directory path contains a symlink or reparse point: {component}"
             )
@@ -540,8 +544,10 @@ def normalize_file(path: Path) -> bool:
 
 
 def _normalize_if_exists(path: Path) -> None:
-    if path.is_file():
+    try:
         normalize_file(path)
+    except (FileNotFoundError, IsADirectoryError):
+        pass
 
 
 # ---------------------------------------------------------------------------
@@ -622,7 +628,7 @@ def _tail(path: Path, count: int) -> list[str]:
 def build_dumper(
     inputs: Inputs,
     env: Mapping[str, str],
-    runner: Callable[[Sequence[str], Mapping[str, str]], subprocess.CompletedProcess[bytes]],
+    runner: CommandRunner,
 ) -> bool:
     argv = ["dotnet", "build", str(inputs.csproj), "-c", "Release", "--nologo"]
     try:
@@ -644,7 +650,7 @@ def run_target(
     inputs: Inputs,
     out_dir: Path,
     env: Mapping[str, str],
-    runner: Callable[[Sequence[str], Mapping[str, str]], subprocess.CompletedProcess[bytes]],
+    runner: CommandRunner,
 ) -> bool:
     print(f"== {target.name}")
     argv = target_argv(target, inputs, out_dir)
@@ -685,7 +691,7 @@ def generate(
     inputs: Inputs,
     out_dir: Path,
     env: Mapping[str, str],
-    runner: Callable[[Sequence[str], Mapping[str, str]], subprocess.CompletedProcess[bytes]],
+    runner: CommandRunner,
 ) -> int:
     if not build_dumper(inputs, env, runner):
         return 1
@@ -741,8 +747,7 @@ def _pick(
 def main(
     argv: Sequence[str] | None = None,
     env: Mapping[str, str] | None = None,
-    runner: Callable[[Sequence[str], Mapping[str, str]], subprocess.CompletedProcess[bytes]]
-    | None = None,
+    runner: CommandRunner | None = None,
 ) -> int:
     args_list = list(sys.argv[1:]) if argv is None else list(argv)
     base_env = dict(os.environ) if env is None else dict(env)

@@ -108,7 +108,7 @@ uv run --no-project eng/tools/verify_docs_snippets.py
 Verifies the eight primary guides against the snippet regions under
 `examples/FunnySharp.DocumentationSamples`, prints
 `Verified N C# documentation snippets across 8 primary guides.`, and exits `0` or `1`. It writes
-nothing. `--repository-root`, `--samples-root`, and `--guides` exist for fixture runs. The
+nothing. `--repository-root` and `--samples-root` exist for fixture runs. The
 PowerShell verifier remains authoritative for release.
 
 ### Inventory

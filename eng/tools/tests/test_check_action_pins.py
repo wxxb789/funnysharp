@@ -199,7 +199,12 @@ class PinCheckFixtureTests(FixtureCheckMixin, unittest.TestCase):
             # The text alone would be a finding; only the released scope
             # exemption keeps it out of the repository scan.
             self.assertEqual(
-                len(check_action_pins.check_workflow_text(release_path, release_text)),
+                len(
+                    check_action_pins.check_workflow_text(
+                        release_path,
+                        check_action_pins.iter_uses_references(release_text.splitlines()),
+                    )
+                ),
                 1,
             )
             scanned, findings = check_action_pins.check_repository(root)
@@ -232,7 +237,7 @@ class CommandLineTests(FixtureCheckMixin, unittest.TestCase):
             root = Path(temporary)
             write_workflows(root, {"tags.yml": text})
             exit_code, _, stderr = self.run_main(
-                ["--check", "--repository-root", str(root)]
+                ["--repository-root", str(root)]
             )
         self.assertEqual(exit_code, 1)
         self.assertIn(".github/workflows/tags.yml:9: ", stderr)

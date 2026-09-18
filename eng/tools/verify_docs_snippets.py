@@ -1,3 +1,4 @@
+#!/usr/bin/env -S uv run --no-project
 # /// script
 # requires-python = ">=3.12,<3.13"
 # dependencies = []
@@ -39,6 +40,8 @@ import re
 import sys
 from dataclasses import dataclass
 from pathlib import Path
+
+from _repo import default_repository_root, find_git_root
 
 PRIMARY_GUIDES: tuple[str, ...] = (
     "aspnet-core.md",
@@ -193,12 +196,60 @@ def _collect_regions(samples_root: Path, failures: list[str]) -> dict[str, Regio
     return regions
 
 
+def _compare_region(
+    guide: str,
+    fence_line: int,
+    end_index: int,
+    name: str,
+    markdown_lines: list[str],
+    regions: dict[str, Region],
+    used_regions: set[str],
+    failures: list[str],
+) -> None:
+    """Compare one marked fence body with its source region, like PowerShell.
+
+    Mirrors the reference verifier: a region is recorded as used even when it
+    turns out to be missing, and only the first differing snippet line is
+    reported (the PowerShell comparison loop breaks on its first mismatch).
+    """
+    key = _name_key(name)
+    if key in used_regions:
+        failures.append(f"{guide}:{fence_line} reuses source region '{name}'.")
+    else:
+        used_regions.add(key)
+
+    if key not in regions:
+        failures.append(
+            f"{guide}:{fence_line} references missing source region '{name}'."
+        )
+        return
+
+    snippet_lines = _inclusive_range(markdown_lines, fence_line, end_index - 1)
+    source = regions[key]
+    if len(snippet_lines) != len(source.content):
+        failures.append(
+            f"{guide}:{fence_line} differs from '{name}' "
+            f"in {source.path}:{source.line}."
+        )
+        return
+
+    for content_index, snippet_line in enumerate(snippet_lines):
+        if _lines_equal(snippet_line, source.content[content_index]):
+            continue
+        failures.append(
+            f"{guide}:{fence_line} differs from '{name}' "
+            f"in {source.path}:{source.line} "
+            f"at snippet line {content_index + 1}."
+        )
+        break
+
+
 def _verify(
     repository_root: Path, samples_root: Path, guides: tuple[str, ...]
 ) -> tuple[list[str], int]:
     failures: list[str] = []
     regions = _collect_regions(samples_root, failures)
-    used_regions: dict[str, bool] = {}
+    used_regions: set[str] = set()
     snippet_count = 0
 
     for guide in guides:
@@ -241,38 +292,16 @@ def _verify(
                 continue
 
             if name is not None:
-                key = _name_key(name)
-                if key in used_regions:
-                    failures.append(
-                        f"{guide}:{line_index + 1} reuses source region '{name}'."
-                    )
-                else:
-                    used_regions[key] = True
-
-                if key not in regions:
-                    failures.append(
-                        f"{guide}:{line_index + 1} references missing source region '{name}'."
-                    )
-                else:
-                    snippet_lines = _inclusive_range(
-                        markdown_lines, line_index + 1, end_index - 1
-                    )
-                    source = regions[key]
-                    if len(snippet_lines) != len(source.content):
-                        failures.append(
-                            f"{guide}:{line_index + 1} differs from '{name}' "
-                            f"in {source.path}:{source.line}."
-                        )
-                    else:
-                        for content_index, snippet_line in enumerate(snippet_lines):
-                            if _lines_equal(snippet_line, source.content[content_index]):
-                                continue
-                            failures.append(
-                                f"{guide}:{line_index + 1} differs from '{name}' "
-                                f"in {source.path}:{source.line} "
-                                f"at snippet line {content_index + 1}."
-                            )
-                            break
+                _compare_region(
+                    guide,
+                    line_index + 1,
+                    end_index,
+                    name,
+                    markdown_lines,
+                    regions,
+                    used_regions,
+                    failures,
+                )
 
             line_index = end_index + 1
 
@@ -284,28 +313,6 @@ def _verify(
             )
 
     return failures, snippet_count
-
-
-def _default_repository_root() -> Path:
-    # eng/tools/verify_docs_snippets.py -> repository root
-    return Path(__file__).resolve().parents[2]
-
-
-def _find_git_root(start: Path) -> Path | None:
-    current = start
-    while True:
-        if (current / ".git").exists():
-            return current
-        if current.parent == current:
-            return None
-        current = current.parent
-
-
-def _parse_guides(raw: str) -> tuple[str, ...]:
-    guides = tuple(part.strip() for part in raw.split(",") if part.strip())
-    if not guides:
-        raise argparse.ArgumentTypeError("expected at least one guide file name")
-    return guides
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -337,16 +344,6 @@ def build_parser() -> argparse.ArgumentParser:
             "(default: <repository-root>/examples/FunnySharp.DocumentationSamples)."
         ),
     )
-    parser.add_argument(
-        "--guides",
-        type=_parse_guides,
-        default=None,
-        metavar="NAME[,NAME...]",
-        help=(
-            "comma-separated guide file names under <repository-root>/docs "
-            "overriding the eight primary guides (for fixtures)."
-        ),
-    )
     return parser
 
 
@@ -355,8 +352,8 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
 
     if args.repository_root is None:
-        repository_root = _default_repository_root()
-        if _find_git_root(repository_root) is None:
+        repository_root = default_repository_root(Path(__file__))
+        if find_git_root(repository_root) is None:
             print(
                 f"error: '{repository_root}' is not inside a git repository, so the "
                 "repository root cannot be derived from the script location.",
@@ -388,9 +385,8 @@ def main(argv: list[str] | None = None) -> int:
         )
         return 1
 
-    guides = args.guides if args.guides is not None else PRIMARY_GUIDES
     try:
-        failures, snippet_count = _verify(repository_root, samples_root, guides)
+        failures, snippet_count = _verify(repository_root, samples_root, PRIMARY_GUIDES)
     except OSError as error:
         print(f"error: {error}", file=sys.stderr)
         return 1
@@ -402,7 +398,7 @@ def main(argv: list[str] | None = None) -> int:
 
     print(
         f"Verified {snippet_count} C# documentation snippets across "
-        f"{len(guides)} primary guides."
+        f"{len(PRIMARY_GUIDES)} primary guides."
     )
     return 0
 

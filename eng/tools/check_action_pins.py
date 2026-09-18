@@ -113,11 +113,11 @@ def split_uses_value(raw: str) -> tuple[str, str]:
     return unquote(raw.strip()), ""
 
 
-def iter_uses_references(text: str) -> list[UsesReference]:
-    """Return every ``uses:`` reference in one workflow text, in file order."""
+def iter_uses_references(lines: Sequence[str]) -> list[UsesReference]:
+    """Return every ``uses:`` reference in one workflow's lines, in file order."""
 
     references: list[UsesReference] = []
-    for line_number, line in enumerate(text.splitlines(), start=1):
+    for line_number, line in enumerate(lines, start=1):
         match = USES_PATTERN.match(line)
         if match is None:
             continue
@@ -147,11 +147,13 @@ def step_block_lines(
     return block
 
 
-def check_workflow_text(path: Path, text: str) -> list[Finding]:
-    """Return every pinning finding in one workflow file's text."""
+def check_workflow_text(
+    path: Path, references: Sequence[UsesReference]
+) -> list[Finding]:
+    """Return every pinning finding for one workflow's parsed references."""
 
     findings: list[Finding] = []
-    for uses in iter_uses_references(text):
+    for uses in references:
         if uses.is_local:
             continue
         if PINNED_REFERENCE_PATTERN.match(uses.reference) is None:
@@ -177,15 +179,17 @@ def check_workflow_text(path: Path, text: str) -> list[Finding]:
 
 
 def check_tooling_pins(
-    path: Path, text: str, repository_root: Path
+    path: Path,
+    references: Sequence[UsesReference],
+    lines: Sequence[str],
+    repository_root: Path,
 ) -> list[Finding]:
     """Assert tooling.yml takes the uv version from uv.toml, not a version input."""
 
     findings: list[Finding] = []
-    lines = text.splitlines()
     setup_uv = [
         uses
-        for uses in iter_uses_references(text)
+        for uses in references
         if uses.reference == UV_SETUP_ACTION
         or uses.reference.startswith(UV_SETUP_ACTION + "@")
     ]
@@ -202,12 +206,12 @@ def check_tooling_pins(
                 )
     if setup_uv:
         uv_pin_file = repository_root / UV_PIN_FILE_NAME
-        declared = uv_pin_file.is_file() and (
-            UV_REQUIRED_VERSION_PATTERN.search(
-                uv_pin_file.read_text(encoding="utf-8", errors="replace")
-            )
-            is not None
-        )
+        try:
+            uv_pin_text = uv_pin_file.read_text(encoding="utf-8", errors="replace")
+        except OSError:
+            declared = False
+        else:
+            declared = UV_REQUIRED_VERSION_PATTERN.search(uv_pin_text) is not None
         if not declared:
             findings.append(
                 Finding(
@@ -247,10 +251,12 @@ def check_repository(repository_root: Path) -> tuple[list[Path], list[Finding]]:
         if path.name in SKIPPED_WORKFLOW_NAMES:
             continue
         text = path.read_text(encoding="utf-8", errors="replace")
+        lines = text.splitlines()
+        references = iter_uses_references(lines)
         scanned.append(path)
-        findings.extend(check_workflow_text(path, text))
+        findings.extend(check_workflow_text(path, references))
         if path.name == TOOLING_WORKFLOW_NAME:
-            findings.extend(check_tooling_pins(path, text, repository_root))
+            findings.extend(check_tooling_pins(path, references, lines, repository_root))
     return scanned, findings
 
 
@@ -262,11 +268,6 @@ def build_parser() -> argparse.ArgumentParser:
             "with version comments, and that tooling.yml reads the uv pin from "
             "uv.toml's required-version."
         ),
-    )
-    parser.add_argument(
-        "--check",
-        action="store_true",
-        help="run the checks (default and only mode).",
     )
     parser.add_argument(
         "--verbose",

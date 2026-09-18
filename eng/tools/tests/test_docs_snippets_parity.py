@@ -7,13 +7,16 @@ behavior-equivalent to the authoritative PowerShell verifier in
 Every fixture tree is generated into a temporary directory: a staged copy of
 the PowerShell verifier, a copy of the eight primary guides, and a copy of the
 snippet samples, with exactly one mutation applied per case. The PowerShell
-side of the parity assertions only runs when ``pwsh`` is on PATH; CI installs
-PowerShell on every runner, so those cases never skip there.
+side of the parity assertions only runs when ``pwsh`` is on PATH. Local skips
+are allowed and explicit; ``PowerShellAvailabilityGuardTests`` fails the suite
+when ``CI`` is set without ``pwsh`` instead of letting the parity guarantee
+disappear silently.
 """
 
 from __future__ import annotations
 
 import codecs
+import os
 import shutil
 import subprocess
 import sys
@@ -37,8 +40,22 @@ import verify_docs_snippets as verifier  # noqa: E402  (sys.path is set above)
 PWSH = shutil.which("pwsh")
 PWSH_SKIP_REASON = (
     "pwsh is not on PATH, so the PowerShell reference verifier cannot run here. "
-    "CI installs PowerShell on every runner, so these parity cases never skip there."
+    "Local skips are allowed and explicit; PowerShellAvailabilityGuardTests "
+    "fails the suite instead when CI is set without pwsh."
 )
+
+
+class PowerShellAvailabilityGuardTests(unittest.TestCase):
+    """A missing pwsh may skip locally but must never silently skip in CI."""
+
+    def test_pwsh_is_available_in_ci(self) -> None:
+        if not os.environ.get("CI"):
+            self.skipTest("CI is not set; the pwsh skip is an explicit local skip")
+        self.assertIsNotNone(
+            PWSH,
+            "CI is set but pwsh is not on PATH, so the PowerShell parity cases "
+            "would silently skip; install PowerShell on the runner.",
+        )
 
 
 @dataclass(frozen=True)
@@ -243,15 +260,24 @@ class RepositoryVerificationTests(unittest.TestCase):
         self.assertEqual(result.stderr, "")
         self.assertEqual(result.stdout.strip(), SUCCESS_LINE)
 
+    def test_pep723_header(self) -> None:
+        text = VERIFIER_PATH.read_text(encoding="utf-8")
+        self.assertTrue(text.splitlines()[0].startswith("#!"))
+        self.assertIn("# /// script", text)
+        self.assertIn('requires-python = ">=3.12,<3.13"', text)
+        self.assertIn("dependencies = []", text)
+
     def test_default_root_outside_git_repository_fails_with_remediation(self) -> None:
         with tempfile.TemporaryDirectory(prefix="docs_snippets_nongit_") as temp:
             base = Path(temp)
-            if verifier._find_git_root(base) is not None:  # pragma: no cover
+            if verifier.find_git_root(base) is not None:  # pragma: no cover
                 self.skipTest(f"{base} is inside a git repository")
             nested = base / "eng" / "tools"
             nested.mkdir(parents=True)
             copied = nested / VERIFIER_PATH.name
             shutil.copyfile(VERIFIER_PATH, copied)
+            # The verifier imports the shared root resolver from its own directory.
+            shutil.copyfile(TOOLS_DIR / "_repo.py", nested / "_repo.py")
             result = subprocess.run(
                 [sys.executable, str(copied)],
                 capture_output=True,

@@ -238,17 +238,17 @@ class InventoryTestCase(unittest.TestCase):
             [t.name for t in inventory.TARGETS if t.list_types],
         )
 
-    def test_titles_match_generate_sh(self) -> None:
+    def test_titles_match_legacy_invocations(self) -> None:
         expected = dict(TITLES)
         expected[inventory.TYPE_LIST_NAME] = ""
         self.assertEqual(
             expected, {target.name: target.title for target in inventory.TARGETS}
         )
 
-    def test_modes_match_generate_sh(self) -> None:
+    def test_modes_match_legacy_invocations(self) -> None:
         self.assertEqual(MODES, {target.name: target.mode for target in inventory.TARGETS})
 
-    def test_include_filters_match_generate_sh(self) -> None:
+    def test_include_filters_match_legacy_invocations(self) -> None:
         for target in inventory.TARGETS:
             self.assertEqual(
                 INCLUDES.get(target.name, ()), tuple(target.includes), target.name

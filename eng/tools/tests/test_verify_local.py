@@ -139,9 +139,9 @@ class FakeRunner:
                 handle.write(
                     json.dumps({"step": step, "argv": argv, "env": env}) + "\n"
                 )
-        run = self.overrides.get(
-            step, FakeRun(0, green_stdout(step, self.repository_root))
-        )
+        run = self.overrides.get(step)
+        if run is None:
+            run = FakeRun(0, green_stdout(step, self.repository_root))
         return subprocess.CompletedProcess(argv, run.returncode, run.stdout, run.stderr)
 
     @property

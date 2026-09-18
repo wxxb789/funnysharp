@@ -47,9 +47,9 @@ from collections.abc import Callable, Mapping, Sequence
 from dataclasses import dataclass
 from pathlib import Path
 
+from _repo import default_repository_root, find_git_root
+
 REQUIRED_PYTHON = (3, 12)
-REQUIRED_UV = "0.12.16"
-REQUIRED_DOTNET_SDK = "10.0.400"
 
 # The release-protocol steps this pre-check runs locally, in protocol order.
 LOCAL_STEPS: tuple[str, ...] = (
@@ -164,21 +164,6 @@ CommandRunner = Callable[
 # ---------------------------------------------------------------------------
 
 
-def default_repository_root() -> Path:
-    # eng/tools/verify_local.py -> repository root
-    return Path(__file__).resolve().parents[2]
-
-
-def find_git_root(start: Path) -> Path | None:
-    current = start
-    while True:
-        if (current / ".git").exists():
-            return current
-        if current.parent == current:
-            return None
-        current = current.parent
-
-
 def find_executable(name: str, env: Mapping[str, str]) -> str | None:
     path = env.get("PATH", env.get("Path", ""))
     return shutil.which(name, path=path or None)
@@ -204,7 +189,7 @@ def environment_problems(
         problems.append(
             EnvironmentProblem(
                 "uv was not found on PATH.",
-                f"install uv {REQUIRED_UV} (see uv.toml) and run "
+                "install the uv version pinned by uv.toml and run "
                 "`uv run --no-project eng/tools/verify_local.py`.",
             )
         )
@@ -212,7 +197,7 @@ def environment_problems(
         problems.append(
             EnvironmentProblem(
                 "dotnet was not found on PATH.",
-                f"install the .NET SDK pinned by global.json ({REQUIRED_DOTNET_SDK}) "
+                "install the .NET SDK pinned by global.json "
                 "and make sure `dotnet --version` works.",
             )
         )
@@ -599,7 +584,7 @@ def main(
     skipped = _skipped_steps(args)
 
     if args.repository_root is None:
-        repository_root = default_repository_root()
+        repository_root = default_repository_root(Path(__file__))
         if find_git_root(repository_root) is None:
             return _environment_failure(
                 args,

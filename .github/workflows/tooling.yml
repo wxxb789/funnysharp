@@ -27,6 +27,10 @@ concurrency:
 env:
   DOTNET_NOLOGO: true
 
+defaults:
+  run:
+    shell: bash
+
 jobs:
   tooling:
     name: tooling (${{ matrix.os }})
@@ -55,44 +59,35 @@ jobs:
         with:
           global-json-file: global.json
 
+      - name: Prepare the tooling log directory
+        run: mkdir -p "$RUNNER_TEMP/tooling-logs"
+
       - name: Install the pinned Python interpreter
-        shell: bash
         run: |
-          mkdir -p "$RUNNER_TEMP/tooling-logs"
           uv python install 2>&1 | tee "$RUNNER_TEMP/tooling-logs/uv-python-install.log"
 
       - name: Run the Python tooling suites
-        shell: bash
         run: |
-          mkdir -p "$RUNNER_TEMP/tooling-logs"
           uv run --no-project python -m unittest discover -s eng/tools/tests 2>&1 \
             | tee "$RUNNER_TEMP/tooling-logs/python-tooling-suites.log"
 
       - name: Run the local pre-check
-        shell: bash
         run: |
-          mkdir -p "$RUNNER_TEMP/tooling-logs"
           uv run --no-project eng/tools/verify_local.py 2>&1 \
             | tee "$RUNNER_TEMP/tooling-logs/verify-local.log"
 
       - name: Run the release protocol tests
-        shell: bash
         run: |
-          mkdir -p "$RUNNER_TEMP/tooling-logs"
           pwsh -NoProfile -File eng/tests/ReleaseProtocol.Tests.ps1 2>&1 \
             | tee "$RUNNER_TEMP/tooling-logs/release-protocol-tests.log"
 
       - name: Run the performance protocol tests
-        shell: bash
         run: |
-          mkdir -p "$RUNNER_TEMP/tooling-logs"
           pwsh -NoProfile -File eng/tests/PerformanceProtocol.Tests.ps1 2>&1 \
             | tee "$RUNNER_TEMP/tooling-logs/performance-protocol-tests.log"
 
       - name: Check the workflow action pins
-        shell: bash
         run: |
-          mkdir -p "$RUNNER_TEMP/tooling-logs"
           uv run --no-project eng/tools/check_action_pins.py --verbose 2>&1 \
             | tee "$RUNNER_TEMP/tooling-logs/action-pins.log"
 
@@ -115,7 +110,6 @@ jobs:
     timeout-minutes: 5
     steps:
       - name: Require the tooling matrix
-        shell: bash
         run: |
           result="${{ needs.tooling.result }}"
           if [ "$result" != "success" ]; then
