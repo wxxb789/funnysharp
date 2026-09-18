@@ -724,15 +724,16 @@ class InventoryTestCase(unittest.TestCase):
         self.assertIn("not a directory", stderr)
         self.assertEqual([], runner.calls)
 
-    @unittest.skipIf(
-        os.name == "nt",
-        "read-only directory permissions do not block writes on Windows; POSIX mode bits only",
-    )
     def test_unwritable_output_dir_exits_2_without_traceback(self) -> None:
-        out = self.tmp / "out-readonly"
+        out = self.tmp / "out-unwritable"
         out.mkdir()
-        out.chmod(0o500)
-        self.addCleanup(out.chmod, 0o700)
+        # Occupy the first target's log path with a directory so the write fails
+        # deterministically on every platform and UID: write_bytes raises
+        # IsADirectoryError (POSIX) or PermissionError (Windows), both OSError,
+        # which main() turns into exit 2 with the remediation text. POSIX mode
+        # bits would not block a root user, so they cannot be relied on here.
+        first = inventory.TARGETS[0]
+        (out / f"inv-{first.name}.log").mkdir()
         runner = FakeDotnet()
         code, stdout, stderr = self.run_cli(runner, self.generation_argv(out))
         self.assertEqual(2, code)
