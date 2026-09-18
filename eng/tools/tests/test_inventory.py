@@ -724,6 +724,18 @@ class InventoryTestCase(unittest.TestCase):
         self.assertIn("not a directory", stderr)
         self.assertEqual([], runner.calls)
 
+    def test_unlaunchable_dotnet_is_environment_failure(self) -> None:
+        class RaisingDotnet:
+            def __call__(self, argv, env):
+                raise PermissionError("dotnet: Permission denied")
+
+        out = self.tmp / "out-unlaunchable"
+        code, stdout, stderr = self.run_cli(RaisingDotnet(), self.generation_argv(out))
+        self.assertEqual(2, code)
+        self.assertIn("cannot execute dotnet", stderr)
+        self.assertIn("global.json", stderr)
+        self.assertNotIn("Traceback", stdout + stderr)
+
     def test_unwritable_output_dir_exits_2_without_traceback(self) -> None:
         out = self.tmp / "out-unwritable"
         out.mkdir()

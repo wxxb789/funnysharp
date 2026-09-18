@@ -22,9 +22,10 @@ The check is deliberately text-level and fails closed on forms it cannot parse:
   model this check recognizes; write workflow steps in block style so they are
   scanned.
 
-``release.yml`` is out of scope on purpose: the frozen PowerShell protocol test
-(``eng/tests/ReleaseProtocol.Tests.ps1``) owns release-workflow pinning, so this
-check never creates a second owner for the same pins (KTD8, R14).
+``release.yml`` is scanned for third-party owners only: the frozen PowerShell
+protocol test (``eng/tests/ReleaseProtocol.Tests.ps1``) owns its ``actions/*``
+pins, so this check never creates a second owner for the same pins (KTD8, R14)
+while still catching an unpinned non-``actions`` action there.
 
 Run with::
 
@@ -47,15 +48,18 @@ from _repo import default_repository_root
 WORKFLOWS_RELATIVE_PATH = Path(".github") / "workflows"
 WORKFLOW_SUFFIXES = (".yml", ".yaml")
 
-# release.yml stays with the frozen PowerShell protocol test; scanning it here
-# would create a divergent second owner for the same pins (R14).
-SKIPPED_WORKFLOW_NAMES = frozenset({"release.yml", "release.yaml"})
+# release.yml's `actions/*` pins stay with the frozen PowerShell protocol test;
+# checking them here would create a divergent second owner for the same pins
+# (R14). Third-party owners in that workflow are still checked.
+RELEASE_WORKFLOW_NAMES = frozenset({"release.yml", "release.yaml"})
+FROZEN_ACTION_OWNER = "actions"
 
 TOOLING_WORKFLOW_NAME = "tooling.yml"
 UV_SETUP_ACTION = "astral-sh/setup-uv"
 UV_PIN_FILE_NAME = "uv.toml"
 UV_REQUIRED_VERSION_PATTERN = re.compile(
-    r"^[ \t]*required-version[ \t]*=", re.MULTILINE
+    r"^[ \t]*required-version[ \t]*=[ \t]*['\"]==\d+\.\d+\.\d+['\"][ \t]*$",
+    re.MULTILINE,
 )
 
 USES_PATTERN = re.compile(
@@ -181,13 +185,22 @@ def step_block_lines(
 
 
 def check_workflow_text(
-    path: Path, references: Sequence[UsesReference]
+    path: Path,
+    references: Sequence[UsesReference],
+    *,
+    ignored_owners: frozenset[str] = frozenset(),
 ) -> list[Finding]:
-    """Return every pinning finding for one workflow's parsed references."""
+    """Return every pinning finding for one workflow's parsed references.
+
+    ``ignored_owners`` exempts owners another checker owns (the frozen test owns
+    ``actions/*`` in release.yml).
+    """
 
     findings: list[Finding] = []
     for uses in references:
         if uses.is_local:
+            continue
+        if uses.reference.split("/", 1)[0] in ignored_owners:
             continue
         if PINNED_REFERENCE_PATTERN.match(uses.reference) is None:
             findings.append(
@@ -251,7 +264,8 @@ def check_tooling_pins(
                     path,
                     setup_uv[0].line,
                     f"{TOOLING_WORKFLOW_NAME} must take the uv version from "
-                    f"'{UV_PIN_FILE_NAME}' required-version, but that pin is missing",
+                    f"'{UV_PIN_FILE_NAME}' required-version, but that pin is "
+                    "missing or is not an exact '==x.y.z' specification",
                 )
             )
     return findings
@@ -271,22 +285,30 @@ def workflow_files(workflows_directory: Path) -> list[Path]:
 
 
 def check_repository(repository_root: Path) -> tuple[list[Path], list[Finding]]:
-    """Check every in-scope workflow under ``repository_root``.
+    """Check every workflow under ``repository_root``.
 
     Returns the scanned files (in scope) and all findings; ``release.yml`` is
-    deliberately not scanned.
+    scanned for third-party owners while its ``actions/*`` pins stay with the
+    frozen PowerShell protocol test.
     """
 
     workflows_directory = repository_root / WORKFLOWS_RELATIVE_PATH
     scanned: list[Path] = []
     findings: list[Finding] = []
     for path in workflow_files(workflows_directory):
-        if path.name in SKIPPED_WORKFLOW_NAMES:
-            continue
         text = path.read_text(encoding="utf-8", errors="replace")
         lines = text.splitlines()
         references = iter_uses_references(lines)
         scanned.append(path)
+        if path.name in RELEASE_WORKFLOW_NAMES:
+            findings.extend(
+                check_workflow_text(
+                    path,
+                    references,
+                    ignored_owners=frozenset({FROZEN_ACTION_OWNER}),
+                )
+            )
+            continue
         findings.extend(check_workflow_text(path, references))
         if path.name == TOOLING_WORKFLOW_NAME:
             findings.extend(check_tooling_pins(path, references, lines, repository_root))

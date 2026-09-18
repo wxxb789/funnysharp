@@ -641,6 +641,10 @@ def _run_dotnet(
         raise EnvironmentFailure(
             f"dotnet executable not found ({exc}); install the .NET SDK pinned by global.json"
         ) from exc
+    except OSError as exc:
+        raise EnvironmentFailure(
+            f"cannot execute dotnet ({exc}); install the .NET SDK pinned by global.json"
+        ) from exc
 
 
 def build_dumper(

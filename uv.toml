@@ -1,6 +1,7 @@
 # uv configuration for the repository's Python tooling.
 # The pin is enforced by `required-version`; upgrade it together with
-# .python-version and re-verify on Windows, Linux, and macOS.
+# .python-version, the requires-python headers in eng/tools/*.py, and
+# verify_local.REQUIRED_PYTHON, then re-verify on Windows, Linux, and macOS.
 required-version = "==0.12.16"
 python-preference = "only-managed"
 python-downloads = "manual"

@@ -181,11 +181,11 @@ Excluded measurements:
 <!-- performance-table:end concurrency -->
 
 The ordered streaming map pays for its reusable enumerator, channel backpressure, ordered delivery,
-and cleanup tracking; in this workload it was 1.6-2.1x slower and allocated 1.1-1.5x as much as the
-known-length BCL array path. The traversal coordinator was competitive for 16 items and used less
-time and storage than the direct intermediate-array baseline at 1,024 items. First-success added
-12-49% time in these short cases, with allocation slightly higher for four candidates and lower for
-sixteen.
+and cleanup tracking; in this workload it was 1.36-1.45x slower and allocated 1.03x as much at 1,024
+items and 1.40x at 16 items compared with the known-length BCL array path. The traversal coordinator
+was competitive at 1,024 items and faster at 16, and used substantially less storage in both cases.
+First-success was faster than the sequential baseline in these short cases (about 9-19%), with
+allocations slightly lower for sixteen candidates and slightly higher for four.
 
 These measurements are directional. `Task.Yield` models scheduler handoff, not production I/O, and
 three measured iterations on a virtualized host produce wide confidence intervals for the smallest

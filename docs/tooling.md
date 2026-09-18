@@ -170,8 +170,9 @@ uv and Python move together:
 
 1. Choose the target uv release and a Python 3.12.x patch that it provides on Windows x64,
    Linux x64, and macOS.
-2. Change `uv.toml` (`required-version`) and `.python-version` in one PR. CI reads the pin files
-   rather than repeating the versions, so no workflow edit is needed.
+2. Change `uv.toml` (`required-version`), `.python-version`, the `requires-python` headers in the
+   four `eng/tools/*.py` scripts, and `verify_local.REQUIRED_PYTHON` in one PR. CI reads the pin
+   files rather than repeating the versions, so no workflow edit is needed.
 3. On each OS run `uv python install`, then the tooling test suite and
    `uv run --no-project eng/tools/verify_local.py`.
 4. Merge only after the tooling workflow is green on all three OSes.

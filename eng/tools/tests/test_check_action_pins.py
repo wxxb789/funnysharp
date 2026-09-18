@@ -2,9 +2,9 @@
 
 Fixture workflows are written into a temporary directory and the checker is
 pointed at that directory, so no real workflow needs to be mutated. The suite
-also runs the checker over the real ``.github/workflows/`` tree and proves
-``release.yml`` remains out of scope: its pinning stays with the frozen
-PowerShell protocol test (KTD8, R14).
+also runs the checker over the real ``.github/workflows/`` tree: third-party
+owners are checked everywhere, while ``release.yml``'s ``actions/*`` pins stay
+with the frozen PowerShell protocol test (KTD8, R14).
 
 The suite is stdlib-only and never parses YAML; the checker itself is
 text-level, and the fixtures keep the YAML shapes the checker must recognize.
@@ -282,27 +282,76 @@ class PinCheckFixtureTests(FixtureCheckMixin, unittest.TestCase):
         self.assertIn("uv.toml", findings[0].message)
         self.assertIn("required-version", findings[0].message)
 
-    def test_release_workflow_is_skipped(self) -> None:
+    def test_setup_uv_range_pin_fails(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            write_workflows(
+                root,
+                {
+                    "tooling.yml": workflow_text(
+                        step(
+                            "name: Set up uv",
+                            f"uses: astral-sh/setup-uv@{SETUP_UV_SHA} # v10.1.0",
+                        )
+                    )
+                },
+            )
+            (root / "uv.toml").write_text(
+                'required-version = ">=0.12"\n', encoding="utf-8", newline="\n"
+            )
+            _, findings = check_action_pins.check_repository(root)
+        self.assertEqual(len(findings), 1)
+        self.assertIn("required-version", findings[0].message)
+        self.assertIn("exact", findings[0].message)
+
+    def test_setup_uv_valueless_pin_fails(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            write_workflows(
+                root,
+                {
+                    "tooling.yml": workflow_text(
+                        step(
+                            "name: Set up uv",
+                            f"uses: astral-sh/setup-uv@{SETUP_UV_SHA} # v10.1.0",
+                        )
+                    )
+                },
+            )
+            (root / "uv.toml").write_text(
+                "required-version =\n", encoding="utf-8", newline="\n"
+            )
+            _, findings = check_action_pins.check_repository(root)
+        self.assertEqual(len(findings), 1)
+        self.assertIn("required-version", findings[0].message)
+
+    def test_release_workflow_actions_owner_is_delegated(self) -> None:
         release_text = workflow_text(
             step("name: Checkout", "uses: actions/checkout@v4")
         )
-        with tempfile.TemporaryDirectory() as temporary:
-            root = Path(temporary)
-            write_workflows(root, {"release.yml": release_text})
-            release_path = root / ".github" / "workflows" / "release.yml"
-            # The text alone would be a finding; only the released scope
-            # exemption keeps it out of the repository scan.
-            self.assertEqual(
-                len(
-                    check_action_pins.check_workflow_text(
-                        release_path,
-                        check_action_pins.iter_uses_references(release_text.splitlines()),
-                    )
-                ),
-                1,
+        _, findings = self.check_fixture({"release.yml": release_text})
+        # actions/* in release.yml stays with the frozen PowerShell protocol
+        # test; this checker deliberately ignores that owner there.
+        self.assertEqual(findings, [])
+
+    def test_release_workflow_third_party_tag_fails(self) -> None:
+        release_text = workflow_text(
+            step("name: Release", "uses: softprops/action-gh-release@v2")
+        )
+        _, findings = self.check_fixture({"release.yml": release_text})
+        self.assertEqual(len(findings), 1)
+        self.assertIn("softprops/action-gh-release@v2", findings[0].message)
+        self.assertIn("40-hex", findings[0].message)
+
+    def test_release_workflow_third_party_pinned_passes(self) -> None:
+        release_text = workflow_text(
+            step(
+                "name: Release",
+                f"uses: softprops/action-gh-release@{CHECKOUT_SHA} # v2",
             )
-            scanned, findings = check_action_pins.check_repository(root)
-        self.assertEqual(scanned, [])
+        )
+        scanned, findings = self.check_fixture({"release.yml": release_text})
+        self.assertEqual(scanned, ["release.yml"])
         self.assertEqual(findings, [])
 
 
@@ -314,7 +363,7 @@ class RealWorkflowTests(unittest.TestCase):
         )
         names = [path.name for path in scanned]
         self.assertIn("tooling.yml", names)
-        self.assertNotIn("release.yml", names)
+        self.assertIn("release.yml", names)
 
 
 class CommandLineTests(FixtureCheckMixin, unittest.TestCase):
