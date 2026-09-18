@@ -334,7 +334,9 @@ def step_failure(
     its own for those steps (docs is not a release-protocol step).
     """
 
-    combined = f"{stdout}\n{stderr}"
+    combined = ""
+    if step in {"build", "test", "examples", "aspnetcore-examples"}:
+        combined = f"{stdout}\n{stderr}"
     if step == "build":
         if BUILD_SUCCEEDED_PATTERN.search(combined) is None:
             return "build log does not contain a 'Build succeeded.' line"
