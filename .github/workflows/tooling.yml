@@ -1,0 +1,125 @@
+name: tooling
+
+# Informational matrix that proves the Python + uv tooling layer and the frozen
+# PowerShell protocol tests on every supported operating system. The release
+# workflow contexts (`release / win-x64`, `release / linux-x64`,
+# `release / osx-arm64`, `release / osx-x64-consumer`) remain the only release
+# gate; promoting `tooling / tooling-gate` to a required check is a separate
+# decision (KTD8).
+#
+# No `paths` filter on purpose: a future required check must always report a
+# result instead of staying pending on changes outside the filter.
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: tooling-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  DOTNET_NOLOGO: true
+
+jobs:
+  tooling:
+    name: tooling (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          - windows-2025
+          - macos-15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@bec219d24cd3e171d82865faccec33120bb574f4 # v10.1.0
+        with:
+          # No `version:` input: the action reads uv.toml's `required-version`,
+          # so the pin has exactly one source of truth (KTD3).
+          enable-cache: false
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@67a3573c9a986a3f9c594539f4ab511d57bb3ce9 # v4
+        with:
+          global-json-file: global.json
+
+      - name: Install the pinned Python interpreter
+        shell: bash
+        run: |
+          mkdir -p "$RUNNER_TEMP/tooling-logs"
+          uv python install 2>&1 | tee "$RUNNER_TEMP/tooling-logs/uv-python-install.log"
+
+      - name: Run the Python tooling suites
+        shell: bash
+        run: |
+          mkdir -p "$RUNNER_TEMP/tooling-logs"
+          uv run --no-project python -m unittest discover -s eng/tools/tests 2>&1 \
+            | tee "$RUNNER_TEMP/tooling-logs/python-tooling-suites.log"
+
+      - name: Run the local pre-check
+        shell: bash
+        run: |
+          mkdir -p "$RUNNER_TEMP/tooling-logs"
+          uv run --no-project eng/tools/verify_local.py 2>&1 \
+            | tee "$RUNNER_TEMP/tooling-logs/verify-local.log"
+
+      - name: Run the release protocol tests
+        shell: bash
+        run: |
+          mkdir -p "$RUNNER_TEMP/tooling-logs"
+          pwsh -NoProfile -File eng/tests/ReleaseProtocol.Tests.ps1 2>&1 \
+            | tee "$RUNNER_TEMP/tooling-logs/release-protocol-tests.log"
+
+      - name: Run the performance protocol tests
+        shell: bash
+        run: |
+          mkdir -p "$RUNNER_TEMP/tooling-logs"
+          pwsh -NoProfile -File eng/tests/PerformanceProtocol.Tests.ps1 2>&1 \
+            | tee "$RUNNER_TEMP/tooling-logs/performance-protocol-tests.log"
+
+      - name: Check the workflow action pins
+        shell: bash
+        run: |
+          mkdir -p "$RUNNER_TEMP/tooling-logs"
+          uv run --no-project eng/tools/check_action_pins.py --verbose 2>&1 \
+            | tee "$RUNNER_TEMP/tooling-logs/action-pins.log"
+
+      - name: Upload tooling logs
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: tooling-logs-${{ matrix.os }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/tooling-logs
+          if-no-files-found: ignore
+          retention-days: 7
+
+  # One stable aggregate check name for future promotion, so registering the
+  # tooling workflow as required adds one context instead of three matrix legs.
+  tooling-gate:
+    name: tooling-gate
+    needs: tooling
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Require the tooling matrix
+        shell: bash
+        run: |
+          result="${{ needs.tooling.result }}"
+          if [ "$result" != "success" ]; then
+            echo "::error::tooling matrix outcome was '$result'; tooling-gate requires success."
+            exit 1
+          fi
+          echo "tooling matrix succeeded."
