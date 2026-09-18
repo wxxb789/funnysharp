@@ -86,8 +86,8 @@ artifacts. To regenerate:
 1. Download the `.nupkg` files listed above and verify their SHA256.
 2. Extract them to a local tree.
 3. Build the FunnySharp Release assemblies from the pinned commit.
-4. Run `eng/next-stage-inventory/generate.sh <baseline-root> <ref-pack-dir> <output-dir>`
-   (the committed script encodes the exact commands, filters, and output names).
+4. Run `uv run --no-project eng/tools/inventory.py <baseline-root> <ref-pack-dir> <output-dir>`
+   (the orchestrator encodes the exact commands, filters, and output names).
 
 Because package feeds are mutable, regeneration is only equivalent when the pin
 hashes match. A regenerated dump that differs from a committed dump is a new

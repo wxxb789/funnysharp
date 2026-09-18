@@ -84,14 +84,14 @@ contract.
 <!-- performance-table:start data-pipelines -->
 | Scenario | Baseline mean | FunnySharp mean | Ratio | Baseline allocation | FunnySharp allocation |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Async stream filter-map ([Count=1024]) - BclAsyncWhereSelect | 14.088 us | 39.543 us | 2.81x | 0 B | 400 B |
-| Async stream filter-map ([Count=1024]) - FunnySharpAsyncChoose | 14.088 us | 42.532 us | 3.02x | 0 B | 312 B |
-| Async stream filter-map ([Count=16]) - BclAsyncWhereSelect | 288.903 ns | 823.194 ns | 2.85x | 0 B | 400 B |
-| Async stream filter-map ([Count=16]) - FunnySharpAsyncChoose | 288.903 ns | 678.530 ns | 2.35x | 0 B | 312 B |
-| IEnumerable filter-map ([Count=1024]) | 6.118 us | 4.426 us | 0.72x | 160 B | 112 B |
-| IEnumerable filter-map ([Count=16]) | 148.812 ns | 120.603 ns | 0.81x | 160 B | 112 B |
-| Span filter-map ([Count=1024]) | 855.300 ns | 3.909 us | 4.57x | 0 B | 0 B |
-| Span filter-map ([Count=16]) | 12.448 ns | 51.962 ns | 4.17x | 0 B | 0 B |
+| Async stream filter-map ([Count=1024]) - BclAsyncWhereSelect | 13.896 us | 35.021 us | 2.52x | 0 B | 400 B |
+| Async stream filter-map ([Count=1024]) - FunnySharpAsyncChoose | 13.896 us | 44.079 us | 3.17x | 0 B | 312 B |
+| Async stream filter-map ([Count=16]) - BclAsyncWhereSelect | 288.997 ns | 718.552 ns | 2.49x | 0 B | 400 B |
+| Async stream filter-map ([Count=16]) - FunnySharpAsyncChoose | 288.997 ns | 671.768 ns | 2.32x | 0 B | 312 B |
+| IEnumerable filter-map ([Count=1024]) | 6.015 us | 4.335 us | 0.72x | 160 B | 112 B |
+| IEnumerable filter-map ([Count=16]) | 139.285 ns | 116.128 ns | 0.83x | 160 B | 112 B |
+| Span filter-map ([Count=1024]) | 844.292 ns | 3.139 us | 3.72x | 0 B | 0 B |
+| Span filter-map ([Count=16]) | 12.100 ns | 47.299 ns | 3.91x | 0 B | 0 B |
 
 Excluded measurements:
 - Unmeasured pipeline variants: ChooseValueAsync, SelectTo, WhereTo, in-place variants, and Memory wrappers have no numeric release claim.

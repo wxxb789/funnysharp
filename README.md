@@ -138,6 +138,8 @@ GitHub release validation exposes four stable required contexts: `release / win-
 `release / linux-x64`, `release / osx-arm64`, and `release / osx-x64-consumer`. Repository ruleset
 readback is separate operational evidence; without it, Goal 13 product acceptance remains failed.
 
+For a PowerShell-free local pre-check, see [tooling](https://github.com/wxxb789/funnysharp/blob/main/docs/tooling.md).
+
 ## Benchmark
 
 ```shell

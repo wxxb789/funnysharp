@@ -245,7 +245,7 @@ To remain independent, FunnySharp must reject, in language-ext terms:
 - **Open:** the supplementary generated dumps are documented in
   `inventory/generated/README.md` (which now also records their member/operator
   counts, though its summary rows for the regenerated supplementary dumps are one
-  generation stale); `eng/next-stage-inventory/generate.sh` and the
+  generation stale); `eng/tools/inventory.py` and the
   `baselines.md` asset table still cover the canonical set only, so the lead may
   want to fold the supplementary commands in for reproducibility.
 

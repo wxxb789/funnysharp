@@ -74,7 +74,7 @@ build of the tool (see the two evidence-integrity notes below).
 
 | Committed dump | Input | Filter | Types |
 | --- | --- | --- | --- |
-| `generated/inv-language-ext.md/.json` | 4.4.9 DLL | `^LanguageExt\.[A-Za-z]+$` (canonical, from the lead's `generate.sh`) | **159** non-generic types |
+| `generated/inv-language-ext.md/.json` | 4.4.9 DLL | `^LanguageExt\.[A-Za-z]+$` (canonical, the `language-ext` target) | **159** non-generic types |
 | `generated/inv-language-ext-toplevel.md/.json` | 4.4.9 DLL | `^LanguageExt\.[A-Za-z0-9_`+]+$` (supplementary: complete top-level namespace, all arities + nested) | **339** types |
 | `generated/inv-language-ext-globalns.md/.json` | 4.4.9 DLL | `^[A-Za-z0-9_`+]+$` (global-namespace extension classes) | **49** types |
 | `generated/inv-language-ext-typeclasses.md/.json` | 4.4.9 DLL | `^LanguageExt\.(TypeClasses\|Common\|Thunks\|DataTypes)\.` | **85** types |

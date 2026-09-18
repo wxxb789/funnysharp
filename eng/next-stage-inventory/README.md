@@ -7,7 +7,7 @@ This directory is Goal 14 evidence tooling, not a shipping artifact.
   It supports runtime loading (with nullable reference annotations via
   `NullabilityInfoContext`) and `MetadataLoadContext` mode for reference assemblies
   and dependency-incomplete packages.
-- `generate.sh` — reproduces the committed dumps under
+- `uv run --no-project eng/tools/inventory.py` — reproduces the committed dumps under
   `docs/next-stage/inventory/generated/` from pinned external packages and the
   repository's Release build outputs. It exits non-zero when any target fails, so a
   partial evidence set is never reported as success.
@@ -19,13 +19,13 @@ pinned inputs recorded in `docs/next-stage/baselines.md`.
 
 ```bash
 # Usage
-bash eng/next-stage-inventory/generate.sh <baseline-root> <ref-pack-dir> <output-dir>
+uv run --no-project eng/tools/inventory.py <baseline-root> <ref-pack-dir> <output-dir>
 
 # Example for the 2026-09-17 survey
-bash eng/next-stage-inventory/generate.sh \
+uv run --no-project eng/tools/inventory.py \
   /tmp/next-stage-baselines \
   "$HOME/.dotnet/packs/Microsoft.NETCore.App.Ref/10.0.11/ref/net10.0" \
-  /tmp/next-stage-evidence
+  ~/next-stage-evidence
 ```
 
 `<baseline-root>` contains one extracted directory per package named after the

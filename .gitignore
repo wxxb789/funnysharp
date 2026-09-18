@@ -5,3 +5,8 @@ BenchmarkDotNet.Artifacts/
 .vs/
 *.suo
 *.user
+
+# Python tooling
+__pycache__/
+*.py[cod]
+.venv/
