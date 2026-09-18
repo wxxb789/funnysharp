@@ -46,6 +46,8 @@ from collections.abc import Callable, Mapping, Sequence
 from dataclasses import dataclass
 from pathlib import Path
 
+from _repo import default_repository_root
+
 CommandRunner = Callable[
     [Sequence[str], Mapping[str, str]], subprocess.CompletedProcess[bytes]
 ]
@@ -332,7 +334,7 @@ class EnvironmentFailure(Exception):
 
 
 def repository_root() -> Path:
-    root = Path(__file__).resolve().parents[2]
+    root = default_repository_root(Path(__file__))
     if not (root / "eng" / "next-stage-inventory" / "api-inventory.csproj").is_file():
         raise EnvironmentFailure(
             f"cannot locate the FunnySharp repository root from {Path(__file__).resolve()}"
@@ -437,21 +439,21 @@ def required_inputs(inputs: Inputs) -> list[RequiredInput]:
             add(
                 spec.display(inputs),
                 spec.resolve(inputs),
-                "file",
+                spec.kind,
                 f"required by target {target.name}",
             )
         for spec in target.resolve_dirs:
             add(
                 spec.display(inputs),
                 spec.resolve(inputs),
-                "dir",
+                spec.kind,
                 f"resolve directory for target {target.name}",
             )
         if target.core_dir is not None:
             add(
                 target.core_dir.display(inputs),
                 target.core_dir.resolve(inputs),
-                "dir",
+                target.core_dir.kind,
                 f"core directory for target {target.name}",
             )
     return required
@@ -625,18 +627,29 @@ def _tail(path: Path, count: int) -> list[str]:
     return text.splitlines()[-count:]
 
 
+def _run_dotnet(
+    argv: Sequence[str],
+    inputs: Inputs,
+    env: Mapping[str, str],
+    runner: CommandRunner,
+) -> subprocess.CompletedProcess[bytes]:
+    """Run one dotnet invocation, translating a missing binary into remediation."""
+
+    try:
+        return runner(argv, _child_env(env, inputs.dotnet_root))
+    except FileNotFoundError as exc:
+        raise EnvironmentFailure(
+            f"dotnet executable not found ({exc}); install the .NET SDK pinned by global.json"
+        ) from exc
+
+
 def build_dumper(
     inputs: Inputs,
     env: Mapping[str, str],
     runner: CommandRunner,
 ) -> bool:
     argv = ["dotnet", "build", str(inputs.csproj), "-c", "Release", "--nologo"]
-    try:
-        result = runner(argv, _child_env(env, inputs.dotnet_root))
-    except FileNotFoundError as exc:
-        raise EnvironmentFailure(
-            f"dotnet executable not found ({exc}); install the .NET SDK pinned by global.json"
-        ) from exc
+    result = _run_dotnet(argv, inputs, env, runner)
     if result.returncode != 0:
         print("FAILED: inventory tool build", file=sys.stderr)
         output = normalize_bytes(result.stdout or b"") + normalize_bytes(result.stderr or b"")
@@ -654,12 +667,7 @@ def run_target(
 ) -> bool:
     print(f"== {target.name}")
     argv = target_argv(target, inputs, out_dir)
-    try:
-        result = runner(argv, _child_env(env, inputs.dotnet_root))
-    except FileNotFoundError as exc:
-        raise EnvironmentFailure(
-            f"dotnet executable not found ({exc}); install the .NET SDK pinned by global.json"
-        ) from exc
+    result = _run_dotnet(argv, inputs, env, runner)
     stdout = normalize_bytes(result.stdout or b"")
     stderr = normalize_bytes(result.stderr or b"")
     if target.list_types:

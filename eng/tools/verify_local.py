@@ -467,20 +467,11 @@ def run_steps(
         completed = runner(argv, env, repository_root)
         stdout = _strip_ansi(completed.stdout or "")
         stderr = _strip_ansi(completed.stderr or "")
-        if completed.returncode != 0:
-            tail = _output_tail(f"{stdout}\n{stderr}")
-            _print_output_tail(step, tail)
-            results.append(
-                StepResult(
-                    step,
-                    "failed",
-                    completed.returncode,
-                    f"exit code {completed.returncode}",
-                    output_tail=tuple(tail),
-                )
-            )
-            return results, step
-        failure = step_failure(step, stdout, stderr, repository_root)
+        failure = (
+            f"exit code {completed.returncode}"
+            if completed.returncode != 0
+            else step_failure(step, stdout, stderr, repository_root)
+        )
         if failure is not None:
             tail = _output_tail(f"{stdout}\n{stderr}")
             _print_output_tail(step, tail)

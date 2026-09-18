@@ -93,7 +93,7 @@ class FakeRun:
     stderr: str = ""
 
 
-def classify_argv(argv: list[str], repository_root: Path) -> str:
+def classify_argv(argv: list[str]) -> str:
     if any(str(item).endswith("verify_docs_snippets.py") for item in argv):
         return "docs"
     if argv and Path(argv[0]).name in {"dotnet", "dotnet.exe", "dotnet.cmd"}:
@@ -132,7 +132,7 @@ class FakeRunner:
         argv = [str(item) for item in argv]
         env = dict(env)
         cwd = Path(cwd)
-        step = classify_argv(argv, self.repository_root)
+        step = classify_argv(argv)
         self.calls.append((argv, env, cwd))
         if self.record_path is not None:
             with self.record_path.open("a", encoding="utf-8") as handle:
@@ -146,7 +146,7 @@ class FakeRunner:
 
     @property
     def steps(self) -> list[str]:
-        return [classify_argv(argv, self.repository_root) for argv, _, _ in self.calls]
+        return [classify_argv(argv) for argv, _, _ in self.calls]
 
 
 def install_stub(bin_dir: Path, name: str, content: str = "#!/bin/sh\nexit 0\n") -> None:
