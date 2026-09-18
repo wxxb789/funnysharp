@@ -25,7 +25,7 @@ uv run --no-project eng/tools/inventory.py <baseline-root> <ref-pack-dir> <outpu
 uv run --no-project eng/tools/inventory.py \
   /tmp/next-stage-baselines \
   "$HOME/.dotnet/packs/Microsoft.NETCore.App.Ref/10.0.11/ref/net10.0" \
-  /tmp/next-stage-evidence
+  ~/next-stage-evidence
 ```
 
 `<baseline-root>` contains one extracted directory per package named after the

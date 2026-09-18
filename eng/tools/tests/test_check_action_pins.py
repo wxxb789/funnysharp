@@ -42,6 +42,16 @@ def step(*lines: str) -> list[str]:
     return block
 
 
+def continuation_step(name: str, value: str) -> list[str]:
+    """One step whose ``uses:`` value sits on the next, more-indented line."""
+
+    return [
+        f"{STEP_INDENT}- name: {name}",
+        f"{KEY_INDENT}uses:",
+        f"{KEY_INDENT}  {value}",
+    ]
+
+
 def workflow_text(*steps: list[str]) -> str:
     """A minimal valid workflow carrying the given step blocks."""
 
@@ -172,6 +182,90 @@ class PinCheckFixtureTests(FixtureCheckMixin, unittest.TestCase):
         self.assertEqual(findings[0].line, line_of(text, "version:"))
         self.assertIn("must not set 'version:'", findings[0].message)
         self.assertIn("uv.toml", findings[0].message)
+
+    def test_setup_uv_version_before_uses_fails(self) -> None:
+        text = workflow_text(
+            step(
+                "name: Set up uv",
+                "with:",
+                '  version: "0.12.16"',
+                f"uses: astral-sh/setup-uv@{SETUP_UV_SHA} # v10.1.0",
+            )
+        )
+        _, findings = self.check_fixture({"tooling.yml": text}, uv_pin=True)
+        self.assertEqual(len(findings), 1)
+        self.assertEqual(findings[0].line, line_of(text, "version:"))
+        self.assertIn("must not set 'version:'", findings[0].message)
+
+    def test_setup_uv_flow_mapping_version_fails(self) -> None:
+        text = workflow_text(
+            step(
+                "name: Set up uv",
+                f"uses: astral-sh/setup-uv@{SETUP_UV_SHA} # v10.1.0",
+                'with: {version: "0.12.16"}',
+            )
+        )
+        _, findings = self.check_fixture({"tooling.yml": text}, uv_pin=True)
+        self.assertEqual(len(findings), 1)
+        self.assertEqual(findings[0].line, line_of(text, "version:"))
+        self.assertIn("must not set 'version:'", findings[0].message)
+
+    def test_setup_uv_quoted_version_key_fails(self) -> None:
+        text = workflow_text(
+            step(
+                "name: Set up uv",
+                f"uses: astral-sh/setup-uv@{SETUP_UV_SHA} # v10.1.0",
+                "with:",
+                '"version": "0.12.16"',
+            )
+        )
+        _, findings = self.check_fixture({"tooling.yml": text}, uv_pin=True)
+        self.assertEqual(len(findings), 1)
+        self.assertEqual(findings[0].line, line_of(text, '"version":'))
+        self.assertIn("must not set 'version:'", findings[0].message)
+
+    def test_setup_uv_without_version_passes(self) -> None:
+        text = workflow_text(
+            step(
+                "name: Set up uv",
+                f"uses: astral-sh/setup-uv@{SETUP_UV_SHA} # v10.1.0",
+                "with:",
+                "enable-cache: false",
+            )
+        )
+        scanned, findings = self.check_fixture({"tooling.yml": text}, uv_pin=True)
+        self.assertEqual(scanned, ["tooling.yml"])
+        self.assertEqual(findings, [])
+
+    def test_setup_uv_version_in_another_step_passes(self) -> None:
+        text = workflow_text(
+            step(
+                "name: Set up uv",
+                f"uses: astral-sh/setup-uv@{SETUP_UV_SHA} # v10.1.0",
+            ),
+            step("name: Other", "with:", '  version: "1.2.3"'),
+        )
+        scanned, findings = self.check_fixture({"tooling.yml": text}, uv_pin=True)
+        self.assertEqual(scanned, ["tooling.yml"])
+        self.assertEqual(findings, [])
+
+    def test_continuation_uses_value_fails(self) -> None:
+        text = workflow_text(continuation_step("Checkout", "actions/checkout@v4"))
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            write_workflows(root, {"continuation.yml": text})
+            scanned, findings = check_action_pins.check_repository(root)
+            formatted = [finding.format(root) for finding in findings]
+        self.assertEqual([path.name for path in scanned], ["continuation.yml"])
+        line = line_of(text, "uses:")
+        self.assertEqual(
+            formatted,
+            [
+                f".github/workflows/continuation.yml:{line}: uses reference '' "
+                "must be pinned as owner/repo@<40-hex-sha> with a "
+                "'# <version>' comment"
+            ],
+        )
 
     def test_setup_uv_without_uv_pin_fails(self) -> None:
         _, findings = self.check_fixture(

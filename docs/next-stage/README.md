@@ -49,7 +49,7 @@ implement features.
 uv run --no-project eng/tools/inventory.py \
   <baseline-root> \
   "$HOME/.dotnet/packs/Microsoft.NETCore.App.Ref/10.0.11/ref/net10.0" \
-  /tmp/next-stage-evidence
+  "$HOME/next-stage-evidence"
 ```
 
 See [`baselines.md`](baselines.md) for pins and the exact filters used for each dump.

@@ -5,8 +5,9 @@ behavior-equivalent to the authoritative PowerShell verifier in
 ``examples/FunnySharp.DocumentationSamples/VerifyDocumentationSnippets.ps1``.
 
 Every fixture tree is generated into a temporary directory: a staged copy of
-the PowerShell verifier, a copy of the eight primary guides, and a copy of the
-snippet samples, with exactly one mutation applied per case. The PowerShell
+the PowerShell verifier, a copy of the eight primary guides, a copy of the
+snippet samples, and generated ``bin``/``obj`` regions that the scan must
+ignore, with exactly one mutation applied per case. The PowerShell
 side of the parity assertions only runs when ``pwsh`` is on PATH. Local skips
 are allowed and explicit; ``PowerShellAvailabilityGuardTests`` fails the suite
 when ``CI`` is set without ``pwsh`` instead of letting the parity guarantee
@@ -97,6 +98,19 @@ def stage_fixture_tree(base: Path) -> FixtureTree:
     for source in sorted((REPOSITORY_ROOT / SAMPLES_DIR_NAME).glob("*.cs")):
         shutil.copyfile(source, samples / source.name)
     shutil.copyfile(PS_VERIFIER_PATH, samples / PS_VERIFIER_PATH.name)
+    # A region under a build directory must be excluded from the scan: if either
+    # verifier picked it up, every otherwise-valid fixture tree would fail with
+    # an unused-region error.
+    for build_directory in ("bin", "obj"):
+        generated = samples / build_directory / "Generated.cs"
+        generated.parent.mkdir()
+        generated.write_text(
+            "// <snippet DocumentationSamples.Generated.Ignored>\n"
+            "internal static class Generated { }\n"
+            "// </snippet>\n",
+            encoding="utf-8",
+            newline="\n",
+        )
     return FixtureTree(root=base, docs=docs, samples=samples)
 
 
@@ -182,6 +196,44 @@ def mutate_indented_fence(tree: FixtureTree) -> None:
     _write_text(path, text.replace("```csharp\n", "    ```csharp\n", 1))
 
 
+EMPTY_REGION_NAME = "DocumentationSamples.UnitResult.DeleteOrNotify"
+EMPTY_REGION_SAMPLE = "UnitResultSamples.cs"
+
+
+def mutate_empty_region_and_fence(tree: FixtureTree) -> None:
+    """Empty one source region body and its snippet fence body.
+
+    PowerShell's inclusive range counts down when the upper bound is below the
+    lower bound, so both the region content and the snippet become the pair of
+    delimiter lines in reverse order (closing line, then opening line) instead
+    of two empty lists. Those pairs cannot be equal, so the verifier must fail;
+    a naive ascending slice would compare two empty lists and incorrectly pass.
+    """
+    sample = tree.samples / EMPTY_REGION_SAMPLE
+    lines = _read_text(sample).split("\n")
+    start_index = next(
+        index
+        for index, line in enumerate(lines)
+        if line.strip() == f"// <snippet {EMPTY_REGION_NAME}>"
+    )
+    end_index = next(
+        index
+        for index in range(start_index + 1, len(lines))
+        if lines[index].strip() == "// </snippet>"
+    )
+    del lines[start_index + 1 : end_index]
+    _write_text(sample, "\n".join(lines))
+
+    path = _guide_path(tree)
+    guide = _read_text(path).split("\n")
+    marker_index = guide.index(f"<!-- documentation-sample: {EMPTY_REGION_NAME} -->")
+    fence_index = marker_index + 1
+    assert guide[fence_index] == "```csharp"
+    end_fence = guide.index("```", fence_index + 1)
+    del guide[fence_index + 1 : end_fence]
+    _write_text(path, "\n".join(guide))
+
+
 @dataclass(frozen=True)
 class FixtureCase:
     name: str
@@ -205,6 +257,12 @@ FIXTURE_CASES: tuple[FixtureCase, ...] = (
         mutate_indented_fence,
         1,
         expected_stderr_fragment="DocumentationSamples.UnitResult.DeleteOrNotify",
+    ),
+    FixtureCase(
+        "empty_region_and_fence",
+        mutate_empty_region_and_fence,
+        1,
+        expected_stderr_fragment=EMPTY_REGION_NAME,
     ),
 )
 
@@ -352,6 +410,17 @@ class PowerShellParityTests(_FixtureTestCase):
         self.assertEqual(pwsh_result.returncode, 0, pwsh_result.stderr)
         self.assertEqual(python_result.stdout.strip(), SUCCESS_LINE)
         self.assertEqual(python_result.stdout.strip(), pwsh_result.stdout.strip())
+
+
+class FixtureGenerationGuardTests(unittest.TestCase):
+    """The dynamic fixture registration must never leave parity coverage at zero."""
+
+    def test_parity_tests_are_generated_for_every_fixture_case(self) -> None:
+        # A refactor that drops the setattr loop below would otherwise leave CI
+        # green with zero parity executions. countTestCases() is an instance
+        # method on the class, so count through a loaded suite instead.
+        suite = unittest.TestLoader().loadTestsFromTestCase(PowerShellParityTests)
+        self.assertGreaterEqual(suite.countTestCases(), len(FIXTURE_CASES) + 1)
 
 
 def _python_case_method(case: FixtureCase) -> Callable[[_FixtureTestCase], None]:

@@ -16,7 +16,8 @@ The verdicts reproduce the frozen PowerShell verifier's semantics for those
 steps rather than trusting ``dotnet`` exit codes alone: the build log must show
 ``Build succeeded.`` with zero warnings and errors, the test log must show a
 positive all-passing ``Test run summary`` plus a passed result line for each
-test assembly, and both examples must print their established success lines.
+test assembly, both examples must print their established success lines, and
+the documentation verifier must print its ``Verified N ...`` result line.
 Because that logic is inline in ``eng/Verify-Release.ps1`` and the verifier is
 frozen, ``MARKER_CONTRACT`` asserts its marker literals are still present before
 any step runs; a verifier change trips this check instead of silently drifting.
@@ -88,16 +89,55 @@ DOCS_VERIFIER_RELATIVE_PATH = Path("eng") / "tools" / "verify_docs_snippets.py"
 CORE_EXAMPLE_MARKER = "FunnySharp examples passed."
 ASPNET_EXAMPLE_MARKER = "FunnySharp ASP.NET Core example endpoints mapped."
 
-# Verdict rules mirrored from eng/Verify-Release.ps1 (lines ~902-935). Keep the
-# regex forms aligned with the PowerShell source; MARKER_CONTRACT guards them.
-BUILD_SUCCEEDED_PATTERN = re.compile(r"(?im)^\s*Build succeeded\.\s*$")
-BUILD_WARNINGS_PATTERN = re.compile(r"(?im)^\s*0 Warning\(s\)\s*$")
-BUILD_ERRORS_PATTERN = re.compile(r"(?im)^\s*0 Error\(s\)\s*$")
-TEST_SUMMARY_PATTERN = re.compile(
-    r"(?is)Test run summary:\s*Passed!.*?\btotal:\s*(?P<total>\d+)"
-    r".*?\bfailed:\s*0.*?\bsucceeded:\s*(?P<succeeded>\d+)"
-    r".*?\bskipped:\s*0"
+# Verdict-rule fragments mirrored from eng/Verify-Release.ps1 (lines ~904-927).
+# They are the contract between this tool's parsing logic and the frozen
+# verifier: MARKER_CONTRACT asserts each fragment is still present in the
+# PowerShell source, and the compiled patterns below are built from the same
+# constants so the guard and the parser cannot drift apart. Named groups keep
+# PowerShell's ``(?<name>...)`` spelling; ``_python_fragment`` translates them
+# at compile time.
+BUILD_SUCCEEDED_FRAGMENT = r"Build succeeded\."
+BUILD_WARNINGS_FRAGMENT = r"0 Warning\(s\)"
+BUILD_ERRORS_FRAGMENT = r"0 Error\(s\)"
+TEST_SUMMARY_FRAGMENT = r"Test run summary:\s*Passed!"
+TEST_TOTAL_FRAGMENT = r"\btotal:\s*(?<total>\d+)"
+TEST_FAILED_FRAGMENT = r"\bfailed:\s*0"
+TEST_SUCCEEDED_FRAGMENT = r"\bsucceeded:\s*(?<succeeded>\d+)"
+TEST_SKIPPED_FRAGMENT = r"\bskipped:\s*0"
+TEST_ASSEMBLY_RESULT_FRAGMENT = r"\(net10\.0\|[^)]*\)\s+passed\s+\([^)]*\)\s*$"
+
+# The PowerShell-free docs verifier's success line. Plan U3 requires this
+# marker before the local docs step can pass; its exit status alone is not
+# enough.
+DOCS_VERDICT_FRAGMENT = (
+    r"Verified \d+ C# documentation snippets across \d+ primary guides\."
 )
+
+
+def _python_fragment(fragment: str) -> str:
+    """Translate PowerShell named-group syntax (``(?<name>``) to Python's spelling."""
+
+    return fragment.replace("(?<", "(?P<")
+
+
+BUILD_SUCCEEDED_PATTERN = re.compile(rf"(?im)^\s*{BUILD_SUCCEEDED_FRAGMENT}\s*$")
+BUILD_WARNINGS_PATTERN = re.compile(rf"(?im)^\s*{BUILD_WARNINGS_FRAGMENT}\s*$")
+BUILD_ERRORS_PATTERN = re.compile(rf"(?im)^\s*{BUILD_ERRORS_FRAGMENT}\s*$")
+TEST_SUMMARY_PATTERN = re.compile(
+    _python_fragment(
+        r"(?is)"
+        + TEST_SUMMARY_FRAGMENT
+        + r".*?"
+        + TEST_TOTAL_FRAGMENT
+        + r".*?"
+        + TEST_FAILED_FRAGMENT
+        + r".*?"
+        + TEST_SUCCEEDED_FRAGMENT
+        + r".*?"
+        + TEST_SKIPPED_FRAGMENT
+    )
+)
+DOCS_VERDICT_PATTERN = re.compile(rf"(?m)^\s*{DOCS_VERDICT_FRAGMENT}\s*$")
 
 
 @dataclass(frozen=True)
@@ -112,15 +152,15 @@ class MarkerRequirement:
 # contract between this tool's parsing logic and the frozen verifier: if any is
 # missing, the Python verdict rules may no longer match the release gate.
 MARKER_CONTRACT: tuple[MarkerRequirement, ...] = (
-    MarkerRequirement("build success line", r"Build succeeded\."),
-    MarkerRequirement("build zero-warning line", r"0 Warning\(s\)"),
-    MarkerRequirement("build zero-error line", r"0 Error\(s\)"),
-    MarkerRequirement("test summary prefix", r"Test run summary:\s*Passed!"),
-    MarkerRequirement("test total field", r"\btotal:\s*(?<total>\d+)"),
-    MarkerRequirement("test zero-failed field", r"\bfailed:\s*0"),
-    MarkerRequirement("test succeeded field", r"\bsucceeded:\s*(?<succeeded>\d+)"),
-    MarkerRequirement("test zero-skipped field", r"\bskipped:\s*0"),
-    MarkerRequirement("test assembly result shape", r"\(net10\.0\|[^)]*\)\s+passed\s+\([^)]*\)\s*$"),
+    MarkerRequirement("build success line", BUILD_SUCCEEDED_FRAGMENT),
+    MarkerRequirement("build zero-warning line", BUILD_WARNINGS_FRAGMENT),
+    MarkerRequirement("build zero-error line", BUILD_ERRORS_FRAGMENT),
+    MarkerRequirement("test summary prefix", TEST_SUMMARY_FRAGMENT),
+    MarkerRequirement("test total field", TEST_TOTAL_FRAGMENT),
+    MarkerRequirement("test zero-failed field", TEST_FAILED_FRAGMENT),
+    MarkerRequirement("test succeeded field", TEST_SUCCEEDED_FRAGMENT),
+    MarkerRequirement("test zero-skipped field", TEST_SKIPPED_FRAGMENT),
+    MarkerRequirement("test assembly result shape", TEST_ASSEMBLY_RESULT_FRAGMENT),
     MarkerRequirement("core example success line", CORE_EXAMPLE_MARKER),
     MarkerRequirement("ASP.NET Core example success line", ASPNET_EXAMPLE_MARKER),
     MarkerRequirement("core test assembly path", TEST_ASSEMBLY_RELATIVE_PATHS[0]),
@@ -144,14 +184,18 @@ class StepResult:
     status: str  # passed | failed | skipped
     exit_code: int | None = None
     message: str = ""
+    output_tail: tuple[str, ...] = ()
 
     def as_dict(self) -> dict[str, object]:
-        return {
+        payload: dict[str, object] = {
             "name": self.name,
             "status": self.status,
             "exitCode": self.exit_code,
             "message": self.message,
         }
+        if self.output_tail:
+            payload["outputTail"] = list(self.output_tail)
+        return payload
 
 
 CommandRunner = Callable[
@@ -299,7 +343,8 @@ def _test_assembly_pattern(assembly: Path) -> re.Pattern[str]:
     return re.compile(
         r"(?im)^\s*"
         + re.escape(str(assembly))
-        + r"\s+\(net10\.0\|[^)]*\)\s+passed\s+\([^)]*\)\s*$"
+        + r"\s+"
+        + TEST_ASSEMBLY_RESULT_FRAGMENT
     )
 
 
@@ -329,14 +374,22 @@ def step_failure(
 ) -> str | None:
     """Return the release-equivalent verdict failure for a step, or None.
 
-    Restore, format, and docs are judged by exit code alone; the release
-    verifier requires exit code 0 for every command and adds no output shape of
-    its own for those steps (docs is not a release-protocol step).
+    Restore and format are judged by exit code alone; the release verifier
+    requires exit code 0 for every command and adds no output shape of its own
+    for those steps. The docs step is local-only and additionally must print
+    the Python verifier's success line.
     """
 
     combined = ""
     if step in {"build", "test", "examples", "aspnetcore-examples"}:
         combined = f"{stdout}\n{stderr}"
+    if step == "docs":
+        if DOCS_VERDICT_PATTERN.search(stdout) is None:
+            return (
+                "docs output does not contain a 'Verified N C# documentation "
+                "snippets across N primary guides.' line"
+            )
+        return None
     if step == "build":
         if BUILD_SUCCEEDED_PATTERN.search(combined) is None:
             return "build log does not contain a 'Build succeeded.' line"
@@ -362,6 +415,26 @@ def step_failure(
     return None
 
 
+OUTPUT_TAIL_LINES = 20
+
+
+def _output_tail(text: str, limit: int = OUTPUT_TAIL_LINES) -> list[str]:
+    """Return the bounded last-N lines of child output.
+
+    Mirrors ``inventory._tail``'s last-N bound without a log file.
+    """
+
+    return text.strip("\n").splitlines()[-limit:]
+
+
+def _print_output_tail(step: str, tail: Sequence[str]) -> None:
+    """Print a failed step's bounded output tail for diagnosis without a rerun."""
+
+    print(f"--- {step} output (last {OUTPUT_TAIL_LINES} lines) ---", file=sys.stderr)
+    for line in tail:
+        print(line, file=sys.stderr)
+
+
 def run_steps(
     repository_root: Path,
     env: Mapping[str, str],
@@ -382,12 +455,15 @@ def run_steps(
         stdout = completed.stdout or ""
         stderr = completed.stderr or ""
         if completed.returncode != 0:
+            tail = _output_tail(f"{stdout}\n{stderr}")
+            _print_output_tail(step, tail)
             results.append(
                 StepResult(
                     step,
                     "failed",
                     completed.returncode,
                     f"exit code {completed.returncode}",
+                    output_tail=tuple(tail),
                 )
             )
             return results, step

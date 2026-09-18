@@ -165,7 +165,10 @@ class InventoryTestCase(unittest.TestCase):
     def setUp(self) -> None:
         tmp = tempfile.TemporaryDirectory(prefix="inventory-test-")
         self.addCleanup(tmp.cleanup)
-        self.tmp = Path(tmp.name)
+        # Resolve the scratch root once: on macOS the temp directory lives under
+        # /var, which is a symlink to /private/var, and the product intentionally
+        # rejects output paths containing symlinks or reparse points.
+        self.tmp = Path(tmp.name).resolve()
         self.repo = inventory.repository_root()
         self.baseline = self.tmp / "baselines"
         self.ref = self.tmp / "ref" / "net10.0"
@@ -720,6 +723,23 @@ class InventoryTestCase(unittest.TestCase):
         self.assertEqual(2, code)
         self.assertIn("not a directory", stderr)
         self.assertEqual([], runner.calls)
+
+    @unittest.skipIf(
+        os.name == "nt",
+        "read-only directory permissions do not block writes on Windows; POSIX mode bits only",
+    )
+    def test_unwritable_output_dir_exits_2_without_traceback(self) -> None:
+        out = self.tmp / "out-readonly"
+        out.mkdir()
+        out.chmod(0o500)
+        self.addCleanup(out.chmod, 0o700)
+        runner = FakeDotnet()
+        code, stdout, stderr = self.run_cli(runner, self.generation_argv(out))
+        self.assertEqual(2, code)
+        self.assertIn("ERROR: cannot write inventory output", stderr)
+        self.assertIn("Remediation: choose a writable output directory", stderr)
+        self.assertIn(str(out), stderr)
+        self.assertNotIn("Traceback", stdout + stderr)
 
     def test_default_output_dir_is_outside_repository(self) -> None:
         default = inventory.default_output_dir()

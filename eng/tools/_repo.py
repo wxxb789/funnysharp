@@ -1,7 +1,9 @@
 """Shared repository-root resolution for the ``eng/tools`` entry-point scripts.
 
-The entry-point scripts are PEP 723 standalone files; this module is a plain
-stdlib helper that each of them imports from its own directory on ``sys.path``.
+``verify_local.py``, ``verify_docs_snippets.py`` and ``check_action_pins.py``
+import this plain stdlib helper from their own directory on ``sys.path`` (each
+is a PEP 723 standalone file). ``inventory.py`` resolves its root with its own
+project-marker validation instead of using this module.
 """
 
 from __future__ import annotations

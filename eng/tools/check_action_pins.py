@@ -11,8 +11,16 @@ parser and no third-party dependencies):
 * a remote ``uses:`` reference must be ``owner/repo@<40-hex-sha>`` followed by
   a ``# <version>`` comment; local ``./path`` actions are exempt;
 * ``tooling.yml`` must take the uv version from ``uv.toml``'s
-  ``required-version`` instead of repeating a ``version:`` input in its
-  ``astral-sh/setup-uv`` step.
+  ``required-version`` instead of repeating a ``version:`` input anywhere in
+  its ``astral-sh/setup-uv`` step.
+
+The check is deliberately text-level and fails closed on forms it cannot parse:
+
+* an empty ``uses:`` value (the block-continuation form, where the value sits
+  on the following indented line) is a finding, not a silent skip;
+* flow-style list items (``- {uses: owner/repo@sha}``) are outside the text
+  model this check recognizes; write workflow steps in block style so they are
+  scanned.
 
 ``release.yml`` is out of scope on purpose: the frozen PowerShell protocol test
 (``eng/tests/ReleaseProtocol.Tests.ps1``) owns release-workflow pinning, so this
@@ -34,7 +42,8 @@ from collections.abc import Sequence
 from dataclasses import dataclass
 from pathlib import Path
 
-REPOSITORY_ROOT = Path(__file__).resolve().parents[2]
+from _repo import default_repository_root
+
 WORKFLOWS_RELATIVE_PATH = Path(".github") / "workflows"
 WORKFLOW_SUFFIXES = (".yml", ".yaml")
 
@@ -55,7 +64,12 @@ USES_PATTERN = re.compile(
 PINNED_REFERENCE_PATTERN = re.compile(
     r"^(?P<owner>[^/@\s]+)/(?P<repo>[^/@\s]+)@(?P<sha>[0-9a-f]{40})$"
 )
-VERSION_KEY_PATTERN = re.compile(r"^[ \t]*version[ \t]*:")
+LIST_ITEM_PATTERN = re.compile(r"^(?P<indent>[ \t]*)-[ \t]")
+# Matches ``version`` as a mapping key in block style (``version:`` or
+# ``"version":``) or inside a flow mapping (``with: {version: ...}``).
+VERSION_KEY_PATTERN = re.compile(
+    r"(?:^|[{\[,])[ \t]*[\"']?version[\"']?[ \t]*:"
+)
 
 
 @dataclass(frozen=True)
@@ -122,8 +136,9 @@ def iter_uses_references(lines: Sequence[str]) -> list[UsesReference]:
         if match is None:
             continue
         value, comment = split_uses_value(match.group("value"))
-        if not value:
-            continue
+        # An empty value (the block-continuation form ``uses:`` followed by an
+        # indented value line) is kept so it fails the pin check below instead
+        # of being silently skipped.
         # Column where the ``uses`` token itself starts, so ``- uses:`` and
         # ``uses:`` forms both anchor their step block correctly.
         indent = len(match.group("indent")) + (2 if match.group("dash") else 0)
@@ -134,14 +149,32 @@ def iter_uses_references(lines: Sequence[str]) -> list[UsesReference]:
 def step_block_lines(
     lines: Sequence[str], uses: UsesReference
 ) -> list[tuple[int, str]]:
-    """Return the (line number, text) pairs of the step block owning ``uses``."""
+    """Return the (line number, text) pairs of the step block owning ``uses``.
+
+    The block starts at the list item that introduces the step (the ``uses``
+    line itself for ``- uses:``) and ends before the next list item at that
+    indentation or any dedent out of the item, so a ``version:`` input written
+    before ``uses:`` is still part of the block.
+    """
+
+    dash_indent = uses.indent - 2
+    first = uses.line
+    for line_number in range(uses.line, 0, -1):
+        line = lines[line_number - 1]
+        item = LIST_ITEM_PATTERN.match(line)
+        if item is not None:
+            item_indent = len(item.group("indent"))
+            if item_indent < uses.indent:
+                first = line_number
+                dash_indent = item_indent
+                break
 
     block: list[tuple[int, str]] = []
-    for line_number in range(uses.line + 1, len(lines) + 1):
+    for line_number in range(first, len(lines) + 1):
         line = lines[line_number - 1]
-        if line.strip():
+        if line_number > first and line.strip():
             indent = len(line) - len(line.lstrip(" \t"))
-            if indent < uses.indent:
+            if indent <= dash_indent:
                 break
         block.append((line_number, line))
     return block
@@ -195,7 +228,7 @@ def check_tooling_pins(
     ]
     for uses in setup_uv:
         for line_number, line in step_block_lines(lines, uses):
-            if VERSION_KEY_PATTERN.match(line):
+            if VERSION_KEY_PATTERN.search(line):
                 findings.append(
                     Finding(
                         path,
@@ -287,7 +320,7 @@ def build_parser() -> argparse.ArgumentParser:
 def main(argv: Sequence[str] | None = None) -> int:
     args = build_parser().parse_args(sys.argv[1:] if argv is None else list(argv))
     repository_root = (
-        REPOSITORY_ROOT
+        default_repository_root(Path(__file__))
         if args.repository_root is None
         else Path(args.repository_root).resolve()
     )

@@ -388,6 +388,49 @@ class PipelineVerdictTests(_VerifyLocalTestCase):
             "docs", message_contains="exit code 1", exit_code=1
         )
 
+    def test_docs_missing_success_line_fails(self) -> None:
+        # Plan U3: the docs step must report its verdict line, not just exit 0.
+        self.assert_step_fails(
+            "docs",
+            message_contains="Verified N C# documentation snippets",
+            stdout_override="no verdict line here\n",
+        )
+
+    def test_docs_success_line_passes(self) -> None:
+        self.runner.override(
+            "docs",
+            stdout="Verified 25 C# documentation snippets across 8 primary guides.\n",
+        )
+        code, stdout, stderr = self.run_cli(self.repo_argv())
+        self.assertEqual(0, code, stderr)
+        self.assertIn("PASS docs", stdout)
+
+    def test_failed_step_prints_bounded_output_tail(self) -> None:
+        lines = [f"diagnostic {index}" for index in range(1, 31)]
+        self.runner.override(
+            "format",
+            exit_code=2,
+            stdout="\n".join(lines),
+            stderr="fatal: formatting failed",
+        )
+        code, stdout, stderr = self.run_cli(self.repo_argv("--json"))
+        self.assertEqual(1, code)
+        self.assertIn("--- format output (last 20 lines) ---", stderr)
+        self.assertIn("diagnostic 30", stderr)
+        self.assertIn("fatal: formatting failed", stderr)
+        self.assertNotIn("diagnostic 10", stderr)
+        report = json.loads(stdout)
+        failed = report["steps"][-1]
+        self.assertEqual("format", failed["name"])
+        self.assertEqual("failed", failed["status"])
+        self.assertEqual(
+            lines[11:] + ["fatal: formatting failed"], failed["outputTail"]
+        )
+        # Passed steps keep the original four-key report shape.
+        self.assertEqual(
+            {"name", "status", "exitCode", "message"}, set(report["steps"][0])
+        )
+
     def test_stderr_output_is_used_for_verdicts(self) -> None:
         # The frozen verifier concatenates stdout and stderr; so does this tool.
         self.runner.override("examples", stdout="", stderr="FunnySharp examples passed.\n")
@@ -468,6 +511,24 @@ class ProtocolContractTests(_VerifyLocalTestCase):
         )
         self.assertEqual(
             len(verify_local.NOT_RUN_STEPS), len(set(verify_local.NOT_RUN_STEPS))
+        )
+
+    def test_local_steps_are_protocol_ordered_subsequence(self) -> None:
+        protocol = json.loads(
+            (self.repo / "eng" / "release-protocol.json").read_text(encoding="utf-8")
+        )
+        full = protocol["modes"]["full"]["steps"]
+        protocol_local = [
+            step for step in full if step not in verify_local.NOT_RUN_STEPS
+        ]
+        local_from_protocol = [
+            step for step in verify_local.LOCAL_STEPS if step in full
+        ]
+        self.assertEqual(protocol_local, local_from_protocol)
+        # The docs verifier is the one local-only step; it runs last.
+        self.assertEqual(
+            ["docs"],
+            [step for step in verify_local.LOCAL_STEPS if step not in full],
         )
 
     def test_not_run_summary_lists_every_out_of_scope_step(self) -> None:

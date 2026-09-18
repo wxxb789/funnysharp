@@ -798,6 +798,14 @@ def main(
     except EnvironmentFailure as exc:
         print(f"ERROR: {exc}", file=sys.stderr)
         return 2
+    except OSError as exc:
+        print(f"ERROR: cannot write inventory output in {out_dir}: {exc}", file=sys.stderr)
+        print(
+            "Remediation: choose a writable output directory outside the repository "
+            f"or fix the permissions of {out_dir}.",
+            file=sys.stderr,
+        )
+        return 2
 
 
 if __name__ == "__main__":
