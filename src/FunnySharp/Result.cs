@@ -161,23 +161,10 @@ public static class Result
             }
         }
 
-        var completion = new TaskCompletionSource<TResult>(
-            TaskCreationOptions.RunContinuationsAsynchronously);
-
-        if (task.IsCompleted)
-        {
-            CompleteTask(task, completion, success, fault);
-        }
-        else
-        {
-            _ = task.ContinueWith(
-                completed => CompleteTask(completed, completion, success, fault),
-                CancellationToken.None,
-                TaskContinuationOptions.ExecuteSynchronously,
-                TaskScheduler.Default);
-        }
-
-        return completion.Task;
+        return TransformTask<TResult>(
+            (Task)task,
+            () => success(task.GetAwaiter().GetResult()),
+            fault);
     }
 
     internal static ValueTask<TResult> TransformValueTask<TValue, TResult>(
@@ -245,6 +232,7 @@ public static class Result
         {
             try
             {
+                task.GetAwaiter().GetResult();
                 return ValueTask.FromResult(success());
             }
             catch (Exception exception)
@@ -260,44 +248,6 @@ public static class Result
         exception is OperationCanceledException cancellation
             ? CreateCanceledTask<TResult>(cancellation)
             : Task.FromException<TResult>(exception);
-
-    private static void CompleteTask<TValue, TResult>(
-        Task<TValue> task,
-        TaskCompletionSource<TResult> completion,
-        Func<TValue, TResult> success,
-        Func<Exception, TResult>? fault)
-    {
-        if (task.IsCompletedSuccessfully)
-        {
-            CompleteResult(completion, () => success(task.GetAwaiter().GetResult()));
-            return;
-        }
-
-        if (task.IsCanceled)
-        {
-            completion.TrySetFromTask(CreateCanceledTask<TResult>(GetCancellationException(task)));
-            return;
-        }
-
-        if (fault is null)
-        {
-            completion.TrySetException(task.Exception!.InnerExceptions);
-            return;
-        }
-
-        try
-        {
-            task.GetAwaiter().GetResult();
-        }
-        catch (OperationCanceledException cancellation)
-        {
-            completion.TrySetException(cancellation);
-        }
-        catch (Exception exception)
-        {
-            CompleteResult(completion, () => fault(exception));
-        }
-    }
 
     private static void CompleteTask<TResult>(
         Task task,

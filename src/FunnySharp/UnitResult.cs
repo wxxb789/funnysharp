@@ -194,6 +194,7 @@ public static class UnitResult
             var task = operation();
             if (task.IsCompletedSuccessfully)
             {
+                task.GetAwaiter().GetResult();
                 return ValueTask.FromResult(UnitResult<TError>.Success());
             }
 

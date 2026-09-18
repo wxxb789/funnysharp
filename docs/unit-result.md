@@ -82,9 +82,9 @@ exception: it does not throw and returns the diagnostic text `"Uninitialized"`.
 `second` is uninitialized even when the receiver is already a failure. `ZipWith` throws for an
 uninitialized receiver and skips its factory only after that check; the factory result is validated
 when it is read. `Equals(UnitResult<TError>)` reads both operands and throws when either is
-uninitialized, while
-`Equals(object?)` returns `false` for a null or unrelated object and throws only when the receiver is
-uninitialized.
+uninitialized. `Equals(object?)` returns `false` for a null or unrelated object and throws when the
+receiver or a same-type operand is uninitialized: a boxed default `UnitResult<TError>` is passed to
+the typed `Equals` and therefore also throws.
 
 Async composition extension methods inspect their `UnitResult` receiver synchronously when they are
 called, before returning a task. A default unit result therefore throws at call time from `MapAsync`,
