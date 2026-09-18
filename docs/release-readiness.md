@@ -111,3 +111,8 @@ pwsh -NoProfile -File eng/Run-Release.ps1 `
 
 Cross-path byte equality is diagnosed with `eng/Compare-ReproducibleBuilds.ps1`. It is not a current
 release blocker; all evidence remains bound to the exact package hashes actually consumed.
+
+The PowerShell commands above remain the only release gate. `uv run --no-project
+eng/tools/verify_local.py` is an optional, PowerShell-free local pre-check: it runs a subset of
+the same steps, labels itself a pre-check, and produces no release evidence (see
+[tooling](tooling.md)).
