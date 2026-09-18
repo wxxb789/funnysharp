@@ -33,6 +33,9 @@ jobs:
         with:
           global-json-file: global.json
 
+      # Benchmarks are a developer-machine activity (docs/release-readiness.md):
+      # CI verifies the approved observation via performance-docs-verify instead
+      # of re-measuring on hosted runners.
       - name: Run canonical release
         shell: pwsh
         run: >
@@ -40,6 +43,7 @@ jobs:
           -AttemptId "${{ github.run_id }}-${{ github.run_attempt }}-win-x64"
           -CompatibilityRuntimeIdentifier win-x64
           -CompatibilityPackageFeed "$env:COMPATIBILITY_FEED"
+          -SkipBenchmarks
 
       - name: Upload canonical candidate
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4

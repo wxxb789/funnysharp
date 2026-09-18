@@ -26,13 +26,22 @@ Goal 13 review.
 
 ## Performance Evidence
 
-- [ ] Benchmark semantic preflight passes before measurement.
-- [ ] The full Windows job emits integer allocation receipts for every included policy row.
-- [ ] Missing, nonnumeric, semantically mismatched, or over-budget allocation rows fail the release.
-- [ ] Hosted timing is directional only; `below-resolution` and `unavailable` produce `N/A` and do
-  not fail the release.
+Benchmarks are a developer-machine activity, not a CI step: every release-candidate run (including
+the Windows job) uses the benchmark-skipped protocol and verifies the approved observation it ships
+instead of re-measuring on hosted runners. Run `Run-Release.ps1` without `-SkipBenchmarks` locally
+to refresh evidence.
+
+- [ ] Benchmark semantic preflight passes before measurement (`benchmark-preflight` still runs in
+  every mode).
+- [ ] Benchmark receipts measured on a developer machine produce the observation, with integer
+  allocation receipts for every included policy row.
+- [ ] Missing, nonnumeric, semantically mismatched, or over-budget allocation rows fail verification.
+- [ ] Timing is directional only; `below-resolution` and `unavailable` produce `N/A` and do not fail
+  the release.
 - [ ] Every exact guide table is generated from the approved observation in
   `eng/performance/baseline.json`; verify mode detects manual drift.
+- [ ] The approved observation's policy, benchmark-input, and protocol fingerprints match the
+  current tree (checked by `performance-docs-verify` on every run).
 - [ ] Every intentionally unmeasured surface is an explicit exclusion with rationale and no numeric
   claim.
 
@@ -107,6 +116,22 @@ pwsh -NoProfile -File eng/Run-Release.ps1 `
   -CompatibilityPackageFeed https://packagefeedproxy.microsoft.io/nuget/v3/index.json `
   -DistributionFeed https://packagefeedproxy.microsoft.io/nuget/v3/index.json `
   -SkipBenchmarks
+```
+
+Refresh performance evidence on a developer machine when benchmark inputs change:
+
+```powershell
+# 1. Measure (allocation budgets are the contract; timing is directional)
+dotnet run --project benchmarks/FunnySharp.Benchmarks --configuration Release -- --preflight
+dotnet run --project benchmarks/FunnySharp.Benchmarks --configuration Release -- `
+  --filter "*" --artifacts <artifacts-dir>
+# 2. Verify the receipts and write the reviewable observation proposal
+pwsh -NoProfile -File eng/Verify-Performance.ps1 -RepositoryRoot . `
+  -ReceiptDirectory <artifacts-dir>/results `
+  -ObservationProposalPath <artifacts-dir>/performance-observation-proposal.json
+# 3. Approve the proposal into eng/performance/baseline.json, then regenerate and verify the guides
+pwsh -NoProfile -File eng/Generate-PerformanceDocumentation.ps1 -RepositoryRoot .
+pwsh -NoProfile -File eng/Generate-PerformanceDocumentation.ps1 -RepositoryRoot . -Verify
 ```
 
 Cross-path byte equality is diagnosed with `eng/Compare-ReproducibleBuilds.ps1`. It is not a current
