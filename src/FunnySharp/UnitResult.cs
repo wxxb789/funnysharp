@@ -1,7 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
 
-using System.Runtime.ExceptionServices;
-
 namespace FunnySharp;
 
 /// <summary>
@@ -9,8 +7,6 @@ namespace FunnySharp;
 /// </summary>
 public static class UnitResult
 {
-    private const string NullTaskMessage = "The operation returned a null task.";
-
     /// <summary>
     /// Creates a successful unit result.
     /// </summary>
@@ -33,7 +29,7 @@ public static class UnitResult
     /// <returns>A successful unit result or a failure containing the original exception.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="operation"/> is null.</exception>
     public static UnitResult<Exception> Try(Action operation) =>
-        Try(operation, PreserveException);
+        Try(operation, Result.PreserveException);
 
     /// <summary>
     /// Invokes an operation and maps a non-cancellation exception to a typed unit failure.
@@ -78,7 +74,7 @@ public static class UnitResult
     public static Task<UnitResult<Exception>> TryAsync(Func<Task> operation)
     {
         ArgumentNullException.ThrowIfNull(operation);
-        return TryAsyncCore(operation, PreserveException);
+        return TryAsyncCore(operation, Result.PreserveException);
     }
 
     /// <summary>
@@ -124,7 +120,7 @@ public static class UnitResult
     public static ValueTask<UnitResult<Exception>> TryValueAsync(Func<ValueTask> operation)
     {
         ArgumentNullException.ThrowIfNull(operation);
-        return TryValueAsyncCore(operation, PreserveException);
+        return TryValueAsyncCore(operation, Result.PreserveException);
     }
 
     /// <summary>
@@ -153,8 +149,6 @@ public static class UnitResult
         return TryValueAsyncCore(operation, errorMapper);
     }
 
-    private static Exception PreserveException(Exception exception) => exception;
-
     private static Task<UnitResult<TError>> TryAsyncCore<TError>(
         Func<Task> operation,
         Func<Exception, TError> errorMapper)
@@ -177,10 +171,15 @@ public static class UnitResult
         if (task is null)
         {
             return Task.FromException<UnitResult<TError>>(
-                new InvalidOperationException(NullTaskMessage));
+                new InvalidOperationException(Result.NullTaskMessage));
         }
 
-        return TransformTask(
+        if (task.IsCompletedSuccessfully)
+        {
+            return Task.FromResult(UnitResult<TError>.Success());
+        }
+
+        return Result.TransformTask(
             task,
             static () => UnitResult<TError>.Success(),
             exception => UnitResult<TError>.Failure(errorMapper(exception)));
@@ -192,8 +191,14 @@ public static class UnitResult
     {
         try
         {
-            return TransformValueTask(
-                operation(),
+            var task = operation();
+            if (task.IsCompletedSuccessfully)
+            {
+                return ValueTask.FromResult(UnitResult<TError>.Success());
+            }
+
+            return Result.TransformValueTask(
+                task,
                 static () => UnitResult<TError>.Success(),
                 exception => UnitResult<TError>.Failure(errorMapper(exception)));
         }
@@ -222,132 +227,6 @@ public static class UnitResult
         }
     }
 
-    private static Task<TResult> TransformTask<TResult>(
-        Task task,
-        Func<TResult> success,
-        Func<Exception, TResult> fault)
-    {
-        if (task.IsCompletedSuccessfully)
-        {
-            try
-            {
-                return Task.FromResult(success());
-            }
-            catch (Exception exception)
-            {
-                return Result.FromException<TResult>(exception);
-            }
-        }
-
-        var completion = new TaskCompletionSource<TResult>(
-            TaskCreationOptions.RunContinuationsAsynchronously);
-
-        if (task.IsCompleted)
-        {
-            CompleteTask(task, completion, success, fault);
-        }
-        else
-        {
-            _ = task.ContinueWith(
-                completed => CompleteTask(completed, completion, success, fault),
-                CancellationToken.None,
-                TaskContinuationOptions.ExecuteSynchronously,
-                TaskScheduler.Default);
-        }
-
-        return completion.Task;
-    }
-
-    private static ValueTask<TResult> TransformValueTask<TResult>(
-        ValueTask task,
-        Func<TResult> success,
-        Func<Exception, TResult> fault)
-    {
-        if (task.IsCompletedSuccessfully)
-        {
-            try
-            {
-                return ValueTask.FromResult(success());
-            }
-            catch (Exception exception)
-            {
-                return new ValueTask<TResult>(Result.FromException<TResult>(exception));
-            }
-        }
-
-        return new ValueTask<TResult>(TransformTask(task.AsTask(), success, fault));
-    }
-
-    private static void CompleteTask<TResult>(
-        Task task,
-        TaskCompletionSource<TResult> completion,
-        Func<TResult> success,
-        Func<Exception, TResult> fault)
-    {
-        if (task.IsCompletedSuccessfully)
-        {
-            CompleteResult(completion, success);
-            return;
-        }
-
-        if (task.IsCanceled)
-        {
-            completion.TrySetFromTask(CreateCanceledTask<TResult>(GetCancellationException(task)));
-            return;
-        }
-
-        try
-        {
-            task.GetAwaiter().GetResult();
-        }
-        catch (OperationCanceledException cancellation)
-        {
-            completion.TrySetException(cancellation);
-        }
-        catch (Exception exception)
-        {
-            CompleteResult(completion, () => fault(exception));
-        }
-    }
-
-    private static void CompleteResult<TResult>(
-        TaskCompletionSource<TResult> completion,
-        Func<TResult> resultFactory)
-    {
-        try
-        {
-            completion.TrySetResult(resultFactory());
-        }
-        catch (Exception exception) when (exception is OperationCanceledException cancellation)
-        {
-            completion.TrySetFromTask(CreateCanceledTask<TResult>(cancellation));
-        }
-        catch (Exception exception)
-        {
-            completion.TrySetException(exception);
-        }
-    }
-
-    private static OperationCanceledException GetCancellationException(Task task)
-    {
-        try
-        {
-            task.GetAwaiter().GetResult();
-        }
-        catch (OperationCanceledException cancellation)
-        {
-            return cancellation;
-        }
-
-        throw new InvalidOperationException("The task was expected to be canceled.");
-    }
-
-    private static async Task<TResult> CreateCanceledTask<TResult>(OperationCanceledException cancellation)
-    {
-        await Task.CompletedTask.ConfigureAwait(false);
-        ExceptionDispatchInfo.Capture(cancellation).Throw();
-        return default!;
-    }
 }
 
 /// <summary>
@@ -587,7 +466,7 @@ public readonly struct UnitResult<TError> : IEquatable<UnitResult<TError>>
             return this;
         }
 
-        return second.IsFailure ? second : Success();
+        return second.state == FailureState ? second : Success();
     }
 
     /// <summary>

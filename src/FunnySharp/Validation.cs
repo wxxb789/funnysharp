@@ -294,23 +294,15 @@ public readonly struct Validation<TValue, TError> : IEquatable<Validation<TValue
                 combine(value!, second.value!, third.value!));
         }
 
-        List<TError>? combinedErrors = null;
-        if (state == InvalidState)
-        {
-            combinedErrors = new List<TError>(Errors);
-        }
+        IReadOnlyList<TError> firstErrors =
+            state == InvalidState ? Errors : Array.Empty<TError>();
+        IReadOnlyList<TError> secondErrors =
+            second.state == InvalidState ? second.Errors : Array.Empty<TError>();
+        IReadOnlyList<TError> thirdErrors =
+            third.state == InvalidState ? third.Errors : Array.Empty<TError>();
 
-        if (second.state == InvalidState)
-        {
-            (combinedErrors ??= new List<TError>()).AddRange(second.Errors);
-        }
-
-        if (third.state == InvalidState)
-        {
-            (combinedErrors ??= new List<TError>()).AddRange(third.Errors);
-        }
-
-        return Validation<TResult, TError>.InvalidFromOwnedErrors(combinedErrors!);
+        return Validation<TResult, TError>.InvalidFromOwnedErrors(
+            ConcatErrors(firstErrors, secondErrors, thirdErrors));
     }
 
     /// <inheritdoc />
@@ -413,17 +405,36 @@ public readonly struct Validation<TValue, TError> : IEquatable<Validation<TValue
         IReadOnlyList<TError> second)
     {
         var combined = new TError[first.Count + second.Count];
-        for (var index = 0; index < first.Count; index++)
-        {
-            combined[index] = first[index];
-        }
-
-        for (var index = 0; index < second.Count; index++)
-        {
-            combined[first.Count + index] = second[index];
-        }
-
+        var offset = 0;
+        CopyErrors(first, combined, ref offset);
+        CopyErrors(second, combined, ref offset);
         return combined;
+    }
+
+    private static TError[] ConcatErrors(
+        IReadOnlyList<TError> first,
+        IReadOnlyList<TError> second,
+        IReadOnlyList<TError> third)
+    {
+        var combined = new TError[first.Count + second.Count + third.Count];
+        var offset = 0;
+        CopyErrors(first, combined, ref offset);
+        CopyErrors(second, combined, ref offset);
+        CopyErrors(third, combined, ref offset);
+        return combined;
+    }
+
+    private static void CopyErrors(
+        IReadOnlyList<TError> source,
+        TError[] destination,
+        ref int offset)
+    {
+        for (var index = 0; index < source.Count; index++)
+        {
+            destination[offset + index] = source[index];
+        }
+
+        offset += source.Count;
     }
 
     private static Validation<TValue, TError> InvalidFromOwnedErrors(TError[] errors) =>

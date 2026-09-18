@@ -443,9 +443,8 @@ public static class HttpResultExtensions
         Func<TError, ProblemDetails> failure,
         Func<IResult>? success)
     {
-        if (result.IsFailure)
+        if (result.TryGetError(out var error))
         {
-            _ = result.TryGetError(out var error);
             return ToProblemResult(failure(error!));
         }
 

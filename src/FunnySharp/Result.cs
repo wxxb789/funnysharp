@@ -9,6 +9,8 @@ namespace FunnySharp;
 /// </summary>
 public static class Result
 {
+    internal const string NullTaskMessage = "The operation returned a null task.";
+
     /// <summary>
     /// Invokes an operation and converts a non-cancellation exception to a failed result.
     /// </summary>
@@ -140,7 +142,7 @@ public static class Result
         return TryValueAsyncCore(operation, errorMapper);
     }
 
-    private static Exception PreserveException(Exception exception) => exception;
+    internal static Exception PreserveException(Exception exception) => exception;
 
     internal static Task<TResult> TransformTask<TValue, TResult>(
         Task<TValue> task,
@@ -198,6 +200,62 @@ public static class Result
         return new ValueTask<TResult>(TransformTask(task.AsTask(), success, fault));
     }
 
+    internal static Task<TResult> TransformTask<TResult>(
+        Task task,
+        Func<TResult> success,
+        Func<Exception, TResult>? fault = null)
+    {
+        if (task.IsCompletedSuccessfully)
+        {
+            try
+            {
+                return Task.FromResult(success());
+            }
+            catch (Exception exception)
+            {
+                return FromException<TResult>(exception);
+            }
+        }
+
+        var completion = new TaskCompletionSource<TResult>(
+            TaskCreationOptions.RunContinuationsAsynchronously);
+
+        if (task.IsCompleted)
+        {
+            CompleteTask(task, completion, success, fault);
+        }
+        else
+        {
+            _ = task.ContinueWith(
+                completed => CompleteTask(completed, completion, success, fault),
+                CancellationToken.None,
+                TaskContinuationOptions.ExecuteSynchronously,
+                TaskScheduler.Default);
+        }
+
+        return completion.Task;
+    }
+
+    internal static ValueTask<TResult> TransformValueTask<TResult>(
+        ValueTask task,
+        Func<TResult> success,
+        Func<Exception, TResult>? fault = null)
+    {
+        if (task.IsCompletedSuccessfully)
+        {
+            try
+            {
+                return ValueTask.FromResult(success());
+            }
+            catch (Exception exception)
+            {
+                return new ValueTask<TResult>(FromException<TResult>(exception));
+            }
+        }
+
+        return new ValueTask<TResult>(TransformTask(task.AsTask(), success, fault));
+    }
+
     internal static Task<TResult> FromException<TResult>(Exception exception) =>
         exception is OperationCanceledException cancellation
             ? CreateCanceledTask<TResult>(cancellation)
@@ -212,6 +270,44 @@ public static class Result
         if (task.IsCompletedSuccessfully)
         {
             CompleteResult(completion, () => success(task.GetAwaiter().GetResult()));
+            return;
+        }
+
+        if (task.IsCanceled)
+        {
+            completion.TrySetFromTask(CreateCanceledTask<TResult>(GetCancellationException(task)));
+            return;
+        }
+
+        if (fault is null)
+        {
+            completion.TrySetException(task.Exception!.InnerExceptions);
+            return;
+        }
+
+        try
+        {
+            task.GetAwaiter().GetResult();
+        }
+        catch (OperationCanceledException cancellation)
+        {
+            completion.TrySetException(cancellation);
+        }
+        catch (Exception exception)
+        {
+            CompleteResult(completion, () => fault(exception));
+        }
+    }
+
+    private static void CompleteTask<TResult>(
+        Task task,
+        TaskCompletionSource<TResult> completion,
+        Func<TResult> success,
+        Func<Exception, TResult>? fault)
+    {
+        if (task.IsCompletedSuccessfully)
+        {
+            CompleteResult(completion, success);
             return;
         }
 
@@ -303,7 +399,7 @@ public static class Result
         if (task is null)
         {
             return Task.FromException<Result<TValue, TError>>(
-                new InvalidOperationException("The operation returned a null task."));
+                new InvalidOperationException(NullTaskMessage));
         }
 
         return TransformTask(

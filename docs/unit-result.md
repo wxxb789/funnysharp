@@ -174,6 +174,11 @@ invoked once per reached item in source order. Unlike Option, Result, and Valida
 successful unit-result traversal has no value list to materialize. Traversal does not catch source or
 selector exceptions, and an enumerator is still disposed when one has been acquired.
 
+The traversal overloads differ only by the returned carrier, so a selector whose return type cannot be
+inferred from its body (for example a lambda that only throws) or a null selector argument needs an
+explicit delegate type such as `(Func<int, UnitResult<string>>)` to select the unit-result overload.
+Selectors that return `UnitResult<TError>` resolve without a cast.
+
 The asynchronous operations return `ValueTask<UnitResult<TError>>`, process one item at a time, forward
 the supplied token unchanged to the enumerator and to a token-aware selector, await each source and
 selector `ValueTask` once, and dispose the asynchronous enumerator after success, failure, cancellation,

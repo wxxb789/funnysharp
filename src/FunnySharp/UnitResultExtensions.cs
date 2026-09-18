@@ -105,13 +105,12 @@ public static class UnitResultExtensions
     {
         ArgumentNullException.ThrowIfNull(selector);
 
-        if (result.IsSuccess)
+        if (result.TryGetError(out var error))
         {
-            return MapAsyncCore<TError, TResult>(selector);
+            return Task.FromResult(Result<TResult, TError>.Failure(error!));
         }
 
-        result.TryGetError(out var error);
-        return Task.FromResult(Result<TResult, TError>.Failure(error!));
+        return MapAsyncCore<TError, TResult>(selector);
     }
 
     /// <summary>
@@ -132,13 +131,12 @@ public static class UnitResultExtensions
     {
         ArgumentNullException.ThrowIfNull(selector);
 
-        if (result.IsSuccess)
+        if (result.TryGetError(out var error))
         {
-            return MapAsyncCore<TError, TResult>(selector, cancellationToken);
+            return Task.FromResult(Result<TResult, TError>.Failure(error!));
         }
 
-        result.TryGetError(out var error);
-        return Task.FromResult(Result<TResult, TError>.Failure(error!));
+        return MapAsyncCore<TError, TResult>(selector, cancellationToken);
     }
 
     /// <summary>
@@ -157,13 +155,12 @@ public static class UnitResultExtensions
     {
         ArgumentNullException.ThrowIfNull(selector);
 
-        if (result.IsSuccess)
+        if (result.TryGetError(out var error))
         {
-            return MapValueAsyncCore<TError, TResult>(selector);
+            return ValueTask.FromResult(Result<TResult, TError>.Failure(error!));
         }
 
-        result.TryGetError(out var error);
-        return ValueTask.FromResult(Result<TResult, TError>.Failure(error!));
+        return MapValueAsyncCore<TError, TResult>(selector);
     }
 
     /// <summary>
@@ -184,13 +181,12 @@ public static class UnitResultExtensions
     {
         ArgumentNullException.ThrowIfNull(selector);
 
-        if (result.IsSuccess)
+        if (result.TryGetError(out var error))
         {
-            return MapValueAsyncCore<TError, TResult>(selector, cancellationToken);
+            return ValueTask.FromResult(Result<TResult, TError>.Failure(error!));
         }
 
-        result.TryGetError(out var error);
-        return ValueTask.FromResult(Result<TResult, TError>.Failure(error!));
+        return MapValueAsyncCore<TError, TResult>(selector, cancellationToken);
     }
 
     /// <summary>
@@ -208,13 +204,12 @@ public static class UnitResultExtensions
     {
         ArgumentNullException.ThrowIfNull(binder);
 
-        if (result.IsSuccess)
+        if (result.TryGetError(out var error))
         {
-            return BindAsyncCore(binder);
+            return Task.FromResult(UnitResult<TError>.Failure(error!));
         }
 
-        result.TryGetError(out var error);
-        return Task.FromResult(UnitResult<TError>.Failure(error!));
+        return BindAsyncCore(binder);
     }
 
     /// <summary>
@@ -234,13 +229,12 @@ public static class UnitResultExtensions
     {
         ArgumentNullException.ThrowIfNull(binder);
 
-        if (result.IsSuccess)
+        if (result.TryGetError(out var error))
         {
-            return BindAsyncCore(binder, cancellationToken);
+            return Task.FromResult(UnitResult<TError>.Failure(error!));
         }
 
-        result.TryGetError(out var error);
-        return Task.FromResult(UnitResult<TError>.Failure(error!));
+        return BindAsyncCore(binder, cancellationToken);
     }
 
     /// <summary>
@@ -258,13 +252,12 @@ public static class UnitResultExtensions
     {
         ArgumentNullException.ThrowIfNull(binder);
 
-        if (result.IsSuccess)
+        if (result.TryGetError(out var error))
         {
-            return BindValueAsyncCore(binder);
+            return ValueTask.FromResult(UnitResult<TError>.Failure(error!));
         }
 
-        result.TryGetError(out var error);
-        return ValueTask.FromResult(UnitResult<TError>.Failure(error!));
+        return BindValueAsyncCore(binder);
     }
 
     /// <summary>
@@ -284,13 +277,12 @@ public static class UnitResultExtensions
     {
         ArgumentNullException.ThrowIfNull(binder);
 
-        if (result.IsSuccess)
+        if (result.TryGetError(out var error))
         {
-            return BindValueAsyncCore(binder, cancellationToken);
+            return ValueTask.FromResult(UnitResult<TError>.Failure(error!));
         }
 
-        result.TryGetError(out var error);
-        return ValueTask.FromResult(UnitResult<TError>.Failure(error!));
+        return BindValueAsyncCore(binder, cancellationToken);
     }
 
     private static async Task<UnitResult<TError>> ToUnitResultAsyncCore<TValue, TError>(
