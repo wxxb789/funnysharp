@@ -4,12 +4,13 @@ These files are machine-generated evidence for Goal 14. Do not hand-edit them.
 
 They were produced by `eng/next-stage-inventory/` from the version- or
 commit-pinned inputs recorded in [`../../baselines.md`](../../baselines.md).
-Regenerate the canonical set with `eng/next-stage-inventory/generate.sh`.
+Regenerate the canonical set with
+`uv run --no-project eng/tools/inventory.py <baseline-root> <ref-pack-dir> <output-dir>`.
 
 Generated dumps list the public/protected surface including operators; nullable
 reference annotations appear in runtime-mode dumps only. The `.md` dumps and the count
 tables below are tracked; the `.json` machine dumps are not tracked (they are larger and
-fully regenerable with `generate.sh`). The independent audit ran its member-coverage and
+fully regenerable with `eng/tools/inventory.py`). The independent audit ran its member-coverage and
 count checks against the working-tree JSON at the pinned state.
 
 As of 2026-09-17, runtime-mode canonical dumps also decode return-parameter

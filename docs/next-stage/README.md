@@ -46,7 +46,7 @@ implement features.
 ## Regeneration
 
 ```bash
-bash eng/next-stage-inventory/generate.sh \
+uv run --no-project eng/tools/inventory.py \
   <baseline-root> \
   "$HOME/.dotnet/packs/Microsoft.NETCore.App.Ref/10.0.11/ref/net10.0" \
   /tmp/next-stage-evidence

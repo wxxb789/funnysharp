@@ -5,7 +5,7 @@
 # ///
 """Cross-platform orchestration for the next-stage evidence inventories.
 
-This is a faithful Python port of `eng/next-stage-inventory/generate.sh`:
+This Python port preserves the established orchestration behavior:
 
 * the C# dumper (`eng/next-stage-inventory/api-inventory.csproj`) stays the content
   engine; this script only orchestrates the eleven targets plus the language-ext
@@ -137,16 +137,19 @@ class Target:
     list_types: bool = False
 
 
+# The FunnySharp self-dump labels are commit-bound and recorded deliberately in
+# this table (they match the committed dumps); third-party survey titles stay
+# pinned to their recorded baseline.
 TARGETS: tuple[Target, ...] = (
     Target(
         name="funny-sharp-core",
-        title="FunnySharp core public API (commit 4dbebd9, 0.1.0)",
+        title="FunnySharp core public API (Goal 15 completion, 0.1.0)",
         mode="runtime",
         assemblies=(PathSpec(ROOT_FUNNY_SHARP_BIN, "FunnySharp.dll"),),
     ),
     Target(
         name="funny-sharp-aspnetcore",
-        title="FunnySharp.AspNetCore public API (commit 4dbebd9, 0.1.0)",
+        title="FunnySharp.AspNetCore public API (Goal 15 completion, 0.1.0)",
         mode="runtime",
         assemblies=(PathSpec(ROOT_FUNNY_SHARP_ASPNET_BIN, "FunnySharp.AspNetCore.dll"),),
         resolve_dirs=(
@@ -571,7 +574,7 @@ def run_command(
 
 
 def target_argv(target: Target, inputs: Inputs, out_dir: Path) -> list[str]:
-    """Build the legacy dumper argv, preserving generate.sh argument order."""
+    """Build the dumper argv, preserving the established argument order."""
 
     def resolved(spec: PathSpec) -> str:
         path = spec.resolve(inputs)

@@ -24,13 +24,13 @@ tool), `--mode metadata` against reference assemblies. Mode semantics are in
 `docs/next-stage/baselines.md:46-51`: metadata mode is required for reference
 assemblies, does not load code, and does not report nullability annotations.
 
-Canonical regeneration: `eng/next-stage-inventory/generate.sh <baseline-root>
-<ref-pack-dir> <output-dir>`. The BCL runs are:
+Canonical regeneration: `uv run --no-project eng/tools/inventory.py <baseline-root>
+<ref-pack-dir> <output-dir>`. The BCL targets are:
 
-- `generate.sh:63-71` → `inv-bcl-sequences-linq`
-- `generate.sh:73-77` → `inv-bcl-collections-immutable`
-- `generate.sh:79-87` → `inv-bcl-async-concurrency`
-- `generate.sh:89-96` → `inv-bcl-language-errors`
+- `bcl-sequences-linq` → `inv-bcl-sequences-linq`
+- `bcl-collections-immutable` → `inv-bcl-collections-immutable`
+- `bcl-async-concurrency` → `inv-bcl-async-concurrency`
+- `bcl-language-errors` → `inv-bcl-language-errors`
 
 The survey run executed the equivalent commands from
 `/tmp/opencode/tools/generate-inventories.sh` (§44–76) with

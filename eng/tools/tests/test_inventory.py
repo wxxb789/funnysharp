@@ -65,8 +65,8 @@ NAMES = (
 )
 
 TITLES = {
-    "funny-sharp-core": "FunnySharp core public API (commit 4dbebd9, 0.1.0)",
-    "funny-sharp-aspnetcore": "FunnySharp.AspNetCore public API (commit 4dbebd9, 0.1.0)",
+    "funny-sharp-core": "FunnySharp core public API (Goal 15 completion, 0.1.0)",
+    "funny-sharp-aspnetcore": "FunnySharp.AspNetCore public API (Goal 15 completion, 0.1.0)",
     "funcky": "Public API inventory: funcky",
     "funcky-analyzers": "Funcky built-in analyzers (metadata mode)",
     "csharpfunctionalextensions": "Public API inventory: csharpfunctionalextensions",

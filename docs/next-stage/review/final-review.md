@@ -132,6 +132,10 @@ acceptance record.
   CSV↔JSON check without re-running `eng/next-stage-inventory/generate.sh`. This is documented
   (`inventory/generated/README.md:10–13`), so it is a reproducibility limitation rather than a
   missing artifact.
+  **Historical-record note (2026-09-18):** `eng/next-stage-inventory/generate.sh` was
+  retired and replaced by the cross-platform Python orchestrator
+  `uv run --no-project eng/tools/inventory.py <baseline-root> <ref-pack-dir> <output-dir>`;
+  the original citation above is preserved as the audit record.
 
 ## Could Not Verify
 
