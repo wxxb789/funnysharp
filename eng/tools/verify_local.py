@@ -369,6 +369,19 @@ def _test_failure(text: str, repository_root: Path) -> str | None:
     return None
 
 
+# Mirrors eng/Verify-Release.ps1's Remove-AnsiControlSequences, which strips
+# ANSI CSI sequences from log text before the frozen verifier matches it.
+# GitHub Actions sets CI=true, and the MTP terminal reporter then colors the
+# result words, so the child output must be normalized before verdict parsing.
+ANSI_ESCAPE_PATTERN = re.compile(r"\x1b\[[0-?]*[ -/]*[@-~]")
+
+
+def _strip_ansi(text: str) -> str:
+    """Remove ANSI CSI sequences so verdict matching sees plain text."""
+
+    return ANSI_ESCAPE_PATTERN.sub("", text)
+
+
 def step_failure(
     step: str, stdout: str, stderr: str, repository_root: Path
 ) -> str | None:
@@ -452,8 +465,8 @@ def run_steps(
             continue
         argv = command_for_step(step, repository_root)
         completed = runner(argv, env, repository_root)
-        stdout = completed.stdout or ""
-        stderr = completed.stderr or ""
+        stdout = _strip_ansi(completed.stdout or "")
+        stderr = _strip_ansi(completed.stderr or "")
         if completed.returncode != 0:
             tail = _output_tail(f"{stdout}\n{stderr}")
             _print_output_tail(step, tail)
@@ -469,7 +482,17 @@ def run_steps(
             return results, step
         failure = step_failure(step, stdout, stderr, repository_root)
         if failure is not None:
-            results.append(StepResult(step, "failed", completed.returncode, failure))
+            tail = _output_tail(f"{stdout}\n{stderr}")
+            _print_output_tail(step, tail)
+            results.append(
+                StepResult(
+                    step,
+                    "failed",
+                    completed.returncode,
+                    failure,
+                    output_tail=tuple(tail),
+                )
+            )
             return results, step
         results.append(StepResult(step, "passed", completed.returncode))
     return results, None

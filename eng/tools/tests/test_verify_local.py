@@ -275,6 +275,20 @@ class PipelineVerdictTests(_VerifyLocalTestCase):
         self.assertIn("not release evidence", stdout)
         self.assertEqual("", stderr)
 
+    def test_ansi_wrapped_test_output_passes(self) -> None:
+        # GitHub Actions runs with CI=true, and the MTP terminal reporter then
+        # colors the result words; the frozen verifier strips ANSI before
+        # matching (Remove-AnsiControlSequences), and so must this tool.
+        escape = "\x1b"
+        colored = green_stdout("test", self.repo).replace(
+            "passed (1.2s)",
+            f"{escape}[32mpassed{escape}[m {escape}[90m(1.2s){escape}[m",
+        )
+        self.runner.override("test", stdout=colored)
+        code, stdout, stderr = self.run_cli(self.repo_argv())
+        self.assertEqual(0, code, stderr)
+        self.assertIn("PASS test", stdout)
+
     def test_build_warning_fails(self) -> None:
         log = green_stdout("build", self.repo).replace(
             "    0 Warning(s)", "    1 Warning(s)"
@@ -429,6 +443,22 @@ class PipelineVerdictTests(_VerifyLocalTestCase):
         # Passed steps keep the original four-key report shape.
         self.assertEqual(
             {"name", "status", "exitCode", "message"}, set(report["steps"][0])
+        )
+
+    def test_verdict_failure_prints_output_tail(self) -> None:
+        # A step can exit 0 and still fail the verdict; the tail must surface
+        # then too, or a CI failure is opaque (the test-step ANSI case).
+        self.runner.override("docs", stdout="snippet check failed: missing region\n")
+        code, stdout, stderr = self.run_cli(self.repo_argv("--json"))
+        self.assertEqual(1, code)
+        self.assertIn("--- docs output (last 20 lines) ---", stderr)
+        self.assertIn("snippet check failed: missing region", stderr)
+        report = json.loads(stdout)
+        failed = report["steps"][-1]
+        self.assertEqual("docs", failed["name"])
+        self.assertEqual("failed", failed["status"])
+        self.assertEqual(
+            ["snippet check failed: missing region"], failed["outputTail"]
         )
 
     def test_stderr_output_is_used_for_verdicts(self) -> None:
