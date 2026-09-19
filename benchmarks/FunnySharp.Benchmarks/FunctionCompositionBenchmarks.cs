@@ -24,7 +24,7 @@ public class FunctionCompositionBenchmarks
     private readonly Func<int, Task<int>> directTask = DirectTaskTransform;
     private readonly Func<int, Task<int>> composedTask = TaskFirst.ComposeAsync(TaskSecond);
     private readonly Func<int, ValueTask<int>> directValueTask = DirectValueTaskTransform;
-    private readonly Func<int, ValueTask<int>> composedValueTask = ValueTaskFirst.ComposeAsync(ValueTaskSecond);
+    private readonly Func<int, ValueTask<int>> composedValueTask = ValueTaskFirst.ComposeValueAsync(ValueTaskSecond);
 
     [Benchmark(Baseline = true)]
     [BenchmarkCategory("Synchronous invocation")]
@@ -56,7 +56,7 @@ public class FunctionCompositionBenchmarks
 
     [Benchmark]
     [BenchmarkCategory("Completed ValueTask invocation")]
-    public ValueTask<int> ComposeAsyncCompletedValueTaskInvocation() => composedValueTask(Input);
+    public ValueTask<int> ComposeValueAsyncCompletedValueTaskInvocation() => composedValueTask(Input);
 
     private static int Increment(int value) => value + 1;
 

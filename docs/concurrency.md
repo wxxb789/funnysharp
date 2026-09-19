@@ -166,14 +166,14 @@ contract.
 <!-- performance-table:start concurrency -->
 | Scenario | Baseline mean | FunnySharp mean | Ratio | Baseline allocation | FunnySharp allocation |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Ordered bounded asynchronous map ([Count=1024]) | 572.797 us | 777.156 us | 1.36x | 331453 B | 342322 B |
-| Ordered bounded asynchronous map ([Count=16]) | 12.991 us | 18.849 us | 1.45x | 6172 B | 8616 B |
-| First successful cold Result operation ([CandidateCount=16]) | 6.471 us | 5.860 us | 0.91x | 5453 B | 4065 B |
-| First successful cold Result operation ([CandidateCount=4]) | 3.029 us | 2.441 us | 0.81x | 1521 B | 1711 B |
-| Parallel Option traversal ([Count=1024]) | 527.555 us | 508.904 us | 0.96x | 358546 B | 179407 B |
-| Parallel Option traversal ([Count=16]) | 12.894 us | 10.285 us | 0.80x | 6718 B | 3718 B |
-| Parallel Validation accumulation ([Count=1024]) | 591.818 us | 607.023 us | 1.03x | 383646 B | 252738 B |
-| Parallel Validation accumulation ([Count=16]) | 13.829 us | 10.789 us | 0.78x | 7328 B | 4283 B |
+| Ordered bounded asynchronous map ([Count=1024]) | 494.349 us | 930.940 us | 1.88x | 299563 B | 479681 B |
+| Ordered bounded asynchronous map ([Count=16]) | 13.835 us | 25.213 us | 1.82x | 5321 B | 11025 B |
+| First successful cold Result operation ([CandidateCount=16]) | 6.890 us | 8.407 us | 1.22x | 5802 B | 4623 B |
+| First successful cold Result operation ([CandidateCount=4]) | 9.218 us | 7.126 us | 0.77x | 1738 B | 2532 B |
+| Parallel Option traversal ([Count=1024]) | 630.179 us | 1,132.069 us | 1.80x | 307163 B | 467087 B |
+| Parallel Option traversal ([Count=16]) | 26.939 us | 21.623 us | 0.80x | 5857 B | 6290 B |
+| Parallel Validation accumulation ([Count=1024]) | 685.377 us | 839.822 us | 1.23x | 336636 B | 359318 B |
+| Parallel Validation accumulation ([Count=16]) | 33.889 us | 42.866 us | 1.26x | 6352 B | 7826 B |
 
 Excluded measurements:
 - Result parallel traversal: The prior supplemental comparison used different input carriers and is not reproducible from tracked sources.
@@ -181,11 +181,13 @@ Excluded measurements:
 <!-- performance-table:end concurrency -->
 
 The ordered streaming map pays for its reusable enumerator, channel backpressure, ordered delivery,
-and cleanup tracking; in this workload it was 1.36-1.45x slower and allocated 1.03x as much at 1,024
-items and 1.40x at 16 items compared with the known-length BCL array path. The traversal coordinator
-was competitive at 1,024 items and faster at 16, and used substantially less storage in both cases.
-First-success was faster than the sequential baseline in these short cases (about 9-19%), with
-allocations slightly lower for sixteen candidates and slightly higher for four.
+and cleanup tracking. In the recorded observation it is slower and allocates more than the
+known-length BCL array path at both sizes, and both traversal coordinators also allocate more at
+both sizes. The timing directions are scheduler-sensitive and split by input in this observation:
+the Validation coordinator is slower at both sizes, the Option coordinator is slower at 1,024 items
+but faster at 16, and first-success is slower with sixteen candidates and faster with four while
+allocating less with sixteen and more with four. The generated table above owns the exact ratios
+and allocation figures.
 
 These measurements are directional. `Task.Yield` models scheduler handoff, not production I/O, and
 three measured iterations on a virtualized host produce wide confidence intervals for the smallest

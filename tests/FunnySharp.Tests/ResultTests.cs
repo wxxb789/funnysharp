@@ -564,6 +564,166 @@ public sealed class ResultTests
                 (Func<int, int, int, int>)null!));
     }
 
+    [Fact]
+    public void FourWayZipReturnsTheLeftmostFailureWithoutInvokingTheCombiner()
+    {
+        var firstError = new InvalidOperationException("first");
+        var secondError = new FormatException("second");
+        var thirdError = new ArgumentException("third");
+        var fourthError = new InvalidOperationException("fourth");
+        var calls = 0;
+        Func<int, string, bool, long, string> combineFour = (first, second, third, fourth) =>
+        {
+            calls++;
+            return $"{first}:{second}:{third}:{fourth}";
+        };
+        var success = Result<int, Exception>.Success(1);
+        var secondSuccess = Result<string, Exception>.Success("two");
+        var thirdSuccess = Result<bool, Exception>.Success(true);
+        var fourthSuccess = Result<long, Exception>.Success(7);
+
+        AssertSuccess("1:two:True:7", success.Zip(secondSuccess, thirdSuccess, fourthSuccess, combineFour));
+        AssertFailureSame(
+            firstError,
+            Result<int, Exception>.Failure(firstError).Zip(
+                Result<string, Exception>.Failure(secondError),
+                Result<bool, Exception>.Failure(thirdError),
+                Result<long, Exception>.Failure(fourthError),
+                combineFour));
+        AssertFailureSame(
+            secondError,
+            success.Zip(
+                Result<string, Exception>.Failure(secondError),
+                Result<bool, Exception>.Failure(thirdError),
+                Result<long, Exception>.Failure(fourthError),
+                combineFour));
+        AssertFailureSame(
+            thirdError,
+            success.Zip(
+                secondSuccess,
+                Result<bool, Exception>.Failure(thirdError),
+                Result<long, Exception>.Failure(fourthError),
+                combineFour));
+        AssertFailureSame(
+            fourthError,
+            success.Zip(
+                secondSuccess,
+                thirdSuccess,
+                Result<long, Exception>.Failure(fourthError),
+                combineFour));
+        Assert.Equal(1, calls);
+    }
+
+    [Fact]
+    public void FourWayZipStillRejectsUninitializedOperands()
+    {
+        const string message = "The result has not been initialized.";
+        Func<int, int, int, int, int> combineFour =
+            (first, second, third, fourth) => first + second + third + fourth;
+        var initialized = Result<int, Exception>.Success(1);
+        var failure = Result<int, Exception>.Failure(new InvalidOperationException("first"));
+        var uninitialized = default(Result<int, Exception>);
+
+        var secondException = Assert.Throws<InvalidOperationException>(
+            () => initialized.Zip(uninitialized, initialized, initialized, combineFour));
+        var thirdException = Assert.Throws<InvalidOperationException>(
+            () => initialized.Zip(initialized, uninitialized, initialized, combineFour));
+        var fourthException = Assert.Throws<InvalidOperationException>(
+            () => initialized.Zip(initialized, initialized, uninitialized, combineFour));
+        var secondAfterFailure = Assert.Throws<InvalidOperationException>(
+            () => failure.Zip(uninitialized, initialized, initialized, combineFour));
+        var thirdAfterFailure = Assert.Throws<InvalidOperationException>(
+            () => failure.Zip(initialized, uninitialized, initialized, combineFour));
+        var fourthAfterFailure = Assert.Throws<InvalidOperationException>(
+            () => failure.Zip(initialized, initialized, uninitialized, combineFour));
+
+        Assert.Equal(message, secondException.Message);
+        Assert.Equal(message, thirdException.Message);
+        Assert.Equal(message, fourthException.Message);
+        Assert.Equal(message, secondAfterFailure.Message);
+        Assert.Equal(message, thirdAfterFailure.Message);
+        Assert.Equal(message, fourthAfterFailure.Message);
+    }
+
+    [Fact]
+    public void FourWayZipMatchesTupleThenMapForSuccessAndFailure()
+    {
+        static string CombineFour(int first, string second, bool third, long fourth) =>
+            $"{first}:{second}:{third}:{fourth}";
+
+        var firsts = new[]
+        {
+            Result<int, string>.Success(1),
+            Result<int, string>.Failure("first-error"),
+        };
+        var seconds = new[]
+        {
+            Result<string, string>.Success("two"),
+            Result<string, string>.Failure("second-error"),
+        };
+        var thirds = new[]
+        {
+            Result<bool, string>.Success(true),
+            Result<bool, string>.Failure("third-error"),
+        };
+        var fourths = new[]
+        {
+            Result<long, string>.Success(7),
+            Result<long, string>.Failure("fourth-error"),
+        };
+
+        foreach (var first in firsts)
+        {
+            foreach (var second in seconds)
+            {
+                foreach (var third in thirds)
+                {
+                    foreach (var fourth in fourths)
+                    {
+                        Assert.Equal(
+                            first.Zip(second).Zip(third).Zip(fourth).Map(quad => CombineFour(
+                                quad.First.First.First,
+                                quad.First.First.Second,
+                                quad.First.Second,
+                                quad.Second)),
+                            first.Zip(second, third, fourth, CombineFour));
+                    }
+                }
+            }
+        }
+    }
+
+    [Fact]
+    public void FourWayZipPropagatesExceptionsAndValidatesTheDelegate()
+    {
+        var expected = new InvalidOperationException("combine failed");
+
+        Assert.Same(expected, Assert.Throws<InvalidOperationException>(() =>
+            Result<int, string>.Success(1).Zip<int, int, int, int>(
+                Result<int, string>.Success(2),
+                Result<int, string>.Success(3),
+                Result<int, string>.Success(4),
+                (_, _, _, _) => throw expected)));
+        Assert.Throws<ArgumentNullException>(() =>
+            Result<int, string>.Success(1).Zip(
+                Result<int, string>.Success(2),
+                Result<int, string>.Success(3),
+                Result<int, string>.Success(4),
+                (Func<int, int, int, int, int>)null!));
+        Assert.Throws<ArgumentNullException>(() =>
+            Result<int, string>.Failure("bad").Zip(
+                Result<int, string>.Success(2),
+                Result<int, string>.Success(3),
+                Result<int, string>.Success(4),
+                (Func<int, int, int, int, int>)null!));
+        Assert.Throws<ArgumentNullException>(() =>
+            default(Result<int, string>).Zip(
+                Result<int, string>.Success(2),
+                Result<int, string>.Success(3),
+                Result<int, string>.Success(4),
+                (Func<int, int, int, int, int>)null!));
+    }
+
     private static void AssertSuccess<TValue>(TValue expected, Result<TValue, Exception> result)
     {
         Assert.True(result.TryGetValue(out var value));

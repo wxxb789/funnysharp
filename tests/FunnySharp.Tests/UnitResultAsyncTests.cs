@@ -5,13 +5,13 @@ namespace FunnySharp.Tests;
 public sealed class UnitResultAsyncTests
 {
     [Fact]
-    public async Task TaskMapAndBindTransformSuccessAndShortCircuitFailure()
+    public async Task TaskToResultAndBindTransformSuccessAndShortCircuitFailure()
     {
         var error = new InvalidOperationException("failed");
         var mapCalls = 0;
         var bindCalls = 0;
 
-        var mapped = UnitResult<string>.Success().MapAsync(() =>
+        var mapped = UnitResult<string>.Success().ToResultAsync(() =>
         {
             mapCalls++;
             return Task.FromResult(42);
@@ -22,7 +22,7 @@ public sealed class UnitResultAsyncTests
             return Task.FromResult(UnitResult<string>.Failure("bound"));
         });
         var failure = UnitResult<Exception>.Failure(error);
-        var failedMap = failure.MapAsync(() =>
+        var failedMap = failure.ToResultAsync(() =>
         {
             mapCalls++;
             return Task.FromResult(0);
@@ -46,7 +46,7 @@ public sealed class UnitResultAsyncTests
     }
 
     [Fact]
-    public async Task ValueTaskMapAndBindTransformSuccessAndShortCircuitFailure()
+    public async Task ValueTaskToResultAndBindTransformSuccessAndShortCircuitFailure()
     {
         var error = new InvalidOperationException("failed");
         var mapCalls = 0;
@@ -54,7 +54,7 @@ public sealed class UnitResultAsyncTests
         var mapSource = new CountingValueTaskSource<int>(42);
         var bindSource = new CountingValueTaskSource<UnitResult<string>>(UnitResult<string>.Failure("bound"));
 
-        var mapped = await UnitResult<string>.Success().MapValueAsync(() =>
+        var mapped = await UnitResult<string>.Success().ToResultValueAsync(() =>
         {
             mapCalls++;
             return mapSource.CreateValueTask();
@@ -65,7 +65,7 @@ public sealed class UnitResultAsyncTests
             return bindSource.CreateValueTask();
         });
         var failure = UnitResult<Exception>.Failure(error);
-        var failedMap = failure.MapValueAsync(() =>
+        var failedMap = failure.ToResultValueAsync(() =>
         {
             mapCalls++;
             return mapSource.CreateValueTask();
@@ -96,7 +96,7 @@ public sealed class UnitResultAsyncTests
         var mapSource = new CountingValueTaskSource<int>();
         var bindSource = new CountingValueTaskSource<UnitResult<string>>();
 
-        var mapped = UnitResult<string>.Success().MapValueAsync(() => mapSource.CreateValueTask());
+        var mapped = UnitResult<string>.Success().ToResultValueAsync(() => mapSource.CreateValueTask());
         var bound = UnitResult<string>.Success().BindValueAsync(() => bindSource.CreateValueTask());
 
         Assert.False(mapped.IsCompleted);
@@ -118,7 +118,7 @@ public sealed class UnitResultAsyncTests
         cancellationSource.Cancel();
         var observedTokens = new List<CancellationToken>();
 
-        var taskMapped = await UnitResult<string>.Success().MapAsync(
+        var taskMapped = await UnitResult<string>.Success().ToResultAsync(
             token =>
             {
                 observedTokens.Add(token);
@@ -132,7 +132,7 @@ public sealed class UnitResultAsyncTests
                 return Task.FromResult(UnitResult<string>.Success());
             },
             cancellationSource.Token);
-        var valueMapped = await UnitResult<string>.Success().MapValueAsync(
+        var valueMapped = await UnitResult<string>.Success().ToResultValueAsync(
             token =>
             {
                 observedTokens.Add(token);
@@ -164,7 +164,7 @@ public sealed class UnitResultAsyncTests
         var failure = UnitResult<Exception>.Failure(error);
         var calls = 0;
 
-        var taskMapped = await failure.MapAsync(
+        var taskMapped = await failure.ToResultAsync(
             token =>
             {
                 calls++;
@@ -178,7 +178,7 @@ public sealed class UnitResultAsyncTests
                 return Task.FromResult(UnitResult<Exception>.Success());
             },
             cancellationSource.Token);
-        var valueMapped = await failure.MapValueAsync(
+        var valueMapped = await failure.ToResultValueAsync(
             token =>
             {
                 calls++;
@@ -212,10 +212,10 @@ public sealed class UnitResultAsyncTests
         var valueMapFailure = new InvalidOperationException("value map");
         var valueBindFailure = new InvalidOperationException("value bind");
 
-        var taskMap = UnitResult<string>.Success().MapAsync(() => Task.FromException<int>(taskMapFailure));
+        var taskMap = UnitResult<string>.Success().ToResultAsync(() => Task.FromException<int>(taskMapFailure));
         var taskBind = UnitResult<string>.Success().BindAsync(
             () => Task.FromException<UnitResult<string>>(taskBindFailure));
-        var valueMap = UnitResult<string>.Success().MapValueAsync(
+        var valueMap = UnitResult<string>.Success().ToResultValueAsync(
             () => ValueTask.FromException<int>(valueMapFailure));
         var valueBind = UnitResult<string>.Success().BindValueAsync(
             () => ValueTask.FromException<UnitResult<string>>(valueBindFailure));
@@ -236,21 +236,21 @@ public sealed class UnitResultAsyncTests
         using var cancellationSource = new CancellationTokenSource();
         cancellationSource.Cancel();
 
-        var taskMap = UnitResult<string>.Success().MapAsync(
+        var taskMap = UnitResult<string>.Success().ToResultAsync(
             () => Task.FromCanceled<int>(cancellationSource.Token));
         var taskBind = UnitResult<string>.Success().BindAsync(
             () => Task.FromCanceled<UnitResult<string>>(cancellationSource.Token));
-        var valueMap = UnitResult<string>.Success().MapValueAsync(
+        var valueMap = UnitResult<string>.Success().ToResultValueAsync(
             () => ValueTask.FromCanceled<int>(cancellationSource.Token));
         var valueBind = UnitResult<string>.Success().BindValueAsync(
             () => ValueTask.FromCanceled<UnitResult<string>>(cancellationSource.Token));
-        var taskMapWithToken = UnitResult<string>.Success().MapAsync(
+        var taskMapWithToken = UnitResult<string>.Success().ToResultAsync(
             token => Task.FromCanceled<int>(token),
             cancellationSource.Token);
         var taskBindWithToken = UnitResult<string>.Success().BindAsync(
             token => Task.FromCanceled<UnitResult<string>>(token),
             cancellationSource.Token);
-        var valueMapWithToken = UnitResult<string>.Success().MapValueAsync(
+        var valueMapWithToken = UnitResult<string>.Success().ToResultValueAsync(
             token => ValueTask.FromCanceled<int>(token),
             cancellationSource.Token);
         var valueBindWithToken = UnitResult<string>.Success().BindValueAsync(
@@ -304,7 +304,7 @@ public sealed class UnitResultAsyncTests
 
         var taskMapCallException = Record.Exception(() =>
         {
-            taskMap = UnitResult<string>.Success().MapAsync<string, int>(() => throw taskMapFailure);
+            taskMap = UnitResult<string>.Success().ToResultAsync<string, int>(() => throw taskMapFailure);
         });
         var taskBindCallException = Record.Exception(() =>
         {
@@ -312,7 +312,7 @@ public sealed class UnitResultAsyncTests
         });
         var valueMapCallException = Record.Exception(() =>
         {
-            valueMap = UnitResult<string>.Success().MapValueAsync<string, int>(() => throw valueMapFailure);
+            valueMap = UnitResult<string>.Success().ToResultValueAsync<string, int>(() => throw valueMapFailure);
         });
         var valueBindCallException = Record.Exception(() =>
         {
@@ -351,11 +351,11 @@ public sealed class UnitResultAsyncTests
         };
         var operations = new Task[]
         {
-            UnitResult<string>.Success().MapAsync<string, int>(
+            UnitResult<string>.Success().ToResultAsync<string, int>(
                 () => ThrowCancellation<Task<int>>(cancellations[0])),
             UnitResult<string>.Success().BindAsync<string>(
                 () => ThrowCancellation<Task<UnitResult<string>>>(cancellations[1])),
-            UnitResult<string>.Success().MapValueAsync<string, int>(
+            UnitResult<string>.Success().ToResultValueAsync<string, int>(
                 () => ThrowCancellation<ValueTask<int>>(cancellations[2])).AsTask(),
             UnitResult<string>.Success().BindValueAsync<string>(
                 () => ThrowCancellation<ValueTask<UnitResult<string>>>(cancellations[3])).AsTask(),
@@ -377,18 +377,18 @@ public sealed class UnitResultAsyncTests
         var failure = UnitResult<string>.Failure("bad");
         UnitResult<string> uninitialized = default;
 
-        Assert.Throws<ArgumentNullException>(() => { _ = failure.MapAsync<string, int>(null!); });
-        Assert.Throws<ArgumentNullException>(() => { _ = failure.MapAsync<string, int>(null!, CancellationToken.None); });
-        Assert.Throws<ArgumentNullException>(() => { _ = failure.MapValueAsync<string, int>(null!); });
-        Assert.Throws<ArgumentNullException>(() => { _ = failure.MapValueAsync<string, int>(null!, CancellationToken.None); });
+        Assert.Throws<ArgumentNullException>(() => { _ = failure.ToResultAsync<string, int>(null!); });
+        Assert.Throws<ArgumentNullException>(() => { _ = failure.ToResultAsync<string, int>(null!, CancellationToken.None); });
+        Assert.Throws<ArgumentNullException>(() => { _ = failure.ToResultValueAsync<string, int>(null!); });
+        Assert.Throws<ArgumentNullException>(() => { _ = failure.ToResultValueAsync<string, int>(null!, CancellationToken.None); });
         Assert.Throws<ArgumentNullException>(() => { _ = failure.BindAsync<string>(null!); });
         Assert.Throws<ArgumentNullException>(() => { _ = failure.BindAsync<string>(null!, CancellationToken.None); });
         Assert.Throws<ArgumentNullException>(() => { _ = failure.BindValueAsync<string>(null!); });
         Assert.Throws<ArgumentNullException>(() => { _ = failure.BindValueAsync<string>(null!, CancellationToken.None); });
 
-        Assert.Throws<ArgumentNullException>(() => { _ = uninitialized.MapAsync<string, int>(null!); });
+        Assert.Throws<ArgumentNullException>(() => { _ = uninitialized.ToResultAsync<string, int>(null!); });
         Assert.Throws<ArgumentNullException>(() => { _ = uninitialized.BindAsync<string>(null!); });
-        Assert.Throws<ArgumentNullException>(() => { _ = uninitialized.MapValueAsync<string, int>(null!); });
+        Assert.Throws<ArgumentNullException>(() => { _ = uninitialized.ToResultValueAsync<string, int>(null!); });
         Assert.Throws<ArgumentNullException>(() => { _ = uninitialized.BindValueAsync<string>(null!); });
     }
 
@@ -398,10 +398,10 @@ public sealed class UnitResultAsyncTests
         UnitResult<string> uninitialized = default;
         var operations = new Action[]
         {
-            () => { _ = uninitialized.MapAsync<string, int>(() => Task.FromResult(1)); },
-            () => { _ = uninitialized.MapAsync<string, int>(token => Task.FromResult(1), CancellationToken.None); },
-            () => { _ = uninitialized.MapValueAsync<string, int>(() => ValueTask.FromResult(1)); },
-            () => { _ = uninitialized.MapValueAsync<string, int>(token => ValueTask.FromResult(1), CancellationToken.None); },
+            () => { _ = uninitialized.ToResultAsync<string, int>(() => Task.FromResult(1)); },
+            () => { _ = uninitialized.ToResultAsync<string, int>(token => Task.FromResult(1), CancellationToken.None); },
+            () => { _ = uninitialized.ToResultValueAsync<string, int>(() => ValueTask.FromResult(1)); },
+            () => { _ = uninitialized.ToResultValueAsync<string, int>(token => ValueTask.FromResult(1), CancellationToken.None); },
             () => { _ = uninitialized.BindAsync<string>(() => Task.FromResult(UnitResult<string>.Success())); },
             () => { _ = uninitialized.BindAsync<string>(token => Task.FromResult(UnitResult<string>.Success()), CancellationToken.None); },
             () => { _ = uninitialized.BindValueAsync<string>(() => ValueTask.FromResult(UnitResult<string>.Success())); },

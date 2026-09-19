@@ -33,7 +33,7 @@ VERIFIER_PATH = TOOLS_DIR / "verify_docs_snippets.py"
 SAMPLES_DIR_NAME = Path("examples") / "FunnySharp.DocumentationSamples"
 PS_VERIFIER_PATH = REPOSITORY_ROOT / SAMPLES_DIR_NAME / "VerifyDocumentationSnippets.ps1"
 GUIDE_UNDER_TEST = "unit-result.md"
-SUCCESS_LINE = "Verified 25 C# documentation snippets across 8 primary guides."
+SUCCESS_LINE = "Verified 26 C# documentation snippets across 8 primary guides."
 
 sys.path.insert(0, str(TOOLS_DIR))
 import verify_docs_snippets as verifier  # noqa: E402  (sys.path is set above)

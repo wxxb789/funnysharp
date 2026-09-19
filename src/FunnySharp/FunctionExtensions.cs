@@ -150,7 +150,7 @@ public static class FunctionExtensions
     /// <param name="first">The function applied first.</param>
     /// <param name="second">The function applied after <paramref name="first"/> completes.</param>
     /// <returns>A value-task-returning function that applies both functions in order.</returns>
-    public static Func<T, ValueTask<TResult>> ComposeAsync<T, TIntermediate, TResult>(
+    public static Func<T, ValueTask<TResult>> ComposeValueAsync<T, TIntermediate, TResult>(
         this Func<T, ValueTask<TIntermediate>> first,
         Func<TIntermediate, ValueTask<TResult>> second)
     {
@@ -196,7 +196,7 @@ public static class FunctionExtensions
     /// <param name="first">The function applied first.</param>
     /// <param name="second">The function applied after <paramref name="first"/> completes.</param>
     /// <returns>A cancellation-aware value-task-returning function that applies both functions in order.</returns>
-    public static Func<T, CancellationToken, ValueTask<TResult>> ComposeAsync<T, TIntermediate, TResult>(
+    public static Func<T, CancellationToken, ValueTask<TResult>> ComposeValueAsync<T, TIntermediate, TResult>(
         this Func<T, CancellationToken, ValueTask<TIntermediate>> first,
         Func<TIntermediate, CancellationToken, ValueTask<TResult>> second)
     {

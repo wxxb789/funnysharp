@@ -95,7 +95,8 @@ An archived goal's whole contract text lives on line 2 of its file, so citations
    no numeric claim.
    Source: `docs/release-readiness.md:29-37`; `TODO.md:5-9`; `eng/Verify-Performance.ps1:278-297`
    (over-budget allocation throws; timing states whitelisted);
-   `docs/option.md:74`, `docs/result.md:133`, `docs/function-composition.md:67`,
+   `docs/option.md:74`, `docs/result.md:133`,
+   [function-composition.md — Performance Evidence](../../function-composition.md#performance-evidence),
    `docs/validation.md:127`, `docs/data-pipelines.md:81`, `docs/effects.md:119`,
    `docs/concurrency.md:163`, `docs/immutable-updates.md:183`.
    Classification: **(a) restate**.

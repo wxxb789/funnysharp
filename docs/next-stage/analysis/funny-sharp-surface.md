@@ -194,8 +194,8 @@ explicit complexity note before any "performance trust" claim.
 ### 2.6 Partial / Flip / Curry arity limits
 
 Evidence: only binary shapes exist — `Curry` `src/FunnySharp/FunctionExtensions.cs:49-55`,
-`Uncurry` `:65-71`, `Partial` `:82-89`, `Flip` `:99-105`; deliberate boundary documented at
-`docs/function-composition.md:39-41` ("Arbitrary arities would require a large overload family with
+`Uncurry` `:65-71`, `Partial` `:82-89`, `Flip` `:99-105`; deliberate boundary documented in
+[function-composition.md — Deliberate Boundaries](../../function-composition.md#deliberate-boundaries) ("Arbitrary arities would require a large overload family with
 limited additional discoverability"). `Partial` binds only the first argument
 (`src/FunnySharp/FunctionExtensions.cs:82-89`).
 
@@ -455,8 +455,9 @@ parallel Validation 0.77x-1.22x at `docs/concurrency.md:173-176`).
 
 ### F4 Function grammar — `FunctionExtensions`
 
-Purpose and semantics: `docs/function-composition.md:8-37`; eager delegate validation, no
-exception wrapping, `ConfigureAwait(false)`, exact token forwarding. Call sites:
+Purpose and semantics: [API Shape](../../function-composition.md#api-shape) and
+[Evaluation And Failure Semantics](../../function-composition.md#evaluation-and-failure-semantics);
+eager delegate validation, no exception wrapping, `ConfigureAwait(false)`, exact token forwarding. Call sites:
 `examples/FunnySharp.Examples/Program.cs:25-40` (`Pipe`, `Compose`, `Curry`, `Partial`, `Flip`,
 `Tap`), `:280-328` (async compose/tap incl. cancellation).
 
@@ -465,9 +466,10 @@ variable or lambda per stage); C3 strong for sync, weakened by `ComposeAsync` na
 C4 good (delegate nullability and arity are compiler-checked); C5 medium (multiple equivalent ways
 to read a pipeline — `Pipe` vs `Compose` vs nested calls — but only one async carrier per name);
 C6 strong (standard delegates only); C7 good when delegates are well-behaved; a delegate that
-ignores a canceled token still runs, documented (`docs/function-composition.md:31`);
+ignores a canceled token still runs, documented in
+[function-composition.md — Evaluation And Failure Semantics](../../function-composition.md#evaluation-and-failure-semantics);
 C8 mixed: sync invocation 5.77x, delegate construction 1.94x with 96 B vs 64 B
-(`docs/function-composition.md:70-79`) — acceptable because the docs disclose it and BCL
+([function-composition.md — Performance Evidence](../../function-composition.md#performance-evidence)) — acceptable because the docs disclose it and BCL
 `Enumerable`-style composition has no cheaper equivalent for function values; `Pipe`/`Tap` are
 identities. Keep with a complexity note.
 

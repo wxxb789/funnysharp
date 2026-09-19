@@ -2,6 +2,7 @@
 
 `FunnySharp` provides a small set of extension methods over standard C# delegates and values.
 The executable examples are in [examples/FunnySharp.Examples/Program.cs](../examples/FunnySharp.Examples/Program.cs).
+The authoritative verb table and naming rules are in [Functional API Grammar](grammar.md).
 
 ## API Shape
 
@@ -17,18 +18,23 @@ The synchronous surface is intentionally small:
 Async composition is available for matching return kinds:
 
 - `Func<T, Task<TIntermediate>>.ComposeAsync(Func<TIntermediate, Task<TResult>>)`
-- `Func<T, ValueTask<TIntermediate>>.ComposeAsync(Func<TIntermediate, ValueTask<TResult>>)`
+- `Func<T, ValueTask<TIntermediate>>.ComposeValueAsync(Func<TIntermediate, ValueTask<TResult>>)`
 - Cancellation-aware variants of both shapes, taking and returning delegates whose second parameter is `CancellationToken`.
 - `value.TapAsync(...)` observes through a `Task`-returning delegate and returns `Task<T>`.
 - `value.TapValueAsync(...)` observes through a `ValueTask`-returning delegate and returns `ValueTask<T>`.
 
+For an instance method group in extension-receiver position, first give it a delegate type:
+`new Func<string, ValueTask<int>>(parser.ParseAsync).ComposeValueAsync(formatter.FormatAsync)`.
+The second method group is an argument, so its delegate type is inferred. This working shape is
+compiled and exercised in `GrammarInferenceTests.ComposeValueAsyncAcceptsInstanceMethodGroups`.
+
 ## Evaluation And Failure Semantics
 
-`Compose` and `ComposeAsync` evaluate left to right: the first delegate receives the input, and the second delegate receives the first result. A second stage is not invoked when the first stage throws, faults, or is canceled. The helpers do not catch, wrap, or replace those failures, so the original exception instance flows through normal C# invocation or `await` semantics.
+`Compose`, `ComposeAsync`, and `ComposeValueAsync` evaluate left to right: the first delegate receives the input, and the second delegate receives the first result. A second stage is not invoked when the first stage throws, faults, or is canceled. The helpers do not catch, wrap, or replace those failures, so the original exception instance flows through normal C# invocation or `await` semantics.
 
 Every public helper validates its delegate argument with `ArgumentNullException`. Composition validates both delegates when the composed delegate is created. `Pipe` and the `Tap` helpers validate their delegate before attempting the operation.
 
-The cancellation-aware `ComposeAsync` and tap overloads pass the exact supplied `CancellationToken` to each user delegate. They do not inspect a token or cancel eagerly; cancellation behavior remains the delegates' responsibility. Thus a canceled token can still produce a value when both delegates elect not to observe it.
+The cancellation-aware `ComposeAsync`, `ComposeValueAsync`, and tap overloads pass the exact supplied `CancellationToken` to each user delegate. They do not inspect a token or cancel eagerly; cancellation behavior remains the delegates' responsibility. Thus a canceled token can still produce a value when both delegates elect not to observe it.
 
 Internally, asynchronous helpers await with `ConfigureAwait(false)`. This avoids imposing a synchronization-context capture on the helper's own continuations, while leaving each supplied delegate responsible for its own async behavior.
 
@@ -51,7 +57,30 @@ var result = await 4.Pipe(async value =>
 });
 ```
 
-There are also no mixed `Task`/`ValueTask` `ComposeAsync` overloads. Keeping each composition in one async return kind avoids a broader overload set, unclear conversion choices, and accidental changes to `ValueTask` consumption behavior. Convert explicitly at a call site when a mixed pipeline is necessary.
+There are also no mixed `Task`/`ValueTask` compose overloads. Keeping each composition in one async return kind avoids a broader overload set, unclear conversion choices, and accidental changes to `ValueTask` consumption behavior. Convert explicitly at a call site when a mixed pipeline is necessary.
+
+## Fallible Composition
+
+Fallible-function composition stays `Bind` on the carrier: there is deliberately no Kleisli-compose
+operator over `Func<T, Result<...>>` and no fallible pipeline hierarchy. The stages compose through
+`Result.Map`/`Result.Bind` themselves, so a `Func<string, Result<int, TError>>` stage chains
+directly into the next stage, and a failure stops the chain with the first failure's error. The full
+verb-by-carrier contract is in [Functional API Grammar](grammar.md).
+
+<!-- documentation-sample: DocumentationSamples.FunctionComposition.FallibleCompose -->
+```csharp
+Func<string, Result<int, ParseError>> parseQuantity = ParseQuantity;
+Func<int, Result<decimal, ParseError>> lookupUnitPrice = LookupUnitPrice;
+
+Result<decimal, ParseError> lineTotal = parseQuantity(request.QuantityText)
+    .Bind(lookupUnitPrice)
+    .Map(unitPrice => unitPrice * request.Units);
+```
+
+`Option.Bind` chains compose absence-producing functions the same way. The chain replaces the nested
+`if`/`switch` plumbing each fallible stage would otherwise need, and the generic `Pipe` extension
+already accepts Result-returning standard delegates, so no Result-specific pipeline or delegate
+hierarchy is required.
 
 ## Performance Evidence
 
@@ -70,10 +99,10 @@ contract.
 <!-- performance-table:start function-composition -->
 | Scenario | Baseline mean | FunnySharp mean | Ratio | Baseline allocation | FunnySharp allocation |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Completed Task invocation | 27.796 ns | 29.306 ns | 1.05x | 216 B | 216 B |
-| Completed ValueTask invocation | 15.651 ns | 18.124 ns | 1.16x | 0 B | 0 B |
-| Delegate construction | 6.902 ns | 12.824 ns | 1.86x | 64 B | 96 B |
-| Synchronous invocation | 1.030 ns | 5.681 ns | 5.51x | 0 B | 0 B |
+| Completed Task invocation | 34.347 ns | 42.519 ns | 1.24x | 216 B | 216 B |
+| Completed ValueTask invocation | 14.152 ns | 18.624 ns | 1.32x | 0 B | 0 B |
+| Delegate construction | 11.762 ns | 18.305 ns | 1.56x | 64 B | 96 B |
+| Synchronous invocation | 1.369 ns | 5.213 ns | 3.81x | 0 B | 0 B |
 
 Excluded measurements:
 - Unmeasured helpers: Pipe, Tap, Curry, Uncurry, Partial, and Flip have no numeric release claim.

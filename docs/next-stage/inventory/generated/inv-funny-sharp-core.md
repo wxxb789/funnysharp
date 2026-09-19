@@ -1,4 +1,4 @@
-# FunnySharp core public API (Goal 15 completion, 0.1.0)
+# FunnySharp core public API (Goal 16 completion, 0.1.0)
 
 Assemblies: FunnySharp 0.1.0.0
 
@@ -11,6 +11,9 @@ Type count: 36
 - `[ext] public static System.Collections.Generic.IAsyncEnumerable<TResult> Choose<TSource, TResult>(this System.Collections.Generic.IAsyncEnumerable<TSource> source, System.Func<TSource, FunnySharp.Option<TResult>> chooser)`
 - `[ext] public static System.Collections.Generic.IAsyncEnumerable<TResult> ChooseValueAsync<TSource, TResult>(this System.Collections.Generic.IAsyncEnumerable<TSource> source, System.Func<TSource, System.Threading.Tasks.ValueTask<FunnySharp.Option<TResult>>> chooser)`
 - `[ext] public static System.Collections.Generic.IAsyncEnumerable<TResult> ChooseValueAsync<TSource, TResult>(this System.Collections.Generic.IAsyncEnumerable<TSource> source, System.Func<TSource, System.Threading.CancellationToken, System.Threading.Tasks.ValueTask<FunnySharp.Option<TResult>>> chooser)`
+- `[ext] public static System.Collections.Generic.IAsyncEnumerable<TAccumulate> Scan<TSource, TAccumulate>(this System.Collections.Generic.IAsyncEnumerable<TSource> source, TAccumulate? seed, System.Func<TAccumulate, TSource, TAccumulate> accumulate)`
+- `[ext] public static System.Collections.Generic.IAsyncEnumerable<TAccumulate> ScanValueAsync<TSource, TAccumulate>(this System.Collections.Generic.IAsyncEnumerable<TSource> source, TAccumulate? seed, System.Func<TAccumulate, TSource, System.Threading.Tasks.ValueTask<TAccumulate>> accumulate)`
+- `[ext] public static System.Collections.Generic.IAsyncEnumerable<TAccumulate> ScanValueAsync<TSource, TAccumulate>(this System.Collections.Generic.IAsyncEnumerable<TSource> source, TAccumulate? seed, System.Func<TAccumulate, TSource, System.Threading.CancellationToken, System.Threading.Tasks.ValueTask<TAccumulate>> accumulate)`
 
 ### AsyncSequenceExtensions (class [static])
 
@@ -86,14 +89,15 @@ Type count: 36
 ### EnumerablePipelineExtensions (class [static])
 
 - `[ext] public static System.Collections.Generic.IEnumerable<TResult> Choose<TSource, TResult>(this System.Collections.Generic.IEnumerable<TSource> source, System.Func<TSource, FunnySharp.Option<TResult>> chooser)`
+- `[ext] public static System.Collections.Generic.IEnumerable<TAccumulate> Scan<TSource, TAccumulate>(this System.Collections.Generic.IEnumerable<TSource> source, TAccumulate? seed, System.Func<TAccumulate, TSource, TAccumulate> accumulate)`
 
 ### FunctionExtensions (class [static])
 
 - `[ext] public static System.Func<T, TResult> Compose<T, TIntermediate, TResult>(this System.Func<T, TIntermediate> first, System.Func<TIntermediate, TResult> second)`
 - `[ext] public static System.Func<T, System.Threading.Tasks.Task<TResult>> ComposeAsync<T, TIntermediate, TResult>(this System.Func<T, System.Threading.Tasks.Task<TIntermediate>> first, System.Func<TIntermediate, System.Threading.Tasks.Task<TResult>> second)`
-- `[ext] public static System.Func<T, System.Threading.Tasks.ValueTask<TResult>> ComposeAsync<T, TIntermediate, TResult>(this System.Func<T, System.Threading.Tasks.ValueTask<TIntermediate>> first, System.Func<TIntermediate, System.Threading.Tasks.ValueTask<TResult>> second)`
 - `[ext] public static System.Func<T, System.Threading.CancellationToken, System.Threading.Tasks.Task<TResult>> ComposeAsync<T, TIntermediate, TResult>(this System.Func<T, System.Threading.CancellationToken, System.Threading.Tasks.Task<TIntermediate>> first, System.Func<TIntermediate, System.Threading.CancellationToken, System.Threading.Tasks.Task<TResult>> second)`
-- `[ext] public static System.Func<T, System.Threading.CancellationToken, System.Threading.Tasks.ValueTask<TResult>> ComposeAsync<T, TIntermediate, TResult>(this System.Func<T, System.Threading.CancellationToken, System.Threading.Tasks.ValueTask<TIntermediate>> first, System.Func<TIntermediate, System.Threading.CancellationToken, System.Threading.Tasks.ValueTask<TResult>> second)`
+- `[ext] public static System.Func<T, System.Threading.Tasks.ValueTask<TResult>> ComposeValueAsync<T, TIntermediate, TResult>(this System.Func<T, System.Threading.Tasks.ValueTask<TIntermediate>> first, System.Func<TIntermediate, System.Threading.Tasks.ValueTask<TResult>> second)`
+- `[ext] public static System.Func<T, System.Threading.CancellationToken, System.Threading.Tasks.ValueTask<TResult>> ComposeValueAsync<T, TIntermediate, TResult>(this System.Func<T, System.Threading.CancellationToken, System.Threading.Tasks.ValueTask<TIntermediate>> first, System.Func<TIntermediate, System.Threading.CancellationToken, System.Threading.Tasks.ValueTask<TResult>> second)`
 - `[ext] public static System.Func<TFirst, System.Func<TSecond, TResult>> Curry<TFirst, TSecond, TResult>(this System.Func<TFirst, TSecond, TResult> function)`
 - `[ext] public static System.Func<TSecond, TFirst, TResult> Flip<TFirst, TSecond, TResult>(this System.Func<TFirst, TSecond, TResult> function)`
 - `[ext] public static System.Func<TSecond, TResult> Partial<TFirst, TSecond, TResult>(this System.Func<TFirst, TSecond, TResult> function, TFirst? first)`
@@ -174,12 +178,15 @@ Type count: 36
 - `public System.Void Match(System.Action<T> some, System.Action none)`
 - `public FunnySharp.Option<T> OrElse(FunnySharp.Option<T> fallback)`
 - `public FunnySharp.Option<T> OrElseWith(System.Func<FunnySharp.Option<T>> fallbackFactory)`
+- `public FunnySharp.Option<TResult> Select<TResult>(System.Func<T, TResult> selector)`
+- `public FunnySharp.Option<TResult> SelectMany<TIntermediate, TResult>(System.Func<T, FunnySharp.Option<TIntermediate>> binder, System.Func<T, TIntermediate, TResult> projector)`
 - `public static FunnySharp.Option<T> Some(T? value)`
 - `public System.String ToString()`
 - `public System.Boolean TryGetValue(out T&? value)`
 - `public FunnySharp.Option<System.ValueTuple<T, TSecond>> Zip<TSecond>(FunnySharp.Option<TSecond> second)`
 - `public FunnySharp.Option<TResult> Zip<TSecond, TResult>(FunnySharp.Option<TSecond> second, System.Func<T, TSecond, TResult> combine)`
 - `public FunnySharp.Option<TResult> Zip<TSecond, TThird, TResult>(FunnySharp.Option<TSecond> second, FunnySharp.Option<TThird> third, System.Func<T, TSecond, TThird, TResult> combine)`
+- `public FunnySharp.Option<TResult> Zip<TSecond, TThird, TFourth, TResult>(FunnySharp.Option<TSecond> second, FunnySharp.Option<TThird> third, FunnySharp.Option<TFourth> fourth, System.Func<T, TSecond, TThird, TFourth, TResult> combine)`
 - `public static System.Boolean op_Equality(FunnySharp.Option<T> left, FunnySharp.Option<T> right)`
 - `public static System.Boolean op_Inequality(FunnySharp.Option<T> left, FunnySharp.Option<T> right)`
 
@@ -258,6 +265,7 @@ Type count: 36
 - `public FunnySharp.Result<System.ValueTuple<TValue, TSecond>, TError> Zip<TSecond>(FunnySharp.Result<TSecond, TError> second)`
 - `public FunnySharp.Result<TResult, TError> Zip<TSecond, TResult>(FunnySharp.Result<TSecond, TError> second, System.Func<TValue, TSecond, TResult> combine)`
 - `public FunnySharp.Result<TResult, TError> Zip<TSecond, TThird, TResult>(FunnySharp.Result<TSecond, TError> second, FunnySharp.Result<TThird, TError> third, System.Func<TValue, TSecond, TThird, TResult> combine)`
+- `public FunnySharp.Result<TResult, TError> Zip<TSecond, TThird, TFourth, TResult>(FunnySharp.Result<TSecond, TError> second, FunnySharp.Result<TThird, TError> third, FunnySharp.Result<TFourth, TError> fourth, System.Func<TValue, TSecond, TThird, TFourth, TResult> combine)`
 - `public FunnySharp.Result<System.ValueTuple<TValue, TSecond>, TError> ZipWith<TSecond>(System.Func<FunnySharp.Result<TSecond, TError>> secondFactory)`
 - `public static System.Boolean op_Equality(FunnySharp.Result<TValue, TError> left, FunnySharp.Result<TValue, TError> right)`
 - `public static System.Boolean op_Inequality(FunnySharp.Result<TValue, TError> left, FunnySharp.Result<TValue, TError> right)`
@@ -377,10 +385,10 @@ Type count: 36
 - `[ext] public static System.Threading.Tasks.Task<FunnySharp.UnitResult<TError>> BindAsync<TError>(this FunnySharp.UnitResult<TError> result, System.Func<System.Threading.CancellationToken, System.Threading.Tasks.Task<FunnySharp.UnitResult<TError>>> binder, System.Threading.CancellationToken cancellationToken)`
 - `[ext] public static System.Threading.Tasks.ValueTask<FunnySharp.UnitResult<TError>> BindValueAsync<TError>(this FunnySharp.UnitResult<TError> result, System.Func<System.Threading.Tasks.ValueTask<FunnySharp.UnitResult<TError>>> binder)`
 - `[ext] public static System.Threading.Tasks.ValueTask<FunnySharp.UnitResult<TError>> BindValueAsync<TError>(this FunnySharp.UnitResult<TError> result, System.Func<System.Threading.CancellationToken, System.Threading.Tasks.ValueTask<FunnySharp.UnitResult<TError>>> binder, System.Threading.CancellationToken cancellationToken)`
-- `[ext] public static System.Threading.Tasks.Task<FunnySharp.Result<TResult, TError>> MapAsync<TError, TResult>(this FunnySharp.UnitResult<TError> result, System.Func<System.Threading.Tasks.Task<TResult>> selector)`
-- `[ext] public static System.Threading.Tasks.Task<FunnySharp.Result<TResult, TError>> MapAsync<TError, TResult>(this FunnySharp.UnitResult<TError> result, System.Func<System.Threading.CancellationToken, System.Threading.Tasks.Task<TResult>> selector, System.Threading.CancellationToken cancellationToken)`
-- `[ext] public static System.Threading.Tasks.ValueTask<FunnySharp.Result<TResult, TError>> MapValueAsync<TError, TResult>(this FunnySharp.UnitResult<TError> result, System.Func<System.Threading.Tasks.ValueTask<TResult>> selector)`
-- `[ext] public static System.Threading.Tasks.ValueTask<FunnySharp.Result<TResult, TError>> MapValueAsync<TError, TResult>(this FunnySharp.UnitResult<TError> result, System.Func<System.Threading.CancellationToken, System.Threading.Tasks.ValueTask<TResult>> selector, System.Threading.CancellationToken cancellationToken)`
+- `[ext] public static System.Threading.Tasks.Task<FunnySharp.Result<TResult, TError>> ToResultAsync<TError, TResult>(this FunnySharp.UnitResult<TError> result, System.Func<System.Threading.Tasks.Task<TResult>> selector)`
+- `[ext] public static System.Threading.Tasks.Task<FunnySharp.Result<TResult, TError>> ToResultAsync<TError, TResult>(this FunnySharp.UnitResult<TError> result, System.Func<System.Threading.CancellationToken, System.Threading.Tasks.Task<TResult>> selector, System.Threading.CancellationToken cancellationToken)`
+- `[ext] public static System.Threading.Tasks.ValueTask<FunnySharp.Result<TResult, TError>> ToResultValueAsync<TError, TResult>(this FunnySharp.UnitResult<TError> result, System.Func<System.Threading.Tasks.ValueTask<TResult>> selector)`
+- `[ext] public static System.Threading.Tasks.ValueTask<FunnySharp.Result<TResult, TError>> ToResultValueAsync<TError, TResult>(this FunnySharp.UnitResult<TError> result, System.Func<System.Threading.CancellationToken, System.Threading.Tasks.ValueTask<TResult>> selector, System.Threading.CancellationToken cancellationToken)`
 - `[ext] public static FunnySharp.UnitResult<TError> ToUnitResult<TValue, TError>(this FunnySharp.Result<TValue, TError> result)`
 - `[ext] public static FunnySharp.UnitResult<TError> ToUnitResult<TValue, TError>(this FunnySharp.Option<TValue> option, TError? error)`
 - `[ext] public static FunnySharp.UnitResult<TError> ToUnitResult<TValue, TError>(this FunnySharp.Option<TValue> option, System.Func<TError> errorFactory)`
@@ -398,12 +406,12 @@ Type count: 36
 - `public System.Boolean Equals(System.Object? obj)`
 - `public static FunnySharp.UnitResult<TError> Failure(TError? error)`
 - `public System.Int32 GetHashCode()`
-- `public FunnySharp.Result<TValue, TError> Map<TValue>(System.Func<TValue> selector)`
 - `public FunnySharp.UnitResult<TResultError> MapError<TResultError>(System.Func<TError, TResultError> selector)`
 - `public TResult? Match<TResult>(System.Func<TResult> success, System.Func<TError, TResult> failure)`
 - `public System.Void Match(System.Action success, System.Action<TError> failure)`
 - `public FunnySharp.UnitResult<TError> RecoverWith(System.Func<TError, FunnySharp.UnitResult<TError>> recovery)`
 - `public static FunnySharp.UnitResult<TError> Success()`
+- `public FunnySharp.Result<TValue, TError> ToResult<TValue>(System.Func<TValue> valueFactory)`
 - `public System.String ToString()`
 - `public System.Boolean TryGetError(out TError&? error)`
 - `public FunnySharp.UnitResult<TError> Zip(FunnySharp.UnitResult<TError> second)`
@@ -439,6 +447,7 @@ Type count: 36
 - `public FunnySharp.Validation<System.ValueTuple<TValue, TSecond>, TError> Zip<TSecond>(FunnySharp.Validation<TSecond, TError> second)`
 - `public FunnySharp.Validation<TResult, TError> Zip<TSecond, TResult>(FunnySharp.Validation<TSecond, TError> second, System.Func<TValue, TSecond, TResult> combine)`
 - `public FunnySharp.Validation<TResult, TError> Zip<TSecond, TThird, TResult>(FunnySharp.Validation<TSecond, TError> second, FunnySharp.Validation<TThird, TError> third, System.Func<TValue, TSecond, TThird, TResult> combine)`
+- `public FunnySharp.Validation<TResult, TError> Zip<TSecond, TThird, TFourth, TResult>(FunnySharp.Validation<TSecond, TError> second, FunnySharp.Validation<TThird, TError> third, FunnySharp.Validation<TFourth, TError> fourth, System.Func<TValue, TSecond, TThird, TFourth, TResult> combine)`
 - `public static System.Boolean op_Equality(FunnySharp.Validation<TValue, TError> left, FunnySharp.Validation<TValue, TError> right)`
 - `public static System.Boolean op_Inequality(FunnySharp.Validation<TValue, TError> left, FunnySharp.Validation<TValue, TError> right)`
 

@@ -21,13 +21,16 @@ The synchronous composition surface is:
 
 - `Map` transforms a valid value and preserves errors.
 - `MapErrors` transforms every error and preserves a valid value.
-- `Zip` combines already-created validations into a named `(First, Second)` pair.
+- `Zip` combines already-created validations: two into a named `(First, Second)` pair, or 2–4
+  through a combine function with explicit argument order.
 - `Apply` applies a validated function to a validated argument.
 
-`Zip` and `Apply` are applicative: when both operands are invalid, they accumulate errors from the
-left operand before errors from the right operand. This makes independent field validation
-deterministic. `Map` and `MapErrors` validate their selector at entry, invoke it at most once for
-the active case, and let selector exceptions escape unchanged.
+`Zip` and `Apply` are applicative: when operands are invalid, they accumulate errors from the left
+operand before errors from the right operand, in left-to-right operand order for every arity. This
+makes independent field validation deterministic. The combine arity is bounded at 4; wider forms
+nest or use `Traverse`, and unbounded tuple towers are rejected. `Map` and `MapErrors` validate
+their selector at entry, invoke it at most once for the active case, and let selector exceptions
+escape unchanged.
 
 There is deliberately no `Bind`, `SelectMany`, or `ZipWith`. A later dependent check cannot be
 evaluated independently of an earlier valid value, so it cannot honestly participate in
@@ -123,7 +126,8 @@ conversion, retry behavior, serialization support, analyzers, or source generato
 trimming and Native AOT evidence and limits are recorded in the
 [product contract](product-contract.md) and [release-readiness checklist](release-readiness.md).
 Its accumulation model is intentionally limited to independent already-created values and sequence
-traversal.
+traversal. The authoritative verb-by-carrier table and every documented deliberate absence are in
+[Functional API Grammar](grammar.md).
 
 ## Performance Evidence
 
@@ -146,12 +150,12 @@ contract. `N/A` means timing was below resolution or unavailable.
 <!-- performance-table:start validation -->
 | Scenario | Baseline mean | FunnySharp mean | Ratio | Baseline allocation | FunnySharp allocation |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Option sequence - successful buffering ([Count=1024]) | 1.359 us | 1.904 us | 1.40x | 4176 B | 4176 B |
-| Option sequence - successful buffering ([Count=16]) | 32.193 ns | 40.510 ns | 1.26x | 144 B | 144 B |
-| Result sequence - first failure ([Count=1024]) | 2.305 ns | 3.970 ns | 1.72x | 0 B | 0 B |
-| Result sequence - first failure ([Count=16]) | 0.827 ns | 3.944 ns | 4.77x | 0 B | 0 B |
-| Validation sequence - full accumulation ([Count=1024]) | 4.960 us | 5.604 us | 1.13x | 12632 B | 12632 B |
-| Validation sequence - full accumulation ([Count=16]) | 145.715 ns | 168.033 ns | 1.15x | 392 B | 392 B |
+| Option sequence - successful buffering ([Count=1024]) | 2.397 us | 2.875 us | 1.20x | 4176 B | 4176 B |
+| Option sequence - successful buffering ([Count=16]) | 70.086 ns | 80.905 ns | 1.15x | 144 B | 144 B |
+| Result sequence - first failure ([Count=1024]) | 5.637 ns | 7.867 ns | 1.40x | 0 B | 0 B |
+| Result sequence - first failure ([Count=16]) | 4.076 ns | 7.296 ns | 1.79x | 0 B | 0 B |
+| Validation sequence - full accumulation ([Count=1024]) | 9.039 us | 10.380 us | 1.15x | 12632 B | 12632 B |
+| Validation sequence - full accumulation ([Count=16]) | 327.812 ns | 352.401 ns | 1.08x | 392 B | 392 B |
 
 Excluded measurements:
 - Unmeasured async traversal: Sequential async Result and Validation traversal variants have no numeric release claim.

@@ -144,16 +144,17 @@ accumulation. Semantics: `docs/validation.md:3-5`; boundaries `docs/validation.m
 ## F4 — Function grammar
 
 Purpose: small standard-delegate surface over ordinary `Func`/`Action`. Semantics:
-`docs/function-composition.md:3-7`; boundaries `docs/function-composition.md:39-54`.
+[function-composition.md — API Shape](../../function-composition.md#api-shape); boundaries
+[function-composition.md — Deliberate Boundaries](../../function-composition.md#deliberate-boundaries).
 
 ### `FunctionExtensions` (class, static; 15 members)
 
 | Operation family | Representative signatures | Notes |
 | --- | --- | --- |
-| Pipe | `TResult Pipe<T,TResult>(this T value, Func<T,TResult> function)` | No `PipeAsync`; an async delegate returns an awaitable naturally (`docs/function-composition.md:43-52`). |
+| Pipe | `TResult Pipe<T,TResult>(this T value, Func<T,TResult> function)` | No `PipeAsync`; an async delegate returns an awaitable naturally ([Deliberate Boundaries](../../function-composition.md#deliberate-boundaries)). |
 | Compose | `Func<T,TResult> Compose<T,TIntermediate,TResult>(this Func<T,TIntermediate>, Func<TIntermediate,TResult>)` | Left-to-right (`FunctionExtensions.cs:31-39`). |
 | ComposeAsync | `Func<T,Task<TResult>> ComposeAsync(...)`; `Func<T,ValueTask<TResult>> ComposeAsync(...)`; two token-aware variants | One name covers both carrier kinds (`FunctionExtensions.cs:130-211`). |
-| Curry / Uncurry | `Func<TFirst,Func<TSecond,TResult>> Curry<TFirst,TSecond,TResult>(this Func<TFirst,TSecond,TResult>)`; `Uncurry` inverse | Binary only (`docs/function-composition.md:41`). |
+| Curry / Uncurry | `Func<TFirst,Func<TSecond,TResult>> Curry<TFirst,TSecond,TResult>(this Func<TFirst,TSecond,TResult>)`; `Uncurry` inverse | Binary only ([Deliberate Boundaries](../../function-composition.md#deliberate-boundaries)). |
 | Partial / Flip | `Func<TSecond,TResult> Partial<TFirst,TSecond,TResult>(this Func<TFirst,TSecond,TResult>, TFirst first)`; `Flip` reverses two args | Binary only. |
 | Observation | `T Tap<T>(this T value, Action<T>)`; `Task<T> TapAsync<T>(...)`; `ValueTask<T> TapValueAsync<T>(...)`; token-aware variants | Task vs ValueTask names follow the `Async`/`ValueAsync` convention (`FunctionExtensions.cs:220-271`). |
 

@@ -568,4 +568,95 @@ public sealed class OptionTests
             }
         }
     }
+
+    [Fact]
+    public void FourWayZipRunsTheCombinerOnlyWhenEveryOptionIsPresent()
+    {
+        var calls = 0;
+        Func<int, string, bool, long, string> combineFour = (first, second, third, fourth) =>
+        {
+            calls++;
+            return $"{first}:{second}:{third}:{fourth}";
+        };
+        var first = Option.Some(1);
+        var second = Option.Some("two");
+        var third = Option.Some(true);
+        var fourth = Option.Some(7L);
+
+        var quad = first.Zip(second, third, fourth, combineFour);
+
+        Assert.True(quad.TryGetValue(out var combined));
+        Assert.Equal("1:two:True:7", combined);
+        Assert.True(first.Zip(Option.None<string>(), third, fourth, combineFour).IsNone);
+        Assert.True(first.Zip(second, Option.None<bool>(), fourth, combineFour).IsNone);
+        Assert.True(first.Zip(second, third, Option.None<long>(), combineFour).IsNone);
+        Assert.True(Option.None<int>().Zip(second, third, fourth, combineFour).IsNone);
+        Assert.True(default(Option<int>).Zip(second, third, fourth, combineFour).IsNone);
+        Assert.Equal(1, calls);
+    }
+
+    [Fact]
+    public void FourWayZipNormalizesNullCombineResultsAndPreservesExceptionsAndValidation()
+    {
+        Assert.True(Option.Some(1)
+            .Zip(Option.Some(2), Option.Some(3), Option.Some(4), (_, _, _, _) => (string?)null)
+            .IsNone);
+        Assert.Equal(
+            Option.Some(1).Zip(Option.Some(2)).Zip(Option.Some(3)).Zip(Option.Some(4))
+                .Map(_ => (string?)null),
+            Option.Some(1).Zip(Option.Some(2), Option.Some(3), Option.Some(4), (_, _, _, _) => (string?)null));
+
+        var expected = new InvalidOperationException("combine failed");
+        Assert.Same(expected, Assert.Throws<InvalidOperationException>(() =>
+            Option.Some(1).Zip<int, int, int, int>(
+                Option.Some(2),
+                Option.Some(3),
+                Option.Some(4),
+                (_, _, _, _) => throw expected)));
+
+        Assert.Throws<ArgumentNullException>(() =>
+            Option.Some(1).Zip(
+                Option.Some(2),
+                Option.Some(3),
+                Option.Some(4),
+                (Func<int, int, int, int, int>)null!));
+        Assert.Throws<ArgumentNullException>(() =>
+            Option.None<int>().Zip(
+                Option.Some(2),
+                Option.Some(3),
+                Option.Some(4),
+                (Func<int, int, int, int, int>)null!));
+    }
+
+    [Fact]
+    public void FourWayZipMatchesTupleThenMapForEveryPresenceCombination()
+    {
+        static string CombineFour(int first, string second, bool third, long fourth) =>
+            $"{first}:{second}:{third}:{fourth}";
+
+        var firsts = new[] { Option.Some(1), Option.None<int>(), default(Option<int>) };
+        var seconds = new[] { Option.Some("two"), Option.None<string>(), default(Option<string>) };
+        var thirds = new[] { Option.Some(true), Option.None<bool>(), default(Option<bool>) };
+        var fourths = new[] { Option.Some(7L), Option.None<long>(), default(Option<long>) };
+
+        foreach (var first in firsts)
+        {
+            foreach (var second in seconds)
+            {
+                foreach (var third in thirds)
+                {
+                    foreach (var fourth in fourths)
+                    {
+                        Assert.Equal(
+                            first.Zip(second).Zip(third).Zip(fourth).Map(quad => CombineFour(
+                                quad.First.First.First,
+                                quad.First.First.Second,
+                                quad.First.Second,
+                                quad.Second)),
+                            first.Zip(second, third, fourth, CombineFour));
+                    }
+                }
+            }
+        }
+    }
 }

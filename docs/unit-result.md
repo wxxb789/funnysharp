@@ -18,7 +18,7 @@ is intentionally no throwing error accessor.
 
 The synchronous composition surface is:
 
-- `Map` turns a success into a `Result<TValue, TError>` by running a value-producing selector, so the
+- `ToResult` turns a success into a `Result<TValue, TError>` by running a value factory, so the
   successful branch can continue on the value carrier. There is no eager-result alternative.
 - `Bind` sequences unit-result-producing functions and stops at the first failure.
 - `Ensure` keeps a success only when a predicate accepts it, otherwise returns the supplied failure.
@@ -27,6 +27,12 @@ The synchronous composition surface is:
 - `MapError` transforms a failure value while preserving success.
 - `Zip` combines two already-created unit results and returns the first failure in left-to-right order.
 - `ZipWith` accepts a factory so the second operation is not invoked after the first failure.
+
+The success-to-value conversion is named `ToResult`, not `Map`: `Map` keeps one shape across
+carriers — same carrier, value transform — while this operation changes the carrier, so it joins
+the `To*` conversion family alongside `Option<T>.ToResult` and
+`Result<TValue, TError>.ToUnitResult`. The naming rule is recorded in
+[Functional API Grammar](grammar.md).
 
 A delete-or-notify command shows the shape: a precondition, a delete, and an idempotent recovery when
 the delete fails.
@@ -74,7 +80,7 @@ return service.Submit(order!);
 
 Every member that reads the case or the payload throws `InvalidOperationException` with the message
 `"The unit result has not been initialized."` for a default value. That includes `IsSuccess`,
-`IsFailure`, `TryGetError`, both `Match` overloads, `Map`, `Bind`, `Ensure`, `RecoverWith`, `MapError`,
+`IsFailure`, `TryGetError`, both `Match` overloads, `ToResult`, `Bind`, `Ensure`, `RecoverWith`, `MapError`,
 `Zip`, `ZipWith`, `Equals`, `GetHashCode`, and the `==` and `!=` operators. `ToString()` is the single
 exception: it does not throw and returns the diagnostic text `"Uninitialized"`.
 
@@ -87,8 +93,8 @@ receiver or a same-type operand is uninitialized: a boxed default `UnitResult<TE
 the typed `Equals` and therefore also throws.
 
 Async composition extension methods inspect their `UnitResult` receiver synchronously when they are
-called, before returning a task. A default unit result therefore throws at call time from `MapAsync`,
-`MapValueAsync`, `BindAsync`, and `BindValueAsync`. Traversal reads a selected unit result when the
+called, before returning a task. A default unit result therefore throws at call time from `ToResultAsync`,
+`ToResultValueAsync`, `BindAsync`, and `BindValueAsync`. Traversal reads a selected unit result when the
 source reaches it, so a selector that returns a default value throws during synchronous enumeration
 and faults the asynchronous operation when it is awaited. Null delegate arguments are still rejected
 with `ArgumentNullException` before the carrier is inspected, matching the entry validation order of
@@ -114,8 +120,8 @@ return Option
 
 ## Asynchronous Composition
 
-`MapAsync` and `BindAsync` use Task-returning callbacks; `MapValueAsync` and `BindValueAsync` use
-ValueTask-returning callbacks. `Map*Async` produces `Result<TResult, TError>`; `Bind*Async` produces
+`ToResultAsync` and `BindAsync` use Task-returning callbacks; `ToResultValueAsync` and `BindValueAsync` use
+ValueTask-returning callbacks. `ToResult*Async` produces `Result<TResult, TError>`; `Bind*Async` produces
 another `UnitResult<TError>`. Each has a cancellation-aware overload that passes the exact supplied
 `CancellationToken` to the callback without eagerly cancelling.
 
@@ -193,7 +199,7 @@ All callback-taking members validate their delegates at entry, even when the act
 short-circuit, and a selected callback is invoked at most once. Entry validation happens before the
 uninitialized check, so a null delegate is reported before a default carrier is read.
 
-`Map`, `Bind`, and `Ensure` do not invoke success callbacks after failure. `MapError` and `RecoverWith`
+`ToResult`, `Bind`, and `Ensure` do not invoke success callbacks after failure. `MapError` and `RecoverWith`
 do not invoke failure callbacks after success. `Zip` chooses the left failure before the right failure
 and does not undo computation already performed to create its argument; use `ZipWith` or `Bind` when
 the later operation itself must be skipped. Callback exceptions are not caught, wrapped, or replaced by
