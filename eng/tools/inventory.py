@@ -150,13 +150,13 @@ class Target:
 TARGETS: tuple[Target, ...] = (
     Target(
         name="funny-sharp-core",
-        title="FunnySharp core public API (Goal 15 completion, 0.1.0)",
+        title="FunnySharp core public API (Goal 16 completion, 0.1.0)",
         mode="runtime",
         assemblies=(PathSpec(ROOT_FUNNY_SHARP_BIN, "FunnySharp.dll"),),
     ),
     Target(
         name="funny-sharp-aspnetcore",
-        title="FunnySharp.AspNetCore public API (Goal 15 completion, 0.1.0)",
+        title="FunnySharp.AspNetCore public API (Goal 16 completion, 0.1.0)",
         mode="runtime",
         assemblies=(PathSpec(ROOT_FUNNY_SHARP_ASPNET_BIN, "FunnySharp.AspNetCore.dll"),),
         resolve_dirs=(

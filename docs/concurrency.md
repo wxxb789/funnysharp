@@ -166,14 +166,14 @@ contract.
 <!-- performance-table:start concurrency -->
 | Scenario | Baseline mean | FunnySharp mean | Ratio | Baseline allocation | FunnySharp allocation |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Ordered bounded asynchronous map ([Count=1024]) | 572.797 us | 777.156 us | 1.36x | 331453 B | 342322 B |
-| Ordered bounded asynchronous map ([Count=16]) | 12.991 us | 18.849 us | 1.45x | 6172 B | 8616 B |
-| First successful cold Result operation ([CandidateCount=16]) | 6.471 us | 5.860 us | 0.91x | 5453 B | 4065 B |
-| First successful cold Result operation ([CandidateCount=4]) | 3.029 us | 2.441 us | 0.81x | 1521 B | 1711 B |
-| Parallel Option traversal ([Count=1024]) | 527.555 us | 508.904 us | 0.96x | 358546 B | 179407 B |
-| Parallel Option traversal ([Count=16]) | 12.894 us | 10.285 us | 0.80x | 6718 B | 3718 B |
-| Parallel Validation accumulation ([Count=1024]) | 591.818 us | 607.023 us | 1.03x | 383646 B | 252738 B |
-| Parallel Validation accumulation ([Count=16]) | 13.829 us | 10.789 us | 0.78x | 7328 B | 4283 B |
+| Ordered bounded asynchronous map ([Count=1024]) | 493.545 us | 1,045.491 us | 2.12x | 287997 B | 504056 B |
+| Ordered bounded asynchronous map ([Count=16]) | 14.470 us | 29.327 us | 2.03x | 5332 B | 10824 B |
+| First successful cold Result operation ([CandidateCount=16]) | 8.923 us | 6.287 us | 0.70x | 5445 B | 3981 B |
+| First successful cold Result operation ([CandidateCount=4]) | 5.633 us | 6.913 us | 1.23x | 1713 B | 2657 B |
+| Parallel Option traversal ([Count=1024]) | 484.469 us | 632.380 us | 1.31x | 334357 B | 284892 B |
+| Parallel Option traversal ([Count=16]) | 13.812 us | 18.494 us | 1.34x | 5944 B | 6232 B |
+| Parallel Validation accumulation ([Count=1024]) | 529.426 us | 1,341.221 us | 2.53x | 362156 B | 343286 B |
+| Parallel Validation accumulation ([Count=16]) | 14.806 us | 22.649 us | 1.53x | 6546 B | 7136 B |
 
 Excluded measurements:
 - Result parallel traversal: The prior supplemental comparison used different input carriers and is not reproducible from tracked sources.

@@ -26,13 +26,15 @@ The synchronous composition surface is:
 - `MapError` transforms failure while preserving success.
 - `Ensure` keeps a successful value only when a predicate accepts it.
 - `Recover` and `RecoverWith` turn a failure into a value or another result.
-- `Zip` combines two already-created results and returns the first failure in left-to-right order.
+- `Zip` combines already-created results: two into a `(First, Second)` pair, or 2–4 through a
+  combine function; either form returns the first failure in left-to-right order.
 - `ZipWith` accepts a factory so the second operation is not invoked after the first failure.
 
-`Select` and `SelectMany` provide standard LINQ query syntax for fail-fast result composition.
-There is no `Where` alias because a Boolean predicate cannot create a `TError`; use `Ensure` to make
-that failure explicit. The generic `Pipe` extension already accepts Result-returning standard
-delegates, so no Result-specific pipeline or delegate hierarchy is required.
+`Select` and `SelectMany` are secondary LINQ aliases of `Map` and `Bind` for fail-fast query-syntax
+composition. There is no `Where` alias because a Boolean predicate cannot create a `TError`; use
+`Ensure` to make that failure explicit. Documentation presents the member-centric vocabulary first.
+The generic `Pipe` extension already accepts Result-returning standard delegates, so no
+Result-specific pipeline or delegate hierarchy is required.
 
 ## Option Interop
 
@@ -148,16 +150,16 @@ below resolution or unavailable.
 <!-- performance-table:start result -->
 | Scenario | Baseline mean | FunnySharp mean | Ratio | Baseline allocation | FunnySharp allocation |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Completed Task mapping | 17.193 ns | 43.231 ns | 2.51x | 144 B | 256 B |
-| Completed ValueTask mapping | 10.613 ns | 40.413 ns | 3.81x | 0 B | 0 B |
-| Construction and inspection - failure | N/A | N/A | N/A | 0 B | 0 B |
+| Completed Task mapping | 27.478 ns | 50.798 ns | 1.85x | 144 B | 256 B |
+| Completed ValueTask mapping | 11.724 ns | 38.824 ns | 3.31x | 0 B | 0 B |
+| Construction and inspection - failure | 1.929 ns | N/A | N/A | 0 B | 0 B |
 | Construction and inspection - success | N/A | N/A | N/A | 0 B | 0 B |
-| Exception boundary - failure | 2.539 us | 3.010 us | 1.19x | 512 B | 680 B |
-| Exception boundary - success | 11.299 ns | 13.810 ns | 1.22x | 0 B | 0 B |
-| Fail-fast pipeline - failure | N/A | 1.775 ns | N/A | 0 B | 0 B |
-| Fail-fast pipeline - success | N/A | 8.299 ns | N/A | 0 B | 0 B |
-| Pending Task mapping | 869.272 ns | 1.215 us | 1.40x | 296 B | 744 B |
-| Pending ValueTask mapping | 845.236 ns | 1.405 us | 1.66x | 304 B | 840 B |
+| Exception boundary - failure | 2.896 us | 4.142 us | 1.43x | 512 B | 680 B |
+| Exception boundary - success | 11.511 ns | 14.299 ns | 1.24x | 0 B | 0 B |
+| Fail-fast pipeline - failure | 0.160 ns | 2.700 ns | 16.91x | 0 B | 0 B |
+| Fail-fast pipeline - success | N/A | 10.295 ns | N/A | 0 B | 0 B |
+| Pending Task mapping | 2.515 us | 3.586 us | 1.43x | 296 B | 744 B |
+| Pending ValueTask mapping | 2.413 us | 3.450 us | 1.43x | 304 B | 840 B |
 <!-- performance-table:end result -->
 
 The generated table exposes measured costs without interpreting below-resolution ratios. Rerun

@@ -9,6 +9,7 @@ VerifyOptions();
 VerifyResults();
 VerifyValidations();
 UnitResultExamples.Verify();
+FunctionGrammarSamples.Verify();
 VerifyImmutableUpdates();
 await VerifyAsynchronousFunctions();
 await VerifyAsynchronousDataPipelines();
@@ -16,6 +17,7 @@ await VerifyAsynchronousOptions();
 await VerifyAsynchronousResults();
 await VerifyAsynchronousValidationTraversal();
 await UnitResultExamples.VerifyAsync();
+await FunctionGrammarSamples.VerifyAsync();
 await VerifyEffects();
 await VerifyConcurrentOrderWorkflow();
 await VerifyStateMachines();
@@ -312,7 +314,7 @@ static async Task VerifyAsynchronousFunctions()
 
     Func<int, ValueTask<int>> incrementValueAsync = value => ValueTask.FromResult(value + 1);
     Func<int, ValueTask<int>> doubleValueAsync = value => ValueTask.FromResult(value * 2);
-    AssertEqual(8, await incrementValueAsync.ComposeAsync(doubleValueAsync)(3));
+    AssertEqual(8, await incrementValueAsync.ComposeValueAsync(doubleValueAsync)(3));
 
     var taskTapObserved = 0;
     AssertEqual(

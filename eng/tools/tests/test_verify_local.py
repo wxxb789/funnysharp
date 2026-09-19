@@ -77,7 +77,7 @@ def green_stdout(step: str, repository_root: Path) -> str:
     if step == "format":
         return ""
     if step == "docs":
-        return "Verified 25 C# documentation snippets across 8 primary guides.\n"
+        return "Verified 26 C# documentation snippets across 8 primary guides.\n"
     raise AssertionError(f"unexpected step {step}")
 
 
@@ -413,7 +413,7 @@ class PipelineVerdictTests(_VerifyLocalTestCase):
     def test_docs_success_line_passes(self) -> None:
         self.runner.override(
             "docs",
-            stdout="Verified 25 C# documentation snippets across 8 primary guides.\n",
+            stdout="Verified 26 C# documentation snippets across 8 primary guides.\n",
         )
         code, stdout, stderr = self.run_cli(self.repo_argv())
         self.assertEqual(0, code, stderr)

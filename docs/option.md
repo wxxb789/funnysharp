@@ -12,7 +12,8 @@ Use `IsSome`, `IsNone`, `TryGetValue`, or `Match` to inspect an option. There is
 The synchronous composition surface is:
 
 - `Map`, `Bind`, and `Filter` for conditional transformation.
-- `Zip` to combine two present values into `(First, Second)`.
+- `Zip` to combine already-created options: two present values into `(First, Second)`, or 2–4
+  present values through a combine function.
 - `GetValueOr`, `GetValueOrElse`, and `GetValueOrDefault` for explicit value fallbacks.
 - `OrElse` and `OrElseWith` for option fallbacks.
 
@@ -61,8 +62,10 @@ The collection surface also includes the shared `IEnumerable<T>` and `IAsyncEnum
 common ordering, materialization, fault, cancellation, and disposal rules are documented in
 [Validation and traversal semantics](validation.md). `Option<T>.ToResult` and
 `Result<TValue, TError>.ToOption` are the shipped explicit conversion boundary documented in
-[Result semantics](result.md). LINQ query aliases (`Select`, `SelectMany`, and `Where`),
-serialization converters, analyzers, and source generators remain outside the Option API.
+[Result semantics](result.md). `Select` and `SelectMany` are secondary LINQ aliases of `Map` and
+`Bind` for query syntax; there is no `Where` because a bare predicate cannot produce absence.
+Documentation presents the member-centric vocabulary first. Serialization converters, analyzers,
+and source generators remain outside the Option API.
 Package-wide trimming and Native AOT evidence and limits are recorded in
 the [product contract](product-contract.md) and [release-readiness checklist](release-readiness.md).
 
@@ -83,18 +86,18 @@ contract. `N/A` means timing was below resolution or unavailable.
 <!-- performance-table:start option -->
 | Scenario | Baseline mean | FunnySharp mean | Ratio | Baseline allocation | FunnySharp allocation |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Completed Task mapping | 16.988 ns | 32.911 ns | 1.94x | 144 B | 216 B |
-| Completed ValueTask mapping | 8.437 ns | 26.230 ns | 3.11x | 0 B | 0 B |
-| Dictionary lookup - hit | 5.352 ns | 6.146 ns | 1.15x | 0 B | 0 B |
-| Dictionary lookup - miss | 7.121 ns | 6.162 ns | 0.87x | 0 B | 0 B |
-| GetValueOr - None | N/A | N/A | N/A | 0 B | 0 B |
-| GetValueOr - Some | N/A | N/A | N/A | 0 B | 0 B |
-| Map - None | N/A | 0.934 ns | N/A | 0 B | 0 B |
-| Map - Some | N/A | 2.280 ns | N/A | 0 B | 0 B |
-| Nullable conversion - None | N/A | 0.859 ns | N/A | 0 B | 0 B |
-| Nullable conversion - Some | N/A | N/A | N/A | 0 B | 0 B |
-| Try pattern - hit | 11.845 ns | 12.749 ns | 1.08x | 0 B | 0 B |
-| Try pattern - miss | 6.268 ns | 8.470 ns | 1.35x | 0 B | 0 B |
+| Completed Task mapping | 24.628 ns | 46.955 ns | 1.91x | 144 B | 216 B |
+| Completed ValueTask mapping | 10.560 ns | 27.319 ns | 2.59x | 0 B | 0 B |
+| Dictionary lookup - hit | 6.548 ns | 6.777 ns | 1.03x | 0 B | 0 B |
+| Dictionary lookup - miss | 6.917 ns | 7.880 ns | 1.14x | 0 B | 0 B |
+| GetValueOr - None | N/A | 0.518 ns | N/A | 0 B | 0 B |
+| GetValueOr - Some | N/A | 0.457 ns | N/A | 0 B | 0 B |
+| Map - None | 0.104 ns | 1.144 ns | 10.99x | 0 B | 0 B |
+| Map - Some | N/A | 2.454 ns | N/A | 0 B | 0 B |
+| Nullable conversion - None | N/A | 1.057 ns | N/A | 0 B | 0 B |
+| Nullable conversion - Some | 0.108 ns | N/A | N/A | 0 B | 0 B |
+| Try pattern - hit | 11.664 ns | 13.437 ns | 1.15x | 0 B | 0 B |
+| Try pattern - miss | 7.370 ns | 11.676 ns | 1.58x | 0 B | 0 B |
 
 Excluded measurements:
 - Construction and inspection - large readonly struct: Direct and Option paths do not perform equivalent construction work.

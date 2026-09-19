@@ -515,6 +515,176 @@ public sealed class ValidationTests
     }
 
     [Fact]
+    public void FourWayZipInvokesTheCombinerOnlyWhenEveryOperandIsValid()
+    {
+        var calls = 0;
+
+        string CombineFour(int first, string middle, long last, bool flag)
+        {
+            calls++;
+            return $"{first}:{middle}:{last}:{flag}";
+        }
+
+        var validFirst = Validation<int, string>.Valid(2);
+        var second = Validation<string, string>.Valid("middle");
+        var third = Validation<long, string>.Valid(7);
+        var fourth = Validation<bool, string>.Valid(true);
+
+        var quad = validFirst.Zip(second, third, fourth, CombineFour);
+
+        Assert.Equal(Validation<string, string>.Valid("2:middle:7:True"), quad);
+        Assert.Equal(1, calls);
+
+        var invalidFirst = Validation<int, string>.Invalid("first-error");
+        var invalidSecond = Validation<string, string>.Invalid("second-error");
+        var invalidThird = Validation<long, string>.Invalid("third-error");
+        var invalidFourth = Validation<bool, string>.Invalid("fourth-error");
+
+        Assert.Equal(
+            Validation<string, string>.Invalid("first-error"),
+            invalidFirst.Zip(second, third, fourth, CombineFour));
+        Assert.Equal(
+            Validation<string, string>.Invalid("second-error"),
+            validFirst.Zip(invalidSecond, third, fourth, CombineFour));
+        Assert.Equal(
+            Validation<string, string>.Invalid("third-error"),
+            validFirst.Zip(second, invalidThird, fourth, CombineFour));
+        Assert.Equal(
+            Validation<string, string>.Invalid("fourth-error"),
+            validFirst.Zip(second, third, invalidFourth, CombineFour));
+        Assert.Equal(1, calls);
+    }
+
+    [Fact]
+    public void FourWayZipAccumulatesErrorsLeftToRightAcrossAllFourOperands()
+    {
+        var calls = 0;
+        var first = Validation<int, string>.InvalidMany(["first-1", "first-2"]);
+        var second = Validation<string, string>.InvalidMany(["second-1"]);
+        var third = Validation<long, string>.InvalidMany(["third-1", "third-2", "third-3"]);
+        var fourth = Validation<bool, string>.InvalidMany(["fourth-1"]);
+        var validFirst = Validation<int, string>.Valid(1);
+        var validSecond = Validation<string, string>.Valid("ok");
+        var validThird = Validation<long, string>.Valid(7);
+        var validFourth = Validation<bool, string>.Valid(false);
+
+        string CombineFour(int left, string middle, long right, bool flag)
+        {
+            calls++;
+            return $"{left}:{middle}:{right}:{flag}";
+        }
+
+        Assert.Equal(
+            Validation<string, string>.InvalidMany(
+                ["first-1", "first-2", "second-1", "third-1", "third-2", "third-3", "fourth-1"]),
+            first.Zip(second, third, fourth, CombineFour));
+        Assert.Equal(
+            Validation<string, string>.InvalidMany(
+                ["second-1", "third-1", "third-2", "third-3", "fourth-1"]),
+            validFirst.Zip(second, third, fourth, CombineFour));
+        Assert.Equal(
+            Validation<string, string>.InvalidMany(
+                ["first-1", "first-2", "third-1", "third-2", "third-3", "fourth-1"]),
+            first.Zip(validSecond, third, fourth, CombineFour));
+        Assert.Equal(
+            Validation<string, string>.InvalidMany(
+                ["first-1", "first-2", "second-1", "third-1", "third-2", "third-3"]),
+            first.Zip(second, third, validFourth, CombineFour));
+        Assert.Equal(
+            Validation<string, string>.InvalidMany(["fourth-1"]),
+            validFirst.Zip(validSecond, validThird, fourth, CombineFour));
+        Assert.Equal(0, calls);
+    }
+
+    [Fact]
+    public void FourWayZipPropagatesExceptionsAndRejectsNullAndUninitializedOperands()
+    {
+        var second = Validation<string, string>.Valid("ok");
+        var third = Validation<long, string>.Valid(7);
+        var fourth = Validation<bool, string>.Valid(true);
+        var invalidFirst = Validation<int, string>.InvalidMany(["first-1"]);
+        var invalidSecond = Validation<string, string>.InvalidMany(["second-1"]);
+        var expected = new InvalidOperationException("combine failed");
+        Validation<int, string> uninitializedFirst = default;
+        Validation<string, string> uninitializedSecond = default;
+        Validation<long, string> uninitializedThird = default;
+        Validation<bool, string> uninitializedFourth = default;
+
+        Assert.Same(
+            expected,
+            Assert.Throws<InvalidOperationException>(() =>
+                Validation<int, string>.Valid(1).Zip<string, long, bool, string>(
+                    second, third, fourth, (_, _, _, _) => throw expected)));
+
+        Assert.Throws<ArgumentNullException>(() =>
+            Validation<int, string>.Valid(1).Zip<string, long, bool, string>(second, third, fourth, null!));
+        Assert.Throws<ArgumentNullException>(() =>
+            invalidFirst.Zip<string, long, bool, string>(invalidSecond, third, fourth, null!));
+        Assert.Throws<ArgumentNullException>(() =>
+            uninitializedFirst.Zip<string, long, bool, string>(second, third, fourth, null!));
+
+        Assert.Throws<InvalidOperationException>(() =>
+            uninitializedFirst.Zip<string, long, bool, string>(second, third, fourth, (_, _, _, _) => "value"));
+        Assert.Throws<InvalidOperationException>(() =>
+            Validation<int, string>.Valid(1).Zip<string, long, bool, string>(
+                uninitializedSecond, third, fourth, (_, _, _, _) => "value"));
+        Assert.Throws<InvalidOperationException>(() =>
+            Validation<int, string>.Valid(1).Zip<string, long, bool, string>(
+                second, uninitializedThird, fourth, (_, _, _, _) => "value"));
+        Assert.Throws<InvalidOperationException>(() =>
+            Validation<int, string>.Valid(1).Zip<string, long, bool, string>(
+                second, third, uninitializedFourth, (_, _, _, _) => "value"));
+    }
+
+    [Fact]
+    public void FourWayZipMatchesTheTupledZipThenMapFormForEveryCombination()
+    {
+        static string CombineFour(int first, string second, long third, bool fourth) =>
+            $"{first}:{second}:{third}:{fourth}";
+
+        var firsts = new[]
+        {
+            Validation<int, string>.Valid(2),
+            Validation<int, string>.InvalidMany(["first-1", "first-2"]),
+        };
+        var seconds = new[]
+        {
+            Validation<string, string>.Valid("ok"),
+            Validation<string, string>.InvalidMany(["second-1"]),
+        };
+        var thirds = new[]
+        {
+            Validation<long, string>.Valid(7),
+            Validation<long, string>.InvalidMany(["third-1", "third-2"]),
+        };
+        var fourths = new[]
+        {
+            Validation<bool, string>.Valid(true),
+            Validation<bool, string>.InvalidMany(["fourth-1"]),
+        };
+
+        foreach (var first in firsts)
+        {
+            foreach (var second in seconds)
+            {
+                foreach (var third in thirds)
+                {
+                    foreach (var fourth in fourths)
+                    {
+                        Assert.Equal(
+                            first.Zip(second).Zip(third).Zip(fourth).Map(quad => CombineFour(
+                                quad.First.First.First,
+                                quad.First.First.Second,
+                                quad.First.Second,
+                                quad.Second)),
+                            first.Zip(second, third, fourth, CombineFour));
+                    }
+                }
+            }
+        }
+    }
+
+    [Fact]
     public void EqualityAndHashingAreStructuralForNestedAndMultiErrorValidations()
     {
         var nestedInvalid = Validation<Validation<int, int>, string>.Valid(

@@ -43,12 +43,12 @@ public sealed class ValueTaskConsumptionTests
     }
 
     [Fact]
-    public async Task UnitResultMapValueAsyncAndBindValueAsyncConsumeCompletedSources()
+    public async Task UnitResultToResultValueAsyncAndBindValueAsyncConsumeCompletedSources()
     {
         var mapSource = new CountingValueTaskSource<int>(7);
         var bindSource = new CountingValueTaskSource<UnitResult<string>>(UnitResult<string>.Success());
 
-        var mapped = await UnitResult<string>.Success().MapValueAsync(() => mapSource.CreateValueTask());
+        var mapped = await UnitResult<string>.Success().ToResultValueAsync(() => mapSource.CreateValueTask());
         var bound = await UnitResult<string>.Success().BindValueAsync(() => bindSource.CreateValueTask());
 
         Assert.Equal(1, mapSource.GetResultCount);

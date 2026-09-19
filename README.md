@@ -8,11 +8,20 @@ The authoritative design and dependency boundaries are recorded in the
 The current fail-closed release gate and its explicit evidence checklist are recorded in
 [release readiness](https://github.com/wxxb789/funnysharp/blob/main/docs/release-readiness.md).
 
+## Grammar
+
+One small grammar governs every verb: one primary meaning and a predictable output shape on every
+carrier where that meaning is valid, so evaluation order, short-circuiting, exception,
+cancellation, enumeration, and materialization behavior follow from the signature and contract.
+
+- [Authoritative grammar table](https://github.com/wxxb789/funnysharp/blob/main/docs/grammar.md)
+
 ## Function Composition
 
 FunnySharp provides a small standard-delegate surface for piping, left-to-right composition,
 currying, partial application, argument flipping, and side-effect observation. Matching `Task`
-and `ValueTask` composition preserves asynchronous execution without sync-over-async.
+and `ValueTask` composition and observation (`ComposeAsync`/`ComposeValueAsync`,
+`TapAsync`/`TapValueAsync`) preserve asynchronous execution without sync-over-async.
 
 - [Semantics and performance evidence](https://github.com/wxxb789/funnysharp/blob/main/docs/function-composition.md)
 - [Compiling examples](https://github.com/wxxb789/funnysharp/blob/main/examples/FunnySharp.Examples/Program.cs)
@@ -22,6 +31,8 @@ and `ValueTask` composition preserves asynchronous execution without sync-over-a
 `Option<T>` represents explicit presence (`Some`) or absence (`None`) with safe inspection,
 synchronous composition, and focused nullable, Try-pattern, dictionary, `Task`, and `ValueTask`
 bridges. Faults and cancellation remain normal asynchronous failures rather than becoming absence.
+LINQ `Select`/`SelectMany` are secondary aliases of `Map`/`Bind` for query syntax; there is no
+`Where`.
 
 - [Semantics](https://github.com/wxxb789/funnysharp/blob/main/docs/option.md)
 - [Compiling examples](https://github.com/wxxb789/funnysharp/blob/main/examples/FunnySharp.Examples/Program.cs)
@@ -80,8 +91,8 @@ intended contract.
 
 FunnySharp keeps pipelines on standard .NET carriers. Use LINQ and .NET 10 async LINQ for ordinary
 projection, filtering, flattening, ordering, and explicit materialization. `Choose` adds a fused
-Option-aware filter-map for synchronous and asynchronous streams, while span and memory helpers
-write to caller-owned storage or transform it in place.
+Option-aware filter-map and `Scan` adds a running aggregate for synchronous and asynchronous
+streams, while span and memory helpers write to caller-owned storage or transform it in place.
 
 - [Semantics, lifetime rules, and performance evidence](https://github.com/wxxb789/funnysharp/blob/main/docs/data-pipelines.md)
 - [Compiling data-cleaning examples](https://github.com/wxxb789/funnysharp/blob/main/examples/FunnySharp.Examples/Program.cs)

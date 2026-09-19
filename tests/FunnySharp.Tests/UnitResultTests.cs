@@ -101,17 +101,17 @@ public sealed class UnitResultTests
     }
 
     [Fact]
-    public void MapProjectsOnlySuccessAndPreservesTheFailureObject()
+    public void ToResultProjectsOnlySuccessAndPreservesTheFailureObject()
     {
         var error = new InvalidOperationException("failed");
         var calls = 0;
 
-        var mapped = UnitResult<string>.Success().Map(() =>
+        var mapped = UnitResult<string>.Success().ToResult(() =>
         {
             calls++;
             return 42;
         });
-        var failed = UnitResult<Exception>.Failure(error).Map(() =>
+        var failed = UnitResult<Exception>.Failure(error).ToResult(() =>
         {
             calls++;
             return 42;
@@ -121,7 +121,7 @@ public sealed class UnitResultTests
         Assert.True(failed.TryGetError(out var actual));
         Assert.Same(error, actual);
         Assert.Equal(1, calls);
-        Assert.Throws<ArgumentNullException>(() => { _ = UnitResult<string>.Failure("bad").Map<int>(null!); });
+        Assert.Throws<ArgumentNullException>(() => { _ = UnitResult<string>.Failure("bad").ToResult<int>(null!); });
     }
 
     [Fact]
@@ -251,7 +251,7 @@ public sealed class UnitResultTests
     }
 
     [Fact]
-    public void MapObeysIdentityAndCompositionLaws()
+    public void ToResultObeysIdentityAndCompositionLaws()
     {
         var cases = new[]
         {
@@ -261,12 +261,12 @@ public sealed class UnitResultTests
 
         foreach (var result in cases)
         {
-            var identity = result.Map(() => 7);
+            var identity = result.ToResult(() => 7);
             var explicitIdentity = result.Match(
                 () => Result<int, string>.Success(7),
                 error => Result<int, string>.Failure(error));
-            var composed = result.Map(() => 2).Map(value => $"value:{value}");
-            var explicitComposed = result.Map(() => "value:2");
+            var composed = result.ToResult(() => 2).Map(value => $"value:{value}");
+            var explicitComposed = result.ToResult(() => "value:2");
 
             Assert.Equal(explicitIdentity, identity);
             Assert.Equal(explicitComposed, composed);
@@ -407,7 +407,7 @@ public sealed class UnitResultTests
         AssertUninitialized(() => result.TryGetError(out _));
         AssertUninitialized(() => { _ = result.Match(() => 0, _ => 0); });
         AssertUninitialized(() => result.Match(() => { }, _ => { }));
-        AssertUninitialized(() => { _ = result.Map(() => 0); });
+        AssertUninitialized(() => { _ = result.ToResult(() => 0); });
         AssertUninitialized(() => { _ = result.MapError(error => error.Length); });
         AssertUninitialized(() => { _ = result.Bind(() => UnitResult<string>.Success()); });
         AssertUninitialized(() => { _ = result.Ensure(() => true, "invalid"); });
@@ -443,7 +443,7 @@ public sealed class UnitResultTests
         var failure = UnitResult<string>.Failure("bad");
         UnitResult<string> uninitialized = default;
 
-        Assert.Throws<ArgumentNullException>(() => { _ = failure.Map<int>(null!); });
+        Assert.Throws<ArgumentNullException>(() => { _ = failure.ToResult<int>(null!); });
         Assert.Throws<ArgumentNullException>(() => { _ = failure.Bind(null!); });
         Assert.Throws<ArgumentNullException>(() => { _ = failure.Ensure(null!, "invalid"); });
         Assert.Throws<ArgumentNullException>(() => { _ = failure.Ensure(() => true, (Func<string>)null!); });
@@ -451,7 +451,7 @@ public sealed class UnitResultTests
         Assert.Throws<ArgumentNullException>(() => { _ = failure.MapError<int>(null!); });
         Assert.Throws<ArgumentNullException>(() => { _ = failure.ZipWith(null!); });
 
-        Assert.Throws<ArgumentNullException>(() => { _ = uninitialized.Map<int>(null!); });
+        Assert.Throws<ArgumentNullException>(() => { _ = uninitialized.ToResult<int>(null!); });
         Assert.Throws<ArgumentNullException>(() => { _ = uninitialized.Bind(null!); });
         Assert.Throws<ArgumentNullException>(() => { _ = uninitialized.Ensure(null!, "invalid"); });
         Assert.Throws<ArgumentNullException>(() => { _ = uninitialized.RecoverWith(null!); });
@@ -466,7 +466,7 @@ public sealed class UnitResultTests
         var success = UnitResult<string>.Success();
         var failure = UnitResult<string>.Failure("bad");
 
-        Assert.Same(expected, Assert.Throws<InvalidOperationException>(() => { _ = success.Map<int>(() => throw expected); }));
+        Assert.Same(expected, Assert.Throws<InvalidOperationException>(() => { _ = success.ToResult<int>(() => throw expected); }));
         Assert.Same(expected, Assert.Throws<InvalidOperationException>(() => { _ = success.Bind(() => throw expected); }));
         Assert.Same(expected, Assert.Throws<InvalidOperationException>(() => { _ = success.Ensure(() => throw expected, "invalid"); }));
         Assert.Same(expected, Assert.Throws<InvalidOperationException>(() => { _ = success.Ensure(() => false, () => throw expected); }));
