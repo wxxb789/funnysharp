@@ -36,6 +36,10 @@ public sealed class AsyncScanTests
 
         Assert.Equal([4, 2, -1, -5], scanned);
         Assert.Equal([4, 2, -1, -5], scannedAsync);
+        var aggregate = await AsyncValues(1, 2, 3, 4)
+            .AggregateAsync(5, static (accumulator, item) => accumulator - item);
+        Assert.Equal(aggregate, scanned[^1]);
+        Assert.Equal(aggregate, scannedAsync[^1]);
         Assert.Empty(empty);
     }
 
@@ -203,6 +207,32 @@ public sealed class AsyncScanTests
 
         Assert.Equal(cancellationSource.Token, exception.CancellationToken);
         Assert.True(operation.IsCanceled);
+        Assert.Equal(1, source.DisposeCount);
+    }
+
+    [Fact]
+    public async Task ScanValueAsyncObservesCancellationOnALaterPullAndDisposesTheSource()
+    {
+        using var cancellationSource = new CancellationTokenSource();
+        var source = new ProbeAsyncEnumerable<int>([1, 2, 3]);
+        var calls = 0;
+        await using var enumerator = source.ScanValueAsync(0, (accumulator, item, token) =>
+        {
+            calls++;
+            token.ThrowIfCancellationRequested();
+            return ValueTask.FromResult(accumulator + item);
+        }).GetAsyncEnumerator(cancellationSource.Token);
+
+        Assert.True(await enumerator.MoveNextAsync());
+        Assert.Equal(1, enumerator.Current);
+        cancellationSource.Cancel();
+
+        var exception = await Assert.ThrowsAnyAsync<OperationCanceledException>(async () =>
+            await enumerator.MoveNextAsync());
+
+        Assert.Equal(cancellationSource.Token, exception.CancellationToken);
+        Assert.Equal(2, calls);
+        Assert.Equal(2, source.MoveNextCount);
         Assert.Equal(1, source.DisposeCount);
     }
 

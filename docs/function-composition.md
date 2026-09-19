@@ -23,6 +23,11 @@ Async composition is available for matching return kinds:
 - `value.TapAsync(...)` observes through a `Task`-returning delegate and returns `Task<T>`.
 - `value.TapValueAsync(...)` observes through a `ValueTask`-returning delegate and returns `ValueTask<T>`.
 
+For an instance method group in extension-receiver position, first give it a delegate type:
+`new Func<string, ValueTask<int>>(parser.ParseAsync).ComposeValueAsync(formatter.FormatAsync)`.
+The second method group is an argument, so its delegate type is inferred. This working shape is
+compiled and exercised in `GrammarInferenceTests.ComposeValueAsyncAcceptsInstanceMethodGroups`.
+
 ## Evaluation And Failure Semantics
 
 `Compose`, `ComposeAsync`, and `ComposeValueAsync` evaluate left to right: the first delegate receives the input, and the second delegate receives the first result. A second stage is not invoked when the first stage throws, faults, or is canceled. The helpers do not catch, wrap, or replace those failures, so the original exception instance flows through normal C# invocation or `await` semantics.
@@ -94,10 +99,10 @@ contract.
 <!-- performance-table:start function-composition -->
 | Scenario | Baseline mean | FunnySharp mean | Ratio | Baseline allocation | FunnySharp allocation |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Completed Task invocation | 34.784 ns | 39.945 ns | 1.15x | 216 B | 216 B |
-| Completed ValueTask invocation | 14.292 ns | 19.488 ns | 1.36x | 0 B | 0 B |
-| Delegate construction | 11.283 ns | 19.032 ns | 1.69x | 64 B | 96 B |
-| Synchronous invocation | 1.377 ns | 5.855 ns | 4.25x | 0 B | 0 B |
+| Completed Task invocation | 34.347 ns | 42.519 ns | 1.24x | 216 B | 216 B |
+| Completed ValueTask invocation | 14.152 ns | 18.624 ns | 1.32x | 0 B | 0 B |
+| Delegate construction | 11.762 ns | 18.305 ns | 1.56x | 64 B | 96 B |
+| Synchronous invocation | 1.369 ns | 5.213 ns | 3.81x | 0 B | 0 B |
 
 Excluded measurements:
 - Unmeasured helpers: Pipe, Tap, Curry, Uncurry, Partial, and Flip have no numeric release claim.

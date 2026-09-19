@@ -37,18 +37,19 @@ outcome wrappers remain out of scope ([product contract](product-contract.md)).
   callback, including an async source consumed to completion (`SequenceAsync`, `TraverseAsync`),
   where the selector type is visible in the signature.
 - `...ValueAsync` marks a callback returning `ValueTask`.
-- Streaming element-wise operators on `IAsyncEnumerable<T>` keep the bare verb (`Choose`, `Scan`):
-  the BCL async-LINQ convention — the result is an `IAsyncEnumerable<T>`, never an awaitable.
+- Streaming element-wise operators on `IAsyncEnumerable<T>` use the bare verb with synchronous
+  callbacks (`Choose`, `Scan`) and `...ValueAsync` with `ValueTask` callbacks (`ChooseValueAsync`,
+  `ScanValueAsync`). Both forms return `IAsyncEnumerable<T>`, never an awaitable.
 - `Using`/`UsingAsync` marks the `IDisposable` versus `IAsyncDisposable` resource boundary; the
   constraint is visible in the signature.
 - A `CancellationToken` is always an explicit parameter and is forwarded unchanged.
 - Eager fallbacks are plain parameters (`OrElse`, `Recover`, `GetValueOr`); lazy fallbacks are
   factories (`OrElseWith`, `RecoverWith`, `GetValueOrElse`); `GetValueOrDefault` is the only member
   that may return `default(T)`.
-- Sequence cardinality uses the `*OrNone` suffix; keyed lookups use `GetOption`; value conversion
+- Sequence cardinality reserves the `*OrNone` suffix for a future goal (no current members); keyed lookups use `GetOption`; value conversion
   uses `ToOption`.
 - LINQ `Select`/`SelectMany` exist only where `Bind` exists (never `Where`) and stay secondary to
-  the member-centric vocabulary.
+  the member-centric vocabulary. `Bind` does not imply a LINQ bridge: `UnitResult` has none.
 - No aliases, no competitor naming, no naming concessions.
 
 ## The Verb Table
@@ -100,7 +101,7 @@ outcome wrappers remain out of scope ([product contract](product-contract.md)).
 
 | Verb | Meaning | Present on | Output shape | Async forms | Key contract |
 | --- | --- | --- | --- | --- | --- |
-| `Zip` | Combines already-created carriers into a pair tuple or a combined value. | `Option`, `Result`, `UnitResult`, `Validation` | Pair tuple on all four; combined value (arity 2–4, bounded) on `Option`/`Result`/`Validation` | — | `Option`: `None` when any operand is absent, and a runtime-null combined result is `None`. `Result`/`UnitResult`: the first failure in left-to-right order. `Validation`: every error, in left-to-right operand order. |
+| `Zip` | Combines already-created carriers into a pair tuple or a combined value. | `Option`, `Result`, `UnitResult`, `Validation` | Pair tuple on `Option`/`Result`/`Validation`; combined value (arity 2–4, bounded) on those carriers; `UnitResult<TError>` on `UnitResult` | — | `Option`: `None` when any operand is absent, and a runtime-null combined result is `None`. `Result`/`UnitResult`: the first failure in left-to-right order. `Validation`: every error, in left-to-right operand order. |
 | `ZipWith` | Combines with a lazy second operand. | `Result`, `UnitResult` | Same carrier | — | The factory is skipped after a first failure; use it (or `Bind`) when the second operation itself must not run. |
 | `Apply` | Applies a validated function to a validated argument. | `Validation` | `Validation<TResult, TError>` | — | Applicative: errors from the function operand accumulate before errors from the argument. |
 | `Select`/`SelectMany` | LINQ query-syntax bridge for `Map`/`Bind`. | `Option`, `Result`, `Effect` | Same carrier | — | Secondary to the member-centric vocabulary; exists only where `Bind` exists; never `Where`. |

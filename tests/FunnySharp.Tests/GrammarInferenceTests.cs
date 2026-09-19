@@ -6,13 +6,31 @@ namespace FunnySharp.Tests;
 /// Compile-time grammar evidence for the function-grammar surface. Every call shape below
 /// must resolve to exactly one overload and infer every type argument from its arguments;
 /// a grammar change that makes a shape ambiguous (CS0121) or removes its inference (CS0411)
-/// stops this file from compiling. The one recorded inference friction is pinned with its
+/// stops this file from compiling. Recorded inference friction is pinned with its
 /// documented working shape: <c>Option.ToResult</c> states the intended error type
-/// explicitly when the error factory returns a subtype of it
+/// explicitly when the error factory returns a subtype of it; instance method groups used
+/// as extension receivers are lifted into an explicitly typed delegate
 /// (<see href="https://github.com/wxxb789/funnysharp/blob/main/docs/next-stage/call-sites-goal-16.md">call-sites-goal-16.md</see>, WF-3).
 /// </summary>
 public sealed class GrammarInferenceTests
 {
+    [Fact]
+    public async Task ComposeValueAsyncAcceptsInstanceMethodGroups()
+    {
+        var stages = new InstanceStages();
+        var composed = new Func<string, ValueTask<int>>(stages.ParseAsync)
+            .ComposeValueAsync(stages.FormatAsync);
+
+        Assert.Equal("n5", await composed("hello"));
+    }
+
+    private sealed class InstanceStages
+    {
+        public ValueTask<int> ParseAsync(string text) => ValueTask.FromResult(text.Length);
+
+        public ValueTask<string> FormatAsync(int value) => ValueTask.FromResult($"n{value}");
+    }
+
     [Fact]
     public void ZipArityTwoThroughFourInfersCombinerTypesOnOption()
     {

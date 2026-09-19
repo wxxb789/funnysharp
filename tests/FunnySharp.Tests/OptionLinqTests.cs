@@ -5,7 +5,7 @@ public sealed class OptionLinqTests
     [Fact]
     public void SelectMatchesMapForSomeAndNone()
     {
-        foreach (var option in new[] { Option.Some(2), Option.None<int>() })
+        foreach (var option in new[] { Option.Some(2), Option.None<int>(), default(Option<int>) })
         {
             Assert.Equal(
                 option.Map(static value => value * 2),
@@ -98,6 +98,32 @@ public sealed class OptionLinqTests
         Assert.True(Option.None<int>()
             .SelectMany(_ => Option.Some("value"), (_, _) => "value")
             .IsNone);
+    }
+
+    [Fact]
+    public void SelectAndSelectManyPreserveCallbackExceptionIdentity()
+    {
+        var exception = new InvalidOperationException("callback failed");
+        Func<int, int> selector = _ => throw exception;
+        Func<int, Option<int>> binder = _ => throw exception;
+        Func<int, int, int> projector = (_, _) => throw exception;
+
+        Assert.Same(exception, Assert.Throws<InvalidOperationException>(() =>
+            Option.Some(1).Select(selector)));
+        Assert.Same(exception, Assert.Throws<InvalidOperationException>(() =>
+            Option.Some(1).SelectMany(binder, static (left, right) => left + right)));
+        Assert.Same(exception, Assert.Throws<InvalidOperationException>(() =>
+            Option.Some(1).SelectMany(static value => Option.Some(value), projector)));
+        Assert.Same(exception, Assert.Throws<InvalidOperationException>(() =>
+        {
+            var query = from left in Option.Some(1)
+                        from right in Option.Some(2)
+                        select projector(left, right);
+        }));
+
+        Assert.True(default(Option<int>).Select(selector).IsNone);
+        Assert.True(default(Option<int>).SelectMany(binder, projector).IsNone);
+        Assert.True(Option.Some(1).SelectMany(_ => default(Option<int>), projector).IsNone);
     }
 
     [Fact]

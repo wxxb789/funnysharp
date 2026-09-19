@@ -575,7 +575,7 @@ the idiomatic forms do not**).
 independently and return every error, not just the first. This re-uses the W3 form-scale
 scenario shape with a fourth field, which lands exactly on the bound of the applicative
 helper: AD-3 permits a "bounded applicative helper (arity ≤ 4, explicit argument order)"
-(`docs/next-stage/api-decisions.md:91`). `AccountForm` is harness at the bottom of each
+([API decisions, AD-3](api-decisions.md#ad-3-accumulation--validation-validationtvalueterror-validationextensions)). `AccountForm` is harness at the bottom of each
 file, excluded from counts.
 
 | Variant | S | O | Semantic | Raw |
@@ -736,11 +736,11 @@ machinery is compiler-generated and only the written operations count (`GetOptio
 form is canonical because it is the vocabulary the rest of the API speaks — `Filter`,
 `Zip`, `GetValueOr`, `OrElse` continue a member chain, while the query form dead-ends:
 any of those operations forces the reader back to member calls mid-expression. The bridge
-is secondary because it exists only where `Select`/`SelectMany` were added (Option and
-Result), covers only dependent-projection chains, and cannot express the rest of the
+is available on `Option`, `Result`, and `Effect`. It remains secondary because it covers
+only dependent-projection chains and cannot express the rest of the
 grammar — consistent with the Goal 16 statement that "any LINQ syntax bridge remains
 secondary to the canonical vocabulary" and with AD-4 keeping the member vocabulary
-(`docs/next-stage/api-decisions.md:115`). Honest losses: `string?` carries absence with
+([API decisions, AD-4](api-decisions.md#ad-4-function-grammar--functionextensions)). Honest losses: `string?` carries absence with
 zero vocabulary while `Option<string>` pays `ToOption()` at the nullable boundary plus
 one grammar verb per step, and the query form's desugaring (an implicit
 `SelectMany(item => ..., (item, promo) => ...)`) means the reader must know LINQ

@@ -4,11 +4,12 @@ Goal 16 requires, among its completion evidence, that "maintainers judge it [Fun
 at least as explicit and readable as idiomatic C#" and that the grammar's judgment calls are
 decided by the repository maintainer. This file records the Goal 16 acceptance items, the
 options, the lead's recommendation, and the final outcome. Until every outcome cell says
-"accepted" or "accepted with change", the Goal 16 result is evidence-complete but not accepted.
+"accepted", "accepted with change", or "acknowledged" for an informational item, the Goal 16
+result is evidence-complete but not accepted.
 
-Status: **awaiting maintainer response**.
+Status: **accepted**.
 
-How to accept: reply in the session with `G16-1..G16-8 accepted` (all recommendations), or list
+How to accept: reply in the session with `G16-1..G16-10 accepted` (all recommendations), or list
 only the items that differ, for example `G16-2=B`. The lead writes the outcome into each section
 below, reverts any rejected change, and re-runs the verification gates on the delta.
 
@@ -66,6 +67,8 @@ below, reverts any rejected change, and re-runs the verification gates on the de
   `ComposeValueAsync`, and every carrier-facing call site, test, benchmark, and doc uses the
   new names.
 - Outcome: **acknowledged** (2026-09-19, no objection).
+
+## G16-5 `Option` LINQ aliases (already accepted)
 
 - Context: maintainer decision A-3 (2026-09-17) accepted adding `Select`/`SelectMany` to
   `Option<T>` and never `Where`. This is informational: Goal 16 implements it, and
