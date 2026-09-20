@@ -3,8 +3,8 @@
 FunnySharp keeps data pipelines on BCL carriers instead of introducing a collection hierarchy.
 Use the standard .NET 10 `Select`, `Where`, `SelectMany`, `Take`, `Skip`, ordering, and explicit
 materialization operations. `Pipe` connects whole-value stages. FunnySharp adds only the fused
-filter-map operation `Choose` and caller-buffered span/memory operations that LINQ cannot express
-without changing lifetime or allocation behavior.
+filter-map operation `Choose`, the running-aggregate operator `Scan`, and caller-buffered
+span/memory operations that LINQ cannot express without changing lifetime or allocation behavior.
 
 ## Streaming Sequences
 
@@ -13,19 +13,30 @@ and `None` values are skipped. The operator is deferred, preserves source order,
 source once per consumer enumeration. It does not cache results or materialize an intermediate
 collection.
 
+`IEnumerable<T>.Scan(seed, accumulate)` produces the running aggregate. It yields the accumulator
+after each element, never yields the seed, and an empty source yields nothing; for a non-empty
+source, the last yielded value equals `source.Aggregate(seed, accumulate)`. The operator is
+deferred, preserves source order, and enumerates the source once per consumer enumeration without
+caching or materializing. An `accumulate` exception propagates unchanged and stops the sequence at
+that element.
+
 `.NET 10` includes `System.Linq.AsyncEnumerable`, so asynchronous pipelines use the same BCL
 `Select`, `Where`, and `SelectMany` names. FunnySharp adds:
 
 - `IAsyncEnumerable<T>.Choose` for a synchronous chooser.
 - `IAsyncEnumerable<T>.ChooseValueAsync` for `ValueTask<Option<TResult>>` choosers, including a
   cancellation-aware overload.
+- `IAsyncEnumerable<T>.Scan` for a synchronous accumulator, with the same running-aggregate
+  contract as the synchronous form.
+- `IAsyncEnumerable<T>.ScanValueAsync` for `ValueTask` accumulators, including a
+  cancellation-aware overload.
 
 These operators are pull-based and deferred. They request and process one source item at a time,
 await each `ValueTask` once, preserve source order, and never introduce parallel execution or
 prefetching. Enumeration cancellation comes from the consumer, such as `WithCancellation(token)`
-or `ToListAsync(token)`. The exact token is forwarded to the source and cancellation-aware chooser;
-the operator does not inspect it eagerly. Source, chooser, cancellation, and disposal failures flow
-through normal `await foreach` behavior without wrapping.
+or `ToListAsync(token)`. The exact token is forwarded to the source and to a cancellation-aware
+chooser or accumulator; the operator does not inspect it eagerly. Source, delegate, cancellation,
+and disposal failures flow through normal `await foreach` behavior without wrapping.
 
 ## Span And Memory
 
@@ -57,16 +68,19 @@ that a lazy span exists.
 Materialization is always explicit through BCL operations such as `ToArray`, `ToList`,
 `ToArrayAsync`, or `ToListAsync`. Re-enumerating a deferred pipeline repeats the work. Operations
 such as ordering and grouping may buffer by their BCL contract; FunnySharp does not hide or cache
-that cost. `Choose`, `WhereTo`, `ChooseTo`, and `WhereInPlace` retain the relative order of emitted
-items.
+that cost. `Choose`, `Scan`, `WhereTo`, `ChooseTo`, and `WhereInPlace` retain the relative order of
+emitted items.
 
 ## Performance Evidence
 
 `DataPipelineBenchmarks` compares:
 
 - `IEnumerable<T>.Choose` with idiomatic LINQ `Where` plus `Select`.
+- `IEnumerable<T>.Scan` with an equivalent hand-written running-aggregate iterator.
 - `ReadOnlySpan<T>.ChooseTo` with an equivalent indexed loop writing to caller storage.
 - `IAsyncEnumerable<T>.Choose` with both a direct `await foreach` loop and .NET 10 async LINQ.
+- `IAsyncEnumerable<T>.Scan` with an equivalent hand-written asynchronous running-aggregate
+  iterator.
 
 Run the focused benchmark with:
 
@@ -84,17 +98,21 @@ contract.
 <!-- performance-table:start data-pipelines -->
 | Scenario | Baseline mean | FunnySharp mean | Ratio | Baseline allocation | FunnySharp allocation |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Async stream filter-map ([Count=1024]) - BclAsyncWhereSelect | 13.896 us | 35.021 us | 2.52x | 0 B | 400 B |
-| Async stream filter-map ([Count=1024]) - FunnySharpAsyncChoose | 13.896 us | 44.079 us | 3.17x | 0 B | 312 B |
-| Async stream filter-map ([Count=16]) - BclAsyncWhereSelect | 288.997 ns | 718.552 ns | 2.49x | 0 B | 400 B |
-| Async stream filter-map ([Count=16]) - FunnySharpAsyncChoose | 288.997 ns | 671.768 ns | 2.32x | 0 B | 312 B |
-| IEnumerable filter-map ([Count=1024]) | 6.015 us | 4.335 us | 0.72x | 160 B | 112 B |
-| IEnumerable filter-map ([Count=16]) | 139.285 ns | 116.128 ns | 0.83x | 160 B | 112 B |
-| Span filter-map ([Count=1024]) | 844.292 ns | 3.139 us | 3.72x | 0 B | 0 B |
-| Span filter-map ([Count=16]) | 12.100 ns | 47.299 ns | 3.91x | 0 B | 0 B |
+| Async stream filter-map ([Count=1024]) - BclAsyncWhereSelect | 15.665 us | 43.311 us | 2.76x | 0 B | 400 B |
+| Async stream filter-map ([Count=1024]) - FunnySharpAsyncChoose | 15.665 us | 51.825 us | 3.31x | 0 B | 312 B |
+| Async stream filter-map ([Count=16]) - BclAsyncWhereSelect | 327.561 ns | 985.895 ns | 3.01x | 0 B | 400 B |
+| Async stream filter-map ([Count=16]) - FunnySharpAsyncChoose | 327.561 ns | 807.378 ns | 2.46x | 0 B | 312 B |
+| Async stream running aggregate ([Count=1024]) | 42.090 us | 49.253 us | 1.17x | 184 B | 312 B |
+| Async stream running aggregate ([Count=16]) | 778.532 ns | 848.571 ns | 1.09x | 184 B | 312 B |
+| IEnumerable filter-map ([Count=1024]) | 6.142 us | 4.724 us | 0.77x | 160 B | 112 B |
+| IEnumerable filter-map ([Count=16]) | 154.950 ns | 125.877 ns | 0.81x | 160 B | 112 B |
+| IEnumerable running aggregate ([Count=1024]) | 4.580 us | 4.635 us | 1.01x | 120 B | 120 B |
+| IEnumerable running aggregate ([Count=16]) | 119.947 ns | 117.488 ns | 0.98x | 120 B | 120 B |
+| Span filter-map ([Count=1024]) | 748.182 ns | 3.187 us | 4.26x | 0 B | 0 B |
+| Span filter-map ([Count=16]) | 13.282 ns | 59.560 ns | 4.48x | 0 B | 0 B |
 
 Excluded measurements:
-- Unmeasured pipeline variants: ChooseValueAsync, SelectTo, WhereTo, in-place variants, and Memory wrappers have no numeric release claim.
+- Unmeasured pipeline variants: ChooseValueAsync, SelectTo, WhereTo, in-place variants, Memory wrappers, and ScanValueAsync have no numeric release claim.
 <!-- performance-table:end data-pipelines -->
 
 The generated comparisons keep carriers, parameters, and allocation visible. Use a direct loop

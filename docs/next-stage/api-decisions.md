@@ -36,7 +36,9 @@ CSV convention: when a type is redesigned, every member of that type carries
 `member_decision=redesign`, because the type-wide contract change applies to each member;
 the narrative below names the members whose signatures or documented semantics change most.
 
-No 0.1.0 member is removed. Removal is reserved for shapes superseded by the redesigns
+The Goal 14 matrix removes no capability. Goal 16 replaces seven old member signatures
+through the accepted `ToResult` and `ComposeValueAsync` renames below. Removal is reserved
+for shapes superseded by the redesigns
 (the old `Then` algorithm) and for capabilities the
 maintainer rejects.
 
@@ -88,6 +90,18 @@ maintainer rejects.
   is why every `Result<TValue,TError>` CSV row carries the redesign decision.
 - No throwing accessor, no implicit conversions: keep rejecting the CFE shapes (C3, C4, C5).
 
+### Goal 16 amendment: `UnitResult` value conversion
+
+**Decision: accept the breaking rename of all five old value-producing signatures.**
+
+The accepted [G16-3 decision](maintainer-acceptance-goal-16.md#g16-3-unitresultterrormap-renamed-toresult-grammar-completion)
+renames all five value-producing `UnitResult<TError>` signatures: `Map` to `ToResult`,
+`MapAsync` (with and without a token) to `ToResultAsync`, and `MapValueAsync` (with and
+without a token) to `ToResultValueAsync`. These factories introduce a value and return
+`Result<TValue, TError>`; they do not transform a contained value. The conversion names
+preserve the grammar rule that `Map` keeps the carrier shape. This amendment supplements
+the Goal 14 inventory pinned above; the Goal 16 acceptance record owns the decision.
+
 ## AD-3 Accumulation — `Validation`, `Validation<TValue,TError>`, `ValidationExtensions`
 
 **Decision: keep applicative semantics and the no-`Bind` boundary; redesign the
@@ -119,7 +133,7 @@ behavior for an uninitialized value).**
 - `Pipe`, `Compose`, `Curry`, `Uncurry`, `Partial`, `Flip`, `Tap`/`TapAsync`/`TapValueAsync`
   are a superset of the useful language-ext subset with token-aware async forms (C1, C2, C5;
   `analysis/baseline-language-ext.md` 4.1). Binary-only arity is a documented boundary
-  (`docs/function-composition.md:39-41`). Keep.
+  ([function-composition.md — Deliberate Boundaries](../function-composition.md#deliberate-boundaries)). Keep.
 - **Redesign (member-level)**: the two `ValueTask` overloads of `ComposeAsync` become
   `ComposeValueAsync`. Rationale: every other verb family distinguishes a `ValueTask`-returning
   callback with the `ValueAsync` suffix; `ComposeAsync` is the only exception
@@ -297,8 +311,12 @@ behavior for an uninitialized value).**
   without a breaking-change process. The lead decision is that the next stage starts with no
   experimental members in the 0.1.0 surface; Goal 17's location-context API and Goal 21's
   diagnostics enter as experimental unless their goals produce full evidence.
-- **Removed**: nothing today. Removal requires an accepted decision row here and a migration
-  note in the same goal; no migration promise is made to competitors.
+- **Replaced signatures**: Goal 16 removes the five old `UnitResult.Map` family signatures
+  in favor of `ToResult` (AD-2 amendment), and the two `ValueTask` `ComposeAsync` signatures
+  in favor of `ComposeValueAsync` (AD-4). Migrate callers by using the new names; behavior
+  and parameter shapes are preserved. No capability is removed. Further removal requires an
+  accepted decision row here and a migration note in the same goal; no migration promise is
+  made to competitors.
 - **Enforcement**: committed public-API baseline + `EnablePackageValidation`; XML documentation
   required; release gates unchanged (`docs/release-readiness.md`).
 

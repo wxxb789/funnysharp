@@ -23,7 +23,8 @@ analysis, and compile-verified call sites are in [`next-stage/`](next-stage/).
 - One verb has one meaning. `Map`, `Bind`, `MapError`/`MapErrors`, `Filter`, `Ensure`, `Recover`/
   `RecoverWith`, `OrElse`/`OrElseWith`, `Zip`, `ZipWith`, `Apply`, `Match`, `TryGet*`, and
   `GetValueOr*` keep exactly the meanings recorded in the decision record. `Where` is never added
-  to a carrier: a bare predicate cannot produce absence or an error.
+  to a carrier: a bare predicate cannot produce absence or an error. The verb-by-carrier table in
+  [`grammar.md`](grammar.md) is the authoritative verb reference.
 - Async naming: `...ValueAsync` marks a callback returning `ValueTask`; `...Async` marks an
   awaitable operation that takes no callback or a `Task`-returning callback. The renamed
   `ComposeValueAsync` removes the only exception. A `CancellationToken` is always an explicit

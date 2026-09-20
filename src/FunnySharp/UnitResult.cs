@@ -366,20 +366,20 @@ public readonly struct UnitResult<TError> : IEquatable<UnitResult<TError>>
     }
 
     /// <summary>
-    /// Transforms a success into a successful result value and preserves failure.
+    /// Converts a success into a successful result value and preserves failure.
     /// </summary>
-    /// <typeparam name="TValue">The transformed successful value type.</typeparam>
-    /// <param name="selector">The transformation invoked for a success.</param>
-    /// <returns>The transformed result, or the existing failure.</returns>
-    /// <exception cref="ArgumentNullException"><paramref name="selector"/> is null.</exception>
+    /// <typeparam name="TValue">The produced successful value type.</typeparam>
+    /// <param name="valueFactory">The value factory invoked for a success.</param>
+    /// <returns>A successful result containing the factory value, or the existing failure.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="valueFactory"/> is null.</exception>
     /// <exception cref="InvalidOperationException">This unit result is the default value.</exception>
-    public Result<TValue, TError> Map<TValue>(Func<TValue> selector)
+    public Result<TValue, TError> ToResult<TValue>(Func<TValue> valueFactory)
     {
-        ArgumentNullException.ThrowIfNull(selector);
+        ArgumentNullException.ThrowIfNull(valueFactory);
         ThrowIfUninitialized();
 
         return state == SuccessState
-            ? Result<TValue, TError>.Success(selector())
+            ? Result<TValue, TError>.Success(valueFactory())
             : Result<TValue, TError>.Failure(error!);
     }
 

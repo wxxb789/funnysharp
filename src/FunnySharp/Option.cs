@@ -283,6 +283,37 @@ public readonly struct Option<T> : IEquatable<Option<T>>
     }
 
     /// <summary>
+    /// Combines this option with three more options through a combining function.
+    /// </summary>
+    /// <typeparam name="TSecond">The second value type.</typeparam>
+    /// <typeparam name="TThird">The third value type.</typeparam>
+    /// <typeparam name="TFourth">The fourth value type.</typeparam>
+    /// <typeparam name="TResult">The combined value type.</typeparam>
+    /// <param name="second">The second option to combine with.</param>
+    /// <param name="third">The third option to combine with.</param>
+    /// <param name="fourth">The fourth option to combine with.</param>
+    /// <param name="combine">The function invoked with all four present values.</param>
+    /// <returns>
+    /// An option containing the non-null combined value when all options are present; otherwise, <c>None</c>.
+    /// </returns>
+    /// <exception cref="ArgumentNullException"><paramref name="combine"/> is <see langword="null"/>.</exception>
+    public Option<TResult> Zip<TSecond, TThird, TFourth, TResult>(
+        Option<TSecond> second,
+        Option<TThird> third,
+        Option<TFourth> fourth,
+        Func<T, TSecond, TThird, TFourth, TResult> combine)
+    {
+        ArgumentNullException.ThrowIfNull(combine);
+
+        return TryGetValue(out var first)
+            && second.TryGetValue(out var secondValue)
+            && third.TryGetValue(out var thirdValue)
+            && fourth.TryGetValue(out var fourthValue)
+            ? Option<TResult>.FromNullable(combine(first!, secondValue!, thirdValue!, fourthValue!))
+            : Option<TResult>.None;
+    }
+
+    /// <summary>
     /// Returns the contained value or an eager fallback.
     /// </summary>
     /// <param name="fallback">The non-null fallback value.</param>
@@ -340,6 +371,44 @@ public readonly struct Option<T> : IEquatable<Option<T>>
     {
         ArgumentNullException.ThrowIfNull(fallbackFactory);
         return IsSome ? this : fallbackFactory();
+    }
+
+    /// <summary>
+    /// Projects a present value for LINQ query syntax.
+    /// </summary>
+    /// <typeparam name="TResult">The projected value type.</typeparam>
+    /// <param name="selector">The projection to invoke for a present value.</param>
+    /// <returns>The projected option, or <c>None</c> when absent or when the result is null.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="selector"/> is null.</exception>
+    public Option<TResult> Select<TResult>(Func<T, TResult> selector) => Map(selector);
+
+    /// <summary>
+    /// Binds and projects present values for LINQ query syntax.
+    /// </summary>
+    /// <typeparam name="TIntermediate">The value type of the bound option.</typeparam>
+    /// <typeparam name="TResult">The projected value type.</typeparam>
+    /// <param name="binder">The option-producing function to invoke for a present value.</param>
+    /// <param name="projector">The projection to invoke when both options are present.</param>
+    /// <returns>
+    /// An option containing the non-null projected value when both options are present;
+    /// otherwise, <c>None</c>.
+    /// </returns>
+    /// <exception cref="ArgumentNullException"><paramref name="binder"/> or <paramref name="projector"/> is null.</exception>
+    public Option<TResult> SelectMany<TIntermediate, TResult>(
+        Func<T, Option<TIntermediate>> binder,
+        Func<T, TIntermediate, TResult> projector)
+    {
+        ArgumentNullException.ThrowIfNull(binder);
+        ArgumentNullException.ThrowIfNull(projector);
+
+        if (!TryGetValue(out var first))
+        {
+            return Option<TResult>.None;
+        }
+
+        return binder(first!).TryGetValue(out var intermediate)
+            ? Option<TResult>.FromNullable(projector(first!, intermediate))
+            : Option<TResult>.None;
     }
 
     /// <inheritdoc />

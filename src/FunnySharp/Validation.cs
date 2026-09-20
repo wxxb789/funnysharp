@@ -305,6 +305,55 @@ public readonly struct Validation<TValue, TError> : IEquatable<Validation<TValue
             ConcatErrors(firstErrors, secondErrors, thirdErrors));
     }
 
+    /// <summary>
+    /// Combines this validation with three more validations through a combining function.
+    /// </summary>
+    /// <typeparam name="TSecond">The second valid value type.</typeparam>
+    /// <typeparam name="TThird">The third valid value type.</typeparam>
+    /// <typeparam name="TFourth">The fourth valid value type.</typeparam>
+    /// <typeparam name="TResult">The combined valid value type.</typeparam>
+    /// <param name="second">The second validation to combine with.</param>
+    /// <param name="third">The third validation to combine with.</param>
+    /// <param name="fourth">The fourth validation to combine with.</param>
+    /// <param name="combine">The function invoked with all four valid values.</param>
+    /// <returns>A valid combined value when all validations are valid; otherwise, all errors in
+    /// left-to-right operand order.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="combine"/> is <see langword="null"/>.</exception>
+    /// <exception cref="InvalidOperationException">This validation or an operand is uninitialized.</exception>
+    public Validation<TResult, TError> Zip<TSecond, TThird, TFourth, TResult>(
+        Validation<TSecond, TError> second,
+        Validation<TThird, TError> third,
+        Validation<TFourth, TError> fourth,
+        Func<TValue, TSecond, TThird, TFourth, TResult> combine)
+    {
+        ArgumentNullException.ThrowIfNull(combine);
+        EnsureInitialized();
+        second.EnsureInitialized();
+        third.EnsureInitialized();
+        fourth.EnsureInitialized();
+
+        if (state == ValidState
+            && second.state == ValidState
+            && third.state == ValidState
+            && fourth.state == ValidState)
+        {
+            return Validation<TResult, TError>.Valid(
+                combine(value!, second.value!, third.value!, fourth.value!));
+        }
+
+        IReadOnlyList<TError> firstErrors =
+            state == InvalidState ? Errors : Array.Empty<TError>();
+        IReadOnlyList<TError> secondErrors =
+            second.state == InvalidState ? second.Errors : Array.Empty<TError>();
+        IReadOnlyList<TError> thirdErrors =
+            third.state == InvalidState ? third.Errors : Array.Empty<TError>();
+        IReadOnlyList<TError> fourthErrors =
+            fourth.state == InvalidState ? fourth.Errors : Array.Empty<TError>();
+
+        return Validation<TResult, TError>.InvalidFromOwnedErrors(
+            ConcatErrors(firstErrors, secondErrors, thirdErrors, fourthErrors));
+    }
+
     /// <inheritdoc />
     /// <exception cref="InvalidOperationException">This validation or <paramref name="other"/> is uninitialized.</exception>
     public bool Equals(Validation<TValue, TError> other)
@@ -421,6 +470,21 @@ public readonly struct Validation<TValue, TError> : IEquatable<Validation<TValue
         CopyErrors(first, combined, ref offset);
         CopyErrors(second, combined, ref offset);
         CopyErrors(third, combined, ref offset);
+        return combined;
+    }
+
+    private static TError[] ConcatErrors(
+        IReadOnlyList<TError> first,
+        IReadOnlyList<TError> second,
+        IReadOnlyList<TError> third,
+        IReadOnlyList<TError> fourth)
+    {
+        var combined = new TError[first.Count + second.Count + third.Count + fourth.Count];
+        var offset = 0;
+        CopyErrors(first, combined, ref offset);
+        CopyErrors(second, combined, ref offset);
+        CopyErrors(third, combined, ref offset);
+        CopyErrors(fourth, combined, ref offset);
         return combined;
     }
 

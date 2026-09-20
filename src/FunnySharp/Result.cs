@@ -729,6 +729,52 @@ public readonly struct Result<TValue, TError> : IEquatable<Result<TValue, TError
     }
 
     /// <summary>
+    /// Combines this result with three more results through a combining function.
+    /// </summary>
+    /// <typeparam name="TSecond">The second successful value type.</typeparam>
+    /// <typeparam name="TThird">The third successful value type.</typeparam>
+    /// <typeparam name="TFourth">The fourth successful value type.</typeparam>
+    /// <typeparam name="TResult">The combined successful value type.</typeparam>
+    /// <param name="second">The second result to combine with.</param>
+    /// <param name="third">The third result to combine with.</param>
+    /// <param name="fourth">The fourth result to combine with.</param>
+    /// <param name="combine">The function invoked with all four successful values.</param>
+    /// <returns>The combined success, or the first failure in left-to-right order.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="combine"/> is <see langword="null"/>.</exception>
+    /// <exception cref="InvalidOperationException">This result or an operand is uninitialized.</exception>
+    public Result<TResult, TError> Zip<TSecond, TThird, TFourth, TResult>(
+        Result<TSecond, TError> second,
+        Result<TThird, TError> third,
+        Result<TFourth, TError> fourth,
+        Func<TValue, TSecond, TThird, TFourth, TResult> combine)
+    {
+        ArgumentNullException.ThrowIfNull(combine);
+        EnsureInitialized();
+        second.EnsureInitialized();
+        third.EnsureInitialized();
+        fourth.EnsureInitialized();
+
+        if (state == FailureState)
+        {
+            return Result<TResult, TError>.Failure(error!);
+        }
+
+        if (second.state == FailureState)
+        {
+            return Result<TResult, TError>.Failure(second.error!);
+        }
+
+        if (third.state == FailureState)
+        {
+            return Result<TResult, TError>.Failure(third.error!);
+        }
+
+        return fourth.state == SuccessState
+            ? Result<TResult, TError>.Success(combine(value!, second.value!, third.value!, fourth.value!))
+            : Result<TResult, TError>.Failure(fourth.error!);
+    }
+
+    /// <summary>
     /// Lazily combines this result with another result, skipping the factory after a failure.
     /// </summary>
     /// <typeparam name="TSecond">The second successful value type.</typeparam>

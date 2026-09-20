@@ -50,7 +50,7 @@
     ]
   },
   "policy": {
-    "revision": "2026-09-04-v4",
+    "revision": "2026-09-19-v6",
     "rows": [
       {
         "id": "excluded|aspnet-mapping",
@@ -113,8 +113,8 @@
         "comparisonGroup": "ConcurrencyBenchmarks|Ordered bounded asynchronous map|[Count=1024]",
         "included": true,
         "exclusionReason": null,
-        "allocationBudgetBytes": 436440,
-        "budgetRationale": "Existing candidate evidence plus 25% and 32 B fixed headroom; rounded up to 8 B."
+        "allocationBudgetBytes": 630104,
+        "budgetRationale": "Linux x64 repeated-run calibration: max of three independent ShortRun measurements (458459, 462802, 473943 B) and prior approved observation (504056 B), plus 25% and 32 B fixed headroom; rounded up to 8 B. See docs/next-stage/review/goal-16-review-fixes.md. Acceptance uses a later full-suite measurement."
       },
       {
         "id": "ConcurrencyBenchmarks|Ordered bounded asynchronous map|FunnySharpSelectParallelValueAsync|[Count=16]",
@@ -245,6 +245,70 @@
         "budgetRationale": "Existing candidate evidence plus 25% and 32 B fixed headroom; rounded up to 8 B."
       },
       {
+        "id": "DataPipelineBenchmarks|Async stream running aggregate|DirectAsyncRunningAggregate|[Count=16]",
+        "benchmarkClass": "DataPipelineBenchmarks",
+        "category": "Async stream running aggregate",
+        "method": "DirectAsyncRunningAggregate",
+        "parameters": "[Count=16]",
+        "baseline": true,
+        "carrier": "async-sequence",
+        "completionPath": "synchronous",
+        "expectedResult": "matches the paired baseline contract",
+        "comparisonGroup": "DataPipelineBenchmarks|Async stream running aggregate|[Count=16]",
+        "included": true,
+        "exclusionReason": null,
+        "allocationBudgetBytes": 264,
+        "budgetRationale": "Existing candidate evidence plus 25% and 32 B fixed headroom; rounded up to 8 B."
+      },
+      {
+        "id": "DataPipelineBenchmarks|Async stream running aggregate|DirectAsyncRunningAggregate|[Count=1024]",
+        "benchmarkClass": "DataPipelineBenchmarks",
+        "category": "Async stream running aggregate",
+        "method": "DirectAsyncRunningAggregate",
+        "parameters": "[Count=1024]",
+        "baseline": true,
+        "carrier": "async-sequence",
+        "completionPath": "synchronous",
+        "expectedResult": "matches the paired baseline contract",
+        "comparisonGroup": "DataPipelineBenchmarks|Async stream running aggregate|[Count=1024]",
+        "included": true,
+        "exclusionReason": null,
+        "allocationBudgetBytes": 264,
+        "budgetRationale": "Existing candidate evidence plus 25% and 32 B fixed headroom; rounded up to 8 B."
+      },
+      {
+        "id": "DataPipelineBenchmarks|Async stream running aggregate|FunnySharpAsyncScan|[Count=16]",
+        "benchmarkClass": "DataPipelineBenchmarks",
+        "category": "Async stream running aggregate",
+        "method": "FunnySharpAsyncScan",
+        "parameters": "[Count=16]",
+        "baseline": false,
+        "carrier": "async-sequence",
+        "completionPath": "synchronous",
+        "expectedResult": "matches the paired baseline contract",
+        "comparisonGroup": "DataPipelineBenchmarks|Async stream running aggregate|[Count=16]",
+        "included": true,
+        "exclusionReason": null,
+        "allocationBudgetBytes": 424,
+        "budgetRationale": "Existing candidate evidence plus 25% and 32 B fixed headroom; rounded up to 8 B."
+      },
+      {
+        "id": "DataPipelineBenchmarks|Async stream running aggregate|FunnySharpAsyncScan|[Count=1024]",
+        "benchmarkClass": "DataPipelineBenchmarks",
+        "category": "Async stream running aggregate",
+        "method": "FunnySharpAsyncScan",
+        "parameters": "[Count=1024]",
+        "baseline": false,
+        "carrier": "async-sequence",
+        "completionPath": "synchronous",
+        "expectedResult": "matches the paired baseline contract",
+        "comparisonGroup": "DataPipelineBenchmarks|Async stream running aggregate|[Count=1024]",
+        "included": true,
+        "exclusionReason": null,
+        "allocationBudgetBytes": 424,
+        "budgetRationale": "Existing candidate evidence plus 25% and 32 B fixed headroom; rounded up to 8 B."
+      },
+      {
         "id": "DataPipelineBenchmarks|IEnumerable filter-map|FunnySharpChoose|[Count=1024]",
         "benchmarkClass": "DataPipelineBenchmarks",
         "category": "IEnumerable filter-map",
@@ -306,6 +370,70 @@
         "included": true,
         "exclusionReason": null,
         "allocationBudgetBytes": 232,
+        "budgetRationale": "Existing candidate evidence plus 25% and 32 B fixed headroom; rounded up to 8 B."
+      },
+      {
+        "id": "DataPipelineBenchmarks|IEnumerable running aggregate|DirectRunningAggregate|[Count=16]",
+        "benchmarkClass": "DataPipelineBenchmarks",
+        "category": "IEnumerable running aggregate",
+        "method": "DirectRunningAggregate",
+        "parameters": "[Count=16]",
+        "baseline": true,
+        "carrier": "value",
+        "completionPath": "synchronous",
+        "expectedResult": "matches the paired baseline contract",
+        "comparisonGroup": "DataPipelineBenchmarks|IEnumerable running aggregate|[Count=16]",
+        "included": true,
+        "exclusionReason": null,
+        "allocationBudgetBytes": 184,
+        "budgetRationale": "Existing candidate evidence plus 25% and 32 B fixed headroom; rounded up to 8 B."
+      },
+      {
+        "id": "DataPipelineBenchmarks|IEnumerable running aggregate|DirectRunningAggregate|[Count=1024]",
+        "benchmarkClass": "DataPipelineBenchmarks",
+        "category": "IEnumerable running aggregate",
+        "method": "DirectRunningAggregate",
+        "parameters": "[Count=1024]",
+        "baseline": true,
+        "carrier": "value",
+        "completionPath": "synchronous",
+        "expectedResult": "matches the paired baseline contract",
+        "comparisonGroup": "DataPipelineBenchmarks|IEnumerable running aggregate|[Count=1024]",
+        "included": true,
+        "exclusionReason": null,
+        "allocationBudgetBytes": 184,
+        "budgetRationale": "Existing candidate evidence plus 25% and 32 B fixed headroom; rounded up to 8 B."
+      },
+      {
+        "id": "DataPipelineBenchmarks|IEnumerable running aggregate|FunnySharpScan|[Count=16]",
+        "benchmarkClass": "DataPipelineBenchmarks",
+        "category": "IEnumerable running aggregate",
+        "method": "FunnySharpScan",
+        "parameters": "[Count=16]",
+        "baseline": false,
+        "carrier": "value",
+        "completionPath": "synchronous",
+        "expectedResult": "matches the paired baseline contract",
+        "comparisonGroup": "DataPipelineBenchmarks|IEnumerable running aggregate|[Count=16]",
+        "included": true,
+        "exclusionReason": null,
+        "allocationBudgetBytes": 184,
+        "budgetRationale": "Existing candidate evidence plus 25% and 32 B fixed headroom; rounded up to 8 B."
+      },
+      {
+        "id": "DataPipelineBenchmarks|IEnumerable running aggregate|FunnySharpScan|[Count=1024]",
+        "benchmarkClass": "DataPipelineBenchmarks",
+        "category": "IEnumerable running aggregate",
+        "method": "FunnySharpScan",
+        "parameters": "[Count=1024]",
+        "baseline": false,
+        "carrier": "value",
+        "completionPath": "synchronous",
+        "expectedResult": "matches the paired baseline contract",
+        "comparisonGroup": "DataPipelineBenchmarks|IEnumerable running aggregate|[Count=1024]",
+        "included": true,
+        "exclusionReason": null,
+        "allocationBudgetBytes": 184,
         "budgetRationale": "Existing candidate evidence plus 25% and 32 B fixed headroom; rounded up to 8 B."
       },
       {
@@ -384,7 +512,7 @@
         "expectedResult": "not-measured",
         "comparisonGroup": "Unmeasured pipeline variants",
         "included": false,
-        "exclusionReason": "ChooseValueAsync, SelectTo, WhereTo, in-place variants, and Memory wrappers have no numeric release claim.",
+        "exclusionReason": "ChooseValueAsync, SelectTo, WhereTo, in-place variants, Memory wrappers, and ScanValueAsync have no numeric release claim.",
         "allocationBudgetBytes": null,
         "budgetRationale": null
       },
@@ -785,8 +913,8 @@
         "comparisonGroup": "FirstSuccessConcurrencyBenchmarks|First successful cold Result operation|[CandidateCount=4]",
         "included": true,
         "exclusionReason": null,
-        "allocationBudgetBytes": 1816,
-        "budgetRationale": "Existing candidate evidence plus 25% and 32 B fixed headroom; rounded up to 8 B."
+        "allocationBudgetBytes": 3896,
+        "budgetRationale": "Linux x64 repeated-run calibration: max of three independent ShortRun measurements (2751, 2723, 3088 B) and prior approved observation (2657 B), plus 25% and 32 B fixed headroom; rounded up to 8 B. See docs/next-stage/review/goal-16-review-fixes.md. Acceptance uses a later full-suite measurement."
       },
       {
         "id": "FunctionCompositionBenchmarks|Completed Task invocation|ComposeAsyncCompletedTaskInvocation|",
@@ -821,10 +949,10 @@
         "budgetRationale": "Existing candidate evidence plus 25% and 32 B fixed headroom; rounded up to 8 B."
       },
       {
-        "id": "FunctionCompositionBenchmarks|Completed ValueTask invocation|ComposeAsyncCompletedValueTaskInvocation|",
+        "id": "FunctionCompositionBenchmarks|Completed ValueTask invocation|ComposeValueAsyncCompletedValueTaskInvocation|",
         "benchmarkClass": "FunctionCompositionBenchmarks",
         "category": "Completed ValueTask invocation",
-        "method": "ComposeAsyncCompletedValueTaskInvocation",
+        "method": "ComposeValueAsyncCompletedValueTaskInvocation",
         "parameters": "",
         "baseline": false,
         "carrier": "ValueTask",
@@ -1601,8 +1729,8 @@
         "comparisonGroup": "ParallelTraverseConcurrencyBenchmarks|Parallel Option traversal|[Count=1024]",
         "included": true,
         "exclusionReason": null,
-        "allocationBudgetBytes": 218264,
-        "budgetRationale": "Existing candidate evidence plus 25% and 32 B fixed headroom; rounded up to 8 B."
+        "allocationBudgetBytes": 629544,
+        "budgetRationale": "Linux x64 repeated-run calibration: max of three independent ShortRun measurements (278739, 266117, 503605 B) and prior approved observation (284892 B), plus 25% and 32 B fixed headroom; rounded up to 8 B. See docs/next-stage/review/goal-16-review-fixes.md. Acceptance uses a later full-suite measurement."
       },
       {
         "id": "ParallelTraverseConcurrencyBenchmarks|Parallel Option traversal|FunnySharpParallelOptionTraversal|[Count=16]",
@@ -1665,8 +1793,8 @@
         "comparisonGroup": "ParallelTraverseConcurrencyBenchmarks|Parallel Validation accumulation|[Count=1024]",
         "included": true,
         "exclusionReason": null,
-        "allocationBudgetBytes": 267912,
-        "budgetRationale": "Existing candidate evidence plus 25% and 32 B fixed headroom; rounded up to 8 B."
+        "allocationBudgetBytes": 680880,
+        "budgetRationale": "Linux x64 repeated-run calibration: max of three independent ShortRun measurements (283325, 336286, 544678 B) and prior approved observation (343286 B), plus 25% and 32 B fixed headroom; rounded up to 8 B. See docs/next-stage/review/goal-16-review-fixes.md. Acceptance uses a later full-suite measurement."
       },
       {
         "id": "ParallelTraverseConcurrencyBenchmarks|Parallel Validation accumulation|FunnySharpParallelValidationTraversal|[Count=16]",
@@ -2328,22 +2456,22 @@
   },
   "observation": {
     "schemaVersion": 1,
-    "generatedAtUtc": "2026-09-18T11:33:05.9864194+00:00",
-    "candidateCommit": "d6ae77d46fe87603d8a0023c808f89ff3b1cd435",
-    "policyRevision": "2026-09-04-v4",
-    "policyFingerprint": "819362c65ffb719e89d687688968442e5e8facf573d04d5b8fa23bdbacd011da",
-    "benchmarkInputFingerprint": "2fee670d7d14101bac30139cd54ccb2ac22382f929d8c054fea780bb49440b44",
+    "generatedAtUtc": "2026-09-19T15:54:45.0830602+00:00",
+    "candidateCommit": null,
+    "policyRevision": "2026-09-19-v6",
+    "policyFingerprint": "8fd74b40b27724c32982189568d980357eca9f70e227c34dedb40f56211c6a8d",
+    "benchmarkInputFingerprint": "69587527894e7a80673b60858de46c2a50171eaa17302a744db130061b878260",
     "protocolFingerprint": "774ad64b9fb8ecafcbee3280a5c5ba6a6f7d4657625b989f6da6f738ce21d578",
-    "environmentKey": "120acb349854773b46b15b6fbf0d038b81d820a6975182ef1f86fd248cd8a6b5",
+    "environmentKey": "8c8e4eb1992841b98347f23a9baba967960bc52eda242439099472f7805f59bd",
     "receipts": [
       {
         "file": "ConcurrencyBenchmarks-performance-receipt.json",
-        "sha256": "e1f516660dc5dadfbe4ba44d439c053112e9c2d167cb0663dbf94b071dd8a0d2",
+        "sha256": "466ab13ac462035cb6379409949b8543014381c786187c9ecae92d4ad943b135",
         "environment": {
-          "os": "Windows 11 (10.0.26100.33296/24H2/2024Update/HudsonValley)",
+          "os": "Linux Ubuntu 24.04.5 LTS (Noble Numbat)",
           "architecture": "X64",
           "sdkVersion": "10.0.400",
-          "runtime": ".NET 10.0.12 (10.0.12, 10.0.1226.42308)",
+          "runtime": ".NET 10.0.11 (10.0.11, 10.0.1126.37416)",
           "jit": "RyuJIT",
           "gcServer": false,
           "gcConcurrent": true,
@@ -2352,12 +2480,12 @@
       },
       {
         "file": "DataPipelineBenchmarks-performance-receipt.json",
-        "sha256": "df8f7afff6e1bb5c8c0b50fbeb1f15ed776870ad276228426da38a82142b221c",
+        "sha256": "32a83e394c4d4f817264bf245b4f6a19f1496f63bcbc934353762c5e5a4cedec",
         "environment": {
-          "os": "Windows 11 (10.0.26100.33296/24H2/2024Update/HudsonValley)",
+          "os": "Linux Ubuntu 24.04.5 LTS (Noble Numbat)",
           "architecture": "X64",
           "sdkVersion": "10.0.400",
-          "runtime": ".NET 10.0.12 (10.0.12, 10.0.1226.42308)",
+          "runtime": ".NET 10.0.11 (10.0.11, 10.0.1126.37416)",
           "jit": "RyuJIT",
           "gcServer": false,
           "gcConcurrent": true,
@@ -2366,12 +2494,12 @@
       },
       {
         "file": "EffectBenchmarks-performance-receipt.json",
-        "sha256": "b05c2aef2c48763e4516aba5dacd8041dfb5f19f558d417abe71f6e89f0d5cff",
+        "sha256": "5db3005c784a4eddebd960ef6e092014e47337f60ecdf3f777f9408634c3ffef",
         "environment": {
-          "os": "Windows 11 (10.0.26100.33296/24H2/2024Update/HudsonValley)",
+          "os": "Linux Ubuntu 24.04.5 LTS (Noble Numbat)",
           "architecture": "X64",
           "sdkVersion": "10.0.400",
-          "runtime": ".NET 10.0.12 (10.0.12, 10.0.1226.42308)",
+          "runtime": ".NET 10.0.11 (10.0.11, 10.0.1126.37416)",
           "jit": "RyuJIT",
           "gcServer": false,
           "gcConcurrent": true,
@@ -2380,12 +2508,12 @@
       },
       {
         "file": "FirstSuccessConcurrencyBenchmarks-performance-receipt.json",
-        "sha256": "b88ac222b4de1c97944544e5ed7c089095691a4959764240ff280900d3955aa4",
+        "sha256": "e95f2a4662fd13183dd22644310e469058f62cac90f571cdaeac3e5428ceadb1",
         "environment": {
-          "os": "Windows 11 (10.0.26100.33296/24H2/2024Update/HudsonValley)",
+          "os": "Linux Ubuntu 24.04.5 LTS (Noble Numbat)",
           "architecture": "X64",
           "sdkVersion": "10.0.400",
-          "runtime": ".NET 10.0.12 (10.0.12, 10.0.1226.42308)",
+          "runtime": ".NET 10.0.11 (10.0.11, 10.0.1126.37416)",
           "jit": "RyuJIT",
           "gcServer": false,
           "gcConcurrent": true,
@@ -2394,12 +2522,12 @@
       },
       {
         "file": "FunctionCompositionBenchmarks-performance-receipt.json",
-        "sha256": "3889eae0f28626833cd8706cfc8e085793a2b30f852a7fb63f142926050e7f8d",
+        "sha256": "f6dae945083301aff95b1153a2dc99f6563df3aa89772fb2479c115589d525b1",
         "environment": {
-          "os": "Windows 11 (10.0.26100.33296/24H2/2024Update/HudsonValley)",
+          "os": "Linux Ubuntu 24.04.5 LTS (Noble Numbat)",
           "architecture": "X64",
           "sdkVersion": "10.0.400",
-          "runtime": ".NET 10.0.12 (10.0.12, 10.0.1226.42308)",
+          "runtime": ".NET 10.0.11 (10.0.11, 10.0.1126.37416)",
           "jit": "RyuJIT",
           "gcServer": false,
           "gcConcurrent": true,
@@ -2408,12 +2536,12 @@
       },
       {
         "file": "ImmutableUpdateBenchmarks-performance-receipt.json",
-        "sha256": "16f72a959ea3e19f19ca6abe5e208697250065a720af220522a95737110f1226",
+        "sha256": "9d32555d37a544d8f9d8a69abdc43a97878262f2b61dc4255608db0f4b5cee6b",
         "environment": {
-          "os": "Windows 11 (10.0.26100.33296/24H2/2024Update/HudsonValley)",
+          "os": "Linux Ubuntu 24.04.5 LTS (Noble Numbat)",
           "architecture": "X64",
           "sdkVersion": "10.0.400",
-          "runtime": ".NET 10.0.12 (10.0.12, 10.0.1226.42308)",
+          "runtime": ".NET 10.0.11 (10.0.11, 10.0.1126.37416)",
           "jit": "RyuJIT",
           "gcServer": false,
           "gcConcurrent": true,
@@ -2422,12 +2550,12 @@
       },
       {
         "file": "OptionBenchmarks-performance-receipt.json",
-        "sha256": "32e7ae7cf253f064269636b6db9ed30c12643cf8eb2e9a1984b64bd8cd05ec4c",
+        "sha256": "1f724f72f5f8d6bb6e18bd39510c961f06675aaca9a0beae9c22d1b1e9e343c8",
         "environment": {
-          "os": "Windows 11 (10.0.26100.33296/24H2/2024Update/HudsonValley)",
+          "os": "Linux Ubuntu 24.04.5 LTS (Noble Numbat)",
           "architecture": "X64",
           "sdkVersion": "10.0.400",
-          "runtime": ".NET 10.0.12 (10.0.12, 10.0.1226.42308)",
+          "runtime": ".NET 10.0.11 (10.0.11, 10.0.1126.37416)",
           "jit": "RyuJIT",
           "gcServer": false,
           "gcConcurrent": true,
@@ -2436,12 +2564,12 @@
       },
       {
         "file": "ParallelTraverseConcurrencyBenchmarks-performance-receipt.json",
-        "sha256": "8c62a703e550ffcb67d6b1b8271b24a1d9fc27e710e5f0f7952557a19717d9fa",
+        "sha256": "8f037d6dac1a6883162bb289c841d4eaec6c9ac41faa90493cc8d10a99607314",
         "environment": {
-          "os": "Windows 11 (10.0.26100.33296/24H2/2024Update/HudsonValley)",
+          "os": "Linux Ubuntu 24.04.5 LTS (Noble Numbat)",
           "architecture": "X64",
           "sdkVersion": "10.0.400",
-          "runtime": ".NET 10.0.12 (10.0.12, 10.0.1226.42308)",
+          "runtime": ".NET 10.0.11 (10.0.11, 10.0.1126.37416)",
           "jit": "RyuJIT",
           "gcServer": false,
           "gcConcurrent": true,
@@ -2450,12 +2578,12 @@
       },
       {
         "file": "ResultBenchmarks-performance-receipt.json",
-        "sha256": "79aaf48150f1d74dd614396a511289038294156253c74d5948052a4862f2f97f",
+        "sha256": "dd14fc3e2d89b0aefd1556dba03d84d7004ec47853289c305ea71da58383fff4",
         "environment": {
-          "os": "Windows 11 (10.0.26100.33296/24H2/2024Update/HudsonValley)",
+          "os": "Linux Ubuntu 24.04.5 LTS (Noble Numbat)",
           "architecture": "X64",
           "sdkVersion": "10.0.400",
-          "runtime": ".NET 10.0.12 (10.0.12, 10.0.1226.42308)",
+          "runtime": ".NET 10.0.11 (10.0.11, 10.0.1126.37416)",
           "jit": "RyuJIT",
           "gcServer": false,
           "gcConcurrent": true,
@@ -2464,12 +2592,12 @@
       },
       {
         "file": "SequenceBenchmarks-performance-receipt.json",
-        "sha256": "5c71386d1c9687cb6404de516d428749908d4d8f2ead6de9029dd92857d4dc56",
+        "sha256": "204078c971147dbbe11523f520cdc04bbc54ae66feb5b3b2e326f6e40540a00c",
         "environment": {
-          "os": "Windows 11 (10.0.26100.33296/24H2/2024Update/HudsonValley)",
+          "os": "Linux Ubuntu 24.04.5 LTS (Noble Numbat)",
           "architecture": "X64",
           "sdkVersion": "10.0.400",
-          "runtime": ".NET 10.0.12 (10.0.12, 10.0.1226.42308)",
+          "runtime": ".NET 10.0.11 (10.0.11, 10.0.1126.37416)",
           "jit": "RyuJIT",
           "gcServer": false,
           "gcConcurrent": true,
@@ -2478,12 +2606,12 @@
       },
       {
         "file": "StateMachineBenchmarks-performance-receipt.json",
-        "sha256": "2e5c3acd5c7ae56f8f8ae9b303f1c079630e3c3daf72d550fdc93683e2df1bca",
+        "sha256": "67e44e48b30b4bd2fb4a584275c68ac649b3974f25029311b79181f755376a04",
         "environment": {
-          "os": "Windows 11 (10.0.26100.33296/24H2/2024Update/HudsonValley)",
+          "os": "Linux Ubuntu 24.04.5 LTS (Noble Numbat)",
           "architecture": "X64",
           "sdkVersion": "10.0.400",
-          "runtime": ".NET 10.0.12 (10.0.12, 10.0.1226.42308)",
+          "runtime": ".NET 10.0.11 (10.0.11, 10.0.1126.37416)",
           "jit": "RyuJIT",
           "gcServer": false,
           "gcConcurrent": true,
@@ -2500,8 +2628,8 @@
         "parameters": "[Count=1024]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 572796.9401041666,
-        "allocatedBytesPerOperation": 331453
+        "meanNanoseconds": 494349.353515625,
+        "allocatedBytesPerOperation": 299563
       },
       {
         "id": "ConcurrencyBenchmarks|Ordered bounded asynchronous map|BclParallelForEachAsync|[Count=16]",
@@ -2511,8 +2639,8 @@
         "parameters": "[Count=16]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 12990.804036458334,
-        "allocatedBytesPerOperation": 6172
+        "meanNanoseconds": 13834.746398925781,
+        "allocatedBytesPerOperation": 5321
       },
       {
         "id": "ConcurrencyBenchmarks|Ordered bounded asynchronous map|FunnySharpSelectParallelValueAsync|[Count=1024]",
@@ -2522,8 +2650,8 @@
         "parameters": "[Count=1024]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 777155.859375,
-        "allocatedBytesPerOperation": 342322
+        "meanNanoseconds": 930940.3893229166,
+        "allocatedBytesPerOperation": 479681
       },
       {
         "id": "ConcurrencyBenchmarks|Ordered bounded asynchronous map|FunnySharpSelectParallelValueAsync|[Count=16]",
@@ -2533,8 +2661,8 @@
         "parameters": "[Count=16]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 18848.844401041668,
-        "allocatedBytesPerOperation": 8616
+        "meanNanoseconds": 25212.649576822918,
+        "allocatedBytesPerOperation": 11025
       },
       {
         "id": "DataPipelineBenchmarks|Async stream filter-map|BclAsyncWhereSelect|[Count=1024]",
@@ -2544,7 +2672,7 @@
         "parameters": "[Count=1024]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 35020.589192708336,
+        "meanNanoseconds": 43310.5400797526,
         "allocatedBytesPerOperation": 400
       },
       {
@@ -2555,7 +2683,7 @@
         "parameters": "[Count=16]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 718.5517946879069,
+        "meanNanoseconds": 985.8945245742798,
         "allocatedBytesPerOperation": 400
       },
       {
@@ -2566,7 +2694,7 @@
         "parameters": "[Count=1024]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 13895.716349283854,
+        "meanNanoseconds": 15665.232447306314,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -2577,7 +2705,7 @@
         "parameters": "[Count=16]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 288.99672826131183,
+        "meanNanoseconds": 327.56108538309735,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -2588,7 +2716,7 @@
         "parameters": "[Count=1024]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 44079.39656575521,
+        "meanNanoseconds": 51825.27598063151,
         "allocatedBytesPerOperation": 312
       },
       {
@@ -2599,7 +2727,51 @@
         "parameters": "[Count=16]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 671.7681248982748,
+        "meanNanoseconds": 807.3777440388998,
+        "allocatedBytesPerOperation": 312
+      },
+      {
+        "id": "DataPipelineBenchmarks|Async stream running aggregate|DirectAsyncRunningAggregate|[Count=1024]",
+        "benchmarkClass": "DataPipelineBenchmarks",
+        "category": "Async stream running aggregate",
+        "method": "DirectAsyncRunningAggregate",
+        "parameters": "[Count=1024]",
+        "baseline": true,
+        "timingState": "observed",
+        "meanNanoseconds": 42089.830098470055,
+        "allocatedBytesPerOperation": 184
+      },
+      {
+        "id": "DataPipelineBenchmarks|Async stream running aggregate|DirectAsyncRunningAggregate|[Count=16]",
+        "benchmarkClass": "DataPipelineBenchmarks",
+        "category": "Async stream running aggregate",
+        "method": "DirectAsyncRunningAggregate",
+        "parameters": "[Count=16]",
+        "baseline": true,
+        "timingState": "observed",
+        "meanNanoseconds": 778.5323419570923,
+        "allocatedBytesPerOperation": 184
+      },
+      {
+        "id": "DataPipelineBenchmarks|Async stream running aggregate|FunnySharpAsyncScan|[Count=1024]",
+        "benchmarkClass": "DataPipelineBenchmarks",
+        "category": "Async stream running aggregate",
+        "method": "FunnySharpAsyncScan",
+        "parameters": "[Count=1024]",
+        "baseline": false,
+        "timingState": "observed",
+        "meanNanoseconds": 49253.38829549154,
+        "allocatedBytesPerOperation": 312
+      },
+      {
+        "id": "DataPipelineBenchmarks|Async stream running aggregate|FunnySharpAsyncScan|[Count=16]",
+        "benchmarkClass": "DataPipelineBenchmarks",
+        "category": "Async stream running aggregate",
+        "method": "FunnySharpAsyncScan",
+        "parameters": "[Count=16]",
+        "baseline": false,
+        "timingState": "observed",
+        "meanNanoseconds": 848.5713141759237,
         "allocatedBytesPerOperation": 312
       },
       {
@@ -2610,7 +2782,7 @@
         "parameters": "[Count=1024]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 4335.030619303386,
+        "meanNanoseconds": 4723.702737172444,
         "allocatedBytesPerOperation": 112
       },
       {
@@ -2621,7 +2793,7 @@
         "parameters": "[Count=16]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 116.12778504689534,
+        "meanNanoseconds": 125.87706883748372,
         "allocatedBytesPerOperation": 112
       },
       {
@@ -2632,7 +2804,7 @@
         "parameters": "[Count=1024]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 6015.311686197917,
+        "meanNanoseconds": 6142.149452209473,
         "allocatedBytesPerOperation": 160
       },
       {
@@ -2643,8 +2815,52 @@
         "parameters": "[Count=16]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 139.28492069244385,
+        "meanNanoseconds": 154.94980684916177,
         "allocatedBytesPerOperation": 160
+      },
+      {
+        "id": "DataPipelineBenchmarks|IEnumerable running aggregate|DirectRunningAggregate|[Count=1024]",
+        "benchmarkClass": "DataPipelineBenchmarks",
+        "category": "IEnumerable running aggregate",
+        "method": "DirectRunningAggregate",
+        "parameters": "[Count=1024]",
+        "baseline": true,
+        "timingState": "observed",
+        "meanNanoseconds": 4580.442715962728,
+        "allocatedBytesPerOperation": 120
+      },
+      {
+        "id": "DataPipelineBenchmarks|IEnumerable running aggregate|DirectRunningAggregate|[Count=16]",
+        "benchmarkClass": "DataPipelineBenchmarks",
+        "category": "IEnumerable running aggregate",
+        "method": "DirectRunningAggregate",
+        "parameters": "[Count=16]",
+        "baseline": true,
+        "timingState": "observed",
+        "meanNanoseconds": 119.94656477371852,
+        "allocatedBytesPerOperation": 120
+      },
+      {
+        "id": "DataPipelineBenchmarks|IEnumerable running aggregate|FunnySharpScan|[Count=1024]",
+        "benchmarkClass": "DataPipelineBenchmarks",
+        "category": "IEnumerable running aggregate",
+        "method": "FunnySharpScan",
+        "parameters": "[Count=1024]",
+        "baseline": false,
+        "timingState": "observed",
+        "meanNanoseconds": 4635.053802490234,
+        "allocatedBytesPerOperation": 120
+      },
+      {
+        "id": "DataPipelineBenchmarks|IEnumerable running aggregate|FunnySharpScan|[Count=16]",
+        "benchmarkClass": "DataPipelineBenchmarks",
+        "category": "IEnumerable running aggregate",
+        "method": "FunnySharpScan",
+        "parameters": "[Count=16]",
+        "baseline": false,
+        "timingState": "observed",
+        "meanNanoseconds": 117.48849755525589,
+        "allocatedBytesPerOperation": 120
       },
       {
         "id": "DataPipelineBenchmarks|Span filter-map|DirectSpanLoop|[Count=1024]",
@@ -2654,7 +2870,7 @@
         "parameters": "[Count=1024]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 844.2922274271647,
+        "meanNanoseconds": 748.1815176010132,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -2665,7 +2881,7 @@
         "parameters": "[Count=16]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 12.099738915761312,
+        "meanNanoseconds": 13.281670500834784,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -2676,7 +2892,7 @@
         "parameters": "[Count=1024]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 3139.2306009928384,
+        "meanNanoseconds": 3187.024028778076,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -2687,7 +2903,7 @@
         "parameters": "[Count=16]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 47.299193342526756,
+        "meanNanoseconds": 59.56046609083811,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -2698,7 +2914,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 20.961738626162212,
+        "meanNanoseconds": 29.58365172147751,
         "allocatedBytesPerOperation": 24
       },
       {
@@ -2709,7 +2925,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 89.48439359664917,
+        "meanNanoseconds": 127.58097229401271,
         "allocatedBytesPerOperation": 208
       },
       {
@@ -2720,7 +2936,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 3.8141978283723197,
+        "meanNanoseconds": 3.22316811978817,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -2731,7 +2947,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 32.16815690199534,
+        "meanNanoseconds": 29.85229303439458,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -2742,7 +2958,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 23.906524976094563,
+        "meanNanoseconds": 33.13075491786003,
         "allocatedBytesPerOperation": 80
       },
       {
@@ -2753,7 +2969,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 76.25823219617207,
+        "meanNanoseconds": 79.24503791332245,
         "allocatedBytesPerOperation": 80
       },
       {
@@ -2764,7 +2980,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 12.025870382785797,
+        "meanNanoseconds": 15.325077623128891,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -2775,7 +2991,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 20.575801531473797,
+        "meanNanoseconds": 24.258863071600597,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -2786,7 +3002,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 17.449550827344257,
+        "meanNanoseconds": 21.11224980155627,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -2797,7 +3013,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 59.56230958302816,
+        "meanNanoseconds": 73.59514474868774,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -2808,7 +3024,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 4.20904482404391,
+        "meanNanoseconds": 2.5679368873437247,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -2819,7 +3035,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 40.898786981900535,
+        "meanNanoseconds": 39.62810189525286,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -2830,7 +3046,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 4.1217076281706495,
+        "meanNanoseconds": 4.160396993160248,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -2841,7 +3057,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 71.40774528185527,
+        "meanNanoseconds": 77.88904756307602,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -2852,7 +3068,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 12.28478749593099,
+        "meanNanoseconds": 13.530122831463814,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -2863,7 +3079,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 98.6918290456136,
+        "meanNanoseconds": 102.44339988629024,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -2874,7 +3090,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 13.225661218166351,
+        "meanNanoseconds": 13.604589035113653,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -2885,7 +3101,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 117.66971747080485,
+        "meanNanoseconds": 104.79738318920135,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -2896,7 +3112,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 0.9393014013767242,
+        "meanNanoseconds": 0.9977969874938329,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -2907,7 +3123,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 9.396481017271677,
+        "meanNanoseconds": 18.519456808765728,
         "allocatedBytesPerOperation": 88
       },
       {
@@ -2918,8 +3134,8 @@
         "parameters": "[CandidateCount=16]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 6471.134948730469,
-        "allocatedBytesPerOperation": 5453
+        "meanNanoseconds": 6890.316146850586,
+        "allocatedBytesPerOperation": 5802
       },
       {
         "id": "FirstSuccessConcurrencyBenchmarks|First successful cold Result operation|BclTaskWhenAnyCancelAndDrain|[CandidateCount=4]",
@@ -2929,8 +3145,8 @@
         "parameters": "[CandidateCount=4]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 3028.6333084106445,
-        "allocatedBytesPerOperation": 1521
+        "meanNanoseconds": 9218.052042643229,
+        "allocatedBytesPerOperation": 1738
       },
       {
         "id": "FirstSuccessConcurrencyBenchmarks|First successful cold Result operation|FunnySharpFirstSuccessAsync|[CandidateCount=16]",
@@ -2940,8 +3156,8 @@
         "parameters": "[CandidateCount=16]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 5860.133107503255,
-        "allocatedBytesPerOperation": 4065
+        "meanNanoseconds": 8406.63899230957,
+        "allocatedBytesPerOperation": 4623
       },
       {
         "id": "FirstSuccessConcurrencyBenchmarks|First successful cold Result operation|FunnySharpFirstSuccessAsync|[CandidateCount=4]",
@@ -2951,8 +3167,8 @@
         "parameters": "[CandidateCount=4]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 2440.5787785847983,
-        "allocatedBytesPerOperation": 1711
+        "meanNanoseconds": 7125.594876607259,
+        "allocatedBytesPerOperation": 2532
       },
       {
         "id": "FunctionCompositionBenchmarks|Completed Task invocation|ComposeAsyncCompletedTaskInvocation|",
@@ -2962,7 +3178,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 29.30630048116048,
+        "meanNanoseconds": 42.519445876280464,
         "allocatedBytesPerOperation": 216
       },
       {
@@ -2973,18 +3189,18 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 27.795713146527607,
+        "meanNanoseconds": 34.346751004457474,
         "allocatedBytesPerOperation": 216
       },
       {
-        "id": "FunctionCompositionBenchmarks|Completed ValueTask invocation|ComposeAsyncCompletedValueTaskInvocation|",
+        "id": "FunctionCompositionBenchmarks|Completed ValueTask invocation|ComposeValueAsyncCompletedValueTaskInvocation|",
         "benchmarkClass": "FunctionCompositionBenchmarks",
         "category": "Completed ValueTask invocation",
-        "method": "ComposeAsyncCompletedValueTaskInvocation",
+        "method": "ComposeValueAsyncCompletedValueTaskInvocation",
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 18.124316136042278,
+        "meanNanoseconds": 18.62380573650201,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -2995,7 +3211,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 15.650574862957,
+        "meanNanoseconds": 14.15205263098081,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3006,7 +3222,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 12.824100255966187,
+        "meanNanoseconds": 18.305392771959305,
         "allocatedBytesPerOperation": 96
       },
       {
@@ -3017,7 +3233,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 6.902029613653819,
+        "meanNanoseconds": 11.7621850669384,
         "allocatedBytesPerOperation": 64
       },
       {
@@ -3028,7 +3244,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 5.680651466051738,
+        "meanNanoseconds": 5.2127484654386835,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3039,7 +3255,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 1.0300750533739726,
+        "meanNanoseconds": 1.3692379655937355,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3050,7 +3266,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 3.6666139960289,
+        "meanNanoseconds": 4.254482984542847,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3061,7 +3277,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 3.9393949011961618,
+        "meanNanoseconds": 4.313762014110883,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3072,7 +3288,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 51.85677409172058,
+        "meanNanoseconds": 78.89573977390926,
         "allocatedBytesPerOperation": 208
       },
       {
@@ -3083,7 +3299,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 50.43461322784424,
+        "meanNanoseconds": 79.10278644164403,
         "allocatedBytesPerOperation": 208
       },
       {
@@ -3094,7 +3310,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 62.69301176071167,
+        "meanNanoseconds": 74.39143606026967,
         "allocatedBytesPerOperation": 104
       },
       {
@@ -3105,7 +3321,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 60.373773177464805,
+        "meanNanoseconds": 75.2085867524147,
         "allocatedBytesPerOperation": 104
       },
       {
@@ -3116,7 +3332,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 7.949169973532359,
+        "meanNanoseconds": 8.68474866449833,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3127,7 +3343,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 10.690127313137054,
+        "meanNanoseconds": 11.286143918832144,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3138,7 +3354,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 16.603394349416096,
+        "meanNanoseconds": 26.21553761760394,
         "allocatedBytesPerOperation": 72
       },
       {
@@ -3149,7 +3365,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 25.95081130663554,
+        "meanNanoseconds": 34.16723544398943,
         "allocatedBytesPerOperation": 72
       },
       {
@@ -3160,7 +3376,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 16.9875830411911,
+        "meanNanoseconds": 26.80991028745969,
         "allocatedBytesPerOperation": 144
       },
       {
@@ -3171,7 +3387,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 32.911217212677,
+        "meanNanoseconds": 45.268878906965256,
         "allocatedBytesPerOperation": 216
       },
       {
@@ -3182,7 +3398,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 8.436602354049683,
+        "meanNanoseconds": 10.355175375938416,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3193,7 +3409,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 26.229824622472126,
+        "meanNanoseconds": 25.39753802617391,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3204,7 +3420,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 5.351737141609192,
+        "meanNanoseconds": 9.949750790993372,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3215,7 +3431,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 6.146216889222463,
+        "meanNanoseconds": 6.3583169505000114,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3226,7 +3442,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 7.120604316393535,
+        "meanNanoseconds": 6.1530792365471525,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3237,7 +3453,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 6.162472069263458,
+        "meanNanoseconds": 6.808997859557469,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3258,8 +3474,8 @@
         "method": "OptionGetValueOrNone",
         "parameters": "",
         "baseline": false,
-        "timingState": "below-resolution",
-        "meanNanoseconds": null,
+        "timingState": "observed",
+        "meanNanoseconds": 0.4117566930751006,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3280,8 +3496,8 @@
         "method": "OptionGetValueOrSome",
         "parameters": "",
         "baseline": false,
-        "timingState": "below-resolution",
-        "meanNanoseconds": null,
+        "timingState": "observed",
+        "meanNanoseconds": 0.42155109097560245,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3303,7 +3519,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 0.9336628019809723,
+        "meanNanoseconds": 1.8510858193039894,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3313,8 +3529,8 @@
         "method": "DirectMapSome",
         "parameters": "",
         "baseline": true,
-        "timingState": "below-resolution",
-        "meanNanoseconds": null,
+        "timingState": "observed",
+        "meanNanoseconds": 0.4480782387157281,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3325,7 +3541,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 2.279737343390783,
+        "meanNanoseconds": 4.243929322808981,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3335,8 +3551,8 @@
         "method": "DirectNullableNone",
         "parameters": "",
         "baseline": true,
-        "timingState": "below-resolution",
-        "meanNanoseconds": null,
+        "timingState": "observed",
+        "meanNanoseconds": 0.4528273092582822,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3347,7 +3563,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 0.8593947937091192,
+        "meanNanoseconds": 2.338060040026903,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3368,8 +3584,8 @@
         "method": "OptionNullableSome",
         "parameters": "",
         "baseline": false,
-        "timingState": "below-resolution",
-        "meanNanoseconds": null,
+        "timingState": "observed",
+        "meanNanoseconds": 0.8534709513187408,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3380,7 +3596,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 11.844733357429504,
+        "meanNanoseconds": 16.181066369016964,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3391,7 +3607,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 12.749346097310385,
+        "meanNanoseconds": 18.476015975077946,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3402,7 +3618,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 6.268328428268433,
+        "meanNanoseconds": 12.15370280543963,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3413,7 +3629,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 8.47044289112091,
+        "meanNanoseconds": 14.379234626889229,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3424,8 +3640,8 @@
         "parameters": "[Count=1024]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 527555.1432291666,
-        "allocatedBytesPerOperation": 358546
+        "meanNanoseconds": 630178.5885416666,
+        "allocatedBytesPerOperation": 307163
       },
       {
         "id": "ParallelTraverseConcurrencyBenchmarks|Parallel Option traversal|BclParallelOptionTraversal|[Count=16]",
@@ -3435,8 +3651,8 @@
         "parameters": "[Count=16]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 12894.297281901041,
-        "allocatedBytesPerOperation": 6718
+        "meanNanoseconds": 26939.142700195312,
+        "allocatedBytesPerOperation": 5857
       },
       {
         "id": "ParallelTraverseConcurrencyBenchmarks|Parallel Option traversal|FunnySharpParallelOptionTraversal|[Count=1024]",
@@ -3446,8 +3662,8 @@
         "parameters": "[Count=1024]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 508904.3619791667,
-        "allocatedBytesPerOperation": 179407
+        "meanNanoseconds": 1132069.2154947917,
+        "allocatedBytesPerOperation": 467087
       },
       {
         "id": "ParallelTraverseConcurrencyBenchmarks|Parallel Option traversal|FunnySharpParallelOptionTraversal|[Count=16]",
@@ -3457,8 +3673,8 @@
         "parameters": "[Count=16]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 10285.363260904947,
-        "allocatedBytesPerOperation": 3718
+        "meanNanoseconds": 21622.915405273438,
+        "allocatedBytesPerOperation": 6290
       },
       {
         "id": "ParallelTraverseConcurrencyBenchmarks|Parallel Validation accumulation|BclParallelValidationTraversal|[Count=1024]",
@@ -3468,8 +3684,8 @@
         "parameters": "[Count=1024]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 591818.2291666666,
-        "allocatedBytesPerOperation": 383646
+        "meanNanoseconds": 685377.2942708334,
+        "allocatedBytesPerOperation": 336636
       },
       {
         "id": "ParallelTraverseConcurrencyBenchmarks|Parallel Validation accumulation|BclParallelValidationTraversal|[Count=16]",
@@ -3479,8 +3695,8 @@
         "parameters": "[Count=16]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 13828.688557942709,
-        "allocatedBytesPerOperation": 7328
+        "meanNanoseconds": 33888.741861979164,
+        "allocatedBytesPerOperation": 6352
       },
       {
         "id": "ParallelTraverseConcurrencyBenchmarks|Parallel Validation accumulation|FunnySharpParallelValidationTraversal|[Count=1024]",
@@ -3490,8 +3706,8 @@
         "parameters": "[Count=1024]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 607022.7213541666,
-        "allocatedBytesPerOperation": 252738
+        "meanNanoseconds": 839821.5787760416,
+        "allocatedBytesPerOperation": 359318
       },
       {
         "id": "ParallelTraverseConcurrencyBenchmarks|Parallel Validation accumulation|FunnySharpParallelValidationTraversal|[Count=16]",
@@ -3501,8 +3717,8 @@
         "parameters": "[Count=16]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 10789.1845703125,
-        "allocatedBytesPerOperation": 4283
+        "meanNanoseconds": 42865.74361165365,
+        "allocatedBytesPerOperation": 7826
       },
       {
         "id": "ResultBenchmarks|Completed Task mapping|DirectCompletedTaskMap|",
@@ -3512,7 +3728,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 17.193029820919037,
+        "meanNanoseconds": 48.15543860197067,
         "allocatedBytesPerOperation": 144
       },
       {
@@ -3523,7 +3739,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 43.23074519634247,
+        "meanNanoseconds": 89.8527781565984,
         "allocatedBytesPerOperation": 256
       },
       {
@@ -3534,7 +3750,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 10.612607498963675,
+        "meanNanoseconds": 20.625579540928204,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3545,7 +3761,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 40.41253328323364,
+        "meanNanoseconds": 43.16621600588163,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3555,8 +3771,8 @@
         "method": "DirectFailureConstructionAndInspection",
         "parameters": "",
         "baseline": true,
-        "timingState": "below-resolution",
-        "meanNanoseconds": null,
+        "timingState": "observed",
+        "meanNanoseconds": 0.2521388605237007,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3577,8 +3793,8 @@
         "method": "DirectSuccessConstructionAndInspection",
         "parameters": "",
         "baseline": true,
-        "timingState": "below-resolution",
-        "meanNanoseconds": null,
+        "timingState": "observed",
+        "meanNanoseconds": 0.141622773061196,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3600,7 +3816,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 2539.3758138020835,
+        "meanNanoseconds": 3195.103904724121,
         "allocatedBytesPerOperation": 512
       },
       {
@@ -3611,7 +3827,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 3009.618250528971,
+        "meanNanoseconds": 3561.2727330525718,
         "allocatedBytesPerOperation": 680
       },
       {
@@ -3622,7 +3838,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 11.299377183119455,
+        "meanNanoseconds": 11.900652185082436,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3633,7 +3849,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 13.809953133265177,
+        "meanNanoseconds": 14.364868169029554,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3655,7 +3871,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 1.7749451100826263,
+        "meanNanoseconds": 2.5084334375957646,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3665,8 +3881,8 @@
         "method": "DirectSuccessfulPipeline",
         "parameters": "",
         "baseline": true,
-        "timingState": "below-resolution",
-        "meanNanoseconds": null,
+        "timingState": "observed",
+        "meanNanoseconds": 0.9081798403834304,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3677,7 +3893,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 8.298873404661814,
+        "meanNanoseconds": 16.52579300602277,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3688,7 +3904,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 869.2719141642252,
+        "meanNanoseconds": 3836.5771255493164,
         "allocatedBytesPerOperation": 296
       },
       {
@@ -3699,7 +3915,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 1215.286382039388,
+        "meanNanoseconds": 3462.4530131022134,
         "allocatedBytesPerOperation": 744
       },
       {
@@ -3710,7 +3926,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 845.2362696329752,
+        "meanNanoseconds": 2906.778939565023,
         "allocatedBytesPerOperation": 304
       },
       {
@@ -3721,7 +3937,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 1405.1887512207031,
+        "meanNanoseconds": 7781.472432454427,
         "allocatedBytesPerOperation": 840
       },
       {
@@ -3732,7 +3948,7 @@
         "parameters": "[Count=1024]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 1358.5927963256836,
+        "meanNanoseconds": 2397.217859903971,
         "allocatedBytesPerOperation": 4176
       },
       {
@@ -3743,7 +3959,7 @@
         "parameters": "[Count=16]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 32.19279249509176,
+        "meanNanoseconds": 70.08614816268285,
         "allocatedBytesPerOperation": 144
       },
       {
@@ -3754,7 +3970,7 @@
         "parameters": "[Count=1024]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 1903.5912831624348,
+        "meanNanoseconds": 2875.1144059499106,
         "allocatedBytesPerOperation": 4176
       },
       {
@@ -3765,7 +3981,7 @@
         "parameters": "[Count=16]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 40.510231256484985,
+        "meanNanoseconds": 80.90456595023473,
         "allocatedBytesPerOperation": 144
       },
       {
@@ -3776,7 +3992,7 @@
         "parameters": "[Count=1024]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 2.305340270201365,
+        "meanNanoseconds": 5.637186922132969,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3787,7 +4003,7 @@
         "parameters": "[Count=16]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 0.8266439040501913,
+        "meanNanoseconds": 4.07575111463666,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3798,7 +4014,7 @@
         "parameters": "[Count=1024]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 3.9697758853435516,
+        "meanNanoseconds": 7.86650113761425,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3809,7 +4025,7 @@
         "parameters": "[Count=16]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 3.9439231157302856,
+        "meanNanoseconds": 7.29623514910539,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3820,7 +4036,7 @@
         "parameters": "[Count=1024]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 4959.748077392578,
+        "meanNanoseconds": 9038.897216796875,
         "allocatedBytesPerOperation": 12632
       },
       {
@@ -3831,7 +4047,7 @@
         "parameters": "[Count=16]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 145.71459293365479,
+        "meanNanoseconds": 327.8115015029907,
         "allocatedBytesPerOperation": 392
       },
       {
@@ -3842,7 +4058,7 @@
         "parameters": "[Count=1024]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 5604.187266031901,
+        "meanNanoseconds": 10380.478299458822,
         "allocatedBytesPerOperation": 12632
       },
       {
@@ -3853,7 +4069,7 @@
         "parameters": "[Count=16]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 168.03316672643027,
+        "meanNanoseconds": 352.4012173811595,
         "allocatedBytesPerOperation": 392
       },
       {
@@ -3864,7 +4080,7 @@
         "parameters": "[Count=256]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 130.06280263264975,
+        "meanNanoseconds": 171.94830600420633,
         "allocatedBytesPerOperation": 1048
       },
       {
@@ -3875,7 +4091,7 @@
         "parameters": "[Count=64]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 33.835187554359436,
+        "meanNanoseconds": 51.28042377034823,
         "allocatedBytesPerOperation": 280
       },
       {
@@ -3886,7 +4102,7 @@
         "parameters": "[Count=8]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 6.289416551589966,
+        "meanNanoseconds": 16.89181251823902,
         "allocatedBytesPerOperation": 56
       },
       {
@@ -3897,7 +4113,7 @@
         "parameters": "[Count=256]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 61475.78125,
+        "meanNanoseconds": 90868.75069173177,
         "allocatedBytesPerOperation": 187296
       },
       {
@@ -3908,7 +4124,7 @@
         "parameters": "[Count=64]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 7757.344055175781,
+        "meanNanoseconds": 11732.800493876139,
         "allocatedBytesPerOperation": 22176
       },
       {
@@ -3919,7 +4135,7 @@
         "parameters": "[Count=8]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 617.131519317627,
+        "meanNanoseconds": 1015.0903272628784,
         "allocatedBytesPerOperation": 1792
       }
     ]

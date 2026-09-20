@@ -55,9 +55,9 @@ internal static class UnitResultExamples
         ExampleAssertions.UninitializedThrows(() => uninitialized.TryGetError(out _));
         ExampleAssertions.UninitializedThrows(() => uninitialized.GetHashCode());
 
-        var mapped = success.Map(() => 42);
+        var mapped = success.ToResult(() => 42);
         ExampleAssertions.Equal(Result<int, CheckoutError>.Success(42), mapped);
-        ExampleAssertions.Equal(Result<int, CheckoutError>.Failure(error), failure.Map(() => 42));
+        ExampleAssertions.Equal(Result<int, CheckoutError>.Failure(error), failure.ToResult(() => 42));
 
         var bound = success.Bind(() => UnitResult<CheckoutError>.Failure(new CheckoutError("missing-address")));
         ExampleAssertions.Equal(UnitResult<CheckoutError>.Failure(new CheckoutError("missing-address")), bound);
@@ -431,26 +431,26 @@ internal static class UnitResultExamples
         }
 
         var mapSelectorRan = false;
-        var mappedSuccess = await UnitResult<CheckoutError>.Success().MapAsync(() =>
+        var mappedSuccess = await UnitResult<CheckoutError>.Success().ToResultAsync(() =>
         {
             mapSelectorRan = true;
             return Task.FromResult(21);
         });
         ExampleAssertions.Equal(Result<int, CheckoutError>.Success(21), mappedSuccess);
-        ExampleAssertions.True(mapSelectorRan, "MapAsync must invoke the selector for a success.");
+        ExampleAssertions.True(mapSelectorRan, "ToResultAsync must invoke the selector for a success.");
 
         var mapShortCircuited = false;
-        var mappedFailure = await UnitResult<CheckoutError>.Failure(new CheckoutError("denied")).MapAsync(() =>
+        var mappedFailure = await UnitResult<CheckoutError>.Failure(new CheckoutError("denied")).ToResultAsync(() =>
         {
             mapShortCircuited = true;
             return Task.FromResult(21);
         });
         ExampleAssertions.Equal(Result<int, CheckoutError>.Failure(new CheckoutError("denied")), mappedFailure);
-        ExampleAssertions.True(!mapShortCircuited, "MapAsync must short-circuit a failure without invoking the selector.");
+        ExampleAssertions.True(!mapShortCircuited, "ToResultAsync must short-circuit a failure without invoking the selector.");
 
         using var workSource = new CancellationTokenSource();
         var mapTokens = new List<CancellationToken>();
-        var tokenMapped = await UnitResult<CheckoutError>.Success().MapAsync(
+        var tokenMapped = await UnitResult<CheckoutError>.Success().ToResultAsync(
             token =>
             {
                 mapTokens.Add(token);
@@ -460,7 +460,7 @@ internal static class UnitResultExamples
         ExampleAssertions.Equal(Result<int, CheckoutError>.Success(42), tokenMapped);
         ExampleAssertions.True(
             mapTokens.Count == 1 && mapTokens[0] == workSource.Token,
-            "MapAsync must forward the supplied token to the selector.");
+            "ToResultAsync must forward the supplied token to the selector.");
 
         var bindRan = false;
         var boundSuccess = await UnitResult<CheckoutError>.Success().BindAsync(() =>
@@ -480,22 +480,22 @@ internal static class UnitResultExamples
         ExampleAssertions.True(!bindShortCircuited, "BindAsync must short-circuit a failure without invoking the binder.");
 
         var mapValueRan = false;
-        var mappedValue = await UnitResult<CheckoutError>.Success().MapValueAsync(() =>
+        var mappedValue = await UnitResult<CheckoutError>.Success().ToResultValueAsync(() =>
         {
             mapValueRan = true;
             return ValueTask.FromResult(21);
         });
         ExampleAssertions.Equal(Result<int, CheckoutError>.Success(21), mappedValue);
-        ExampleAssertions.True(mapValueRan, "MapValueAsync must invoke the selector for a success.");
+        ExampleAssertions.True(mapValueRan, "ToResultValueAsync must invoke the selector for a success.");
 
         var mapValueShortCircuited = false;
-        var mappedValueFailure = await UnitResult<CheckoutError>.Failure(new CheckoutError("denied")).MapValueAsync(() =>
+        var mappedValueFailure = await UnitResult<CheckoutError>.Failure(new CheckoutError("denied")).ToResultValueAsync(() =>
         {
             mapValueShortCircuited = true;
             return ValueTask.FromResult(21);
         });
         ExampleAssertions.Equal(Result<int, CheckoutError>.Failure(new CheckoutError("denied")), mappedValueFailure);
-        ExampleAssertions.True(!mapValueShortCircuited, "MapValueAsync must short-circuit a failure.");
+        ExampleAssertions.True(!mapValueShortCircuited, "ToResultValueAsync must short-circuit a failure.");
 
         var bindValueRan = false;
         var boundValue = await UnitResult<CheckoutError>.Success().BindValueAsync(() =>

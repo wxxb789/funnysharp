@@ -138,7 +138,7 @@ public sealed class AsyncFunctionCompositionTests
             return ValueTask.FromResult(value * 2);
         };
 
-        var result = await first.ComposeAsync(second)(0);
+        var result = await first.ComposeValueAsync(second)(0);
 
         Assert.Equal(10, result);
         Assert.Equal(1, source.GetResultCount);
@@ -161,7 +161,7 @@ public sealed class AsyncFunctionCompositionTests
             return ValueTask.FromResult(value * 2);
         };
 
-        var resultTask = first.ComposeAsync(second)(0);
+        var resultTask = first.ComposeValueAsync(second)(0);
 
         Assert.False(resultTask.IsCompleted);
         Assert.Equal(["first"], calls);
@@ -179,7 +179,7 @@ public sealed class AsyncFunctionCompositionTests
         Func<int, ValueTask<int>> first = value => ValueTask.FromResult(value + 1);
         Func<int, ValueTask<int>> second = _ => source.CreateValueTask();
 
-        var result = await first.ComposeAsync(second)(1);
+        var result = await first.ComposeValueAsync(second)(1);
 
         Assert.Equal(10, result);
         Assert.Equal(1, source.GetResultCount);
@@ -197,7 +197,7 @@ public sealed class AsyncFunctionCompositionTests
             return ValueTask.FromResult(value);
         };
 
-        var actual = await Assert.ThrowsAsync<InvalidOperationException>(async () => await first.ComposeAsync(second)(1));
+        var actual = await Assert.ThrowsAsync<InvalidOperationException>(async () => await first.ComposeValueAsync(second)(1));
 
         Assert.Same(expected, actual);
         Assert.False(secondCalled);
@@ -211,7 +211,7 @@ public sealed class AsyncFunctionCompositionTests
         Func<int, ValueTask<int>> second = _ => ValueTask.FromException<int>(expected);
 
         var actual = await Assert.ThrowsAsync<InvalidOperationException>(
-            async () => await first.ComposeAsync(second)(1));
+            async () => await first.ComposeValueAsync(second)(1));
 
         Assert.Same(expected, actual);
     }
@@ -241,7 +241,7 @@ public sealed class AsyncFunctionCompositionTests
         var taskInvocationException = Record.Exception(
             () => { taskResult = taskFirst.ComposeAsync(taskSecond)(1); });
         var valueTaskInvocationException = Record.Exception(
-            () => { valueTaskResult = valueTaskFirst.ComposeAsync(valueTaskSecond)(1); });
+            () => { valueTaskResult = valueTaskFirst.ComposeValueAsync(valueTaskSecond)(1); });
 
         Assert.Null(taskInvocationException);
         Assert.Null(valueTaskInvocationException);
@@ -292,7 +292,7 @@ public sealed class AsyncFunctionCompositionTests
         };
         cancellationSource.Cancel();
 
-        var actual = await Assert.ThrowsAnyAsync<OperationCanceledException>(async () => await first.ComposeAsync(second)(3, cancellationSource.Token));
+        var actual = await Assert.ThrowsAnyAsync<OperationCanceledException>(async () => await first.ComposeValueAsync(second)(3, cancellationSource.Token));
 
         Assert.Equal(cancellationSource.Token, actual.CancellationToken);
         Assert.Equal([cancellationSource.Token, cancellationSource.Token], observedTokens);
@@ -308,12 +308,12 @@ public sealed class AsyncFunctionCompositionTests
 
         Assert.Throws<ArgumentNullException>(() => ((Func<int, Task<int>>)null!).ComposeAsync(task));
         Assert.Throws<ArgumentNullException>(() => task.ComposeAsync<int, int, int>(null!));
-        Assert.Throws<ArgumentNullException>(() => ((Func<int, ValueTask<int>>)null!).ComposeAsync(valueTask));
-        Assert.Throws<ArgumentNullException>(() => valueTask.ComposeAsync<int, int, int>(null!));
+        Assert.Throws<ArgumentNullException>(() => ((Func<int, ValueTask<int>>)null!).ComposeValueAsync(valueTask));
+        Assert.Throws<ArgumentNullException>(() => valueTask.ComposeValueAsync<int, int, int>(null!));
         Assert.Throws<ArgumentNullException>(() => ((Func<int, CancellationToken, Task<int>>)null!).ComposeAsync(cancellableTask));
         Assert.Throws<ArgumentNullException>(() => cancellableTask.ComposeAsync<int, int, int>(null!));
-        Assert.Throws<ArgumentNullException>(() => ((Func<int, CancellationToken, ValueTask<int>>)null!).ComposeAsync(cancellableValueTask));
-        Assert.Throws<ArgumentNullException>(() => cancellableValueTask.ComposeAsync<int, int, int>(null!));
+        Assert.Throws<ArgumentNullException>(() => ((Func<int, CancellationToken, ValueTask<int>>)null!).ComposeValueAsync(cancellableValueTask));
+        Assert.Throws<ArgumentNullException>(() => cancellableValueTask.ComposeValueAsync<int, int, int>(null!));
     }
 
     [Fact]

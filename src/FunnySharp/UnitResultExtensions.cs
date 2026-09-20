@@ -99,7 +99,7 @@ public static class UnitResultExtensions
     /// <returns>A task that produces the transformed success or preserves the existing failure.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="selector"/> is null.</exception>
     /// <exception cref="InvalidOperationException"><paramref name="result"/> is the default value.</exception>
-    public static Task<Result<TResult, TError>> MapAsync<TError, TResult>(
+    public static Task<Result<TResult, TError>> ToResultAsync<TError, TResult>(
         this UnitResult<TError> result,
         Func<Task<TResult>> selector)
     {
@@ -110,7 +110,7 @@ public static class UnitResultExtensions
             return Task.FromResult(Result<TResult, TError>.Failure(error!));
         }
 
-        return MapAsyncCore<TError, TResult>(selector);
+        return ToResultAsyncCore<TError, TResult>(selector);
     }
 
     /// <summary>
@@ -124,7 +124,7 @@ public static class UnitResultExtensions
     /// <returns>A task that produces the transformed success or preserves the existing failure.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="selector"/> is null.</exception>
     /// <exception cref="InvalidOperationException"><paramref name="result"/> is the default value.</exception>
-    public static Task<Result<TResult, TError>> MapAsync<TError, TResult>(
+    public static Task<Result<TResult, TError>> ToResultAsync<TError, TResult>(
         this UnitResult<TError> result,
         Func<CancellationToken, Task<TResult>> selector,
         CancellationToken cancellationToken)
@@ -136,7 +136,7 @@ public static class UnitResultExtensions
             return Task.FromResult(Result<TResult, TError>.Failure(error!));
         }
 
-        return MapAsyncCore<TError, TResult>(selector, cancellationToken);
+        return ToResultAsyncCore<TError, TResult>(selector, cancellationToken);
     }
 
     /// <summary>
@@ -149,7 +149,7 @@ public static class UnitResultExtensions
     /// <returns>A value task that produces the transformed success or preserves the existing failure.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="selector"/> is null.</exception>
     /// <exception cref="InvalidOperationException"><paramref name="result"/> is the default value.</exception>
-    public static ValueTask<Result<TResult, TError>> MapValueAsync<TError, TResult>(
+    public static ValueTask<Result<TResult, TError>> ToResultValueAsync<TError, TResult>(
         this UnitResult<TError> result,
         Func<ValueTask<TResult>> selector)
     {
@@ -160,7 +160,7 @@ public static class UnitResultExtensions
             return ValueTask.FromResult(Result<TResult, TError>.Failure(error!));
         }
 
-        return MapValueAsyncCore<TError, TResult>(selector);
+        return ToResultValueAsyncCore<TError, TResult>(selector);
     }
 
     /// <summary>
@@ -174,7 +174,7 @@ public static class UnitResultExtensions
     /// <returns>A value task that produces the transformed success or preserves the existing failure.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="selector"/> is null.</exception>
     /// <exception cref="InvalidOperationException"><paramref name="result"/> is the default value.</exception>
-    public static ValueTask<Result<TResult, TError>> MapValueAsync<TError, TResult>(
+    public static ValueTask<Result<TResult, TError>> ToResultValueAsync<TError, TResult>(
         this UnitResult<TError> result,
         Func<CancellationToken, ValueTask<TResult>> selector,
         CancellationToken cancellationToken)
@@ -186,7 +186,7 @@ public static class UnitResultExtensions
             return ValueTask.FromResult(Result<TResult, TError>.Failure(error!));
         }
 
-        return MapValueAsyncCore<TError, TResult>(selector, cancellationToken);
+        return ToResultValueAsyncCore<TError, TResult>(selector, cancellationToken);
     }
 
     /// <summary>
@@ -293,7 +293,7 @@ public static class UnitResultExtensions
         ValueTask<Result<TValue, TError>> result) =>
         (await result.ConfigureAwait(false)).ToUnitResult<TValue, TError>();
 
-    private static Task<Result<TResult, TError>> MapAsyncCore<TError, TResult>(
+    private static Task<Result<TResult, TError>> ToResultAsyncCore<TError, TResult>(
         Func<Task<TResult>> selector)
     {
         try
@@ -308,7 +308,7 @@ public static class UnitResultExtensions
         }
     }
 
-    private static Task<Result<TResult, TError>> MapAsyncCore<TError, TResult>(
+    private static Task<Result<TResult, TError>> ToResultAsyncCore<TError, TResult>(
         Func<CancellationToken, Task<TResult>> selector,
         CancellationToken cancellationToken)
     {
@@ -324,7 +324,7 @@ public static class UnitResultExtensions
         }
     }
 
-    private static ValueTask<Result<TResult, TError>> MapValueAsyncCore<TError, TResult>(
+    private static ValueTask<Result<TResult, TError>> ToResultValueAsyncCore<TError, TResult>(
         Func<ValueTask<TResult>> selector)
     {
         try
@@ -340,7 +340,7 @@ public static class UnitResultExtensions
         }
     }
 
-    private static ValueTask<Result<TResult, TError>> MapValueAsyncCore<TError, TResult>(
+    private static ValueTask<Result<TResult, TError>> ToResultValueAsyncCore<TError, TResult>(
         Func<CancellationToken, ValueTask<TResult>> selector,
         CancellationToken cancellationToken)
     {

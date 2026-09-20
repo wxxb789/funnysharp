@@ -73,6 +73,91 @@ public static class AsyncEnumerablePipelineExtensions
         return ChooseValueAsyncCore(source, chooser);
     }
 
+    /// <summary>
+    /// Produces the running aggregate of an asynchronous sequence with a synchronous accumulator
+    /// function, yielding the accumulator after each element.
+    /// </summary>
+    /// <typeparam name="TSource">The source item type.</typeparam>
+    /// <typeparam name="TAccumulate">The accumulator type.</typeparam>
+    /// <param name="source">The asynchronous sequence to aggregate.</param>
+    /// <param name="seed">The initial accumulator, which is never itself yielded.</param>
+    /// <param name="accumulate">The function that combines the accumulator with each source item.</param>
+    /// <returns>
+    /// A deferred asynchronous sequence of one accumulated value per source item, in source order.
+    /// The seed is not yielded; an empty source yields no elements; for a non-empty source the
+    /// last yielded value equals <c>await source.AggregateAsync(seed, accumulate)</c>.
+    /// </returns>
+    /// <exception cref="ArgumentNullException">
+    /// <paramref name="source"/> or <paramref name="accumulate"/> is <see langword="null"/>.
+    /// </exception>
+    public static IAsyncEnumerable<TAccumulate> Scan<TSource, TAccumulate>(
+        this IAsyncEnumerable<TSource> source,
+        TAccumulate seed,
+        Func<TAccumulate, TSource, TAccumulate> accumulate)
+    {
+        ArgumentNullException.ThrowIfNull(source);
+        ArgumentNullException.ThrowIfNull(accumulate);
+
+        return ScanValueAsyncCore(
+            source,
+            seed,
+            (accumulator, item, _) => ValueTask.FromResult(accumulate(accumulator, item)));
+    }
+
+    /// <summary>
+    /// Produces the running aggregate of an asynchronous sequence with a ValueTask-based
+    /// accumulator function, yielding the accumulator after each element.
+    /// </summary>
+    /// <typeparam name="TSource">The source item type.</typeparam>
+    /// <typeparam name="TAccumulate">The accumulator type.</typeparam>
+    /// <param name="source">The asynchronous sequence to aggregate.</param>
+    /// <param name="seed">The initial accumulator, which is never itself yielded.</param>
+    /// <param name="accumulate">The ValueTask-based function that combines the accumulator with each source item.</param>
+    /// <returns>
+    /// A deferred asynchronous sequence of one accumulated value per source item, in source order.
+    /// The seed is not yielded; an empty source yields no elements.
+    /// </returns>
+    /// <exception cref="ArgumentNullException">
+    /// <paramref name="source"/> or <paramref name="accumulate"/> is <see langword="null"/>.
+    /// </exception>
+    public static IAsyncEnumerable<TAccumulate> ScanValueAsync<TSource, TAccumulate>(
+        this IAsyncEnumerable<TSource> source,
+        TAccumulate seed,
+        Func<TAccumulate, TSource, ValueTask<TAccumulate>> accumulate)
+    {
+        ArgumentNullException.ThrowIfNull(source);
+        ArgumentNullException.ThrowIfNull(accumulate);
+
+        return ScanValueAsyncCore(source, seed, (accumulator, item, _) => accumulate(accumulator, item));
+    }
+
+    /// <summary>
+    /// Produces the running aggregate of an asynchronous sequence with a cancellation-aware
+    /// ValueTask-based accumulator function, yielding the accumulator after each element.
+    /// </summary>
+    /// <typeparam name="TSource">The source item type.</typeparam>
+    /// <typeparam name="TAccumulate">The accumulator type.</typeparam>
+    /// <param name="source">The asynchronous sequence to aggregate.</param>
+    /// <param name="seed">The initial accumulator, which is never itself yielded.</param>
+    /// <param name="accumulate">The accumulator that receives the enumeration cancellation token.</param>
+    /// <returns>
+    /// A deferred asynchronous sequence of one accumulated value per source item, in source order.
+    /// The seed is not yielded; an empty source yields no elements.
+    /// </returns>
+    /// <exception cref="ArgumentNullException">
+    /// <paramref name="source"/> or <paramref name="accumulate"/> is <see langword="null"/>.
+    /// </exception>
+    public static IAsyncEnumerable<TAccumulate> ScanValueAsync<TSource, TAccumulate>(
+        this IAsyncEnumerable<TSource> source,
+        TAccumulate seed,
+        Func<TAccumulate, TSource, CancellationToken, ValueTask<TAccumulate>> accumulate)
+    {
+        ArgumentNullException.ThrowIfNull(source);
+        ArgumentNullException.ThrowIfNull(accumulate);
+
+        return ScanValueAsyncCore(source, seed, accumulate);
+    }
+
     private static async IAsyncEnumerable<TResult> ChooseValueAsyncCore<TSource, TResult>(
         IAsyncEnumerable<TSource> source,
         Func<TSource, CancellationToken, ValueTask<Option<TResult>>> chooser,
@@ -85,6 +170,20 @@ public static class AsyncEnumerablePipelineExtensions
             {
                 yield return value!;
             }
+        }
+    }
+
+    private static async IAsyncEnumerable<TAccumulate> ScanValueAsyncCore<TSource, TAccumulate>(
+        IAsyncEnumerable<TSource> source,
+        TAccumulate seed,
+        Func<TAccumulate, TSource, CancellationToken, ValueTask<TAccumulate>> accumulate,
+        [EnumeratorCancellation] CancellationToken cancellationToken = default)
+    {
+        var accumulator = seed;
+        await foreach (var item in source.WithCancellation(cancellationToken).ConfigureAwait(false))
+        {
+            accumulator = await accumulate(accumulator, item, cancellationToken).ConfigureAwait(false);
+            yield return accumulator;
         }
     }
 }

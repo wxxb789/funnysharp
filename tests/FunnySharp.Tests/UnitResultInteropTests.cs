@@ -91,16 +91,16 @@ public sealed class UnitResultInteropTests
     }
 
     [Fact]
-    public void UnitResultAndResultRoundTripThroughMap()
+    public void UnitResultAndResultRoundTripThroughToResult()
     {
         var success = UnitResult<string>.Success();
         var failure = UnitResult<string>.Failure("bad");
         var resultSuccess = Result<int, string>.Success(42);
         var resultFailure = Result<int, string>.Failure("bad");
 
-        Assert.Equal(success, success.Map(() => 42).ToUnitResult());
-        Assert.Equal(failure, failure.Map(() => 42).ToUnitResult());
-        Assert.Equal(resultSuccess, resultSuccess.ToUnitResult().Map(() => 42));
-        Assert.Equal(resultFailure, resultFailure.ToUnitResult().Map(() => 42));
+        Assert.Equal(success, success.ToResult(() => 42).ToUnitResult());
+        Assert.Equal(failure, failure.ToResult(() => 42).ToUnitResult());
+        Assert.Equal(resultSuccess, resultSuccess.ToUnitResult().ToResult(() => 42));
+        Assert.Equal(resultFailure, resultFailure.ToUnitResult().ToResult(() => 42));
     }
 }
