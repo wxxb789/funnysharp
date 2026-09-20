@@ -25,7 +25,10 @@ contracts and performance evidence; the rows below stay one line each.
 
 The BCL supplies every other carrier. Sequences stay on `IEnumerable<T>`, `IAsyncEnumerable<T>`, and
 span/memory views; `Task` and `ValueTask` are awaitables, not carriers; ordinary delegates
-(`Func`, `Action`, `StateTransition`) are the composition surface. No second carrier for any of the
+(`Func`, `Action`, `StateTransition`) are the composition surface. `NonEmpty<T>` is a cardinality
+guarantee over BCL lists — not an outcome carrier and not a collection — and `Location` is the
+experimental traversal-context carrier (`FS0017`, [stability inventory](stability-inventory.md)).
+No second carrier for any of the
 meanings above is added: `Maybe`, `Either`, `Fin`, `Try`, `IO`, `Reader`, `OptionAsync`, and async
 outcome wrappers remain out of scope ([product contract](product-contract.md)).
 
@@ -46,8 +49,10 @@ outcome wrappers remain out of scope ([product contract](product-contract.md)).
 - Eager fallbacks are plain parameters (`OrElse`, `Recover`, `GetValueOr`); lazy fallbacks are
   factories (`OrElseWith`, `RecoverWith`, `GetValueOrElse`); `GetValueOrDefault` is the only member
   that may return `default(T)`.
-- Sequence cardinality reserves the `*OrNone` suffix for a future goal (no current members); keyed lookups use `GetOption`; value conversion
-  uses `ToOption`.
+- Sequence cardinality and container/parse absence use the `*OrNone` suffix (`FirstOrNone`, `LastOrNone`,
+  `SingleOrNone`, `ElementAtOrNone`, `MinOrNone`/`MaxOrNone`, `ToNonEmptyOrNone`, `DequeueOrNone`,
+  `PopOrNone`, `PeekOrNone`, `IndexOfOrNone`, `RemoveOrNone`, the generic `ParseOrNone`, and the named
+  `Parse*OrNone` bridges); keyed lookups use `GetOption`; value conversion uses `ToOption`.
 - LINQ `Select`/`SelectMany` exist only where `Bind` exists (never `Where`) and stay secondary to
   the member-centric vocabulary. `Bind` does not imply a LINQ bridge: `UnitResult` has none.
 - No aliases, no competitor naming, no naming concessions.
@@ -118,7 +123,11 @@ outcome wrappers remain out of scope ([product contract](product-contract.md)).
 | Verb | Meaning | Present on | Output shape | Async forms | Key contract |
 | --- | --- | --- | --- | --- | --- |
 | `Sequence` | Collects a sequence of carriers into a carrier of the materialized list. | `IEnumerable<Option/Result/Validation/UnitResult>` | `Option<IReadOnlyList<T>>`, `Result<IReadOnlyList<T>, TError>`, `Validation<IReadOnlyList<T>, TError>`, or `UnitResult<TError>` | `SequenceAsync` (± token) | Eager; single enumeration; source order; `Option`/`Result`/`UnitResult` fail fast, `Validation` accumulates every error. |
-| `Traverse` | Applies a carrier-producing selector to every item and collects its successes. | `IEnumerable<T>` | Same as `Sequence` | `TraverseAsync` (sync selector), `TraverseValueAsync` (± token) | Selector invoked once per reached item in source order; same fail-fast versus accumulation split; iterative (no recursion depth). |
+| `Traverse` | Applies a carrier-producing selector to every item and collects its successes. | `IEnumerable<T>` (plain, indexed, dictionary, located), `IReadOnlyDictionary<TKey, TValue>` (keyed, located), `IAsyncEnumerable<T>` (plain, located) | Same as `Sequence`; dictionary forms produce `carrier<IReadOnlyDictionary<TKey, TResult>>` | `TraverseAsync` (sync selector), `TraverseValueAsync` (± token); located async forms are experimental (`FS0017`) | Selector invoked once per reached item in source order; indexed/keyed/located overloads pass each reached item's index, key, or composed `Location`; dictionary forms preserve the dictionary shape; same fail-fast versus accumulation split; iterative (no recursion depth). |
+| `*OrNone` | Cardinality access whose absence is a value with exactly one meaning per member. | `IEnumerable<T>`, `IAsyncEnumerable<T>` (mirrored set) | `Option<T>`; `ToNonEmptyOrNone` produces `Option<NonEmpty<T>>` | `FirstOrNoneAsync`, `LastOrNoneAsync`, `SingleOrNoneAsync`, `ElementAtOrNoneAsync`, `MinOrNoneAsync`, `MaxOrNoneAsync`, `ToNonEmptyOrNoneAsync` (± token) | Eager; single enumeration; `SingleOrNone` collapses empty-or-multiple (documented; `ToNonEmptyOrNone` + `Rest.Count` distinguishes); `Min`/`Max` skip nulls, all-null or empty is `None`. |
+| `Partition` | Splits a sequence in one enumeration into meaning-bearing sides. | `IEnumerable<T>` (predicate, `Option`, `Result`, `UnitResult`), `IAsyncEnumerable<T>` (predicate, `Result`) | `Partition<T>`, `OptionPartition<T>`, `ResultPartition<TValue, TError>`, `UnitResultPartition<TError>` | `PartitionAsync` (predicate, `Result`; ± token) | Single enumeration; source order preserved per side; valueless sides (`Nones`, `Succeeded`) are counts; `ResultPartition` keeps errors, not failed values. |
+| `ZipExact`/`ZipExactOrNone` | Combines two sequences exactly, rejecting unequal lengths. | `IEnumerable<T>` | `Option`/`Result` of `IReadOnlyList<(TFirst First, TSecond Second)>` | — | Unequal lengths are `None` or `Failure(lengthError(firstCount, secondCount))` with both total counts observable; each source enumerated once; truncation stays with BCL `Zip`. |
+| `WhereNotNull` | Filters nulls in one deferred pass. | `IEnumerable<T?>`, `IAsyncEnumerable<T?>` (class and struct overloads) | Same sequence carrier without nulls | — (bare verb; no callback exists) | Deferred; single pass per consumer enumeration; source order; no caching or intermediate collection. |
 | `Choose` | Fused Option-aware filter-map. | `IEnumerable<T>`, `IAsyncEnumerable<T>` (bare verb) | `IEnumerable<TResult>` / `IAsyncEnumerable<TResult>` | `ChooseValueAsync` (cancellation-aware chooser receives the enumeration token) | Deferred; single pass per consumer enumeration; source order; no intermediate collection or caching. |
 | `Scan` | Running aggregate: yields the accumulator after each element. | `IEnumerable<T>`, `IAsyncEnumerable<T>` (bare verb) | Sequence of accumulators | `ScanValueAsync` (cancellation-aware accumulator receives the enumeration token) | Deferred; the seed is never yielded; an empty source yields nothing; for a non-empty source the last value equals `Aggregate`/`AggregateAsync`; accumulator exceptions propagate unchanged. |
 
@@ -138,6 +147,8 @@ outcome wrappers remain out of scope ([product contract](product-contract.md)).
 | `ToResult` | Converts absence or no-value success into a `Result`. | `Option` (error/factory), `UnitResult` (value factory) | `Result<TValue, TError>` | `ToResultAsync`, `ToResultValueAsync` (± token, `UnitResult`) | The `Option` error factory runs only for `None`; the `UnitResult` value factory runs only for success. |
 | `ToUnitResult` | Drops the successful value and preserves the failure. | `Result`, `Option` (error/factory) | `UnitResult<TError>` | `ToUnitResultAsync` over `Task` and `ValueTask` sources | No dummy value is materialized; the `Option` error factory runs only for `None`. |
 | `ToNullable` | Unwraps a value-type option. | `Option<T>` where `T : struct` | `Nullable<T>` | — | `None` becomes `null`; never throws for a present option. |
+| `ParseOrNone` | Parses a string through `IParsable<T>` into an option; named `Parse*OrNone` bridges cover the common types. | `string` (± `IFormatProvider`) | `Option<T>` | — | Never throws for a parse failure; named bridges parse with the current culture; the provider overload forwards it unchanged; a null input string is an eager `ArgumentNullException`. |
+| Container `*OrNone` | Translates container Try-pattern or sentinel outcomes into options. | `Queue<T>`, `Stack<T>`, `PriorityQueue<TElement, TPriority>`, `IList<T>`, `Dictionary<TKey, TValue>` | `Option<...>` | — | `None` means empty, not found, or an absent key exactly; mutating members (`DequeueOrNone`, `PopOrNone`, `RemoveOrNone`) mutate only on `Some`. |
 | `ToHttpResult`/`ToHttpResultAsync` | Maps a carrier to `IResult` with an explicit problem mapper. | `Option`, `Result`, `UnitResult`, `Validation`, `Effect` (FunnySharp.AspNetCore) | `IResult`, `Task<IResult>`, or `ValueTask<IResult>` | Task, `ValueTask`, and `Effect` source forms | Faults and cancellation are never converted into HTTP responses; the effect forms call `RunAsync` with exactly `RequestAborted`. |
 
 ### Effects
@@ -202,6 +213,10 @@ hierarchy), with these invariants:
 - For a non-empty source, the last yielded value equals `Aggregate(seed, accumulate)` (or
   `AggregateAsync` for the asynchronous form).
 
+`NonEmpty<T>.Aggregate(Func<T, T, T>)` is the one seedless fold addition: it cannot encounter
+emptiness because the type carries the guarantee (`ToNonEmptyOrNone` is its only constructor
+path), where BCL `Enumerable.Aggregate` throws `InvalidOperationException` on an empty sequence.
+
 ## Deliberate Absences
 
 | Absence | Reason |
@@ -219,6 +234,13 @@ hierarchy), with these invariants:
 | `Zip` combine beyond arity 4 | Unbounded tuple towers are rejected; wider forms nest or use `Traverse`. |
 | `TraverseParallelValueAsync` over `UnitResult<TError>` | Deferred to the concurrency goal absent a concrete consumer. |
 | Task-carrier operator universe (including `PipeAsync`) | "Mixed sync/async chains use ordinary `await` plus the synchronous vocabulary" (product contract); there is no `MapAsync`-returning-carrier chaining universe. |
+| `Inspect`/`Pairwise`/`SlidingWindow` | `Inspect` duplicates `Tap`; no Goal 17 capability needs adjacent-pair or window shapes and the product contract forbids speculative feature APIs (decided once in Goal 17, decision E57). |
+| `AverageOrNone` towers | Per-numeric-type overload towers rejected (decision E70); compose `ParseOrNone` with `Aggregate`, or check emptiness explicitly before BCL `Average`. |
+| Async `ZipExact`, async indexed/keyed traversal mirrors | Decision E88: adopt the capability set on async carriers, not every overload; the exact-combination safety story is the synchronous data-cleaning path. |
+| Concurrent container `*OrNone` bridges | `ConcurrentQueue`/`ConcurrentStack`/`ConcurrentDictionary` already expose Try-pattern members; wrapping them adds no safety. |
+| A second seeded fold | BCL `Aggregate`/`AggregateAsync` stays canonical; only the seedless `NonEmpty<T>.Aggregate` adds the cannot-be-empty guarantee. |
+| `NonEmpty<T>` as a collection | It implements no `IEnumerable` and no indexer; materialize with `ToReadOnlyList()` or use LINQ over `Rest`. |
+| Duplicate-key dictionary building | BCL `ToLookup`/`GroupBy` distinguish duplicates without loss; no duplicate-sensitive builder is added. |
 
 ## Forbidden Mechanisms
 

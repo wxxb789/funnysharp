@@ -158,6 +158,48 @@ public static class AsyncEnumerablePipelineExtensions
         return ScanValueAsyncCore(source, seed, accumulate);
     }
 
+    /// <summary>
+    /// Filters out null items, yielding the non-null items in source order.
+    /// </summary>
+    /// <typeparam name="T">The non-null item type.</typeparam>
+    /// <param name="source">The asynchronous sequence to filter.</param>
+    /// <returns>A deferred asynchronous sequence containing the non-null items in source order.</returns>
+    /// <remarks>
+    /// The filter is deferred and streams one item at a time. Like the other members of this class,
+    /// no cancellation token is accepted because there is no callback to forward one to; enumeration
+    /// cancellation is observed through the consumer's <c>WithCancellation</c>.
+    /// </remarks>
+    /// <exception cref="ArgumentNullException"><paramref name="source"/> is <see langword="null"/>.</exception>
+    public static IAsyncEnumerable<T> WhereNotNull<T>(this IAsyncEnumerable<T?> source)
+        where T : class
+    {
+        ArgumentNullException.ThrowIfNull(source);
+
+        return WhereNotNullReferenceAsyncCore(source);
+    }
+
+    /// <summary>
+    /// Filters out items without a value, yielding the underlying values in source order.
+    /// </summary>
+    /// <typeparam name="T">The underlying value type.</typeparam>
+    /// <param name="source">The asynchronous sequence to filter.</param>
+    /// <returns>
+    /// A deferred asynchronous sequence containing the underlying values in source order.
+    /// </returns>
+    /// <remarks>
+    /// The filter is deferred and streams one item at a time. Like the other members of this class,
+    /// no cancellation token is accepted because there is no callback to forward one to; enumeration
+    /// cancellation is observed through the consumer's <c>WithCancellation</c>.
+    /// </remarks>
+    /// <exception cref="ArgumentNullException"><paramref name="source"/> is <see langword="null"/>.</exception>
+    public static IAsyncEnumerable<T> WhereNotNull<T>(this IAsyncEnumerable<T?> source)
+        where T : struct
+    {
+        ArgumentNullException.ThrowIfNull(source);
+
+        return WhereNotNullNullableAsyncCore(source);
+    }
+
     private static async IAsyncEnumerable<TResult> ChooseValueAsyncCore<TSource, TResult>(
         IAsyncEnumerable<TSource> source,
         Func<TSource, CancellationToken, ValueTask<Option<TResult>>> chooser,
@@ -184,6 +226,33 @@ public static class AsyncEnumerablePipelineExtensions
         {
             accumulator = await accumulate(accumulator, item, cancellationToken).ConfigureAwait(false);
             yield return accumulator;
+        }
+    }
+
+    private static async IAsyncEnumerable<T> WhereNotNullReferenceAsyncCore<T>(
+        IAsyncEnumerable<T?> source,
+        [EnumeratorCancellation] CancellationToken cancellationToken = default)
+    {
+        await foreach (var item in source.WithCancellation(cancellationToken).ConfigureAwait(false))
+        {
+            if (item is not null)
+            {
+                yield return item;
+            }
+        }
+    }
+
+    private static async IAsyncEnumerable<T> WhereNotNullNullableAsyncCore<T>(
+        IAsyncEnumerable<T?> source,
+        [EnumeratorCancellation] CancellationToken cancellationToken = default)
+        where T : struct
+    {
+        await foreach (var item in source.WithCancellation(cancellationToken).ConfigureAwait(false))
+        {
+            if (item.HasValue)
+            {
+                yield return item.GetValueOrDefault();
+            }
         }
     }
 }

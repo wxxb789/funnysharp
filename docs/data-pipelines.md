@@ -5,6 +5,8 @@ Use the standard .NET 10 `Select`, `Where`, `SelectMany`, `Take`, `Skip`, orderi
 materialization operations. `Pipe` connects whole-value stages. FunnySharp adds only the fused
 filter-map operation `Choose`, the running-aggregate operator `Scan`, and caller-buffered
 span/memory operations that LINQ cannot express without changing lifetime or allocation behavior.
+Cardinality access, the non-empty guarantee, partitioning, exact combination, container/parse
+bridges, and traversal context live in [collections](collections.md).
 
 ## Streaming Sequences
 

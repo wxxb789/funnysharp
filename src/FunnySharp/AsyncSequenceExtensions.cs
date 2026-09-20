@@ -1,3 +1,5 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace FunnySharp;
 
 /// <summary>
@@ -452,6 +454,396 @@ public static class AsyncSequenceExtensions
         ArgumentNullException.ThrowIfNull(selector);
 
         return TraverseValidationValueAsyncCore(source, selector, cancellationToken);
+    }
+
+    /// <summary>
+    /// Asynchronously applies a location-aware option-producing selector to each source item and
+    /// collects the values when every result is present.
+    /// </summary>
+    /// <typeparam name="TSource">The source item type.</typeparam>
+    /// <typeparam name="TResult">The selected option value type.</typeparam>
+    /// <param name="source">The asynchronous sequence to traverse.</param>
+    /// <param name="root">The location root that each item's location is composed from.</param>
+    /// <param name="selector">
+    /// The location-aware option-producing selector, invoked once per reached item with the item's
+    /// composed location, <c>root.At(index)</c>, and the item.
+    /// </param>
+    /// <param name="cancellationToken">The token passed to the asynchronous enumerator.</param>
+    /// <returns>
+    /// An asynchronous operation that produces an option containing the selected values in source
+    /// order, or <c>None</c> when a selector result is absent.
+    /// </returns>
+    /// <remarks>
+    /// This method is marked <c>[Experimental("FS0017")]</c>: it carries no compatibility promise and
+    /// may change or be removed until the Goal 17 location-context design is promoted. A new location
+    /// is composed per item via <c>root.At(index)</c>. Nesting composes contexts: an inner traversal's
+    /// failures carry locations relative to the inner root, and the outer level passes its item's
+    /// location, such as <c>customerLocation.Property("addresses")</c>, as the inner root, so a
+    /// composed path such as <c>customers[17].addresses[2].postalCode</c> emerges without application
+    /// code assembling it.
+    /// </remarks>
+    /// <exception cref="ArgumentNullException">
+    /// <paramref name="source"/>, <paramref name="root"/>, or <paramref name="selector"/> is
+    /// <see langword="null"/>.
+    /// </exception>
+    [Experimental("FS0017")]
+    public static ValueTask<Option<IReadOnlyList<TResult>>> TraverseAsync<TSource, TResult>(
+        this IAsyncEnumerable<TSource> source,
+        Location root,
+        Func<Location, TSource, Option<TResult>> selector,
+        CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(source);
+        ArgumentNullException.ThrowIfNull(root);
+        ArgumentNullException.ThrowIfNull(selector);
+
+        var index = 0;
+        return TraverseOptionValueAsyncCore(
+            source,
+            (item, _) => ValueTask.FromResult(selector(root.At(index++), item)),
+            cancellationToken);
+    }
+
+    /// <summary>
+    /// Asynchronously applies a location-aware result-producing selector to each source item and
+    /// collects the values when every result is successful.
+    /// </summary>
+    /// <typeparam name="TSource">The source item type.</typeparam>
+    /// <typeparam name="TResult">The selected result value type.</typeparam>
+    /// <typeparam name="TError">The result error type.</typeparam>
+    /// <param name="source">The asynchronous sequence to traverse.</param>
+    /// <param name="root">The location root that each item's location is composed from.</param>
+    /// <param name="selector">
+    /// The location-aware result-producing selector, invoked once per reached item with the item's
+    /// composed location, <c>root.At(index)</c>, and the item.
+    /// </param>
+    /// <param name="cancellationToken">The token passed to the asynchronous enumerator.</param>
+    /// <returns>
+    /// An asynchronous operation that produces a successful result containing the selected values in
+    /// source order, or the first selector failure.
+    /// </returns>
+    /// <remarks>
+    /// This method is marked <c>[Experimental("FS0017")]</c>: it carries no compatibility promise and
+    /// may change or be removed until the Goal 17 location-context design is promoted. A new location
+    /// is composed per item via <c>root.At(index)</c>. Nesting composes contexts: an inner traversal's
+    /// failures carry locations relative to the inner root, and the outer level passes its item's
+    /// location, such as <c>customerLocation.Property("addresses")</c>, as the inner root, so a
+    /// composed path such as <c>customers[17].addresses[2].postalCode</c> emerges without application
+    /// code assembling it.
+    /// </remarks>
+    /// <exception cref="ArgumentNullException">
+    /// <paramref name="source"/>, <paramref name="root"/>, or <paramref name="selector"/> is
+    /// <see langword="null"/>.
+    /// </exception>
+    [Experimental("FS0017")]
+    public static ValueTask<Result<IReadOnlyList<TResult>, TError>> TraverseAsync<TSource, TResult, TError>(
+        this IAsyncEnumerable<TSource> source,
+        Location root,
+        Func<Location, TSource, Result<TResult, TError>> selector,
+        CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(source);
+        ArgumentNullException.ThrowIfNull(root);
+        ArgumentNullException.ThrowIfNull(selector);
+
+        var index = 0;
+        return TraverseResultValueAsyncCore(
+            source,
+            (item, _) => ValueTask.FromResult(selector(root.At(index++), item)),
+            cancellationToken);
+    }
+
+    /// <summary>
+    /// Asynchronously applies a location-aware unit-result-producing selector to each source item,
+    /// stopping at the first failure.
+    /// </summary>
+    /// <typeparam name="TSource">The source item type.</typeparam>
+    /// <typeparam name="TError">The failure value type.</typeparam>
+    /// <param name="source">The asynchronous sequence to traverse.</param>
+    /// <param name="root">The location root that each item's location is composed from.</param>
+    /// <param name="selector">
+    /// The location-aware unit-result-producing selector, invoked once per reached item with the
+    /// item's composed location, <c>root.At(index)</c>, and the item.
+    /// </param>
+    /// <param name="cancellationToken">The token passed to the asynchronous enumerator.</param>
+    /// <returns>
+    /// An asynchronous operation that produces success when every selector result is successful;
+    /// otherwise, the first failed selector's error.
+    /// </returns>
+    /// <remarks>
+    /// This method is marked <c>[Experimental("FS0017")]</c>: it carries no compatibility promise and
+    /// may change or be removed until the Goal 17 location-context design is promoted. A new location
+    /// is composed per item via <c>root.At(index)</c>. Nesting composes contexts: an inner traversal's
+    /// failures carry locations relative to the inner root, and the outer level passes its item's
+    /// location, such as <c>customerLocation.Property("addresses")</c>, as the inner root, so a
+    /// composed path such as <c>customers[17].addresses[2].postalCode</c> emerges without application
+    /// code assembling it.
+    /// </remarks>
+    /// <exception cref="ArgumentNullException">
+    /// <paramref name="source"/>, <paramref name="root"/>, or <paramref name="selector"/> is
+    /// <see langword="null"/>.
+    /// </exception>
+    [Experimental("FS0017")]
+    public static ValueTask<UnitResult<TError>> TraverseAsync<TSource, TError>(
+        this IAsyncEnumerable<TSource> source,
+        Location root,
+        Func<Location, TSource, UnitResult<TError>> selector,
+        CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(source);
+        ArgumentNullException.ThrowIfNull(root);
+        ArgumentNullException.ThrowIfNull(selector);
+
+        var index = 0;
+        return TraverseUnitResultValueAsyncCore(
+            source,
+            (item, _) => ValueTask.FromResult(selector(root.At(index++), item)),
+            cancellationToken);
+    }
+
+    /// <summary>
+    /// Asynchronously applies a location-aware validation-producing selector to each source item and
+    /// collects values or accumulates all validation errors.
+    /// </summary>
+    /// <typeparam name="TSource">The source item type.</typeparam>
+    /// <typeparam name="TResult">The selected validation value type.</typeparam>
+    /// <typeparam name="TError">The validation error type.</typeparam>
+    /// <param name="source">The asynchronous sequence to traverse.</param>
+    /// <param name="root">The location root that each item's location is composed from.</param>
+    /// <param name="selector">
+    /// The location-aware validation-producing selector, invoked once per reached item with the item's
+    /// composed location, <c>root.At(index)</c>, and the item.
+    /// </param>
+    /// <param name="cancellationToken">The token passed to the asynchronous enumerator.</param>
+    /// <returns>
+    /// An asynchronous operation that produces a valid validation containing the selected values in
+    /// source order, or an invalid validation containing all selector errors in source and
+    /// per-validation order.
+    /// </returns>
+    /// <remarks>
+    /// This method is marked <c>[Experimental("FS0017")]</c>: it carries no compatibility promise and
+    /// may change or be removed until the Goal 17 location-context design is promoted. A new location
+    /// is composed per item via <c>root.At(index)</c>. Nesting composes contexts: an inner traversal's
+    /// failures carry locations relative to the inner root, and the outer level passes its item's
+    /// location, such as <c>customerLocation.Property("addresses")</c>, as the inner root, so a
+    /// composed path such as <c>customers[17].addresses[2].postalCode</c> emerges without application
+    /// code assembling it.
+    /// </remarks>
+    /// <exception cref="ArgumentNullException">
+    /// <paramref name="source"/>, <paramref name="root"/>, or <paramref name="selector"/> is
+    /// <see langword="null"/>.
+    /// </exception>
+    [Experimental("FS0017")]
+    public static ValueTask<Validation<IReadOnlyList<TResult>, TError>> TraverseAsync<TSource, TResult, TError>(
+        this IAsyncEnumerable<TSource> source,
+        Location root,
+        Func<Location, TSource, Validation<TResult, TError>> selector,
+        CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(source);
+        ArgumentNullException.ThrowIfNull(root);
+        ArgumentNullException.ThrowIfNull(selector);
+
+        var index = 0;
+        return TraverseValidationValueAsyncCore(
+            source,
+            (item, _) => ValueTask.FromResult(selector(root.At(index++), item)),
+            cancellationToken);
+    }
+
+    /// <summary>
+    /// Asynchronously applies a location-aware ValueTask-based option-producing selector to each
+    /// source item and collects the values when every result is present.
+    /// </summary>
+    /// <typeparam name="TSource">The source item type.</typeparam>
+    /// <typeparam name="TResult">The selected option value type.</typeparam>
+    /// <param name="source">The asynchronous sequence to traverse.</param>
+    /// <param name="root">The location root that each item's location is composed from.</param>
+    /// <param name="selector">
+    /// The location-aware ValueTask-based option-producing selector, invoked once per reached item
+    /// with the item's composed location, <c>root.At(index)</c>, and the item.
+    /// </param>
+    /// <param name="cancellationToken">The token passed to the asynchronous enumerator.</param>
+    /// <returns>
+    /// An asynchronous operation that produces an option containing the selected values in source
+    /// order, or <c>None</c> when a selector result is absent.
+    /// </returns>
+    /// <remarks>
+    /// This method is marked <c>[Experimental("FS0017")]</c>: it carries no compatibility promise and
+    /// may change or be removed until the Goal 17 location-context design is promoted. A new location
+    /// is composed per item via <c>root.At(index)</c>. Nesting composes contexts: an inner traversal's
+    /// failures carry locations relative to the inner root, and the outer level passes its item's
+    /// location, such as <c>customerLocation.Property("addresses")</c>, as the inner root, so a
+    /// composed path such as <c>customers[17].addresses[2].postalCode</c> emerges without application
+    /// code assembling it. Each selector's ValueTask is awaited exactly once.
+    /// </remarks>
+    /// <exception cref="ArgumentNullException">
+    /// <paramref name="source"/>, <paramref name="root"/>, or <paramref name="selector"/> is
+    /// <see langword="null"/>.
+    /// </exception>
+    [Experimental("FS0017")]
+    public static ValueTask<Option<IReadOnlyList<TResult>>> TraverseValueAsync<TSource, TResult>(
+        this IAsyncEnumerable<TSource> source,
+        Location root,
+        Func<Location, TSource, ValueTask<Option<TResult>>> selector,
+        CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(source);
+        ArgumentNullException.ThrowIfNull(root);
+        ArgumentNullException.ThrowIfNull(selector);
+
+        var index = 0;
+        return TraverseOptionValueAsyncCore(
+            source,
+            (item, _) => selector(root.At(index++), item),
+            cancellationToken);
+    }
+
+    /// <summary>
+    /// Asynchronously applies a location-aware ValueTask-based result-producing selector to each
+    /// source item and collects the values when every result is successful.
+    /// </summary>
+    /// <typeparam name="TSource">The source item type.</typeparam>
+    /// <typeparam name="TResult">The selected result value type.</typeparam>
+    /// <typeparam name="TError">The result error type.</typeparam>
+    /// <param name="source">The asynchronous sequence to traverse.</param>
+    /// <param name="root">The location root that each item's location is composed from.</param>
+    /// <param name="selector">
+    /// The location-aware ValueTask-based result-producing selector, invoked once per reached item
+    /// with the item's composed location, <c>root.At(index)</c>, and the item.
+    /// </param>
+    /// <param name="cancellationToken">The token passed to the asynchronous enumerator.</param>
+    /// <returns>
+    /// An asynchronous operation that produces a successful result containing the selected values in
+    /// source order, or the first selector failure.
+    /// </returns>
+    /// <remarks>
+    /// This method is marked <c>[Experimental("FS0017")]</c>: it carries no compatibility promise and
+    /// may change or be removed until the Goal 17 location-context design is promoted. A new location
+    /// is composed per item via <c>root.At(index)</c>. Nesting composes contexts: an inner traversal's
+    /// failures carry locations relative to the inner root, and the outer level passes its item's
+    /// location, such as <c>customerLocation.Property("addresses")</c>, as the inner root, so a
+    /// composed path such as <c>customers[17].addresses[2].postalCode</c> emerges without application
+    /// code assembling it. Each selector's ValueTask is awaited exactly once.
+    /// </remarks>
+    /// <exception cref="ArgumentNullException">
+    /// <paramref name="source"/>, <paramref name="root"/>, or <paramref name="selector"/> is
+    /// <see langword="null"/>.
+    /// </exception>
+    [Experimental("FS0017")]
+    public static ValueTask<Result<IReadOnlyList<TResult>, TError>> TraverseValueAsync<TSource, TResult, TError>(
+        this IAsyncEnumerable<TSource> source,
+        Location root,
+        Func<Location, TSource, ValueTask<Result<TResult, TError>>> selector,
+        CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(source);
+        ArgumentNullException.ThrowIfNull(root);
+        ArgumentNullException.ThrowIfNull(selector);
+
+        var index = 0;
+        return TraverseResultValueAsyncCore(
+            source,
+            (item, _) => selector(root.At(index++), item),
+            cancellationToken);
+    }
+
+    /// <summary>
+    /// Asynchronously applies a location-aware ValueTask-based unit-result-producing selector to each
+    /// source item, stopping at the first failure.
+    /// </summary>
+    /// <typeparam name="TSource">The source item type.</typeparam>
+    /// <typeparam name="TError">The failure value type.</typeparam>
+    /// <param name="source">The asynchronous sequence to traverse.</param>
+    /// <param name="root">The location root that each item's location is composed from.</param>
+    /// <param name="selector">
+    /// The location-aware ValueTask-based unit-result-producing selector, invoked once per reached
+    /// item with the item's composed location, <c>root.At(index)</c>, and the item.
+    /// </param>
+    /// <param name="cancellationToken">The token passed to the asynchronous enumerator.</param>
+    /// <returns>
+    /// An asynchronous operation that produces success when every selector result is successful;
+    /// otherwise, the first failed selector's error.
+    /// </returns>
+    /// <remarks>
+    /// This method is marked <c>[Experimental("FS0017")]</c>: it carries no compatibility promise and
+    /// may change or be removed until the Goal 17 location-context design is promoted. A new location
+    /// is composed per item via <c>root.At(index)</c>. Nesting composes contexts: an inner traversal's
+    /// failures carry locations relative to the inner root, and the outer level passes its item's
+    /// location, such as <c>customerLocation.Property("addresses")</c>, as the inner root, so a
+    /// composed path such as <c>customers[17].addresses[2].postalCode</c> emerges without application
+    /// code assembling it. Each selector's ValueTask is awaited exactly once.
+    /// </remarks>
+    /// <exception cref="ArgumentNullException">
+    /// <paramref name="source"/>, <paramref name="root"/>, or <paramref name="selector"/> is
+    /// <see langword="null"/>.
+    /// </exception>
+    [Experimental("FS0017")]
+    public static ValueTask<UnitResult<TError>> TraverseValueAsync<TSource, TError>(
+        this IAsyncEnumerable<TSource> source,
+        Location root,
+        Func<Location, TSource, ValueTask<UnitResult<TError>>> selector,
+        CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(source);
+        ArgumentNullException.ThrowIfNull(root);
+        ArgumentNullException.ThrowIfNull(selector);
+
+        var index = 0;
+        return TraverseUnitResultValueAsyncCore(
+            source,
+            (item, _) => selector(root.At(index++), item),
+            cancellationToken);
+    }
+
+    /// <summary>
+    /// Asynchronously applies a location-aware ValueTask-based validation-producing selector to each
+    /// source item and collects values or accumulates all validation errors.
+    /// </summary>
+    /// <typeparam name="TSource">The source item type.</typeparam>
+    /// <typeparam name="TResult">The selected validation value type.</typeparam>
+    /// <typeparam name="TError">The validation error type.</typeparam>
+    /// <param name="source">The asynchronous sequence to traverse.</param>
+    /// <param name="root">The location root that each item's location is composed from.</param>
+    /// <param name="selector">
+    /// The location-aware ValueTask-based validation-producing selector, invoked once per reached
+    /// item with the item's composed location, <c>root.At(index)</c>, and the item.
+    /// </param>
+    /// <param name="cancellationToken">The token passed to the asynchronous enumerator.</param>
+    /// <returns>
+    /// An asynchronous operation that produces a valid validation containing the selected values in
+    /// source order, or an invalid validation containing all selector errors in source and
+    /// per-validation order.
+    /// </returns>
+    /// <remarks>
+    /// This method is marked <c>[Experimental("FS0017")]</c>: it carries no compatibility promise and
+    /// may change or be removed until the Goal 17 location-context design is promoted. A new location
+    /// is composed per item via <c>root.At(index)</c>. Nesting composes contexts: an inner traversal's
+    /// failures carry locations relative to the inner root, and the outer level passes its item's
+    /// location, such as <c>customerLocation.Property("addresses")</c>, as the inner root, so a
+    /// composed path such as <c>customers[17].addresses[2].postalCode</c> emerges without application
+    /// code assembling it. Each selector's ValueTask is awaited exactly once.
+    /// </remarks>
+    /// <exception cref="ArgumentNullException">
+    /// <paramref name="source"/>, <paramref name="root"/>, or <paramref name="selector"/> is
+    /// <see langword="null"/>.
+    /// </exception>
+    [Experimental("FS0017")]
+    public static ValueTask<Validation<IReadOnlyList<TResult>, TError>> TraverseValueAsync<TSource, TResult, TError>(
+        this IAsyncEnumerable<TSource> source,
+        Location root,
+        Func<Location, TSource, ValueTask<Validation<TResult, TError>>> selector,
+        CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(source);
+        ArgumentNullException.ThrowIfNull(root);
+        ArgumentNullException.ThrowIfNull(selector);
+
+        var index = 0;
+        return TraverseValidationValueAsyncCore(
+            source,
+            (item, _) => selector(root.At(index++), item),
+            cancellationToken);
     }
 
     private static async ValueTask<Option<IReadOnlyList<TResult>>> TraverseOptionValueAsyncCore<TSource, TResult>(
