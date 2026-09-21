@@ -98,7 +98,7 @@ public static class ExactZipExtensions
         IEnumerable<TSecond> second)
     {
         var pairs = new List<(TFirst First, TSecond Second)>(
-            Math.Min(GetInitialCapacity(first), GetInitialCapacity(second)));
+            Math.Min(SequenceExtensions.GetInitialCapacity(first), SequenceExtensions.GetInitialCapacity(second)));
 
         using var firstEnumerator = first.GetEnumerator();
         using var secondEnumerator = second.GetEnumerator();
@@ -136,9 +136,6 @@ public static class ExactZipExtensions
 
         return new(pairs, firstCount, secondCount);
     }
-
-    private static int GetInitialCapacity<T>(IEnumerable<T> source) =>
-        Enumerable.TryGetNonEnumeratedCount(source, out var count) ? count : 0;
 
     private readonly record struct ZipOutcome<TFirst, TSecond>(
         List<(TFirst First, TSecond Second)> Pairs,

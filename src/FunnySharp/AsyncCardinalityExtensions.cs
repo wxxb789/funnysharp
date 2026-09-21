@@ -10,8 +10,8 @@ namespace FunnySharp;
 /// source exactly once, forwards the caller's <see cref="CancellationToken"/> to the
 /// asynchronous enumerator, and never converts cancellation into absence or an error. The
 /// predicate overloads of the synchronous family are deliberately not mirrored, and only the
-/// <c>Min</c>/<c>Max</c> comparer overloads carry over (decision E88: adopt the capability
-/// set on async carriers, not every overload).
+/// <c>Min</c>/<c>Max</c> comparer overloads carry over: the async carriers adopt the capability
+/// set, not every overload.
 /// </remarks>
 public static class AsyncCardinalityExtensions
 {

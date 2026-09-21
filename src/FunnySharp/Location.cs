@@ -14,7 +14,7 @@ namespace FunnySharp;
 /// location with an inner one produced by a nested traversal, so each nesting level contributes
 /// its own segments and the library threads the per-item context. This type is marked
 /// <c>[Experimental("FS0017")]</c>: it carries no compatibility promise and may change or be
-/// removed until the Goal 17 location-context design is promoted. See the
+/// removed until the location-context design is promoted. See the
 /// FunnySharp collections guide for the composition rules.
 /// </remarks>
 [Experimental("FS0017")]
@@ -51,7 +51,6 @@ public sealed class Location
     /// <exception cref="ArgumentException"><paramref name="key"/> is empty.</exception>
     public Location Key(string key)
     {
-        ArgumentNullException.ThrowIfNull(key);
         ArgumentException.ThrowIfNullOrEmpty(key);
 
         return new(Append(new Segment(SegmentKind.Key, null, 0, key)));
@@ -86,7 +85,6 @@ public sealed class Location
     /// <exception cref="ArgumentException"><paramref name="name"/> is empty.</exception>
     public Location Property(string name)
     {
-        ArgumentNullException.ThrowIfNull(name);
         ArgumentException.ThrowIfNullOrEmpty(name);
 
         return new(Append(new Segment(SegmentKind.Property, name, 0, null)));
@@ -152,20 +150,12 @@ public sealed class Location
             return true;
         }
 
-        if (other is null || segments.Length != other.segments.Length)
+        if (other is null)
         {
             return false;
         }
 
-        for (var index = 0; index < segments.Length; index++)
-        {
-            if (!segments[index].Equals(other.segments[index]))
-            {
-                return false;
-            }
-        }
-
-        return true;
+        return segments.AsSpan().SequenceEqual(other.segments);
     }
 
     /// <inheritdoc />

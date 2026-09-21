@@ -85,7 +85,7 @@ public static class PartitionExtensions
 
         List<T>? trueValues = null;
         List<T>? falseValues = null;
-        var initialCapacity = GetInitialCapacity(source);
+        var initialCapacity = SequenceExtensions.GetInitialCapacity(source);
         foreach (var item in source)
         {
             if (predicate(item))
@@ -126,7 +126,7 @@ public static class PartitionExtensions
 
         List<T>? somes = null;
         var nones = 0;
-        var initialCapacity = GetInitialCapacity(source);
+        var initialCapacity = SequenceExtensions.GetInitialCapacity(source);
         foreach (var option in source)
         {
             if (option.TryGetValue(out var value))
@@ -167,7 +167,7 @@ public static class PartitionExtensions
 
         List<TValue>? passed = null;
         List<TError>? failed = null;
-        var initialCapacity = GetInitialCapacity(source);
+        var initialCapacity = SequenceExtensions.GetInitialCapacity(source);
         foreach (var result in source)
         {
             if (result.TryGetValue(out var value))
@@ -208,7 +208,7 @@ public static class PartitionExtensions
 
         List<TError>? failed = null;
         var succeeded = 0;
-        var initialCapacity = GetInitialCapacity(source);
+        var initialCapacity = SequenceExtensions.GetInitialCapacity(source);
         foreach (var result in source)
         {
             if (result.IsSuccess)
@@ -244,7 +244,7 @@ public static class PartitionExtensions
     /// <remarks>
     /// The source is enumerated exactly once and both sides are materialized before the produced
     /// operation completes. The asynchronous surface mirrors only the predicate and
-    /// <see cref="Result{TValue, TError}"/> capability set (decision E88). Cancellation and
+    /// <see cref="Result{TValue, TError}"/> capability set. Cancellation and
     /// exceptions flow through normal <c>await foreach</c> behavior and are not wrapped; a
     /// <paramref name="predicate"/> exception propagates unchanged, and the sides already
     /// collected are not rolled back.
@@ -278,7 +278,7 @@ public static class PartitionExtensions
     /// <remarks>
     /// The source is enumerated exactly once and both sides are materialized before the produced
     /// operation completes. The asynchronous surface mirrors only the predicate and
-    /// <see cref="Result{TValue, TError}"/> capability set (decision E88). The failed results'
+    /// <see cref="Result{TValue, TError}"/> capability set. The failed results'
     /// values are not retained: a failed result carries no value, so its error must carry
     /// everything the failure needs. Cancellation and exceptions flow through normal
     /// <c>await foreach</c> behavior and are not wrapped.
@@ -338,7 +338,4 @@ public static class PartitionExtensions
             SequenceExtensions.ToReadOnlyList(passed),
             SequenceExtensions.ToReadOnlyList(failed));
     }
-
-    private static int GetInitialCapacity<T>(IEnumerable<T> source) =>
-        Enumerable.TryGetNonEnumeratedCount(source, out var count) ? count : 0;
 }

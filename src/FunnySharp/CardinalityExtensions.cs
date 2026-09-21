@@ -262,6 +262,13 @@ public static class CardinalityExtensions
     {
         ArgumentNullException.ThrowIfNull(source);
 
+        if (source is T[] array)
+        {
+            return (uint)index < (uint)array.Length
+                ? Option<T>.Some(array[index]!)
+                : Option<T>.None;
+        }
+
         if (index < 0)
         {
             return Option<T>.None;
@@ -441,7 +448,7 @@ public static class CardinalityExtensions
         }
 
         var first = enumerator.Current;
-        var rest = new List<T>(GetInitialCapacity(source));
+        var rest = new List<T>(SequenceExtensions.GetInitialCapacity(source));
         while (enumerator.MoveNext())
         {
             rest.Add(enumerator.Current);
@@ -449,7 +456,4 @@ public static class CardinalityExtensions
 
         return Option<NonEmpty<T>>.Some(new NonEmpty<T>(first, rest));
     }
-
-    private static int GetInitialCapacity<T>(IEnumerable<T> source) =>
-        Enumerable.TryGetNonEnumeratedCount(source, out var count) ? count : 0;
 }

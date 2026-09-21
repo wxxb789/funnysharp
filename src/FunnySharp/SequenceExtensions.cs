@@ -449,7 +449,7 @@ public static class SequenceExtensions
         }
 
         return Option<IReadOnlyDictionary<TKey, TResult>>.Some(
-            ToReadOnlyDictionary(values, source.Count));
+            ToReadOnlyDictionary(values));
     }
 
     /// <summary>
@@ -497,7 +497,7 @@ public static class SequenceExtensions
         }
 
         return Result<IReadOnlyDictionary<TKey, TResult>, TError>.Success(
-            ToReadOnlyDictionary(values, source.Count));
+            ToReadOnlyDictionary(values));
     }
 
     /// <summary>
@@ -596,7 +596,7 @@ public static class SequenceExtensions
 
         return errors is null
             ? Validation<IReadOnlyDictionary<TKey, TResult>, TError>.Valid(
-                ToReadOnlyDictionary(values, source.Count))
+                ToReadOnlyDictionary(values))
             : Validation<IReadOnlyDictionary<TKey, TResult>, TError>.InvalidFromOwnedErrors(errors);
     }
 
@@ -618,7 +618,7 @@ public static class SequenceExtensions
     /// </returns>
     /// <remarks>
     /// This method is marked <c>[Experimental("FS0017")]</c>: it carries no compatibility promise and
-    /// may change or be removed until the Goal 17 location-context design is promoted. A new location
+    /// may change or be removed until the location-context design is promoted. A new location
     /// is composed per item via <c>root.At(index)</c>. Nesting composes contexts: an inner traversal's
     /// failures carry locations relative to the inner root, and the outer level passes its item's
     /// location, such as <c>customerLocation.Property("addresses")</c>, as the inner root, so a
@@ -639,19 +639,7 @@ public static class SequenceExtensions
         ArgumentNullException.ThrowIfNull(root);
         ArgumentNullException.ThrowIfNull(selector);
 
-        var index = 0;
-        List<TResult>? values = null;
-        foreach (var item in source)
-        {
-            if (!selector(root.At(index++), item).TryGetValue(out var value))
-            {
-                return Option<IReadOnlyList<TResult>>.None;
-            }
-
-            (values ??= new List<TResult>(GetInitialCapacity(source))).Add(value!);
-        }
-
-        return Option<IReadOnlyList<TResult>>.Some(ToReadOnlyList(values));
+        return source.Traverse<TSource, TResult>((index, item) => selector(root.At(index), item));
     }
 
     /// <summary>
@@ -673,7 +661,7 @@ public static class SequenceExtensions
     /// </returns>
     /// <remarks>
     /// This method is marked <c>[Experimental("FS0017")]</c>: it carries no compatibility promise and
-    /// may change or be removed until the Goal 17 location-context design is promoted. A new location
+    /// may change or be removed until the location-context design is promoted. A new location
     /// is composed per item via <c>root.At(index)</c>. Nesting composes contexts: an inner traversal's
     /// failures carry locations relative to the inner root, and the outer level passes its item's
     /// location, such as <c>customerLocation.Property("addresses")</c>, as the inner root, so a
@@ -694,21 +682,8 @@ public static class SequenceExtensions
         ArgumentNullException.ThrowIfNull(root);
         ArgumentNullException.ThrowIfNull(selector);
 
-        var index = 0;
-        List<TResult>? values = null;
-        foreach (var item in source)
-        {
-            var result = selector(root.At(index++), item);
-            if (!result.TryGetValue(out var value))
-            {
-                result.TryGetError(out var error);
-                return Result<IReadOnlyList<TResult>, TError>.Failure(error!);
-            }
-
-            (values ??= new List<TResult>(GetInitialCapacity(source))).Add(value!);
-        }
-
-        return Result<IReadOnlyList<TResult>, TError>.Success(ToReadOnlyList(values));
+        return source.Traverse<TSource, TResult, TError>(
+            (index, item) => selector(root.At(index), item));
     }
 
     /// <summary>
@@ -728,7 +703,7 @@ public static class SequenceExtensions
     /// </returns>
     /// <remarks>
     /// This method is marked <c>[Experimental("FS0017")]</c>: it carries no compatibility promise and
-    /// may change or be removed until the Goal 17 location-context design is promoted. A new location
+    /// may change or be removed until the location-context design is promoted. A new location
     /// is composed per item via <c>root.At(index)</c>. Nesting composes contexts: an inner traversal's
     /// failures carry locations relative to the inner root, and the outer level passes its item's
     /// location, such as <c>customerLocation.Property("addresses")</c>, as the inner root, so a
@@ -749,18 +724,8 @@ public static class SequenceExtensions
         ArgumentNullException.ThrowIfNull(root);
         ArgumentNullException.ThrowIfNull(selector);
 
-        var index = 0;
-        foreach (var item in source)
-        {
-            var result = selector(root.At(index++), item);
-            if (!result.IsSuccess)
-            {
-                result.TryGetError(out var error);
-                return UnitResult<TError>.Failure(error!);
-            }
-        }
-
-        return UnitResult<TError>.Success();
+        return source.Traverse<TSource, TError>(
+            (index, item) => selector(root.At(index), item));
     }
 
     /// <summary>
@@ -782,7 +747,7 @@ public static class SequenceExtensions
     /// </returns>
     /// <remarks>
     /// This method is marked <c>[Experimental("FS0017")]</c>: it carries no compatibility promise and
-    /// may change or be removed until the Goal 17 location-context design is promoted. A new location
+    /// may change or be removed until the location-context design is promoted. A new location
     /// is composed per item via <c>root.At(index)</c>. Nesting composes contexts: an inner traversal's
     /// failures carry locations relative to the inner root, and the outer level passes its item's
     /// location, such as <c>customerLocation.Property("addresses")</c>, as the inner root, so a
@@ -803,36 +768,8 @@ public static class SequenceExtensions
         ArgumentNullException.ThrowIfNull(root);
         ArgumentNullException.ThrowIfNull(selector);
 
-        var index = 0;
-        List<TResult>? values = null;
-        List<TError>? errors = null;
-
-        foreach (var item in source)
-        {
-            var validation = selector(root.At(index++), item);
-            if (validation.TryGetValue(out var value))
-            {
-                if (errors is null)
-                {
-                    (values ??= new List<TResult>(GetInitialCapacity(source))).Add(value!);
-                }
-
-                continue;
-            }
-
-            values = null;
-            validation.TryGetErrors(out var validationErrors);
-            var currentErrors = validationErrors!;
-            errors ??= new List<TError>(currentErrors.Count);
-            for (var errorIndex = 0; errorIndex < currentErrors.Count; errorIndex++)
-            {
-                errors.Add(currentErrors[errorIndex]);
-            }
-        }
-
-        return errors is null
-            ? Validation<IReadOnlyList<TResult>, TError>.Valid(ToReadOnlyList(values))
-            : Validation<IReadOnlyList<TResult>, TError>.InvalidFromOwnedErrors(errors);
+        return source.Traverse<TSource, TResult, TError>(
+            (index, item) => selector(root.At(index), item));
     }
 
     /// <summary>
@@ -854,7 +791,7 @@ public static class SequenceExtensions
     /// </returns>
     /// <remarks>
     /// This method is marked <c>[Experimental("FS0017")]</c>: it carries no compatibility promise and
-    /// may change or be removed until the Goal 17 location-context design is promoted. A new location
+    /// may change or be removed until the location-context design is promoted. A new location
     /// is composed per entry: a string key composes <c>root.Key(key)</c>, which quotes the key, and any
     /// other key composes <c>root.Key(key)</c> through its string representation. Success materializes
     /// a new dictionary filled in the source dictionary's enumeration order, with its capacity hinted
@@ -876,22 +813,8 @@ public static class SequenceExtensions
         ArgumentNullException.ThrowIfNull(root);
         ArgumentNullException.ThrowIfNull(selector);
 
-        Dictionary<TKey, TResult>? values = null;
-        foreach (var pair in source)
-        {
-            var location = pair.Key is string text
-                ? root.Key(text)
-                : root.Key((object)pair.Key!);
-            if (!selector(location, pair.Key, pair.Value).TryGetValue(out var value))
-            {
-                return Option<IReadOnlyDictionary<TKey, TResult>>.None;
-            }
-
-            (values ??= new Dictionary<TKey, TResult>(source.Count)).Add(pair.Key, value!);
-        }
-
-        return Option<IReadOnlyDictionary<TKey, TResult>>.Some(
-            ToReadOnlyDictionary(values, source.Count));
+        return source.Traverse<TKey, TValue, TResult>(
+            (key, value) => selector(KeyedLocation(root, key), key, value));
     }
 
     /// <summary>
@@ -914,7 +837,7 @@ public static class SequenceExtensions
     /// </returns>
     /// <remarks>
     /// This method is marked <c>[Experimental("FS0017")]</c>: it carries no compatibility promise and
-    /// may change or be removed until the Goal 17 location-context design is promoted. A new location
+    /// may change or be removed until the location-context design is promoted. A new location
     /// is composed per entry: a string key composes <c>root.Key(key)</c>, which quotes the key, and any
     /// other key composes <c>root.Key(key)</c> through its string representation. Success materializes
     /// a new dictionary filled in the source dictionary's enumeration order, with its capacity hinted
@@ -936,24 +859,8 @@ public static class SequenceExtensions
         ArgumentNullException.ThrowIfNull(root);
         ArgumentNullException.ThrowIfNull(selector);
 
-        Dictionary<TKey, TResult>? values = null;
-        foreach (var pair in source)
-        {
-            var location = pair.Key is string text
-                ? root.Key(text)
-                : root.Key((object)pair.Key!);
-            var result = selector(location, pair.Key, pair.Value);
-            if (!result.TryGetValue(out var value))
-            {
-                result.TryGetError(out var error);
-                return Result<IReadOnlyDictionary<TKey, TResult>, TError>.Failure(error!);
-            }
-
-            (values ??= new Dictionary<TKey, TResult>(source.Count)).Add(pair.Key, value!);
-        }
-
-        return Result<IReadOnlyDictionary<TKey, TResult>, TError>.Success(
-            ToReadOnlyDictionary(values, source.Count));
+        return source.Traverse<TKey, TValue, TResult, TError>(
+            (key, value) => selector(KeyedLocation(root, key), key, value));
     }
 
     /// <summary>
@@ -974,7 +881,7 @@ public static class SequenceExtensions
     /// </returns>
     /// <remarks>
     /// This method is marked <c>[Experimental("FS0017")]</c>: it carries no compatibility promise and
-    /// may change or be removed until the Goal 17 location-context design is promoted. A new location
+    /// may change or be removed until the location-context design is promoted. A new location
     /// is composed per entry: a string key composes <c>root.Key(key)</c>, which quotes the key, and any
     /// other key composes <c>root.Key(key)</c> through its string representation. Success materializes
     /// a new dictionary filled in the source dictionary's enumeration order, with its capacity hinted
@@ -996,20 +903,8 @@ public static class SequenceExtensions
         ArgumentNullException.ThrowIfNull(root);
         ArgumentNullException.ThrowIfNull(selector);
 
-        foreach (var pair in source)
-        {
-            var location = pair.Key is string text
-                ? root.Key(text)
-                : root.Key((object)pair.Key!);
-            var result = selector(location, pair.Key, pair.Value);
-            if (!result.IsSuccess)
-            {
-                result.TryGetError(out var error);
-                return UnitResult<TError>.Failure(error!);
-            }
-        }
-
-        return UnitResult<TError>.Success();
+        return source.Traverse<TKey, TValue, TError>(
+            (key, value) => selector(KeyedLocation(root, key), key, value));
     }
 
     /// <summary>
@@ -1032,7 +927,7 @@ public static class SequenceExtensions
     /// </returns>
     /// <remarks>
     /// This method is marked <c>[Experimental("FS0017")]</c>: it carries no compatibility promise and
-    /// may change or be removed until the Goal 17 location-context design is promoted. A new location
+    /// may change or be removed until the location-context design is promoted. A new location
     /// is composed per entry: a string key composes <c>root.Key(key)</c>, which quotes the key, and any
     /// other key composes <c>root.Key(key)</c> through its string representation. Success materializes
     /// a new dictionary filled in the source dictionary's enumeration order, with its capacity hinted
@@ -1054,50 +949,23 @@ public static class SequenceExtensions
         ArgumentNullException.ThrowIfNull(root);
         ArgumentNullException.ThrowIfNull(selector);
 
-        Dictionary<TKey, TResult>? values = null;
-        List<TError>? errors = null;
-
-        foreach (var pair in source)
-        {
-            var location = pair.Key is string text
-                ? root.Key(text)
-                : root.Key((object)pair.Key!);
-            var validation = selector(location, pair.Key, pair.Value);
-            if (validation.TryGetValue(out var value))
-            {
-                if (errors is null)
-                {
-                    (values ??= new Dictionary<TKey, TResult>(source.Count)).Add(pair.Key, value!);
-                }
-
-                continue;
-            }
-
-            values = null;
-            validation.TryGetErrors(out var validationErrors);
-            var currentErrors = validationErrors!;
-            errors ??= new List<TError>(currentErrors.Count);
-            for (var errorIndex = 0; errorIndex < currentErrors.Count; errorIndex++)
-            {
-                errors.Add(currentErrors[errorIndex]);
-            }
-        }
-
-        return errors is null
-            ? Validation<IReadOnlyDictionary<TKey, TResult>, TError>.Valid(
-                ToReadOnlyDictionary(values, source.Count))
-            : Validation<IReadOnlyDictionary<TKey, TResult>, TError>.InvalidFromOwnedErrors(errors);
+        return source.Traverse<TKey, TValue, TResult, TError>(
+            (key, value) => selector(KeyedLocation(root, key), key, value));
     }
 
-    private static int GetInitialCapacity<T>(IEnumerable<T> source) =>
+    internal static int GetInitialCapacity<T>(IEnumerable<T> source) =>
         Enumerable.TryGetNonEnumeratedCount(source, out var count) ? count : 0;
 
     internal static IReadOnlyList<T> ToReadOnlyList<T>(List<T>? values) =>
         values is null ? Array.Empty<T>() : values.AsReadOnly();
 
     private static IReadOnlyDictionary<TKey, TValue> ToReadOnlyDictionary<TKey, TValue>(
-        Dictionary<TKey, TValue>? values,
-        int capacity)
+        Dictionary<TKey, TValue>? values)
         where TKey : notnull =>
-        values ?? new Dictionary<TKey, TValue>(capacity);
+        values ?? new Dictionary<TKey, TValue>();
+
+    [Experimental("FS0017")]
+    private static Location KeyedLocation<TKey>(Location root, TKey key)
+        where TKey : notnull =>
+        key is string text ? root.Key(text) : root.Key((object)key);
 }

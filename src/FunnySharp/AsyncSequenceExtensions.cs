@@ -475,7 +475,7 @@ public static class AsyncSequenceExtensions
     /// </returns>
     /// <remarks>
     /// This method is marked <c>[Experimental("FS0017")]</c>: it carries no compatibility promise and
-    /// may change or be removed until the Goal 17 location-context design is promoted. A new location
+    /// may change or be removed until the location-context design is promoted. A new location
     /// is composed per item via <c>root.At(index)</c>. Nesting composes contexts: an inner traversal's
     /// failures carry locations relative to the inner root, and the outer level passes its item's
     /// location, such as <c>customerLocation.Property("addresses")</c>, as the inner root, so a
@@ -524,7 +524,7 @@ public static class AsyncSequenceExtensions
     /// </returns>
     /// <remarks>
     /// This method is marked <c>[Experimental("FS0017")]</c>: it carries no compatibility promise and
-    /// may change or be removed until the Goal 17 location-context design is promoted. A new location
+    /// may change or be removed until the location-context design is promoted. A new location
     /// is composed per item via <c>root.At(index)</c>. Nesting composes contexts: an inner traversal's
     /// failures carry locations relative to the inner root, and the outer level passes its item's
     /// location, such as <c>customerLocation.Property("addresses")</c>, as the inner root, so a
@@ -572,7 +572,7 @@ public static class AsyncSequenceExtensions
     /// </returns>
     /// <remarks>
     /// This method is marked <c>[Experimental("FS0017")]</c>: it carries no compatibility promise and
-    /// may change or be removed until the Goal 17 location-context design is promoted. A new location
+    /// may change or be removed until the location-context design is promoted. A new location
     /// is composed per item via <c>root.At(index)</c>. Nesting composes contexts: an inner traversal's
     /// failures carry locations relative to the inner root, and the outer level passes its item's
     /// location, such as <c>customerLocation.Property("addresses")</c>, as the inner root, so a
@@ -622,7 +622,7 @@ public static class AsyncSequenceExtensions
     /// </returns>
     /// <remarks>
     /// This method is marked <c>[Experimental("FS0017")]</c>: it carries no compatibility promise and
-    /// may change or be removed until the Goal 17 location-context design is promoted. A new location
+    /// may change or be removed until the location-context design is promoted. A new location
     /// is composed per item via <c>root.At(index)</c>. Nesting composes contexts: an inner traversal's
     /// failures carry locations relative to the inner root, and the outer level passes its item's
     /// location, such as <c>customerLocation.Property("addresses")</c>, as the inner root, so a
@@ -670,7 +670,7 @@ public static class AsyncSequenceExtensions
     /// </returns>
     /// <remarks>
     /// This method is marked <c>[Experimental("FS0017")]</c>: it carries no compatibility promise and
-    /// may change or be removed until the Goal 17 location-context design is promoted. A new location
+    /// may change or be removed until the location-context design is promoted. A new location
     /// is composed per item via <c>root.At(index)</c>. Nesting composes contexts: an inner traversal's
     /// failures carry locations relative to the inner root, and the outer level passes its item's
     /// location, such as <c>customerLocation.Property("addresses")</c>, as the inner root, so a
@@ -719,7 +719,7 @@ public static class AsyncSequenceExtensions
     /// </returns>
     /// <remarks>
     /// This method is marked <c>[Experimental("FS0017")]</c>: it carries no compatibility promise and
-    /// may change or be removed until the Goal 17 location-context design is promoted. A new location
+    /// may change or be removed until the location-context design is promoted. A new location
     /// is composed per item via <c>root.At(index)</c>. Nesting composes contexts: an inner traversal's
     /// failures carry locations relative to the inner root, and the outer level passes its item's
     /// location, such as <c>customerLocation.Property("addresses")</c>, as the inner root, so a
@@ -767,7 +767,7 @@ public static class AsyncSequenceExtensions
     /// </returns>
     /// <remarks>
     /// This method is marked <c>[Experimental("FS0017")]</c>: it carries no compatibility promise and
-    /// may change or be removed until the Goal 17 location-context design is promoted. A new location
+    /// may change or be removed until the location-context design is promoted. A new location
     /// is composed per item via <c>root.At(index)</c>. Nesting composes contexts: an inner traversal's
     /// failures carry locations relative to the inner root, and the outer level passes its item's
     /// location, such as <c>customerLocation.Property("addresses")</c>, as the inner root, so a
@@ -817,7 +817,7 @@ public static class AsyncSequenceExtensions
     /// </returns>
     /// <remarks>
     /// This method is marked <c>[Experimental("FS0017")]</c>: it carries no compatibility promise and
-    /// may change or be removed until the Goal 17 location-context design is promoted. A new location
+    /// may change or be removed until the location-context design is promoted. A new location
     /// is composed per item via <c>root.At(index)</c>. Nesting composes contexts: an inner traversal's
     /// failures carry locations relative to the inner root, and the outer level passes its item's
     /// location, such as <c>customerLocation.Property("addresses")</c>, as the inner root, so a
