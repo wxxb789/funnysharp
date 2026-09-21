@@ -204,8 +204,6 @@ traversal failures retain **where** they happened instead of losing it:
 
 <!-- documentation-sample: DocumentationSamples.Collections.LocatedTraverse -->
 ```csharp
-#pragma warning disable FS0017
-
 Validation<IReadOnlyList<CustomerRecord>, ImportError> validated = customers.Traverse(
     Location.Root.Property("customers"),
     (customerLocation, customer) => customer.Addresses

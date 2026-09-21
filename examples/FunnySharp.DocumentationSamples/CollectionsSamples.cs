@@ -62,9 +62,9 @@ internal static class CollectionsSamples
             new CustomerRow([new AddressRow(""), new AddressRow("67890")]),
         };
 
-        // <snippet DocumentationSamples.Collections.LocatedTraverse>
-        #pragma warning disable FS0017
+#pragma warning disable FS0017
 
+        // <snippet DocumentationSamples.Collections.LocatedTraverse>
         Validation<IReadOnlyList<CustomerRecord>, ImportError> validated = customers.Traverse(
             Location.Root.Property("customers"),
             (customerLocation, customer) => customer.Addresses
