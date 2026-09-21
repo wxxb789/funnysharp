@@ -8,6 +8,7 @@ $ErrorActionPreference = 'Stop'
 
 $guides = @(
     'aspnet-core.md',
+    'collections.md',
     'concurrency.md',
     'effects.md',
     'function-composition.md',

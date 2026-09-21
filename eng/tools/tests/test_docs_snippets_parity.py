@@ -5,7 +5,7 @@ behavior-equivalent to the authoritative PowerShell verifier in
 ``examples/FunnySharp.DocumentationSamples/VerifyDocumentationSnippets.ps1``.
 
 Every fixture tree is generated into a temporary directory: a staged copy of
-the PowerShell verifier, a copy of the eight primary guides, a copy of the
+the PowerShell verifier, a copy of the nine primary guides, a copy of the
 snippet samples, and generated ``bin``/``obj`` regions that the scan must
 ignore, with exactly one mutation applied per case. The PowerShell
 side of the parity assertions only runs when ``pwsh`` is on PATH. Local skips
@@ -33,7 +33,7 @@ VERIFIER_PATH = TOOLS_DIR / "verify_docs_snippets.py"
 SAMPLES_DIR_NAME = Path("examples") / "FunnySharp.DocumentationSamples"
 PS_VERIFIER_PATH = REPOSITORY_ROOT / SAMPLES_DIR_NAME / "VerifyDocumentationSnippets.ps1"
 GUIDE_UNDER_TEST = "unit-result.md"
-SUCCESS_LINE = "Verified 26 C# documentation snippets across 8 primary guides."
+SUCCESS_LINE = "Verified 31 C# documentation snippets across 9 primary guides."
 
 sys.path.insert(0, str(TOOLS_DIR))
 import verify_docs_snippets as verifier  # noqa: E402  (sys.path is set above)
@@ -88,7 +88,7 @@ class FixtureTree:
 
 
 def stage_fixture_tree(base: Path) -> FixtureTree:
-    """Stage a valid repository tree: eight guides, the samples, and the PS verifier."""
+    """Stage a valid repository tree: nine guides, the samples, and the PS verifier."""
     docs = base / "docs"
     samples = base / SAMPLES_DIR_NAME
     docs.mkdir(parents=True)

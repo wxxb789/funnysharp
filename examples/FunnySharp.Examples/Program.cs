@@ -5,6 +5,7 @@ using System.Globalization;
 
 VerifySynchronousFunctions();
 VerifyDataPipelines();
+CollectionExamples.Verify();
 VerifyOptions();
 VerifyResults();
 VerifyValidations();
@@ -13,6 +14,7 @@ FunctionGrammarSamples.Verify();
 VerifyImmutableUpdates();
 await VerifyAsynchronousFunctions();
 await VerifyAsynchronousDataPipelines();
+await CollectionExamples.VerifyAsync();
 await VerifyAsynchronousOptions();
 await VerifyAsynchronousResults();
 await VerifyAsynchronousValidationTraversal();

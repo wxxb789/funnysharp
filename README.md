@@ -97,6 +97,20 @@ streams, while span and memory helpers write to caller-owned storage or transfor
 - [Semantics, lifetime rules, and performance evidence](https://github.com/wxxb789/funnysharp/blob/main/docs/data-pipelines.md)
 - [Compiling data-cleaning examples](https://github.com/wxxb789/funnysharp/blob/main/examples/FunnySharp.Examples/Program.cs)
 
+## Collections
+
+FunnySharp keeps standard .NET collections and sequence types as the ecosystem and adds the
+operations whose absence the BCL leaves ambiguous: `*OrNone` cardinality access
+(`FirstOrNone`, `LastOrNone`, `SingleOrNone`, `ElementAtOrNone`, `MinOrNone`, `MaxOrNone`),
+the `NonEmpty<T>` guarantee with a seedless fold that cannot throw, one-pass `Partition` for
+predicate and Option/Result/UnitResult sequences, exact versus truncating combination
+(`ZipExact`, `ZipExactOrNone`), container and `IParsable` parse bridges, `WhereNotNull`, and
+traversal context — indexed, keyed, and compositional `Location` context — so a traversal failure
+can carry `customers[17].addresses[2].postalCode` without application code assembling it.
+
+- [Semantics, carrier behavior matrix, and deliberate exclusions](https://github.com/wxxb789/funnysharp/blob/main/docs/collections.md)
+- [Compiling data-cleaning and batch-validation examples](https://github.com/wxxb789/funnysharp/blob/main/examples/FunnySharp.Examples/Program.cs)
+
 ## Immutable Updates
 
 `Lens<TSource, TFocus>` and `Optional<TSource, TFocus>` provide a small, composable surface for

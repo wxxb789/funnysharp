@@ -53,6 +53,44 @@ public static class EnumerablePipelineExtensions
         return ScanIterator(source, seed, accumulate);
     }
 
+    /// <summary>
+    /// Filters out null items, yielding the non-null items in source order.
+    /// </summary>
+    /// <typeparam name="T">The non-null item type.</typeparam>
+    /// <param name="source">The sequence to filter.</param>
+    /// <returns>A deferred sequence containing the non-null items in source order.</returns>
+    /// <remarks>
+    /// The filter is deferred and single-pass, evaluating per enumeration like <c>Choose</c> and
+    /// <c>Scan</c>: the source is enumerated once per consumer enumeration and nothing is cached.
+    /// </remarks>
+    /// <exception cref="ArgumentNullException"><paramref name="source"/> is <see langword="null"/>.</exception>
+    public static IEnumerable<T> WhereNotNull<T>(this IEnumerable<T?> source)
+        where T : class
+    {
+        ArgumentNullException.ThrowIfNull(source);
+
+        return WhereNotNullReferenceIterator(source);
+    }
+
+    /// <summary>
+    /// Filters out items without a value, yielding the underlying values in source order.
+    /// </summary>
+    /// <typeparam name="T">The underlying value type.</typeparam>
+    /// <param name="source">The sequence to filter.</param>
+    /// <returns>A deferred sequence containing the underlying values in source order.</returns>
+    /// <remarks>
+    /// The filter is deferred and single-pass, evaluating per enumeration like <c>Choose</c> and
+    /// <c>Scan</c>: the source is enumerated once per consumer enumeration and nothing is cached.
+    /// </remarks>
+    /// <exception cref="ArgumentNullException"><paramref name="source"/> is <see langword="null"/>.</exception>
+    public static IEnumerable<T> WhereNotNull<T>(this IEnumerable<T?> source)
+        where T : struct
+    {
+        ArgumentNullException.ThrowIfNull(source);
+
+        return WhereNotNullNullableIterator(source);
+    }
+
     private static IEnumerable<TResult> ChooseIterator<TSource, TResult>(
         IEnumerable<TSource> source,
         Func<TSource, Option<TResult>> chooser)
@@ -76,6 +114,30 @@ public static class EnumerablePipelineExtensions
         {
             accumulator = accumulate(accumulator, item);
             yield return accumulator;
+        }
+    }
+
+    private static IEnumerable<T> WhereNotNullReferenceIterator<T>(IEnumerable<T?> source)
+        where T : class
+    {
+        foreach (var item in source)
+        {
+            if (item is not null)
+            {
+                yield return item;
+            }
+        }
+    }
+
+    private static IEnumerable<T> WhereNotNullNullableIterator<T>(IEnumerable<T?> source)
+        where T : struct
+    {
+        foreach (var item in source)
+        {
+            if (item.HasValue)
+            {
+                yield return item.GetValueOrDefault();
+            }
         }
     }
 }
