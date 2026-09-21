@@ -80,7 +80,7 @@ maintainer rejects.
   `Result<TValue,TError>` — `IsSuccess`, `IsFailure`, `TryGetValue`, `TryGetError`, `Match`,
   `Equals`, `GetHashCode`, `ToString`, `==`, `!=`. Today `default(Result<TValue,TError>)` is
   indistinguishable from `Failure(default(TError))`, which Goal 15 prohibits
-  (`docs/goals/0015-goal.md:2`; `analysis/funny-sharp-surface.md` §2.1).
+  (`docs/goals/archive/0015-goal.md:2`; `analysis/funny-sharp-surface.md` §2.1).
   Lead decision: an uninitialized value keeps two public cases but is detected; operating on it
   is a programming error that throws `InvalidOperationException` with an explicit message,
   matching the Effect/optics precedent. Goal 15 owns the final mechanism (flag, accessor

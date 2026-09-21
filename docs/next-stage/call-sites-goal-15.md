@@ -18,7 +18,7 @@ is inline and illustrative, not compiled (stated again in `§5` and `§7`).
 | --- | --- |
 | Goal 14 base commit | `2834fee` (`docs: add next-stage product constitution and capability decisions (#16)`) |
 | Goal 15 call-site worktree | branch `g15-callsites` based on `c1a5198` (Goal 15 implementation/tests line); evidence commit is the one that adds this file |
-| Goal 15 surface | `UnitResult<TError>` (`src/FunnySharp/UnitResult.cs`, `UnitResultExtensions.cs`) plus bounded arity-2/3 `Zip` combiners for `Option`, `Result`, and `Validation` (`src/FunnySharp/{Option,Result,Validation}.cs`); the surface is described by `docs/goals/0015-goal.md` |
+| Goal 15 surface | `UnitResult<TError>` (`src/FunnySharp/UnitResult.cs`, `UnitResultExtensions.cs`) plus bounded arity-2/3 `Zip` combiners for `Option`, `Result`, and `Validation` (`src/FunnySharp/{Option,Result,Validation}.cs`); the surface is described by `docs/goals/archive/0015-goal.md` |
 | FunnySharp reference | local `ProjectReference` to `/home/azureuser/repos/funnysharp/src/FunnySharp/FunnySharp.csproj` (main checkout, which contains the Goal 15 API); the absolute path is intentionally machine-specific in the scratch copy |
 | Scratch project | `docs/next-stage/call-sites-code/funnysharp/FunnySharpCallSites.csproj` (net10.0, Release) |
 | .NET SDK | 10.0.400 (`dotnet --version`) |

@@ -4,7 +4,7 @@ type: feat
 date: 2026-09-20
 deepened: 2026-09-20
 artifact_contract: ce-unified-plan/v1
-product_contract_source: docs/goals/0017-goal.md
+product_contract_source: docs/goals/archive/0017-goal.md
 execution: code
 ---
 
@@ -22,7 +22,7 @@ execution: code
   `Partition` (predicate/Option/Result/UnitResult), `ZipExact`/`ZipExactOrNone`, container
   Try->Option bridges, common `Parse*OrNone` bridges over `IParsable<T>`, `WhereNotNull`, and
   traversal context overloads (indexed, keyed, located) plus the experimental `Location` carrier.
-- **Authority:** `docs/goals/0017-goal.md` is the completion contract; `docs/product-contract.md`
+- **Authority:** `docs/goals/archive/0017-goal.md` is the completion contract; `docs/product-contract.md`
   fixes the BCL-first boundaries; `docs/next-stage/decision-record.md` and
   `docs/next-stage/api-decisions.md` record the adopted/rejected decisions; `docs/grammar.md` is
   the verb table to extend.

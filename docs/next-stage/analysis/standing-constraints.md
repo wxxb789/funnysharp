@@ -228,7 +228,7 @@ items 21-24 below; item 25 restates the no-speculative-API rule stated in the sa
     generally available and language/metadata contracts are stable; preview targeting does not count
     as support; a general union framework stays out of scope.
     Source: `docs/product-contract.md §"Deliberate Deferrals"`; `docs/goals/archive/0001-goal.md:2`;
-    `docs/goals/0015-goal.md:2`; `docs/goals/0023-goal.md:2`; `docs/goals/archive/0012-goal.md:2`.
+    `docs/goals/archive/0015-goal.md:2`; `docs/goals/0023-goal.md:2`; `docs/goals/archive/0012-goal.md:2`.
     Classification: **(a) restate**.
 
 23. **No `net10.0` union compatibility layer under current conditions.** A compatibility layer is
@@ -243,7 +243,7 @@ items 21-24 below; item 25 restates the no-speculative-API rule stated in the sa
     concession, or migration promise.** No competitor compatibility is required or permitted as
     acceptance evidence; a general union framework and competitor compatibility APIs are out of scope.
     Source: `docs/goals/archive/0014-goal.md:2`; `/tmp/opencode/next-stage-brief.md:80-85` (goal brief);
-    `docs/goals/0015-goal.md:2`; `docs/goals/0022-goal.md:2`; `docs/goals/0023-goal.md:2`.
+    `docs/goals/archive/0015-goal.md:2`; `docs/goals/0022-goal.md:2`; `docs/goals/0023-goal.md:2`.
     Classification: **(a) restate**; the benchmark-comparison tension is C5.
 
 25. **No speculative feature API.** The foundation exposes no speculative feature API; public APIs
@@ -260,7 +260,7 @@ items 21-24 below; item 25 restates the no-speculative-API rule stated in the sa
     layer, or distributed orchestrator.
     Source: `docs/product-contract.md §"Package And Dependency Boundary"`; `docs/goals/archive/0007-goal.md:2` (state),
     `0008-goal.md:2` (effects), `0009-goal.md:2` (concurrency), `0010-goal.md:2` (optics),
-    `0011-goal.md:2` (HTTP); `docs/goals/0015-goal.md:2`, `0016-goal.md:2`, `0019-goal.md:2`.
+    `0011-goal.md:2` (HTTP); `docs/goals/archive/0015-goal.md:2`, `0016-goal.md:2`, `0019-goal.md:2`.
     Classification: **(a) restate**.
 
 27. **Opt-in immutability and small optics.** Immutable data is opt-in; `Lens`/`Optional` stay a
@@ -303,7 +303,7 @@ items 21-24 below; item 25 restates the no-speculative-API rule stated in the sa
     fail-fast for Option/Result and fully accumulating for Validation in source order; empty inputs
     succeed empty; sources are enumerated once; large sequences are iterative.
     Source: `docs/result.md:29-30,107-116`; `docs/validation.md:25-33,43-66,103-110`;
-    `docs/option.md:10,49-59`; `docs/goals/0015-goal.md:2`; `docs/goals/0017-goal.md:2`;
+    `docs/option.md:10,49-59`; `docs/goals/archive/0015-goal.md:2`; `docs/goals/archive/0017-goal.md:2`;
     tests: `tests/FunnySharp.Tests/ResultTests.cs:325`,
     `tests/FunnySharp.Tests/ValidationTests.cs:175,212`,
     `tests/FunnySharp.Tests/CollectionTraversalTests.cs:73,277`.
@@ -314,7 +314,7 @@ items 21-24 below; item 25 restates the no-speculative-API rule stated in the sa
     `UnitResult<TError>`, `Validation<TValue,TError>`), prohibits a second absence carrier, and Goal
     23 requires guides to present `UnitResult`. Current API has 33 types and no `UnitResult`; README
     has no `UnitResult` section.
-    Source: `docs/goals/0015-goal.md:2`; `docs/goals/0017-goal.md:2`; `docs/goals/0023-goal.md:2`;
+    Source: `docs/goals/archive/0015-goal.md:2`; `docs/goals/archive/0017-goal.md:2`; `docs/goals/0023-goal.md:2`;
     `docs/next-stage/inventory/generated/inv-funny-sharp-core.md:1-7`;
     `README.md:29-37`.
     Classification: **(b) deliberate change** — a new canonical carrier and vocabulary decision.
@@ -326,7 +326,7 @@ items 21-24 below; item 25 restates the no-speculative-API rule stated in the sa
     legitimate domain outcomes, while `Option`'s default stays a valid `None`.
     Source: `docs/option.md:8`; `docs/result.md:13`; `docs/validation.md:9-11`;
     `tests/FunnySharp.Tests/OptionTests.cs:62`; `tests/FunnySharp.Tests/ResultTests.cs:6`;
-    `tests/FunnySharp.Tests/ValidationTests.cs:6`; `docs/goals/0015-goal.md:2`.
+    `tests/FunnySharp.Tests/ValidationTests.cs:6`; `docs/goals/archive/0015-goal.md:2`.
     Classification: **(b) deliberate change** — this is an explicit semantic redesign of two shipped
     defaults with law and misuse tests to be rewritten.
 
@@ -413,13 +413,13 @@ Each entry names both sides.
 - **C2 — Default carrier semantics: current shipped defaults vs Goal 15.**
   `docs/result.md:13` and `docs/validation.md:9-11` plus tests
   `tests/FunnySharp.Tests/ResultTests.cs:6` and `tests/FunnySharp.Tests/ValidationTests.cs:6` vs
-  `docs/goals/0015-goal.md:2` ("Default and uninitialized Result, UnitResult, and Validation values
+  `docs/goals/archive/0015-goal.md:2` ("Default and uninitialized Result, UnitResult, and Validation values
   must not masquerade as legitimate domain outcomes; Option's default remains a valid None"). The
   current defaults are meaningful domain outcomes. This is an accepted semantic redesign, not yet
   reflected in the contract; tests and guides encode the old contract.
 
 - **C3 — `UnitResult` is canonical in Goals 15/17/23 but absent from the product.**
-  `docs/goals/0015-goal.md:2` (four canonical carriers), `docs/goals/0017-goal.md:2` (traversal over
+  `docs/goals/archive/0015-goal.md:2` (four canonical carriers), `docs/goals/archive/0017-goal.md:2` (traversal over
   UnitResult), `docs/goals/0023-goal.md:2` (guides must present UnitResult) vs
   `docs/next-stage/inventory/generated/inv-funny-sharp-core.md:1-7` (33 types, no UnitResult) and
   `README.md:29-37`. The constitution must state whether `Result<TValue,TError>` with a unit value
@@ -438,7 +438,7 @@ Each entry names both sides.
   `docs/goals/0020-goal.md:2` requires reproducible comparisons against "FSharp.Core where the
   representation and semantics are comparable, and relevant Funcky, CSharpFunctionalExtensions, or
   language-ext operations" vs `docs/goals/archive/0014-goal.md:2`, `/tmp/opencode/next-stage-brief.md:80-85`,
-  `docs/goals/0015-goal.md:2`, `docs/goals/0022-goal.md:2`, and `docs/goals/0023-goal.md:2`
+  `docs/goals/archive/0015-goal.md:2`, `docs/goals/0022-goal.md:2`, and `docs/goals/0023-goal.md:2`
   ("no competitor dependency", "No compatibility ... permitted as acceptance evidence"). Current
   state: `benchmarks/FunnySharp.Benchmarks/FunnySharp.Benchmarks.csproj:12-13` references only
   `BenchmarkDotNet`; the working tree contains an untracked call-site project
@@ -466,7 +466,7 @@ Each entry names both sides.
   `docs/goals/archive/0001-goal.md:2` ("General discriminated unions and analyzers are explicitly out
   of scope until revisited after the official C# 15/.NET 11 union design stabilizes.") vs
   `docs/goals/0021-goal.md:2` (analyzers as a standalone AI-usability goal with no union
-  dependency) and `docs/goals/0015-goal.md:2`/`docs/goals/0023-goal.md:2` (unions stay rejected
+  dependency) and `docs/goals/archive/0015-goal.md:2`/`docs/goals/0023-goal.md:2` (unions stay rejected
   independently). The coupling in the archived goal is obsolete; the constitution should record
   analyzer work and union rejection as separate decisions.
 
@@ -490,7 +490,7 @@ Each entry names both sides.
   release-hardening run.
 
 - **C11 — `Maybe<T>` prohibition is consistent (recorded, not a conflict).** Goal 15 forbids a second absence
-  carrier (`docs/goals/0015-goal.md:2`), and no `Maybe<T>` exists in the current API
+  carrier (`docs/goals/archive/0015-goal.md:2`), and no `Maybe<T>` exists in the current API
   (`docs/next-stage/inventory/generated/inv-funny-sharp-core.md:1-7`). No contradiction; recorded so
   the constitution can restate the prohibition with a source.
 

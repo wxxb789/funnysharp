@@ -410,7 +410,7 @@ testable, and accumulation order is documented and deterministic (left-to-right,
 returning `Validation<_,string>`; `parts.First.First` is a readability wart caused by
 `Zip` returning nested tuples; and there is no curried `Apply`, so tuple-style applicative
 composition is not available. `Validation` deliberately has no `Bind` that would falsely
-promise accumulation for dependent computations (`docs/goals/0015-goal.md:2`); callers who
+promise accumulation for dependent computations (`docs/goals/archive/0015-goal.md:2`); callers who
 need sequencing must move to `Result`. Performance character: `Validation<T,E>` stores a
 snapshot `IReadOnlyList<TError>` on failure; `Zip` concatenates error arrays, so each
 recombination allocates proportionally to the number of accumulated errors. No allocation
@@ -423,7 +423,7 @@ measurements were taken here (**UNVERIFIED: no benchmark run in this workstream*
 **Scenario.** Delete an order and notify; failure carries an `OrderError`; success carries
 nothing. **FunnySharp 0.1.0 has no `UnitResult<TError>`** — a `grep UnitResult src/`
 returns nothing, while Goal 15 names it as one of the four canonical carriers
-(`docs/goals/0015-goal.md:2`).
+(`docs/goals/archive/0015-goal.md:2`).
 
 | Variant | S | O | Semantic | Raw |
 | --- | ---: | ---: | ---: | ---: |
@@ -503,7 +503,7 @@ variant in `competitors/Competitors.csproj` (`§17.2`).
 existing BCL convention, but that convention is lossy: `null` success and "forgot to
 check" are indistinguishable to the compiler. The FunnySharp workaround is honest but
 adds a dummy `true` payload — precisely the "dummy values" Goal 15 says to eliminate
-(`docs/goals/0015-goal.md:2`) — and costs 3 more semantic operations than the baseline.
+(`docs/goals/archive/0015-goal.md:2`) — and costs 3 more semantic operations than the baseline.
 CFE proves the target shape exists without the dummy and at identical cost to the
 workaround. Decision gap: `UnitResult<TError>` is a Goal 15 commitment and is absent from
 the 0.1.0 surface; the call-site evidence here is the concrete motivation. This must
@@ -576,7 +576,7 @@ caution (`§15`).
 **Scenario.** Parse rows of `sku:qty:price`; the failure identifies the failing row.
 This is the workflow Goal 17 requires to compose paths such as
 `customers[17].addresses[2].postalCode` without application-side string assembly
-(`docs/goals/0017-goal.md:2`).
+(`docs/goals/archive/0017-goal.md:2`).
 
 | Variant | S | O | Semantic | Raw |
 | --- | ---: | ---: | ---: | ---: |
@@ -637,7 +637,7 @@ loop. The unavoidable loss is context: `Traverse`'s selector receives only the i
 the index must be threaded through a tuple and the path string assembled by hand. This
 workaround composes one level; it cannot produce nested paths such as
 `customers[17].addresses[2].postalCode` compositionally, which Goal 17 requires
-(`docs/goals/0017-goal.md:2`). Decision gap: traversal location context is a Goal 17
+(`docs/goals/archive/0017-goal.md:2`). Decision gap: traversal location context is a Goal 17
 commitment; the current `Traverse` surface has no index/key/path overload, and
 `MapError` rewrites the error after the fact. Learning cost: a reader must know that
 `Traverse` is eager, single-pass, and fail-fast; the XML contract says so
@@ -1212,9 +1212,9 @@ pinned baselines and was not surveyed
    sync/async chain cannot be written as one expression; the same limitation exists in
    CFE. This is call-site evidence for a redesign candidate in the decision record.
 5. **`UnitResult<TError>` is the clearest concrete API gap** (W4): Goal 15 commits to it
-   (`docs/goals/0015-goal.md:2`) and the current workaround uses a dummy payload.
+   (`docs/goals/archive/0015-goal.md:2`) and the current workaround uses a dummy payload.
 6. **Location context is the second concrete gap** (W6): Goal 17 requires compositional
-   paths (`docs/goals/0017-goal.md:2`) and `Traverse` has no index/key/path surface, so
+   paths (`docs/goals/archive/0017-goal.md:2`) and `Traverse` has no index/key/path surface, so
    even the workaround cannot express nesting.
 7. **`Effect`/resource/effect-based HTTP mapping are wins only when composed.** W9 is
    larger than `await using` (9→10) and only pays off with reuse/retry; the W11 effect
