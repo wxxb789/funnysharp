@@ -22,6 +22,7 @@ await UnitResultExamples.VerifyAsync();
 await FunctionGrammarSamples.VerifyAsync();
 await VerifyEffects();
 await VerifyConcurrentOrderWorkflow();
+await VerifyCompletionOrderWorkflow();
 await VerifyStateMachines();
 
 Console.WriteLine("FunnySharp examples passed.");
@@ -532,6 +533,42 @@ static async Task VerifyConcurrentOrderWorkflow()
 
     Assert(reservation.TryGetValue(out var confirmed), "One available carrier must confirm the order.");
     AssertEqual(new CarrierReservation("south", "RSV-900"), confirmed!);
+}
+
+static async Task VerifyCompletionOrderWorkflow()
+{
+    using var cancellationSource = new CancellationTokenSource();
+    var slowFirstQuote = new TaskCompletionSource<ShippingQuote>(TaskCreationOptions.RunContinuationsAsynchronously);
+    var quotes = new List<ShippingQuote>();
+
+    await foreach (var quote in AsyncShippingOrders()
+        .SelectParallelCompletionOrderValueAsync(
+            2,
+            (order, token) => order.OrderId == "ORD-100"
+                ? new ValueTask<ShippingQuote>(slowFirstQuote.Task.WaitAsync(token))
+                : GetShippingQuoteAsync(order, token))
+        .WithCancellation(cancellationSource.Token))
+    {
+        quotes.Add(quote);
+
+        if (quotes.Count == 2)
+        {
+            Assert(
+                quotes.All(quote => quote.OrderId != "ORD-100"),
+                "Completed later orders must be delivered while the first order is still pending.");
+
+            // Release the slow first order only after both fast orders were delivered.
+            slowFirstQuote.TrySetResult(new ShippingQuote("ORD-100", "north", 12.50m));
+        }
+    }
+
+    AssertSequenceEqual(
+        [
+            new ShippingQuote("ORD-200", "north", 8.75m),
+            new ShippingQuote("ORD-300", "north", 16.25m),
+            new ShippingQuote("ORD-100", "north", 12.50m),
+        ],
+        quotes);
 }
 
 static async Task VerifyStateMachines()

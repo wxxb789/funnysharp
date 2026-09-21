@@ -21,6 +21,23 @@ internal static class ConcurrencySamples
         // </snippet>
     }
 
+    private static async Task SelectParallelCompletionOrderAsync(
+        IAsyncEnumerable<Order> orders,
+        CancellationToken cancellationToken)
+    {
+        // <snippet DocumentationSamples.Concurrency.SelectParallelCompletionOrder>
+        var quotedOrders = orders.SelectParallelCompletionOrderValueAsync(
+            maxConcurrency: 4,
+            (order, cancellationToken) =>
+                new ValueTask<ShippingQuote>(GetShippingQuoteAsync(order, cancellationToken)));
+
+        await foreach (var quote in quotedOrders.WithCancellation(cancellationToken))
+        {
+            Process(quote);
+        }
+        // </snippet>
+    }
+
     private static async Task TraverseParallelAsync(
         IAsyncEnumerable<Order> orders,
         CancellationToken cancellationToken)

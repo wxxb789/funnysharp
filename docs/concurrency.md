@@ -52,6 +52,52 @@ The API intentionally accepts `ValueTask` selectors only. An `async` lambda can 
 delegate directly. A named `Task`-returning method must be wrapped explicitly, as in the
 example above, so the carrier conversion remains visible.
 
+## Completion-Order Parallel Mapping
+
+`SelectParallelCompletionOrderValueAsync` maps an `IAsyncEnumerable<TSource>` with a
+`ValueTask<TResult>` selector and returns a deferred `IAsyncEnumerable<TResult>` that yields
+each result as its selector completes:
+
+<!-- documentation-sample: DocumentationSamples.Concurrency.SelectParallelCompletionOrder -->
+```csharp
+var quotedOrders = orders.SelectParallelCompletionOrderValueAsync(
+    maxConcurrency: 4,
+    (order, cancellationToken) =>
+        new ValueTask<ShippingQuote>(GetShippingQuoteAsync(order, cancellationToken)));
+
+await foreach (var quote in quotedOrders.WithCancellation(cancellationToken))
+{
+    Process(quote);
+}
+```
+
+Construction does not enumerate the source or invoke the selector. Each enumeration creates
+one linked operation token, which is supplied both to the source enumerator and to the
+token-aware selector. Results are delivered in completion order: whichever selector completes
+first is delivered first, so a slow early source item never withholds a completed later item.
+Selectors that complete concurrently are delivered in whichever completion is observed first;
+that relative order is not specified. Choose `SelectParallelValueAsync` when the output order
+must match the source order.
+
+`maxConcurrency` is the maximum number of started but not yet delivered selectors. The same
+bounded `Channel` and admission window as the ordered map apply backpressure: the producer does
+not read and start an unbounded source prefix, and it cannot open the next slot until the
+consumer has observed a result. The channel is sized so a completed result never blocks behind
+the consumer. This is a streaming operation, not an eager materialization.
+
+Disposal, failures, and cancellation follow the ordered map's contract. Disposal cancels the
+linked operation, waits for the producer and all started selectors to finish, observes their
+faults, and disposes the source enumerator before it completes. The first observed source or
+selector failure stops admission and becomes the primary failure; faults raised during cleanup
+are retained in an `AggregateException` after that primary failure. Consumer cancellation is
+rethrown with the consumer's token after clean cleanup. A selector `ValueTask` is converted
+once and never consumed twice, and a named `Task`-returning selector must be wrapped
+explicitly with `new ValueTask<T>(task)`.
+
+The ordering choice is part of the method name, never a boolean or enum parameter: the
+ordered and completion-order maps are two operations with one contract each, so the call site
+always reveals the delivery order.
+
 ## Parallel Traverse
 
 `TraverseParallelValueAsync` eagerly materializes a bounded parallel traversal of an
@@ -142,6 +188,10 @@ runtime, or scheduler.
 The concurrency benchmark compares:
 
 - Ordered bounded mapping with `Parallel.ForEachAsync` writing to a known-length array.
+- Completion-order bounded mapping with `Parallel.ForEachAsync` placing results into
+  known-length completion-order slots. The BCL has no bounded completion-order streaming
+  primitive: `Task.WhenEach` enumerates already-started tasks and cannot bound fan-out over a
+  lazy asynchronous source.
 - Parallel `Option` and `Validation` traversal with `Parallel.ForEachAsync` followed by explicit
   source-ordered sequencing.
 - First-success coordination with a direct `Task.WhenAny` loop that cancels and drains the same
@@ -166,28 +216,32 @@ contract.
 <!-- performance-table:start concurrency -->
 | Scenario | Baseline mean | FunnySharp mean | Ratio | Baseline allocation | FunnySharp allocation |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Ordered bounded asynchronous map ([Count=1024]) | 476.444 us | 2,028.763 us | 4.26x | 301431 B | 574683 B |
-| Ordered bounded asynchronous map ([Count=16]) | 14.149 us | 27.915 us | 1.97x | 5377 B | 10335 B |
-| First successful cold Result operation ([CandidateCount=16]) | 7.391 us | 5.498 us | 0.74x | 5534 B | 4178 B |
-| First successful cold Result operation ([CandidateCount=4]) | 5.456 us | 7.332 us | 1.34x | 1731 B | 2453 B |
-| Parallel Option traversal ([Count=1024]) | 504.523 us | 673.107 us | 1.33x | 336496 B | 275135 B |
-| Parallel Option traversal ([Count=16]) | 14.111 us | 19.064 us | 1.35x | 5906 B | 6478 B |
-| Parallel Validation accumulation ([Count=1024]) | 539.946 us | 811.825 us | 1.50x | 356020 B | 346797 B |
-| Parallel Validation accumulation ([Count=16]) | 15.755 us | 24.349 us | 1.55x | 6552 B | 8915 B |
+| Completion-order bounded asynchronous map ([Count=1024]) | 473.279 us | 1,069.099 us | 2.26x | 306134 B | 471563 B |
+| Completion-order bounded asynchronous map ([Count=16]) | 15.900 us | 26.149 us | 1.64x | 5379 B | 10081 B |
+| Ordered bounded asynchronous map ([Count=1024]) | 479.649 us | 902.091 us | 1.88x | 304839 B | 542704 B |
+| Ordered bounded asynchronous map ([Count=16]) | 13.385 us | 27.554 us | 2.06x | 5341 B | 11295 B |
+| First successful cold Result operation ([CandidateCount=16]) | 7.368 us | 5.469 us | 0.74x | 5645 B | 4118 B |
+| First successful cold Result operation ([CandidateCount=4]) | 5.385 us | 6.786 us | 1.26x | 1724 B | 2597 B |
+| Parallel Option traversal ([Count=1024]) | 481.451 us | 633.821 us | 1.32x | 327959 B | 279118 B |
+| Parallel Option traversal ([Count=16]) | 13.980 us | 19.560 us | 1.40x | 5960 B | 6614 B |
+| Parallel Validation accumulation ([Count=1024]) | 534.428 us | 708.211 us | 1.33x | 362801 B | 296710 B |
+| Parallel Validation accumulation ([Count=16]) | 14.311 us | 20.430 us | 1.43x | 6524 B | 7552 B |
 
 Excluded measurements:
 - Result parallel traversal: The prior supplemental comparison used different input carriers and is not reproducible from tracked sources.
 - Unmeasured failure paths: Failure-path concurrency is covered by deterministic tests rather than timing claims.
 <!-- performance-table:end concurrency -->
 
-The ordered streaming map pays for its reusable enumerator, channel backpressure, ordered delivery,
-and cleanup tracking. In the recorded observation it is slower and allocates more than the
-known-length BCL array path at both sizes, and both traversal coordinators also allocate more at
-both sizes. The timing directions are scheduler-sensitive and split by input in this observation:
-the Validation coordinator is slower at both sizes, the Option coordinator is slower at 1,024 items
-but faster at 16, and first-success is slower with sixteen candidates and faster with four while
-allocating less with sixteen and more with four. The generated table above owns the exact ratios
-and allocation figures.
+The two streaming maps pay for their reusable enumerator, channel backpressure, bounded
+admission, and cleanup tracking; in the recorded observation both are slower and allocate more
+than the known-length BCL array paths at both sizes. The completion-order map allocates less
+than the ordered map at both sizes — a completed result is delivered through its observer without
+suspending the consumer on a pending work task — while its recorded mean is slower at 1,024 items
+and faster at 16. The traversal timing directions are scheduler-sensitive and split by input in
+this observation: the Validation coordinator is slower at both sizes, the Option coordinator is
+slower at 1,024 items but faster at 16, and first-success is slower with sixteen candidates and
+faster with four while allocating less with sixteen and more with four. The generated table above
+owns the exact ratios and allocation figures.
 
 These measurements are directional. `Task.Yield` models scheduler handoff, not production I/O, and
 three measured iterations on a virtualized host produce wide confidence intervals for the smallest

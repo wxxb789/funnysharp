@@ -45,6 +45,10 @@ outcome wrappers remain out of scope ([product contract](product-contract.md)).
   `ScanValueAsync`). Both forms return `IAsyncEnumerable<T>`, never an awaitable.
 - `Using`/`UsingAsync` marks the `IDisposable` versus `IAsyncDisposable` resource boundary; the
   constraint is visible in the signature.
+- Parallel delivery order is part of the name, never a parameter:
+  `SelectParallelValueAsync` yields source order and
+  `SelectParallelCompletionOrderValueAsync` yields completion order; no boolean or enum ordering
+  parameter hides the contract from the call site.
 - A `CancellationToken` is always an explicit parameter and is forwarded unchanged.
 - Eager fallbacks are plain parameters (`OrElse`, `Recover`, `GetValueOr`); lazy fallbacks are
   factories (`OrElseWith`, `RecoverWith`, `GetValueOrElse`); `GetValueOrDefault` is the only member
@@ -136,6 +140,7 @@ outcome wrappers remain out of scope ([product contract](product-contract.md)).
 | Verb | Meaning | Present on | Output shape | Async forms | Key contract |
 | --- | --- | --- | --- | --- | --- |
 | `SelectParallelValueAsync` | Bounded parallel mapping of an async stream. | `IAsyncEnumerable<T>` | `IAsyncEnumerable<TResult>` | cancellation-aware selector receives a linked operation token | Ordered streaming with `Channel` backpressure; one linked operation token per enumeration; cooperative drain on early disposal. |
+| `SelectParallelCompletionOrderValueAsync` | Bounded parallel mapping of an async stream, delivered as selectors complete. | `IAsyncEnumerable<T>` | `IAsyncEnumerable<TResult>` | cancellation-aware selector receives a linked operation token | Same bounded backpressure, one-token, and drain contract as `SelectParallelValueAsync`; results arrive in completion order (concurrent completions in unspecified relative order); the delivery order is named, never a parameter. |
 | `TraverseParallelValueAsync` | Bounded parallel traversal, materialized. | `IAsyncEnumerable<T>` | `ValueTask<carrier<IReadOnlyList<T>>>` | (± token) | Ordered values; `Option`/`Result` fail fast, `Validation` accumulates; bounded fan-out only. |
 | `FirstSuccessAsync` | First-success race over cold effects. | `Effect<Result<TValue, TError>>` | `ValueTask<Validation<TValue, TError>>` | (± `TimeProvider`, token) | Drains all started work; a winner is `Valid`, an all-typed-failure race is `Invalid` in input order; coordinator-owned timeout only. |
 
@@ -233,6 +238,7 @@ path), where BCL `Enumerable.Aggregate` throws `InvalidOperationException` on an
 | `Curry`/`Partial`/`Flip` beyond binary arity | A larger overload family adds no discoverability; an ordinary lambda covers uncommon shapes. |
 | `Zip` combine beyond arity 4 | Unbounded tuple towers are rejected; wider forms nest or use `Traverse`. |
 | `TraverseParallelValueAsync` over `UnitResult<TError>` | Deferred to the concurrency goal absent a concrete consumer. |
+| Ordering parameters on `SelectParallel*` | The delivery order is the method name (decision E82); a boolean or enum parameter would make one verb carry two hidden contracts. |
 | Task-carrier operator universe (including `PipeAsync`) | "Mixed sync/async chains use ordinary `await` plus the synchronous vocabulary" (product contract); there is no `MapAsync`-returning-carrier chaining universe. |
 | `Inspect`/`Pairwise`/`SlidingWindow` | `Inspect` duplicates `Tap`; no Goal 17 capability needs adjacent-pair or window shapes and the product contract forbids speculative feature APIs (decided once in Goal 17, decision E57). |
 | `AverageOrNone` towers | Per-numeric-type overload towers rejected (decision E70); compose `ParseOrNone` with `Aggregate`, or check emptiness explicitly before BCL `Average`. |
