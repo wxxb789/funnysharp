@@ -76,7 +76,8 @@ int total = amounts.Match(
 
 `NonEmpty<T>` is a guarantee, not a collection:
 
-- `First` — the first item, non-default by construction.
+- `First` — the first item, present by construction; its value can be `default(T)`, including a
+  null element for nullable item types.
 - `Rest` — the remaining items in source order, as an `IReadOnlyList<T>` that is empty for a
   singleton.
 - `Count` — `1 + Rest.Count`; `Rest.Count == 0` distinguishes a singleton from multiple.
@@ -161,7 +162,7 @@ cardinality suffix.
 | `stack.PopOrNone()` / `stack.PeekOrNone()` | the stack is empty (pops only when `Some`) |
 | `priorityQueue.DequeueOrNone()` / `priorityQueue.PeekOrNone()` | the priority queue is empty |
 | `list.IndexOfOrNone(item)` | the item is not in the list (`IList<T>`, including `List<T>` and `ImmutableList<T>`) |
-| `dictionary.RemoveOrNone(key)` | the key is absent (removes and returns the value in one operation when `Some`) |
+| `dictionary.RemoveOrNone(key)` | the key is absent (removes and returns the value when `Some`) |
 
 Parse bridges never throw for parse failures; a null input string is still a programming error.
 The generic `IParsable<T>` bridge is canonical, and the named common set delegates to it:

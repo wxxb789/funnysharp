@@ -42,18 +42,7 @@ public static class SequenceExtensions
         ArgumentNullException.ThrowIfNull(source);
         ArgumentNullException.ThrowIfNull(selector);
 
-        List<TResult>? values = null;
-        foreach (var item in source)
-        {
-            if (!selector(item).TryGetValue(out var value))
-            {
-                return Option<IReadOnlyList<TResult>>.None;
-            }
-
-            (values ??= new List<TResult>(GetInitialCapacity(source))).Add(value!);
-        }
-
-        return Option<IReadOnlyList<TResult>>.Some(ToReadOnlyList(values));
+        return source.Traverse<TSource, TResult>((index, item) => selector(item));
     }
 
     /// <summary>
@@ -92,20 +81,7 @@ public static class SequenceExtensions
         ArgumentNullException.ThrowIfNull(source);
         ArgumentNullException.ThrowIfNull(selector);
 
-        List<TResult>? values = null;
-        foreach (var item in source)
-        {
-            var result = selector(item);
-            if (!result.TryGetValue(out var value))
-            {
-                result.TryGetError(out var error);
-                return Result<IReadOnlyList<TResult>, TError>.Failure(error!);
-            }
-
-            (values ??= new List<TResult>(GetInitialCapacity(source))).Add(value!);
-        }
-
-        return Result<IReadOnlyList<TResult>, TError>.Success(ToReadOnlyList(values));
+        return source.Traverse<TSource, TResult, TError>((index, item) => selector(item));
     }
 
     /// <summary>
@@ -139,17 +115,7 @@ public static class SequenceExtensions
         ArgumentNullException.ThrowIfNull(source);
         ArgumentNullException.ThrowIfNull(selector);
 
-        foreach (var item in source)
-        {
-            var result = selector(item);
-            if (!result.IsSuccess)
-            {
-                result.TryGetError(out var error);
-                return UnitResult<TError>.Failure(error!);
-            }
-        }
-
-        return UnitResult<TError>.Success();
+        return source.Traverse<TSource, TError>((index, item) => selector(item));
     }
 
     /// <summary>
@@ -190,35 +156,7 @@ public static class SequenceExtensions
         ArgumentNullException.ThrowIfNull(source);
         ArgumentNullException.ThrowIfNull(selector);
 
-        List<TResult>? values = null;
-        List<TError>? errors = null;
-
-        foreach (var item in source)
-        {
-            var validation = selector(item);
-            if (validation.TryGetValue(out var value))
-            {
-                if (errors is null)
-                {
-                    (values ??= new List<TResult>(GetInitialCapacity(source))).Add(value!);
-                }
-
-                continue;
-            }
-
-            values = null;
-            validation.TryGetErrors(out var validationErrors);
-            var currentErrors = validationErrors!;
-            errors ??= new List<TError>(currentErrors.Count);
-            for (var index = 0; index < currentErrors.Count; index++)
-            {
-                errors.Add(currentErrors[index]);
-            }
-        }
-
-        return errors is null
-            ? Validation<IReadOnlyList<TResult>, TError>.Valid(ToReadOnlyList(values))
-            : Validation<IReadOnlyList<TResult>, TError>.InvalidFromOwnedErrors(errors);
+        return source.Traverse<TSource, TResult, TError>((index, item) => selector(item));
     }
 
     /// <summary>

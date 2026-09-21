@@ -214,4 +214,52 @@ public sealed class ContainerBridgeTests
         Assert.True(dictionary.ContainsKey("a"));
         Assert.True(new Dictionary<string, int>().RemoveOrNone("a").IsNone);
     }
+
+    [Fact]
+    public void MutatingBridgesRejectNullElementsWithoutMutatingTheContainer()
+    {
+        var queue = new Queue<string?>();
+        queue.Enqueue(null);
+        queue.Enqueue("real");
+
+        Assert.Throws<ArgumentNullException>(() => queue.DequeueOrNone());
+        Assert.Equal(2, queue.Count);
+        Assert.Null(queue.Peek());
+
+        var stack = new Stack<string?>();
+        stack.Push("real");
+        stack.Push(null);
+
+        Assert.Throws<ArgumentNullException>(() => stack.PopOrNone());
+        Assert.Equal(2, stack.Count);
+        Assert.Null(stack.Peek());
+
+        var priorityQueue = new PriorityQueue<string?, int>();
+        priorityQueue.Enqueue(null, 1);
+        priorityQueue.Enqueue("real", 2);
+
+        Assert.Throws<ArgumentNullException>(() => priorityQueue.DequeueOrNone());
+        Assert.Equal(2, priorityQueue.Count);
+        Assert.Null(priorityQueue.Peek());
+
+        var dictionary = new Dictionary<string, string?> { ["key"] = null };
+
+        Assert.Throws<ArgumentNullException>(() => dictionary.RemoveOrNone("key"));
+        Assert.Single(dictionary);
+        Assert.True(dictionary.ContainsKey("key"));
+    }
+
+    [Fact]
+    public void DequeueOrNoneMutatesWhenTheNullableFrontElementIsPresent()
+    {
+        var queue = new Queue<string?>();
+        queue.Enqueue("first");
+        queue.Enqueue("second");
+
+        var front = queue.DequeueOrNone();
+
+        Assert.True(front.TryGetValue(out var value));
+        Assert.Equal("first", value);
+        Assert.Equal(["second"], queue);
+    }
 }

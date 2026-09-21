@@ -269,6 +269,20 @@ public static class CardinalityExtensions
                 : Option<T>.None;
         }
 
+        if (source is IList<T> list)
+        {
+            return (uint)index < (uint)list.Count
+                ? Option<T>.Some(list[index]!)
+                : Option<T>.None;
+        }
+
+        if (source is IReadOnlyList<T> readOnlyList)
+        {
+            return (uint)index < (uint)readOnlyList.Count
+                ? Option<T>.Some(readOnlyList[index]!)
+                : Option<T>.None;
+        }
+
         if (index < 0)
         {
             return Option<T>.None;

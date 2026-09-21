@@ -8,6 +8,9 @@ namespace FunnySharp;
 /// and absent-key failure modes of the underlying containers instead of throwing or returning
 /// sentinel values. Keyed lookups on read-only dictionaries keep
 /// <see cref="OptionExtensions.GetOption{TKey,TValue}(IReadOnlyDictionary{TKey,TValue}, TKey)"/>.
+/// Like the option carrier, the bridges reject a null element of a nullable element type with
+/// <see cref="ArgumentNullException"/> instead of folding it into <c>None</c>; the mutating
+/// bridges reject it before mutating, so the rejected element stays in its container.
 /// </remarks>
 public static class ContainerExtensions
 {
@@ -29,7 +32,15 @@ public static class ContainerExtensions
     {
         ArgumentNullException.ThrowIfNull(source);
 
-        return source.TryDequeue(out var element) ? Option<T>.Some(element!) : Option<T>.None;
+        if (!source.TryPeek(out var element))
+        {
+            return Option<T>.None;
+        }
+
+        // Some rejects a null element while the queue still holds it.
+        var option = Option<T>.Some(element!);
+        source.Dequeue();
+        return option;
     }
 
     /// <summary>
@@ -72,7 +83,15 @@ public static class ContainerExtensions
     {
         ArgumentNullException.ThrowIfNull(source);
 
-        return source.TryPop(out var element) ? Option<T>.Some(element!) : Option<T>.None;
+        if (!source.TryPeek(out var element))
+        {
+            return Option<T>.None;
+        }
+
+        // Some rejects a null element while the stack still holds it.
+        var option = Option<T>.Some(element!);
+        source.Pop();
+        return option;
     }
 
     /// <summary>
@@ -119,7 +138,15 @@ public static class ContainerExtensions
     {
         ArgumentNullException.ThrowIfNull(source);
 
-        return source.TryDequeue(out var element, out _) ? Option<TElement>.Some(element!) : Option<TElement>.None;
+        if (!source.TryPeek(out var element, out _))
+        {
+            return Option<TElement>.None;
+        }
+
+        // Some rejects a null element while the priority queue still holds it.
+        var option = Option<TElement>.Some(element!);
+        source.Dequeue();
+        return option;
     }
 
     /// <summary>
@@ -182,9 +209,10 @@ public static class ContainerExtensions
     /// An option containing the removed value, or <c>None</c> when the key is absent.
     /// </returns>
     /// <remarks>
-    /// This bridge uses <c>Dictionary.Remove(TKey, out TValue)</c>, so removal and value retrieval
-    /// are a single operation. <c>None</c> can only mean that the key was absent; the dictionary is
-    /// mutated only when the returned option is present.
+    /// This bridge reads the value with <c>Dictionary.TryGetValue(TKey, out TValue)</c> and removes
+    /// the entry only after the value passes the option's non-null guarantee. <c>None</c> can only
+    /// mean that the key was absent; the dictionary is mutated only when the returned option is
+    /// present.
     /// </remarks>
     /// <exception cref="ArgumentNullException"><paramref name="source"/> is <see langword="null"/>.</exception>
     public static Option<TValue> RemoveOrNone<TKey, TValue>(this Dictionary<TKey, TValue> source, TKey key)
@@ -192,6 +220,14 @@ public static class ContainerExtensions
     {
         ArgumentNullException.ThrowIfNull(source);
 
-        return source.Remove(key, out var value) ? Option<TValue>.Some(value!) : Option<TValue>.None;
+        if (!source.TryGetValue(key, out var value))
+        {
+            return Option<TValue>.None;
+        }
+
+        // Some rejects a null value while the entry is still in the dictionary.
+        var option = Option<TValue>.Some(value!);
+        source.Remove(key);
+        return option;
     }
 }

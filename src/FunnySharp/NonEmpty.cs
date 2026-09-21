@@ -5,7 +5,8 @@ namespace FunnySharp;
 /// </summary>
 /// <typeparam name="T">The item type.</typeparam>
 /// <remarks>
-/// A non-empty value carries <see cref="First"/> (non-default by construction) and
+/// A non-empty value carries <see cref="First"/> (present by construction, but its value can be
+/// <c>default(T)</c>, including <see langword="null"/> for nullable item types) and
 /// <see cref="Rest"/> (possibly empty, in source order), so <see cref="Count"/> is always at
 /// least one. It is not a collection type: it implements no <see cref="IEnumerable{T}"/>,
 /// exposes no indexer, and never enumerates. Materialize with <see cref="ToReadOnlyList"/> or
@@ -35,7 +36,8 @@ public readonly struct NonEmpty<T>
     }
 
     /// <summary>
-    /// Gets the first item, which is non-default by construction.
+    /// Gets the first item, which is present by construction: a first item always exists, but its
+    /// value can be <c>default(T)</c>, including <see langword="null"/> for nullable item types.
     /// </summary>
     /// <exception cref="InvalidOperationException">This non-empty sequence is uninitialized.</exception>
     public T First
