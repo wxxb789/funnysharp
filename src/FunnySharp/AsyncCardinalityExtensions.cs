@@ -281,13 +281,15 @@ public static class AsyncCardinalityExtensions
         IAsyncEnumerable<T> source,
         CancellationToken cancellationToken)
     {
-        Option<T> last = Option<T>.None;
+        T? last = default;
+        var found = false;
         await foreach (var item in source.WithCancellation(cancellationToken).ConfigureAwait(false))
         {
-            last = Option<T>.Some(item!);
+            last = item;
+            found = true;
         }
 
-        return last;
+        return found ? Option<T>.Some(last!) : Option<T>.None;
     }
 
     private static async ValueTask<Option<T>> SingleOrNoneAsyncCore<T>(

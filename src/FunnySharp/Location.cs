@@ -161,8 +161,27 @@ public sealed class Location
     /// <inheritdoc />
     public override bool Equals(object? obj) => Equals(obj as Location);
 
-    /// <inheritdoc />
-    public override int GetHashCode() => ToString().GetHashCode(StringComparison.Ordinal);
+    /// <summary>
+    /// Returns a hash code computed from the location's segments, so that equal locations
+    /// share a hash code even when their keys render different paths.
+    /// </summary>
+    /// <remarks>
+    /// Two keys can compare equal while displaying different <see langword="ToString"/>
+    /// text, so hashing the rendered path could give equal locations different hash codes
+    /// and break hash-based lookups; each segment's own hash already matches segment
+    /// equality, so combining them keeps the hash consistent with <see cref="Equals(Location)"/>.
+    /// </remarks>
+    public override int GetHashCode()
+    {
+        var hash = new HashCode();
+
+        foreach (var segment in segments)
+        {
+            hash.Add(segment);
+        }
+
+        return hash.ToHashCode();
+    }
 
     /// <summary>
     /// Returns a value indicating whether two locations contain the same segments.

@@ -209,6 +209,24 @@ public sealed class AsyncCollectionTests
     }
 
     [Fact]
+    public async Task LastOrNoneAsyncReturnsTheFinalItemWhenEarlierItemsAreNull()
+    {
+        var source = AsyncValues<string?>(null, "last");
+
+        Assert.True((await source.LastOrNoneAsync()).TryGetValue(out var last));
+        Assert.Equal("last", last);
+    }
+
+    [Fact]
+    public async Task LastOrNoneAsyncThrowsWhenTheSelectedItemIsNull()
+    {
+        await Assert.ThrowsAsync<ArgumentNullException>(
+            async () => await AsyncValues<string?>("first", null).LastOrNoneAsync());
+        await Assert.ThrowsAsync<ArgumentNullException>(
+            async () => await AsyncValues<string?>(null, null).LastOrNoneAsync());
+    }
+
+    [Fact]
     public async Task ToNonEmptyOrNoneAsyncExposesFirstRestCountAndFolds()
     {
         var option = await AsyncValues(1, 2, 3).ToNonEmptyOrNoneAsync();

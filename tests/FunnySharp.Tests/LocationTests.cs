@@ -98,6 +98,22 @@ public sealed class LocationTests
     }
 
     [Fact]
+    public void EqualLocationsWithDifferentlyRenderedKeysShareHashCodesAndHashSetLookups()
+    {
+        var first = Location.Root.Property("customers").Key(new LabelledKey(1, "alpha"));
+        var second = Location.Root.Property("customers").Key(new LabelledKey(1, "beta"));
+
+        Assert.True(first.Equals(second));
+        Assert.Equal("customers[alpha]", first.ToString());
+        Assert.Equal("customers[beta]", second.ToString());
+        Assert.Equal(first.GetHashCode(), second.GetHashCode());
+
+        var set = new HashSet<Location> { first };
+        Assert.Contains(second, set);
+        Assert.False(set.Add(second));
+    }
+
+    [Fact]
     public void LocationRejectsNegativeIndexesAndNullOrEmptyNamesAndKeys()
     {
         Assert.Throws<ArgumentOutOfRangeException>(() => Location.Root.At(-1));
@@ -116,5 +132,16 @@ public sealed class LocationTests
 
         Assert.Same(location.ToString(), location.ToString());
         Assert.Same(Location.Root.ToString(), Location.Root.ToString());
+    }
+
+    private sealed class LabelledKey(int id, string label)
+    {
+        public int Id { get; } = id;
+
+        public override bool Equals(object? obj) => obj is LabelledKey other && Id == other.Id;
+
+        public override int GetHashCode() => Id;
+
+        public override string ToString() => label;
     }
 }
