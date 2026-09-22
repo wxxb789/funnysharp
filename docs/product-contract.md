@@ -118,16 +118,17 @@ analysis, and compile-verified call sites are in [`next-stage/`](next-stage/).
   stage. Coordinator-owned timeouts (as in the first-success family) remain. Reconsideration
   requires a goal with `TimeProvider`, explicit cancellation, cap/jitter rules, and measured
   comparison against a hand-written loop.
-- Concurrency remains BCL-first and explicit. Bounded parallel mapping streams ordered
-  `IAsyncEnumerable<T>` results with `Channel` backpressure and linked operation cancellation;
-  parallel traversal materializes ordered values and distinguishes Option/Result fail-fast behavior
-  from Validation accumulation. First-success coordination accepts only cold
-  `Effect<Result<TValue, TError>>` values, drains all started work, uses typed failures only for
-  explicit `Result` failures, and supports cooperative `TimeProvider` timeouts. Its return shape
-  stays `Validation<TValue, TError>`: a winner is `Valid`, and an all-typed-failure race is
-  `Invalid` with the failures in input order; that race contract is documented explicitly at the
-  method and in the concurrency guide.
-  Completion-order coordination may be added only over `IAsyncEnumerable<T>` and cold effects.
+- Concurrency remains BCL-first and explicit. Bounded parallel mapping streams
+  `IAsyncEnumerable<T>` results with `Channel` backpressure and linked operation cancellation in
+  two named delivery orders: `SelectParallelValueAsync` yields source order and
+  `SelectParallelCompletionOrderValueAsync` yields completion order; the delivery order is part
+  of the method name, never a boolean or enum parameter. Parallel traversal materializes ordered
+  values and distinguishes Option/Result fail-fast behavior from Validation accumulation.
+  First-success coordination accepts only cold `Effect<Result<TValue, TError>>` values, drains
+  all started work, uses typed failures only for explicit `Result` failures, and supports
+  cooperative `TimeProvider` timeouts. Its return shape stays `Validation<TValue, TError>`: a
+  winner is `Valid`, and an all-typed-failure race is `Invalid` with the failures in input
+  order; that race contract is documented explicitly at the method and in the concurrency guide.
   The core provides no naked started-Task racing API, unbounded fan-out, scheduler, fiber runtime,
   or alternative concurrency carrier. Completion-order coordination is limited to
   `IAsyncEnumerable<T>` and cold effects. Goal 20 comparisons against pinned competitor packages

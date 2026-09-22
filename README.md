@@ -69,10 +69,11 @@ container.
 
 ## Concurrency
 
-FunnySharp coordinates explicit bounded parallel mapping and traversal over `IAsyncEnumerable<T>`,
-plus first-success selection over cold `Effect<Result<TValue, TError>>` values. These APIs retain
-standard .NET cancellation, exception, `ValueTask`, `Channel`, and `TimeProvider` behavior without
-adding a concurrency runtime or scheduler.
+FunnySharp coordinates explicit bounded parallel mapping in source order or completion order and
+traversal over `IAsyncEnumerable<T>`, plus first-success selection over cold
+`Effect<Result<TValue, TError>>` values. These APIs retain standard .NET cancellation, exception,
+`ValueTask`, `Channel`, and `TimeProvider` behavior without adding a concurrency runtime or
+scheduler.
 
 - [Semantics and performance evidence](https://github.com/wxxb789/funnysharp/blob/main/docs/concurrency.md)
 - [Compiling examples](https://github.com/wxxb789/funnysharp/blob/main/examples/FunnySharp.Examples/Program.cs)

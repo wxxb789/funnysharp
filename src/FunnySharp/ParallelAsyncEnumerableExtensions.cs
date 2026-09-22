@@ -40,7 +40,8 @@ public static class ParallelAsyncEnumerableExtensions
         return new ParallelSelectAsyncEnumerable<TSource, TResult>(
             source,
             maxConcurrency,
-            (item, _) => selector(item));
+            (item, _) => selector(item),
+            DeliveryOrder.Source);
     }
 
     /// <summary>
@@ -71,21 +72,101 @@ public static class ParallelAsyncEnumerableExtensions
         ArgumentOutOfRangeException.ThrowIfLessThan(maxConcurrency, 1);
         ArgumentNullException.ThrowIfNull(selector);
 
-        return new ParallelSelectAsyncEnumerable<TSource, TResult>(source, maxConcurrency, selector);
+        return new ParallelSelectAsyncEnumerable<TSource, TResult>(source, maxConcurrency, selector, DeliveryOrder.Source);
+    }
+
+    /// <summary>
+    /// Asynchronously maps source items with at most <paramref name="maxConcurrency"/> selectors in flight
+    /// and yields each result as its selector completes.
+    /// </summary>
+    /// <typeparam name="TSource">The source item type.</typeparam>
+    /// <typeparam name="TResult">The selected result type.</typeparam>
+    /// <param name="source">The asynchronous sequence to process.</param>
+    /// <param name="maxConcurrency">The maximum number of started but not yet delivered selectors.</param>
+    /// <param name="selector">The ValueTask-based selector to apply to each source item.</param>
+    /// <returns>
+    /// A deferred asynchronous sequence of selected values in selector completion order. Selectors that complete
+    /// concurrently are delivered in whichever completion is observed first. The first observed source or selector
+    /// failure stops admission, cancels the linked operation, drains started work, and then propagates.
+    /// </returns>
+    /// <exception cref="ArgumentNullException">
+    /// <paramref name="source"/> or <paramref name="selector"/> is <see langword="null"/>.
+    /// </exception>
+    /// <exception cref="ArgumentOutOfRangeException">
+    /// <paramref name="maxConcurrency"/> is less than one.
+    /// </exception>
+    public static IAsyncEnumerable<TResult> SelectParallelCompletionOrderValueAsync<TSource, TResult>(
+        this IAsyncEnumerable<TSource> source,
+        int maxConcurrency,
+        Func<TSource, ValueTask<TResult>> selector)
+    {
+        ArgumentNullException.ThrowIfNull(source);
+        ArgumentOutOfRangeException.ThrowIfLessThan(maxConcurrency, 1);
+        ArgumentNullException.ThrowIfNull(selector);
+
+        return new ParallelSelectAsyncEnumerable<TSource, TResult>(
+            source,
+            maxConcurrency,
+            (item, _) => selector(item),
+            DeliveryOrder.Completion);
+    }
+
+    /// <summary>
+    /// Asynchronously maps source items with at most <paramref name="maxConcurrency"/> selectors in flight
+    /// and yields each result as its selector completes.
+    /// </summary>
+    /// <typeparam name="TSource">The source item type.</typeparam>
+    /// <typeparam name="TResult">The selected result type.</typeparam>
+    /// <param name="source">The asynchronous sequence to process.</param>
+    /// <param name="maxConcurrency">The maximum number of started but not yet delivered selectors.</param>
+    /// <param name="selector">The cancellation-aware ValueTask-based selector to apply to each source item.</param>
+    /// <returns>
+    /// A deferred asynchronous sequence of selected values in selector completion order. Selectors that complete
+    /// concurrently are delivered in whichever completion is observed first. The first observed source or selector
+    /// failure stops admission, cancels the linked operation, drains started work, and then propagates.
+    /// </returns>
+    /// <exception cref="ArgumentNullException">
+    /// <paramref name="source"/> or <paramref name="selector"/> is <see langword="null"/>.
+    /// </exception>
+    /// <exception cref="ArgumentOutOfRangeException">
+    /// <paramref name="maxConcurrency"/> is less than one.
+    /// </exception>
+    public static IAsyncEnumerable<TResult> SelectParallelCompletionOrderValueAsync<TSource, TResult>(
+        this IAsyncEnumerable<TSource> source,
+        int maxConcurrency,
+        Func<TSource, CancellationToken, ValueTask<TResult>> selector)
+    {
+        ArgumentNullException.ThrowIfNull(source);
+        ArgumentOutOfRangeException.ThrowIfLessThan(maxConcurrency, 1);
+        ArgumentNullException.ThrowIfNull(selector);
+
+        return new ParallelSelectAsyncEnumerable<TSource, TResult>(
+            source,
+            maxConcurrency,
+            selector,
+            DeliveryOrder.Completion);
+    }
+
+    private enum DeliveryOrder
+    {
+        Source,
+        Completion,
     }
 
     private sealed class ParallelSelectAsyncEnumerable<TSource, TResult>(
         IAsyncEnumerable<TSource> source,
         int maxConcurrency,
-        Func<TSource, CancellationToken, ValueTask<TResult>> selector) : IAsyncEnumerable<TResult>
+        Func<TSource, CancellationToken, ValueTask<TResult>> selector,
+        DeliveryOrder deliveryOrder) : IAsyncEnumerable<TResult>
     {
         public IAsyncEnumerator<TResult> GetAsyncEnumerator(CancellationToken cancellationToken = default) =>
-            new Enumerator(source, maxConcurrency, selector, cancellationToken);
+            new Enumerator(source, maxConcurrency, selector, deliveryOrder, cancellationToken);
 
         private sealed class Enumerator(
             IAsyncEnumerable<TSource> source,
             int maxConcurrency,
             Func<TSource, CancellationToken, ValueTask<TResult>> selector,
+            DeliveryOrder deliveryOrder,
             CancellationToken enumerationCancellationToken) : IAsyncEnumerator<TResult>, IValueTaskSource<bool>
         {
             private readonly object gate = new();
@@ -268,7 +349,7 @@ public static class ParallelAsyncEnumerableExtensions
                 {
                     FullMode = BoundedChannelFullMode.Wait,
                     SingleReader = true,
-                    SingleWriter = true,
+                    SingleWriter = deliveryOrder == DeliveryOrder.Source,
                 });
                 window = new SemaphoreSlim(maxConcurrency, maxConcurrency);
                 producer = ProduceAsync();
@@ -298,14 +379,39 @@ public static class ParallelAsyncEnumerableExtensions
                         cancellationToken.ThrowIfCancellationRequested();
 
                         var work = Effect.Invoke(selector, sourceEnumerator.Current, cancellationToken).AsTask();
-                        var observer = ObserveSelectorAsync(work);
+                        StartedWork startedWork;
                         lock (gate)
                         {
-                            started.Add(new StartedWork(work, observer));
+                            startedWork = new StartedWork(work);
+                            started.Add(startedWork);
                         }
 
-                        await channel!.Writer.WriteAsync(work, cancellationToken).ConfigureAwait(false);
+                        // The entry is registered before the observer starts so a synchronously
+                        // completing selector cannot deliver into the channel before the started
+                        // list knows about it; the observer assignment is never observable as the
+                        // placeholder because it happens between adjacent producer statements.
+                        startedWork.Observer = ObserveSelectorAsync(work);
+
+                        if (deliveryOrder == DeliveryOrder.Source)
+                        {
+                            await channel!.Writer.WriteAsync(work, cancellationToken).ConfigureAwait(false);
+                        }
+
                         ownsWindowSlot = false;
+                    }
+
+                    if (deliveryOrder == DeliveryOrder.Completion)
+                    {
+                        StartedWork[] pendingDelivery;
+                        lock (gate)
+                        {
+                            pendingDelivery = [.. started];
+                        }
+
+                        foreach (var work in pendingDelivery)
+                        {
+                            await work.Observer.ConfigureAwait(false);
+                        }
                     }
 
                     channel!.Writer.TryComplete();
@@ -325,7 +431,11 @@ public static class ParallelAsyncEnumerableExtensions
                     }
                     else
                     {
-                        if (!IsOperationCancellation(exception))
+                        // A channel closure observed here is this enumeration's own shutdown
+                        // racing the source-order admission write: the channel is completed only
+                        // by the producer itself or by cleanup, so the closure is an artifact of
+                        // the pending failure and never an independent one.
+                        if (!IsOperationCancellation(exception) && exception is not ChannelClosedException)
                         {
                             lock (gate)
                             {
@@ -362,6 +472,30 @@ public static class ParallelAsyncEnumerableExtensions
                         {
                             backgroundFailures.Add(cancellationFailure);
                         }
+                    }
+                }
+
+                if (deliveryOrder == DeliveryOrder.Completion)
+                {
+                    await DeliverCompletedWorkAsync(work).ConfigureAwait(false);
+                }
+            }
+
+            private async Task DeliverCompletedWorkAsync(Task<TResult> work)
+            {
+                try
+                {
+                    await channel!.Writer.WriteAsync(work, operationCancellation!.Token).ConfigureAwait(false);
+                }
+                catch (Exception exception) when (IsOperationCancellation(exception) ||
+                    exception is ChannelClosedException)
+                {
+                }
+                catch (Exception exception)
+                {
+                    lock (gate)
+                    {
+                        backgroundFailures.Add(exception);
                     }
                 }
             }
@@ -524,7 +658,12 @@ public static class ParallelAsyncEnumerableExtensions
                 throw new AggregateException(failures);
             }
 
-            private readonly record struct StartedWork(Task<TResult> Task, Task Observer);
+            private sealed class StartedWork(Task<TResult> task)
+            {
+                public Task<TResult> Task { get; } = task;
+
+                public Task Observer { get; set; } = System.Threading.Tasks.Task.CompletedTask;
+            }
         }
     }
 }

@@ -99,10 +99,10 @@ contract.
 <!-- performance-table:start function-composition -->
 | Scenario | Baseline mean | FunnySharp mean | Ratio | Baseline allocation | FunnySharp allocation |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Completed Task invocation | 33.324 ns | 37.954 ns | 1.14x | 216 B | 216 B |
-| Completed ValueTask invocation | 14.057 ns | 18.887 ns | 1.34x | 0 B | 0 B |
-| Delegate construction | 16.040 ns | 18.802 ns | 1.17x | 64 B | 96 B |
-| Synchronous invocation | 1.461 ns | 5.544 ns | 3.80x | 0 B | 0 B |
+| Completed Task invocation | 35.802 ns | 36.389 ns | 1.02x | 216 B | 216 B |
+| Completed ValueTask invocation | 14.117 ns | 17.882 ns | 1.27x | 0 B | 0 B |
+| Delegate construction | 11.529 ns | 18.128 ns | 1.57x | 64 B | 96 B |
+| Synchronous invocation | 1.227 ns | 5.444 ns | 4.44x | 0 B | 0 B |
 
 Excluded measurements:
 - Unmeasured helpers: Pipe, Tap, Curry, Uncurry, Partial, and Flip have no numeric release claim.

@@ -46,6 +46,27 @@ public class ConcurrencyBenchmarks
     public Task<int[]> FunnySharpSelectParallelValueAsync() =>
         source.SelectParallelValueAsync(MaxConcurrency, selector).ToArrayAsync().AsTask();
 
+    [Benchmark(Baseline = true)]
+    [BenchmarkCategory("Completion-order bounded asynchronous map")]
+    public async Task<int[]> BclParallelForEachAsyncCompletionOrder()
+    {
+        var results = new int[Count];
+        var nextSlot = 0;
+
+        await Parallel.ForEachAsync(source, parallelOptions, async (value, cancellationToken) =>
+        {
+            var slot = Interlocked.Increment(ref nextSlot) - 1;
+            results[slot] = await selector(value, cancellationToken).ConfigureAwait(false);
+        }).ConfigureAwait(false);
+
+        return results;
+    }
+
+    [Benchmark]
+    [BenchmarkCategory("Completion-order bounded asynchronous map")]
+    public Task<int[]> FunnySharpSelectParallelCompletionOrderValueAsync() =>
+        source.SelectParallelCompletionOrderValueAsync(MaxConcurrency, selector).ToArrayAsync().AsTask();
+
     private static int Map(int value) => unchecked((value * 31) + 7);
 
     private static async ValueTask<int> MapAsync(int value, CancellationToken cancellationToken)
