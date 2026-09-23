@@ -72,7 +72,11 @@ public static class ParallelAsyncEnumerableExtensions
         ArgumentOutOfRangeException.ThrowIfLessThan(maxConcurrency, 1);
         ArgumentNullException.ThrowIfNull(selector);
 
-        return new ParallelSelectAsyncEnumerable<TSource, TResult>(source, maxConcurrency, selector, DeliveryOrder.Source);
+        return new ParallelSelectAsyncEnumerable<TSource, TResult>(
+            source,
+            maxConcurrency,
+            selector,
+            DeliveryOrder.Source);
     }
 
     /// <summary>
@@ -402,16 +406,9 @@ public static class ParallelAsyncEnumerableExtensions
 
                     if (deliveryOrder == DeliveryOrder.Completion)
                     {
-                        StartedWork[] pendingDelivery;
-                        lock (gate)
-                        {
-                            pendingDelivery = [.. started];
-                        }
-
-                        foreach (var work in pendingDelivery)
-                        {
-                            await work.Observer.ConfigureAwait(false);
-                        }
+                        // No in-flight delivery may race the Writer.TryComplete() below.
+                        var pendingDelivery = SnapshotStarted();
+                        await AwaitObserversAsync(pendingDelivery).ConfigureAwait(false);
                     }
 
                     channel!.Writer.TryComplete();
@@ -431,20 +428,29 @@ public static class ParallelAsyncEnumerableExtensions
                     }
                     else
                     {
-                        // A channel closure observed here is this enumeration's own shutdown
-                        // racing the source-order admission write: the channel is completed only
-                        // by the producer itself or by cleanup, so the closure is an artifact of
-                        // the pending failure and never an independent one.
-                        if (!IsOperationCancellation(exception) && exception is not ChannelClosedException)
+                        if (!IsShutdownArtifact(exception))
                         {
-                            lock (gate)
-                            {
-                                backgroundFailures.Add(exception);
-                            }
+                            RecordBackgroundFailure(exception);
                         }
 
                         channel!.Writer.TryComplete();
                     }
+                }
+            }
+
+            private StartedWork[] SnapshotStarted()
+            {
+                lock (gate)
+                {
+                    return [.. started];
+                }
+            }
+
+            private static async Task AwaitObserversAsync(StartedWork[] pending)
+            {
+                foreach (var work in pending)
+                {
+                    await work.Observer.ConfigureAwait(false);
                 }
             }
 
@@ -468,10 +474,7 @@ public static class ParallelAsyncEnumerableExtensions
                     }
                     catch (Exception cancellationFailure)
                     {
-                        lock (gate)
-                        {
-                            backgroundFailures.Add(cancellationFailure);
-                        }
+                        RecordBackgroundFailure(cancellationFailure);
                     }
                 }
 
@@ -487,16 +490,12 @@ public static class ParallelAsyncEnumerableExtensions
                 {
                     await channel!.Writer.WriteAsync(work, operationCancellation!.Token).ConfigureAwait(false);
                 }
-                catch (Exception exception) when (IsOperationCancellation(exception) ||
-                    exception is ChannelClosedException)
+                catch (Exception exception) when (IsShutdownArtifact(exception))
                 {
                 }
                 catch (Exception exception)
                 {
-                    lock (gate)
-                    {
-                        backgroundFailures.Add(exception);
-                    }
+                    RecordBackgroundFailure(exception);
                 }
             }
 
@@ -539,11 +538,7 @@ public static class ParallelAsyncEnumerableExtensions
                         AddFailure(failures, exception, primaryFailure, suppressOperationCancellation: false);
                     }
 
-                    StartedWork[] pending;
-                    lock (gate)
-                    {
-                        pending = [.. started];
-                    }
+                    var pending = SnapshotStarted();
 
                     foreach (var work in pending)
                     {
@@ -557,10 +552,8 @@ public static class ParallelAsyncEnumerableExtensions
                         }
                     }
 
-                    foreach (var work in pending)
-                    {
-                        await work.Observer.ConfigureAwait(false);
-                    }
+                    // No observer may outlive the enumeration.
+                    await AwaitObserversAsync(pending).ConfigureAwait(false);
 
                     lock (gate)
                     {
@@ -620,6 +613,20 @@ public static class ParallelAsyncEnumerableExtensions
                 exception is OperationCanceledException cancellation &&
                 operationCancellation is { IsCancellationRequested: true } &&
                 cancellation.CancellationToken == operationCancellation.Token;
+
+            private void RecordBackgroundFailure(Exception exception)
+            {
+                lock (gate)
+                {
+                    backgroundFailures.Add(exception);
+                }
+            }
+
+            // A cancellation of this enumeration's own operation or a channel closure observed
+            // while it shuts down is an artifact of the pending failure, never an independent
+            // one: the channel is completed only by the producer itself or by cleanup.
+            private bool IsShutdownArtifact(Exception exception) =>
+                IsOperationCancellation(exception) || exception is ChannelClosedException;
 
             private static void ThrowPrimaryFailure(Exception primaryFailure, IReadOnlyList<Exception> cleanupFailures)
             {

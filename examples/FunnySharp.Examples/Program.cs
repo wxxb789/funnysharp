@@ -554,7 +554,7 @@ static async Task VerifyCompletionOrderWorkflow()
         if (quotes.Count == 2)
         {
             Assert(
-                quotes.All(quote => quote.OrderId != "ORD-100"),
+                quotes.All(delivered => delivered.OrderId != "ORD-100"),
                 "Completed later orders must be delivered while the first order is still pending.");
 
             // Release the slow first order only after both fast orders were delivered.

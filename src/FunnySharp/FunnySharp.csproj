@@ -20,6 +20,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <!-- Pin the SDK's implicit trim-tasks reference so locked restores evaluate identically on
+         every SDK patch; the implicit floor otherwise follows the runner's installed SDK. -->
+    <PackageReference Include="Microsoft.NET.ILLink.Tasks" Version="10.0.12" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="../../README.md" Pack="true" PackagePath="/" />
   </ItemGroup>
 </Project>
