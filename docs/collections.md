@@ -297,20 +297,35 @@ Run the focused benchmark with:
 dotnet run --project benchmarks/FunnySharp.Benchmarks/FunnySharp.Benchmarks.csproj --configuration Release -- --filter '*CollectionBenchmarks*'
 ```
 
-ShortRun results are directional and should be rerun on deployment hardware before capacity
-decisions; the release tables are generated from the approved observation in
-`eng/performance/baseline.json` by the release gate
-([release readiness](release-readiness.md)), which this guide does not modify.
+The exact table below is generated from the approved observation in
+`eng/performance/baseline.json`. Hosted timing is directional; allocation ceilings are the blocking
+contract. `N/A` means timing was below resolution or unavailable.
 
-Local observation (2026-09-20, Linux x64, .NET SDK 10.0.400 / runtime 10.0.11, BenchmarkDotNet
-v0.15.8 ShortRun, 40 benchmarks over `Count=16` and `Count=1024`): at `Count=1024`, `Partition`
-ran at ≈0.47x of two `Where` passes, `MinOrNone` at ≈0.05x of the `Cast<int?>().Min()` idiom
-with zero allocation against its boxing, and `ParseIntOrNone` at ≈0.85x of `int.TryParse` +
-`if`; `FirstOrNone` ran at ≈1.26x with zero allocation, `WhereNotNull` at ≈0.97x, `ZipExactOrNone`
-at ≈1.04x mean while materializing the pair list the LINQ count-check comparison avoids, and
-`ToNonEmptyOrNone` + `Aggregate` at ≈1.8x with the disclosed single-pass materialization;
-`SingleOrNone` ran at ≈0.44x for `Count=16` and ≈2.7x for `Count=1024` (both scan to the unique
-match at the end of the fixture), and the located `Traverse` at ≈4.7x–7.6x of the hand-written
-index-tracking loop with the per-item `Location` allocations it replaces — the compositional-path
-cost of `customers[17].addresses[2].postalCode` without application bookkeeping. These numbers
-are a directional local run, not the release baseline.
+<!-- performance-table:start collections -->
+| Scenario | Baseline mean | FunnySharp mean | Ratio | Baseline allocation | FunnySharp allocation |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| IEnumerable exact zip ([Count=1024]) | 7.053 us | 6.390 us | 0.91x | 160 B | 8376 B |
+| IEnumerable exact zip ([Count=16]) | 163.207 ns | 161.292 ns | 0.99x | 160 B | 312 B |
+| IEnumerable first-or-none ([Count=1024]) | 3.498 us | 3.444 us | 0.98x | 0 B | 0 B |
+| IEnumerable first-or-none ([Count=16]) | 59.361 ns | 60.366 ns | 1.02x | 0 B | 0 B |
+| IEnumerable min-or-none ([Count=1024]) | 20.963 us | 715.744 ns | 0.03x | 24656 B | 0 B |
+| IEnumerable min-or-none ([Count=16]) | 358.794 ns | 11.429 ns | 0.03x | 464 B | 0 B |
+| IEnumerable non-empty total ([Count=1024]) | 2.733 us | 5.131 us | 1.88x | 0 B | 4152 B |
+| IEnumerable non-empty total ([Count=16]) | 38.216 ns | 95.049 ns | 2.49x | 0 B | 120 B |
+| IEnumerable partition ([Count=1024]) | 8.129 us | 3.797 us | 0.47x | 4304 B | 8384 B |
+| IEnumerable partition ([Count=16]) | 234.176 ns | 112.319 ns | 0.48x | 272 B | 320 B |
+| IEnumerable single-or-none ([Count=1024]) | 2.801 us | 3.701 us | 1.32x | 168 B | 0 B |
+| IEnumerable single-or-none ([Count=16]) | 119.798 ns | 45.867 ns | 0.38x | 168 B | 0 B |
+| IEnumerable where-not-null ([Count=1024]) | 8.158 us | 6.853 us | 0.84x | 7272 B | 16688 B |
+| IEnumerable where-not-null ([Count=16]) | 261.563 ns | 234.946 ns | 0.90x | 216 B | 416 B |
+| Located traverse validation ([Count=1024]) | 12.203 us | 64.141 us | 5.26x | 22696 B | 221632 B |
+| Located traverse validation ([Count=16]) | 206.227 ns | 1.127 us | 5.46x | 376 B | 3760 B |
+| Parse int ([Count=1024]) | 11.054 ns | 11.192 ns | 1.01x | 0 B | 0 B |
+| Parse int ([Count=16]) | 11.249 ns | 11.191 ns | 0.99x | 0 B | 0 B |
+| Queue dequeue drain ([Count=1024]) | 881.842 ns | 1.996 us | 2.26x | 4120 B | 4160 B |
+| Queue dequeue drain ([Count=16]) | 21.107 ns | 44.878 ns | 2.13x | 88 B | 128 B |
+<!-- performance-table:end collections -->
+
+ShortRun results are directional and should be rerun on deployment hardware before capacity
+decisions; the release gate verifies every row's allocation against its budget
+([release readiness](release-readiness.md)).

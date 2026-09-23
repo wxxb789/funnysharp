@@ -216,16 +216,16 @@ contract.
 <!-- performance-table:start concurrency -->
 | Scenario | Baseline mean | FunnySharp mean | Ratio | Baseline allocation | FunnySharp allocation |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Completion-order bounded asynchronous map ([Count=1024]) | 454.297 us | 1,087.898 us | 2.39x | 302775 B | 472189 B |
-| Completion-order bounded asynchronous map ([Count=16]) | 13.020 us | 27.572 us | 2.12x | 5347 B | 10031 B |
-| Ordered bounded asynchronous map ([Count=1024]) | 469.467 us | 881.447 us | 1.88x | 303299 B | 500304 B |
-| Ordered bounded asynchronous map ([Count=16]) | 12.669 us | 24.893 us | 1.96x | 5387 B | 11178 B |
-| First successful cold Result operation ([CandidateCount=16]) | 7.099 us | 5.715 us | 0.81x | 5710 B | 3999 B |
-| First successful cold Result operation ([CandidateCount=4]) | 13.417 us | 6.693 us | 0.50x | 1750 B | 2452 B |
-| Parallel Option traversal ([Count=1024]) | 540.923 us | 676.235 us | 1.25x | 319124 B | 262946 B |
-| Parallel Option traversal ([Count=16]) | 18.015 us | 20.419 us | 1.13x | 5963 B | 6315 B |
-| Parallel Validation accumulation ([Count=1024]) | 535.738 us | 802.038 us | 1.50x | 352475 B | 322729 B |
-| Parallel Validation accumulation ([Count=16]) | 15.769 us | 22.243 us | 1.41x | 6550 B | 7915 B |
+| Completion-order bounded asynchronous map ([Count=1024]) | 459.605 us | 1,091.316 us | 2.37x | 286654 B | 472174 B |
+| Completion-order bounded asynchronous map ([Count=16]) | 14.942 us | 26.057 us | 1.74x | 5368 B | 10028 B |
+| Ordered bounded asynchronous map ([Count=1024]) | 512.198 us | 949.553 us | 1.85x | 302183 B | 536929 B |
+| Ordered bounded asynchronous map ([Count=16]) | 13.885 us | 26.265 us | 1.89x | 5399 B | 11669 B |
+| First successful cold Result operation ([CandidateCount=16]) | 7.892 us | 5.371 us | 0.68x | 5515 B | 4128 B |
+| First successful cold Result operation ([CandidateCount=4]) | 5.470 us | 7.530 us | 1.38x | 1731 B | 2687 B |
+| Parallel Option traversal ([Count=1024]) | 484.735 us | 700.862 us | 1.45x | 336739 B | 257617 B |
+| Parallel Option traversal ([Count=16]) | 14.480 us | 19.311 us | 1.33x | 5979 B | 7032 B |
+| Parallel Validation accumulation ([Count=1024]) | 504.079 us | 746.826 us | 1.48x | 362250 B | 323284 B |
+| Parallel Validation accumulation ([Count=16]) | 14.385 us | 22.161 us | 1.54x | 6536 B | 8614 B |
 
 Excluded measurements:
 - Result parallel traversal: The prior supplemental comparison used different input carriers and is not reproducible from tracked sources.
