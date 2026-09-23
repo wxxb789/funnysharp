@@ -207,10 +207,14 @@ analysis, and compile-verified call sites are in [`next-stage/`](next-stage/).
 - Deferred capabilities stay absent from the stable surface: a general retry/backoff layer,
   `Memoize`/async-buffer carriers, k-way async merge, completion-order operators beyond the
   recorded constrained form, typed-results/OpenAPI APIs, System.Text.Json converters,
-  non-empty carriers and exact-vs-truncating zip, `Either` as a non-error carrier, Option
-  comparers/ordering, awaitable `Option<Task<T>>` sugar, and `net11.0` targeting. A public
-  `Unit` type is rejected, not deferred: no-value outcomes use `UnitResult<TError>`, and
-  no-value work uses ordinary `void`/`Task`/`ValueTask` shapes.
+  `Either` as a non-error carrier, Option comparers/ordering, awaitable
+  `Option<Task<T>>` sugar, and `net11.0` targeting. The non-empty guarantee
+  (`NonEmpty<T>`) and exact-versus-truncating zip (`ZipExact`/`ZipExactOrNone`) left this
+  list when Goal 17 adopted them as stable after proving their safety value (decision E72's
+  adoption condition); the current tier assignment of every capability is the
+  [stability inventory](stability-inventory.md). A public `Unit` type is rejected, not
+  deferred: no-value outcomes use `UnitResult<TError>`, and no-value work uses ordinary
+  `void`/`Task`/`ValueTask` shapes.
 - Each deferred item has recorded triggers in the decision record; adopting one requires a goal
   that satisfies the trigger and the stability boundary above.
 
