@@ -122,16 +122,16 @@ contract.
 <!-- performance-table:start effects -->
 | Scenario | Baseline mean | FunnySharp mean | Ratio | Baseline allocation | FunnySharp allocation |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Bind ValueTask composition | 27.554 ns | 119.474 ns | 4.34x | 24 B | 208 B |
-| Completed synchronous RunAsync | 2.884 ns | 29.321 ns | 10.17x | 0 B | 0 B |
-| Completed Task composition | 25.759 ns | 75.945 ns | 2.95x | 80 B | 80 B |
-| Completed value RunAsync | 20.922 ns | 20.765 ns | 0.99x | 0 B | 0 B |
-| Completed ValueTask map composition | 20.682 ns | 62.142 ns | 3.00x | 0 B | 0 B |
-| Environment Provide | 2.632 ns | 36.298 ns | 13.79x | 0 B | 0 B |
-| Map composition | 3.765 ns | 79.470 ns | 21.10x | 0 B | 0 B |
-| Using | 15.413 ns | 96.262 ns | 6.25x | 0 B | 0 B |
-| UsingAsync | 12.473 ns | 102.406 ns | 8.21x | 0 B | 0 B |
-| Wrapper construction | 1.006 ns | 23.317 ns | 23.17x | 0 B | 88 B |
+| Bind ValueTask composition | 26.734 ns | 120.004 ns | 4.49x | 24 B | 208 B |
+| Completed synchronous RunAsync | 3.242 ns | 29.372 ns | 9.06x | 0 B | 0 B |
+| Completed Task composition | 27.189 ns | 85.316 ns | 3.14x | 80 B | 80 B |
+| Completed value RunAsync | 12.525 ns | 24.351 ns | 1.94x | 0 B | 0 B |
+| Completed ValueTask map composition | 20.761 ns | 67.336 ns | 3.24x | 0 B | 0 B |
+| Environment Provide | 2.717 ns | 36.842 ns | 13.56x | 0 B | 0 B |
+| Map composition | 3.812 ns | 80.252 ns | 21.05x | 0 B | 0 B |
+| Using | 15.265 ns | 108.029 ns | 7.08x | 0 B | 0 B |
+| UsingAsync | 13.334 ns | 105.539 ns | 7.91x | 0 B | 0 B |
+| Wrapper construction | 1.096 ns | 14.863 ns | 13.57x | 0 B | 88 B |
 
 Excluded measurements:
 - Unmeasured real resource I/O: Real resource I/O is caller-owned and has no synthetic numeric release claim.

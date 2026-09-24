@@ -43,6 +43,21 @@ implement features.
 | Independent completeness audit | round 4 complete — all findings resolved, verdict pass (see `review/verification.md` §9) |
 | Maintainer acceptance of vocabulary and stability boundary | **accepted 2026-09-17** (A-1..A-8; A-2=B) — see `maintainer-acceptance.md` |
 
+## Follow-up evidence
+
+The Goal 14 record is the pinned baseline; later accepted goals add follow-up evidence without
+modifying it:
+
+- [`call-sites-goal-15.md`](call-sites-goal-15.md) — Goal 15 gap workflows (W4 `UnitResult`, W3
+  bounded `Zip`).
+- [`call-sites-goal-16.md`](call-sites-goal-16.md) — Goal 16 function-grammar workflows
+  (WF-1..WF-7) and the maintainer acceptance record
+  [`maintainer-acceptance-goal-16.md`](maintainer-acceptance-goal-16.md).
+- [`call-sites-goal-19.md`](call-sites-goal-19.md) — Goal 19 advanced-pattern workflows
+  (WF-19A state machines, WF-19B multi-site optics) and the curation record
+  [`advanced-pattern-curation.md`](advanced-pattern-curation.md) that maps every advanced-pattern
+  decision (AD-6..AD-9, G6/G7/G8/G10/G17) to its delivered state.
+
 ## Regeneration
 
 ```bash

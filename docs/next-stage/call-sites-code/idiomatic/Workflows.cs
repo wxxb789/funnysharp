@@ -483,3 +483,208 @@ public interface IMarginRules
 
     Task<decimal> ApplyAsync(decimal rate, CancellationToken cancellationToken);
 }
+// Goal 19 workflows (WF-19A, WF-19B): idiomatic baselines for the
+// advanced-pattern curation comparison in docs/next-stage/call-sites-goal-19.md.
+// The shared domain harness at the bottom is excluded from every count, exactly
+// like Domain.cs; the TicketDecision envelope is the idiomatic replacement for
+// the library's TransitionResult/StateChange and is counted as a one-time
+// definition, disclosed in the counting notes.
+public static class Goal19Workflows
+{
+    // WF-19A: the ticket team's lifecycle rules. Commands are collected as
+    // plain data so the decision stays replayable; nothing executes here.
+    public static TicketDecision DecideLifecycle(Ticket ticket, TicketEvent @event) =>
+        (ticket.Status, @event) switch
+        {
+            (TicketStatus.New, Triage(var assignee)) => TicketDecision.Applied(
+                ticket with { Status = TicketStatus.Triaged, Assignee = assignee },
+                [new NotifyAssignee(ticket.Id, assignee)]),
+            (TicketStatus.Triaged, Escalate) => TicketDecision.Applied(
+                ticket with { Status = TicketStatus.Escalated },
+                [new PageOnCallEngineer(ticket.Id)]),
+            (TicketStatus.Triaged or TicketStatus.Escalated, Resolve) => TicketDecision.Applied(
+                ticket with { Status = TicketStatus.Resolved },
+                [new PublishResolution(ticket.Id)]),
+            (TicketStatus.Resolved, Close) => TicketDecision.Applied(
+                ticket with { Status = TicketStatus.Closed },
+                [new ArchiveTicket(ticket.Id)]),
+            (TicketStatus.New, Escalate or Resolve) =>
+                TicketDecision.Rejected(new NotTriageable(ticket.Id)),
+            (TicketStatus.Triaged or TicketStatus.Escalated or TicketStatus.Resolved, Close) =>
+                TicketDecision.Rejected(new StillOpen(ticket.Id)),
+            _ => TicketDecision.Undefined(),
+        };
+
+    // WF-19A: the compliance team's retention rules; a Reopen on a live
+    // ticket is a typed rejection, not a silent miss.
+    public static TicketDecision DecideRetention(Ticket ticket, TicketEvent @event) =>
+        (ticket.Status, @event) switch
+        {
+            (TicketStatus.Closed, Reopen(var assignee)) => TicketDecision.Applied(
+                ticket with { Status = TicketStatus.Triaged, Assignee = assignee },
+                [new NotifyAssignee(ticket.Id, assignee)]),
+            (_, Reopen) => TicketDecision.Rejected(new NotReopenable(ticket.Id)),
+            _ => TicketDecision.Undefined(),
+        };
+
+    // WF-19A: the delegation the FunnySharp variant gets from OrElse: an
+    // undefined lifecycle result falls through to retention; every defined
+    // result passes through untouched.
+    public static TicketDecision Decide(Ticket ticket, TicketEvent @event)
+    {
+        var lifecycle = DecideLifecycle(ticket, @event);
+        return lifecycle.Status == TicketDecisionStatus.Undefined
+            ? DecideRetention(ticket, @event)
+            : lifecycle;
+    }
+
+    // WF-19A execution boundary: the only place commands become I/O.
+    public static async Task ExecuteAsync(
+        TicketDecision decision,
+        ITicketCommandBus bus,
+        CancellationToken cancellationToken)
+    {
+        if (decision.Status != TicketDecisionStatus.Applied)
+        {
+            throw new InvalidOperationException(decision.Error?.ToString() ?? "No handler matched.");
+        }
+
+        foreach (var command in decision.Commands)
+        {
+            await bus.SendAsync(command, cancellationToken).ConfigureAwait(false);
+        }
+    }
+
+    // WF-19A replay: the hand-threaded loop the FunnySharp variant gets from
+    // StateMachineExtensions.Replay; a non-applied decision stops the replay
+    // and discards the commands staged by earlier events.
+    public static TicketDecision Replay(Ticket initial, IEnumerable<TicketEvent> history)
+    {
+        var ticket = initial;
+        List<TicketCommand>? commands = null;
+        foreach (var @event in history)
+        {
+            var decision = Decide(ticket, @event);
+            if (decision.Status != TicketDecisionStatus.Applied)
+            {
+                return decision;
+            }
+
+            ticket = decision.Ticket!;
+            if (decision.Commands.Count > 0)
+            {
+                commands ??= [];
+                commands.AddRange(decision.Commands);
+            }
+        }
+
+        return TicketDecision.Applied(ticket, commands ?? []);
+    }
+
+    // WF-19B site 1: the customer moved; the whole nested path is re-spelled
+    // at this site.
+    public static CustomerProfile MoveCustomer(
+        CustomerProfile profile,
+        string city,
+        string postalCode) =>
+        profile with
+        {
+            Contact = profile.Contact with
+            {
+                Address = profile.Contact.Address with { City = city, PostalCode = postalCode },
+            },
+        };
+
+    // WF-19B site 2: the data-quality batch normalizes the city; the same
+    // nested path is re-spelled here, and only this site remembers it.
+    public static CustomerProfile NormalizeCity(CustomerProfile profile) =>
+        profile with
+        {
+            Contact = profile.Contact with
+            {
+                Address = profile.Contact.Address with
+                {
+                    City = profile.Contact.Address.City.Trim().ToUpperInvariant(),
+                },
+            },
+        };
+}
+
+// One-time idiomatic envelope (counted as a one-time definition, not harness):
+// the replacement for the library's TransitionResult and StateChange values.
+public enum TicketDecisionStatus
+{
+    Undefined,
+    Applied,
+    Rejected,
+}
+
+public sealed record TicketDecision(
+    TicketDecisionStatus Status,
+    Ticket? Ticket,
+    IReadOnlyList<TicketCommand> Commands,
+    TicketError? Error)
+{
+    public static TicketDecision Applied(Ticket ticket, IReadOnlyList<TicketCommand> commands) =>
+        new(TicketDecisionStatus.Applied, ticket, commands, null);
+
+    public static TicketDecision Rejected(TicketError error) =>
+        new(TicketDecisionStatus.Rejected, null, [], error);
+
+    public static TicketDecision Undefined() =>
+        new(TicketDecisionStatus.Undefined, null, [], null);
+}
+
+// Shared domain harness for the Goal 19 workflows (excluded from every count;
+// identical to the harness at the bottom of funnysharp/Goal19Workflows.cs).
+public enum TicketStatus
+{
+    New,
+    Triaged,
+    Escalated,
+    Resolved,
+    Closed,
+}
+
+public sealed record Ticket(string Id, TicketStatus Status, string Assignee);
+
+public abstract record TicketEvent;
+
+public sealed record Triage(string Assignee) : TicketEvent;
+
+public sealed record Escalate() : TicketEvent;
+
+public sealed record Resolve() : TicketEvent;
+
+public sealed record Close() : TicketEvent;
+
+public sealed record Reopen(string Assignee) : TicketEvent;
+
+public abstract record TicketCommand;
+
+public sealed record NotifyAssignee(string TicketId, string Assignee) : TicketCommand;
+
+public sealed record PageOnCallEngineer(string TicketId) : TicketCommand;
+
+public sealed record PublishResolution(string TicketId) : TicketCommand;
+
+public sealed record ArchiveTicket(string TicketId) : TicketCommand;
+
+public abstract record TicketError;
+
+public sealed record NotTriageable(string TicketId) : TicketError;
+
+public sealed record StillOpen(string TicketId) : TicketError;
+
+public sealed record NotReopenable(string TicketId) : TicketError;
+
+public interface ITicketCommandBus
+{
+    Task SendAsync(TicketCommand command, CancellationToken cancellationToken);
+}
+
+public sealed record CustomerProfile(CustomerContact Contact);
+
+public sealed record CustomerContact(MailingAddress Address);
+
+public sealed record MailingAddress(string City, string PostalCode);

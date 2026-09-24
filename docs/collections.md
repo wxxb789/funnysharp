@@ -297,20 +297,35 @@ Run the focused benchmark with:
 dotnet run --project benchmarks/FunnySharp.Benchmarks/FunnySharp.Benchmarks.csproj --configuration Release -- --filter '*CollectionBenchmarks*'
 ```
 
-ShortRun results are directional and should be rerun on deployment hardware before capacity
-decisions; the release tables are generated from the approved observation in
-`eng/performance/baseline.json` by the release gate
-([release readiness](release-readiness.md)), which this guide does not modify.
+The exact table below is generated from the approved observation in
+`eng/performance/baseline.json`. Hosted timing is directional; allocation ceilings are the blocking
+contract. `N/A` means timing was below resolution or unavailable.
 
-Local observation (2026-09-20, Linux x64, .NET SDK 10.0.400 / runtime 10.0.11, BenchmarkDotNet
-v0.15.8 ShortRun, 40 benchmarks over `Count=16` and `Count=1024`): at `Count=1024`, `Partition`
-ran at ≈0.47x of two `Where` passes, `MinOrNone` at ≈0.05x of the `Cast<int?>().Min()` idiom
-with zero allocation against its boxing, and `ParseIntOrNone` at ≈0.85x of `int.TryParse` +
-`if`; `FirstOrNone` ran at ≈1.26x with zero allocation, `WhereNotNull` at ≈0.97x, `ZipExactOrNone`
-at ≈1.04x mean while materializing the pair list the LINQ count-check comparison avoids, and
-`ToNonEmptyOrNone` + `Aggregate` at ≈1.8x with the disclosed single-pass materialization;
-`SingleOrNone` ran at ≈0.44x for `Count=16` and ≈2.7x for `Count=1024` (both scan to the unique
-match at the end of the fixture), and the located `Traverse` at ≈4.7x–7.6x of the hand-written
-index-tracking loop with the per-item `Location` allocations it replaces — the compositional-path
-cost of `customers[17].addresses[2].postalCode` without application bookkeeping. These numbers
-are a directional local run, not the release baseline.
+<!-- performance-table:start collections -->
+| Scenario | Baseline mean | FunnySharp mean | Ratio | Baseline allocation | FunnySharp allocation |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| IEnumerable exact zip ([Count=1024]) | 6.619 us | 6.516 us | 0.98x | 160 B | 8376 B |
+| IEnumerable exact zip ([Count=16]) | 161.725 ns | 162.705 ns | 1.01x | 160 B | 312 B |
+| IEnumerable first-or-none ([Count=1024]) | 3.169 us | 3.475 us | 1.10x | 0 B | 0 B |
+| IEnumerable first-or-none ([Count=16]) | 60.913 ns | 58.897 ns | 0.97x | 0 B | 0 B |
+| IEnumerable min-or-none ([Count=1024]) | 22.121 us | 725.333 ns | 0.03x | 24656 B | 0 B |
+| IEnumerable min-or-none ([Count=16]) | 366.913 ns | 14.344 ns | 0.04x | 464 B | 0 B |
+| IEnumerable non-empty total ([Count=1024]) | 2.422 us | 5.168 us | 2.13x | 0 B | 4152 B |
+| IEnumerable non-empty total ([Count=16]) | 38.980 ns | 88.556 ns | 2.27x | 0 B | 120 B |
+| IEnumerable partition ([Count=1024]) | 8.303 us | 3.852 us | 0.46x | 4304 B | 8384 B |
+| IEnumerable partition ([Count=16]) | 193.534 ns | 108.557 ns | 0.56x | 272 B | 320 B |
+| IEnumerable single-or-none ([Count=1024]) | 2.821 us | 3.085 us | 1.09x | 168 B | 0 B |
+| IEnumerable single-or-none ([Count=16]) | 99.140 ns | 46.892 ns | 0.47x | 168 B | 0 B |
+| IEnumerable where-not-null ([Count=1024]) | 9.749 us | 7.258 us | 0.74x | 7272 B | 16688 B |
+| IEnumerable where-not-null ([Count=16]) | 180.466 ns | 220.751 ns | 1.22x | 216 B | 416 B |
+| Located traverse validation ([Count=1024]) | 12.413 us | 63.394 us | 5.11x | 22696 B | 221632 B |
+| Located traverse validation ([Count=16]) | 218.755 ns | 1.423 us | 6.51x | 376 B | 3760 B |
+| Parse int ([Count=1024]) | 11.303 ns | 11.271 ns | 1.00x | 0 B | 0 B |
+| Parse int ([Count=16]) | 11.072 ns | 11.185 ns | 1.01x | 0 B | 0 B |
+| Queue dequeue drain ([Count=1024]) | 877.383 ns | 1.954 us | 2.23x | 4120 B | 4160 B |
+| Queue dequeue drain ([Count=16]) | 22.947 ns | 44.874 ns | 1.96x | 88 B | 128 B |
+<!-- performance-table:end collections -->
+
+ShortRun results are directional and should be rerun on deployment hardware before capacity
+decisions; the release gate verifies every row's allocation against its budget
+([release readiness](release-readiness.md)).

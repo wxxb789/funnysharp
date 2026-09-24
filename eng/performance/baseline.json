@@ -3,7 +3,9 @@
   "benchmarkInput": {
     "algorithm": "sha256",
     "files": [
+      "Directory.Build.props",
       "benchmarks/FunnySharp.Benchmarks/AllocationReceiptExporter.cs",
+      "benchmarks/FunnySharp.Benchmarks/CollectionBenchmarks.cs",
       "benchmarks/FunnySharp.Benchmarks/ConcurrencyBenchmarks.cs",
       "benchmarks/FunnySharp.Benchmarks/DataPipelineBenchmarks.cs",
       "benchmarks/FunnySharp.Benchmarks/EffectBenchmarks.cs",
@@ -11,25 +13,31 @@
       "benchmarks/FunnySharp.Benchmarks/FunnySharp.Benchmarks.csproj",
       "benchmarks/FunnySharp.Benchmarks/ImmutableUpdateBenchmarks.cs",
       "benchmarks/FunnySharp.Benchmarks/OptionBenchmarks.cs",
-      "benchmarks/FunnySharp.Benchmarks/packages.lock.json",
       "benchmarks/FunnySharp.Benchmarks/Program.cs",
       "benchmarks/FunnySharp.Benchmarks/ResultBenchmarks.cs",
       "benchmarks/FunnySharp.Benchmarks/SequenceBenchmarks.cs",
       "benchmarks/FunnySharp.Benchmarks/StateMachineBenchmarks.cs",
-      "Directory.Build.props",
+      "benchmarks/FunnySharp.Benchmarks/packages.lock.json",
       "global.json",
       "src/FunnySharp/AsyncEnumerablePipelineExtensions.cs",
       "src/FunnySharp/AsyncSequenceExtensions.cs",
+      "src/FunnySharp/CardinalityExtensions.cs",
       "src/FunnySharp/ConcurrentEffectExtensions.cs",
+      "src/FunnySharp/ContainerExtensions.cs",
       "src/FunnySharp/Effect.cs",
       "src/FunnySharp/EffectResourceExtensions.cs",
       "src/FunnySharp/EnumerablePipelineExtensions.cs",
+      "src/FunnySharp/ExactZipExtensions.cs",
       "src/FunnySharp/FunctionExtensions.cs",
+      "src/FunnySharp/Location.cs",
+      "src/FunnySharp/NonEmpty.cs",
       "src/FunnySharp/Optics.cs",
       "src/FunnySharp/Option.cs",
       "src/FunnySharp/OptionExtensions.cs",
       "src/FunnySharp/ParallelAsyncEnumerableExtensions.cs",
       "src/FunnySharp/ParallelAsyncSequenceExtensions.cs",
+      "src/FunnySharp/ParseExtensions.cs",
+      "src/FunnySharp/PartitionExtensions.cs",
       "src/FunnySharp/Result.cs",
       "src/FunnySharp/ResultExtensions.cs",
       "src/FunnySharp/SequenceExtensions.cs",
@@ -50,7 +58,7 @@
     ]
   },
   "policy": {
-    "revision": "2026-09-19-v6",
+    "revision": "2026-09-23-v7",
     "rows": [
       {
         "id": "excluded|aspnet-mapping",
@@ -2515,22 +2523,676 @@
         "exclusionReason": null,
         "allocationBudgetBytes": 2272,
         "budgetRationale": "Exploratory characterization plus 25% and 32 B fixed headroom; acceptance uses a later measurement."
+      },
+      {
+        "id": "CollectionBenchmarks|IEnumerable exact zip|FunnySharpZipExact|[Count=1024]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "IEnumerable exact zip",
+        "method": "FunnySharpZipExact",
+        "parameters": "[Count=1024]",
+        "baseline": false,
+        "carrier": "value",
+        "completionPath": "synchronous",
+        "expectedResult": "matches the paired baseline contract",
+        "comparisonGroup": "CollectionBenchmarks|IEnumerable exact zip|[Count=1024]",
+        "included": true,
+        "exclusionReason": null,
+        "allocationBudgetBytes": 10504,
+        "budgetRationale": "Linux x64 ShortRun calibration on this machine (8376 B) plus 25% and 32 B fixed headroom; rounded up to 8 B. Acceptance uses a later full-suite measurement."
+      },
+      {
+        "id": "CollectionBenchmarks|IEnumerable exact zip|FunnySharpZipExact|[Count=16]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "IEnumerable exact zip",
+        "method": "FunnySharpZipExact",
+        "parameters": "[Count=16]",
+        "baseline": false,
+        "carrier": "value",
+        "completionPath": "synchronous",
+        "expectedResult": "matches the paired baseline contract",
+        "comparisonGroup": "CollectionBenchmarks|IEnumerable exact zip|[Count=16]",
+        "included": true,
+        "exclusionReason": null,
+        "allocationBudgetBytes": 424,
+        "budgetRationale": "Linux x64 ShortRun calibration on this machine (312 B) plus 25% and 32 B fixed headroom; rounded up to 8 B. Acceptance uses a later full-suite measurement."
+      },
+      {
+        "id": "CollectionBenchmarks|IEnumerable exact zip|LinqZipWithCountCheck|[Count=1024]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "IEnumerable exact zip",
+        "method": "LinqZipWithCountCheck",
+        "parameters": "[Count=1024]",
+        "baseline": true,
+        "carrier": "value",
+        "completionPath": "synchronous",
+        "expectedResult": "matches the paired baseline contract",
+        "comparisonGroup": "CollectionBenchmarks|IEnumerable exact zip|[Count=1024]",
+        "included": true,
+        "exclusionReason": null,
+        "allocationBudgetBytes": 232,
+        "budgetRationale": "Linux x64 ShortRun calibration on this machine (160 B) plus 25% and 32 B fixed headroom; rounded up to 8 B. Acceptance uses a later full-suite measurement."
+      },
+      {
+        "id": "CollectionBenchmarks|IEnumerable exact zip|LinqZipWithCountCheck|[Count=16]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "IEnumerable exact zip",
+        "method": "LinqZipWithCountCheck",
+        "parameters": "[Count=16]",
+        "baseline": true,
+        "carrier": "value",
+        "completionPath": "synchronous",
+        "expectedResult": "matches the paired baseline contract",
+        "comparisonGroup": "CollectionBenchmarks|IEnumerable exact zip|[Count=16]",
+        "included": true,
+        "exclusionReason": null,
+        "allocationBudgetBytes": 232,
+        "budgetRationale": "Linux x64 ShortRun calibration on this machine (160 B) plus 25% and 32 B fixed headroom; rounded up to 8 B. Acceptance uses a later full-suite measurement."
+      },
+      {
+        "id": "CollectionBenchmarks|IEnumerable first-or-none|FunnySharpFirstOrNone|[Count=1024]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "IEnumerable first-or-none",
+        "method": "FunnySharpFirstOrNone",
+        "parameters": "[Count=1024]",
+        "baseline": false,
+        "carrier": "value",
+        "completionPath": "synchronous",
+        "expectedResult": "matches the paired baseline contract",
+        "comparisonGroup": "CollectionBenchmarks|IEnumerable first-or-none|[Count=1024]",
+        "included": true,
+        "exclusionReason": null,
+        "allocationBudgetBytes": 0,
+        "budgetRationale": "Linux x64 ShortRun calibration on this machine reported exact zero allocation."
+      },
+      {
+        "id": "CollectionBenchmarks|IEnumerable first-or-none|FunnySharpFirstOrNone|[Count=16]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "IEnumerable first-or-none",
+        "method": "FunnySharpFirstOrNone",
+        "parameters": "[Count=16]",
+        "baseline": false,
+        "carrier": "value",
+        "completionPath": "synchronous",
+        "expectedResult": "matches the paired baseline contract",
+        "comparisonGroup": "CollectionBenchmarks|IEnumerable first-or-none|[Count=16]",
+        "included": true,
+        "exclusionReason": null,
+        "allocationBudgetBytes": 0,
+        "budgetRationale": "Linux x64 ShortRun calibration on this machine reported exact zero allocation."
+      },
+      {
+        "id": "CollectionBenchmarks|IEnumerable first-or-none|LinqFirstOrDefault|[Count=1024]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "IEnumerable first-or-none",
+        "method": "LinqFirstOrDefault",
+        "parameters": "[Count=1024]",
+        "baseline": true,
+        "carrier": "value",
+        "completionPath": "synchronous",
+        "expectedResult": "matches the paired baseline contract",
+        "comparisonGroup": "CollectionBenchmarks|IEnumerable first-or-none|[Count=1024]",
+        "included": true,
+        "exclusionReason": null,
+        "allocationBudgetBytes": 0,
+        "budgetRationale": "Linux x64 ShortRun calibration on this machine reported exact zero allocation."
+      },
+      {
+        "id": "CollectionBenchmarks|IEnumerable first-or-none|LinqFirstOrDefault|[Count=16]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "IEnumerable first-or-none",
+        "method": "LinqFirstOrDefault",
+        "parameters": "[Count=16]",
+        "baseline": true,
+        "carrier": "value",
+        "completionPath": "synchronous",
+        "expectedResult": "matches the paired baseline contract",
+        "comparisonGroup": "CollectionBenchmarks|IEnumerable first-or-none|[Count=16]",
+        "included": true,
+        "exclusionReason": null,
+        "allocationBudgetBytes": 0,
+        "budgetRationale": "Linux x64 ShortRun calibration on this machine reported exact zero allocation."
+      },
+      {
+        "id": "CollectionBenchmarks|IEnumerable min-or-none|FunnySharpMinOrNone|[Count=1024]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "IEnumerable min-or-none",
+        "method": "FunnySharpMinOrNone",
+        "parameters": "[Count=1024]",
+        "baseline": false,
+        "carrier": "value",
+        "completionPath": "synchronous",
+        "expectedResult": "matches the paired baseline contract",
+        "comparisonGroup": "CollectionBenchmarks|IEnumerable min-or-none|[Count=1024]",
+        "included": true,
+        "exclusionReason": null,
+        "allocationBudgetBytes": 0,
+        "budgetRationale": "Linux x64 ShortRun calibration on this machine reported exact zero allocation."
+      },
+      {
+        "id": "CollectionBenchmarks|IEnumerable min-or-none|FunnySharpMinOrNone|[Count=16]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "IEnumerable min-or-none",
+        "method": "FunnySharpMinOrNone",
+        "parameters": "[Count=16]",
+        "baseline": false,
+        "carrier": "value",
+        "completionPath": "synchronous",
+        "expectedResult": "matches the paired baseline contract",
+        "comparisonGroup": "CollectionBenchmarks|IEnumerable min-or-none|[Count=16]",
+        "included": true,
+        "exclusionReason": null,
+        "allocationBudgetBytes": 0,
+        "budgetRationale": "Linux x64 ShortRun calibration on this machine reported exact zero allocation."
+      },
+      {
+        "id": "CollectionBenchmarks|IEnumerable min-or-none|LinqNullableMin|[Count=1024]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "IEnumerable min-or-none",
+        "method": "LinqNullableMin",
+        "parameters": "[Count=1024]",
+        "baseline": true,
+        "carrier": "value",
+        "completionPath": "synchronous",
+        "expectedResult": "matches the paired baseline contract",
+        "comparisonGroup": "CollectionBenchmarks|IEnumerable min-or-none|[Count=1024]",
+        "included": true,
+        "exclusionReason": null,
+        "allocationBudgetBytes": 30856,
+        "budgetRationale": "Linux x64 ShortRun calibration on this machine (24656 B) plus 25% and 32 B fixed headroom; rounded up to 8 B. Acceptance uses a later full-suite measurement."
+      },
+      {
+        "id": "CollectionBenchmarks|IEnumerable min-or-none|LinqNullableMin|[Count=16]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "IEnumerable min-or-none",
+        "method": "LinqNullableMin",
+        "parameters": "[Count=16]",
+        "baseline": true,
+        "carrier": "value",
+        "completionPath": "synchronous",
+        "expectedResult": "matches the paired baseline contract",
+        "comparisonGroup": "CollectionBenchmarks|IEnumerable min-or-none|[Count=16]",
+        "included": true,
+        "exclusionReason": null,
+        "allocationBudgetBytes": 616,
+        "budgetRationale": "Linux x64 ShortRun calibration on this machine (464 B) plus 25% and 32 B fixed headroom; rounded up to 8 B. Acceptance uses a later full-suite measurement."
+      },
+      {
+        "id": "CollectionBenchmarks|IEnumerable non-empty total|FunnySharpNonEmptyAggregate|[Count=1024]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "IEnumerable non-empty total",
+        "method": "FunnySharpNonEmptyAggregate",
+        "parameters": "[Count=1024]",
+        "baseline": false,
+        "carrier": "value",
+        "completionPath": "synchronous",
+        "expectedResult": "matches the paired baseline contract",
+        "comparisonGroup": "CollectionBenchmarks|IEnumerable non-empty total|[Count=1024]",
+        "included": true,
+        "exclusionReason": null,
+        "allocationBudgetBytes": 5224,
+        "budgetRationale": "Linux x64 ShortRun calibration on this machine (4152 B) plus 25% and 32 B fixed headroom; rounded up to 8 B. Acceptance uses a later full-suite measurement."
+      },
+      {
+        "id": "CollectionBenchmarks|IEnumerable non-empty total|FunnySharpNonEmptyAggregate|[Count=16]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "IEnumerable non-empty total",
+        "method": "FunnySharpNonEmptyAggregate",
+        "parameters": "[Count=16]",
+        "baseline": false,
+        "carrier": "value",
+        "completionPath": "synchronous",
+        "expectedResult": "matches the paired baseline contract",
+        "comparisonGroup": "CollectionBenchmarks|IEnumerable non-empty total|[Count=16]",
+        "included": true,
+        "exclusionReason": null,
+        "allocationBudgetBytes": 184,
+        "budgetRationale": "Linux x64 ShortRun calibration on this machine (120 B) plus 25% and 32 B fixed headroom; rounded up to 8 B. Acceptance uses a later full-suite measurement."
+      },
+      {
+        "id": "CollectionBenchmarks|IEnumerable non-empty total|LinqAnyThenAggregate|[Count=1024]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "IEnumerable non-empty total",
+        "method": "LinqAnyThenAggregate",
+        "parameters": "[Count=1024]",
+        "baseline": true,
+        "carrier": "value",
+        "completionPath": "synchronous",
+        "expectedResult": "matches the paired baseline contract",
+        "comparisonGroup": "CollectionBenchmarks|IEnumerable non-empty total|[Count=1024]",
+        "included": true,
+        "exclusionReason": null,
+        "allocationBudgetBytes": 0,
+        "budgetRationale": "Linux x64 ShortRun calibration on this machine reported exact zero allocation."
+      },
+      {
+        "id": "CollectionBenchmarks|IEnumerable non-empty total|LinqAnyThenAggregate|[Count=16]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "IEnumerable non-empty total",
+        "method": "LinqAnyThenAggregate",
+        "parameters": "[Count=16]",
+        "baseline": true,
+        "carrier": "value",
+        "completionPath": "synchronous",
+        "expectedResult": "matches the paired baseline contract",
+        "comparisonGroup": "CollectionBenchmarks|IEnumerable non-empty total|[Count=16]",
+        "included": true,
+        "exclusionReason": null,
+        "allocationBudgetBytes": 0,
+        "budgetRationale": "Linux x64 ShortRun calibration on this machine reported exact zero allocation."
+      },
+      {
+        "id": "CollectionBenchmarks|IEnumerable partition|FunnySharpPartition|[Count=1024]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "IEnumerable partition",
+        "method": "FunnySharpPartition",
+        "parameters": "[Count=1024]",
+        "baseline": false,
+        "carrier": "value",
+        "completionPath": "synchronous",
+        "expectedResult": "matches the paired baseline contract",
+        "comparisonGroup": "CollectionBenchmarks|IEnumerable partition|[Count=1024]",
+        "included": true,
+        "exclusionReason": null,
+        "allocationBudgetBytes": 10512,
+        "budgetRationale": "Linux x64 ShortRun calibration on this machine (8384 B) plus 25% and 32 B fixed headroom; rounded up to 8 B. Acceptance uses a later full-suite measurement."
+      },
+      {
+        "id": "CollectionBenchmarks|IEnumerable partition|FunnySharpPartition|[Count=16]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "IEnumerable partition",
+        "method": "FunnySharpPartition",
+        "parameters": "[Count=16]",
+        "baseline": false,
+        "carrier": "value",
+        "completionPath": "synchronous",
+        "expectedResult": "matches the paired baseline contract",
+        "comparisonGroup": "CollectionBenchmarks|IEnumerable partition|[Count=16]",
+        "included": true,
+        "exclusionReason": null,
+        "allocationBudgetBytes": 432,
+        "budgetRationale": "Linux x64 ShortRun calibration on this machine (320 B) plus 25% and 32 B fixed headroom; rounded up to 8 B. Acceptance uses a later full-suite measurement."
+      },
+      {
+        "id": "CollectionBenchmarks|IEnumerable partition|LinqTwoWherePasses|[Count=1024]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "IEnumerable partition",
+        "method": "LinqTwoWherePasses",
+        "parameters": "[Count=1024]",
+        "baseline": true,
+        "carrier": "value",
+        "completionPath": "synchronous",
+        "expectedResult": "matches the paired baseline contract",
+        "comparisonGroup": "CollectionBenchmarks|IEnumerable partition|[Count=1024]",
+        "included": true,
+        "exclusionReason": null,
+        "allocationBudgetBytes": 5416,
+        "budgetRationale": "Linux x64 ShortRun calibration on this machine (4304 B) plus 25% and 32 B fixed headroom; rounded up to 8 B. Acceptance uses a later full-suite measurement."
+      },
+      {
+        "id": "CollectionBenchmarks|IEnumerable partition|LinqTwoWherePasses|[Count=16]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "IEnumerable partition",
+        "method": "LinqTwoWherePasses",
+        "parameters": "[Count=16]",
+        "baseline": true,
+        "carrier": "value",
+        "completionPath": "synchronous",
+        "expectedResult": "matches the paired baseline contract",
+        "comparisonGroup": "CollectionBenchmarks|IEnumerable partition|[Count=16]",
+        "included": true,
+        "exclusionReason": null,
+        "allocationBudgetBytes": 376,
+        "budgetRationale": "Linux x64 ShortRun calibration on this machine (272 B) plus 25% and 32 B fixed headroom; rounded up to 8 B. Acceptance uses a later full-suite measurement."
+      },
+      {
+        "id": "CollectionBenchmarks|IEnumerable single-or-none|FunnySharpSingleOrNone|[Count=1024]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "IEnumerable single-or-none",
+        "method": "FunnySharpSingleOrNone",
+        "parameters": "[Count=1024]",
+        "baseline": false,
+        "carrier": "value",
+        "completionPath": "synchronous",
+        "expectedResult": "matches the paired baseline contract",
+        "comparisonGroup": "CollectionBenchmarks|IEnumerable single-or-none|[Count=1024]",
+        "included": true,
+        "exclusionReason": null,
+        "allocationBudgetBytes": 0,
+        "budgetRationale": "Linux x64 ShortRun calibration on this machine reported exact zero allocation."
+      },
+      {
+        "id": "CollectionBenchmarks|IEnumerable single-or-none|FunnySharpSingleOrNone|[Count=16]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "IEnumerable single-or-none",
+        "method": "FunnySharpSingleOrNone",
+        "parameters": "[Count=16]",
+        "baseline": false,
+        "carrier": "value",
+        "completionPath": "synchronous",
+        "expectedResult": "matches the paired baseline contract",
+        "comparisonGroup": "CollectionBenchmarks|IEnumerable single-or-none|[Count=16]",
+        "included": true,
+        "exclusionReason": null,
+        "allocationBudgetBytes": 0,
+        "budgetRationale": "Linux x64 ShortRun calibration on this machine reported exact zero allocation."
+      },
+      {
+        "id": "CollectionBenchmarks|IEnumerable single-or-none|LinqSingleMatchCheck|[Count=1024]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "IEnumerable single-or-none",
+        "method": "LinqSingleMatchCheck",
+        "parameters": "[Count=1024]",
+        "baseline": true,
+        "carrier": "value",
+        "completionPath": "synchronous",
+        "expectedResult": "matches the paired baseline contract",
+        "comparisonGroup": "CollectionBenchmarks|IEnumerable single-or-none|[Count=1024]",
+        "included": true,
+        "exclusionReason": null,
+        "allocationBudgetBytes": 248,
+        "budgetRationale": "Linux x64 ShortRun calibration on this machine (168 B) plus 25% and 32 B fixed headroom; rounded up to 8 B. Acceptance uses a later full-suite measurement."
+      },
+      {
+        "id": "CollectionBenchmarks|IEnumerable single-or-none|LinqSingleMatchCheck|[Count=16]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "IEnumerable single-or-none",
+        "method": "LinqSingleMatchCheck",
+        "parameters": "[Count=16]",
+        "baseline": true,
+        "carrier": "value",
+        "completionPath": "synchronous",
+        "expectedResult": "matches the paired baseline contract",
+        "comparisonGroup": "CollectionBenchmarks|IEnumerable single-or-none|[Count=16]",
+        "included": true,
+        "exclusionReason": null,
+        "allocationBudgetBytes": 248,
+        "budgetRationale": "Linux x64 ShortRun calibration on this machine (168 B) plus 25% and 32 B fixed headroom; rounded up to 8 B. Acceptance uses a later full-suite measurement."
+      },
+      {
+        "id": "CollectionBenchmarks|IEnumerable where-not-null|FunnySharpWhereNotNull|[Count=1024]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "IEnumerable where-not-null",
+        "method": "FunnySharpWhereNotNull",
+        "parameters": "[Count=1024]",
+        "baseline": false,
+        "carrier": "value",
+        "completionPath": "synchronous",
+        "expectedResult": "matches the paired baseline contract",
+        "comparisonGroup": "CollectionBenchmarks|IEnumerable where-not-null|[Count=1024]",
+        "included": true,
+        "exclusionReason": null,
+        "allocationBudgetBytes": 20896,
+        "budgetRationale": "Linux x64 ShortRun calibration on this machine (16688 B) plus 25% and 32 B fixed headroom; rounded up to 8 B. Acceptance uses a later full-suite measurement."
+      },
+      {
+        "id": "CollectionBenchmarks|IEnumerable where-not-null|FunnySharpWhereNotNull|[Count=16]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "IEnumerable where-not-null",
+        "method": "FunnySharpWhereNotNull",
+        "parameters": "[Count=16]",
+        "baseline": false,
+        "carrier": "value",
+        "completionPath": "synchronous",
+        "expectedResult": "matches the paired baseline contract",
+        "comparisonGroup": "CollectionBenchmarks|IEnumerable where-not-null|[Count=16]",
+        "included": true,
+        "exclusionReason": null,
+        "allocationBudgetBytes": 552,
+        "budgetRationale": "Linux x64 ShortRun calibration on this machine (416 B) plus 25% and 32 B fixed headroom; rounded up to 8 B. Acceptance uses a later full-suite measurement."
+      },
+      {
+        "id": "CollectionBenchmarks|IEnumerable where-not-null|LinqWhereNotNull|[Count=1024]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "IEnumerable where-not-null",
+        "method": "LinqWhereNotNull",
+        "parameters": "[Count=1024]",
+        "baseline": true,
+        "carrier": "value",
+        "completionPath": "synchronous",
+        "expectedResult": "matches the paired baseline contract",
+        "comparisonGroup": "CollectionBenchmarks|IEnumerable where-not-null|[Count=1024]",
+        "included": true,
+        "exclusionReason": null,
+        "allocationBudgetBytes": 9128,
+        "budgetRationale": "Linux x64 ShortRun calibration on this machine (7272 B) plus 25% and 32 B fixed headroom; rounded up to 8 B. Acceptance uses a later full-suite measurement."
+      },
+      {
+        "id": "CollectionBenchmarks|IEnumerable where-not-null|LinqWhereNotNull|[Count=16]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "IEnumerable where-not-null",
+        "method": "LinqWhereNotNull",
+        "parameters": "[Count=16]",
+        "baseline": true,
+        "carrier": "value",
+        "completionPath": "synchronous",
+        "expectedResult": "matches the paired baseline contract",
+        "comparisonGroup": "CollectionBenchmarks|IEnumerable where-not-null|[Count=16]",
+        "included": true,
+        "exclusionReason": null,
+        "allocationBudgetBytes": 304,
+        "budgetRationale": "Linux x64 ShortRun calibration on this machine (216 B) plus 25% and 32 B fixed headroom; rounded up to 8 B. Acceptance uses a later full-suite measurement."
+      },
+      {
+        "id": "CollectionBenchmarks|Located traverse validation|FunnySharpLocatedTraverse|[Count=1024]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "Located traverse validation",
+        "method": "FunnySharpLocatedTraverse",
+        "parameters": "[Count=1024]",
+        "baseline": false,
+        "carrier": "value",
+        "completionPath": "synchronous",
+        "expectedResult": "matches the paired baseline contract",
+        "comparisonGroup": "CollectionBenchmarks|Located traverse validation|[Count=1024]",
+        "included": true,
+        "exclusionReason": null,
+        "allocationBudgetBytes": 277072,
+        "budgetRationale": "Linux x64 ShortRun calibration on this machine (221632 B) plus 25% and 32 B fixed headroom; rounded up to 8 B. Acceptance uses a later full-suite measurement."
+      },
+      {
+        "id": "CollectionBenchmarks|Located traverse validation|FunnySharpLocatedTraverse|[Count=16]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "Located traverse validation",
+        "method": "FunnySharpLocatedTraverse",
+        "parameters": "[Count=16]",
+        "baseline": false,
+        "carrier": "value",
+        "completionPath": "synchronous",
+        "expectedResult": "matches the paired baseline contract",
+        "comparisonGroup": "CollectionBenchmarks|Located traverse validation|[Count=16]",
+        "included": true,
+        "exclusionReason": null,
+        "allocationBudgetBytes": 4736,
+        "budgetRationale": "Linux x64 ShortRun calibration on this machine (3760 B) plus 25% and 32 B fixed headroom; rounded up to 8 B. Acceptance uses a later full-suite measurement."
+      },
+      {
+        "id": "CollectionBenchmarks|Located traverse validation|HandWrittenLocationPaths|[Count=1024]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "Located traverse validation",
+        "method": "HandWrittenLocationPaths",
+        "parameters": "[Count=1024]",
+        "baseline": true,
+        "carrier": "value",
+        "completionPath": "synchronous",
+        "expectedResult": "matches the paired baseline contract",
+        "comparisonGroup": "CollectionBenchmarks|Located traverse validation|[Count=1024]",
+        "included": true,
+        "exclusionReason": null,
+        "allocationBudgetBytes": 28408,
+        "budgetRationale": "Linux x64 ShortRun calibration on this machine (22696 B) plus 25% and 32 B fixed headroom; rounded up to 8 B. Acceptance uses a later full-suite measurement."
+      },
+      {
+        "id": "CollectionBenchmarks|Located traverse validation|HandWrittenLocationPaths|[Count=16]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "Located traverse validation",
+        "method": "HandWrittenLocationPaths",
+        "parameters": "[Count=16]",
+        "baseline": true,
+        "carrier": "value",
+        "completionPath": "synchronous",
+        "expectedResult": "matches the paired baseline contract",
+        "comparisonGroup": "CollectionBenchmarks|Located traverse validation|[Count=16]",
+        "included": true,
+        "exclusionReason": null,
+        "allocationBudgetBytes": 504,
+        "budgetRationale": "Linux x64 ShortRun calibration on this machine (376 B) plus 25% and 32 B fixed headroom; rounded up to 8 B. Acceptance uses a later full-suite measurement."
+      },
+      {
+        "id": "CollectionBenchmarks|Parse int|BclTryParse|[Count=1024]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "Parse int",
+        "method": "BclTryParse",
+        "parameters": "[Count=1024]",
+        "baseline": true,
+        "carrier": "value",
+        "completionPath": "synchronous",
+        "expectedResult": "matches the paired baseline contract",
+        "comparisonGroup": "CollectionBenchmarks|Parse int|[Count=1024]",
+        "included": true,
+        "exclusionReason": null,
+        "allocationBudgetBytes": 0,
+        "budgetRationale": "Linux x64 ShortRun calibration on this machine reported exact zero allocation."
+      },
+      {
+        "id": "CollectionBenchmarks|Parse int|BclTryParse|[Count=16]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "Parse int",
+        "method": "BclTryParse",
+        "parameters": "[Count=16]",
+        "baseline": true,
+        "carrier": "value",
+        "completionPath": "synchronous",
+        "expectedResult": "matches the paired baseline contract",
+        "comparisonGroup": "CollectionBenchmarks|Parse int|[Count=16]",
+        "included": true,
+        "exclusionReason": null,
+        "allocationBudgetBytes": 0,
+        "budgetRationale": "Linux x64 ShortRun calibration on this machine reported exact zero allocation."
+      },
+      {
+        "id": "CollectionBenchmarks|Parse int|FunnySharpParseIntOrNone|[Count=1024]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "Parse int",
+        "method": "FunnySharpParseIntOrNone",
+        "parameters": "[Count=1024]",
+        "baseline": false,
+        "carrier": "value",
+        "completionPath": "synchronous",
+        "expectedResult": "matches the paired baseline contract",
+        "comparisonGroup": "CollectionBenchmarks|Parse int|[Count=1024]",
+        "included": true,
+        "exclusionReason": null,
+        "allocationBudgetBytes": 0,
+        "budgetRationale": "Linux x64 ShortRun calibration on this machine reported exact zero allocation."
+      },
+      {
+        "id": "CollectionBenchmarks|Parse int|FunnySharpParseIntOrNone|[Count=16]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "Parse int",
+        "method": "FunnySharpParseIntOrNone",
+        "parameters": "[Count=16]",
+        "baseline": false,
+        "carrier": "value",
+        "completionPath": "synchronous",
+        "expectedResult": "matches the paired baseline contract",
+        "comparisonGroup": "CollectionBenchmarks|Parse int|[Count=16]",
+        "included": true,
+        "exclusionReason": null,
+        "allocationBudgetBytes": 0,
+        "budgetRationale": "Linux x64 ShortRun calibration on this machine reported exact zero allocation."
+      },
+      {
+        "id": "CollectionBenchmarks|Queue dequeue drain|BclQueueDrain|[Count=1024]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "Queue dequeue drain",
+        "method": "BclQueueDrain",
+        "parameters": "[Count=1024]",
+        "baseline": true,
+        "carrier": "value",
+        "completionPath": "synchronous",
+        "expectedResult": "matches the paired baseline contract",
+        "comparisonGroup": "CollectionBenchmarks|Queue dequeue drain|[Count=1024]",
+        "included": true,
+        "exclusionReason": null,
+        "allocationBudgetBytes": 5184,
+        "budgetRationale": "Linux x64 ShortRun calibration on this machine (4120 B) plus 25% and 32 B fixed headroom; rounded up to 8 B. Acceptance uses a later full-suite measurement."
+      },
+      {
+        "id": "CollectionBenchmarks|Queue dequeue drain|BclQueueDrain|[Count=16]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "Queue dequeue drain",
+        "method": "BclQueueDrain",
+        "parameters": "[Count=16]",
+        "baseline": true,
+        "carrier": "value",
+        "completionPath": "synchronous",
+        "expectedResult": "matches the paired baseline contract",
+        "comparisonGroup": "CollectionBenchmarks|Queue dequeue drain|[Count=16]",
+        "included": true,
+        "exclusionReason": null,
+        "allocationBudgetBytes": 144,
+        "budgetRationale": "Linux x64 ShortRun calibration on this machine (88 B) plus 25% and 32 B fixed headroom; rounded up to 8 B. Acceptance uses a later full-suite measurement."
+      },
+      {
+        "id": "CollectionBenchmarks|Queue dequeue drain|FunnySharpQueueDrain|[Count=1024]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "Queue dequeue drain",
+        "method": "FunnySharpQueueDrain",
+        "parameters": "[Count=1024]",
+        "baseline": false,
+        "carrier": "value",
+        "completionPath": "synchronous",
+        "expectedResult": "matches the paired baseline contract",
+        "comparisonGroup": "CollectionBenchmarks|Queue dequeue drain|[Count=1024]",
+        "included": true,
+        "exclusionReason": null,
+        "allocationBudgetBytes": 5232,
+        "budgetRationale": "Linux x64 ShortRun calibration on this machine (4160 B) plus 25% and 32 B fixed headroom; rounded up to 8 B. Acceptance uses a later full-suite measurement."
+      },
+      {
+        "id": "CollectionBenchmarks|Queue dequeue drain|FunnySharpQueueDrain|[Count=16]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "Queue dequeue drain",
+        "method": "FunnySharpQueueDrain",
+        "parameters": "[Count=16]",
+        "baseline": false,
+        "carrier": "value",
+        "completionPath": "synchronous",
+        "expectedResult": "matches the paired baseline contract",
+        "comparisonGroup": "CollectionBenchmarks|Queue dequeue drain|[Count=16]",
+        "included": true,
+        "exclusionReason": null,
+        "allocationBudgetBytes": 192,
+        "budgetRationale": "Linux x64 ShortRun calibration on this machine (128 B) plus 25% and 32 B fixed headroom; rounded up to 8 B. Acceptance uses a later full-suite measurement."
       }
     ]
   },
   "observation": {
     "schemaVersion": 1,
-    "generatedAtUtc": "2026-09-22T17:17:52.9550255+00:00",
-    "candidateCommit": "7660073d588860d1036594f64319b86b78d8bda9",
-    "policyRevision": "2026-09-19-v6",
-    "policyFingerprint": "408ffe82eba5656718cecb39a15cd2376b486ab95e980b103a6d2902da5281cc",
-    "benchmarkInputFingerprint": "bc695f4dc3b1726b427df2395b16bee4eb377cf764c8ec0ade95eb826c2368ac",
+    "generatedAtUtc": "2026-09-24T14:28:51.3574890+00:00",
+    "candidateCommit": "0d9cc81f2ceb2facac04bc2b93fa980ae9d20515",
+    "policyRevision": "2026-09-23-v7",
+    "policyFingerprint": "7d9348bc11406855717440511f2d82b6b5e21124a7d2c2f7e1443ad265ca83eb",
+    "benchmarkInputFingerprint": "54d38836bbcb82027156d806bdcc03af22046b96f1885914d7cad2e9186e05c2",
     "protocolFingerprint": "774ad64b9fb8ecafcbee3280a5c5ba6a6f7d4657625b989f6da6f738ce21d578",
     "environmentKey": "8c8e4eb1992841b98347f23a9baba967960bc52eda242439099472f7805f59bd",
     "receipts": [
       {
+        "file": "CollectionBenchmarks-performance-receipt.json",
+        "sha256": "1595c6f5b0a68878a861e9c4258383f5ac19cb258726fdd4957b285dd51c3f53",
+        "environment": {
+          "os": "Linux Ubuntu 24.04.5 LTS (Noble Numbat)",
+          "architecture": "X64",
+          "sdkVersion": "10.0.400",
+          "runtime": ".NET 10.0.11 (10.0.11, 10.0.1126.37416)",
+          "jit": "RyuJIT",
+          "gcServer": false,
+          "gcConcurrent": true,
+          "gcAllocationQuantum": 8224
+        }
+      },
+      {
         "file": "ConcurrencyBenchmarks-performance-receipt.json",
-        "sha256": "8518f324e7717fcd1abf06a8bb59c45a2cdf1f040ecf611829df0f315524fade",
+        "sha256": "458ad2f0066a2533037b035ea661f8e7dba17b4dd58c4d263e7acc0cee674228",
         "environment": {
           "os": "Linux Ubuntu 24.04.5 LTS (Noble Numbat)",
           "architecture": "X64",
@@ -2544,7 +3206,7 @@
       },
       {
         "file": "DataPipelineBenchmarks-performance-receipt.json",
-        "sha256": "901ed7aa4e1a48831efad3f73f92496da8023d1e139fb1247618f4d42500c550",
+        "sha256": "24a4a7481e223de25071f869fbb534dbb33417c04f882640034ebe1797b8324f",
         "environment": {
           "os": "Linux Ubuntu 24.04.5 LTS (Noble Numbat)",
           "architecture": "X64",
@@ -2558,7 +3220,7 @@
       },
       {
         "file": "EffectBenchmarks-performance-receipt.json",
-        "sha256": "2523070f61063d4be89464ec58786a39b2f9dfb90810fef9fd78fdc49eb45f57",
+        "sha256": "62edc92abdf4127723338363944893d6da9cfffe733fb73faf1520057eaef2d7",
         "environment": {
           "os": "Linux Ubuntu 24.04.5 LTS (Noble Numbat)",
           "architecture": "X64",
@@ -2572,7 +3234,7 @@
       },
       {
         "file": "FirstSuccessConcurrencyBenchmarks-performance-receipt.json",
-        "sha256": "b46daffcb82ae2e8b8125adcd2294303b713f821fb0ef26f40607dcf5b255599",
+        "sha256": "7b381673252263015257a3ec5a5ea224c9ba8a9165221f8d690db305b406ae23",
         "environment": {
           "os": "Linux Ubuntu 24.04.5 LTS (Noble Numbat)",
           "architecture": "X64",
@@ -2586,7 +3248,7 @@
       },
       {
         "file": "FunctionCompositionBenchmarks-performance-receipt.json",
-        "sha256": "ba97664267616515591267ae793352e63ef716ecf29f66e4ea685757c7b99245",
+        "sha256": "e53d9f47da226131c76e4397e3993eca01b5afc468af8093d96b375ce9f2a277",
         "environment": {
           "os": "Linux Ubuntu 24.04.5 LTS (Noble Numbat)",
           "architecture": "X64",
@@ -2600,7 +3262,7 @@
       },
       {
         "file": "ImmutableUpdateBenchmarks-performance-receipt.json",
-        "sha256": "6c3521a5d18b15940512762b484b66bf3bd3b8c0737751e81a14814e530c5ff9",
+        "sha256": "dab26b086b52501ac5c2008fb6a30dbb985e616c4fb1536c187b9b99b578ce4f",
         "environment": {
           "os": "Linux Ubuntu 24.04.5 LTS (Noble Numbat)",
           "architecture": "X64",
@@ -2614,7 +3276,7 @@
       },
       {
         "file": "OptionBenchmarks-performance-receipt.json",
-        "sha256": "3e620b167142aa7bd4de19c4de5937065b46197b527224e3273a27d289eb2251",
+        "sha256": "44e6b154f78e2263b90e942822099bc5fb7022b19e0e1eae845b1faab84c0326",
         "environment": {
           "os": "Linux Ubuntu 24.04.5 LTS (Noble Numbat)",
           "architecture": "X64",
@@ -2628,7 +3290,7 @@
       },
       {
         "file": "ParallelTraverseConcurrencyBenchmarks-performance-receipt.json",
-        "sha256": "ccba226d536efc3c6983ff82138b6b4fe5d578e10c827e7fbfe81d7164be6560",
+        "sha256": "36d67764b1c82509c615e28893e451471d39a0c87cf5ec69c3c3666a85e2f094",
         "environment": {
           "os": "Linux Ubuntu 24.04.5 LTS (Noble Numbat)",
           "architecture": "X64",
@@ -2642,7 +3304,7 @@
       },
       {
         "file": "ResultBenchmarks-performance-receipt.json",
-        "sha256": "f952253e4565d60bf0f3893e8b71a3bc72259d0fcefdd4a25121a971e20a3179",
+        "sha256": "0c2df8dc81cf8cfde197448b77a02b1537f34d1df607b95b6120635dbe91655d",
         "environment": {
           "os": "Linux Ubuntu 24.04.5 LTS (Noble Numbat)",
           "architecture": "X64",
@@ -2656,7 +3318,7 @@
       },
       {
         "file": "SequenceBenchmarks-performance-receipt.json",
-        "sha256": "071dc8d6a25248a5cf9d1af80852910c239d2c91b8667e78bfaad28eec071ce5",
+        "sha256": "68a2d0d537b9c932c4aba6ff8ef8724d9cdfa9d41e01fb69e3e6b83fee92a1f5",
         "environment": {
           "os": "Linux Ubuntu 24.04.5 LTS (Noble Numbat)",
           "architecture": "X64",
@@ -2670,7 +3332,7 @@
       },
       {
         "file": "StateMachineBenchmarks-performance-receipt.json",
-        "sha256": "3742b4a21c4192caa80ed3d08962d1f4f15040609c906c71899753da7de1cf24",
+        "sha256": "eb99783495e4933f4dad0f10bb7fe301428a3961c00ff2c6b881c6f6b7f48b53",
         "environment": {
           "os": "Linux Ubuntu 24.04.5 LTS (Noble Numbat)",
           "architecture": "X64",
@@ -2685,6 +3347,446 @@
     ],
     "rows": [
       {
+        "id": "CollectionBenchmarks|IEnumerable exact zip|FunnySharpZipExact|[Count=1024]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "IEnumerable exact zip",
+        "method": "FunnySharpZipExact",
+        "parameters": "[Count=1024]",
+        "baseline": false,
+        "timingState": "observed",
+        "meanNanoseconds": 6515.708400726318,
+        "allocatedBytesPerOperation": 8376
+      },
+      {
+        "id": "CollectionBenchmarks|IEnumerable exact zip|FunnySharpZipExact|[Count=16]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "IEnumerable exact zip",
+        "method": "FunnySharpZipExact",
+        "parameters": "[Count=16]",
+        "baseline": false,
+        "timingState": "observed",
+        "meanNanoseconds": 162.70535369714102,
+        "allocatedBytesPerOperation": 312
+      },
+      {
+        "id": "CollectionBenchmarks|IEnumerable exact zip|LinqZipWithCountCheck|[Count=1024]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "IEnumerable exact zip",
+        "method": "LinqZipWithCountCheck",
+        "parameters": "[Count=1024]",
+        "baseline": true,
+        "timingState": "observed",
+        "meanNanoseconds": 6619.149091084798,
+        "allocatedBytesPerOperation": 160
+      },
+      {
+        "id": "CollectionBenchmarks|IEnumerable exact zip|LinqZipWithCountCheck|[Count=16]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "IEnumerable exact zip",
+        "method": "LinqZipWithCountCheck",
+        "parameters": "[Count=16]",
+        "baseline": true,
+        "timingState": "observed",
+        "meanNanoseconds": 161.72456618150076,
+        "allocatedBytesPerOperation": 160
+      },
+      {
+        "id": "CollectionBenchmarks|IEnumerable first-or-none|FunnySharpFirstOrNone|[Count=1024]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "IEnumerable first-or-none",
+        "method": "FunnySharpFirstOrNone",
+        "parameters": "[Count=1024]",
+        "baseline": false,
+        "timingState": "observed",
+        "meanNanoseconds": 3475.2194315592446,
+        "allocatedBytesPerOperation": 0
+      },
+      {
+        "id": "CollectionBenchmarks|IEnumerable first-or-none|FunnySharpFirstOrNone|[Count=16]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "IEnumerable first-or-none",
+        "method": "FunnySharpFirstOrNone",
+        "parameters": "[Count=16]",
+        "baseline": false,
+        "timingState": "observed",
+        "meanNanoseconds": 58.896579056978226,
+        "allocatedBytesPerOperation": 0
+      },
+      {
+        "id": "CollectionBenchmarks|IEnumerable first-or-none|LinqFirstOrDefault|[Count=1024]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "IEnumerable first-or-none",
+        "method": "LinqFirstOrDefault",
+        "parameters": "[Count=1024]",
+        "baseline": true,
+        "timingState": "observed",
+        "meanNanoseconds": 3168.884667078654,
+        "allocatedBytesPerOperation": 0
+      },
+      {
+        "id": "CollectionBenchmarks|IEnumerable first-or-none|LinqFirstOrDefault|[Count=16]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "IEnumerable first-or-none",
+        "method": "LinqFirstOrDefault",
+        "parameters": "[Count=16]",
+        "baseline": true,
+        "timingState": "observed",
+        "meanNanoseconds": 60.91330053408941,
+        "allocatedBytesPerOperation": 0
+      },
+      {
+        "id": "CollectionBenchmarks|IEnumerable min-or-none|FunnySharpMinOrNone|[Count=1024]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "IEnumerable min-or-none",
+        "method": "FunnySharpMinOrNone",
+        "parameters": "[Count=1024]",
+        "baseline": false,
+        "timingState": "observed",
+        "meanNanoseconds": 725.3326139450073,
+        "allocatedBytesPerOperation": 0
+      },
+      {
+        "id": "CollectionBenchmarks|IEnumerable min-or-none|FunnySharpMinOrNone|[Count=16]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "IEnumerable min-or-none",
+        "method": "FunnySharpMinOrNone",
+        "parameters": "[Count=16]",
+        "baseline": false,
+        "timingState": "observed",
+        "meanNanoseconds": 14.343913773695627,
+        "allocatedBytesPerOperation": 0
+      },
+      {
+        "id": "CollectionBenchmarks|IEnumerable min-or-none|LinqNullableMin|[Count=1024]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "IEnumerable min-or-none",
+        "method": "LinqNullableMin",
+        "parameters": "[Count=1024]",
+        "baseline": true,
+        "timingState": "observed",
+        "meanNanoseconds": 22121.450556437176,
+        "allocatedBytesPerOperation": 24656
+      },
+      {
+        "id": "CollectionBenchmarks|IEnumerable min-or-none|LinqNullableMin|[Count=16]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "IEnumerable min-or-none",
+        "method": "LinqNullableMin",
+        "parameters": "[Count=16]",
+        "baseline": true,
+        "timingState": "observed",
+        "meanNanoseconds": 366.9126540819804,
+        "allocatedBytesPerOperation": 464
+      },
+      {
+        "id": "CollectionBenchmarks|IEnumerable non-empty total|FunnySharpNonEmptyAggregate|[Count=1024]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "IEnumerable non-empty total",
+        "method": "FunnySharpNonEmptyAggregate",
+        "parameters": "[Count=1024]",
+        "baseline": false,
+        "timingState": "observed",
+        "meanNanoseconds": 5168.25224049886,
+        "allocatedBytesPerOperation": 4152
+      },
+      {
+        "id": "CollectionBenchmarks|IEnumerable non-empty total|FunnySharpNonEmptyAggregate|[Count=16]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "IEnumerable non-empty total",
+        "method": "FunnySharpNonEmptyAggregate",
+        "parameters": "[Count=16]",
+        "baseline": false,
+        "timingState": "observed",
+        "meanNanoseconds": 88.55594146251678,
+        "allocatedBytesPerOperation": 120
+      },
+      {
+        "id": "CollectionBenchmarks|IEnumerable non-empty total|LinqAnyThenAggregate|[Count=1024]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "IEnumerable non-empty total",
+        "method": "LinqAnyThenAggregate",
+        "parameters": "[Count=1024]",
+        "baseline": true,
+        "timingState": "observed",
+        "meanNanoseconds": 2421.7057571411133,
+        "allocatedBytesPerOperation": 0
+      },
+      {
+        "id": "CollectionBenchmarks|IEnumerable non-empty total|LinqAnyThenAggregate|[Count=16]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "IEnumerable non-empty total",
+        "method": "LinqAnyThenAggregate",
+        "parameters": "[Count=16]",
+        "baseline": true,
+        "timingState": "observed",
+        "meanNanoseconds": 38.979530503352485,
+        "allocatedBytesPerOperation": 0
+      },
+      {
+        "id": "CollectionBenchmarks|IEnumerable partition|FunnySharpPartition|[Count=1024]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "IEnumerable partition",
+        "method": "FunnySharpPartition",
+        "parameters": "[Count=1024]",
+        "baseline": false,
+        "timingState": "observed",
+        "meanNanoseconds": 3851.9104499816895,
+        "allocatedBytesPerOperation": 8384
+      },
+      {
+        "id": "CollectionBenchmarks|IEnumerable partition|FunnySharpPartition|[Count=16]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "IEnumerable partition",
+        "method": "FunnySharpPartition",
+        "parameters": "[Count=16]",
+        "baseline": false,
+        "timingState": "observed",
+        "meanNanoseconds": 108.55736295382182,
+        "allocatedBytesPerOperation": 320
+      },
+      {
+        "id": "CollectionBenchmarks|IEnumerable partition|LinqTwoWherePasses|[Count=1024]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "IEnumerable partition",
+        "method": "LinqTwoWherePasses",
+        "parameters": "[Count=1024]",
+        "baseline": true,
+        "timingState": "observed",
+        "meanNanoseconds": 8302.87516784668,
+        "allocatedBytesPerOperation": 4304
+      },
+      {
+        "id": "CollectionBenchmarks|IEnumerable partition|LinqTwoWherePasses|[Count=16]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "IEnumerable partition",
+        "method": "LinqTwoWherePasses",
+        "parameters": "[Count=16]",
+        "baseline": true,
+        "timingState": "observed",
+        "meanNanoseconds": 193.53435786565146,
+        "allocatedBytesPerOperation": 272
+      },
+      {
+        "id": "CollectionBenchmarks|IEnumerable single-or-none|FunnySharpSingleOrNone|[Count=1024]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "IEnumerable single-or-none",
+        "method": "FunnySharpSingleOrNone",
+        "parameters": "[Count=1024]",
+        "baseline": false,
+        "timingState": "observed",
+        "meanNanoseconds": 3085.2076276143393,
+        "allocatedBytesPerOperation": 0
+      },
+      {
+        "id": "CollectionBenchmarks|IEnumerable single-or-none|FunnySharpSingleOrNone|[Count=16]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "IEnumerable single-or-none",
+        "method": "FunnySharpSingleOrNone",
+        "parameters": "[Count=16]",
+        "baseline": false,
+        "timingState": "observed",
+        "meanNanoseconds": 46.89225014050802,
+        "allocatedBytesPerOperation": 0
+      },
+      {
+        "id": "CollectionBenchmarks|IEnumerable single-or-none|LinqSingleMatchCheck|[Count=1024]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "IEnumerable single-or-none",
+        "method": "LinqSingleMatchCheck",
+        "parameters": "[Count=1024]",
+        "baseline": true,
+        "timingState": "observed",
+        "meanNanoseconds": 2820.9441159566245,
+        "allocatedBytesPerOperation": 168
+      },
+      {
+        "id": "CollectionBenchmarks|IEnumerable single-or-none|LinqSingleMatchCheck|[Count=16]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "IEnumerable single-or-none",
+        "method": "LinqSingleMatchCheck",
+        "parameters": "[Count=16]",
+        "baseline": true,
+        "timingState": "observed",
+        "meanNanoseconds": 99.13972357908885,
+        "allocatedBytesPerOperation": 168
+      },
+      {
+        "id": "CollectionBenchmarks|IEnumerable where-not-null|FunnySharpWhereNotNull|[Count=1024]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "IEnumerable where-not-null",
+        "method": "FunnySharpWhereNotNull",
+        "parameters": "[Count=1024]",
+        "baseline": false,
+        "timingState": "observed",
+        "meanNanoseconds": 7257.848370869954,
+        "allocatedBytesPerOperation": 16688
+      },
+      {
+        "id": "CollectionBenchmarks|IEnumerable where-not-null|FunnySharpWhereNotNull|[Count=16]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "IEnumerable where-not-null",
+        "method": "FunnySharpWhereNotNull",
+        "parameters": "[Count=16]",
+        "baseline": false,
+        "timingState": "observed",
+        "meanNanoseconds": 220.75084221363068,
+        "allocatedBytesPerOperation": 416
+      },
+      {
+        "id": "CollectionBenchmarks|IEnumerable where-not-null|LinqWhereNotNull|[Count=1024]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "IEnumerable where-not-null",
+        "method": "LinqWhereNotNull",
+        "parameters": "[Count=1024]",
+        "baseline": true,
+        "timingState": "observed",
+        "meanNanoseconds": 9748.89330037435,
+        "allocatedBytesPerOperation": 7272
+      },
+      {
+        "id": "CollectionBenchmarks|IEnumerable where-not-null|LinqWhereNotNull|[Count=16]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "IEnumerable where-not-null",
+        "method": "LinqWhereNotNull",
+        "parameters": "[Count=16]",
+        "baseline": true,
+        "timingState": "observed",
+        "meanNanoseconds": 180.46646364529929,
+        "allocatedBytesPerOperation": 216
+      },
+      {
+        "id": "CollectionBenchmarks|Located traverse validation|FunnySharpLocatedTraverse|[Count=1024]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "Located traverse validation",
+        "method": "FunnySharpLocatedTraverse",
+        "parameters": "[Count=1024]",
+        "baseline": false,
+        "timingState": "observed",
+        "meanNanoseconds": 63394.0849202474,
+        "allocatedBytesPerOperation": 221632
+      },
+      {
+        "id": "CollectionBenchmarks|Located traverse validation|FunnySharpLocatedTraverse|[Count=16]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "Located traverse validation",
+        "method": "FunnySharpLocatedTraverse",
+        "parameters": "[Count=16]",
+        "baseline": false,
+        "timingState": "observed",
+        "meanNanoseconds": 1423.3709313074748,
+        "allocatedBytesPerOperation": 3760
+      },
+      {
+        "id": "CollectionBenchmarks|Located traverse validation|HandWrittenLocationPaths|[Count=1024]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "Located traverse validation",
+        "method": "HandWrittenLocationPaths",
+        "parameters": "[Count=1024]",
+        "baseline": true,
+        "timingState": "observed",
+        "meanNanoseconds": 12412.512235005697,
+        "allocatedBytesPerOperation": 22696
+      },
+      {
+        "id": "CollectionBenchmarks|Located traverse validation|HandWrittenLocationPaths|[Count=16]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "Located traverse validation",
+        "method": "HandWrittenLocationPaths",
+        "parameters": "[Count=16]",
+        "baseline": true,
+        "timingState": "observed",
+        "meanNanoseconds": 218.7550181945165,
+        "allocatedBytesPerOperation": 376
+      },
+      {
+        "id": "CollectionBenchmarks|Parse int|BclTryParse|[Count=1024]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "Parse int",
+        "method": "BclTryParse",
+        "parameters": "[Count=1024]",
+        "baseline": true,
+        "timingState": "observed",
+        "meanNanoseconds": 11.303291509548822,
+        "allocatedBytesPerOperation": 0
+      },
+      {
+        "id": "CollectionBenchmarks|Parse int|BclTryParse|[Count=16]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "Parse int",
+        "method": "BclTryParse",
+        "parameters": "[Count=16]",
+        "baseline": true,
+        "timingState": "observed",
+        "meanNanoseconds": 11.072431777914366,
+        "allocatedBytesPerOperation": 0
+      },
+      {
+        "id": "CollectionBenchmarks|Parse int|FunnySharpParseIntOrNone|[Count=1024]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "Parse int",
+        "method": "FunnySharpParseIntOrNone",
+        "parameters": "[Count=1024]",
+        "baseline": false,
+        "timingState": "observed",
+        "meanNanoseconds": 11.270568033059439,
+        "allocatedBytesPerOperation": 0
+      },
+      {
+        "id": "CollectionBenchmarks|Parse int|FunnySharpParseIntOrNone|[Count=16]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "Parse int",
+        "method": "FunnySharpParseIntOrNone",
+        "parameters": "[Count=16]",
+        "baseline": false,
+        "timingState": "observed",
+        "meanNanoseconds": 11.185007482767105,
+        "allocatedBytesPerOperation": 0
+      },
+      {
+        "id": "CollectionBenchmarks|Queue dequeue drain|BclQueueDrain|[Count=1024]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "Queue dequeue drain",
+        "method": "BclQueueDrain",
+        "parameters": "[Count=1024]",
+        "baseline": true,
+        "timingState": "observed",
+        "meanNanoseconds": 877.3828303019205,
+        "allocatedBytesPerOperation": 4120
+      },
+      {
+        "id": "CollectionBenchmarks|Queue dequeue drain|BclQueueDrain|[Count=16]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "Queue dequeue drain",
+        "method": "BclQueueDrain",
+        "parameters": "[Count=16]",
+        "baseline": true,
+        "timingState": "observed",
+        "meanNanoseconds": 22.947480003039043,
+        "allocatedBytesPerOperation": 88
+      },
+      {
+        "id": "CollectionBenchmarks|Queue dequeue drain|FunnySharpQueueDrain|[Count=1024]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "Queue dequeue drain",
+        "method": "FunnySharpQueueDrain",
+        "parameters": "[Count=1024]",
+        "baseline": false,
+        "timingState": "observed",
+        "meanNanoseconds": 1953.8747418721516,
+        "allocatedBytesPerOperation": 4160
+      },
+      {
+        "id": "CollectionBenchmarks|Queue dequeue drain|FunnySharpQueueDrain|[Count=16]",
+        "benchmarkClass": "CollectionBenchmarks",
+        "category": "Queue dequeue drain",
+        "method": "FunnySharpQueueDrain",
+        "parameters": "[Count=16]",
+        "baseline": false,
+        "timingState": "observed",
+        "meanNanoseconds": 44.87356724341711,
+        "allocatedBytesPerOperation": 128
+      },
+      {
         "id": "ConcurrencyBenchmarks|Completion-order bounded asynchronous map|BclParallelForEachAsyncCompletionOrder|[Count=1024]",
         "benchmarkClass": "ConcurrencyBenchmarks",
         "category": "Completion-order bounded asynchronous map",
@@ -2692,8 +3794,8 @@
         "parameters": "[Count=1024]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 454296.9977213542,
-        "allocatedBytesPerOperation": 302775
+        "meanNanoseconds": 474902.38362630206,
+        "allocatedBytesPerOperation": 305054
       },
       {
         "id": "ConcurrencyBenchmarks|Completion-order bounded asynchronous map|BclParallelForEachAsyncCompletionOrder|[Count=16]",
@@ -2703,8 +3805,8 @@
         "parameters": "[Count=16]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 13020.417373657227,
-        "allocatedBytesPerOperation": 5347
+        "meanNanoseconds": 14548.57494099935,
+        "allocatedBytesPerOperation": 5403
       },
       {
         "id": "ConcurrencyBenchmarks|Completion-order bounded asynchronous map|FunnySharpSelectParallelCompletionOrderValueAsync|[Count=1024]",
@@ -2714,8 +3816,8 @@
         "parameters": "[Count=1024]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 1087897.5690104167,
-        "allocatedBytesPerOperation": 472189
+        "meanNanoseconds": 1129239.8203125,
+        "allocatedBytesPerOperation": 471546
       },
       {
         "id": "ConcurrencyBenchmarks|Completion-order bounded asynchronous map|FunnySharpSelectParallelCompletionOrderValueAsync|[Count=16]",
@@ -2725,8 +3827,8 @@
         "parameters": "[Count=16]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 27571.791056315105,
-        "allocatedBytesPerOperation": 10031
+        "meanNanoseconds": 26174.86065673828,
+        "allocatedBytesPerOperation": 10047
       },
       {
         "id": "ConcurrencyBenchmarks|Ordered bounded asynchronous map|BclParallelForEachAsync|[Count=1024]",
@@ -2736,8 +3838,8 @@
         "parameters": "[Count=1024]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 469466.5149739583,
-        "allocatedBytesPerOperation": 303299
+        "meanNanoseconds": 474066.70548502606,
+        "allocatedBytesPerOperation": 296107
       },
       {
         "id": "ConcurrencyBenchmarks|Ordered bounded asynchronous map|BclParallelForEachAsync|[Count=16]",
@@ -2747,8 +3849,8 @@
         "parameters": "[Count=16]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 12669.274251302084,
-        "allocatedBytesPerOperation": 5387
+        "meanNanoseconds": 15059.59521484375,
+        "allocatedBytesPerOperation": 5369
       },
       {
         "id": "ConcurrencyBenchmarks|Ordered bounded asynchronous map|FunnySharpSelectParallelValueAsync|[Count=1024]",
@@ -2758,8 +3860,8 @@
         "parameters": "[Count=1024]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 881446.6848958334,
-        "allocatedBytesPerOperation": 500304
+        "meanNanoseconds": 995526.0234375,
+        "allocatedBytesPerOperation": 533589
       },
       {
         "id": "ConcurrencyBenchmarks|Ordered bounded asynchronous map|FunnySharpSelectParallelValueAsync|[Count=16]",
@@ -2769,8 +3871,8 @@
         "parameters": "[Count=16]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 24892.845662434895,
-        "allocatedBytesPerOperation": 11178
+        "meanNanoseconds": 26265.467732747395,
+        "allocatedBytesPerOperation": 11184
       },
       {
         "id": "DataPipelineBenchmarks|Async stream filter-map|BclAsyncWhereSelect|[Count=1024]",
@@ -2780,7 +3882,7 @@
         "parameters": "[Count=1024]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 41738.26915486654,
+        "meanNanoseconds": 42301.87001546224,
         "allocatedBytesPerOperation": 400
       },
       {
@@ -2791,7 +3893,7 @@
         "parameters": "[Count=16]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 801.8917932510376,
+        "meanNanoseconds": 888.6337013244629,
         "allocatedBytesPerOperation": 400
       },
       {
@@ -2802,7 +3904,7 @@
         "parameters": "[Count=1024]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 17426.566764831543,
+        "meanNanoseconds": 15745.121485392252,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -2813,7 +3915,7 @@
         "parameters": "[Count=16]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 301.1843476295471,
+        "meanNanoseconds": 315.8056124051412,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -2824,7 +3926,7 @@
         "parameters": "[Count=1024]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 38972.22954305013,
+        "meanNanoseconds": 46257.307444254555,
         "allocatedBytesPerOperation": 312
       },
       {
@@ -2835,7 +3937,7 @@
         "parameters": "[Count=16]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 731.9076232910156,
+        "meanNanoseconds": 767.3613233566284,
         "allocatedBytesPerOperation": 312
       },
       {
@@ -2846,7 +3948,7 @@
         "parameters": "[Count=1024]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 39744.6679280599,
+        "meanNanoseconds": 43518.869160970055,
         "allocatedBytesPerOperation": 184
       },
       {
@@ -2857,7 +3959,7 @@
         "parameters": "[Count=16]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 744.3570407231649,
+        "meanNanoseconds": 924.4758052825928,
         "allocatedBytesPerOperation": 184
       },
       {
@@ -2868,7 +3970,7 @@
         "parameters": "[Count=1024]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 46031.3925374349,
+        "meanNanoseconds": 46149.27703857422,
         "allocatedBytesPerOperation": 312
       },
       {
@@ -2879,7 +3981,7 @@
         "parameters": "[Count=16]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 816.7723471323649,
+        "meanNanoseconds": 894.5213057200114,
         "allocatedBytesPerOperation": 312
       },
       {
@@ -2890,7 +3992,7 @@
         "parameters": "[Count=1024]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 4711.790753682454,
+        "meanNanoseconds": 4748.931243896484,
         "allocatedBytesPerOperation": 112
       },
       {
@@ -2901,7 +4003,7 @@
         "parameters": "[Count=16]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 121.17966953913371,
+        "meanNanoseconds": 120.53445808092754,
         "allocatedBytesPerOperation": 112
       },
       {
@@ -2912,7 +4014,7 @@
         "parameters": "[Count=1024]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 5983.245999654134,
+        "meanNanoseconds": 6006.730017344157,
         "allocatedBytesPerOperation": 160
       },
       {
@@ -2923,7 +4025,7 @@
         "parameters": "[Count=16]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 142.0365901788076,
+        "meanNanoseconds": 155.39702308177948,
         "allocatedBytesPerOperation": 160
       },
       {
@@ -2934,7 +4036,7 @@
         "parameters": "[Count=1024]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 4325.5162302653,
+        "meanNanoseconds": 4539.325135548909,
         "allocatedBytesPerOperation": 120
       },
       {
@@ -2945,7 +4047,7 @@
         "parameters": "[Count=16]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 107.1057712038358,
+        "meanNanoseconds": 112.72921679417293,
         "allocatedBytesPerOperation": 120
       },
       {
@@ -2956,7 +4058,7 @@
         "parameters": "[Count=1024]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 4449.052963256836,
+        "meanNanoseconds": 4558.933934529622,
         "allocatedBytesPerOperation": 120
       },
       {
@@ -2967,7 +4069,7 @@
         "parameters": "[Count=16]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 110.1111090183258,
+        "meanNanoseconds": 119.09942968686421,
         "allocatedBytesPerOperation": 120
       },
       {
@@ -2978,7 +4080,7 @@
         "parameters": "[Count=1024]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 718.0711110432943,
+        "meanNanoseconds": 771.3883428573608,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -2989,7 +4091,7 @@
         "parameters": "[Count=16]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 14.638170073429743,
+        "meanNanoseconds": 13.896319588025412,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3000,7 +4102,7 @@
         "parameters": "[Count=1024]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 3053.986275990804,
+        "meanNanoseconds": 3159.4042778015137,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3011,7 +4113,7 @@
         "parameters": "[Count=16]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 53.79948163032532,
+        "meanNanoseconds": 54.78294520576795,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3022,7 +4124,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 27.55366704861323,
+        "meanNanoseconds": 26.734282334645588,
         "allocatedBytesPerOperation": 24
       },
       {
@@ -3033,7 +4135,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 119.47427850961685,
+        "meanNanoseconds": 120.00371237595876,
         "allocatedBytesPerOperation": 208
       },
       {
@@ -3044,7 +4146,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 2.884218215942383,
+        "meanNanoseconds": 3.241822265088558,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3055,7 +4157,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 29.320995450019836,
+        "meanNanoseconds": 29.371990621089935,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3066,7 +4168,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 25.758678808808327,
+        "meanNanoseconds": 27.188535471757252,
         "allocatedBytesPerOperation": 80
       },
       {
@@ -3077,7 +4179,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 75.94512589772542,
+        "meanNanoseconds": 85.31575026114781,
         "allocatedBytesPerOperation": 80
       },
       {
@@ -3088,7 +4190,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 20.922313019633293,
+        "meanNanoseconds": 12.524542048573494,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3099,7 +4201,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 20.764854848384857,
+        "meanNanoseconds": 24.351393232742947,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3110,7 +4212,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 20.682369967301685,
+        "meanNanoseconds": 20.761040528615315,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3121,7 +4223,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 62.14187504847845,
+        "meanNanoseconds": 67.33595118920009,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3132,7 +4234,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 2.632078677415848,
+        "meanNanoseconds": 2.7174492428700128,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3143,7 +4245,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 36.29818935195605,
+        "meanNanoseconds": 36.84208682179451,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3154,7 +4256,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 3.7654962887366614,
+        "meanNanoseconds": 3.8119621897737184,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3165,7 +4267,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 79.46955581506093,
+        "meanNanoseconds": 80.25154846906662,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3176,7 +4278,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 15.412901182969412,
+        "meanNanoseconds": 15.265437851349512,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3187,7 +4289,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 96.26219455401103,
+        "meanNanoseconds": 108.02851349115372,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3198,7 +4300,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 12.473397890726725,
+        "meanNanoseconds": 13.334123323361078,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3209,7 +4311,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 102.40649650494258,
+        "meanNanoseconds": 105.5388053059578,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3220,7 +4322,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 1.0062618255615234,
+        "meanNanoseconds": 1.0955127701163292,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3231,7 +4333,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 23.317003468672436,
+        "meanNanoseconds": 14.862590452035269,
         "allocatedBytesPerOperation": 88
       },
       {
@@ -3242,8 +4344,8 @@
         "parameters": "[CandidateCount=16]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 7098.875671386719,
-        "allocatedBytesPerOperation": 5710
+        "meanNanoseconds": 7378.991236368815,
+        "allocatedBytesPerOperation": 5678
       },
       {
         "id": "FirstSuccessConcurrencyBenchmarks|First successful cold Result operation|BclTaskWhenAnyCancelAndDrain|[CandidateCount=4]",
@@ -3253,8 +4355,8 @@
         "parameters": "[CandidateCount=4]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 13417.454030354818,
-        "allocatedBytesPerOperation": 1750
+        "meanNanoseconds": 5210.758625030518,
+        "allocatedBytesPerOperation": 1727
       },
       {
         "id": "FirstSuccessConcurrencyBenchmarks|First successful cold Result operation|FunnySharpFirstSuccessAsync|[CandidateCount=16]",
@@ -3264,8 +4366,8 @@
         "parameters": "[CandidateCount=16]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 5715.07475789388,
-        "allocatedBytesPerOperation": 3999
+        "meanNanoseconds": 5574.4167887369795,
+        "allocatedBytesPerOperation": 4066
       },
       {
         "id": "FirstSuccessConcurrencyBenchmarks|First successful cold Result operation|FunnySharpFirstSuccessAsync|[CandidateCount=4]",
@@ -3275,8 +4377,8 @@
         "parameters": "[CandidateCount=4]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 6692.6092529296875,
-        "allocatedBytesPerOperation": 2452
+        "meanNanoseconds": 7403.7358474731445,
+        "allocatedBytesPerOperation": 2771
       },
       {
         "id": "FunctionCompositionBenchmarks|Completed Task invocation|ComposeAsyncCompletedTaskInvocation|",
@@ -3286,7 +4388,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 36.32036424676577,
+        "meanNanoseconds": 37.841889748970665,
         "allocatedBytesPerOperation": 216
       },
       {
@@ -3297,7 +4399,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 31.977808038393658,
+        "meanNanoseconds": 34.22600817680359,
         "allocatedBytesPerOperation": 216
       },
       {
@@ -3308,7 +4410,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 17.50702554980914,
+        "meanNanoseconds": 18.378438591957092,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3319,7 +4421,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 12.838653738300005,
+        "meanNanoseconds": 14.082588255405426,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3330,7 +4432,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 17.483222603797913,
+        "meanNanoseconds": 20.446275343497593,
         "allocatedBytesPerOperation": 96
       },
       {
@@ -3341,7 +4443,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 12.00755480925242,
+        "meanNanoseconds": 10.838703845938047,
         "allocatedBytesPerOperation": 64
       },
       {
@@ -3352,7 +4454,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 5.400712355971336,
+        "meanNanoseconds": 5.431533987323443,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3363,7 +4465,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 1.53004702180624,
+        "meanNanoseconds": 1.6696672700345516,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3374,7 +4476,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 5.379277755816777,
+        "meanNanoseconds": 4.2846313416957855,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3385,7 +4487,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 4.618743474284808,
+        "meanNanoseconds": 4.305717167754968,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3396,7 +4498,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 70.93289470672607,
+        "meanNanoseconds": 68.4075504342715,
         "allocatedBytesPerOperation": 208
       },
       {
@@ -3407,7 +4509,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 71.89545905590057,
+        "meanNanoseconds": 70.2071088552475,
         "allocatedBytesPerOperation": 208
       },
       {
@@ -3418,7 +4520,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 60.13679697116216,
+        "meanNanoseconds": 73.18305679162343,
         "allocatedBytesPerOperation": 104
       },
       {
@@ -3429,7 +4531,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 80.92605638504028,
+        "meanNanoseconds": 74.49445088704427,
         "allocatedBytesPerOperation": 104
       },
       {
@@ -3440,7 +4542,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 9.115632077058157,
+        "meanNanoseconds": 10.000418047110239,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3451,7 +4553,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 10.65461814403534,
+        "meanNanoseconds": 10.972348610560099,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3462,7 +4564,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 26.48691255847613,
+        "meanNanoseconds": 25.17929132779439,
         "allocatedBytesPerOperation": 72
       },
       {
@@ -3473,7 +4575,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 49.46174728870392,
+        "meanNanoseconds": 32.82226479053497,
         "allocatedBytesPerOperation": 72
       },
       {
@@ -3484,7 +4586,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 22.979361136754353,
+        "meanNanoseconds": 25.572904010613758,
         "allocatedBytesPerOperation": 144
       },
       {
@@ -3495,7 +4597,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 42.565172831217446,
+        "meanNanoseconds": 44.91981229186058,
         "allocatedBytesPerOperation": 216
       },
       {
@@ -3506,7 +4608,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 13.315762971838316,
+        "meanNanoseconds": 9.655459622542063,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3517,7 +4619,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 24.235434740781784,
+        "meanNanoseconds": 25.043195550640423,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3528,7 +4630,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 5.954443410038948,
+        "meanNanoseconds": 5.796156855920951,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3539,7 +4641,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 5.864641065398852,
+        "meanNanoseconds": 6.192161738872528,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3550,7 +4652,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 5.8674298624197645,
+        "meanNanoseconds": 6.419300715128581,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3561,7 +4663,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 6.571327621738116,
+        "meanNanoseconds": 6.765739371379216,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3583,7 +4685,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 0.38550281648834545,
+        "meanNanoseconds": 0.3597498598198096,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3605,7 +4707,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 0.3485660118361314,
+        "meanNanoseconds": 0.3626081645488739,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3627,7 +4729,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 1.2000039766232173,
+        "meanNanoseconds": 1.1887312047183514,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3637,8 +4739,8 @@
         "method": "DirectMapSome",
         "parameters": "",
         "baseline": true,
-        "timingState": "below-resolution",
-        "meanNanoseconds": null,
+        "timingState": "observed",
+        "meanNanoseconds": 0.20469756921132407,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3649,7 +4751,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 2.5186755831042924,
+        "meanNanoseconds": 2.417055452863375,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3671,7 +4773,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 1.1758589334785938,
+        "meanNanoseconds": 1.0754266021152337,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3681,8 +4783,8 @@
         "method": "DirectNullableSome",
         "parameters": "",
         "baseline": true,
-        "timingState": "observed",
-        "meanNanoseconds": 0.2674225550144911,
+        "timingState": "below-resolution",
+        "meanNanoseconds": null,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3693,7 +4795,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 0.13504824290672937,
+        "meanNanoseconds": 0.1755992149313291,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3704,7 +4806,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 11.473243539532026,
+        "meanNanoseconds": 11.016199136773745,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3715,7 +4817,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 13.995616734027863,
+        "meanNanoseconds": 17.898779173692066,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3726,7 +4828,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 8.372122858961424,
+        "meanNanoseconds": 7.326539605855942,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3737,7 +4839,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 10.012304907043776,
+        "meanNanoseconds": 10.098730837305387,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3748,8 +4850,8 @@
         "parameters": "[Count=1024]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 540923.0716145834,
-        "allocatedBytesPerOperation": 319124
+        "meanNanoseconds": 476880.259765625,
+        "allocatedBytesPerOperation": 326338
       },
       {
         "id": "ParallelTraverseConcurrencyBenchmarks|Parallel Option traversal|BclParallelOptionTraversal|[Count=16]",
@@ -3759,8 +4861,8 @@
         "parameters": "[Count=16]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 18015.255945841473,
-        "allocatedBytesPerOperation": 5963
+        "meanNanoseconds": 14046.174362182617,
+        "allocatedBytesPerOperation": 5947
       },
       {
         "id": "ParallelTraverseConcurrencyBenchmarks|Parallel Option traversal|FunnySharpParallelOptionTraversal|[Count=1024]",
@@ -3770,8 +4872,8 @@
         "parameters": "[Count=1024]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 676234.978515625,
-        "allocatedBytesPerOperation": 262946
+        "meanNanoseconds": 749355.2005208334,
+        "allocatedBytesPerOperation": 301805
       },
       {
         "id": "ParallelTraverseConcurrencyBenchmarks|Parallel Option traversal|FunnySharpParallelOptionTraversal|[Count=16]",
@@ -3781,8 +4883,8 @@
         "parameters": "[Count=16]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 20419.210703531902,
-        "allocatedBytesPerOperation": 6315
+        "meanNanoseconds": 19895.71209716797,
+        "allocatedBytesPerOperation": 6327
       },
       {
         "id": "ParallelTraverseConcurrencyBenchmarks|Parallel Validation accumulation|BclParallelValidationTraversal|[Count=1024]",
@@ -3792,8 +4894,8 @@
         "parameters": "[Count=1024]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 535738.0696614584,
-        "allocatedBytesPerOperation": 352475
+        "meanNanoseconds": 554747.7783203125,
+        "allocatedBytesPerOperation": 373575
       },
       {
         "id": "ParallelTraverseConcurrencyBenchmarks|Parallel Validation accumulation|BclParallelValidationTraversal|[Count=16]",
@@ -3803,8 +4905,8 @@
         "parameters": "[Count=16]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 15768.720392862955,
-        "allocatedBytesPerOperation": 6550
+        "meanNanoseconds": 15710.556950887045,
+        "allocatedBytesPerOperation": 6523
       },
       {
         "id": "ParallelTraverseConcurrencyBenchmarks|Parallel Validation accumulation|FunnySharpParallelValidationTraversal|[Count=1024]",
@@ -3814,8 +4916,8 @@
         "parameters": "[Count=1024]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 802037.6888020834,
-        "allocatedBytesPerOperation": 322729
+        "meanNanoseconds": 721229.7122395834,
+        "allocatedBytesPerOperation": 342216
       },
       {
         "id": "ParallelTraverseConcurrencyBenchmarks|Parallel Validation accumulation|FunnySharpParallelValidationTraversal|[Count=16]",
@@ -3825,8 +4927,8 @@
         "parameters": "[Count=16]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 22243.257700602215,
-        "allocatedBytesPerOperation": 7915
+        "meanNanoseconds": 24229.76675415039,
+        "allocatedBytesPerOperation": 8118
       },
       {
         "id": "ResultBenchmarks|Completed Task mapping|DirectCompletedTaskMap|",
@@ -3836,7 +4938,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 26.79573916395505,
+        "meanNanoseconds": 25.308556059996288,
         "allocatedBytesPerOperation": 144
       },
       {
@@ -3847,7 +4949,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 69.38865313927333,
+        "meanNanoseconds": 54.2119529346625,
         "allocatedBytesPerOperation": 256
       },
       {
@@ -3858,7 +4960,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 16.84841866294543,
+        "meanNanoseconds": 12.375711863239607,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3869,7 +4971,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 42.245499382416405,
+        "meanNanoseconds": 40.125175416469574,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3879,8 +4981,8 @@
         "method": "DirectFailureConstructionAndInspection",
         "parameters": "",
         "baseline": true,
-        "timingState": "observed",
-        "meanNanoseconds": 0.20550349168479443,
+        "timingState": "below-resolution",
+        "meanNanoseconds": null,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3924,7 +5026,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 2833.6150499979653,
+        "meanNanoseconds": 3022.411521911621,
         "allocatedBytesPerOperation": 512
       },
       {
@@ -3935,7 +5037,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 3233.2032318115234,
+        "meanNanoseconds": 3470.9452756245933,
         "allocatedBytesPerOperation": 680
       },
       {
@@ -3946,7 +5048,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 11.112326244513193,
+        "meanNanoseconds": 10.985743443171183,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3957,7 +5059,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 14.21643195549647,
+        "meanNanoseconds": 14.472040603558222,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3979,7 +5081,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 2.1956322516004243,
+        "meanNanoseconds": 2.293085105717182,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3989,8 +5091,8 @@
         "method": "DirectSuccessfulPipeline",
         "parameters": "",
         "baseline": true,
-        "timingState": "below-resolution",
-        "meanNanoseconds": null,
+        "timingState": "observed",
+        "meanNanoseconds": 0.1240933792044719,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -4001,7 +5103,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 10.449550911784172,
+        "meanNanoseconds": 10.545713638265928,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -4012,7 +5114,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 2397.9253158569336,
+        "meanNanoseconds": 2577.2345123291016,
         "allocatedBytesPerOperation": 296
       },
       {
@@ -4023,7 +5125,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 2910.1276473999023,
+        "meanNanoseconds": 3171.6719805399575,
         "allocatedBytesPerOperation": 744
       },
       {
@@ -4034,7 +5136,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 2491.356875101725,
+        "meanNanoseconds": 3302.8667170206704,
         "allocatedBytesPerOperation": 304
       },
       {
@@ -4045,7 +5147,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 3079.420867919922,
+        "meanNanoseconds": 3426.345054626465,
         "allocatedBytesPerOperation": 840
       },
       {
@@ -4056,7 +5158,7 @@
         "parameters": "[Count=1024]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 1580.1037057240803,
+        "meanNanoseconds": 1641.3044465382893,
         "allocatedBytesPerOperation": 4176
       },
       {
@@ -4067,7 +5169,7 @@
         "parameters": "[Count=16]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 37.37053094307581,
+        "meanNanoseconds": 40.28328355153402,
         "allocatedBytesPerOperation": 144
       },
       {
@@ -4078,7 +5180,7 @@
         "parameters": "[Count=1024]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 2016.3897132873535,
+        "meanNanoseconds": 2113.249740600586,
         "allocatedBytesPerOperation": 4176
       },
       {
@@ -4089,7 +5191,7 @@
         "parameters": "[Count=16]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 43.34428292512894,
+        "meanNanoseconds": 46.688089748223625,
         "allocatedBytesPerOperation": 144
       },
       {
@@ -4100,7 +5202,7 @@
         "parameters": "[Count=1024]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 2.1406992251674333,
+        "meanNanoseconds": 1.8035709982117016,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -4111,7 +5213,7 @@
         "parameters": "[Count=16]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 1.7470031703511875,
+        "meanNanoseconds": 2.042504608631134,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -4122,7 +5224,7 @@
         "parameters": "[Count=1024]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 3.464029515782992,
+        "meanNanoseconds": 3.7838916331529617,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -4133,7 +5235,7 @@
         "parameters": "[Count=16]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 3.576789307097594,
+        "meanNanoseconds": 3.717999296883742,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -4144,7 +5246,7 @@
         "parameters": "[Count=1024]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 5039.798876444499,
+        "meanNanoseconds": 5213.834065755208,
         "allocatedBytesPerOperation": 12632
       },
       {
@@ -4155,7 +5257,7 @@
         "parameters": "[Count=16]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 166.90237394968668,
+        "meanNanoseconds": 183.079203804334,
         "allocatedBytesPerOperation": 392
       },
       {
@@ -4166,7 +5268,7 @@
         "parameters": "[Count=1024]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 6392.709871927897,
+        "meanNanoseconds": 6672.235877990723,
         "allocatedBytesPerOperation": 12632
       },
       {
@@ -4177,7 +5279,7 @@
         "parameters": "[Count=16]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 208.4890169699987,
+        "meanNanoseconds": 210.52441708246866,
         "allocatedBytesPerOperation": 392
       },
       {
@@ -4188,7 +5290,7 @@
         "parameters": "[Count=256]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 148.36528754234314,
+        "meanNanoseconds": 164.0977570215861,
         "allocatedBytesPerOperation": 1048
       },
       {
@@ -4199,7 +5301,7 @@
         "parameters": "[Count=64]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 39.17210626602173,
+        "meanNanoseconds": 41.09702378511429,
         "allocatedBytesPerOperation": 280
       },
       {
@@ -4210,7 +5312,7 @@
         "parameters": "[Count=8]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 9.950201014677683,
+        "meanNanoseconds": 9.90038270999988,
         "allocatedBytesPerOperation": 56
       },
       {
@@ -4221,7 +5323,7 @@
         "parameters": "[Count=256]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 76982.46752929688,
+        "meanNanoseconds": 79783.33410644531,
         "allocatedBytesPerOperation": 187296
       },
       {
@@ -4232,7 +5334,7 @@
         "parameters": "[Count=64]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 10088.018625895182,
+        "meanNanoseconds": 10427.49760945638,
         "allocatedBytesPerOperation": 22176
       },
       {
@@ -4243,7 +5345,7 @@
         "parameters": "[Count=8]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 815.1272528966268,
+        "meanNanoseconds": 969.0783815383911,
         "allocatedBytesPerOperation": 1792
       }
     ]
@@ -4282,6 +5384,13 @@
       "path": "docs/data-pipelines.md",
       "benchmarkClasses": [
         "DataPipelineBenchmarks"
+      ]
+    },
+    {
+      "id": "collections",
+      "path": "docs/collections.md",
+      "benchmarkClasses": [
+        "CollectionBenchmarks"
       ]
     },
     {

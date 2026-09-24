@@ -8,6 +8,8 @@ public sealed class ParallelAsyncEnumerableTests
 {
     private static readonly TimeSpan GateTimeout = TimeSpan.FromSeconds(5);
 
+    private static readonly TimeSpan SourceOrderGracePeriod = TimeSpan.FromSeconds(1);
+
     [Theory]
     [InlineData(false)]
     [InlineData(true)]
@@ -517,16 +519,31 @@ public sealed class ParallelAsyncEnumerableTests
         Assert.Equal(1, source.DisposeCount);
     }
 
-    [Fact]
-    public async Task SelectParallelRoutesCompletionOrderTrueToCompletionOrderDelivery()
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public async Task SelectParallelRoutesCompletionOrderTrueToCompletionOrderDelivery(bool tokenAware)
     {
         var first = new TaskCompletionSource<int>(TaskCreationOptions.RunContinuationsAsynchronously);
         var second = new TaskCompletionSource<int>(TaskCreationOptions.RunContinuationsAsynchronously);
-        var pipeline = AsyncValues(1, 2).SelectParallel(2, value => value switch
+
+        ValueTask<int> Selector(int value) => value switch
         {
             1 => new ValueTask<int>(first.Task),
             _ => new ValueTask<int>(second.Task),
-        }, completionOrder: true);
+        };
+
+        // The guard pins both factory overloads: the method-group selector binds the
+        // non-token overload, the two-parameter lambda the token-aware one.
+        var pipeline = tokenAware
+            ? AsyncValues(1, 2).SelectParallel(
+                2,
+                (value, _) => Selector(value),
+                completionOrder: true)
+            : AsyncValues(1, 2).SelectParallel(
+                2,
+                Selector,
+                completionOrder: true);
 
         await using var enumerator = pipeline.GetAsyncEnumerator();
         try
@@ -548,13 +565,16 @@ public sealed class ParallelAsyncEnumerableTests
         }
     }
 
-    [Fact]
-    public async Task SelectParallelRoutesCompletionOrderFalseToSourceOrderDelivery()
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public async Task SelectParallelRoutesCompletionOrderFalseToSourceOrderDelivery(bool tokenAware)
     {
         var first = new TaskCompletionSource<int>(TaskCreationOptions.RunContinuationsAsynchronously);
         var second = new TaskCompletionSource<int>(TaskCreationOptions.RunContinuationsAsynchronously);
         var secondStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-        var pipeline = AsyncValues(1, 2).SelectParallel(2, value =>
+
+        ValueTask<int> Selector(int value)
         {
             if (value == 1)
             {
@@ -563,7 +583,19 @@ public sealed class ParallelAsyncEnumerableTests
 
             secondStarted.TrySetResult();
             return new ValueTask<int>(second.Task);
-        }, completionOrder: false);
+        }
+
+        // The guard pins both factory overloads: the method-group selector binds the
+        // non-token overload, the two-parameter lambda the token-aware one.
+        var pipeline = tokenAware
+            ? AsyncValues(1, 2).SelectParallel(
+                2,
+                (value, _) => Selector(value),
+                completionOrder: false)
+            : AsyncValues(1, 2).SelectParallel(
+                2,
+                Selector,
+                completionOrder: false);
 
         await using var enumerator = pipeline.GetAsyncEnumerator();
         try
@@ -572,7 +604,13 @@ public sealed class ParallelAsyncEnumerableTests
 
             await secondStarted.Task.WaitAsync(GateTimeout);
             second.SetResult(20);
-            Assert.False(firstPull.IsCompleted);
+            // Under source order the completed item 2 cannot be delivered while item 1
+            // is still pending, so firstPull cannot complete before first.SetResult.
+            // Wait out a grace period: a misrouted completion-order delivery completes
+            // firstPull well inside it (with 20, or 10 when the writes race), so a
+            // single pass pins the route deterministically.
+            await Assert.ThrowsAsync<TimeoutException>(
+                () => firstPull.WaitAsync(SourceOrderGracePeriod));
 
             first.SetResult(10);
             Assert.True(await firstPull.WaitAsync(GateTimeout));
