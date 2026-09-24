@@ -181,7 +181,7 @@ public static class ParallelAsyncEnumerableExtensions
             {
                 RunContinuationsAsynchronously = true,
             };
-            private Channel<Task<TResult>>? channel;
+            private Channel<StartedWork>? channel;
             private CancellationTokenSource? operationCancellation;
             private IAsyncEnumerator<TSource>? sourceEnumerator;
             private SemaphoreSlim? window;
@@ -305,12 +305,16 @@ public static class ParallelAsyncEnumerableExtensions
                     }
 
                     var next = await channel.Reader.ReadAsync(operationCancellation.Token).ConfigureAwait(false);
-                    Current = await next.ConfigureAwait(false);
+                    Current = await next.Task.ConfigureAwait(false);
                     lock (gate)
                     {
+                        // The removal keys on the StartedWork instance, not its task:
+                        // selectors may share one task instance, and a task-keyed removal
+                        // removes the wrong entry, so the completion-order guard before
+                        // Writer.TryComplete() would not wait for an in-flight delivery.
                         for (var index = 0; index < started.Count; index++)
                         {
-                            if (ReferenceEquals(started[index].Task, next))
+                            if (ReferenceEquals(started[index], next))
                             {
                                 started.RemoveAt(index);
                                 break;
@@ -349,7 +353,7 @@ public static class ParallelAsyncEnumerableExtensions
 
                 initialized = true;
                 operationCancellation = CancellationTokenSource.CreateLinkedTokenSource(enumerationCancellationToken);
-                channel = Channel.CreateBounded<Task<TResult>>(new BoundedChannelOptions(maxConcurrency)
+                channel = Channel.CreateBounded<StartedWork>(new BoundedChannelOptions(maxConcurrency)
                 {
                     FullMode = BoundedChannelFullMode.Wait,
                     SingleReader = true,
@@ -394,11 +398,11 @@ public static class ParallelAsyncEnumerableExtensions
                         // completing selector cannot deliver into the channel before the started
                         // list knows about it; the observer assignment is never observable as the
                         // placeholder because it happens between adjacent producer statements.
-                        startedWork.Observer = ObserveSelectorAsync(work);
+                        startedWork.Observer = ObserveSelectorAsync(startedWork);
 
                         if (deliveryOrder == DeliveryOrder.Source)
                         {
-                            await channel!.Writer.WriteAsync(work, cancellationToken).ConfigureAwait(false);
+                            await channel!.Writer.WriteAsync(startedWork, cancellationToken).ConfigureAwait(false);
                         }
 
                         ownsWindowSlot = false;
@@ -454,11 +458,11 @@ public static class ParallelAsyncEnumerableExtensions
                 }
             }
 
-            private async Task ObserveSelectorAsync(Task<TResult> work)
+            private async Task ObserveSelectorAsync(StartedWork startedWork)
             {
                 try
                 {
-                    _ = await work.ConfigureAwait(false);
+                    _ = await startedWork.Task.ConfigureAwait(false);
                 }
                 catch (Exception exception)
                 {
@@ -480,15 +484,15 @@ public static class ParallelAsyncEnumerableExtensions
 
                 if (deliveryOrder == DeliveryOrder.Completion)
                 {
-                    await DeliverCompletedWorkAsync(work).ConfigureAwait(false);
+                    await DeliverCompletedWorkAsync(startedWork).ConfigureAwait(false);
                 }
             }
 
-            private async Task DeliverCompletedWorkAsync(Task<TResult> work)
+            private async Task DeliverCompletedWorkAsync(StartedWork startedWork)
             {
                 try
                 {
-                    await channel!.Writer.WriteAsync(work, operationCancellation!.Token).ConfigureAwait(false);
+                    await channel!.Writer.WriteAsync(startedWork, operationCancellation!.Token).ConfigureAwait(false);
                 }
                 catch (Exception exception) when (IsShutdownArtifact(exception))
                 {
