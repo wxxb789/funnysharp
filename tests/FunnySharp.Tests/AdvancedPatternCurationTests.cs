@@ -1,6 +1,5 @@
-using System.Reflection;
-
 using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 
 namespace FunnySharp.Tests;
 
@@ -156,10 +155,6 @@ public sealed class AdvancedPatternCurationTests
 
     private static readonly string[] ForbiddenMemberNames =
     [
-        // AD-1/AD-2: no implicit or explicit conversion operators on the semantic carriers.
-        "op_Implicit",
-        "op_Explicit",
-
         // AD-6: no naked started-Task racing API, unbounded fan-out, or Fork.
         "Fork",
         "Race",
@@ -278,6 +273,18 @@ public sealed class AdvancedPatternCurationTests
                     }
                 }
             }
+
+            // AD-1/AD-2: no implicit or explicit conversion operators on the semantic
+            // carriers. Conversion operators are compiler-shaped (specialName), so the
+            // member scan above never sees them; scan them directly instead.
+            foreach (var method in type.GetMethods(
+                BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly))
+            {
+                if (method.IsSpecialName && method.Name is "op_Implicit" or "op_Explicit")
+                {
+                    violations.Add(type.FullName + "." + method.Name + " is a rejected member name.");
+                }
+            }
         }
 
         Assert.True(
@@ -311,29 +318,7 @@ public sealed class AdvancedPatternCurationTests
     [Fact]
     public void EveryExperimentalMemberCarriesTheTrackedStabilityDiagnostic()
     {
-        var assembly = typeof(Effect).Assembly;
-        var experimental = new List<(string TypeName, string MemberName, string DiagnosticId)>();
-
-        foreach (var type in assembly.GetTypes().Where(type => type.IsPublic))
-        {
-            var typeAttribute = type.GetCustomAttribute<ExperimentalAttribute>();
-            if (typeAttribute is not null)
-            {
-                experimental.Add((type.FullName!, "*", typeAttribute.DiagnosticId));
-            }
-
-            foreach (var member in type.GetMembers(
-                BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance | BindingFlags.DeclaredOnly))
-            {
-                var memberAttribute = member.GetCustomAttribute<ExperimentalAttribute>();
-                if (memberAttribute is not null)
-                {
-                    experimental.Add((type.FullName!, member.Name, memberAttribute.DiagnosticId));
-                }
-            }
-        }
-
-        var actual = experimental
+        var actual = ExperimentalMembers()
             .GroupBy(entry => (entry.TypeName, entry.MemberName, entry.DiagnosticId))
             .Select(group => (group.Key.TypeName, group.Key.MemberName, group.Key.DiagnosticId, Count: group.Count()))
             .OrderBy(entry => entry.TypeName, StringComparer.Ordinal)
@@ -350,43 +335,48 @@ public sealed class AdvancedPatternCurationTests
     }
 
     [Fact]
-    public void StabilityInventoryTracksExactlyTheExperimentalDiagnostics()
+    public void StabilityInventoryTracksExactlyTheExperimentalSurface()
     {
         var inventoryPath = FindRepositoryFile(Path.Combine("docs", "stability-inventory.md"));
         Assert.True(inventoryPath is not null, "docs/stability-inventory.md must exist in the repository.");
 
-        var trackedDiagnostics = File.ReadAllLines(inventoryPath!)
+        var experimentalRows = File.ReadAllLines(inventoryPath!)
             .Select(line => line.Split('|', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries))
-            .Where(cells => cells.Length > 0 &&
+            .Where(cells => cells.Length > 1 &&
                 cells[0].Length == 6 &&
                 cells[0].StartsWith("FS", StringComparison.Ordinal) &&
-                cells[0][2] is >= '0' and <= '9')
+                char.IsAsciiDigit(cells[0][2]))
+            .ToArray();
+
+        var trackedDiagnostics = experimentalRows
             .Select(cells => cells[0])
             .ToHashSet(StringComparer.Ordinal);
 
-        var experimentalDiagnostics = new HashSet<string>(StringComparer.Ordinal);
-        var assembly = typeof(Effect).Assembly;
-        foreach (var type in assembly.GetTypes().Where(type => type.IsPublic))
-        {
-            CollectExperimentalDiagnostic(type.GetCustomAttribute<ExperimentalAttribute>());
-            foreach (var member in type.GetMembers(
-                BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance | BindingFlags.DeclaredOnly))
-            {
-                CollectExperimentalDiagnostic(member.GetCustomAttribute<ExperimentalAttribute>());
-            }
-        }
+        var experimentalDiagnostics = ExperimentalMembers()
+            .Select(entry => entry.DiagnosticId)
+            .ToHashSet(StringComparer.Ordinal);
 
         Assert.Equal(experimentalDiagnostics, trackedDiagnostics);
         Assert.Contains("FS0017", trackedDiagnostics);
-        return;
 
-        void CollectExperimentalDiagnostic(ExperimentalAttribute? attribute)
-        {
-            if (attribute is not null)
-            {
-                experimentalDiagnostics.Add(attribute.DiagnosticId);
-            }
-        }
+        // The inventory header promises every experimental member "an entry in this
+        // inventory": every tracked member needs a row that mentions its type and, for
+        // member-level entries, its member name. Mentions rather than exact row counts,
+        // because the located list and dictionary overloads occupy separate rows while
+        // the async overloads share one.
+        var missingEntries = TrackedExperimentalMembers
+            .Where(entry => !experimentalRows.Any(cells =>
+                cells[1].Contains("`" + LeafName(entry.TypeName), StringComparison.Ordinal) &&
+                (entry.MemberName == "*" ||
+                    cells[1].Contains(entry.MemberName, StringComparison.Ordinal))))
+            .Select(entry => entry.TypeName + "." + entry.MemberName)
+            .Order(StringComparer.Ordinal)
+            .ToArray();
+
+        Assert.True(
+            missingEntries.Length == 0,
+            "docs/stability-inventory.md must track every experimental member:\n" +
+            string.Join('\n', missingEntries));
     }
 
     private static IEnumerable<string> PublicDeclaredMemberNames(Type type)
@@ -415,12 +405,46 @@ public sealed class AdvancedPatternCurationTests
         }
     }
 
+    /// <summary>
+    /// Every public experimental member in the library assembly, as a
+    /// (type name, member name, diagnostic id) triple: the type itself is reported with the
+    /// member name "*", a marked member with its declared name.
+    /// </summary>
+    private static IEnumerable<(string TypeName, string MemberName, string DiagnosticId)> ExperimentalMembers()
+    {
+        foreach (var type in typeof(Effect).Assembly.GetTypes().Where(type => type.IsPublic))
+        {
+            var typeAttribute = type.GetCustomAttribute<ExperimentalAttribute>();
+            if (typeAttribute is not null)
+            {
+                yield return (type.FullName!, "*", typeAttribute.DiagnosticId);
+            }
+
+            foreach (var member in type.GetMembers(
+                BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance | BindingFlags.DeclaredOnly))
+            {
+                var memberAttribute = member.GetCustomAttribute<ExperimentalAttribute>();
+                if (memberAttribute is not null)
+                {
+                    yield return (type.FullName!, member.Name, memberAttribute.DiagnosticId);
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// The leaf name of a full type name without the generic arity marker: the name the
+    /// stability inventory's member column mentions, as in
+    /// <c>FunnySharp.AsyncSequenceExtensions</c> -> <c>AsyncSequenceExtensions</c>.
+    /// </summary>
+    private static string LeafName(string typeName) => typeName.Split('`')[0].Split('.')[^1];
+
     private static string? FindRepositoryFile(string relativePath)
     {
         var directory = new DirectoryInfo(AppContext.BaseDirectory);
         while (directory is not null)
         {
-            if (directory.EnumerateFiles("FunnySharp.slnx").Any())
+            if (File.Exists(Path.Combine(directory.FullName, "FunnySharp.slnx")))
             {
                 var candidate = Path.Combine(directory.FullName, relativePath);
                 return File.Exists(candidate) ? candidate : null;
