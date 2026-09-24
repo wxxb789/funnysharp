@@ -109,9 +109,9 @@ second composition API without measured production demand.
 <!-- performance-table:start state-machines -->
 | Scenario | Baseline mean | FunnySharp mean | Ratio | Baseline allocation | FunnySharp allocation |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Left-associated Then chain ([Count=256]) | 147.978 ns | 80.985 us | 547.27x | 1048 B | 187296 B |
-| Left-associated Then chain ([Count=64]) | 41.481 ns | 10.409 us | 250.92x | 280 B | 22176 B |
-| Left-associated Then chain ([Count=8]) | 10.321 ns | 841.982 ns | 81.58x | 56 B | 1792 B |
+| Left-associated Then chain ([Count=256]) | 164.098 ns | 79.783 us | 486.19x | 1048 B | 187296 B |
+| Left-associated Then chain ([Count=64]) | 41.097 ns | 10.427 us | 253.73x | 280 B | 22176 B |
+| Left-associated Then chain ([Count=8]) | 9.900 ns | 969.078 ns | 97.88x | 56 B | 1792 B |
 <!-- performance-table:end state-machines -->
 
 ## Deliberate Boundaries
