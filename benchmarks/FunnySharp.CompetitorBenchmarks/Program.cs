@@ -1,30 +1,44 @@
-using System.Reflection;
+using BenchmarkDotNet.Configs;
+using BenchmarkDotNet.Running;
+using FunnySharp.CompetitorBenchmarks;
 
-static void Dump(Type type, string[] interest)
+if (args is ["--preflight"])
 {
-    Console.WriteLine($"=== {type.FullName} ===");
-    foreach (var member in type
-                 .GetMembers(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly)
-                 .Where(member => member is MethodInfo { IsSpecialName: false })
-                 .Where(member => interest.Length == 0 || interest.Any(token => member.Name.Contains(token, StringComparison.Ordinal)))
-                 .OrderBy(member => member.Name, StringComparer.Ordinal))
-    {
-        Console.WriteLine($"  {member}");
-    }
+    ValidateOptionEquivalence();
+    ValidateResultEquivalence();
+    Console.WriteLine("Competitor benchmark semantic preflight passed.");
+    return;
 }
 
-Dump(typeof(LanguageExt.Option<int>), ["None"]);
-Console.WriteLine();
-Dump(typeof(LanguageExt.Prelude), ["None", "Some"]);
-Console.WriteLine();
-Dump(typeof(Funcky.Monads.Option<int>), ["None", "Some", "Return"]);
-Console.WriteLine();
-var cfeAssembly = typeof(CSharpFunctionalExtensions.Result<int, string>).Assembly;
-foreach (var type in cfeAssembly.GetTypes().Where(t => t.Name.Contains("ResultExtensions", StringComparison.Ordinal)).OrderBy(t => t.FullName, StringComparer.Ordinal))
+var config = ManualConfig.Create(DefaultConfig.Instance)
+    .AddExporter(new CompetitorReceiptExporter());
+BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).Run(args, config);
+
+static void ValidateOptionEquivalence()
 {
-    if (type.IsAbstract && type.IsSealed)
+    var results = new OptionCarrierBenchmarks().ValidateEquivalence();
+
+    AssertGroup("Map - present", 43, results[0..5]);
+    AssertGroup("Map - absent", -1, results[5..10]);
+    AssertGroup("Value-or-fallback - present", 42, results[10..15]);
+    AssertGroup("Value-or-fallback - absent", -1, results[15..20]);
+}
+
+static void ValidateResultEquivalence()
+{
+    var results = new ResultCarrierBenchmarks().ValidateEquivalence();
+
+    AssertGroup("Construction and inspection - success", 42, results[0..5]);
+    AssertGroup("Construction and inspection - failure", -1, results[5..10]);
+    AssertGroup("Fail-fast pipeline - success", 86, results[10..15]);
+    AssertGroup("Fail-fast pipeline - failure", -1, results[15..20]);
+}
+
+static void AssertGroup(string scenario, int expected, ReadOnlySpan<int> results)
+{
+    if (results.ToArray().Any(result => result != expected))
     {
-        Dump(type, ["Map", "Bind", "Ensure", "Match", "GetValueOr", "Default", "OnSuccess", "With"]);
-        Console.WriteLine();
+        throw new InvalidOperationException(
+            $"Competitor comparison group '{scenario}' produced divergent results: [{string.Join(", ", results.ToArray())}], expected {expected}.");
     }
 }
