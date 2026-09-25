@@ -236,12 +236,13 @@ The two streaming maps pay for their reusable enumerator, channel backpressure, 
 admission, and cleanup tracking; in the recorded observation both are slower and allocate more
 than the known-length BCL array paths at both sizes. The completion-order map allocates less
 than the ordered map at both sizes — a completed result is delivered through its observer without
-suspending the consumer on a pending work task — while its recorded mean is slower at 1,024 items
-and faster at 16. The traversal timing directions are scheduler-sensitive and split by input in
-this observation: the Validation coordinator is slower at both sizes, the Option coordinator is
-slower at 1,024 items but faster at 16, and first-success is slower with sixteen candidates and
-faster with four while allocating less with sixteen and more with four. The generated table above
-owns the exact ratios and allocation figures.
+suspending the consumer on a pending work task — while its recorded mean is slower than the
+ordered map at both sizes in this observation. The traversal and first-success timing directions
+are scheduler-sensitive and have split by input across observations: in this one the Validation
+and Option coordinators are slower at both sizes, and first-success is faster with sixteen
+candidates and slower with four while allocating less with sixteen and more with four. Treat
+these directions as unstable at this precision; the generated table above owns the exact ratios
+and allocation figures for the recorded environment.
 
 These measurements are directional. `Task.Yield` models scheduler handoff, not production I/O, and
 three measured iterations on a virtualized host produce wide confidence intervals for the smallest

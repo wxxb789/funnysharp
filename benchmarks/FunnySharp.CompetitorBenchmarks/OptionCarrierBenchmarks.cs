@@ -5,7 +5,7 @@ using FunckyMonads = Funcky.Monads;
 using Lext = LanguageExt;
 using Microsoft.FSharp.Core;
 
-namespace FunnySharp.CompetitorBenchmarks;
+namespace FunnySharp.Benchmarks;
 
 // Equivalence contract for every scenario in this class: each compared path receives the same
 // pre-built input carrier and produces the same final int - the mapped value for a present

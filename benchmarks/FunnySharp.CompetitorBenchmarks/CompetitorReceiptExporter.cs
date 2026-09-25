@@ -7,7 +7,7 @@ using BenchmarkDotNet.Exporters;
 using BenchmarkDotNet.Loggers;
 using BenchmarkDotNet.Reports;
 
-namespace FunnySharp.CompetitorBenchmarks;
+namespace FunnySharp.Benchmarks;
 
 /// <summary>
 /// Writes competitor-comparison performance receipts in the same schema as the main suite, bound to

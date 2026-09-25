@@ -1,6 +1,6 @@
 using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Running;
-using FunnySharp.CompetitorBenchmarks;
+using FunnySharp.Benchmarks;
 
 if (args is ["--preflight"])
 {

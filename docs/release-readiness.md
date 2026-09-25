@@ -44,6 +44,11 @@ to refresh evidence.
   current tree (checked by `performance-docs-verify` on every run).
 - [ ] Every intentionally unmeasured surface is an explicit exclusion with rationale and no numeric
   claim.
+- [ ] Competitor comparisons against pinned packages run only in the isolated
+  `FunnySharp.CompetitorBenchmarks` project outside `FunnySharp.slnx`; their receipts are
+  verified against `eng/performance/competitor-baseline.json` with the same verifier on the
+  developer machine, and they remain performance evidence only - never API-compatibility or
+  release-acceptance evidence.
 
 ## Required Platform Gates
 

@@ -4,13 +4,13 @@
     "algorithm": "sha256",
     "files": [
       "Directory.Build.props",
-      "global.json",
       "benchmarks/FunnySharp.CompetitorBenchmarks/CompetitorReceiptExporter.cs",
       "benchmarks/FunnySharp.CompetitorBenchmarks/FunnySharp.CompetitorBenchmarks.csproj",
       "benchmarks/FunnySharp.CompetitorBenchmarks/OptionCarrierBenchmarks.cs",
       "benchmarks/FunnySharp.CompetitorBenchmarks/Program.cs",
       "benchmarks/FunnySharp.CompetitorBenchmarks/ResultCarrierBenchmarks.cs",
       "benchmarks/FunnySharp.CompetitorBenchmarks/packages.lock.json",
+      "global.json",
       "src/FunnySharp/Option.cs",
       "src/FunnySharp/OptionExtensions.cs",
       "src/FunnySharp/Result.cs",
@@ -21,8 +21,8 @@
     "algorithm": "sha256",
     "files": [
       "benchmarks/FunnySharp.CompetitorBenchmarks/CompetitorReceiptExporter.cs",
-      "eng/Verify-Performance.ps1",
-      "eng/Generate-PerformanceDocumentation.ps1"
+      "eng/Generate-PerformanceDocumentation.ps1",
+      "eng/Verify-Performance.ps1"
     ]
   },
   "documentation": [
@@ -677,6 +677,488 @@
         "exclusionReason": null,
         "allocationBudgetBytes": 96,
         "budgetRationale": "Probe-measured allocation plus 25% headroom, rounded up to a multiple of 8; the verified observation must stay inside this budget."
+      }
+    ]
+  },
+  "observation": {
+    "schemaVersion": 1,
+    "generatedAtUtc": "2026-09-25T11:18:33.6355186+00:00",
+    "candidateCommit": "0d1049be097190e1be729d3c8c046e7de8afdd39",
+    "policyRevision": "2026-09-25-competitor-v1",
+    "policyFingerprint": "07e26d0baedb09c5562f824004d2f63df935639d4986e61358c622549d71b35a",
+    "benchmarkInputFingerprint": "512980a28ab51538c6fa4e8c3b6d4d17cdc0782f207a296dc42002ee41409b91",
+    "protocolFingerprint": "2f0aa1287b9fac5f84218ff8a65fa82127a95f158bbb4cd65fb67ea5bf014b27",
+    "environmentKey": "8c8e4eb1992841b98347f23a9baba967960bc52eda242439099472f7805f59bd",
+    "receipts": [
+      {
+        "file": "OptionCarrierBenchmarks-performance-receipt.json",
+        "sha256": "8e845ab5172c47764433cea0523a2ba14d103a31447ccf3babbaeb4a4225a312",
+        "environment": {
+          "os": "Linux Ubuntu 24.04.5 LTS (Noble Numbat)",
+          "architecture": "X64",
+          "sdkVersion": "10.0.400",
+          "runtime": ".NET 10.0.11 (10.0.11, 10.0.1126.37416)",
+          "jit": "RyuJIT",
+          "gcServer": false,
+          "gcConcurrent": true,
+          "gcAllocationQuantum": 8224
+        }
+      },
+      {
+        "file": "ResultCarrierBenchmarks-performance-receipt.json",
+        "sha256": "9dd1577d56b275d19a8c9b303ff00c8c79514f8ee92da1f8aeaa3e196fd59daa",
+        "environment": {
+          "os": "Linux Ubuntu 24.04.5 LTS (Noble Numbat)",
+          "architecture": "X64",
+          "sdkVersion": "10.0.400",
+          "runtime": ".NET 10.0.11 (10.0.11, 10.0.1126.37416)",
+          "jit": "RyuJIT",
+          "gcServer": false,
+          "gcConcurrent": true,
+          "gcAllocationQuantum": 8224
+        }
+      }
+    ],
+    "rows": [
+      {
+        "id": "OptionCarrierBenchmarks|Map - absent|DirectMapAbsent|",
+        "benchmarkClass": "OptionCarrierBenchmarks",
+        "category": "Map - absent",
+        "method": "DirectMapAbsent",
+        "parameters": "",
+        "baseline": true,
+        "timingState": "below-resolution",
+        "meanNanoseconds": null,
+        "allocatedBytesPerOperation": 0
+      },
+      {
+        "id": "OptionCarrierBenchmarks|Map - absent|FSharpCoreMapAbsent|",
+        "benchmarkClass": "OptionCarrierBenchmarks",
+        "category": "Map - absent",
+        "method": "FSharpCoreMapAbsent",
+        "parameters": "",
+        "baseline": false,
+        "timingState": "observed",
+        "meanNanoseconds": 0.23014176140228906,
+        "allocatedBytesPerOperation": 0
+      },
+      {
+        "id": "OptionCarrierBenchmarks|Map - absent|FunckyMapAbsent|",
+        "benchmarkClass": "OptionCarrierBenchmarks",
+        "category": "Map - absent",
+        "method": "FunckyMapAbsent",
+        "parameters": "",
+        "baseline": false,
+        "timingState": "observed",
+        "meanNanoseconds": 6.516766423980395,
+        "allocatedBytesPerOperation": 24
+      },
+      {
+        "id": "OptionCarrierBenchmarks|Map - absent|FunnySharpMapAbsent|",
+        "benchmarkClass": "OptionCarrierBenchmarks",
+        "category": "Map - absent",
+        "method": "FunnySharpMapAbsent",
+        "parameters": "",
+        "baseline": false,
+        "timingState": "observed",
+        "meanNanoseconds": 0.8340464221934477,
+        "allocatedBytesPerOperation": 0
+      },
+      {
+        "id": "OptionCarrierBenchmarks|Map - absent|LanguageExtMapAbsent|",
+        "benchmarkClass": "OptionCarrierBenchmarks",
+        "category": "Map - absent",
+        "method": "LanguageExtMapAbsent",
+        "parameters": "",
+        "baseline": false,
+        "timingState": "observed",
+        "meanNanoseconds": 0.6011737758914629,
+        "allocatedBytesPerOperation": 0
+      },
+      {
+        "id": "OptionCarrierBenchmarks|Map - present|DirectMapPresent|",
+        "benchmarkClass": "OptionCarrierBenchmarks",
+        "category": "Map - present",
+        "method": "DirectMapPresent",
+        "parameters": "",
+        "baseline": true,
+        "timingState": "below-resolution",
+        "meanNanoseconds": null,
+        "allocatedBytesPerOperation": 0
+      },
+      {
+        "id": "OptionCarrierBenchmarks|Map - present|FSharpCoreMapPresent|",
+        "benchmarkClass": "OptionCarrierBenchmarks",
+        "category": "Map - present",
+        "method": "FSharpCoreMapPresent",
+        "parameters": "",
+        "baseline": false,
+        "timingState": "observed",
+        "meanNanoseconds": 2.645432695746422,
+        "allocatedBytesPerOperation": 0
+      },
+      {
+        "id": "OptionCarrierBenchmarks|Map - present|FunckyMapPresent|",
+        "benchmarkClass": "OptionCarrierBenchmarks",
+        "category": "Map - present",
+        "method": "FunckyMapPresent",
+        "parameters": "",
+        "baseline": false,
+        "timingState": "observed",
+        "meanNanoseconds": 8.870042930046717,
+        "allocatedBytesPerOperation": 24
+      },
+      {
+        "id": "OptionCarrierBenchmarks|Map - present|FunnySharpMapPresent|",
+        "benchmarkClass": "OptionCarrierBenchmarks",
+        "category": "Map - present",
+        "method": "FunnySharpMapPresent",
+        "parameters": "",
+        "baseline": false,
+        "timingState": "observed",
+        "meanNanoseconds": 2.324626093109449,
+        "allocatedBytesPerOperation": 0
+      },
+      {
+        "id": "OptionCarrierBenchmarks|Map - present|LanguageExtMapPresent|",
+        "benchmarkClass": "OptionCarrierBenchmarks",
+        "category": "Map - present",
+        "method": "LanguageExtMapPresent",
+        "parameters": "",
+        "baseline": false,
+        "timingState": "observed",
+        "meanNanoseconds": 2.325560743610064,
+        "allocatedBytesPerOperation": 0
+      },
+      {
+        "id": "OptionCarrierBenchmarks|Value-or-fallback - absent|DirectValueOrFallbackAbsent|",
+        "benchmarkClass": "OptionCarrierBenchmarks",
+        "category": "Value-or-fallback - absent",
+        "method": "DirectValueOrFallbackAbsent",
+        "parameters": "",
+        "baseline": true,
+        "timingState": "below-resolution",
+        "meanNanoseconds": null,
+        "allocatedBytesPerOperation": 0
+      },
+      {
+        "id": "OptionCarrierBenchmarks|Value-or-fallback - absent|FSharpCoreValueOrFallbackAbsent|",
+        "benchmarkClass": "OptionCarrierBenchmarks",
+        "category": "Value-or-fallback - absent",
+        "method": "FSharpCoreValueOrFallbackAbsent",
+        "parameters": "",
+        "baseline": false,
+        "timingState": "below-resolution",
+        "meanNanoseconds": null,
+        "allocatedBytesPerOperation": 0
+      },
+      {
+        "id": "OptionCarrierBenchmarks|Value-or-fallback - absent|FunckyValueOrFallbackAbsent|",
+        "benchmarkClass": "OptionCarrierBenchmarks",
+        "category": "Value-or-fallback - absent",
+        "method": "FunckyValueOrFallbackAbsent",
+        "parameters": "",
+        "baseline": false,
+        "timingState": "below-resolution",
+        "meanNanoseconds": null,
+        "allocatedBytesPerOperation": 0
+      },
+      {
+        "id": "OptionCarrierBenchmarks|Value-or-fallback - absent|FunnySharpValueOrFallbackAbsent|",
+        "benchmarkClass": "OptionCarrierBenchmarks",
+        "category": "Value-or-fallback - absent",
+        "method": "FunnySharpValueOrFallbackAbsent",
+        "parameters": "",
+        "baseline": false,
+        "timingState": "below-resolution",
+        "meanNanoseconds": null,
+        "allocatedBytesPerOperation": 0
+      },
+      {
+        "id": "OptionCarrierBenchmarks|Value-or-fallback - absent|LanguageExtValueOrFallbackAbsent|",
+        "benchmarkClass": "OptionCarrierBenchmarks",
+        "category": "Value-or-fallback - absent",
+        "method": "LanguageExtValueOrFallbackAbsent",
+        "parameters": "",
+        "baseline": false,
+        "timingState": "observed",
+        "meanNanoseconds": 0.31944167986512184,
+        "allocatedBytesPerOperation": 0
+      },
+      {
+        "id": "OptionCarrierBenchmarks|Value-or-fallback - present|DirectValueOrFallbackPresent|",
+        "benchmarkClass": "OptionCarrierBenchmarks",
+        "category": "Value-or-fallback - present",
+        "method": "DirectValueOrFallbackPresent",
+        "parameters": "",
+        "baseline": true,
+        "timingState": "observed",
+        "meanNanoseconds": 0.2565517822901408,
+        "allocatedBytesPerOperation": 0
+      },
+      {
+        "id": "OptionCarrierBenchmarks|Value-or-fallback - present|FSharpCoreValueOrFallbackPresent|",
+        "benchmarkClass": "OptionCarrierBenchmarks",
+        "category": "Value-or-fallback - present",
+        "method": "FSharpCoreValueOrFallbackPresent",
+        "parameters": "",
+        "baseline": false,
+        "timingState": "below-resolution",
+        "meanNanoseconds": null,
+        "allocatedBytesPerOperation": 0
+      },
+      {
+        "id": "OptionCarrierBenchmarks|Value-or-fallback - present|FunckyValueOrFallbackPresent|",
+        "benchmarkClass": "OptionCarrierBenchmarks",
+        "category": "Value-or-fallback - present",
+        "method": "FunckyValueOrFallbackPresent",
+        "parameters": "",
+        "baseline": false,
+        "timingState": "observed",
+        "meanNanoseconds": 0.33870939786235493,
+        "allocatedBytesPerOperation": 0
+      },
+      {
+        "id": "OptionCarrierBenchmarks|Value-or-fallback - present|FunnySharpValueOrFallbackPresent|",
+        "benchmarkClass": "OptionCarrierBenchmarks",
+        "category": "Value-or-fallback - present",
+        "method": "FunnySharpValueOrFallbackPresent",
+        "parameters": "",
+        "baseline": false,
+        "timingState": "observed",
+        "meanNanoseconds": 0.3976881181200345,
+        "allocatedBytesPerOperation": 0
+      },
+      {
+        "id": "OptionCarrierBenchmarks|Value-or-fallback - present|LanguageExtValueOrFallbackPresent|",
+        "benchmarkClass": "OptionCarrierBenchmarks",
+        "category": "Value-or-fallback - present",
+        "method": "LanguageExtValueOrFallbackPresent",
+        "parameters": "",
+        "baseline": false,
+        "timingState": "observed",
+        "meanNanoseconds": 0.14098745584487915,
+        "allocatedBytesPerOperation": 0
+      },
+      {
+        "id": "ResultCarrierBenchmarks|Construction and inspection - failure|CSharpFunctionalExtensionsConstructionInspectionFailure|",
+        "benchmarkClass": "ResultCarrierBenchmarks",
+        "category": "Construction and inspection - failure",
+        "method": "CSharpFunctionalExtensionsConstructionInspectionFailure",
+        "parameters": "",
+        "baseline": false,
+        "timingState": "observed",
+        "meanNanoseconds": 0.576102207104365,
+        "allocatedBytesPerOperation": 0
+      },
+      {
+        "id": "ResultCarrierBenchmarks|Construction and inspection - failure|DirectConstructionInspectionFailure|",
+        "benchmarkClass": "ResultCarrierBenchmarks",
+        "category": "Construction and inspection - failure",
+        "method": "DirectConstructionInspectionFailure",
+        "parameters": "",
+        "baseline": true,
+        "timingState": "below-resolution",
+        "meanNanoseconds": null,
+        "allocatedBytesPerOperation": 0
+      },
+      {
+        "id": "ResultCarrierBenchmarks|Construction and inspection - failure|FSharpCoreConstructionInspectionFailure|",
+        "benchmarkClass": "ResultCarrierBenchmarks",
+        "category": "Construction and inspection - failure",
+        "method": "FSharpCoreConstructionInspectionFailure",
+        "parameters": "",
+        "baseline": false,
+        "timingState": "below-resolution",
+        "meanNanoseconds": null,
+        "allocatedBytesPerOperation": 0
+      },
+      {
+        "id": "ResultCarrierBenchmarks|Construction and inspection - failure|FunnySharpConstructionInspectionFailure|",
+        "benchmarkClass": "ResultCarrierBenchmarks",
+        "category": "Construction and inspection - failure",
+        "method": "FunnySharpConstructionInspectionFailure",
+        "parameters": "",
+        "baseline": false,
+        "timingState": "below-resolution",
+        "meanNanoseconds": null,
+        "allocatedBytesPerOperation": 0
+      },
+      {
+        "id": "ResultCarrierBenchmarks|Construction and inspection - failure|LanguageExtConstructionInspectionFailure|",
+        "benchmarkClass": "ResultCarrierBenchmarks",
+        "category": "Construction and inspection - failure",
+        "method": "LanguageExtConstructionInspectionFailure",
+        "parameters": "",
+        "baseline": false,
+        "timingState": "observed",
+        "meanNanoseconds": 5.257665408154328,
+        "allocatedBytesPerOperation": 24
+      },
+      {
+        "id": "ResultCarrierBenchmarks|Construction and inspection - success|CSharpFunctionalExtensionsConstructionInspectionSuccess|",
+        "benchmarkClass": "ResultCarrierBenchmarks",
+        "category": "Construction and inspection - success",
+        "method": "CSharpFunctionalExtensionsConstructionInspectionSuccess",
+        "parameters": "",
+        "baseline": false,
+        "timingState": "observed",
+        "meanNanoseconds": 0.8305294041832288,
+        "allocatedBytesPerOperation": 0
+      },
+      {
+        "id": "ResultCarrierBenchmarks|Construction and inspection - success|DirectConstructionInspectionSuccess|",
+        "benchmarkClass": "ResultCarrierBenchmarks",
+        "category": "Construction and inspection - success",
+        "method": "DirectConstructionInspectionSuccess",
+        "parameters": "",
+        "baseline": true,
+        "timingState": "below-resolution",
+        "meanNanoseconds": null,
+        "allocatedBytesPerOperation": 0
+      },
+      {
+        "id": "ResultCarrierBenchmarks|Construction and inspection - success|FSharpCoreConstructionInspectionSuccess|",
+        "benchmarkClass": "ResultCarrierBenchmarks",
+        "category": "Construction and inspection - success",
+        "method": "FSharpCoreConstructionInspectionSuccess",
+        "parameters": "",
+        "baseline": false,
+        "timingState": "below-resolution",
+        "meanNanoseconds": null,
+        "allocatedBytesPerOperation": 0
+      },
+      {
+        "id": "ResultCarrierBenchmarks|Construction and inspection - success|FunnySharpConstructionInspectionSuccess|",
+        "benchmarkClass": "ResultCarrierBenchmarks",
+        "category": "Construction and inspection - success",
+        "method": "FunnySharpConstructionInspectionSuccess",
+        "parameters": "",
+        "baseline": false,
+        "timingState": "below-resolution",
+        "meanNanoseconds": null,
+        "allocatedBytesPerOperation": 0
+      },
+      {
+        "id": "ResultCarrierBenchmarks|Construction and inspection - success|LanguageExtConstructionInspectionSuccess|",
+        "benchmarkClass": "ResultCarrierBenchmarks",
+        "category": "Construction and inspection - success",
+        "method": "LanguageExtConstructionInspectionSuccess",
+        "parameters": "",
+        "baseline": false,
+        "timingState": "observed",
+        "meanNanoseconds": 8.099147652586302,
+        "allocatedBytesPerOperation": 24
+      },
+      {
+        "id": "ResultCarrierBenchmarks|Fail-fast pipeline - failure|CSharpFunctionalExtensionsFailFastPipelineFailure|",
+        "benchmarkClass": "ResultCarrierBenchmarks",
+        "category": "Fail-fast pipeline - failure",
+        "method": "CSharpFunctionalExtensionsFailFastPipelineFailure",
+        "parameters": "",
+        "baseline": false,
+        "timingState": "observed",
+        "meanNanoseconds": 6.589875161647797,
+        "allocatedBytesPerOperation": 0
+      },
+      {
+        "id": "ResultCarrierBenchmarks|Fail-fast pipeline - failure|DirectFailFastPipelineFailure|",
+        "benchmarkClass": "ResultCarrierBenchmarks",
+        "category": "Fail-fast pipeline - failure",
+        "method": "DirectFailFastPipelineFailure",
+        "parameters": "",
+        "baseline": true,
+        "timingState": "below-resolution",
+        "meanNanoseconds": null,
+        "allocatedBytesPerOperation": 0
+      },
+      {
+        "id": "ResultCarrierBenchmarks|Fail-fast pipeline - failure|FSharpCoreFailFastPipelineFailure|",
+        "benchmarkClass": "ResultCarrierBenchmarks",
+        "category": "Fail-fast pipeline - failure",
+        "method": "FSharpCoreFailFastPipelineFailure",
+        "parameters": "",
+        "baseline": false,
+        "timingState": "observed",
+        "meanNanoseconds": 15.659562662243843,
+        "allocatedBytesPerOperation": 0
+      },
+      {
+        "id": "ResultCarrierBenchmarks|Fail-fast pipeline - failure|FunnySharpFailFastPipelineFailure|",
+        "benchmarkClass": "ResultCarrierBenchmarks",
+        "category": "Fail-fast pipeline - failure",
+        "method": "FunnySharpFailFastPipelineFailure",
+        "parameters": "",
+        "baseline": false,
+        "timingState": "observed",
+        "meanNanoseconds": 1.8701140048603218,
+        "allocatedBytesPerOperation": 0
+      },
+      {
+        "id": "ResultCarrierBenchmarks|Fail-fast pipeline - failure|LanguageExtFailFastPipelineFailure|",
+        "benchmarkClass": "ResultCarrierBenchmarks",
+        "category": "Fail-fast pipeline - failure",
+        "method": "LanguageExtFailFastPipelineFailure",
+        "parameters": "",
+        "baseline": false,
+        "timingState": "observed",
+        "meanNanoseconds": 50.399314353863396,
+        "allocatedBytesPerOperation": 48
+      },
+      {
+        "id": "ResultCarrierBenchmarks|Fail-fast pipeline - success|CSharpFunctionalExtensionsFailFastPipelineSuccess|",
+        "benchmarkClass": "ResultCarrierBenchmarks",
+        "category": "Fail-fast pipeline - success",
+        "method": "CSharpFunctionalExtensionsFailFastPipelineSuccess",
+        "parameters": "",
+        "baseline": false,
+        "timingState": "observed",
+        "meanNanoseconds": 12.996353457371393,
+        "allocatedBytesPerOperation": 0
+      },
+      {
+        "id": "ResultCarrierBenchmarks|Fail-fast pipeline - success|DirectFailFastPipelineSuccess|",
+        "benchmarkClass": "ResultCarrierBenchmarks",
+        "category": "Fail-fast pipeline - success",
+        "method": "DirectFailFastPipelineSuccess",
+        "parameters": "",
+        "baseline": true,
+        "timingState": "observed",
+        "meanNanoseconds": 0.35526232545574504,
+        "allocatedBytesPerOperation": 0
+      },
+      {
+        "id": "ResultCarrierBenchmarks|Fail-fast pipeline - success|FSharpCoreFailFastPipelineSuccess|",
+        "benchmarkClass": "ResultCarrierBenchmarks",
+        "category": "Fail-fast pipeline - success",
+        "method": "FSharpCoreFailFastPipelineSuccess",
+        "parameters": "",
+        "baseline": false,
+        "timingState": "observed",
+        "meanNanoseconds": 11.903797547022501,
+        "allocatedBytesPerOperation": 0
+      },
+      {
+        "id": "ResultCarrierBenchmarks|Fail-fast pipeline - success|FunnySharpFailFastPipelineSuccess|",
+        "benchmarkClass": "ResultCarrierBenchmarks",
+        "category": "Fail-fast pipeline - success",
+        "method": "FunnySharpFailFastPipelineSuccess",
+        "parameters": "",
+        "baseline": false,
+        "timingState": "observed",
+        "meanNanoseconds": 10.50535903374354,
+        "allocatedBytesPerOperation": 0
+      },
+      {
+        "id": "ResultCarrierBenchmarks|Fail-fast pipeline - success|LanguageExtFailFastPipelineSuccess|",
+        "benchmarkClass": "ResultCarrierBenchmarks",
+        "category": "Fail-fast pipeline - success",
+        "method": "LanguageExtFailFastPipelineSuccess",
+        "parameters": "",
+        "baseline": false,
+        "timingState": "observed",
+        "meanNanoseconds": 41.97510855396589,
+        "allocatedBytesPerOperation": 48
       }
     ]
   }

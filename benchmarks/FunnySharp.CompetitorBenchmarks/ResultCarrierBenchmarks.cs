@@ -7,7 +7,7 @@ using FunnySharp;
 using Lext = LanguageExt;
 using Microsoft.FSharp.Core;
 
-namespace FunnySharp.CompetitorBenchmarks;
+namespace FunnySharp.Benchmarks;
 
 // Equivalence contract for every scenario in this class: each compared path receives the same
 // pre-built fail-fast carrier (success or failure) and produces the same final int - the
