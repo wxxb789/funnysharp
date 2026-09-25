@@ -219,3 +219,11 @@ pwsh -NoProfile -File eng/Verify-Performance.ps1 -ManifestPath eng/performance/c
 
 Both verifiers check every row against the current policy fingerprint, the recorded environment,
 and the committed budgets before an observation can be approved.
+
+The `files` lists in the manifests are ordered inputs, not sets: `Verify-Performance.ps1`
+recomputes each fingerprint from the ordinal-sorted list with backslashes normalized to forward
+slashes, while the receipt exporters hash the listed path text — the main exporter re-sorts
+before hashing and the isolated competitor exporter hashes in manifest order. Keep every `files`
+array in `eng/performance/*.json` ordinal-sorted and forward-slashed, as committed, so both
+algorithms agree; an out-of-order or backslashed entry fails receipt verification with an opaque
+fingerprint mismatch.
