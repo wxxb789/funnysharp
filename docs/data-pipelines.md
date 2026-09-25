@@ -100,18 +100,18 @@ contract.
 <!-- performance-table:start data-pipelines -->
 | Scenario | Baseline mean | FunnySharp mean | Ratio | Baseline allocation | FunnySharp allocation |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Async stream filter-map ([Count=1024]) - BclAsyncWhereSelect | 15.745 us | 42.302 us | 2.69x | 0 B | 400 B |
-| Async stream filter-map ([Count=1024]) - FunnySharpAsyncChoose | 15.745 us | 46.257 us | 2.94x | 0 B | 312 B |
-| Async stream filter-map ([Count=16]) - BclAsyncWhereSelect | 315.806 ns | 888.634 ns | 2.81x | 0 B | 400 B |
-| Async stream filter-map ([Count=16]) - FunnySharpAsyncChoose | 315.806 ns | 767.361 ns | 2.43x | 0 B | 312 B |
-| Async stream running aggregate ([Count=1024]) | 43.519 us | 46.149 us | 1.06x | 184 B | 312 B |
-| Async stream running aggregate ([Count=16]) | 924.476 ns | 894.521 ns | 0.97x | 184 B | 312 B |
-| IEnumerable filter-map ([Count=1024]) | 6.007 us | 4.749 us | 0.79x | 160 B | 112 B |
-| IEnumerable filter-map ([Count=16]) | 155.397 ns | 120.534 ns | 0.78x | 160 B | 112 B |
-| IEnumerable running aggregate ([Count=1024]) | 4.539 us | 4.559 us | 1.00x | 120 B | 120 B |
-| IEnumerable running aggregate ([Count=16]) | 112.729 ns | 119.099 ns | 1.06x | 120 B | 120 B |
-| Span filter-map ([Count=1024]) | 771.388 ns | 3.159 us | 4.10x | 0 B | 0 B |
-| Span filter-map ([Count=16]) | 13.896 ns | 54.783 ns | 3.94x | 0 B | 0 B |
+| Async stream filter-map ([Count=1024]) - BclAsyncWhereSelect | 16.342 us | 45.703 us | 2.80x | 0 B | 400 B |
+| Async stream filter-map ([Count=1024]) - FunnySharpAsyncChoose | 16.342 us | 38.928 us | 2.38x | 0 B | 312 B |
+| Async stream filter-map ([Count=16]) - BclAsyncWhereSelect | 347.923 ns | 860.165 ns | 2.47x | 0 B | 400 B |
+| Async stream filter-map ([Count=16]) - FunnySharpAsyncChoose | 347.923 ns | 757.258 ns | 2.18x | 0 B | 312 B |
+| Async stream running aggregate ([Count=1024]) | 50.744 us | 53.155 us | 1.05x | 184 B | 312 B |
+| Async stream running aggregate ([Count=16]) | 751.483 ns | 806.422 ns | 1.07x | 184 B | 312 B |
+| IEnumerable filter-map ([Count=1024]) | 6.472 us | 4.549 us | 0.70x | 160 B | 112 B |
+| IEnumerable filter-map ([Count=16]) | 152.417 ns | 113.566 ns | 0.75x | 160 B | 112 B |
+| IEnumerable running aggregate ([Count=1024]) | 4.480 us | 4.433 us | 0.99x | 120 B | 120 B |
+| IEnumerable running aggregate ([Count=16]) | 107.762 ns | 111.725 ns | 1.04x | 120 B | 120 B |
+| Span filter-map ([Count=1024]) | 727.262 ns | 3.164 us | 4.35x | 0 B | 0 B |
+| Span filter-map ([Count=16]) | 12.659 ns | 54.671 ns | 4.32x | 0 B | 0 B |
 
 Excluded measurements:
 - Unmeasured pipeline variants: ChooseValueAsync, SelectTo, WhereTo, in-place variants, Memory wrappers, and ScanValueAsync have no numeric release claim.
