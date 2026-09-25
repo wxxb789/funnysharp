@@ -102,9 +102,19 @@ making the actual asynchronous effects easy to locate and review.
 
 ## Performance Characterization
 
+`Then` composition is single-materialization: building a chain with repeated `Then` calls allocates
+one immutable composition node per call and shares structure with everything already composed, in
+any association order, without copying intermediate outputs. Evaluation runs every transition
+exactly once in execution order, accumulates outputs in pooled scratch buffers, and materializes
+the concatenated outputs in one exact-size array; evaluation is iterative, never recursive, and the
+same composed transition may be invoked concurrently. The remaining cost relative to a hand-written
+loop is the visible per-step semantics itself: every transition materializes its own immutable
+`StateChange` snapshot (state, output array snapshot, and a read-only output view), while the raw
+loop writes plain values into one caller-owned array.
+
 The release benchmark includes representative left-associated `Then` chains. This is a bounded
-characterization of repeated output copying, not a new throughput promise or a reason to add a
-second composition API without measured production demand.
+characterization of that per-step model cost and composition overhead, not a throughput promise or
+a reason to add a second composition API without measured production demand.
 
 <!-- performance-table:start state-machines -->
 | Scenario | Baseline mean | FunnySharp mean | Ratio | Baseline allocation | FunnySharp allocation |

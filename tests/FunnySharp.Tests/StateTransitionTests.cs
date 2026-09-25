@@ -141,4 +141,176 @@ public sealed class StateTransitionTests
 
         Assert.Throws<InvalidOperationException>(() => validFirst.Then(nullSecond)(1));
     }
+
+    [Fact]
+    public void ThenChainsEvaluateEveryTransitionOnceInOrderAcrossLongLeftAssociatedChains()
+    {
+        const int chainLength = 10_000;
+        var calls = new int[chainLength];
+        StateTransition<int, int> transition = state =>
+        {
+            calls[0]++;
+            return StateChange<int, int>.To(state + 1, state + 1);
+        };
+
+        for (var index = 1; index < chainLength; index++)
+        {
+            var step = index;
+            transition = transition.Then(state =>
+            {
+                calls[step]++;
+                return StateChange<int, int>.To(state + 1, state + 1);
+            });
+        }
+
+        var result = transition(0);
+
+        Assert.Equal(chainLength, result.State);
+        Assert.Equal(chainLength, result.Outputs.Count);
+        Assert.Equal(1, result.Outputs[0]);
+        Assert.Equal(chainLength, result.Outputs[^1]);
+        Assert.All(calls, call => Assert.Equal(1, call));
+    }
+
+    [Fact]
+    public void ThenChainsEvaluateRightAssociatedAndMixedChainsInExecutionOrder()
+    {
+        StateTransition<int, string> a = state => StateChange<int, string>.To(state + 1, "a");
+        StateTransition<int, string> b = state => StateChange<int, string>.To(state + 1, "b");
+        StateTransition<int, string> c = state => StateChange<int, string>.To(state + 1, "c");
+
+        var leftAssociated = a.Then(b).Then(c);
+        var rightAssociated = a.Then(b.Then(c));
+        var mixed = a.Then(b).Then(a.Then(b).Then(c)).Then(c);
+
+        var left = leftAssociated(0);
+        var right = rightAssociated(0);
+        var chained = mixed(0);
+
+        Assert.Equal(3, left.State);
+        Assert.Equal(["a", "b", "c"], left.Outputs);
+        Assert.Equal(left.State, right.State);
+        Assert.Equal(left.Outputs, right.Outputs);
+        Assert.Equal(6, chained.State);
+        Assert.Equal(["a", "b", "a", "b", "c", "c"], chained.Outputs);
+    }
+
+    [Fact]
+    public void ThenCompositionIsImmutableWhenPreviouslyComposedTransitionsAreExtended()
+    {
+        var bCalls = 0;
+        var cCalls = 0;
+        StateTransition<int, string> a = state => StateChange<int, string>.To(state + 1, "a");
+        StateTransition<int, string> b = state =>
+        {
+            bCalls++;
+            return StateChange<int, string>.To(state + 1, "b");
+        };
+        StateTransition<int, string> c = state =>
+        {
+            cCalls++;
+            return StateChange<int, string>.To(state + 1, "c");
+        };
+
+        var ab = a.Then(b);
+        var abc = ab.Then(c);
+        var abResult = ab(0);
+        var abcResult = abc(0);
+
+        Assert.Equal(2, abResult.State);
+        Assert.Equal(["a", "b"], abResult.Outputs);
+        Assert.Equal(3, abcResult.State);
+        Assert.Equal(["a", "b", "c"], abcResult.Outputs);
+        Assert.Equal(2, bCalls);
+        Assert.Equal(1, cCalls);
+    }
+
+    [Fact]
+    public void ThenCompositionProducesEqualResultsAcrossRepeatedInvocations()
+    {
+        StateTransition<int, int> transition = state => StateChange<int, int>.To(state + 1, state + 1);
+        for (var index = 1; index < 64; index++)
+        {
+            transition = transition.Then(state => StateChange<int, int>.To(state + 1, state + 1));
+        }
+
+        var expected = transition(0);
+        for (var invocation = 0; invocation < 100; invocation++)
+        {
+            Assert.Equal(expected, transition(0));
+        }
+    }
+
+    [Fact]
+    public async Task ThenCompositionSupportsConcurrentInvocation()
+    {
+        StateTransition<int, int> transition = state => StateChange<int, int>.To(state + 1, state + 1);
+        for (var index = 1; index < 256; index++)
+        {
+            transition = transition.Then(state => StateChange<int, int>.To(state + 1, state + 1));
+        }
+
+        var expected = transition(0);
+        var results = await Task.WhenAll(
+            Enumerable.Range(0, Environment.ProcessorCount * 2)
+                .Select(_ => Task.Run(() => transition(0))));
+
+        Assert.All(results, result =>
+        {
+            Assert.Equal(expected.State, result.State);
+            Assert.Equal(expected.Outputs, result.Outputs);
+        });
+    }
+
+    [Fact]
+    public void ThenChainsRejectNullStateChangesFromTheMiddleOfTheChain()
+    {
+        var executed = new List<int>();
+        StateTransition<int, string> valid(int step) => state =>
+        {
+            executed.Add(step);
+            return StateChange<int, string>.To(state + 1, $"step:{step}");
+        };
+
+        StateTransition<int, string> chain = valid(0).Then(valid(1));
+        StateTransition<int, string> nullMiddle = _ => null!;
+        var composed = chain.Then(nullMiddle).Then(valid(2));
+
+        Assert.Throws<InvalidOperationException>(() => composed(0));
+        Assert.Equal([0, 1], executed);
+    }
+
+    [Fact]
+    public void ThenChainsPreserveExceptionIdentityFromTheMiddleOfTheChain()
+    {
+        var executed = new List<int>();
+        var exception = new InvalidOperationException("middle failed");
+        StateTransition<int, string> valid(int step) => state =>
+        {
+            executed.Add(step);
+            return StateChange<int, string>.To(state + 1, $"step:{step}");
+        };
+        StateTransition<int, string> failing = _ => throw exception;
+
+        var composed = valid(0).Then(valid(1)).Then(failing).Then(valid(2));
+        var actual = Assert.Throws<InvalidOperationException>(() => composed(0));
+
+        Assert.Same(exception, actual);
+        Assert.Equal([0, 1], executed);
+    }
+
+    [Fact]
+    public void ThenChainsConcatenateMixedOutputCountsInExecutionOrder()
+    {
+        StateTransition<int, int> none = state => StateChange<int, int>.To(state + 1);
+        StateTransition<int, int> single = state => StateChange<int, int>.To(state + 1, state + 1);
+        StateTransition<int, int> triple = state => StateChange<int, int>.To(
+            state + 1, state + 1, state + 10, state + 100);
+
+        var composed = none.Then(single).Then(none).Then(triple).Then(none);
+        var result = composed(0);
+
+        Assert.Equal(5, result.State);
+        Assert.Equal([2, 4, 13, 103], result.Outputs);
+    }
 }
