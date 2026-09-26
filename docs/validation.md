@@ -150,12 +150,12 @@ contract. `N/A` means timing was below resolution or unavailable.
 <!-- performance-table:start validation -->
 | Scenario | Baseline mean | FunnySharp mean | Ratio | Baseline allocation | FunnySharp allocation |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Option sequence - successful buffering ([Count=1024]) | 1.584 us | 2.135 us | 1.35x | 4176 B | 4176 B |
-| Option sequence - successful buffering ([Count=16]) | 44.234 ns | 48.511 ns | 1.10x | 144 B | 144 B |
-| Result sequence - first failure ([Count=1024]) | 1.815 ns | 5.172 ns | 2.85x | 0 B | 0 B |
-| Result sequence - first failure ([Count=16]) | 1.774 ns | 4.529 ns | 2.55x | 0 B | 0 B |
-| Validation sequence - full accumulation ([Count=1024]) | 5.304 us | 6.724 us | 1.27x | 12632 B | 12632 B |
-| Validation sequence - full accumulation ([Count=16]) | 177.476 ns | 215.134 ns | 1.21x | 392 B | 392 B |
+| Option sequence - successful buffering ([Count=1024]) | 1.630 us | 2.342 us | 1.44x | 4176 B | 4176 B |
+| Option sequence - successful buffering ([Count=16]) | 45.077 ns | 47.286 ns | 1.05x | 144 B | 144 B |
+| Result sequence - first failure ([Count=1024]) | 1.847 ns | 3.828 ns | 2.07x | 0 B | 0 B |
+| Result sequence - first failure ([Count=16]) | 1.888 ns | 4.122 ns | 2.18x | 0 B | 0 B |
+| Validation sequence - full accumulation ([Count=1024]) | 5.243 us | 6.672 us | 1.27x | 12632 B | 12632 B |
+| Validation sequence - full accumulation ([Count=16]) | 177.296 ns | 207.516 ns | 1.17x | 392 B | 392 B |
 
 Excluded measurements:
 - Unmeasured async traversal: Sequential async Result and Validation traversal variants have no numeric release claim.

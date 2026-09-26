@@ -186,11 +186,11 @@ contract.
 <!-- performance-table:start immutable-updates -->
 | Scenario | Baseline mean | FunnySharp mean | Ratio | Baseline allocation | FunnySharp allocation |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| FrozenDictionary lookup | 4.139 ns | 4.565 ns | 1.10x | 0 B | 0 B |
-| Immutable collection batch update | 69.362 ns | 79.795 ns | 1.15x | 208 B | 208 B |
-| ImmutableDictionary existing-key update | 69.817 ns | 73.102 ns | 1.05x | 104 B | 104 B |
-| Missing optional update | 8.776 ns | 10.997 ns | 1.25x | 0 B | 0 B |
-| Nested record replacement | 25.798 ns | 35.380 ns | 1.37x | 72 B | 72 B |
+| FrozenDictionary lookup | 4.205 ns | 4.202 ns | 1.00x | 0 B | 0 B |
+| Immutable collection batch update | 68.703 ns | 75.842 ns | 1.10x | 208 B | 208 B |
+| ImmutableDictionary existing-key update | 63.889 ns | 69.492 ns | 1.09x | 104 B | 104 B |
+| Missing optional update | 9.188 ns | 10.350 ns | 1.13x | 0 B | 0 B |
+| Nested record replacement | 25.185 ns | 33.321 ns | 1.32x | 72 B | 72 B |
 
 Excluded measurements:
 - Unmeasured optics construction: Optics construction and frozen rebuild costs have no numeric release claim.

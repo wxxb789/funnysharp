@@ -150,16 +150,16 @@ below resolution or unavailable.
 <!-- performance-table:start result -->
 | Scenario | Baseline mean | FunnySharp mean | Ratio | Baseline allocation | FunnySharp allocation |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Completed Task mapping | 25.868 ns | 52.891 ns | 2.04x | 144 B | 256 B |
-| Completed ValueTask mapping | 13.848 ns | 52.810 ns | 3.81x | 0 B | 0 B |
-| Construction and inspection - failure | 0.245 ns | N/A | N/A | 0 B | 0 B |
+| Completed Task mapping | 25.925 ns | 49.951 ns | 1.93x | 144 B | 256 B |
+| Completed ValueTask mapping | 12.267 ns | 38.654 ns | 3.15x | 0 B | 0 B |
+| Construction and inspection - failure | N/A | N/A | N/A | 0 B | 0 B |
 | Construction and inspection - success | N/A | N/A | N/A | 0 B | 0 B |
-| Exception boundary - failure | 3.078 us | 3.636 us | 1.18x | 512 B | 680 B |
-| Exception boundary - success | 11.505 ns | 14.343 ns | 1.25x | 0 B | 0 B |
-| Fail-fast pipeline - failure | N/A | 2.329 ns | N/A | 0 B | 0 B |
-| Fail-fast pipeline - success | 0.111 ns | 11.071 ns | 99.95x | 0 B | 0 B |
-| Pending Task mapping | 2.715 us | 3.515 us | 1.29x | 296 B | 744 B |
-| Pending ValueTask mapping | 2.731 us | 3.264 us | 1.19x | 304 B | 840 B |
+| Exception boundary - failure | 3.149 us | 4.016 us | 1.28x | 512 B | 680 B |
+| Exception boundary - success | 11.808 ns | 14.780 ns | 1.25x | 0 B | 0 B |
+| Fail-fast pipeline - failure | N/A | 2.418 ns | N/A | 0 B | 0 B |
+| Fail-fast pipeline - success | N/A | 9.968 ns | N/A | 0 B | 0 B |
+| Pending Task mapping | 2.409 us | 3.109 us | 1.29x | 296 B | 744 B |
+| Pending ValueTask mapping | 2.826 us | 3.374 us | 1.19x | 304 B | 840 B |
 <!-- performance-table:end result -->
 
 The generated table exposes measured costs without interpreting below-resolution ratios. Rerun
