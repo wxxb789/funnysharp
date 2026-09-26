@@ -304,26 +304,26 @@ contract. `N/A` means timing was below resolution or unavailable.
 <!-- performance-table:start collections -->
 | Scenario | Baseline mean | FunnySharp mean | Ratio | Baseline allocation | FunnySharp allocation |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| IEnumerable exact zip ([Count=1024]) | 6.505 us | 6.803 us | 1.05x | 160 B | 8376 B |
-| IEnumerable exact zip ([Count=16]) | 155.753 ns | 156.939 ns | 1.01x | 160 B | 312 B |
-| IEnumerable first-or-none ([Count=1024]) | 3.352 us | 3.899 us | 1.16x | 0 B | 0 B |
-| IEnumerable first-or-none ([Count=16]) | 58.553 ns | 59.576 ns | 1.02x | 0 B | 0 B |
-| IEnumerable min-or-none ([Count=1024]) | 20.762 us | 720.725 ns | 0.03x | 24656 B | 0 B |
-| IEnumerable min-or-none ([Count=16]) | 371.689 ns | 11.290 ns | 0.03x | 464 B | 0 B |
-| IEnumerable non-empty total ([Count=1024]) | 2.698 us | 5.125 us | 1.90x | 0 B | 4152 B |
-| IEnumerable non-empty total ([Count=16]) | 38.252 ns | 93.570 ns | 2.45x | 0 B | 120 B |
-| IEnumerable partition ([Count=1024]) | 8.037 us | 3.815 us | 0.47x | 4304 B | 8384 B |
-| IEnumerable partition ([Count=16]) | 203.368 ns | 109.501 ns | 0.54x | 272 B | 320 B |
-| IEnumerable single-or-none ([Count=1024]) | 2.765 us | 2.799 us | 1.01x | 168 B | 0 B |
-| IEnumerable single-or-none ([Count=16]) | 108.536 ns | 45.488 ns | 0.42x | 168 B | 0 B |
-| IEnumerable where-not-null ([Count=1024]) | 7.168 us | 6.564 us | 0.92x | 7272 B | 16688 B |
-| IEnumerable where-not-null ([Count=16]) | 183.952 ns | 202.405 ns | 1.10x | 216 B | 416 B |
-| Located traverse validation ([Count=1024]) | 11.813 us | 63.936 us | 5.41x | 22696 B | 221632 B |
-| Located traverse validation ([Count=16]) | 204.021 ns | 1.065 us | 5.22x | 376 B | 3760 B |
-| Parse int ([Count=1024]) | 11.457 ns | 10.819 ns | 0.94x | 0 B | 0 B |
-| Parse int ([Count=16]) | 11.011 ns | 10.848 ns | 0.99x | 0 B | 0 B |
-| Queue dequeue drain ([Count=1024]) | 911.074 ns | 1.901 us | 2.09x | 4120 B | 4160 B |
-| Queue dequeue drain ([Count=16]) | 21.395 ns | 45.368 ns | 2.12x | 88 B | 128 B |
+| IEnumerable exact zip ([Count=1024]) | 6.718 us | 6.427 us | 0.96x | 160 B | 8376 B |
+| IEnumerable exact zip ([Count=16]) | 163.013 ns | 161.983 ns | 0.99x | 160 B | 312 B |
+| IEnumerable first-or-none ([Count=1024]) | 3.149 us | 3.465 us | 1.10x | 0 B | 0 B |
+| IEnumerable first-or-none ([Count=16]) | 61.598 ns | 69.045 ns | 1.12x | 0 B | 0 B |
+| IEnumerable min-or-none ([Count=1024]) | 21.152 us | 892.750 ns | 0.04x | 24656 B | 0 B |
+| IEnumerable min-or-none ([Count=16]) | 310.084 ns | 12.176 ns | 0.04x | 464 B | 0 B |
+| IEnumerable non-empty total ([Count=1024]) | 2.934 us | 5.135 us | 1.75x | 0 B | 4152 B |
+| IEnumerable non-empty total ([Count=16]) | 40.058 ns | 90.671 ns | 2.26x | 0 B | 120 B |
+| IEnumerable partition ([Count=1024]) | 9.368 us | 3.922 us | 0.42x | 4304 B | 8384 B |
+| IEnumerable partition ([Count=16]) | 195.090 ns | 109.607 ns | 0.56x | 272 B | 320 B |
+| IEnumerable single-or-none ([Count=1024]) | 2.912 us | 2.794 us | 0.96x | 168 B | 0 B |
+| IEnumerable single-or-none ([Count=16]) | 101.033 ns | 47.877 ns | 0.47x | 168 B | 0 B |
+| IEnumerable where-not-null ([Count=1024]) | 8.420 us | 7.677 us | 0.91x | 7272 B | 16688 B |
+| IEnumerable where-not-null ([Count=16]) | 212.107 ns | 209.230 ns | 0.99x | 216 B | 416 B |
+| Located traverse validation ([Count=1024]) | 12.113 us | 63.960 us | 5.28x | 22696 B | 221632 B |
+| Located traverse validation ([Count=16]) | 215.397 ns | 1.158 us | 5.38x | 376 B | 3760 B |
+| Parse int ([Count=1024]) | 12.985 ns | 11.535 ns | 0.89x | 0 B | 0 B |
+| Parse int ([Count=16]) | 11.380 ns | 12.387 ns | 1.09x | 0 B | 0 B |
+| Queue dequeue drain ([Count=1024]) | 908.426 ns | 1.974 us | 2.17x | 4120 B | 4160 B |
+| Queue dequeue drain ([Count=16]) | 21.695 ns | 45.095 ns | 2.08x | 88 B | 128 B |
 <!-- performance-table:end collections -->
 
 ShortRun results are directional and should be rerun on deployment hardware before capacity
