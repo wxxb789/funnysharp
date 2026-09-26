@@ -88,6 +88,19 @@ public sealed class StateTransitionTests
     }
 
     [Fact]
+    public void ThenThreadsStateWhenOnlyTheFirstTransitionProducesOutputs()
+    {
+        StateTransition<int, string> doubleAndEmit = state =>
+            StateChange<int, string>.To(state * 2, $"doubled:{state}");
+        StateTransition<int, string> increment = state => StateChange<int, string>.To(state + 1);
+
+        var result = doubleAndEmit.Then(increment)(3);
+
+        Assert.Equal(7, result.State);
+        Assert.Equal(["doubled:3"], result.Outputs);
+    }
+
+    [Fact]
     public void ThenRejectsNullDelegatesEagerly()
     {
         StateTransition<int, string> transition = state => StateChange<int, string>.To(state);
@@ -146,30 +159,19 @@ public sealed class StateTransitionTests
     public void ThenChainsEvaluateEveryTransitionOnceInOrderAcrossLongLeftAssociatedChains()
     {
         const int chainLength = 10_000;
-        var calls = new int[chainLength];
         StateTransition<int, int> transition = state =>
-        {
-            calls[0]++;
-            return StateChange<int, int>.To(state + 1, state + 1);
-        };
+            StateChange<int, int>.To(state + 1, 0);
 
         for (var index = 1; index < chainLength; index++)
         {
             var step = index;
-            transition = transition.Then(state =>
-            {
-                calls[step]++;
-                return StateChange<int, int>.To(state + 1, state + 1);
-            });
+            transition = transition.Then(state => StateChange<int, int>.To(state + 1, step));
         }
 
         var result = transition(0);
 
         Assert.Equal(chainLength, result.State);
-        Assert.Equal(chainLength, result.Outputs.Count);
-        Assert.Equal(1, result.Outputs[0]);
-        Assert.Equal(chainLength, result.Outputs[^1]);
-        Assert.All(calls, call => Assert.Equal(1, call));
+        Assert.Equal(Enumerable.Range(0, chainLength), result.Outputs);
     }
 
     [Fact]

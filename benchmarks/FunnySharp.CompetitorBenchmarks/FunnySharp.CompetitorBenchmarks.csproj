@@ -10,6 +10,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="../FunnySharp.Benchmarks/ReceiptExporterCore.cs" Link="ReceiptExporterCore.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="BenchmarkDotNet" Version="0.15.8" />
     <PackageReference Include="CSharpFunctionalExtensions" Version="3.7.0" />
     <PackageReference Include="FSharp.Core" Version="10.1.400" />

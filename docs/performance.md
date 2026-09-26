@@ -134,6 +134,11 @@ comparable functional-programming carriers; they are never API-compatibility evi
 compatibility promise. Pinned packages: FSharp.Core 10.1.400, Funcky 3.6.0,
 CSharpFunctionalExtensions 3.7.0, language-ext Core 4.4.9.
 
+Read the generated table below by row, not by column header: the baseline columns carry each
+scenario's `Direct` reference method, and the columns headed `FunnySharp` carry the method named in
+the row label - for competitor rows that is the competitor library's method, not FunnySharp's.
+Attribute every number to the row's named method, never to the column header.
+
 <!-- performance-table:start competitor-comparison -->
 | Scenario | Baseline mean | FunnySharp mean | Ratio | Baseline allocation | FunnySharp allocation |
 | --- | ---: | ---: | ---: | ---: | ---: |
@@ -219,11 +224,3 @@ pwsh -NoProfile -File eng/Verify-Performance.ps1 -ManifestPath eng/performance/c
 
 Both verifiers check every row against the current policy fingerprint, the recorded environment,
 and the committed budgets before an observation can be approved.
-
-The `files` lists in the manifests are ordered inputs, not sets: `Verify-Performance.ps1`
-recomputes each fingerprint from the ordinal-sorted list with backslashes normalized to forward
-slashes, while the receipt exporters hash the listed path text — the main exporter re-sorts
-before hashing and the isolated competitor exporter hashes in manifest order. Keep every `files`
-array in `eng/performance/*.json` ordinal-sorted and forward-slashed, as committed, so both
-algorithms agree; an out-of-order or backslashed entry fails receipt verification with an opaque
-fingerprint mismatch.

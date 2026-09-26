@@ -14,6 +14,7 @@
       "benchmarks/FunnySharp.Benchmarks/ImmutableUpdateBenchmarks.cs",
       "benchmarks/FunnySharp.Benchmarks/OptionBenchmarks.cs",
       "benchmarks/FunnySharp.Benchmarks/Program.cs",
+      "benchmarks/FunnySharp.Benchmarks/ReceiptExporterCore.cs",
       "benchmarks/FunnySharp.Benchmarks/ResultBenchmarks.cs",
       "benchmarks/FunnySharp.Benchmarks/SequenceBenchmarks.cs",
       "benchmarks/FunnySharp.Benchmarks/StateMachineBenchmarks.cs",
@@ -52,8 +53,9 @@
     "algorithm": "sha256",
     "files": [
       "benchmarks/FunnySharp.Benchmarks/AllocationReceiptExporter.cs",
-      "eng/Verify-Performance.ps1",
+      "benchmarks/FunnySharp.Benchmarks/ReceiptExporterCore.cs",
       "eng/Generate-PerformanceDocumentation.ps1",
+      "eng/Verify-Performance.ps1",
       "eng/tests/PerformanceProtocol.Tests.ps1"
     ]
   },

@@ -4,6 +4,7 @@
     "algorithm": "sha256",
     "files": [
       "Directory.Build.props",
+      "benchmarks/FunnySharp.Benchmarks/ReceiptExporterCore.cs",
       "benchmarks/FunnySharp.CompetitorBenchmarks/CompetitorReceiptExporter.cs",
       "benchmarks/FunnySharp.CompetitorBenchmarks/FunnySharp.CompetitorBenchmarks.csproj",
       "benchmarks/FunnySharp.CompetitorBenchmarks/OptionCarrierBenchmarks.cs",
@@ -20,6 +21,7 @@
   "protocol": {
     "algorithm": "sha256",
     "files": [
+      "benchmarks/FunnySharp.Benchmarks/ReceiptExporterCore.cs",
       "benchmarks/FunnySharp.CompetitorBenchmarks/CompetitorReceiptExporter.cs",
       "eng/Generate-PerformanceDocumentation.ps1",
       "eng/Verify-Performance.ps1"

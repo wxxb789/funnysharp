@@ -39,7 +39,8 @@ to refresh evidence.
 - [ ] Timing is directional only; `below-resolution` and `unavailable` produce `N/A` and do not fail
   the release.
 - [ ] Every exact guide table is generated from the approved observation in
-  `eng/performance/baseline.json`; verify mode detects manual drift.
+  `eng/performance/baseline.json` or `eng/performance/competitor-baseline.json`; verify mode
+  detects manual drift.
 - [ ] The approved observation's policy, benchmark-input, and protocol fingerprints match the
   current tree (checked by `performance-docs-verify` on every run).
 - [ ] Every intentionally unmeasured surface is an explicit exclusion with rationale and no numeric
@@ -137,6 +138,11 @@ pwsh -NoProfile -File eng/Verify-Performance.ps1 -RepositoryRoot . `
 # 3. Approve the proposal into eng/performance/baseline.json, then regenerate and verify the guides
 pwsh -NoProfile -File eng/Generate-PerformanceDocumentation.ps1 -RepositoryRoot .
 pwsh -NoProfile -File eng/Generate-PerformanceDocumentation.ps1 -RepositoryRoot . -Verify
+# 4. Regenerate and verify the competitor-comparison guide from the competitor manifest
+pwsh -NoProfile -File eng/Generate-PerformanceDocumentation.ps1 -RepositoryRoot . `
+  -ManifestPath eng/performance/competitor-baseline.json
+pwsh -NoProfile -File eng/Generate-PerformanceDocumentation.ps1 -RepositoryRoot . `
+  -ManifestPath eng/performance/competitor-baseline.json -Verify
 ```
 
 Cross-path byte equality is diagnosed with `eng/Compare-ReproducibleBuilds.ps1`. It is not a current

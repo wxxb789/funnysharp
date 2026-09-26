@@ -143,9 +143,11 @@ public static class StateTransitionExtensions
     /// </para>
     /// <para>
     /// Evaluation uses pooled scratch buffers, copies each transition's outputs once into the final output array,
-    /// and never recurses, so evaluation depth is bounded by pool capacity rather than the call stack. The
-    /// composition itself adds one output array materialization per evaluation; each inner transition still
-    /// materializes its own <see cref="StateChange{TState, TOutput}"/> as its visible per-step result.
+    /// and never recurses, so evaluation depth is bounded by pool capacity rather than the call stack. The used
+    /// regions of the pooled scratch are cleared before they return to the pool, so evaluation does not keep
+    /// composed transitions, captured states, or outputs alive through pooled buffers. The composition itself
+    /// adds one output array materialization per evaluation; each inner transition still materializes its own
+    /// <see cref="StateChange{TState, TOutput}"/> as its visible per-step result.
     /// </para>
     /// </remarks>
     /// <exception cref="ArgumentNullException"><paramref name="first"/> or <paramref name="second"/> is <see langword="null"/>.</exception>
@@ -190,59 +192,12 @@ public static class StateTransitionExtensions
         private static object AsStep(StateTransition<TState, TOutput> transition) =>
             transition.Target is Composition<TState, TOutput> composed ? composed : transition;
 
-        public StateChange<TState, TOutput> Invoke(TState state)
-        {
-            if (left is StateTransition<TState, TOutput> firstTransition &&
-                right is StateTransition<TState, TOutput> secondTransition)
-            {
-                return InvokeBoth(state, firstTransition, secondTransition);
-            }
-
-            return Walk(state);
-        }
-
-        /// <summary>Runs two plain transitions and concatenates their outputs in execution order.</summary>
-        private static StateChange<TState, TOutput> InvokeBoth(
-            TState state,
-            StateTransition<TState, TOutput> first,
-            StateTransition<TState, TOutput> second)
-        {
-            var firstChange = first(state);
-            if (firstChange is null)
-            {
-                throw new InvalidOperationException("The first state transition returned null.");
-            }
-
-            var secondChange = second(firstChange.State);
-            if (secondChange is null)
-            {
-                throw new InvalidOperationException("The second state transition returned null.");
-            }
-
-            var firstOutputs = firstChange.RawOutputs;
-            var secondOutputs = secondChange.RawOutputs;
-            if (firstOutputs.Length == 0)
-            {
-                return StateChange<TState, TOutput>.FromOwnedOutputs(secondChange.State, secondOutputs);
-            }
-
-            if (secondOutputs.Length == 0)
-            {
-                return StateChange<TState, TOutput>.FromOwnedOutputs(secondChange.State, firstOutputs);
-            }
-
-            var outputs = new TOutput[firstOutputs.Length + secondOutputs.Length];
-            firstOutputs.CopyTo(outputs, 0);
-            secondOutputs.CopyTo(outputs, firstOutputs.Length);
-            return StateChange<TState, TOutput>.FromOwnedOutputs(secondChange.State, outputs);
-        }
-
         /// <summary>
         /// Evaluates the composition tree iteratively, left to right, without recursion. Outputs accumulate in a
         /// pooled buffer and are materialized once into an exact-size array; each transition still runs exactly
         /// once and receives the state produced by its predecessor.
         /// </summary>
-        private StateChange<TState, TOutput> Walk(TState state)
+        public StateChange<TState, TOutput> Invoke(TState state)
         {
             var outputPool = ArrayPool<TOutput>.Shared;
             var stepPool = ArrayPool<object>.Shared;
@@ -293,8 +248,9 @@ public static class StateTransitionExtensions
             }
             finally
             {
+                Array.Clear(outputs, 0, outputCount);
                 outputPool.Return(outputs);
-                stepPool.Return(pending);
+                stepPool.Return(pending, clearArray: true);
             }
 
             return StateChange<TState, TOutput>.FromOwnedOutputs(state, materialized);
@@ -304,6 +260,7 @@ public static class StateTransitionExtensions
         {
             var next = pool.Rent(minimumLength * 2);
             buffer.CopyTo(next, 0);
+            Array.Clear(buffer, 0, buffer.Length);
             pool.Return(buffer);
             return next;
         }

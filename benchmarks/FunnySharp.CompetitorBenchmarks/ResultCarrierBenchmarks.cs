@@ -226,32 +226,47 @@ public class ResultCarrierBenchmarks
             .Bind(LanguageExtCheckAndDoubleBinder)
             .IfLeft(FallbackValue);
 
-    internal int[] ValidateEquivalence()
+    internal void ValidateEquivalence()
     {
         Setup();
-        return
-        [
-            DirectConstructionInspectionSuccess(),
-            FunnySharpConstructionInspectionSuccess(),
-            FSharpCoreConstructionInspectionSuccess(),
-            CSharpFunctionalExtensionsConstructionInspectionSuccess(),
-            LanguageExtConstructionInspectionSuccess(),
-            DirectConstructionInspectionFailure(),
-            FunnySharpConstructionInspectionFailure(),
-            FSharpCoreConstructionInspectionFailure(),
-            CSharpFunctionalExtensionsConstructionInspectionFailure(),
-            LanguageExtConstructionInspectionFailure(),
-            DirectFailFastPipelineSuccess(),
-            FunnySharpFailFastPipelineSuccess(),
-            FSharpCoreFailFastPipelineSuccess(),
-            CSharpFunctionalExtensionsFailFastPipelineSuccess(),
-            LanguageExtFailFastPipelineSuccess(),
-            DirectFailFastPipelineFailure(),
-            FunnySharpFailFastPipelineFailure(),
-            FSharpCoreFailFastPipelineFailure(),
-            CSharpFunctionalExtensionsFailFastPipelineFailure(),
-            LanguageExtFailFastPipelineFailure(),
-        ];
+        var validated = new List<string>();
+        CompetitorPreflight.ValidateGroup(
+            validated,
+            "Construction and inspection - success",
+            successValue,
+            DirectConstructionInspectionSuccess,
+            FunnySharpConstructionInspectionSuccess,
+            FSharpCoreConstructionInspectionSuccess,
+            CSharpFunctionalExtensionsConstructionInspectionSuccess,
+            LanguageExtConstructionInspectionSuccess);
+        CompetitorPreflight.ValidateGroup(
+            validated,
+            "Construction and inspection - failure",
+            FallbackValue,
+            DirectConstructionInspectionFailure,
+            FunnySharpConstructionInspectionFailure,
+            FSharpCoreConstructionInspectionFailure,
+            CSharpFunctionalExtensionsConstructionInspectionFailure,
+            LanguageExtConstructionInspectionFailure);
+        CompetitorPreflight.ValidateGroup(
+            validated,
+            "Fail-fast pipeline - success",
+            Increment(successValue) * 2,
+            DirectFailFastPipelineSuccess,
+            FunnySharpFailFastPipelineSuccess,
+            FSharpCoreFailFastPipelineSuccess,
+            CSharpFunctionalExtensionsFailFastPipelineSuccess,
+            LanguageExtFailFastPipelineSuccess);
+        CompetitorPreflight.ValidateGroup(
+            validated,
+            "Fail-fast pipeline - failure",
+            FallbackValue,
+            DirectFailFastPipelineFailure,
+            FunnySharpFailFastPipelineFailure,
+            FSharpCoreFailFastPipelineFailure,
+            CSharpFunctionalExtensionsFailFastPipelineFailure,
+            LanguageExtFailFastPipelineFailure);
+        CompetitorPreflight.ValidateCompleteness(typeof(ResultCarrierBenchmarks), validated);
     }
 
     private static int GetValueOr<TError>(FunnySharp.Result<int, TError> result, int fallback) =>

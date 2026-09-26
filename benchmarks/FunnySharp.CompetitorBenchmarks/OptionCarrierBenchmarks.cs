@@ -159,32 +159,47 @@ public class OptionCarrierBenchmarks
     public int LanguageExtValueOrFallbackAbsent() =>
         languageExtNone.IfNone(FallbackValue);
 
-    internal int[] ValidateEquivalence()
+    internal void ValidateEquivalence()
     {
         Setup();
-        return
-        [
-            DirectMapPresent(),
-            FunnySharpMapPresent(),
-            FSharpCoreMapPresent(),
-            FunckyMapPresent(),
-            LanguageExtMapPresent(),
-            DirectMapAbsent(),
-            FunnySharpMapAbsent(),
-            FSharpCoreMapAbsent(),
-            FunckyMapAbsent(),
-            LanguageExtMapAbsent(),
-            DirectValueOrFallbackPresent(),
-            FunnySharpValueOrFallbackPresent(),
-            FSharpCoreValueOrFallbackPresent(),
-            FunckyValueOrFallbackPresent(),
-            LanguageExtValueOrFallbackPresent(),
-            DirectValueOrFallbackAbsent(),
-            FunnySharpValueOrFallbackAbsent(),
-            FSharpCoreValueOrFallbackAbsent(),
-            FunckyValueOrFallbackAbsent(),
-            LanguageExtValueOrFallbackAbsent(),
-        ];
+        var validated = new List<string>();
+        CompetitorPreflight.ValidateGroup(
+            validated,
+            "Map - present",
+            PresentValue + 1,
+            DirectMapPresent,
+            FunnySharpMapPresent,
+            FSharpCoreMapPresent,
+            FunckyMapPresent,
+            LanguageExtMapPresent);
+        CompetitorPreflight.ValidateGroup(
+            validated,
+            "Map - absent",
+            FallbackValue,
+            DirectMapAbsent,
+            FunnySharpMapAbsent,
+            FSharpCoreMapAbsent,
+            FunckyMapAbsent,
+            LanguageExtMapAbsent);
+        CompetitorPreflight.ValidateGroup(
+            validated,
+            "Value-or-fallback - present",
+            PresentValue,
+            DirectValueOrFallbackPresent,
+            FunnySharpValueOrFallbackPresent,
+            FSharpCoreValueOrFallbackPresent,
+            FunckyValueOrFallbackPresent,
+            LanguageExtValueOrFallbackPresent);
+        CompetitorPreflight.ValidateGroup(
+            validated,
+            "Value-or-fallback - absent",
+            FallbackValue,
+            DirectValueOrFallbackAbsent,
+            FunnySharpValueOrFallbackAbsent,
+            FSharpCoreValueOrFallbackAbsent,
+            FunckyValueOrFallbackAbsent,
+            LanguageExtValueOrFallbackAbsent);
+        CompetitorPreflight.ValidateCompleteness(typeof(OptionCarrierBenchmarks), validated);
     }
 
     private static int Increment(int value) => value + 1;
