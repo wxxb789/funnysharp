@@ -8,6 +8,16 @@ The authoritative design and dependency boundaries are recorded in the
 The current fail-closed release gate and its explicit evidence checklist are recorded in
 [release readiness](https://github.com/wxxb789/funnysharp/blob/main/docs/release-readiness.md).
 
+## Performance
+
+Every performance-relevant stable operation has documented complexity, enumeration, allocation,
+boxing, materialization, buffering, and async-scheduling characteristics, backed by measured
+comparisons against raw BCL, idiomatic LINQ, FSharp.Core, and pinned functional-library
+alternatives. Allocation budgets and complexity regressions block a release; hosted timing stays
+directional until a fixed-hardware runner exists.
+
+- [Consolidated performance guidance](https://github.com/wxxb789/funnysharp/blob/main/docs/performance.md)
+
 ## Grammar
 
 One small grammar governs every verb: one primary meaning and a predictable output shape on every
