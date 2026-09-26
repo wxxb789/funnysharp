@@ -315,4 +315,33 @@ public sealed class StateTransitionTests
         Assert.Equal(5, result.State);
         Assert.Equal([2, 4, 13, 103], result.Outputs);
     }
+
+    [Fact]
+    public void ThenPreservesEveryInvocationListEntryOfMulticastTransitions()
+    {
+        var executed = new List<string>();
+        StateTransition<int, string> track(string name) => state =>
+        {
+            executed.Add($"{name}:{state}");
+            return StateChange<int, string>.To(state + 1, $"{name}:{state}");
+        };
+
+        var composed = track("composed-a").Then(track("composed-b"));
+
+        StateTransition<int, string> leadingMulticast = track("leading") + composed;
+        var result = leadingMulticast.Then(track("trailing"))(0);
+
+        Assert.Equal(["leading:0", "composed-a:0", "composed-b:1", "trailing:2"], executed);
+        Assert.Equal(3, result.State);
+        Assert.Equal(["composed-a:0", "composed-b:1", "trailing:2"], result.Outputs);
+
+        executed.Clear();
+
+        StateTransition<int, string> trailingMulticast = composed + track("following");
+        var reverseResult = trailingMulticast.Then(track("trailing"))(0);
+
+        Assert.Equal(["composed-a:0", "composed-b:1", "following:0", "trailing:1"], executed);
+        Assert.Equal(2, reverseResult.State);
+        Assert.Equal(["following:0", "trailing:1"], reverseResult.Outputs);
+    }
 }

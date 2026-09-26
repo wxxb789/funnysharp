@@ -186,11 +186,14 @@ public static class StateTransitionExtensions
         }
 
         /// <summary>
-        /// Unwraps a transition that was itself produced by <see langword="Then"/>, sharing its tree, and keeps
-        /// any other delegate as a leaf.
+        /// Unwraps a transition that was itself produced by a single-cast <see langword="Then"/> result, sharing
+        /// its tree, and keeps any other delegate as a leaf. A combined (multicast) delegate stays a leaf even
+        /// when its last entry is a <see langword="Then"/> result, so every invocation-list entry keeps executing.
         /// </summary>
         private static object AsStep(StateTransition<TState, TOutput> transition) =>
-            transition.Target is Composition<TState, TOutput> composed ? composed : transition;
+            transition.Target is Composition<TState, TOutput> composed && transition.GetInvocationList().Length == 1
+                ? composed
+                : transition;
 
         /// <summary>
         /// Evaluates the composition tree iteratively, left to right, without recursion. Outputs accumulate in a

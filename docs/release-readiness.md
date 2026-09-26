@@ -138,7 +138,17 @@ pwsh -NoProfile -File eng/Verify-Performance.ps1 -RepositoryRoot . `
 # 3. Approve the proposal into eng/performance/baseline.json, then regenerate and verify the guides
 pwsh -NoProfile -File eng/Generate-PerformanceDocumentation.ps1 -RepositoryRoot .
 pwsh -NoProfile -File eng/Generate-PerformanceDocumentation.ps1 -RepositoryRoot . -Verify
-# 4. Regenerate and verify the competitor-comparison guide from the competitor manifest
+# 4. Measure the competitor suite (allocation budgets are the contract; timing is directional)
+dotnet run --project benchmarks/FunnySharp.CompetitorBenchmarks --configuration Release -- --preflight
+dotnet run --project benchmarks/FunnySharp.CompetitorBenchmarks --configuration Release -- `
+  --filter "*" --artifacts <competitor-artifacts-dir>
+# 5. Verify the competitor receipts and write the reviewable observation proposal
+pwsh -NoProfile -File eng/Verify-Performance.ps1 -RepositoryRoot . `
+  -ManifestPath eng/performance/competitor-baseline.json `
+  -ReceiptDirectory <competitor-artifacts-dir>/results `
+  -ObservationProposalPath <competitor-artifacts-dir>/performance-observation-proposal.json
+# 6. Approve the proposal into eng/performance/competitor-baseline.json, then regenerate and verify
+#    the competitor-comparison guide
 pwsh -NoProfile -File eng/Generate-PerformanceDocumentation.ps1 -RepositoryRoot . `
   -ManifestPath eng/performance/competitor-baseline.json
 pwsh -NoProfile -File eng/Generate-PerformanceDocumentation.ps1 -RepositoryRoot . `
