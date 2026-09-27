@@ -1,0 +1,52 @@
+{
+  "business-outcomes": {
+    "reviewer-1": {
+      "A": "idiomatic",
+      "B": "funnysharp"
+    },
+    "reviewer-2": {
+      "A": "funnysharp",
+      "B": "idiomatic"
+    }
+  },
+  "collections": {
+    "reviewer-1": {
+      "A": "idiomatic",
+      "B": "funnysharp"
+    },
+    "reviewer-2": {
+      "A": "funnysharp",
+      "B": "idiomatic"
+    }
+  },
+  "async-streams": {
+    "reviewer-1": {
+      "A": "idiomatic",
+      "B": "funnysharp"
+    },
+    "reviewer-2": {
+      "A": "funnysharp",
+      "B": "idiomatic"
+    }
+  },
+  "concurrency": {
+    "reviewer-1": {
+      "A": "idiomatic",
+      "B": "funnysharp"
+    },
+    "reviewer-2": {
+      "A": "funnysharp",
+      "B": "idiomatic"
+    }
+  },
+  "aspnetcore": {
+    "reviewer-1": {
+      "A": "idiomatic",
+      "B": "funnysharp"
+    },
+    "reviewer-2": {
+      "A": "funnysharp",
+      "B": "idiomatic"
+    }
+  }
+}

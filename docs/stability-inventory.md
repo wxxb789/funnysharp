@@ -37,6 +37,7 @@ its stability-inventory test.
 | State machines | `TransitionStatus`, `StateChange<TState,TOutput>`, `StateTransition<TState,TOutput>`, `StateTransitionExtensions`, `TransitionResult<TState,TOutput,TError>`, `StateMachine<TState,TEvent,TOutput,TError>`, `StateMachineExtensions` | AD-8 keep; the `Then` single-materialization redesign delivered by Goal 20 | 0.1.0; Goal 20 |
 | Optics | `Lens`, `Lens<TSource,TFocus>`, `Optional`, `Optional<TSource,TFocus>` | AD-9 keep | 0.1.0 |
 | HTTP integration | `HttpResultExtensions` (`FunnySharp.AspNetCore`) | AD-10 keep; G1 `UnitResult` mapping delivered | 0.1.0; Goal 15 |
+| Compiler feedback | `FunnySharp.Analyzers`, `FunnySharp.Analyzers.CodeFixes` (shipped inside the `FunnySharp` package under `analyzers/dotnet/cs`, not separate packages) | E126/E127 adopt: in-package zero-install analyzers, all suppressible, ASCII ids, no `NotConfigurable` | Goal 21 |
 
 Deferred capabilities stay absent from the stable surface: a general retry/backoff layer
 (G8), `Memoize`/async-buffer carriers and k-way async merge, completion-order coordination

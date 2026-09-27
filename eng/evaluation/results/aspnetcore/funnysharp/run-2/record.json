@@ -1,0 +1,20 @@
+{
+  "task": "aspnetcore",
+  "style": "funnysharp",
+  "run": "run-2",
+  "round": 2,
+  "compilation": {
+    "ok": true,
+    "errors": 0,
+    "buildSeconds": 2.6
+  },
+  "semanticCorrectness": {
+    "ok": true,
+    "total": 9,
+    "failed": 0
+  },
+  "apiMisuse": {
+    "fsDiagnostics": []
+  },
+  "consumerLoc": 151
+}

@@ -299,7 +299,7 @@ public readonly struct UnitResult<TError> : IEquatable<UnitResult<TError>>
     /// <param name="error">The failure value, or <see langword="default"/> when successful.</param>
     /// <returns><see langword="true"/> when failed; otherwise, <see langword="false"/>.</returns>
     /// <exception cref="InvalidOperationException">This unit result is the default value.</exception>
-    public bool TryGetError([MaybeNull] out TError error)
+    public bool TryGetError([MaybeNullWhen(false)] out TError error)
     {
         ThrowIfUninitialized();
         error = this.error;

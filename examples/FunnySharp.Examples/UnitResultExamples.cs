@@ -48,7 +48,12 @@ internal static class UnitResultExamples
         ExampleAssertions.True(nullPayload is null, "A null error payload must be preserved exactly.");
         ExampleAssertions.Equal("Failure()", nullPayloadFailure.ToString());
 
+        // The default value is deliberately uninitialized: this block demonstrates the Goal 15
+        // contract that every read throws. FS1001 reports every default creation of a carrier with
+        // no valid default, so the demonstration suppresses it locally (docs/analyzers.md).
+#pragma warning disable FS1001
         var uninitialized = default(UnitResult<string>);
+#pragma warning restore FS1001
         ExampleAssertions.Equal("Uninitialized", uninitialized.ToString());
         ExampleAssertions.UninitializedThrows(() => uninitialized.IsSuccess);
         ExampleAssertions.UninitializedThrows(() => uninitialized.IsFailure);
@@ -380,7 +385,7 @@ internal static class UnitResultExamples
 
         try
         {
-            await UnitResult.TryAsync(() => Task.FromCanceled(cancellationSource.Token));
+            _ = await UnitResult.TryAsync(() => Task.FromCanceled(cancellationSource.Token));
             throw new InvalidOperationException("TryAsync must preserve a canceled operation.");
         }
         catch (OperationCanceledException actual)
@@ -420,7 +425,7 @@ internal static class UnitResultExamples
 
         try
         {
-            await UnitResult.TryValueAsync(() => ValueTask.FromCanceled(cancellationSource.Token));
+            _ = await UnitResult.TryValueAsync(() => ValueTask.FromCanceled(cancellationSource.Token));
             throw new InvalidOperationException("TryValueAsync must preserve a canceled operation.");
         }
         catch (OperationCanceledException actual)

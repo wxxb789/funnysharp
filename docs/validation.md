@@ -113,7 +113,7 @@ selector overload directly. A named Task-returning method can be wrapped, for ex
 
 <!-- documentation-sample: DocumentationSamples.Validation.TraverseValueAsync -->
 ```csharp
-await source.TraverseValueAsync(item => new ValueTask<Option<string>>(LookupAsync(item)));
+return await source.TraverseValueAsync(item => new ValueTask<Option<string>>(LookupAsync(item)));
 ```
 
 The wrapper makes the conversion explicit and preserves the method's normal fault and cancellation

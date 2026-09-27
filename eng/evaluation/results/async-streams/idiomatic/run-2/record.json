@@ -1,0 +1,20 @@
+{
+  "task": "async-streams",
+  "style": "idiomatic",
+  "run": "run-2",
+  "round": 1,
+  "compilation": {
+    "ok": true,
+    "errors": 0,
+    "buildSeconds": 3.4
+  },
+  "semanticCorrectness": {
+    "ok": true,
+    "total": 8,
+    "failed": 0
+  },
+  "apiMisuse": {
+    "fsDiagnostics": []
+  },
+  "consumerLoc": 38
+}

@@ -1,0 +1,19 @@
+{
+  "reviewer": 1,
+  "ratings": {
+    "A": {
+      "failureVisibility": 5,
+      "absenceHandling": 5,
+      "controlFlow": 5,
+      "overall": 5
+    },
+    "B": {
+      "failureVisibility": 3,
+      "absenceHandling": 3,
+      "controlFlow": 3,
+      "overall": 3
+    }
+  },
+  "preference": "A",
+  "justification": "A keeps each failure cause at the branch site (Rejected([\"payment-declined\"])), prices with the same Try/out idiom the catalog already speaks, and reads as four linear guarded steps. B hides causes one hop away in adapter helpers behind three different unwrapping idioms (TryGetValue+TryGetErrors pairs, TryGetError, Match) with null-forgiving ! operators, _ discards, unreachable throw branches, and extra types (PricedLine, PromoEffect) that distance the reader from the rules."
+}

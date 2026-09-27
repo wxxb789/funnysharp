@@ -26,6 +26,22 @@
   </ItemGroup>
 
   <ItemGroup>
+    <!-- Goal 21 compiler feedback: build the analyzers before this package so their outputs can be
+         embedded under analyzers/dotnet/cs. ReferenceOutputAssembly keeps the analyzer assemblies
+         out of the compile-time and runtime reference set: the package keeps an empty dependency
+         group and consumers gain no runtime reference. -->
+    <ProjectReference Include="../FunnySharp.Analyzers/FunnySharp.Analyzers.csproj" ReferenceOutputAssembly="false" />
+    <ProjectReference Include="../FunnySharp.Analyzers.CodeFixes/FunnySharp.Analyzers.CodeFixes.csproj" ReferenceOutputAssembly="false" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="../FunnySharp.Analyzers/bin/$(Configuration)/netstandard2.0/FunnySharp.Analyzers.dll"
+          Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    <None Include="../FunnySharp.Analyzers.CodeFixes/bin/$(Configuration)/netstandard2.0/FunnySharp.Analyzers.CodeFixes.dll"
+          Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="../../README.md" Pack="true" PackagePath="/" />
   </ItemGroup>
 </Project>

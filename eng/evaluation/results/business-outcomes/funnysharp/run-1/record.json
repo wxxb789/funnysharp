@@ -1,0 +1,20 @@
+{
+  "task": "business-outcomes",
+  "style": "funnysharp",
+  "run": "run-1",
+  "round": 2,
+  "compilation": {
+    "ok": true,
+    "errors": 0,
+    "buildSeconds": 2.2
+  },
+  "semanticCorrectness": {
+    "ok": true,
+    "total": 8,
+    "failed": 0
+  },
+  "apiMisuse": {
+    "fsDiagnostics": []
+  },
+  "consumerLoc": 110
+}

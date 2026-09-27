@@ -8,4 +8,11 @@
     <ProjectReference Include="../../src/FunnySharp/FunnySharp.csproj" />
     <ProjectReference Include="../../src/FunnySharp.AspNetCore/FunnySharp.AspNetCore.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <!-- Dogfood the shipped analyzer package during the samples build, mirroring the package's
+         analyzers/dotnet/cs assets: the samples must build with zero FunnySharp diagnostics. -->
+    <ProjectReference Include="../../src/FunnySharp.Analyzers/FunnySharp.Analyzers.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" PrivateAssets="all" />
+    <ProjectReference Include="../../src/FunnySharp.Analyzers.CodeFixes/FunnySharp.Analyzers.CodeFixes.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" PrivateAssets="all" />
+  </ItemGroup>
 </Project>

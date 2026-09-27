@@ -1,0 +1,19 @@
+{
+  "reviewer": 2,
+  "ratings": {
+    "A": {
+      "failureVisibility": 4,
+      "absenceHandling": 3,
+      "controlFlow": 4,
+      "overall": 4
+    },
+    "B": {
+      "failureVisibility": 5,
+      "absenceHandling": 5,
+      "controlFlow": 5,
+      "overall": 5
+    }
+  },
+  "preference": "B",
+  "justification": "B makes every rule locally checkable with plain await-foreach/continue/if: the skip branch, empty-input-to-empty-output loops, and the errors-implies-empty-ValidCelsius rule all read at their branch sites. A is well-staged and commented but hides two correctness-critical semantics — Scan's empty/seed emission for RunningMaxima and Sequence's error accumulation — behind combinators whose contracts are not visible in the file."
+}
