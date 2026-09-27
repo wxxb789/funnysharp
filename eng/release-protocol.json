@@ -17,6 +17,7 @@
         "benchmark",
         "performance-verify",
         "performance-docs-verify",
+        "competitor-performance-docs-verify",
         "compatibility"
       ]
     },
@@ -34,6 +35,7 @@
         "release-protocol-tests",
         "benchmark-preflight",
         "performance-docs-verify",
+        "competitor-performance-docs-verify",
         "compatibility"
       ]
     }
@@ -211,6 +213,20 @@
         "{root}/eng/Generate-PerformanceDocumentation.ps1",
         "-RepositoryRoot",
         "{root}",
+        "-Verify"
+      ]
+    },
+    "competitor-performance-docs-verify": {
+      "fileName": "pwsh",
+      "workingDirectory": "{root}",
+      "arguments": [
+        "-NoProfile",
+        "-File",
+        "{root}/eng/Generate-PerformanceDocumentation.ps1",
+        "-RepositoryRoot",
+        "{root}",
+        "-ManifestPath",
+        "eng/performance/competitor-baseline.json",
         "-Verify"
       ]
     },

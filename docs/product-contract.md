@@ -72,10 +72,13 @@ analysis, and compile-verified call sites are in [`next-stage/`](next-stage/).
   Every stable operation has documented complexity, allocation, enumeration, materialization,
   buffering, and scheduling characteristics; allocation budgets remain blocking while hosted
   timing stays directional until a fixed-hardware runner exists.
-- `StateTransition.Then` composition must be resolved to single-materialization composition with
-  acceptable measured cost, or excluded from the stable contract; the recorded 0.1.0
-  left-associated chain behavior (85x–457x, up to 187 KB at Count=256) cannot remain stable
-  unchanged (Goal 20).
+- `StateTransition.Then` composition is single-materialization composition (Goal 20): building a
+  chain allocates one immutable composition node per `Then` call and shares structure in any
+  association order; evaluation runs every transition once in execution order, accumulates outputs
+  in pooled scratch buffers, and materializes the concatenated outputs in one exact-size array,
+  iteratively and reentrantly. The recorded 0.1.0 left-associated chain behavior (85x-457x, up to
+  187 KB at Count=256) was resolved by that redesign rather than excluding `Then` from the stable
+  contract.
 - Immutable data is opt-in. The core package does not impose immutable collections or copying on
   consumers that do not ask for them.
 - Immutable updates use a deliberately small `Lens<TSource, TFocus>` and

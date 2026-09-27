@@ -116,6 +116,7 @@ try {
         'benchmark',
         'performance-verify',
         'performance-docs-verify',
+        'competitor-performance-docs-verify',
         'compatibility'
     )
     $expectedSkipped = @(
@@ -131,6 +132,7 @@ try {
         'release-protocol-tests',
         'benchmark-preflight',
         'performance-docs-verify',
+        'competitor-performance-docs-verify',
         'compatibility'
     )
     Assert-EqualSequence 'full mode mandatory steps' @($protocol.modes.full.steps) $expectedFull

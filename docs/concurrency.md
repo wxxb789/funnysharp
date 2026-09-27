@@ -216,16 +216,16 @@ contract.
 <!-- performance-table:start concurrency -->
 | Scenario | Baseline mean | FunnySharp mean | Ratio | Baseline allocation | FunnySharp allocation |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Completion-order bounded asynchronous map ([Count=1024]) | 474.902 us | 1,129.240 us | 2.38x | 305054 B | 471546 B |
-| Completion-order bounded asynchronous map ([Count=16]) | 14.549 us | 26.175 us | 1.80x | 5403 B | 10047 B |
-| Ordered bounded asynchronous map ([Count=1024]) | 474.067 us | 995.526 us | 2.10x | 296107 B | 533589 B |
-| Ordered bounded asynchronous map ([Count=16]) | 15.060 us | 26.265 us | 1.74x | 5369 B | 11184 B |
-| First successful cold Result operation ([CandidateCount=16]) | 7.379 us | 5.574 us | 0.76x | 5678 B | 4066 B |
-| First successful cold Result operation ([CandidateCount=4]) | 5.211 us | 7.404 us | 1.42x | 1727 B | 2771 B |
-| Parallel Option traversal ([Count=1024]) | 476.880 us | 749.355 us | 1.57x | 326338 B | 301805 B |
-| Parallel Option traversal ([Count=16]) | 14.046 us | 19.896 us | 1.42x | 5947 B | 6327 B |
-| Parallel Validation accumulation ([Count=1024]) | 554.748 us | 721.230 us | 1.30x | 373575 B | 342216 B |
-| Parallel Validation accumulation ([Count=16]) | 15.711 us | 24.230 us | 1.54x | 6523 B | 8118 B |
+| Completion-order bounded asynchronous map ([Count=1024]) | 506.493 us | 1,062.209 us | 2.10x | 312747 B | 471291 B |
+| Completion-order bounded asynchronous map ([Count=16]) | 14.103 us | 26.218 us | 1.86x | 5345 B | 10066 B |
+| Ordered bounded asynchronous map ([Count=1024]) | 479.380 us | 941.191 us | 1.96x | 303959 B | 525730 B |
+| Ordered bounded asynchronous map ([Count=16]) | 13.614 us | 26.220 us | 1.93x | 5350 B | 11473 B |
+| First successful cold Result operation ([CandidateCount=16]) | 7.559 us | 6.026 us | 0.80x | 5655 B | 4044 B |
+| First successful cold Result operation ([CandidateCount=4]) | 5.414 us | 6.860 us | 1.27x | 1738 B | 2738 B |
+| Parallel Option traversal ([Count=1024]) | 489.797 us | 669.685 us | 1.37x | 321553 B | 266853 B |
+| Parallel Option traversal ([Count=16]) | 14.279 us | 18.778 us | 1.32x | 5961 B | 7617 B |
+| Parallel Validation accumulation ([Count=1024]) | 523.963 us | 713.088 us | 1.36x | 359790 B | 308321 B |
+| Parallel Validation accumulation ([Count=16]) | 16.780 us | 19.719 us | 1.18x | 6532 B | 7190 B |
 
 Excluded measurements:
 - Result parallel traversal: The prior supplemental comparison used different input carriers and is not reproducible from tracked sources.
@@ -236,12 +236,13 @@ The two streaming maps pay for their reusable enumerator, channel backpressure, 
 admission, and cleanup tracking; in the recorded observation both are slower and allocate more
 than the known-length BCL array paths at both sizes. The completion-order map allocates less
 than the ordered map at both sizes — a completed result is delivered through its observer without
-suspending the consumer on a pending work task — while its recorded mean is slower at 1,024 items
-and faster at 16. The traversal timing directions are scheduler-sensitive and split by input in
-this observation: the Validation coordinator is slower at both sizes, the Option coordinator is
-slower at 1,024 items but faster at 16, and first-success is slower with sixteen candidates and
-faster with four while allocating less with sixteen and more with four. The generated table above
-owns the exact ratios and allocation figures.
+suspending the consumer on a pending work task — while its recorded mean is slower than the
+ordered map at both sizes in this observation. The traversal and first-success timing directions
+are scheduler-sensitive and have split by input across observations: in this one the Validation
+and Option coordinators are slower at both sizes, and first-success is faster with sixteen
+candidates and slower with four while allocating less with sixteen and more with four. Treat
+these directions as unstable at this precision; the generated table above owns the exact ratios
+and allocation figures for the recorded environment.
 
 These measurements are directional. `Task.Yield` models scheduler handoff, not production I/O, and
 three measured iterations on a virtualized host produce wide confidence intervals for the smallest

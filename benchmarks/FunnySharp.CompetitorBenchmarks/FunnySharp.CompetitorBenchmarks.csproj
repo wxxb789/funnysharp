@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <IsPackable>false</IsPackable>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../src/FunnySharp/FunnySharp.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="../FunnySharp.Benchmarks/ReceiptExporterCore.cs" Link="ReceiptExporterCore.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BenchmarkDotNet" Version="0.15.8" />
+    <PackageReference Include="CSharpFunctionalExtensions" Version="3.7.0" />
+    <PackageReference Include="FSharp.Core" Version="10.1.400" />
+    <PackageReference Include="Funcky" Version="3.6.0" />
+    <PackageReference Include="languageext.core" Version="4.4.9" />
+  </ItemGroup>
+</Project>

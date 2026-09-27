@@ -1,3 +1,5 @@
+using System.Buffers;
+
 namespace FunnySharp;
 
 /// <summary>
@@ -41,6 +43,12 @@ public sealed class StateChange<TState, TOutput> : IEquatable<StateChange<TState
 
     internal static StateChange<TState, TOutput> FromOwnedOutputs(TState state, TOutput[] outputs) =>
         new(state, outputs);
+
+    /// <summary>
+    /// Gets the owned output array. The array is never mutated after construction and is shared,
+    /// not copied, when a composed transition reuses it.
+    /// </summary>
+    internal TOutput[] RawOutputs => outputs;
 
     /// <summary>
     /// Determines whether this state change and <paramref name="other"/> have equal states and outputs.
@@ -125,6 +133,23 @@ public static class StateTransitionExtensions
     /// <param name="first">The transition to execute first.</param>
     /// <param name="second">The transition to execute after <paramref name="first"/>.</param>
     /// <returns>A transition that runs both transitions and concatenates their outputs in execution order.</returns>
+    /// <remarks>
+    /// <para>
+    /// Composition is an immutable, shared tree: building it with <see langword="Then"/> costs one node per call
+    /// regardless of how many transitions are already composed, and evaluating it runs every transition exactly once
+    /// in execution order and materializes the concatenated outputs exactly once. Nested <see langword="Then"/>
+    /// calls in any association order produce the same execution order and outputs, so long chains stay linear in
+    /// the number of transitions rather than copying intermediate output arrays at each composition level.
+    /// </para>
+    /// <para>
+    /// Evaluation uses pooled scratch buffers, copies each transition's outputs once into the final output array,
+    /// and never recurses, so evaluation depth is bounded by pool capacity rather than the call stack. The used
+    /// regions of the pooled scratch are cleared before they return to the pool, so evaluation does not keep
+    /// composed transitions, captured states, or outputs alive through pooled buffers. The composition itself
+    /// adds one output array materialization per evaluation; each inner transition still materializes its own
+    /// <see cref="StateChange{TState, TOutput}"/> as its visible per-step result.
+    /// </para>
+    /// </remarks>
     /// <exception cref="ArgumentNullException"><paramref name="first"/> or <paramref name="second"/> is <see langword="null"/>.</exception>
     /// <exception cref="InvalidOperationException">A transition returns <see langword="null"/>.</exception>
     public static StateTransition<TState, TOutput> Then<TState, TOutput>(
@@ -134,33 +159,113 @@ public static class StateTransitionExtensions
         ArgumentNullException.ThrowIfNull(first);
         ArgumentNullException.ThrowIfNull(second);
 
-        return state =>
+        var composition = new Composition<TState, TOutput>(first, second);
+        return composition.Invoke;
+    }
+
+    /// <summary>
+    /// An immutable composition tree of transitions. Leaves are plain transition delegates; inner nodes are
+    /// compositions, so a chain of <see langword="Then"/> calls shares structure instead of nesting closures
+    /// that re-copy outputs at every level.
+    /// </summary>
+    private sealed class Composition<TState, TOutput>
+    {
+        private readonly object left;
+        private readonly object right;
+
+        private Composition(object left, object right)
         {
-            var firstChange = first(state);
-            if (firstChange is null)
+            this.left = left;
+            this.right = right;
+        }
+
+        public Composition(StateTransition<TState, TOutput> first, StateTransition<TState, TOutput> second)
+        {
+            left = AsStep(first);
+            right = AsStep(second);
+        }
+
+        /// <summary>
+        /// Unwraps a transition that was itself produced by a single-cast <see langword="Then"/> result, sharing
+        /// its tree, and keeps any other delegate as a leaf. A combined (multicast) delegate stays a leaf even
+        /// when its last entry is a <see langword="Then"/> result, so every invocation-list entry keeps executing.
+        /// </summary>
+        private static object AsStep(StateTransition<TState, TOutput> transition) =>
+            transition.Target is Composition<TState, TOutput> composed && transition.GetInvocationList().Length == 1
+                ? composed
+                : transition;
+
+        /// <summary>
+        /// Evaluates the composition tree iteratively, left to right, without recursion. Outputs accumulate in a
+        /// pooled buffer and are materialized once into an exact-size array; each transition still runs exactly
+        /// once and receives the state produced by its predecessor.
+        /// </summary>
+        public StateChange<TState, TOutput> Invoke(TState state)
+        {
+            var outputPool = ArrayPool<TOutput>.Shared;
+            var stepPool = ArrayPool<object>.Shared;
+            var outputs = outputPool.Rent(8);
+            var pending = stepPool.Rent(8);
+            var outputCount = 0;
+            var depth = 0;
+            TOutput[] materialized;
+            try
             {
-                throw new InvalidOperationException("The first state transition returned null.");
+                pending[depth++] = this;
+                while (depth > 0)
+                {
+                    var step = pending[--depth];
+                    while (step is Composition<TState, TOutput> composition)
+                    {
+                        if (depth == pending.Length)
+                        {
+                            pending = Grow(pending, stepPool, depth);
+                        }
+
+                        pending[depth++] = composition.right;
+                        step = composition.left;
+                    }
+
+                    var change = ((StateTransition<TState, TOutput>)step)(state);
+                    if (change is null)
+                    {
+                        throw new InvalidOperationException("A composed state transition returned null.");
+                    }
+
+                    state = change.State;
+                    var changeOutputs = change.RawOutputs;
+                    if (changeOutputs.Length > 0)
+                    {
+                        if (outputCount + changeOutputs.Length > outputs.Length)
+                        {
+                            outputs = Grow(outputs, outputPool, outputCount + changeOutputs.Length);
+                        }
+
+                        changeOutputs.CopyTo(outputs, outputCount);
+                        outputCount += changeOutputs.Length;
+                    }
+                }
+
+                materialized = outputCount == 0 ? [] : new TOutput[outputCount];
+                Array.Copy(outputs, materialized, outputCount);
+            }
+            finally
+            {
+                Array.Clear(outputs, 0, outputCount);
+                outputPool.Return(outputs);
+                stepPool.Return(pending, clearArray: true);
             }
 
-            var secondChange = second(firstChange.State);
-            if (secondChange is null)
-            {
-                throw new InvalidOperationException("The second state transition returned null.");
-            }
+            return StateChange<TState, TOutput>.FromOwnedOutputs(state, materialized);
+        }
 
-            var firstOutputCount = firstChange.Outputs.Count;
-            var outputs = new TOutput[firstOutputCount + secondChange.Outputs.Count];
-            for (var index = 0; index < firstOutputCount; index++)
-            {
-                outputs[index] = firstChange.Outputs[index];
-            }
-
-            for (var index = 0; index < secondChange.Outputs.Count; index++)
-            {
-                outputs[firstOutputCount + index] = secondChange.Outputs[index];
-            }
-
-            return StateChange<TState, TOutput>.FromOwnedOutputs(secondChange.State, outputs);
-        };
+        private static T[] Grow<T>(T[] buffer, ArrayPool<T> pool, int minimumLength)
+        {
+            var next = pool.Rent(minimumLength * 2);
+            buffer.CopyTo(next, 0);
+            Array.Clear(buffer, 0, buffer.Length);
+            pool.Return(buffer);
+            return next;
+        }
     }
 }

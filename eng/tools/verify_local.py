@@ -75,6 +75,7 @@ NOT_RUN_STEPS: tuple[str, ...] = (
     "benchmark",
     "performance-verify",
     "performance-docs-verify",
+    "competitor-performance-docs-verify",
     "compatibility",
 )
 

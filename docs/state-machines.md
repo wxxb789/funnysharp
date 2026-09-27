@@ -102,16 +102,32 @@ making the actual asynchronous effects easy to locate and review.
 
 ## Performance Characterization
 
+`Then` composition is single-materialization: building a chain with repeated `Then` calls allocates
+one immutable composition node per call and shares structure with everything already composed, in
+any association order, without copying intermediate outputs. Evaluation runs every transition
+exactly once in execution order, accumulates outputs in pooled scratch buffers, and materializes
+the concatenated outputs in one exact-size array; evaluation is iterative, never recursive, and the
+same composed transition may be invoked concurrently. The remaining cost relative to a hand-written
+loop is the visible per-step semantics itself: every transition materializes its own immutable
+`StateChange` snapshot (state, output array snapshot, and a read-only output view), while the raw
+loop writes plain values into one caller-owned array.
+
 The release benchmark includes representative left-associated `Then` chains. This is a bounded
-characterization of repeated output copying, not a new throughput promise or a reason to add a
-second composition API without measured production demand.
+characterization of that per-step model cost and composition overhead, not a throughput promise or
+a reason to add a second composition API without measured production demand. The measured chain
+allocation decomposes as one per-transition `StateChange` snapshot per step (an output-array
+snapshot plus its read-only view) plus exactly one exact-size concatenated output array for the
+whole composition: allocation grows linearly with chain length, and the composition's own
+contribution beyond the per-step snapshots is that single final array plus pooled scratch reuse.
+The ratio to the raw loop is the cost of those visible per-step snapshots, not output re-copying:
+a raw loop writes plain values into one caller-owned array and materializes nothing per step.
 
 <!-- performance-table:start state-machines -->
 | Scenario | Baseline mean | FunnySharp mean | Ratio | Baseline allocation | FunnySharp allocation |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Left-associated Then chain ([Count=256]) | 164.098 ns | 79.783 us | 486.19x | 1048 B | 187296 B |
-| Left-associated Then chain ([Count=64]) | 41.097 ns | 10.427 us | 253.73x | 280 B | 22176 B |
-| Left-associated Then chain ([Count=8]) | 9.900 ns | 969.078 ns | 97.88x | 56 B | 1792 B |
+| Left-associated Then chain ([Count=256]) | 149.545 ns | 23.103 us | 154.49x | 1048 B | 33880 B |
+| Left-associated Then chain ([Count=64]) | 40.998 ns | 5.962 us | 145.43x | 280 B | 8536 B |
+| Left-associated Then chain ([Count=8]) | 9.820 ns | 757.877 ns | 77.18x | 56 B | 1144 B |
 <!-- performance-table:end state-machines -->
 
 ## Deliberate Boundaries

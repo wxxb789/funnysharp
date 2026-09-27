@@ -34,7 +34,7 @@ its stability-inventory test.
 | Non-empty guarantee and exact zip | `NonEmpty<T>`, `ExactZipExtensions` | E72 defer resolved by adoption: Goal 17 proved the safety value without a collection universe | Goal 17 |
 | Async concurrency | `ParallelAsyncEnumerableExtensions`, `ParallelAsyncSequenceExtensions`, `ConcurrentEffectExtensions` | AD-6 keep; G7 completion-order adopt | 0.1.0; Goal 18 |
 | Effects and resources | `Effect`, `Effect<T>`, `Effect<TEnvironment,T>`, `EffectResourceExtensions` | AD-7 keep | 0.1.0 |
-| State machines | `TransitionStatus`, `StateChange<TState,TOutput>`, `StateTransition<TState,TOutput>`, `StateTransitionExtensions`, `TransitionResult<TState,TOutput,TError>`, `StateMachine<TState,TEvent,TOutput,TError>`, `StateMachineExtensions` | AD-8 keep; the `Then` long-chain redesign is owned by Goal 20 | 0.1.0 |
+| State machines | `TransitionStatus`, `StateChange<TState,TOutput>`, `StateTransition<TState,TOutput>`, `StateTransitionExtensions`, `TransitionResult<TState,TOutput,TError>`, `StateMachine<TState,TEvent,TOutput,TError>`, `StateMachineExtensions` | AD-8 keep; the `Then` single-materialization redesign delivered by Goal 20 | 0.1.0; Goal 20 |
 | Optics | `Lens`, `Lens<TSource,TFocus>`, `Optional`, `Optional<TSource,TFocus>` | AD-9 keep | 0.1.0 |
 | HTTP integration | `HttpResultExtensions` (`FunnySharp.AspNetCore`) | AD-10 keep; G1 `UnitResult` mapping delivered | 0.1.0; Goal 15 |
 
