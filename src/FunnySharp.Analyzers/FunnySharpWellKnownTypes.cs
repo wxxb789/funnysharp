@@ -1,6 +1,7 @@
 namespace FunnySharp.Analyzers;
 
 using System.Collections.Immutable;
+using System.Runtime.CompilerServices;
 using Microsoft.CodeAnalysis;
 
 /// <summary>
@@ -39,6 +40,10 @@ internal sealed class FunnySharpWellKnownTypes
         "FunnySharp.Lens`2",
         "FunnySharp.Optional`2");
 
+    // One bound table per compilation serves every analyzer that shares that compilation; the
+    // weak key never lets the cached table outlive the compilation.
+    private static readonly ConditionalWeakTable<Compilation, StrongBox<FunnySharpWellKnownTypes?>> Cache = new();
+
     private readonly ImmutableHashSet<INamedTypeSymbol> outcomeTypes;
     private readonly ImmutableHashSet<INamedTypeSymbol> nonDefaultableTypes;
     private readonly INamedTypeSymbol taskOfT;
@@ -67,9 +72,19 @@ internal sealed class FunnySharpWellKnownTypes
 
     /// <summary>
     /// Binds the FunnySharp type table to <paramref name="compilation"/>, or returns null when the
-    /// compilation does not reference the FunnySharp core assembly.
+    /// compilation does not reference the FunnySharp core assembly. The bound table is memoized
+    /// per compilation, so the analyzers that share a compilation resolve it once.
     /// </summary>
     public static FunnySharpWellKnownTypes? TryCreate(Compilation compilation)
+    {
+        // Compilation is immutable and keyed by reference identity, so one resolution serves every
+        // analyzer, and the weak-keyed cache is safe under concurrent compilation-start callbacks.
+        return Cache
+            .GetValue(compilation, static c => new StrongBox<FunnySharpWellKnownTypes?>(Create(c)))
+            .Value;
+    }
+
+    private static FunnySharpWellKnownTypes? Create(Compilation compilation)
     {
         // Option`1 is the anchor: it exists in every FunnySharp reference and identifies the core
         // assembly actually referenced by this compilation.

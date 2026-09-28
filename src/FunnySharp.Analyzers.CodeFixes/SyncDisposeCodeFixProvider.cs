@@ -1,7 +1,6 @@
 namespace FunnySharp.Analyzers;
 
 using System.Collections.Immutable;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
@@ -39,11 +38,6 @@ public sealed class SyncDisposeCodeFixProvider : CodeFixProvider
     {
         foreach (var diagnostic in context.Diagnostics)
         {
-            if (diagnostic.Id != DiagnosticIds.SyncDisposeOfAsyncDisposable)
-            {
-                continue;
-            }
-
             var root = await context.Document.GetSyntaxRootAsync(context.CancellationToken).ConfigureAwait(false);
             // The FS1005 location is the whole Using invocation, whose receiver chain can contain
             // nested invocations (the acquisition effect), so match the ancestor invocation whose
@@ -51,9 +45,7 @@ public sealed class SyncDisposeCodeFixProvider : CodeFixProvider
             var invocation = root?
                 .FindToken(context.Span.Start)
                 .Parent?
-                .AncestorsAndSelf()
-                .OfType<InvocationExpressionSyntax>()
-                .FirstOrDefault(candidate =>
+                .FirstAncestorOrSelf<InvocationExpressionSyntax>(candidate =>
                     candidate.Expression is MemberAccessExpressionSyntax access &&
                     access.Name.Identifier.ValueText == "Using");
             if (invocation?.Expression is not MemberAccessExpressionSyntax memberAccess)

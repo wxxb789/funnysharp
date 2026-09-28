@@ -1,7 +1,5 @@
 namespace FunnySharp.Analyzers.Tests;
 
-using FunnySharp;
-
 public sealed class UninitializedCarrierAnalyzerTests
 {
     [Fact]

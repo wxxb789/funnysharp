@@ -1,4 +1,5 @@
 using System.Text.Json;
+using FunnySharp.TestSupport;
 
 namespace FunnySharp.Tests;
 
@@ -7,7 +8,8 @@ public sealed class PerformanceManifestTests
     [Fact]
     public void ManifestFilesArraysStayOrdinalSortedAndForwardSlashed()
     {
-        var repositoryRoot = FindRepositoryRoot();
+        var repositoryRoot = TestRepositoryRoot.Find()
+            ?? throw new DirectoryNotFoundException("Could not locate the FunnySharp repository root.");
         var manifestPaths = Directory.GetFiles(Path.Combine(repositoryRoot, "eng", "performance"), "*.json")
             .OrderBy(path => path, StringComparer.Ordinal)
             .ToArray();
@@ -37,21 +39,5 @@ public sealed class PerformanceManifestTests
                 }
             }
         }
-    }
-
-    private static string FindRepositoryRoot()
-    {
-        DirectoryInfo? directory = new(AppContext.BaseDirectory);
-        while (directory is not null)
-        {
-            if (File.Exists(Path.Combine(directory.FullName, "FunnySharp.slnx")))
-            {
-                return directory.FullName;
-            }
-
-            directory = directory.Parent;
-        }
-
-        throw new DirectoryNotFoundException("Could not locate the FunnySharp repository root.");
     }
 }

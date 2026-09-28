@@ -118,16 +118,13 @@ def write_nuget_config(build_dir: Path) -> None:
 
 
 def verify(task: str, style: str, run_dir: Path, round_number: int) -> int:
-    if style not in STYLES:
-        print(f"unknown style {style}", file=sys.stderr)
-        return 2
     task_dir = EVALUATION_ROOT / "tasks" / task
     solution_dir = run_dir / "solution"
     template_dir = task_dir / f"template-{style}"
     if not task_dir.is_dir():
         print(f"unknown task {task}", file=sys.stderr)
         return 2
-    if not solution_dir.is_dir() or not list(solution_dir.glob("*.cs")):
+    if not solution_dir.is_dir() or not any(solution_dir.glob("*.cs")):
         print(f"{solution_dir} contains no solution files", file=sys.stderr)
         return 2
 
@@ -203,7 +200,6 @@ def aggregate(out_path: Path) -> int:
     rows = []
     for record_path in sorted((EVALUATION_ROOT / "results").glob("*/*/run-*/record.json")):
         record = json.loads(record_path.read_text(encoding="utf-8"))
-        reviews = record_path.parent.glob("review-*.json")
         row = {
             "task": record["task"],
             "style": record["style"],
@@ -216,9 +212,6 @@ def aggregate(out_path: Path) -> int:
             "fsDiagnostics": ",".join(record["apiMisuse"]["fsDiagnostics"]) or "-",
             "loc": record["consumerLoc"],
         }
-        for review in sorted(reviews):
-            data = json.loads(review.read_text(encoding="utf-8"))
-            row[f"prefers_{review.stem}"] = data.get("preference", "")
         rows.append(row)
 
     lines = [

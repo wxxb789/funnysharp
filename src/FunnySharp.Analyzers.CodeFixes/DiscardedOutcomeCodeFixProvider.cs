@@ -1,7 +1,6 @@
 namespace FunnySharp.Analyzers;
 
 using System.Collections.Immutable;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
@@ -38,18 +37,11 @@ public sealed class DiscardedOutcomeCodeFixProvider : CodeFixProvider
     {
         foreach (var diagnostic in context.Diagnostics)
         {
-            if (diagnostic.Id != DiagnosticIds.DiscardedOutcome)
-            {
-                continue;
-            }
-
             var root = await context.Document.GetSyntaxRootAsync(context.CancellationToken).ConfigureAwait(false);
             var statement = root?
                 .FindToken(context.Span.Start)
                 .Parent?
-                .AncestorsAndSelf()
-                .OfType<ExpressionStatementSyntax>()
-                .FirstOrDefault();
+                .FirstAncestorOrSelf<ExpressionStatementSyntax>();
             if (statement is null)
             {
                 continue;

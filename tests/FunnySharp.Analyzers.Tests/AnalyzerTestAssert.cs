@@ -19,24 +19,19 @@ internal static class AnalyzerTestAssert
         }
     }
 
-    internal static async Task DiagnosticCountAsync(string source, string expectedId, int expectedCount)
-    {
-        var diagnostics = await AnalyzeAsync(source);
-        var matches = diagnostics.Where(diagnostic => diagnostic.Id == expectedId).ToArray();
-        Assert.Equal(expectedCount, matches.Length);
-        Assert.Equal(diagnostics.Length, matches.Length);
-    }
-
     internal static async Task QuietAsync(string source)
     {
         var diagnostics = await AnalyzeAsync(source);
-        Assert.True(
-            diagnostics.IsEmpty,
-            diagnostics.Length == 0 ? string.Empty :
-                "Expected no diagnostics but got:\n" +
-                string.Join('\n', diagnostics.Select(diagnostic =>
-                    diagnostic.Id + ": " + diagnostic.GetMessage() + " at line " +
-                    (diagnostic.Location.GetLineSpan().StartLinePosition.Line + 1))));
+        if (diagnostics.IsEmpty)
+        {
+            return;
+        }
+
+        Assert.Fail(
+            "Expected no diagnostics but got:\n" +
+            string.Join('\n', diagnostics.Select(diagnostic =>
+                diagnostic.Id + ": " + diagnostic.GetMessage() + " at line " +
+                (diagnostic.Location.GetLineSpan().StartLinePosition.Line + 1))));
     }
 
     internal static async Task<ImmutableArray<Diagnostic>> AnalyzeAsync(string source)

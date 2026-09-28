@@ -3,22 +3,12 @@ namespace FunnySharp.Analyzers.Tests;
 using System.Reflection;
 using FunnySharp;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.Diagnostics;
 
 /// <summary>
 /// Asserts the packaging invariants of the shipped analyzer suite.
 /// </summary>
 public sealed class AnalyzerPackagingTests
 {
-    private static readonly DiagnosticAnalyzer[] ShippedAnalyzers =
-    [
-        new UninitializedCarrierAnalyzer(),
-        new DiscardedOutcomeAnalyzer(),
-        new IgnoredTryGetResultAnalyzer(),
-        new BlockedValueTaskAnalyzer(),
-        new SyncDisposeAnalyzer(),
-    ];
-
     [Fact]
     public void CoreAssemblyReferencesNoCompilerTooling()
     {
@@ -36,7 +26,7 @@ public sealed class AnalyzerPackagingTests
     [InlineData("FS1005", DiagnosticSeverity.Warning)]
     public void ShippedDiagnosticsUseTheRecordedSeverities(string diagnosticId, DiagnosticSeverity severity)
     {
-        var descriptor = ShippedAnalyzers
+        var descriptor = AnalyzerHarness.AllAnalyzers
             .SelectMany(analyzer => analyzer.SupportedDiagnostics)
             .Single(descriptor => descriptor.Id == diagnosticId);
         Assert.Equal(severity, descriptor.DefaultSeverity);
@@ -47,7 +37,7 @@ public sealed class AnalyzerPackagingTests
     [Fact]
     public void EveryShippedDiagnosticHasADistinctIdentifier()
     {
-        var identifiers = ShippedAnalyzers
+        var identifiers = AnalyzerHarness.AllAnalyzers
             .SelectMany(analyzer => analyzer.SupportedDiagnostics)
             .Select(descriptor => descriptor.Id)
             .ToArray();

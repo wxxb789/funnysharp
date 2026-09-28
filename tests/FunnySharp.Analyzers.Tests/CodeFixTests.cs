@@ -1,7 +1,5 @@
 namespace FunnySharp.Analyzers.Tests;
 
-using FunnySharp;
-
 public sealed class CodeFixTests
 {
     [Fact]
@@ -24,9 +22,7 @@ public sealed class CodeFixTests
             new DiscardedOutcomeCodeFixProvider());
         Assert.Contains("_ = Find();", fixedText, StringComparison.Ordinal);
 
-        var fixedCompilation = AnalyzerHarness.CreateCompilation(fixedText);
-        var diagnostics = await AnalyzerHarness.GetDiagnosticsAsync(fixedCompilation);
-        Assert.True(diagnostics.IsEmpty, "The fixed source must be quiet.");
+        await AnalyzerTestAssert.QuietAsync(fixedText);
     }
 
     [Fact]
@@ -49,9 +45,7 @@ public sealed class CodeFixTests
             new DiscardedOutcomeCodeFixProvider());
         Assert.Contains("_ = await SaveAsync();", fixedText, StringComparison.Ordinal);
 
-        var fixedCompilation = AnalyzerHarness.CreateCompilation(fixedText);
-        var diagnostics = await AnalyzerHarness.GetDiagnosticsAsync(fixedCompilation);
-        Assert.True(diagnostics.IsEmpty, "The fixed source must be quiet.");
+        await AnalyzerTestAssert.QuietAsync(fixedText);
     }
 
     [Fact]
@@ -84,8 +78,6 @@ public sealed class CodeFixTests
             new SyncDisposeCodeFixProvider());
         Assert.Contains(".UsingAsync(resource => Effect.FromValue(1))", fixedText, StringComparison.Ordinal);
 
-        var fixedCompilation = AnalyzerHarness.CreateCompilation(fixedText);
-        var diagnostics = await AnalyzerHarness.GetDiagnosticsAsync(fixedCompilation);
-        Assert.True(diagnostics.IsEmpty, "The fixed source must be quiet.");
+        await AnalyzerTestAssert.QuietAsync(fixedText);
     }
 }

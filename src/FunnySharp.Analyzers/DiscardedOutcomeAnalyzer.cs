@@ -82,12 +82,10 @@ public sealed class DiscardedOutcomeAnalyzer : DiagnosticAnalyzer
             return;
         }
 
-        if (types.IsOutcomeType(invocation.Type) || types.IsAwaitableOfOutcome(invocation.Type))
+        var isOutcomeValue = types.IsOutcomeType(invocation.Type);
+        if (isOutcomeValue || types.IsAwaitableOfOutcome(invocation.Type))
         {
-            Report(
-                context,
-                invocation,
-                types.IsOutcomeType(invocation.Type) ? "outcome value" : "task of an outcome value");
+            Report(context, invocation, isOutcomeValue ? "outcome value" : "task of an outcome value");
             return;
         }
 

@@ -47,17 +47,22 @@ internal static class AnalyzerHarness
         OutputKind outputKind = OutputKind.DynamicallyLinkedLibrary,
         bool includeAspNetCore = false)
     {
-        var parseOptions = CSharpParseOptions.Default
-            .WithLanguageVersion(LanguageVersion.Latest)
-            .WithDocumentationMode(DocumentationMode.None);
+        var parseOptions = CreateParseOptions();
         var trees = sources.Select(source => CSharpSyntaxTree.ParseText(source, parseOptions))
             .Prepend(CSharpSyntaxTree.ParseText(GlobalUsings, parseOptions));
         var options = CreateOptions(outputKind);
         return CSharpCompilation.Create(
             "AnalyzerHarnessCompilation",
             trees,
-            BuildReferences(includeAspNetCore),
+            ReferencesFor(includeAspNetCore),
             options);
+    }
+
+    private static CSharpParseOptions CreateParseOptions()
+    {
+        return CSharpParseOptions.Default
+            .WithLanguageVersion(LanguageVersion.Latest)
+            .WithDocumentationMode(DocumentationMode.None);
     }
 
     private static CSharpCompilationOptions CreateOptions(OutputKind outputKind)
@@ -69,18 +74,13 @@ internal static class AnalyzerHarness
     /// Runs all shipped analyzers over a compilation that must itself compile without errors,
     /// and returns the unsuppressed FunnySharp diagnostics.
     /// </summary>
-    internal static async Task<ImmutableArray<Diagnostic>> GetDiagnosticsAsync(
-        CSharpCompilation compilation,
-        IReadOnlyList<DiagnosticAnalyzer>? analyzers = null)
+    internal static async Task<ImmutableArray<Diagnostic>> GetDiagnosticsAsync(CSharpCompilation compilation)
     {
         AssertNoCompileErrors(compilation);
-        var withAnalyzers = compilation.WithAnalyzers(
-            (analyzers ?? AllAnalyzers).ToImmutableArray());
-        var diagnostics = await withAnalyzers.GetAllDiagnosticsAsync();
+        var withAnalyzers = compilation.WithAnalyzers(AllAnalyzers.ToImmutableArray());
+        var diagnostics = await withAnalyzers.GetAnalyzerDiagnosticsAsync();
         return diagnostics
-            .Where(diagnostic =>
-                diagnostic.Id.StartsWith("FS1", StringComparison.Ordinal) &&
-                !diagnostic.IsSuppressed)
+            .Where(diagnostic => !diagnostic.IsSuppressed)
             .ToImmutableArray();
     }
 
@@ -97,9 +97,7 @@ internal static class AnalyzerHarness
         using var workspace = new AdhocWorkspace();
         var projectId = ProjectId.CreateNewId(debugName: "AnalyzerHarnessProject");
         var documentId = DocumentId.CreateNewId(projectId, debugName: "AnalyzerHarnessDocument.cs");
-        var parseOptions = CSharpParseOptions.Default
-            .WithLanguageVersion(LanguageVersion.Latest)
-            .WithDocumentationMode(DocumentationMode.None);
+        var parseOptions = CreateParseOptions();
         var compilationOptions = CreateOptions(OutputKind.DynamicallyLinkedLibrary);
         var solution = workspace.CurrentSolution
             .AddProject(ProjectInfo.Create(
@@ -110,14 +108,13 @@ internal static class AnalyzerHarness
                 language: LanguageNames.CSharp,
                 compilationOptions: compilationOptions,
                 parseOptions: parseOptions,
-                metadataReferences: BuildReferences(includeAspNetCore)))
+                metadataReferences: ReferencesFor(includeAspNetCore)))
             .AddDocument(documentId, "AnalyzerHarnessDocument.cs", SourceText.From(source))
             .AddDocument(DocumentId.CreateNewId(projectId, debugName: "AnalyzerHarnessGlobalUsings.cs"), "AnalyzerHarnessGlobalUsings.cs", SourceText.From(GlobalUsings));
         var document = solution.GetDocument(documentId);
         Assert.True(document is not null, "The harness document must exist.");
         var projectCompilation = await document.Project.GetCompilationAsync();
         var compilation = Assert.IsType<CSharpCompilation>(projectCompilation);
-        AssertNoCompileErrors(compilation);
         var diagnostics = await GetDiagnosticsAsync(compilation);
         var target = diagnostics.Single(diagnostic => diagnostic.Id == diagnosticId);
 
@@ -149,16 +146,18 @@ internal static class AnalyzerHarness
             string.Join('\n', errors));
     }
 
-    internal static string FindRepositoryRoot()
-    {
-        var directory = new DirectoryInfo(AppContext.BaseDirectory);
-        while (directory is not null && !File.Exists(Path.Combine(directory.FullName, "FunnySharp.slnx")))
-        {
-            directory = directory.Parent;
-        }
+    // MetadataReference instances are immutable and safe to share across compilations, and
+    // enumerating the runtime directories is expensive, so both reference sets are built once
+    // per test process.
+    private static readonly Lazy<ImmutableArray<MetadataReference>> CoreReferences =
+        new(() => BuildReferences(includeAspNetCore: false));
 
-        Assert.True(directory is not null, "Could not locate the repository root from " + AppContext.BaseDirectory);
-        return directory.FullName;
+    private static readonly Lazy<ImmutableArray<MetadataReference>> AspNetCoreReferences =
+        new(() => BuildReferences(includeAspNetCore: true));
+
+    private static ImmutableArray<MetadataReference> ReferencesFor(bool includeAspNetCore)
+    {
+        return includeAspNetCore ? AspNetCoreReferences.Value : CoreReferences.Value;
     }
 
     private static ImmutableArray<MetadataReference> BuildReferences(bool includeAspNetCore)
@@ -183,8 +182,6 @@ internal static class AnalyzerHarness
                 references,
                 names,
                 prefix: "Microsoft.");
-            references.Add(MetadataReference.CreateFromFile(
-                typeof(Microsoft.AspNetCore.Builder.WebApplication).Assembly.Location));
         }
 
         return references.ToImmutableArray();

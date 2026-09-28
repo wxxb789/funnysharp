@@ -1,8 +1,8 @@
 namespace FunnySharp.Analyzers.Tests;
 
 using System.Text;
+using FunnySharp.TestSupport;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
 
 /// <summary>
 /// Compiles the repository's example projects against the real FunnySharp assemblies and asserts
@@ -14,8 +14,7 @@ public sealed class ExampleProjectsAnalyzeCleanTests
     public async Task ConsoleExamplesAreClean()
     {
         var sources = ReadProjectSources(
-            Path.Combine("examples", "FunnySharp.Examples"),
-            exclude: null);
+            Path.Combine("examples", "FunnySharp.Examples"));
         await AssertCleanAsync(sources, OutputKind.ConsoleApplication, includeAspNetCore: false);
     }
 
@@ -23,8 +22,7 @@ public sealed class ExampleProjectsAnalyzeCleanTests
     public async Task DocumentationSamplesAreClean()
     {
         var sources = ReadProjectSources(
-            Path.Combine("examples", "FunnySharp.DocumentationSamples"),
-            exclude: "VerifyDocumentationSnippets.ps1");
+            Path.Combine("examples", "FunnySharp.DocumentationSamples"));
         await AssertCleanAsync(sources, OutputKind.DynamicallyLinkedLibrary, includeAspNetCore: true);
     }
 
@@ -32,8 +30,7 @@ public sealed class ExampleProjectsAnalyzeCleanTests
     public async Task AspNetCoreExamplesAreClean()
     {
         var sources = ReadProjectSources(
-            Path.Combine("examples", "FunnySharp.AspNetCore.Examples"),
-            exclude: null);
+            Path.Combine("examples", "FunnySharp.AspNetCore.Examples"));
         await AssertCleanAsync(sources, OutputKind.ConsoleApplication, includeAspNetCore: true);
     }
 
@@ -67,18 +64,14 @@ public sealed class ExampleProjectsAnalyzeCleanTests
         return builder.ToString();
     }
 
-    private static IReadOnlyList<string> ReadProjectSources(string relativePath, string? exclude)
+    private static IReadOnlyList<string> ReadProjectSources(string relativePath)
     {
-        var root = AnalyzerHarness.FindRepositoryRoot();
+        var root = TestRepositoryRoot.Find()
+            ?? throw new InvalidOperationException("Could not locate the repository root from " + AppContext.BaseDirectory);
         var directory = Path.Combine(root, relativePath);
         var sources = new List<string>();
         foreach (var file in Directory.EnumerateFiles(directory, "*.cs"))
         {
-            if (exclude is not null && string.Equals(Path.GetFileName(file), exclude, StringComparison.Ordinal))
-            {
-                continue;
-            }
-
             sources.Add(File.ReadAllText(file));
         }
 
