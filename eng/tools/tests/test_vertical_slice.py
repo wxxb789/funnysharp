@@ -60,6 +60,13 @@ elif command == "test":
     print("  failed: 0")
     print("  succeeded: 37")
     print("  skipped: 0")
+elif command == "pack":
+    out = arguments[arguments.index("-o") + 1] if "-o" in arguments else "."
+    version = os.environ.get("SHIM_PACK_VERSION", "2.0.0")
+    for package_id in ("FunnySharp", "FunnySharp.AspNetCore"):
+        with open(os.path.join(out, f"{package_id}.{version}.nupkg"), "wb") as package:
+            package.write(b"packed")
+    print("Successfully created package")
 else:
     print("packed")
 sys.exit(int(os.environ.get("SHIM_EXIT_CODE", "0")))
@@ -125,6 +132,34 @@ class VerticalSliceToolTests(unittest.TestCase):
 
         with self.assertRaises(SystemExit):
             vertical_slice.package_versions(self.feed)
+
+    def test_package_versions_fails_closed_when_the_feed_holds_two_versions(self) -> None:
+        (self.feed / "FunnySharp.0.9.0.nupkg").write_bytes(b"stale")
+
+        with self.assertRaises(SystemExit):
+            vertical_slice.package_versions(self.feed)
+
+    def test_packing_replaces_a_stale_package_in_a_reused_feed(self) -> None:
+        (self.feed / "FunnySharp.0.9.0.nupkg").write_bytes(b"stale")
+        (self.feed / "FunnySharp.AspNetCore.0.9.0.nupkg").write_bytes(b"stale")
+        os.environ["SHIM_PACK_VERSION"] = "2.0.0"
+        self.addCleanup(os.environ.pop, "SHIM_PACK_VERSION", None)
+
+        code = vertical_slice.main(
+            [
+                "--feed",
+                str(self.feed),
+                "--output",
+                str(self.root / "output"),
+                "--skip-tests",
+                "--skip-measurements",
+            ]
+        )
+
+        self.assertEqual(0, code)
+        self.assertEqual({"FunnySharp": "2.0.0", "FunnySharp.AspNetCore": "2.0.0"}, self.receipt()["packageVersions"])
+        self.assertFalse((self.feed / "FunnySharp.0.9.0.nupkg").exists())
+        self.assertFalse((self.feed / "FunnySharp.AspNetCore.0.9.0.nupkg").exists())
 
     def test_parse_summary_reads_the_real_runner_shape_and_both_localizations(self) -> None:
         # Shape Microsoft.Testing.Platform actually prints (see eng/tools/verify_local.py fixtures).

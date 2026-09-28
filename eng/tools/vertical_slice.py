@@ -101,8 +101,13 @@ PACKAGE_IDS = ("FunnySharp", "FunnySharp.AspNetCore")
 
 
 def package_versions(feed: Path) -> dict[str, str]:
-    """Reads each produced version from its file name, matching the longest known package id first."""
-    versions: dict[str, str] = {}
+    """Reads the version of the single package each id has in the feed.
+
+    The feed is an output directory that gets reused, so a leftover package from an earlier run must
+    never be mistaken for the one just produced: more than one version for an id fails closed instead of
+    silently picking either of them (a lexicographic pick would choose 0.9.0 over 0.10.0).
+    """
+    found: dict[str, list[str]] = {}
     for package in sorted(feed.glob("*.nupkg")):
         for package_id in sorted(PACKAGE_IDS, key=len, reverse=True):
             prefix = f"{package_id}."
@@ -111,13 +116,24 @@ def package_versions(feed: Path) -> dict[str, str]:
             version = package.name[len(prefix) : -len(".nupkg")]
             if not re.fullmatch(r"\d+\.\d+\.\d+[A-Za-z0-9.\-+]*", version):
                 continue
-            versions[package_id] = version
+            found.setdefault(package_id, []).append(version)
             break
 
-    missing = [package_id for package_id in PACKAGE_IDS if package_id not in versions]
-    if missing:
-        print(f"error: {feed} is missing a package for: {', '.join(missing)}.", file=sys.stderr)
-        raise SystemExit(1)
+    versions: dict[str, str] = {}
+    for package_id in PACKAGE_IDS:
+        candidates = found.get(package_id, [])
+        if not candidates:
+            print(f"error: {feed} is missing a package for: {package_id}.", file=sys.stderr)
+            raise SystemExit(1)
+        if len(candidates) > 1:
+            print(
+                f"error: {feed} holds more than one {package_id} version ({', '.join(sorted(candidates))}); "
+                "a feed must describe one run's output -- let the tool pack (which clears the feed "
+                "first), or pass --no-pack with a feed that holds a single version per package.",
+                file=sys.stderr,
+            )
+            raise SystemExit(1)
+        versions[package_id] = candidates[0]
     return versions
 
 
@@ -210,6 +226,10 @@ def main(argv: list[str] | None = None) -> int:
             failures.append(f"{step} exited {result.returncode}")
 
     if not args.no_pack:
+        # The feed is an output directory that may be reused across runs; clearing it keeps the
+        # receipt about the packages this run produced.
+        for stale in feed.glob("*.nupkg"):
+            stale.unlink()
         command = [dotnet_path, "pack", "FunnySharp.slnx", "-c", "Release", "-o", str(feed)]
         result = run(command, root, env)
         record("pack", command, result)
