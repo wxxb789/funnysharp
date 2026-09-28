@@ -1,6 +1,7 @@
 namespace FunnySharp.Analyzers.Tests;
 
 using System.Collections.Immutable;
+using System.Reflection.PortableExecutable;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CodeActions;
@@ -196,13 +197,35 @@ internal static class AnalyzerHarness
         foreach (var file in Directory.EnumerateFiles(directory, "*.dll"))
         {
             var assemblyName = Path.GetFileNameWithoutExtension(file);
+            // The Windows runtime directory ships native dlls (coreclr.dll, clrjit.dll,
+            // ...) beside the managed ones, and a native PE cannot be a MetadataReference:
+            // the compilation fails with CS0009 when it binds the reference.
             if ((prefix is not null && !assemblyName.StartsWith(prefix, StringComparison.Ordinal)) ||
-                !knownNames.Add(assemblyName))
+                !knownNames.Add(assemblyName) ||
+                !IsManagedAssembly(file))
             {
                 continue;
             }
 
             references.Add(MetadataReference.CreateFromFile(file));
+        }
+    }
+
+    private static bool IsManagedAssembly(string path)
+    {
+        try
+        {
+            using var stream = File.OpenRead(path);
+            using var reader = new PEReader(stream);
+            return reader.HasMetadata;
+        }
+        catch (IOException)
+        {
+            return false;
+        }
+        catch (BadImageFormatException)
+        {
+            return false;
         }
     }
 }
