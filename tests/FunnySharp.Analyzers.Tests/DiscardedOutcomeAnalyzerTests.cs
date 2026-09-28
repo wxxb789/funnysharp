@@ -114,6 +114,47 @@ public sealed class DiscardedOutcomeAnalyzerTests
     }
 
     [Fact]
+    public async Task AwaitedStoredTaskOfOutcomeIsReported()
+    {
+        await AnalyzerTestAssert.DiagnosticAsync(
+            """
+            using FunnySharp;
+            class C
+            {
+                Task<Result<int, string>> SaveAsync() => Task.FromResult(Result<int, string>.Success(1));
+
+                async Task UseAsync()
+                {
+                    var pending = SaveAsync();
+                    await pending;
+                }
+            }
+            """,
+            "FS1002",
+            "task of an outcome value");
+    }
+
+    [Fact]
+    public async Task AwaitedConfiguredTaskOfOutcomeIsReported()
+    {
+        await AnalyzerTestAssert.DiagnosticAsync(
+            """
+            using FunnySharp;
+            class C
+            {
+                Task<Result<int, string>> SaveAsync() => Task.FromResult(Result<int, string>.Success(1));
+
+                async Task UseAsync()
+                {
+                    await SaveAsync().ConfigureAwait(false);
+                }
+            }
+            """,
+            "FS1002",
+            "task of an outcome value");
+    }
+
+    [Fact]
     public async Task AwaitedTaskOfNonOutcomeFromFunnySharpMemberIsReported()
     {
         await AnalyzerTestAssert.DiagnosticAsync(
@@ -262,6 +303,25 @@ public sealed class DiscardedOutcomeAnalyzerTests
                 async Task UseAsync()
                 {
                     await Effect.FromValue(1).RunAsync();
+                }
+            }
+            """);
+    }
+
+    [Fact]
+    public async Task AwaitedAndConsumedTaskOfOutcomeIsQuiet()
+    {
+        await AnalyzerTestAssert.QuietAsync(
+            """
+            using FunnySharp;
+            class C
+            {
+                Task<Result<int, string>> SaveAsync() => Task.FromResult(Result<int, string>.Success(1));
+
+                async Task<Result<int, string>> UseAsync()
+                {
+                    var consumed = await SaveAsync();
+                    return consumed;
                 }
             }
             """);

@@ -74,8 +74,15 @@ public sealed class SyncDisposeCodeFixProvider : CodeFixProvider
             return document;
         }
 
+        // SyntaxFactory.Identifier(string) yields a bare token and WithIdentifier replaces the
+        // identifier wholesale, so the replacement must carry the original identifier's trivia
+        // or comments beside Using are deleted by the rename.
+        var identifier = memberAccess.Name.Identifier;
         var renamed = memberAccess.WithName(
-            memberAccess.Name.WithIdentifier(SyntaxFactory.Identifier("UsingAsync")));
+            memberAccess.Name.WithIdentifier(SyntaxFactory.Identifier(
+                identifier.LeadingTrivia,
+                "UsingAsync",
+                identifier.TrailingTrivia)));
         return document.WithSyntaxRoot(root.ReplaceNode(invocation, invocation.WithExpression(renamed)));
     }
 }

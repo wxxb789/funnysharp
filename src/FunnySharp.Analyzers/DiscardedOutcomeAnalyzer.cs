@@ -53,11 +53,13 @@ public sealed class DiscardedOutcomeAnalyzer : DiagnosticAnalyzer
         var statement = (IExpressionStatementOperation)context.Operation;
         switch (statement.Operation)
         {
-            case IAwaitOperation { Operation: IInvocationOperation awaitedInvocation }:
-                // Awaiting consumed the awaitable; only a discarded outcome payload is lost.
-                if (types.IsAwaitableOfOutcome(awaitedInvocation.Type))
+            case IAwaitOperation awaitOperation:
+                // Awaiting consumed the awaitable; only a discarded outcome payload is lost. The
+                // awaited type is the payload itself, so stored and configured awaitables report
+                // through the same check as a directly awaited invocation.
+                if (types.IsOutcomeType(awaitOperation.Type))
                 {
-                    Report(context, awaitedInvocation, "task of an outcome value");
+                    Report(context, awaitOperation, "task of an outcome value");
                 }
 
                 break;
@@ -103,11 +105,11 @@ public sealed class DiscardedOutcomeAnalyzer : DiagnosticAnalyzer
             (method.Name == "Tap" || method.Name == "TapAsync" || method.Name == "TapValueAsync");
     }
 
-    private static void Report(OperationAnalysisContext context, IInvocationOperation invocation, string outcomeKind)
+    private static void Report(OperationAnalysisContext context, IOperation operation, string outcomeKind)
     {
         context.ReportDiagnostic(Diagnostic.Create(
             Descriptors.DiscardedOutcome,
-            invocation.Syntax.GetLocation(),
+            operation.Syntax.GetLocation(),
             outcomeKind));
     }
 }

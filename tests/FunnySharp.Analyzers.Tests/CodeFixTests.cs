@@ -80,4 +80,39 @@ public sealed class CodeFixTests
 
         await AnalyzerTestAssert.QuietAsync(fixedText);
     }
+
+    [Fact]
+    public async Task SyncDisposeFixPreservesTriviaOnTheUsingIdentifier()
+    {
+        var fixedText = await AnalyzerHarness.ApplyFirstFixAsync(
+            """
+            using FunnySharp;
+            class C
+            {
+                Effect<int> Use()
+                {
+                    return Effect.FromSync(() => new Both()).
+                        /* acquire */ Using /* release */ (resource =>
+                            Effect.FromValue(1));
+                }
+            }
+
+            class Both : IDisposable, IAsyncDisposable
+            {
+                public void Dispose()
+                {
+                }
+
+                public ValueTask DisposeAsync()
+                {
+                    return ValueTask.CompletedTask;
+                }
+            }
+            """,
+            "FS1005",
+            new SyncDisposeCodeFixProvider());
+        Assert.Contains("/* acquire */ UsingAsync /* release */ (resource =>", fixedText, StringComparison.Ordinal);
+
+        await AnalyzerTestAssert.QuietAsync(fixedText);
+    }
 }

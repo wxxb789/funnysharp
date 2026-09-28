@@ -65,6 +65,9 @@ def run_command(command: list[str], cwd: Path) -> subprocess.CompletedProcess[st
     )
 
 
+NUPKG_NAME = re.compile(r"^(?P<id>.+)\.(?P<version>\d+\.\d+\.\d+(?:[-+][0-9A-Za-z.-]+)*)\.nupkg$")
+
+
 def prep_feed() -> int:
     FEED_DIR.mkdir(parents=True, exist_ok=True)
     for project in ("src/FunnySharp/FunnySharp.csproj", "src/FunnySharp.AspNetCore/FunnySharp.AspNetCore.csproj"):
@@ -78,6 +81,18 @@ def prep_feed() -> int:
             print(f"prep-feed failed for {project}", file=sys.stderr)
             return 1
     packages = sorted(p.name for p in FEED_DIR.glob("*.nupkg"))
+    # NuGet restores from the global-packages cache (keyed by package id and version)
+    # before it looks at the local feed, so a funnysharp/0.1.0 restored by an earlier
+    # verify would keep shadowing the freshly packed bits. Evict the packed versions
+    # so the next verify restores them from this feed.
+    packages_cache = Path(DOTNET_ENV["NUGET_PACKAGES"])
+    for package in packages:
+        match = NUPKG_NAME.match(package)
+        if match is None:
+            continue
+        cached = packages_cache / match.group("id").lower() / match.group("version").lower()
+        if cached.exists():
+            shutil.rmtree(cached)
     print("Prepared evaluation feed:")
     for package in packages:
         print(f"  {package}")
