@@ -19,7 +19,7 @@ Five operation-based Roslyn analyzers (netstandard2.0, Roslyn 4.14+) guarding Fu
 ## CONVENTIONS
 - Operation-based analysis: `RegisterCompilationStartAction` -> `RegisterOperationAction`; never syntax-only.
 - Well-known types resolved once per compilation via `FunnySharpWellKnownTypes.TryCreate`.
-- Release tracking mandatory (RS2008): rule changes go in `AnalyzerReleases.Unshipped.md`; `Shipped.md` stays empty until first shipping release.
+- Release tracking mandatory (RS2008): rule changes go in `AnalyzerReleases.Unshipped.md`; `AnalyzerReleases.Shipped.md` stays empty until first shipping release.
 - Severity rule: Error only for guaranteed failure (FS1001); silent hazards are Warning.
 - Help links point at `docs/analyzers.md` anchors.
 - `IsPackable=false`, `EnforceExtendedAnalyzerRules=true`, `ImplicitUsings` disabled, `LangVersion` 12 — ships inside the FunnySharp package under `analyzers/dotnet/cs`, not as its own NuGet.

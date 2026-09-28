@@ -21,7 +21,7 @@ FunnySharp.Compatibility/
 
 ## CONVENTIONS
 - Package versions injected as MSBuild props `$(FunnySharpPackageVersion)` / `$(FunnySharpAspNetCorePackageVersion)` by the script — never hardcode them.
-- `Microsoft.NET.Sdk.Web`, `EnableTrimAnalyzer` / `EnableAotAnalyzer=true`, `IsPackable=false`; `<TrimmerRootAssembly>` gated on `'$(RootShippingAssemblies)' == 'true'`.
+- SDK: `Microsoft.NET.Sdk.Web` in the AspNetCore smoke project only; plain `Microsoft.NET.Sdk` in the Core smoke. Both: `EnableTrimAnalyzer` / `EnableAotAnalyzer=true`, `IsPackable=false`; `<TrimmerRootAssembly>` gated on `'$(RootShippingAssemblies)' == 'true'`.
 - Each `Program.cs` ends with `Console.WriteLine("... compatibility smoke passed.")` — the orchestrator depends on it.
 - Not in `FunnySharp.slnx` — never add these projects to the solution.
 - Run: `pwsh tests/FunnySharp.Compatibility/Run-Compatibility.ps1 -PackageDirectory <dir-with-nupkgs> -OutputDirectory <repo>/artifacts/<sub>`; exits 1 on any failure, writes `compatibility-results.json`.
