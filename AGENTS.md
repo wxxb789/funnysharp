@@ -104,7 +104,8 @@ python3 eng/evaluation/runner.py verify <area> <style> <run-dir>
 
 ## NOTES
 
-- Child knowledge bases: `src/FunnySharp/AGENTS.md`, `src/FunnySharp.Analyzers/AGENTS.md`, `src/FunnySharp.AspNetCore/AGENTS.md`, `tests/FunnySharp.Tests/AGENTS.md`, `tests/FunnySharp.Analyzers.Tests/AGENTS.md`, `tests/FunnySharp.AspNetCore.Tests/AGENTS.md`, `tests/FunnySharp.Compatibility/AGENTS.md`, `eng/AGENTS.md`, `eng/tools/AGENTS.md`, `eng/evaluation/AGENTS.md`, `benchmarks/AGENTS.md`, `examples/AGENTS.md`, `examples/FunnySharp.Examples/AGENTS.md`, `examples/FunnySharp.DocumentationSamples/AGENTS.md`, `docs/AGENTS.md`, `docs/goals/AGENTS.md`, `docs/plans/AGENTS.md`, `docs/next-stage/AGENTS.md` (+ analysis/, inventory/, inventory/generated/, call-sites-code/), `.github/workflows/AGENTS.md`.
+- Child knowledge bases: `tests/FunnySharp.VerticalSlice/AGENTS.md` (Goal 22 package-consumer vertical slice + its idiomatic-C# comparison + measurement harness),
+  `src/FunnySharp/AGENTS.md`, `src/FunnySharp.Analyzers/AGENTS.md`, `src/FunnySharp.AspNetCore/AGENTS.md`, `tests/FunnySharp.Tests/AGENTS.md`, `tests/FunnySharp.Analyzers.Tests/AGENTS.md`, `tests/FunnySharp.AspNetCore.Tests/AGENTS.md`, `tests/FunnySharp.Compatibility/AGENTS.md`, `eng/AGENTS.md`, `eng/tools/AGENTS.md`, `eng/evaluation/AGENTS.md`, `benchmarks/AGENTS.md`, `examples/AGENTS.md`, `examples/FunnySharp.Examples/AGENTS.md`, `examples/FunnySharp.DocumentationSamples/AGENTS.md`, `docs/AGENTS.md`, `docs/goals/AGENTS.md`, `docs/plans/AGENTS.md`, `docs/next-stage/AGENTS.md` (+ analysis/, inventory/, inventory/generated/, call-sites-code/), `.github/workflows/AGENTS.md`.
 - `docs/next-stage/decision-record.md` is a pinned Goal 14 baseline - later goals append, never modify.
 - Timing is informational until a fixed-hardware runner exists; allocation budgets are the blocking gate.
 - No .NET 11 preview support; `net11.0` targeting waits for GA (TODO.md).
