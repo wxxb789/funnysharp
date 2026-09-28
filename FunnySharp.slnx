@@ -4,7 +4,10 @@
   <Project Path="examples/FunnySharp.DocumentationSamples/FunnySharp.DocumentationSamples.csproj" />
   <Project Path="examples/FunnySharp.Examples/FunnySharp.Examples.csproj" />
   <Project Path="src/FunnySharp.AspNetCore/FunnySharp.AspNetCore.csproj" />
+  <Project Path="src/FunnySharp.Analyzers/FunnySharp.Analyzers.csproj" />
+  <Project Path="src/FunnySharp.Analyzers.CodeFixes/FunnySharp.Analyzers.CodeFixes.csproj" />
   <Project Path="src/FunnySharp/FunnySharp.csproj" />
+  <Project Path="tests/FunnySharp.Analyzers.Tests/FunnySharp.Analyzers.Tests.csproj" />
   <Project Path="tests/FunnySharp.AspNetCore.Tests/FunnySharp.AspNetCore.Tests.csproj" />
   <Project Path="tests/FunnySharp.Tests/FunnySharp.Tests.csproj" />
 </Solution>

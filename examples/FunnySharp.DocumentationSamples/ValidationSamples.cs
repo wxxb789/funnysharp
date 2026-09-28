@@ -4,10 +4,10 @@ namespace FunnySharp.DocumentationSamples;
 
 internal static class ValidationSamples
 {
-    private static async Task TraverseValueAsync(IAsyncEnumerable<string> source)
+    private static async Task<Option<IReadOnlyList<string>>> TraverseValueAsync(IAsyncEnumerable<string> source)
     {
         // <snippet DocumentationSamples.Validation.TraverseValueAsync>
-        await source.TraverseValueAsync(item => new ValueTask<Option<string>>(LookupAsync(item)));
+        return await source.TraverseValueAsync(item => new ValueTask<Option<string>>(LookupAsync(item)));
         // </snippet>
     }
 

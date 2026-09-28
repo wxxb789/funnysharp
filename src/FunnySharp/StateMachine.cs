@@ -133,7 +133,7 @@ public readonly struct TransitionResult<TState, TOutput, TError> :
     /// </summary>
     /// <param name="error">The transition error, or <see langword="default"/> when no error is present.</param>
     /// <returns><see langword="true"/> when this result is rejected or failed; otherwise, <see langword="false"/>.</returns>
-    public bool TryGetError([MaybeNull] out TError error)
+    public bool TryGetError([MaybeNullWhen(false)] out TError error)
     {
         error = this.error;
         return IsRejected || IsFailed;

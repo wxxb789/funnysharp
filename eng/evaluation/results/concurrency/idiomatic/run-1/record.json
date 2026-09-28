@@ -1,0 +1,20 @@
+{
+  "task": "concurrency",
+  "style": "idiomatic",
+  "run": "run-1",
+  "round": 1,
+  "compilation": {
+    "ok": true,
+    "errors": 0,
+    "buildSeconds": 4.2
+  },
+  "semanticCorrectness": {
+    "ok": true,
+    "total": 9,
+    "failed": 0
+  },
+  "apiMisuse": {
+    "fsDiagnostics": []
+  },
+  "consumerLoc": 67
+}

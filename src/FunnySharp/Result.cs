@@ -464,7 +464,7 @@ public readonly struct Result<TValue, TError> : IEquatable<Result<TValue, TError
     /// <param name="value">The successful value, or <see langword="default"/> when failed.</param>
     /// <returns><see langword="true"/> when successful; otherwise, <see langword="false"/>.</returns>
     /// <exception cref="InvalidOperationException">This result is uninitialized.</exception>
-    public bool TryGetValue([MaybeNull] out TValue value)
+    public bool TryGetValue([MaybeNullWhen(false)] out TValue value)
     {
         EnsureInitialized();
         value = this.value;
@@ -477,7 +477,7 @@ public readonly struct Result<TValue, TError> : IEquatable<Result<TValue, TError
     /// <param name="error">The failure value, or <see langword="default"/> when successful.</param>
     /// <returns><see langword="true"/> when failed; otherwise, <see langword="false"/>.</returns>
     /// <exception cref="InvalidOperationException">This result is uninitialized.</exception>
-    public bool TryGetError([MaybeNull] out TError error)
+    public bool TryGetError([MaybeNullWhen(false)] out TError error)
     {
         EnsureInitialized();
         error = this.error;

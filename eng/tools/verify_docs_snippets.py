@@ -44,6 +44,7 @@ from pathlib import Path
 from _repo import default_repository_root, find_git_root
 
 PRIMARY_GUIDES: tuple[str, ...] = (
+    "analyzers.md",
     "aspnet-core.md",
     "collections.md",
     "concurrency.md",

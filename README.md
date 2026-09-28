@@ -26,6 +26,17 @@ cancellation, enumeration, and materialization behavior follow from the signatur
 
 - [Authoritative grammar table](https://github.com/wxxb789/funnysharp/blob/main/docs/grammar.md)
 
+## Analyzers
+
+Compiler feedback ships inside the core package: every `FunnySharp` reference adds the analyzer
+assemblies under `analyzers/dotnet/cs` with zero extra installs and no runtime dependency. The
+diagnostics reject uninitialized semantic carriers (`FS1001`), silently discarded outcomes
+(`FS1002`), ignored `TryGet*` presence results (`FS1003`), blocked `ValueTask`s (`FS1004`), and
+synchronous disposal of async-disposable resources (`FS1005`); every diagnostic is suppressible and
+documented with its false-positive policy and escape hatches.
+
+- [Diagnostic documentation](https://github.com/wxxb789/funnysharp/blob/main/docs/analyzers.md)
+
 ## Function Composition
 
 FunnySharp provides a small standard-delegate surface for piping, left-to-right composition,

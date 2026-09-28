@@ -91,7 +91,7 @@ public readonly struct Validation<TValue, TError> : IEquatable<Validation<TValue
     /// <param name="value">The valid value, or <see langword="default"/> when invalid.</param>
     /// <returns><see langword="true"/> when valid; otherwise, <see langword="false"/>.</returns>
     /// <exception cref="InvalidOperationException">This validation is uninitialized.</exception>
-    public bool TryGetValue([MaybeNull] out TValue value)
+    public bool TryGetValue([MaybeNullWhen(false)] out TValue value)
     {
         EnsureInitialized();
         value = this.value;

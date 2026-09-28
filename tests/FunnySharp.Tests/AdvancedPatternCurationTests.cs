@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
+using FunnySharp.TestSupport;
 
 namespace FunnySharp.Tests;
 
@@ -441,18 +442,13 @@ public sealed class AdvancedPatternCurationTests
 
     private static string? FindRepositoryFile(string relativePath)
     {
-        var directory = new DirectoryInfo(AppContext.BaseDirectory);
-        while (directory is not null)
+        var repositoryRoot = TestRepositoryRoot.Find();
+        if (repositoryRoot is null)
         {
-            if (File.Exists(Path.Combine(directory.FullName, "FunnySharp.slnx")))
-            {
-                var candidate = Path.Combine(directory.FullName, relativePath);
-                return File.Exists(candidate) ? candidate : null;
-            }
-
-            directory = directory.Parent;
+            return null;
         }
 
-        return null;
+        var candidate = Path.Combine(repositoryRoot, relativePath);
+        return File.Exists(candidate) ? candidate : null;
     }
 }

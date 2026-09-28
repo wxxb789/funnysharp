@@ -7,6 +7,7 @@ Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
 $guides = @(
+    'analyzers.md',
     'aspnet-core.md',
     'collections.md',
     'concurrency.md',

@@ -1,0 +1,20 @@
+{
+  "task": "collections",
+  "style": "funnysharp",
+  "run": "run-1",
+  "round": 2,
+  "compilation": {
+    "ok": true,
+    "errors": 0,
+    "buildSeconds": 3.0
+  },
+  "semanticCorrectness": {
+    "ok": true,
+    "total": 9,
+    "failed": 0
+  },
+  "apiMisuse": {
+    "fsDiagnostics": []
+  },
+  "consumerLoc": 80
+}
