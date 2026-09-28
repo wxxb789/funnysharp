@@ -37,9 +37,16 @@ public static class OrderTimeline
             rows.Add(new TimelineRow(@event.Kind, state.Status, @event.OccurredAt, planned.Commands));
         }
 
+        // Every field a lifecycle event can write takes part in the check, so a corrupted payment
+        // reference, tracking code, or cancellation reason is reported as a divergence instead of a
+        // clean replay.
         var matches = state.Status == record.Order.Status
             && state.Revision == record.Order.Revision
-            && state.Total == record.Order.Total;
+            && state.Total == record.Order.Total
+            && state.UpdatedAt == record.Order.UpdatedAt
+            && string.Equals(state.PaymentReference, record.Order.PaymentReference, StringComparison.Ordinal)
+            && string.Equals(state.TrackingCode, record.Order.TrackingCode, StringComparison.Ordinal)
+            && string.Equals(state.CancellationReason, record.Order.CancellationReason, StringComparison.Ordinal);
         return Result<TimelineProjection, OrderError>.Success(new TimelineProjection(state, rows, matches));
     }
 }

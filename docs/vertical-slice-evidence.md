@@ -54,7 +54,7 @@ From `artifacts/vertical-slice/consumer-run/vertical-slice-results.json` (a full
   `api-verify`, `baseline-verify`, `measurements-verify`, `measurements`, `consumer-tests`
 - Packages produced by that run: `FunnySharp.0.1.0.nupkg`,
   `FunnySharp.AspNetCore.0.1.0.nupkg` (the receipt records both sha256 digests)
-- Consumer test summary: 46 total, 46 passed, 0 failed, 0 skipped
+- Consumer test summary: 49 total, 49 passed, 0 failed, 0 skipped
 - `api-verify`, `baseline-verify`, and `measurements-verify` printed their exact success markers
 - The measurement harness reported all ten scenarios equivalent and wrote `measurements.json`
 
@@ -65,7 +65,7 @@ form is what a provisioned machine executes.
 
 ## Test Inventory
 
-`tests/FunnySharp.VerticalSlice/FunnySharp.VerticalSlice.Tests` — 46 xUnit v3 tests, no skips:
+`tests/FunnySharp.VerticalSlice/FunnySharp.VerticalSlice.Tests` — 49 xUnit v3 tests, no skips:
 
 | Suite | What it proves |
 | --- | --- |

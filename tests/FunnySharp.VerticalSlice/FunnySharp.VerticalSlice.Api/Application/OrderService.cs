@@ -34,12 +34,24 @@ public sealed class OrderService(
         var now = clock.GetUtcNow();
         var draft = Order.Draft(OrderId.New(), command.CustomerId, lines, now);
         await store.CreateAsync(draft, cancellationToken);
-        var placed = await ApplyResultAsync(draft, new OrderEvent.Place(now), cancellationToken);
+        Result<Order, OrderError> placed;
+        try
+        {
+            placed = await ApplyResultAsync(draft, new OrderEvent.Place(now), cancellationToken);
+        }
+        catch (OperationCanceledException)
+        {
+            // A canceled placement drops its draft too; the cleanup runs without the request token,
+            // which is already canceled at this point.
+            await store.RemoveAsync(draft.Id, CancellationToken.None);
+            throw;
+        }
+
         if (placed.TryGetError(out var placementError))
         {
             // A rejected placement must not leave the draft behind: its id was never handed to a caller,
             // so a stored draft would be unreachable state (and state the comparison app never keeps).
-            await store.RemoveAsync(draft.Id, cancellationToken);
+            await store.RemoveAsync(draft.Id, CancellationToken.None);
             return Result<Order, OrderError>.Failure(placementError);
         }
 

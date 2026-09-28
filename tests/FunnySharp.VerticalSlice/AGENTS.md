@@ -17,7 +17,7 @@ exercised the way an external consumer would exercise it.
 FunnySharp.VerticalSlice/
 ├── FunnySharp.VerticalSlice.Api/          # the slice: Domain/, Application/, Infrastructure/, Http/, Endpoints/
 ├── FunnySharp.VerticalSlice.Baseline/     # the same ten scenarios with no FunnySharp reference
-├── FunnySharp.VerticalSlice.Tests/        # 46 integration tests (TestServer + one Kestrel disconnect case)
+├── FunnySharp.VerticalSlice.Tests/        # 49 integration tests (TestServer + one Kestrel disconnect case)
 └── FunnySharp.VerticalSlice.Measurements/ # hosts both apps, asserts equivalence, measures them
 ```
 
