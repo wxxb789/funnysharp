@@ -28,6 +28,7 @@ docs/
 | Product boundaries (authoritative contract) | `product-contract.md` |
 | Analyzer diagnostics FS1001-FS1005 | `analyzers.md` |
 | ASP.NET Core integration | `aspnet-core.md` |
+| Goal 22 slice comparison and evidence | `vertical-slice-call-sites.md`, `vertical-slice-evidence.md` |
 | Performance policy + evidence | `performance.md` |
 | Experimental-member registry | `stability-inventory.md` |
 | Evergreen fail-closed release checklist | `release-readiness.md` |

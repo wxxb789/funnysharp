@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <IsPackable>false</IsPackable>
+    <RootNamespace>FunnySharp.VerticalSlice</RootNamespace>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <!-- This project consumes packed nupkgs whose version is injected per run, so a committed
+         lock file would pin a version that only exists in one local feed. -->
+    <RestorePackagesWithLockFile>false</RestorePackagesWithLockFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FunnySharp" Version="$(FunnySharpPackageVersion)" />
+    <PackageReference Include="FunnySharp.AspNetCore" Version="$(FunnySharpAspNetCorePackageVersion)" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.12" />
+  </ItemGroup>
+</Project>

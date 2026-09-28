@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <IsPackable>false</IsPackable>
+    <RootNamespace>FunnySharp.VerticalSlice.Measurements</RootNamespace>
+    <RestorePackagesWithLockFile>false</RestorePackagesWithLockFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="10.0.12" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../FunnySharp.VerticalSlice.Api/FunnySharp.VerticalSlice.Api.csproj" />
+    <ProjectReference Include="../FunnySharp.VerticalSlice.Baseline/FunnySharp.VerticalSlice.Baseline.csproj" />
+  </ItemGroup>
+</Project>
