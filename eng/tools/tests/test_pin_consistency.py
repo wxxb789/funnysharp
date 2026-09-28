@@ -29,6 +29,7 @@ EXPECTED_HEADER_SCRIPTS = {
     "inventory.py",
     "verify_docs_snippets.py",
     "verify_local.py",
+    "vertical_slice.py",
 }
 
 

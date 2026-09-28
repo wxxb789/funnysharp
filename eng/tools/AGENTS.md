@@ -4,7 +4,7 @@
 
 ## OVERVIEW
 
-Four standalone Python tools plus a shared repo-root helper; the contributor-facing
+Five standalone Python tools plus a shared repo-root helper; the contributor-facing
 pre-check layer. Explicitly NOT the release gate (that is `eng/Run-Release.ps1`).
 
 ## WHERE TO LOOK
@@ -14,9 +14,10 @@ pre-check layer. Explicitly NOT the release gate (that is `eng/Run-Release.ps1`)
 | `verify_local.py` | Contributor pre-check: restore/build/test/examples/aspnetcore-examples/format/docs; flags `--offline`, `--json`, `--skip-docs`, `--skip-format`, `--repository-root` |
 | `verify_docs_snippets.py` | Verifies the 10 primary guides' `csharp` blocks against `examples/FunnySharp.DocumentationSamples` |
 | `check_action_pins.py` | Scans `.github/workflows/*` for full-SHA action pins; uv version must come from `uv.toml`, never a repeated `version:` input |
+| `vertical_slice.py` | Goal 22 evidence: packs, then restores/builds/tests the package-consumer vertical slice in an isolated cache, runs both apps, and runs the equivalence + measurement harness; writes `vertical-slice-results.json` |
 | `inventory.py` | Next-stage evidence-inventory orchestrator (11 targets + language-ext list); `--check-inputs` validates without building |
 | `_repo.py` | Shared `default_repository_root` / `find_git_root`; imported as a plain sibling via `sys.path` |
-| `tests/` | Stdlib `unittest` coverage for all four tools |
+| `tests/` | Stdlib `unittest` coverage for all five tools |
 
 ## CONVENTIONS
 
