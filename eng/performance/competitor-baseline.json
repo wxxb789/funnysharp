@@ -684,22 +684,22 @@
   },
   "observation": {
     "schemaVersion": 1,
-    "generatedAtUtc": "2026-09-26T10:32:48.0008271+00:00",
-    "candidateCommit": "5ad54d4de68cab0ae712b4589a7f739d046caab4",
+    "generatedAtUtc": "2026-09-28T08:56:11.4447961+00:00",
+    "candidateCommit": "123d162a35697878295c4ffc200f459464cd9a9d",
     "policyRevision": "2026-09-25-competitor-v1",
     "policyFingerprint": "07e26d0baedb09c5562f824004d2f63df935639d4986e61358c622549d71b35a",
-    "benchmarkInputFingerprint": "10548e034c5062658b4000f2a68e27c8a203e1bb44beb9ba03800c0fc01475b9",
+    "benchmarkInputFingerprint": "584f49c61f81edb2f915dd461369f8c089d1411cfe7f55c055951f399f0cb687",
     "protocolFingerprint": "9dd8ab8c40fbb68bb2370c9e0b903dc8e261a50d35c47227fc2fbaa46e3e1050",
-    "environmentKey": "8c8e4eb1992841b98347f23a9baba967960bc52eda242439099472f7805f59bd",
+    "environmentKey": "f1c8a32ad6ea507bcd1e1f1d1d3cbdd28534e4e1de84a8f47575d8f91b17a3ae",
     "receipts": [
       {
         "file": "OptionCarrierBenchmarks-performance-receipt.json",
-        "sha256": "a1a0cc60e492e392303dea78f855f32c4e516e50e31e6336b78852832826ec48",
+        "sha256": "710c8c385975345b0e23d5801294d2b44493e05cbb8c404503bc3919be9905e5",
         "environment": {
           "os": "Linux Ubuntu 24.04.5 LTS (Noble Numbat)",
           "architecture": "X64",
-          "sdkVersion": "10.0.400",
-          "runtime": ".NET 10.0.11 (10.0.11, 10.0.1126.37416)",
+          "sdkVersion": "10.0.401",
+          "runtime": ".NET 10.0.12 (10.0.12, 10.0.1226.42308)",
           "jit": "RyuJIT",
           "gcServer": false,
           "gcConcurrent": true,
@@ -708,12 +708,12 @@
       },
       {
         "file": "ResultCarrierBenchmarks-performance-receipt.json",
-        "sha256": "29d457f9df104edc4a24d1d14d6ab6f32f972faa587f17cfe26c1ea412019b7f",
+        "sha256": "d2860653e01d5ca3189ff6421196ce9ae4fd7baf79fac1af5232fce54e9e98c9",
         "environment": {
           "os": "Linux Ubuntu 24.04.5 LTS (Noble Numbat)",
           "architecture": "X64",
-          "sdkVersion": "10.0.400",
-          "runtime": ".NET 10.0.11 (10.0.11, 10.0.1126.37416)",
+          "sdkVersion": "10.0.401",
+          "runtime": ".NET 10.0.12 (10.0.12, 10.0.1226.42308)",
           "jit": "RyuJIT",
           "gcServer": false,
           "gcConcurrent": true,
@@ -741,7 +741,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 0.3058001883327961,
+        "meanNanoseconds": 2.5243668804566064,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -752,7 +752,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 6.622661386926969,
+        "meanNanoseconds": 10.182923724253973,
         "allocatedBytesPerOperation": 24
       },
       {
@@ -763,7 +763,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 0.8509916222343842,
+        "meanNanoseconds": 0.7415710600713888,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -774,7 +774,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 0.8483701025446256,
+        "meanNanoseconds": 1.804361019283533,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -796,7 +796,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 2.961513581375281,
+        "meanNanoseconds": 2.7440650301675,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -807,7 +807,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 10.075756986935934,
+        "meanNanoseconds": 8.911880751450857,
         "allocatedBytesPerOperation": 24
       },
       {
@@ -818,7 +818,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 2.389798231422901,
+        "meanNanoseconds": 2.292281207938989,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -829,7 +829,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 2.378939633568128,
+        "meanNanoseconds": 3.104593643297752,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -839,8 +839,8 @@
         "method": "DirectValueOrFallbackAbsent",
         "parameters": "",
         "baseline": true,
-        "timingState": "observed",
-        "meanNanoseconds": 0.16324885934591293,
+        "timingState": "below-resolution",
+        "meanNanoseconds": null,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -850,8 +850,8 @@
         "method": "FSharpCoreValueOrFallbackAbsent",
         "parameters": "",
         "baseline": false,
-        "timingState": "observed",
-        "meanNanoseconds": 2.173581069956223,
+        "timingState": "below-resolution",
+        "meanNanoseconds": null,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -861,8 +861,8 @@
         "method": "FunckyValueOrFallbackAbsent",
         "parameters": "",
         "baseline": false,
-        "timingState": "below-resolution",
-        "meanNanoseconds": null,
+        "timingState": "observed",
+        "meanNanoseconds": 0.700028338159124,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -872,8 +872,8 @@
         "method": "FunnySharpValueOrFallbackAbsent",
         "parameters": "",
         "baseline": false,
-        "timingState": "below-resolution",
-        "meanNanoseconds": null,
+        "timingState": "observed",
+        "meanNanoseconds": 0.8094973663489023,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -905,8 +905,8 @@
         "method": "FSharpCoreValueOrFallbackPresent",
         "parameters": "",
         "baseline": false,
-        "timingState": "below-resolution",
-        "meanNanoseconds": null,
+        "timingState": "observed",
+        "meanNanoseconds": 0.2536349172393481,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -917,7 +917,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 0.3707658052444458,
+        "meanNanoseconds": 0.23792923986911774,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -927,8 +927,8 @@
         "method": "FunnySharpValueOrFallbackPresent",
         "parameters": "",
         "baseline": false,
-        "timingState": "below-resolution",
-        "meanNanoseconds": null,
+        "timingState": "observed",
+        "meanNanoseconds": 0.16505595420797667,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -950,7 +950,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 0.6461515761911869,
+        "meanNanoseconds": 0.3341291913141807,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -994,7 +994,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 5.296805866062641,
+        "meanNanoseconds": 6.233888169129689,
         "allocatedBytesPerOperation": 24
       },
       {
@@ -1005,7 +1005,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 0.8896109908819199,
+        "meanNanoseconds": 0.9276135234783093,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -1026,8 +1026,8 @@
         "method": "FSharpCoreConstructionInspectionSuccess",
         "parameters": "",
         "baseline": false,
-        "timingState": "below-resolution",
-        "meanNanoseconds": null,
+        "timingState": "observed",
+        "meanNanoseconds": 0.3243622090667486,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -1049,7 +1049,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 7.548820465803146,
+        "meanNanoseconds": 8.338860844572386,
         "allocatedBytesPerOperation": 24
       },
       {
@@ -1060,7 +1060,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 6.856325859824817,
+        "meanNanoseconds": 8.527154435714086,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -1082,7 +1082,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 8.82788890103499,
+        "meanNanoseconds": 10.890903865297636,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -1093,7 +1093,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 1.9406411722302437,
+        "meanNanoseconds": 1.8923167052368324,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -1104,7 +1104,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 52.54344627261162,
+        "meanNanoseconds": 58.84162837266922,
         "allocatedBytesPerOperation": 48
       },
       {
@@ -1115,7 +1115,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 13.778506249189377,
+        "meanNanoseconds": 15.150967766841253,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -1126,7 +1126,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 0.376594927161932,
+        "meanNanoseconds": 1.7653419021517038,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -1137,7 +1137,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 11.94480879108111,
+        "meanNanoseconds": 13.757281340658665,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -1148,7 +1148,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 10.364582106471062,
+        "meanNanoseconds": 13.7036122828722,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -1159,7 +1159,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 48.065176059802376,
+        "meanNanoseconds": 67.25755580266316,
         "allocatedBytesPerOperation": 48
       }
     ]
