@@ -75,6 +75,12 @@ class VerticalSliceToolTests(unittest.TestCase):
         self.shim = self.shim_directory / "dotnet"
         self.shim.write_text(SHIM, encoding="utf-8")
         self.shim.chmod(self.shim.stat().st_mode | stat.S_IEXEC)
+        if os.name == "nt":
+            # Windows cannot exec a shebang script, so the shim gets a batch entry point that runs
+            # the same file through the interpreter under test.
+            (self.shim_directory / "dotnet.cmd").write_text(
+                f'@echo off\r\n"{sys.executable}" "%~dp0dotnet" %*\r\n', encoding="utf-8"
+            )
         self.log = self.root / "shim.log"
 
         self.feed = self.root / "feed"
@@ -196,7 +202,8 @@ class VerticalSliceToolTests(unittest.TestCase):
 
         calls = self.log.read_text(encoding="utf-8").splitlines()
         restore = next(call for call in calls if call.startswith("restore") and "Tests" in call)
-        self.assertIn(f"--source {self.feed}", restore)
+        # The tool resolves every path it is given, and macOS resolves /var through /private/var.
+        self.assertIn(f"--source {self.feed.resolve()}", restore)
         self.assertIn("--source https://api.nuget.org/v3/index.json", restore)
         self.assertIn("-p:FunnySharpPackageVersion=1.2.3", restore)
         self.assertIn("-p:FunnySharpAspNetCorePackageVersion=1.2.3", restore)
