@@ -10,3 +10,9 @@ BenchmarkDotNet.Artifacts/
 __pycache__/
 *.py[cod]
 .venv/
+
+# Agent session state (per-machine transcripts, task logs)
+.omo/
+
+# Stray npm byproduct; this repo has no package.json (tooling is .NET + Python/uv)
+package-lock.json
