@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <IsPackable>false</IsPackable>
+    <RootNamespace>FunnySharp.VerticalSlice.Baseline</RootNamespace>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <!-- The comparison deliberately references no FunnySharp package: it is the idiomatic-C# shape
+         of the same features, so it carries no version-injected package properties. -->
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.12" />
+  </ItemGroup>
+</Project>
