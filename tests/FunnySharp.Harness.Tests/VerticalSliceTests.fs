@@ -389,3 +389,33 @@ type VerticalSliceToolTests() =
 
         let named = "consumer-tests reported 1 failed test: " + failingTestName
         Assert.Contains(named, receipt.Failures)
+
+    [<Fact>]
+    member this.MultipleFailingConsumerTestsAreAllNamed() =
+        let secondName = "FunnySharp.VerticalSlice.Tests.OrderEndpointTests.APlacementFails"
+
+        runner.TestOutput <-
+            "\u5931\u8D25 "
+            + failingTestName
+            + " (1 s)\n\u5931\u8D25 "
+            + secondName
+            + " (12ms)\n\u6D4B\u8BD5\u8FD0\u884C\u6458\u8981: \u5931\u8D25!\n  \u603B\u8BA1: 49\n  \u5931\u8D25: 2\n  \u6210\u529F: 47\n  \u5DF2\u8DF3\u8FC7: 0\n"
+
+        Assert.Equal(1, this.RunTool [])
+        let receipt = this.Receipt()
+        Assert.Equal("fail", receipt.Status)
+        Assert.Equal<string list>([ failingTestName; secondName ], receipt.TestFailures)
+
+        let named = "consumer-tests reported 2 failed tests: " + failingTestName + ", " + secondName
+        Assert.Contains(named, receipt.Failures)
+
+    [<Fact>]
+    member this.AnUnnamedConsumerTestFailureKeepsTheMessageReadable() =
+        runner.TestOutput <- "Test run summary: Failed!\n  total: 49\n  failed: 2\n  succeeded: 47\n  skipped: 0\n"
+
+        Assert.Equal(1, this.RunTool [])
+        let receipt = this.Receipt()
+        Assert.Equal("fail", receipt.Status)
+        Assert.Empty receipt.TestFailures
+
+        Assert.Contains("consumer-tests reported 2 failed tests", receipt.Failures)
