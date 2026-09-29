@@ -1,5 +1,6 @@
 *.cs text eol=lf
 *.csproj text eol=lf
+*.csv text eol=lf
 *.json text eol=lf
 *.props text eol=lf
 *.fs text eol=lf
@@ -8,8 +9,4 @@
 *.md text eol=lf
 *.yml text eol=lf
 *.yaml text eol=lf
-# Frozen append-only evidence committed with CRLF: any text attribute makes git
-# compare a normalized checkout against the raw blob and report the file modified,
-# so these stay binary to git and are never converted.
-/docs/goals/archive/** -text
 /docs/next-stage/inventory/generated/types-languageext-4.4.9.txt text eol=lf
