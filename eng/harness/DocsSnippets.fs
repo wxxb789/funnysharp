@@ -5,7 +5,7 @@ module FunnySharp.Harness.DocsSnippets
 // at examples/FunnySharp.DocumentationSamples/VerifyDocumentationSnippets.ps1.
 //
 // The console contract: on success one stdout line
-//   Verified <n> C# documentation snippets across 10 primary guides.
+//   Verified <n> C# documentation snippets across 11 primary guides.
 // and exit 0; on any failure every failure line goes to stderr prefixed
 // 'error: ' and the exit code is 1. Nothing is ever written.
 //
@@ -30,7 +30,7 @@ open System.Text
 open System.Text.RegularExpressions
 open FunnySharp.Harness.Repo
 
-/// The ten primary guides, in the fixed verifier order. No directory discovery.
+/// The eleven primary guides, in the fixed verifier order. No directory discovery.
 let primaryGuides: string list =
     [ "analyzers.md"
       "aspnet-core.md"
@@ -41,7 +41,8 @@ let primaryGuides: string list =
       "immutable-updates.md"
       "state-machines.md"
       "unit-result.md"
-      "validation.md" ]
+      "validation.md"
+      "quick-start.md" ]
 
 let private regionStartPattern =
     Regex(@"^\s*//\s*<snippet\s+(?<name>DocumentationSamples\.[A-Za-z0-9.]+)>\s*$")
