@@ -50,6 +50,10 @@ let private runMain
     : int * string * string =
     use stdout = new StringWriter()
     use stderr = new StringWriter()
+    // Console verdicts are compared against captured baselines, so the capture is pinned to LF
+    // rather than following the platform's newline.
+    stdout.NewLine <- "\n"
+    stderr.NewLine <- "\n"
     let exitCode = mainWith stdout stderr root collaborators arguments
     exitCode, stdout.ToString(), stderr.ToString()
 

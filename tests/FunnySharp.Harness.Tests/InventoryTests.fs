@@ -628,8 +628,8 @@ type InputPreflightTests() =
 
         let expected =
             Set.ofList (
-                [ for rel in baselineFiles -> Path.Combine(missingBaseline, rel) ]
-                @ [ for rel in refFiles -> Path.Combine(missingRef, rel) ]
+                [ for rel in baselineFiles -> Path.Combine(missingBaseline, rel.Replace('/', Path.DirectorySeparatorChar)) ]
+                @ [ for rel in refFiles -> Path.Combine(missingRef, rel.Replace('/', Path.DirectorySeparatorChar)) ]
                 @ [ missingRef
                     missingFsbin
                     Path.Combine(missingFsbin, "FunnySharp.dll")

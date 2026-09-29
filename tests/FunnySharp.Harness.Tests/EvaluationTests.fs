@@ -140,6 +140,10 @@ type EvaluationToolTests() =
     member private _.Run(args: string list) : int * string * string =
         use stdout = new StringWriter()
         use stderr = new StringWriter()
+        // Console verdicts are compared against captured baselines, so the capture is pinned to LF
+        // rather than following the platform's newline.
+        stdout.NewLine <- "\n"
+        stderr.NewLine <- "\n"
         let code = mainWith stdout stderr root args
         code, stdout.ToString(), stderr.ToString()
 

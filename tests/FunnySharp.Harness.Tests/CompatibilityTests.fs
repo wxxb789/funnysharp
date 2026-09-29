@@ -161,7 +161,10 @@ type private FakeRunner(coreBytes: byte[], aspBytes: byte[]) =
                 if isAspNetCoreProject then
                     File.WriteAllBytes(Path.Combine(output, "FunnySharp.AspNetCore.dll"), this.AspNetCoreBytes)
 
-                File.WriteAllBytes(Path.Combine(output, assemblyName), [| 0uy |])
+                let applicationName =
+                    if OperatingSystem.IsWindows() then assemblyName + ".exe" else assemblyName
+
+                File.WriteAllBytes(Path.Combine(output, applicationName), [| 0uy |])
                 0
         | [ _application ] -> this.AppExitCode
         | _ -> 0

@@ -180,9 +180,9 @@ let ``TestMarkers_AcceptPositiveAllPassingSummary`` () =
           "  failed: 0"
           "  succeeded: 12"
           "  skipped: 0"
-          Path.Combine(root, "tests/FunnySharp.Tests/bin/Release/net10.0/FunnySharp.Tests.dll")
+          Path.GetFullPath(Path.Combine(root, testAssemblyRelativePaths.[0]))
           + " (net10.0|x64) passed (5s 183ms)"
-          Path.Combine(root, "tests/FunnySharp.AspNetCore.Tests/bin/Release/net10.0/FunnySharp.AspNetCore.Tests.dll")
+          Path.GetFullPath(Path.Combine(root, testAssemblyRelativePaths.[1]))
           + " (net10.0|x64) passed (2s 100ms)" ]
 
     Assert.Equal(12, assertTestMarkers (String.concat "\n" lines) root)
