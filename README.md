@@ -165,7 +165,7 @@ package to ASP.NET Core.
 ## Verify
 
 ```powershell
-pwsh -NoProfile -File eng/Run-Release.ps1 `
+dotnet fsi build.fsx -- -p release `
   -AttemptId local-full-1 `
   -CompatibilityRuntimeIdentifier win-x64 `
   -CompatibilityPackageFeed https://packagefeedproxy.microsoft.io/nuget/v3/index.json `

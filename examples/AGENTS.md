@@ -49,5 +49,5 @@ and a minimal-API app for the ASP.NET Core bridges. All are in `FunnySharp.slnx`
 ```bash
 dotnet run --project examples/FunnySharp.Examples/FunnySharp.Examples.csproj -c Release
 dotnet run --project examples/FunnySharp.AspNetCore.Examples -c Release -- --verify
-pwsh -NoProfile -File examples/FunnySharp.DocumentationSamples/VerifyDocumentationSnippets.ps1
+dotnet fsi build.fsx -- -p verify-docs-snippets
 ```

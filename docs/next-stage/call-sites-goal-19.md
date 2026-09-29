@@ -74,7 +74,7 @@ a specific element rather than a total:
    reads the idiomatic total as 92 semantic / 71 raw — the comparison verdict does not
    change.
 
-Raw LOC is measured per method with `python3 tools/loc.py <file> <method>` (non-blank,
+Raw LOC is measured per method with `dotnet fsi build.fsx -- -p loc-extract --file <file> --method <method>` (non-blank,
 non-comment lines including the declaration line), per the Goal 15/16 practice. Semantic LOC
 is directional, hand-derived evidence, not an integer-precise metric; the S+O breakdown is
 shown in every table so disagreement localizes to one element.

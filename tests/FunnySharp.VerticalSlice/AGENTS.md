@@ -65,7 +65,7 @@ FunnySharp.VerticalSlice/
 
 ```bash
 # pack, isolated consumer restore/build/test, both apps, measurements
-uv run --no-project eng/tools/vertical_slice.py --output artifacts/vertical-slice/consumer-run
+dotnet fsi build.fsx -- -p vertical-slice --output artifacts/vertical-slice/consumer-run
 # inside the bundle
 dotnet run --project tests/FunnySharp.VerticalSlice/FunnySharp.VerticalSlice.Api -c Release -- --verify
 dotnet run --project tests/FunnySharp.VerticalSlice/FunnySharp.VerticalSlice.Measurements -c Release -- --verify

@@ -6,20 +6,20 @@
 
 ## OVERVIEW
 
-FunnySharp: pragmatic, BCL-first functional-programming library written entirely in C# 13 / .NET 10 (`net10.0`) - despite the name, no F# anywhere. Feature APIs land only when a goal defines behavior plus verification evidence.
+FunnySharp: pragmatic, BCL-first functional-programming library whose shipping code is C# 13 / .NET 10 (`net10.0`). F# appears only in the development harness (root `build.fsx`, `eng/harness/*.fs`, `tests/FunnySharp.Harness.Tests/`) - it never ships. Feature APIs land only when a goal defines behavior plus verification evidence.
 
 ## STRUCTURE
 
 ```
 funnysharp/
 ├── src/                  # 4 projects: core nupkg (zero runtime deps), Roslyn analyzers, code fixes, AspNetCore package
-├── tests/                # xUnit v3 suites + Compatibility (outside FunnySharp.slnx, PowerShell-run)
-├── eng/                  # release/performance protocol: Run-Release.ps1, release-protocol.json, Verify-*.ps1; tools/ (Python uv), evaluation/ harness
+├── tests/                # xUnit v3 suites + Compatibility (outside FunnySharp.slnx) + FunnySharp.Harness.Tests (F#)
+├── eng/                  # F# harness: root build.fsx + harness/*.fs implement every gate; release-protocol.json; evaluation/ harness
 ├── docs/                 # product contract, grammar, per-carrier guides; next-stage/ = Goal 14 evidence-set workflow; goals/ frozen contracts
 ├── benchmarks/           # BenchmarkDotNet suites; JSON receipts bound to eng/performance manifests
 ├── examples/             # executable examples + DocumentationSamples (byte-exact docs snippet contract)
 ├── .github/workflows/    # release.yml (the only release gate) + tooling.yml (informational 3-OS matrix)
-└── FunnySharp.slnx       # 11 projects; excludes tests/FunnySharp.Compatibility
+└── FunnySharp.slnx       # 13 projects; excludes tests/FunnySharp.Compatibility
 ```
 
 ## WHERE TO LOOK
@@ -29,9 +29,9 @@ funnysharp/
 | Carrier APIs (Option/Result/UnitResult/Validation/Effect) | `src/FunnySharp/` | one public type-family per file |
 | Analyzers + code fixes (FS1001-FS1005) | `src/FunnySharp.Analyzers/`, `src/FunnySharp.Analyzers.CodeFixes/` | ship inside core nupkg `analyzers/dotnet/cs` |
 | ASP.NET Core mapping | `src/FunnySharp.AspNetCore/` | separate nupkg, ~21 `HttpResultExtensions` overloads |
-| Release gate | `eng/Run-Release.ps1`, `eng/release-protocol.json` | `benchmarkSkipped` mode is what CI runs |
-| Performance verification | `eng/Verify-Performance.ps1`, `eng/performance/` | allocation budgets block; timing directional |
-| Goal evaluation | `eng/evaluation/runner.py` | 5 task areas, style-neutral Contract.cs seam |
+| Release gate | `build.fsx` (`-p release`), `eng/release-protocol.json` | `benchmarkSkipped` mode is what CI runs |
+| Performance verification | `build.fsx` (`-p verify-performance`), `eng/performance/` | allocation budgets block; timing directional |
+| Goal evaluation | `build.fsx` (`-p eval-*`), `eng/evaluation/` | 5 task areas, style-neutral Contract.cs seam |
 | Capability decisions | `docs/next-stage/` | Goal 14 evidence set; later goals append only |
 | Authoritative contracts | `docs/product-contract.md`, `docs/grammar.md` | boundaries + verb vocabulary |
 | CI | `.github/workflows/release.yml` | win-x64 canonical, then linux/osx/consumer jobs |
@@ -60,7 +60,7 @@ funnysharp/
 - Restores are locked: `packages.lock.json` committed everywhere.
 - Docs: lowercase-hyphen filenames; guides close with `## Deliberate Boundaries`; 10 primary guides carry byte-exact `documentation-sample:` snippets mirrored in `examples/FunnySharp.DocumentationSamples`.
 - Shared test source (`tests/Shared/`) links via Compile-include, never ProjectReference.
-- Python tooling: PEP 723, stdlib only, run from repo root via `uv run --no-project`.
+- Development gates run through the F# harness: `dotnet fsi build.fsx -- -p <pipeline> [args]` (see [docs/harness.md](docs/harness.md)).
 
 ## ANTI-PATTERNS (THIS PROJECT)
 
@@ -81,25 +81,22 @@ funnysharp/
 ## COMMANDS
 
 ```bash
-# build + test (solution)
-dotnet test FunnySharp.slnx
-# pack all nupkgs
-dotnet pack FunnySharp.slnx -c Release
-# format gate
-dotnet format FunnySharp.slnx --verify-no-changes --no-restore
+# every development gate (see docs/harness.md for all pipelines)
+dotnet fsi build.fsx -- -p build              # dotnet build FunnySharp.slnx
+dotnet fsi build.fsx -- -p test               # dotnet test FunnySharp.slnx
+dotnet pack FunnySharp.slnx -c Release        # pack all nupkgs
+dotnet fsi build.fsx -- -p format             # formatter gate (C# only; F# is not format-checked)
+dotnet fsi build.fsx -- -p verify-tooling     # local pre-check
 # release protocol (CI runs this with -SkipBenchmarks)
-pwsh -NoProfile -File eng/Run-Release.ps1
-# tooling verification (informational CI)
-uv run --no-project eng/tools/verify_local.py
-uv run --no-project python -m unittest discover -s eng/tools/tests
-# docs snippets byte-compare
-pwsh -NoProfile -File examples/FunnySharp.DocumentationSamples/VerifyDocumentationSnippets.ps1
+dotnet fsi build.fsx -- -p release -SkipBenchmarks
+# docs snippets byte-compare (10 primary guides, 44 snippets)
+dotnet fsi build.fsx -- -p verify-docs-snippets
 # benchmark + performance verify
 dotnet run --project benchmarks/FunnySharp.Benchmarks -c Release -- --filter '*' --artifacts <dir>
-pwsh -NoProfile -File eng/Verify-Performance.ps1 -ReceiptDirectory <dir>
+dotnet fsi build.fsx -- -p verify-performance -ReceiptDirectory <dir>
 # evaluation harness
-python3 eng/evaluation/runner.py prep-feed
-python3 eng/evaluation/runner.py verify <area> <style> <run-dir>
+dotnet fsi build.fsx -- -p eval-prep-feed
+dotnet fsi build.fsx -- -p eval-verify --task <area> --style <style> --run-dir <run-dir>
 ```
 
 ## NOTES

@@ -131,13 +131,13 @@ as input for a future goal rather than hidden.
 
 ```shell
 # Prepare the evaluation feed (packages FunnySharp with the embedded analyzers).
-python3 eng/evaluation/runner.py prep-feed
+dotnet fsi build.fsx -- -p eval-prep-feed
 
 # Re-verify any recorded run (writes record.json into the run directory).
-python3 eng/evaluation/runner.py verify <area> <idiomatic|funnysharp> eng/evaluation/results/<area>/<style>/run-<n>
+dotnet fsi build.fsx -- -p eval-verify --task <area> --style <idiomatic|funnysharp> --run-dir eng/evaluation/results/<area>/<style>/run-<n>
 
 # Aggregate every recorded run.
-python3 eng/evaluation/runner.py aggregate <out.md>
+dotnet fsi build.fsx -- -p eval-aggregate --output <out.md>
 ```
 
 New runs: follow one prompt file in `eng/evaluation/tasks/<area>/prompt-<style>.md`, write

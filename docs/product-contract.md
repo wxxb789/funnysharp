@@ -254,11 +254,11 @@ Platform references used for this policy:
 
 A release candidate is acceptable only when the complete README verification runner succeeds:
 
-```powershell
-pwsh -NoProfile -File eng/Run-Release.ps1 `
-  -AttemptId local-full-1 `
-  -CompatibilityRuntimeIdentifier win-x64 `
-  -CompatibilityPackageFeed https://packagefeedproxy.microsoft.io/nuget/v3/index.json `
+```bash
+dotnet fsi build.fsx -- -p release \
+  -AttemptId local-full-1 \
+  -CompatibilityRuntimeIdentifier win-x64 \
+  -CompatibilityPackageFeed https://packagefeedproxy.microsoft.io/nuget/v3/index.json \
   -DistributionFeed https://packagefeedproxy.microsoft.io/nuget/v3/index.json
 ```
 

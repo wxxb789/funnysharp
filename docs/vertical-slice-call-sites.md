@@ -15,7 +15,7 @@ which sends every scenario to both applications, requires the same status code a
 throughput. Reproduce the whole evidence set with:
 
 ```shell
-uv run --no-project eng/tools/vertical_slice.py --output artifacts/vertical-slice/consumer-run
+dotnet fsi build.fsx -- -p vertical-slice --output artifacts/vertical-slice/consumer-run
 ```
 
 The comparison is deliberately not a straw man. The baseline validates, cancels, bounds its

@@ -11,7 +11,7 @@ extracted from this project and byte-compared against `docs/*.md` — edit here,
 
 | Need | Location |
 | --- | --- |
-| Snippet verifier | `VerifyDocumentationSnippets.ps1` (`-RepositoryRoot` optional) |
+| Snippet verifier | `eng/harness/DocsSnippets.fs` via `dotnet fsi build.fsx -- -p verify-docs-snippets` |
 | Sample files | one per guide area: `AnalyzerSamples`, `AspNetCoreSamples`, `CollectionsSamples`, `ConcurrencySamples`, `EffectSamples`, `FunctionCompositionSamples`, `ImmutableUpdateSamples`, `StateMachineSamples`, `UnitResultSamples`, `ValidationSamples` |
 | Region markers | `// <snippet DocumentationSamples.<Area>.<Name>>` … `// </snippet>` — 44 regions total; the marker is the consumed interface |
 | Docs counterpart | fenced `csharp` blocks tagged `<!-- documentation-sample: ... -->` in the 10 primary guides |
@@ -39,6 +39,5 @@ extracted from this project and byte-compared against `docs/*.md` — edit here,
 
 ```bash
 dotnet build examples/FunnySharp.DocumentationSamples/FunnySharp.DocumentationSamples.csproj -c Release
-pwsh -NoProfile -File examples/FunnySharp.DocumentationSamples/VerifyDocumentationSnippets.ps1
-# or, from eng/tools: uv run --no-project eng/tools/verify_docs_snippets.py
+dotnet fsi build.fsx -- -p verify-docs-snippets
 ```

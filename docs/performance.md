@@ -212,14 +212,14 @@ The committed observation in `eng/performance/baseline.json` (main suite) and
 `eng/performance/competitor-baseline.json` (competitor suite) records the environment,
 candidate commit, and per-row results. To reproduce a measurement run:
 
-```powershell
+```bash
 # Main suite (receipts land in the results directory; verify against the manifest)
 dotnet run --project benchmarks/FunnySharp.Benchmarks/FunnySharp.Benchmarks.csproj -c Release -- --filter '*' --artifacts <results-path>
-pwsh -NoProfile -File eng/Verify-Performance.ps1 -ReceiptDirectory <results-path>
+dotnet fsi build.fsx -- -p verify-performance -ReceiptDirectory <results-path>
 
 # Competitor suite (isolated project, pinned competitor packages)
 dotnet run --project benchmarks/FunnySharp.CompetitorBenchmarks/FunnySharp.CompetitorBenchmarks.csproj -c Release -- --filter '*' --artifacts <competitor-results-path>
-pwsh -NoProfile -File eng/Verify-Performance.ps1 -ManifestPath eng/performance/competitor-baseline.json -ReceiptDirectory <competitor-results-path>
+dotnet fsi build.fsx -- -p verify-performance -ManifestPath eng/performance/competitor-baseline.json -ReceiptDirectory <competitor-results-path>
 ```
 
 Both verifiers check every row against the current policy fingerprint, the recorded environment,

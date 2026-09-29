@@ -92,7 +92,7 @@ with FS ids report API misuse. Do not read or copy the FunnySharp source code un
 Write every source file you need into the solution/ directory next to this prompt. Only files
 under solution/ are copied into the build; the tests and contract are fixed. Compile with:
 
-    python3 eng/evaluation/runner.py verify concurrency `STYLE` <run-directory>
+    dotnet fsi build.fsx -- -p eval-verify --task concurrency --style `STYLE` --run-dir <run-directory>
 
 where <run-directory> contains your solution/ folder. A verifier reply with compiler errors,
 test failures, or analyzer diagnostics is feedback: fix your code and verify again.

@@ -59,7 +59,7 @@ a total:
    declaration with initializer"); `decimal weight;` in the WF-3 idiomatic baseline is
    such a declaration.
 
-Raw LOC is measured per method with `python3 tools/loc.py <file> <method>` (non-blank,
+Raw LOC is measured per method with `dotnet fsi build.fsx -- -p loc-extract --file <file> --method <method>` (non-blank,
 non-comment lines including the declaration line) — the Goal 15 practice. `rawloc.py` was
 **not** extended with Goal 16 entries, mirroring Goal 15 (which also did not extend it);
 its Goal 14 report still reproduces unchanged (`TOTAL raw lines counted: 505`).

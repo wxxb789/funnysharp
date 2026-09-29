@@ -61,9 +61,9 @@ Each `tasks/<area>/` contains exactly five pieces:
 ## COMMANDS
 
 ```bash
-python3 eng/evaluation/runner.py prep-feed        # pack FunnySharp + FunnySharp.AspNetCore into artifacts/evaluation/feed
-python3 eng/evaluation/runner.py verify <area> <idiomatic|funnysharp> <run-directory>
-python3 eng/evaluation/runner.py aggregate <out.md>
+dotnet fsi build.fsx -- -p eval-prep-feed        # pack FunnySharp + FunnySharp.AspNetCore into artifacts/evaluation/feed
+dotnet fsi build.fsx -- -p eval-verify --task <area> --style <idiomatic|funnysharp> --run-dir <run-directory>
+dotnet fsi build.fsx -- -p eval-aggregate --output <out.md>
 ```
 
 ## NOTES

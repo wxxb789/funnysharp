@@ -24,7 +24,7 @@ tool), `--mode metadata` against reference assemblies. Mode semantics are in
 `docs/next-stage/baselines.md:46-51`: metadata mode is required for reference
 assemblies, does not load code, and does not report nullability annotations.
 
-Canonical regeneration: `uv run --no-project eng/tools/inventory.py <baseline-root>
+Canonical regeneration: `dotnet fsi build.fsx -- -p generate-inventory <baseline-root>
 <ref-pack-dir> <output-dir>`. The BCL targets are:
 
 - `bcl-sequences-linq` → `inv-bcl-sequences-linq`

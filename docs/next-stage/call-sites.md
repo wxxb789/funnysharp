@@ -1348,7 +1348,7 @@ The FunnySharp projects differ only in `RootNamespace`, `OutputType`, and the
 `rawloc.py` (batch report used for the raw column). Run from `call-sites-code/`:
 
 ```bash
-python3 tools/rawloc.py
+dotnet fsi build.fsx -- -p rawloc
 ```
 
 Semantic LOC was counted by hand under the §2 rule; the per-workflow S+O breakdown is in

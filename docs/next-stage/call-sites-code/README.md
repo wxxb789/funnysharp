@@ -38,5 +38,5 @@ The verified run produced 0 warnings and 0 errors for all four projects. Raw LOC
 in the document come from `tools/rawloc.py`, run from this directory:
 
 ```bash
-python3 tools/rawloc.py
+dotnet fsi build.fsx -- -p rawloc
 ```

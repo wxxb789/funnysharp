@@ -8,6 +8,12 @@ product_contract_source: ce-plan-bootstrap
 execution: code
 ---
 
+> **Superseded (2026-09-28) — Goal 07, workstream B.** The uv/Python tooling layer this plan
+> introduced was itself replaced by the F# harness migration: every development gate now runs as
+> `dotnet fsi build.fsx -- -p <pipeline>`, with sources in `eng/harness/*.fs`. This plan is kept
+> as a historical record only; live contracts are in [../harness.md](../harness.md). Do not
+> implement anything below.
+
 # Cross-Platform uv Tooling Layer - Plan
 
 ## Goal Capsule

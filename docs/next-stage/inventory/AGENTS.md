@@ -20,7 +20,7 @@ Capability inventories per baseline: hand-written F1-F11 surveys of the BCL, com
 ## REGENERATION
 
 ```bash
-uv run --no-project eng/tools/inventory.py \
+dotnet fsi build.fsx -- -p generate-inventory \
   <baseline-root> \
   "$HOME/.dotnet/packs/Microsoft.NETCore.App.Ref/10.0.11/ref/net10.0" \
   "$HOME/next-stage-evidence"
