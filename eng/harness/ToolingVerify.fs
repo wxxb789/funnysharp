@@ -338,7 +338,9 @@ let private testFailure (text: string) (repositoryRoot: string) : string option 
         else
             testAssemblyRelativePaths
             |> List.tryPick (fun relative ->
-                let assembly = Path.Combine(repositoryRoot, relative)
+                // The real test log prints the resolved path, so the pattern must use the same spelling
+                // the release verifier uses (ReleaseVerifySource.assertTestMarkers).
+                let assembly = Path.GetFullPath(Path.Combine(repositoryRoot, relative))
 
                 if (testAssemblyPattern assembly).IsMatch text then
                     None

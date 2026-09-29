@@ -54,7 +54,7 @@ let private greenStdout (step: string) (repositoryRoot: string) : string =
         let assemblyLines =
             testAssemblyRelativePaths
             |> List.map (fun relative ->
-                sprintf "  %s (net10.0|net10.0) passed (1.2s)" (Path.Combine(repositoryRoot, relative)))
+                sprintf "  %s (net10.0|net10.0) passed (1.2s)" (Path.GetFullPath(Path.Combine(repositoryRoot, relative))))
 
         String.concat "\n" assemblyLines
         + "\n"
