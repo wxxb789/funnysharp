@@ -181,7 +181,7 @@ An archived goal's whole contract text lives on line 2 of its file, so citations
     verification. Current state: `VersionPrefix` 0.1.0 and `EnablePackageValidation` only; no
     `PackageValidationBaselineVersion` or api-baseline file exists anywhere in the tree; the product
     contract has no experimental tier.
-    Source: `docs/goals/0023-goal.md:2`; `src/FunnySharp/FunnySharp.csproj:5,18`;
+    Source: `docs/goals/archive/0023-goal.md:2`; `src/FunnySharp/FunnySharp.csproj:5,18`;
     `docs/product-contract.md §"Deliberate Deferrals"`; `docs/release-evidence/goal-12.md:61-74`.
     Classification: **(b) deliberate change** — add the stability boundary deliberately; do not infer
     it from the current package.
@@ -234,7 +234,7 @@ items 21-24 below; item 25 restates the no-speculative-API rule stated in the sa
     generally available and language/metadata contracts are stable; preview targeting does not count
     as support; a general union framework stays out of scope.
     Source: `docs/product-contract.md §"Deliberate Deferrals"`; `docs/goals/archive/0001-goal.md:2`;
-    `docs/goals/archive/0015-goal.md:2`; `docs/goals/0023-goal.md:2`; `docs/goals/archive/0012-goal.md:2`.
+    `docs/goals/archive/0015-goal.md:2`; `docs/goals/archive/0023-goal.md:2`; `docs/goals/archive/0012-goal.md:2`.
     Classification: **(a) restate**.
 
 23. **No `net10.0` union compatibility layer under current conditions.** A compatibility layer is
@@ -249,7 +249,7 @@ items 21-24 below; item 25 restates the no-speculative-API rule stated in the sa
     concession, or migration promise.** No competitor compatibility is required or permitted as
     acceptance evidence; a general union framework and competitor compatibility APIs are out of scope.
     Source: `docs/goals/archive/0014-goal.md:2`; `/tmp/opencode/next-stage-brief.md:80-85` (goal brief);
-    `docs/goals/archive/0015-goal.md:2`; `docs/goals/archive/0022-goal.md:2`; `docs/goals/0023-goal.md:2`.
+    `docs/goals/archive/0015-goal.md:2`; `docs/goals/archive/0022-goal.md:2`; `docs/goals/archive/0023-goal.md:2`.
     Classification: **(a) restate**; the benchmark-comparison tension is C5.
 
 25. **No speculative feature API.** The foundation exposes no speculative feature API; public APIs
@@ -257,7 +257,7 @@ items 21-24 below; item 25 restates the no-speculative-API rule stated in the sa
     Source: `docs/product-contract.md §"Deliberate Deferrals"`; `README.md:4`; `docs/goals/archive/0001-goal.md:2`.
     Classification: **(b) deliberate change** — the rule survives, but Goal 23 requires a formal
     experimental tier ("experimental APIs are unmistakable and do not silently acquire the same
-    stability promise", `docs/goals/0023-goal.md:2`), so the stability boundary must be stated rather
+    stability promise", `docs/goals/archive/0023-goal.md:2`), so the stability boundary must be stated rather
     than implied.
 
 26. **Rejected runtime/universe list.** No custom runtime, scheduler/fiber layer, DI container,
@@ -320,7 +320,7 @@ items 21-24 below; item 25 restates the no-speculative-API rule stated in the sa
     `UnitResult<TError>`, `Validation<TValue,TError>`), prohibits a second absence carrier, and Goal
     23 requires guides to present `UnitResult`. Current API has 33 types and no `UnitResult`; README
     has no `UnitResult` section.
-    Source: `docs/goals/archive/0015-goal.md:2`; `docs/goals/archive/0017-goal.md:2`; `docs/goals/0023-goal.md:2`;
+    Source: `docs/goals/archive/0015-goal.md:2`; `docs/goals/archive/0017-goal.md:2`; `docs/goals/archive/0023-goal.md:2`;
     `docs/next-stage/inventory/generated/inv-funny-sharp-core.md:1-7`;
     `README.md:29-37`.
     Classification: **(b) deliberate change** — a new canonical carrier and vocabulary decision.
@@ -395,7 +395,7 @@ items 21-24 below; item 25 restates the no-speculative-API rule stated in the sa
     function-composition, data-pipelines, concurrency, effects, immutable-updates, state-machines,
     aspnet-core; there is no UnitResult, collection, async/streaming, analyzer, or performance guide,
     and `VerifyDocumentationSnippets.ps1:8-16` compiles samples for only seven guides.
-    Source: `docs/goals/0023-goal.md:2`; the directories `docs/` and
+    Source: `docs/goals/archive/0023-goal.md:2`; the directories `docs/` and
     `examples/FunnySharp.DocumentationSamples/`; `README.md:11-105`.
     Classification: **(b) deliberate change** — the documentation contract and compiled-sample set
     must be extended deliberately.
@@ -426,7 +426,7 @@ Each entry names both sides.
 
 - **C3 — `UnitResult` is canonical in Goals 15/17/23 but absent from the product.**
   `docs/goals/archive/0015-goal.md:2` (four canonical carriers), `docs/goals/archive/0017-goal.md:2` (traversal over
-  UnitResult), `docs/goals/0023-goal.md:2` (guides must present UnitResult) vs
+  UnitResult), `docs/goals/archive/0023-goal.md:2` (guides must present UnitResult) vs
   `docs/next-stage/inventory/generated/inv-funny-sharp-core.md:1-7` (33 types, no UnitResult) and
   `README.md:29-37`. The constitution must state whether `Result<TValue,TError>` with a unit value
   substitutes, or `UnitResult<TError>` is a new canonical type.
@@ -444,7 +444,7 @@ Each entry names both sides.
   `docs/goals/0020-goal.md:2` requires reproducible comparisons against "FSharp.Core where the
   representation and semantics are comparable, and relevant Funcky, CSharpFunctionalExtensions, or
   language-ext operations" vs `docs/goals/archive/0014-goal.md:2`, `/tmp/opencode/next-stage-brief.md:80-85`,
-  `docs/goals/archive/0015-goal.md:2`, `docs/goals/archive/0022-goal.md:2`, and `docs/goals/0023-goal.md:2`
+  `docs/goals/archive/0015-goal.md:2`, `docs/goals/archive/0022-goal.md:2`, and `docs/goals/archive/0023-goal.md:2`
   ("no competitor dependency", "No compatibility ... permitted as acceptance evidence"). Current
   state: `benchmarks/FunnySharp.Benchmarks/FunnySharp.Benchmarks.csproj:12-13` references only
   `BenchmarkDotNet`; the working tree contains an untracked call-site project
@@ -464,7 +464,7 @@ Each entry names both sides.
 - **C7 — Guide/README coverage vs Goal 23's required guide set.**
   `README.md:11-105` lists ten feature sections with no UnitResult, collection, async/streaming,
   analyzer, or performance guide; `examples/FunnySharp.DocumentationSamples/VerifyDocumentationSnippets.ps1:8-16`
-  compiles samples for seven guides vs `docs/goals/0023-goal.md:2` requiring canonical usage of all
+  compiles samples for seven guides vs `docs/goals/archive/0023-goal.md:2` requiring canonical usage of all
   listed areas with every documented sample compiling. This is a deliberate documentation expansion;
   it also interacts with C1 (analyzer docs cannot precede analyzers) and item 38.
 
@@ -472,7 +472,7 @@ Each entry names both sides.
   `docs/goals/archive/0001-goal.md:2` ("General discriminated unions and analyzers are explicitly out
   of scope until revisited after the official C# 15/.NET 11 union design stabilizes.") vs
   `docs/goals/0021-goal.md:2` (analyzers as a standalone AI-usability goal with no union
-  dependency) and `docs/goals/archive/0015-goal.md:2`/`docs/goals/0023-goal.md:2` (unions stay rejected
+  dependency) and `docs/goals/archive/0015-goal.md:2`/`docs/goals/archive/0023-goal.md:2` (unions stay rejected
   independently). The coupling in the archived goal is obsolete; the constitution should record
   analyzer work and union rejection as separate decisions.
 
@@ -503,7 +503,7 @@ Each entry names both sides.
 - **C12 — No API-compatibility baseline exists despite package validation being enabled.**
   `src/FunnySharp/FunnySharp.csproj:18` and `src/FunnySharp.AspNetCore/FunnySharp.AspNetCore.csproj:18`
   set `EnablePackageValidation` but no `PackageValidationBaselineVersion` or baseline file exists;
-  `docs/goals/0023-goal.md:2` requires an "API-compatibility baseline" verified through external
+  `docs/goals/archive/0023-goal.md:2` requires an "API-compatibility baseline" verified through external
   package consumers. Extension, not conflict; the lead must specify the baseline mechanism and its
   relationship to the stability boundary from item 17.
 
