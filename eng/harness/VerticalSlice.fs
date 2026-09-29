@@ -287,6 +287,27 @@ let parseSummary (output: string) : Map<string, int> option =
 
         result
 
+// Microsoft.Testing.Platform prints one line per failed test ahead of the summary, as
+// "failed <name> (21ms)" or its Chinese form (written as \u escapes to keep this file
+// ASCII). A summary field line ("failed: 1") has no parenthesized duration, so it never
+// matches. The receipt keeps only a tail of the runner output, which is exactly where the
+// failing identities used to get lost.
+let private failingTestLine =
+    Regex(@"^\s*(?:failed|\u5931\u8D25)\s+(?<name>[^\r\n(]+?)\s*\(\d", RegexOptions.IgnoreCase)
+
+/// Extract the identities of the tests the runner reported as failed, in first-seen order.
+let parseFailingTests (output: string) : string list =
+    output.Split([| '\r'; '\n' |], StringSplitOptions.RemoveEmptyEntries)
+    |> Array.choose (fun line ->
+        let found = failingTestLine.Match line
+
+        if found.Success then
+            Some(found.Groups.["name"].Value.Trim())
+        else
+            None)
+    |> Array.distinct
+    |> List.ofArray
+
 // ---- CLI ----
 
 type private CliOptions =
@@ -595,14 +616,22 @@ let mainWith (stdout: TextWriter) (stderr: TextWriter) (argv: string list) : int
 
                         let testResult = stepRunner root childEnvironment stepTimeoutSeconds test
                         record "consumer-tests" test testResult
+                        let failingTests = parseFailingTests (testResult.Stdout + testResult.Stderr)
                         let summary = parseSummary (testResult.Stdout + testResult.Stderr)
                         receipt.["testSummary"] <- (match summary with Some counts -> summaryJson counts | None -> jsonNull)
+                        receipt.["testFailures"] <- stringArray failingTests
 
                         match summary with
                         | None -> failures.Add "consumer-tests produced no parsable test summary"
                         | Some counts ->
                             if counts.["failed"] <> 0 then
-                                failures.Add(sprintf "consumer-tests reported %d failures" counts.["failed"])
+                                let named =
+                                    if failingTests.IsEmpty then
+                                        ""
+                                    else
+                                        ": " + String.concat ", " failingTests
+
+                                failures.Add(sprintf "consumer-tests reported %d failures%s" counts.["failed"] named)
 
                             if counts.["skipped"] <> 0 then
                                 failures.Add(sprintf "consumer-tests reported %d skipped tests" counts.["skipped"])

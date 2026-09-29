@@ -31,6 +31,7 @@ type private Receipt =
       Steps: StepRecord list
       PackageVersions: Map<string, string>
       TestSummary: Map<string, int> option
+      TestFailures: string list
       VerifyMarker: bool
       BaselineVerifyMarker: bool
       MeasurementsVerifyMarker: bool
@@ -61,11 +62,18 @@ let private readReceipt (path: string) : Receipt =
             Some(element.EnumerateObject() |> Seq.map (fun property -> property.Name, property.Value.GetInt32()) |> Map.ofSeq)
         | _ -> None
 
+    let testFailures =
+        match root.TryGetProperty "testFailures" with
+        | true, element when element.ValueKind = JsonValueKind.Array ->
+            element.EnumerateArray() |> Seq.map textValue |> Seq.toList
+        | _ -> []
+
     { Status = textValue (root.GetProperty "status")
       Failures =
           root.GetProperty("failures").EnumerateArray()
           |> Seq.map textValue
           |> Seq.toList
+      TestFailures = testFailures
       Steps = steps
       PackageVersions = packageVersions
       TestSummary = testSummary
@@ -76,12 +84,17 @@ let private readReceipt (path: string) : Receipt =
 
 /// Canned process results standing in for the dotnet SDK, mirroring the shim the
 /// Python suite puts on PATH.
+/// The runner output a green consumer-tests step prints; a test replaces it to stand in for a
+/// run the runner reports as failed.
+let private defaultTestOutput = "Test run summary: Passed!\n  total: 37\n  failed: 0\n  succeeded: 37\n  skipped: 0\n"
+
 type private FakeRunner() =
     let calls = ResizeArray<string list>()
 
     member val ExitCode = 0 with get, set
     member val PackVersion = "2.0.0" with get, set
     member val MeasurementsExitCode = 0 with get, set
+    member val TestOutput = defaultTestOutput with get, set
     member _.Calls = List.ofSeq calls
 
     member this.Run
@@ -104,8 +117,7 @@ type private FakeRunner() =
                     else verifyMarker + "\n"
                 else
                     "measurements written\n"
-            | "test" ->
-                "Test run summary: Passed!\n  total: 37\n  failed: 0\n  succeeded: 37\n  skipped: 0\n"
+            | "test" -> this.TestOutput
             | "pack" ->
                 let mutable outDirectory = "."
                 let mutable previous = ""
@@ -323,6 +335,29 @@ type VerticalSliceToolTests() =
         Assert.NotEmpty receipt.Failures
 
     [<Fact>]
+    member _.ParseFailingTestsNamesTheTestsTheRunnerReported() =
+        let english =
+            "failed FunnySharp.VerticalSlice.Tests.StreamingExportTests.ARowReachesTheClientBeforeTheNextOneExists (1 s)\nTest run summary: Failed!\n  total: 49\n  failed: 1\n  succeeded: 48\n  skipped: 0\n"
+
+        let chinese =
+            "\u5931\u8D25 FunnySharp.VerticalSlice.Tests.FlakeProbeTests.DiagnosticProbeFails (21ms)\n\u6D4B\u8BD5\u8FD0\u884C\u6458\u8981: \u5931\u8D25!\n  \u603B\u8BA1: 50\n  \u5931\u8D25: 1\n  \u6210\u529F: 49\n  \u5DF2\u8DF3\u8FC7: 0\n"
+
+        Assert.Equal<string list>(
+            [ "FunnySharp.VerticalSlice.Tests.StreamingExportTests.ARowReachesTheClientBeforeTheNextOneExists" ],
+            parseFailingTests english
+        )
+
+        Assert.Equal<string list>(
+            [ "FunnySharp.VerticalSlice.Tests.FlakeProbeTests.DiagnosticProbeFails" ],
+            parseFailingTests chinese
+        )
+
+        let greenRun =
+            defaultTestOutput
+
+        Assert.Empty(parseFailingTests greenRun)
+
+    [<Fact>]
     member this.MeasurementMismatchIsAFailureWithoutAMarkerProblem() =
         runner.MeasurementsExitCode <- 1
         Assert.Equal(1, this.RunTool [])
@@ -331,3 +366,25 @@ type VerticalSliceToolTests() =
         Assert.False receipt.HasMeasurementsPath
 
         Assert.True(receipt.Failures |> List.exists (fun failure -> failure.Contains "behavioral difference"))
+
+    [<Fact>]
+    member this.AFailingConsumerTestIsNamedInTheReceipt() =
+        runner.TestOutput <-
+            "\u5931\u8D25 FunnySharp.VerticalSlice.Tests.StreamingExportTests.ARowReachesTheClientBeforeTheNextOneExists (1 s)\n\u6D4B\u8BD5\u8FD0\u884C\u6458\u8981: \u5931\u8D25!\n  \u603B\u8BA1: 49\n  \u5931\u8D25: 1\n  \u6210\u529F: 48\n  \u5DF2\u8DF3\u8FC7: 0\n"
+
+        try
+            Assert.Equal(1, this.RunTool [])
+            let receipt = this.Receipt()
+            Assert.Equal("fail", receipt.Status)
+
+            Assert.Equal<string list>(
+                [ "FunnySharp.VerticalSlice.Tests.StreamingExportTests.ARowReachesTheClientBeforeTheNextOneExists" ],
+                receipt.TestFailures
+            )
+
+            Assert.Contains(
+                "consumer-tests reported 1 failures: FunnySharp.VerticalSlice.Tests.StreamingExportTests.ARowReachesTheClientBeforeTheNextOneExists",
+                receipt.Failures
+            )
+        finally
+            runner.TestOutput <- defaultTestOutput
