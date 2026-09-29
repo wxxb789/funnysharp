@@ -72,7 +72,8 @@ let private greenStdout (step: string) (repositoryRoot: string) : string =
     | _ -> failwithf "unexpected step %s" step
 
 let private withoutAssemblyLine (log: string) (repositoryRoot: string) (index: int) : string =
-    let assembly = Path.Combine(repositoryRoot, testAssemblyRelativePaths.[index])
+    // Match the spelling the verifier resolves to, not the relative path's separators.
+    let assembly = Path.GetFullPath(Path.Combine(repositoryRoot, testAssemblyRelativePaths.[index]))
 
     log.Split('\n')
     |> Array.filter (fun line -> not (line.Contains assembly))
