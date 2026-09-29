@@ -15,7 +15,7 @@ which sends every scenario to both applications, requires the same status code a
 throughput. Reproduce the whole evidence set with:
 
 ```shell
-uv run --no-project eng/tools/vertical_slice.py --output artifacts/vertical-slice/consumer-run
+dotnet fsi build.fsx -- -p vertical-slice --output artifacts/vertical-slice/consumer-run
 ```
 
 The comparison is deliberately not a straw man. The baseline validates, cancels, bounds its
@@ -374,7 +374,8 @@ Both applications were measured through the same in-process `TestServer`, 20 war
 iterations per scenario (3/15 for the stream; a fresh in-memory state per run), on the repository's
 development machine. Allocation is `GC.GetTotalAllocatedBytes(precise: true)` divided by iterations;
 latency is the median end-to-end request time. Reproduce with
-`eng/tools/vertical_slice.py`, which writes the receipt next to its output.
+`dotnet fsi build.fsx -- -p vertical-slice` (`eng/harness/VerticalSlice.fs`), which writes the
+receipt next to its output.
 
 | Scenario | Slice alloc (B/op) | Baseline alloc (B/op) | Slice p50 (us) | Baseline p50 (us) |
 | --- | ---: | ---: | ---: | ---: |

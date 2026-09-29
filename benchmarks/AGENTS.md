@@ -39,8 +39,8 @@ results are custom JSON receipts bound to the tracked manifests in `eng/performa
 
 - NEVER let `check_action_pins`-style re-checks touch these suites' pins — n/a here, but
   likewise never bypass the receipt fingerprinting: a receipt without matching fingerprints
-  fails `eng/Verify-Performance.ps1`.
-- NEVER commit receipts as results without running them through `Verify-Performance.ps1`
+  fails the `verify-performance` pipeline.
+- NEVER commit receipts as results without running them through `verify-performance`
   (or `-ObservationProposalPath` for observation-only proposals; policy is read-only).
 
 ## COMMANDS
@@ -48,11 +48,11 @@ results are custom JSON receipts bound to the tracked manifests in `eng/performa
 ```bash
 # Main suite (run from repo root, then verify)
 dotnet run --project benchmarks/FunnySharp.Benchmarks/FunnySharp.Benchmarks.csproj -c Release -- --filter '*' --artifacts <results-path>
-pwsh -NoProfile -File eng/Verify-Performance.ps1 -ReceiptDirectory <results-path>
+dotnet fsi build.fsx -- -p verify-performance -ReceiptDirectory <results-path>
 
 # Competitor suite
 dotnet run --project benchmarks/FunnySharp.CompetitorBenchmarks/FunnySharp.CompetitorBenchmarks.csproj -c Release -- --filter '*' --artifacts <dir>
-pwsh -NoProfile -File eng/Verify-Performance.ps1 -ManifestPath eng/performance/competitor-baseline.json -ReceiptDirectory <dir>
+dotnet fsi build.fsx -- -p verify-performance -ManifestPath eng/performance/competitor-baseline.json -ReceiptDirectory <dir>
 
 # Semantic preflights (validate benchmark equivalence before measuring)
 dotnet run --project benchmarks/FunnySharp.Benchmarks/FunnySharp.Benchmarks.csproj -c Release -- --preflight

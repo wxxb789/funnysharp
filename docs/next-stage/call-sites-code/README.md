@@ -12,7 +12,7 @@ path are machine-specific.
 | `funnysharp/` | `FunnySharpCallSites.csproj`, `ProjectReference` to `src/FunnySharp` | W1–W10 FunnySharp 0.1.0 variants |
 | `funnysharp-aspnet/` | `FunnySharpAspNetCallSites.csproj`, `ProjectReference` to `src/FunnySharp.AspNetCore` + `Microsoft.AspNetCore.App` framework reference | W11 HTTP mapping, both variants |
 | `competitors/` | `Competitors.csproj`, NuGet CFE 3.7.0 + Funcky 3.6.0 + LanguageExt.Core 4.4.9 | W1, W2, W3, W3b, W4, W5, W10 competitor variants |
-| `tools/` | Python 3 | `loc.py` method extractor, `rawloc.py` raw-LOC report |
+| `tools/` | — | retired: `loc.py`/`rawloc.py` are now `eng/harness/Loc.fs` (`-- -p rawloc` / `-- -p loc-extract`) |
 
 ## Rebuild
 
@@ -35,8 +35,9 @@ dotnet build -c Release   # in each project directory
 ```
 
 The verified run produced 0 warnings and 0 errors for all four projects. Raw LOC counts
-in the document come from `tools/rawloc.py`, run from this directory:
+in the document come from `eng/harness/Loc.fs` (the `rawloc` pipeline), run from the
+repository root:
 
 ```bash
-python3 tools/rawloc.py
+dotnet fsi build.fsx -- -p rawloc
 ```

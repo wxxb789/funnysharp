@@ -6,7 +6,7 @@ BenchmarkDotNet.Artifacts/
 *.suo
 *.user
 
-# Python tooling
+# Retired tooling interpreters (the harness is F# now; no Python or uv remains)
 __pycache__/
 *.py[cod]
 .venv/
@@ -14,5 +14,5 @@ __pycache__/
 # Agent session state (per-machine transcripts, task logs)
 .omo/
 
-# Stray npm byproduct; this repo has no package.json (tooling is .NET + Python/uv)
+# Stray npm byproduct; this repo has no package.json (the harness is .NET + F#)
 package-lock.json

@@ -45,8 +45,8 @@ in the FunnySharp variants. FunnySharp remains dependency-free here.
   `.AsTask()`, and property/field access.
 
 **Raw LOC** is machine-counted: non-blank, non-comment lines of the same workflow unit,
-including its declaration line. The counting script is in
-`docs/next-stage/call-sites-code/tools/rawloc.py` (it imports `loc.py`); semantic counts
+including its declaration line. The counting script is `eng/harness/Loc.fs` (the `rawloc`
+pipeline, `dotnet fsi build.fsx -- -p rawloc`); semantic counts
 are hand-derived and the S+O breakdown is shown in every table so a reviewer can
 disagree with a specific element rather than with the total.
 
@@ -1344,11 +1344,11 @@ The FunnySharp projects differ only in `RootNamespace`, `OutputType`, and the
 
 ### 17.4 Raw LOC tooling
 
-`call-sites-code/tools/` contains `loc.py` (extract a method body by name) and
-`rawloc.py` (batch report used for the raw column). Run from `call-sites-code/`:
+`eng/harness/Loc.fs` provides the extraction (`loc-extract`) and batch report
+(`rawloc`) now used for the raw column. Run from the repository root:
 
 ```bash
-python3 tools/rawloc.py
+dotnet fsi build.fsx -- -p rawloc
 ```
 
 Semantic LOC was counted by hand under the §2 rule; the per-workflow S+O breakdown is in

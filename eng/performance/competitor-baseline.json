@@ -23,8 +23,8 @@
     "files": [
       "benchmarks/FunnySharp.Benchmarks/ReceiptExporterCore.cs",
       "benchmarks/FunnySharp.CompetitorBenchmarks/CompetitorReceiptExporter.cs",
-      "eng/Generate-PerformanceDocumentation.ps1",
-      "eng/Verify-Performance.ps1"
+      "eng/harness/Performance.fs",
+      "eng/harness/PerformanceDocs.fs"
     ]
   },
   "documentation": [
@@ -684,17 +684,17 @@
   },
   "observation": {
     "schemaVersion": 1,
-    "generatedAtUtc": "2026-09-28T08:56:11.4447961+00:00",
-    "candidateCommit": "123d162a35697878295c4ffc200f459464cd9a9d",
+    "generatedAtUtc": "2026-09-29T01:56:14.1425437+00:00",
+    "candidateCommit": "dc4651736d26c715e96edf79de887d48c2f3c1f6",
     "policyRevision": "2026-09-25-competitor-v1",
     "policyFingerprint": "07e26d0baedb09c5562f824004d2f63df935639d4986e61358c622549d71b35a",
     "benchmarkInputFingerprint": "584f49c61f81edb2f915dd461369f8c089d1411cfe7f55c055951f399f0cb687",
-    "protocolFingerprint": "9dd8ab8c40fbb68bb2370c9e0b903dc8e261a50d35c47227fc2fbaa46e3e1050",
+    "protocolFingerprint": "ec87b5929979b243c7143918f7ed6501c4f1d8323467d227bd0e390277f3a37c",
     "environmentKey": "f1c8a32ad6ea507bcd1e1f1d1d3cbdd28534e4e1de84a8f47575d8f91b17a3ae",
     "receipts": [
       {
         "file": "OptionCarrierBenchmarks-performance-receipt.json",
-        "sha256": "710c8c385975345b0e23d5801294d2b44493e05cbb8c404503bc3919be9905e5",
+        "sha256": "3fb3e1dc59313721ada5ce70fd47885426bd24ba3fe535d1df734c30c16d22d0",
         "environment": {
           "os": "Linux Ubuntu 24.04.5 LTS (Noble Numbat)",
           "architecture": "X64",
@@ -708,7 +708,7 @@
       },
       {
         "file": "ResultCarrierBenchmarks-performance-receipt.json",
-        "sha256": "d2860653e01d5ca3189ff6421196ce9ae4fd7baf79fac1af5232fce54e9e98c9",
+        "sha256": "808e14a0e0561ecf2a484b8fb414a39c37a416769e8847e4e6b834cfd61b9f28",
         "environment": {
           "os": "Linux Ubuntu 24.04.5 LTS (Noble Numbat)",
           "architecture": "X64",
@@ -741,7 +741,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 2.5243668804566064,
+        "meanNanoseconds": 0.26365208253264427,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -752,7 +752,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 10.182923724253973,
+        "meanNanoseconds": 5.874245842297872,
         "allocatedBytesPerOperation": 24
       },
       {
@@ -763,7 +763,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 0.7415710600713888,
+        "meanNanoseconds": 0.7911953826745352,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -774,7 +774,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 1.804361019283533,
+        "meanNanoseconds": 0.5038745601971945,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -784,8 +784,8 @@
         "method": "DirectMapPresent",
         "parameters": "",
         "baseline": true,
-        "timingState": "below-resolution",
-        "meanNanoseconds": null,
+        "timingState": "observed",
+        "meanNanoseconds": 0.1459951320042213,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -796,7 +796,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 2.7440650301675,
+        "meanNanoseconds": 2.3882255107164383,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -807,7 +807,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 8.911880751450857,
+        "meanNanoseconds": 8.081056793530783,
         "allocatedBytesPerOperation": 24
       },
       {
@@ -818,7 +818,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 2.292281207938989,
+        "meanNanoseconds": 2.1893413638075194,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -829,7 +829,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 3.104593643297752,
+        "meanNanoseconds": 2.2221090669433274,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -861,8 +861,8 @@
         "method": "FunckyValueOrFallbackAbsent",
         "parameters": "",
         "baseline": false,
-        "timingState": "observed",
-        "meanNanoseconds": 0.700028338159124,
+        "timingState": "below-resolution",
+        "meanNanoseconds": null,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -872,8 +872,8 @@
         "method": "FunnySharpValueOrFallbackAbsent",
         "parameters": "",
         "baseline": false,
-        "timingState": "observed",
-        "meanNanoseconds": 0.8094973663489023,
+        "timingState": "below-resolution",
+        "meanNanoseconds": null,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -905,8 +905,8 @@
         "method": "FSharpCoreValueOrFallbackPresent",
         "parameters": "",
         "baseline": false,
-        "timingState": "observed",
-        "meanNanoseconds": 0.2536349172393481,
+        "timingState": "below-resolution",
+        "meanNanoseconds": null,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -917,7 +917,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 0.23792923986911774,
+        "meanNanoseconds": 0.3066355312863986,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -927,8 +927,8 @@
         "method": "FunnySharpValueOrFallbackPresent",
         "parameters": "",
         "baseline": false,
-        "timingState": "observed",
-        "meanNanoseconds": 0.16505595420797667,
+        "timingState": "below-resolution",
+        "meanNanoseconds": null,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -950,7 +950,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 0.3341291913141807,
+        "meanNanoseconds": 0.509404210994641,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -994,7 +994,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 6.233888169129689,
+        "meanNanoseconds": 4.546403909722964,
         "allocatedBytesPerOperation": 24
       },
       {
@@ -1005,7 +1005,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 0.9276135234783093,
+        "meanNanoseconds": 0.7952364720404148,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -1026,8 +1026,8 @@
         "method": "FSharpCoreConstructionInspectionSuccess",
         "parameters": "",
         "baseline": false,
-        "timingState": "observed",
-        "meanNanoseconds": 0.3243622090667486,
+        "timingState": "below-resolution",
+        "meanNanoseconds": null,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -1049,7 +1049,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 8.338860844572386,
+        "meanNanoseconds": 6.477045193314552,
         "allocatedBytesPerOperation": 24
       },
       {
@@ -1060,7 +1060,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 8.527154435714086,
+        "meanNanoseconds": 6.900257070859273,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -1082,7 +1082,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 10.890903865297636,
+        "meanNanoseconds": 8.770056103666624,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -1093,7 +1093,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 1.8923167052368324,
+        "meanNanoseconds": 1.866935928662618,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -1104,7 +1104,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 58.84162837266922,
+        "meanNanoseconds": 48.71671269337336,
         "allocatedBytesPerOperation": 48
       },
       {
@@ -1115,7 +1115,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 15.150967766841253,
+        "meanNanoseconds": 12.76984033981959,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -1126,7 +1126,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 1.7653419021517038,
+        "meanNanoseconds": 0.4201926750441392,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -1137,7 +1137,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 13.757281340658665,
+        "meanNanoseconds": 11.730739851792654,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -1148,7 +1148,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 13.7036122828722,
+        "meanNanoseconds": 10.031872178117434,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -1159,7 +1159,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 67.25755580266316,
+        "meanNanoseconds": 40.474334398905434,
         "allocatedBytesPerOperation": 48
       }
     ]

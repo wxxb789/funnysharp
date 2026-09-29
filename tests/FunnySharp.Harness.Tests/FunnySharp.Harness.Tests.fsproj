@@ -1,0 +1,46 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+    <!-- Take FSharp.Core from the configured feed, never the SDK's bundled library pack: the two
+         carry different package hashes, so a lock file recorded from the pack fails NU1403 on a
+         runner whose SDK does not ship that exact pack. -->
+    <DisableImplicitLibraryPacksFolder>true</DisableImplicitLibraryPacksFolder>
+    <!-- The real-runner shim facts drive a POSIX shell script, so they are compiled only there. -->
+    <DefineConstants Condition="'$(OS)' != 'Windows_NT'">$(DefineConstants);POSIX</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="xunit.v3" Version="4.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../eng/harness/FunnySharp.Harness.fsproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Support.fs" />
+    <Compile Include="CheckActionPinsTests.fs" />
+    <Compile Include="DocsSnippetsTests.fs" />
+    <Compile Include="InventoryTests.fs" />
+    <Compile Include="VerticalSliceTests.fs" />
+    <Compile Include="ToolingVerifyTests.fs" />
+    <Compile Include="PerformanceTests.fs" />
+    <Compile Include="PerformanceDocsTests.fs" />
+    <Compile Include="PerformanceProtocolTests.fs" />
+    <Compile Include="ReproducibleBuildsTests.fs" />
+    <Compile Include="RulesetTests.fs" />
+    <Compile Include="CompatibilityTests.fs" />
+    <Compile Include="ReleaseProtocolTests.fs" />
+    <Compile Include="ReleaseRunTests.fs" />
+    <Compile Include="ReleaseVerifyTests.fs" />
+    <Compile Include="LocTests.fs" />
+    <Compile Include="EvaluationTests.fs" />
+  </ItemGroup>
+
+</Project>

@@ -1,6 +1,6 @@
 # docs/ — FunnySharp documentation tree
 
-Earned: score ~22 — 19 hand-written guides/contracts plus 4 doc-workflow subtrees. Everything here is hand-written prose except `next-stage/inventory/generated/` (machine dumps).
+Earned: score ~22 — 20 hand-written guides/contracts plus 4 doc-workflow subtrees. Everything here is hand-written prose except `next-stage/inventory/generated/` (machine dumps).
 
 ## OVERVIEW
 
@@ -32,7 +32,7 @@ docs/
 | Performance policy + evidence | `performance.md` |
 | Experimental-member registry | `stability-inventory.md` |
 | Evergreen fail-closed release checklist | `release-readiness.md` |
-| Contributor tooling (uv/Python layer) | `tooling.md` |
+| Contributor tooling (F# harness) | `tooling.md`, `harness.md` |
 | Goal contracts | `goals/AGENTS.md` |
 | Capability decisions + evidence workflow | `next-stage/AGENTS.md` |
 | How shipped features were planned | `plans/AGENTS.md` |
@@ -55,12 +55,10 @@ docs/
 ## COMMANDS
 
 ```bash
-# docs snippet verification (PowerShell is release-authoritative)
-pwsh -NoProfile -File examples/FunnySharp.DocumentationSamples/VerifyDocumentationSnippets.ps1
-# behavior-equivalent Python port
-uv run --no-project eng/tools/verify_docs_snippets.py
+# docs snippet verification (10 primary guides, byte-exact)
+dotnet fsi build.fsx -- -p verify-docs-snippets
 # performance documentation verification
-pwsh -NoProfile -File eng/Generate-PerformanceDocumentation.ps1 -Verify
+dotnet fsi build.fsx -- -p generate-performance-docs -Verify
 ```
 
 ## NOTES

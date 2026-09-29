@@ -28,8 +28,8 @@ Goal 13 review.
 
 Benchmarks are a developer-machine activity, not a CI step: every release-candidate run (including
 the Windows job) uses the benchmark-skipped protocol and verifies the approved observation it ships
-instead of re-measuring on hosted runners. Run `Run-Release.ps1` without `-SkipBenchmarks` locally
-to refresh evidence.
+instead of re-measuring on hosted runners. Run the `release` pipeline without `-SkipBenchmarks`
+locally to refresh evidence.
 
 - [ ] Benchmark semantic preflight passes before measurement (`benchmark-preflight` still runs in
   every mode).
@@ -103,62 +103,62 @@ authorization, expired evidence needed for byte inspection, any required failure
 
 ## Commands
 
-Full local Windows attempt:
+Full local attempt:
 
-```powershell
-pwsh -NoProfile -File eng/Run-Release.ps1 `
-  -AttemptId local-full-1 `
-  -CompatibilityRuntimeIdentifier win-x64 `
-  -CompatibilityPackageFeed https://packagefeedproxy.microsoft.io/nuget/v3/index.json `
+```bash
+dotnet fsi build.fsx -- -p release \
+  -AttemptId local-full-1 \
+  -CompatibilityRuntimeIdentifier win-x64 \
+  -CompatibilityPackageFeed https://packagefeedproxy.microsoft.io/nuget/v3/index.json \
   -DistributionFeed https://packagefeedproxy.microsoft.io/nuget/v3/index.json
 ```
 
 Benchmark-skipped platform attempt:
 
-```powershell
-pwsh -NoProfile -File eng/Run-Release.ps1 `
-  -AttemptId local-platform-1 `
-  -CompatibilityRuntimeIdentifier <matching-rid> `
-  -CompatibilityPackageFeed https://packagefeedproxy.microsoft.io/nuget/v3/index.json `
-  -DistributionFeed https://packagefeedproxy.microsoft.io/nuget/v3/index.json `
+```bash
+dotnet fsi build.fsx -- -p release \
+  -AttemptId local-platform-1 \
+  -CompatibilityRuntimeIdentifier <matching-rid> \
+  -CompatibilityPackageFeed https://packagefeedproxy.microsoft.io/nuget/v3/index.json \
+  -DistributionFeed https://packagefeedproxy.microsoft.io/nuget/v3/index.json \
   -SkipBenchmarks
 ```
 
 Refresh performance evidence on a developer machine when benchmark inputs change:
 
-```powershell
+```bash
 # 1. Measure (allocation budgets are the contract; timing is directional)
 dotnet run --project benchmarks/FunnySharp.Benchmarks --configuration Release -- --preflight
-dotnet run --project benchmarks/FunnySharp.Benchmarks --configuration Release -- `
+dotnet run --project benchmarks/FunnySharp.Benchmarks --configuration Release -- \
   --filter "*" --artifacts <artifacts-dir>
 # 2. Verify the receipts and write the reviewable observation proposal
-pwsh -NoProfile -File eng/Verify-Performance.ps1 -RepositoryRoot . `
-  -ReceiptDirectory <artifacts-dir>/results `
+dotnet fsi build.fsx -- -p verify-performance -RepositoryRoot . \
+  -ReceiptDirectory <artifacts-dir>/results \
   -ObservationProposalPath <artifacts-dir>/performance-observation-proposal.json
 # 3. Approve the proposal into eng/performance/baseline.json, then regenerate and verify the guides
-pwsh -NoProfile -File eng/Generate-PerformanceDocumentation.ps1 -RepositoryRoot .
-pwsh -NoProfile -File eng/Generate-PerformanceDocumentation.ps1 -RepositoryRoot . -Verify
+dotnet fsi build.fsx -- -p generate-performance-docs -RepositoryRoot .
+dotnet fsi build.fsx -- -p generate-performance-docs -RepositoryRoot . -Verify
 # 4. Measure the competitor suite (allocation budgets are the contract; timing is directional)
 dotnet run --project benchmarks/FunnySharp.CompetitorBenchmarks --configuration Release -- --preflight
-dotnet run --project benchmarks/FunnySharp.CompetitorBenchmarks --configuration Release -- `
+dotnet run --project benchmarks/FunnySharp.CompetitorBenchmarks --configuration Release -- \
   --filter "*" --artifacts <competitor-artifacts-dir>
 # 5. Verify the competitor receipts and write the reviewable observation proposal
-pwsh -NoProfile -File eng/Verify-Performance.ps1 -RepositoryRoot . `
-  -ManifestPath eng/performance/competitor-baseline.json `
-  -ReceiptDirectory <competitor-artifacts-dir>/results `
+dotnet fsi build.fsx -- -p verify-performance -RepositoryRoot . \
+  -ManifestPath eng/performance/competitor-baseline.json \
+  -ReceiptDirectory <competitor-artifacts-dir>/results \
   -ObservationProposalPath <competitor-artifacts-dir>/performance-observation-proposal.json
 # 6. Approve the proposal into eng/performance/competitor-baseline.json, then regenerate and verify
 #    the competitor-comparison guide
-pwsh -NoProfile -File eng/Generate-PerformanceDocumentation.ps1 -RepositoryRoot . `
+dotnet fsi build.fsx -- -p generate-performance-docs -RepositoryRoot . \
   -ManifestPath eng/performance/competitor-baseline.json
-pwsh -NoProfile -File eng/Generate-PerformanceDocumentation.ps1 -RepositoryRoot . `
+dotnet fsi build.fsx -- -p generate-performance-docs -RepositoryRoot . \
   -ManifestPath eng/performance/competitor-baseline.json -Verify
 ```
 
-Cross-path byte equality is diagnosed with `eng/Compare-ReproducibleBuilds.ps1`. It is not a current
-release blocker; all evidence remains bound to the exact package hashes actually consumed.
+Cross-path byte equality is diagnosed with the `compare-reproducible-builds` pipeline
+(`dotnet fsi build.fsx -- -p compare-reproducible-builds -LeftRoot <a> -RightRoot <b>`). It is not a
+current release blocker; all evidence remains bound to the exact package hashes actually consumed.
 
-The PowerShell commands above remain the only release gate. `uv run --no-project
-eng/tools/verify_local.py` is an optional, PowerShell-free local pre-check: it runs a subset of
-the same steps, labels itself a pre-check, and produces no release evidence (see
-[tooling](tooling.md)).
+The F# harness pipelines above are the only release gate. The `verify-tooling` pipeline is an
+optional local pre-check: it runs a subset of the same steps, labels itself a pre-check, and
+produces no release evidence (see [harness](harness.md) and [tooling](tooling.md)).

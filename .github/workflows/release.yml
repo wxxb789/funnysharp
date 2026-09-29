@@ -37,12 +37,12 @@ jobs:
       # CI verifies the approved observation via performance-docs-verify instead
       # of re-measuring on hosted runners.
       - name: Run canonical release
-        shell: pwsh
+        shell: bash
         run: >
-          ./eng/Run-Release.ps1
+          dotnet fsi build.fsx -- -p release
           -AttemptId "${{ github.run_id }}-${{ github.run_attempt }}-win-x64"
           -CompatibilityRuntimeIdentifier win-x64
-          -CompatibilityPackageFeed "$env:COMPATIBILITY_FEED"
+          -CompatibilityPackageFeed "$COMPATIBILITY_FEED"
           -SkipBenchmarks
 
       - name: Upload canonical candidate
@@ -87,22 +87,22 @@ jobs:
           path: artifacts/canonical-win
 
       - name: Run source and platform proof
-        shell: pwsh
+        shell: bash
         run: >
-          ./eng/Run-Release.ps1
+          dotnet fsi build.fsx -- -p release
           -AttemptId "${{ github.run_id }}-${{ github.run_attempt }}-linux-x64"
           -CompatibilityRuntimeIdentifier linux-x64
-          -CompatibilityPackageFeed "$env:COMPATIBILITY_FEED"
+          -CompatibilityPackageFeed "$COMPATIBILITY_FEED"
           -SkipBenchmarks
 
       - name: Consume canonical packages
-        shell: pwsh
+        shell: bash
         run: >
-          ./tests/FunnySharp.Compatibility/Run-Compatibility.ps1
+          dotnet fsi build.fsx -- -p compatibility
           -PackageDirectory artifacts/canonical-win/packages
           -OutputDirectory artifacts/canonical-consumer/linux-x64
           -RuntimeIdentifier linux-x64
-          -PackageFeed "$env:COMPATIBILITY_FEED"
+          -PackageFeed "$COMPATIBILITY_FEED"
 
       - name: Upload Linux evidence
         if: always()
@@ -137,22 +137,22 @@ jobs:
           path: artifacts/canonical-win
 
       - name: Run source and platform proof
-        shell: pwsh
+        shell: bash
         run: >
-          ./eng/Run-Release.ps1
+          dotnet fsi build.fsx -- -p release
           -AttemptId "${{ github.run_id }}-${{ github.run_attempt }}-osx-arm64"
           -CompatibilityRuntimeIdentifier osx-arm64
-          -CompatibilityPackageFeed "$env:COMPATIBILITY_FEED"
+          -CompatibilityPackageFeed "$COMPATIBILITY_FEED"
           -SkipBenchmarks
 
       - name: Consume canonical packages
-        shell: pwsh
+        shell: bash
         run: >
-          ./tests/FunnySharp.Compatibility/Run-Compatibility.ps1
+          dotnet fsi build.fsx -- -p compatibility
           -PackageDirectory artifacts/canonical-win/packages
           -OutputDirectory artifacts/canonical-consumer/osx-arm64
           -RuntimeIdentifier osx-arm64
-          -PackageFeed "$env:COMPATIBILITY_FEED"
+          -PackageFeed "$COMPATIBILITY_FEED"
 
       - name: Upload macOS arm64 evidence
         if: always()
@@ -187,13 +187,13 @@ jobs:
           path: artifacts/canonical-win
 
       - name: Run bounded canonical-package smoke
-        shell: pwsh
+        shell: bash
         run: >
-          ./tests/FunnySharp.Compatibility/Run-Compatibility.ps1
+          dotnet fsi build.fsx -- -p compatibility
           -PackageDirectory artifacts/canonical-win/packages
           -OutputDirectory artifacts/canonical-consumer/osx-x64
           -RuntimeIdentifier osx-x64
-          -PackageFeed "$env:COMPATIBILITY_FEED"
+          -PackageFeed "$COMPATIBILITY_FEED"
           -Scenario CoreSmoke,AspNetCoreSmoke
 
       - name: Upload macOS x64 evidence

@@ -10,10 +10,10 @@ verifies it. The comparison narrative lives in
 
 ```shell
 # whole evidence set: pack, isolated consumer restore/build/test, both apps, measurements
-uv run --no-project eng/tools/vertical_slice.py --output artifacts/vertical-slice/consumer-run
+dotnet fsi build.fsx -- -p vertical-slice --output artifacts/vertical-slice/consumer-run
 
 # just the consumer bundle against an existing feed
-uv run --no-project eng/tools/vertical_slice.py --no-pack --feed artifacts/vertical-slice/feed
+dotnet fsi build.fsx -- -p vertical-slice --no-pack --feed artifacts/vertical-slice/feed
 ```
 
 The tool packs the solution, then restores, builds, and tests every consumer project against the
@@ -58,10 +58,10 @@ From `artifacts/vertical-slice/consumer-run/vertical-slice-results.json` (a full
 - `api-verify`, `baseline-verify`, and `measurements-verify` printed their exact success markers
 - The measurement harness reported all ten scenarios equivalent and wrote `measurements.json`
 
-Toolchain note: the repository pins `uv` to `0.12.16` in `uv.toml`, and this development machine has
-`0.9.30`, where `uv run --no-project` refuses to start. The tool is stdlib-only, so the local runs
-used `python3 eng/tools/vertical_slice.py ...` with the same arguments; the documented `uv run`
-form is what a provisioned machine executes.
+Toolchain note: the runs recorded above were produced with the Python implementation of this tool,
+which the migration has since replaced with `eng/harness/VerticalSlice.fs`; the F# port was verified
+against that implementation's receipts field by field (only build-timing text and the sha256 of
+independently packed nupkgs differ). The commands above now invoke the port.
 
 ## Test Inventory
 

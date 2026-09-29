@@ -15,6 +15,11 @@ and nothing in either file was modified. Both scratch projects build with 0 warn
 0 errors (§13); every code block below is byte-identical to the committed scratch code,
 and each names its file.
 
+> **Provenance:** Kept as written. References below to `loc.py`/`rawloc.py` (and other
+> `python3` commands) name the Python tooling the F# harness has since replaced; the
+> equivalents are `eng/harness/Loc.fs` behind `dotnet fsi build.fsx -- -p rawloc` /
+> `-- -p loc-extract`.
+
 ## 1. Provenance
 
 | Item | Pin used here |
@@ -59,7 +64,7 @@ a total:
    declaration with initializer"); `decimal weight;` in the WF-3 idiomatic baseline is
    such a declaration.
 
-Raw LOC is measured per method with `python3 tools/loc.py <file> <method>` (non-blank,
+Raw LOC is measured per method with `dotnet fsi build.fsx -- -p loc-extract --file <file> --method <method>` (non-blank,
 non-comment lines including the declaration line) — the Goal 15 practice. `rawloc.py` was
 **not** extended with Goal 16 entries, mirroring Goal 15 (which also did not extend it);
 its Goal 14 report still reproduces unchanged (`TOTAL raw lines counted: 505`).

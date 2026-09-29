@@ -41,13 +41,13 @@ style directive; discovery from public signatures and documentation is the measu
 
 ```shell
 # Prepare the evaluation feed (packs FunnySharp + FunnySharp.AspNetCore with embedded analyzers).
-python3 eng/evaluation/runner.py prep-feed
+dotnet fsi build.fsx -- -p eval-prep-feed
 
 # Verify one solution run (write record.json into the run directory).
-python3 eng/evaluation/runner.py verify <area> <idiomatic|funnysharp> <run-directory>
+dotnet fsi build.fsx -- -p eval-verify --task <area> --style <idiomatic|funnysharp> --run-dir <run-directory>
 
 # Aggregate every recorded run into a markdown table.
-python3 eng/evaluation/runner.py aggregate <out.md>
+dotnet fsi build.fsx -- -p eval-aggregate --output <out.md>
 ```
 
 The transient build trees live under `artifacts/evaluation/builds/` and are never committed;

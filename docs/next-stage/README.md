@@ -61,7 +61,7 @@ modifying it:
 ## Regeneration
 
 ```bash
-uv run --no-project eng/tools/inventory.py \
+dotnet fsi build.fsx -- -p generate-inventory \
   <baseline-root> \
   "$HOME/.dotnet/packs/Microsoft.NETCore.App.Ref/10.0.11/ref/net10.0" \
   "$HOME/next-stage-evidence"

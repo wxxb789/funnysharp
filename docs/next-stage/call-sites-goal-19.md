@@ -20,6 +20,11 @@ the record for W1–W11, `call-sites-goal-15.md` for its three workflows, and
 projects build with 0 warnings and 0 errors (§8); every code block below is byte-identical
 to the committed scratch code, and each names its file.
 
+> **Provenance:** Kept as written. References below to `loc.py`/`rawloc.py` (and other
+> `python3` commands) name the Python tooling the F# harness has since replaced; the
+> equivalents are `eng/harness/Loc.fs` behind `dotnet fsi build.fsx -- -p rawloc` /
+> `-- -p loc-extract`.
+
 ## 1. Provenance
 
 | Item | Pin used here |
@@ -74,7 +79,7 @@ a specific element rather than a total:
    reads the idiomatic total as 92 semantic / 71 raw — the comparison verdict does not
    change.
 
-Raw LOC is measured per method with `python3 tools/loc.py <file> <method>` (non-blank,
+Raw LOC is measured per method with `dotnet fsi build.fsx -- -p loc-extract --file <file> --method <method>` (non-blank,
 non-comment lines including the declaration line), per the Goal 15/16 practice. Semantic LOC
 is directional, hand-derived evidence, not an integer-precise metric; the S+O breakdown is
 shown in every table so disagreement localizes to one element.

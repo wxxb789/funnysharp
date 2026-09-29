@@ -9,14 +9,14 @@ Machine-generated public-API dumps of FunnySharp, the .NET 10 BCL, and the pinne
 ## WHAT THIS IS
 
 - Verbatim public-API dumps produced by the inventory toolchain:
-  `uv run --no-project eng/tools/inventory.py <baseline-root> <ref-pack-dir> <output-dir>`
+  `dotnet fsi build.fsx -- -p generate-inventory <baseline-root> <ref-pack-dir> <output-dir>`
   (pins and per-dump filters in `../../baselines.md`; method summary in `../../README.md` "Regeneration").
 - Sources: FunnySharp core + AspNetCore, .NET 10 BCL (several filtered slices), CSharpFunctionalExtensions 3.7.0, Funcky 3.6.0 (+ its analyzers), FSharp.Core 10.1.401, LanguageExt.Core 4.4.9 (+ the unreleased v5 line and its type lists).
 
 ## NAMING
 
 - `inv-<source>[-<focus>].md` — the tracked dump, readable form (e.g. `inv-funny-sharp-core.md`, `inv-bcl-async-concurrency.md`, `inv-fsharp-core-focus.md`).
-- `inv-<source>[-<focus>].json` — the same dump in machine-readable form; NOT tracked (`.gitignore` excludes `*.json`), created only by regenerating locally (`uv run --no-project eng/tools/inventory.py <baseline-root> <ref-pack-dir> <output-dir>`).
+- `inv-<source>[-<focus>].json` — the same dump in machine-readable form; NOT tracked (`.gitignore` excludes `*.json`), created only by regenerating locally (`dotnet fsi build.fsx -- -p generate-inventory <baseline-root> <ref-pack-dir> <output-dir>`).
 - BCL comes as filtered slices (async-concurrency, collections-immutable, language-errors, sequences-linq, sse, supplements), not one dump.
 - `types-languageext-4.4.9.txt` — raw type list; `README.md` — dump manifest.
 
