@@ -54,9 +54,13 @@ analysis, and compile-verified call sites are in [`next-stage/`](next-stage/).
 - **Removal** requires an accepted decision row and a migration note in the same goal. Nothing
   from 0.1.0 is removed by the next-stage decisions; removal is reserved for shapes superseded
   by the recorded redesigns.
-- `EnablePackageValidation` plus a committed API baseline configures the boundary; the next
-  release also carries release notes and versioning rules. A release candidate that changes the
-  baseline without an accepted goal is invalid.
+- `EnablePackageValidation` plus the committed public-API baseline in `eng/api-baseline/`
+  configures the boundary: `dotnet fsi build.fsx -- -p verify-api-baseline` compares the built
+  shipping surface against the committed files and the release audit fails a candidate whose
+  surface drifts, so changing the baseline requires an accepted goal and a deliberately
+  regenerated baseline. The versioning rules and compatibility commitments are stated in
+  [versioning](versioning.md); the release history and supported-runtime statement are in
+  [release notes](release-notes.md).
 
 ## Product Direction
 

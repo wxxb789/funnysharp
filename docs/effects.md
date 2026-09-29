@@ -27,7 +27,11 @@ var value = await greeting.RunAsync(cancellationToken);
 The factory methods retain ordinary .NET carriers rather than translating them into a separate
 effect language:
 
-- `FromValue` creates a completed effect.
+- `FromValue` creates a completed effect. A runtime-`null` argument is a value, not an error: the
+  effect returns that `null` unchanged on every run, exactly as `Result.Success` and
+  `Validation.Valid` preserve a null payload. Annotate the type argument as nullable
+  (`Effect.FromValue<string?>(null)`) when null is a legitimate value; no factory rejects or
+  normalizes it, and only the nullable annotation makes the case visible in the signature.
 - `FromSync` adapts synchronous work.
 - `FromTask` adapts Task-returning work.
 - `FromValueTask` adapts ValueTask-returning work.

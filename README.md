@@ -8,6 +8,24 @@ The authoritative design and dependency boundaries are recorded in the
 The current fail-closed release gate and its explicit evidence checklist are recorded in
 [release readiness](https://github.com/wxxb789/funnysharp/blob/main/docs/release-readiness.md).
 
+## Quick Start
+
+```shell
+dotnet add package FunnySharp              # carriers, grammar, pipelines, analyzers
+dotnet add package FunnySharp.AspNetCore   # Minimal API result mapping
+```
+
+Both packages target `net10.0`. The
+[quick start](https://github.com/wxxb789/funnysharp/blob/main/docs/quick-start.md) shows the
+canonical usage of each surface in order - Option, Result, UnitResult, Validation, the shared
+grammar, collections and traversal, pipelines and streaming, async concurrency, effects and
+resources, state machines and immutable updates, analyzer feedback, and ASP.NET Core mapping -
+and links the guide that owns each one.
+
+[Versioning](https://github.com/wxxb789/funnysharp/blob/main/docs/versioning.md) states the
+versioning rules and the committed public-API baseline; [release notes](https://github.com/wxxb789/funnysharp/blob/main/docs/release-notes.md)
+carry the 0.1.0 preview surface and the supported-runtime statement.
+
 ## Performance
 
 Every performance-relevant stable operation has documented complexity, enumeration, allocation,
