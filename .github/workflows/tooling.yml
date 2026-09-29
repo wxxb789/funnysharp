@@ -1,11 +1,10 @@
 name: tooling
 
-# Informational matrix that proves the Python + uv tooling layer and the frozen
-# PowerShell protocol tests on every supported operating system. The release
-# workflow contexts (`release / win-x64`, `release / linux-x64`,
-# `release / osx-arm64`, `release / osx-x64-consumer`) remain the only release
-# gate; promoting `tooling / tooling-gate` to a required check is a separate
-# decision (KTD8).
+# Informational matrix that proves the F# harness tooling layer on every supported
+# operating system. The release workflow contexts (`release / win-x64`,
+# `release / linux-x64`, `release / osx-arm64`, `release / osx-x64-consumer`)
+# remain the only release gate; promoting `tooling / tooling-gate` to a required
+# check is a separate decision (KTD8).
 #
 # No `paths` filter on purpose: a future required check must always report a
 # result instead of staying pending on changes outside the filter.
@@ -47,12 +46,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
 
-      - name: Set up uv
-        uses: astral-sh/setup-uv@bec219d24cd3e171d82865faccec33120bb574f4 # v10.1.0
-        with:
-          # No `version:` input: the action reads uv.toml's `required-version`,
-          # so the pin has exactly one source of truth (KTD3).
-          enable-cache: false
+      # The uv toolchain step is gone: uv.toml and .python-version are deleted
+      # with it, and the harness is invoked directly with dotnet. The pin
+      # checker's setup-uv rule (tooling.yml must not repeat a `version:` input,
+      # and uv.toml must carry the exact required-version pin) stays in place
+      # even though no setup-uv step remains, so the rule re-activates if the
+      # step ever returns.
 
       - name: Set up .NET
         uses: actions/setup-dotnet@67a3573c9a986a3f9c594539f4ab511d57bb3ce9 # v4
@@ -62,33 +61,24 @@ jobs:
       - name: Prepare the tooling log directory
         run: mkdir -p "$RUNNER_TEMP/tooling-logs"
 
-      - name: Install the pinned Python interpreter
+      - name: Run the .NET test suites
         run: |
-          uv python install 2>&1 | tee "$RUNNER_TEMP/tooling-logs/uv-python-install.log"
+          dotnet test FunnySharp.slnx 2>&1 \
+            | tee "$RUNNER_TEMP/tooling-logs/dotnet-tests.log"
 
-      - name: Run the Python tooling suites
+      - name: Run the tooling pre-check
         run: |
-          uv run --no-project python -m unittest discover -s eng/tools/tests 2>&1 \
-            | tee "$RUNNER_TEMP/tooling-logs/python-tooling-suites.log"
+          dotnet fsi build.fsx -- -p verify-tooling 2>&1 \
+            | tee "$RUNNER_TEMP/tooling-logs/verify-tooling.log"
 
-      - name: Run the local pre-check
+      - name: Verify the documentation snippets
         run: |
-          uv run --no-project eng/tools/verify_local.py 2>&1 \
-            | tee "$RUNNER_TEMP/tooling-logs/verify-local.log"
-
-      - name: Run the release protocol tests
-        run: |
-          pwsh -NoProfile -File eng/tests/ReleaseProtocol.Tests.ps1 2>&1 \
-            | tee "$RUNNER_TEMP/tooling-logs/release-protocol-tests.log"
-
-      - name: Run the performance protocol tests
-        run: |
-          pwsh -NoProfile -File eng/tests/PerformanceProtocol.Tests.ps1 2>&1 \
-            | tee "$RUNNER_TEMP/tooling-logs/performance-protocol-tests.log"
+          dotnet fsi build.fsx -- -p verify-docs-snippets 2>&1 \
+            | tee "$RUNNER_TEMP/tooling-logs/verify-docs-snippets.log"
 
       - name: Check the workflow action pins
         run: |
-          uv run --no-project eng/tools/check_action_pins.py --verbose 2>&1 \
+          dotnet fsi build.fsx -- -p check-action-pins 2>&1 \
             | tee "$RUNNER_TEMP/tooling-logs/action-pins.log"
 
       - name: Upload tooling logs
