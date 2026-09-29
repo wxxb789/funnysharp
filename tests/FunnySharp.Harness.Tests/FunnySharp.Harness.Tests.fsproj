@@ -7,6 +7,10 @@
     <IsTestProject>true</IsTestProject>
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+    <!-- Take FSharp.Core from the configured feed, never the SDK's bundled library pack: the two
+         carry different package hashes, so a lock file recorded from the pack fails NU1403 on a
+         runner whose SDK does not ship that exact pack. -->
+    <DisableImplicitLibraryPacksFolder>true</DisableImplicitLibraryPacksFolder>
   </PropertyGroup>
 
   <ItemGroup>
