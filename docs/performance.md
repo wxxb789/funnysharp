@@ -211,12 +211,17 @@ Each topic guide carries the generated measurement table for its benchmark famil
 ## Reproduction
 
 The committed observation in `eng/performance/baseline.json` (main suite) and
-`eng/performance/competitor-baseline.json` (competitor suite) records the environment,
-candidate commit, and per-row results. To reproduce a measurement run:
+`eng/performance/competitor-baseline.json` (competitor suite) records the environment and the per-row
+results, and the candidate commit the measurements came from when the recording run supplies it. The
+release path exports `FUNNYSHARP_CANDIDATE_COMMIT` before the benchmark run
+(`eng/harness/ReleaseRun.fs`); a local recording that leaves it unset writes `"candidateCommit": null`
+and the observation then names no commit. To reproduce a measurement run:
 
 ```bash
-# Main suite (receipts land in the results directory; verify against the manifest)
-dotnet run --project benchmarks/FunnySharp.Benchmarks/FunnySharp.Benchmarks.csproj -c Release -- --filter '*' --artifacts <results-path>
+# Main suite (receipts land in the results directory; verify against the manifest).
+# Export FUNNYSHARP_CANDIDATE_COMMIT so the receipts, and the observation applied from them,
+# name the commit the measurements came from - the release path exports it the same way.
+FUNNYSHARP_CANDIDATE_COMMIT=$(git rev-parse HEAD) dotnet run --project benchmarks/FunnySharp.Benchmarks/FunnySharp.Benchmarks.csproj -c Release -- --filter '*' --artifacts <results-path>
 dotnet fsi build.fsx -- -p verify-performance -ReceiptDirectory <results-path>
 
 # Competitor suite (isolated project, pinned competitor packages)

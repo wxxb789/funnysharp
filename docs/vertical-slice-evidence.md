@@ -105,9 +105,14 @@ maintainer accepts or amends it:
 - This evidence is local developer-machine evidence produced by `eng/harness/VerticalSlice.fs`; it is
   not a `release.yml` job and it does not modify `eng/release-protocol.json`. The release gate keeps
   running the compatibility suite exactly as before.
-- The measurement numbers do not change `eng/performance/baseline.json`: the `excluded|aspnet-mapping`
-  row's rationale still holds for *release claims*, and the harness output is scoped to application
-  end-to-end behavior on one machine.
+- The measurement numbers do not change `eng/performance/baseline.json`, and this harness output stays
+  scoped to application end-to-end behavior on one machine. The manifest no longer records an
+  `excluded|aspnet-mapping` row: the exclusion's precondition - a representative application pipeline
+  and an accepted comparison contract - shipped with this slice, so the carrier-to-`IResult` mapping is
+  now measured in isolation by `AspNetCoreBenchmarks`, with blocking allocation budgets under
+  performance policy revision `2026-09-29-v12`. That resolves standing constraint C6
+  ([`next-stage/analysis/standing-constraints.md`](next-stage/analysis/standing-constraints.md)), whose
+  memo keeps its original wording as pinned evidence.
 - The consumer bundle is not part of `FunnySharp.slnx`, because its projects can only restore after
   the packages exist; this mirrors the compatibility suite's placement outside the solution.
 - The consumer suite is deterministic by construction: no test sleeps or polls, every wait is gated by
