@@ -168,13 +168,13 @@ let private usageFail (message: string) : Result<unit, HarnessError> =
     Error(Errors.withExitCode 2 message)
 
 /// PowerShell's [System.Security.SecurityElement]::Escape.
+/// The five XML text escapes, delegating to the same framework call the PowerShell original used
+/// (SecurityElement.Escape escapes &, <, >, " and ' in one pass, so an already-escaped entity is
+/// escaped again exactly as before).
 let private escapeXml (value: string) : string =
-    value
-        .Replace("&", "&amp;")
-        .Replace("<", "&lt;")
-        .Replace(">", "&gt;")
-        .Replace("\"", "&quot;")
-        .Replace("'", "&apos;")
+    match System.Security.SecurityElement.Escape value with
+    | null -> value
+    | escaped -> escaped
 
 /// Resolve a directory path to its canonical, symlink-free form, mirroring
 /// PowerShell's Resolve-Path for the artifacts directory.
@@ -442,7 +442,6 @@ type private Context =
       ArtifactsDirectory: string
       OutputRoot: string
       NuGetConfigPath: string
-      NuGetPackagesDirectory: string
       RuntimeIdentifier: string
       PackageFeed: string
       CoreVersion: string
@@ -764,7 +763,6 @@ let private prepare
               ArtifactsDirectory = artifactsDirectory
               OutputRoot = outputRoot
               NuGetConfigPath = nugetConfigPath
-              NuGetPackagesDirectory = nugetPackagesDirectory
               RuntimeIdentifier = runtimeIdentifier
               PackageFeed = packageFeed
               CoreVersion = coreVersion

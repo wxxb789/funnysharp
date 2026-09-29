@@ -274,42 +274,6 @@ let releaseSteps (protocol: Protocol) (mode: string) (tokens: Map<string, string
                               Arguments = arguments }))))
 
 // ---------------------------------------------------------------------------
-// Ported F# entry points for the PowerShell steps
-// ---------------------------------------------------------------------------
-
-/// A protocol step whose `pwsh` command the F# port replaces. `EntryPoint` names the
-/// ported implementation; `FileName`/`Arguments` are the child-process command the
-/// release runner executes instead. Every one keeps the protocol's `{root}` working
-/// directory.
-type PortedEntryPoint =
-    { Step: string
-      EntryPoint: string
-      FileName: string
-      Arguments: string list }
-
-let private harnessProject = "tests/FunnySharp.Harness.Tests/FunnySharp.Harness.Tests.fsproj"
-
-/// The protocol file itself now carries the ported F# commands for the six steps that used
-/// to invoke pwsh (eng/release-protocol.json), so nothing is left to substitute at runtime.
-/// The list stays as the single place a future replacement would be declared, and
-/// applyPortedEntryPoints keeps working unchanged for every other step.
-let portedEntryPoints: PortedEntryPoint list = []
-
-/// Replace the six PowerShell commands in a materialised step list with their ported
-/// F# entry points; every other step is returned unchanged.
-let applyPortedEntryPoints (steps: ReleaseStep list) : ReleaseStep list =
-    let replacements =
-        portedEntryPoints
-        |> List.map (fun entry -> entry.Step, (entry.FileName, entry.Arguments))
-        |> Map.ofList
-
-    steps
-    |> List.map (fun step ->
-        match Map.tryFind step.Name replacements with
-        | Some(fileName, arguments) -> { step with FileName = fileName; Arguments = arguments }
-        | None -> step)
-
-// ---------------------------------------------------------------------------
 // Attempt directory resolution
 // ---------------------------------------------------------------------------
 

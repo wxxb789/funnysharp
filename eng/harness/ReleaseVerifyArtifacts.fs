@@ -806,13 +806,12 @@ let defaultDocumentationRunner (scriptPath: string) (root: string) : ProcessResu
 
     captureMain (fun stdout stderr -> DocsSnippets.mainWith stdout stderr [ "--repository-root"; root ])
 
-/// Default compatibility runner. Compatibility script mode needs the ported
-/// FunnySharp.Harness.Compatibility verifier, which is not registered in the
-/// harness project yet; until integration wires it in, script mode fails closed
-/// with remediation. Supplied-evidence mode never calls this runner.
+/// Default compatibility runner. Supplied-evidence mode is what the release protocol uses and
+/// never calls this runner; script mode is not wired to FunnySharp.Harness.Compatibility yet, so
+/// it fails closed with remediation rather than pretending to verify.
 let defaultCompatibilityRunner (_invocation: CompatibilityInvocation) : ProcessResult =
     failNow (
-        "The ported compatibility verifier is not wired into this build; "
+        "Compatibility script mode is not wired into this build; "
         + "supply CompatibilityEvidencePath instead of CompatibilityScript."
     )
 

@@ -28,22 +28,6 @@ let private createStartInfo
         info.ArgumentList.Add arg
     info
 
-/// Run a child process inheriting this process' stdin/stdout/stderr and return its
-/// exit code. The child's output streams straight to the parent console.
-let runIn (workingDirectory: string option) (exe: string) (args: string list) : Async<int> =
-    async {
-        use proc = new Process()
-        proc.StartInfo <- createStartInfo exe args workingDirectory false
-        if not (proc.Start()) then
-            return raise (InvalidOperationException(sprintf "failed to start process '%s'" exe))
-        do! proc.WaitForExitAsync() |> Async.AwaitTask
-        return proc.ExitCode
-    }
-
-/// Inherit-stdio run in the current directory.
-let run (exe: string) (args: string list) : Async<int> =
-    runIn None exe args
-
 /// Run a child process with stdout and stderr captured, returning them with the
 /// exit code whatever that code is.
 let runCaptureIn (workingDirectory: string option) (exe: string) (args: string list) : Async<ProcessResult> =
@@ -67,51 +51,7 @@ let runCaptureIn (workingDirectory: string option) (exe: string) (args: string l
 let runCapture (exe: string) (args: string list) : Async<ProcessResult> =
     runCaptureIn None exe args
 
-/// Run and fail the railway when the exit code is not zero.
-let runCheckedIn
-    (workingDirectory: string option)
-    (exe: string)
-    (args: string list)
-    : Async<Result<unit, HarnessError>> =
-    async {
-        let! exitCode = runIn workingDirectory exe args
-        if exitCode = 0 then
-            return Ok()
-        else
-            return Error(Errors.withExitCode exitCode (sprintf "process '%s' exited with code %d" exe exitCode))
-    }
-
-let runChecked (exe: string) (args: string list) : Async<Result<unit, HarnessError>> =
-    runCheckedIn None exe args
-
-/// Capture and fail the railway when the exit code is not zero; the stderr tail
-/// becomes the error message.
-let runCaptureCheckedIn
-    (workingDirectory: string option)
-    (exe: string)
-    (args: string list)
-    : Async<Result<ProcessResult, HarnessError>> =
-    async {
-        let! result = runCaptureIn workingDirectory exe args
-        if result.ExitCode = 0 then
-            return Ok result
-        else
-            let stderr = result.Stderr.Trim()
-            let message =
-                if stderr = "" then
-                    sprintf "process '%s' exited with code %d" exe result.ExitCode
-                else
-                    sprintf "process '%s' exited with code %d: %s" exe result.ExitCode stderr
-            return Error(Errors.withExitCode result.ExitCode message)
-    }
-
-let runCaptureChecked (exe: string) (args: string list) : Async<Result<ProcessResult, HarnessError>> =
-    runCaptureCheckedIn None exe args
-
 // ---- Synchronous conveniences for fsi call sites ----
-
-let runSync (exe: string) (args: string list) : int =
-    run exe args |> Async.RunSynchronously
 
 let runCaptureSync (exe: string) (args: string list) : ProcessResult =
     runCapture exe args |> Async.RunSynchronously

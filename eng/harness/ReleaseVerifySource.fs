@@ -470,15 +470,7 @@ let getExpectedReleaseCommands
               WorkingDirectory = expand definition.WorkingDirectory
               Arguments = definition.Arguments |> List.map expand }
 
-        // The six PowerShell steps have ported F# replacements, so a receipt for one of them
-        // legitimately carries the replacement command rather than the protocol's pwsh line.
-        // The table lives in ReleaseProtocol.fs so the runner and the verifier cannot drift.
-        match ReleaseProtocol.portedEntryPoints |> List.tryFind (fun entry -> entry.Step = name) with
-        | Some entry ->
-            { fromProtocol with
-                FileName = expand entry.FileName
-                Arguments = entry.Arguments |> List.map expand }
-        | None -> fromProtocol)
+        fromProtocol)
 
 /// Assert-CanonicalReleaseCommand (case-sensitive, ordered arguments).
 let assertCanonicalReleaseCommand (command: JsonElement) (expected: ExpectedCommand) (description: string) : unit =

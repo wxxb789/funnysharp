@@ -3,25 +3,21 @@ module FunnySharp.Harness.ToolingVerify
 // A behaviour-identical F# port of eng/tools/verify_local.py: the PowerShell-free
 // contributor pre-check over the local subset of eng/release-protocol.json steps.
 // It runs restore, Release build, tests, both examples, the formatter check and the
-// documentation-snippet verifier in protocol order, reproducing the frozen
-// eng/Verify-Release.ps1 verdicts for those steps, and reports everything else as
+// documentation-snippet verifier in protocol order, reproducing the release
+// verifier's verdicts for those steps, and reports everything else as
 // not run. First and last human lines, step lines, the failed-step output-tail
 // header, the environment-failure shape, the report JSON key set and the 0/1/2 exit
 // codes are contract text and must stay byte-exact.
 //
-// Coupling (Goal 03): MARKER_CONTRACT below asserts thirteen literal fragments are
-// still present in eng/Verify-Release.ps1 before any step runs. Goal 03 replaces
-// that PowerShell verifier with an F# verifier; the SAME change must re-point
-// MARKER_CONTRACT (and its tests in ToolingVerifyTests.fs) at the new verifier, or
-// the pre-check fails closed.
+// Marker contract: MARKER_CONTRACT below asserts thirteen literal fragments are still present
+// in the F# verifier sources (eng/harness/ReleaseVerifySource.fs, ReleaseVerifyArtifacts.fs,
+// ReleaseVerify.fs, DocsSnippets.fs) before any step runs, so the local verdict rules and the
+// verifier that produces those verdicts cannot drift apart.
 //
-// Documentation step (lane A): the docs step's verifier is lane A's
-// FunnySharp.Harness.DocsSnippets, which is deliberately NOT referenced here so this
-// module compiles and is testable before that file exists. The single point of
-// substitution is `docsVerifier`; integration sets it to a function that runs lane
-// A's verifier in process and captures its stdout/stderr/exit code. Until it is
-// wired, `main` reports the docs step as an unavailable prerequisite (exit 2)
-// unless --skip-docs is passed.
+// Documentation step: the docs step's verifier is FunnySharp.Harness.DocsSnippets. The single
+// point of substitution is `docsVerifier`; build.fsx sets it to a function that runs that module
+// in process and captures its stdout/stderr/exit code. Until it is wired, `main` reports the
+// docs step as an unavailable prerequisite (exit 2) unless --skip-docs is passed.
 //
 // Deviations from verify_local.py, recorded rather than silent:
 //  * The F# tool no longer runs under uv/Python, so the uv and pinned-interpreter

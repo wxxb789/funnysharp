@@ -726,9 +726,7 @@ let private helpText =
           "  -h, --help           show this help." ]
 
 let private splitParameter (argument: string) : string * string option =
-    let separatorIndex =
-        argument.IndexOfAny([| ':'; '=' |], 1)
-        |> fun index -> index
+    let separatorIndex = argument.IndexOfAny([| ':'; '=' |], 1)
 
     if separatorIndex > 1 then
         argument.Substring(0, separatorIndex), Some(argument.Substring(separatorIndex + 1))

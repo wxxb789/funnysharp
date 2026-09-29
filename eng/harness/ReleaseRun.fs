@@ -17,16 +17,13 @@ module FunnySharp.Harness.ReleaseRun
 // version preflight) exit 1 with their own message; the version preflight also
 // writes version-preflight.json with status 'blocked-version-state'.
 //
-// Cross-lane coupling, recorded rather than hidden:
-//  * Lane A owns eng/harness/ReleaseProtocol.fs - the step model and the
-//    attempt-directory helpers. That file does not exist yet, so `defaultProtocolApi`
-//    is the single substitution point and implements the helpers inline. The
-//    integrated pipeline replaces that one value with lane A's functions.
-//  * Lane C owns eng/harness/ReleaseVerify.fs. Its launch is the single
-//    substitution point `verifierRunner`: integration points it at the ported F#
-//    verifier run as a plain child process (the PowerShell original re-invoked
-//    pwsh through its own executable path, which cannot resolve on this host).
-//    Until it is wired, the verifier step fails closed with exit code 2.
+// Integration points, recorded rather than hidden:
+//  * eng/harness/ReleaseProtocol.fs owns the step model; this module reads the step table
+//    through ReleaseProtocol.readProtocol and releaseSteps.
+//  * eng/harness/ReleaseVerify.fs is the closing audit; build.fsx wires it into this module
+//    through `verifierRunner`, which runs it in process rather than through a child pwsh
+//    (the PowerShell original re-invoked pwsh through its own executable path, which cannot
+//    resolve on this host).
 // No pwsh, python3, uv or node is invoked from this module.
 
 open System
@@ -247,8 +244,7 @@ type ReleaseStep =
       WorkingDirectory: string
       Arguments: string list }
 
-/// The lane A substitution point. Integration replaces `defaultProtocolApi` with
-/// eng/harness/ReleaseProtocol.fs once that module lands.
+/// The protocol the runner executes: the step table comes from ReleaseProtocol.fs.
 type ReleaseProtocolApi =
     { AssertAttemptId: string -> unit
       AssertNewAttemptPath: string -> string -> string -> string -> string
@@ -360,92 +356,9 @@ let private validatedProjectOutputDirectories
 
     List.ofSeq outputs
 
-let private expandProtocolValue (tokens: Map<string, string>) (value: string) : string =
-    let mutable expanded = value
-
-    for entry in tokens do
-        expanded <- expanded.Replace("{" + entry.Key + "}", entry.Value)
-
-    if Regex.IsMatch(expanded, "\{[A-Za-z][A-Za-z0-9]*\}") then
-        raise (InvalidOperationException(sprintf "Release protocol value contains an unknown token: '%s'." expanded))
-
-    expanded
-
-let private readValidatedProtocol (protocolPath: string) : JsonElement =
-    if not (File.Exists protocolPath) then
-        raise (FileNotFoundException(sprintf "Release protocol was not found: '%s'." protocolPath, protocolPath))
-
-    use document = JsonDocument.Parse(File.ReadAllText protocolPath)
-    let root = document.RootElement.Clone()
-    let schemaVersion = intValue (tryProp "schemaVersion" root) |> Option.defaultValue 0
-
-    if schemaVersion <> 1 then
-        raise (InvalidOperationException "Release protocol must use schemaVersion 1.")
-
-    let stepNamesFor (modeName: string) : string list =
-        root
-        |> tryProp "modes"
-        |> Option.bind (tryProp modeName)
-        |> Option.bind (tryProp "steps")
-        |> stringList
-
-    let stepsElement =
-        match tryProp "steps" root with
-        | Some element -> element
-        | None -> raise (InvalidOperationException "Release protocol has no steps.")
-
-    for modeName in [ "full"; "benchmarkSkipped" ] do
-        let names = stepNamesFor modeName
-
-        if names.IsEmpty || (List.distinct names).Length <> names.Length then
-            raise (InvalidOperationException(sprintf "Release protocol mode '%s' has no steps or contains duplicates." modeName))
-
-        for name in names do
-            if (tryProp name stepsElement).IsNone then
-                raise (
-                    InvalidOperationException(
-                        sprintf "Release protocol mode '%s' refers to undefined step '%s'." modeName name
-                    )
-                )
-
-    root
-
-let private loadSteps
-    (protocolPath: string)
-    (mode: string)
-    (tokens: (string * string) list)
-    : ReleaseStep list =
-    let root = readValidatedProtocol protocolPath
-    let tokenMap = Map.ofList tokens
-
-    let stepsElement =
-        match tryProp "steps" root with
-        | Some element -> element
-        | None -> raise (InvalidOperationException "Release protocol has no steps.")
-
-    let names =
-        root
-        |> tryProp "modes"
-        |> Option.bind (tryProp mode)
-        |> Option.bind (tryProp "steps")
-        |> stringList
-
-    names
-    |> List.map (fun name ->
-        match tryProp name stepsElement with
-        | None ->
-            raise (InvalidOperationException(sprintf "Release protocol mode '%s' refers to undefined step '%s'." mode name))
-        | Some definition ->
-            { Name = name
-              FileName = expandProtocolValue tokenMap (stringOf "fileName" definition)
-              WorkingDirectory = expandProtocolValue tokenMap (stringOf "workingDirectory" definition)
-              Arguments =
-                definition |> tryProp "arguments" |> stringList |> List.map (expandProtocolValue tokenMap) })
-
 let private stepPrefix (ordinal: int) (name: string) : string = sprintf "%02d-%s" ordinal name
 
-/// Integration (lead): the step table comes from eng/harness/ReleaseProtocol.fs, which owns the
-/// protocol model and the ported F# entry points the PowerShell steps are replaced with. The four
+/// The step table comes from eng/harness/ReleaseProtocol.fs, which owns the protocol model. The
 /// path and prefix helpers stay local: they were verified against the same PowerShell source, and
 /// swapping them would re-open ReleaseRunTests' message-level assertions for no behaviour change.
 let private loadStepsFromProtocol
@@ -467,7 +380,6 @@ let private loadStepsFromProtocol
                 | Error error -> raise (InvalidOperationException error.Message)
 
             steps
-            |> ReleaseProtocol.applyPortedEntryPoints
             |> List.map (fun step ->
                 { Name = step.Name
                   FileName = expand step.FileName
