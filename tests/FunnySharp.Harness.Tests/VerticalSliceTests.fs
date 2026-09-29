@@ -88,6 +88,16 @@ let private readReceipt (path: string) : Receipt =
 /// run the runner reports as failed.
 let private defaultTestOutput = "Test run summary: Passed!\n  total: 37\n  failed: 0\n  succeeded: 37\n  skipped: 0\n"
 
+/// The identity and the localized runner output a real failing consumer run prints: the
+/// per-test failure line, then the summary.
+let private failingTestName =
+    "FunnySharp.VerticalSlice.Tests.StreamingExportTests.ARowReachesTheClientBeforeTheNextOneExists"
+
+let private failingRunOutput =
+    "\u5931\u8D25 "
+    + failingTestName
+    + " (1 s)\n\u6D4B\u8BD5\u8FD0\u884C\u6458\u8981: \u5931\u8D25!\n  \u603B\u8BA1: 49\n  \u5931\u8D25: 1\n  \u6210\u529F: 48\n  \u5DF2\u8DF3\u8FC7: 0\n"
+
 type private FakeRunner() =
     let calls = ResizeArray<string list>()
 
@@ -337,25 +347,26 @@ type VerticalSliceToolTests() =
     [<Fact>]
     member _.ParseFailingTestsNamesTheTestsTheRunnerReported() =
         let english =
-            "failed FunnySharp.VerticalSlice.Tests.StreamingExportTests.ARowReachesTheClientBeforeTheNextOneExists (1 s)\nTest run summary: Failed!\n  total: 49\n  failed: 1\n  succeeded: 48\n  skipped: 0\n"
+            "failed " + failingTestName + " (1 s)\nTest run summary: Failed!\n  total: 49\n  failed: 1\n  succeeded: 48\n  skipped: 0\n"
 
-        let chinese =
-            "\u5931\u8D25 FunnySharp.VerticalSlice.Tests.FlakeProbeTests.DiagnosticProbeFails (21ms)\n\u6D4B\u8BD5\u8FD0\u884C\u6458\u8981: \u5931\u8D25!\n  \u603B\u8BA1: 50\n  \u5931\u8D25: 1\n  \u6210\u529F: 49\n  \u5DF2\u8DF3\u8FC7: 0\n"
+        // A parameterized display name carries its own parentheses ahead of the duration.
+        let parameterized =
+            "failed FunnySharp.VerticalSlice.Tests.SomeTests.MyCase (net10.0) (21ms)\nTest run summary: Failed!\n  total: 3\n  failed: 1\n  succeeded: 2\n  skipped: 0\n"
+
+        Assert.Equal<string list>([ failingTestName ], parseFailingTests english)
+        Assert.Equal<string list>([ failingTestName ], parseFailingTests failingRunOutput)
 
         Assert.Equal<string list>(
-            [ "FunnySharp.VerticalSlice.Tests.StreamingExportTests.ARowReachesTheClientBeforeTheNextOneExists" ],
-            parseFailingTests english
+            [ "FunnySharp.VerticalSlice.Tests.SomeTests.MyCase (net10.0)" ],
+            parseFailingTests parameterized
         )
 
-        Assert.Equal<string list>(
-            [ "FunnySharp.VerticalSlice.Tests.FlakeProbeTests.DiagnosticProbeFails" ],
-            parseFailingTests chinese
+        Assert.Empty(parseFailingTests defaultTestOutput)
+
+        Assert.Empty(
+            parseFailingTests
+                "Completed test run with non-success exit code: 2 (see: https://aka.ms/testingplatform/exitcodes)\n"
         )
-
-        let greenRun =
-            defaultTestOutput
-
-        Assert.Empty(parseFailingTests greenRun)
 
     [<Fact>]
     member this.MeasurementMismatchIsAFailureWithoutAMarkerProblem() =
@@ -369,22 +380,12 @@ type VerticalSliceToolTests() =
 
     [<Fact>]
     member this.AFailingConsumerTestIsNamedInTheReceipt() =
-        runner.TestOutput <-
-            "\u5931\u8D25 FunnySharp.VerticalSlice.Tests.StreamingExportTests.ARowReachesTheClientBeforeTheNextOneExists (1 s)\n\u6D4B\u8BD5\u8FD0\u884C\u6458\u8981: \u5931\u8D25!\n  \u603B\u8BA1: 49\n  \u5931\u8D25: 1\n  \u6210\u529F: 48\n  \u5DF2\u8DF3\u8FC7: 0\n"
+        runner.TestOutput <- failingRunOutput
 
-        try
-            Assert.Equal(1, this.RunTool [])
-            let receipt = this.Receipt()
-            Assert.Equal("fail", receipt.Status)
+        Assert.Equal(1, this.RunTool [])
+        let receipt = this.Receipt()
+        Assert.Equal("fail", receipt.Status)
+        Assert.Equal<string list>([ failingTestName ], receipt.TestFailures)
 
-            Assert.Equal<string list>(
-                [ "FunnySharp.VerticalSlice.Tests.StreamingExportTests.ARowReachesTheClientBeforeTheNextOneExists" ],
-                receipt.TestFailures
-            )
-
-            Assert.Contains(
-                "consumer-tests reported 1 failures: FunnySharp.VerticalSlice.Tests.StreamingExportTests.ARowReachesTheClientBeforeTheNextOneExists",
-                receipt.Failures
-            )
-        finally
-            runner.TestOutput <- defaultTestOutput
+        let named = "consumer-tests reported 1 failed test: " + failingTestName
+        Assert.Contains(named, receipt.Failures)

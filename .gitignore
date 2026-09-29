@@ -16,3 +16,6 @@ __pycache__/
 
 # Stray npm byproduct; this repo has no package.json (the harness is .NET + F#)
 package-lock.json
+
+# Microsoft.Testing.Platform diagnostic logs, written on request only
+TestResults/
