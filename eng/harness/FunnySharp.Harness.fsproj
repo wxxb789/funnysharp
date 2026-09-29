@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <IsPackable>false</IsPackable>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="Output.fs" />
+    <Compile Include="Proc.fs" />
+    <Compile Include="Repo.fs" />
+    <Compile Include="ActionPins.fs" />
+    <Compile Include="DocsSnippets.fs" />
+    <Compile Include="Inventory.fs" />
+    <Compile Include="VerticalSlice.fs" />
+    <Compile Include="ToolingVerify.fs" />
+    <Compile Include="Performance.fs" />
+    <Compile Include="PerformanceDocs.fs" />
+    <Compile Include="ReproducibleBuilds.fs" />
+    <Compile Include="Ruleset.fs" />
+    <Compile Include="Compatibility.fs" />
+    <Compile Include="ReleaseProtocol.fs" />
+    <Compile Include="ReleaseRun.fs" />
+    <Compile Include="ReleaseVerifySource.fs" />
+    <Compile Include="ReleaseVerifyArtifacts.fs" />
+    <Compile Include="ReleaseVerify.fs" />
+    <Compile Include="Loc.fs" />
+    <Compile Include="Evaluation.fs" />
+  </ItemGroup>
+
+</Project>

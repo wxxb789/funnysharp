@@ -54,9 +54,9 @@
     "files": [
       "benchmarks/FunnySharp.Benchmarks/AllocationReceiptExporter.cs",
       "benchmarks/FunnySharp.Benchmarks/ReceiptExporterCore.cs",
-      "eng/Generate-PerformanceDocumentation.ps1",
-      "eng/Verify-Performance.ps1",
-      "eng/tests/PerformanceProtocol.Tests.ps1"
+      "eng/harness/PerformanceDocs.fs",
+      "eng/harness/Performance.fs",
+      "tests/FunnySharp.Harness.Tests/PerformanceProtocolTests.fs"
     ]
   },
   "policy": {

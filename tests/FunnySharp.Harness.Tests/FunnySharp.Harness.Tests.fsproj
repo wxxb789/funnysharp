@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="xunit.v3" Version="4.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../eng/harness/FunnySharp.Harness.fsproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Support.fs" />
+    <Compile Include="CheckActionPinsTests.fs" />
+    <Compile Include="DocsSnippetsTests.fs" />
+    <Compile Include="InventoryTests.fs" />
+    <Compile Include="VerticalSliceTests.fs" />
+    <Compile Include="ToolingVerifyTests.fs" />
+    <Compile Include="PerformanceTests.fs" />
+    <Compile Include="PerformanceDocsTests.fs" />
+    <Compile Include="PerformanceProtocolTests.fs" />
+    <Compile Include="ReproducibleBuildsTests.fs" />
+    <Compile Include="RulesetTests.fs" />
+    <Compile Include="CompatibilityTests.fs" />
+    <Compile Include="ReleaseProtocolTests.fs" />
+    <Compile Include="ReleaseRunTests.fs" />
+    <Compile Include="ReleaseVerifyTests.fs" />
+    <Compile Include="LocTests.fs" />
+    <Compile Include="EvaluationTests.fs" />
+  </ItemGroup>
+
+</Project>

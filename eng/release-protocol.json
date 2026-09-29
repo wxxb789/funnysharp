@@ -139,21 +139,31 @@
       ]
     },
     "performance-protocol-tests": {
-      "fileName": "pwsh",
+      "fileName": "dotnet",
       "workingDirectory": "{root}",
       "arguments": [
-        "-NoProfile",
-        "-File",
-        "{root}/eng/tests/PerformanceProtocol.Tests.ps1"
+        "test",
+        "tests/FunnySharp.Harness.Tests/FunnySharp.Harness.Tests.fsproj",
+        "--configuration",
+        "Release",
+        "--no-build",
+        "--no-restore",
+        "--filter",
+        "FullyQualifiedName~PerformanceProtocolTests"
       ]
     },
     "release-protocol-tests": {
-      "fileName": "pwsh",
+      "fileName": "dotnet",
       "workingDirectory": "{root}",
       "arguments": [
-        "-NoProfile",
-        "-File",
-        "{root}/eng/tests/ReleaseProtocol.Tests.ps1"
+        "test",
+        "tests/FunnySharp.Harness.Tests/FunnySharp.Harness.Tests.fsproj",
+        "--configuration",
+        "Release",
+        "--no-build",
+        "--no-restore",
+        "--filter",
+        "FullyQualifiedName~ReleaseProtocolTests"
       ]
     },
     "benchmark-preflight": {
@@ -190,12 +200,14 @@
       ]
     },
     "performance-verify": {
-      "fileName": "pwsh",
+      "fileName": "dotnet",
       "workingDirectory": "{root}",
       "arguments": [
-        "-NoProfile",
-        "-File",
-        "{root}/eng/Verify-Performance.ps1",
+        "fsi",
+        "build.fsx",
+        "--",
+        "-p",
+        "verify-performance",
         "-RepositoryRoot",
         "{root}",
         "-ReceiptDirectory",
@@ -205,24 +217,28 @@
       ]
     },
     "performance-docs-verify": {
-      "fileName": "pwsh",
+      "fileName": "dotnet",
       "workingDirectory": "{root}",
       "arguments": [
-        "-NoProfile",
-        "-File",
-        "{root}/eng/Generate-PerformanceDocumentation.ps1",
+        "fsi",
+        "build.fsx",
+        "--",
+        "-p",
+        "generate-performance-docs",
         "-RepositoryRoot",
         "{root}",
         "-Verify"
       ]
     },
     "competitor-performance-docs-verify": {
-      "fileName": "pwsh",
+      "fileName": "dotnet",
       "workingDirectory": "{root}",
       "arguments": [
-        "-NoProfile",
-        "-File",
-        "{root}/eng/Generate-PerformanceDocumentation.ps1",
+        "fsi",
+        "build.fsx",
+        "--",
+        "-p",
+        "generate-performance-docs",
         "-RepositoryRoot",
         "{root}",
         "-ManifestPath",
@@ -231,12 +247,14 @@
       ]
     },
     "compatibility": {
-      "fileName": "pwsh",
+      "fileName": "dotnet",
       "workingDirectory": "{root}",
       "arguments": [
-        "-NoProfile",
-        "-File",
-        "{root}/tests/FunnySharp.Compatibility/Run-Compatibility.ps1",
+        "fsi",
+        "build.fsx",
+        "--",
+        "-p",
+        "compatibility",
         "-RepositoryRoot",
         "{root}",
         "-PackageDirectory",

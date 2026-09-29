@@ -2,11 +2,9 @@
 *.csproj text eol=lf
 *.json text eol=lf
 *.props text eol=lf
-*.ps1 text eol=lf
-*.psm1 text eol=lf
+*.fs text eol=lf
+*.fsproj text eol=lf
+*.fsx text eol=lf
 /docs/*.md text eol=lf
-*.py text eol=lf
-*.toml text eol=lf
-.python-version text eol=lf
 /docs/next-stage/inventory/generated/*.md text eol=lf
 /docs/next-stage/inventory/generated/types-languageext-4.4.9.txt text eol=lf
