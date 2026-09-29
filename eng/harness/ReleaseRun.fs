@@ -601,7 +601,7 @@ let verifierArguments (request: VerifierRequest) : string list =
     @ (if request.SkipBenchmarks then [ "-SkipBenchmarks" ] else [])
 
 /// The verifier launch. Integration points this at lane C's ported F# verifier;
-/// tests inject a stub. A `None` verifier fails the step closed.
+/// tests inject a stub. A `None` verifier fails the run closed before it starts.
 let mutable verifierRunner: (string list -> string -> ProcessResult) option = None
 
 type Collaborators =
@@ -614,16 +614,7 @@ type Collaborators =
 let defaultCollaborators () : Collaborators =
     { Runner = runChildProcess
       HttpGet = httpGet
-      Verifier =
-        Some(
-            fun arguments workingDirectory ->
-                match verifierRunner with
-                | Some run -> run arguments workingDirectory
-                | None ->
-                    { ExitCode = 2
-                      Stdout = ""
-                      Stderr = "the release verifier is not wired into this build." }
-        )
+      Verifier = verifierRunner
       Protocol = defaultProtocolApi
       UtcNow = fun () -> DateTime.UtcNow }
 
@@ -1342,7 +1333,13 @@ let mainWith
     | Ok options ->
         match options.AttemptId with
         | Some attemptId when not (String.IsNullOrWhiteSpace attemptId) ->
-            runRelease stdout stderr startDirectory collaborators options attemptId
+            match collaborators.Verifier with
+            | None ->
+                stderr.WriteLine
+                    "Run-Release.ps1: error: the release verifier is not wired into this build."
+
+                2
+            | Some _ -> runRelease stdout stderr startDirectory collaborators options attemptId
         | _ ->
             stderr.WriteLine usageLine
             stderr.WriteLine "Run-Release.ps1: error: the -AttemptId parameter is required."
