@@ -175,6 +175,41 @@ let private resolveDirectoryPath (path: string) : string =
     with _ ->
         Path.GetFullPath path
 
+/// Resolve a symlink in every component, so two spellings of one directory compare equal.
+/// The runtime's ResolveLinkTarget only follows the final component, and macOS reaches its temp
+/// roots through /var -> /private/var while git reports the resolved spelling.
+let private canonicalDirectoryPath (path: string) : string =
+    let full = Path.GetFullPath path
+
+    match Path.GetPathRoot full with
+    | null -> full
+    | root ->
+        let parts =
+            full.Substring(root.Length)
+                .Split(
+                    [| Path.DirectorySeparatorChar; Path.AltDirectorySeparatorChar |],
+                    StringSplitOptions.RemoveEmptyEntries
+                )
+            |> List.ofArray
+
+        let rec walk (current: string) (remaining: string list) =
+            match remaining with
+            | [] -> current
+            | part :: rest ->
+                let next = Path.Combine(current, part)
+
+                let resolved =
+                    try
+                        match Directory.ResolveLinkTarget(next, true) with
+                        | null -> next
+                        | target -> target.FullName
+                    with _ ->
+                        next
+
+                walk resolved rest
+
+        walk root parts
+
 /// A proper, non-reparse subdirectory of the artifacts directory; fails closed.
 let private assertSafeArtifactsSubdirectory (artifactsDirectory: string) (path: string) : string =
     if not (Directory.Exists artifactsDirectory) then
@@ -771,8 +806,9 @@ let private getPackageVersionState
                 )
             )
 
-    if List.contains version versions then
-        raise (InvalidOperationException(sprintf "Package '%s' already contains version '%s'." packageId version))
+    match ReleaseProtocol.assertPackageVersionAbsent packageId version (Some versions) with
+    | Ok () -> ()
+    | Error error -> raise (InvalidOperationException error.Message)
 
     { CheckedAtUtc = DateTimeOffset(utcNow()).ToString("O", CultureInfo.InvariantCulture)
       Feed = feed
@@ -904,7 +940,12 @@ let private runRelease
 
         let gitTopLevel = getGitText runner [ "rev-parse"; "--show-toplevel" ] repositoryRoot
 
-        if not (Path.GetFullPath(gitTopLevel).Equals(repositoryRoot, pathComparison ())) then
+        if
+            not (
+                canonicalDirectoryPath(gitTopLevel)
+                    .Equals(canonicalDirectoryPath(repositoryRoot), pathComparison ())
+            )
+        then
             raise (
                 InvalidOperationException(
                     sprintf "RepositoryRoot '%s' is not the active Git checkout '%s'." repositoryRoot gitTopLevel

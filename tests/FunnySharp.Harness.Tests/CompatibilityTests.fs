@@ -395,7 +395,14 @@ type CompatibilityRunnerTests() =
         let nativeAotAsset =
             Path.Combine(cache, "microsoft.netcore.app.runtime.nativeaot.win-x64", "10.0.11", "runtimes", "win-x64", "native", "System.Globalization.Native.Aot.lib")
 
-        Assert.True(nativeAotAsset.Length < 260, sprintf "NativeAOT asset path is %d characters" nativeAotAsset.Length)
+        // The helper owns the added length; the root it is measured from belongs to the caller.
+        let added = nativeAotAsset.Length - artifacts.Length
+        Assert.True(added < 160, sprintf "NativeAOT asset path adds %d characters over the artifacts root" added)
+
+        // The 260-character ceiling is a Windows constraint, and macOS reaches its temp root through a
+        // much longer path than either Linux or Windows, so it is asserted only where it applies.
+        if OperatingSystem.IsWindows() then
+            Assert.True(nativeAotAsset.Length < 260, sprintf "NativeAOT asset path is %d characters" nativeAotAsset.Length)
 
     [<Fact>]
     member this.RestoreAndPublishUseIsolatedCacheAndRedirectedPaths() =

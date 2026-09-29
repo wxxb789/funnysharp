@@ -56,6 +56,26 @@ let private processArgs = System.Environment.GetCommandLineArgs()
 let switches (names: string list) =
     names |> List.filter (fun name -> processArgs |> Array.contains name)
 
+// Positional arguments have no Fun.Build accessor, so they are read from the process arguments:
+// everything after the pipeline target that is neither a named flag nor that flag's value.
+// Inventory.main accepts the same positional form its own help documents.
+let positionals (target: string) =
+    let args = processArgs |> Array.toList
+
+    let afterTarget =
+        match args |> List.tryFindIndex (fun arg -> arg = target) with
+        | Some index -> args |> List.skip (index + 1)
+        | None -> []
+
+    let rec collect (acc: string list) (remaining: string list) =
+        match remaining with
+        | [] -> List.rev acc
+        | flag :: value :: rest when flag.StartsWith "--" && not (value.StartsWith "-") -> collect acc rest
+        | flag :: rest when flag.StartsWith "-" -> collect acc rest
+        | value :: rest -> collect (value :: acc) rest
+
+    collect [] afterTarget
+
 pipeline "build" {
     description "Build the solution with dotnet build."
     stage "build" { run "dotnet build FunnySharp.slnx" }
@@ -124,7 +144,8 @@ pipeline "generate-inventory" {
             gate (
                 Inventory.main (
                     Array.ofList (
-                        flags ctx [ "--baseline-root"; "--ref-pack-dir"; "--output-dir" ]
+                        positionals "generate-inventory"
+                        @ flags ctx [ "--baseline-root"; "--ref-pack-dir"; "--output-dir" ]
                         @ switches [ "--check-inputs" ]
                     )
                 )
