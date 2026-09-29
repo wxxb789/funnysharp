@@ -214,7 +214,8 @@ type PinCheckFixtureTests() =
     member _.ReleaseWorkflowActionsOwnerIsDelegated() =
         let releaseText = workflowText [ step [ "name: Checkout"; "uses: actions/checkout@v4" ] ]
         let _, findings = checkFixture [ "release.yml", releaseText ] false
-        // actions/* in release.yml stays with the frozen PowerShell protocol test.
+        // actions/* in release.yml stays with ReleaseProtocolTests.fs
+        // (ReleaseWorkflow_HasRequiredContextsAndShaPinnedActions).
         Assert.Empty findings
 
     [<Fact>]
@@ -288,7 +289,8 @@ type ToolingWorkflowStructureTests() =
 
     [<Fact>]
     member this.WorkflowIsNotNamedRelease() =
-        Assert.StartsWith("name: tooling\n", this.ToolingText())
+        let nameLine = (this.ToolingText().Split('\n')).[0].Trim()
+        Assert.Equal("name: tooling", nameLine)
 
     [<Fact>]
     member this.MatrixGateJobIsStable() =

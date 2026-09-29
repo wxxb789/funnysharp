@@ -1,7 +1,7 @@
 module FunnySharp.Harness.Tests.PerformanceDocsTests
 
 // Behaviour tests for the F# port of eng/Generate-PerformanceDocumentation.ps1.
-// They mirror the frozen PowerShell suite's documentation cases and add the
+// They mirror the retired PowerShell suite's documentation cases and add the
 // byte-determinism and no-write contracts the port must keep.
 
 open System

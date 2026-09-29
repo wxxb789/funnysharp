@@ -164,19 +164,20 @@ package to ASP.NET Core.
 
 ## Verify
 
-```powershell
-dotnet fsi build.fsx -- -p release `
-  -AttemptId local-full-1 `
-  -CompatibilityRuntimeIdentifier win-x64 `
-  -CompatibilityPackageFeed https://packagefeedproxy.microsoft.io/nuget/v3/index.json `
+```bash
+dotnet fsi build.fsx -- -p release \
+  -AttemptId local-full-1 \
+  -CompatibilityRuntimeIdentifier win-x64 \
+  -CompatibilityPackageFeed https://packagefeedproxy.microsoft.io/nuget/v3/index.json \
   -DistributionFeed https://packagefeedproxy.microsoft.io/nuget/v3/index.json
 ```
 
 The runner rejects a dirty candidate, re-used attempt identity, published or ambiguous package
 version, unsafe generated-output path, or non-isolated restore. It performs locked no-cache restore,
 Release build, xUnit tests, both examples, pack, formatting verification, semantic benchmark
-preflight, the complete BenchmarkDotNet suite, allocation-policy verification, generated-table
-verification, and package-consuming trim/Native AOT smokes. Compatibility results apply only to
+preflight, the protocol suites, the generated-table verification, the compatibility run, and - in
+full mode - the complete BenchmarkDotNet suite and allocation-policy verification. Compatibility
+results apply only to
 their recorded SDK, runtime patch, OS, RID, and canonical package hashes; see the
 [product contract](https://github.com/wxxb789/funnysharp/blob/main/docs/product-contract.md) for the
 current support and Native AOT limits.

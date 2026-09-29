@@ -3,8 +3,9 @@ module FunnySharp.Harness.ActionPins
 // A behaviour-identical F# port of eng/tools/check_action_pins.py. Text-level
 // checks over .github/workflows/*.yml and *.yaml: every remote `uses:` must be
 // pinned as owner/repo@<40-hex-sha> with a `# <version>` comment, local actions
-// are exempt, release.yml's `actions/*` pins stay with the frozen PowerShell
-// protocol test, and tooling.yml takes the uv version from uv.toml.
+// are exempt, release.yml's `actions/*` pins stay with ReleaseProtocolTests.fs
+// (ReleaseWorkflow_HasRequiredContextsAndShaPinnedActions), and tooling.yml takes
+// the uv version from uv.toml.
 
 open System
 open System.IO
@@ -15,8 +16,9 @@ open FunnySharp.Harness.Repo
 
 let private workflowSuffixes = [ ".yml"; ".yaml" ]
 
-// release.yml's `actions/*` pins stay with the frozen PowerShell protocol test;
-// checking them here would create a divergent second owner for the same pins.
+// release.yml's `actions/*` pins stay with ReleaseProtocolTests.fs
+// (ReleaseWorkflow_HasRequiredContextsAndShaPinnedActions); checking them here
+// would create a divergent second owner for the same pins.
 let private releaseWorkflowNames = Set.ofList [ "release.yml"; "release.yaml" ]
 let private frozenActionOwner = "actions"
 let private toolingWorkflowName = "tooling.yml"
