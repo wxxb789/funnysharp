@@ -175,7 +175,8 @@ below, reverts any rejected change, and re-runs the verification gates on the de
 
 - All recommendations were accepted (2026-09-19), so no change was reverted. The verification
   gates were run on the final tree: locked restore, Release build, xUnit tests, both examples,
-  formatter check, and documentation-snippet parity via `eng/tools/verify_local.py`; benchmark
+  formatter check, and documentation-snippet parity via `dotnet fsi build.fsx -- -p verify-tooling`
+  (`eng/harness/ToolingVerify.fs`); benchmark
   semantic preflight; the complete BenchmarkDotNet suite (138 benchmarks) on Linux x64;
   allocation-policy verification with an approved observation applied to
   `eng/performance/baseline.json` (policy revision `2026-09-19-v5`); regenerated performance

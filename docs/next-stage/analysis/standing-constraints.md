@@ -4,6 +4,12 @@ Audited revision: `4dbebd94b7b58648632112b7ca47c39cc517f153` (main, 0.1.0), matc
 Goal 14 pinned FunnySharp baseline. This memo is evidence and classification only. It does not
 recommend new features and does not authorize any change to `docs/product-contract.md`.
 
+> **Provenance:** This memo is kept as written. Its citations to `eng/*.ps1`,
+> `eng/tools/*.py`, `uv.toml`, and `.python-version` name the PowerShell/Python
+> implementation that the F# harness has since replaced; the equivalents are
+> `eng/harness/<Module>.fs` behind `dotnet fsi build.fsx -- -p <pipeline>`. They are
+> historical references, not commands to run.
+
 Classification vocabulary used per item:
 
 - **(a) restate** — still binding; the next-stage constitution must restate it.
@@ -530,6 +536,6 @@ Each entry names both sides.
 - **Whether the .NET 10.0.11 `ValueTuple` AOT limitation persists on later runtime patches**
   **UNVERIFIED: no other toolchain was available for testing.**
 - **Whether the docs performance tables currently match `baseline.json`**
-  **UNVERIFIED: requires running `eng/Generate-PerformanceDocumentation.ps1 -Verify`.**
+  **UNVERIFIED: requires running `dotnet fsi build.fsx -- -p generate-performance-docs -Verify`.**
 - **Whether shipping analyzers can satisfy Goal 21's "no runtime dependency" condition**
   **UNVERIFIED: Goal 21 is forward-looking; no analyzer package exists at this commit.**

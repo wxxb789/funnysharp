@@ -11,7 +11,8 @@ Twenty production runs - five task areas (business outcomes, collections, async 
 concurrency, ASP.NET Core) x two styles (idiomatic C# with the .NET BCL only, versus FunnySharp
 with its published documentation) x two independent runs each - each produced by a separate
 independent agent run that received exactly one prompt file and nothing else. Every run verified
-through the same harness (`eng/evaluation/runner.py`): fixed style-neutral contract,
+through the same harness (`eng/harness/Evaluation.fs`, `dotnet fsi build.fsx -- -p eval-verify`): fixed
+style-neutral contract,
 fixed xUnit suite, correction feedback capped at three verify rounds, then blinded readability
 reviews of each area's two first-run solutions by two independent reviewers each.
 
@@ -51,8 +52,8 @@ All 20 runs ended GREEN: both styles compiled and passed their complete fixed su
 | aspnetcore | funnysharp | run-2 | 2 | 9/9 | 151 | none |
 
 Raw records: `eng/evaluation/results/<area>/<style>/run-<n>/record.json` plus the
-solution that produced them; `eng/evaluation/runner.py aggregate` regenerates the
-table.
+solution that produced them; `dotnet fsi build.fsx -- -p eval-aggregate`
+(`eng/harness/Evaluation.fs`) regenerates the table.
 
 ### Compilation and semantic correctness
 

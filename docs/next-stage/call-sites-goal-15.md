@@ -12,6 +12,11 @@ remains the pinned comparison for the W1-W11 scenarios listed there. Only W3 and
 re-compared against compiled idiomatic baselines; the `SubmitOrderAsync` idiomatic baseline
 is inline and illustrative, not compiled (stated again in `§5` and `§7`).
 
+> **Provenance:** Kept as written. References below to `loc.py`/`rawloc.py` (and other
+> `python3` commands) name the Python tooling the F# harness has since replaced; the
+> equivalents are `eng/harness/Loc.fs` behind `dotnet fsi build.fsx -- -p rawloc` /
+> `-- -p loc-extract`.
+
 ## 1. Provenance
 
 | Item | Pin used here |

@@ -2,7 +2,8 @@
 
 **Why this file:** a distinct domain (a whole application, not a test suite) with its own build
 path: it consumes packed nupkgs, lives outside `FunnySharp.slnx`, and is verified by
-`eng/tools/vertical_slice.py` rather than by the solution build.
+`dotnet fsi build.fsx -- -p vertical-slice` (`eng/harness/VerticalSlice.fs`) rather than by the
+solution build.
 
 ## OVERVIEW
 
@@ -32,7 +33,7 @@ FunnySharp.VerticalSlice/
 | Endpoint mapping and typed results | `FunnySharp.VerticalSlice.Api/Endpoints/` |
 | Comparison call sites | `docs/vertical-slice-call-sites.md` |
 | Evidence record | `docs/vertical-slice-evidence.md` |
-| Orchestrator | `eng/tools/vertical_slice.py` |
+| Orchestrator | `eng/harness/VerticalSlice.fs` (`dotnet fsi build.fsx -- -p vertical-slice`) |
 
 ## CONVENTIONS
 

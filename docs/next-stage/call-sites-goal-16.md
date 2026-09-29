@@ -15,6 +15,11 @@ and nothing in either file was modified. Both scratch projects build with 0 warn
 0 errors (§13); every code block below is byte-identical to the committed scratch code,
 and each names its file.
 
+> **Provenance:** Kept as written. References below to `loc.py`/`rawloc.py` (and other
+> `python3` commands) name the Python tooling the F# harness has since replaced; the
+> equivalents are `eng/harness/Loc.fs` behind `dotnet fsi build.fsx -- -p rawloc` /
+> `-- -p loc-extract`.
+
 ## 1. Provenance
 
 | Item | Pin used here |

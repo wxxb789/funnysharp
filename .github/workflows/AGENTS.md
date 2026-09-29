@@ -23,8 +23,8 @@ The Python/uv tooling layer and the PowerShell protocol scripts are gone.
   contents: read`; `concurrency: <name>-${{ github.ref }}` with `cancel-in-progress: true`;
   `env.DOTNET_NOLOGO: true`.
 - Every remote `uses:` is pinned to a full 40-hex commit SHA with a `# vN` comment
-  (enforced by the harness pipeline `check-action-pins`, ported from
-  `eng/tools/check_action_pins.py`).
+  (enforced by `dotnet fsi build.fsx -- -p check-action-pins`, implemented in
+  `eng/harness/ActionPins.fs`).
 - Read-back: `build.fsx` accepts the legacy PowerShell parameter spellings verbatim
   (`-AttemptId`, `-CompatibilityRuntimeIdentifier`, `-PackageDirectory`, ...) plus the
   valueless switches (`-SkipBenchmarks`, `-Verify`, `--json`, ...). Release steps set
