@@ -812,9 +812,10 @@ type ReportingTests() =
             Assert.False(entry.Env |> Map.containsKey "UV_OFFLINE")
 
 // ---------------------------------------------------------------------------
-// Real runner with a fake dotnet executable on PATH (POSIX only)
+// Real runner with a fake dotnet executable on PATH (POSIX only, compiled there)
 // ---------------------------------------------------------------------------
 
+#if POSIX
 type FakeDotnetExecutableTests() =
     inherit VerifyLocalTestBase()
 
@@ -880,3 +881,4 @@ type FakeDotnetExecutableTests() =
         let report = document.RootElement
         Assert.Equal("format", report.GetProperty("failedStep").GetString() |> text)
         Assert.Contains("exit code 1", report.GetProperty("message").GetString() |> text)
+#endif

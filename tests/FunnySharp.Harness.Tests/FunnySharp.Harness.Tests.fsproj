@@ -11,6 +11,8 @@
          carry different package hashes, so a lock file recorded from the pack fails NU1403 on a
          runner whose SDK does not ship that exact pack. -->
     <DisableImplicitLibraryPacksFolder>true</DisableImplicitLibraryPacksFolder>
+    <!-- The real-runner shim facts drive a POSIX shell script, so they are compiled only there. -->
+    <DefineConstants Condition="'$(OS)' != 'Windows_NT'">$(DefineConstants);POSIX</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
