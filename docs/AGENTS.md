@@ -1,6 +1,6 @@
 # docs/ — FunnySharp documentation tree
 
-Earned: score ~22 — 20 hand-written guides/contracts plus 4 doc-workflow subtrees. Everything here is hand-written prose except `next-stage/inventory/generated/` (machine dumps).
+Earned: score ~22 — 25 hand-written guides/contracts plus 4 doc-workflow subtrees. Everything here is hand-written prose except `next-stage/inventory/generated/` (machine dumps).
 
 ## OVERVIEW
 
@@ -31,6 +31,8 @@ docs/
 | Goal 22 slice comparison and evidence | `vertical-slice-call-sites.md`, `vertical-slice-evidence.md` |
 | Performance policy + evidence | `performance.md` |
 | Experimental-member registry | `stability-inventory.md` |
+| Versioning rules and the committed API baseline | `versioning.md` |
+| Release history and supported runtimes | `release-notes.md` |
 | Evergreen fail-closed release checklist | `release-readiness.md` |
 | Contributor tooling (F# harness) | `tooling.md`, `harness.md` |
 | Goal contracts | `goals/AGENTS.md` |
@@ -41,7 +43,7 @@ docs/
 
 - Guides are prose with compiling examples; the intro links the example source (`examples/FunnySharp.Examples/Program.cs` or `examples/FunnySharp.AspNetCore.Examples`).
 - Body shape: `## API Shape` first, semantic sections, closing `## Deliberate Boundaries` / `## Deliberate Exclusions` stating what the API intentionally does NOT do.
-- Snippet contract — the 10 primary guides (`analyzers`, `aspnet-core`, `collections`, `concurrency`, `effects`, `function-composition`, `immutable-updates`, `state-machines`, `unit-result`, `validation`): each `<!-- documentation-sample: DocumentationSamples.<Area>.<Name> -->` fenced `csharp` block must byte-match the `// <snippet ...>` region in `examples/FunnySharp.DocumentationSamples`. Change both sides together; the verifier fails on any line mismatch, missing, duplicate, or unused region.
+- Snippet contract — the 11 primary guides (`analyzers`, `aspnet-core`, `collections`, `concurrency`, `effects`, `function-composition`, `immutable-updates`, `quick-start`, `state-machines`, `unit-result`, `validation`): each `<!-- documentation-sample: DocumentationSamples.<Area>.<Name> -->` fenced `csharp` block must byte-match the `// <snippet ...>` region in `examples/FunnySharp.DocumentationSamples`. Change both sides together; the verifier fails on any line mismatch, missing, duplicate, or unused region.
 - Non-snippet guides (e.g. `option.md`, `result.md`, `grammar.md`) link compiling examples without the byte-match contract.
 - `performance.md` consolidates policy; per-topic measurement tables are generated from benchmark receipts and verified against `eng/performance/baseline.json` budgets. Allocation is blocking evidence; timing is directional.
 - `stability-inventory.md` records every `[Experimental("FS####")]` member and its diagnostic ID; stable members change only through a later accepted goal.
@@ -55,8 +57,10 @@ docs/
 ## COMMANDS
 
 ```bash
-# docs snippet verification (10 primary guides, byte-exact)
+# docs snippet verification (11 primary guides, byte-exact)
 dotnet fsi build.fsx -- -p verify-docs-snippets
+# committed public-API baseline comparison
+dotnet fsi build.fsx -- -p verify-api-baseline
 # performance documentation verification
 dotnet fsi build.fsx -- -p generate-performance-docs -Verify
 ```

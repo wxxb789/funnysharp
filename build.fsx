@@ -19,6 +19,7 @@ open Fun.Build
 #load "eng/harness/ReleaseRun.fs"
 #load "eng/harness/ReleaseVerifySource.fs"
 #load "eng/harness/ReleaseVerifyArtifacts.fs"
+#load "eng/harness/ApiBaseline.fs"
 #load "eng/harness/ReleaseVerify.fs"
 #load "eng/harness/Loc.fs"
 #load "eng/harness/Evaluation.fs"
@@ -107,6 +108,19 @@ pipeline "verify-docs-snippets" {
     stage "verify-docs-snippets" {
         run (fun ctx ->
             gate (DocsSnippets.main (Array.ofList (flags ctx [ "--repository-root"; "--samples-root" ]))))
+    }
+    runIfOnlySpecified
+}
+
+pipeline "verify-api-baseline" {
+    description "Verify the shipping assemblies' public API surface against the committed baseline."
+    stage "verify-api-baseline" {
+        run (fun ctx ->
+            gate (
+                FunnySharp.Harness.ApiBaseline.main (
+                    Array.ofList (flags ctx [ "--repository-root" ] @ switches [ "--write" ])
+                )
+            ))
     }
     runIfOnlySpecified
 }
@@ -400,6 +414,7 @@ pipeline "default" {
             printfn "  format"
             printfn "  check-action-pins"
             printfn "  verify-docs-snippets"
+            printfn "  verify-api-baseline"
             printfn "  verify-tooling"
             printfn "  generate-inventory"
             printfn "  vertical-slice"

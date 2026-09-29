@@ -350,9 +350,16 @@ let mainWith
                                 UTF8Encoding(false)
                             )
 
+                            let baselineMessages =
+                                FunnySharp.Harness.ApiBaseline.outdatedBaselineMessages repositoryRoot assemblyPaths
+
+                            if not baselineMessages.IsEmpty then
+                                failNow (String.concat " " baselineMessages)
+
                             let summary = JsonObject()
                             summary.["assemblies"] <- jint value.Count
                             summary.["output"] <- jstr "public-api.json"
+                            summary.["baseline"] <- jstr "match"
                             summary :> JsonNode
                     )
 
