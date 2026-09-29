@@ -81,10 +81,10 @@ traversal cost is always O(n) selector invocations plus one list per accumulated
 | State machines | `OrElse` | O(1) | — | Zero | None | — |
 | State machines | `Replay` | O(events) | History enumerated once | One output list | One final outputs array | — |
 | Optics | `Lens`, `Optional` `Get`/`Set` | O(1) + caller delegate | — | Zero beyond the caller's delegates | None | — |
-| HTTP | `FunnySharp.AspNetCore` mapping | O(1) mapping | — | Measured only through a representative application pipeline | None | Runs on the ASP.NET Core request pipeline |
+| HTTP | `FunnySharp.AspNetCore` mapping | O(1) mapping | — | Measured per outcome shape (0-168 B per call; see [`aspnet-core.md`](aspnet-core.md)) | None | Runs on the ASP.NET Core request pipeline |
 
 The zero and nonzero statements above are enforced where measured by the committed observation
-rows and their budgets; families marked as excluded (HTTP mapping, unmeasured variants such as
+rows and their budgets; families marked as excluded (unmeasured variants such as
 `Pipe`/`Tap`/`Curry`, optics construction, and real resource I/O) carry no numeric claim
 until a benchmark exists.
 
@@ -205,6 +205,8 @@ Each topic guide carries the generated measurement table for its benchmark famil
   first-success coordination.
 - [`immutable-updates.md`](immutable-updates.md) — lens and optional updates.
 - [`state-machines.md`](state-machines.md) — state transitions, composition, and replay.
+- [`aspnet-core.md`](aspnet-core.md) — carrier-to-`IResult` mapping for successful, failed,
+  absent, and no-value outcomes.
 
 ## Reproduction
 

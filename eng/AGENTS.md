@@ -30,7 +30,7 @@ coding-evaluation harness. Nothing here ships; everything here gates.
 
 ## performance/ (no own file — data, not code)
 
-- `baseline.json` — main suite policy + committed observation: 194 rows (182 included),
+- `baseline.json` — main suite policy + committed observation: 201 rows (190 included),
   allocation budgets are the blocking gate, timing is directional only.
 - `competitor-baseline.json` — competitor suite: 40 rows (Option/Result carrier) pairing
   raw/direct baselines with `funcky` / FSharp.Core paths per `comparisonGroup`.

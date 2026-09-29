@@ -13,7 +13,7 @@ results are custom JSON receipts bound to the tracked manifests in `eng/performa
 
 | Need | Location |
 | --- | --- |
-| Main suite (FunnySharp ops) | `FunnySharp.Benchmarks/` — 10 suites, one class per API slice: Option, Result, Collection, Sequence, Effect, Concurrency, DataPipeline, ImmutableUpdate, FunctionComposition, StateMachine |
+| Main suite (FunnySharp ops) | `FunnySharp.Benchmarks/` — 11 suites, one class per API slice: Option, Result, Collection, Sequence, Effect, Concurrency, DataPipeline, ImmutableUpdate, FunctionComposition, StateMachine, AspNetCore (HTTP mapping) |
 | Shared receipt writer | `FunnySharp.Benchmarks/ReceiptExporterCore.cs` |
 | Receipt binding | `FunnySharp.Benchmarks/AllocationReceiptExporter.cs` (registered into `ManualConfig`) |
 | Competitor comparison | `FunnySharp.CompetitorBenchmarks/` — `OptionCarrierBenchmarks`, `ResultCarrierBenchmarks`; each `comparisonGroup` pairs a raw/direct baseline row with funcky / FSharp.Core competitor paths |
