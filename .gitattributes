@@ -8,4 +8,5 @@
 *.md text eol=lf
 *.yml text eol=lf
 *.yaml text eol=lf
+/docs/goals/archive/** text eol=crlf
 /docs/next-stage/inventory/generated/types-languageext-4.4.9.txt text eol=lf
