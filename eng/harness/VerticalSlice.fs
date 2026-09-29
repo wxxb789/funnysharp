@@ -448,7 +448,7 @@ let mainWith (stdout: TextWriter) (stderr: TextWriter) (argv: string list) : int
 
                 let receipt = JsonObject()
                 receipt.["schemaVersion"] <- jint 1
-                receipt.["objective"] <- jstr "docs/goals/0022-goal.md"
+                receipt.["objective"] <- jstr "docs/goals/archive/0022-goal.md"
                 receipt.["configuration"] <- jstr "Release"
                 receipt.["output"] <- jstr outputDirectory
                 receipt.["feed"] <- jstr feedDirectory

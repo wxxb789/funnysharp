@@ -72,7 +72,7 @@ public static class Program
         var receipt = new
         {
             schemaVersion = 1,
-            objective = "docs/goals/0022-goal.md",
+            objective = "docs/goals/archive/0022-goal.md",
             measuredAtUtc = DateTimeOffset.UtcNow.ToString("O"),
             runtime = Environment.Version.ToString(),
             framework = System.Runtime.InteropServices.RuntimeInformation.FrameworkDescription,

@@ -249,7 +249,7 @@ items 21-24 below; item 25 restates the no-speculative-API rule stated in the sa
     concession, or migration promise.** No competitor compatibility is required or permitted as
     acceptance evidence; a general union framework and competitor compatibility APIs are out of scope.
     Source: `docs/goals/archive/0014-goal.md:2`; `/tmp/opencode/next-stage-brief.md:80-85` (goal brief);
-    `docs/goals/archive/0015-goal.md:2`; `docs/goals/0022-goal.md:2`; `docs/goals/0023-goal.md:2`.
+    `docs/goals/archive/0015-goal.md:2`; `docs/goals/archive/0022-goal.md:2`; `docs/goals/0023-goal.md:2`.
     Classification: **(a) restate**; the benchmark-comparison tension is C5.
 
 25. **No speculative feature API.** The foundation exposes no speculative feature API; public APIs
@@ -384,7 +384,7 @@ items 21-24 below; item 25 restates the no-speculative-API rule stated in the sa
     Source: `eng/performance/baseline.json:56-70`; `docs/aspnet-core.md:116-121`.
     Classification: **(b) deliberate change** — Goal 22 requires "relevant end-to-end allocation,
     throughput, or latency measurements" from a realistic package-consuming vertical slice
-    (`docs/goals/0022-goal.md:2`), which is the representative pipeline the exclusion names as its
+    (`docs/goals/archive/0022-goal.md:2`), which is the representative pipeline the exclusion names as its
     precondition. The lead must decide whether the exclusion is revised or the measurements are
     explicitly scoped to application end-to-end behavior (see C6).
 
@@ -444,7 +444,7 @@ Each entry names both sides.
   `docs/goals/0020-goal.md:2` requires reproducible comparisons against "FSharp.Core where the
   representation and semantics are comparable, and relevant Funcky, CSharpFunctionalExtensions, or
   language-ext operations" vs `docs/goals/archive/0014-goal.md:2`, `/tmp/opencode/next-stage-brief.md:80-85`,
-  `docs/goals/archive/0015-goal.md:2`, `docs/goals/0022-goal.md:2`, and `docs/goals/0023-goal.md:2`
+  `docs/goals/archive/0015-goal.md:2`, `docs/goals/archive/0022-goal.md:2`, and `docs/goals/0023-goal.md:2`
   ("no competitor dependency", "No compatibility ... permitted as acceptance evidence"). Current
   state: `benchmarks/FunnySharp.Benchmarks/FunnySharp.Benchmarks.csproj:12-13` references only
   `BenchmarkDotNet`; the working tree contains an untracked call-site project
@@ -457,7 +457,7 @@ Each entry names both sides.
 - **C6 — HTTP performance exclusion vs Goal 22 measurement evidence.**
   `eng/performance/baseline.json:56-70` (exclusion rationale: no representative application pipeline
   and accepted comparison contract) and `docs/aspnet-core.md:116-121` vs
-  `docs/goals/0022-goal.md:2` (evidence includes "relevant end-to-end allocation, throughput, or
+  `docs/goals/archive/0022-goal.md:2` (evidence includes "relevant end-to-end allocation, throughput, or
   latency measurements"). The vertical slice is exactly the missing precondition; the lead must
   decide the scope of the claim and whether the manifest exclusion changes.
 

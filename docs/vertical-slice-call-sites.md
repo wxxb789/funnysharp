@@ -1,6 +1,6 @@
 # Vertical Slice: Call-Site Comparison
 
-`docs/goals/0022-goal.md` requires a maintainable idiomatic-C# comparison that says which ceremony
+`docs/goals/archive/0022-goal.md` requires a maintainable idiomatic-C# comparison that says which ceremony
 FunnySharp removes and which semantics it adds. This guide compares two applications that expose the
 same ten scenarios over the same routes:
 

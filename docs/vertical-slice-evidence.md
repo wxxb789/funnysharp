@@ -1,6 +1,6 @@
 # Vertical Slice: Evidence Record
 
-Goal 22 (`docs/goals/0022-goal.md`, line 2) asks for a realistic ASP.NET Core vertical slice that
+Goal 22 (`docs/goals/archive/0022-goal.md`, line 2) asks for a realistic ASP.NET Core vertical slice that
 consumes the produced packages through their public APIs, plus the evidence that it behaves as
 claimed. This record maps every clause of that contract to an artifact and to the command that
 verifies it. The comparison narrative lives in
@@ -27,6 +27,7 @@ any behavioral difference between the two applications.
 | Contract clause | Artifact | Verified by |
 | --- | --- | --- |
 | Package-only consumption | `FunnySharp.VerticalSlice.Api` references `FunnySharp` / `FunnySharp.AspNetCore` `PackageReference`s only | `restore-api` + `build-api` in the receipt; the Api project has no `ProjectReference` to `src/` (the Tests and Measurements projects reference their sibling consumer projects) |
+| Compiled examples | `examples/FunnySharp.Examples`, `examples/FunnySharp.AspNetCore.Examples`, `examples/FunnySharp.DocumentationSamples` (all three are projects of `FunnySharp.slnx`) | `build` and `verify-docs-snippets` steps: the solution build compiles every example project with zero `FS####` diagnostics, and the snippet verifier byte-compares the ten primary guides against their `documentation-sample` regions |
 | External-input validation | `Http/OrderRequestValidation.cs`; `Validation<Command, InputError>` per request | `ValidationTests` (field keys in input order, seven cases including a null line element) |
 | Refined domain values | `Domain/OrderId.cs`, `CustomerId.cs`, `Sku.cs`, `Quantity.cs`, `Money.cs`, `TrackingCode.cs` | `OrderLifecycleTests`, `ValidationTests`; every factory returns a carrier |
 | Value-producing outcomes | `Result<Order, OrderError>` from placement, payment, shipment, timeline | `OrderEndpointTests`, `ProblemMappingTests`, `PaymentGuardTests` |
@@ -47,21 +48,27 @@ any behavioral difference between the two applications.
 
 ## Baseline Receipt
 
-From `artifacts/vertical-slice/consumer-run/vertical-slice-results.json` (a full local run):
+From `artifacts/vertical-slice/consumer-run/vertical-slice-results.json`, produced by
+`eng/harness/VerticalSlice.fs` (`dotnet fsi build.fsx -- -p vertical-slice`) at commit `7e61a59`
+plus the Goal 22 closure edits (documentation, this record, and the harness's failing-test field):
 
+- The pipeline printed `vertical-slice consumer verification: PASS` and exited 0
 - Steps, all exit code 0: `pack`, `restore-api`, `restore-tests`, `restore-baseline`,
   `restore-measurements`, `build-api`, `build-tests`, `build-baseline`, `build-measurements`,
   `api-verify`, `baseline-verify`, `measurements-verify`, `measurements`, `consumer-tests`
 - Packages produced by that run: `FunnySharp.0.1.0.nupkg`,
   `FunnySharp.AspNetCore.0.1.0.nupkg` (the receipt records both sha256 digests)
 - Consumer test summary: 49 total, 49 passed, 0 failed, 0 skipped
+- The receipt records the identity of any failing consumer test in `testFailures` — the harness
+  parses the runner's failure lines in either localization — and names it in the `FAIL:` line, so a
+  failing run is attributable from the receipt alone
 - `api-verify`, `baseline-verify`, and `measurements-verify` printed their exact success markers
 - The measurement harness reported all ten scenarios equivalent and wrote `measurements.json`
 
-Toolchain note: the runs recorded above were produced with the Python implementation of this tool,
-which the migration has since replaced with `eng/harness/VerticalSlice.fs`; the F# port was verified
-against that implementation's receipts field by field (only build-timing text and the sha256 of
-independently packed nupkgs differ). The commands above now invoke the port.
+Toolchain note: the receipt above is the F# harness's own run. `eng/harness/VerticalSlice.fs` replaced
+the Python implementation of this tool, and the port was verified against that implementation's
+receipts field by field (only build-timing text and the sha256 of independently packed nupkgs
+differ); the earlier receipts in this record's history came from the Python implementation.
 
 ## Test Inventory
 
@@ -95,11 +102,19 @@ maintainer accepts or amends it:
 
 ## Deliberate Boundaries
 
-- This evidence is local developer-machine evidence produced by a Python tool; it is not a
-  `release.yml` job and it does not modify `eng/release-protocol.json`. The release gate keeps
+- This evidence is local developer-machine evidence produced by `eng/harness/VerticalSlice.fs`; it is
+  not a `release.yml` job and it does not modify `eng/release-protocol.json`. The release gate keeps
   running the compatibility suite exactly as before.
 - The measurement numbers do not change `eng/performance/baseline.json`: the `excluded|aspnet-mapping`
   row's rationale still holds for *release claims*, and the harness output is scoped to application
   end-to-end behavior on one machine.
 - The consumer bundle is not part of `FunnySharp.slnx`, because its projects can only restore after
   the packages exist; this mirrors the compatibility suite's placement outside the solution.
+- The consumer suite is deterministic by construction: no test sleeps or polls, every wait is gated by
+  a `TaskCompletionSource` and bounded by `TestContext.Current.CancellationToken`, and the slice has no
+  mutable static state. It passed more than 40 standalone suite runs and every pipeline run recorded in
+  this closure's session. One run on
+  2026-09-29 reported 1 failure of 49 — on a shared 2-vCPU host at load 3.4-6.4 with 5 GB of 7.8 GB in
+  use and no swap, where the failing run took 12.7 s against a 4.4 s typical — and was not reproducible
+  in any of those runs. That receipt could not name the failing test because it kept only an
+  8000-character stdout tail; the harness now records `testFailures`, so a recurrence names itself.
