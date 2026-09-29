@@ -1,0 +1,13 @@
+<Project>
+
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
+
+  <PropertyGroup>
+    <!-- The SDK's implicit FSharp.Core reference takes whatever version the installed SDK bundles
+         (10.1.400 on one CI runner, 10.1.401 on another), which makes the committed lock file
+         unsatisfiable on the runners that ship the older pack. Pin the implicit reference instead;
+         DisableImplicitLibraryPacksFolder in the project file keeps its content hash on the feed. -->
+    <FSharpCoreImplicitPackageVersion>10.1.401</FSharpCoreImplicitPackageVersion>
+  </PropertyGroup>
+
+</Project>
