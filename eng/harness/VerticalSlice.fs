@@ -258,9 +258,14 @@ let private summaryMarker = Regex @"(?:Test run summary|\u6D4B\u8BD5\u8FD0\u884C
 let private fieldPattern (alternation: string) : Regex =
     Regex(@"(?:" + alternation + @")\s*[:\uFF1A]\s*(\d+)", RegexOptions.IgnoreCase)
 
+// The localized "failed" word, shared by the summary's field pattern and the per-test
+// failure line so a localization change updates both. Written as \u escapes to keep this
+// file ASCII.
+let private failedWord = @"(?:failed|\u5931\u8D25)"
+
 let private parseFields =
     [ "total", fieldPattern @"Total|\u603B\u8BA1"
-      "failed", fieldPattern @"Failed|\u5931\u8D25"
+      "failed", fieldPattern failedWord
       "passed", fieldPattern @"Passed|Succeeded|\u6210\u529F"
       "skipped", fieldPattern @"Skipped|\u5DF2\u8DF3\u8FC7" ]
 
@@ -286,6 +291,29 @@ let parseSummary (output: string) : Map<string, int> option =
                 else result <- Some(current.Add(name, Int32.Parse found.Groups.[1].Value))
 
         result
+
+// Microsoft.Testing.Platform prints one line per failed test ahead of the summary, as
+// "failed <name> (21ms)" or its Chinese form. The duration is anchored at the end of the
+// line, so a display name carrying its own parentheses - a parameterized case like
+// "Method(arg: 3) (21ms)" - is captured whole, while a summary field line ("failed: 1")
+// has no trailing parenthesized duration and never matches. The receipt keeps only a tail
+// of the runner output, so the identities have to be captured while the transcript is in
+// hand.
+let private failingTestLine =
+    Regex(@"^\s*" + failedWord + @"\s+(?<name>.+?)\s+\((?=[^()]*\d)[^()]*\)\s*$", RegexOptions.IgnoreCase)
+
+/// Extract the identities of the tests the runner reported as failed, in first-seen order.
+let parseFailingTests (output: string) : string list =
+    output.Split([| '\r'; '\n' |], StringSplitOptions.RemoveEmptyEntries)
+    |> Array.choose (fun line ->
+        let found = failingTestLine.Match line
+
+        if found.Success then
+            Some(found.Groups.["name"].Value.Trim())
+        else
+            None)
+    |> Array.distinct
+    |> List.ofArray
 
 // ---- CLI ----
 
@@ -427,7 +455,7 @@ let mainWith (stdout: TextWriter) (stderr: TextWriter) (argv: string list) : int
 
                 let receipt = JsonObject()
                 receipt.["schemaVersion"] <- jint 1
-                receipt.["objective"] <- jstr "docs/goals/0022-goal.md"
+                receipt.["objective"] <- jstr "docs/goals/archive/0022-goal.md"
                 receipt.["configuration"] <- jstr "Release"
                 receipt.["output"] <- jstr outputDirectory
                 receipt.["feed"] <- jstr feedDirectory
@@ -595,14 +623,29 @@ let mainWith (stdout: TextWriter) (stderr: TextWriter) (argv: string list) : int
 
                         let testResult = stepRunner root childEnvironment stepTimeoutSeconds test
                         record "consumer-tests" test testResult
-                        let summary = parseSummary (testResult.Stdout + testResult.Stderr)
+                        let output = testResult.Stdout + testResult.Stderr
+                        let failingTests = parseFailingTests output
+                        let summary = parseSummary output
                         receipt.["testSummary"] <- (match summary with Some counts -> summaryJson counts | None -> jsonNull)
+                        receipt.["testFailures"] <- stringArray failingTests
 
                         match summary with
                         | None -> failures.Add "consumer-tests produced no parsable test summary"
                         | Some counts ->
                             if counts.["failed"] <> 0 then
-                                failures.Add(sprintf "consumer-tests reported %d failures" counts.["failed"])
+                                let named =
+                                    if failingTests.IsEmpty then
+                                        ""
+                                    else
+                                        ": " + String.concat ", " failingTests
+
+                                let noun =
+                                    if counts.["failed"] = 1 then
+                                        "failed test"
+                                    else
+                                        "failed tests"
+
+                                failures.Add(sprintf "consumer-tests reported %d %s%s" counts.["failed"] noun named)
 
                             if counts.["skipped"] <> 0 then
                                 failures.Add(sprintf "consumer-tests reported %d skipped tests" counts.["skipped"])

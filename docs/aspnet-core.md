@@ -130,7 +130,21 @@ dotnet run --project examples/FunnySharp.AspNetCore.Examples/FunnySharp.AspNetCo
 
 ## Performance Boundary
 
-HTTP mapping overhead is intentionally not assigned a numeric release claim. Request pipeline,
-serialization, dependency injection, transport, and application policy dominate realistic endpoint
-measurements and remain caller-owned. The performance manifest records this exclusion explicitly;
-add a benchmark only when a concrete application workload and comparison contract are accepted.
+Request pipeline, serialization, dependency injection, transport, and application policy dominate
+realistic endpoint measurements and remain caller-owned. The mapping helpers are measured in
+isolation: the performance manifest assigns a blocking allocation budget to the carrier-to-`IResult`
+mapping of each outcome shape, paired against the equivalent hand-written Minimal API code.
+
+## Measured mapping cost
+
+Each row pairs the hand-written direct baseline with the FunnySharp mapping helper for the same
+carrier outcome. Only the mapping call is measured: no result is executed and no host is started.
+
+<!-- performance-table:start aspnet-core -->
+| Scenario | Baseline mean | FunnySharp mean | Ratio | Baseline allocation | FunnySharp allocation |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| HTTP mapping overhead - absence | 32.765 ns | 32.441 ns | 0.99x | 168 B | 168 B |
+| HTTP mapping overhead - no value | 1.809 ns | 1.829 ns | 1.01x | 0 B | 0 B |
+| HTTP mapping overhead - success | 8.252 ns | 7.457 ns | 0.90x | 24 B | 24 B |
+| HTTP mapping overhead - typed failure | 29.804 ns | 34.229 ns | 1.15x | 168 B | 168 B |
+<!-- performance-table:end aspnet-core -->

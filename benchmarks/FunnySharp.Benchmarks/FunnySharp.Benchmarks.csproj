@@ -7,6 +7,7 @@
 
   <ItemGroup>
     <ProjectReference Include="../../src/FunnySharp/FunnySharp.csproj" />
+    <ProjectReference Include="../../src/FunnySharp.AspNetCore/FunnySharp.AspNetCore.csproj" />
   </ItemGroup>
 
   <ItemGroup>

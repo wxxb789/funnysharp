@@ -168,6 +168,12 @@
       },
       "funnysharp": {
         "type": "Project"
+      },
+      "funnysharp.aspnetcore": {
+        "type": "Project",
+        "dependencies": {
+          "FunnySharp": "[0.1.0, )"
+        }
       }
     }
   }

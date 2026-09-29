@@ -60,7 +60,8 @@ FunnySharp.VerticalSlice/
 - NEVER convert an unexpected exception into an `OrderError`: the only catch-all is
   `UnexpectedExceptionHandler`.
 - NEVER make the measurement harness a release gate or copy its numbers into
-  `eng/performance/baseline.json` (the `excluded|aspnet-mapping` policy stands).
+  `eng/performance/baseline.json`. That manifest's HTTP mapping budgets come from the mapping-only
+  `AspNetCoreBenchmarks` rows, never from this application pipeline.
 
 ## COMMANDS
 

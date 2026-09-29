@@ -1,6 +1,6 @@
 # Vertical Slice: Call-Site Comparison
 
-`docs/goals/0022-goal.md` requires a maintainable idiomatic-C# comparison that says which ceremony
+`docs/goals/archive/0022-goal.md` requires a maintainable idiomatic-C# comparison that says which ceremony
 FunnySharp removes and which semantics it adds. This guide compares two applications that expose the
 same ten scenarios over the same routes:
 
@@ -406,11 +406,12 @@ Reading (one receipt; re-run before quoting these anywhere else):
   problem.
 - **Streaming is dominated by the response body.** ~0.40-0.46 MB per operation in both applications;
   the difference between them is smaller than the payload itself.
-- **These are application observations, not a release claim.** `eng/performance/baseline.json` still
-  records `excluded|aspnet-mapping` with the rationale that no numeric release claim is made without
-  a representative application pipeline; this evidence is scoped to application end-to-end behavior
-  through `TestServer`, on one developer machine, and does not revise that policy. Timing is
-  directional, as `docs/performance.md` requires.
+- **These are application observations, not a release claim.** The manifest no longer records an
+  `excluded|aspnet-mapping` row: it carries blocking allocation budgets for the carrier-to-`IResult`
+  mapping, measured in isolation by `AspNetCoreBenchmarks` under performance policy revision
+  `2026-09-29-v12` (see [`aspnet-core.md`](aspnet-core.md)). This evidence stays scoped to application
+  end-to-end behavior through `TestServer`, on one developer machine, and does not itself set a budget.
+  Timing is directional, as [`performance.md`](performance.md) requires.
 - **The comparison verdict is status *and* payload.** `Equivalence.Same` in the harness rejects a
   scenario where the bodies match but the status codes differ, and `MeasurementsEquivalenceTests` pins
   that rule.

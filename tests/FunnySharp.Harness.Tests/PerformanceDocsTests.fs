@@ -405,11 +405,11 @@ type DocumentationCommandLineTests() =
 type RealManifestTests() =
 
     [<Fact>]
-    member _.BaselineManifestVerifiesTenRegions() =
+    member _.BaselineManifestVerifiesElevenRegions() =
         let root = repositoryRoot ()
         let exitCode, stdout, stderr = runDefaultManifest root true
         Assert.Equal(0, exitCode)
-        Assert.Equal("Verified 10 performance documentation regions.", stdout.Trim())
+        Assert.Equal("Verified 11 performance documentation regions.", stdout.Trim())
         Assert.Equal("", stderr.Trim())
 
     [<Fact>]

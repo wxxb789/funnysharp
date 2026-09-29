@@ -5,6 +5,7 @@
     "files": [
       "Directory.Build.props",
       "benchmarks/FunnySharp.Benchmarks/AllocationReceiptExporter.cs",
+      "benchmarks/FunnySharp.Benchmarks/AspNetCoreBenchmarks.cs",
       "benchmarks/FunnySharp.Benchmarks/CollectionBenchmarks.cs",
       "benchmarks/FunnySharp.Benchmarks/ConcurrencyBenchmarks.cs",
       "benchmarks/FunnySharp.Benchmarks/DataPipelineBenchmarks.cs",
@@ -20,6 +21,8 @@
       "benchmarks/FunnySharp.Benchmarks/StateMachineBenchmarks.cs",
       "benchmarks/FunnySharp.Benchmarks/packages.lock.json",
       "global.json",
+      "src/FunnySharp.AspNetCore/FunnySharp.AspNetCore.csproj",
+      "src/FunnySharp.AspNetCore/HttpResultExtensions.cs",
       "src/FunnySharp/AsyncEnumerablePipelineExtensions.cs",
       "src/FunnySharp/AsyncSequenceExtensions.cs",
       "src/FunnySharp/CardinalityExtensions.cs",
@@ -60,23 +63,135 @@
     ]
   },
   "policy": {
-    "revision": "2026-09-29-v11",
+    "revision": "2026-09-29-v12",
     "rows": [
       {
-        "id": "excluded|aspnet-mapping",
+        "id": "AspNetCoreBenchmarks|HTTP mapping overhead - success|DirectSuccessMapping|",
         "benchmarkClass": "AspNetCoreBenchmarks",
-        "category": "HTTP mapping overhead",
-        "method": "",
+        "category": "HTTP mapping overhead - success",
+        "method": "DirectSuccessMapping",
+        "parameters": "",
+        "baseline": true,
+        "carrier": "HTTP",
+        "completionPath": "application-owned",
+        "expectedResult": "matches the paired direct Results.Ok mapping contract",
+        "comparisonGroup": "AspNetCoreBenchmarks|HTTP mapping overhead - success|",
+        "included": true,
+        "exclusionReason": null,
+        "allocationBudgetBytes": 64,
+        "budgetRationale": "Linux x64 ShortRun calibration on the 2026-09-29 recording host (24 B) plus 25% and 32 B fixed headroom; rounded up to 8 B. Acceptance uses the later full-suite measurement."
+      },
+      {
+        "id": "AspNetCoreBenchmarks|HTTP mapping overhead - success|FunnySharpSuccessMapping|",
+        "benchmarkClass": "AspNetCoreBenchmarks",
+        "category": "HTTP mapping overhead - success",
+        "method": "FunnySharpSuccessMapping",
         "parameters": "",
         "baseline": false,
         "carrier": "HTTP",
         "completionPath": "application-owned",
-        "expectedResult": "not-measured",
-        "comparisonGroup": "HTTP mapping overhead",
-        "included": false,
-        "exclusionReason": "No numeric release claim is made without a representative application pipeline and accepted comparison contract.",
-        "allocationBudgetBytes": null,
-        "budgetRationale": null
+        "expectedResult": "matches the paired direct Results.Ok mapping contract",
+        "comparisonGroup": "AspNetCoreBenchmarks|HTTP mapping overhead - success|",
+        "included": true,
+        "exclusionReason": null,
+        "allocationBudgetBytes": 64,
+        "budgetRationale": "Linux x64 ShortRun calibration on the 2026-09-29 recording host (24 B) plus 25% and 32 B fixed headroom; rounded up to 8 B. Acceptance uses the later full-suite measurement."
+      },
+      {
+        "id": "AspNetCoreBenchmarks|HTTP mapping overhead - typed failure|DirectProblemMapping|",
+        "benchmarkClass": "AspNetCoreBenchmarks",
+        "category": "HTTP mapping overhead - typed failure",
+        "method": "DirectProblemMapping",
+        "parameters": "",
+        "baseline": true,
+        "carrier": "HTTP",
+        "completionPath": "application-owned",
+        "expectedResult": "matches the paired direct ProblemDetails mapping contract",
+        "comparisonGroup": "AspNetCoreBenchmarks|HTTP mapping overhead - typed failure|",
+        "included": true,
+        "exclusionReason": null,
+        "allocationBudgetBytes": 248,
+        "budgetRationale": "Linux x64 ShortRun calibration on the 2026-09-29 recording host (168 B) plus 25% and 32 B fixed headroom; rounded up to 8 B. Acceptance uses the later full-suite measurement."
+      },
+      {
+        "id": "AspNetCoreBenchmarks|HTTP mapping overhead - typed failure|FunnySharpProblemMapping|",
+        "benchmarkClass": "AspNetCoreBenchmarks",
+        "category": "HTTP mapping overhead - typed failure",
+        "method": "FunnySharpProblemMapping",
+        "parameters": "",
+        "baseline": false,
+        "carrier": "HTTP",
+        "completionPath": "application-owned",
+        "expectedResult": "matches the paired direct ProblemDetails mapping contract",
+        "comparisonGroup": "AspNetCoreBenchmarks|HTTP mapping overhead - typed failure|",
+        "included": true,
+        "exclusionReason": null,
+        "allocationBudgetBytes": 248,
+        "budgetRationale": "Linux x64 ShortRun calibration on the 2026-09-29 recording host (168 B) plus 25% and 32 B fixed headroom; rounded up to 8 B. Acceptance uses the later full-suite measurement."
+      },
+      {
+        "id": "AspNetCoreBenchmarks|HTTP mapping overhead - absence|DirectNotFoundMapping|",
+        "benchmarkClass": "AspNetCoreBenchmarks",
+        "category": "HTTP mapping overhead - absence",
+        "method": "DirectNotFoundMapping",
+        "parameters": "",
+        "baseline": true,
+        "carrier": "HTTP",
+        "completionPath": "application-owned",
+        "expectedResult": "matches the paired direct 404 problem mapping contract",
+        "comparisonGroup": "AspNetCoreBenchmarks|HTTP mapping overhead - absence|",
+        "included": true,
+        "exclusionReason": null,
+        "allocationBudgetBytes": 248,
+        "budgetRationale": "Linux x64 ShortRun calibration on the 2026-09-29 recording host (168 B) plus 25% and 32 B fixed headroom; rounded up to 8 B. Acceptance uses the later full-suite measurement."
+      },
+      {
+        "id": "AspNetCoreBenchmarks|HTTP mapping overhead - absence|FunnySharpNotFoundMapping|",
+        "benchmarkClass": "AspNetCoreBenchmarks",
+        "category": "HTTP mapping overhead - absence",
+        "method": "FunnySharpNotFoundMapping",
+        "parameters": "",
+        "baseline": false,
+        "carrier": "HTTP",
+        "completionPath": "application-owned",
+        "expectedResult": "matches the paired direct 404 problem mapping contract",
+        "comparisonGroup": "AspNetCoreBenchmarks|HTTP mapping overhead - absence|",
+        "included": true,
+        "exclusionReason": null,
+        "allocationBudgetBytes": 248,
+        "budgetRationale": "Linux x64 ShortRun calibration on the 2026-09-29 recording host (168 B) plus 25% and 32 B fixed headroom; rounded up to 8 B. Acceptance uses the later full-suite measurement."
+      },
+      {
+        "id": "AspNetCoreBenchmarks|HTTP mapping overhead - no value|DirectNoContentMapping|",
+        "benchmarkClass": "AspNetCoreBenchmarks",
+        "category": "HTTP mapping overhead - no value",
+        "method": "DirectNoContentMapping",
+        "parameters": "",
+        "baseline": true,
+        "carrier": "HTTP",
+        "completionPath": "application-owned",
+        "expectedResult": "matches the paired direct Results.NoContent mapping contract",
+        "comparisonGroup": "AspNetCoreBenchmarks|HTTP mapping overhead - no value|",
+        "included": true,
+        "exclusionReason": null,
+        "allocationBudgetBytes": 0,
+        "budgetRationale": "Measured at exactly zero allocation on the 2026-09-29 recording host (Linux x64, ShortRun); the budget stays zero, so any nonzero regression is blocked by the zero-allocation rule."
+      },
+      {
+        "id": "AspNetCoreBenchmarks|HTTP mapping overhead - no value|FunnySharpNoContentMapping|",
+        "benchmarkClass": "AspNetCoreBenchmarks",
+        "category": "HTTP mapping overhead - no value",
+        "method": "FunnySharpNoContentMapping",
+        "parameters": "",
+        "baseline": false,
+        "carrier": "HTTP",
+        "completionPath": "application-owned",
+        "expectedResult": "matches the paired direct Results.NoContent mapping contract",
+        "comparisonGroup": "AspNetCoreBenchmarks|HTTP mapping overhead - no value|",
+        "included": true,
+        "exclusionReason": null,
+        "allocationBudgetBytes": 0,
+        "budgetRationale": "Measured at exactly zero allocation on the 2026-09-29 recording host (Linux x64, ShortRun); the budget stays zero, so any nonzero regression is blocked by the zero-allocation rule."
       },
       {
         "id": "ConcurrencyBenchmarks|Completion-order bounded asynchronous map|BclParallelForEachAsyncCompletionOrder|[Count=1024]",
@@ -3168,19 +3283,33 @@
       }
     ]
   },
-  "observation": {
+  "observation":   {
     "schemaVersion": 1,
-    "generatedAtUtc": "2026-09-29T07:29:42.7913949+00:00",
-    "candidateCommit": "dd905d3177c2ba9da18ae3bc646c4f12d07c6106",
-    "policyRevision": "2026-09-29-v11",
-    "policyFingerprint": "bb695f8d750c4493c50284aa92cd3047e3f06363ee0fb9a57cb8aafffaf2f924",
-    "benchmarkInputFingerprint": "50d465503ff20e41913e23ca22c07202091863eed0d9bc6eb6f6f08ebabf07de",
+    "generatedAtUtc": "2026-09-29T12:08:22.9237543\u002B00:00",
+    "candidateCommit": null,
+    "policyRevision": "2026-09-29-v12",
+    "policyFingerprint": "0f700b3b231a2ae914f526a565d75874680c4036a1c2c50ae90e54ef83ad04b6",
+    "benchmarkInputFingerprint": "0c7a4af731516dc49dc2a59b2c07aee1df5c0c4f1acb5c373ebe5a66c78e82df",
     "protocolFingerprint": "993e363a76614a1206c799bb8f9e26b3b2a5324e8ff165e459c1f2b1a7f62a15",
     "environmentKey": "f1c8a32ad6ea507bcd1e1f1d1d3cbdd28534e4e1de84a8f47575d8f91b17a3ae",
     "receipts": [
       {
+        "file": "AspNetCoreBenchmarks-performance-receipt.json",
+        "sha256": "38f4d2465a1236761a515177c71232d8e8f7c13587bf229236728690912101ab",
+        "environment": {
+          "os": "Linux Ubuntu 24.04.5 LTS (Noble Numbat)",
+          "architecture": "X64",
+          "sdkVersion": "10.0.401",
+          "runtime": ".NET 10.0.12 (10.0.12, 10.0.1226.42308)",
+          "jit": "RyuJIT",
+          "gcServer": false,
+          "gcConcurrent": true,
+          "gcAllocationQuantum": 8224
+        }
+      },
+      {
         "file": "CollectionBenchmarks-performance-receipt.json",
-        "sha256": "e1df922f367ea79dc636f5ae7acc42bef0b8952ed6fecd9d4e27c2ffde6e0edf",
+        "sha256": "01bc973690e338391292de69432044160769ea42be5b05641428eb36f1668959",
         "environment": {
           "os": "Linux Ubuntu 24.04.5 LTS (Noble Numbat)",
           "architecture": "X64",
@@ -3194,7 +3323,7 @@
       },
       {
         "file": "ConcurrencyBenchmarks-performance-receipt.json",
-        "sha256": "ba83657786e2fcc973e2c535261cb746d78391b98239123fd721ae972cb18b91",
+        "sha256": "327c302562afc68b39641eb22a675d977bbeb54cd50405d04a636072dc8bb2e7",
         "environment": {
           "os": "Linux Ubuntu 24.04.5 LTS (Noble Numbat)",
           "architecture": "X64",
@@ -3208,7 +3337,7 @@
       },
       {
         "file": "DataPipelineBenchmarks-performance-receipt.json",
-        "sha256": "64c9455212dd378eb6982c7bcdaa00c136f35c590538f4ebab18da1764900fc6",
+        "sha256": "594774519ae55f69f79586a63c1c5084d0fc3bea47a13c68f4587a9fbb8a0554",
         "environment": {
           "os": "Linux Ubuntu 24.04.5 LTS (Noble Numbat)",
           "architecture": "X64",
@@ -3222,7 +3351,7 @@
       },
       {
         "file": "EffectBenchmarks-performance-receipt.json",
-        "sha256": "b5d92d8574f5f178e321b22b1211a18dcad7e9d076890381d109f77c42350401",
+        "sha256": "039e9863eaa5eff6176a0c5e5a3f42bef58737c9abb240db5455de5aee520e1f",
         "environment": {
           "os": "Linux Ubuntu 24.04.5 LTS (Noble Numbat)",
           "architecture": "X64",
@@ -3236,7 +3365,7 @@
       },
       {
         "file": "FirstSuccessConcurrencyBenchmarks-performance-receipt.json",
-        "sha256": "0e3cd2a1857fe0850f726a5fe10b7507b8aba633466f649679a1b70d107648f3",
+        "sha256": "48399653aab15970891868ee87097e531c0b5be964d2877084032e606b2da7a9",
         "environment": {
           "os": "Linux Ubuntu 24.04.5 LTS (Noble Numbat)",
           "architecture": "X64",
@@ -3250,7 +3379,7 @@
       },
       {
         "file": "FunctionCompositionBenchmarks-performance-receipt.json",
-        "sha256": "53216794f40127cfa5f4357792f1f2c0e1458844e5d8c696cba0fb3000fb6282",
+        "sha256": "7ae428f7e0d2550945294267b9256b317846deda4511a02d8712ae9cb11c135c",
         "environment": {
           "os": "Linux Ubuntu 24.04.5 LTS (Noble Numbat)",
           "architecture": "X64",
@@ -3264,7 +3393,7 @@
       },
       {
         "file": "ImmutableUpdateBenchmarks-performance-receipt.json",
-        "sha256": "1cc1a76877811bc6123cc2d3d3f08fd6d5b8bc2e9c94592a29759b3e93e9b165",
+        "sha256": "37092d98c4d3366de46555ed7330e5b1ce1968f67faed12a25431687e3014975",
         "environment": {
           "os": "Linux Ubuntu 24.04.5 LTS (Noble Numbat)",
           "architecture": "X64",
@@ -3278,7 +3407,7 @@
       },
       {
         "file": "OptionBenchmarks-performance-receipt.json",
-        "sha256": "5cd6cf75521ee9769c50d90c655588606ba18757b18ecede8c95d65b6e27b521",
+        "sha256": "97bfb278c8f9402ffbe17f86a15649f3e36c473ba5a95ca00208ad2f43d3aee7",
         "environment": {
           "os": "Linux Ubuntu 24.04.5 LTS (Noble Numbat)",
           "architecture": "X64",
@@ -3292,7 +3421,7 @@
       },
       {
         "file": "ParallelTraverseConcurrencyBenchmarks-performance-receipt.json",
-        "sha256": "357167e514a129215efc3f899b53890d68df9eb086d4feb9f62076068e303ae6",
+        "sha256": "63de41ffb199e3d1510775c2be0c178e94f7e0bcfe9190faa823d884b3a96431",
         "environment": {
           "os": "Linux Ubuntu 24.04.5 LTS (Noble Numbat)",
           "architecture": "X64",
@@ -3306,7 +3435,7 @@
       },
       {
         "file": "ResultBenchmarks-performance-receipt.json",
-        "sha256": "ec553f6eff15507647e528732556075cbdbe0212915ce62896a08d5842dc3f25",
+        "sha256": "3bc61608bb55dee346a842a97d40e958371788bd7b0684732037710bf15d0992",
         "environment": {
           "os": "Linux Ubuntu 24.04.5 LTS (Noble Numbat)",
           "architecture": "X64",
@@ -3320,7 +3449,7 @@
       },
       {
         "file": "SequenceBenchmarks-performance-receipt.json",
-        "sha256": "8083f085fa6bca095484eb13b7df6e3ea4a7b668733df0cc8d4681afb18241c3",
+        "sha256": "01a8cf29bbc26f5392e108f05d804a5d8637298a87e1838bb587d87d7136265a",
         "environment": {
           "os": "Linux Ubuntu 24.04.5 LTS (Noble Numbat)",
           "architecture": "X64",
@@ -3334,7 +3463,7 @@
       },
       {
         "file": "StateMachineBenchmarks-performance-receipt.json",
-        "sha256": "42478963786d8f4f7a8a2cd085fad01949b9a86278467507492bef4244b9fb86",
+        "sha256": "f4cf76f6020ecd1e88199581edb9064d520e6158d28cb4f2211262e8bb6b7b17",
         "environment": {
           "os": "Linux Ubuntu 24.04.5 LTS (Noble Numbat)",
           "architecture": "X64",
@@ -3349,6 +3478,94 @@
     ],
     "rows": [
       {
+        "id": "AspNetCoreBenchmarks|HTTP mapping overhead - absence|DirectNotFoundMapping|",
+        "benchmarkClass": "AspNetCoreBenchmarks",
+        "category": "HTTP mapping overhead - absence",
+        "method": "DirectNotFoundMapping",
+        "parameters": "",
+        "baseline": true,
+        "timingState": "observed",
+        "meanNanoseconds": 32.7648451824983,
+        "allocatedBytesPerOperation": 168
+      },
+      {
+        "id": "AspNetCoreBenchmarks|HTTP mapping overhead - absence|FunnySharpNotFoundMapping|",
+        "benchmarkClass": "AspNetCoreBenchmarks",
+        "category": "HTTP mapping overhead - absence",
+        "method": "FunnySharpNotFoundMapping",
+        "parameters": "",
+        "baseline": false,
+        "timingState": "observed",
+        "meanNanoseconds": 32.44087899724642,
+        "allocatedBytesPerOperation": 168
+      },
+      {
+        "id": "AspNetCoreBenchmarks|HTTP mapping overhead - no value|DirectNoContentMapping|",
+        "benchmarkClass": "AspNetCoreBenchmarks",
+        "category": "HTTP mapping overhead - no value",
+        "method": "DirectNoContentMapping",
+        "parameters": "",
+        "baseline": true,
+        "timingState": "observed",
+        "meanNanoseconds": 1.8088741078972816,
+        "allocatedBytesPerOperation": 0
+      },
+      {
+        "id": "AspNetCoreBenchmarks|HTTP mapping overhead - no value|FunnySharpNoContentMapping|",
+        "benchmarkClass": "AspNetCoreBenchmarks",
+        "category": "HTTP mapping overhead - no value",
+        "method": "FunnySharpNoContentMapping",
+        "parameters": "",
+        "baseline": false,
+        "timingState": "observed",
+        "meanNanoseconds": 1.8291746750473976,
+        "allocatedBytesPerOperation": 0
+      },
+      {
+        "id": "AspNetCoreBenchmarks|HTTP mapping overhead - success|DirectSuccessMapping|",
+        "benchmarkClass": "AspNetCoreBenchmarks",
+        "category": "HTTP mapping overhead - success",
+        "method": "DirectSuccessMapping",
+        "parameters": "",
+        "baseline": true,
+        "timingState": "observed",
+        "meanNanoseconds": 8.251831298073133,
+        "allocatedBytesPerOperation": 24
+      },
+      {
+        "id": "AspNetCoreBenchmarks|HTTP mapping overhead - success|FunnySharpSuccessMapping|",
+        "benchmarkClass": "AspNetCoreBenchmarks",
+        "category": "HTTP mapping overhead - success",
+        "method": "FunnySharpSuccessMapping",
+        "parameters": "",
+        "baseline": false,
+        "timingState": "observed",
+        "meanNanoseconds": 7.4574796458085375,
+        "allocatedBytesPerOperation": 24
+      },
+      {
+        "id": "AspNetCoreBenchmarks|HTTP mapping overhead - typed failure|DirectProblemMapping|",
+        "benchmarkClass": "AspNetCoreBenchmarks",
+        "category": "HTTP mapping overhead - typed failure",
+        "method": "DirectProblemMapping",
+        "parameters": "",
+        "baseline": true,
+        "timingState": "observed",
+        "meanNanoseconds": 29.803622951110203,
+        "allocatedBytesPerOperation": 168
+      },
+      {
+        "id": "AspNetCoreBenchmarks|HTTP mapping overhead - typed failure|FunnySharpProblemMapping|",
+        "benchmarkClass": "AspNetCoreBenchmarks",
+        "category": "HTTP mapping overhead - typed failure",
+        "method": "FunnySharpProblemMapping",
+        "parameters": "",
+        "baseline": false,
+        "timingState": "observed",
+        "meanNanoseconds": 34.22921456893285,
+        "allocatedBytesPerOperation": 168
+      },
+      {
         "id": "CollectionBenchmarks|IEnumerable exact zip|FunnySharpZipExact|[Count=1024]",
         "benchmarkClass": "CollectionBenchmarks",
         "category": "IEnumerable exact zip",
@@ -3356,7 +3573,7 @@
         "parameters": "[Count=1024]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 5821.436948140462,
+        "meanNanoseconds": 6537.593112945557,
         "allocatedBytesPerOperation": 8376
       },
       {
@@ -3367,7 +3584,7 @@
         "parameters": "[Count=16]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 150.25171597798666,
+        "meanNanoseconds": 167.74324679374695,
         "allocatedBytesPerOperation": 312
       },
       {
@@ -3378,7 +3595,7 @@
         "parameters": "[Count=1024]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 6152.098770141602,
+        "meanNanoseconds": 6578.63549677531,
         "allocatedBytesPerOperation": 160
       },
       {
@@ -3389,7 +3606,7 @@
         "parameters": "[Count=16]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 149.7451047897339,
+        "meanNanoseconds": 167.68155678113303,
         "allocatedBytesPerOperation": 160
       },
       {
@@ -3400,7 +3617,7 @@
         "parameters": "[Count=1024]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 3229.091657002767,
+        "meanNanoseconds": 4731.276145935059,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3411,7 +3628,7 @@
         "parameters": "[Count=16]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 58.16715351740519,
+        "meanNanoseconds": 64.15626400709152,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3422,7 +3639,7 @@
         "parameters": "[Count=1024]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 2961.013052622477,
+        "meanNanoseconds": 3221.734132130941,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3433,7 +3650,7 @@
         "parameters": "[Count=16]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 57.502836763858795,
+        "meanNanoseconds": 62.25378682216009,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3444,7 +3661,7 @@
         "parameters": "[Count=1024]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 676.2261517842611,
+        "meanNanoseconds": 758.9681599934896,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3455,7 +3672,7 @@
         "parameters": "[Count=16]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 12.546569680174192,
+        "meanNanoseconds": 12.119539335370064,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3466,7 +3683,7 @@
         "parameters": "[Count=1024]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 20531.800415039062,
+        "meanNanoseconds": 21472.328872680664,
         "allocatedBytesPerOperation": 24656
       },
       {
@@ -3477,7 +3694,7 @@
         "parameters": "[Count=16]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 342.8302963574727,
+        "meanNanoseconds": 312.1554120381673,
         "allocatedBytesPerOperation": 464
       },
       {
@@ -3488,7 +3705,7 @@
         "parameters": "[Count=1024]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 4746.990999857585,
+        "meanNanoseconds": 5201.803846995036,
         "allocatedBytesPerOperation": 4152
       },
       {
@@ -3499,7 +3716,7 @@
         "parameters": "[Count=16]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 83.87862302859624,
+        "meanNanoseconds": 93.6392372449239,
         "allocatedBytesPerOperation": 120
       },
       {
@@ -3510,7 +3727,7 @@
         "parameters": "[Count=1024]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 2588.904010772705,
+        "meanNanoseconds": 2828.219999949137,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3521,7 +3738,7 @@
         "parameters": "[Count=16]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 37.29795926809311,
+        "meanNanoseconds": 40.08337510625521,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3532,7 +3749,7 @@
         "parameters": "[Count=1024]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 3688.9156354268393,
+        "meanNanoseconds": 4113.113278706868,
         "allocatedBytesPerOperation": 8384
       },
       {
@@ -3543,7 +3760,7 @@
         "parameters": "[Count=16]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 95.9554967880249,
+        "meanNanoseconds": 110.47919819752376,
         "allocatedBytesPerOperation": 320
       },
       {
@@ -3554,7 +3771,7 @@
         "parameters": "[Count=1024]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 7696.7488199869795,
+        "meanNanoseconds": 8628.01575978597,
         "allocatedBytesPerOperation": 4304
       },
       {
@@ -3565,7 +3782,7 @@
         "parameters": "[Count=16]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 181.2778079112371,
+        "meanNanoseconds": 192.57445240020752,
         "allocatedBytesPerOperation": 272
       },
       {
@@ -3576,7 +3793,7 @@
         "parameters": "[Count=1024]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 2598.4729067484536,
+        "meanNanoseconds": 2789.2424278259277,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3587,7 +3804,7 @@
         "parameters": "[Count=16]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 42.432918141285576,
+        "meanNanoseconds": 52.52180468042692,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3598,7 +3815,7 @@
         "parameters": "[Count=1024]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 2706.955477396647,
+        "meanNanoseconds": 2838.1849250793457,
         "allocatedBytesPerOperation": 168
       },
       {
@@ -3609,7 +3826,7 @@
         "parameters": "[Count=16]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 90.90526121854782,
+        "meanNanoseconds": 104.03750558694203,
         "allocatedBytesPerOperation": 168
       },
       {
@@ -3620,7 +3837,7 @@
         "parameters": "[Count=1024]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 6165.868940989177,
+        "meanNanoseconds": 7105.012310028076,
         "allocatedBytesPerOperation": 16688
       },
       {
@@ -3631,7 +3848,7 @@
         "parameters": "[Count=16]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 212.01415173212686,
+        "meanNanoseconds": 210.12534507115683,
         "allocatedBytesPerOperation": 416
       },
       {
@@ -3642,7 +3859,7 @@
         "parameters": "[Count=1024]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 7224.921516418457,
+        "meanNanoseconds": 7630.099507649739,
         "allocatedBytesPerOperation": 7272
       },
       {
@@ -3653,7 +3870,7 @@
         "parameters": "[Count=16]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 164.19822557767233,
+        "meanNanoseconds": 184.19439832369486,
         "allocatedBytesPerOperation": 216
       },
       {
@@ -3664,7 +3881,7 @@
         "parameters": "[Count=1024]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 56874.443827311195,
+        "meanNanoseconds": 73427.84387207031,
         "allocatedBytesPerOperation": 221632
       },
       {
@@ -3675,7 +3892,7 @@
         "parameters": "[Count=16]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 1690.9731140136719,
+        "meanNanoseconds": 1107.0882320404053,
         "allocatedBytesPerOperation": 3760
       },
       {
@@ -3686,7 +3903,7 @@
         "parameters": "[Count=1024]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 11139.040145874023,
+        "meanNanoseconds": 13284.532330830893,
         "allocatedBytesPerOperation": 22696
       },
       {
@@ -3697,7 +3914,7 @@
         "parameters": "[Count=16]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 238.70900638898215,
+        "meanNanoseconds": 228.54790298144022,
         "allocatedBytesPerOperation": 376
       },
       {
@@ -3708,7 +3925,7 @@
         "parameters": "[Count=1024]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 10.494169816374779,
+        "meanNanoseconds": 15.636479968825975,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3719,7 +3936,7 @@
         "parameters": "[Count=16]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 10.557864899436632,
+        "meanNanoseconds": 11.285300984978676,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3730,7 +3947,7 @@
         "parameters": "[Count=1024]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 10.39945855240027,
+        "meanNanoseconds": 12.229196126262346,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3741,7 +3958,7 @@
         "parameters": "[Count=16]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 10.585961719353994,
+        "meanNanoseconds": 23.625698116918404,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3752,7 +3969,7 @@
         "parameters": "[Count=1024]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 818.0983552932739,
+        "meanNanoseconds": 922.4901412328085,
         "allocatedBytesPerOperation": 4120
       },
       {
@@ -3763,7 +3980,7 @@
         "parameters": "[Count=16]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 19.757681240638096,
+        "meanNanoseconds": 22.161525785923004,
         "allocatedBytesPerOperation": 88
       },
       {
@@ -3774,7 +3991,7 @@
         "parameters": "[Count=1024]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 1833.7321376800537,
+        "meanNanoseconds": 2028.8160991668701,
         "allocatedBytesPerOperation": 4160
       },
       {
@@ -3785,7 +4002,7 @@
         "parameters": "[Count=16]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 45.996575544277825,
+        "meanNanoseconds": 46.779309183359146,
         "allocatedBytesPerOperation": 128
       },
       {
@@ -3796,8 +4013,8 @@
         "parameters": "[Count=1024]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 447658.3781738281,
-        "allocatedBytesPerOperation": 313936
+        "meanNanoseconds": 498293.84228515625,
+        "allocatedBytesPerOperation": 311428
       },
       {
         "id": "ConcurrencyBenchmarks|Completion-order bounded asynchronous map|BclParallelForEachAsyncCompletionOrder|[Count=16]",
@@ -3807,8 +4024,8 @@
         "parameters": "[Count=16]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 12793.903610229492,
-        "allocatedBytesPerOperation": 5359
+        "meanNanoseconds": 15821.973932902018,
+        "allocatedBytesPerOperation": 5386
       },
       {
         "id": "ConcurrencyBenchmarks|Completion-order bounded asynchronous map|FunnySharpSelectParallelCompletionOrderValueAsync|[Count=1024]",
@@ -3818,8 +4035,8 @@
         "parameters": "[Count=1024]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 1073182.3828125,
-        "allocatedBytesPerOperation": 472578
+        "meanNanoseconds": 1146030.83203125,
+        "allocatedBytesPerOperation": 474037
       },
       {
         "id": "ConcurrencyBenchmarks|Completion-order bounded asynchronous map|FunnySharpSelectParallelCompletionOrderValueAsync|[Count=16]",
@@ -3829,8 +4046,8 @@
         "parameters": "[Count=16]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 23865.56969197591,
-        "allocatedBytesPerOperation": 10076
+        "meanNanoseconds": 28226.735310872395,
+        "allocatedBytesPerOperation": 10085
       },
       {
         "id": "ConcurrencyBenchmarks|Ordered bounded asynchronous map|BclParallelForEachAsync|[Count=1024]",
@@ -3840,8 +4057,8 @@
         "parameters": "[Count=1024]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 442871.43017578125,
-        "allocatedBytesPerOperation": 306517
+        "meanNanoseconds": 481258.3307291667,
+        "allocatedBytesPerOperation": 297196
       },
       {
         "id": "ConcurrencyBenchmarks|Ordered bounded asynchronous map|BclParallelForEachAsync|[Count=16]",
@@ -3851,8 +4068,8 @@
         "parameters": "[Count=16]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 12562.624252319336,
-        "allocatedBytesPerOperation": 5345
+        "meanNanoseconds": 13807.696268717447,
+        "allocatedBytesPerOperation": 5373
       },
       {
         "id": "ConcurrencyBenchmarks|Ordered bounded asynchronous map|FunnySharpSelectParallelValueAsync|[Count=1024]",
@@ -3862,8 +4079,8 @@
         "parameters": "[Count=1024]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 933554.7063802084,
-        "allocatedBytesPerOperation": 503214
+        "meanNanoseconds": 1009201.890625,
+        "allocatedBytesPerOperation": 521722
       },
       {
         "id": "ConcurrencyBenchmarks|Ordered bounded asynchronous map|FunnySharpSelectParallelValueAsync|[Count=16]",
@@ -3873,8 +4090,8 @@
         "parameters": "[Count=16]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 23571.496643066406,
-        "allocatedBytesPerOperation": 10960
+        "meanNanoseconds": 26753.608622233074,
+        "allocatedBytesPerOperation": 11639
       },
       {
         "id": "DataPipelineBenchmarks|Async stream filter-map|BclAsyncWhereSelect|[Count=1024]",
@@ -3884,7 +4101,7 @@
         "parameters": "[Count=1024]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 45947.1311340332,
+        "meanNanoseconds": 45338.63515218099,
         "allocatedBytesPerOperation": 400
       },
       {
@@ -3895,7 +4112,7 @@
         "parameters": "[Count=16]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 804.8804896672567,
+        "meanNanoseconds": 923.4423484802246,
         "allocatedBytesPerOperation": 400
       },
       {
@@ -3906,7 +4123,7 @@
         "parameters": "[Count=1024]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 14638.932174682617,
+        "meanNanoseconds": 16807.801991780598,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3917,7 +4134,7 @@
         "parameters": "[Count=16]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 290.1727600097656,
+        "meanNanoseconds": 324.61835352579754,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -3928,7 +4145,7 @@
         "parameters": "[Count=1024]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 38526.483530680336,
+        "meanNanoseconds": 41429.9724222819,
         "allocatedBytesPerOperation": 312
       },
       {
@@ -3939,7 +4156,7 @@
         "parameters": "[Count=16]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 726.8061669667562,
+        "meanNanoseconds": 807.6310434341431,
         "allocatedBytesPerOperation": 312
       },
       {
@@ -3950,7 +4167,7 @@
         "parameters": "[Count=1024]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 39171.969075520836,
+        "meanNanoseconds": 42138.449768066406,
         "allocatedBytesPerOperation": 184
       },
       {
@@ -3961,7 +4178,7 @@
         "parameters": "[Count=16]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 719.024065653483,
+        "meanNanoseconds": 799.4406790733337,
         "allocatedBytesPerOperation": 184
       },
       {
@@ -3972,7 +4189,7 @@
         "parameters": "[Count=1024]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 43394.264587402344,
+        "meanNanoseconds": 48402.14116414388,
         "allocatedBytesPerOperation": 312
       },
       {
@@ -3983,7 +4200,7 @@
         "parameters": "[Count=16]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 787.7326914469401,
+        "meanNanoseconds": 838.6589091618856,
         "allocatedBytesPerOperation": 312
       },
       {
@@ -3994,7 +4211,7 @@
         "parameters": "[Count=1024]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 4483.659205118815,
+        "meanNanoseconds": 4830.564173380534,
         "allocatedBytesPerOperation": 112
       },
       {
@@ -4005,7 +4222,7 @@
         "parameters": "[Count=16]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 112.70125202337901,
+        "meanNanoseconds": 120.00650848944981,
         "allocatedBytesPerOperation": 112
       },
       {
@@ -4016,7 +4233,7 @@
         "parameters": "[Count=1024]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 5491.377413431804,
+        "meanNanoseconds": 6178.19308980306,
         "allocatedBytesPerOperation": 160
       },
       {
@@ -4027,7 +4244,7 @@
         "parameters": "[Count=16]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 136.04015191396078,
+        "meanNanoseconds": 152.55753803253174,
         "allocatedBytesPerOperation": 160
       },
       {
@@ -4038,7 +4255,7 @@
         "parameters": "[Count=1024]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 4364.40653737386,
+        "meanNanoseconds": 4599.756299336751,
         "allocatedBytesPerOperation": 120
       },
       {
@@ -4049,7 +4266,7 @@
         "parameters": "[Count=16]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 104.56470036506653,
+        "meanNanoseconds": 118.03281644980113,
         "allocatedBytesPerOperation": 120
       },
       {
@@ -4060,7 +4277,7 @@
         "parameters": "[Count=1024]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 5656.048467000325,
+        "meanNanoseconds": 4580.630012512207,
         "allocatedBytesPerOperation": 120
       },
       {
@@ -4071,7 +4288,7 @@
         "parameters": "[Count=16]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 111.4050922592481,
+        "meanNanoseconds": 117.55721008777618,
         "allocatedBytesPerOperation": 120
       },
       {
@@ -4082,7 +4299,7 @@
         "parameters": "[Count=1024]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 687.1118876139323,
+        "meanNanoseconds": 729.9573208491007,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -4093,7 +4310,7 @@
         "parameters": "[Count=16]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 11.621603528658548,
+        "meanNanoseconds": 13.34054228166739,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -4104,7 +4321,7 @@
         "parameters": "[Count=1024]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 2964.1316528320312,
+        "meanNanoseconds": 3136.089787801107,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -4115,7 +4332,7 @@
         "parameters": "[Count=16]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 62.310841073592506,
+        "meanNanoseconds": 55.795145720243454,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -4126,7 +4343,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 25.45359284679095,
+        "meanNanoseconds": 31.68076092004776,
         "allocatedBytesPerOperation": 24
       },
       {
@@ -4137,7 +4354,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 111.22126853466034,
+        "meanNanoseconds": 171.67591981093088,
         "allocatedBytesPerOperation": 208
       },
       {
@@ -4148,7 +4365,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 24.90312071641286,
+        "meanNanoseconds": 26.295921365420025,
         "allocatedBytesPerOperation": 80
       },
       {
@@ -4159,7 +4376,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 75.7951109011968,
+        "meanNanoseconds": 82.59676482280095,
         "allocatedBytesPerOperation": 80
       },
       {
@@ -4170,7 +4387,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 19.4498354891936,
+        "meanNanoseconds": 21.552024513483047,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -4181,7 +4398,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 75.72336016098659,
+        "meanNanoseconds": 77.1429654955864,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -4192,7 +4409,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 2.5232479150096574,
+        "meanNanoseconds": 2.7467178478837013,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -4203,7 +4420,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 29.151625394821167,
+        "meanNanoseconds": 29.624375412861507,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -4214,7 +4431,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 11.674678420027098,
+        "meanNanoseconds": 13.420220389962196,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -4225,7 +4442,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 23.831651871403057,
+        "meanNanoseconds": 25.249940792719524,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -4236,7 +4453,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 2.294323980808258,
+        "meanNanoseconds": 2.8344888711969056,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -4247,7 +4464,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 35.7356004913648,
+        "meanNanoseconds": 40.04487572113673,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -4258,7 +4475,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 3.4329888001084328,
+        "meanNanoseconds": 3.761959803601106,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -4269,7 +4486,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 84.135806620121,
+        "meanNanoseconds": 84.45570770899455,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -4280,7 +4497,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 12.298397411902746,
+        "meanNanoseconds": 15.37310542166233,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -4291,7 +4508,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 94.58263591925304,
+        "meanNanoseconds": 102.49588749806087,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -4302,7 +4519,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 12.425129051009813,
+        "meanNanoseconds": 15.119334354996681,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -4313,7 +4530,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 116.51074091593425,
+        "meanNanoseconds": 108.39056418339412,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -4324,7 +4541,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 1.0341196830073993,
+        "meanNanoseconds": 1.277906467517217,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -4335,7 +4552,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 12.754253660639128,
+        "meanNanoseconds": 15.426380276679993,
         "allocatedBytesPerOperation": 88
       },
       {
@@ -4346,8 +4563,8 @@
         "parameters": "[CandidateCount=16]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 6460.85981241862,
-        "allocatedBytesPerOperation": 5632
+        "meanNanoseconds": 7937.421488444011,
+        "allocatedBytesPerOperation": 5665
       },
       {
         "id": "FirstSuccessConcurrencyBenchmarks|First successful cold Result operation|BclTaskWhenAnyCancelAndDrain|[CandidateCount=4]",
@@ -4357,8 +4574,8 @@
         "parameters": "[CandidateCount=4]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 5534.662704467773,
-        "allocatedBytesPerOperation": 1730
+        "meanNanoseconds": 5877.223782857259,
+        "allocatedBytesPerOperation": 1738
       },
       {
         "id": "FirstSuccessConcurrencyBenchmarks|First successful cold Result operation|FunnySharpFirstSuccessAsync|[CandidateCount=16]",
@@ -4368,8 +4585,8 @@
         "parameters": "[CandidateCount=16]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 4648.434926350911,
-        "allocatedBytesPerOperation": 4161
+        "meanNanoseconds": 6004.865750630696,
+        "allocatedBytesPerOperation": 4276
       },
       {
         "id": "FirstSuccessConcurrencyBenchmarks|First successful cold Result operation|FunnySharpFirstSuccessAsync|[CandidateCount=4]",
@@ -4379,8 +4596,8 @@
         "parameters": "[CandidateCount=4]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 6648.8738352457685,
-        "allocatedBytesPerOperation": 3026
+        "meanNanoseconds": 7572.7649002075195,
+        "allocatedBytesPerOperation": 2657
       },
       {
         "id": "FunctionCompositionBenchmarks|Completed Task invocation|ComposeAsyncCompletedTaskInvocation|",
@@ -4390,7 +4607,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 33.69782583912214,
+        "meanNanoseconds": 39.06874913970629,
         "allocatedBytesPerOperation": 216
       },
       {
@@ -4401,7 +4618,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 29.7033465107282,
+        "meanNanoseconds": 34.12045505642891,
         "allocatedBytesPerOperation": 216
       },
       {
@@ -4412,7 +4629,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 16.875849813222885,
+        "meanNanoseconds": 19.005177855491638,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -4423,7 +4640,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 12.513246158758799,
+        "meanNanoseconds": 15.464556669195494,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -4434,7 +4651,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 16.38621441523234,
+        "meanNanoseconds": 18.32662496964137,
         "allocatedBytesPerOperation": 96
       },
       {
@@ -4445,7 +4662,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 11.257399121920267,
+        "meanNanoseconds": 10.749007994929949,
         "allocatedBytesPerOperation": 64
       },
       {
@@ -4456,7 +4673,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 5.0596862236658735,
+        "meanNanoseconds": 6.115690144399802,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -4467,7 +4684,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 1.1980932851632435,
+        "meanNanoseconds": 1.514521357913812,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -4478,7 +4695,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 3.8775098447998366,
+        "meanNanoseconds": 3.909554814298948,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -4489,7 +4706,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 4.182060879965623,
+        "meanNanoseconds": 4.252338481446107,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -4500,7 +4717,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 60.00841899712881,
+        "meanNanoseconds": 65.74306084712346,
         "allocatedBytesPerOperation": 208
       },
       {
@@ -4511,7 +4728,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 61.86541457970937,
+        "meanNanoseconds": 68.15414555867513,
         "allocatedBytesPerOperation": 208
       },
       {
@@ -4522,7 +4739,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 59.777581234773,
+        "meanNanoseconds": 68.82347345352173,
         "allocatedBytesPerOperation": 104
       },
       {
@@ -4533,7 +4750,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 65.06819138924281,
+        "meanNanoseconds": 75.09862047433853,
         "allocatedBytesPerOperation": 104
       },
       {
@@ -4544,7 +4761,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 8.364298393328985,
+        "meanNanoseconds": 8.600579942266146,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -4555,7 +4772,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 10.04532565176487,
+        "meanNanoseconds": 10.3963393419981,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -4566,7 +4783,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 22.659582783778507,
+        "meanNanoseconds": 23.176355650027592,
         "allocatedBytesPerOperation": 72
       },
       {
@@ -4577,7 +4794,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 31.428078214327495,
+        "meanNanoseconds": 31.3912555873394,
         "allocatedBytesPerOperation": 72
       },
       {
@@ -4588,7 +4805,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 23.145700991153717,
+        "meanNanoseconds": 22.3232630242904,
         "allocatedBytesPerOperation": 144
       },
       {
@@ -4599,7 +4816,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 40.349125335613884,
+        "meanNanoseconds": 44.428157806396484,
         "allocatedBytesPerOperation": 216
       },
       {
@@ -4610,7 +4827,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 9.285544902086258,
+        "meanNanoseconds": 10.021945183475813,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -4621,7 +4838,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 23.337933162848156,
+        "meanNanoseconds": 24.988769312699635,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -4632,7 +4849,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 5.5710321590304375,
+        "meanNanoseconds": 5.8568300902843475,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -4643,7 +4860,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 5.602908353010814,
+        "meanNanoseconds": 7.965880274772644,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -4654,7 +4871,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 5.754764124751091,
+        "meanNanoseconds": 6.016694441437721,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -4665,7 +4882,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 6.323716774582863,
+        "meanNanoseconds": 7.495841669539611,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -4687,7 +4904,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 0.3646823776264985,
+        "meanNanoseconds": 0.40636273225148517,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -4709,7 +4926,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 0.3351314465204875,
+        "meanNanoseconds": 0.6335710448523363,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -4719,8 +4936,8 @@
         "method": "DirectMapNone",
         "parameters": "",
         "baseline": true,
-        "timingState": "below-resolution",
-        "meanNanoseconds": null,
+        "timingState": "observed",
+        "meanNanoseconds": 0.47130132218201953,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -4731,7 +4948,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 1.2269759352008502,
+        "meanNanoseconds": 1.1746544403334458,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -4753,7 +4970,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 2.2219797298312187,
+        "meanNanoseconds": 2.3598503147562346,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -4775,7 +4992,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 1.033210466305415,
+        "meanNanoseconds": 1.1040251503388088,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -4808,7 +5025,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 10.562302311261496,
+        "meanNanoseconds": 10.923853014906248,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -4819,7 +5036,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 14.175623004635176,
+        "meanNanoseconds": 13.853326578934988,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -4830,7 +5047,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 6.721421862641971,
+        "meanNanoseconds": 7.931592896580696,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -4841,7 +5058,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 9.241668005784353,
+        "meanNanoseconds": 9.652584075927734,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -4852,8 +5069,8 @@
         "parameters": "[Count=1024]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 514945.9088541667,
-        "allocatedBytesPerOperation": 356631
+        "meanNanoseconds": 493273.9957682292,
+        "allocatedBytesPerOperation": 345065
       },
       {
         "id": "ParallelTraverseConcurrencyBenchmarks|Parallel Option traversal|BclParallelOptionTraversal|[Count=16]",
@@ -4863,8 +5080,8 @@
         "parameters": "[Count=16]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 12747.37092336019,
-        "allocatedBytesPerOperation": 5879
+        "meanNanoseconds": 14168.93147023519,
+        "allocatedBytesPerOperation": 5995
       },
       {
         "id": "ParallelTraverseConcurrencyBenchmarks|Parallel Option traversal|FunnySharpParallelOptionTraversal|[Count=1024]",
@@ -4874,8 +5091,8 @@
         "parameters": "[Count=1024]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 627380.3346354166,
-        "allocatedBytesPerOperation": 265004
+        "meanNanoseconds": 678853.8958333334,
+        "allocatedBytesPerOperation": 271635
       },
       {
         "id": "ParallelTraverseConcurrencyBenchmarks|Parallel Option traversal|FunnySharpParallelOptionTraversal|[Count=16]",
@@ -4885,8 +5102,8 @@
         "parameters": "[Count=16]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 17042.497619628906,
-        "allocatedBytesPerOperation": 6709
+        "meanNanoseconds": 19581.82208251953,
+        "allocatedBytesPerOperation": 6192
       },
       {
         "id": "ParallelTraverseConcurrencyBenchmarks|Parallel Validation accumulation|BclParallelValidationTraversal|[Count=1024]",
@@ -4896,8 +5113,8 @@
         "parameters": "[Count=1024]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 527876.9869791666,
-        "allocatedBytesPerOperation": 386785
+        "meanNanoseconds": 666099.2356770834,
+        "allocatedBytesPerOperation": 374729
       },
       {
         "id": "ParallelTraverseConcurrencyBenchmarks|Parallel Validation accumulation|BclParallelValidationTraversal|[Count=16]",
@@ -4907,8 +5124,8 @@
         "parameters": "[Count=16]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 13393.865661621094,
-        "allocatedBytesPerOperation": 6546
+        "meanNanoseconds": 16393.400985717773,
+        "allocatedBytesPerOperation": 6509
       },
       {
         "id": "ParallelTraverseConcurrencyBenchmarks|Parallel Validation accumulation|FunnySharpParallelValidationTraversal|[Count=1024]",
@@ -4918,8 +5135,8 @@
         "parameters": "[Count=1024]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 702008.7591145834,
-        "allocatedBytesPerOperation": 286418
+        "meanNanoseconds": 814549.8294270834,
+        "allocatedBytesPerOperation": 334158
       },
       {
         "id": "ParallelTraverseConcurrencyBenchmarks|Parallel Validation accumulation|FunnySharpParallelValidationTraversal|[Count=16]",
@@ -4929,8 +5146,8 @@
         "parameters": "[Count=16]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 19810.13442993164,
-        "allocatedBytesPerOperation": 7862
+        "meanNanoseconds": 23114.738515218098,
+        "allocatedBytesPerOperation": 7833
       },
       {
         "id": "ResultBenchmarks|Completed Task mapping|DirectCompletedTaskMap|",
@@ -4940,7 +5157,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 22.53723688920339,
+        "meanNanoseconds": 24.068926428755123,
         "allocatedBytesPerOperation": 144
       },
       {
@@ -4951,7 +5168,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 46.475209176540375,
+        "meanNanoseconds": 49.83118728796641,
         "allocatedBytesPerOperation": 256
       },
       {
@@ -4962,7 +5179,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 11.241659318407377,
+        "meanNanoseconds": 11.88645655910174,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -4973,7 +5190,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 37.131642043590546,
+        "meanNanoseconds": 42.045375456412636,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -5016,8 +5233,8 @@
         "method": "ResultSuccessConstructionAndInspection",
         "parameters": "",
         "baseline": false,
-        "timingState": "observed",
-        "meanNanoseconds": 0.29104410981138545,
+        "timingState": "below-resolution",
+        "meanNanoseconds": null,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -5028,7 +5245,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 2811.7116088867188,
+        "meanNanoseconds": 2963.021292368571,
         "allocatedBytesPerOperation": 512
       },
       {
@@ -5039,7 +5256,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 3177.784018198649,
+        "meanNanoseconds": 3474.083123524984,
         "allocatedBytesPerOperation": 680
       },
       {
@@ -5050,7 +5267,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 10.867539867758751,
+        "meanNanoseconds": 11.253103509545326,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -5061,7 +5278,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 15.664592653512955,
+        "meanNanoseconds": 14.519374857346216,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -5083,7 +5300,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 2.167560949921608,
+        "meanNanoseconds": 2.2575200075904527,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -5105,7 +5322,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 9.634600182374319,
+        "meanNanoseconds": 10.10092035929362,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -5116,7 +5333,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 2474.8179155985513,
+        "meanNanoseconds": 2734.3340059916177,
         "allocatedBytesPerOperation": 296
       },
       {
@@ -5127,7 +5344,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 2882.8534660339355,
+        "meanNanoseconds": 3305.9785639444985,
         "allocatedBytesPerOperation": 744
       },
       {
@@ -5138,7 +5355,7 @@
         "parameters": "",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 2592.1263898213706,
+        "meanNanoseconds": 3754.4335403442383,
         "allocatedBytesPerOperation": 304
       },
       {
@@ -5149,7 +5366,7 @@
         "parameters": "",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 2947.760055541992,
+        "meanNanoseconds": 3440.551690419515,
         "allocatedBytesPerOperation": 840
       },
       {
@@ -5160,7 +5377,7 @@
         "parameters": "[Count=1024]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 1417.3996760050456,
+        "meanNanoseconds": 1733.6466032663982,
         "allocatedBytesPerOperation": 4176
       },
       {
@@ -5171,7 +5388,7 @@
         "parameters": "[Count=16]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 37.22772949934006,
+        "meanNanoseconds": 43.554792791604996,
         "allocatedBytesPerOperation": 144
       },
       {
@@ -5182,7 +5399,7 @@
         "parameters": "[Count=1024]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 1931.1214205423992,
+        "meanNanoseconds": 2104.131847381592,
         "allocatedBytesPerOperation": 4176
       },
       {
@@ -5193,7 +5410,7 @@
         "parameters": "[Count=16]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 43.137606938680015,
+        "meanNanoseconds": 55.896593272686005,
         "allocatedBytesPerOperation": 144
       },
       {
@@ -5204,7 +5421,7 @@
         "parameters": "[Count=1024]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 2.079220545788606,
+        "meanNanoseconds": 1.817329652607441,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -5215,7 +5432,7 @@
         "parameters": "[Count=16]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 2.7019981145858765,
+        "meanNanoseconds": 1.8337848857045174,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -5226,7 +5443,7 @@
         "parameters": "[Count=1024]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 3.39990654339393,
+        "meanNanoseconds": 3.7094053477048874,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -5237,7 +5454,7 @@
         "parameters": "[Count=16]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 3.9698857416709266,
+        "meanNanoseconds": 3.5667934343218803,
         "allocatedBytesPerOperation": 0
       },
       {
@@ -5248,7 +5465,7 @@
         "parameters": "[Count=1024]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 4879.981755574544,
+        "meanNanoseconds": 5183.475059509277,
         "allocatedBytesPerOperation": 12632
       },
       {
@@ -5259,7 +5476,7 @@
         "parameters": "[Count=16]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 159.72476239999136,
+        "meanNanoseconds": 169.29855064551035,
         "allocatedBytesPerOperation": 392
       },
       {
@@ -5270,7 +5487,7 @@
         "parameters": "[Count=1024]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 6249.1483815511065,
+        "meanNanoseconds": 6595.893531799316,
         "allocatedBytesPerOperation": 12632
       },
       {
@@ -5281,7 +5498,7 @@
         "parameters": "[Count=16]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 204.85949802398682,
+        "meanNanoseconds": 210.64671699206033,
         "allocatedBytesPerOperation": 392
       },
       {
@@ -5292,7 +5509,7 @@
         "parameters": "[Count=256]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 137.09191608428955,
+        "meanNanoseconds": 145.96438797314963,
         "allocatedBytesPerOperation": 1048
       },
       {
@@ -5303,7 +5520,7 @@
         "parameters": "[Count=64]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 37.090417524178825,
+        "meanNanoseconds": 42.86026751995087,
         "allocatedBytesPerOperation": 280
       },
       {
@@ -5314,7 +5531,7 @@
         "parameters": "[Count=8]",
         "baseline": true,
         "timingState": "observed",
-        "meanNanoseconds": 9.109594941139221,
+        "meanNanoseconds": 9.727666075030962,
         "allocatedBytesPerOperation": 56
       },
       {
@@ -5325,7 +5542,7 @@
         "parameters": "[Count=256]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 24422.83758544922,
+        "meanNanoseconds": 24090.756896972656,
         "allocatedBytesPerOperation": 33880
       },
       {
@@ -5336,7 +5553,7 @@
         "parameters": "[Count=64]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 5661.844393412272,
+        "meanNanoseconds": 5939.692092895508,
         "allocatedBytesPerOperation": 8536
       },
       {
@@ -5347,7 +5564,7 @@
         "parameters": "[Count=8]",
         "baseline": false,
         "timingState": "observed",
-        "meanNanoseconds": 756.6970691680908,
+        "meanNanoseconds": 786.9829524358114,
         "allocatedBytesPerOperation": 1144
       }
     ]
@@ -5423,6 +5640,13 @@
       "path": "docs/state-machines.md",
       "benchmarkClasses": [
         "StateMachineBenchmarks"
+      ]
+    },
+    {
+      "id": "aspnet-core",
+      "path": "docs/aspnet-core.md",
+      "benchmarkClasses": [
+        "AspNetCoreBenchmarks"
       ]
     }
   ]
