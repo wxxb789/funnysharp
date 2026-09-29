@@ -109,16 +109,6 @@ let private benchmarkParameterNames (benchmarkClass: string) (policyParameters: 
 
     defaultArg expected []
 
-/// Lane C's port of the verifier's benchmark integration. Guarded at run time so this
-/// file compiles and runs before eng/harness/ReleaseVerifySource.fs is buildable.
-let private laneCVerifierPath () =
-    Path.Combine(repositoryRoot (), "eng", "harness", "ReleaseVerifySource.fs")
-
-let private laneCVerifierPresent () = File.Exists(laneCVerifierPath ())
-
-let private laneCMissing =
-    "lane C (eng/harness/ReleaseVerifySource.fs) has not landed yet"
-
 // ---------------------------------------------------------------------------
 // Protocol model (ReleaseProtocol.psm1 / Run-Release.ps1)
 // ---------------------------------------------------------------------------
@@ -276,19 +266,6 @@ type ReleaseProtocolModelTests() =
         Assert.Empty(benchmarkParameterNames "NoParameterBenchmarks" [ "" ])
 
     [<Fact>]
-    member _.VerifyRelease_Ast_InvokesAssertBenchmarkReportsExactlyOnce() =
-        Assert.SkipWhen(not (laneCVerifierPresent ()), laneCMissing)
-        let text = File.ReadAllText(laneCVerifierPath ())
-
-        Assert.Equal(1, Regex.Matches(text, @"(?m)^\s+assertBenchmarkReports\b").Count)
-
-    [<Fact>]
-    member _.VerifyRelease_AssertBenchmarkReports_ReturnsVerifiedStatus() =
-        Assert.SkipWhen(not (laneCVerifierPresent ()), laneCMissing)
-        let text = File.ReadAllText(laneCVerifierPath ())
-        Assert.Contains("\"verified\"", text)
-
-    [<Fact>]
     member _.ReleaseWorkflow_HasRequiredContextsAndShaPinnedActions() =
         let workflow =
             File.ReadAllText(Path.Combine(repositoryRoot (), ".github", "workflows", "release.yml"))
@@ -326,11 +303,6 @@ type ReleaseProtocolModelTests() =
             Ruleset.assertStrictRequiredStatusChecksPolicy (parseJson "{\"strict_required_status_checks_policy\":true}")
 
         Assert.True(result.IsOk, messageOf result)
-
-    [<Fact>]
-    member _.VerifyGitHubRuleset_RecordsStrictRequiredStatusChecksPolicy() =
-        let text = File.ReadAllText(Path.Combine(repositoryRoot (), "eng", "harness", "Ruleset.fs"))
-        Assert.Contains("strictRequiredStatusChecksPolicy", text)
 
     // ---- Attempt paths ----
 

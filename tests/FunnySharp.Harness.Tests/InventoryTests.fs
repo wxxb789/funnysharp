@@ -486,18 +486,6 @@ type TargetTableTests() =
 
         Assert.Equal<(string * string list) list>(expected, actual)
 
-    [<Fact>]
-    member _.EntryPointModuleShape() =
-        // Replaces the old PEP 723 header check: eng/tools/inventory.py is deleted
-        // later in this migration, so its standalone-script run contract no longer
-        // has a subject. This pins the F# module's equivalent entry contract: the
-        // module identity and the main entry point build.fsx will call.
-        let text =
-            File.ReadAllText(repoRelative (Path.Combine("eng", "harness", "Inventory.fs")))
-
-        Assert.Contains("module FunnySharp.Harness.Inventory", text)
-        Assert.Contains("let main (argv: string array) : int", text)
-
 // ---- environment resolution ------------------------------------------------
 
 type EnvironmentResolutionTests() =

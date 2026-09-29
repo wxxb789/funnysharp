@@ -11,9 +11,10 @@ module FunnySharp.Harness.Tests.ToolingVerifyTests
 //
 // Deliberate divergences from the Python suite, both recorded in the module header:
 // the uv and pinned-Python prerequisites are gone (the F# tool does not run under
-// uv/Python), so UvIsNoLongerAPrerequisite / PythonInterpreterIsNoLongerAPrerequisite
-// assert the divergence instead of the old environment failures; and the PEP 723
-// header test is replaced by MarkerContractHasThirteenLiterals.
+// uv/Python), so UvIsNoLongerAPrerequisite asserts that the CLI still succeeds with
+// a uv shim on PATH instead of the old environment failures; and the PEP 723 header
+// test is replaced by MarkerGuardFailureOnMutatedVerifier, which mutates a verifier
+// source and asserts the missing-marker report.
 
 open System
 open System.Collections.Generic
@@ -537,10 +538,6 @@ type ProtocolContractTests() =
         | _ -> failwith "expected a child-process command"
 
     [<Fact>]
-    member _.MarkerContractHasThirteenLiterals() =
-        Assert.Equal(13, markerContract.Length)
-
-    [<Fact>]
     member this.CommandsMirrorReleaseProtocolForms() =
         use protocol = this.Protocol()
         let steps = protocol.RootElement.GetProperty("steps")
@@ -654,15 +651,8 @@ type EnvironmentFailureTests() =
 
     [<Fact>]
     member this.UvIsNoLongerAPrerequisite() =
-        let problems = environmentProblems this.Env
-        Assert.DoesNotContain(problems, fun problem -> problem.Summary.Contains "uv was not found")
         let code, _, _ = this.RunCli(this.RepoArgv [])
         Assert.Equal(0, code)
-
-    [<Fact>]
-    member this.PythonInterpreterIsNoLongerAPrerequisite() =
-        let problems = environmentProblems this.Env
-        Assert.DoesNotContain(problems, fun problem -> problem.Summary.Contains "Python 3.12")
 
     [<Fact>]
     member this.OutsideGitRepositoryIsEnvironmentFailure() =

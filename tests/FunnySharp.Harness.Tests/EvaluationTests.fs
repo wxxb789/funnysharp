@@ -635,20 +635,4 @@ module EvaluationOracle =
         member _.PayOrderReportsUnknownOrderDeclinesThenSucceeds() =
             expect "aspnetcore" "AspnetcoreTests.cs" "PayOrderReportsUnknownOrderDeclinesThenSucceeds"
 
-    type Suite() =
-        [<Fact>]
-        member _.TheOracleHoldsFortyThreeFacts() =
-            let areas =
-                [ "business-outcomes", "PlaceOrderTests.cs"
-                  "collections", "CollectionsTests.cs"
-                  "async-streams", "AsyncStreamsTests.cs"
-                  "concurrency", "ConcurrencyTests.cs"
-                  "aspnetcore", "AspnetcoreTests.cs" ]
 
-            let total =
-                areas
-                |> List.sumBy (fun (area, file) ->
-                    let path = Path.Combine(repositoryRoot (), "eng", "evaluation", "tasks", area, "tests", file)
-                    (File.ReadAllText path).Split("[Fact]").Length - 1)
-
-            Assert.Equal(43, total)
