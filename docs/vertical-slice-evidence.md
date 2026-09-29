@@ -111,9 +111,11 @@ maintainer accepts or amends it:
 - The consumer bundle is not part of `FunnySharp.slnx`, because its projects can only restore after
   the packages exist; this mirrors the compatibility suite's placement outside the solution.
 - The consumer suite is deterministic by construction: no test sleeps or polls, every wait is gated by
-  a `TaskCompletionSource` and bounded by `TestContext.Current.CancellationToken`, and the slice has no
-  mutable static state. It passed more than 40 standalone suite runs and every pipeline run recorded in
-  this closure's session. One run on
+  a `TaskCompletionSource` and bounded by `TestContext.Current.CancellationToken`, and a grep over the
+  slice and its test support finds no mutable static state (only static methods, lambdas and
+  `static readonly`/`const` members). It passed the 41 standalone suite runs recorded in this
+  session's ledgers and every pipeline run of this closure except the two cycles that carried a
+  deliberately failing probe test. One run on
   2026-09-29 reported 1 failure of 49 — on a shared 2-vCPU host at load 3.4-6.4 with 5 GB of 7.8 GB in
   use and no swap, where the failing run took 12.7 s against a 4.4 s typical — and was not reproducible
   in any of those runs. That receipt could not name the failing test because it kept only an
