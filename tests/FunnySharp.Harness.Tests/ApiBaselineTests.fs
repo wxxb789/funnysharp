@@ -21,23 +21,18 @@ let private harnessAssemblyPath = Path.Combine(AppContext.BaseDirectory, "FunnyS
 let private utf8NoBom = UTF8Encoding(false)
 
 /// Copy the built harness assembly into one shipping slot of a scratch root, so
-/// mainWith's fixed layout resolves a real, loadable assembly.
-let private stageShippingAssembly (repositoryRoot: string) (name: string) : unit =
-    let target =
-        Path.Combine(repositoryRoot, "src", name, "bin", "Release", "net10.0", name + ".dll")
-
-    Directory.CreateDirectory(
-        match Path.GetDirectoryName target with
-        | null -> repositoryRoot
-        | directory -> directory
-    )
-    |> ignore
-
-    File.Copy(harnessAssemblyPath, target, true)
-
+/// mainWith's fixed layout resolves a real, loadable assembly. The slot path comes
+/// from shippingAssemblies, so staging cannot drift from the layout the CLI resolves.
 let private stageShippingAssemblies (repositoryRoot: string) : unit =
-    for name, _ in shippingAssemblies repositoryRoot do
-        stageShippingAssembly repositoryRoot name
+    for _, target in shippingAssemblies repositoryRoot do
+        Directory.CreateDirectory(
+            match Path.GetDirectoryName target with
+            | null -> repositoryRoot
+            | directory -> directory
+        )
+        |> ignore
+
+        File.Copy(harnessAssemblyPath, target, true)
 
 let private writeBaseline (path: string) (lines: string list) : unit =
     File.WriteAllLines(path, lines, utf8NoBom)
@@ -83,20 +78,12 @@ type ApiBaselineTests() =
         Assert.Equal("FunnySharp.AspNetCore", fst shipping.[1])
 
         Assert.Equal(
-            Path.Combine("/repo", "src", "FunnySharp", "bin", "Release", "net10.0", "FunnySharp.dll"),
+            Path.Combine("/repo", "src/FunnySharp/bin/Release/net10.0/FunnySharp.dll"),
             snd shipping.[0]
         )
 
         Assert.Equal(
-            Path.Combine(
-                "/repo",
-                "src",
-                "FunnySharp.AspNetCore",
-                "bin",
-                "Release",
-                "net10.0",
-                "FunnySharp.AspNetCore.dll"
-            ),
+            Path.Combine("/repo", "src/FunnySharp.AspNetCore/bin/Release/net10.0/FunnySharp.AspNetCore.dll"),
             snd shipping.[1]
         )
 
@@ -110,7 +97,7 @@ type ApiBaselineTests() =
         let assemblyPath =
             Path.Combine(temp.Path, "src", "FunnySharp", "bin", "Release", "net10.0", "FunnySharp.dll")
 
-        let messages = outdatedBaselineMessages temp.Path [ assemblyPath ]
+        let messages = outdatedBaselineMessages temp.Path [ "FunnySharp", assemblyPath ]
         Assert.Equal(1, messages.Length)
         Assert.Contains("baseline file is missing", messages.Head)
         Assert.Contains(baselineFileName temp.Path "FunnySharp", messages.Head)
@@ -127,11 +114,11 @@ type ApiBaselineTests() =
         Assert.False(rendered.IsEmpty)
         writeBaseline baselinePath rendered
 
-        Assert.Equal<string list>([], outdatedBaselineMessages temp.Path [ harnessAssemblyPath ])
+        Assert.Equal<string list>([], outdatedBaselineMessages temp.Path [ "FunnySharp.Harness", harnessAssemblyPath ])
 
         writeBaseline baselinePath (rendered @ [ "  METHOD Void Ghost()" ])
 
-        let messages = outdatedBaselineMessages temp.Path [ harnessAssemblyPath ]
+        let messages = outdatedBaselineMessages temp.Path [ "FunnySharp.Harness", harnessAssemblyPath ]
         Assert.Equal(1, messages.Length)
         Assert.Contains("differs from the committed baseline", messages.Head)
         Assert.Contains("-   METHOD Void Ghost()", messages.Head)

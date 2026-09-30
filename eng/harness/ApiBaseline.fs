@@ -23,7 +23,6 @@ open System
 open System.Collections.Generic
 open System.IO
 open System.Text
-open System.Text.Json.Nodes
 open FunnySharp.Harness.Repo
 open FunnySharp.Harness.ReleaseVerifyArtifacts
 
@@ -43,8 +42,11 @@ let baselineFileName (repositoryRoot: string) (assemblySimpleName: string) : str
 /// FunnySharp.AspNetCore at src/<name>/bin/Release/net10.0/<name>.dll, in that
 /// fixed order.
 let shippingAssemblies (repositoryRoot: string) : (string * string) list =
+    // The relative part stays one forward-slash segment: the release audit records
+    // these path strings verbatim in public-api.json, so the spelling is part of
+    // that evidence on every host.
     let assemblyPath (name: string) : string =
-        Path.Combine(repositoryRoot, "src", name, "bin", "Release", "net10.0", name + ".dll")
+        Path.Combine(repositoryRoot, sprintf "src/%s/bin/Release/net10.0/%s.dll" name name)
 
     [ "FunnySharp", assemblyPath "FunnySharp"
       "FunnySharp.AspNetCore", assemblyPath "FunnySharp.AspNetCore" ]
@@ -74,12 +76,6 @@ let diffLines (expected: string list) (actual: string list) : string list =
 
 let private utf8NoBom = UTF8Encoding(false)
 
-/// The file name without its extension, with the path itself as the null fallback.
-let private simpleNameOf (assemblyPath: string) : string =
-    match Path.GetFileNameWithoutExtension assemblyPath with
-    | null -> assemblyPath
-    | name -> name
-
 /// Render one assembly's public API through the release audit's rendering path.
 /// A single-element assembly list keeps each rendering self-contained: its own
 /// `ASSEMBLY` line followed by that assembly's types and members.
@@ -90,56 +86,58 @@ let private renderAssembly (repositoryRoot: string) (assemblyPath: string) : str
 let private readBaselineLines (path: string) : string list =
     File.ReadAllLines(path, utf8NoBom) |> List.ofArray
 
-let private memberKinds = [ "constructors"; "methods"; "properties"; "fields"; "events" ]
+/// (type count, member count) over one assembly's rendered lines, counted from the
+/// very lines that get compared: renderPublicApiText writes one 'ASSEMBLY' line per
+/// assembly, one unindented 'KIND <name>' line per type, and one two-space-indented
+/// line per member - so the counts cannot describe a different surface than the
+/// comparison does, and a new member kind is counted without a second list to keep
+/// in step with the renderer.
+let private surfaceCounts (rendered: string list) : int * int =
+    let isAssemblyLine (line: string) = line.StartsWith("ASSEMBLY ", StringComparison.Ordinal)
+    let isMemberLine (line: string) = line.StartsWith("  ", StringComparison.Ordinal)
 
-/// (type count, member count) across an inventory, independent of reflection order.
-let private inventoryCounts (inventory: JsonArray) : int * int =
-    let mutable typeCount = 0
-    let mutable memberCount = 0
+    let typeCount =
+        rendered
+        |> List.filter (fun line -> not (isAssemblyLine line) && not (isMemberLine line))
+        |> List.length
 
-    for assembly in inventory do
-        match assembly with
-        | :? JsonObject as assemblyObject ->
-            match assemblyObject.["types"] with
-            | :? JsonArray as types ->
-                typeCount <- typeCount + types.Count
-
-                for apiType in types do
-                    match apiType with
-                    | :? JsonObject as typeObject ->
-                        for memberKind in memberKinds do
-                            match typeObject.[memberKind] with
-                            | :? JsonArray as members -> memberCount <- memberCount + members.Count
-                            | _ -> ()
-                    | _ -> ()
-            | _ -> ()
-        | _ -> ()
+    let memberCount = rendered |> List.filter isMemberLine |> List.length
 
     typeCount, memberCount
 
-/// Every baseline mismatch for the given built assemblies, one message per
-/// assembly, using the diff. Empty when every assembly matches its committed
-/// baseline in eng/api-baseline/. A missing baseline file yields one message
-/// saying the baseline file is missing.
-let outdatedBaselineMessages (repositoryRoot: string) (assemblyPaths: string list) : string list =
-    [ for assemblyPath in assemblyPaths do
-          let simpleName = simpleNameOf assemblyPath
-          let baselinePath = baselineFileName repositoryRoot simpleName
+/// The diff between one assembly's rendered surface and its committed baseline, or the
+/// message saying the baseline file is missing. Nothing is rendered when that file is
+/// missing: the file system decides this branch, never a loaded assembly.
+let private baselineMismatch
+    (repositoryRoot: string)
+    (simpleName: string)
+    (renderSurface: unit -> string list)
+    : string option =
+    let baselinePath = baselineFileName repositoryRoot simpleName
 
-          if not (File.Exists baselinePath) then
-              yield sprintf "Public API baseline file is missing: '%s'." baselinePath
-          else
-              let expected = readBaselineLines baselinePath
-              let actual = renderAssembly repositoryRoot assemblyPath
-              let diff = diffLines expected actual
+    if not (File.Exists baselinePath) then
+        Some(sprintf "Public API baseline file is missing: '%s'." baselinePath)
+    else
+        let diff = diffLines (readBaselineLines baselinePath) (renderSurface ())
 
-              if not diff.IsEmpty then
-                  yield
-                      sprintf
-                          "Public API surface for '%s' differs from the committed baseline '%s':\n%s"
-                          simpleName
-                          baselinePath
-                          (String.concat "\n" diff) ]
+        if diff.IsEmpty then
+            None
+        else
+            Some(
+                sprintf
+                    "Public API surface for '%s' differs from the committed baseline '%s':\n%s"
+                    simpleName
+                    baselinePath
+                    (String.concat "\n" diff)
+            )
+
+/// Every baseline mismatch, one message per assembly in the given order. Empty when every
+/// assembly matches its committed baseline in eng/api-baseline/. The release audit's entry
+/// point.
+let outdatedBaselineMessages (repositoryRoot: string) (assemblies: (string * string) list) : string list =
+    assemblies
+    |> List.choose (fun (simpleName, assemblyPath) ->
+        baselineMismatch repositoryRoot simpleName (fun () -> renderAssembly repositoryRoot assemblyPath))
 
 // ---------------------------------------------------------------------------
 // Command line
@@ -199,10 +197,16 @@ let mainWith (stdout: TextWriter) (stderr: TextWriter) (argv: string list) : int
 
             2
         else
-            let assemblyPaths = assemblies |> List.map snd
-            let typeCount, memberCount = getPublicApiInventory assemblyPaths repositoryRoot |> inventoryCounts
+            // One reflection pass per assembly, shared by writing, comparing and counting.
+            let rendered =
+                [ for name, path in assemblies -> name, path, renderAssembly repositoryRoot path ]
 
-            let successLine =
+            let successLine () =
+                let typeCount, memberCount =
+                    rendered
+                    |> List.map (fun (_, _, lines) -> surfaceCounts lines)
+                    |> List.fold (fun (types, members) (moreTypes, moreMembers) -> types + moreTypes, members + moreMembers) (0, 0)
+
                 sprintf
                     "Verified %d types and %d members across %d assemblies against %s."
                     typeCount
@@ -213,16 +217,19 @@ let mainWith (stdout: TextWriter) (stderr: TextWriter) (argv: string list) : int
             if options.Write then
                 Directory.CreateDirectory(baselineDirectory repositoryRoot) |> ignore
 
-                for name, path in assemblies do
-                    File.WriteAllLines(baselineFileName repositoryRoot name, renderAssembly repositoryRoot path, utf8NoBom)
+                for name, _, lines in rendered do
+                    File.WriteAllLines(baselineFileName repositoryRoot name, lines, utf8NoBom)
 
-                stdout.WriteLine successLine
+                stdout.WriteLine(successLine ())
                 0
             else
-                let messages = outdatedBaselineMessages repositoryRoot assemblyPaths
+                let messages =
+                    rendered
+                    |> List.choose (fun (simpleName, _, lines) ->
+                        baselineMismatch repositoryRoot simpleName (fun () -> lines))
 
                 if messages.IsEmpty then
-                    stdout.WriteLine successLine
+                    stdout.WriteLine(successLine ())
                     0
                 else
                     for message in messages do
