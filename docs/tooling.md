@@ -64,9 +64,9 @@ benchmarks, performance verification, and compatibility.
 dotnet fsi build.fsx -- -p verify-docs-snippets
 ```
 
-Verifies the ten primary guides against the snippet regions under
+Verifies the eleven primary guides against the snippet regions under
 `examples/FunnySharp.DocumentationSamples`, prints
-`Verified 44 C# documentation snippets across 10 primary guides.`, and exits `0` or `1`. It writes
+`Verified 56 C# documentation snippets across 11 primary guides.`, and exits `0` or `1`. It writes
 nothing. `--repository-root` and `--samples-root` exist for fixture runs.
 
 ### Inventory

@@ -19,6 +19,7 @@ A bare run (`dotnet fsi build.fsx`, no `-p`) prints the pipeline list instead of
 | `format` | Verify formatting with `dotnet format`. |
 | `check-action-pins` | Check that every remote GitHub action is pinned to a full commit SHA. |
 | `verify-docs-snippets` | Verify every documentation sample against its source region. |
+| `verify-api-baseline` | Verify the shipping assemblies' public API surface against the committed baseline. |
 | `verify-tooling` | Run the local pre-check over the release protocol's local steps. |
 | `generate-inventory` | Regenerate the next-stage evidence inventories. |
 | `vertical-slice` | Pack the solution and verify the vertical slice against the packages only. |

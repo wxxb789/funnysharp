@@ -58,7 +58,7 @@ funnysharp/
 - Tests: xUnit v3 (`xunit.v3` 4.0.0), attribute-only, self-executing exes; zero skipped tests is an invariant.
 - Naming contract: `...Async` suffix on async members; `OrNone` for absence-translating bridges; file name = primary type; file-scoped namespaces.
 - Restores are locked: `packages.lock.json` committed everywhere.
-- Docs: lowercase-hyphen filenames; guides close with `## Deliberate Boundaries`; 10 primary guides carry byte-exact `documentation-sample:` snippets mirrored in `examples/FunnySharp.DocumentationSamples`.
+- Docs: lowercase-hyphen filenames; guides close with `## Deliberate Boundaries`; 11 primary guides carry byte-exact `documentation-sample:` snippets mirrored in `examples/FunnySharp.DocumentationSamples`.
 - Shared test source (`tests/Shared/`) links via Compile-include, never ProjectReference.
 - Development gates run through the F# harness: `dotnet fsi build.fsx -- -p <pipeline> [args]` (see [docs/harness.md](docs/harness.md)).
 
@@ -89,7 +89,7 @@ dotnet fsi build.fsx -- -p format             # formatter gate (C# only; F# is n
 dotnet fsi build.fsx -- -p verify-tooling     # local pre-check
 # release protocol (CI runs this with -SkipBenchmarks)
 dotnet fsi build.fsx -- -p release -SkipBenchmarks
-# docs snippets byte-compare (10 primary guides, 44 snippets)
+# docs snippets byte-compare (11 primary guides, 56 snippets)
 dotnet fsi build.fsx -- -p verify-docs-snippets
 # benchmark + performance verify
 dotnet run --project benchmarks/FunnySharp.Benchmarks -c Release -- --filter '*' --artifacts <dir>

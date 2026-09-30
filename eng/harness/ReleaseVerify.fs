@@ -310,12 +310,10 @@ let mainWith
                     checks.Invoke(
                         "Public API inventory",
                         fun () ->
-                            let assemblyPaths =
-                                [ Path.Combine(repositoryRoot, "src/FunnySharp/bin/Release/net10.0/FunnySharp.dll")
-                                  Path.Combine(
-                                      repositoryRoot,
-                                      "src/FunnySharp.AspNetCore/bin/Release/net10.0/FunnySharp.AspNetCore.dll"
-                                  ) ]
+                            let shippingAssemblies =
+                                FunnySharp.Harness.ApiBaseline.shippingAssemblies repositoryRoot
+
+                            let assemblyPaths = shippingAssemblies |> List.map snd
 
                             for assemblyPath in assemblyPaths do
                                 if not (File.Exists assemblyPath) then
@@ -350,9 +348,16 @@ let mainWith
                                 UTF8Encoding(false)
                             )
 
+                            let baselineMessages =
+                                FunnySharp.Harness.ApiBaseline.outdatedBaselineMessages repositoryRoot shippingAssemblies
+
+                            if not baselineMessages.IsEmpty then
+                                failNow (String.concat " " baselineMessages)
+
                             let summary = JsonObject()
                             summary.["assemblies"] <- jint value.Count
                             summary.["output"] <- jstr "public-api.json"
+                            summary.["baseline"] <- jstr "match"
                             summary :> JsonNode
                     )
 

@@ -29,6 +29,7 @@
     <Compile Include="ReleaseRun.fs" />
     <Compile Include="ReleaseVerifySource.fs" />
     <Compile Include="ReleaseVerifyArtifacts.fs" />
+    <Compile Include="ApiBaseline.fs" />
     <Compile Include="ReleaseVerify.fs" />
     <Compile Include="Loc.fs" />
     <Compile Include="Evaluation.fs" />

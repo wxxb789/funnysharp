@@ -1,6 +1,6 @@
 # docs/goals/ — goal contracts
 
-Earned: score ~16 — 2 active goals plus 22 archived immutable contracts; the product's completion-criteria authority.
+Earned: score ~16 — 1 active goal plus 23 archived immutable contracts; the product's completion-criteria authority.
 
 ## OVERVIEW
 
@@ -8,8 +8,8 @@ Active and archived goal contracts — the authoritative completion criteria eve
 
 ## STRUCTURE
 
-- Active: `0023-goal.md`, `0024-goal.md` — open product/completion contracts (0023: release-quality preview candidate; 0024: independent fail-closed audit of Goals 14–23).
-- `archive/`: `0001-goal.md` .. `0022-goal.md` — completed goals kept as immutable reference; `0013-goal.md` additionally carries audit status / product acceptance rules.
+- Active: `0024-goal.md` — the independent fail-closed audit of Goals 14–23.
+- `archive/`: `0001-goal.md` .. `0023-goal.md` — completed goals kept as immutable reference; `0013-goal.md` additionally carries audit status / product acceptance rules.
 
 ## FORMAT (frozen)
 
@@ -23,7 +23,7 @@ Active and archived goal contracts — the authoritative completion criteria eve
 |------|----------|
 | A goal's full completion contract | line 2 of its `NNNN-goal.md` |
 | Audit / acceptance rules for completed goals | `archive/0013-goal.md` |
-| Active goal texts | `0023-goal.md` .. `0024-goal.md` |
+| Active goal text | `0024-goal.md` |
 | Which goal a plan or doc executes against | its `product_contract_source` / Authority line links back here |
 
 ## CONVENTIONS

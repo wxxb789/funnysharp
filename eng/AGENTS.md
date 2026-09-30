@@ -16,7 +16,8 @@ coding-evaluation harness. Nothing here ships; everything here gates.
 | --- | --- |
 | Run any gate | root `build.fsx`: `dotnet fsi build.fsx -- -p <pipeline> [args]` |
 | Harness contract (invocation, pipelines, exit codes) | `../docs/harness.md` |
-| Gate implementations | `harness/*.fs` (`Output`, `Proc`, `Repo`, … `Compatibility`, `Release*`, `Loc`, `Evaluation`) |
+| Gate implementations | `harness/*.fs` (`Output`, `Proc`, `Repo`, … `Compatibility`, `Release*`, `ApiBaseline`, `Loc`, `Evaluation`) |
+| Committed public-API baseline | `../eng/api-baseline/` compared by `harness/ApiBaseline.fs` (`-p verify-api-baseline`) and by the release audit |
 | Release step definitions | `release-protocol.json` (steps `clean`…`compatibility`; modes `full` / `benchmarkSkipped`) |
 | Release orchestration logic | `harness/ReleaseProtocol.fs`, `harness/ReleaseRun.fs` |
 | Release verification / audit | `harness/ReleaseVerify*.fs` (the heavyweight checks) |
@@ -79,7 +80,7 @@ never become a release dependency.
 
 ```bash
 dotnet fsi build.fsx -- -p verify-tooling                  # local pre-check (release protocol's local steps)
-dotnet fsi build.fsx -- -p verify-docs-snippets            # 10 primary guides, byte-exact
+dotnet fsi build.fsx -- -p verify-docs-snippets            # 11 primary guides, byte-exact
 dotnet fsi build.fsx -- -p check-action-pins               # full-SHA workflow pins
 dotnet fsi build.fsx -- -p verify-performance -ReceiptDirectory <dir>
 dotnet fsi build.fsx -- -p verify-performance -ManifestPath eng/performance/competitor-baseline.json -ReceiptDirectory <dir>

@@ -9,6 +9,7 @@ module FunnySharp.Harness.ReleaseVerifyArtifacts
 
 open System
 open System.Collections.Generic
+open System.Globalization
 open System.IO
 open System.IO.Compression
 open System.Reflection
@@ -330,10 +331,19 @@ let getPublicApiInventory (assemblyPaths: string list) (root: string) : JsonArra
                     |> Array.map (fun field ->
                         let staticPrefix = if field.IsStatic then "static " else ""
 
+                        // A literal's value is part of the surface: a caller that persists or
+                        // serializes the constant observes a change the name and type alone hide.
+                        let constantSuffix =
+                            if field.IsLiteral then
+                                " = " + Convert.ToString(field.GetRawConstantValue(), CultureInfo.InvariantCulture)
+                            else
+                                ""
+
                         staticPrefix
                         + formatApiType field.FieldType (getNullabilityInfo (box field) context)
                         + " "
-                        + field.Name)
+                        + field.Name
+                        + constantSuffix)
                     |> sortIgnoreCase
                     |> jsonStringArray
 
@@ -381,6 +391,15 @@ let getPublicApiInventory (assemblyPaths: string list) (root: string) : JsonArra
     finally
         AppDomain.CurrentDomain.remove_AssemblyResolve resolver
 
+/// An assembly full name with its `Version=` component removed: a patch release
+/// rewrites the version while the documented no-surface-change path holds, so the
+/// version is not part of the surface the baseline records. Name, culture and
+/// public key token stay - those are compatibility-relevant.
+let private withoutAssemblyVersion (identity: string) : string =
+    identity.Split(", ")
+    |> Array.filter (fun part -> not (part.StartsWith("Version=", StringComparison.Ordinal)))
+    |> String.concat ", "
+
 /// The `public-api.txt` rendering.
 let renderPublicApiText (inventory: JsonArray) : string list =
     let lines = ResizeArray<string>()
@@ -388,7 +407,12 @@ let renderPublicApiText (inventory: JsonArray) : string list =
     for assembly in inventory do
         match assembly with
         | :? JsonObject as assemblyObject ->
-            lines.Add("ASSEMBLY " + (match assemblyObject.["identity"] with | :? JsonValue as v -> v.ToString() | _ -> ""))
+            let identity =
+                match assemblyObject.["identity"] with
+                | :? JsonValue as v -> v.ToString()
+                | _ -> ""
+
+            lines.Add("ASSEMBLY " + withoutAssemblyVersion identity)
 
             match assemblyObject.["types"] with
             | :? JsonArray as types ->
