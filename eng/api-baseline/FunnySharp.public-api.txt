@@ -1,4 +1,4 @@
-ASSEMBLY FunnySharp, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null
+ASSEMBLY FunnySharp, Culture=neutral, PublicKeyToken=null
 CLASS FunnySharp.AsyncCardinalityExtensions
   METHOD static System.Threading.Tasks.ValueTask<FunnySharp.Option<FunnySharp.NonEmpty<T?>>> ToNonEmptyOrNoneAsync<T>(System.Collections.Generic.IAsyncEnumerable<T?> source, System.Threading.CancellationToken cancellationToken)
   METHOD static System.Threading.Tasks.ValueTask<FunnySharp.Option<T?>> ElementAtOrNoneAsync<T>(System.Collections.Generic.IAsyncEnumerable<T?> source, System.Int32 index, System.Threading.CancellationToken cancellationToken)
@@ -424,10 +424,10 @@ STRUCT FunnySharp.TransitionResult<TState, TOutput, TError>
   PROPERTIE System.Boolean IsRejected
   PROPERTIE System.Boolean IsUndefined
 ENUM FunnySharp.TransitionStatus
-  FIELD static FunnySharp.TransitionStatus Applied
-  FIELD static FunnySharp.TransitionStatus Failed
-  FIELD static FunnySharp.TransitionStatus Rejected
-  FIELD static FunnySharp.TransitionStatus Undefined
+  FIELD static FunnySharp.TransitionStatus Applied = 1
+  FIELD static FunnySharp.TransitionStatus Failed = 3
+  FIELD static FunnySharp.TransitionStatus Rejected = 2
+  FIELD static FunnySharp.TransitionStatus Undefined = 0
   FIELD System.Int32 value__
 DELEGATE FunnySharp.TryOperation<T>
   CONSTRUCTOR ctor(System.Object object, System.IntPtr method)

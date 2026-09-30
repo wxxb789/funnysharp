@@ -1,4 +1,4 @@
-ASSEMBLY FunnySharp.AspNetCore, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null
+ASSEMBLY FunnySharp.AspNetCore, Culture=neutral, PublicKeyToken=null
 CLASS FunnySharp.AspNetCore.HttpResultExtensions
   METHOD static Microsoft.AspNetCore.Http.IResult ToHttpResult<T>(FunnySharp.Option<T?> option, System.Func<Microsoft.AspNetCore.Mvc.ProblemDetails> none, System.Func<T?, Microsoft.AspNetCore.Http.IResult>? some)
   METHOD static Microsoft.AspNetCore.Http.IResult ToHttpResult<TError>(FunnySharp.UnitResult<TError?> result, System.Func<TError?, Microsoft.AspNetCore.Mvc.ProblemDetails> failure, System.Func<Microsoft.AspNetCore.Http.IResult>? success)
