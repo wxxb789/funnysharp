@@ -4,6 +4,7 @@ open System
 open System.Collections.Generic
 open System.IO
 open System.IO.Compression
+open System.Security.Cryptography
 open System.Text
 open System.Text.Json
 open System.Text.Json.Nodes
@@ -30,6 +31,25 @@ let private api = "https://api.github.com/repos/owner/repo"
 let private feed = "https://api.nuget.org/v3/index.json"
 let private flat = "https://api.nuget.org/v3-flatcontainer/"
 
+let private metadataPaths =
+    [ ".gitattributes"; ".gitignore"; "docs/next-stage/call-sites-code/NuGet.config"
+      "docs/next-stage/call-sites-code/tools/.gitignore"; "docs/next-stage/inventory/generated/.gitignore"
+      "FunnySharp.slnx"; "LICENSE" ]
+let private sourceFiles crlf =
+    [ for path in metadataPaths -> path, bytes (path + (if crlf then "\r\n" else "\n")) ]
+    @ [ for path in [ "src/FunnySharp/Option.cs"; "tests/FunnySharp.Tests/OptionTests.cs"; "eng/harness/ReleaseRun.fs";
+                     "eng/performance/baseline.json"; "Directory.Build.props"; "src/FunnySharp/packages.lock.json"; "README.md" ] ->
+            path, bytes (path + "\n") ]
+let private fingerprint files =
+    let ordered = files |> List.sortWith (fun (a, _) (b, _) -> StringComparer.InvariantCultureIgnoreCase.Compare(a, b))
+    let hashes = ordered |> List.map (fun (path, content) -> path, sha256 content)
+    node (encode (obj [ "schemaVersion", box 1; "algorithm", box "sha256"; "fileCount", box hashes.Length
+                        "digest", box (sha256 (bytes (hashes |> List.map (fun (path, hash) -> path + "\000" + hash + "\n") |> String.concat "")))
+                        "files", box (hashes |> List.map (fun (path, hash) -> obj [ "path", box path; "sha256", box hash ])) ]))
+let private contentsUrl path = api + "/contents/" + path + "?ref=" + candidate
+let private gitBlobSha (content: byte array) =
+    Convert.ToHexString(SHA1.HashData(Array.append (bytes (sprintf "blob %d\000" content.Length)) content)).ToLowerInvariant()
+
 let private archive (entries: (string * byte array) list) =
     use stream = new MemoryStream()
     do
@@ -45,8 +65,10 @@ let private package id symbols =
     archive [ id + ".nuspec", bytes (sprintf "<package><metadata><id>%s</id><version>0.2.0</version></metadata></package>" id);
               "lib/net10.0/" + id + (if symbols then ".pdb" else ".dll"), bytes (id + (if symbols then " symbols" else " assembly")) ]
 
-type private Fixture(?productionAttempt: int64) =
+type private Fixture(?productionAttempt: int64, ?differentHostFingerprints: bool) =
     let productionAttempt = defaultArg productionAttempt 1L
+    let differentHostFingerprints = defaultArg differentHostFingerprints false
+    let canonicalFingerprint = fingerprint (sourceFiles true)
     let temp = new TempDirectory()
     let responses = Dictionary<string, HttpResponse>()
     let requested = ResizeArray<string>()
@@ -96,6 +118,10 @@ type private Fixture(?productionAttempt: int64) =
     let mutable input = Unchecked.defaultof<JsonNode>
     do
         makeRun 10L candidate None
+        for path, content in sourceFiles false |> List.filter (fun (path, _) -> List.contains path metadataPaths) do
+            json (contentsUrl path) (obj [ "type", box "file"; "path", box path; "sha", box (gitBlobSha content);
+                                          "encoding", box "base64"; "content", box (Convert.ToBase64String content);
+                                          "size", box content.Length; "url", box (contentsUrl path) ])
         let contracts = [ for goal in 1 .. 13 -> obj [ "goal", box goal; "evidenceId", box (add (sprintf "goal-%02d" goal) (bytes (sprintf "contract %d" goal))) ] ]
         let packages =
             [ for id, data in [ "FunnySharp", core; "FunnySharp.AspNetCore", asp ] ->
@@ -118,10 +144,11 @@ type private Fixture(?productionAttempt: int64) =
                     artifact artifactId 10L (archive [ consumer, content.[consumer] ])
                     obj common
                 else
+                    let hostFingerprint = if differentHostFingerprints && rid <> "win-x64" then fingerprint (sourceFiles false) else canonicalFingerprint
                     let preflight = addJson (rid + "-preflight") (obj [ "status", box "passed"; "candidateCommit", box candidate; "attemptId", box attemptId;
                                                                       "checks", box ([ "FunnySharp"; "FunnySharp.AspNetCore" ] |> List.map (fun id -> obj [ "feed", box feed; "packageId", box id; "version", box "0.2.0"; "status", box "absent" ])) ])
                     let execution = addJson (rid + "-execution") (obj [ "succeeded", box true; "candidateCommit", box candidate; "attemptId", box attemptId; "mode", box "benchmarkSkipped";
-                                                                      "sourceFingerprintBefore", box (obj [ "digest", box source ]); "sourceFingerprintAfter", box (obj [ "digest", box source ]);
+                                                                      "sourceFingerprintBefore", box hostFingerprint; "sourceFingerprintAfter", box hostFingerprint;
                                                                       "versionPreflightSha256", box (sha256 content.[preflight]) ])
                     let verification = addJson (rid + "-verification") (obj [ "succeeded", box true; "environment", box (obj [ "commit", box candidate ]);
                                                                              "failures", box [||]; "checks", box [ for n in 1 .. 10 -> obj [ "name", box n; "status", box "passed" ] ] ])
@@ -151,7 +178,7 @@ type private Fixture(?productionAttempt: int64) =
             let url = flat + id + "/index.json"
             responses.[url] <- { StatusCode = 404; EffectiveUrl = url; Body = bytes "actual origin not found response" }
         input <- node (encode (obj [ "schemaVersion", box 1; "repository", box "owner/repo"; "candidateCommit", box candidate; "runId", box 10; "runAttempt", box productionAttempt;
-                                    "producerIdentity", box "producer"; "sourceFingerprint", box source; "expectedIntegrationId", box 15368; "targetBranch", box "main"; "rulesetId", box 42;
+                                    "producerIdentity", box "producer"; "sourceFingerprint", box ((at "digest" canonicalFingerprint).GetValue<string>()); "expectedIntegrationId", box 15368; "targetBranch", box "main"; "rulesetId", box 42;
                                     "evidence", box evidence; "contracts", box contracts; "packages", box packages; "hosts", box hosts; "denials", box denials;
                                     "distributionFeeds", box [ feed ]; "localProofIds", box [ local ]; "findingAccountingId", box findings ]))
     member _.Root = temp.Path
@@ -174,6 +201,16 @@ type private Fixture(?productionAttempt: int64) =
         let value = node (Convert.FromBase64String((at "base64" current).GetValue<string>()))
         change value
         entry.["bytes"] <- node (encode (reference (bytes (value.ToJsonString()))))
+    member _.EvidenceBytes(id) =
+        let entry = (at "evidence" input).AsArray() |> Seq.choose Option.ofObj |> Seq.find (fun entry -> (at "id" entry).GetValue<string>() = id)
+        Convert.FromBase64String((at "bytes" entry |> at "base64").GetValue<string>())
+    member this.ReplaceHostExecution(rid, change: JsonNode -> unit) =
+        this.ReplaceEvidence(rid + "-execution", change)
+        this.ReplaceEvidence(rid + "-outcome", fun value -> (at "executionEvidence" value).["sha256"] <- str (sha256 (this.EvidenceBytes(rid + "-execution"))))
+        let entries = [ for suffix in [ "consumer"; "preflight"; "execution"; "verification"; "outcome" ] -> rid + "-" + suffix ]
+                      @ (if rid = "win-x64" then [ "FunnySharp.nupkg"; "FunnySharp.snupkg"; "FunnySharp.AspNetCore.nupkg"; "FunnySharp.AspNetCore.snupkg" ] else [])
+        let index = contexts |> List.findIndex (fun context -> context = "release / " + rid)
+        artifact (100L + int64 index) 10L (archive (entries |> List.map (fun id -> id, this.EvidenceBytes id)))
     member _.Run(mode, directory, value: JsonNode, ?artifactUrl: string, ?payload: bool) = task {
         use stdout = new StringWriter()
         use stderr = new StringWriter()
@@ -215,6 +252,158 @@ let private attestation (producer: byte array) =
                         "report", box (reference (bytes "actual retained reviewer report\n")) ]))
 
 type ReleaseProvenanceTests() =
+    [<Theory>]
+    [<InlineData(false)>]
+    [<InlineData(true)>]
+    member _.FreezeBindsDifferentRawHostFingerprintsToCandidateBlobs(crlfBlob: bool) = task {
+        use fixture = new Fixture(differentHostFingerprints = true)
+        if crlfBlob then
+            for path, content in sourceFiles true |> List.filter (fun (path, _) -> List.contains path metadataPaths) do
+                fixture.ChangeResponse(contentsUrl path, fun blob ->
+                    blob.["content"] <- str (Convert.ToBase64String content)
+                    blob.["size"] <- num (int64 content.Length)
+                    blob.["sha"] <- str (gitBlobSha content))
+        // The canonical Windows host is selected by identity, not input order.
+        let hosts = (at "hosts" fixture.Input).AsArray()
+        let first = hosts.[0] |> present
+        hosts.RemoveAt 0
+        hosts.Add first
+        let output = Path.Combine(fixture.Root, "producer")
+        let! code, error = fixture.Run("freeze-producer", output, fixture.Input)
+        Assert.True((code = 0), error)
+        let producer = node (File.ReadAllBytes(Path.Combine(output, "P.json")))
+        Assert.Equal((at "sourceFingerprint" fixture.Input).GetValue<string>(), (at "input" producer |> at "sourceFingerprint").GetValue<string>())
+        let retained rid = File.ReadAllBytes(Path.Combine(output, "payload", rid + "-execution"))
+        for rid in [ "win-x64"; "linux-x64"; "osx-arm64" ] do
+            let original = (at "evidence" fixture.Input).AsArray() |> Seq.choose Option.ofObj |> Seq.find (fun entry -> (at "id" entry).GetValue<string>() = rid + "-execution")
+            Assert.Equal<byte>(Convert.FromBase64String((at "bytes" original |> at "base64").GetValue<string>()), retained rid)
+        let rawDigest rid = (node (retained rid) |> at "sourceFingerprintBefore" |> at "digest").GetValue<string>()
+        Assert.NotEqual<string>(rawDigest "win-x64", rawDigest "linux-x64")
+        Assert.Equal(rawDigest "linux-x64", rawDigest "osx-arm64")
+        for path in metadataPaths do
+            let url = contentsUrl path
+            Assert.Equal(1, fixture.Requested |> Seq.filter ((=) url) |> Seq.length)
+            let captured = (at "http" producer).AsArray() |> Seq.choose Option.ofObj |> Seq.find (fun entry -> (at "url" entry).GetValue<string>() = url)
+            Assert.Equal<byte>(fixture.Responses.[url].Body, File.ReadAllBytes(Path.Combine(output, (at "bodyPath" captured).GetValue<string>())))
+    }
+
+    [<Theory>]
+    [<InlineData("schema")>]
+    [<InlineData("algorithm")>]
+    [<InlineData("file-count")>]
+    [<InlineData("digest")>]
+    [<InlineData("file-hash")>]
+    [<InlineData("extra-field")>]
+    [<InlineData("missing-file")>]
+    [<InlineData("extra-file")>]
+    [<InlineData("duplicate-path")>]
+    [<InlineData("order")>]
+    [<InlineData("during-run")>]
+    [<InlineData("canonical-scalar")>]
+    member _.RejectsMalformedOrChangedRawFingerprints(kind: string) = task {
+        use fixture = new Fixture(differentHostFingerprints = true)
+        let before = fingerprint (sourceFiles false)
+        let files = (at "files" before).AsArray()
+        match kind with
+        | "schema" -> before.["schemaVersion"] <- num 2L
+        | "algorithm" -> before.["algorithm"] <- str "sha1"
+        | "file-count" -> before.["fileCount"] <- num 999L
+        | "digest" -> before.["digest"] <- str source
+        | "file-hash" -> (files.[0] |> present).["sha256"] <- str "invalid"
+        | "extra-field" -> before.["normalizedDigest"] <- str source
+        | "missing-file" -> files.RemoveAt(files.Count - 1)
+        | "extra-file" -> files.Add(node (encode (obj [ "path", box "zzz-new-file"; "sha256", box source ])))
+        | "duplicate-path" -> files.Add((files.[0] |> present).DeepClone())
+        | "order" -> let first = files.[0] |> present in files.RemoveAt 0; files.Add first
+        | "canonical-scalar" -> fixture.Input.["sourceFingerprint"] <- (at "digest" before).DeepClone()
+        | _ -> ()
+        if List.contains kind [ "missing-file"; "extra-file"; "duplicate-path"; "order" ] then
+            before.["fileCount"] <- num (int64 files.Count)
+            let raw = files |> Seq.choose Option.ofObj |> Seq.map (fun file -> (at "path" file).GetValue<string>() + "\000" + (at "sha256" file).GetValue<string>() + "\n") |> String.concat ""
+            before.["digest"] <- str (sha256 (bytes raw))
+        fixture.ReplaceHostExecution("linux-x64", fun execution ->
+            execution.["sourceFingerprintBefore"] <- before.DeepClone()
+            execution.["sourceFingerprintAfter"] <- if kind = "during-run" then fingerprint (sourceFiles true) else before.DeepClone())
+        let output = Path.Combine(fixture.Root, "rejected")
+        let! code, _ = fixture.Run("freeze-producer", output, fixture.Input)
+        Assert.Equal(1, code)
+        Assert.False(File.Exists(Path.Combine(output, "P.json")))
+        Assert.DoesNotContain(feed, fixture.Requested)
+    }
+
+    [<Theory>]
+    [<InlineData(".gitattributes")>]
+    [<InlineData("src/FunnySharp/Option.cs")>]
+    [<InlineData("tests/FunnySharp.Tests/OptionTests.cs")>]
+    [<InlineData("eng/harness/ReleaseRun.fs")>]
+    [<InlineData("eng/performance/baseline.json")>]
+    [<InlineData("Directory.Build.props")>]
+    [<InlineData("src/FunnySharp/packages.lock.json")>]
+    [<InlineData("README.md")>]
+    member _.RejectsRecomputedFingerprintsWithUnapprovedFileChanges(path: string) = task {
+        use fixture = new Fixture(differentHostFingerprints = true)
+        let changed = sourceFiles false |> List.map (fun (name, content) -> name, if name = path then bytes (name + " changed\n") else content) |> fingerprint
+        fixture.ReplaceHostExecution("linux-x64", fun execution ->
+            execution.["sourceFingerprintBefore"] <- changed.DeepClone()
+            execution.["sourceFingerprintAfter"] <- changed.DeepClone())
+        let output = Path.Combine(fixture.Root, "rejected")
+        let! code, _ = fixture.Run("freeze-producer", output, fixture.Input)
+        Assert.Equal(1, code)
+        Assert.False(File.Exists(Path.Combine(output, "P.json")))
+        Assert.DoesNotContain(feed, fixture.Requested)
+    }
+
+    [<Theory>]
+    [<InlineData("candidate")>]
+    [<InlineData("path")>]
+    [<InlineData("type")>]
+    [<InlineData("sha")>]
+    [<InlineData("size")>]
+    [<InlineData("encoding")>]
+    [<InlineData("base64")>]
+    [<InlineData("content")>]
+    [<InlineData("utf8")>]
+    [<InlineData("binary")>]
+    [<InlineData("bare-cr")>]
+    [<InlineData("redirect")>]
+    [<InlineData("unavailable")>]
+    member _.RejectsUnboundOrNonTextCandidateBlobs(kind: string) = task {
+        use fixture = new Fixture(differentHostFingerprints = true)
+        let path = ".gitattributes"
+        let url = contentsUrl path
+        fixture.ChangeResponse(url, fun blob ->
+            match kind with
+            | "candidate" -> blob.["url"] <- str (url.Replace(candidate, String.replicate 40 "c"))
+            | "path" -> blob.["path"] <- str "LICENSE"
+            | "type" -> blob.["type"] <- str "symlink"
+            | "sha" -> blob.["sha"] <- str (String.replicate 40 "c")
+            | "size" -> blob.["size"] <- num 999L
+            | "encoding" -> blob.["encoding"] <- str "none"
+            | "base64" -> blob.["content"] <- str "not base64"
+            | "content" | "utf8" | "binary" | "bare-cr" ->
+                let content = match kind with | "utf8" -> [| 0xffuy |] | "binary" -> bytes "a\000b\n" | "bare-cr" -> bytes "a\rb\n" | _ -> bytes "different candidate content\n"
+                blob.["content"] <- str (Convert.ToBase64String content)
+                blob.["size"] <- num (int64 content.Length)
+                blob.["sha"] <- str (gitBlobSha content)
+                if kind <> "content" then
+                    for rid, crlf in [ "win-x64", true; "linux-x64", false; "osx-arm64", false ] do
+                        let hostBytes = if crlf then bytes (Encoding.UTF8.GetString(content).Replace("\r\n", "\n").Replace("\n", "\r\n")) else content
+                        let host = sourceFiles crlf |> List.map (fun (name, original) -> name, if name = path then hostBytes else original) |> fingerprint
+                        if rid = "win-x64" then fixture.Input.["sourceFingerprint"] <- (at "digest" host).DeepClone()
+                        fixture.ReplaceHostExecution(rid, fun execution ->
+                            execution.["sourceFingerprintBefore"] <- host.DeepClone()
+                            execution.["sourceFingerprintAfter"] <- host.DeepClone())
+            | _ -> ())
+        if kind = "redirect" then fixture.Responses.[url] <- { fixture.Responses.[url] with EffectiveUrl = url.Replace(candidate, "main") }
+        if kind = "unavailable" then fixture.Responses.[url] <- { fixture.Responses.[url] with StatusCode = 404 }
+        let output = Path.Combine(fixture.Root, "rejected")
+        let! code, _ = fixture.Run("freeze-producer", output, fixture.Input)
+        Assert.Equal(1, code)
+        Assert.Contains(url, fixture.Requested)
+        Assert.False(File.Exists(Path.Combine(output, "P.json")))
+        Assert.DoesNotContain(feed, fixture.Requested)
+    }
+
     [<Theory>]
     [<InlineData("success")>]
     [<InlineData("wrong-url")>]

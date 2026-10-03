@@ -224,6 +224,61 @@ let private packageIdentity (bytes: byte array) expectedId expectedVersion requi
         require (archive.Entries |> Seq.exists (fun entry -> entry.FullName.EndsWith ".pdb")) "Symbols package is missing PDB bytes."
         ""
 
+let private joinSourceFingerprints (capture: Capture) candidate canonicalDigest (executions: (string * JsonElement) list) = task {
+    let validate fingerprint =
+        exactFields [ "schemaVersion"; "algorithm"; "fileCount"; "digest"; "files" ] fingerprint
+        require (number "schemaVersion" fingerprint = 1L && text "algorithm" fingerprint = "sha256") "Unsupported source fingerprint schema or algorithm."
+        let files = items "files" fingerprint |> List.map (fun file ->
+            exactFields [ "path"; "sha256" ] file
+            let path = nonempty "path" file
+            require (not (path.Contains '\\') && not (path |> Seq.exists Char.IsControl)
+                     && (path.Split '/' |> Array.forall (fun part -> part <> "" && part <> "." && part <> ".."))) "Invalid source fingerprint path."
+            path, digest "sha256" file)
+        require (not files.IsEmpty && number "fileCount" fingerprint = int64 files.Length) "Source fingerprint file count mismatch."
+        let paths = files |> List.map fst
+        sameSet paths paths
+        require (files = (files |> List.sortWith (fun (a, _) (b, _) -> StringComparer.InvariantCultureIgnoreCase.Compare(a, b)))) "Source fingerprint file order mismatch."
+        let raw = files |> List.map (fun (path, hash) -> path + "\000" + hash + "\n") |> String.concat "" |> Encoding.UTF8.GetBytes
+        require (sha256 raw = digest "digest" fingerprint) "Source fingerprint digest mismatch."
+        files
+    sameSet [ "win-x64"; "linux-x64"; "osx-arm64" ] (executions |> List.map fst)
+    let fingerprints = executions |> List.map (fun (rid, execution) ->
+        let before, after = prop "sourceFingerprintBefore" execution, prop "sourceFingerprintAfter" execution
+        let files = validate before
+        validate after |> ignore
+        require (JsonElement.DeepEquals(before, after)) "Source fingerprint changed during the run."
+        if rid = "win-x64" then require (digest "digest" before = canonicalDigest) "Canonical Windows source fingerprint mismatch."
+        rid, files)
+    let canonical = fingerprints |> List.find (fun (rid, _) -> rid = "win-x64") |> snd
+    for _, files in fingerprints do
+        require (List.map fst files = List.map fst canonical) "Source fingerprint path inventory mismatch."
+    let hosts = fingerprints |> List.map (snd >> Map.ofList)
+    for path, _ in canonical do
+        let hashes = hosts |> List.map (fun files -> files.[path]) |> List.distinct
+        if hashes.Length > 1 then
+            require (List.contains path [ ".gitattributes"; ".gitignore"; "docs/next-stage/call-sites-code/NuGet.config"
+                                          "docs/next-stage/call-sites-code/tools/.gitignore"; "docs/next-stage/inventory/generated/.gitignore"
+                                          "FunnySharp.slnx"; "LICENSE" ]) ("Non-exempt source fingerprint difference: " + path)
+            let url = capture.Api + "/contents/" + path + "?ref=" + candidate
+            let! response = capture.Read url
+            require (response.StatusCode = 200 && response.EffectiveUrl = url) "Candidate source blob request failed or redirected."
+            let blob = parse response.Body
+            require (text "type" blob = "file" && text "path" blob = path && text "url" blob = url
+                     && text "encoding" blob = "base64") "Candidate source blob binding mismatch."
+            let content = Convert.FromBase64String(text "content" blob)
+            require (number "size" blob = content.LongLength) "Candidate source blob size mismatch."
+            let gitBytes = Array.append (Encoding.UTF8.GetBytes(sprintf "blob %d\000" content.Length)) content
+            require (Convert.ToHexString(SHA1.HashData gitBytes).ToLowerInvariant() = commit "sha" blob) "Candidate source blob SHA mismatch."
+            let utf8 = UTF8Encoding(false, true)
+            let decoded =
+                try utf8.GetString content
+                with :? DecoderFallbackException -> invalidOp "Candidate source blob is not valid UTF-8."
+            let lf = decoded.Replace("\r\n", "\n")
+            require (not (lf |> Seq.exists (fun c -> Char.IsControl c && c <> '\n' && c <> '\t'))) "Candidate source blob contains binary data or bare CR."
+            let representations = [ sha256 content; sha256 (utf8.GetBytes lf); sha256 (utf8.GetBytes(lf.Replace("\n", "\r\n"))) ]
+            require (hashes |> List.forall (fun hash -> List.contains hash representations)) ("Source fingerprint is not an exact candidate blob representation: " + path)
+}
+
 let private freeze collaborators output input = task {
     exactFields [ "schemaVersion"; "repository"; "candidateCommit"; "runId"; "runAttempt"; "producerIdentity"; "sourceFingerprint"
                   "expectedIntegrationId"; "targetBranch"; "rulesetId"; "evidence"; "contracts"; "packages"; "hosts"; "denials"
@@ -275,6 +330,7 @@ let private freeze collaborators output input = task {
         canonical.Add(id, (version, sha256 bytes, assemblyHash))
     let hosts = items "hosts" input
     sameSet Ruleset.requiredContexts (hosts |> List.map (text "context"))
+    let sourceExecutions = ResizeArray<string * JsonElement>()
     for host in hosts do
         exactFields [ "context"; "runtimeIdentifier"; "artifactId"; "consumerId"; "runtimeId"; "outcomeId"; "executionId"; "verificationId"; "preflightId" ] host
         let context = text "context" host
@@ -336,8 +392,7 @@ let private freeze collaborators output input = task {
             let execution, verification = parse executionBytes, parse verificationBytes
             require (flag "succeeded" execution && text "candidateCommit" execution = candidate && text "mode" execution = "benchmarkSkipped"
                      && text "attemptId" execution = expectedAttemptId) "Producer execution mismatch."
-            require (text "digest" (prop "sourceFingerprintBefore" execution) = text "sourceFingerprint" input
-                     && text "digest" (prop "sourceFingerprintAfter" execution) = text "sourceFingerprint" input) "Source fingerprint mismatch."
+            sourceExecutions.Add(rid, execution)
             require (flag "succeeded" verification && text "commit" (prop "environment" verification) = candidate
                      && (items "failures" verification).IsEmpty && (items "checks" verification).Length = 10
                      && (items "checks" verification |> List.forall (fun c -> text "status" c = "passed"))) "Producer verifier failed."
@@ -352,6 +407,7 @@ let private freeze collaborators output input = task {
                     let feedUrl = feed.GetString() |> Option.ofObj |> Option.defaultValue ""
                     let matching = checks |> List.filter (fun c -> text "feed" c = feedUrl && text "packageId" c = text "id" package && text "version" c = text "version" package)
                     require (matching.Length = 1 && text "status" matching.Head = "absent") "Preflight feed/package inventory gap."
+    do! joinSourceFingerprints capture candidate (text "sourceFingerprint" input) (List.ofSeq sourceExecutions)
     let ruleId = number "rulesetId" input
     let! rule = capture.Json(capture.Api + sprintf "/rulesets/%d" ruleId)
     require (number "id" rule = ruleId && (prop "bypass_actors" rule).ValueKind = JsonValueKind.Array) "Incomplete ruleset readback."
