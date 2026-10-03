@@ -1,0 +1,355 @@
+{
+  "schema": "funnysharp-strict-v6-final-metrics-parent-proof/v1",
+  "study": "audit-resolution-v6",
+  "state": "FULL_TWENTY_ORIGINAL_FINAL_SOURCE_LOC_METRICS_AND_CLEANUP_RECONCILED",
+  "finalOriginalFormalGreen": 20,
+  "fixedCases": 200,
+  "actualCalls": 21,
+  "exactFeedbackCorrections": 1,
+  "parentSourceRecounts": [
+    {
+      "slot": "business-outcomes/idiomatic/run-1",
+      "round": 1,
+      "loc": 66,
+      "recordLoc": 66,
+      "files": [
+        {
+          "path": "OrderWorkflow.cs",
+          "sha256": "eae13805f0626fc62a5d65e7399d4361cf3073c3edd214217ec35432d3723e66",
+          "loc": 66
+        }
+      ]
+    },
+    {
+      "slot": "business-outcomes/idiomatic/run-2",
+      "round": 1,
+      "loc": 69,
+      "recordLoc": 69,
+      "files": [
+        {
+          "path": "OrderWorkflow.cs",
+          "sha256": "d38e3c9a4d6cc3f90597f3d30d2da2d587930116182d5a6a5f790651615abfa5",
+          "loc": 69
+        }
+      ]
+    },
+    {
+      "slot": "business-outcomes/funnysharp/run-1",
+      "round": 1,
+      "loc": 91,
+      "recordLoc": 91,
+      "files": [
+        {
+          "path": "OrderWorkflow.cs",
+          "sha256": "2e1e21fa2d3ed1dda7bf02057d1ec1248335c9e20fa777e1ced6982bbec5b821",
+          "loc": 91
+        }
+      ]
+    },
+    {
+      "slot": "business-outcomes/funnysharp/run-2",
+      "round": 1,
+      "loc": 85,
+      "recordLoc": 85,
+      "files": [
+        {
+          "path": "OrderWorkflow.cs",
+          "sha256": "7bae33a582e1175e1a25e810bcf8d9746c81261296cc96b07ba200596a5ebb23",
+          "loc": 85
+        }
+      ]
+    },
+    {
+      "slot": "collections/idiomatic/run-1",
+      "round": 1,
+      "loc": 78,
+      "recordLoc": 78,
+      "files": [
+        {
+          "path": "FeedCleaner.cs",
+          "sha256": "73bb34b30aaec710ec3d5b1979986ae4ad265dab307c8422a6e69e499cbc16a3",
+          "loc": 78
+        }
+      ]
+    },
+    {
+      "slot": "collections/idiomatic/run-2",
+      "round": 1,
+      "loc": 81,
+      "recordLoc": 81,
+      "files": [
+        {
+          "path": "FeedCleaner.cs",
+          "sha256": "e6739085163d3289e89f9a949971d33fb03c900fe56f74d3418efde69a0b8dc0",
+          "loc": 81
+        }
+      ]
+    },
+    {
+      "slot": "collections/funnysharp/run-1",
+      "round": 1,
+      "loc": 83,
+      "recordLoc": 83,
+      "files": [
+        {
+          "path": "FeedCleaner.cs",
+          "sha256": "a65379b0e61ec9fa67862d2e99acb463793f60365f7dbc1cdb9a4acd0bafcbcf",
+          "loc": 83
+        }
+      ]
+    },
+    {
+      "slot": "collections/funnysharp/run-2",
+      "round": 1,
+      "loc": 91,
+      "recordLoc": 91,
+      "files": [
+        {
+          "path": "FeedCleaner.cs",
+          "sha256": "6fb2f7ec5b2c0d8102b7d7938c6c3daac58c45a216f1d12269e411e4ed64bf58",
+          "loc": 91
+        }
+      ]
+    },
+    {
+      "slot": "async-streams/idiomatic/run-1",
+      "round": 1,
+      "loc": 55,
+      "recordLoc": 55,
+      "files": [
+        {
+          "path": "SensorStream.cs",
+          "sha256": "a6260b7ebb4f0cbdf524c3963be72381dcc4db5d3eda62dc7c69474de5623fa2",
+          "loc": 55
+        }
+      ]
+    },
+    {
+      "slot": "async-streams/idiomatic/run-2",
+      "round": 1,
+      "loc": 54,
+      "recordLoc": 54,
+      "files": [
+        {
+          "path": "SensorStream.cs",
+          "sha256": "1047021e161c1c249a834b5c9474e7d7086e52bcfc8ab57ea85feed14e369632",
+          "loc": 54
+        }
+      ]
+    },
+    {
+      "slot": "async-streams/funnysharp/run-1",
+      "round": 1,
+      "loc": 63,
+      "recordLoc": 63,
+      "files": [
+        {
+          "path": "SensorStream.cs",
+          "sha256": "fef70eb742f14076296aa0f5b9ecb13be7db2f961621c3805ebc4abcc8b31094",
+          "loc": 63
+        }
+      ]
+    },
+    {
+      "slot": "async-streams/funnysharp/run-2",
+      "round": 1,
+      "loc": 50,
+      "recordLoc": 50,
+      "files": [
+        {
+          "path": "SensorStream.cs",
+          "sha256": "8a30dc7a66e1aae300dd05621b5d89c5d1b868ee7be670f18e249f5e5aba3da5",
+          "loc": 50
+        }
+      ]
+    },
+    {
+      "slot": "concurrency/idiomatic/run-1",
+      "round": 1,
+      "loc": 188,
+      "recordLoc": 188,
+      "files": [
+        {
+          "path": "AvailabilityCoordinator.cs",
+          "sha256": "e789506e8dcbfcc8a6b8047717904e36c79d322cd5ee9d3e1a0533bbf42769c4",
+          "loc": 188
+        }
+      ]
+    },
+    {
+      "slot": "concurrency/idiomatic/run-2",
+      "round": 1,
+      "loc": 233,
+      "recordLoc": 233,
+      "files": [
+        {
+          "path": "AvailabilityCoordinator.cs",
+          "sha256": "8827571afbc9b22f9b887fcb5bd40c5a05e0f9bfc65b644c3eeccd3afc4b4de1",
+          "loc": 233
+        }
+      ]
+    },
+    {
+      "slot": "concurrency/funnysharp/run-1",
+      "round": 1,
+      "loc": 180,
+      "recordLoc": 180,
+      "files": [
+        {
+          "path": "AvailabilityCoordinator.cs",
+          "sha256": "114b7049e3f3f328e9c5cf60d2112afadb8f03dc7ca62010244832168a2d6ab3",
+          "loc": 180
+        }
+      ]
+    },
+    {
+      "slot": "concurrency/funnysharp/run-2",
+      "round": 1,
+      "loc": 79,
+      "recordLoc": 79,
+      "files": [
+        {
+          "path": "AvailabilityCoordinator.cs",
+          "sha256": "13e588ab9a4ad7568f9a95499f2aad24b436f8f627e38bf792532669510aee1e",
+          "loc": 79
+        }
+      ]
+    },
+    {
+      "slot": "aspnetcore/idiomatic/run-1",
+      "round": 2,
+      "loc": 124,
+      "recordLoc": 124,
+      "files": [
+        {
+          "path": "Api.cs",
+          "sha256": "c2cda778886d0f022ee1266b8ddd6bc79a0a0bb18252e8b3111f112e3307555d",
+          "loc": 124
+        }
+      ]
+    },
+    {
+      "slot": "aspnetcore/idiomatic/run-2",
+      "round": 1,
+      "loc": 133,
+      "recordLoc": 133,
+      "files": [
+        {
+          "path": "Api.cs",
+          "sha256": "9ebfb147a43415ecca67b378acfb8b3b7b0c3f26195ba2fffed1ab7905dcc29b",
+          "loc": 133
+        }
+      ]
+    },
+    {
+      "slot": "aspnetcore/funnysharp/run-1",
+      "round": 1,
+      "loc": 113,
+      "recordLoc": 113,
+      "files": [
+        {
+          "path": "Api.cs",
+          "sha256": "b89f5d5fb9b60f1be74f87355887f039db9f4a2198bd2239e0b68ebd4d333db5",
+          "loc": 113
+        }
+      ]
+    },
+    {
+      "slot": "aspnetcore/funnysharp/run-2",
+      "round": 1,
+      "loc": 122,
+      "recordLoc": 122,
+      "files": [
+        {
+          "path": "Api.cs",
+          "sha256": "659e8de72d01ef1f1ba1028c8a82abf297ea166be8999c29d8a6a8f3057ff6a5",
+          "loc": 122
+        }
+      ]
+    }
+  ],
+  "areaTables": [
+    {
+      "area": "business-outcomes",
+      "idiomatic": [
+        66,
+        69
+      ],
+      "funnysharp": [
+        91,
+        85
+      ]
+    },
+    {
+      "area": "collections",
+      "idiomatic": [
+        78,
+        81
+      ],
+      "funnysharp": [
+        83,
+        91
+      ]
+    },
+    {
+      "area": "async-streams",
+      "idiomatic": [
+        55,
+        54
+      ],
+      "funnysharp": [
+        63,
+        50
+      ]
+    },
+    {
+      "area": "concurrency",
+      "idiomatic": [
+        188,
+        233
+      ],
+      "funnysharp": [
+        180,
+        79
+      ]
+    },
+    {
+      "area": "aspnetcore",
+      "idiomatic": [
+        124,
+        133
+      ],
+      "funnysharp": [
+        113,
+        122
+      ]
+    }
+  ],
+  "wholeConsumer": {
+    "bcl": 1081,
+    "funnysharp": 957,
+    "deltaFunnysharpMinusBcl": -124,
+    "percentDelta": -11.47
+  },
+  "counter": "eng/harness/Loc.fs:39-112 matchedrecord20/20,using/declarations/braces/helpers/adapters count; notU11S+O",
+  "producerFieldCorrection": "u12-v6-original-producer-field-audit.json initial15vs16 literalfact unchanged",
+  "warnings": {
+    "CS2002OccurrencesAcross21Rounds": 84,
+    "BunWin32Warnings": 21,
+    "finalFSdiagnostics": 0,
+    "allConsumerWarningFree": false
+  },
+  "sourceAdvisory": "readcompleteu12-v6-readability-advisory.md/JSON, AIonlynothuman/blinded/materialityacceptance",
+  "sourceDivergences": [
+    "Businessidiomaticrun2Total=0payment/savefailurevsotherscomputedtotal; fixed10cases donotassertequalityforthisfield. No generalbehavioralequivalencebeyondfrozenassertions.",
+    "ConcurrencyFSrun2usesatmost32suppliersexplicitstudybound; no arbitraryinput/raceexhaustiveclaim."
+  ],
+  "ownedProducerAndRuntimeProcessesAbsent": true,
+  "realHTTP": "u12-v6-real-kestrel-parent-proof.json plusparent-cleanup-correction.json actual36/72/36refusals/15PIDsabsent",
+  "oldHistoriesImmutable": true,
+  "limitations": [
+    "No maintaineracceptance orall69finalverdict inferred",
+    "RequestedCLIghc6.1Sol high observed/upstreamservedunknown",
+    "16initialfieldsclaimnotprovedfor4business15initials; machinefeedbackfield required onlycorrections"
+  ]
+}

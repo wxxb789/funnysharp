@@ -1,0 +1,9 @@
+Q:\repos\funnysharp-goal24-resolution\artifacts\audit-resolution\fs1001\consumers\Invalid\Program.cs(3,14): error FS1001: 'Result<int, string>' has no valid default value: every member that reads a default Result<int, string> throws InvalidOperationException; create it with a factory instead (https://github.com/wxxb789/funnysharp/blob/main/docs/analyzers.md#fs1001-uninitialized-semantic-carrier) [Q:\repos\funnysharp-goal24-resolution\artifacts\audit-resolution\fs1001\consumers\Invalid\Invalid.csproj]
+
+Build FAILED.
+
+Q:\repos\funnysharp-goal24-resolution\artifacts\audit-resolution\fs1001\consumers\Invalid\Program.cs(3,14): error FS1001: 'Result<int, string>' has no valid default value: every member that reads a default Result<int, string> throws InvalidOperationException; create it with a factory instead (https://github.com/wxxb789/funnysharp/blob/main/docs/analyzers.md#fs1001-uninitialized-semantic-carrier) [Q:\repos\funnysharp-goal24-resolution\artifacts\audit-resolution\fs1001\consumers\Invalid\Invalid.csproj]
+    0 Warning(s)
+    1 Error(s)
+
+Time Elapsed 00:00:03.87

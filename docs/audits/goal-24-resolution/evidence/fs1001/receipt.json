@@ -1,0 +1,58 @@
+{
+  "executor": "main-session",
+  "worktree": "Q:/repos/funnysharp-goal24-resolution",
+  "branch": "audit/goal24-resolution",
+  "baseCommit": "a8863473fd53eddc7cb47201508426db2e454f84",
+  "baseTree": "88e8a528017b0a5f68710cc1d955fda64486877f",
+  "unitDiffSha256": "361fa232e4b9a42ac250ea23a086647b09a8b01eacee40dd193b9b117572af3f",
+  "findings": [
+    "G21-03",
+    "G21-05"
+  ],
+  "changedFiles": [
+    "src/FunnySharp.Analyzers/UninitializedCarrierAnalyzer.cs",
+    "src/FunnySharp.Analyzers/AnalyzerReleases.Unshipped.md",
+    "tests/FunnySharp.Analyzers.Tests/UninitializedCarrierAnalyzerTests.cs"
+  ],
+  "red": {
+    "exitCode": 2,
+    "total": 88,
+    "failed": 8,
+    "succeeded": 80,
+    "skipped": 0
+  },
+  "green": {
+    "exitCode": 0,
+    "total": 88,
+    "failed": 0,
+    "succeeded": 88,
+    "skipped": 0
+  },
+  "coverage": "Eight nondefaultable types; explicit, parenthesized and target-typed empty initializers; default-valid Option/TransitionResult/user-struct controls.",
+  "unitPackage": {
+    "version": "0.1.0",
+    "scope": "Fresh unit-local package, not final0.2 candidate or historical package",
+    "packExitCode": 0,
+    "sha256": "53d0e1ebffe623383567d06e54ae8dbb698cbf3368892f5b18df8d9957012a3f",
+    "loadedAnalyzerSha256": "c92f6ef62f9eb01cce50d8247884fada05fb496e8ab09b396bfa0486e3ecd5d8"
+  },
+  "invalidConsumer": {
+    "exitCode": 1,
+    "expectedDiagnostic": "FS1001",
+    "errorCount": 1,
+    "warningCount": 0
+  },
+  "validConsumer": {
+    "exitCode": 0,
+    "stdout": "42"
+  },
+  "resolvedProjectReferences": [],
+  "resolvedPackageAnalyzers": [
+    "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\fs1001\\consumers\\packages\\funnysharp\\0.1.0\\analyzers\\dotnet\\cs\\FunnySharp.Analyzers.CodeFixes.dll",
+    "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\fs1001\\consumers\\packages\\funnysharp\\0.1.0\\analyzers\\dotnet\\cs\\FunnySharp.Analyzers.dll"
+  ],
+  "lsp": "Diagnostics requested before build. The server treats sibling-worktree files without their project/framework/global-using references: CS0246 for existing Fact/System/Microsoft and CS0518 for System.Object. No code suppression or extra using was added; real SDK builds/tests/package consumers resolve these references and pass. This is an explained LSP workspace limitation, not a clean-LSP claim.",
+  "cleanup": "All test, pack, restore, build and console commands exited; no task-owned HTTP host or port. SDK shared compiler server is not task-owned.",
+  "commit": "Not committed: explicit local commit/integration authorization is still absent.",
+  "finalCandidateReplay": "Required after remaining analyzer/public-source changes; unit proof is complete at the stated dirty snapshot and package hashes."
+}

@@ -1,0 +1,12 @@
+{
+  "study": "audit-resolution-v6",
+  "slot": "collections/funnysharp/run-2",
+  "sessionId": "study-session:002c543c-45f5-4c22-b582-7ed01934a369",
+  "invocationId": "native-call:cf1a5411-9af2-4b20-b405-1e1a7c82f658",
+  "requestedModel": "ghc/gpt-6.1-sol",
+  "route": "native-omo-cli/5.1.9/json-print",
+  "stdin": "closed",
+  "protocolSha256": "6c45ea6963b7789adfcbc2f2eec42bf60cbeb367e8cecd8e611030ed7b89d05b",
+  "requestSha256": "23e018618be38636bcc4e9d67929ed5fc6a3b02e9d6cb8d67d243658f69c82a2",
+  "status": "PREPARED_NOT_CALLED"
+}

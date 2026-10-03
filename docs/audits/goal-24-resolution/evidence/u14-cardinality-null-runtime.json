@@ -1,0 +1,54 @@
+{
+  "state": "SIX_REAL_PACKAGE_RUNTIME_DIMENSIONS_AND_NEW_XML_BUILD_PASS_FINAL_REBIND_OPEN",
+  "receipt": "artifacts/audit-resolution/u14-cardinality-null/attempt-01/contracts-green-01.json",
+  "summary": {
+    "tests": 6,
+    "passed": 6,
+    "failed": 0,
+    "pending": 0,
+    "skipped": 0,
+    "other": 0,
+    "suites": 1,
+    "start": 1790903732631,
+    "stop": 1790903732922
+  },
+  "exitCode": 0,
+  "corePackageDllSha256": "179a0f9ea0b7b6fd7635e20b8a0847fa9800f275ad650a2982114837cac51aa9",
+  "witnesses": [
+    {
+      "identities": [
+        "C:4",
+        "C:5",
+        "C:6",
+        "C:11"
+      ],
+      "test": "SelectedNullIsRejectedByTheSelectedOptionFactory",
+      "cases": 4,
+      "observed": "Awaiting each real operation reports ArgumentNullException with ParamName=value."
+    },
+    {
+      "identities": [
+        "C:11"
+      ],
+      "test": "MultipleItemsDoNotSelectTheNullFirstItemAsASingleValue",
+      "cases": 1,
+      "observed": "Two-item sequence whose first item is null returns None."
+    },
+    {
+      "identities": [
+        "C:3"
+      ],
+      "test": "NonEmptyConstructionPreservesNullFirstAndRestItems",
+      "cases": 1,
+      "observed": "First, Rest, Count and materialized output preserve both null items in order."
+    }
+  ],
+  "shippingEdits": [
+    "src/FunnySharp/AsyncCardinalityExtensions.cs",
+    "src/FunnySharp/NonEmpty.cs"
+  ],
+  "remaining": [
+    "New shipping XML requires actual compile and new package-byte binding.",
+    "Pending/disposal/OCE/comparer and other per-member dimensions remain open."
+  ]
+}

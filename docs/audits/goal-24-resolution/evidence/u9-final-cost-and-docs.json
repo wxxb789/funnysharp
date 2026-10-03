@@ -1,0 +1,156 @@
+{
+  "schema": "funnysharp-u9-cost-docs-proof/v1",
+  "state": "VERIFIED_LOCAL_UNIT_NOT_AGGREGATE_ACCEPTANCE",
+  "selection": "Latest complete independent repetition3; not best-run selection.",
+  "inputBindings": [
+    {
+      "path": "eng/performance/baseline.json",
+      "sha256": "103ce90f51d7fc7636c0a7cec8d4501f36b1f79e90f9eb812560e2085e3773aa"
+    },
+    {
+      "path": "eng/performance/competitor-baseline.json",
+      "sha256": "f0cf54496dde57e43ccca93dad8c9bf0984163519e829aa78f8a7bf4b281449a"
+    },
+    {
+      "path": "artifacts/audit-resolution/u13-final-repeat-03-main/observation-proposal.json",
+      "sha256": "36bf9ff9877aad688eb73e531dc72040a4648c2ab5c9270f9aca3d7f62300288"
+    },
+    {
+      "path": "artifacts/audit-resolution/u13-final-repeat-03-competitor/observation-proposal.json",
+      "sha256": "173a964f775cafb15c1ee06746cdc4fc93b95ddd651bb985b8e27ab960326784"
+    },
+    {
+      "path": "artifacts/audit-resolution/u13-final-repeat-03-main/performance-docs-tests.json",
+      "sha256": "2838337e1b50fb5f637b8c71f3dd8f53484e2d75357aad39ec97e0996c0c187f"
+    }
+  ],
+  "observations": {
+    "mainRows": 190,
+    "competitorRows": 40,
+    "bothExactGeneratedProposalCopies": true,
+    "mainSnapshot": "snapshot:f97e16b26f00914a9746c0db3788dde33b6dcf937c0119426e0c3bacd5af8b7f",
+    "competitorSnapshot": "snapshot:93a3168bf86fc5bbcdebd0ab2201f1de282460804378dc27ca61d42ed00762c6",
+    "environmentKey": "dcbdceb2e49a7453811c875821619b8438d7412de54edd327330aa780aa5c267"
+  },
+  "unchangedPolicy": "Approval changed only observation objects. Pre-copy parent protected-field comparison passed; the current strict entry points independently verify the frozen unchanged policy/input/protocol fingerprints and allocation ceilings.",
+  "repetitions": "docs/audits/goal-24-resolution/evidence/u13-three-full-repetitions.json",
+  "completeMemberCostAndResources": "docs/audits/goal-24-resolution/evidence/u14-final-installed-pair-local-proofs.json",
+  "guideBindings": [
+    {
+      "path": "docs/function-composition.md",
+      "sha256": "dd6f4863c89da837b50d5d789e8283a97164357dad599b781711dd22c4d7b66c"
+    },
+    {
+      "path": "docs/option.md",
+      "sha256": "c3d468d148cd6c41b60a303839727265b1b4c4b2488e0cd34291e4ce7516b366"
+    },
+    {
+      "path": "docs/result.md",
+      "sha256": "6b78664086ec6f4599aebc220def97c46b5b714499644ccdbe1a1975691803c5"
+    },
+    {
+      "path": "docs/validation.md",
+      "sha256": "923151c1e3de02825dfbc2b49393c9a261e939ec1e474addd98bb893915414b9"
+    },
+    {
+      "path": "docs/data-pipelines.md",
+      "sha256": "78f5787bbf0c7fe23bbcf023712a967a8fdef2ad9ca6900ebc7a7512ba51b242"
+    },
+    {
+      "path": "docs/collections.md",
+      "sha256": "6001aebd200b67edf0c2b135ae0c3e0af3c961e99836b7f762d9bb2d83620558"
+    },
+    {
+      "path": "docs/effects.md",
+      "sha256": "eba44570793bc8e72f15ed6c6155e925df38a200873c795dab8a34b504600928"
+    },
+    {
+      "path": "docs/concurrency.md",
+      "sha256": "6e4324334f51dd240aa3fcd4e1531ad6dcb017ff21b41ca5b983e81a81f3fad9"
+    },
+    {
+      "path": "docs/immutable-updates.md",
+      "sha256": "3e064d98c2a4263b069edcb58eec1c04cabf4cc996235c4103a76c8aade98f7e"
+    },
+    {
+      "path": "docs/state-machines.md",
+      "sha256": "13154a3ae4d03c17fedea10086ea166a5b2905dca21ce89652939b22230e1bce"
+    },
+    {
+      "path": "docs/aspnet-core.md",
+      "sha256": "71f12c3f333d07f9b7375df751ed6606153c9ceb0093b8057909a81f925c2930"
+    },
+    {
+      "path": "docs/performance.md",
+      "sha256": "a582579964f754a8be3db01e3dc47ef803b35e2e8866f1d18e46c3f8a7138543"
+    }
+  ],
+  "qa": [
+    {
+      "command": "dotnet fsi build.fsx -- -p generate-performance-docs",
+      "exitCode": 0,
+      "stdout": "Generated 11 performance documentation regions."
+    },
+    {
+      "command": "dotnet fsi build.fsx -- -p generate-performance-docs -Verify",
+      "exitCode": 0,
+      "stdout": "Verified 11 performance documentation regions."
+    },
+    {
+      "command": "dotnet fsi build.fsx -- -p generate-performance-docs -ManifestPath eng/performance/competitor-baseline.json",
+      "exitCode": 0,
+      "stdout": "Generated 1 performance documentation regions."
+    },
+    {
+      "command": "dotnet fsi build.fsx -- -p generate-performance-docs -ManifestPath eng/performance/competitor-baseline.json -Verify",
+      "exitCode": 0,
+      "stdout": "Verified 1 performance documentation regions."
+    },
+    {
+      "command": "dotnet fsi build.fsx -- -p verify-docs-snippets",
+      "exitCode": 0,
+      "stdout": "Verified 56 C# documentation snippets across 11 primary guides."
+    },
+    {
+      "command": "dotnet fsi build.fsx -- -p verify-performance -ReceiptDirectory artifacts/audit-resolution/u13-final-repeat-03-main/results",
+      "exitCode": 0,
+      "stdout": "Verified 190 included performance rows and 11 explicit exclusions across 13 receipts."
+    },
+    {
+      "command": "dotnet fsi build.fsx -- -p verify-performance -ManifestPath eng/performance/competitor-baseline.json -ReceiptDirectory artifacts/audit-resolution/u13-final-repeat-03-competitor/results",
+      "exitCode": 0,
+      "stdout": "Verified 40 included performance rows and 0 explicit exclusions across 2 receipts."
+    }
+  ],
+  "machineConsumedGeneratorTests": {
+    "summary": {
+      "tests": 12,
+      "passed": 12,
+      "failed": 0,
+      "pending": 0,
+      "skipped": 0,
+      "other": 0,
+      "suites": 1,
+      "start": 1790925832236,
+      "stop": 1790925832651
+    },
+    "all12Passed": true,
+    "previousFailures": [
+      {
+        "name": "FunnySharp.Harness.Tests.PerformanceDocsTests+RealManifestTests.CompetitorManifestReproducesProtocolStep13",
+        "status": "passed"
+      },
+      {
+        "name": "FunnySharp.Harness.Tests.PerformanceDocsTests+RealManifestTests.BaselineManifestVerifiesElevenRegions",
+        "status": "passed"
+      }
+    ]
+  },
+  "cleanup": "All one-shot generation, verification and native test processes completed exit0; no temporary live service or session remains.",
+  "limits": [
+    "Timing remains directional on the shared host.",
+    "All historical failed manifests and missing15receipts retained.",
+    "Final integrated solution gate has not yet rerun after numeric guide repair.",
+    "Original69 final acceptance and all3 aggregate criteria remain pending."
+  ]
+}

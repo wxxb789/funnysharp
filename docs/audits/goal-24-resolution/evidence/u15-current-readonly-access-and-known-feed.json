@@ -1,0 +1,86 @@
+{
+  "schema": "funnysharp-current-readonly-release-access-and-known-feed/v1",
+  "capturedAtUtc": "2026-10-03T02:06:59.752Z",
+  "repository": "wxxb789/funnysharp",
+  "method": "READ_ONLY_NO_MUTATION",
+  "queries": [
+    {
+      "key": "directRulesets",
+      "endpoint": "repos/wxxb789/funnysharp/rulesets",
+      "method": "GET",
+      "rawOutput": "[]",
+      "exitCode": 0
+    },
+    {
+      "key": "inheritedRulesets",
+      "endpoint": "repos/wxxb789/funnysharp/rulesets?includes_parents=true",
+      "method": "GET",
+      "rawOutput": "[]",
+      "exitCode": 0
+    },
+    {
+      "key": "mainProtection",
+      "endpoint": "repos/wxxb789/funnysharp/branches/main/protection",
+      "method": "GET",
+      "rawOutput": "{\"message\":\"Branch not protected\",\"documentation_url\":\"https://docs.github.com/rest/branches/branch-protection#get-branch-protection\",\"status\":\"404\"}gh: Branch not protected (HTTP 404)\n\nCommand exited with code 1",
+      "exitCode": 1
+    },
+    {
+      "key": "availableRepositoryRunners",
+      "endpoint": "repos/wxxb789/funnysharp/actions/runners",
+      "method": "GET",
+      "rawOutput": "{\"total_count\":0,\"runners\":[]}",
+      "exitCode": 0
+    }
+  ],
+  "enforcement": {
+    "directRulesets": [],
+    "inheritedRulesets": [],
+    "mainProtection": "404 Branch not protected",
+    "requiredContextsEnforced": false,
+    "actualNonBypassDenialProved": false
+  },
+  "hostAccess": {
+    "repositorySelfHostedRunnerCount": 0,
+    "hostedRunnerExistenceNotInferredFromThisAPI": true,
+    "matchingFourHostCurrentCandidateProof": false,
+    "windowsCannotSubstituteMacOrLinux": true
+  },
+  "knownPublicFeed": {
+    "inventoryOwnerSupplied": false,
+    "feed": "nuget.org",
+    "package": "FunnySharp",
+    "version": "0.2.0",
+    "flatContainerQuery": {
+      "url": "https://api.nuget.org/v3-flatcontainer/funnysharp/index.json",
+      "webfetchError": "unknown certificate verification error",
+      "windowsTrustedStackError": "Invoke-RestMethod : The request was aborted: Could not create SSL/TLS secure channel.\nAt line:1 char:32\n+ ... nce=\"Stop\"; Invoke-RestMethod -Uri \"https://api.nuget.org/v3-flatcont ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (System.Net.HttpWebRequest:HttpWebRequest) [Invoke-RestMethod], WebExc \n   eption\n    + FullyQualifiedErrorId : WebCmdletWebResponseException,Microsoft.PowerShell.Commands.InvokeRestMethodCommand\n\nCommand exited with code 1",
+      "authoritativeVersionIndexVerified": false
+    },
+    "galleryPage": {
+      "url": "https://www.nuget.org/packages/FunnySharp/0.2.0",
+      "observed": "NuGet Gallery Page Not Found / Error404 page",
+      "scope": "Known public gallery page only; not complete intended-feed inventory, authenticated feed-state receipt or immutable publication evidence."
+    }
+  },
+  "humanReview": {
+    "question": "exact_source_maintainer_review",
+    "status": "EXPIRED_WITHOUT_ANSWER",
+    "latestUser": "Continue on best judgment; do not ask this same question again this turn.",
+    "acceptanceSupplied": false,
+    "qualificationSupplied": false
+  },
+  "remainingOriginalIds": [
+    "F37",
+    "F38",
+    "F39",
+    "U01",
+    "U02",
+    "U15",
+    "U20",
+    "U29"
+  ],
+  "commitsPushesSettingsMessagesPublications": 0,
+  "ownerRemoteAuthorityGranted": false,
+  "completeGoal": false
+}

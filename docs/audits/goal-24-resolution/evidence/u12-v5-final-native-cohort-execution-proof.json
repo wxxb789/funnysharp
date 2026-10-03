@@ -1,0 +1,510 @@
+{
+  "schema": "funnysharp-v5-final-native-cohort-execution-proof/v1",
+  "state": "20_ACTUAL_LOGICAL_GENERATIONS_19_FORMAL_GREEN_ONE_ORIGINAL_TECHNICAL_FAILURE_SUPPLEMENTED_NOT_RETROACTIVE_GREEN",
+  "study": "audit-resolution-v5",
+  "model": {
+    "requested": "ghc/gpt-6.1-sol",
+    "thinking": "high",
+    "route": "native-omo-cli/5.1.9/json-print",
+    "servedModelUnknown": true
+  },
+  "counts": {
+    "logicalSlots": 20,
+    "uniqueLogicalIds": 20,
+    "actualNativeCalls": 22,
+    "freshNativeCliIds": 22,
+    "actualOutgoingRequests": 22,
+    "feedbackCorrections": 2,
+    "sourceRepairByOrchestrator": 0,
+    "formalFinalGreen": 19,
+    "formalFinalGreenCases": 190,
+    "originalObservedCasePasses": 200,
+    "originalFailedTestCases": 0,
+    "originalSkippedCases": 0,
+    "initialCompilationRed": 2,
+    "technicalGradingFailures": 1,
+    "completeOriginalRoundReceipts": 21,
+    "originalPartialRounds": 1,
+    "partialMissingFormalRecord": true
+  },
+  "actualBoundaryJoins": [
+    {
+      "slot": "concurrency/idiomatic/run-2",
+      "round": "0001",
+      "logicalSessionId": "study-session:04b53d76-8cb8-4e98-abe6-15df24387c1a",
+      "invocationId": "native-call:af0b7574-57db-41f0-887d-6b4354b0d158",
+      "nativeCliSessionId": "01a0fea6-124c-7ff2-a196-05507ea38d6e",
+      "actualProviderRequests": 1,
+      "requestSha256": "a72a47438f26875858676cfd7a1768f9af9132b62912521ef3c853adf92a2f27",
+      "contextFiles": 18,
+      "producerPath": "concurrency/idiomatic/run-2/rounds/0001/producer-receipt.json"
+    },
+    {
+      "slot": "concurrency/idiomatic/run-1",
+      "round": "0001",
+      "logicalSessionId": "study-session:81bbe052-881b-40ab-adc7-b170af73cb70",
+      "invocationId": "native-call:976afa10-676b-4fee-a66e-be49a4db6e3e",
+      "nativeCliSessionId": "01a0fea6-129b-7de2-b2ba-859331548081",
+      "actualProviderRequests": 1,
+      "requestSha256": "a72a47438f26875858676cfd7a1768f9af9132b62912521ef3c853adf92a2f27",
+      "contextFiles": 18,
+      "producerPath": "concurrency/idiomatic/run-1/rounds/0001/producer-receipt.json"
+    },
+    {
+      "slot": "concurrency/funnysharp/run-2",
+      "round": "0001",
+      "logicalSessionId": "study-session:a93c39b3-6d8d-47a2-91cb-1f7002b2bed0",
+      "invocationId": "native-call:7d364264-7350-4bbb-841d-727b6aecd398",
+      "nativeCliSessionId": "01a0fea6-1353-7d3c-8541-f05869fd3466",
+      "actualProviderRequests": 1,
+      "requestSha256": "0e7604d708678dc06f499d0dce77df57fd3379aa1528d5a9b112208d042f6705",
+      "contextFiles": 18,
+      "producerPath": "concurrency/funnysharp/run-2/rounds/0001/producer-receipt.json"
+    },
+    {
+      "slot": "concurrency/funnysharp/run-1",
+      "round": "0001",
+      "logicalSessionId": "study-session:7de76558-e7b0-49a1-8960-61e73a143776",
+      "invocationId": "native-call:1cd38ec6-bb87-4857-b24f-d8fe99c9803d",
+      "nativeCliSessionId": "01a0fea6-12d9-77ed-9ac0-f2312df051ae",
+      "actualProviderRequests": 1,
+      "requestSha256": "0e7604d708678dc06f499d0dce77df57fd3379aa1528d5a9b112208d042f6705",
+      "contextFiles": 18,
+      "producerPath": "concurrency/funnysharp/run-1/rounds/0001/producer-receipt.json"
+    },
+    {
+      "slot": "collections/idiomatic/run-2",
+      "round": "0001",
+      "logicalSessionId": "study-session:25f166e7-85ee-41de-b979-63a81975d246",
+      "invocationId": "native-call:877f6279-2d5c-4213-bac9-3a3631b2f329",
+      "nativeCliSessionId": "01a0fea6-02a7-7abf-9466-954a950ca4c6",
+      "actualProviderRequests": 1,
+      "requestSha256": "8805960917e9eb0bc0c1ccafdae9e8157fc0ca6e7db591ec06f8862580966f74",
+      "contextFiles": 18,
+      "producerPath": "collections/idiomatic/run-2/rounds/0001/producer-receipt.json"
+    },
+    {
+      "slot": "collections/idiomatic/run-1",
+      "round": "0001",
+      "logicalSessionId": "study-session:cd19a313-3821-459c-8752-66440f134cf4",
+      "invocationId": "native-call:7cb3f7fd-a8a8-4975-b9fc-a99d66f678be",
+      "nativeCliSessionId": "01a0fea5-dfc7-7748-9565-6ec3f1d9ffc6",
+      "actualProviderRequests": 1,
+      "requestSha256": "8805960917e9eb0bc0c1ccafdae9e8157fc0ca6e7db591ec06f8862580966f74",
+      "contextFiles": 18,
+      "producerPath": "collections/idiomatic/run-1/rounds/0001/producer-receipt.json"
+    },
+    {
+      "slot": "collections/funnysharp/run-2",
+      "round": "0001",
+      "logicalSessionId": "study-session:e99d3d33-f9c7-42da-839d-af9397bc402d",
+      "invocationId": "native-call:a507026c-5cfc-4a5b-9082-aba980c620ad",
+      "nativeCliSessionId": "01a0fea6-0451-7382-a987-283bafd84f56",
+      "actualProviderRequests": 1,
+      "requestSha256": "23e018618be38636bcc4e9d67929ed5fc6a3b02e9d6cb8d67d243658f69c82a2",
+      "contextFiles": 18,
+      "producerPath": "collections/funnysharp/run-2/rounds/0001/producer-receipt.json"
+    },
+    {
+      "slot": "collections/funnysharp/run-1",
+      "round": "0001",
+      "logicalSessionId": "study-session:80bf0cb1-605f-4b54-81ea-c58471a1418e",
+      "invocationId": "native-call:47db6cd4-db7f-43db-b7bf-6ac1d7558810",
+      "nativeCliSessionId": "01a0fea6-038f-787e-a2d3-cb64522a7c11",
+      "actualProviderRequests": 1,
+      "requestSha256": "23e018618be38636bcc4e9d67929ed5fc6a3b02e9d6cb8d67d243658f69c82a2",
+      "contextFiles": 18,
+      "producerPath": "collections/funnysharp/run-1/rounds/0001/producer-receipt.json"
+    },
+    {
+      "slot": "business-outcomes/idiomatic/run-2",
+      "round": "0001",
+      "logicalSessionId": "study-session:8f547bdc-9cff-42cf-b200-75b8e3a283be",
+      "invocationId": "native-call:b8064914-1a37-48f7-8ec8-e5f5bb40ccca",
+      "nativeCliSessionId": "01a0fea5-0301-7d3e-b615-d910216f627e",
+      "actualProviderRequests": 1,
+      "requestSha256": "6400255c991ad58451167291d9e794fb5a30f518cfc3d8969c87c2262aca9138",
+      "contextFiles": 19,
+      "producerPath": "business-outcomes/idiomatic/run-2/rounds/0001/producer-receipt.json"
+    },
+    {
+      "slot": "business-outcomes/idiomatic/run-1",
+      "round": "0001",
+      "logicalSessionId": "study-session:9e64725d-bead-46f5-b063-b0922e0394ba",
+      "invocationId": "native-call:4181098c-0815-403d-bc7c-f98d11917d2c",
+      "nativeCliSessionId": "01a0fea0-5da2-7243-83b5-b20cd4ac216a",
+      "actualProviderRequests": 1,
+      "requestSha256": "6400255c991ad58451167291d9e794fb5a30f518cfc3d8969c87c2262aca9138",
+      "contextFiles": 19,
+      "producerPath": "business-outcomes/idiomatic/run-1/rounds/0001/producer-receipt.json"
+    },
+    {
+      "slot": "business-outcomes/funnysharp/run-2",
+      "round": "0002",
+      "logicalSessionId": "study-session:65d30129-f425-4795-90e0-cf197f5ddf5a",
+      "invocationId": "native-call:ff6d0c74-b2fc-46da-9e7b-121ea882a846",
+      "nativeCliSessionId": "01a0feab-108f-79db-a1c7-0292c4f309d1",
+      "actualProviderRequests": 1,
+      "requestSha256": "6b59702edb2c91285f87869641132a6b3e1a6370add7eec260bb64a04c728d80",
+      "contextFiles": 21,
+      "producerPath": "business-outcomes/funnysharp/run-2/rounds/0002/producer-receipt.json"
+    },
+    {
+      "slot": "business-outcomes/funnysharp/run-2",
+      "round": "0001",
+      "logicalSessionId": "study-session:65d30129-f425-4795-90e0-cf197f5ddf5a",
+      "invocationId": "native-call:62606c5e-771c-4cd3-a2e3-236bdf3e2306",
+      "nativeCliSessionId": "01a0fea5-22dd-7c31-a1d7-ac6bb0d46860",
+      "actualProviderRequests": 1,
+      "requestSha256": "993986536e9b3a3713e92823e2f84ca138c2962fec10ae2bc3b5ee3d73f67268",
+      "contextFiles": 19,
+      "producerPath": "business-outcomes/funnysharp/run-2/rounds/0001/producer-receipt.json"
+    },
+    {
+      "slot": "business-outcomes/funnysharp/run-1",
+      "round": "0001",
+      "logicalSessionId": "study-session:b33970ba-ea1a-4b4b-a3ed-97630cd41451",
+      "invocationId": "native-call:cc03e213-15a8-4f58-b856-7403fb5f7aee",
+      "nativeCliSessionId": "01a0fea5-1307-76bc-92a1-b47ce37a4deb",
+      "actualProviderRequests": 1,
+      "requestSha256": "993986536e9b3a3713e92823e2f84ca138c2962fec10ae2bc3b5ee3d73f67268",
+      "contextFiles": 19,
+      "producerPath": "business-outcomes/funnysharp/run-1/rounds/0001/producer-receipt.json"
+    },
+    {
+      "slot": "async-streams/idiomatic/run-2",
+      "round": "0001",
+      "logicalSessionId": "study-session:ca89622b-5c65-486c-9f41-292ea9d75c30",
+      "invocationId": "native-call:40004104-eb4f-48be-8279-79103219d48a",
+      "nativeCliSessionId": "01a0fea6-06ec-72f8-86fd-334cfd466e3d",
+      "actualProviderRequests": 1,
+      "requestSha256": "c5bd0b2c29b4523e2d45278dc188a0ae03cfdef524f8dbd59deed36b28791d4c",
+      "contextFiles": 18,
+      "producerPath": "async-streams/idiomatic/run-2/rounds/0001/producer-receipt.json"
+    },
+    {
+      "slot": "async-streams/idiomatic/run-1",
+      "round": "0001",
+      "logicalSessionId": "study-session:c47538b7-63ed-4329-937b-d757b857af91",
+      "invocationId": "native-call:203c1a17-f952-46d2-89d6-08839c4ec35e",
+      "nativeCliSessionId": "01a0fea6-05d0-7b70-836f-2b7d6c989582",
+      "actualProviderRequests": 1,
+      "requestSha256": "c5bd0b2c29b4523e2d45278dc188a0ae03cfdef524f8dbd59deed36b28791d4c",
+      "contextFiles": 18,
+      "producerPath": "async-streams/idiomatic/run-1/rounds/0001/producer-receipt.json"
+    },
+    {
+      "slot": "async-streams/funnysharp/run-2",
+      "round": "0001",
+      "logicalSessionId": "study-session:fde42553-78d4-446f-b4d3-2b33925d08f8",
+      "invocationId": "native-call:f1e6f8ba-cbe5-4443-9f75-9046921bc6c5",
+      "nativeCliSessionId": "01a0fea6-096a-70ec-8905-405afc68f112",
+      "actualProviderRequests": 1,
+      "requestSha256": "29640c0e62ed3bfec4122d7bd50275c00e1fa2e348853784036d3c50947862ac",
+      "contextFiles": 18,
+      "producerPath": "async-streams/funnysharp/run-2/rounds/0001/producer-receipt.json"
+    },
+    {
+      "slot": "async-streams/funnysharp/run-1",
+      "round": "0001",
+      "logicalSessionId": "study-session:3140bc17-ea80-4700-9ff0-b037565694d3",
+      "invocationId": "native-call:ceb99956-36ff-4060-ace2-a7ba49699b62",
+      "nativeCliSessionId": "01a0fea6-0884-7ea5-b438-f5a12339bef5",
+      "actualProviderRequests": 1,
+      "requestSha256": "29640c0e62ed3bfec4122d7bd50275c00e1fa2e348853784036d3c50947862ac",
+      "contextFiles": 18,
+      "producerPath": "async-streams/funnysharp/run-1/rounds/0001/producer-receipt.json"
+    },
+    {
+      "slot": "aspnetcore/idiomatic/run-2",
+      "round": "0002",
+      "logicalSessionId": "study-session:789d92d2-27d5-4836-a7cb-6141a431a4e9",
+      "invocationId": "native-call:fe6f6da5-267f-4088-825c-e2701a657969",
+      "nativeCliSessionId": "01a0feb4-7a19-7570-8fb0-db2b9d2285f3",
+      "actualProviderRequests": 1,
+      "requestSha256": "12a2920b5b82dc738ae380e638346ec84ffa276b6638260209e46a8aa0b34c5d",
+      "contextFiles": 20,
+      "producerPath": "aspnetcore/idiomatic/run-2/rounds/0002/producer-receipt.json"
+    },
+    {
+      "slot": "aspnetcore/idiomatic/run-2",
+      "round": "0001",
+      "logicalSessionId": "study-session:789d92d2-27d5-4836-a7cb-6141a431a4e9",
+      "invocationId": "native-call:91e82b01-525f-48b1-beb5-f7dee97ea1e1",
+      "nativeCliSessionId": "01a0fea6-15c2-7f71-b391-70e7a04a7f0b",
+      "actualProviderRequests": 1,
+      "requestSha256": "ca2fad75116225393b3569eff52064c205a9bd17e7a1228f93c29880f399fdbe",
+      "contextFiles": 18,
+      "producerPath": "aspnetcore/idiomatic/run-2/rounds/0001/producer-receipt.json"
+    },
+    {
+      "slot": "aspnetcore/idiomatic/run-1",
+      "round": "0001",
+      "logicalSessionId": "study-session:f0b1b459-1348-4c67-93e6-c4cea0cc04e5",
+      "invocationId": "native-call:5ed879ae-ac03-4897-9248-9ce196762061",
+      "nativeCliSessionId": "01a0fea6-153b-7df9-9acd-f13db09a66e1",
+      "actualProviderRequests": 1,
+      "requestSha256": "ca2fad75116225393b3569eff52064c205a9bd17e7a1228f93c29880f399fdbe",
+      "contextFiles": 18,
+      "producerPath": "aspnetcore/idiomatic/run-1/rounds/0001/producer-receipt.json"
+    },
+    {
+      "slot": "aspnetcore/funnysharp/run-2",
+      "round": "0001",
+      "logicalSessionId": "study-session:73955137-b494-4cb2-8d69-009e07f5efb9",
+      "invocationId": "native-call:8dcb3dac-5828-4952-9b4f-930d3016071d",
+      "nativeCliSessionId": "01a0fea6-173c-7672-92f6-8e7eea27ff69",
+      "actualProviderRequests": 1,
+      "requestSha256": "7f959619e89fb8f9f930a1b7f8be51f18f19c6fb169f1fafeab839dd41ed0aff",
+      "contextFiles": 18,
+      "producerPath": "aspnetcore/funnysharp/run-2/rounds/0001/producer-receipt.json"
+    },
+    {
+      "slot": "aspnetcore/funnysharp/run-1",
+      "round": "0001",
+      "logicalSessionId": "study-session:93f92e20-2044-40fe-b83c-3c50d9025931",
+      "invocationId": "native-call:0e50155d-00b4-4b66-af4e-f16c87a8a084",
+      "nativeCliSessionId": "01a0fea6-157e-749b-b0d4-e408366ec37d",
+      "actualProviderRequests": 1,
+      "requestSha256": "7f959619e89fb8f9f930a1b7f8be51f18f19c6fb169f1fafeab839dd41ed0aff",
+      "contextFiles": 18,
+      "producerPath": "aspnetcore/funnysharp/run-1/rounds/0001/producer-receipt.json"
+    }
+  ],
+  "bindings": {
+    "originalCompleteRoundFileShaChecks": 7978,
+    "completeRoundHashIssues": [],
+    "finalSourceChecks": [
+      {
+        "slot": "business-outcomes/idiomatic/run-1",
+        "path": "eng/evaluation/results/audit-resolution-v5/business-outcomes/idiomatic/run-1/solution/OrderWorkflow.cs",
+        "expected": "5b9f15e55df9d51bc778348e3cd893cd910dde42ae4cbc421e23b5fc98d20b66",
+        "actual": "5b9f15e55df9d51bc778348e3cd893cd910dde42ae4cbc421e23b5fc98d20b66",
+        "loc": 68,
+        "parentLoc": 68
+      },
+      {
+        "slot": "business-outcomes/idiomatic/run-2",
+        "path": "eng/evaluation/results/audit-resolution-v5/business-outcomes/idiomatic/run-2/solution/OrderWorkflow.cs",
+        "expected": "b27751ee3a30ef50593c7946603d13b783d1484cf8858eaab6b32823aa0a38ed",
+        "actual": "b27751ee3a30ef50593c7946603d13b783d1484cf8858eaab6b32823aa0a38ed",
+        "loc": 68,
+        "parentLoc": 68
+      },
+      {
+        "slot": "business-outcomes/funnysharp/run-1",
+        "path": "eng/evaluation/results/audit-resolution-v5/business-outcomes/funnysharp/run-1/solution/OrderWorkflow.cs",
+        "expected": "b21bfbd3d5530306982288b223e8c912d73ccd7ecf8578a2e967c10a0413d37a",
+        "actual": "b21bfbd3d5530306982288b223e8c912d73ccd7ecf8578a2e967c10a0413d37a",
+        "loc": 109,
+        "parentLoc": 109
+      },
+      {
+        "slot": "business-outcomes/funnysharp/run-2",
+        "path": "eng/evaluation/results/audit-resolution-v5/business-outcomes/funnysharp/run-2/solution/OrderWorkflow.cs",
+        "expected": "58b8cd7c19e3efa0dc8cff821fca4ce82a46026c94de719cac55cfdd238a6e00",
+        "actual": "58b8cd7c19e3efa0dc8cff821fca4ce82a46026c94de719cac55cfdd238a6e00",
+        "loc": 100,
+        "parentLoc": 100
+      },
+      {
+        "slot": "collections/idiomatic/run-1",
+        "path": "eng/evaluation/results/audit-resolution-v5/collections/idiomatic/run-1/solution/FeedCleaner.cs",
+        "expected": "9a71ae5d155b0b31d6ad96a9fcbd18f973e815f427e4ca3e0e05bf3c4e4aff2f",
+        "actual": "9a71ae5d155b0b31d6ad96a9fcbd18f973e815f427e4ca3e0e05bf3c4e4aff2f",
+        "loc": 74,
+        "parentLoc": 74
+      },
+      {
+        "slot": "collections/idiomatic/run-2",
+        "path": "eng/evaluation/results/audit-resolution-v5/collections/idiomatic/run-2/solution/FeedCleaner.cs",
+        "expected": "87876e42369656372893a921befb8c8d589827febee7161ee8f090491baad8a2",
+        "actual": "87876e42369656372893a921befb8c8d589827febee7161ee8f090491baad8a2",
+        "loc": 75,
+        "parentLoc": 75
+      },
+      {
+        "slot": "collections/funnysharp/run-1",
+        "path": "eng/evaluation/results/audit-resolution-v5/collections/funnysharp/run-1/solution/FeedCleaner.cs",
+        "expected": "e9b12595dd62798708119fbb75ef84c684a29624fe7089d64849974b38302675",
+        "actual": "e9b12595dd62798708119fbb75ef84c684a29624fe7089d64849974b38302675",
+        "loc": 92,
+        "parentLoc": 92
+      },
+      {
+        "slot": "collections/funnysharp/run-2",
+        "path": "eng/evaluation/results/audit-resolution-v5/collections/funnysharp/run-2/solution/FeedCleaner.cs",
+        "expected": "ee1287812ede5d0fc7b668dbef2fc652f4fbbfa2db25001b9c89ace8ab17b48f",
+        "actual": "ee1287812ede5d0fc7b668dbef2fc652f4fbbfa2db25001b9c89ace8ab17b48f",
+        "loc": 85,
+        "parentLoc": 85
+      },
+      {
+        "slot": "async-streams/idiomatic/run-1",
+        "path": "eng/evaluation/results/audit-resolution-v5/async-streams/idiomatic/run-1/solution/SensorStream.cs",
+        "expected": "8e02b9c31b7377525d39526a58fb992c7fa413bb12471df5f636b593597b906a",
+        "actual": "8e02b9c31b7377525d39526a58fb992c7fa413bb12471df5f636b593597b906a",
+        "loc": 56,
+        "parentLoc": 56
+      },
+      {
+        "slot": "async-streams/idiomatic/run-2",
+        "path": "eng/evaluation/results/audit-resolution-v5/async-streams/idiomatic/run-2/solution/SensorStream.cs",
+        "expected": "27f9291c675381a5bb4dd96ef8415fbb33d20fc7f8ef0d48bdd5a5e765f11f6b",
+        "actual": "27f9291c675381a5bb4dd96ef8415fbb33d20fc7f8ef0d48bdd5a5e765f11f6b",
+        "loc": 50,
+        "parentLoc": 50
+      },
+      {
+        "slot": "async-streams/funnysharp/run-1",
+        "path": "eng/evaluation/results/audit-resolution-v5/async-streams/funnysharp/run-1/solution/SensorStream.cs",
+        "expected": "2a78f41d9cd55415dda4b75b9544ad801888f616facf561db50f343a22b212f8",
+        "actual": "2a78f41d9cd55415dda4b75b9544ad801888f616facf561db50f343a22b212f8",
+        "loc": 54,
+        "parentLoc": 54
+      },
+      {
+        "slot": "async-streams/funnysharp/run-2",
+        "path": "eng/evaluation/results/audit-resolution-v5/async-streams/funnysharp/run-2/solution/SensorStream.cs",
+        "expected": "ef9a6a861fb30a7a2952860a6e132b34418b4391dde846e63c828b0aa4ad4f5a",
+        "actual": "ef9a6a861fb30a7a2952860a6e132b34418b4391dde846e63c828b0aa4ad4f5a",
+        "loc": 55,
+        "parentLoc": 55
+      },
+      {
+        "slot": "concurrency/idiomatic/run-1",
+        "path": "eng/evaluation/results/audit-resolution-v5/concurrency/idiomatic/run-1/solution/AvailabilityCoordinator.cs",
+        "expected": "f083497fa87e46777a4f07caf76adb3f55c2b466c5e9d51623d9182b301b0dae",
+        "actual": "f083497fa87e46777a4f07caf76adb3f55c2b466c5e9d51623d9182b301b0dae",
+        "loc": 153,
+        "parentLoc": 153
+      },
+      {
+        "slot": "concurrency/idiomatic/run-2",
+        "path": "eng/evaluation/results/audit-resolution-v5/concurrency/idiomatic/run-2/solution/AvailabilityCoordinator.cs",
+        "expected": "bfe69de9ed899a6f46320499c4e38e528ae5ab882fd4d24174a043488aff5593",
+        "actual": "bfe69de9ed899a6f46320499c4e38e528ae5ab882fd4d24174a043488aff5593",
+        "loc": 155,
+        "parentLoc": 155
+      },
+      {
+        "slot": "concurrency/funnysharp/run-1",
+        "path": "eng/evaluation/results/audit-resolution-v5/concurrency/funnysharp/run-1/solution/AvailabilityCoordinator.cs",
+        "expected": "372e4d4643941e4c361c1ea6f91ef0c70d67696546d2c4135a368faeab43777d",
+        "actual": "372e4d4643941e4c361c1ea6f91ef0c70d67696546d2c4135a368faeab43777d",
+        "loc": 181,
+        "parentLoc": 181
+      },
+      {
+        "slot": "concurrency/funnysharp/run-2",
+        "path": "eng/evaluation/results/audit-resolution-v5/concurrency/funnysharp/run-2/solution/AvailabilityCoordinator.cs",
+        "expected": "70787ac94ce9478edf9696f94d33ef736a0436d43dbd7ff2086383cb9fc1334c",
+        "actual": "70787ac94ce9478edf9696f94d33ef736a0436d43dbd7ff2086383cb9fc1334c",
+        "loc": 177,
+        "parentLoc": 177
+      },
+      {
+        "slot": "aspnetcore/idiomatic/run-1",
+        "path": "eng/evaluation/results/audit-resolution-v5/aspnetcore/idiomatic/run-1/solution/Api.cs",
+        "expected": "65b6a2ed684a6f8d12e8f58830d6c6ae8b114b283ec28f3f080d2bb14fb36b25",
+        "actual": "65b6a2ed684a6f8d12e8f58830d6c6ae8b114b283ec28f3f080d2bb14fb36b25",
+        "loc": 126,
+        "parentLoc": 126
+      },
+      {
+        "slot": "aspnetcore/idiomatic/run-2",
+        "path": "eng/evaluation/results/audit-resolution-v5/aspnetcore/idiomatic/run-2/solution/Api.cs",
+        "expected": "4d234c1d1a1c2c29be803a296ed97964c4b892974692b4973b60c2358bca23a9",
+        "actual": "4d234c1d1a1c2c29be803a296ed97964c4b892974692b4973b60c2358bca23a9",
+        "loc": 128,
+        "parentLoc": 128
+      },
+      {
+        "slot": "aspnetcore/funnysharp/run-1",
+        "path": "eng/evaluation/results/audit-resolution-v5/aspnetcore/funnysharp/run-1/solution/Api.cs",
+        "expected": "087cc4047e21afef9e87b76edc1689fb8ce034428549c1a36b19e3c97671bc77",
+        "actual": "087cc4047e21afef9e87b76edc1689fb8ce034428549c1a36b19e3c97671bc77",
+        "loc": 115,
+        "parentLoc": 115
+      },
+      {
+        "slot": "aspnetcore/funnysharp/run-2",
+        "path": "eng/evaluation/results/audit-resolution-v5/aspnetcore/funnysharp/run-2/solution/Api.cs",
+        "expected": "7872c994db47bade6dceb2967e496146bf999aa59d33cb431089c6a1a701d24f",
+        "actual": "7872c994db47bade6dceb2967e496146bf999aa59d33cb431089c6a1a701d24f",
+        "loc": 123,
+        "parentLoc": 123
+      }
+    ],
+    "frozenSnapshot188Checked": true
+  },
+  "technicalFailure": {
+    "slot": "async-streams/idiomatic/run-1",
+    "originalGradeExit": 1,
+    "originalGreen": false,
+    "defender": "PUA:Win32/IdleBuddy",
+    "sourceSemanticFailureNotInferred": true,
+    "supplement": "docs/audits/goal-24-resolution/evidence/u12-v5-append-only-grading-supplement-proof.json",
+    "supplementEvidenceKind": "replay",
+    "newAiSamples": 0,
+    "originalGreenAdded": 0
+  },
+  "httpRuntime": "docs/audits/goal-24-resolution/evidence/u12-v5-real-kestrel-parent-proof.json:4originalconsumers36realKestrelcases72requests/parent36refusals",
+  "metrics": {
+    "all20Sources": 20,
+    "idiomaticConsumerLoc": 953,
+    "funnysharpConsumerLoc": 1091,
+    "wholeConsumerDifference": 138,
+    "perArea": {
+      "business-outcomes": {
+        "idiomatic/run-1": 68,
+        "idiomatic/run-2": 68,
+        "funnysharp/run-1": 109,
+        "funnysharp/run-2": 100
+      },
+      "concurrency": {
+        "idiomatic/run-1": 153,
+        "idiomatic/run-2": 155,
+        "funnysharp/run-1": 181,
+        "funnysharp/run-2": 177
+      },
+      "collections": {
+        "idiomatic/run-1": 74,
+        "idiomatic/run-2": 75,
+        "funnysharp/run-1": 92,
+        "funnysharp/run-2": 85
+      },
+      "async-streams": {
+        "idiomatic/run-1": 56,
+        "idiomatic/run-2": 50,
+        "funnysharp/run-1": 54,
+        "funnysharp/run-2": 55
+      },
+      "aspnetcore": {
+        "idiomatic/run-1": 126,
+        "idiomatic/run-2": 128,
+        "funnysharp/run-1": 115,
+        "funnysharp/run-2": 123
+      }
+    },
+    "noMaterialityOrGlobalReadabilityInference": true,
+    "noPoolingU11SPlusO": true
+  },
+  "advisory": {
+    "path": ".omo/audit-resolution/research/u12-v5-readability-advisory.json",
+    "nonBlindAiNotMaintainer": true,
+    "sourceRecountMatches": 20,
+    "correctedMissingParentBusinessProof": {
+      "requestedWrongPath": ".omo/audit-resolution/research/u12-v5-business-parent-proof.json",
+      "actualPath": "docs/audits/goal-24-resolution/evidence/u12-v5-business-parent-proof.json",
+      "sha256": "1242a5f2c854101bd8bb6fc718f08336081ac5d24d2e12f8248d866b648dcdae"
+    },
+    "supplementRuntimeSinceAssignmentNowVerified": true
+  },
+  "cleanup": {
+    "ownedProcessQueryExit0": true,
+    "remainingOwnedProcesses": [],
+    "queryOutput": "(no output)"
+  },
+  "limits": "Execution/metrics/cleanup complete. Strict all20originalGREEN acceptance unmet; ownerrevision needed for19plusqualifiedsame-generation supplement ornewstrictcohort. Maintainer/materiality/release/final69 remainopen."
+}

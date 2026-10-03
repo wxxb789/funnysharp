@@ -1,0 +1,55 @@
+{
+  "studySha256": "83d7d3522ccad4fa04cc56bbf8ed540521147d178d1940cc656d9667e49ac76d",
+  "solution": [
+    {
+      "path": "FeedCleaner.cs",
+      "sha256": "6fb2f7ec5b2c0d8102b7d7938c6c3daac58c45a216f1d12269e411e4ed64bf58"
+    }
+  ],
+  "buildInputs": [
+    {
+      "path": "CollectionsKit.csproj",
+      "sha256": "068c56ffa0702057901aed9a8161593dc8e340fe4eccc22dd5bdd1bafdf5a63a"
+    },
+    {
+      "path": "CollectionsTests.cs",
+      "sha256": "2e10e1a067df0eebb5ae6344413bb359f9498ce27796874c1ecb37963ae1c4c6"
+    },
+    {
+      "path": "Contract.cs",
+      "sha256": "0e07124557c7887f439c15e8c4677abcc13a3c16d87a9f0817fcf6ae2c87293c"
+    },
+    {
+      "path": "Directory.Build.props",
+      "sha256": "e1f773524cbe06e47ce9373a35995982889f95f1f943cde9830a99ba4257e76b"
+    },
+    {
+      "path": "FeedCleaner.cs",
+      "sha256": "6fb2f7ec5b2c0d8102b7d7938c6c3daac58c45a216f1d12269e411e4ed64bf58"
+    },
+    {
+      "path": "NuGet.config",
+      "sha256": "b24b1b3943dee459a732ae35ee1f6dd4f4baa5de7c5a9800c632bf1a78cd86d8"
+    },
+    {
+      "path": "global.json",
+      "sha256": "c48726ffb10a31e50395529e134bd0ab4d82d14febbda7863ab49d00a9fddcb4"
+    },
+    {
+      "path": "packages.lock.json",
+      "sha256": "763076cdecbf109fdca8d2c254f4abd9044c93cc4f4af3dde949f911aa1b3502"
+    },
+    {
+      "path": "restore.process.json",
+      "sha256": "5845822d3ec11ddd0656d077b4ce8dbcd1a018e7ab6c0ea9616e6305a022917b"
+    },
+    {
+      "path": "restore.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "restore.stdout.log",
+      "sha256": "8bb70202a4daeea7f9afc5ba8cf655630c531a87a772d2c5af0ec26ec7cf2ea6"
+    }
+  ]
+}

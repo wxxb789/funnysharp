@@ -21,6 +21,7 @@ public class SequenceBenchmarks
     [GlobalSetup]
     public void Setup()
     {
+        BenchmarkPreflight.CaptureChild(this);
         var validationErrors = new[] { "invalid-name", "invalid-format" };
         var optionItems = new Option<int>[Count];
         var resultItems = new Result<int, string>[Count];
@@ -128,5 +129,22 @@ public class SequenceBenchmarks
         var sequence = validations.Sequence();
         sequence.TryGetErrors(out var errors);
         return errors!;
+    }
+
+    internal Task ValidateFullSemanticsAsync()
+    {
+        var expectedValues = Enumerable.Range(0, Count).ToArray();
+        var expectedErrors = Enumerable.Range(0, Count).Where(index => index % 4 == 3)
+            .SelectMany(_ => new[] { "invalid-name", "invalid-format" }).ToArray();
+        BenchmarkPreflight.Require(DirectOptionSequence().SequenceEqual(expectedValues)
+            && FunnySharpOptionSequence().SequenceEqual(expectedValues),
+            "Option sequence changed full output.");
+        BenchmarkPreflight.Require(DirectResultSequence() == ResultError
+            && FunnySharpResultSequence() == ResultError,
+            "Result sequence changed the first typed failure.");
+        BenchmarkPreflight.Require(DirectValidationSequence().SequenceEqual(expectedErrors)
+            && FunnySharpValidationSequence().SequenceEqual(expectedErrors),
+            "Validation sequence changed complete errors or order.");
+        return Task.CompletedTask;
     }
 }

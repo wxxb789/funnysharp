@@ -1,0 +1,11 @@
+{
+  "status": "malformed-output",
+  "error": "Invalid output path: solution/SensorStream.cs (expected a top-level .cs filename; no path normalization is registered)",
+  "returnedFiles": [
+    {
+      "path": "solution/SensorStream.cs",
+      "contentSha256": "aef6094eb5ecb0d95fe06a245cde83a6c8c538e3454ab6e15f39b65e2a105626"
+    }
+  ],
+  "normalized": false
+}

@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>PositiveStreams</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(ControlRoot)solutions/SensorStream.cs" />
+    <Compile Include="$(ControlRoot)../tasks/async-streams/tests/Contract.cs" />
+    <Compile Include="$(ControlRoot)../tasks/async-streams/tests/AsyncStreamsTests.cs" />
+  </ItemGroup>
+</Project>

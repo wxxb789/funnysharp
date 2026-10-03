@@ -1,0 +1,39 @@
+{
+  "executor": "main-session",
+  "unit": "U8",
+  "scope": "Official consumer pipeline prerequisite; the existing reconciliation clauses retain their separate unit evidence.",
+  "baseCommit": "a8863473fd53eddc7cb47201508426db2e454f84",
+  "baseTree": "88e8a528017b0a5f68710cc1d955fda64486877f",
+  "unitDiffSha256": "daa4554f39a16441b2f2b2e8e4d3d2e5328194d2e70fb32235b4c9247fae34d4",
+  "status": "PASS_AT_UNIT_SNAPSHOT",
+  "red": { "total": 55, "failed": 2, "skipped": 0, "exitCode": 1 },
+  "green": { "total": 55, "failed": 0, "skipped": 0, "exitCode": 0 },
+  "officialCommand": "dotnet fsi build.fsx -- -p vertical-slice --output artifacts/audit-resolution/slice-harness-resume/attempt-4 --package-feed https://packagefeedproxy.microsoft.io/nuget/v3/index.json",
+  "officialExitCode": 0,
+  "officialSteps": "All pack, four restore, four build, three marker, measurement and consumer-test steps exited zero.",
+  "consumerTests": { "total": 50, "passed": 50, "failed": 0, "skipped": 0 },
+  "pairedScenarios": { "total": 10, "equivalent": 10 },
+  "restore": "Attempt-local config has clear, canonical local feed, then the explicitly selected existing upstream. Every restore uses --configfile and actual 0.2.0 package versions. Default upstream remains api.nuget.org. Auditing, TLS verification and warnings-as-errors remain enabled.",
+  "packages": {
+    "FunnySharp.0.2.0.nupkg": "fba1feaa30287ad94f7fcb60f87e170e1d2dd3ac6bb645e9b44a0cdc1029adb5",
+    "FunnySharp.AspNetCore.0.2.0.nupkg": "64cf0997334abc63e6522694a29a2d4a12404deb664377bc38b53b443d5400e7"
+  },
+  "matchingPackageAndApplicationDlls": {
+    "FunnySharp.dll": "37f4b3be823a254b5510c57f08e4e5127a7f7c0f567abe1144adc1b5a19d7fcc",
+    "FunnySharp.AspNetCore.dll": "6daebbbb5aa0f95945a211f438d96032ec5ec052682a9d086b042c60d9efd429"
+  },
+  "artifacts": {
+    "officialReceipt": "artifacts/audit-resolution/slice-harness-resume/attempt-4/vertical-slice-results.json",
+    "officialReceiptSha256": "aa43bdc4999b7774c3b4990056113e7a20a0b095430e899bb9fa6ae06618d9d8",
+    "measurements": "artifacts/audit-resolution/slice-harness-resume/attempt-4/measurements.json",
+    "measurementsSha256": "1f9bd390ac82d9e3fd94c1aa00c623fb3e6cae7827fac91fb42e6d381c22da7b",
+    "config": "artifacts/audit-resolution/slice-harness-resume/attempt-4/NuGet.Config",
+    "configSha256": "d2170cd862306e80c72301c5c9ff1347a6c9a8632b4b62de6e9b60287a95db2c",
+    "redTests": "docs/audits/goal-24-resolution/evidence/slice-harness-resume/feed-red.json",
+    "greenTests": "docs/audits/goal-24-resolution/evidence/slice-harness-resume/feed-green.json"
+  },
+  "retainedFailures": "Attempt 1 failed NU1301 TLS HandshakeFailure; retained-dependency attempt 3 failed NU1900 vulnerability-source TLS. Attempt 2 cache preparation rejected differing local metadata before comparing equal contentHash. None is relabeled PASS. Stale markers after failed builds are not accepted proof.",
+  "diagnostics": "F# LSP is unavailable; actual focused compilation and all official builds passed with warnings-as-errors. No diagnostic or test was suppressed.",
+  "cleanup": "Official wrapper and all child processes exited; application measurement hosts use awaited disposal. No background application was left running by this verification.",
+  "finalCandidateReplay": "Required after remaining shipping/source changes; this is not aggregate or frozen-candidate acceptance. Application comparisons are not BenchmarkDotNet allocation-budget evidence."
+}

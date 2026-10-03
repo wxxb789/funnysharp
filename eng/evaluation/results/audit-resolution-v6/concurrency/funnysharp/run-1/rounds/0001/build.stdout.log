@@ -1,0 +1,16 @@
+  Determining projects to restore...
+  Restored Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\concurrency-funnysharp-run-1-649c6a26bae943ee84d685ab416553d9\ConcurrencyKit.csproj (in 5.58 sec).
+CSC : warning CS2002: Source file 'Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\concurrency-funnysharp-run-1-649c6a26bae943ee84d685ab416553d9\nuget_packages\xunit.v3.core.mtp-v2\4.0.0\_content\DefaultRunnerReporters.cs' specified multiple times [Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\concurrency-funnysharp-run-1-649c6a26bae943ee84d685ab416553d9\ConcurrencyKit.csproj]
+CSC : warning CS2002: Source file 'Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\concurrency-funnysharp-run-1-649c6a26bae943ee84d685ab416553d9\nuget_packages\xunit.v3.core.mtp-v2\4.0.0\_content\DefaultResultWriters.cs' specified multiple times [Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\concurrency-funnysharp-run-1-649c6a26bae943ee84d685ab416553d9\ConcurrencyKit.csproj]
+  ConcurrencyKit -> Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\concurrency-funnysharp-run-1-649c6a26bae943ee84d685ab416553d9\bin\Release\net10.0\ConcurrencyKit.dll
+
+Build succeeded.
+
+CSC : warning CS2002: Source file 'Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\concurrency-funnysharp-run-1-649c6a26bae943ee84d685ab416553d9\nuget_packages\xunit.v3.core.mtp-v2\4.0.0\_content\DefaultRunnerReporters.cs' specified multiple times [Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\concurrency-funnysharp-run-1-649c6a26bae943ee84d685ab416553d9\ConcurrencyKit.csproj]
+CSC : warning CS2002: Source file 'Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\concurrency-funnysharp-run-1-649c6a26bae943ee84d685ab416553d9\nuget_packages\xunit.v3.core.mtp-v2\4.0.0\_content\DefaultResultWriters.cs' specified multiple times [Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\concurrency-funnysharp-run-1-649c6a26bae943ee84d685ab416553d9\ConcurrencyKit.csproj]
+    2 Warning(s)
+    0 Error(s)
+
+BinaryLogger wrote to: Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\concurrency-funnysharp-run-1-649c6a26bae943ee84d685ab416553d9\build.binlog
+
+Time Elapsed 00:00:13.39

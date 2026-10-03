@@ -1,0 +1,47 @@
+{
+  "schema": "funnysharp-post-maintainer-release-readiness/v1",
+  "state": "ALL_SIXTY_FIVE_LOCAL_AND_HUMAN_ROWS_CLOSED_ONLY_FOUR_RELEASE_ROWS_OPEN",
+  "candidateFingerprint": "bb058e6a972103c657e0d833f2ec86fab7994f8ba4cce8503432c4b8f74c4a9c",
+  "currentLedgerSha256": "93cd7f82ce070247efbcef8b9cd3e0bdabdbb1cefb6cf3e03675f6fda9ea1823",
+  "resolved": 65,
+  "open": 4,
+  "remainingIds": [
+    "F37",
+    "F38",
+    "F39",
+    "U29"
+  ],
+  "sourceHumanAcceptedIds": [
+    "U01",
+    "U02",
+    "U15",
+    "U20"
+  ],
+  "actualUserVerdict": "接受原条件下的结果",
+  "actualDeltaHumanVerdicts": "All4APPROVE",
+  "wholeGoalVerdict": "REJECT_RELEASE_NOT_PROVED",
+  "technicalSourcePackageModelPerformanceUnchanged": true,
+  "sourceReviewNotReleaseAuthority": true,
+  "currentlyReadyIrreversibleSteps": [
+    "Create verified atomic local commits to freeze final source identity, only with explicit authority",
+    "Push repair branch/open proof PR and run release CI matching four hosts, only with explicit authority",
+    "Configure exact strict contexts/no bypass and run disposable real non-bypass denial proof, only with explicit authority"
+  ],
+  "remainingOwnerFacts": [
+    "Trusted integration and non-bypass proof actor",
+    "Complete intended distribution feed set/access",
+    "Independent release attestor identity and external I publication target/publisher"
+  ],
+  "remoteWriteAuthorized": false,
+  "packagePublicationRequested": false,
+  "todo": {
+    "done": 152,
+    "total": 159,
+    "open": 7
+  },
+  "criterionState": {
+    "C001": "PENDING_FOUR_OPEN",
+    "C002": "PASS",
+    "C003": "PENDING_RELEASE"
+  }
+}

@@ -209,6 +209,7 @@ public readonly struct TransitionResult<TState, TOutput, TError> :
         !left.Equals(right);
 
     /// <inheritdoc />
+    /// <returns>Diagnostic <c>Applied(change)</c>, <c>Rejected(error)</c>, <c>Failed(error)</c>, or <c>Undefined</c> text; payload formatting may invoke user behavior.</returns>
     public override string ToString() =>
         status switch
         {

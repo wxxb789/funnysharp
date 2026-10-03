@@ -455,7 +455,9 @@ public sealed class EffectResourceTests
 
         Assert.Equal(
             1,
+#pragma warning disable FS1005 // Intentional runtime misuse witness.
             await Effect.FromValue(synchronousResource)
+#pragma warning restore FS1005
                 .Using(_ => Effect.FromValue(1))
                 .RunAsync(TestContext.Current.CancellationToken));
         Assert.Equal(

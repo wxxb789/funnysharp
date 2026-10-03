@@ -1,0 +1,320 @@
+{
+  "schema": "funnysharp-u12-final-freeze-proof/v1",
+  "state": "ACTUAL_V2_PREPARATION_VERIFIED_NOT_AI_COHORT_ACCEPTANCE",
+  "study": "audit-resolution-v2",
+  "manifestSha256": "ce3deafe90964e2388ca44c875223a508474d93868636ccb7a96d19e9a8a9c6f",
+  "freeze": {
+    "command": "dotnet fsi build.fsx -- -p eval-prep-feed --study audit-resolution-v2",
+    "exitCode": 0,
+    "elapsedMilliseconds": 35167
+  },
+  "frozenFiles": 188,
+  "fileHashIssues": [],
+  "cohort": [
+    "business-outcomes/idiomatic/run-1",
+    "business-outcomes/idiomatic/run-2",
+    "business-outcomes/funnysharp/run-1",
+    "business-outcomes/funnysharp/run-2",
+    "collections/idiomatic/run-1",
+    "collections/idiomatic/run-2",
+    "collections/funnysharp/run-1",
+    "collections/funnysharp/run-2",
+    "async-streams/idiomatic/run-1",
+    "async-streams/idiomatic/run-2",
+    "async-streams/funnysharp/run-1",
+    "async-streams/funnysharp/run-2",
+    "concurrency/idiomatic/run-1",
+    "concurrency/idiomatic/run-2",
+    "concurrency/funnysharp/run-1",
+    "concurrency/funnysharp/run-2",
+    "aspnetcore/idiomatic/run-1",
+    "aspnetcore/idiomatic/run-2",
+    "aspnetcore/funnysharp/run-1",
+    "aspnetcore/funnysharp/run-2"
+  ],
+  "expectedTests": {
+    "business-outcomes": 10,
+    "collections": 9,
+    "async-streams": 10,
+    "concurrency": 12,
+    "aspnetcore": 9
+  },
+  "locks": 10,
+  "processes": [
+    {
+      "path": "analyzer-control/control.process.json",
+      "command": [
+        "dotnet",
+        "build",
+        "-p:ErrorLog=control.sarif",
+        "-bl:control.binlog"
+      ],
+      "exitCode": 1
+    },
+    {
+      "path": "sdk.process.json",
+      "command": [
+        "dotnet",
+        "--info"
+      ],
+      "exitCode": 0
+    },
+    {
+      "path": "tasks/aspnetcore/template-funnysharp/restore.process.json",
+      "command": [
+        "dotnet",
+        "restore",
+        "--use-lock-file"
+      ],
+      "exitCode": 0
+    },
+    {
+      "path": "tasks/aspnetcore/template-idiomatic/restore.process.json",
+      "command": [
+        "dotnet",
+        "restore",
+        "--use-lock-file"
+      ],
+      "exitCode": 0
+    },
+    {
+      "path": "tasks/async-streams/template-funnysharp/restore.process.json",
+      "command": [
+        "dotnet",
+        "restore",
+        "--use-lock-file"
+      ],
+      "exitCode": 0
+    },
+    {
+      "path": "tasks/async-streams/template-idiomatic/restore.process.json",
+      "command": [
+        "dotnet",
+        "restore",
+        "--use-lock-file"
+      ],
+      "exitCode": 0
+    },
+    {
+      "path": "tasks/business-outcomes/template-funnysharp/restore.process.json",
+      "command": [
+        "dotnet",
+        "restore",
+        "--use-lock-file"
+      ],
+      "exitCode": 0
+    },
+    {
+      "path": "tasks/business-outcomes/template-idiomatic/restore.process.json",
+      "command": [
+        "dotnet",
+        "restore",
+        "--use-lock-file"
+      ],
+      "exitCode": 0
+    },
+    {
+      "path": "tasks/collections/template-funnysharp/restore.process.json",
+      "command": [
+        "dotnet",
+        "restore",
+        "--use-lock-file"
+      ],
+      "exitCode": 0
+    },
+    {
+      "path": "tasks/collections/template-idiomatic/restore.process.json",
+      "command": [
+        "dotnet",
+        "restore",
+        "--use-lock-file"
+      ],
+      "exitCode": 0
+    },
+    {
+      "path": "tasks/concurrency/template-funnysharp/restore.process.json",
+      "command": [
+        "dotnet",
+        "restore",
+        "--use-lock-file"
+      ],
+      "exitCode": 0
+    },
+    {
+      "path": "tasks/concurrency/template-idiomatic/restore.process.json",
+      "command": [
+        "dotnet",
+        "restore",
+        "--use-lock-file"
+      ],
+      "exitCode": 0
+    }
+  ],
+  "analyzerControl": "Actual same-package FS1001 error at Control.cs(1,88),0warnings/1error, expected build exit1; preparation exit0.",
+  "packageArchives": [
+    {
+      "name": "FunnySharp.0.2.0.nupkg",
+      "sha256": "23a4d634f1d1a2481d4252e55d115d51211543c0782652e3bc1496d0f0c62b0e"
+    },
+    {
+      "name": "FunnySharp.AspNetCore.0.2.0.nupkg",
+      "sha256": "36ad13695afc684b3ddc833a5922a4e15320234150228577c9d33faacedcc533"
+    }
+  ],
+  "payloadBindings": [
+    {
+      "package": "FunnySharp.0.2.0.nupkg",
+      "entries": [
+        {
+          "canonical": "ee3b9e20cce9221f85ef618b5411c0d1099be2659241d9f7bdd11b1f452b49f6",
+          "path": "FunnySharp.nuspec",
+          "study": "ee3b9e20cce9221f85ef618b5411c0d1099be2659241d9f7bdd11b1f452b49f6"
+        },
+        {
+          "canonical": "cc536213ce3dd198741dd81ae4518fd492f24016400b9cbd02b5e85f2d2be517",
+          "path": "README.md",
+          "study": "cc536213ce3dd198741dd81ae4518fd492f24016400b9cbd02b5e85f2d2be517"
+        },
+        {
+          "canonical": "53789202a7a62de78987becbf3ade1d56e9cb6e6fd525e8db9d2f1d352cb0425",
+          "path": "[Content_Types].xml",
+          "study": "53789202a7a62de78987becbf3ade1d56e9cb6e6fd525e8db9d2f1d352cb0425"
+        },
+        {
+          "canonical": "5a3ffc666672e52417e20f10b0ab340059e1bf96067e0f0d9b244d5f94e90234",
+          "path": "_rels/.rels",
+          "study": "5a3ffc666672e52417e20f10b0ab340059e1bf96067e0f0d9b244d5f94e90234"
+        },
+        {
+          "canonical": "047f25341d202fbed81587126de6d7de1a9903ca6ffe0ca4387ab183066c5acc",
+          "path": "analyzers/dotnet/cs/FunnySharp.Analyzers.CodeFixes.dll",
+          "study": "047f25341d202fbed81587126de6d7de1a9903ca6ffe0ca4387ab183066c5acc"
+        },
+        {
+          "canonical": "cbc82411aa4fa999ec3ae59ca100b0338f64eda212676b5162164a9ffc091104",
+          "path": "analyzers/dotnet/cs/FunnySharp.Analyzers.dll",
+          "study": "cbc82411aa4fa999ec3ae59ca100b0338f64eda212676b5162164a9ffc091104"
+        },
+        {
+          "canonical": "6a903f737356fdf67845c9cd39385e4a5e2b39bcae0ee92ff2882480ecb7e49d",
+          "path": "lib/net10.0/FunnySharp.dll",
+          "study": "6a903f737356fdf67845c9cd39385e4a5e2b39bcae0ee92ff2882480ecb7e49d"
+        },
+        {
+          "canonical": "4ef257af8378bd41f653b01215e5b016166a064320e7898e1794c4eb327489cc",
+          "path": "lib/net10.0/FunnySharp.xml",
+          "study": "4ef257af8378bd41f653b01215e5b016166a064320e7898e1794c4eb327489cc"
+        },
+        {
+          "canonical": "24ffb670100261b0de4c68d367866bab381dffc5e4a9bdfcdf9a605c11da4ec8",
+          "path": "package/services/metadata/core-properties/nuget.psmdcp",
+          "study": "24ffb670100261b0de4c68d367866bab381dffc5e4a9bdfcdf9a605c11da4ec8"
+        }
+      ],
+      "entryContentDifferences": []
+    },
+    {
+      "package": "FunnySharp.AspNetCore.0.2.0.nupkg",
+      "entries": [
+        {
+          "canonical": "10150db30661b173f3759b74e7c11152811322aafececda69e85ef3b72649200",
+          "path": "FunnySharp.AspNetCore.nuspec",
+          "study": "10150db30661b173f3759b74e7c11152811322aafececda69e85ef3b72649200"
+        },
+        {
+          "canonical": "cc536213ce3dd198741dd81ae4518fd492f24016400b9cbd02b5e85f2d2be517",
+          "path": "README.md",
+          "study": "cc536213ce3dd198741dd81ae4518fd492f24016400b9cbd02b5e85f2d2be517"
+        },
+        {
+          "canonical": "53789202a7a62de78987becbf3ade1d56e9cb6e6fd525e8db9d2f1d352cb0425",
+          "path": "[Content_Types].xml",
+          "study": "53789202a7a62de78987becbf3ade1d56e9cb6e6fd525e8db9d2f1d352cb0425"
+        },
+        {
+          "canonical": "80573c324dab0becad10ac14e52f245178688871590e8ae75e752edbe687ad8a",
+          "path": "_rels/.rels",
+          "study": "80573c324dab0becad10ac14e52f245178688871590e8ae75e752edbe687ad8a"
+        },
+        {
+          "canonical": "2daaff9c72db5b730c06d3270c00dfd7046fa27e26d59374e31cf270b8dc30c2",
+          "path": "lib/net10.0/FunnySharp.AspNetCore.dll",
+          "study": "2daaff9c72db5b730c06d3270c00dfd7046fa27e26d59374e31cf270b8dc30c2"
+        },
+        {
+          "canonical": "27af8c3d2b65daa59a081f0b24674be0c41fe9cd652a19455cce01f2637e66d0",
+          "path": "lib/net10.0/FunnySharp.AspNetCore.xml",
+          "study": "27af8c3d2b65daa59a081f0b24674be0c41fe9cd652a19455cce01f2637e66d0"
+        },
+        {
+          "canonical": "43c94ae0de45727ea3f1b05f91d1ec5d9a324f2beb6142feecf77ee95e3823b0",
+          "path": "package/services/metadata/core-properties/nuget.psmdcp",
+          "study": "43c94ae0de45727ea3f1b05f91d1ec5d9a324f2beb6142feecf77ee95e3823b0"
+        }
+      ],
+      "entryContentDifferences": []
+    }
+  ],
+  "archiveLimit": "Fresh archive SHA256 differs from canonical0.2.0 archives; every named ZIP entry and its SHA256 is identical (core9entries/HTTP7entries). The ZIP envelope itself has not been inspected to attribute that byte difference.",
+  "failedV1": "docs/audits/goal-24-resolution/evidence/u12-freeze-revision-proof.json",
+  "failedV1ExactFiles": 66,
+  "inputsCopiedExactly": [
+    {
+      "path": "tasks/concurrency/brief.md",
+      "oldSha256": "c1172f269fabe5b996fd4b79c4d018066d02586db7548d61f154fe925b52a33c",
+      "successorSha256": "c1172f269fabe5b996fd4b79c4d018066d02586db7548d61f154fe925b52a33c"
+    },
+    {
+      "path": "tasks/concurrency/tests/ConcurrencyTests.cs",
+      "oldSha256": "221bf77515b0d63b6b82637ee3a0432ae9e6c286c03dfc70a41ff58f30d911cc",
+      "successorSha256": "221bf77515b0d63b6b82637ee3a0432ae9e6c286c03dfc70a41ff58f30d911cc"
+    },
+    {
+      "path": "tasks/concurrency/tests/Contract.cs",
+      "oldSha256": "99f6ab991fdd14ed524fd1f88060472698d920c6b72d29c16db7cbd7b1dd9cf9",
+      "successorSha256": "99f6ab991fdd14ed524fd1f88060472698d920c6b72d29c16db7cbd7b1dd9cf9"
+    },
+    {
+      "path": "tasks/business-outcomes/tests/Contract.cs",
+      "oldSha256": "ae4e8d0998ebd3332e4eabc0bdc51b1ef50ad2c1e6df8102377ee2bf7ccf79c9",
+      "successorSha256": "ae4e8d0998ebd3332e4eabc0bdc51b1ef50ad2c1e6df8102377ee2bf7ccf79c9"
+    },
+    {
+      "path": "tasks/business-outcomes/tests/SideEffectsTests.cs",
+      "oldSha256": "d359f596e622e61e3841fa231b40e1497f0a7f5c962df484221931b41a708df0",
+      "successorSha256": "d359f596e622e61e3841fa231b40e1497f0a7f5c962df484221931b41a708df0"
+    },
+    {
+      "path": "tasks/async-streams/brief.md",
+      "oldSha256": "28f128ac12446e0d1da99d2f00430e1fb7694883d5eb3dbee83ed1eaef4b5c22",
+      "successorSha256": "28f128ac12446e0d1da99d2f00430e1fb7694883d5eb3dbee83ed1eaef4b5c22"
+    },
+    {
+      "path": "tasks/async-streams/tests/AsyncStreamsTests.cs",
+      "oldSha256": "b2e236125974c0ec77b4fb7df33a9a6f502c7093b6f2a670929ab7d068407da6",
+      "successorSha256": "b2e236125974c0ec77b4fb7df33a9a6f502c7093b6f2a670929ab7d068407da6"
+    },
+    {
+      "path": "tasks/async-streams/tests/Contract.cs",
+      "oldSha256": "24a65f66642d4e7e91b84d4f3a04b16ae93ed5abcafecc827b159eaed6bd9307",
+      "successorSha256": "24a65f66642d4e7e91b84d4f3a04b16ae93ed5abcafecc827b159eaed6bd9307"
+    }
+  ],
+  "integratedSolution": {
+    "command": "dotnet fsi build.fsx -- -p test",
+    "exitCode": 0,
+    "total": 2438,
+    "succeeded": 2438,
+    "failed": 0,
+    "skipped": 0,
+    "elapsedMilliseconds": 46523
+  },
+  "producerCount": 0,
+  "cleanup": "Freeze and integrated suite processes completed. Snapshot and failed historical evidence retained; independent final replay child owns fresh non-cohort dirs.",
+  "limits": [
+    "TwentyAI initial sessions and bounded corrections are not yet executed.",
+    "Completion local handler constructs explicit one-user/one-system context, but active host override/provider middleware is not independently visible.",
+    "Provider identity will remain unknown where the API hides it; parent model labels are not producer proof.",
+    "Attributable maintainer/controlplane/all69 final dispositions remain pending."
+  ]
+}

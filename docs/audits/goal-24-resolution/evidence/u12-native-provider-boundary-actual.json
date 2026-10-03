@@ -1,0 +1,51 @@
+{
+  "schema": "funnysharp-native-provider-boundary-actual/v1",
+  "study": "audit-resolution-v4",
+  "slot": "business-outcomes/idiomatic/run-1",
+  "logicalSessionId": "study-session:6f17ee77-e3b0-477c-9a37-2ddc6f5b45c2",
+  "invocationId": "native-call:3e04990e-46fe-4c7e-beed-1ca48fc646b8",
+  "actualCliSessionId": "01a0fd61-87c3-705d-9224-0764ac2bf376",
+  "route": "native-omo-cli/5.1.9/json-print",
+  "requestedModel": "ghc/gpt-6.1-sol",
+  "providerModel": {
+    "value": null,
+    "unknownReason": "Native selected model/route is observed. Actual upstream served model is unknown unless independently returned metadata supplies it."
+  },
+  "nativeExitCode": 0,
+  "providerRequests": 1,
+  "registeredSystemCharacters": 355,
+  "allOutgoingSystemBytesExact": true,
+  "allOutgoingUserRequestBytesExact": true,
+  "startupContextFiles": [],
+  "startupSkills": [],
+  "startupTools": [],
+  "actualBoundaryHash": "9f37c24ca79f6839bf9e4483e29ace9d47ae950246ae9a65a116d33dae3f2605",
+  "rawCaptures": [
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/idiomatic/run-1/producer/0001-context/native.stdout.jsonl",
+      "sha256": "ce07bac0365e876b3b8f61c91f1817667f26919692c184c4e358812943b470ee"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/idiomatic/run-1/producer/0001-context/native.stderr.log",
+      "sha256": "a301747196663b3b7b053b9336a85fc762c31ce642e2e69d9ce2909f439b0d2f"
+    }
+  ],
+  "decodedCodeBytesUnchanged": true,
+  "outputPaths": [
+    {
+      "rawPath": "solution/OrderWorkflow.cs",
+      "path": "OrderWorkflow.cs",
+      "sha256": "3be9071caa1014a1849d22438c7c199bb420027cb91f9f371a45f6435d6dc96d"
+    }
+  ],
+  "cleanup": {
+    "ownedNativePidAbsent": true,
+    "command": "Get-CimInstance Win32_Process | Where-Object { $_.Name -eq \"omo.exe\" -and ($_.CommandLine -replace \"\\\\\",\"/\") -like \"*audit-resolution-v4/business-outcomes/idiomatic/run-1*\" } | Select-Object ProcessId | ConvertTo-Json -Compress"
+  },
+  "semanticGrade": "Pending originalmon_XQ7QJ6H8JVX6YV3A/bash_7, not accepted from transportPASS",
+  "priorNegativeProofs": [
+    "u12-native-first-transport-rejection.json",
+    "u12-v3-provider-context-rejection.json"
+  ],
+  "modelCallsNeverReplayed": true
+}

@@ -45,13 +45,12 @@ public sealed class Location
     /// Returns the location of the value at <paramref name="key"/>, rendered as <c>["key"]</c>
     /// with the key quoted.
     /// </summary>
-    /// <param name="key">The non-null, non-empty key.</param>
+    /// <param name="key">The non-null key, which may be empty.</param>
     /// <returns>A new location with the key segment appended.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="key"/> is <see langword="null"/>.</exception>
-    /// <exception cref="ArgumentException"><paramref name="key"/> is empty.</exception>
     public Location Key(string key)
     {
-        ArgumentException.ThrowIfNullOrEmpty(key);
+        ArgumentNullException.ThrowIfNull(key);
 
         return new(Append(new Segment(SegmentKind.Key, null, 0, key)));
     }

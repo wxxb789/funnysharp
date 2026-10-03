@@ -1,0 +1,51 @@
+{
+  "executor": "main-session",
+  "findings": [
+    "G14-01",
+    "G14-12",
+    "G16-01",
+    "G16-04",
+    "G16-05",
+    "G16-12",
+    "G16-15",
+    "G16-E1"
+  ],
+  "baseCommit": "a8863473fd53eddc7cb47201508426db2e454f84",
+  "baseTree": "88e8a528017b0a5f68710cc1d955fda64486877f",
+  "documentDiffSha256": "db59d9795709c7253bf0103aae5029dbf1d58f34791efb81fd29afdf586d4825",
+  "acceptedDecision": "User explicitly chose current lazy Recover/partial-optic APIs with formal current-authority correction; original decisions/audit remain unchanged.",
+  "inventory": "All actual package workflow verbs were reviewed; factory/boundary, five span/memory verbs, Identity, NonEmpty fold/materialization and state constructors are now included. Language-generated/equality/diagnostic plumbing and experimental Location are identified rather than mistaken for stable workflow vocabulary.",
+  "packageProbe": {
+    "exitCode": 0,
+    "packageSha256": "53d0e1ebffe623383567d06e54ae8dbb698cbf3368892f5b18df8d9957012a3f",
+    "assemblySha256": "cc94d4330b9a2b0f0dbd526103bcf0d660e17a7174bfb4f0aa5ecca1bb1bda95",
+    "recoverSuccess": {
+      "calls": 0,
+      "value": 1
+    },
+    "recoverFailure": {
+      "calls": 1,
+      "value": 42
+    },
+    "lensOptionalOutput": "FunnySharp.Optional`2"
+  },
+  "docsGate": {
+    "exitCode": 0,
+    "snippets": 56,
+    "guides": 11
+  },
+  "apiGate": {
+    "exitCode": 0,
+    "types": 49,
+    "members": 492,
+    "assemblies": 2
+  },
+  "goalContract": {
+    "path": "docs/goals/0025-goal.md",
+    "lines": 2,
+    "scope": 69
+  },
+  "cleanup": "Package probe and both gate processes exited; archive/memory/package streams disposed; no task-owned server or port.",
+  "finalCandidateReplay": "API/package proof must be refreshed if later public/assembly changes invalidate this unit snapshot.",
+  "commit": "No commit made; authority remains recorded separately."
+}

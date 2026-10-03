@@ -1,0 +1,29 @@
+{
+  "record": {
+    "task": "aspnetcore",
+    "style": "idiomatic",
+    "run": "run-1",
+    "round": 1,
+    "compilation": {
+      "ok": true,
+      "errors": 0,
+      "buildSeconds": 14.1
+    },
+    "semanticCorrectness": {
+      "ok": true,
+      "total": 9,
+      "failed": 0,
+      "succeeded": 9,
+      "skipped": 0
+    },
+    "apiMisuse": {
+      "fsDiagnostics": []
+    },
+    "consumerLoc": 126,
+    "verdict": "GREEN",
+    "evidenceKind": "generation-verification"
+  },
+  "buildStdout": "  Determining projects to restore...\r\n  Restored Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-fbc7d29663954a97b395660032285335\\AspnetcoreKit.csproj (in 4.71 sec).\r\nCSC : warning CS2002: Source file \u0027Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-fbc7d29663954a97b395660032285335\\nuget_packages\\xunit.v3.core.mtp-v2\\4.0.0\\_content\\DefaultRunnerReporters.cs\u0027 specified multiple times [Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-fbc7d29663954a97b395660032285335\\AspnetcoreKit.csproj]\r\nCSC : warning CS2002: Source file \u0027Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-fbc7d29663954a97b395660032285335\\nuget_packages\\xunit.v3.core.mtp-v2\\4.0.0\\_content\\DefaultResultWriters.cs\u0027 specified multiple times [Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-fbc7d29663954a97b395660032285335\\AspnetcoreKit.csproj]\r\n  AspnetcoreKit -\u003E Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-fbc7d29663954a97b395660032285335\\bin\\Release\\net10.0\\AspnetcoreKit.dll\r\n\r\nBuild succeeded.\r\n\r\nCSC : warning CS2002: Source file \u0027Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-fbc7d29663954a97b395660032285335\\nuget_packages\\xunit.v3.core.mtp-v2\\4.0.0\\_content\\DefaultRunnerReporters.cs\u0027 specified multiple times [Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-fbc7d29663954a97b395660032285335\\AspnetcoreKit.csproj]\r\nCSC : warning CS2002: Source file \u0027Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-fbc7d29663954a97b395660032285335\\nuget_packages\\xunit.v3.core.mtp-v2\\4.0.0\\_content\\DefaultResultWriters.cs\u0027 specified multiple times [Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-fbc7d29663954a97b395660032285335\\AspnetcoreKit.csproj]\r\n    2 Warning(s)\r\n    0 Error(s)\r\n\r\nBinaryLogger wrote to: Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-fbc7d29663954a97b395660032285335\\build.binlog\r\n\r\nTime Elapsed 00:00:13.48\r\n",
+  "buildStderr": "",
+  "testOutput": "Running tests from Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-fbc7d29663954a97b395660032285335\\bin\\Release\\net10.0\\AspnetcoreKit.dll (net10.0|x64)\r\nQ:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-fbc7d29663954a97b395660032285335\\bin\\Release\\net10.0\\AspnetcoreKit.dll (net10.0|x64) passed (1s 943ms)\r\n\r\nTest run summary: Passed!\r\n  total: 9\r\n  failed: 0\r\n  succeeded: 9\r\n  skipped: 0\r\n  duration: 3s 586ms\r\n"
+}

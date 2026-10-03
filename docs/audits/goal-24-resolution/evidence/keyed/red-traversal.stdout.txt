@@ -1,0 +1,235 @@
+Running tests from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\bin\Release\net10.0\FunnySharp.Tests.dll (net10.0|x64)
+failed FunnySharp.Tests.TraversalContextTests.KeyedTraverseRetainsReferenceDistinctEqualTextKeys(sourceKind: 2, located: False) (13ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\bin\Release\net10.0\FunnySharp.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: System.ArgumentException : An item with the same key has already been added. Key: x
+    at System.Collections.Generic.Dictionary`2.TryInsert(TKey key, TValue value, InsertionBehavior behavior)
+    at System.Collections.Generic.Dictionary`2.Add(TKey key, TValue value)
+    at FunnySharp.SequenceExtensions.Traverse[TKey,TValue,TResult](IReadOnlyDictionary`2 source, Func`3 selector) in Q:\repos\funnysharp-goal24-resolution\src\FunnySharp\SequenceExtensions.cs:448
+    at FunnySharp.Tests.TraversalContextTests.TraverseSuccessfulDictionaries(IReadOnlyDictionary`2 source, Boolean located) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\TraversalContextTests.cs:812
+    at FunnySharp.Tests.TraversalContextTests.KeyedTraverseRetainsReferenceDistinctEqualTextKeys(Int32 sourceKind, Boolean located) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\TraversalContextTests.cs:616
+    at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)
+    at System.Reflection.MethodBaseInvoker.InvokeDirectByRefWithFewArgs(Object obj, Span`1 copyOfArgs, BindingFlags invokeAttr)
+failed FunnySharp.Tests.TraversalContextTests.KeyedTraverseRetainsReferenceDistinctEqualTextKeys(sourceKind: 1, located: False) (10ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\bin\Release\net10.0\FunnySharp.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: System.ArgumentException : An item with the same key has already been added. Key: x
+    at System.Collections.Generic.Dictionary`2.TryInsert(TKey key, TValue value, InsertionBehavior behavior)
+    at System.Collections.Generic.Dictionary`2.Add(TKey key, TValue value)
+    at FunnySharp.SequenceExtensions.Traverse[TKey,TValue,TResult](IReadOnlyDictionary`2 source, Func`3 selector) in Q:\repos\funnysharp-goal24-resolution\src\FunnySharp\SequenceExtensions.cs:448
+    at FunnySharp.Tests.TraversalContextTests.TraverseSuccessfulDictionaries(IReadOnlyDictionary`2 source, Boolean located) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\TraversalContextTests.cs:812
+    at FunnySharp.Tests.TraversalContextTests.KeyedTraverseRetainsReferenceDistinctEqualTextKeys(Int32 sourceKind, Boolean located) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\TraversalContextTests.cs:616
+    at InvokeStub_TraversalContextTests.KeyedTraverseRetainsReferenceDistinctEqualTextKeys(Object, Span`1)
+    at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+failed FunnySharp.Tests.TraversalContextTests.KeyedTraverseRetainsReferenceDistinctEqualTextKeys(sourceKind: 0, located: False) (0ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\bin\Release\net10.0\FunnySharp.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: System.ArgumentException : An item with the same key has already been added. Key: x
+    at System.Collections.Generic.Dictionary`2.TryInsert(TKey key, TValue value, InsertionBehavior behavior)
+    at System.Collections.Generic.Dictionary`2.Add(TKey key, TValue value)
+    at FunnySharp.SequenceExtensions.Traverse[TKey,TValue,TResult](IReadOnlyDictionary`2 source, Func`3 selector) in Q:\repos\funnysharp-goal24-resolution\src\FunnySharp\SequenceExtensions.cs:448
+    at FunnySharp.Tests.TraversalContextTests.TraverseSuccessfulDictionaries(IReadOnlyDictionary`2 source, Boolean located) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\TraversalContextTests.cs:812
+    at FunnySharp.Tests.TraversalContextTests.KeyedTraverseRetainsReferenceDistinctEqualTextKeys(Int32 sourceKind, Boolean located) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\TraversalContextTests.cs:616
+    at InvokeStub_TraversalContextTests.KeyedTraverseRetainsReferenceDistinctEqualTextKeys(Object, Span`1)
+    at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+failed FunnySharp.Tests.TraversalContextTests.KeyedTraverseRetainsReferenceDistinctEqualTextKeys(sourceKind: 0, located: True) (0ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\bin\Release\net10.0\FunnySharp.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: System.ArgumentException : An item with the same key has already been added. Key: x
+    at System.Collections.Generic.Dictionary`2.TryInsert(TKey key, TValue value, InsertionBehavior behavior)
+    at System.Collections.Generic.Dictionary`2.Add(TKey key, TValue value)
+    at FunnySharp.SequenceExtensions.Traverse[TKey,TValue,TResult](IReadOnlyDictionary`2 source, Func`3 selector) in Q:\repos\funnysharp-goal24-resolution\src\FunnySharp\SequenceExtensions.cs:448
+    at FunnySharp.SequenceExtensions.Traverse[TKey,TValue,TResult](IReadOnlyDictionary`2 source, Location root, Func`4 selector) in Q:\repos\funnysharp-goal24-resolution\src\FunnySharp\SequenceExtensions.cs:816
+    at FunnySharp.Tests.TraversalContextTests.TraverseSuccessfulDictionaries(IReadOnlyDictionary`2 source, Boolean located) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\TraversalContextTests.cs:812
+    at FunnySharp.Tests.TraversalContextTests.KeyedTraverseRetainsReferenceDistinctEqualTextKeys(Int32 sourceKind, Boolean located) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\TraversalContextTests.cs:616
+    at InvokeStub_TraversalContextTests.KeyedTraverseRetainsReferenceDistinctEqualTextKeys(Object, Span`1)
+    at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+failed FunnySharp.Tests.TraversalContextTests.KeyedTraverseRetainsReferenceDistinctEqualTextKeys(sourceKind: 2, located: True) (0ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\bin\Release\net10.0\FunnySharp.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: System.ArgumentException : An item with the same key has already been added. Key: x
+    at System.Collections.Generic.Dictionary`2.TryInsert(TKey key, TValue value, InsertionBehavior behavior)
+    at System.Collections.Generic.Dictionary`2.Add(TKey key, TValue value)
+    at FunnySharp.SequenceExtensions.Traverse[TKey,TValue,TResult](IReadOnlyDictionary`2 source, Func`3 selector) in Q:\repos\funnysharp-goal24-resolution\src\FunnySharp\SequenceExtensions.cs:448
+    at FunnySharp.SequenceExtensions.Traverse[TKey,TValue,TResult](IReadOnlyDictionary`2 source, Location root, Func`4 selector) in Q:\repos\funnysharp-goal24-resolution\src\FunnySharp\SequenceExtensions.cs:816
+    at FunnySharp.Tests.TraversalContextTests.TraverseSuccessfulDictionaries(IReadOnlyDictionary`2 source, Boolean located) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\TraversalContextTests.cs:812
+    at FunnySharp.Tests.TraversalContextTests.KeyedTraverseRetainsReferenceDistinctEqualTextKeys(Int32 sourceKind, Boolean located) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\TraversalContextTests.cs:616
+    at InvokeStub_TraversalContextTests.KeyedTraverseRetainsReferenceDistinctEqualTextKeys(Object, Span`1)
+    at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+failed FunnySharp.Tests.TraversalContextTests.KeyedTraverseRetainsReferenceDistinctEqualTextKeys(sourceKind: 1, located: True) (0ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\bin\Release\net10.0\FunnySharp.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: System.ArgumentException : An item with the same key has already been added. Key: x
+    at System.Collections.Generic.Dictionary`2.TryInsert(TKey key, TValue value, InsertionBehavior behavior)
+    at System.Collections.Generic.Dictionary`2.Add(TKey key, TValue value)
+    at FunnySharp.SequenceExtensions.Traverse[TKey,TValue,TResult](IReadOnlyDictionary`2 source, Func`3 selector) in Q:\repos\funnysharp-goal24-resolution\src\FunnySharp\SequenceExtensions.cs:448
+    at FunnySharp.SequenceExtensions.Traverse[TKey,TValue,TResult](IReadOnlyDictionary`2 source, Location root, Func`4 selector) in Q:\repos\funnysharp-goal24-resolution\src\FunnySharp\SequenceExtensions.cs:816
+    at FunnySharp.Tests.TraversalContextTests.TraverseSuccessfulDictionaries(IReadOnlyDictionary`2 source, Boolean located) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\TraversalContextTests.cs:812
+    at FunnySharp.Tests.TraversalContextTests.KeyedTraverseRetainsReferenceDistinctEqualTextKeys(Int32 sourceKind, Boolean located) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\TraversalContextTests.cs:616
+    at InvokeStub_TraversalContextTests.KeyedTraverseRetainsReferenceDistinctEqualTextKeys(Object, Span`1)
+    at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+failed FunnySharp.Tests.TraversalContextTests.LocatedDictionaryTraverseAcceptsEmptyKeysForAllFourCarriers (2ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\bin\Release\net10.0\FunnySharp.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: System.ArgumentException : The value cannot be an empty string. (Parameter 'key')
+    at System.ArgumentException.ThrowNullOrEmptyException(String argument, String paramName)
+    at System.ArgumentException.ThrowIfNullOrEmpty(String argument, String paramName)
+    at FunnySharp.Location.Key(String key) in Q:\repos\funnysharp-goal24-resolution\src\FunnySharp\Location.cs:54
+    at FunnySharp.SequenceExtensions.KeyedLocation[TKey](Location root, TKey key) in Q:\repos\funnysharp-goal24-resolution\src\FunnySharp\SequenceExtensions.cs:970
+    at FunnySharp.SequenceExtensions.<>c__DisplayClass20_0`3.<Traverse>b__0(TKey key, TValue value) in Q:\repos\funnysharp-goal24-resolution\src\FunnySharp\SequenceExtensions.cs:817
+    at FunnySharp.SequenceExtensions.Traverse[TKey,TValue,TResult](IReadOnlyDictionary`2 source, Func`3 selector) in Q:\repos\funnysharp-goal24-resolution\src\FunnySharp\SequenceExtensions.cs:443
+    at FunnySharp.SequenceExtensions.Traverse[TKey,TValue,TResult](IReadOnlyDictionary`2 source, Location root, Func`4 selector) in Q:\repos\funnysharp-goal24-resolution\src\FunnySharp\SequenceExtensions.cs:816
+    at FunnySharp.Tests.TraversalContextTests.LocatedDictionaryTraverseAcceptsEmptyKeysForAllFourCarriers() in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\TraversalContextTests.cs:686
+    at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)
+    at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+failed FunnySharp.Tests.TraversalContextTests.KeyedTraversePreservesCaseInsensitiveLookupIncludingEmptyResults(sourceKind: 2, located: True, empty: False) (6ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\bin\Release\net10.0\FunnySharp.Tests.dll (net10.0|x64)
+  Assert.Same() Failure: Values are not the same instance
+  Expected: OrdinalIgnoreCaseComparer { }
+  Actual:   StringEqualityComparer { }
+    at FunnySharp.Tests.TraversalContextTests.KeyedTraversePreservesCaseInsensitiveLookupIncludingEmptyResults(Int32 sourceKind, Boolean located, Boolean empty) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\TraversalContextTests.cs:662
+    at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)
+    at System.Reflection.MethodBaseInvoker.InvokeDirectByRefWithFewArgs(Object obj, Span`1 copyOfArgs, BindingFlags invokeAttr)
+failed FunnySharp.Tests.TraversalContextTests.KeyedTraversePreservesCaseInsensitiveLookupIncludingEmptyResults(sourceKind: 0, located: True, empty: True) (0ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\bin\Release\net10.0\FunnySharp.Tests.dll (net10.0|x64)
+  Assert.Same() Failure: Values are not the same instance
+  Expected: OrdinalIgnoreCaseComparer { }
+  Actual:   StringEqualityComparer { }
+    at FunnySharp.Tests.TraversalContextTests.KeyedTraversePreservesCaseInsensitiveLookupIncludingEmptyResults(Int32 sourceKind, Boolean located, Boolean empty) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\TraversalContextTests.cs:662
+    at InvokeStub_TraversalContextTests.KeyedTraversePreservesCaseInsensitiveLookupIncludingEmptyResults(Object, Span`1)
+    at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+failed FunnySharp.Tests.TraversalContextTests.KeyedTraversePreservesCaseInsensitiveLookupIncludingEmptyResults(sourceKind: 2, located: False, empty: False) (0ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\bin\Release\net10.0\FunnySharp.Tests.dll (net10.0|x64)
+  Assert.Same() Failure: Values are not the same instance
+  Expected: OrdinalIgnoreCaseComparer { }
+  Actual:   StringEqualityComparer { }
+    at FunnySharp.Tests.TraversalContextTests.KeyedTraversePreservesCaseInsensitiveLookupIncludingEmptyResults(Int32 sourceKind, Boolean located, Boolean empty) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\TraversalContextTests.cs:662
+    at InvokeStub_TraversalContextTests.KeyedTraversePreservesCaseInsensitiveLookupIncludingEmptyResults(Object, Span`1)
+    at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+failed FunnySharp.Tests.TraversalContextTests.KeyedTraversePreservesCaseInsensitiveLookupIncludingEmptyResults(sourceKind: 0, located: True, empty: False) (0ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\bin\Release\net10.0\FunnySharp.Tests.dll (net10.0|x64)
+  Assert.Same() Failure: Values are not the same instance
+  Expected: OrdinalIgnoreCaseComparer { }
+  Actual:   StringEqualityComparer { }
+    at FunnySharp.Tests.TraversalContextTests.KeyedTraversePreservesCaseInsensitiveLookupIncludingEmptyResults(Int32 sourceKind, Boolean located, Boolean empty) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\TraversalContextTests.cs:662
+    at InvokeStub_TraversalContextTests.KeyedTraversePreservesCaseInsensitiveLookupIncludingEmptyResults(Object, Span`1)
+    at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+failed FunnySharp.Tests.TraversalContextTests.KeyedTraversePreservesCaseInsensitiveLookupIncludingEmptyResults(sourceKind: 1, located: True, empty: True) (0ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\bin\Release\net10.0\FunnySharp.Tests.dll (net10.0|x64)
+  Assert.Same() Failure: Values are not the same instance
+  Expected: OrdinalIgnoreCaseComparer { }
+  Actual:   StringEqualityComparer { }
+    at FunnySharp.Tests.TraversalContextTests.KeyedTraversePreservesCaseInsensitiveLookupIncludingEmptyResults(Int32 sourceKind, Boolean located, Boolean empty) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\TraversalContextTests.cs:662
+    at InvokeStub_TraversalContextTests.KeyedTraversePreservesCaseInsensitiveLookupIncludingEmptyResults(Object, Span`1)
+    at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+failed FunnySharp.Tests.TraversalContextTests.KeyedTraversePreservesCaseInsensitiveLookupIncludingEmptyResults(sourceKind: 1, located: False, empty: False) (1ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\bin\Release\net10.0\FunnySharp.Tests.dll (net10.0|x64)
+  Assert.Same() Failure: Values are not the same instance
+  Expected: OrdinalIgnoreCaseComparer { }
+  Actual:   StringEqualityComparer { }
+    at FunnySharp.Tests.TraversalContextTests.KeyedTraversePreservesCaseInsensitiveLookupIncludingEmptyResults(Int32 sourceKind, Boolean located, Boolean empty) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\TraversalContextTests.cs:662
+    at InvokeStub_TraversalContextTests.KeyedTraversePreservesCaseInsensitiveLookupIncludingEmptyResults(Object, Span`1)
+    at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+failed FunnySharp.Tests.TraversalContextTests.KeyedTraversePreservesCaseInsensitiveLookupIncludingEmptyResults(sourceKind: 2, located: False, empty: True) (0ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\bin\Release\net10.0\FunnySharp.Tests.dll (net10.0|x64)
+  Assert.Same() Failure: Values are not the same instance
+  Expected: OrdinalIgnoreCaseComparer { }
+  Actual:   StringEqualityComparer { }
+    at FunnySharp.Tests.TraversalContextTests.KeyedTraversePreservesCaseInsensitiveLookupIncludingEmptyResults(Int32 sourceKind, Boolean located, Boolean empty) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\TraversalContextTests.cs:662
+    at InvokeStub_TraversalContextTests.KeyedTraversePreservesCaseInsensitiveLookupIncludingEmptyResults(Object, Span`1)
+    at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+failed FunnySharp.Tests.TraversalContextTests.KeyedTraversePreservesCaseInsensitiveLookupIncludingEmptyResults(sourceKind: 0, located: False, empty: True) (0ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\bin\Release\net10.0\FunnySharp.Tests.dll (net10.0|x64)
+  Assert.Same() Failure: Values are not the same instance
+  Expected: OrdinalIgnoreCaseComparer { }
+  Actual:   StringEqualityComparer { }
+    at FunnySharp.Tests.TraversalContextTests.KeyedTraversePreservesCaseInsensitiveLookupIncludingEmptyResults(Int32 sourceKind, Boolean located, Boolean empty) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\TraversalContextTests.cs:662
+    at InvokeStub_TraversalContextTests.KeyedTraversePreservesCaseInsensitiveLookupIncludingEmptyResults(Object, Span`1)
+    at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+failed FunnySharp.Tests.TraversalContextTests.KeyedTraversePreservesCaseInsensitiveLookupIncludingEmptyResults(sourceKind: 2, located: True, empty: True) (0ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\bin\Release\net10.0\FunnySharp.Tests.dll (net10.0|x64)
+  Assert.Same() Failure: Values are not the same instance
+  Expected: OrdinalIgnoreCaseComparer { }
+  Actual:   StringEqualityComparer { }
+    at FunnySharp.Tests.TraversalContextTests.KeyedTraversePreservesCaseInsensitiveLookupIncludingEmptyResults(Int32 sourceKind, Boolean located, Boolean empty) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\TraversalContextTests.cs:662
+    at InvokeStub_TraversalContextTests.KeyedTraversePreservesCaseInsensitiveLookupIncludingEmptyResults(Object, Span`1)
+    at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+failed FunnySharp.Tests.TraversalContextTests.KeyedTraversePreservesCaseInsensitiveLookupIncludingEmptyResults(sourceKind: 1, located: True, empty: False) (0ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\bin\Release\net10.0\FunnySharp.Tests.dll (net10.0|x64)
+  Assert.Same() Failure: Values are not the same instance
+  Expected: OrdinalIgnoreCaseComparer { }
+  Actual:   StringEqualityComparer { }
+    at FunnySharp.Tests.TraversalContextTests.KeyedTraversePreservesCaseInsensitiveLookupIncludingEmptyResults(Int32 sourceKind, Boolean located, Boolean empty) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\TraversalContextTests.cs:662
+    at InvokeStub_TraversalContextTests.KeyedTraversePreservesCaseInsensitiveLookupIncludingEmptyResults(Object, Span`1)
+    at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+failed FunnySharp.Tests.TraversalContextTests.KeyedTraversePreservesCaseInsensitiveLookupIncludingEmptyResults(sourceKind: 1, located: False, empty: True) (0ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\bin\Release\net10.0\FunnySharp.Tests.dll (net10.0|x64)
+  Assert.Same() Failure: Values are not the same instance
+  Expected: OrdinalIgnoreCaseComparer { }
+  Actual:   StringEqualityComparer { }
+    at FunnySharp.Tests.TraversalContextTests.KeyedTraversePreservesCaseInsensitiveLookupIncludingEmptyResults(Int32 sourceKind, Boolean located, Boolean empty) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\TraversalContextTests.cs:662
+    at InvokeStub_TraversalContextTests.KeyedTraversePreservesCaseInsensitiveLookupIncludingEmptyResults(Object, Span`1)
+    at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+failed FunnySharp.Tests.TraversalContextTests.KeyedTraversePreservesCaseInsensitiveLookupIncludingEmptyResults(sourceKind: 0, located: False, empty: False) (0ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\bin\Release\net10.0\FunnySharp.Tests.dll (net10.0|x64)
+  Assert.Same() Failure: Values are not the same instance
+  Expected: OrdinalIgnoreCaseComparer { }
+  Actual:   StringEqualityComparer { }
+    at FunnySharp.Tests.TraversalContextTests.KeyedTraversePreservesCaseInsensitiveLookupIncludingEmptyResults(Int32 sourceKind, Boolean located, Boolean empty) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\TraversalContextTests.cs:662
+    at InvokeStub_TraversalContextTests.KeyedTraversePreservesCaseInsensitiveLookupIncludingEmptyResults(Object, Span`1)
+    at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+failed FunnySharp.Tests.TraversalContextTests.LocatedDictionaryTraversePreservesFailurePolicyAfterReachingAnEmptyKey(carrier: 2) (2ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\bin\Release\net10.0\FunnySharp.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: System.ArgumentException : The value cannot be an empty string. (Parameter 'key')
+    at System.ArgumentException.ThrowNullOrEmptyException(String argument, String paramName)
+    at System.ArgumentException.ThrowIfNullOrEmpty(String argument, String paramName)
+    at FunnySharp.Location.Key(String key) in Q:\repos\funnysharp-goal24-resolution\src\FunnySharp\Location.cs:54
+    at FunnySharp.SequenceExtensions.KeyedLocation[TKey](Location root, TKey key) in Q:\repos\funnysharp-goal24-resolution\src\FunnySharp\SequenceExtensions.cs:970
+    at FunnySharp.SequenceExtensions.<>c__DisplayClass22_0`3.<Traverse>b__0(TKey key, TValue value) in Q:\repos\funnysharp-goal24-resolution\src\FunnySharp\SequenceExtensions.cs:907
+    at FunnySharp.SequenceExtensions.Traverse[TKey,TValue,TError](IReadOnlyDictionary`2 source, Func`3 selector) in Q:\repos\funnysharp-goal24-resolution\src\FunnySharp\SequenceExtensions.cs:528
+    at FunnySharp.SequenceExtensions.Traverse[TKey,TValue,TError](IReadOnlyDictionary`2 source, Location root, Func`4 selector) in Q:\repos\funnysharp-goal24-resolution\src\FunnySharp\SequenceExtensions.cs:906
+    at FunnySharp.Tests.TraversalContextTests.LocatedDictionaryTraversePreservesFailurePolicyAfterReachingAnEmptyKey(Int32 carrier) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\TraversalContextTests.cs:761
+    at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)
+    at System.Reflection.MethodBaseInvoker.InvokeDirectByRefWithFewArgs(Object obj, Span`1 copyOfArgs, BindingFlags invokeAttr)
+failed FunnySharp.Tests.TraversalContextTests.LocatedDictionaryTraversePreservesFailurePolicyAfterReachingAnEmptyKey(carrier: 3) (0ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\bin\Release\net10.0\FunnySharp.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: System.ArgumentException : The value cannot be an empty string. (Parameter 'key')
+    at System.ArgumentException.ThrowNullOrEmptyException(String argument, String paramName)
+    at System.ArgumentException.ThrowIfNullOrEmpty(String argument, String paramName)
+    at FunnySharp.Location.Key(String key) in Q:\repos\funnysharp-goal24-resolution\src\FunnySharp\Location.cs:54
+    at FunnySharp.SequenceExtensions.KeyedLocation[TKey](Location root, TKey key) in Q:\repos\funnysharp-goal24-resolution\src\FunnySharp\SequenceExtensions.cs:970
+    at FunnySharp.SequenceExtensions.<>c__DisplayClass23_0`4.<Traverse>b__0(TKey key, TValue value) in Q:\repos\funnysharp-goal24-resolution\src\FunnySharp\SequenceExtensions.cs:953
+    at FunnySharp.SequenceExtensions.Traverse[TKey,TValue,TResult,TError](IReadOnlyDictionary`2 source, Func`3 selector) in Q:\repos\funnysharp-goal24-resolution\src\FunnySharp\SequenceExtensions.cs:576
+    at FunnySharp.SequenceExtensions.Traverse[TKey,TValue,TResult,TError](IReadOnlyDictionary`2 source, Location root, Func`4 selector) in Q:\repos\funnysharp-goal24-resolution\src\FunnySharp\SequenceExtensions.cs:952
+    at FunnySharp.Tests.TraversalContextTests.LocatedDictionaryTraversePreservesFailurePolicyAfterReachingAnEmptyKey(Int32 carrier) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\TraversalContextTests.cs:772
+    at InvokeStub_TraversalContextTests.LocatedDictionaryTraversePreservesFailurePolicyAfterReachingAnEmptyKey(Object, Span`1)
+    at System.Reflection.MethodBaseInvoker.InvokeWithOneArg(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+failed FunnySharp.Tests.TraversalContextTests.LocatedDictionaryTraversePreservesFailurePolicyAfterReachingAnEmptyKey(carrier: 0) (0ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\bin\Release\net10.0\FunnySharp.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: System.ArgumentException : The value cannot be an empty string. (Parameter 'key')
+    at System.ArgumentException.ThrowNullOrEmptyException(String argument, String paramName)
+    at System.ArgumentException.ThrowIfNullOrEmpty(String argument, String paramName)
+    at FunnySharp.Location.Key(String key) in Q:\repos\funnysharp-goal24-resolution\src\FunnySharp\Location.cs:54
+    at FunnySharp.SequenceExtensions.KeyedLocation[TKey](Location root, TKey key) in Q:\repos\funnysharp-goal24-resolution\src\FunnySharp\SequenceExtensions.cs:970
+    at FunnySharp.SequenceExtensions.<>c__DisplayClass20_0`3.<Traverse>b__0(TKey key, TValue value) in Q:\repos\funnysharp-goal24-resolution\src\FunnySharp\SequenceExtensions.cs:817
+    at FunnySharp.SequenceExtensions.Traverse[TKey,TValue,TResult](IReadOnlyDictionary`2 source, Func`3 selector) in Q:\repos\funnysharp-goal24-resolution\src\FunnySharp\SequenceExtensions.cs:443
+    at FunnySharp.SequenceExtensions.Traverse[TKey,TValue,TResult](IReadOnlyDictionary`2 source, Location root, Func`4 selector) in Q:\repos\funnysharp-goal24-resolution\src\FunnySharp\SequenceExtensions.cs:816
+    at FunnySharp.Tests.TraversalContextTests.LocatedDictionaryTraversePreservesFailurePolicyAfterReachingAnEmptyKey(Int32 carrier) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\TraversalContextTests.cs:742
+    at InvokeStub_TraversalContextTests.LocatedDictionaryTraversePreservesFailurePolicyAfterReachingAnEmptyKey(Object, Span`1)
+    at System.Reflection.MethodBaseInvoker.InvokeWithOneArg(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+failed FunnySharp.Tests.TraversalContextTests.LocatedDictionaryTraversePreservesFailurePolicyAfterReachingAnEmptyKey(carrier: 1) (0ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\bin\Release\net10.0\FunnySharp.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: System.ArgumentException : The value cannot be an empty string. (Parameter 'key')
+    at System.ArgumentException.ThrowNullOrEmptyException(String argument, String paramName)
+    at System.ArgumentException.ThrowIfNullOrEmpty(String argument, String paramName)
+    at FunnySharp.Location.Key(String key) in Q:\repos\funnysharp-goal24-resolution\src\FunnySharp\Location.cs:54
+    at FunnySharp.SequenceExtensions.KeyedLocation[TKey](Location root, TKey key) in Q:\repos\funnysharp-goal24-resolution\src\FunnySharp\SequenceExtensions.cs:970
+    at FunnySharp.SequenceExtensions.<>c__DisplayClass21_0`4.<Traverse>b__0(TKey key, TValue value) in Q:\repos\funnysharp-goal24-resolution\src\FunnySharp\SequenceExtensions.cs:863
+    at FunnySharp.SequenceExtensions.Traverse[TKey,TValue,TResult,TError](IReadOnlyDictionary`2 source, Func`3 selector) in Q:\repos\funnysharp-goal24-resolution\src\FunnySharp\SequenceExtensions.cs:489
+    at FunnySharp.SequenceExtensions.Traverse[TKey,TValue,TResult,TError](IReadOnlyDictionary`2 source, Location root, Func`4 selector) in Q:\repos\funnysharp-goal24-resolution\src\FunnySharp\SequenceExtensions.cs:862
+    at FunnySharp.Tests.TraversalContextTests.LocatedDictionaryTraversePreservesFailurePolicyAfterReachingAnEmptyKey(Int32 carrier) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\TraversalContextTests.cs:750
+    at InvokeStub_TraversalContextTests.LocatedDictionaryTraversePreservesFailurePolicyAfterReachingAnEmptyKey(Object, Span`1)
+    at System.Reflection.MethodBaseInvoker.InvokeWithOneArg(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\bin\Release\net10.0\FunnySharp.Tests.dll (net10.0|x64) failed with 23 error(s) (1s 618ms)
+Exit code: 2
+
+Test run summary: Failed!
+  total: 46
+  failed: 23
+  succeeded: 23
+  skipped: 0
+  duration: 2s 311ms
+Test run completed with non-success exit code: 2 (see: https://aka.ms/testingplatform/exitcodes)

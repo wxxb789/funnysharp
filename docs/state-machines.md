@@ -123,11 +123,11 @@ The ratio to the raw loop is the cost of those visible per-step snapshots, not o
 a raw loop writes plain values into one caller-owned array and materializes nothing per step.
 
 <!-- performance-table:start state-machines -->
-| Scenario | Baseline mean | FunnySharp mean | Ratio | Baseline allocation | FunnySharp allocation |
+| Scenario | Baseline mean | Candidate mean | Ratio | Baseline allocation | Candidate allocation |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Left-associated Then chain ([Count=256]) | 145.964 ns | 24.091 us | 165.05x | 1048 B | 33880 B |
-| Left-associated Then chain ([Count=64]) | 42.860 ns | 5.940 us | 138.58x | 280 B | 8536 B |
-| Left-associated Then chain ([Count=8]) | 9.728 ns | 786.983 ns | 80.90x | 56 B | 1144 B |
+| Left-associated Then chain ([Count=256]) | 132.535 ns | 18.155 us | 136.98x | 1048 B | 33880 B |
+| Left-associated Then chain ([Count=64]) | 44.404 ns | 4.799 us | 108.08x | 280 B | 8536 B |
+| Left-associated Then chain ([Count=8]) | 6.846 ns | 601.340 ns | 87.84x | 56 B | 1144 B |
 <!-- performance-table:end state-machines -->
 
 ## Deliberate Boundaries

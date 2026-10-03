@@ -1,0 +1,5 @@
+  Determining projects to restore...
+  Restored Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.VerticalSlice\FunnySharp.VerticalSlice.Measurements\FunnySharp.VerticalSlice.Measurements.csproj (in 530 ms).
+  Restored Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.VerticalSlice\FunnySharp.VerticalSlice.Api\FunnySharp.VerticalSlice.Api.csproj (in 530 ms).
+  Restored Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.VerticalSlice\FunnySharp.VerticalSlice.Baseline\FunnySharp.VerticalSlice.Baseline.csproj (in 530 ms).
+  Restored Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.VerticalSlice\FunnySharp.VerticalSlice.Tests\FunnySharp.VerticalSlice.Tests.csproj (in 530 ms).

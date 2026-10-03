@@ -1,0 +1,24 @@
+{
+  "task": "async-streams",
+  "style": "funnysharp",
+  "run": "run-1",
+  "round": 1,
+  "compilation": {
+    "ok": true,
+    "errors": 0,
+    "buildSeconds": 24.9
+  },
+  "semanticCorrectness": {
+    "ok": true,
+    "total": 10,
+    "failed": 0,
+    "succeeded": 10,
+    "skipped": 0
+  },
+  "apiMisuse": {
+    "fsDiagnostics": []
+  },
+  "consumerLoc": 60,
+  "verdict": "GREEN",
+  "evidenceKind": "generation-verification"
+}

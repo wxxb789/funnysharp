@@ -139,10 +139,10 @@ public sealed class ValidationAsyncTests
             await Assert.ThrowsAsync<InvalidOperationException>(() => taskWithTokenMapped));
         Assert.Same(
             valueFailure,
-            await Assert.ThrowsAsync<InvalidOperationException>(async () => await valueMapped));
+            await Assert.ThrowsAsync<InvalidOperationException>(async () => { _ = await valueMapped; }));
         Assert.Same(
             valueWithTokenFailure,
-            await Assert.ThrowsAsync<InvalidOperationException>(async () => await valueWithTokenMapped));
+            await Assert.ThrowsAsync<InvalidOperationException>(async () => { _ = await valueWithTokenMapped; }));
     }
 
     [Fact]
@@ -188,10 +188,10 @@ public sealed class ValidationAsyncTests
             await Assert.ThrowsAsync<InvalidOperationException>(() => taskWithToken));
         Assert.Same(
             valueFailure,
-            await Assert.ThrowsAsync<InvalidOperationException>(async () => await valueTask));
+            await Assert.ThrowsAsync<InvalidOperationException>(async () => { _ = await valueTask; }));
         Assert.Same(
             valueWithTokenFailure,
-            await Assert.ThrowsAsync<InvalidOperationException>(async () => await valueTaskWithToken));
+            await Assert.ThrowsAsync<InvalidOperationException>(async () => { _ = await valueTaskWithToken; }));
     }
 
     [Fact]
@@ -252,11 +252,11 @@ public sealed class ValidationAsyncTests
 
         var taskCancellation = await Assert.ThrowsAnyAsync<OperationCanceledException>(() => taskMapped);
         var valueCancellation = await Assert.ThrowsAnyAsync<OperationCanceledException>(
-            async () => await valueMapped);
+            async () => { _ = await valueMapped; });
         var taskWithTokenCancellation = await Assert.ThrowsAnyAsync<OperationCanceledException>(
             () => taskWithTokenMapped);
         var valueWithTokenCancellation = await Assert.ThrowsAnyAsync<OperationCanceledException>(
-            async () => await valueWithTokenMapped);
+            async () => { _ = await valueWithTokenMapped; });
 
         Assert.True(taskMapped.IsCanceled);
         Assert.True(valueMapped.IsCanceled);
@@ -276,7 +276,9 @@ public sealed class ValidationAsyncTests
     public void NullSelectorsAndUninitializedReceiversAreRejectedAtCallTime()
     {
         var invalid = Validation<int, string>.Invalid("bad");
+#pragma warning disable FS1001 // Intentional runtime misuse witness.
         Validation<int, string> uninitialized = default;
+#pragma warning restore FS1001
 
         Assert.Throws<ArgumentNullException>(() =>
         {

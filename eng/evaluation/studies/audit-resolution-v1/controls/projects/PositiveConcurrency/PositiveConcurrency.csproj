@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>PositiveConcurrency</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(ControlRoot)solutions/AvailabilityCoordinator.cs" />
+    <Compile Include="$(ControlRoot)../tasks/concurrency/tests/Contract.cs" />
+    <Compile Include="$(ControlRoot)../tasks/concurrency/tests/ConcurrencyTests.cs" />
+  </ItemGroup>
+</Project>

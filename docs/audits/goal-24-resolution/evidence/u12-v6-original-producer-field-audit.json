@@ -1,0 +1,21 @@
+{
+  "schema": "funnysharp-v6-original-producer-field-audit/v1",
+  "observed": "21originalproducerrecords:4initialbusinessrecords15fields,other17records16fields. Fourinitial15omitfeedbackSha256, notnull.",
+  "frozenParser": "eng/harness/Evaluation.fs:507-563 bindStudy requiresfeedbackSha256 ONLYifpreviousnonempty at552-559. Initial15requiredfieldsbindexactly; no predecessor exists. ActualHTTPcorrectionexactprecedingfeedbackSHAverified.",
+  "formalGreenPreserved": true,
+  "originalReceiptsUnchanged": true,
+  "normativeAll16ClaimRejected": true,
+  "affectedBusinessSlots": [
+    "business-outcomes/idiomatic/run-1",
+    "business-outcomes/idiomatic/run-2",
+    "business-outcomes/funnysharp/run-1",
+    "business-outcomes/funnysharp/run-2"
+  ],
+  "reference": "u12-v6-strict-native-cohort-parent-proof.json retainsactualperround producerFields15/16",
+  "historicalErroneousNarrative": "SDK103-106initial/business/cohort summaries saidall16; appendcorrectiondo notrewritehistoricalreceipts.",
+  "initialCount15": 4,
+  "otherCount16": 17,
+  "finalCount16": 16,
+  "finalCount15": 4,
+  "ownerOrAggregateQualification": false
+}

@@ -1,0 +1,93 @@
+{
+  "schema": "funnysharp-u11-indexed-source-proof/v1",
+  "state": "VERIFIED_LOCAL_PACKAGE_SUCCESSOR_NOT_MATERIALITY_ACCEPTANCE",
+  "checkout": "Q:/repos/funnysharp-goal24-resolution",
+  "branch": "audit/goal24-resolution",
+  "coreSha256": "6a903f737356fdf67845c9cd39385e4a5e2b39bcae0ee92ff2882480ecb7e49d",
+  "packageSha256": "49886c3c6e505d03b1e3565bfe71d43f2476eae3edfd35c4d6afbe761203fc18",
+  "sourceBindings": [
+    {
+      "path": "artifacts/audit-resolution/u11-successor-indexed/attempt-01/IdiomaticWorkflows.cs",
+      "sha256": "10d982b0a3eed246ff2aba6fb83d582a9370f4e017881bc2d0a089bc3949b044"
+    },
+    {
+      "path": "artifacts/audit-resolution/u11-successor-indexed/attempt-01/FunnySharpWorkflows.cs",
+      "sha256": "8b0728945c3e8ecfc371e54975f5ad8b0fbc8e6294f022656aa5eb666931da8c"
+    },
+    {
+      "path": "artifacts/audit-resolution/u11-successor-indexed/attempt-01/WorkflowIndexedSourceTests.cs",
+      "sha256": "e2d0c49b7f3a4caa52c36eecc1fa812309eb48e989ccd6477a18e3d6a23a5234"
+    },
+    {
+      "path": "eng/evaluation/comparisons/function-grammar/Contract.cs",
+      "sha256": "f9a2784219118d9ea0939dc2e47dc9b06846044f38b054729c234b9d6bfa49e9"
+    },
+    {
+      "path": "eng/evaluation/comparisons/function-grammar/WorkflowEquivalenceTests.cs",
+      "sha256": "b05615923bd5bcd3113d493ef33af4b6c184064ba94cd14de65c5eea096690c5"
+    }
+  ],
+  "feed": "artifacts/audit-resolution/u14-post-xml/attempt-03/feed",
+  "red": {
+    "receipt": "artifacts/audit-resolution/u11-successor-indexed/attempt-01/indexed-red.json",
+    "summary": {
+      "tests": 38,
+      "passed": 37,
+      "failed": 1,
+      "pending": 0,
+      "skipped": 0,
+      "other": 0,
+      "suites": 1,
+      "start": 1790925841107,
+      "stop": 1790925841592
+    },
+    "exitCode": 1,
+    "case": "FunctionGrammarComparisons.WorkflowIndexedSourceTests.Wf4IndexedSourceRetainsOneEnumerationAndDisposal",
+    "failure": "Expected: 1 / Actual: 0",
+    "source": "Exact child proposal copied before execution; only RunningBalances subsequently changed. Red managed binary was not retained."
+  },
+  "repair": "Restore only BCL RunningBalances foreach enumeration; do not change any original oracle or other workflow.",
+  "green": {
+    "receipt": "artifacts/audit-resolution/u11-successor-indexed/attempt-01/indexed-green.json",
+    "summary": {
+      "tests": 38,
+      "passed": 38,
+      "failed": 0,
+      "pending": 0,
+      "skipped": 0,
+      "other": 0,
+      "suites": 1,
+      "start": 1790926034909,
+      "stop": 1790926035300
+    },
+    "initialProcessExitCode": "Not available after terminal restart; do not infer it."
+  },
+  "exitConfirmedGreen": {
+    "receipt": "artifacts/audit-resolution/u11-successor-indexed/attempt-01/indexed-green-exit-confirmed.json",
+    "summary": {
+      "tests": 38,
+      "passed": 38,
+      "failed": 0,
+      "pending": 0,
+      "skipped": 0,
+      "other": 0,
+      "suites": 1,
+      "start": 1790926870477,
+      "stop": 1790926870901
+    },
+    "exitCode": 0,
+    "command": "dotnet bin/Release/net10.0/FreshSuccessorWorkflows.dll -failSkips -noColor -result-ctrf indexed-green-exit-confirmed.json -result-trx indexed-green-exit-confirmed.trx"
+  },
+  "restore": {
+    "initialExitCode": 0,
+    "lockedExitCode": 0,
+    "lockAndCache": "Fresh attempt-local exact [0.2.0] package source mapping; shipped analyzers enabled."
+  },
+  "cleanup": "Native one-shot processes completed; no server, browser, port or pending gate remains. Evidence directories intentionally retained.",
+  "limits": [
+    "Original 37-case and 123/144 negative history unchanged.",
+    "106/96 proposed S+O arithmetic awaits independent recount.",
+    "No materiality, readability or attributable maintainer acceptance inferred.",
+    "Hybrid ordered error array is not a shorter Validation grammar proof."
+  ]
+}

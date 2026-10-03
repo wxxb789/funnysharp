@@ -10,9 +10,11 @@ namespace FunnySharp;
 /// <see cref="Rest"/> (possibly empty, in source order), so <see cref="Count"/> is always at
 /// least one. It is not a collection type: it implements no <see cref="IEnumerable{T}"/>,
 /// exposes no indexer, and never enumerates. Materialize with <see cref="ToReadOnlyList"/> or
-/// use LINQ over <see cref="Rest"/>. The only public constructor path is
-/// <see cref="CardinalityExtensions.ToNonEmptyOrNone{T}(IEnumerable{T})"/>, which returns
-/// <c>None</c> for an empty source instead of a default value. The default value of
+/// use LINQ over <see cref="Rest"/>. Public construction uses
+/// <see cref="CardinalityExtensions.ToNonEmptyOrNone{T}(IEnumerable{T})"/> or
+/// <see cref="AsyncCardinalityExtensions.ToNonEmptyOrNoneAsync{T}(IAsyncEnumerable{T}, CancellationToken)"/>.
+/// Both return <c>None</c> for an empty source instead of a default value and preserve null items.
+/// The default value of
 /// <see cref="NonEmpty{T}"/> is uninitialized: every member that reads it throws
 /// <see cref="InvalidOperationException"/> like the other FunnySharp carriers; only
 /// <see cref="ToString"/> returns diagnostic text for it.

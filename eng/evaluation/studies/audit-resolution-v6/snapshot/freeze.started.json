@@ -1,0 +1,62 @@
+{
+  "schema": "funnysharp-evaluation-plan/v1",
+  "condition": "unassisted-public-guides",
+  "maxRounds": 3,
+  "upstreamPackageFeed": "https://packagefeedproxy.microsoft.io/nuget/v3/index.json",
+  "guides": [
+    "README.md",
+    "docs/product-contract.md",
+    "docs/grammar.md",
+    "docs/option.md",
+    "docs/result.md",
+    "docs/unit-result.md",
+    "docs/validation.md",
+    "docs/collections.md",
+    "docs/data-pipelines.md",
+    "docs/concurrency.md",
+    "docs/effects.md",
+    "docs/analyzers.md",
+    "docs/function-composition.md",
+    "docs/aspnet-core.md"
+  ],
+  "tasks": [
+    "business-outcomes",
+    "collections",
+    "async-streams",
+    "concurrency",
+    "aspnetcore"
+  ],
+  "expectedTests": {
+    "business-outcomes": 10,
+    "collections": 9,
+    "async-streams": 10,
+    "concurrency": 12,
+    "aspnetcore": 9
+  },
+  "cohort": [
+    "business-outcomes/idiomatic/run-1",
+    "business-outcomes/idiomatic/run-2",
+    "business-outcomes/funnysharp/run-1",
+    "business-outcomes/funnysharp/run-2",
+    "collections/idiomatic/run-1",
+    "collections/idiomatic/run-2",
+    "collections/funnysharp/run-1",
+    "collections/funnysharp/run-2",
+    "async-streams/idiomatic/run-1",
+    "async-streams/idiomatic/run-2",
+    "async-streams/funnysharp/run-1",
+    "async-streams/funnysharp/run-2",
+    "concurrency/idiomatic/run-1",
+    "concurrency/idiomatic/run-2",
+    "concurrency/funnysharp/run-1",
+    "concurrency/funnysharp/run-2",
+    "aspnetcore/idiomatic/run-1",
+    "aspnetcore/idiomatic/run-2",
+    "aspnetcore/funnysharp/run-1",
+    "aspnetcore/funnysharp/run-2"
+  ],
+  "supersedesInputSnapshot": "audit-resolution-v5",
+  "inputDriftEvidence": "docs/audits/goal-24-resolution/evidence/u12-real-generated-guide-drift.json",
+  "successorReason": "The v5 actual generation cohort is retained, including nineteen formal GREEN final records and one original Defender-quarantined verification-asset grading failure. The same-generation replay/runtime supplement is valid separate evidence, not an original GREEN. The owner acceptance question timed out; continue under the unchanged strict original acceptance by preregistering twenty fresh v6 logical AI slots. Public guide, task/oracle/template/package inputs are unchanged from final v5; never copy old solutions or relabel old generations.",
+  "strictAcceptance": "All twenty original final generation-verification GREEN records with complete immutable producer/round receipts, max three actual calls per logical slot, failures/corrections preserved; no replay substitution."
+}

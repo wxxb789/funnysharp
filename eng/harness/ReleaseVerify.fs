@@ -372,7 +372,15 @@ let mainWith
                                       "src/FunnySharp.AspNetCore/bin/Release/net10.0/FunnySharp.AspNetCore.xml"
                                   ) ]
 
-                            let value = getXmlDocumentationInventory paths
+                            let value =
+                                if XmlBuildBindings.required repositoryRoot then
+                                    match executionEvidence, environment with
+                                    | Some execution, Some captured ->
+                                        use capturedDocument = JsonDocument.Parse(captured.ToJsonString())
+                                        getReleaseXmlDocumentationInventory repositoryRoot paths executionEvidenceDirectory (propText "commit" capturedDocument.RootElement) execution
+                                    | _ -> failNow "Release execution or environment evidence did not validate for XML build bindings."
+                                else
+                                    getXmlDocumentationInventory repositoryRoot paths
                             writeJsonFile (Path.Combine(outputDirectory, "xml-documentation.json")) value
 
                             let members =

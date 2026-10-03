@@ -1,0 +1,55 @@
+{
+  "studySha256": "a28f133c7dc53ed83abb446a53ed832af4d3a9a2187f52654fcef02f683241c9",
+  "solution": [
+    {
+      "path": "SensorStream.cs",
+      "sha256": "28d6f70b9bdda03db2c4e79121e8f0f4eaed8f4ea2ce1fdff781c31ce939da8f"
+    }
+  ],
+  "buildInputs": [
+    {
+      "path": "AsyncStreamsKit.csproj",
+      "sha256": "f4adc1d0b296be415bdb42f8159827c30a5cdaae6907a123f6893043b437ecd4"
+    },
+    {
+      "path": "AsyncStreamsTests.cs",
+      "sha256": "b2e236125974c0ec77b4fb7df33a9a6f502c7093b6f2a670929ab7d068407da6"
+    },
+    {
+      "path": "Contract.cs",
+      "sha256": "24a65f66642d4e7e91b84d4f3a04b16ae93ed5abcafecc827b159eaed6bd9307"
+    },
+    {
+      "path": "Directory.Build.props",
+      "sha256": "e1f773524cbe06e47ce9373a35995982889f95f1f943cde9830a99ba4257e76b"
+    },
+    {
+      "path": "NuGet.config",
+      "sha256": "4c407dab51c34a97f893f0aca4437b8ca90bb8a8b48ffcd1d09b38927af0156a"
+    },
+    {
+      "path": "SensorStream.cs",
+      "sha256": "28d6f70b9bdda03db2c4e79121e8f0f4eaed8f4ea2ce1fdff781c31ce939da8f"
+    },
+    {
+      "path": "global.json",
+      "sha256": "c48726ffb10a31e50395529e134bd0ab4d82d14febbda7863ab49d00a9fddcb4"
+    },
+    {
+      "path": "packages.lock.json",
+      "sha256": "7b48cee8e9a354ef18046cad7d59f27263c174e0310ea347bef8f4bda99b2cf7"
+    },
+    {
+      "path": "restore.process.json",
+      "sha256": "d4074f5a922e0034a2ec9b6d77acd78e903a5aec638e60f89baa3b1234ee244a"
+    },
+    {
+      "path": "restore.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "restore.stdout.log",
+      "sha256": "c3b7d4546f2a46973bf6622325a7aff6e9327c69a4e062b4b28ac53573bcf1b5"
+    }
+  ]
+}

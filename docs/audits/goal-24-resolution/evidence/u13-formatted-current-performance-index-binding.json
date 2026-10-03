@@ -1,0 +1,105 @@
+{
+  "schema": "funnysharp-current-performance-index-binding/v1",
+  "state": "PARENT_VERIFIED_CURRENT_SUCCESSOR_NOT_AGGREGATE_ACCEPTANCE",
+  "observedUtc": "2026-10-02T21:51:24.287Z",
+  "index": {
+    "path": "artifacts/audit-resolution/u13-formatted-current-index/attempt-01/u13-current-performance-claim-index.json",
+    "sha256": "010a78bfe80039fc878f02a659339f385dfd1624e346fb925fc8e769eb12dd1c"
+  },
+  "parentChecks": {
+    "uniqueFileShaBindings": 1288,
+    "issues": [],
+    "exactStableIdentityJoins": 468,
+    "tupleFields": [
+      "identity",
+      "assemblyHeader",
+      "typeHeader",
+      "memberLine"
+    ],
+    "resourcesMethods": 7,
+    "expandedCurrentRuntimeCases": 23
+  },
+  "coverage": {
+    "exported": 499,
+    "stable": 468,
+    "coreStable": 448,
+    "httpStable": 20,
+    "experimental": 31,
+    "stableWithExactWholeWorkloadRows": 84,
+    "stableWithNumericExclusionOnly": 384,
+    "exactWholeWorkloadRowIds": 101,
+    "retainedCostSourceFiles": 34,
+    "currentInputAndProtocolFiles": 80,
+    "resourceMethods": 7,
+    "resourceCases": 23,
+    "actualRetainedResourceCaseJoins": 23,
+    "actualCurrentResourceCaseJoins": 23
+  },
+  "numeric": {
+    "independentSerialPairs": 3,
+    "executions": 690,
+    "uniquePolicyRows": 230,
+    "mainRows": 190,
+    "mainExclusions": 11,
+    "competitorRows": 40,
+    "competitorExclusions": 0,
+    "receiptFiles": 45,
+    "rawReportFiles": 135,
+    "measuredChildMarkers": 690,
+    "preflights": 6,
+    "retainedPeFiles": 174,
+    "allOriginalAllocationCeilingsPassed": true,
+    "unchangedBudgetRows": 230,
+    "unchangedPoliciesAndExclusions": true,
+    "variation": {
+      "rows": 22,
+      "mainRows": 22,
+      "competitorRows": 0,
+      "invariantRows": 208,
+      "definition": "Exact allocatedBytesPerOperation differs among the three actual repetitions. No smoothing or best-run selection.",
+      "largestRangeBytes": 16094,
+      "largestRangeRow": "ParallelTraverseConcurrencyBenchmarks|Parallel Option traversal|BclParallelOptionTraversal|[Count=1024]",
+      "historicalVariationRows": 21,
+      "historicalComparison": "The old 21-row count describes the old snapshot, not these current runs."
+    },
+    "timing": {
+      "observedExecutions": 604,
+      "belowResolutionExecutions": 86,
+      "allThreeObservedRows": 196,
+      "mixedObservedAndBelowResolutionRows": 12,
+      "allThreeBelowResolutionRows": 22,
+      "rowsWithDifferentFiniteMeans": 200,
+      "claim": "Directional only; no fixed-hardware statistical regression or superiority guarantee. Below-resolution means remain null, never zero. Min/max use finite observed means only, preserve missing repetitions and do not convert source costs into universal measured claims."
+    }
+  },
+  "currentDocsProof": "docs/audits/goal-24-resolution/evidence/u13-current-docs-and-full-test.json",
+  "currentFullTest": {
+    "total": 2441,
+    "passed": 2441,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0,
+    "log": "artifacts/audit-resolution/u13-formatted-repetitions/v5-current-full-test.log",
+    "sha256": "7a9278fa3b8a3f8d46af6e4103dd5656de7a4b65ba022f50c219a1cccb45daf1"
+  },
+  "history": {
+    "claimIndex": {
+      "path": "docs/audits/goal-24-resolution/evidence/u13-final-performance-claim-index.json",
+      "sha256": "6d99887a64da8b3479356f20c58c6db0dcd7e639121b2b2b1c2d079a2756a89b"
+    },
+    "threeFullRepetitions": {
+      "path": "docs/audits/goal-24-resolution/evidence/u13-three-full-repetitions.json",
+      "sha256": "70e74c00a9b35a38edce5f501dd62cfc362c9cef8cdb482ab991087cd7a79df7"
+    },
+    "mainSnapshot": "snapshot:f97e16b26f00914a9746c0db3788dde33b6dcf937c0119426e0c3bacd5af8b7f",
+    "competitorSnapshot": "snapshot:93a3168bf86fc5bbcdebd0ab2201f1de282460804378dc27ca61d42ed00762c6",
+    "role": "Immutable pre-format history only. Its old receipts, source references, observations and guide proofs are not repinned or relabeled as current.",
+    "historicalAllocationVariationRows": 21,
+    "oldDocsProof": {
+      "path": "docs/audits/goal-24-resolution/evidence/u9-final-cost-and-docs.json",
+      "sha256": "71ae6846d8158088ad751e1ded9c7da65d4317ec51202af1e597af3f2187715a"
+    }
+  },
+  "sourceOnlyDimensions": 183,
+  "limits": "84stablemembers have exact whole-workload links,384member-specific numeric exclusions. No isolated468measurement claim, no source/runtime conflation, no general timing superiority. Original69final acceptance/release/owner/finalAI remainopen."
+}
