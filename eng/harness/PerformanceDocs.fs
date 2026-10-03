@@ -262,7 +262,7 @@ let private generateDocument
         let generated = ResizeArray<string>()
 
         generated.Add
-            "| Scenario | Baseline mean | FunnySharp mean | Ratio | Baseline allocation | FunnySharp allocation |"
+            "| Scenario | Baseline mean | Candidate mean | Ratio | Baseline allocation | Candidate allocation |"
 
         generated.Add "| --- | ---: | ---: | ---: | ---: | ---: |"
 

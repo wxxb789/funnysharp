@@ -1,0 +1,30 @@
+{
+  "schema": "funnysharp-third-paired-main-proof/v1",
+  "state": "MAIN190_ACTUAL_NUMERIC_VERIFY_PASS_COMPETITOR40_PENDING",
+  "main": {
+    "runId": "8aec8bf3be00472a97eae0ea21f886bf",
+    "rows": 190,
+    "excluded": 11,
+    "elapsedSeconds": 2044.2,
+    "receiptFiles": 13,
+    "rawReports": 39,
+    "candidateSnapshot": "snapshot:f97e16b26f00914a9746c0db3788dde33b6dcf937c0119426e0c3bacd5af8b7f",
+    "integerAllocationsWithinOriginalBudgets": true,
+    "parentHashIssues": [],
+    "strictVerifyExitCode": 0,
+    "exitEvidence": "The original && command reached the actual competitor preflight after the main verifier."
+  },
+  "competitor": {
+    "runId": "d3cae835a47b438e8ca7416a5311ff70",
+    "rows": 40,
+    "excluded": 0,
+    "candidateSnapshot": "snapshot:93a3168bf86fc5bbcdebd0ab2201f1de282460804378dc27ca61d42ed00762c6",
+    "coreSha256": "6a903f737356fdf67845c9cd39385e4a5e2b39bcae0ee92ff2882480ecb7e49d",
+    "coreMvid": "6e857675-f36e-4d73-8ed5-99ec28a2e51b",
+    "state": "STARTED_NOT_MEASURED_PASS"
+  },
+  "limits": [
+    "Two full paired repetitions are verified; the third pair is incomplete until competitor40 and final chain exit0.",
+    "No observation approval, numeric guide generation, study freeze, density acceptance, release or final69-ID acceptance yet."
+  ]
+}

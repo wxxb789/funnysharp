@@ -33,6 +33,7 @@ public class AspNetCoreBenchmarks
     [GlobalSetup]
     public void Setup()
     {
+        BenchmarkPreflight.CaptureChild(this);
         success = Result<int, string>.Success(Payload);
         failure = Result<int, string>.Failure(Error);
         absent = Option<int>.None;
@@ -72,6 +73,19 @@ public class AspNetCoreBenchmarks
     public IResult FunnySharpNoContentMapping() => unitSuccess.ToHttpResult(ConflictFactory);
 
     private static ProblemDetails CreateNotFound() => new() { Status = StatusCodes.Status404NotFound };
+
+    internal Task<object?> NormalizePreflightAsync(object? value)
+    {
+        var result = (IResult)value!;
+        object? payload = result is Microsoft.AspNetCore.Http.HttpResults.ProblemHttpResult problem
+            ? problem.ProblemDetails
+            : (result as IValueHttpResult)?.Value;
+        return Task.FromResult<object?>(new
+        {
+            status = (result as IStatusCodeHttpResult)?.StatusCode,
+            payload,
+        });
+    }
 
     private static ProblemDetails CreateConflict(string error) =>
         new()

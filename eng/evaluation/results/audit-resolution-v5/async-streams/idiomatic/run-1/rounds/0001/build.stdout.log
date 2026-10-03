@@ -1,0 +1,16 @@
+  Determining projects to restore...
+  Restored Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\async-streams-idiomatic-run-1-c2f4996aefd94550b1aa8024a702ce94\AsyncStreamsKit.csproj (in 5.99 sec).
+CSC : warning CS2002: Source file 'Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\async-streams-idiomatic-run-1-c2f4996aefd94550b1aa8024a702ce94\nuget_packages\xunit.v3.core.mtp-v2\4.0.0\_content\DefaultRunnerReporters.cs' specified multiple times [Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\async-streams-idiomatic-run-1-c2f4996aefd94550b1aa8024a702ce94\AsyncStreamsKit.csproj]
+CSC : warning CS2002: Source file 'Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\async-streams-idiomatic-run-1-c2f4996aefd94550b1aa8024a702ce94\nuget_packages\xunit.v3.core.mtp-v2\4.0.0\_content\DefaultResultWriters.cs' specified multiple times [Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\async-streams-idiomatic-run-1-c2f4996aefd94550b1aa8024a702ce94\AsyncStreamsKit.csproj]
+  AsyncStreamsKit -> Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\async-streams-idiomatic-run-1-c2f4996aefd94550b1aa8024a702ce94\bin\Release\net10.0\AsyncStreamsKit.dll
+
+Build succeeded.
+
+CSC : warning CS2002: Source file 'Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\async-streams-idiomatic-run-1-c2f4996aefd94550b1aa8024a702ce94\nuget_packages\xunit.v3.core.mtp-v2\4.0.0\_content\DefaultRunnerReporters.cs' specified multiple times [Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\async-streams-idiomatic-run-1-c2f4996aefd94550b1aa8024a702ce94\AsyncStreamsKit.csproj]
+CSC : warning CS2002: Source file 'Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\async-streams-idiomatic-run-1-c2f4996aefd94550b1aa8024a702ce94\nuget_packages\xunit.v3.core.mtp-v2\4.0.0\_content\DefaultResultWriters.cs' specified multiple times [Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\async-streams-idiomatic-run-1-c2f4996aefd94550b1aa8024a702ce94\AsyncStreamsKit.csproj]
+    2 Warning(s)
+    0 Error(s)
+
+BinaryLogger wrote to: Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\async-streams-idiomatic-run-1-c2f4996aefd94550b1aa8024a702ce94\build.binlog
+
+Time Elapsed 00:00:18.13

@@ -1,0 +1,83 @@
+{
+  "unit": "U10/U13",
+  "status": "PASS_AT_BINDING_SMOKE_NOT_FULL_NUMERIC_ACCEPTANCE",
+  "failedAttempts": [
+    {
+      "directory": "artifacts/audit-resolution/u13-main-full",
+      "rows": 190,
+      "receipts": 13,
+      "reason": "Generated workload DLL cleaned; actual verifier exit1. Monitor timed_out after global34m19s."
+    },
+    {
+      "directory": "artifacts/audit-resolution/u13-competitor-full-retained",
+      "rows": 40,
+      "receipts": 2,
+      "reason": "Actual verifier exit1: Measured child binaries differ from the preflight binaries."
+    },
+    {
+      "directory": "artifacts/audit-resolution/u13-main-full-retained",
+      "reason": "Stopped after sibling proved same build-layout defect; retained partial evidence."
+    }
+  ],
+  "fixes": [
+    "Native KeepBenchmarkFiles configuration",
+    "Immutable run-local SHA256-addressed retention of actual preflight/child PE files",
+    "Native Job.Default.WithMsBuildArguments(\"/p:UseArtifactsOutput=false\").AsMutator() preserves original compiler intermediates without changing runnable jobs or byte verifier"
+  ],
+  "diagnosis": ".omo/audit-resolution/research/u13-byte-binding-diagnosis.md",
+  "actualSmokes": [
+    {
+      "name": "main",
+      "rows": 6,
+      "succeeded": true,
+      "fullPreflightRows": 190,
+      "launches": 6,
+      "allLogsMatch": true,
+      "allHaveOneMarker": true,
+      "allPrivateBinariesMatch": true,
+      "mismatches": [],
+      "runId": "cbaf3a30a601464381a16ff91d421f49",
+      "firstWorkload": {
+        "file": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\performance-preflight\\cbaf3a30a601464381a16ff91d421f49\\binaries\\e2ab9eb434e904e6ed47a685023dacc41d706d6d06cb64607805cf2f27a25c6a\\FunnySharp.Benchmarks-ShortRun-1.dll",
+        "sha256": "e2ab9eb434e904e6ed47a685023dacc41d706d6d06cb64607805cf2f27a25c6a",
+        "mvid": "80d946b5-84a3-4bd4-87e2-9541d82a02e6",
+        "identity": "FunnySharp.Benchmarks-ShortRun-1, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+      }
+    },
+    {
+      "name": "competitor",
+      "rows": 20,
+      "succeeded": true,
+      "fullPreflightRows": 40,
+      "launches": 20,
+      "allLogsMatch": true,
+      "allHaveOneMarker": true,
+      "allPrivateBinariesMatch": true,
+      "mismatches": [],
+      "runId": "6652f2dd3ded4efba43256fe50acb956",
+      "firstWorkload": {
+        "file": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\performance-preflight\\6652f2dd3ded4efba43256fe50acb956\\binaries\\5e5feaf45627c127c87a211c719f574cf591277dedc8fa9d7a78ab5e6b8ea86d\\FunnySharp.CompetitorBenchmarks-1.dll",
+        "sha256": "5e5feaf45627c127c87a211c719f574cf591277dedc8fa9d7a78ab5e6b8ea86d",
+        "mvid": "7495f170-8d43-402d-a3c8-3f7f1ce19816",
+        "identity": "FunnySharp.CompetitorBenchmarks-1, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+      }
+    }
+  ],
+  "smokeExitCodes": {
+    "main": 0,
+    "competitor": 0
+  },
+  "protocolReplay": {
+    "receipt": "artifacts/audit-resolution/u13-retention-protocol.json",
+    "tests": 41,
+    "passed": 41,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "remaining": [
+    "Full190/40-row measurements and unchanged ceiling verifier",
+    "Fresh observation proposals/document tables",
+    "Final frozen-candidate replay"
+  ]
+}

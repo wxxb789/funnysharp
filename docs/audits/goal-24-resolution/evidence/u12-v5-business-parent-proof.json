@@ -1,0 +1,261 @@
+{
+  "schema": "funnysharp-v5-business-final-native-proof/v1",
+  "study": "audit-resolution-v5",
+  "slots": 4,
+  "allFinalGreen": true,
+  "successfulCases": 40,
+  "failedFinalCases": 0,
+  "skippedCases": 0,
+  "modelCalls": 5,
+  "actualProviderRequests": 5,
+  "initialGreens": 3,
+  "initialRed": {
+    "slot": "business-outcomes/funnysharp/run-2",
+    "error": "CS8602",
+    "originalRound": 1,
+    "unchangedHistory": true
+  },
+  "feedbackCorrections": 1,
+  "manualSourceEdits": 0,
+  "allNativeGradeFinalExits0": true,
+  "cleanup": {
+    "ownedBusinessPids": [],
+    "queryOutput": "(no output)"
+  },
+  "rows": [
+    {
+      "slot": "business-outcomes/idiomatic/run-1",
+      "finalRound": 1,
+      "record": {
+        "task": "business-outcomes",
+        "style": "idiomatic",
+        "run": "run-1",
+        "round": 1,
+        "compilation": {
+          "ok": true,
+          "errors": 0,
+          "buildSeconds": 9.7
+        },
+        "semanticCorrectness": {
+          "ok": true,
+          "total": 10,
+          "failed": 0,
+          "succeeded": 10,
+          "skipped": 0
+        },
+        "apiMisuse": {
+          "fsDiagnostics": []
+        },
+        "consumerLoc": 68,
+        "verdict": "GREEN",
+        "evidenceKind": "generation-verification"
+      },
+      "producer": {
+        "studySha256": "b1e81657bb82f022da0abfccd18dc87f0895e121a2f9ec894785bb263cd6c235",
+        "task": "business-outcomes",
+        "style": "idiomatic",
+        "sessionId": "study-session:9e64725d-bead-46f5-b063-b0922e0394ba",
+        "invocationId": "native-call:4181098c-0815-403d-bc7c-f98d11917d2c",
+        "route": "native-omo-cli/5.1.9/json-print",
+        "producerKind": "ai",
+        "requestedModel": "ghc/gpt-6.1-sol",
+        "providerModel": {
+          "value": null,
+          "unknownReason": "Native selected model/route is observed. Actual upstream served model is unknown unless independently returned metadata supplies it."
+        },
+        "contextSha256": "97271e0102ee0ecbcb6d86273cc7560e44c9e696c1301b41151878e2a0ca6490",
+        "solutionFiles": [
+          {
+            "path": "OrderWorkflow.cs",
+            "sha256": "5b9f15e55df9d51bc778348e3cd893cd910dde42ae4cbc421e23b5fc98d20b66"
+          }
+        ],
+        "invocationSha256": "0807c974530c0ffd4aa75dd3047c800e40ac965da066b52b4feb581f677ec086",
+        "startedUtc": "2026-10-02T21:58:33.298Z",
+        "finishedUtc": "2026-10-02T22:01:58.180Z",
+        "status": "completed"
+      },
+      "actualCliSessionId": "01a0fea0-5da2-7243-83b5-b20cd4ac216a",
+      "actualProviderRequests": 1,
+      "actualOutgoingExact": true,
+      "modelCalls": 1,
+      "correctionCalls": 0
+    },
+    {
+      "slot": "business-outcomes/idiomatic/run-2",
+      "finalRound": 1,
+      "record": {
+        "task": "business-outcomes",
+        "style": "idiomatic",
+        "run": "run-2",
+        "round": 1,
+        "compilation": {
+          "ok": true,
+          "errors": 0,
+          "buildSeconds": 10
+        },
+        "semanticCorrectness": {
+          "ok": true,
+          "total": 10,
+          "failed": 0,
+          "succeeded": 10,
+          "skipped": 0
+        },
+        "apiMisuse": {
+          "fsDiagnostics": []
+        },
+        "consumerLoc": 68,
+        "verdict": "GREEN",
+        "evidenceKind": "generation-verification"
+      },
+      "producer": {
+        "studySha256": "b1e81657bb82f022da0abfccd18dc87f0895e121a2f9ec894785bb263cd6c235",
+        "task": "business-outcomes",
+        "style": "idiomatic",
+        "sessionId": "study-session:8f547bdc-9cff-42cf-b200-75b8e3a283be",
+        "invocationId": "native-call:b8064914-1a37-48f7-8ec8-e5f5bb40ccca",
+        "route": "native-omo-cli/5.1.9/json-print",
+        "producerKind": "ai",
+        "requestedModel": "ghc/gpt-6.1-sol",
+        "providerModel": {
+          "value": null,
+          "unknownReason": "Native selected model/route is observed. Actual upstream served model is unknown unless independently returned metadata supplies it."
+        },
+        "contextSha256": "97271e0102ee0ecbcb6d86273cc7560e44c9e696c1301b41151878e2a0ca6490",
+        "solutionFiles": [
+          {
+            "path": "OrderWorkflow.cs",
+            "sha256": "b27751ee3a30ef50593c7946603d13b783d1484cf8858eaab6b32823aa0a38ed"
+          }
+        ],
+        "invocationSha256": "1c46f99b40e79955eb68f8038e2216e56b37ca0e1a38c77081e7e3e2ab3e7ac9",
+        "startedUtc": "2026-10-02T22:03:41.252Z",
+        "finishedUtc": "2026-10-02T22:05:19.455Z",
+        "status": "completed"
+      },
+      "actualCliSessionId": "01a0fea5-0301-7d3e-b615-d910216f627e",
+      "actualProviderRequests": 1,
+      "actualOutgoingExact": true,
+      "modelCalls": 1,
+      "correctionCalls": 0
+    },
+    {
+      "slot": "business-outcomes/funnysharp/run-1",
+      "finalRound": 1,
+      "record": {
+        "task": "business-outcomes",
+        "style": "funnysharp",
+        "run": "run-1",
+        "round": 1,
+        "compilation": {
+          "ok": true,
+          "errors": 0,
+          "buildSeconds": 8.1
+        },
+        "semanticCorrectness": {
+          "ok": true,
+          "total": 10,
+          "failed": 0,
+          "succeeded": 10,
+          "skipped": 0
+        },
+        "apiMisuse": {
+          "fsDiagnostics": []
+        },
+        "consumerLoc": 109,
+        "verdict": "GREEN",
+        "evidenceKind": "generation-verification"
+      },
+      "producer": {
+        "studySha256": "b1e81657bb82f022da0abfccd18dc87f0895e121a2f9ec894785bb263cd6c235",
+        "task": "business-outcomes",
+        "style": "funnysharp",
+        "sessionId": "study-session:b33970ba-ea1a-4b4b-a3ed-97630cd41451",
+        "invocationId": "native-call:cc03e213-15a8-4f58-b856-7403fb5f7aee",
+        "route": "native-omo-cli/5.1.9/json-print",
+        "producerKind": "ai",
+        "requestedModel": "ghc/gpt-6.1-sol",
+        "providerModel": {
+          "value": null,
+          "unknownReason": "Native selected model/route is observed. Actual upstream served model is unknown unless independently returned metadata supplies it."
+        },
+        "contextSha256": "d14002f4ec76747f83fc5a6d297855e07ac04e8ec58a61419ecfe224484a1545",
+        "solutionFiles": [
+          {
+            "path": "OrderWorkflow.cs",
+            "sha256": "b21bfbd3d5530306982288b223e8c912d73ccd7ecf8578a2e967c10a0413d37a"
+          }
+        ],
+        "invocationSha256": "9c3dffde7843f5f302e23606adfb2226857b0e4601f8a3f6c189207111b37047",
+        "startedUtc": "2026-10-02T22:03:45.163Z",
+        "finishedUtc": "2026-10-02T22:05:44.861Z",
+        "status": "completed"
+      },
+      "actualCliSessionId": "01a0fea5-1307-76bc-92a1-b47ce37a4deb",
+      "actualProviderRequests": 1,
+      "actualOutgoingExact": true,
+      "modelCalls": 1,
+      "correctionCalls": 0
+    },
+    {
+      "slot": "business-outcomes/funnysharp/run-2",
+      "finalRound": 2,
+      "record": {
+        "task": "business-outcomes",
+        "style": "funnysharp",
+        "run": "run-2",
+        "round": 2,
+        "compilation": {
+          "ok": true,
+          "errors": 0,
+          "buildSeconds": 7.6
+        },
+        "semanticCorrectness": {
+          "ok": true,
+          "total": 10,
+          "failed": 0,
+          "succeeded": 10,
+          "skipped": 0
+        },
+        "apiMisuse": {
+          "fsDiagnostics": []
+        },
+        "consumerLoc": 100,
+        "verdict": "GREEN",
+        "evidenceKind": "generation-verification"
+      },
+      "producer": {
+        "studySha256": "b1e81657bb82f022da0abfccd18dc87f0895e121a2f9ec894785bb263cd6c235",
+        "task": "business-outcomes",
+        "style": "funnysharp",
+        "sessionId": "study-session:65d30129-f425-4795-90e0-cf197f5ddf5a",
+        "invocationId": "native-call:ff6d0c74-b2fc-46da-9e7b-121ea882a846",
+        "route": "native-omo-cli/5.1.9/json-print",
+        "producerKind": "ai",
+        "requestedModel": "ghc/gpt-6.1-sol",
+        "providerModel": {
+          "value": null,
+          "unknownReason": "Native selected model/route is observed. Actual upstream served model is unknown unless independently returned metadata supplies it."
+        },
+        "contextSha256": "889f69c15ce713dec44023ee1ea2fb4d73629ea2c5e5ba93b2014884d15f46ae",
+        "solutionFiles": [
+          {
+            "path": "OrderWorkflow.cs",
+            "sha256": "58b8cd7c19e3efa0dc8cff821fca4ce82a46026c94de719cac55cfdd238a6e00"
+          }
+        ],
+        "invocationSha256": "4c0ba8a0fc98e4e18114b9a96470116b26603807a01fd205134e926a4bf696bc",
+        "startedUtc": "2026-10-02T22:10:17.968Z",
+        "finishedUtc": "2026-10-02T22:12:50.438Z",
+        "status": "completed",
+        "feedbackSha256": "1208015a55870a346a92520f84a0d70602e8d6df33ee25c056bb442be6f7fc2f"
+      },
+      "actualCliSessionId": "01a0feab-108f-79db-a1c7-0292c4f309d1",
+      "actualProviderRequests": 1,
+      "actualOutgoingExact": true,
+      "modelCalls": 2,
+      "correctionCalls": 1
+    }
+  ],
+  "limits": "Businessarea locally proved; collections/streams oneformalgrader technicalfailure open, concurrency returned4GREEN needingparentintegration, HTTPchildactive; entire20cohorttodo notdone."
+}

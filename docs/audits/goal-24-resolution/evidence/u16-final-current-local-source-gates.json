@@ -1,0 +1,83 @@
+{
+  "schema": "funnysharp-current-final-local-source-gates/v1",
+  "state": "CURRENT_LOCAL_SOURCE_GATES_PASS_NOT_GLOBAL_RELEASE_OR_69_VERDICT",
+  "observedUtc": "2026-10-02T23:04:53.018Z",
+  "solutionBuild": {
+    "command": "dotnet fsi build.fsx -- -p build",
+    "exitCode": 0,
+    "warnings": 0,
+    "errors": 0
+  },
+  "solutionTests": {
+    "command": "dotnet fsi build.fsx -- -p test",
+    "exitCode": 0,
+    "total": 2441,
+    "passed": 2441,
+    "failed": 0,
+    "skipped": 0,
+    "log": "artifacts/audit-resolution/u13-formatted-repetitions/v5-current-full-test.log"
+  },
+  "docs": {
+    "performanceRegions": 12,
+    "generateAndVerifyExit0": true,
+    "snippetRegions": 56,
+    "primaryGuides": 11,
+    "verifySnippetExit0": true
+  },
+  "api": {
+    "types": 49,
+    "members": 499,
+    "assemblies": 2,
+    "exitCode": 0
+  },
+  "stableSemantics": {
+    "members": 468,
+    "dimensions": 3744,
+    "exitCode": 0,
+    "sourceOnlyDimensions183NotRuntime": true,
+    "indexSha256": "ad106d7ee1ed4772e898bc17edb020a3b4e3f836f32678613e13cc95a813da18"
+  },
+  "diagnostics": {
+    "coreAuthored36Files0Errors": true,
+    "actualOtherAuthoredFiles": [
+      {
+        "path": "src/FunnySharp.AspNetCore/HttpResultExtensions.cs",
+        "text": "hint[lsp] (CS8019) at 1:0: Unnecessary using directive."
+      },
+      {
+        "path": "src/FunnySharp.Analyzers.CodeFixes/DiscardedOutcomeCodeFixProvider.cs",
+        "text": "No diagnostics found"
+      },
+      {
+        "path": "src/FunnySharp.Analyzers/BlockedValueTaskAnalyzer.cs",
+        "text": "No diagnostics found"
+      },
+      {
+        "path": "src/FunnySharp.Analyzers/UninitializedCarrierAnalyzer.cs",
+        "text": "No diagnostics found"
+      }
+    ],
+    "authoredErrors": 0,
+    "authoredWarnings": 0,
+    "retainedHint": "HttpResultExtensions CS8019 unnecessaryusing, notcompilerwarning; unrelatedcleanupnotperformed.",
+    "directoryScanLimitations": [
+      {
+        "project": "FunnySharp.Analyzers",
+        "text": "Directory: Q:\\repos\\funnysharp-goal24-resolution\\src\\FunnySharp.Analyzers\nExtension: .cs\nFiles scanned: 12\nFiles with errors: 0\nTotal diagnostics: 16\n\nQ:\\repos\\funnysharp-goal24-resolution\\src\\FunnySharp.Analyzers\\obj\\Debug\\netstandard2.0\\.NETStandard,Version=v2.0.AssemblyAttributes.cs: hint[lsp] (CS8019) at 3:0: Unnecessary using directive.\nQ:\\repos\\funnysharp-goal24-resolution\\src\\FunnySharp.Analyzers\\obj\\Debug\\netstandard2.0\\.NETStandard,Version=v2.0.AssemblyAttributes.cs: hint[lsp] (CS8019) at 2:0: Unnecessary using directive.\nQ:\\repos\\funnysharp-goal24-resolution\\src\\FunnySharp.Analyzers\\obj\\Debug\\netstandard2.0\\FunnySharp.Analyzers.AssemblyInfo.cs: hint[lsp] (CS8019) at 10:0: Unnecessary using directive.\nQ:\\repos\\funnysharp-goal24-resolution\\src\\FunnySharp.Analyzers\\obj\\Debug\\netstandard2.0\\FunnySharp.Analyzers.AssemblyInfo.cs: hint[lsp] (CS8019) at 11:0: Unnecessary using directive.\nQ:\\repos\\funnysharp-goal24-resolution\\src\\FunnySharp.Analyzers\\obj\\Release\\netstandard2.0\\.NETStandard,Version=v2.0.AssemblyAttributes.cs: error[lsp] (CS0579) at 4:11: Duplicate 'global::System.Runtime.Versioning.TargetFrameworkAttribute' attribute\nQ:\\repos\\funnysharp-goal24-resolution\\src\\FunnySharp.Analyzers\\obj\\Release\\netstandard2.0\\.NETStandard,Version=v2.0.AssemblyAttributes.cs: hint[lsp] (CS8019) at 3:0: Unnecessary using directive.\nQ:\\repos\\funnysharp-goal24-resolution\\src\\FunnySharp.Analyzers\\obj\\Release\\netstandard2.0\\.NETStandard,Version=v2.0.AssemblyAttributes.cs: hint[lsp] (CS8019) at 2:0: Unnecessary using directive.\nQ:\\repos\\funnysharp-goal24-resolution\\src\\FunnySharp.Analyzers\\obj\\Release\\netstandard2.0\\FunnySharp.Analyzers.AssemblyInfo.cs: error[lsp] (CS0579) at 13:11: Duplicate 'System.Reflection.AssemblyCompanyAttribute' attribute\nQ:\\repos\\funnysharp-goal24-resolution\\src\\FunnySharp.Analyzers\\obj\\Release\\netstandard2.0\\FunnySharp.Analyzers.AssemblyInfo.cs: error[lsp] (CS0579) at 14:11: Duplicate 'System.Reflection.AssemblyConfigurationAttribute' attribute\nQ:\\repos\\funnysharp-goal24-resolution\\src\\FunnySharp.Analyzers\\obj\\Release\\netstandard2.0\\FunnySharp.Analyzers.AssemblyInfo.cs: error[lsp] (CS0579) at 15:11: Duplicate 'System.Reflection.AssemblyFileVersionAttribute' attribute\nQ:\\repos\\funnysharp-goal24-resolution\\src\\FunnySharp.Analyzers\\obj\\Release\\netstandard2.0\\FunnySharp.Analyzers.AssemblyInfo.cs: error[lsp] (CS0579) at 16:11: Duplicate 'System.Reflection.AssemblyInformationalVersionAttribute' attribute\nQ:\\repos\\funnysharp-goal24-resolution\\src\\FunnySharp.Analyzers\\obj\\Release\\netstandard2.0\\FunnySharp.Analyzers.AssemblyInfo.cs: error[lsp] (CS0579) at 17:11: Duplicate 'System.Reflection.AssemblyProductAttribute' attribute\nQ:\\repos\\funnysharp-goal24-resolution\\src\\FunnySharp.Analyzers\\obj\\Release\\netstandard2.0\\FunnySharp.Analyzers.AssemblyInfo.cs: error[lsp] (CS0579) at 18:11: Duplicate 'System.Reflection.AssemblyTitleAttribute' attribute\nQ:\\repos\\funnysharp-goal24-resolution\\src\\FunnySharp.Analyzers\\obj\\Release\\netstandard2.0\\FunnySharp.Analyzers.AssemblyInfo.cs: error[lsp] (CS0579) at 19:11: Duplicate 'System.Reflection.AssemblyVersionAttribute' attribute\nQ:\\repos\\funnysharp-goal24-resolution\\src\\FunnySharp.Analyzers\\obj\\Release\\netstandard2.0\\FunnySharp.Analyzers.AssemblyInfo.cs: hint[lsp] (CS8019) at 10:0: Unnecessary using directive.\nQ:\\repos\\funnysharp-goal24-resolution\\src\\FunnySharp.Analyzers\\obj\\Release\\netstandard2.0\\FunnySharp.Analyzers.AssemblyInfo.cs: hint[lsp] (CS8019) at 11:0: Unnecessary using directive."
+      },
+      {
+        "project": "FunnySharp.Analyzers.CodeFixes",
+        "text": "LSP server 'biome' for .ts, .tsx, .js, .jsx, .mjs, .cjs, .mts, .cts, .json, .jsonc, .vue, .astro, .svelte, .css, .graphql, .gql, .html is NOT INSTALLED.\n\nCommand not found: biome\n\nTo install in THIS repository (preferred — no global install needed):\n  bun add -d @biomejs/biome\n\nOr install it globally:\n  npm install -g @biomejs/biome\n\nACTION REQUIRED — ASK THE USER whether to install this LSP server.\nInstall-decision recording is unavailable in this harness; proceed without LSP if the user declines."
+      },
+      {
+        "project": "FunnySharp.AspNetCore",
+        "text": "LSP server 'biome' for .ts, .tsx, .js, .jsx, .mjs, .cjs, .mts, .cts, .json, .jsonc, .vue, .astro, .svelte, .css, .graphql, .gql, .html is NOT INSTALLED.\n\nCommand not found: biome\n\nTo install in THIS repository (preferred — no global install needed):\n  bun add -d @biomejs/biome\n\nOr install it globally:\n  npm install -g @biomejs/biome\n\nACTION REQUIRED — ASK THE USER whether to install this LSP server.\nInstall-decision recording is unavailable in this harness; proceed without LSP if the user declines."
+      }
+    ],
+    "FSharpAndJsonUnavailable": "fsautocomplete/biome unavailable; actual117Evaluationtests/sourcebuild2441green covercompile/runtime instead.",
+    "generatedObjDiagnosticCause": "Directory language-server census seesbothDebugandReleaseobj attributes, reportsCS0579 ongenerated files despiteactual13projectbuild0/0. ExactauthoredfileCSharpdiagnostics clean(excepthint). No errors suppressed orsourceannotations changed."
+  },
+  "rawBuildApiSemanticConsole": "status: completed exit_code: 0\n  _               _   _       _ \n | |__    _   _  (_) | |   __| |\n | '_ \\  | | | | | | | |  / _` |\n | |_) | | |_| | | | | | | (_| |\n |_.__/   \\__,_| |_| |_|  \\__,_|\n                                \nRun PIPELINE build. Total timeout: -1ms.\n\nRun stages\n\n── STAGE #0 build started. timeout: -1ms. step timeout: -1ms. ──────────────────\n\nbuild/step-0> started\ndotnet build FunnySharp.slnx\n  Determining projects to restore...\n  All projects are up-to-date for restore.\n  FunnySharp.Analyzers -> Q:\\repos\\funnysharp-goal24-resolution\\src\\FunnySharp.Analyzers\\bin\\Debug\\netstandard2.0\\FunnySharp.Analyzers.dll\n  FunnySharp.Harness -> Q:\\repos\\funnysharp-goal24-resolution\\eng\\harness\\bin\\Debug\\net10.0\\FunnySharp.Harness.dll\n  FunnySharp.Analyzers.CodeFixes -> Q:\\repos\\funnysharp-goal24-resolution\\src\\FunnySharp.Analyzers.CodeFixes\\bin\\Debug\\netstandard2.0\\FunnySharp.Analyzers.CodeFixes.dll\n  FunnySharp.Harness.Tests -> Q:\\repos\\funnysharp-goal24-resolution\\tests\\FunnySharp.Harness.Tests\\bin\\Debug\\net10.0\\FunnySharp.Harness.Tests.dll\n  FunnySharp -> Q:\\repos\\funnysharp-goal24-resolution\\src\\FunnySharp\\bin\\Debug\\net10.0\\FunnySharp.dll\n  FunnySharp.AspNetCore -> Q:\\repos\\funnysharp-goal24-resolution\\src\\FunnySharp.AspNetCore\\bin\\Debug\\net10.0\\FunnySharp.AspNetCore.dll\n  FunnySharp.Tests -> Q:\\repos\\funnysharp-goal24-resolution\\tests\\FunnySharp.Tests\\bin\\Debug\\net10.0\\FunnySharp.Tests.dll\n  FunnySharp.Analyzers.Tests -> Q:\\repos\\funnysharp-goal24-resolution\\tests\\FunnySharp.Analyzers.Tests\\bin\\Debug\\net10.0\\FunnySharp.Analyzers.Tests.dll\n  FunnySharp.AspNetCore.Tests -> Q:\\repos\\funnysharp-goal24-resolution\\tests\\FunnySharp.AspNetCore.Tests\\bin\\Debug\\net10.0\\FunnySharp.AspNetCore.Tests.dll\n  FunnySharp.AspNetCore.Examples -> Q:\\repos\\funnysharp-goal24-resolution\\examples\\FunnySharp.AspNetCore.Examples\\bin\\Debug\\net10.0\\FunnySharp.AspNetCore.Examples.dll\n  FunnySharp.DocumentationSamples -> Q:\\repos\\funnysharp-goal24-resolution\\examples\\FunnySharp.DocumentationSamples\\bin\\Debug\\net10.0\\FunnySharp.DocumentationSamples.dll\n  FunnySharp.Benchmarks -> Q:\\repos\\funnysharp-goal24-resolution\\benchmarks\\FunnySharp.Benchmarks\\bin\\Debug\\net10.0\\FunnySharp.Benchmarks.dll\n  FunnySharp.Examples -> Q:\\repos\\funnysharp-goal24-resolution\\examples\\FunnySharp.Examples\\bin\\Debug\\net10.0\\FunnySharp.Examples.dll\n\nBuild succeeded.\n    0 Warning(s)\n    0 Error(s)\n\nTime Elapsed 00:00:08.90\nbuild/step-0> finished. 9374ms. \n\n── STAGE #0 build finished. 9400ms. ────────────────────────────────────────────\n\nRun stages finished\n\n\nRun post stages\nRun post stages finished\n\n\nPIPELINE build is finished in 9407 ms\n\n                        _    __                                   _         \n __   __   ___   _ __  (_)  / _|  _   _            __ _   _ __   (_)        \n \\ \\ / /  / _ \\ | '__| | | | |_  | | | |  _____   / _` | | '_ \\  | |  _____ \n  \\ V /  |  __/ | |    | | |  _| | |_| | |_____| | (_| | | |_) | | | |_____|\n   \\_/    \\___| |_|    |_| |_|    \\__, |          \\__,_| | .__/  |_|        \n                                  |___/                  |_|                \n  _                            _   _                \n | |__     __ _   ___    ___  | | (_)  _ __     ___ \n | '_ \\   / _` | / __|  / _ \\ | | | | | '_ \\   / _ \\\n | |_) | | (_| | \\__ \\ |  __/ | | | | | | | | |  __/\n |_.__/   \\__,_| |___/  \\___| |_| |_| |_| |_|  \\___|\n                                                    \nRun PIPELINE verify-api-baseline. Total timeout: -1ms.\n\nRun stages\n\n── STAGE #0 verify-api-baseline started. timeout: -1ms. step timeout: -1ms. ────\n\nverify-api-baseline/step-0> started\nVerified 49 types and 499 members across 2 assemblies against eng/api-baseline.\nverify-api-baseline/step-0> finished. 170ms. \n\n── STAGE #0 verify-api-baseline finished. 194ms. ───────────────────────────────\n\nRun stages finished\n\n\nRun post stages\nRun post stages finished\n\n\nPIPELINE verify-api-baseline is finished in 200 ms\n\n                        _    __                         _             _       _ \n __   __   ___   _ __  (_)  / _|  _   _           ___  | |_    __ _  | |__   | |\n \\ \\ / /  / _ \\ | '__| | | | |_  | | | |  _____  / __| | __|  / _` | | '_ \\  | |\n  \\ V /  |  __/ | |    | | |  _| | |_| | |_____| \\__ \\ | |_  | (_| | | |_) | | |\n   \\_/    \\___| |_|    |_| |_|    \\__, |         |___/  \\__|  \\__,_| |_.__/  |_|\n                                  |___/                                         \n                                 _                                  _          \n   ___            __ _   _ __   (_)           ___    ___    _ __   | |_   _ __ \n  / _ \\  _____   / _` | | '_ \\  | |  _____   / __|  / _ \\  | '_ \\  | __| | '__|\n |  __/ |_____| | (_| | | |_) | | | |_____| | (__  | (_) | | | | | | |_  | |   \n  \\___|          \\__,_| | .__/  |_|          \\___|  \\___/  |_| |_|  \\__| |_|   \n                        |_|                                                    \n                 _         \n   __ _    ___  | |_   ___ \n  / _` |  / __| | __| / __|\n | (_| | | (__  | |_  \\__ \\\n  \\__,_|  \\___|  \\__| |___/\n                           \nRun PIPELINE verify-stable-api-contracts. Total timeout: -1ms.\n\nRun stages\n\n── STAGE #0 verify-stable-api-contracts started. timeout: -1ms. step… ──────────\n\nverify-stable-api-contracts/step-0> started\nVerified468 exact stable semantic members and3744 dimensions; source-only evidence is not runtime execution.\nverify-stable-api-contracts/step-0> finished. 6534ms. \n\n── STAGE #0 verify-stable-api-contracts finished. 6561ms. ──────────────────────\n\nRun stages finished\n\n\nRun post stages\nRun post stages finished\n\n\nPIPELINE verify-stable-api-contracts is finished in 6568 ms",
+  "compatibility": "Originalfinal6scenario canonicalpackage gate mon_YE5VBBAAZKBVR52X/bash76 active; no completioninferred.",
+  "limits": "U12qualifiedAVsupplement ownerdecisionpending, maintainer/U11materiality/releaseauthorizedenforcement/P-A-I/all69reconciliation notcomplete."
+}

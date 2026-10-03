@@ -1,0 +1,13 @@
+# Exact-Source Maintainer Acceptance: Audit Resolution
+
+Status: accepted for U01/U02/U15/U20 under the original conditions. The actual delta gate APPROVEs all four source-bound human requirements; the whole goal remains REJECTed solely for F37/F38/F39/U29 release obligations.
+
+The user selected **“接受原条件下的结果”** in response to the maintainer-verdict question for the complete strict-final source packet. This is attributed to the user of conversation `01a0f65b-bd9d-77f8-bd35-098466eac351`; no legal name, separate GitHub identity or extra written rationale was supplied or invented. The existing Goal 16 maintainer record accepts a verdict by reply in the session, with the lead recording the outcome. This record follows that mechanism rather than adding a new signature requirement.
+
+The exact packet SHA256 is `77fd024515d567fb39f73a12cdd5b9ae4d8b2935920d458068bafde706c36d4f`; candidate file fingerprint is `bb058e6a972103c657e0d833f2ec86fab7994f8ba4cce8503432c4b8f74c4a9c`. Scope is both complete U11 sources and all 20 original final v6 consumer sources listed in the packet, including wins, ties, losses, helpers, conversions and both repeats. The acceptance is under the original conditions; no new numerical materiality threshold or product-claim qualification is invented. Historical 123/144 and 101/117 results remain negative/history; 106/96 S+O and 1081/957 whole-consumer LOC remain distinct observations.
+
+The later attribution/format questions timed out. They did not withdraw the received acceptance, and this record does not fabricate answers to them. The frozen runner requires feedbackSha256 only for correction rounds. Four original initial business receipts still contain 15 fields; the actual correction has its exact predecessor feedback binding. Literal all-initial 16-field completeness remains unproved. That technical contract boundary is stated as source evidence, not as an additional human answer or a rewrite of frozen receipts.
+
+Original Goal 21 requires the actual evaluation fields and maintainer readability judgment; it does not prescribe a literal 16-field initial producer count. The delta gate must check this interpretation against the original row requirements and report any genuine remaining acceptance gap.
+
+This record is not a release attestation and authorizes no commit, push, PR, GitHub setting, external message or publication. Full source identities and the exact user answer are retained in `../audits/goal-24-resolution/evidence/u16-source-bound-session-maintainer-verdict.json`; the actual delta verdict is in `../audits/goal-24-resolution/evidence/u16-owner-verdict-delta-gate.json`.

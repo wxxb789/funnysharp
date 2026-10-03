@@ -1,0 +1,297 @@
+{
+  "schema": "funnysharp-v4-captured-shell-launch-recovery/v1",
+  "registeredProtocol": "eng/evaluation/studies/audit-resolution-v4/native-cli-startup-recovery-protocol.json",
+  "originalFailuresAllRetained": true,
+  "originalFailedRawFilesUnchanged": true,
+  "retained16MetadataChecks": [
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/concurrency/idiomatic/run-1/producer/launch-failures/0001/producer.json",
+      "expected": "9019ac5d45be9e36a738f8fa68ac86fa2d3b27149e012d2fdcceda6e66fd9dde",
+      "actual": "9019ac5d45be9e36a738f8fa68ac86fa2d3b27149e012d2fdcceda6e66fd9dde"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/concurrency/idiomatic/run-1/producer/launch-failures/0001/invocation.json",
+      "expected": "e9d6c56d264621d5b57e939e0fbeefb0de2e97272e3911e4d31772cd8d60e2b8",
+      "actual": "e9d6c56d264621d5b57e939e0fbeefb0de2e97272e3911e4d31772cd8d60e2b8"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/concurrency/idiomatic/run-2/producer/launch-failures/0001/producer.json",
+      "expected": "aa21b1ccc3ab4517bdf4731f078fb4bad8f1a990b5c43a9233c7dd5f78190e1d",
+      "actual": "aa21b1ccc3ab4517bdf4731f078fb4bad8f1a990b5c43a9233c7dd5f78190e1d"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/concurrency/idiomatic/run-2/producer/launch-failures/0001/invocation.json",
+      "expected": "9da1b979eeae43316d2c39f8fea20e3d60fb96d2ae6dd311e06ff790f9cbc8e6",
+      "actual": "9da1b979eeae43316d2c39f8fea20e3d60fb96d2ae6dd311e06ff790f9cbc8e6"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/concurrency/funnysharp/run-1/producer/launch-failures/0001/producer.json",
+      "expected": "dae81996b7dad93ab778b038129c2abb3b9c68cef73b6358f5f2390e61d37d86",
+      "actual": "dae81996b7dad93ab778b038129c2abb3b9c68cef73b6358f5f2390e61d37d86"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/concurrency/funnysharp/run-1/producer/launch-failures/0001/invocation.json",
+      "expected": "58f8b8b222c953f809eae6102558ae2cf312f1e77c164fce6a7babe732acce1f",
+      "actual": "58f8b8b222c953f809eae6102558ae2cf312f1e77c164fce6a7babe732acce1f"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/concurrency/funnysharp/run-2/producer/launch-failures/0001/producer.json",
+      "expected": "0aad798202e6ea57fe5f389e1cc588099864f622547a0efe03119622d1257589",
+      "actual": "0aad798202e6ea57fe5f389e1cc588099864f622547a0efe03119622d1257589"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/concurrency/funnysharp/run-2/producer/launch-failures/0001/invocation.json",
+      "expected": "401f2f5e47a197a21af0abc8e97d8677d9310a0f105caf572ab884a8575f4255",
+      "actual": "401f2f5e47a197a21af0abc8e97d8677d9310a0f105caf572ab884a8575f4255"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/aspnetcore/idiomatic/run-1/producer/launch-failures/0001/producer.json",
+      "expected": "a6d2a4a3d7f2f9150617b1538897f1c95aa3635aa3f63a75551b0325c8b19a26",
+      "actual": "a6d2a4a3d7f2f9150617b1538897f1c95aa3635aa3f63a75551b0325c8b19a26"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/aspnetcore/idiomatic/run-1/producer/launch-failures/0001/invocation.json",
+      "expected": "e8ef18894d015e48755cfff9e02bc1dafa0911937b284280bee1eceefe912689",
+      "actual": "e8ef18894d015e48755cfff9e02bc1dafa0911937b284280bee1eceefe912689"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/aspnetcore/idiomatic/run-2/producer/launch-failures/0001/producer.json",
+      "expected": "8c3b6edb58e0be339c42c9e37eb8df586e5c443c064782431d7c059df2e7ae85",
+      "actual": "8c3b6edb58e0be339c42c9e37eb8df586e5c443c064782431d7c059df2e7ae85"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/aspnetcore/idiomatic/run-2/producer/launch-failures/0001/invocation.json",
+      "expected": "136f9f5e57386720e349220aee6eeff727e7af082f9bb5d4f05ca8e03cd7117d",
+      "actual": "136f9f5e57386720e349220aee6eeff727e7af082f9bb5d4f05ca8e03cd7117d"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/aspnetcore/funnysharp/run-1/producer/launch-failures/0001/producer.json",
+      "expected": "7867ef741b0ce84946bf390ce026b224026dda0533feeb940cdafbe45be24d70",
+      "actual": "7867ef741b0ce84946bf390ce026b224026dda0533feeb940cdafbe45be24d70"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/aspnetcore/funnysharp/run-1/producer/launch-failures/0001/invocation.json",
+      "expected": "a7ad682c47e38b8ed021f3a345f111246d919499c11be85bf4f7ec8f732b92c6",
+      "actual": "a7ad682c47e38b8ed021f3a345f111246d919499c11be85bf4f7ec8f732b92c6"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/aspnetcore/funnysharp/run-2/producer/launch-failures/0001/producer.json",
+      "expected": "8684845c14ad5be5e2febb6d21482bdf17e2b03f4ec620d60e105eaec76bb550",
+      "actual": "8684845c14ad5be5e2febb6d21482bdf17e2b03f4ec620d60e105eaec76bb550"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/aspnetcore/funnysharp/run-2/producer/launch-failures/0001/invocation.json",
+      "expected": "dfe27988c9cdb4f6bc542330ff6704dcac7817fd86200d621fc0075b6d461987",
+      "actual": "dfe27988c9cdb4f6bc542330ff6704dcac7817fd86200d621fc0075b6d461987"
+    }
+  ],
+  "all8RecoveryNativeExit0": true,
+  "all8EachProviderRequestExact": true,
+  "all8DistinctActualCliIds": true,
+  "same8OriginalLogicalIds": true,
+  "actualModelInvocations": 8,
+  "actualObservedProviderRequests": 8,
+  "all8ExactDecodedSource": true,
+  "manualCodeRepair": 0,
+  "maxConservativeNativeAttemptsObserved": 2,
+  "sourceSelection": "Before first actual immutable grade; original ungraded failed metadata copied byte-exact; no prior archivedround existed.",
+  "slots": [
+    {
+      "slot": "concurrency/idiomatic/run-1",
+      "sessionId": "study-session:d7db243c-1628-4d40-8bc4-bd09846d4fec",
+      "priorFailedInvocationId": "native-call:dfac28dc-028a-4f46-9a9c-fd14994d77a7",
+      "recoveryInvocationId": "native-call:a50f81ae-912c-4eef-9286-bc1b8c01344a",
+      "actualCliSessionId": "01a0fd96-8d2d-72a9-9a8e-114323ac8858",
+      "providerRequests": 1,
+      "files": [
+        {
+          "path": "AvailabilityCoordinator.cs",
+          "sha256": "8b02fa8864a9d5245d3bf31a643973b68c4fecae9233d1c110db4e4bec0e6f64"
+        }
+      ],
+      "nativeMonitor": {
+        "monitor_id": "mon_R520RJ3FDQ5XTFG3",
+        "bash_id": "bash_17",
+        "monitor": true
+      },
+      "gradeMonitor": {
+        "monitor_id": "mon_Q3KXWGHEN9AG1N3B",
+        "bash_id": "bash_32",
+        "monitor": true
+      }
+    },
+    {
+      "slot": "concurrency/idiomatic/run-2",
+      "sessionId": "study-session:ef746ead-aafe-4515-ac18-13522fe58bcc",
+      "priorFailedInvocationId": "native-call:f796cdee-08a1-422a-92be-fc08a32aea95",
+      "recoveryInvocationId": "native-call:38baa389-5770-49c5-b94d-b5db1a5a1cca",
+      "actualCliSessionId": "01a0fd96-8d6e-719b-bf19-d7cc6bf9a47b",
+      "providerRequests": 1,
+      "files": [
+        {
+          "path": "AvailabilityCoordinator.cs",
+          "sha256": "7665b84595918331cf47b728a56d519bdb23b061376489c36d6cdf84bac62088"
+        }
+      ],
+      "nativeMonitor": {
+        "monitor_id": "mon_ESGQGW72FVQSP29J",
+        "bash_id": "bash_18",
+        "monitor": true
+      },
+      "gradeMonitor": {
+        "monitor_id": "mon_07FSHJ81CP7CGYMW",
+        "bash_id": "bash_31",
+        "monitor": true
+      }
+    },
+    {
+      "slot": "concurrency/funnysharp/run-1",
+      "sessionId": "study-session:b41091a7-4ee4-4fb1-b0b8-588c480fbf36",
+      "priorFailedInvocationId": "native-call:6ba6ba15-6f83-4a2c-9052-12d451a88dd6",
+      "recoveryInvocationId": "native-call:ddef7945-43c8-4e11-8889-0a621bfacab5",
+      "actualCliSessionId": "01a0fd96-8d7b-7820-aa3e-51d754840f1e",
+      "providerRequests": 1,
+      "files": [
+        {
+          "path": "AvailabilityCoordinator.cs",
+          "sha256": "7f9c917d5951ce99da76b4152b36f4f4e2121282aaeb617aeaea891d857327d2"
+        }
+      ],
+      "nativeMonitor": {
+        "monitor_id": "mon_4FCCEW3K1EGGM02H",
+        "bash_id": "bash_19",
+        "monitor": true
+      },
+      "gradeMonitor": {
+        "monitor_id": "mon_J5H7SDTZ8G1Y988Y",
+        "bash_id": "bash_29",
+        "monitor": true
+      }
+    },
+    {
+      "slot": "concurrency/funnysharp/run-2",
+      "sessionId": "study-session:a984f2ee-db8f-43e8-b1ba-bf6302490de6",
+      "priorFailedInvocationId": "native-call:54af27f6-9509-4d46-9eff-a49ad6645825",
+      "recoveryInvocationId": "native-call:0b5b2383-aa3d-486c-a90f-c9b0c1e78114",
+      "actualCliSessionId": "01a0fd96-8e2d-7398-bedd-8b0870148078",
+      "providerRequests": 1,
+      "files": [
+        {
+          "path": "AvailabilityCoordinator.cs",
+          "sha256": "93d930ff769bfa34003a008e47f1b5f2d25f3de88f27be935853645ebcbf738c"
+        }
+      ],
+      "nativeMonitor": {
+        "monitor_id": "mon_H50CRBG6RX6416MH",
+        "bash_id": "bash_20",
+        "monitor": true
+      },
+      "gradeMonitor": {
+        "monitor_id": "mon_HKMHKJSWVNXG2TYH",
+        "bash_id": "bash_30",
+        "monitor": true
+      }
+    },
+    {
+      "slot": "aspnetcore/idiomatic/run-1",
+      "sessionId": "study-session:e127c262-4785-4eed-8c0a-3e197260752c",
+      "priorFailedInvocationId": "native-call:3beb9009-6bd1-4847-a8d8-dd0f87cccef5",
+      "recoveryInvocationId": "native-call:1d4c0d63-8769-4262-84ce-699a90357d12",
+      "actualCliSessionId": "01a0fd96-8e63-78a8-b48f-17cb67c7fddd",
+      "providerRequests": 1,
+      "files": [
+        {
+          "path": "Api.cs",
+          "sha256": "b7a0b21a4a9ccb55a5bfc3ea91ce611581d070d9da97e3d2a7d904cf49da46d4"
+        }
+      ],
+      "nativeMonitor": {
+        "monitor_id": "mon_02PZF8KS3CQB4W25",
+        "bash_id": "bash_21",
+        "monitor": true
+      },
+      "gradeMonitor": {
+        "monitor_id": "mon_88962H8CCMP59Y18",
+        "bash_id": "bash_25",
+        "monitor": true
+      }
+    },
+    {
+      "slot": "aspnetcore/idiomatic/run-2",
+      "sessionId": "study-session:27706c06-521f-4ed2-b183-91340576df4f",
+      "priorFailedInvocationId": "native-call:54f7c2a7-bbd3-4aff-8bbb-9533bb8da2e8",
+      "recoveryInvocationId": "native-call:4395e23d-8b49-4384-b8ef-5695e47fa0ac",
+      "actualCliSessionId": "01a0fd96-8ec3-7abd-b107-29dca60895b2",
+      "providerRequests": 1,
+      "files": [
+        {
+          "path": "Api.cs",
+          "sha256": "8739d0f92abe088fc591e9231a1a0442278ca85e0c0adc152d36f07af4e4f59f"
+        }
+      ],
+      "nativeMonitor": {
+        "monitor_id": "mon_ZVXTV107FQA5SBBY",
+        "bash_id": "bash_22",
+        "monitor": true
+      },
+      "gradeMonitor": {
+        "monitor_id": "mon_2EHQR9XER28KBBT4",
+        "bash_id": "bash_26",
+        "monitor": true
+      }
+    },
+    {
+      "slot": "aspnetcore/funnysharp/run-1",
+      "sessionId": "study-session:d39a7dc3-8b92-4fed-8c46-c0762f0a45f9",
+      "priorFailedInvocationId": "native-call:02164d58-938f-4629-aa24-78b773053e97",
+      "recoveryInvocationId": "native-call:b9d48fc6-82ac-44a7-96f2-006e15c18f1d",
+      "actualCliSessionId": "01a0fd96-8fc9-7487-87c0-b6a8681a4f82",
+      "providerRequests": 1,
+      "files": [
+        {
+          "path": "Api.cs",
+          "sha256": "fe332b3ef5e92be95bc4d545c2fe5f3724d4c09c731a2a65e94ec85e2adfa113"
+        }
+      ],
+      "nativeMonitor": {
+        "monitor_id": "mon_F12BKZ5AV1YXJASA",
+        "bash_id": "bash_23",
+        "monitor": true
+      },
+      "gradeMonitor": {
+        "monitor_id": "mon_AEX08APRBC7STYG7",
+        "bash_id": "bash_27",
+        "monitor": true
+      }
+    },
+    {
+      "slot": "aspnetcore/funnysharp/run-2",
+      "sessionId": "study-session:7edf5fa1-c9a4-4cb3-a6e9-5f8471a2cf62",
+      "priorFailedInvocationId": "native-call:527136d7-f046-4bf9-840d-7b4b0b38724a",
+      "recoveryInvocationId": "native-call:9f21353d-5189-4894-af98-01a802d7a9b4",
+      "actualCliSessionId": "01a0fd96-9090-7453-921a-408be3aea234",
+      "providerRequests": 1,
+      "files": [
+        {
+          "path": "Api.cs",
+          "sha256": "dfeb73e93fc0d4d91505c80367b333ea5e090a87dd6c2a17901e6fbb8a994eed"
+        }
+      ],
+      "nativeMonitor": {
+        "monitor_id": "mon_NR4ZDXQQK8DFY51H",
+        "bash_id": "bash_24",
+        "monitor": true
+      },
+      "gradeMonitor": {
+        "monitor_id": "mon_AGRA24S7WV7E6KZX",
+        "bash_id": "bash_28",
+        "monitor": true
+      }
+    }
+  ],
+  "cleanup": {
+    "command": "Get-CimInstance Win32_Process | Where-Object { $_.Name -eq \"omo.exe\" -and ($_.CommandLine -replace \"\\\\\",\"/\") -like \"*audit-resolution-v4/*\" } | Select-Object ProcessId | ConvertTo-Json -Compress",
+    "ownedProducerPidsAbsent": true
+  },
+  "semanticGrade": "Each original fixed9/12case immutable rootgrade started; only alreadycompletedHTTPidiomaticrun1 isGREEN atproofassembly, remaining results pending."
+}

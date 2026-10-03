@@ -1,0 +1,29 @@
+{
+  "record": {
+    "task": "business-outcomes",
+    "style": "funnysharp",
+    "run": "run-1",
+    "round": 1,
+    "compilation": {
+      "ok": true,
+      "errors": 0,
+      "buildSeconds": 9.8
+    },
+    "semanticCorrectness": {
+      "ok": true,
+      "total": 10,
+      "failed": 0,
+      "succeeded": 10,
+      "skipped": 0
+    },
+    "apiMisuse": {
+      "fsDiagnostics": []
+    },
+    "consumerLoc": 97,
+    "verdict": "GREEN",
+    "evidenceKind": "generation-verification"
+  },
+  "buildStdout": "  Determining projects to restore...\r\n  Restored Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\business-outcomes-funnysharp-run-1-c2981c7adb5f4fbaa4160f33f47440b8\\BusinessOutcomesKit.csproj (in 5.3 sec).\r\nCSC : warning CS2002: Source file \u0027Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\business-outcomes-funnysharp-run-1-c2981c7adb5f4fbaa4160f33f47440b8\\nuget_packages\\xunit.v3.core.mtp-v2\\4.0.0\\_content\\DefaultRunnerReporters.cs\u0027 specified multiple times [Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\business-outcomes-funnysharp-run-1-c2981c7adb5f4fbaa4160f33f47440b8\\BusinessOutcomesKit.csproj]\r\nCSC : warning CS2002: Source file \u0027Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\business-outcomes-funnysharp-run-1-c2981c7adb5f4fbaa4160f33f47440b8\\nuget_packages\\xunit.v3.core.mtp-v2\\4.0.0\\_content\\DefaultResultWriters.cs\u0027 specified multiple times [Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\business-outcomes-funnysharp-run-1-c2981c7adb5f4fbaa4160f33f47440b8\\BusinessOutcomesKit.csproj]\r\n  BusinessOutcomesKit -\u003E Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\business-outcomes-funnysharp-run-1-c2981c7adb5f4fbaa4160f33f47440b8\\bin\\Release\\net10.0\\BusinessOutcomesKit.dll\r\n\r\nBuild succeeded.\r\n\r\nCSC : warning CS2002: Source file \u0027Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\business-outcomes-funnysharp-run-1-c2981c7adb5f4fbaa4160f33f47440b8\\nuget_packages\\xunit.v3.core.mtp-v2\\4.0.0\\_content\\DefaultRunnerReporters.cs\u0027 specified multiple times [Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\business-outcomes-funnysharp-run-1-c2981c7adb5f4fbaa4160f33f47440b8\\BusinessOutcomesKit.csproj]\r\nCSC : warning CS2002: Source file \u0027Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\business-outcomes-funnysharp-run-1-c2981c7adb5f4fbaa4160f33f47440b8\\nuget_packages\\xunit.v3.core.mtp-v2\\4.0.0\\_content\\DefaultResultWriters.cs\u0027 specified multiple times [Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\business-outcomes-funnysharp-run-1-c2981c7adb5f4fbaa4160f33f47440b8\\BusinessOutcomesKit.csproj]\r\n    2 Warning(s)\r\n    0 Error(s)\r\n\r\nBinaryLogger wrote to: Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\business-outcomes-funnysharp-run-1-c2981c7adb5f4fbaa4160f33f47440b8\\build.binlog\r\n\r\nTime Elapsed 00:00:09.12\r\n",
+  "buildStderr": "",
+  "testOutput": "Running tests from Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\business-outcomes-funnysharp-run-1-c2981c7adb5f4fbaa4160f33f47440b8\\bin\\Release\\net10.0\\BusinessOutcomesKit.dll (net10.0|x64)\r\nQ:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\business-outcomes-funnysharp-run-1-c2981c7adb5f4fbaa4160f33f47440b8\\bin\\Release\\net10.0\\BusinessOutcomesKit.dll (net10.0|x64) passed (919ms)\r\n\r\nTest run summary: Passed!\r\n  total: 10\r\n  failed: 0\r\n  succeeded: 10\r\n  skipped: 0\r\n  duration: 1s 727ms\r\n"
+}

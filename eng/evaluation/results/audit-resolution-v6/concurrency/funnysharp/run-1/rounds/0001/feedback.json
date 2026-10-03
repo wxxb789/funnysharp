@@ -1,0 +1,29 @@
+{
+  "record": {
+    "task": "concurrency",
+    "style": "funnysharp",
+    "run": "run-1",
+    "round": 1,
+    "compilation": {
+      "ok": true,
+      "errors": 0,
+      "buildSeconds": 14.1
+    },
+    "semanticCorrectness": {
+      "ok": true,
+      "total": 12,
+      "failed": 0,
+      "succeeded": 12,
+      "skipped": 0
+    },
+    "apiMisuse": {
+      "fsDiagnostics": []
+    },
+    "consumerLoc": 180,
+    "verdict": "GREEN",
+    "evidenceKind": "generation-verification"
+  },
+  "buildStdout": "  Determining projects to restore...\r\n  Restored Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\concurrency-funnysharp-run-1-649c6a26bae943ee84d685ab416553d9\\ConcurrencyKit.csproj (in 5.58 sec).\r\nCSC : warning CS2002: Source file \u0027Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\concurrency-funnysharp-run-1-649c6a26bae943ee84d685ab416553d9\\nuget_packages\\xunit.v3.core.mtp-v2\\4.0.0\\_content\\DefaultRunnerReporters.cs\u0027 specified multiple times [Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\concurrency-funnysharp-run-1-649c6a26bae943ee84d685ab416553d9\\ConcurrencyKit.csproj]\r\nCSC : warning CS2002: Source file \u0027Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\concurrency-funnysharp-run-1-649c6a26bae943ee84d685ab416553d9\\nuget_packages\\xunit.v3.core.mtp-v2\\4.0.0\\_content\\DefaultResultWriters.cs\u0027 specified multiple times [Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\concurrency-funnysharp-run-1-649c6a26bae943ee84d685ab416553d9\\ConcurrencyKit.csproj]\r\n  ConcurrencyKit -\u003E Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\concurrency-funnysharp-run-1-649c6a26bae943ee84d685ab416553d9\\bin\\Release\\net10.0\\ConcurrencyKit.dll\r\n\r\nBuild succeeded.\r\n\r\nCSC : warning CS2002: Source file \u0027Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\concurrency-funnysharp-run-1-649c6a26bae943ee84d685ab416553d9\\nuget_packages\\xunit.v3.core.mtp-v2\\4.0.0\\_content\\DefaultRunnerReporters.cs\u0027 specified multiple times [Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\concurrency-funnysharp-run-1-649c6a26bae943ee84d685ab416553d9\\ConcurrencyKit.csproj]\r\nCSC : warning CS2002: Source file \u0027Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\concurrency-funnysharp-run-1-649c6a26bae943ee84d685ab416553d9\\nuget_packages\\xunit.v3.core.mtp-v2\\4.0.0\\_content\\DefaultResultWriters.cs\u0027 specified multiple times [Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\concurrency-funnysharp-run-1-649c6a26bae943ee84d685ab416553d9\\ConcurrencyKit.csproj]\r\n    2 Warning(s)\r\n    0 Error(s)\r\n\r\nBinaryLogger wrote to: Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\concurrency-funnysharp-run-1-649c6a26bae943ee84d685ab416553d9\\build.binlog\r\n\r\nTime Elapsed 00:00:13.39\r\n",
+  "buildStderr": "",
+  "testOutput": "Running tests from Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\concurrency-funnysharp-run-1-649c6a26bae943ee84d685ab416553d9\\bin\\Release\\net10.0\\ConcurrencyKit.dll (net10.0|x64)\r\nQ:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\concurrency-funnysharp-run-1-649c6a26bae943ee84d685ab416553d9\\bin\\Release\\net10.0\\ConcurrencyKit.dll (net10.0|x64) passed (1s 839ms)\r\n\r\nTest run summary: Passed!\r\n  total: 12\r\n  failed: 0\r\n  succeeded: 12\r\n  skipped: 0\r\n  duration: 2s 700ms\r\n"
+}

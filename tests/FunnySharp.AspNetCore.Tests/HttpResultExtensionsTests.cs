@@ -566,33 +566,33 @@ public sealed class HttpResultExtensionsTests
 
         var cases = new (string Name, string ParameterName, Action Invoke)[]
         {
-            ("Task<Option> source", "option", () => nullOptionTask!.ToHttpResultAsync(NotFound)),
-            ("Task<Result> source", "result", () => nullResultTask!.ToHttpResultAsync(Forbidden)),
-            ("Task<Validation> source", "validation", () => nullValidationTask!.ToHttpResultAsync(Invalid)),
-            ("Task<Option> mapper", "none", () => optionTask.ToHttpResultAsync(null!)),
-            ("Task<Result> mapper", "failure", () => resultTask.ToHttpResultAsync(null!)),
-            ("Task<Validation> mapper", "invalid", () => validationTask.ToHttpResultAsync(null!)),
-            ("ValueTask<Option> mapper", "none", () => optionValueTask.ToHttpResultAsync(null!)),
-            ("ValueTask<Result> mapper", "failure", () => resultValueTask.ToHttpResultAsync(null!)),
-            ("ValueTask<Validation> mapper", "invalid", () => validationValueTask.ToHttpResultAsync(null!)),
-            ("Effect<Option> context", "context", () => optionEffect.ToHttpResultAsync(null!, NotFound)),
-            ("Effect<Result> context", "context", () => resultEffect.ToHttpResultAsync(null!, Forbidden)),
-            ("Effect<Validation> context", "context", () => validationEffect.ToHttpResultAsync(null!, Invalid)),
-            ("Effect<Option> mapper", "none", () => optionEffect.ToHttpResultAsync(context, null!)),
-            ("Effect<Result> mapper", "failure", () => resultEffect.ToHttpResultAsync(context, null!)),
-            ("Effect<Validation> mapper", "invalid", () => validationEffect.ToHttpResultAsync(context, null!)),
+            ("Task<Option> source", "option", () => _ = nullOptionTask!.ToHttpResultAsync(NotFound)),
+            ("Task<Result> source", "result", () => _ = nullResultTask!.ToHttpResultAsync(Forbidden)),
+            ("Task<Validation> source", "validation", () => _ = nullValidationTask!.ToHttpResultAsync(Invalid)),
+            ("Task<Option> mapper", "none", () => _ = optionTask.ToHttpResultAsync(null!)),
+            ("Task<Result> mapper", "failure", () => _ = resultTask.ToHttpResultAsync(null!)),
+            ("Task<Validation> mapper", "invalid", () => _ = validationTask.ToHttpResultAsync(null!)),
+            ("ValueTask<Option> mapper", "none", () => _ = optionValueTask.ToHttpResultAsync(null!)),
+            ("ValueTask<Result> mapper", "failure", () => _ = resultValueTask.ToHttpResultAsync(null!)),
+            ("ValueTask<Validation> mapper", "invalid", () => _ = validationValueTask.ToHttpResultAsync(null!)),
+            ("Effect<Option> context", "context", () => _ = optionEffect.ToHttpResultAsync(null!, NotFound)),
+            ("Effect<Result> context", "context", () => _ = resultEffect.ToHttpResultAsync(null!, Forbidden)),
+            ("Effect<Validation> context", "context", () => _ = validationEffect.ToHttpResultAsync(null!, Invalid)),
+            ("Effect<Option> mapper", "none", () => _ = optionEffect.ToHttpResultAsync(context, null!)),
+            ("Effect<Result> mapper", "failure", () => _ = resultEffect.ToHttpResultAsync(context, null!)),
+            ("Effect<Validation> mapper", "invalid", () => _ = validationEffect.ToHttpResultAsync(context, null!)),
             ("Environment Effect<Option> context", "context", () =>
-                environmentOptionEffect.ToHttpResultAsync(environment, null!, NotFound)),
+                _ = environmentOptionEffect.ToHttpResultAsync(environment, null!, NotFound)),
             ("Environment Effect<Result> context", "context", () =>
-                environmentResultEffect.ToHttpResultAsync(environment, null!, Forbidden)),
+                _ = environmentResultEffect.ToHttpResultAsync(environment, null!, Forbidden)),
             ("Environment Effect<Validation> context", "context", () =>
-                environmentValidationEffect.ToHttpResultAsync(environment, null!, Invalid)),
+                _ = environmentValidationEffect.ToHttpResultAsync(environment, null!, Invalid)),
             ("Environment Effect<Option> mapper", "none", () =>
-                environmentOptionEffect.ToHttpResultAsync(environment, context, null!)),
+                _ = environmentOptionEffect.ToHttpResultAsync(environment, context, null!)),
             ("Environment Effect<Result> mapper", "failure", () =>
-                environmentResultEffect.ToHttpResultAsync(environment, context, null!)),
+                _ = environmentResultEffect.ToHttpResultAsync(environment, context, null!)),
             ("Environment Effect<Validation> mapper", "invalid", () =>
-                environmentValidationEffect.ToHttpResultAsync(environment, context, null!)),
+                _ = environmentValidationEffect.ToHttpResultAsync(environment, context, null!)),
         };
 
         foreach (var (name, parameterName, invoke) in cases)

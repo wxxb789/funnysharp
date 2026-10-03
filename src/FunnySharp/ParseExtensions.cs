@@ -77,6 +77,7 @@ public static class ParseExtensions
     /// culture. Use <see cref="ParseOrNone{T}(string, IFormatProvider)"/> for culture-explicit
     /// parsing.
     /// </remarks>
+    /// <exception cref="ArgumentNullException"><paramref name="source"/> is null; this programming error is not translated to None.</exception>
     public static Option<bool> ParseBoolOrNone(this string source) => source.ParseOrNone<bool>();
 
     /// <summary>
@@ -92,6 +93,7 @@ public static class ParseExtensions
     /// culture. Use <see cref="ParseOrNone{T}(string, IFormatProvider)"/> for culture-explicit
     /// parsing.
     /// </remarks>
+    /// <exception cref="ArgumentNullException"><paramref name="source"/> is null; this programming error is not translated to None.</exception>
     public static Option<byte> ParseByteOrNone(this string source) => source.ParseOrNone<byte>();
 
     /// <summary>
@@ -107,6 +109,7 @@ public static class ParseExtensions
     /// culture. Use <see cref="ParseOrNone{T}(string, IFormatProvider)"/> for culture-explicit
     /// parsing.
     /// </remarks>
+    /// <exception cref="ArgumentNullException"><paramref name="source"/> is null; this programming error is not translated to None.</exception>
     public static Option<sbyte> ParseSByteOrNone(this string source) => source.ParseOrNone<sbyte>();
 
     /// <summary>
@@ -122,6 +125,7 @@ public static class ParseExtensions
     /// culture. Use <see cref="ParseOrNone{T}(string, IFormatProvider)"/> for culture-explicit
     /// parsing.
     /// </remarks>
+    /// <exception cref="ArgumentNullException"><paramref name="source"/> is null; this programming error is not translated to None.</exception>
     public static Option<short> ParseShortOrNone(this string source) => source.ParseOrNone<short>();
 
     /// <summary>
@@ -137,6 +141,7 @@ public static class ParseExtensions
     /// culture. Use <see cref="ParseOrNone{T}(string, IFormatProvider)"/> for culture-explicit
     /// parsing.
     /// </remarks>
+    /// <exception cref="ArgumentNullException"><paramref name="source"/> is null; this programming error is not translated to None.</exception>
     public static Option<ushort> ParseUShortOrNone(this string source) => source.ParseOrNone<ushort>();
 
     /// <summary>
@@ -152,6 +157,7 @@ public static class ParseExtensions
     /// culture. Use <see cref="ParseOrNone{T}(string, IFormatProvider)"/> for culture-explicit
     /// parsing.
     /// </remarks>
+    /// <exception cref="ArgumentNullException"><paramref name="source"/> is null; this programming error is not translated to None.</exception>
     public static Option<int> ParseIntOrNone(this string source) => source.ParseOrNone<int>();
 
     /// <summary>
@@ -167,6 +173,7 @@ public static class ParseExtensions
     /// culture. Use <see cref="ParseOrNone{T}(string, IFormatProvider)"/> for culture-explicit
     /// parsing.
     /// </remarks>
+    /// <exception cref="ArgumentNullException"><paramref name="source"/> is null; this programming error is not translated to None.</exception>
     public static Option<uint> ParseUIntOrNone(this string source) => source.ParseOrNone<uint>();
 
     /// <summary>
@@ -182,6 +189,7 @@ public static class ParseExtensions
     /// culture. Use <see cref="ParseOrNone{T}(string, IFormatProvider)"/> for culture-explicit
     /// parsing.
     /// </remarks>
+    /// <exception cref="ArgumentNullException"><paramref name="source"/> is null; this programming error is not translated to None.</exception>
     public static Option<long> ParseLongOrNone(this string source) => source.ParseOrNone<long>();
 
     /// <summary>
@@ -197,6 +205,7 @@ public static class ParseExtensions
     /// culture. Use <see cref="ParseOrNone{T}(string, IFormatProvider)"/> for culture-explicit
     /// parsing.
     /// </remarks>
+    /// <exception cref="ArgumentNullException"><paramref name="source"/> is null; this programming error is not translated to None.</exception>
     public static Option<ulong> ParseULongOrNone(this string source) => source.ParseOrNone<ulong>();
 
     /// <summary>
@@ -212,6 +221,7 @@ public static class ParseExtensions
     /// culture. Use <see cref="ParseOrNone{T}(string, IFormatProvider)"/> for culture-explicit
     /// parsing.
     /// </remarks>
+    /// <exception cref="ArgumentNullException"><paramref name="source"/> is null; this programming error is not translated to None.</exception>
     public static Option<float> ParseFloatOrNone(this string source) => source.ParseOrNone<float>();
 
     /// <summary>
@@ -227,6 +237,7 @@ public static class ParseExtensions
     /// culture. Use <see cref="ParseOrNone{T}(string, IFormatProvider)"/> for culture-explicit
     /// parsing.
     /// </remarks>
+    /// <exception cref="ArgumentNullException"><paramref name="source"/> is null; this programming error is not translated to None.</exception>
     public static Option<double> ParseDoubleOrNone(this string source) => source.ParseOrNone<double>();
 
     /// <summary>
@@ -242,6 +253,7 @@ public static class ParseExtensions
     /// culture. Use <see cref="ParseOrNone{T}(string, IFormatProvider)"/> for culture-explicit
     /// parsing.
     /// </remarks>
+    /// <exception cref="ArgumentNullException"><paramref name="source"/> is null; this programming error is not translated to None.</exception>
     public static Option<decimal> ParseDecimalOrNone(this string source) => source.ParseOrNone<decimal>();
 
     /// <summary>
@@ -257,6 +269,7 @@ public static class ParseExtensions
     /// culture. Use <see cref="ParseOrNone{T}(string, IFormatProvider)"/> for culture-explicit
     /// parsing.
     /// </remarks>
+    /// <exception cref="ArgumentNullException"><paramref name="source"/> is null; this programming error is not translated to None.</exception>
     public static Option<DateTime> ParseDateTimeOrNone(this string source) => source.ParseOrNone<DateTime>();
 
     /// <summary>
@@ -272,6 +285,7 @@ public static class ParseExtensions
     /// culture. Use <see cref="ParseOrNone{T}(string, IFormatProvider)"/> for culture-explicit
     /// parsing.
     /// </remarks>
+    /// <exception cref="ArgumentNullException"><paramref name="source"/> is null; this programming error is not translated to None.</exception>
     public static Option<DateTimeOffset> ParseDateTimeOffsetOrNone(this string source) => source.ParseOrNone<DateTimeOffset>();
 
     /// <summary>
@@ -287,6 +301,7 @@ public static class ParseExtensions
     /// culture. Use <see cref="ParseOrNone{T}(string, IFormatProvider)"/> for culture-explicit
     /// parsing.
     /// </remarks>
+    /// <exception cref="ArgumentNullException"><paramref name="source"/> is null; this programming error is not translated to None.</exception>
     public static Option<TimeSpan> ParseTimeSpanOrNone(this string source) => source.ParseOrNone<TimeSpan>();
 
     /// <summary>
@@ -302,5 +317,6 @@ public static class ParseExtensions
     /// culture. Use <see cref="ParseOrNone{T}(string, IFormatProvider)"/> for culture-explicit
     /// parsing.
     /// </remarks>
+    /// <exception cref="ArgumentNullException"><paramref name="source"/> is null; this programming error is not translated to None.</exception>
     public static Option<Guid> ParseGuidOrNone(this string source) => source.ParseOrNone<Guid>();
 }

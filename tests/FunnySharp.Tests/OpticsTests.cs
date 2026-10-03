@@ -195,8 +195,12 @@ public sealed class OpticsTests
         Assert.Throws<ArgumentNullException>(() => Lens.Identity<string>().Update("value", null!));
         Assert.Throws<ArgumentNullException>(() => Optional.Create<int, int>(getOption, set).Update(1, null!));
 
+#pragma warning disable FS1001 // Intentional runtime misuse witness.
         Lens<int, int> defaultLens = default;
+#pragma warning restore FS1001
+#pragma warning disable FS1001 // Intentional runtime misuse witness.
         Optional<int, int> defaultOptional = default;
+#pragma warning restore FS1001
         Assert.Throws<InvalidOperationException>(() => defaultLens.Get(1));
         Assert.Throws<InvalidOperationException>(() => defaultLens.Set(1, 2));
         Assert.Throws<InvalidOperationException>(() => defaultLens.Update(1, value => value));

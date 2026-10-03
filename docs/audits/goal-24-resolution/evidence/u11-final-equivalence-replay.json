@@ -1,0 +1,62 @@
+{
+  "schema": "funnysharp-final-workflow-equivalence-replay/v1",
+  "state": "37_FINAL_PACKAGE_EQUIVALENCE_CASES_PASS_NEGATIVE_DENSITY_RESULT_RETAINED_OWNER_ACCEPTANCE_SEPARATE",
+  "feed": "artifacts/audit-resolution/u14-post-xml/attempt-03/feed",
+  "project": "artifacts/audit-resolution/u11-post-xml/attempt-02/FreshWorkflowComparisons.csproj",
+  "initialRestoreExitCode": 0,
+  "lockedRestoreExitCode": 0,
+  "nativeExitCode": 0,
+  "coreDllSha256": "6a903f737356fdf67845c9cd39385e4a5e2b39bcae0ee92ff2882480ecb7e49d",
+  "receipt": {
+    "path": "artifacts/audit-resolution/u11-post-xml/attempt-02/equivalence.json",
+    "sha256": "f0a6410e4d73a922994ab2b9bdbd2ed85c3d1c19aedf2d13f60abb3a4d0d8c54",
+    "summary": {
+      "tests": 37,
+      "passed": 37,
+      "failed": 0,
+      "pending": 0,
+      "skipped": 0,
+      "other": 0,
+      "suites": 1,
+      "start": 1790911339369,
+      "stop": 1790911339766
+    }
+  },
+  "sourceBindings": [
+    {
+      "file": "IdiomaticWorkflows.cs",
+      "recordedSha256": "c980d97124df48a12ffc3cea6fabb169e7559c9fa42b1b3ef77972f18d507019",
+      "actualSha256": "c980d97124df48a12ffc3cea6fabb169e7559c9fa42b1b3ef77972f18d507019"
+    },
+    {
+      "file": "FunnySharpWorkflows.cs",
+      "recordedSha256": "08c14fd68301bc1acda028187828cf104f5e9166561924e0e24ff6ca3400115d",
+      "actualSha256": "08c14fd68301bc1acda028187828cf104f5e9166561924e0e24ff6ca3400115d"
+    }
+  ],
+  "semanticUnits": {
+    "idiomatic": {
+      "S": 50,
+      "O": 73,
+      "semanticUnits": 123
+    },
+    "funnysharp": {
+      "S": 48,
+      "O": 96,
+      "semanticUnits": 144
+    }
+  },
+  "negativeOutcome": {
+    "idiomatic": 123,
+    "funnySharp": 144,
+    "deltaPercent": 17.07,
+    "wins": 2,
+    "losses": 5,
+    "ties": 0
+  },
+  "limits": [
+    "Equal real runtime semantics are proved for allseven retained pairs; no favorable subset or new convenience API added.",
+    "Materially less consumer semantic LOC is not established; raw whole-class/file LOC is reported separately.",
+    "Maintainer review and final product-claim disposition are not inferred from reproducibility or these37passing cases."
+  ]
+}

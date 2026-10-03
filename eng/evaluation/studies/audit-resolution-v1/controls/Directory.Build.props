@@ -1,0 +1,22 @@
+<Project>
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <Deterministic>true</Deterministic>
+    <OutputType>Exe</OutputType>
+    <IsTestProject>true</IsTestProject>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+    <ControlRoot>$(MSBuildThisFileDirectory)</ControlRoot>
+    <RepositoryRoot>$([System.IO.Path]::GetFullPath('$(ControlRoot)../../../../../'))</RepositoryRoot>
+    <ControlArtifacts>$(RepositoryRoot)artifacts/audit-resolution/u12-oracle-controls/</ControlArtifacts>
+    <BaseIntermediateOutputPath>$(ControlArtifacts)build/$(MSBuildProjectName)/obj/</BaseIntermediateOutputPath>
+    <BaseOutputPath>$(ControlArtifacts)build/$(MSBuildProjectName)/bin/</BaseOutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="xunit.v3" Version="4.0.0" />
+    <Using Include="Xunit" />
+  </ItemGroup>
+</Project>

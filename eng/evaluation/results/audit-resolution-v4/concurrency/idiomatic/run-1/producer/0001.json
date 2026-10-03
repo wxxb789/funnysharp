@@ -1,0 +1,25 @@
+{
+  "studySha256": "a28f133c7dc53ed83abb446a53ed832af4d3a9a2187f52654fcef02f683241c9",
+  "task": "concurrency",
+  "style": "idiomatic",
+  "sessionId": "study-session:d7db243c-1628-4d40-8bc4-bd09846d4fec",
+  "invocationId": "native-call:a50f81ae-912c-4eef-9286-bc1b8c01344a",
+  "route": "native-omo-cli/5.1.9/json-print",
+  "producerKind": "ai",
+  "requestedModel": "ghc/gpt-6.1-sol",
+  "providerModel": {
+    "value": null,
+    "unknownReason": "Native selected model/route is observed. Actual upstream served model is unknown unless independently returned metadata supplies it."
+  },
+  "contextSha256": "7445fd4e7497c67651fdd60c6ecfcec771bce112a03eb90a3a4b89baf0ec38d3",
+  "solutionFiles": [
+    {
+      "path": "AvailabilityCoordinator.cs",
+      "sha256": "8b02fa8864a9d5245d3bf31a643973b68c4fecae9233d1c110db4e4bec0e6f64"
+    }
+  ],
+  "invocationSha256": "5dacb1bd7181e67e2472e0d1f1a3913d3240ddaf098ef4923275c7bc683c4904",
+  "startedUtc": "2026-10-02T17:08:15.773Z",
+  "finishedUtc": "2026-10-02T17:13:13.548Z",
+  "status": "completed"
+}

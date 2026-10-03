@@ -1,0 +1,29 @@
+{
+  "command": [
+    "dotnet",
+    "fsi",
+    "build.fsx",
+    "--",
+    "-p",
+    "eval-verify",
+    "--study",
+    "audit-resolution-v4",
+    "--task",
+    "collections",
+    "--style",
+    "funnysharp",
+    "--run-dir",
+    "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/collections/funnysharp/run-1",
+    "--round",
+    "1"
+  ],
+  "workingDirectory": "Q:/repos/funnysharp-goal24-resolution",
+  "slot": "collections/funnysharp/run-1",
+  "round": 1,
+  "pid": 27268,
+  "startedUtc": "2026-10-02T16:25:45.632Z",
+  "finishedUtc": "2026-10-02T16:26:59.219Z",
+  "exitCode": 0,
+  "stdoutSha256": "74862ef4e9e674c891444f54d9fdfe77bf73b786a083ba8a38e7c7b36de4e1da",
+  "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

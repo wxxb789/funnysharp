@@ -1,0 +1,46 @@
+info: Microsoft.Hosting.Lifetime[14]
+      Now listening on: http://127.0.0.1:52820
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Production
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: Q:\repos\funnysharp-goal24-resolution\artifacts\audit-resolution\reconciliation\probe
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 POST http://127.0.0.1:52820/orders - application/json;+charset=utf-8 -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'HTTP: POST /orders/ => PlaceOrderAsync'
+info: Microsoft.AspNetCore.Http.Result.CreatedResult[1]
+      Setting HTTP status code 201.
+info: Microsoft.AspNetCore.Http.Result.CreatedResult[3]
+      Writing value of type 'OrderReceiptResponse' as Json.
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'HTTP: POST /orders/ => PlaceOrderAsync'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 POST http://127.0.0.1:52820/orders - 201 - application/json;+charset=utf-8 231.5501ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://127.0.0.1:52820/orders/ORD-1/reconcile - - -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'HTTP: GET /orders/{id}/reconcile => ReconcileOrderAsync'
+fail: FunnySharp.VerticalSlice.Http.ProblemMappings[0]
+      Order failure HistoryDiverged produced a server fault history-diverged.
+info: Microsoft.AspNetCore.Http.HttpResults.ProblemHttpResult[1]
+      Setting HTTP status code 500.
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'HTTP: GET /orders/{id}/reconcile => ReconcileOrderAsync'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://127.0.0.1:52820/orders/ORD-1/reconcile - 500 - application/problem+json 54.1505ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://127.0.0.1:52820/openapi/v1.json - - -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'HTTP: GET /openapi/{documentName}.json'
+info: Microsoft.AspNetCore.Mvc.Infrastructure.DefaultActionDescriptorCollectionProvider[1]
+      No action descriptors found. This may indicate an incorrectly configured application or missing application parts. To learn more, visit https://aka.ms/aspnet/mvc/app-parts
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'HTTP: GET /openapi/{documentName}.json'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://127.0.0.1:52820/openapi/v1.json - 200 - application/json;charset=utf-8 201.6789ms
+info: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+RECONCILIATION_HTTP_DUMP {"baseAddress":"http://127.0.0.1:52820","placement":{"status":201,"body":"{\u0022orderId\u0022:\u0022ORD-1\u0022,\u0022status\u0022:\u0022Placed\u0022,\u0022revision\u0022:1,\u0022total\u0022:27.10,\u0022currency\u0022:\u0022EUR\u0022,\u0022paymentReference\u0022:null,\u0022trackingCode\u0022:null}"},"reconciliation":{"status":500,"contentType":"application/problem\u002Bjson","body":"{\u0022type\u0022:\u0022https://funnysharp.example/problems/history-diverged\u0022,\u0022title\u0022:\u0022Stored order history no longer replays\u0022,\u0022status\u0022:500,\u0022detail\u0022:\u0022Replaying the Ship event diverged from the stored projection.\u0022,\u0022failure\u0022:\u0022HistoryDiverged\u0022,\u0022traceId\u0022:\u002200-c428cf3f835b7ce5c1baa94b67f2cd3b-629bfef2ed1e754a-00\u0022}"},"openApi":{"status":200,"responseCodes":["200","404","500","503"],"typedFailure":{"description":"Internal Server Error","content":{"application/problem\u002Bjson":{"schema":{"$ref":"#/components/schemas/ProblemDetails"}}}}}}
+RECONCILIATION_CLEANUP listener=ConnectionRefused

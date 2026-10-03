@@ -18,6 +18,7 @@ public class StateMachineBenchmarks
     [GlobalSetup]
     public void Setup()
     {
+        BenchmarkPreflight.CaptureChild(this);
         static StateChange<int, int> Increment(int state) =>
             StateChange<int, int>.To(state + 1, state + 1);
 
@@ -49,5 +50,16 @@ public class StateMachineBenchmarks
     {
         var change = transition(0);
         return change.State + change.Outputs[0] + change.Outputs[^1];
+    }
+
+    internal Task ValidateFullSemanticsAsync()
+    {
+        var expectedOutputs = Enumerable.Range(1, Count).ToArray();
+        var change = transition(0);
+        BenchmarkPreflight.Require(change.State == Count
+            && change.Outputs.SequenceEqual(expectedOutputs)
+            && DirectLoop() == Count + expectedOutputs[0] + expectedOutputs[^1],
+            "State evaluation changed its final state or an intermediate output.");
+        return Task.CompletedTask;
     }
 }

@@ -1,0 +1,24 @@
+{
+  "task": "concurrency",
+  "style": "idiomatic",
+  "run": "run-2",
+  "round": 1,
+  "compilation": {
+    "ok": true,
+    "errors": 0,
+    "buildSeconds": 8.7
+  },
+  "semanticCorrectness": {
+    "ok": true,
+    "total": 12,
+    "failed": 0,
+    "succeeded": 12,
+    "skipped": 0
+  },
+  "apiMisuse": {
+    "fsDiagnostics": []
+  },
+  "consumerLoc": 155,
+  "verdict": "GREEN",
+  "evidenceKind": "generation-verification"
+}

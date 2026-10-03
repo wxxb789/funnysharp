@@ -1,0 +1,58 @@
+{
+  "executor": "main-session",
+  "findings": [
+    "G17-11",
+    "G17-19"
+  ],
+  "baseCommit": "a8863473fd53eddc7cb47201508426db2e454f84",
+  "baseTree": "88e8a528017b0a5f68710cc1d955fda64486877f",
+  "unitDiffSha256": "281236ad64c3dcdbb9b46f4c0979653d67cd48a2732d3f907b19712d14793ee4",
+  "redTraversal": {
+    "exitCode": 2,
+    "total": 46,
+    "failed": 23,
+    "succeeded": 23,
+    "skipped": 0
+  },
+  "redLocation": {
+    "exitCode": 2,
+    "total": 10,
+    "failed": 1,
+    "succeeded": 9,
+    "skipped": 0
+  },
+  "greenCore": {
+    "exitCode": 0,
+    "total": 673,
+    "failed": 0,
+    "succeeded": 673,
+    "skipped": 0
+  },
+  "packaged": {
+    "exitCode": 0,
+    "total": 74,
+    "failed": 0,
+    "succeeded": 74,
+    "skipped": 0,
+    "version": "0.2.0",
+    "packageSha256": "5d00f6784059b6ac267a24f0e6beba7f83463f6df40e4a0d7cf3039c56f948d9",
+    "versionMode": "Explicit unit-local MSBuild preview-minor override; no publication; final source version preparation still separate.",
+    "projectReferences": [],
+    "loadedCore": [
+      "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\keyed\\packages\\funnysharp\\0.2.0\\lib\\net10.0\\FunnySharp.dll"
+    ]
+  },
+  "contract": "Existing signatures infer exposed EQUALITY comparers for Dictionary/FrozenDictionary/ImmutableDictionary,includingempty; opaque/ReadOnlyDictionary legacy calls retain explicitly documented default-equality fallback. Six additive explicit-comparer overloads cover three dictionary-producing carriers and located forms. No universal opaque-inference claim,private reflection,constant-hash ordering adapter or comparer argument for valueless UnitResult.",
+  "assumption": "Owner question expired unanswered; explicit comparer path/support/fallback policy proceeded on best judgment and is disclosed in current source/docs/follow-up goal. Historical universal/old-call verdict is not relabeled.",
+  "location": "String and boxed empty key render [\"\"] identically,retain equality/hash and differfromRoot; nullKey/negativeIndex/emptyProperty guardsremain.",
+  "coverage": "Actual key identity/unseen lookup,case-insensitive/empty results,opaque explicit policies,all carriers/located modes,single enumeration/disposal,short-circuit/accumulation,lazy buffer and guard precedence; old and new calls compiled from real package.",
+  "diagnostics": "All five changed C# files clean after replacing two new Assert.True(Any) compiler errors with exact reference-predicate Contains assertions and simplifying redundant tuple patterns.",
+  "docs": {
+    "exitCode": 0,
+    "snippets": 56,
+    "guides": 11,
+    "experimental": "Three added located comparer overloads remain FS0017 and inventory/curation are synchronized."
+  },
+  "cleanup": "All source test/package restore/build/test/hash/gate commands exited; enumerator cleanup asserted by actual probes; no task-owned server/port.",
+  "finalCandidateReplay": "Required after remaining shipping/additive API changes; generated API baseline and final version/compatibility proof will run under the accepted follow-up before final acceptance."
+}

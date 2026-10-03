@@ -1,0 +1,1 @@
+Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\TraversalContextTests.cs(1147,49): error CS0246: The type or namespace name 'ProbeEnumerable<>' could not be found (are you missing a using directive or an assembly reference?) [Q:\repos\funnysharp-goal24-resolution\artifacts\audit-resolution\keyed\probes\PackagedKeyedTests.csproj]

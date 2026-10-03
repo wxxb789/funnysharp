@@ -1,0 +1,51 @@
+{
+  "schema": "funnysharp-original-goal-post-maintainer-completion-audit/v1",
+  "observedUtc": "2026-10-03T04:31:44.620Z",
+  "wholeGoalAchieved": false,
+  "originalIdentityCount": 69,
+  "originalVerdicts": {
+    "FAIL": 40,
+    "UNVERIFIED": 29
+  },
+  "resolved": 65,
+  "open": 4,
+  "approvedHumanRows": [
+    "U01",
+    "U02",
+    "U15",
+    "U20"
+  ],
+  "actualNewHumanDecision": "接受原条件下的结果",
+  "actualDeltaGate": "st_01a0ffbe:4humanAPPROVE/wholeREJECTonlyrelease4",
+  "remainingOriginalIds": [
+    "F37",
+    "F38",
+    "F39",
+    "U29"
+  ],
+  "remainingTodos": 7,
+  "completedTodos": 152,
+  "totalTodos": 159,
+  "criteria": {
+    "C001": "PENDING_FOUR_RELEASE_ROWS",
+    "C002": "PASS",
+    "C003": "PENDING_ACTUAL_RELEASE_PROOF"
+  },
+  "noAuthorizedSourceRemediationLeft": true,
+  "currentCandidate": "346filebytebindings, dirty/uncommitted, no remoteauditbranch",
+  "currentRemoteControlPlane": "Actualretainedrulesets[]/mainprotection404; no currentcandidatefourhost/denial/P-A-I",
+  "newFeedEvidence": "ConfiguredADO nuget-public feedactual2x404PackageNotFound, notNuGetorigin/fullinventory/finalcandidatechecks",
+  "ownerSourceReviewReceived": true,
+  "gitCommitPushPrCiSettingsIndexAuthorityReceived": false,
+  "packagePublicationAuthorityReceived": false,
+  "liveChildren": 0,
+  "liveMonitors": 0,
+  "liveQuestions": 0,
+  "feedQuestionExpiredWithoutAnswer": true,
+  "noTimedoutQuestionRepeated": true,
+  "newNativeBlockedReasonMustRemoveStaleEightHumanBlockers": true,
+  "blocker": "ONLY_ORIGINAL_RELEASE_AUTHORIZATION_AND_RESULTING_ACTUAL_RELEASE_EVIDENCE",
+  "goalAndCriteriaUnqualified": true,
+  "noRequestedTasksDropped": true,
+  "knownToolLimit": "JSONproofparsed successfully; automaticLSPsuggestion reportsbiome notinstalled, notJSONtype/syntaxfailure. No dependencyinstallation neededforthis evidence-onlystep."
+}

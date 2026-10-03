@@ -1,0 +1,789 @@
+{
+  "schema": "funnysharp-evaluation-study/v1",
+  "study": "audit-resolution-v2",
+  "condition": "unassisted-public-guides",
+  "planSha256": "875dd59a6117371b427b644e9721c56fc3649b9cb071c73e1d1e55c57db5cc95",
+  "files": [
+    {
+      "path": "analyzer-control/Control.cs",
+      "sha256": "3d3329db4bc51a207ed3e93ec4a8f98950fac227a1ec14dae6702a6300a48a82"
+    },
+    {
+      "path": "analyzer-control/Control.csproj",
+      "sha256": "a653a999866bfe9456be7d419c0de118cd34a75a13bcdf0fd489f238eb364b79"
+    },
+    {
+      "path": "analyzer-control/NuGet.config",
+      "sha256": "1945a08360bfd1a1e5796959cb7fe569dd473d2d2c6f50e71df1c5fdcb592ef0"
+    },
+    {
+      "path": "analyzer-control/control.binlog",
+      "sha256": "78c5b2833a6179747fd23f6b1eda14f56e4b5d0e80e9a72a8efff15a163fd2d8"
+    },
+    {
+      "path": "analyzer-control/control.process.json",
+      "sha256": "4fefad0461ac0ee6948f75aa4071d08410407961f365d91857aa7cc00301cf3e"
+    },
+    {
+      "path": "analyzer-control/control.sarif",
+      "sha256": "635e3c7b5f3c621e66654989743d8ff6a859935a22fc422ed3993724716e1dea"
+    },
+    {
+      "path": "analyzer-control/control.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "analyzer-control/control.stdout.log",
+      "sha256": "c2576b7fcb141b3c6351263b8d7d2cf1ea41bf7f8cdc6c7818471884aed0c35a"
+    },
+    {
+      "path": "analyzer-control/obj/Control.csproj.nuget.dgspec.json",
+      "sha256": "a1ab30e1aec87a5568174e02c71d356cc8177f339ae731be4f51674171259b4a"
+    },
+    {
+      "path": "analyzer-control/obj/Control.csproj.nuget.g.props",
+      "sha256": "733c705f79e783415d05b3ef2fd84a987deb4321092064f51a0ab04cb7337994"
+    },
+    {
+      "path": "analyzer-control/obj/Control.csproj.nuget.g.targets",
+      "sha256": "971cc9b535384849b5c661d776cd7a80833a416265e32e8968e06c367368b8b5"
+    },
+    {
+      "path": "analyzer-control/obj/Debug/net10.0/.NETCoreApp,Version=v10.0.AssemblyAttributes.cs",
+      "sha256": "93d67476196ebfc80d1d7d8844b91146cfd678d105f5ce635eb900ca40610c9b"
+    },
+    {
+      "path": "analyzer-control/obj/Debug/net10.0/Control.AssemblyInfo.cs",
+      "sha256": "97181aac5879d31b30fe8580bdf5e04a12beba9b291689814927b69839b4458f"
+    },
+    {
+      "path": "analyzer-control/obj/Debug/net10.0/Control.AssemblyInfoInputs.cache",
+      "sha256": "5d5b6bd33e670ff0f7462d804dd3372660ca7fd726e0552fc64f2d4c20ff29de"
+    },
+    {
+      "path": "analyzer-control/obj/Debug/net10.0/Control.GeneratedMSBuildEditorConfig.editorconfig",
+      "sha256": "4c6e18762c00bc05753ea32088baeb33936d39fc4a2f6bc41cd70b62a807d98a"
+    },
+    {
+      "path": "analyzer-control/obj/Debug/net10.0/Control.GlobalUsings.g.cs",
+      "sha256": "a3c6048bb4d922b1799a9977f84362a3787b68810cac67aa86ac3aa23295f227"
+    },
+    {
+      "path": "analyzer-control/obj/Debug/net10.0/Control.assets.cache",
+      "sha256": "775547ffde1f30b4969a9d643a2c86cd2e92eb044031ca7fc1b0268a0fab3292"
+    },
+    {
+      "path": "analyzer-control/obj/Debug/net10.0/Control.csproj.AssemblyReference.cache",
+      "sha256": "baea3e6a316b2d2d92d62d6d3524808fb52da6fb48675376e341de77af7422ec"
+    },
+    {
+      "path": "analyzer-control/obj/Debug/net10.0/Control.csproj.CoreCompileInputs.cache",
+      "sha256": "0ebe1f2b8626f536d626286c9ef349be6d68472375f4b91709c5a4d7f86e4274"
+    },
+    {
+      "path": "analyzer-control/obj/Debug/net10.0/Control.csproj.FileListAbsolute.txt",
+      "sha256": "fda940eea5616c2c73c4b5a1f0d5ef8149cdf3a158e4185fccd16c6e87e33ff4"
+    },
+    {
+      "path": "analyzer-control/obj/Debug/net10.0/Control.sourcelink.json",
+      "sha256": "bc08b9df8f4141cd917138a00b7ac29ae32ed4f09987497845d49e70b36ae601"
+    },
+    {
+      "path": "analyzer-control/obj/project.assets.json",
+      "sha256": "510c4c1e3e70afadfdfa36e404742d6c9719d30cdce71375ca15566e44e6f1a2"
+    },
+    {
+      "path": "analyzer-control/obj/project.nuget.cache",
+      "sha256": "5bf9ca667027a7e8065064c560ecd3c9e40debc10079ea97a0b39765438ee420"
+    },
+    {
+      "path": "environment/Directory.Build.props",
+      "sha256": "e1f773524cbe06e47ce9373a35995982889f95f1f943cde9830a99ba4257e76b"
+    },
+    {
+      "path": "environment/build.fsx",
+      "sha256": "d14fead601ab57cd98046f0c9e2f0592cf1d5723e62a06e126329bb943b8c004"
+    },
+    {
+      "path": "environment/eng/harness/Evaluation.fs",
+      "sha256": "46c6ce5a4f9db1d24b3b07721ad1d66e6bf4915c07f92776e76a1fd2bee94498"
+    },
+    {
+      "path": "environment/global.json",
+      "sha256": "c48726ffb10a31e50395529e134bd0ab4d82d14febbda7863ab49d00a9fddcb4"
+    },
+    {
+      "path": "feed/FunnySharp.0.2.0.nupkg",
+      "sha256": "23a4d634f1d1a2481d4252e55d115d51211543c0782652e3bc1496d0f0c62b0e"
+    },
+    {
+      "path": "feed/FunnySharp.AspNetCore.0.2.0.nupkg",
+      "sha256": "36ad13695afc684b3ddc833a5922a4e15320234150228577c9d33faacedcc533"
+    },
+    {
+      "path": "freeze.started.json",
+      "sha256": "04dd57303b15be26967c77a6657aa47b1a0d695d70587229e013f77a065b4b4e"
+    },
+    {
+      "path": "guides/README.md",
+      "sha256": "cc536213ce3dd198741dd81ae4518fd492f24016400b9cbd02b5e85f2d2be517"
+    },
+    {
+      "path": "guides/docs/analyzers.md",
+      "sha256": "c40255afe05dc9d0c1515f3ba9ab4fb764a2e8b79016fe5944493790f22fd8b1"
+    },
+    {
+      "path": "guides/docs/aspnet-core.md",
+      "sha256": "71f12c3f333d07f9b7375df751ed6606153c9ceb0093b8057909a81f925c2930"
+    },
+    {
+      "path": "guides/docs/collections.md",
+      "sha256": "6001aebd200b67edf0c2b135ae0c3e0af3c961e99836b7f762d9bb2d83620558"
+    },
+    {
+      "path": "guides/docs/concurrency.md",
+      "sha256": "6e4324334f51dd240aa3fcd4e1531ad6dcb017ff21b41ca5b983e81a81f3fad9"
+    },
+    {
+      "path": "guides/docs/data-pipelines.md",
+      "sha256": "78f5787bbf0c7fe23bbcf023712a967a8fdef2ad9ca6900ebc7a7512ba51b242"
+    },
+    {
+      "path": "guides/docs/effects.md",
+      "sha256": "eba44570793bc8e72f15ed6c6155e925df38a200873c795dab8a34b504600928"
+    },
+    {
+      "path": "guides/docs/function-composition.md",
+      "sha256": "dd6f4863c89da837b50d5d789e8283a97164357dad599b781711dd22c4d7b66c"
+    },
+    {
+      "path": "guides/docs/grammar.md",
+      "sha256": "c46cbe739485ff881a8add7166395c210b399dfe5e81f37aa5b64f98439ed48c"
+    },
+    {
+      "path": "guides/docs/option.md",
+      "sha256": "c3d468d148cd6c41b60a303839727265b1b4c4b2488e0cd34291e4ce7516b366"
+    },
+    {
+      "path": "guides/docs/product-contract.md",
+      "sha256": "56e49ad95406612774b4d26e3e2763e11e06240c3dfd0de092a4011335fbf952"
+    },
+    {
+      "path": "guides/docs/result.md",
+      "sha256": "6b78664086ec6f4599aebc220def97c46b5b714499644ccdbe1a1975691803c5"
+    },
+    {
+      "path": "guides/docs/unit-result.md",
+      "sha256": "0c8682d7fdc4a7e1ce6b22d031a06ab1dd7f2db1f24755c947e6e0b440c56cfb"
+    },
+    {
+      "path": "guides/docs/validation.md",
+      "sha256": "923151c1e3de02825dfbc2b49393c9a261e939ec1e474addd98bb893915414b9"
+    },
+    {
+      "path": "sdk.process.json",
+      "sha256": "2f1a4022263599c9c7c36f1c7c364b02c4771a9c216862ff6e426ad3f173bc91"
+    },
+    {
+      "path": "sdk.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "sdk.stdout.log",
+      "sha256": "6499d58091aa87491843cbb719750909e09a58a83818e0dbb0e9e77208a3ea18"
+    },
+    {
+      "path": "tasks/aspnetcore/prompt-funnysharp.md",
+      "sha256": "d5b9f021837d24107341a3eea61d0ec8691faae1c7bb7c939c9e2ee660c0849c"
+    },
+    {
+      "path": "tasks/aspnetcore/prompt-idiomatic.md",
+      "sha256": "92d05dd5d0e0bd42989ebe2572518ddbfb3ddb0a6fef78fbe3073245555bf6fc"
+    },
+    {
+      "path": "tasks/aspnetcore/template-funnysharp/AspnetcoreKit.csproj",
+      "sha256": "4d6381d51bc657902e59f8fc55d8672ea52c3c30d28010b835f601ebbbaaac01"
+    },
+    {
+      "path": "tasks/aspnetcore/template-funnysharp/Directory.Build.props",
+      "sha256": "e1f773524cbe06e47ce9373a35995982889f95f1f943cde9830a99ba4257e76b"
+    },
+    {
+      "path": "tasks/aspnetcore/template-funnysharp/NuGet.config",
+      "sha256": "1945a08360bfd1a1e5796959cb7fe569dd473d2d2c6f50e71df1c5fdcb592ef0"
+    },
+    {
+      "path": "tasks/aspnetcore/template-funnysharp/obj/AspnetcoreKit.csproj.nuget.dgspec.json",
+      "sha256": "948db55bc1ef7435830656e176317c6a0b559eff69096f6286426fb2bac714e8"
+    },
+    {
+      "path": "tasks/aspnetcore/template-funnysharp/obj/AspnetcoreKit.csproj.nuget.g.props",
+      "sha256": "ac1b92a979b02f014754744f211e4b3491de4c31cae7496bb0e2915fcd977ff5"
+    },
+    {
+      "path": "tasks/aspnetcore/template-funnysharp/obj/AspnetcoreKit.csproj.nuget.g.targets",
+      "sha256": "c3f5b5b760da48943a8979582ed95ffe1e227c8c3442766a793ae0e2747cfb4c"
+    },
+    {
+      "path": "tasks/aspnetcore/template-funnysharp/obj/project.assets.json",
+      "sha256": "426f0f726665d062853aaf322af54a9eaa2690c808126b18db1c52869a578f3a"
+    },
+    {
+      "path": "tasks/aspnetcore/template-funnysharp/obj/project.nuget.cache",
+      "sha256": "af037af2625ccf2a5e41ee767e7cc5122a3f77bba385a75c03a0b5831b865424"
+    },
+    {
+      "path": "tasks/aspnetcore/template-funnysharp/packages.lock.json",
+      "sha256": "2983faf521c779aedd8510f039ee232808ae71478ae5633136ae93994225eea4"
+    },
+    {
+      "path": "tasks/aspnetcore/template-funnysharp/restore.process.json",
+      "sha256": "d7e7771ca0b0cc31e8cdfbec7d8475446795ad49bd48292557715d4a60e24db4"
+    },
+    {
+      "path": "tasks/aspnetcore/template-funnysharp/restore.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "tasks/aspnetcore/template-funnysharp/restore.stdout.log",
+      "sha256": "282d5586cbed1f81c1cad7356f64f1579116ef4496a102c71b436727f8d40a08"
+    },
+    {
+      "path": "tasks/aspnetcore/template-idiomatic/AspnetcoreKit.csproj",
+      "sha256": "90b68ac8fff1017135ffe6db36f0182b7ffdad3411aa81fa82c8caadc692808d"
+    },
+    {
+      "path": "tasks/aspnetcore/template-idiomatic/Directory.Build.props",
+      "sha256": "e1f773524cbe06e47ce9373a35995982889f95f1f943cde9830a99ba4257e76b"
+    },
+    {
+      "path": "tasks/aspnetcore/template-idiomatic/NuGet.config",
+      "sha256": "1945a08360bfd1a1e5796959cb7fe569dd473d2d2c6f50e71df1c5fdcb592ef0"
+    },
+    {
+      "path": "tasks/aspnetcore/template-idiomatic/obj/AspnetcoreKit.csproj.nuget.dgspec.json",
+      "sha256": "9cab82b5cf1706996d283e500d3d02e917d4e6da5908deb31b3f5d2c0f6f4c1d"
+    },
+    {
+      "path": "tasks/aspnetcore/template-idiomatic/obj/AspnetcoreKit.csproj.nuget.g.props",
+      "sha256": "ac1b92a979b02f014754744f211e4b3491de4c31cae7496bb0e2915fcd977ff5"
+    },
+    {
+      "path": "tasks/aspnetcore/template-idiomatic/obj/AspnetcoreKit.csproj.nuget.g.targets",
+      "sha256": "c3f5b5b760da48943a8979582ed95ffe1e227c8c3442766a793ae0e2747cfb4c"
+    },
+    {
+      "path": "tasks/aspnetcore/template-idiomatic/obj/project.assets.json",
+      "sha256": "6f7b7e1459ae6186319edac17959ebc4db7c3f49be221eb7d259505a1b3bfae6"
+    },
+    {
+      "path": "tasks/aspnetcore/template-idiomatic/obj/project.nuget.cache",
+      "sha256": "c92d3c18ca1d6b106bfe5e6ca8c65c2ca41bc013b630b1c87454b2bad3dd38eb"
+    },
+    {
+      "path": "tasks/aspnetcore/template-idiomatic/packages.lock.json",
+      "sha256": "c2dc472b1d2255088e3ee6eb375d2fad6b98558ff16be5d65adcbcf8b5a7e85a"
+    },
+    {
+      "path": "tasks/aspnetcore/template-idiomatic/restore.process.json",
+      "sha256": "3f3108f05886ce6fa7289d46f4ca625c8fa5f13f9379949efdf1549113750531"
+    },
+    {
+      "path": "tasks/aspnetcore/template-idiomatic/restore.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "tasks/aspnetcore/template-idiomatic/restore.stdout.log",
+      "sha256": "00d9f2b35517b02b587a0160741e3436ef83becfc2d98ed726939e56ced5fc76"
+    },
+    {
+      "path": "tasks/aspnetcore/tests/AspnetcoreTests.cs",
+      "sha256": "b4343005f670ae9c23f9338e3f56289459f79630b763b7dfe434ae289a8b39c7"
+    },
+    {
+      "path": "tasks/aspnetcore/tests/Contract.cs",
+      "sha256": "0e29dbaa90e69c2233652a6a742c9acef19b98a5ab90f1c9cbef191e138c9fec"
+    },
+    {
+      "path": "tasks/async-streams/prompt-funnysharp.md",
+      "sha256": "40cfc2edd0967fc052f7bc71592f602006b82e2b979fd3d34deadc3d409f3011"
+    },
+    {
+      "path": "tasks/async-streams/prompt-idiomatic.md",
+      "sha256": "279096ab842969f1b3d76d473adc32eed13bd8b41ca331fd6c51ee9e35f97fc4"
+    },
+    {
+      "path": "tasks/async-streams/template-funnysharp/AsyncStreamsKit.csproj",
+      "sha256": "f4adc1d0b296be415bdb42f8159827c30a5cdaae6907a123f6893043b437ecd4"
+    },
+    {
+      "path": "tasks/async-streams/template-funnysharp/Directory.Build.props",
+      "sha256": "e1f773524cbe06e47ce9373a35995982889f95f1f943cde9830a99ba4257e76b"
+    },
+    {
+      "path": "tasks/async-streams/template-funnysharp/NuGet.config",
+      "sha256": "1945a08360bfd1a1e5796959cb7fe569dd473d2d2c6f50e71df1c5fdcb592ef0"
+    },
+    {
+      "path": "tasks/async-streams/template-funnysharp/obj/AsyncStreamsKit.csproj.nuget.dgspec.json",
+      "sha256": "3e8a1acbddd3f7b8ab049d440295b0b9f2f1dd4886f7c2451f2629ce3616f14b"
+    },
+    {
+      "path": "tasks/async-streams/template-funnysharp/obj/AsyncStreamsKit.csproj.nuget.g.props",
+      "sha256": "ac1b92a979b02f014754744f211e4b3491de4c31cae7496bb0e2915fcd977ff5"
+    },
+    {
+      "path": "tasks/async-streams/template-funnysharp/obj/AsyncStreamsKit.csproj.nuget.g.targets",
+      "sha256": "c3f5b5b760da48943a8979582ed95ffe1e227c8c3442766a793ae0e2747cfb4c"
+    },
+    {
+      "path": "tasks/async-streams/template-funnysharp/obj/project.assets.json",
+      "sha256": "e6e26e7b977088f6a6903467089c1222ab7549cd67fb9ddf89d8f27745bc9c23"
+    },
+    {
+      "path": "tasks/async-streams/template-funnysharp/obj/project.nuget.cache",
+      "sha256": "11915e781152c92a02766528cb9346cf3bf3a9cf4c0a6019916f85f3cc71cd86"
+    },
+    {
+      "path": "tasks/async-streams/template-funnysharp/packages.lock.json",
+      "sha256": "3e4dc6091da40625e62265543f68a4d851e36e0527dce9091e0ef0fdc810e967"
+    },
+    {
+      "path": "tasks/async-streams/template-funnysharp/restore.process.json",
+      "sha256": "c126b9e3238282d5cd325081ce7a7659ab4d311ef403173b737c005c01a7b801"
+    },
+    {
+      "path": "tasks/async-streams/template-funnysharp/restore.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "tasks/async-streams/template-funnysharp/restore.stdout.log",
+      "sha256": "cf8c063fd4b688e914345578bab526cf373da0b14f1d257c99089430d8155773"
+    },
+    {
+      "path": "tasks/async-streams/template-idiomatic/AsyncStreamsKit.csproj",
+      "sha256": "4861e4e22c8001260cb273be9eadf5d101a75a9135fd5c775a56863721d9e873"
+    },
+    {
+      "path": "tasks/async-streams/template-idiomatic/Directory.Build.props",
+      "sha256": "e1f773524cbe06e47ce9373a35995982889f95f1f943cde9830a99ba4257e76b"
+    },
+    {
+      "path": "tasks/async-streams/template-idiomatic/NuGet.config",
+      "sha256": "1945a08360bfd1a1e5796959cb7fe569dd473d2d2c6f50e71df1c5fdcb592ef0"
+    },
+    {
+      "path": "tasks/async-streams/template-idiomatic/obj/AsyncStreamsKit.csproj.nuget.dgspec.json",
+      "sha256": "7d5f6282669fb7000e9667f660cfc220ff01826def1071e424a53358f8ba8450"
+    },
+    {
+      "path": "tasks/async-streams/template-idiomatic/obj/AsyncStreamsKit.csproj.nuget.g.props",
+      "sha256": "ac1b92a979b02f014754744f211e4b3491de4c31cae7496bb0e2915fcd977ff5"
+    },
+    {
+      "path": "tasks/async-streams/template-idiomatic/obj/AsyncStreamsKit.csproj.nuget.g.targets",
+      "sha256": "c3f5b5b760da48943a8979582ed95ffe1e227c8c3442766a793ae0e2747cfb4c"
+    },
+    {
+      "path": "tasks/async-streams/template-idiomatic/obj/project.assets.json",
+      "sha256": "bf3744d0cee54d6c000676645cd3bcb3e9b1cf1f92b81ee2ef878e86bd706f72"
+    },
+    {
+      "path": "tasks/async-streams/template-idiomatic/obj/project.nuget.cache",
+      "sha256": "358e0895a331de347fc3d086c4e1b56370309348a6b5d2101ac416affa15cff7"
+    },
+    {
+      "path": "tasks/async-streams/template-idiomatic/packages.lock.json",
+      "sha256": "7cc0db884f1e4f29395d3378611ca1fba863ca61e643cee750f2536ad4bcee6b"
+    },
+    {
+      "path": "tasks/async-streams/template-idiomatic/restore.process.json",
+      "sha256": "673cf088748275dfb79c374c43b8d9b989d43f6b7307af1bb85818ec37b5bc62"
+    },
+    {
+      "path": "tasks/async-streams/template-idiomatic/restore.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "tasks/async-streams/template-idiomatic/restore.stdout.log",
+      "sha256": "4846b6c210fbb745f2031e40c60dc11f75cdbffb7200a3500ec42e62522f40f4"
+    },
+    {
+      "path": "tasks/async-streams/tests/AsyncStreamsTests.cs",
+      "sha256": "b2e236125974c0ec77b4fb7df33a9a6f502c7093b6f2a670929ab7d068407da6"
+    },
+    {
+      "path": "tasks/async-streams/tests/Contract.cs",
+      "sha256": "24a65f66642d4e7e91b84d4f3a04b16ae93ed5abcafecc827b159eaed6bd9307"
+    },
+    {
+      "path": "tasks/business-outcomes/prompt-funnysharp.md",
+      "sha256": "56d667e0a8aee9b30b10d0020367aeb19a369af349c56d8a7868aa8ffb8db49c"
+    },
+    {
+      "path": "tasks/business-outcomes/prompt-idiomatic.md",
+      "sha256": "afd6a99571794497520aa500aebd4a5502c4e9dae78637f790b23807035c4f6f"
+    },
+    {
+      "path": "tasks/business-outcomes/template-funnysharp/BusinessOutcomesKit.csproj",
+      "sha256": "56d4c5e636c9fec400a746dcc0ec225c3bbd8498972ddb479d30aad4e68b749d"
+    },
+    {
+      "path": "tasks/business-outcomes/template-funnysharp/Directory.Build.props",
+      "sha256": "e1f773524cbe06e47ce9373a35995982889f95f1f943cde9830a99ba4257e76b"
+    },
+    {
+      "path": "tasks/business-outcomes/template-funnysharp/NuGet.config",
+      "sha256": "1945a08360bfd1a1e5796959cb7fe569dd473d2d2c6f50e71df1c5fdcb592ef0"
+    },
+    {
+      "path": "tasks/business-outcomes/template-funnysharp/obj/BusinessOutcomesKit.csproj.nuget.dgspec.json",
+      "sha256": "05dff036ede22099643f98e552bfa7f58f7c2a32bf26fac305fdeb2bca13f155"
+    },
+    {
+      "path": "tasks/business-outcomes/template-funnysharp/obj/BusinessOutcomesKit.csproj.nuget.g.props",
+      "sha256": "ac1b92a979b02f014754744f211e4b3491de4c31cae7496bb0e2915fcd977ff5"
+    },
+    {
+      "path": "tasks/business-outcomes/template-funnysharp/obj/BusinessOutcomesKit.csproj.nuget.g.targets",
+      "sha256": "c3f5b5b760da48943a8979582ed95ffe1e227c8c3442766a793ae0e2747cfb4c"
+    },
+    {
+      "path": "tasks/business-outcomes/template-funnysharp/obj/project.assets.json",
+      "sha256": "aa4d49ccf03cfe6fa5c49f8a2cabc350f912f7296e66e43b80db4453baf8eca3"
+    },
+    {
+      "path": "tasks/business-outcomes/template-funnysharp/obj/project.nuget.cache",
+      "sha256": "e374f4343de8f18b0453b2ebfd51498c81da6387fbb0ba205e809643163c4e1b"
+    },
+    {
+      "path": "tasks/business-outcomes/template-funnysharp/packages.lock.json",
+      "sha256": "3e4dc6091da40625e62265543f68a4d851e36e0527dce9091e0ef0fdc810e967"
+    },
+    {
+      "path": "tasks/business-outcomes/template-funnysharp/restore.process.json",
+      "sha256": "d77174c48d924605d6b3efa6ba2c0bd36e0c0bdd439177b946aa1a8587ccb551"
+    },
+    {
+      "path": "tasks/business-outcomes/template-funnysharp/restore.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "tasks/business-outcomes/template-funnysharp/restore.stdout.log",
+      "sha256": "620d08348742fc3f1de09f5041da0e6e57c5fb58214efad494ae1c5554c100c8"
+    },
+    {
+      "path": "tasks/business-outcomes/template-idiomatic/BusinessOutcomesKit.csproj",
+      "sha256": "23b2955bdf1d32698eaa08a46748a4f673479a9b76332ec79cb884d4f6f394bd"
+    },
+    {
+      "path": "tasks/business-outcomes/template-idiomatic/Directory.Build.props",
+      "sha256": "e1f773524cbe06e47ce9373a35995982889f95f1f943cde9830a99ba4257e76b"
+    },
+    {
+      "path": "tasks/business-outcomes/template-idiomatic/NuGet.config",
+      "sha256": "1945a08360bfd1a1e5796959cb7fe569dd473d2d2c6f50e71df1c5fdcb592ef0"
+    },
+    {
+      "path": "tasks/business-outcomes/template-idiomatic/obj/BusinessOutcomesKit.csproj.nuget.dgspec.json",
+      "sha256": "fc2032394084006273c497359dea915ea3e47c3622e08d19ed4842f06427a117"
+    },
+    {
+      "path": "tasks/business-outcomes/template-idiomatic/obj/BusinessOutcomesKit.csproj.nuget.g.props",
+      "sha256": "ac1b92a979b02f014754744f211e4b3491de4c31cae7496bb0e2915fcd977ff5"
+    },
+    {
+      "path": "tasks/business-outcomes/template-idiomatic/obj/BusinessOutcomesKit.csproj.nuget.g.targets",
+      "sha256": "c3f5b5b760da48943a8979582ed95ffe1e227c8c3442766a793ae0e2747cfb4c"
+    },
+    {
+      "path": "tasks/business-outcomes/template-idiomatic/obj/project.assets.json",
+      "sha256": "2b7ccafb583924290c92a1b56a9e0ab1f7921d99d3a6b1d8fce4f44d2703ef77"
+    },
+    {
+      "path": "tasks/business-outcomes/template-idiomatic/obj/project.nuget.cache",
+      "sha256": "4da7e4c5f93a883961d723bb69da19e35014e0dd6a5555caf6fdde1b76510506"
+    },
+    {
+      "path": "tasks/business-outcomes/template-idiomatic/packages.lock.json",
+      "sha256": "7cc0db884f1e4f29395d3378611ca1fba863ca61e643cee750f2536ad4bcee6b"
+    },
+    {
+      "path": "tasks/business-outcomes/template-idiomatic/restore.process.json",
+      "sha256": "67e08be48b402cecc0e068b4fcecf13b5598b3255c279c7244c122fb7225170d"
+    },
+    {
+      "path": "tasks/business-outcomes/template-idiomatic/restore.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "tasks/business-outcomes/template-idiomatic/restore.stdout.log",
+      "sha256": "4f709f7e65ca24ff6c9bce06cea8a8473a9069de798aa8cdb95010eb1e5ff75a"
+    },
+    {
+      "path": "tasks/business-outcomes/tests/Contract.cs",
+      "sha256": "ae4e8d0998ebd3332e4eabc0bdc51b1ef50ad2c1e6df8102377ee2bf7ccf79c9"
+    },
+    {
+      "path": "tasks/business-outcomes/tests/PlaceOrderTests.cs",
+      "sha256": "be36ad4fcc030392fd18ffed49b395b686b4c84ee52c264c4083e69352184ab9"
+    },
+    {
+      "path": "tasks/business-outcomes/tests/SideEffectsTests.cs",
+      "sha256": "d359f596e622e61e3841fa231b40e1497f0a7f5c962df484221931b41a708df0"
+    },
+    {
+      "path": "tasks/collections/prompt-funnysharp.md",
+      "sha256": "301787e65ddfbcb746f7b6acfc2f5040e6c7d276517e65f87227ff21a87f3a6b"
+    },
+    {
+      "path": "tasks/collections/prompt-idiomatic.md",
+      "sha256": "0f1f0e70ba09bb44b138500b1c5dad6a65474a4d4f17f86ff0270b9aed38a449"
+    },
+    {
+      "path": "tasks/collections/template-funnysharp/CollectionsKit.csproj",
+      "sha256": "068c56ffa0702057901aed9a8161593dc8e340fe4eccc22dd5bdd1bafdf5a63a"
+    },
+    {
+      "path": "tasks/collections/template-funnysharp/Directory.Build.props",
+      "sha256": "e1f773524cbe06e47ce9373a35995982889f95f1f943cde9830a99ba4257e76b"
+    },
+    {
+      "path": "tasks/collections/template-funnysharp/NuGet.config",
+      "sha256": "1945a08360bfd1a1e5796959cb7fe569dd473d2d2c6f50e71df1c5fdcb592ef0"
+    },
+    {
+      "path": "tasks/collections/template-funnysharp/obj/CollectionsKit.csproj.nuget.dgspec.json",
+      "sha256": "f47d50f2c77ea578f2114478f267f99a2945c4ca85d91b2cc4225b66b8bfa3c8"
+    },
+    {
+      "path": "tasks/collections/template-funnysharp/obj/CollectionsKit.csproj.nuget.g.props",
+      "sha256": "ac1b92a979b02f014754744f211e4b3491de4c31cae7496bb0e2915fcd977ff5"
+    },
+    {
+      "path": "tasks/collections/template-funnysharp/obj/CollectionsKit.csproj.nuget.g.targets",
+      "sha256": "c3f5b5b760da48943a8979582ed95ffe1e227c8c3442766a793ae0e2747cfb4c"
+    },
+    {
+      "path": "tasks/collections/template-funnysharp/obj/project.assets.json",
+      "sha256": "96bfe79a6fec0d5e9d1eb1345674618443fad7867f6eda7d649c27a78d2788f2"
+    },
+    {
+      "path": "tasks/collections/template-funnysharp/obj/project.nuget.cache",
+      "sha256": "018dbee508082392b6764e0367063bcc0d0e47b9f83dd9cdac628a32bd3c11ad"
+    },
+    {
+      "path": "tasks/collections/template-funnysharp/packages.lock.json",
+      "sha256": "3e4dc6091da40625e62265543f68a4d851e36e0527dce9091e0ef0fdc810e967"
+    },
+    {
+      "path": "tasks/collections/template-funnysharp/restore.process.json",
+      "sha256": "4ce294cbbdb425eabc511a71d78d5aa8378860a60cf46f7ecea4f53c47ae8dbd"
+    },
+    {
+      "path": "tasks/collections/template-funnysharp/restore.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "tasks/collections/template-funnysharp/restore.stdout.log",
+      "sha256": "d560bba63f71c8023c11691ce211e6da0565f9fe70f104d4b2ca8e3dc005ab71"
+    },
+    {
+      "path": "tasks/collections/template-idiomatic/CollectionsKit.csproj",
+      "sha256": "4741f97a1aefc01c6bf4c584cb07a4891737c41b2973be05f18504867c78ae69"
+    },
+    {
+      "path": "tasks/collections/template-idiomatic/Directory.Build.props",
+      "sha256": "e1f773524cbe06e47ce9373a35995982889f95f1f943cde9830a99ba4257e76b"
+    },
+    {
+      "path": "tasks/collections/template-idiomatic/NuGet.config",
+      "sha256": "1945a08360bfd1a1e5796959cb7fe569dd473d2d2c6f50e71df1c5fdcb592ef0"
+    },
+    {
+      "path": "tasks/collections/template-idiomatic/obj/CollectionsKit.csproj.nuget.dgspec.json",
+      "sha256": "2dced9c7c7dd0776fc295fec3dde81cd457d8a591c4fe2399d414edca2dd63a4"
+    },
+    {
+      "path": "tasks/collections/template-idiomatic/obj/CollectionsKit.csproj.nuget.g.props",
+      "sha256": "ac1b92a979b02f014754744f211e4b3491de4c31cae7496bb0e2915fcd977ff5"
+    },
+    {
+      "path": "tasks/collections/template-idiomatic/obj/CollectionsKit.csproj.nuget.g.targets",
+      "sha256": "c3f5b5b760da48943a8979582ed95ffe1e227c8c3442766a793ae0e2747cfb4c"
+    },
+    {
+      "path": "tasks/collections/template-idiomatic/obj/project.assets.json",
+      "sha256": "0ab0ca1ad80b12ee14dbf31974e84924db6050d41df81ca0f814c04d5b51368f"
+    },
+    {
+      "path": "tasks/collections/template-idiomatic/obj/project.nuget.cache",
+      "sha256": "1f52050fc66a68c924e40163714b5019bd28225e889d7c8286dc344e964402d6"
+    },
+    {
+      "path": "tasks/collections/template-idiomatic/packages.lock.json",
+      "sha256": "7cc0db884f1e4f29395d3378611ca1fba863ca61e643cee750f2536ad4bcee6b"
+    },
+    {
+      "path": "tasks/collections/template-idiomatic/restore.process.json",
+      "sha256": "a292dfcf61ccb530747f87c893a7f67d059bc86f4f89159695e85cfe3070ec3f"
+    },
+    {
+      "path": "tasks/collections/template-idiomatic/restore.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "tasks/collections/template-idiomatic/restore.stdout.log",
+      "sha256": "48c40bed223cff24f636ea8f92945ba549908ca36ec896afbf5ce098603a4ab8"
+    },
+    {
+      "path": "tasks/collections/tests/CollectionsTests.cs",
+      "sha256": "2e10e1a067df0eebb5ae6344413bb359f9498ce27796874c1ecb37963ae1c4c6"
+    },
+    {
+      "path": "tasks/collections/tests/Contract.cs",
+      "sha256": "0e07124557c7887f439c15e8c4677abcc13a3c16d87a9f0817fcf6ae2c87293c"
+    },
+    {
+      "path": "tasks/concurrency/prompt-funnysharp.md",
+      "sha256": "10767fe3fd1a696d86f8cac14dd56d5417a798eda87bad7a9a49d11c87d444a9"
+    },
+    {
+      "path": "tasks/concurrency/prompt-idiomatic.md",
+      "sha256": "387db807ecae2b176425949a1e385768c8b0bd3344096ac47e672c1423ed82dc"
+    },
+    {
+      "path": "tasks/concurrency/template-funnysharp/ConcurrencyKit.csproj",
+      "sha256": "ba32a95254d405c0f90f62ba870fcc94ed88ee41f1610d5247da735cd788aa9e"
+    },
+    {
+      "path": "tasks/concurrency/template-funnysharp/Directory.Build.props",
+      "sha256": "e1f773524cbe06e47ce9373a35995982889f95f1f943cde9830a99ba4257e76b"
+    },
+    {
+      "path": "tasks/concurrency/template-funnysharp/NuGet.config",
+      "sha256": "1945a08360bfd1a1e5796959cb7fe569dd473d2d2c6f50e71df1c5fdcb592ef0"
+    },
+    {
+      "path": "tasks/concurrency/template-funnysharp/obj/ConcurrencyKit.csproj.nuget.dgspec.json",
+      "sha256": "af7b13c221089bce360cc77b3024a2c5d7421a5bea6e023788e0a5bbb54e51a5"
+    },
+    {
+      "path": "tasks/concurrency/template-funnysharp/obj/ConcurrencyKit.csproj.nuget.g.props",
+      "sha256": "ac1b92a979b02f014754744f211e4b3491de4c31cae7496bb0e2915fcd977ff5"
+    },
+    {
+      "path": "tasks/concurrency/template-funnysharp/obj/ConcurrencyKit.csproj.nuget.g.targets",
+      "sha256": "c3f5b5b760da48943a8979582ed95ffe1e227c8c3442766a793ae0e2747cfb4c"
+    },
+    {
+      "path": "tasks/concurrency/template-funnysharp/obj/project.assets.json",
+      "sha256": "4361bff8b409f99c5c0922bc13a50602aba2e1d8cb02a84c0b5ba8723c9e49e2"
+    },
+    {
+      "path": "tasks/concurrency/template-funnysharp/obj/project.nuget.cache",
+      "sha256": "ae65ec6fea75fa1556db6f31f45c29ac63b48d21cfd95a119b35172f2dbfe504"
+    },
+    {
+      "path": "tasks/concurrency/template-funnysharp/packages.lock.json",
+      "sha256": "3e4dc6091da40625e62265543f68a4d851e36e0527dce9091e0ef0fdc810e967"
+    },
+    {
+      "path": "tasks/concurrency/template-funnysharp/restore.process.json",
+      "sha256": "0e5a8729690e473e3e94818c285f410d5297b079b6d97ade6070e12fafebb4c3"
+    },
+    {
+      "path": "tasks/concurrency/template-funnysharp/restore.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "tasks/concurrency/template-funnysharp/restore.stdout.log",
+      "sha256": "440471288c004f0f4696944d20a219834bd234f49ab64d92b3013167ee01650c"
+    },
+    {
+      "path": "tasks/concurrency/template-idiomatic/ConcurrencyKit.csproj",
+      "sha256": "c5a058c4c776ebdf1eb1e8e865a8e2e524b504d4bd061758d7e31f8a95210e8c"
+    },
+    {
+      "path": "tasks/concurrency/template-idiomatic/Directory.Build.props",
+      "sha256": "e1f773524cbe06e47ce9373a35995982889f95f1f943cde9830a99ba4257e76b"
+    },
+    {
+      "path": "tasks/concurrency/template-idiomatic/NuGet.config",
+      "sha256": "1945a08360bfd1a1e5796959cb7fe569dd473d2d2c6f50e71df1c5fdcb592ef0"
+    },
+    {
+      "path": "tasks/concurrency/template-idiomatic/obj/ConcurrencyKit.csproj.nuget.dgspec.json",
+      "sha256": "69006c327a41630ecad3638532be1e5ff27453bd1aa51e7a086df644ddb8cd05"
+    },
+    {
+      "path": "tasks/concurrency/template-idiomatic/obj/ConcurrencyKit.csproj.nuget.g.props",
+      "sha256": "ac1b92a979b02f014754744f211e4b3491de4c31cae7496bb0e2915fcd977ff5"
+    },
+    {
+      "path": "tasks/concurrency/template-idiomatic/obj/ConcurrencyKit.csproj.nuget.g.targets",
+      "sha256": "c3f5b5b760da48943a8979582ed95ffe1e227c8c3442766a793ae0e2747cfb4c"
+    },
+    {
+      "path": "tasks/concurrency/template-idiomatic/obj/project.assets.json",
+      "sha256": "dd4f6e83703b97e6458e61c5d25a9c726eea08fa5148017a1d5da1b7862255a0"
+    },
+    {
+      "path": "tasks/concurrency/template-idiomatic/obj/project.nuget.cache",
+      "sha256": "939fdc993fbac81512939f97968ff022edb892b96cd00a8ac6ad49abbc3a5ef7"
+    },
+    {
+      "path": "tasks/concurrency/template-idiomatic/packages.lock.json",
+      "sha256": "7cc0db884f1e4f29395d3378611ca1fba863ca61e643cee750f2536ad4bcee6b"
+    },
+    {
+      "path": "tasks/concurrency/template-idiomatic/restore.process.json",
+      "sha256": "741e884ee794be1a69866c5808b9d7ade33d9aea5c0231b92a2bb37f62bd8ffd"
+    },
+    {
+      "path": "tasks/concurrency/template-idiomatic/restore.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "tasks/concurrency/template-idiomatic/restore.stdout.log",
+      "sha256": "9d115b9f14bdf28f81bf2056341955e572a4733ede6945e88089157dbfceeed1"
+    },
+    {
+      "path": "tasks/concurrency/tests/ConcurrencyTests.cs",
+      "sha256": "221bf77515b0d63b6b82637ee3a0432ae9e6c286c03dfc70a41ff58f30d911cc"
+    },
+    {
+      "path": "tasks/concurrency/tests/Contract.cs",
+      "sha256": "99f6ab991fdd14ed524fd1f88060472698d920c6b72d29c16db7cbd7b1dd9cf9"
+    }
+  ],
+  "expectedTests": {
+    "business-outcomes": 10,
+    "collections": 9,
+    "async-streams": 10,
+    "concurrency": 12,
+    "aspnetcore": 9
+  },
+  "cohort": [
+    "business-outcomes/idiomatic/run-1",
+    "business-outcomes/idiomatic/run-2",
+    "business-outcomes/funnysharp/run-1",
+    "business-outcomes/funnysharp/run-2",
+    "collections/idiomatic/run-1",
+    "collections/idiomatic/run-2",
+    "collections/funnysharp/run-1",
+    "collections/funnysharp/run-2",
+    "async-streams/idiomatic/run-1",
+    "async-streams/idiomatic/run-2",
+    "async-streams/funnysharp/run-1",
+    "async-streams/funnysharp/run-2",
+    "concurrency/idiomatic/run-1",
+    "concurrency/idiomatic/run-2",
+    "concurrency/funnysharp/run-1",
+    "concurrency/funnysharp/run-2",
+    "aspnetcore/idiomatic/run-1",
+    "aspnetcore/idiomatic/run-2",
+    "aspnetcore/funnysharp/run-1",
+    "aspnetcore/funnysharp/run-2"
+  ]
+}

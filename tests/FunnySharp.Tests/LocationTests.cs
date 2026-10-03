@@ -114,15 +114,31 @@ public sealed class LocationTests
     }
 
     [Fact]
-    public void LocationRejectsNegativeIndexesAndNullOrEmptyNamesAndKeys()
+    public void LocationRejectsNegativeIndexesNullKeysAndNullOrEmptyNames()
     {
         Assert.Throws<ArgumentOutOfRangeException>(() => Location.Root.At(-1));
         Assert.Throws<ArgumentNullException>(() => Location.Root.Property(null!));
         Assert.Throws<ArgumentNullException>(() => Location.Root.Key((string?)null!));
         Assert.Throws<ArgumentNullException>(() => Location.Root.Key((object?)null!));
         Assert.Throws<ArgumentException>(() => Location.Root.Property(""));
-        Assert.Throws<ArgumentException>(() => Location.Root.Key(""));
         Assert.Throws<ArgumentNullException>(() => Location.Root.Nest(null!));
+    }
+
+    [Fact]
+    public void EmptyStringKeysRenderIdenticallyWhenBoxedAndRemainDistinctFromRoot()
+    {
+        var textKey = Location.Root.Key("");
+        var boxedKey = Location.Root.Key((object)"");
+
+        Assert.Equal("[\"\"]", textKey.ToString());
+        Assert.Equal("[\"\"]", boxedKey.ToString());
+        Assert.Equal("settings[\"\"]", Location.Root.Property("settings").Key("").ToString());
+        Assert.True(textKey == boxedKey);
+        Assert.True(textKey.Equals(boxedKey));
+        Assert.Equal(textKey.GetHashCode(), boxedKey.GetHashCode());
+        Assert.True(textKey != Location.Root);
+        Assert.False(textKey.Equals(Location.Root));
+        Assert.Contains(boxedKey, new HashSet<Location> { textKey });
     }
 
     [Fact]

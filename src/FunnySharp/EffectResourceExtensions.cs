@@ -13,6 +13,15 @@ public static class EffectResourceExtensions
     /// <param name="acquire">The effect that acquires the resource.</param>
     /// <param name="use">The effect-producing function that uses the acquired resource.</param>
     /// <returns>A deferred effect that scopes the resource lifetime to <paramref name="use"/>.</returns>
+    /// <remarks>
+    /// The use callback is guarded before the deferred effect is constructed. Each run awaits
+    /// acquisition once, then invokes use only after a non-null resource is acquired. Acquisition
+    /// failure or cancellation skips use and disposal. After acquisition, disposal runs exactly
+    /// once even if use throws or cancels; a disposal exception replaces a use exception or
+    /// cancellation, following finally precedence rather than aggregation.
+    /// The resource is disposed synchronously after the dependent effect completes.
+    /// </remarks>
+    /// <exception cref="InvalidOperationException">Acquisition returns null, or an acquisition or selected use effect is uninitialized.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="use"/> is <see langword="null"/>.</exception>
     public static Effect<TResult> Using<TResource, TResult>(
         this Effect<TResource> acquire,
@@ -31,6 +40,15 @@ public static class EffectResourceExtensions
     /// <param name="acquire">The effect that acquires the resource.</param>
     /// <param name="use">The effect-producing function that uses the acquired resource.</param>
     /// <returns>A deferred effect that scopes the resource lifetime to <paramref name="use"/>.</returns>
+    /// <remarks>
+    /// The use callback is guarded before the deferred effect is constructed. Each run awaits
+    /// acquisition once, then invokes use only after a non-null resource is acquired. Acquisition
+    /// failure or cancellation skips use and disposal. After acquisition, disposal runs exactly
+    /// once even if use throws or cancels; a disposal exception replaces a use exception or
+    /// cancellation, following finally precedence rather than aggregation.
+    /// DisposeAsync is awaited once before the run completes.
+    /// </remarks>
+    /// <exception cref="InvalidOperationException">Acquisition returns null, or an acquisition or selected use effect is uninitialized.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="use"/> is <see langword="null"/>.</exception>
     public static Effect<TResult> UsingAsync<TResource, TResult>(
         this Effect<TResource> acquire,
@@ -50,6 +68,15 @@ public static class EffectResourceExtensions
     /// <param name="acquire">The effect that acquires the resource.</param>
     /// <param name="use">The environment-dependent effect-producing function that uses the acquired resource.</param>
     /// <returns>A deferred environment-dependent effect that scopes the resource lifetime to <paramref name="use"/>.</returns>
+    /// <remarks>
+    /// The use callback is guarded before the deferred effect is constructed. Each run awaits
+    /// acquisition once, then invokes use only after a non-null resource is acquired. Acquisition
+    /// failure or cancellation skips use and disposal. After acquisition, disposal runs exactly
+    /// once even if use throws or cancels; a disposal exception replaces a use exception or
+    /// cancellation, following finally precedence rather than aggregation.
+    /// The resource is disposed synchronously after the dependent effect completes.
+    /// </remarks>
+    /// <exception cref="InvalidOperationException">Acquisition returns null, or an acquisition or selected use effect is uninitialized.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="use"/> is <see langword="null"/>.</exception>
     public static Effect<TEnvironment, TResult> Using<TEnvironment, TResource, TResult>(
         this Effect<TEnvironment, TResource> acquire,
@@ -70,6 +97,15 @@ public static class EffectResourceExtensions
     /// <param name="acquire">The effect that acquires the resource.</param>
     /// <param name="use">The environment-dependent effect-producing function that uses the acquired resource.</param>
     /// <returns>A deferred environment-dependent effect that scopes the resource lifetime to <paramref name="use"/>.</returns>
+    /// <remarks>
+    /// The use callback is guarded before the deferred effect is constructed. Each run awaits
+    /// acquisition once, then invokes use only after a non-null resource is acquired. Acquisition
+    /// failure or cancellation skips use and disposal. After acquisition, disposal runs exactly
+    /// once even if use throws or cancels; a disposal exception replaces a use exception or
+    /// cancellation, following finally precedence rather than aggregation.
+    /// DisposeAsync is awaited once before the run completes.
+    /// </remarks>
+    /// <exception cref="InvalidOperationException">Acquisition returns null, or an acquisition or selected use effect is uninitialized.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="use"/> is <see langword="null"/>.</exception>
     public static Effect<TEnvironment, TResult> UsingAsync<TEnvironment, TResource, TResult>(
         this Effect<TEnvironment, TResource> acquire,

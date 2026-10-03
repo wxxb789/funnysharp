@@ -1,0 +1,1333 @@
+{
+  "schemaVersion": 1,
+  "originalAudit": "docs/audits/goal-24/criterion-matrix.csv",
+  "originalCandidate": "a8863473fd53eddc7cb47201508426db2e454f84",
+  "originalTree": "88e8a528017b0a5f68710cc1d955fda64486877f",
+  "scope": {
+    "fail": 40,
+    "unverified": 29,
+    "total": 69
+  },
+  "decisions": {
+    "historicalEvidence": "Fresh traceable evidence is permitted; historical gaps and original audit remain unchanged.",
+    "grammar": "Preserve existing Recover and optic APIs; formally correct current authoritative documentation.",
+    "firstSuccess": "Bound concurrency and propagate independent cleanup faults; retain Validation carrier."
+  },
+  "findings": [
+    {
+      "tracking": "F01",
+      "todo": "Resolve prior audit FAIL finding number 01",
+      "criterionId": "G14-01",
+      "goal": 14,
+      "criterion": "Authoritative next-stage product constitution",
+      "originalVerdict": "FAIL",
+      "originalEvidence": "constitution-grammar/matrix.csv; docs/product-contract.md; report.md CG-01; constitution-grammar/package-inventory.stdout.txt",
+      "originalGap": "Original lane qualification: Accepted recovery rule contradicts packaged API; current execution/limitations are in the joined replay receipt.",
+      "sourceMatrix": "constitution-grammar/matrix.csv",
+      "primaryUnit": "U1",
+      "resolutionStatus": "RESOLVED_AT_UNIT_SNAPSHOT",
+      "resolutionEvidence": [
+        {
+          "artifact": "docs/audits/goal-24-resolution/evidence/grammar/receipt.json",
+          "executor": "main-session",
+          "baseCommit": "a8863473fd53eddc7cb47201508426db2e454f84",
+          "baseTree": "88e8a528017b0a5f68710cc1d955fda64486877f",
+          "documentDiffSha256": "db59d9795709c7253bf0103aae5029dbf1d58f34791efb81fd29afdf586d4825",
+          "packageSha256": "53d0e1ebffe623383567d06e54ae8dbb698cbf3368892f5b18df8d9957012a3f",
+          "observed": "Actual Recover callback counts 0/1 with values 1/42; partial optic returns Optional; stable workflow vocabulary reviewed; 56 snippets/11 guides and unchanged 49-type/492-member API pass.",
+          "finalCandidateReplay": "Refresh package/API proof after later shipping changes."
+        }
+      ]
+    },
+    {
+      "tracking": "F02",
+      "todo": "Resolve prior audit FAIL finding number 02",
+      "criterionId": "G14-12",
+      "goal": 14,
+      "criterion": "One canonical vocabulary defined",
+      "originalVerdict": "FAIL",
+      "originalEvidence": "constitution-grammar/matrix.csv; Product contract naming rule; packaged Recover signature; CG-01; constitution-grammar/package-inventory.stdout.txt",
+      "originalGap": "Original lane qualification: Recovery eager/lazy meaning is inconsistent; current execution/limitations are in the joined replay receipt.",
+      "sourceMatrix": "constitution-grammar/matrix.csv",
+      "primaryUnit": "U1",
+      "resolutionStatus": "RESOLVED_AT_UNIT_SNAPSHOT",
+      "resolutionEvidence": [
+        {
+          "artifact": "docs/audits/goal-24-resolution/evidence/grammar/receipt.json",
+          "executor": "main-session",
+          "baseCommit": "a8863473fd53eddc7cb47201508426db2e454f84",
+          "baseTree": "88e8a528017b0a5f68710cc1d955fda64486877f",
+          "documentDiffSha256": "db59d9795709c7253bf0103aae5029dbf1d58f34791efb81fd29afdf586d4825",
+          "packageSha256": "53d0e1ebffe623383567d06e54ae8dbb698cbf3368892f5b18df8d9957012a3f",
+          "observed": "Actual Recover callback counts 0/1 with values 1/42; partial optic returns Optional; stable workflow vocabulary reviewed; 56 snippets/11 guides and unchanged 49-type/492-member API pass.",
+          "finalCandidateReplay": "Refresh package/API proof after later shipping changes."
+        }
+      ]
+    },
+    {
+      "tracking": "F03",
+      "todo": "Resolve prior audit FAIL finding number 03",
+      "criterionId": "G16-01",
+      "goal": 16,
+      "criterion": "Small orthogonal predictable functional grammar",
+      "originalVerdict": "FAIL",
+      "originalEvidence": "constitution-grammar/matrix.csv; CG-01 through CG-03; constitution-grammar/package-inventory.stdout.txt",
+      "originalGap": "Original lane qualification: Authoritative semantics and coverage inconsistent with actual API; current execution/limitations are in the joined replay receipt.",
+      "sourceMatrix": "constitution-grammar/matrix.csv",
+      "primaryUnit": "U1",
+      "resolutionStatus": "RESOLVED_AT_UNIT_SNAPSHOT",
+      "resolutionEvidence": [
+        {
+          "artifact": "docs/audits/goal-24-resolution/evidence/grammar/receipt.json",
+          "executor": "main-session",
+          "baseCommit": "a8863473fd53eddc7cb47201508426db2e454f84",
+          "baseTree": "88e8a528017b0a5f68710cc1d955fda64486877f",
+          "documentDiffSha256": "db59d9795709c7253bf0103aae5029dbf1d58f34791efb81fd29afdf586d4825",
+          "packageSha256": "53d0e1ebffe623383567d06e54ae8dbb698cbf3368892f5b18df8d9957012a3f",
+          "observed": "Actual Recover callback counts 0/1 with values 1/42; partial optic returns Optional; stable workflow vocabulary reviewed; 56 snippets/11 guides and unchanged 49-type/492-member API pass.",
+          "finalCandidateReplay": "Refresh package/API proof after later shipping changes."
+        }
+      ]
+    },
+    {
+      "tracking": "F04",
+      "todo": "Resolve prior audit FAIL finding number 04",
+      "criterionId": "G16-04",
+      "goal": 16,
+      "criterion": "Every stable verb has primary meaning",
+      "originalVerdict": "FAIL",
+      "originalEvidence": "constitution-grammar/matrix.csv; CG-01; authoritative eager/lazy rule; constitution-grammar/package-inventory.stdout.txt",
+      "originalGap": "Original lane qualification: Recover is lazy despite the authoritative eager rule; current execution/limitations are in the joined replay receipt.",
+      "sourceMatrix": "constitution-grammar/matrix.csv",
+      "primaryUnit": "U1",
+      "resolutionStatus": "RESOLVED_AT_UNIT_SNAPSHOT",
+      "resolutionEvidence": [
+        {
+          "artifact": "docs/audits/goal-24-resolution/evidence/grammar/receipt.json",
+          "executor": "main-session",
+          "baseCommit": "a8863473fd53eddc7cb47201508426db2e454f84",
+          "baseTree": "88e8a528017b0a5f68710cc1d955fda64486877f",
+          "documentDiffSha256": "db59d9795709c7253bf0103aae5029dbf1d58f34791efb81fd29afdf586d4825",
+          "packageSha256": "53d0e1ebffe623383567d06e54ae8dbb698cbf3368892f5b18df8d9957012a3f",
+          "observed": "Actual Recover callback counts 0/1 with values 1/42; partial optic returns Optional; stable workflow vocabulary reviewed; 56 snippets/11 guides and unchanged 49-type/492-member API pass.",
+          "finalCandidateReplay": "Refresh package/API proof after later shipping changes."
+        }
+      ]
+    },
+    {
+      "tracking": "F05",
+      "todo": "Resolve prior audit FAIL finding number 05",
+      "criterionId": "G16-05",
+      "goal": 16,
+      "criterion": "Predictable output shape across valid carriers",
+      "originalVerdict": "FAIL",
+      "originalEvidence": "constitution-grammar/matrix.csv; CG-02; Lens.Compose(Optional) actual signature; constitution-grammar/package-inventory.stdout.txt",
+      "originalGap": "Original lane qualification: Same optic kind table entry is incorrect; current execution/limitations are in the joined replay receipt.",
+      "sourceMatrix": "constitution-grammar/matrix.csv",
+      "primaryUnit": "U1",
+      "resolutionStatus": "RESOLVED_AT_UNIT_SNAPSHOT",
+      "resolutionEvidence": [
+        {
+          "artifact": "docs/audits/goal-24-resolution/evidence/grammar/receipt.json",
+          "executor": "main-session",
+          "baseCommit": "a8863473fd53eddc7cb47201508426db2e454f84",
+          "baseTree": "88e8a528017b0a5f68710cc1d955fda64486877f",
+          "documentDiffSha256": "db59d9795709c7253bf0103aae5029dbf1d58f34791efb81fd29afdf586d4825",
+          "packageSha256": "53d0e1ebffe623383567d06e54ae8dbb698cbf3368892f5b18df8d9957012a3f",
+          "observed": "Actual Recover callback counts 0/1 with values 1/42; partial optic returns Optional; stable workflow vocabulary reviewed; 56 snippets/11 guides and unchanged 49-type/492-member API pass.",
+          "finalCandidateReplay": "Refresh package/API proof after later shipping changes."
+        }
+      ]
+    },
+    {
+      "tracking": "F06",
+      "todo": "Resolve prior audit FAIL finding number 06",
+      "criterionId": "G16-12",
+      "goal": 16,
+      "criterion": "Canonical recovery",
+      "originalVerdict": "FAIL",
+      "originalEvidence": "constitution-grammar/matrix.csv; CG-01; package Recover probe; constitution-grammar/package-inventory.stdout.txt",
+      "originalGap": "Original lane qualification: Actual lazy value-producing callback is misdescribed; current execution/limitations are in the joined replay receipt.",
+      "sourceMatrix": "constitution-grammar/matrix.csv",
+      "primaryUnit": "U1",
+      "resolutionStatus": "RESOLVED_AT_UNIT_SNAPSHOT",
+      "resolutionEvidence": [
+        {
+          "artifact": "docs/audits/goal-24-resolution/evidence/grammar/receipt.json",
+          "executor": "main-session",
+          "baseCommit": "a8863473fd53eddc7cb47201508426db2e454f84",
+          "baseTree": "88e8a528017b0a5f68710cc1d955fda64486877f",
+          "documentDiffSha256": "db59d9795709c7253bf0103aae5029dbf1d58f34791efb81fd29afdf586d4825",
+          "packageSha256": "53d0e1ebffe623383567d06e54ae8dbb698cbf3368892f5b18df8d9957012a3f",
+          "observed": "Actual Recover callback counts 0/1 with values 1/42; partial optic returns Optional; stable workflow vocabulary reviewed; 56 snippets/11 guides and unchanged 49-type/492-member API pass.",
+          "finalCandidateReplay": "Refresh package/API proof after later shipping changes."
+        }
+      ]
+    },
+    {
+      "tracking": "F07",
+      "todo": "Resolve prior audit FAIL finding number 07",
+      "criterionId": "G16-15",
+      "goal": 16,
+      "criterion": "One documented canonical usage for operations",
+      "originalVerdict": "FAIL",
+      "originalEvidence": "constitution-grammar/matrix.csv; CG-03; span and factory verbs absent from table; constitution-grammar/package-inventory.stdout.txt",
+      "originalGap": "Original lane qualification: Per-feature contracts do not make the authoritative table complete; current execution/limitations are in the joined replay receipt.",
+      "sourceMatrix": "constitution-grammar/matrix.csv",
+      "primaryUnit": "U1",
+      "resolutionStatus": "RESOLVED_AT_UNIT_SNAPSHOT",
+      "resolutionEvidence": [
+        {
+          "artifact": "docs/audits/goal-24-resolution/evidence/grammar/receipt.json",
+          "executor": "main-session",
+          "baseCommit": "a8863473fd53eddc7cb47201508426db2e454f84",
+          "baseTree": "88e8a528017b0a5f68710cc1d955fda64486877f",
+          "documentDiffSha256": "db59d9795709c7253bf0103aae5029dbf1d58f34791efb81fd29afdf586d4825",
+          "packageSha256": "53d0e1ebffe623383567d06e54ae8dbb698cbf3368892f5b18df8d9957012a3f",
+          "observed": "Actual Recover callback counts 0/1 with values 1/42; partial optic returns Optional; stable workflow vocabulary reviewed; 56 snippets/11 guides and unchanged 49-type/492-member API pass.",
+          "finalCandidateReplay": "Refresh package/API proof after later shipping changes."
+        }
+      ]
+    },
+    {
+      "tracking": "F08",
+      "todo": "Resolve prior audit FAIL finding number 08",
+      "criterionId": "G16-E1",
+      "goal": 16,
+      "criterion": "Authoritative grammar table",
+      "originalVerdict": "FAIL",
+      "originalEvidence": "constitution-grammar/matrix.csv; CG-01 through CG-03; constitution-grammar/package-inventory.stdout.txt",
+      "originalGap": "Original lane qualification: Incorrect recovery/output entries and stable-verb omissions; current execution/limitations are in the joined replay receipt.",
+      "sourceMatrix": "constitution-grammar/matrix.csv",
+      "primaryUnit": "U1",
+      "resolutionStatus": "RESOLVED_AT_UNIT_SNAPSHOT",
+      "resolutionEvidence": [
+        {
+          "artifact": "docs/audits/goal-24-resolution/evidence/grammar/receipt.json",
+          "executor": "main-session",
+          "baseCommit": "a8863473fd53eddc7cb47201508426db2e454f84",
+          "baseTree": "88e8a528017b0a5f68710cc1d955fda64486877f",
+          "documentDiffSha256": "db59d9795709c7253bf0103aae5029dbf1d58f34791efb81fd29afdf586d4825",
+          "packageSha256": "53d0e1ebffe623383567d06e54ae8dbb698cbf3368892f5b18df8d9957012a3f",
+          "observed": "Actual Recover callback counts 0/1 with values 1/42; partial optic returns Optional; stable workflow vocabulary reviewed; 56 snippets/11 guides and unchanged 49-type/492-member API pass.",
+          "finalCandidateReplay": "Refresh package/API proof after later shipping changes."
+        }
+      ]
+    },
+    {
+      "tracking": "F09",
+      "todo": "Resolve prior audit FAIL finding number 09",
+      "criterionId": "G17-11",
+      "goal": 17,
+      "criterion": "Traversal does not lose keyed collection shape",
+      "originalVerdict": "FAIL",
+      "originalEvidence": "carriers-collections/clause-matrix.csv; CC-01; keyed-probe.fsx; SequenceExtensions.cs:448,499,597; carriers-collections/main-session-replay.md",
+      "originalGap": "Original lane qualification: Default-comparer reconstruction can reject valid source entries; current execution/limitations are in the joined replay receipt.",
+      "sourceMatrix": "carriers-collections/clause-matrix.csv",
+      "primaryUnit": "U2",
+      "resolutionStatus": "RESOLVED_AT_UNIT_SNAPSHOT",
+      "resolutionEvidence": [
+        {
+          "artifact": "docs/audits/goal-24-resolution/evidence/keyed/receipt.json",
+          "executor": "main-session",
+          "baseCommit": "a8863473fd53eddc7cb47201508426db2e454f84",
+          "baseTree": "88e8a528017b0a5f68710cc1d955fda64486877f",
+          "unitDiffSha256": "281236ad64c3dcdbb9b46f4c0979653d67cd48a2732d3f907b19712d14793ee4",
+          "packageSha256": "5d00f6784059b6ac267a24f0e6beba7f83463f6df40e4a0d7cf3039c56f948d9",
+          "observed": "Old keyed suite23 failures/46 and Location1/10;673 core and74 actual0.2 package tests pass;known comparer and explicitopaque policy preserve key identity/lookup;empty keys workforfourcarriers;C#diagnostics/docs clean.",
+          "contractScope": "Exposed equality comparer inference and explicitopaque path; documented legacy default fallback,notuniversal automatic preservation.",
+          "finalCandidateReplay": "Final API baseline/version/compatibility and frozen package replay still required."
+        }
+      ]
+    },
+    {
+      "tracking": "F10",
+      "todo": "Resolve prior audit FAIL finding number 10",
+      "criterionId": "G17-19",
+      "goal": 17,
+      "criterion": "Key context retained on valid BCL keys",
+      "originalVerdict": "FAIL",
+      "originalEvidence": "carriers-collections/clause-matrix.csv; CC-02; keyed-probe.fsx; SequenceExtensions.cs:967-971; Location.cs:46-59; carriers-collections/main-session-replay.md",
+      "originalGap": "Original lane qualification: All four located dictionary shapes reject a valid empty-string key; current execution/limitations are in the joined replay receipt.",
+      "sourceMatrix": "carriers-collections/clause-matrix.csv",
+      "primaryUnit": "U3",
+      "resolutionStatus": "RESOLVED_AT_UNIT_SNAPSHOT",
+      "resolutionEvidence": [
+        {
+          "artifact": "docs/audits/goal-24-resolution/evidence/keyed/receipt.json",
+          "executor": "main-session",
+          "baseCommit": "a8863473fd53eddc7cb47201508426db2e454f84",
+          "baseTree": "88e8a528017b0a5f68710cc1d955fda64486877f",
+          "unitDiffSha256": "281236ad64c3dcdbb9b46f4c0979653d67cd48a2732d3f907b19712d14793ee4",
+          "packageSha256": "5d00f6784059b6ac267a24f0e6beba7f83463f6df40e4a0d7cf3039c56f948d9",
+          "observed": "Old keyed suite23 failures/46 and Location1/10;673 core and74 actual0.2 package tests pass;known comparer and explicitopaque policy preserve key identity/lookup;empty keys workforfourcarriers;C#diagnostics/docs clean.",
+          "contractScope": "Exposed equality comparer inference and explicitopaque path; documented legacy default fallback,notuniversal automatic preservation.",
+          "finalCandidateReplay": "Final API baseline/version/compatibility and frozen package replay still required."
+        }
+      ]
+    },
+    {
+      "tracking": "F11",
+      "todo": "Resolve prior audit FAIL finding number 11",
+      "criterionId": "G18-06",
+      "goal": 18,
+      "criterion": "Bounded concurrency without unbounded fan-out",
+      "originalVerdict": "FAIL",
+      "originalEvidence": "async-advanced/matrix.csv; ConcurrentEffectExtensions Snapshot and start-all loop at151; Goal18 AD-6 E95; async-advanced/main-session-replay.md",
+      "originalGap": "Original lane qualification: AA-02 P12 starts1024 pending cold effects before any completion; current execution/limitations are in the joined replay receipt.",
+      "sourceMatrix": "async-advanced/matrix.csv",
+      "primaryUnit": "U5",
+      "resolutionStatus": "RESOLVED_AT_UNIT_SNAPSHOT",
+      "resolutionEvidence": [
+        {
+          "artifact": "docs/audits/goal-24-resolution/evidence/first-success/receipt.json",
+          "executor": "main-session",
+          "baseCommit": "a8863473fd53eddc7cb47201508426db2e454f84",
+          "baseTree": "88e8a528017b0a5f68710cc1d955fda64486877f",
+          "unitDiffSha256": "45690eed7099b030b5d9921033c694f36878c840eece771bfa765f21a658c09a",
+          "packageSha256": "48fa690b92d0c55fca9d31372b9604644fefb023df9ed28176da2d9bde082004",
+          "observed": "Old coordinator17 safety failures/36;newfocused52/core707/actual0.2package52 pass. Bound/refill/sharedtask/linear-indexedcoordination/independentdisposal+earlierfaults/timeout+caller+callback accounting verified.",
+          "finalCandidateReplay": "Numeric benchmarks,API baseline/version and finalcompatibility/frozenpackage replay remain required."
+        }
+      ]
+    },
+    {
+      "tracking": "F12",
+      "todo": "Resolve prior audit FAIL finding number 12",
+      "criterionId": "G18-08",
+      "goal": 18,
+      "criterion": "Race or first-success safely",
+      "originalVerdict": "FAIL",
+      "originalEvidence": "async-advanced/matrix.csv; FirstSuccessAsync no cap and suppresses loser Task.WhenAll faults; async-advanced/main-session-replay.md",
+      "originalGap": "Original lane qualification: AA-02 AA-03 P11/P12; current execution/limitations are in the joined replay receipt.",
+      "sourceMatrix": "async-advanced/matrix.csv",
+      "primaryUnit": "U5",
+      "resolutionStatus": "RESOLVED_AT_UNIT_SNAPSHOT",
+      "resolutionEvidence": [
+        {
+          "artifact": "docs/audits/goal-24-resolution/evidence/first-success/receipt.json",
+          "executor": "main-session",
+          "baseCommit": "a8863473fd53eddc7cb47201508426db2e454f84",
+          "baseTree": "88e8a528017b0a5f68710cc1d955fda64486877f",
+          "unitDiffSha256": "45690eed7099b030b5d9921033c694f36878c840eece771bfa765f21a658c09a",
+          "packageSha256": "48fa690b92d0c55fca9d31372b9604644fefb023df9ed28176da2d9bde082004",
+          "observed": "Old coordinator17 safety failures/36;newfocused52/core707/actual0.2package52 pass. Bound/refill/sharedtask/linear-indexedcoordination/independentdisposal+earlierfaults/timeout+caller+callback accounting verified.",
+          "finalCandidateReplay": "Numeric benchmarks,API baseline/version and finalcompatibility/frozenpackage replay remain required."
+        }
+      ]
+    },
+    {
+      "tracking": "F13",
+      "todo": "Resolve prior audit FAIL finding number 13",
+      "criterionId": "G18-13",
+      "goal": 18,
+      "criterion": "No swallowed exceptions",
+      "originalVerdict": "FAIL",
+      "originalEvidence": "async-advanced/matrix.csv; ConcurrentEffectExtensions CancelAndDrain catch(Exception) at318 discards losing async disposal fault; async-advanced/main-session-replay.md",
+      "originalGap": "Original lane qualification: AA-03 P11; current execution/limitations are in the joined replay receipt.",
+      "sourceMatrix": "async-advanced/matrix.csv",
+      "primaryUnit": "U5",
+      "resolutionStatus": "RESOLVED_AT_UNIT_SNAPSHOT",
+      "resolutionEvidence": [
+        {
+          "artifact": "docs/audits/goal-24-resolution/evidence/first-success/receipt.json",
+          "executor": "main-session",
+          "baseCommit": "a8863473fd53eddc7cb47201508426db2e454f84",
+          "baseTree": "88e8a528017b0a5f68710cc1d955fda64486877f",
+          "unitDiffSha256": "45690eed7099b030b5d9921033c694f36878c840eece771bfa765f21a658c09a",
+          "packageSha256": "48fa690b92d0c55fca9d31372b9604644fefb023df9ed28176da2d9bde082004",
+          "observed": "Old coordinator17 safety failures/36;newfocused52/core707/actual0.2package52 pass. Bound/refill/sharedtask/linear-indexedcoordination/independentdisposal+earlierfaults/timeout+caller+callback accounting verified.",
+          "finalCandidateReplay": "Numeric benchmarks,API baseline/version and finalcompatibility/frozenpackage replay remain required."
+        }
+      ]
+    },
+    {
+      "tracking": "F14",
+      "todo": "Resolve prior audit FAIL finding number 14",
+      "criterionId": "G19-01",
+      "goal": 19,
+      "criterion": "Align all advanced families with accepted Goal14 decisions",
+      "originalVerdict": "FAIL",
+      "originalEvidence": "async-advanced/matrix.csv; AD-6..AD-9 and F6..F9 complete alignment reviewed; first-success conflicts remain; async-advanced/main-session-replay.md",
+      "originalGap": "Original lane qualification: AA-02 AA-03; accepted A-2=B return carrier is retained not reopened; current execution/limitations are in the joined replay receipt.",
+      "sourceMatrix": "async-advanced/matrix.csv",
+      "primaryUnit": "U5",
+      "resolutionStatus": "RESOLVED_AT_UNIT_SNAPSHOT",
+      "resolutionEvidence": [
+        {
+          "artifact": "docs/audits/goal-24-resolution/evidence/first-success/receipt.json",
+          "executor": "main-session",
+          "baseCommit": "a8863473fd53eddc7cb47201508426db2e454f84",
+          "baseTree": "88e8a528017b0a5f68710cc1d955fda64486877f",
+          "unitDiffSha256": "45690eed7099b030b5d9921033c694f36878c840eece771bfa765f21a658c09a",
+          "packageSha256": "48fa690b92d0c55fca9d31372b9604644fefb023df9ed28176da2d9bde082004",
+          "observed": "Old coordinator17 safety failures/36;newfocused52/core707/actual0.2package52 pass. Bound/refill/sharedtask/linear-indexedcoordination/independentdisposal+earlierfaults/timeout+caller+callback accounting verified.",
+          "finalCandidateReplay": "Numeric benchmarks,API baseline/version and finalcompatibility/frozenpackage replay remain required."
+        }
+      ]
+    },
+    {
+      "tracking": "F15",
+      "todo": "Resolve prior audit FAIL finding number 15",
+      "criterionId": "G20-01",
+      "goal": 20,
+      "criterion": "Normal stable APIs impose no undisclosed performance burden",
+      "originalVerdict": "FAIL",
+      "originalEvidence": "performance-ai/matrix.csv; report.md P01 P04; performance-ai/main-session-replay.md",
+      "originalGap": "Original lane qualification: Incorrect characteristics and quadratic FirstSuccess coordination; current execution/limitations are in the joined replay receipt.",
+      "sourceMatrix": "performance-ai/matrix.csv",
+      "primaryUnit": "U9",
+      "resolutionStatus": "OPEN",
+      "resolutionEvidence": []
+    },
+    {
+      "tracking": "F16",
+      "todo": "Resolve prior audit FAIL finding number 16",
+      "criterionId": "G20-02",
+      "goal": 20,
+      "criterion": "Every performance-relevant stable operation has documented algorithmic complexity",
+      "originalVerdict": "FAIL",
+      "originalEvidence": "performance-ai/matrix.csv; report.md P01 P04; performance-ai/main-session-replay.md",
+      "originalGap": "Original lane qualification: ExactZip and parallel traversal and FirstSuccess contradict stated complexities; current execution/limitations are in the joined replay receipt.",
+      "sourceMatrix": "performance-ai/matrix.csv",
+      "primaryUnit": "U9",
+      "resolutionStatus": "OPEN",
+      "resolutionEvidence": []
+    },
+    {
+      "tracking": "F17",
+      "todo": "Resolve prior audit FAIL finding number 17",
+      "criterionId": "G20-03",
+      "goal": 20,
+      "criterion": "Enumeration characteristics are documented correctly",
+      "originalVerdict": "FAIL",
+      "originalEvidence": "performance-ai/matrix.csv; ExactZipExtensions.cs ZipExactCore;report.md P01; performance-ai/main-session-replay.md",
+      "originalGap": "Original lane qualification: Both unequal sources are drained rather than a bounded count check; current execution/limitations are in the joined replay receipt.",
+      "sourceMatrix": "performance-ai/matrix.csv",
+      "primaryUnit": "U9",
+      "resolutionStatus": "OPEN",
+      "resolutionEvidence": []
+    },
+    {
+      "tracking": "F18",
+      "todo": "Resolve prior audit FAIL finding number 18",
+      "criterionId": "G20-04",
+      "goal": 20,
+      "criterion": "Allocation characteristics are documented correctly",
+      "originalVerdict": "FAIL",
+      "originalEvidence": "performance-ai/matrix.csv; Validation.cs Invalid MapErrors;Effect.cs factories;report.md P01; performance-ai/main-session-replay.md",
+      "originalGap": "Original lane qualification: Library-owned arrays wrappers and closures contradict zero/caller-only statements; current execution/limitations are in the joined replay receipt.",
+      "sourceMatrix": "performance-ai/matrix.csv",
+      "primaryUnit": "U9",
+      "resolutionStatus": "OPEN",
+      "resolutionEvidence": []
+    },
+    {
+      "tracking": "F19",
+      "todo": "Resolve prior audit FAIL finding number 19",
+      "criterionId": "G20-06",
+      "goal": 20,
+      "criterion": "Materialization characteristics are documented correctly",
+      "originalVerdict": "FAIL",
+      "originalEvidence": "performance-ai/matrix.csv; ExactZipExtensions.cs;report.md P01; performance-ai/main-session-replay.md",
+      "originalGap": "Original lane qualification: Pair list and read-only wrapper contradict no-materialization claim; current execution/limitations are in the joined replay receipt.",
+      "sourceMatrix": "performance-ai/matrix.csv",
+      "primaryUnit": "U9",
+      "resolutionStatus": "OPEN",
+      "resolutionEvidence": []
+    },
+    {
+      "tracking": "F20",
+      "todo": "Resolve prior audit FAIL finding number 20",
+      "criterionId": "G20-07",
+      "goal": 20,
+      "criterion": "Buffering characteristics are documented correctly",
+      "originalVerdict": "FAIL",
+      "originalEvidence": "performance-ai/matrix.csv; ParallelAsyncSequenceExtensions.cs;report.md P01; performance-ai/main-session-replay.md",
+      "originalGap": "Original lane qualification: Growing indexed-outcome list and sort rather than source-sized result array; current execution/limitations are in the joined replay receipt.",
+      "sourceMatrix": "performance-ai/matrix.csv",
+      "primaryUnit": "U9",
+      "resolutionStatus": "OPEN",
+      "resolutionEvidence": []
+    },
+    {
+      "tracking": "F21",
+      "todo": "Resolve prior audit FAIL finding number 21",
+      "criterionId": "G20-09",
+      "goal": 20,
+      "criterion": "Semantically equivalent raw BCL comparisons",
+      "originalVerdict": "FAIL",
+      "originalEvidence": "performance-ai/matrix.csv; ConcurrencyBenchmarks.cs;report.md P03; performance-ai/main-session-replay.md",
+      "originalGap": "Original lane qualification: Completion-order baseline assigns slots before selector completion; current execution/limitations are in the joined replay receipt.",
+      "sourceMatrix": "performance-ai/matrix.csv",
+      "primaryUnit": "U10",
+      "resolutionStatus": "OPEN",
+      "resolutionEvidence": []
+    },
+    {
+      "tracking": "F22",
+      "todo": "Resolve prior audit FAIL finding number 22",
+      "criterionId": "G20-13",
+      "goal": 20,
+      "criterion": "No known stable algorithmic cliff",
+      "originalVerdict": "FAIL",
+      "originalEvidence": "performance-ai/matrix.csv; ConcurrentEffectExtensions.cs FirstSuccessAsyncCore;report.md P04; performance-ai/main-session-replay.md",
+      "originalGap": "Original lane qualification: N synchronous failures cause N(N-1)/2 list-compaction reference moves; current execution/limitations are in the joined replay receipt.",
+      "sourceMatrix": "performance-ai/matrix.csv",
+      "primaryUnit": "U5",
+      "resolutionStatus": "RESOLVED_AT_UNIT_SNAPSHOT",
+      "resolutionEvidence": [
+        {
+          "artifact": "docs/audits/goal-24-resolution/evidence/first-success/receipt.json",
+          "executor": "main-session",
+          "baseCommit": "a8863473fd53eddc7cb47201508426db2e454f84",
+          "baseTree": "88e8a528017b0a5f68710cc1d955fda64486877f",
+          "unitDiffSha256": "45690eed7099b030b5d9921033c694f36878c840eece771bfa765f21a658c09a",
+          "packageSha256": "48fa690b92d0c55fca9d31372b9604644fefb023df9ed28176da2d9bde082004",
+          "observed": "Old coordinator17 safety failures/36;newfocused52/core707/actual0.2package52 pass. Bound/refill/sharedtask/linear-indexedcoordination/independentdisposal+earlierfaults/timeout+caller+callback accounting verified.",
+          "finalCandidateReplay": "Numeric benchmarks,API baseline/version and finalcompatibility/frozenpackage replay remain required."
+        }
+      ]
+    },
+    {
+      "tracking": "F23",
+      "todo": "Resolve prior audit FAIL finding number 23",
+      "criterionId": "G20-15",
+      "goal": 20,
+      "criterion": "No hidden repeated work",
+      "originalVerdict": "FAIL",
+      "originalEvidence": "performance-ai/matrix.csv; ConcurrentEffectExtensions.cs;report.md P04; performance-ai/main-session-replay.md",
+      "originalGap": "Original lane qualification: Repeated List.Remove compaction in completed-task scan; current execution/limitations are in the joined replay receipt.",
+      "sourceMatrix": "performance-ai/matrix.csv",
+      "primaryUnit": "U5",
+      "resolutionStatus": "RESOLVED_AT_UNIT_SNAPSHOT",
+      "resolutionEvidence": [
+        {
+          "artifact": "docs/audits/goal-24-resolution/evidence/first-success/receipt.json",
+          "executor": "main-session",
+          "baseCommit": "a8863473fd53eddc7cb47201508426db2e454f84",
+          "baseTree": "88e8a528017b0a5f68710cc1d955fda64486877f",
+          "unitDiffSha256": "45690eed7099b030b5d9921033c694f36878c840eece771bfa765f21a658c09a",
+          "packageSha256": "48fa690b92d0c55fca9d31372b9604644fefb023df9ed28176da2d9bde082004",
+          "observed": "Old coordinator17 safety failures/36;newfocused52/core707/actual0.2package52 pass. Bound/refill/sharedtask/linear-indexedcoordination/independentdisposal+earlierfaults/timeout+caller+callback accounting verified.",
+          "finalCandidateReplay": "Numeric benchmarks,API baseline/version and finalcompatibility/frozenpackage replay remain required."
+        }
+      ]
+    },
+    {
+      "tracking": "F24",
+      "todo": "Resolve prior audit FAIL finding number 24",
+      "criterionId": "G20-19",
+      "goal": 20,
+      "criterion": "Raw handwritten reference is honest rather than a manufactured win",
+      "originalVerdict": "FAIL",
+      "originalEvidence": "performance-ai/matrix.csv; ConcurrencyBenchmarks.cs;report.md P03; performance-ai/main-session-replay.md",
+      "originalGap": "Original lane qualification: Ordering semantics differ before throughput can be compared; current execution/limitations are in the joined replay receipt.",
+      "sourceMatrix": "performance-ai/matrix.csv",
+      "primaryUnit": "U10",
+      "resolutionStatus": "OPEN",
+      "resolutionEvidence": []
+    },
+    {
+      "tracking": "F25",
+      "todo": "Resolve prior audit FAIL finding number 25",
+      "criterionId": "G20-22",
+      "goal": 20,
+      "criterion": "Source-bound benchmark definitions and results",
+      "originalVerdict": "FAIL",
+      "originalEvidence": "performance-ai/matrix.csv; manifest input arrays;ReceiptExporterCore.cs;report.md P02; performance-ai/main-session-replay.md",
+      "originalGap": "Original lane qualification: UnitResult.cs is used by included HTTP benchmark but omitted from fingerprint; current execution/limitations are in the joined replay receipt.",
+      "sourceMatrix": "performance-ai/matrix.csv",
+      "primaryUnit": "U10",
+      "resolutionStatus": "OPEN",
+      "resolutionEvidence": []
+    },
+    {
+      "tracking": "F26",
+      "todo": "Resolve prior audit FAIL finding number 26",
+      "criterionId": "G20-25",
+      "goal": 20,
+      "criterion": "Equivalence justifications support all comparison groups",
+      "originalVerdict": "FAIL",
+      "originalEvidence": "performance-ai/matrix.csv; main Program.cs;competitor Program.cs;report.md P03; performance-ai/main-session-replay.md",
+      "originalGap": "Original lane qualification: Main preflight checks four pending Result methods and misses invalid completion-order pair; current execution/limitations are in the joined replay receipt.",
+      "sourceMatrix": "performance-ai/matrix.csv",
+      "primaryUnit": "U10",
+      "resolutionStatus": "OPEN",
+      "resolutionEvidence": []
+    },
+    {
+      "tracking": "F27",
+      "todo": "Resolve prior audit FAIL finding number 27",
+      "criterionId": "G20-27",
+      "goal": 20,
+      "criterion": "Generated public performance guidance is trustworthy",
+      "originalVerdict": "FAIL",
+      "originalEvidence": "performance-ai/matrix.csv; PerformanceDocs.fs;docs/performance.md;report.md P01; performance-ai/main-session-replay.md",
+      "originalGap": "Original lane qualification: Fingerprint checks exist but generated numbers cannot repair incorrect surrounding prose; current execution/limitations are in the joined replay receipt.",
+      "sourceMatrix": "performance-ai/matrix.csv",
+      "primaryUnit": "U9",
+      "resolutionStatus": "OPEN",
+      "resolutionEvidence": []
+    },
+    {
+      "tracking": "F28",
+      "todo": "Resolve prior audit FAIL finding number 28",
+      "criterionId": "G20-28",
+      "goal": 20,
+      "criterion": "No unsupported zero-cost always-faster or faster-IO blanket claims",
+      "originalVerdict": "FAIL",
+      "originalEvidence": "performance-ai/matrix.csv; docs/performance.md carrier foundation and operation rows;report.md P01; performance-ai/main-session-replay.md",
+      "originalGap": "Original lane qualification: Zero-allocation/general carrier statements include allocating Validation paths; current execution/limitations are in the joined replay receipt.",
+      "sourceMatrix": "performance-ai/matrix.csv",
+      "primaryUnit": "U9",
+      "resolutionStatus": "OPEN",
+      "resolutionEvidence": []
+    },
+    {
+      "tracking": "F29",
+      "todo": "Resolve prior audit FAIL finding number 29",
+      "criterionId": "G21-03",
+      "goal": 21,
+      "criterion": "Common misuse rejected by types or local diagnostics",
+      "originalVerdict": "FAIL",
+      "originalEvidence": "performance-ai/matrix.csv; analyzers and baseline tests;report.md A03; performance-ai/main-session-replay.md; performance-ai/analyzer-probes.stdout.txt",
+      "originalGap": "Actual packaged FS1001 emits no diagnostic for empty initializer; correct-behavior assertion failed.",
+      "sourceMatrix": "performance-ai/matrix.csv",
+      "primaryUnit": "U7",
+      "resolutionStatus": "RESOLVED_AT_UNIT_SNAPSHOT",
+      "resolutionEvidence": [
+        {
+          "artifact": "docs/audits/goal-24-resolution/evidence/fs1001/receipt.json",
+          "executor": "main-session",
+          "baseCommit": "a8863473fd53eddc7cb47201508426db2e454f84",
+          "baseTree": "88e8a528017b0a5f68710cc1d955fda64486877f",
+          "unitDiffSha256": "361fa232e4b9a42ac250ea23a086647b09a8b01eacee40dd193b9b117572af3f",
+          "packageSha256": "53d0e1ebffe623383567d06e54ae8dbb698cbf3368892f5b18df8d9957012a3f",
+          "observed": "Red:8 failures among88; green:88 passed,zero failed/skipped; actual PackageReference sentinel rejects FS1001 and valid consumer runs42; no ProjectReferences; two package analyzer inputs resolved.",
+          "finalCandidateReplay": "Required when later fixes change package/analyzer bytes."
+        }
+      ]
+    },
+    {
+      "tracking": "F30",
+      "todo": "Resolve prior audit FAIL finding number 30",
+      "criterionId": "G21-04",
+      "goal": 21,
+      "criterion": "Safe fixes where transformation is unambiguous",
+      "originalVerdict": "FAIL",
+      "originalEvidence": "performance-ai/matrix.csv; DiscardedOutcomeCodeFixProvider.cs;report.md A01; performance-ai/main-session-replay.md",
+      "originalGap": "Original lane qualification: Generated underscore assignment may bind an existing local and break compilation or behavior; current execution/limitations are in the joined replay receipt.",
+      "sourceMatrix": "performance-ai/matrix.csv",
+      "primaryUnit": "U7",
+      "resolutionStatus": "RESOLVED_AT_UNIT_SNAPSHOT",
+      "resolutionEvidence": [
+        {
+          "artifact": "docs/audits/goal-24-resolution/evidence/fs1002/receipt.json",
+          "executor": "main-session",
+          "baseCommit": "a8863473fd53eddc7cb47201508426db2e454f84",
+          "baseTree": "88e8a528017b0a5f68710cc1d955fda64486877f",
+          "unitDiffSha256": "58f6250019b4095e53d3623e9349414a577ce145f77c3c4e86bd46a6ae4a2c42",
+          "packageSha256": "645ca464d5916fe6918409c27f62105e5932bb38bf33033149eb917acd4b929b",
+          "providerSha256": "a59f91a781fd6966c05f1dd14f0917da4bc2b6b3d49e9117373c345123f5351c",
+          "observed": "109 source analyzer tests and56 actual packaged analyzer/code-fix tests passed,zero failures/skips; semantic discard/compilation/trivia and real BatchFixer controls discriminate unsafe sites.",
+          "finalCandidateReplay": "Required after remaining tooling/package changes."
+        }
+      ]
+    },
+    {
+      "tracking": "F31",
+      "todo": "Resolve prior audit FAIL finding number 31",
+      "criterionId": "G21-05",
+      "goal": 21,
+      "criterion": "Invalid and uninitialized carrier coverage",
+      "originalVerdict": "FAIL",
+      "originalEvidence": "performance-ai/matrix.csv; UninitializedCarrierAnalyzer.cs;tests;report.md A03; performance-ai/main-session-replay.md; performance-ai/analyzer-probes.stdout.txt",
+      "originalGap": "Actual packaged FS1001 emits no diagnostic for empty initializer; correct-behavior assertion failed.",
+      "sourceMatrix": "performance-ai/matrix.csv",
+      "primaryUnit": "U7",
+      "resolutionStatus": "RESOLVED_AT_UNIT_SNAPSHOT",
+      "resolutionEvidence": [
+        {
+          "artifact": "docs/audits/goal-24-resolution/evidence/fs1001/receipt.json",
+          "executor": "main-session",
+          "baseCommit": "a8863473fd53eddc7cb47201508426db2e454f84",
+          "baseTree": "88e8a528017b0a5f68710cc1d955fda64486877f",
+          "unitDiffSha256": "361fa232e4b9a42ac250ea23a086647b09a8b01eacee40dd193b9b117572af3f",
+          "packageSha256": "53d0e1ebffe623383567d06e54ae8dbb698cbf3368892f5b18df8d9957012a3f",
+          "observed": "Red:8 failures among88; green:88 passed,zero failed/skipped; actual PackageReference sentinel rejects FS1001 and valid consumer runs42; no ProjectReferences; two package analyzer inputs resolved.",
+          "finalCandidateReplay": "Required when later fixes change package/analyzer bytes."
+        }
+      ]
+    },
+    {
+      "tracking": "F32",
+      "todo": "Resolve prior audit FAIL finding number 32",
+      "criterionId": "G21-08",
+      "goal": 21,
+      "criterion": "Async hazards diagnosed with acceptably low false-positive risk",
+      "originalVerdict": "FAIL",
+      "originalEvidence": "performance-ai/matrix.csv; BlockedValueTaskAnalyzer.cs;report.md A02; performance-ai/main-session-replay.md",
+      "originalGap": "Original lane qualification: Completed single-consumption fast path still receives FS1004; current execution/limitations are in the joined replay receipt.",
+      "sourceMatrix": "performance-ai/matrix.csv",
+      "primaryUnit": "U7",
+      "resolutionStatus": "RESOLVED_AT_UNIT_SNAPSHOT",
+      "resolutionEvidence": [
+        {
+          "artifact": "docs/audits/goal-24-resolution/evidence/fs1004/receipt.json",
+          "executor": "main-session",
+          "baseCommit": "a8863473fd53eddc7cb47201508426db2e454f84",
+          "baseTree": "88e8a528017b0a5f68710cc1d955fda64486877f",
+          "unitDiffSha256": "7a8b9c01f0d1964783705495923cdda60313f66236b0d5e39b9510b4bb93b3e2",
+          "packageSha256": "1f22cb9a956cfb98df5fdfef3de85e650f40a31c7a30e08f7049c5edfa9a52a5",
+          "analyzerSha256": "cbc82411aa4fa999ec3ae59ca100b0338f64eda212676b5162164a9ffc091104",
+          "observed": "159 source tests and117 actual packaged static/runtime tests pass; completed/pending/fault/cancel single-consumption witnesses; clean C# diagnostics, solution build0 warnings/errors and56 snippets/11 guides.",
+          "finalCandidateReplay": "Required when later shipping bytes change."
+        }
+      ]
+    },
+    {
+      "tracking": "F33",
+      "todo": "Resolve prior audit FAIL finding number 33",
+      "criterionId": "G21-12",
+      "goal": 21,
+      "criterion": "Correct ordinary code remains quiet",
+      "originalVerdict": "FAIL",
+      "originalEvidence": "performance-ai/matrix.csv; report.md A02;new package analyzer probe; performance-ai/main-session-replay.md",
+      "originalGap": "Original lane qualification: Safe IsCompletedSuccessfully branch is reported despite no blocking or double consumption; current execution/limitations are in the joined replay receipt.",
+      "sourceMatrix": "performance-ai/matrix.csv",
+      "primaryUnit": "U7",
+      "resolutionStatus": "RESOLVED_AT_UNIT_SNAPSHOT",
+      "resolutionEvidence": [
+        {
+          "artifact": "docs/audits/goal-24-resolution/evidence/fs1004/receipt.json",
+          "executor": "main-session",
+          "baseCommit": "a8863473fd53eddc7cb47201508426db2e454f84",
+          "baseTree": "88e8a528017b0a5f68710cc1d955fda64486877f",
+          "unitDiffSha256": "7a8b9c01f0d1964783705495923cdda60313f66236b0d5e39b9510b4bb93b3e2",
+          "packageSha256": "1f22cb9a956cfb98df5fdfef3de85e650f40a31c7a30e08f7049c5edfa9a52a5",
+          "analyzerSha256": "cbc82411aa4fa999ec3ae59ca100b0338f64eda212676b5162164a9ffc091104",
+          "observed": "159 source tests and117 actual packaged static/runtime tests pass; completed/pending/fault/cancel single-consumption witnesses; clean C# diagnostics, solution build0 warnings/errors and56 snippets/11 guides.",
+          "finalCandidateReplay": "Required when later shipping bytes change."
+        }
+      ]
+    },
+    {
+      "tracking": "F34",
+      "todo": "Resolve prior audit FAIL finding number 34",
+      "criterionId": "G21-19",
+      "goal": 21,
+      "criterion": "Diagnostic documentation is precise",
+      "originalVerdict": "FAIL",
+      "originalEvidence": "performance-ai/matrix.csv; docs/analyzers.md;Effect.cs;report.md Supported Analyzer Boundaries; performance-ai/main-session-replay.md",
+      "originalGap": "Original lane qualification: Completed-path warning and unsafe-discard fix are not accurately bounded; current execution/limitations are in the joined replay receipt.",
+      "sourceMatrix": "performance-ai/matrix.csv",
+      "primaryUnit": "U7",
+      "resolutionStatus": "RESOLVED_AT_UNIT_SNAPSHOT",
+      "resolutionEvidence": [
+        {
+          "artifact": "docs/audits/goal-24-resolution/evidence/fs1004/receipt.json",
+          "executor": "main-session",
+          "baseCommit": "a8863473fd53eddc7cb47201508426db2e454f84",
+          "baseTree": "88e8a528017b0a5f68710cc1d955fda64486877f",
+          "unitDiffSha256": "7a8b9c01f0d1964783705495923cdda60313f66236b0d5e39b9510b4bb93b3e2",
+          "packageSha256": "1f22cb9a956cfb98df5fdfef3de85e650f40a31c7a30e08f7049c5edfa9a52a5",
+          "analyzerSha256": "cbc82411aa4fa999ec3ae59ca100b0338f64eda212676b5162164a9ffc091104",
+          "observed": "159 source tests and117 actual packaged static/runtime tests pass; completed/pending/fault/cancel single-consumption witnesses; clean C# diagnostics, solution build0 warnings/errors and56 snippets/11 guides.",
+          "finalCandidateReplay": "Required when later shipping bytes change."
+        }
+      ]
+    },
+    {
+      "tracking": "F35",
+      "todo": "Resolve prior audit FAIL finding number 35",
+      "criterionId": "G22-22.14",
+      "goal": 22,
+      "criterion": "Typed-result metadata fidelity",
+      "originalVerdict": "FAIL",
+      "originalEvidence": "release-slice/matrix.csv; OrderEndpoints reconcile metadata; OrderService.ReconcileAsync; ReconcileProbe; release-slice/main-session-reconcile.md; release-slice/reconcile-http.json",
+      "originalGap": "Actual typed history-diverged500 is absent from same Kestrel application OpenAPI response set200/404/503.",
+      "sourceMatrix": "release-slice/matrix.csv",
+      "primaryUnit": "U8",
+      "resolutionStatus": "RESOLVED_AT_UNIT_SNAPSHOT",
+      "resolutionEvidence": [
+        {
+          "artifact": "docs/audits/goal-24-resolution/evidence/reconciliation/receipt.json",
+          "executor": "main-session",
+          "baseCommit": "a8863473fd53eddc7cb47201508426db2e454f84",
+          "baseTree": "88e8a528017b0a5f68710cc1d955fda64486877f",
+          "unitDiffSha256": "89cbe69b6d4b9fd05536f23b0ee53f034f31d86ee6766892cf41b290ab581b1d",
+          "corePackageSha256": "1f22cb9a956cfb98df5fdfef3de85e650f40a31c7a30e08f7049c5edfa9a52a5",
+          "observed": "2 real metadata regressions fail beforefix;50 slice tests pass after;independent Kestrel returns201 then typed500 and same-host OpenAPI200/404/500/503;listenerConnectionRefused afterdispose.",
+          "finalCandidateReplay": "Required after final package/version changes and official harness repair."
+        }
+      ]
+    },
+    {
+      "tracking": "F36",
+      "todo": "Resolve prior audit FAIL finding number 36",
+      "criterionId": "G22-22.15",
+      "goal": 22,
+      "criterion": "OpenAPI accurately reflects possible outcomes",
+      "originalVerdict": "FAIL",
+      "originalEvidence": "release-slice/matrix.csv; Same source chain; OpenApiTests; ReconcileProbe; release-slice/main-session-reconcile.md; release-slice/reconcile-http.json",
+      "originalGap": "Actual typed history-diverged500 is absent from same Kestrel application OpenAPI response set200/404/503.",
+      "sourceMatrix": "release-slice/matrix.csv",
+      "primaryUnit": "U8",
+      "resolutionStatus": "RESOLVED_AT_UNIT_SNAPSHOT",
+      "resolutionEvidence": [
+        {
+          "artifact": "docs/audits/goal-24-resolution/evidence/reconciliation/receipt.json",
+          "executor": "main-session",
+          "baseCommit": "a8863473fd53eddc7cb47201508426db2e454f84",
+          "baseTree": "88e8a528017b0a5f68710cc1d955fda64486877f",
+          "unitDiffSha256": "89cbe69b6d4b9fd05536f23b0ee53f034f31d86ee6766892cf41b290ab581b1d",
+          "corePackageSha256": "1f22cb9a956cfb98df5fdfef3de85e650f40a31c7a30e08f7049c5edfa9a52a5",
+          "observed": "2 real metadata regressions fail beforefix;50 slice tests pass after;independent Kestrel returns201 then typed500 and same-host OpenAPI200/404/500/503;listenerConnectionRefused afterdispose.",
+          "finalCandidateReplay": "Required after final package/version changes and official harness repair."
+        }
+      ]
+    },
+    {
+      "tracking": "F37",
+      "todo": "Resolve prior audit FAIL finding number 37",
+      "criterionId": "G23-23.01",
+      "goal": 23,
+      "criterion": "Release-quality preview consistently expresses accepted constitution",
+      "originalVerdict": "FAIL",
+      "originalEvidence": "release-slice/matrix.csv; report.md; matrix.csv; baseline and runtime evidence; release-slice/main-session-reconcile.md",
+      "originalGap": "Original lane qualification: OpenAPI and enforcement findings prevent overall PASS; current execution/limitations are in the joined replay receipt.",
+      "sourceMatrix": "release-slice/matrix.csv",
+      "primaryUnit": "U15",
+      "resolutionStatus": "OPEN",
+      "resolutionEvidence": []
+    },
+    {
+      "tracking": "F38",
+      "todo": "Resolve prior audit FAIL finding number 38",
+      "criterionId": "G23-23.36",
+      "goal": 23,
+      "criterion": "Fail-closed release-readiness record",
+      "originalVerdict": "FAIL",
+      "originalEvidence": "release-slice/matrix.csv; release-readiness.md; corrected local release PASS; enforcement readback; release-slice/main-session-reconcile.md",
+      "originalGap": "Original lane qualification: Local gate PASS does not establish repository enforcement or final P/A/I artifacts; current execution/limitations are in the joined replay receipt.",
+      "sourceMatrix": "release-slice/matrix.csv",
+      "primaryUnit": "U15",
+      "resolutionStatus": "OPEN",
+      "resolutionEvidence": []
+    },
+    {
+      "tracking": "F39",
+      "todo": "Resolve prior audit FAIL finding number 39",
+      "criterionId": "G23-R.04",
+      "goal": 23,
+      "criterion": "Authorized four-context ruleset and deliberate blocking proof",
+      "originalVerdict": "FAIL",
+      "originalEvidence": "release-slice/matrix.csv; main-session-runtime.md rulesets [] and main protection 404; release-slice/main-session-reconcile.md",
+      "originalGap": "Original lane qualification: Required enforcement absent from observed control plane; blocking proof not established; current execution/limitations are in the joined replay receipt.",
+      "sourceMatrix": "release-slice/matrix.csv",
+      "primaryUnit": "U15",
+      "resolutionStatus": "OPEN",
+      "resolutionEvidence": []
+    },
+    {
+      "tracking": "F40",
+      "todo": "Resolve prior audit FAIL finding number 40",
+      "criterionId": "G18-CANCELLATION-PUBLICATION",
+      "goal": 18,
+      "criterion": "Preserve consumer cancellation during an in-flight ordered pull",
+      "originalVerdict": "FAIL",
+      "originalEvidence": "async-advanced/main-session-probes.stdout.txt; async-advanced/main-session-replay.md; src/FunnySharp/ParallelAsyncEnumerableExtensions.cs:308-325",
+      "originalGap": "P01 returns a value after cancellation; P02 completion-order control publishes caller-token OperationCanceledException; cleanup completed45/45.",
+      "sourceMatrix": "Main-session package reproduction",
+      "primaryUnit": "U4",
+      "resolutionStatus": "RESOLVED_AT_UNIT_SNAPSHOT",
+      "resolutionEvidence": [
+        {
+          "artifact": "docs/audits/goal-24-resolution/evidence/ordered/receipt.json",
+          "executor": "main-session",
+          "unitDiffSha256": "dfd493bb01b2ac2d5edba515812909bc46eaa57cc82e677d1bc58115ebd41471",
+          "packageSha256": "d8d0a83baa7e8f3f1f64a6140ec9a72e7277e094d96f5f144564b77a6ea9ac55",
+          "observed": "6 red/54;54 focused/719 core/54 actual package pass with exact-token cancellation,original fault identity,cleanup aggregate,single consumption/disposal and causal routing barriers.",
+          "finalCandidateReplay": "Required at final frozen tree."
+        }
+      ]
+    },
+    {
+      "tracking": "U01",
+      "todo": "Resolve prior audit UNVERIFIED finding number 01",
+      "criterionId": "G16-02",
+      "goal": 16,
+      "criterion": "Materially less consumer semantic LOC",
+      "originalVerdict": "UNVERIFIED",
+      "originalEvidence": "constitution-grammar/matrix.csv; CG-04; 101 versus 117 semantic units; constitution-grammar/package-inventory.stdout.txt",
+      "originalGap": "Original lane qualification: Missing candidate-bound equivalent representative density evidence beyond isolated protocol wins; current execution/limitations are in the joined replay receipt.",
+      "sourceMatrix": "constitution-grammar/matrix.csv",
+      "primaryUnit": "U11",
+      "resolutionStatus": "OPEN",
+      "resolutionEvidence": []
+    },
+    {
+      "tracking": "U02",
+      "todo": "Resolve prior audit UNVERIFIED finding number 02",
+      "criterionId": "G16-E4",
+      "goal": 16,
+      "criterion": "Representative comparisons demonstrate shorter FunnySharp workflows",
+      "originalVerdict": "UNVERIFIED",
+      "originalEvidence": "constitution-grammar/matrix.csv; CG-04; honest WF1-WF7 study; constitution-grammar/package-inventory.stdout.txt",
+      "originalGap": "Original lane qualification: One Scan win does not independently establish the broader density claim; current execution/limitations are in the joined replay receipt.",
+      "sourceMatrix": "constitution-grammar/matrix.csv",
+      "primaryUnit": "U11",
+      "resolutionStatus": "OPEN",
+      "resolutionEvidence": []
+    },
+    {
+      "tracking": "U03",
+      "todo": "Resolve prior audit UNVERIFIED finding number 03",
+      "criterionId": "G17-32",
+      "goal": 17,
+      "criterion": "Equivalent performance/allocation comparisons",
+      "originalVerdict": "UNVERIFIED",
+      "originalEvidence": "carriers-collections/clause-matrix.csv; benchmarks/FunnySharp.Benchmarks/CollectionBenchmarks.cs:54-242; docs/collections.md:300-352; carriers-collections/main-session-replay.md",
+      "originalGap": "Original lane qualification: Source comparisons inspected; candidate-bound quantitative replay/equivalence receipt must be joined from performance lane; current execution/limitations are in the joined replay receipt.",
+      "sourceMatrix": "carriers-collections/clause-matrix.csv",
+      "primaryUnit": "U13",
+      "resolutionStatus": "OPEN",
+      "resolutionEvidence": []
+    },
+    {
+      "tracking": "U04",
+      "todo": "Resolve prior audit UNVERIFIED finding number 04",
+      "criterionId": "G18-14",
+      "goal": 18,
+      "criterion": "No cancellation converted to domain failure",
+      "originalVerdict": "UNVERIFIED",
+      "originalEvidence": "async-advanced/matrix.csv; Channels distinct in traversal/effects/race; ordered map can publish value after cancellation; async-advanced/main-session-replay.md",
+      "originalGap": "Original lane qualification: AA-01 P01/P02 pending package reproduction; current execution/limitations are in the joined replay receipt.",
+      "sourceMatrix": "async-advanced/matrix.csv",
+      "primaryUnit": "U4",
+      "resolutionStatus": "RESOLVED_AT_UNIT_SNAPSHOT",
+      "resolutionEvidence": [
+        {
+          "artifact": "docs/audits/goal-24-resolution/evidence/ordered/receipt.json",
+          "executor": "main-session",
+          "unitDiffSha256": "dfd493bb01b2ac2d5edba515812909bc46eaa57cc82e677d1bc58115ebd41471",
+          "packageSha256": "d8d0a83baa7e8f3f1f64a6140ec9a72e7277e094d96f5f144564b77a6ea9ac55",
+          "observed": "6 red/54;54 focused/719 core/54 actual package pass with exact-token cancellation,original fault identity,cleanup aggregate,single consumption/disposal and causal routing barriers.",
+          "finalCandidateReplay": "Required at final frozen tree."
+        }
+      ]
+    },
+    {
+      "tracking": "U05",
+      "todo": "Resolve prior audit UNVERIFIED finding number 05",
+      "criterionId": "G18-19",
+      "goal": 18,
+      "criterion": "Measurable IO workflow value",
+      "originalVerdict": "UNVERIFIED",
+      "originalEvidence": "async-advanced/matrix.csv; Streaming backpressure provides workflow mechanism; no intrinsic-system-call speed claim; async-advanced/main-session-replay.md",
+      "originalGap": "Original lane qualification: Independent performance-ai receipts required for equivalent latency throughput allocation and concurrency scenarios listed in report; current execution/limitations are in the joined replay receipt.",
+      "sourceMatrix": "async-advanced/matrix.csv",
+      "primaryUnit": "U13",
+      "resolutionStatus": "OPEN",
+      "resolutionEvidence": []
+    },
+    {
+      "tracking": "U06",
+      "todo": "Resolve prior audit UNVERIFIED finding number 06",
+      "criterionId": "G18-21",
+      "goal": 18,
+      "criterion": "Deterministic xUnit scheduling-independent semantics",
+      "originalVerdict": "UNVERIFIED",
+      "originalEvidence": "async-advanced/matrix.csv; Manual gates/time provider used widely; source-order route test relies on one-second grace; async-advanced/main-session-replay.md",
+      "originalGap": "Original lane qualification: AA-04 precise missing causally gated routing witness; P03/P04 independent package witnesses; current execution/limitations are in the joined replay receipt.",
+      "sourceMatrix": "async-advanced/matrix.csv",
+      "primaryUnit": "U6",
+      "resolutionStatus": "RESOLVED_AT_UNIT_SNAPSHOT",
+      "resolutionEvidence": [
+        {
+          "artifact": "docs/audits/goal-24-resolution/evidence/ordered/receipt.json",
+          "executor": "main-session",
+          "unitDiffSha256": "dfd493bb01b2ac2d5edba515812909bc46eaa57cc82e677d1bc58115ebd41471",
+          "packageSha256": "d8d0a83baa7e8f3f1f64a6140ec9a72e7277e094d96f5f144564b77a6ea9ac55",
+          "observed": "6 red/54;54 focused/719 core/54 actual package pass with exact-token cancellation,original fault identity,cleanup aggregate,single consumption/disposal and causal routing barriers.",
+          "finalCandidateReplay": "Required at final frozen tree."
+        }
+      ]
+    },
+    {
+      "tracking": "U07",
+      "todo": "Resolve prior audit UNVERIFIED finding number 07",
+      "criterionId": "G18-23",
+      "goal": 18,
+      "criterion": "Reproducible latency throughput allocation concurrency BCL comparisons",
+      "originalVerdict": "UNVERIFIED",
+      "originalEvidence": "async-advanced/matrix.csv; Concurrency guide names scenarios and exclusions but prose not independently measured proof; async-advanced/main-session-replay.md",
+      "originalGap": "Original lane qualification: performance-ai ConcurrencyBenchmarks Count16/1024 CandidateCount4/16 receipts and environment/equivalence required; current execution/limitations are in the joined replay receipt.",
+      "sourceMatrix": "async-advanced/matrix.csv",
+      "primaryUnit": "U13",
+      "resolutionStatus": "OPEN",
+      "resolutionEvidence": []
+    },
+    {
+      "tracking": "U08",
+      "todo": "Resolve prior audit UNVERIFIED finding number 08",
+      "criterionId": "G19-11",
+      "goal": 19,
+      "criterion": "Acceptable measured cost",
+      "originalVerdict": "UNVERIFIED",
+      "originalEvidence": "async-advanced/matrix.csv; Current Then redesign present; effects/optics/concurrency costs disclosed but not inferred from prose; async-advanced/main-session-replay.md",
+      "originalGap": "Original lane qualification: performance-ai EffectBenchmarks StateMachineBenchmarks ImmutableUpdateBenchmarks ConcurrencyBenchmarks candidate-bound receipts required; current execution/limitations are in the joined replay receipt.",
+      "sourceMatrix": "async-advanced/matrix.csv",
+      "primaryUnit": "U13",
+      "resolutionStatus": "OPEN",
+      "resolutionEvidence": []
+    },
+    {
+      "tracking": "U09",
+      "todo": "Resolve prior audit UNVERIFIED finding number 09",
+      "criterionId": "G19-21",
+      "goal": 19,
+      "criterion": "Relevant allocation and throughput results",
+      "originalVerdict": "UNVERIFIED",
+      "originalEvidence": "async-advanced/matrix.csv; Independent performance lane owns numerical acceptance; historical curation cost not current proof; async-advanced/main-session-replay.md",
+      "originalGap": "Original lane qualification: Precise current benchmark scenario receipts listed in report; current execution/limitations are in the joined replay receipt.",
+      "sourceMatrix": "async-advanced/matrix.csv",
+      "primaryUnit": "U13",
+      "resolutionStatus": "OPEN",
+      "resolutionEvidence": []
+    },
+    {
+      "tracking": "U10",
+      "todo": "Resolve prior audit UNVERIFIED finding number 10",
+      "criterionId": "G20-05",
+      "goal": 20,
+      "criterion": "Boxing characteristics and stable-operation coverage are complete",
+      "originalVerdict": "UNVERIFIED",
+      "originalEvidence": "performance-ai/matrix.csv; docs/performance.md;benchmark suites; performance-ai/main-session-replay.md",
+      "originalGap": "Original lane qualification: Missing complete member-to-characteristics and benchmark/exclusion crosswalk; current execution/limitations are in the joined replay receipt.",
+      "sourceMatrix": "performance-ai/matrix.csv",
+      "primaryUnit": "U13",
+      "resolutionStatus": "OPEN",
+      "resolutionEvidence": []
+    },
+    {
+      "tracking": "U11",
+      "todo": "Resolve prior audit UNVERIFIED finding number 11",
+      "criterionId": "G20-10",
+      "goal": 20,
+      "criterion": "Appropriate idiomatic high-level BCL or LINQ comparisons",
+      "originalVerdict": "UNVERIFIED",
+      "originalEvidence": "performance-ai/matrix.csv; CollectionBenchmarks.cs;DataPipelineBenchmarks.cs; performance-ai/main-session-replay.md",
+      "originalGap": "Original lane qualification: Comparisons exist but complete stable-operation baseline coverage and independent equivalence evidence are absent; current execution/limitations are in the joined replay receipt.",
+      "sourceMatrix": "performance-ai/matrix.csv",
+      "primaryUnit": "U13",
+      "resolutionStatus": "OPEN",
+      "resolutionEvidence": []
+    },
+    {
+      "tracking": "U12",
+      "todo": "Resolve prior audit UNVERIFIED finding number 12",
+      "criterionId": "G20-14",
+      "goal": 20,
+      "criterion": "No undisclosed unbounded resource behavior",
+      "originalVerdict": "UNVERIFIED",
+      "originalEvidence": "performance-ai/matrix.csv; parallel streaming and cold-effect coordination sources; performance-ai/main-session-replay.md",
+      "originalGap": "Original lane qualification: No complete stable-member resource crosswalk or independent long-input resource receipts; current execution/limitations are in the joined replay receipt.",
+      "sourceMatrix": "performance-ai/matrix.csv",
+      "primaryUnit": "U13",
+      "resolutionStatus": "OPEN",
+      "resolutionEvidence": []
+    },
+    {
+      "tracking": "U13",
+      "todo": "Resolve prior audit UNVERIFIED finding number 13",
+      "criterionId": "G20-16",
+      "goal": 20,
+      "criterion": "Material regressions removed or justified by visible semantics",
+      "originalVerdict": "UNVERIFIED",
+      "originalEvidence": "performance-ai/matrix.csv; docs/state-machines.md;observations;report.md P05; performance-ai/main-session-replay.md",
+      "originalGap": "Original lane qualification: State snapshots are justified but historical raw comparison receipts are unavailable; current execution/limitations are in the joined replay receipt.",
+      "sourceMatrix": "performance-ai/matrix.csv",
+      "primaryUnit": "U13",
+      "resolutionStatus": "OPEN",
+      "resolutionEvidence": []
+    },
+    {
+      "tracking": "U14",
+      "todo": "Resolve prior audit UNVERIFIED finding number 14",
+      "criterionId": "G20-23",
+      "goal": 20,
+      "criterion": "Raw result receipts independently available and verifiable",
+      "originalVerdict": "UNVERIFIED",
+      "originalEvidence": "performance-ai/matrix.csv; manifest receipt declarations;report.md P05; performance-ai/main-session-replay.md",
+      "originalGap": "Original lane qualification: Missing 15 declared receipts and their required raw report triplets; current execution/limitations are in the joined replay receipt.",
+      "sourceMatrix": "performance-ai/matrix.csv",
+      "primaryUnit": "U13",
+      "resolutionStatus": "OPEN",
+      "resolutionEvidence": []
+    },
+    {
+      "tracking": "U15",
+      "todo": "Resolve prior audit UNVERIFIED finding number 15",
+      "criterionId": "G21-01",
+      "goal": 21,
+      "criterion": "Measurably friendly to agents and humans",
+      "originalVerdict": "UNVERIFIED",
+      "originalEvidence": "performance-ai/matrix.csv; all20 records;all10 reviews;report.md A04 A06; performance-ai/main-session-replay.md",
+      "originalGap": "Original lane qualification: Producer independence missing;recorded LOC correction and readability comparisons do not show an overall advantage; current execution/limitations are in the joined replay receipt.",
+      "sourceMatrix": "performance-ai/matrix.csv",
+      "primaryUnit": "U12",
+      "resolutionStatus": "OPEN",
+      "resolutionEvidence": []
+    },
+    {
+      "tracking": "U16",
+      "todo": "Resolve prior audit UNVERIFIED finding number 16",
+      "criterionId": "G21-24",
+      "goal": 21,
+      "criterion": "Semantic correctness recorded and reproducible",
+      "originalVerdict": "UNVERIFIED",
+      "originalEvidence": "performance-ai/matrix.csv; all fixed suites and final solutions;report.md A06; performance-ai/main-session-replay.md",
+      "originalGap": "Original lane qualification: Final counts present;new rerun pending and multiple-accepting observation-order oracle absent; current execution/limitations are in the joined replay receipt.",
+      "sourceMatrix": "performance-ai/matrix.csv",
+      "primaryUnit": "U12",
+      "resolutionStatus": "OPEN",
+      "resolutionEvidence": []
+    },
+    {
+      "tracking": "U17",
+      "todo": "Resolve prior audit UNVERIFIED finding number 17",
+      "criterionId": "G21-25",
+      "goal": 21,
+      "criterion": "Correction feedback recorded",
+      "originalVerdict": "UNVERIFIED",
+      "originalEvidence": "performance-ai/matrix.csv; Evaluation.runVerify;four round2 records;report.md A04; performance-ai/main-session-replay.md",
+      "originalGap": "Original lane qualification: Missing earlier solution/output/feedback receipts;round is caller supplied and record overwritten; current execution/limitations are in the joined replay receipt.",
+      "sourceMatrix": "performance-ai/matrix.csv",
+      "primaryUnit": "U12",
+      "resolutionStatus": "OPEN",
+      "resolutionEvidence": []
+    },
+    {
+      "tracking": "U18",
+      "todo": "Resolve prior audit UNVERIFIED finding number 18",
+      "criterionId": "G21-27",
+      "goal": 21,
+      "criterion": "API misuse recorded",
+      "originalVerdict": "UNVERIFIED",
+      "originalEvidence": "performance-ai/matrix.csv; all20 records;Evaluation.fs;report.md A04; performance-ai/main-session-replay.md",
+      "originalGap": "Original lane qualification: Final FS lists are empty;no historical analyzer-loading or earlier-round diagnostic receipts; current execution/limitations are in the joined replay receipt.",
+      "sourceMatrix": "performance-ai/matrix.csv",
+      "primaryUnit": "U12",
+      "resolutionStatus": "OPEN",
+      "resolutionEvidence": []
+    },
+    {
+      "tracking": "U19",
+      "todo": "Resolve prior audit UNVERIFIED finding number 19",
+      "criterionId": "G21-29",
+      "goal": 21,
+      "criterion": "More than one curated prompt or one model run as evidence",
+      "originalVerdict": "UNVERIFIED",
+      "originalEvidence": "performance-ai/matrix.csv; all task prompts and run folders;report.md A04; performance-ai/main-session-replay.md",
+      "originalGap": "Original lane qualification: Five prompts and20 final folders exist but independent producer/model run provenance is missing; current execution/limitations are in the joined replay receipt.",
+      "sourceMatrix": "performance-ai/matrix.csv",
+      "primaryUnit": "U12",
+      "resolutionStatus": "OPEN",
+      "resolutionEvidence": []
+    },
+    {
+      "tracking": "U20",
+      "todo": "Resolve prior audit UNVERIFIED finding number 20",
+      "criterionId": "G21-30",
+      "goal": 21,
+      "criterion": "Task model run solution and reviewer provenance",
+      "originalVerdict": "UNVERIFIED",
+      "originalEvidence": "performance-ai/matrix.csv; evaluation-inventory.csv;report.md A04; performance-ai/main-session-replay.md",
+      "originalGap": "Original lane qualification: Current hashes supplied;historical execution and maintainer identities not bound; current execution/limitations are in the joined replay receipt.",
+      "sourceMatrix": "performance-ai/matrix.csv",
+      "primaryUnit": "U12",
+      "resolutionStatus": "OPEN",
+      "resolutionEvidence": []
+    },
+    {
+      "tracking": "U21",
+      "todo": "Resolve prior audit UNVERIFIED finding number 21",
+      "criterionId": "G21-31",
+      "goal": 21,
+      "criterion": "AI friendliness from consistent types rather than hidden prompt instructions",
+      "originalVerdict": "UNVERIFIED",
+      "originalEvidence": "performance-ai/matrix.csv; ASP.NET FunnySharp prompt;ai-usability-goal-21.md;report.md A05; performance-ai/main-session-replay.md",
+      "originalGap": "Original lane qualification: Public type strategy supported but claimed hint-free discovery contradicts explicit integration hints and missing transcripts; current execution/limitations are in the joined replay receipt.",
+      "sourceMatrix": "performance-ai/matrix.csv",
+      "primaryUnit": "U12",
+      "resolutionStatus": "OPEN",
+      "resolutionEvidence": []
+    },
+    {
+      "tracking": "U22",
+      "todo": "Resolve prior audit UNVERIFIED finding number 22",
+      "criterionId": "G23-23.03",
+      "goal": 23,
+      "criterion": "Stable API intentional names",
+      "originalVerdict": "UNVERIFIED",
+      "originalEvidence": "release-slice/matrix.csv; Committed/built API baseline; grammar; release-slice/main-session-reconcile.md",
+      "originalGap": "Original lane qualification: Aggregate grammar/carrier lane semantic judgments required; current execution/limitations are in the joined replay receipt.",
+      "sourceMatrix": "release-slice/matrix.csv",
+      "primaryUnit": "U14",
+      "resolutionStatus": "RESOLVED_AT_UNIT_SNAPSHOT",
+      "resolutionEvidence": [
+        {
+          "artifact": "docs/audits/goal-24-resolution/evidence/u14-final-semantic-closure.json",
+          "executor": "main-session with independent deep-high GPT-6 Astra index st_01a0fa94",
+          "baseCommit": "a8863473fd53eddc7cb47201508426db2e454f84",
+          "baseTree": "88e8a528017b0a5f68710cc1d955fda64486877f",
+          "coreDllSha256": "6a903f737356fdf67845c9cd39385e4a5e2b39bcae0ee92ff2882480ecb7e49d",
+          "observed": "Exact448core+20HTTP member rows/3744dimensions; actualfinal1762core/28HTTP/18probes0fail0skip; actual2288compilerprobes1751legal537negative,all5analyzers;499XML45aliases19inheritance,31Experimental,31PDBsourcechecks;11semanticbindingcontrolswithgenuineNA10/1red;actual56snippets11guidesandcompiledsamples. Parentvalidated127files565sources697assertions1641caseIDs. 183source-onlydimensions are not runtime executions;19negativeattributionand4ABI/storage mechanism limits explicit.",
+          "finalCandidateReplay": "Reconcile this matching final local package/source snapshot with final full gates and all69-ID freeze; this unit verdict is not product or maintainer acceptance."
+        }
+      ]
+    },
+    {
+      "tracking": "U23",
+      "todo": "Resolve prior audit UNVERIFIED finding number 23",
+      "criterionId": "G23-23.05",
+      "goal": 23,
+      "criterion": "Stable API intentional nullability",
+      "originalVerdict": "UNVERIFIED",
+      "originalEvidence": "release-slice/matrix.csv; Nullable enabled; actual baseline; source contracts; release-slice/main-session-reconcile.md",
+      "originalGap": "Original lane qualification: Aggregate package compiler/nullability semantic evidence required; current execution/limitations are in the joined replay receipt.",
+      "sourceMatrix": "release-slice/matrix.csv",
+      "primaryUnit": "U14",
+      "resolutionStatus": "RESOLVED_AT_UNIT_SNAPSHOT",
+      "resolutionEvidence": [
+        {
+          "artifact": "docs/audits/goal-24-resolution/evidence/u14-final-semantic-closure.json",
+          "executor": "main-session with independent deep-high GPT-6 Astra index st_01a0fa94",
+          "baseCommit": "a8863473fd53eddc7cb47201508426db2e454f84",
+          "baseTree": "88e8a528017b0a5f68710cc1d955fda64486877f",
+          "coreDllSha256": "6a903f737356fdf67845c9cd39385e4a5e2b39bcae0ee92ff2882480ecb7e49d",
+          "observed": "Exact448core+20HTTP member rows/3744dimensions; actualfinal1762core/28HTTP/18probes0fail0skip; actual2288compilerprobes1751legal537negative,all5analyzers;499XML45aliases19inheritance,31Experimental,31PDBsourcechecks;11semanticbindingcontrolswithgenuineNA10/1red;actual56snippets11guidesandcompiledsamples. Parentvalidated127files565sources697assertions1641caseIDs. 183source-onlydimensions are not runtime executions;19negativeattributionand4ABI/storage mechanism limits explicit.",
+          "finalCandidateReplay": "Reconcile this matching final local package/source snapshot with final full gates and all69-ID freeze; this unit verdict is not product or maintainer acceptance."
+        }
+      ]
+    },
+    {
+      "tracking": "U24",
+      "todo": "Resolve prior audit UNVERIFIED finding number 24",
+      "criterionId": "G23-23.06",
+      "goal": 23,
+      "criterion": "Stable API exception contracts",
+      "originalVerdict": "UNVERIFIED",
+      "originalEvidence": "release-slice/matrix.csv; Shipped XML; semantic tests; renderer limits; release-slice/main-session-reconcile.md",
+      "originalGap": "Original lane qualification: XML counts alone do not prove every stable member contract; current execution/limitations are in the joined replay receipt.",
+      "sourceMatrix": "release-slice/matrix.csv",
+      "primaryUnit": "U14",
+      "resolutionStatus": "RESOLVED_AT_UNIT_SNAPSHOT",
+      "resolutionEvidence": [
+        {
+          "artifact": "docs/audits/goal-24-resolution/evidence/u14-final-semantic-closure.json",
+          "executor": "main-session with independent deep-high GPT-6 Astra index st_01a0fa94",
+          "baseCommit": "a8863473fd53eddc7cb47201508426db2e454f84",
+          "baseTree": "88e8a528017b0a5f68710cc1d955fda64486877f",
+          "coreDllSha256": "6a903f737356fdf67845c9cd39385e4a5e2b39bcae0ee92ff2882480ecb7e49d",
+          "observed": "Exact448core+20HTTP member rows/3744dimensions; actualfinal1762core/28HTTP/18probes0fail0skip; actual2288compilerprobes1751legal537negative,all5analyzers;499XML45aliases19inheritance,31Experimental,31PDBsourcechecks;11semanticbindingcontrolswithgenuineNA10/1red;actual56snippets11guidesandcompiledsamples. Parentvalidated127files565sources697assertions1641caseIDs. 183source-onlydimensions are not runtime executions;19negativeattributionand4ABI/storage mechanism limits explicit.",
+          "finalCandidateReplay": "Reconcile this matching final local package/source snapshot with final full gates and all69-ID freeze; this unit verdict is not product or maintainer acceptance."
+        }
+      ]
+    },
+    {
+      "tracking": "U25",
+      "todo": "Resolve prior audit UNVERIFIED finding number 25",
+      "criterionId": "G23-23.08",
+      "goal": 23,
+      "criterion": "Stable API sync/async relationships",
+      "originalVerdict": "UNVERIFIED",
+      "originalEvidence": "release-slice/matrix.csv; API baseline; paired HTTP Task/ValueTask members; release-slice/main-session-reconcile.md",
+      "originalGap": "Original lane qualification: Aggregate async/grammar lane judgments required; current execution/limitations are in the joined replay receipt.",
+      "sourceMatrix": "release-slice/matrix.csv",
+      "primaryUnit": "U14",
+      "resolutionStatus": "RESOLVED_AT_UNIT_SNAPSHOT",
+      "resolutionEvidence": [
+        {
+          "artifact": "docs/audits/goal-24-resolution/evidence/u14-final-semantic-closure.json",
+          "executor": "main-session with independent deep-high GPT-6 Astra index st_01a0fa94",
+          "baseCommit": "a8863473fd53eddc7cb47201508426db2e454f84",
+          "baseTree": "88e8a528017b0a5f68710cc1d955fda64486877f",
+          "coreDllSha256": "6a903f737356fdf67845c9cd39385e4a5e2b39bcae0ee92ff2882480ecb7e49d",
+          "observed": "Exact448core+20HTTP member rows/3744dimensions; actualfinal1762core/28HTTP/18probes0fail0skip; actual2288compilerprobes1751legal537negative,all5analyzers;499XML45aliases19inheritance,31Experimental,31PDBsourcechecks;11semanticbindingcontrolswithgenuineNA10/1red;actual56snippets11guidesandcompiledsamples. Parentvalidated127files565sources697assertions1641caseIDs. 183source-onlydimensions are not runtime executions;19negativeattributionand4ABI/storage mechanism limits explicit.",
+          "finalCandidateReplay": "Reconcile this matching final local package/source snapshot with final full gates and all69-ID freeze; this unit verdict is not product or maintainer acceptance."
+        }
+      ]
+    },
+    {
+      "tracking": "U26",
+      "todo": "Resolve prior audit UNVERIFIED finding number 26",
+      "criterionId": "G23-23.09",
+      "goal": 23,
+      "criterion": "Stable API XML documentation",
+      "originalVerdict": "UNVERIFIED",
+      "originalEvidence": "release-slice/matrix.csv; package-inspection.json 500 documented entries; zero-warning build; release-slice/main-session-reconcile.md",
+      "originalGap": "Original lane qualification: Semantic adequacy and exported-member coverage require aggregate review; current execution/limitations are in the joined replay receipt.",
+      "sourceMatrix": "release-slice/matrix.csv",
+      "primaryUnit": "U14",
+      "resolutionStatus": "RESOLVED_AT_UNIT_SNAPSHOT",
+      "resolutionEvidence": [
+        {
+          "artifact": "docs/audits/goal-24-resolution/evidence/u14-final-semantic-closure.json",
+          "executor": "main-session with independent deep-high GPT-6 Astra index st_01a0fa94",
+          "baseCommit": "a8863473fd53eddc7cb47201508426db2e454f84",
+          "baseTree": "88e8a528017b0a5f68710cc1d955fda64486877f",
+          "coreDllSha256": "6a903f737356fdf67845c9cd39385e4a5e2b39bcae0ee92ff2882480ecb7e49d",
+          "observed": "Exact448core+20HTTP member rows/3744dimensions; actualfinal1762core/28HTTP/18probes0fail0skip; actual2288compilerprobes1751legal537negative,all5analyzers;499XML45aliases19inheritance,31Experimental,31PDBsourcechecks;11semanticbindingcontrolswithgenuineNA10/1red;actual56snippets11guidesandcompiledsamples. Parentvalidated127files565sources697assertions1641caseIDs. 183source-onlydimensions are not runtime executions;19negativeattributionand4ABI/storage mechanism limits explicit.",
+          "finalCandidateReplay": "Reconcile this matching final local package/source snapshot with final full gates and all69-ID freeze; this unit verdict is not product or maintainer acceptance."
+        }
+      ]
+    },
+    {
+      "tracking": "U27",
+      "todo": "Resolve prior audit UNVERIFIED finding number 27",
+      "criterionId": "G23-23.28",
+      "goal": 23,
+      "criterion": "Benchmark claims link to reproducible evidence and do not exceed it",
+      "originalVerdict": "UNVERIFIED",
+      "originalEvidence": "release-slice/matrix.csv; Performance manifests/docs; independent measurement review; release-slice/main-session-reconcile.md",
+      "originalGap": "Original lane qualification: Independent performance-AI lane claim/reproducibility verdict required; current execution/limitations are in the joined replay receipt.",
+      "sourceMatrix": "release-slice/matrix.csv",
+      "primaryUnit": "U13",
+      "resolutionStatus": "OPEN",
+      "resolutionEvidence": []
+    },
+    {
+      "tracking": "U28",
+      "todo": "Resolve prior audit UNVERIFIED finding number 28",
+      "criterionId": "G23-23.29",
+      "goal": 23,
+      "criterion": "AI claims link to reproducible evidence and do not exceed it",
+      "originalVerdict": "UNVERIFIED",
+      "originalEvidence": "release-slice/matrix.csv; Analyzer/evaluation evidence linkage; release-slice/main-session-reconcile.md",
+      "originalGap": "Original lane qualification: Independent performance-AI lane verdict required; table links alone insufficient; current execution/limitations are in the joined replay receipt.",
+      "sourceMatrix": "release-slice/matrix.csv",
+      "primaryUnit": "U12",
+      "resolutionStatus": "OPEN",
+      "resolutionEvidence": []
+    },
+    {
+      "tracking": "U29",
+      "todo": "Resolve prior audit UNVERIFIED finding number 29",
+      "criterionId": "G23-R.06",
+      "goal": 23,
+      "criterion": "Immutable bundle independent attestation and external index",
+      "originalVerdict": "UNVERIFIED",
+      "originalEvidence": "release-slice/matrix.csv; Release-readiness evidence-freeze contract; release-slice/main-session-reconcile.md",
+      "originalGap": "Original lane qualification: Exact P A I artifacts and bindings must be supplied or remain UNVERIFIED; current execution/limitations are in the joined replay receipt.",
+      "sourceMatrix": "release-slice/matrix.csv",
+      "primaryUnit": "U15",
+      "resolutionStatus": "OPEN",
+      "resolutionEvidence": []
+    }
+  ],
+  "originalAuditSnapshot": "docs/audits/goal-24-resolution/original-criterion-matrix.csv",
+  "originalAuditGitBlobSha1": "abc5fe16556b00f0ea495a1608c6cd4270faf69d"
+}

@@ -1,0 +1,90 @@
+Running tests from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\bin\Release\net10.0\FunnySharp.Analyzers.Tests.dll (net10.0|x64)
+failed FunnySharp.Analyzers.Tests.BlockedValueTaskAnalyzerTests.CompletedLocalWithSingleConsumptionIsQuiet(access: "pending.GetAwaiter().GetResult()") (39ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\bin\Release\net10.0\FunnySharp.Analyzers.Tests.dll (net10.0|x64)
+  Expected no diagnostics but got:
+  FS1004: Do not block on this ValueTask: it follows the single-consumption rule and may be backed by pooled resources, so await it once instead of accessing GetAwaiter().GetResult() at line 9
+    at FunnySharp.Analyzers.Tests.AnalyzerTestAssert.QuietAsync(String source) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\AnalyzerTestAssert.cs:30
+    at FunnySharp.Analyzers.Tests.BlockedValueTaskAnalyzerTests.CompletedLocalWithSingleConsumptionIsQuiet(String access) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\BlockedValueTaskAnalyzerTests.cs:133
+    --- End of stack trace from previous location ---
+failed FunnySharp.Analyzers.Tests.BlockedValueTaskAnalyzerTests.CompletedLocalWithSingleConsumptionIsQuiet(access: "pending.Result") (36ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\bin\Release\net10.0\FunnySharp.Analyzers.Tests.dll (net10.0|x64)
+  Expected no diagnostics but got:
+  FS1004: Do not block on this ValueTask: it follows the single-consumption rule and may be backed by pooled resources, so await it once instead of accessing Result at line 9
+    at FunnySharp.Analyzers.Tests.AnalyzerTestAssert.QuietAsync(String source) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\AnalyzerTestAssert.cs:30
+    at FunnySharp.Analyzers.Tests.BlockedValueTaskAnalyzerTests.CompletedLocalWithSingleConsumptionIsQuiet(String access) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\BlockedValueTaskAnalyzerTests.cs:133
+    --- End of stack trace from previous location ---
+failed FunnySharp.Analyzers.Tests.BlockedValueTaskAnalyzerTests.CompletedParameterWithSingleConsumptionIsQuiet(body: "if (!pending.IsCompletedSuccessfully) return await"···) (15ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\bin\Release\net10.0\FunnySharp.Analyzers.Tests.dll (net10.0|x64)
+  Expected no diagnostics but got:
+  FS1004: Do not block on this ValueTask: it follows the single-consumption rule and may be backed by pooled resources, so await it once instead of accessing Result at line 6
+  FS1004: Do not block on this ValueTask: it follows the single-consumption rule and may be backed by pooled resources, so await it once instead of accessing GetAwaiter().GetResult() at line 6
+    at FunnySharp.Analyzers.Tests.AnalyzerTestAssert.QuietAsync(String source) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\AnalyzerTestAssert.cs:30
+    at FunnySharp.Analyzers.Tests.BlockedValueTaskAnalyzerTests.CompletedParameterWithSingleConsumptionIsQuiet(String body) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\BlockedValueTaskAnalyzerTests.cs:115
+    --- End of stack trace from previous location ---
+failed FunnySharp.Analyzers.Tests.BlockedValueTaskAnalyzerTests.CompletedParameterWithSingleConsumptionIsQuiet(body: "if (pending.IsCompletedSuccessfully) return pendin"···) (11ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\bin\Release\net10.0\FunnySharp.Analyzers.Tests.dll (net10.0|x64)
+  Expected no diagnostics but got:
+  FS1004: Do not block on this ValueTask: it follows the single-consumption rule and may be backed by pooled resources, so await it once instead of accessing Result at line 6
+    at FunnySharp.Analyzers.Tests.AnalyzerTestAssert.QuietAsync(String source) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\AnalyzerTestAssert.cs:30
+    at FunnySharp.Analyzers.Tests.BlockedValueTaskAnalyzerTests.CompletedParameterWithSingleConsumptionIsQuiet(String body) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\BlockedValueTaskAnalyzerTests.cs:115
+    --- End of stack trace from previous location ---
+failed FunnySharp.Analyzers.Tests.BlockedValueTaskAnalyzerTests.CompletedParameterWithSingleConsumptionIsQuiet(body: "return choose ? (pending.IsCompletedSuccessfully ?"···) (14ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\bin\Release\net10.0\FunnySharp.Analyzers.Tests.dll (net10.0|x64)
+  Expected no diagnostics but got:
+  FS1004: Do not block on this ValueTask: it follows the single-consumption rule and may be backed by pooled resources, so await it once instead of accessing Result at line 6
+  FS1004: Do not block on this ValueTask: it follows the single-consumption rule and may be backed by pooled resources, so await it once instead of accessing GetAwaiter().GetResult() at line 6
+    at FunnySharp.Analyzers.Tests.AnalyzerTestAssert.QuietAsync(String source) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\AnalyzerTestAssert.cs:30
+    at FunnySharp.Analyzers.Tests.BlockedValueTaskAnalyzerTests.CompletedParameterWithSingleConsumptionIsQuiet(String body) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\BlockedValueTaskAnalyzerTests.cs:115
+    --- End of stack trace from previous location ---
+failed FunnySharp.Analyzers.Tests.BlockedValueTaskAnalyzerTests.CompletedParameterWithSingleConsumptionIsQuiet(body: "if (!pending.IsCompletedSuccessfully) return await"···) (11ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\bin\Release\net10.0\FunnySharp.Analyzers.Tests.dll (net10.0|x64)
+  Expected no diagnostics but got:
+  FS1004: Do not block on this ValueTask: it follows the single-consumption rule and may be backed by pooled resources, so await it once instead of accessing Result at line 6
+    at FunnySharp.Analyzers.Tests.AnalyzerTestAssert.QuietAsync(String source) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\AnalyzerTestAssert.cs:30
+    at FunnySharp.Analyzers.Tests.BlockedValueTaskAnalyzerTests.CompletedParameterWithSingleConsumptionIsQuiet(String body) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\BlockedValueTaskAnalyzerTests.cs:115
+    --- End of stack trace from previous location ---
+failed FunnySharp.Analyzers.Tests.BlockedValueTaskAnalyzerTests.CompletedParameterWithSingleConsumptionIsQuiet(body: "return pending.IsCompletedSuccessfully ? pending.R"···) (10ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\bin\Release\net10.0\FunnySharp.Analyzers.Tests.dll (net10.0|x64)
+  Expected no diagnostics but got:
+  FS1004: Do not block on this ValueTask: it follows the single-consumption rule and may be backed by pooled resources, so await it once instead of accessing Result at line 6
+    at FunnySharp.Analyzers.Tests.AnalyzerTestAssert.QuietAsync(String source) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\AnalyzerTestAssert.cs:30
+    at FunnySharp.Analyzers.Tests.BlockedValueTaskAnalyzerTests.CompletedParameterWithSingleConsumptionIsQuiet(String body) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\BlockedValueTaskAnalyzerTests.cs:115
+    --- End of stack trace from previous location ---
+failed FunnySharp.Analyzers.Tests.BlockedValueTaskAnalyzerTests.CompletedParameterWithSingleConsumptionIsQuiet(body: "if (pending.IsCompletedSuccessfully && choose) ret"···) (16ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\bin\Release\net10.0\FunnySharp.Analyzers.Tests.dll (net10.0|x64)
+  Expected no diagnostics but got:
+  FS1004: Do not block on this ValueTask: it follows the single-consumption rule and may be backed by pooled resources, so await it once instead of accessing Result at line 6
+    at FunnySharp.Analyzers.Tests.AnalyzerTestAssert.QuietAsync(String source) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\AnalyzerTestAssert.cs:30
+    at FunnySharp.Analyzers.Tests.BlockedValueTaskAnalyzerTests.CompletedParameterWithSingleConsumptionIsQuiet(String body) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\BlockedValueTaskAnalyzerTests.cs:115
+    --- End of stack trace from previous location ---
+failed FunnySharp.Analyzers.Tests.BlockedValueTaskAnalyzerTests.CompletedParameterWithSingleConsumptionIsQuiet(body: "return pending.IsCompletedSuccessfully ? pending.R"···) (16ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\bin\Release\net10.0\FunnySharp.Analyzers.Tests.dll (net10.0|x64)
+  Expected no diagnostics but got:
+  FS1004: Do not block on this ValueTask: it follows the single-consumption rule and may be backed by pooled resources, so await it once instead of accessing Result at line 6
+    at FunnySharp.Analyzers.Tests.AnalyzerTestAssert.QuietAsync(String source) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\AnalyzerTestAssert.cs:30
+    at FunnySharp.Analyzers.Tests.BlockedValueTaskAnalyzerTests.CompletedParameterWithSingleConsumptionIsQuiet(String body) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\BlockedValueTaskAnalyzerTests.cs:115
+    --- End of stack trace from previous location ---
+failed FunnySharp.Analyzers.Tests.BlockedValueTaskAnalyzerTests.CompletedParameterWithSingleConsumptionIsQuiet(body: "if (pending.IsCompletedSuccessfully) return pendin"···) (14ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\bin\Release\net10.0\FunnySharp.Analyzers.Tests.dll (net10.0|x64)
+  Expected no diagnostics but got:
+  FS1004: Do not block on this ValueTask: it follows the single-consumption rule and may be backed by pooled resources, so await it once instead of accessing GetAwaiter().GetResult() at line 6
+    at FunnySharp.Analyzers.Tests.AnalyzerTestAssert.QuietAsync(String source) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\AnalyzerTestAssert.cs:30
+    at FunnySharp.Analyzers.Tests.BlockedValueTaskAnalyzerTests.CompletedParameterWithSingleConsumptionIsQuiet(String body) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\BlockedValueTaskAnalyzerTests.cs:115
+    --- End of stack trace from previous location ---
+failed FunnySharp.Analyzers.Tests.BlockedValueTaskAnalyzerTests.CompletedParameterWithSingleConsumptionIsQuiet(body: "if (pending.IsCompletedSuccessfully) { return pend"···) (11ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\bin\Release\net10.0\FunnySharp.Analyzers.Tests.dll (net10.0|x64)
+  Expected no diagnostics but got:
+  FS1004: Do not block on this ValueTask: it follows the single-consumption rule and may be backed by pooled resources, so await it once instead of accessing Result at line 6
+    at FunnySharp.Analyzers.Tests.AnalyzerTestAssert.QuietAsync(String source) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\AnalyzerTestAssert.cs:30
+    at FunnySharp.Analyzers.Tests.BlockedValueTaskAnalyzerTests.CompletedParameterWithSingleConsumptionIsQuiet(String body) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\BlockedValueTaskAnalyzerTests.cs:115
+    --- End of stack trace from previous location ---
+Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\bin\Release\net10.0\FunnySharp.Analyzers.Tests.dll (net10.0|x64) failed with 11 error(s) (4s 918ms)
+Exit code: 2
+
+Test run summary: Failed!
+  total: 159
+  failed: 11
+  succeeded: 148
+  skipped: 0
+  duration: 5s 363ms
+Test run completed with non-success exit code: 2 (see: https://aka.ms/testingplatform/exitcodes)

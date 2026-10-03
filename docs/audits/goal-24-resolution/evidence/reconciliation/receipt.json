@@ -1,0 +1,58 @@
+{
+  "executor": "main-session",
+  "findings": [
+    "G22-22.14",
+    "G22-22.15"
+  ],
+  "baseCommit": "a8863473fd53eddc7cb47201508426db2e454f84",
+  "baseTree": "88e8a528017b0a5f68710cc1d955fda64486877f",
+  "unitDiffSha256": "89cbe69b6d4b9fd05536f23b0ee53f034f31d86ee6766892cf41b290ab581b1d",
+  "red": {
+    "exitCode": 2,
+    "total": 3,
+    "failed": 2,
+    "succeeded": 1,
+    "skipped": 0,
+    "mechanism": "Real typed500 behavior succeeds,then same-host and ordinary OpenAPI500 property lookup fails."
+  },
+  "green": {
+    "exitCode": 0,
+    "total": 50,
+    "failed": 0,
+    "succeeded": 50,
+    "skipped": 0
+  },
+  "manualHttp": {
+    "exitCode": 0,
+    "placement": 201,
+    "reconciliation": 500,
+    "problemType": "https://funnysharp.example/problems/history-diverged",
+    "failure": "HistoryDiverged",
+    "contentType": "application/problem+json",
+    "sameHostOpenApi": [
+      "200",
+      "404",
+      "500",
+      "503"
+    ],
+    "schema": "#/components/schemas/ProblemDetails"
+  },
+  "packageBoundary": {
+    "projectReferences": [],
+    "actualPackageReferences": [
+      "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\reconciliation\\packages\\funnysharp.aspnetcore\\0.1.0\\lib\\net10.0\\FunnySharp.AspNetCore.dll",
+      "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\reconciliation\\packages\\funnysharp\\0.1.0\\lib\\net10.0\\FunnySharp.dll"
+    ],
+    "corePackageSha256": "1f22cb9a956cfb98df5fdfef3de85e650f40a31c7a30e08f7049c5edfa9a52a5",
+    "packageVersion": "0.1.0 (fresh unit snapshot)"
+  },
+  "restore": {
+    "initialExit": 1,
+    "initialGap": "Existing general cache lacked Microsoft.AspNetCore.OpenApi/TestHost10.0.12.",
+    "retainedDependencyRestoreExit": 0,
+    "note": "Retained pinned10.0.12 third-party archives added as dependency source; exact FunnySharp source mapping still only uses the new feed. No version downgrade."
+  },
+  "diagnostics": "Both changed source/test files and the standalone probe return No diagnostics found.",
+  "cleanup": "Each xUnit Kestrel host uses awaited disposal. Main standalone Kestrel stopped/disposed,HTTP client/socket disposed and exact listener returned ConnectionRefused; all own processes exited.",
+  "scope": "Only one missing ProducesProblem500 plus integrated regression/ordinary metadata assertions; no service/domain/mapper changes. Official harness repair and final0.2 replay remain separate obligations."
+}

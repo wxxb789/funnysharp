@@ -196,7 +196,7 @@ public sealed class AdvancedPatternCurationTests
     private static readonly (string TypeName, string MemberName, int OverloadCount)[] TrackedExperimentalMembers =
     [
         ("FunnySharp.Location", "*", 1),
-        ("FunnySharp.SequenceExtensions", "Traverse", 8),
+        ("FunnySharp.SequenceExtensions", "Traverse", 11),
         ("FunnySharp.AsyncSequenceExtensions", "TraverseAsync", 4),
         ("FunnySharp.AsyncSequenceExtensions", "TraverseValueAsync", 4),
     ];

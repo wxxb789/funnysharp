@@ -1,0 +1,17 @@
+{
+  "schema": "funnysharp-v6-parent-runtime-cleanup-correction/v1",
+  "parentProof": "docs/audits/goal-24-resolution/evidence/u12-v6-real-kestrel-parent-proof.json",
+  "initialParentQuery": "Nonterminating PowerShell InvokeMethodOnNull for system process nullCommandLine; rawerrors retained in parentProof.cleanup.output. Initial absenceclaiminvalid, taskreopened immediately.",
+  "correctedCommandBoundary": "$ErrorActionPreference=Stop; ([string]$_.CommandLine).Replace(...)",
+  "correctedScopeQueryOutput": "(no output)",
+  "correctedExact15PidQueryOutput": "(no output)",
+  "correctedQueryExits": 0,
+  "remainingOwned": [],
+  "actualParentRefusals": 36,
+  "hashChecks": {
+    "terminalFiles": 69,
+    "runtimeSourcePackageBindings": 45,
+    "issues": 0
+  },
+  "allOriginalRuntimeEvidenceUnchanged": true
+}

@@ -1,0 +1,46 @@
+{
+  "schema": "funnysharp-owner-action-packet-parent/v1",
+  "checks": [
+    {
+      "context": "release / win-x64",
+      "actualJobDeclared": true
+    },
+    {
+      "context": "release / linux-x64",
+      "actualJobDeclared": true
+    },
+    {
+      "context": "release / osx-arm64",
+      "actualJobDeclared": true
+    },
+    {
+      "context": "release / osx-x64-consumer",
+      "actualJobDeclared": true
+    }
+  ],
+  "packetSha256": "989dabc6bef343ab6825e856cc65dda860fb032308481a4d27b7c141bc11d587",
+  "sourceHashes": [
+    {
+      "path": ".github/workflows/release.yml",
+      "sha256": "8552b0bf804450e67164945373358ad087c7c0f946892c508847e5d709a32fa9"
+    },
+    {
+      "path": "docs/release-readiness.md",
+      "sha256": "dabdc4828200b2c51c4004ad618bcc168b287c8cd3e476d98aae8ce250fe0f06"
+    },
+    {
+      "path": "eng/harness/Ruleset.fs",
+      "sha256": "cb61de650182e50940966db1db07c2dcb6ee72122ee637d3877034973f9e1c7a"
+    },
+    {
+      "path": "eng/release-protocol.json",
+      "sha256": "083f7e609e85e46e6a6b0f402adbf4e6b24e19bde7d072d2cde4d8433281f70e"
+    }
+  ],
+  "remoteCurrentStateRefreshed": false,
+  "actualTrustedAppId": null,
+  "requiredOwnerFacts": 9,
+  "requiredOwnerApprovals": 4,
+  "remoteWriteAuthorized": false,
+  "U15Accepted": false
+}

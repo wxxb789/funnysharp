@@ -1,0 +1,443 @@
+{
+  "schema": "funnysharp-u12-freeze-revision-proof/v1",
+  "state": "FAILED_V1_RETAINED_REGISTERED_V2_PREPARATION_PENDING",
+  "failedStudy": "audit-resolution-v1",
+  "failedFreeze": {
+    "exitCode": 1,
+    "stage": "business-outcomes/template-idiomatic restore",
+    "code": "NU1101",
+    "cause": "Inherited user nuget.org source-disable flag suppresses explicitly supplied proxy under normal lookup.",
+    "manifestCreated": false,
+    "producerCount": 0,
+    "files": [
+      {
+        "path": "snapshot/freeze.started.json",
+        "sha256": "02b997e1052157c9e805c346e518b1c7e4ad53d98c50996cbae443cd7c77a977"
+      },
+      {
+        "path": "snapshot/sdk.process.json",
+        "sha256": "0ac18dda7e29799cd722ab1f5899db9c3f401388b3bdba83c157df71837bc3e2"
+      },
+      {
+        "path": "snapshot/sdk.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "snapshot/sdk.stdout.log",
+        "sha256": "6499d58091aa87491843cbb719750909e09a58a83818e0dbb0e9e77208a3ea18"
+      },
+      {
+        "path": "snapshot/tasks/concurrency/prompt-funnysharp.md",
+        "sha256": "10767fe3fd1a696d86f8cac14dd56d5417a798eda87bad7a9a49d11c87d444a9"
+      },
+      {
+        "path": "snapshot/tasks/concurrency/prompt-idiomatic.md",
+        "sha256": "387db807ecae2b176425949a1e385768c8b0bd3344096ac47e672c1423ed82dc"
+      },
+      {
+        "path": "snapshot/tasks/concurrency/tests/ConcurrencyTests.cs",
+        "sha256": "221bf77515b0d63b6b82637ee3a0432ae9e6c286c03dfc70a41ff58f30d911cc"
+      },
+      {
+        "path": "snapshot/tasks/concurrency/tests/Contract.cs",
+        "sha256": "99f6ab991fdd14ed524fd1f88060472698d920c6b72d29c16db7cbd7b1dd9cf9"
+      },
+      {
+        "path": "snapshot/tasks/concurrency/template-idiomatic/ConcurrencyKit.csproj",
+        "sha256": "c5a058c4c776ebdf1eb1e8e865a8e2e524b504d4bd061758d7e31f8a95210e8c"
+      },
+      {
+        "path": "snapshot/tasks/concurrency/template-funnysharp/ConcurrencyKit.csproj",
+        "sha256": "ba32a95254d405c0f90f62ba870fcc94ed88ee41f1610d5247da735cd788aa9e"
+      },
+      {
+        "path": "snapshot/tasks/collections/prompt-funnysharp.md",
+        "sha256": "301787e65ddfbcb746f7b6acfc2f5040e6c7d276517e65f87227ff21a87f3a6b"
+      },
+      {
+        "path": "snapshot/tasks/collections/prompt-idiomatic.md",
+        "sha256": "0f1f0e70ba09bb44b138500b1c5dad6a65474a4d4f17f86ff0270b9aed38a449"
+      },
+      {
+        "path": "snapshot/tasks/collections/tests/CollectionsTests.cs",
+        "sha256": "2e10e1a067df0eebb5ae6344413bb359f9498ce27796874c1ecb37963ae1c4c6"
+      },
+      {
+        "path": "snapshot/tasks/collections/tests/Contract.cs",
+        "sha256": "0e07124557c7887f439c15e8c4677abcc13a3c16d87a9f0817fcf6ae2c87293c"
+      },
+      {
+        "path": "snapshot/tasks/collections/template-idiomatic/CollectionsKit.csproj",
+        "sha256": "4741f97a1aefc01c6bf4c584cb07a4891737c41b2973be05f18504867c78ae69"
+      },
+      {
+        "path": "snapshot/tasks/collections/template-funnysharp/CollectionsKit.csproj",
+        "sha256": "068c56ffa0702057901aed9a8161593dc8e340fe4eccc22dd5bdd1bafdf5a63a"
+      },
+      {
+        "path": "snapshot/tasks/business-outcomes/prompt-funnysharp.md",
+        "sha256": "56d667e0a8aee9b30b10d0020367aeb19a369af349c56d8a7868aa8ffb8db49c"
+      },
+      {
+        "path": "snapshot/tasks/business-outcomes/prompt-idiomatic.md",
+        "sha256": "afd6a99571794497520aa500aebd4a5502c4e9dae78637f790b23807035c4f6f"
+      },
+      {
+        "path": "snapshot/tasks/business-outcomes/tests/Contract.cs",
+        "sha256": "ae4e8d0998ebd3332e4eabc0bdc51b1ef50ad2c1e6df8102377ee2bf7ccf79c9"
+      },
+      {
+        "path": "snapshot/tasks/business-outcomes/tests/PlaceOrderTests.cs",
+        "sha256": "be36ad4fcc030392fd18ffed49b395b686b4c84ee52c264c4083e69352184ab9"
+      },
+      {
+        "path": "snapshot/tasks/business-outcomes/tests/SideEffectsTests.cs",
+        "sha256": "d359f596e622e61e3841fa231b40e1497f0a7f5c962df484221931b41a708df0"
+      },
+      {
+        "path": "snapshot/tasks/business-outcomes/template-idiomatic/BusinessOutcomesKit.csproj",
+        "sha256": "23b2955bdf1d32698eaa08a46748a4f673479a9b76332ec79cb884d4f6f394bd"
+      },
+      {
+        "path": "snapshot/tasks/business-outcomes/template-idiomatic/Directory.Build.props",
+        "sha256": "e1f773524cbe06e47ce9373a35995982889f95f1f943cde9830a99ba4257e76b"
+      },
+      {
+        "path": "snapshot/tasks/business-outcomes/template-idiomatic/NuGet.config",
+        "sha256": "95fa9d88f30528da088b25dcf7cb241cabc54bf933c5806c917efc75aed46df0"
+      },
+      {
+        "path": "snapshot/tasks/business-outcomes/template-idiomatic/packages.lock.json",
+        "sha256": "a4364d81a6de2707d66fbced18fbbc926c882ab96e1d1aebbb17e871285b9d75"
+      },
+      {
+        "path": "snapshot/tasks/business-outcomes/template-idiomatic/restore.process.json",
+        "sha256": "6eaf947d11fa30f599ed017e97bd36b1c12aab2144f5d95871cf1dd397fb4963"
+      },
+      {
+        "path": "snapshot/tasks/business-outcomes/template-idiomatic/restore.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "snapshot/tasks/business-outcomes/template-idiomatic/restore.stdout.log",
+        "sha256": "520df30395cc821adbc617dfcf08fa1177b0290c1abed288b1a6a7442c189de7"
+      },
+      {
+        "path": "snapshot/tasks/business-outcomes/template-idiomatic/obj/BusinessOutcomesKit.csproj.nuget.dgspec.json",
+        "sha256": "4d6276ed949eafc1ab67aee5759841862db00b3c41bba0283d1008d73f174c22"
+      },
+      {
+        "path": "snapshot/tasks/business-outcomes/template-idiomatic/obj/BusinessOutcomesKit.csproj.nuget.g.props",
+        "sha256": "bdb6ed897d1016b4534241f3e04cb1c6a045b9cb154e7685c40946db20208fc5"
+      },
+      {
+        "path": "snapshot/tasks/business-outcomes/template-idiomatic/obj/BusinessOutcomesKit.csproj.nuget.g.targets",
+        "sha256": "971cc9b535384849b5c661d776cd7a80833a416265e32e8968e06c367368b8b5"
+      },
+      {
+        "path": "snapshot/tasks/business-outcomes/template-idiomatic/obj/project.assets.json",
+        "sha256": "cce5e5fac37f7bf1a5eca54b29ae81d5512d70f664be94c784f457c5d9d58fc5"
+      },
+      {
+        "path": "snapshot/tasks/business-outcomes/template-idiomatic/obj/project.nuget.cache",
+        "sha256": "f2cc71632aa9c8d2fee4a1a75f43491415760eb4e4dcf10187aeb90caea9eda8"
+      },
+      {
+        "path": "snapshot/tasks/business-outcomes/template-funnysharp/BusinessOutcomesKit.csproj",
+        "sha256": "56d4c5e636c9fec400a746dcc0ec225c3bbd8498972ddb479d30aad4e68b749d"
+      },
+      {
+        "path": "snapshot/tasks/async-streams/prompt-funnysharp.md",
+        "sha256": "40cfc2edd0967fc052f7bc71592f602006b82e2b979fd3d34deadc3d409f3011"
+      },
+      {
+        "path": "snapshot/tasks/async-streams/prompt-idiomatic.md",
+        "sha256": "279096ab842969f1b3d76d473adc32eed13bd8b41ca331fd6c51ee9e35f97fc4"
+      },
+      {
+        "path": "snapshot/tasks/async-streams/tests/AsyncStreamsTests.cs",
+        "sha256": "b2e236125974c0ec77b4fb7df33a9a6f502c7093b6f2a670929ab7d068407da6"
+      },
+      {
+        "path": "snapshot/tasks/async-streams/tests/Contract.cs",
+        "sha256": "24a65f66642d4e7e91b84d4f3a04b16ae93ed5abcafecc827b159eaed6bd9307"
+      },
+      {
+        "path": "snapshot/tasks/async-streams/template-idiomatic/AsyncStreamsKit.csproj",
+        "sha256": "4861e4e22c8001260cb273be9eadf5d101a75a9135fd5c775a56863721d9e873"
+      },
+      {
+        "path": "snapshot/tasks/async-streams/template-funnysharp/AsyncStreamsKit.csproj",
+        "sha256": "f4adc1d0b296be415bdb42f8159827c30a5cdaae6907a123f6893043b437ecd4"
+      },
+      {
+        "path": "snapshot/tasks/aspnetcore/prompt-funnysharp.md",
+        "sha256": "d5b9f021837d24107341a3eea61d0ec8691faae1c7bb7c939c9e2ee660c0849c"
+      },
+      {
+        "path": "snapshot/tasks/aspnetcore/prompt-idiomatic.md",
+        "sha256": "92d05dd5d0e0bd42989ebe2572518ddbfb3ddb0a6fef78fbe3073245555bf6fc"
+      },
+      {
+        "path": "snapshot/tasks/aspnetcore/tests/AspnetcoreTests.cs",
+        "sha256": "b4343005f670ae9c23f9338e3f56289459f79630b763b7dfe434ae289a8b39c7"
+      },
+      {
+        "path": "snapshot/tasks/aspnetcore/tests/Contract.cs",
+        "sha256": "0e29dbaa90e69c2233652a6a742c9acef19b98a5ab90f1c9cbef191e138c9fec"
+      },
+      {
+        "path": "snapshot/tasks/aspnetcore/template-idiomatic/AspnetcoreKit.csproj",
+        "sha256": "90b68ac8fff1017135ffe6db36f0182b7ffdad3411aa81fa82c8caadc692808d"
+      },
+      {
+        "path": "snapshot/tasks/aspnetcore/template-funnysharp/AspnetcoreKit.csproj",
+        "sha256": "4d6381d51bc657902e59f8fc55d8672ea52c3c30d28010b835f601ebbbaaac01"
+      },
+      {
+        "path": "snapshot/guides/README.md",
+        "sha256": "cc536213ce3dd198741dd81ae4518fd492f24016400b9cbd02b5e85f2d2be517"
+      },
+      {
+        "path": "snapshot/guides/docs/analyzers.md",
+        "sha256": "c40255afe05dc9d0c1515f3ba9ab4fb764a2e8b79016fe5944493790f22fd8b1"
+      },
+      {
+        "path": "snapshot/guides/docs/aspnet-core.md",
+        "sha256": "71f12c3f333d07f9b7375df751ed6606153c9ceb0093b8057909a81f925c2930"
+      },
+      {
+        "path": "snapshot/guides/docs/collections.md",
+        "sha256": "6001aebd200b67edf0c2b135ae0c3e0af3c961e99836b7f762d9bb2d83620558"
+      },
+      {
+        "path": "snapshot/guides/docs/concurrency.md",
+        "sha256": "6e4324334f51dd240aa3fcd4e1531ad6dcb017ff21b41ca5b983e81a81f3fad9"
+      },
+      {
+        "path": "snapshot/guides/docs/data-pipelines.md",
+        "sha256": "78f5787bbf0c7fe23bbcf023712a967a8fdef2ad9ca6900ebc7a7512ba51b242"
+      },
+      {
+        "path": "snapshot/guides/docs/effects.md",
+        "sha256": "eba44570793bc8e72f15ed6c6155e925df38a200873c795dab8a34b504600928"
+      },
+      {
+        "path": "snapshot/guides/docs/function-composition.md",
+        "sha256": "dd6f4863c89da837b50d5d789e8283a97164357dad599b781711dd22c4d7b66c"
+      },
+      {
+        "path": "snapshot/guides/docs/grammar.md",
+        "sha256": "c46cbe739485ff881a8add7166395c210b399dfe5e81f37aa5b64f98439ed48c"
+      },
+      {
+        "path": "snapshot/guides/docs/option.md",
+        "sha256": "c3d468d148cd6c41b60a303839727265b1b4c4b2488e0cd34291e4ce7516b366"
+      },
+      {
+        "path": "snapshot/guides/docs/product-contract.md",
+        "sha256": "56e49ad95406612774b4d26e3e2763e11e06240c3dfd0de092a4011335fbf952"
+      },
+      {
+        "path": "snapshot/guides/docs/result.md",
+        "sha256": "6b78664086ec6f4599aebc220def97c46b5b714499644ccdbe1a1975691803c5"
+      },
+      {
+        "path": "snapshot/guides/docs/unit-result.md",
+        "sha256": "0c8682d7fdc4a7e1ce6b22d031a06ab1dd7f2db1f24755c947e6e0b440c56cfb"
+      },
+      {
+        "path": "snapshot/guides/docs/validation.md",
+        "sha256": "923151c1e3de02825dfbc2b49393c9a261e939ec1e474addd98bb893915414b9"
+      },
+      {
+        "path": "snapshot/feed/FunnySharp.0.2.0.nupkg",
+        "sha256": "0400af6943daaa021b4e538a3b6aabbad82b76e2f1976b18d7e28cea94d724ab"
+      },
+      {
+        "path": "snapshot/feed/FunnySharp.AspNetCore.0.2.0.nupkg",
+        "sha256": "d215ec48f6e522f4c148e70a1680d6256ea6af0b69317fffec65ac6de861ec11"
+      },
+      {
+        "path": "snapshot/environment/build.fsx",
+        "sha256": "d14fead601ab57cd98046f0c9e2f0592cf1d5723e62a06e126329bb943b8c004"
+      },
+      {
+        "path": "snapshot/environment/Directory.Build.props",
+        "sha256": "e1f773524cbe06e47ce9373a35995982889f95f1f943cde9830a99ba4257e76b"
+      },
+      {
+        "path": "snapshot/environment/global.json",
+        "sha256": "c48726ffb10a31e50395529e134bd0ab4d82d14febbda7863ab49d00a9fddcb4"
+      },
+      {
+        "path": "snapshot/environment/eng/harness/Evaluation.fs",
+        "sha256": "86936a21e4c55ad9f6722bc0b93ad28a1aa343eaa737ff67145e435e2c603fa2"
+      }
+    ]
+  },
+  "earlierEvidence": [
+    {
+      "attempt": "u12-freeze-preflight/attempt-01",
+      "exitCode": 1,
+      "kind": "NU1301 TLS HandshakeFailure with default source"
+    },
+    {
+      "attempt": "u12-freeze-preflight/attempt-02",
+      "initialExitCode": 0,
+      "lockedExitCode": 0,
+      "limitation": "--configfile excludes normal inherited settings"
+    },
+    {
+      "attempt": "u12-freeze-preflight/attempt-03",
+      "exitCode": 1,
+      "kind": "Explicit false disable flags remained disabled in actual NuGet lookup; retained failed approach."
+    },
+    {
+      "attempt": "u12-freeze-preflight/attempt-04",
+      "initialExitCode": 0,
+      "lockedExitCode": 0,
+      "sourceStates": "evaluation-feed Enabled, nuget.org Enabled",
+      "kind": "Normal inherited config lookup, scoped disabledPackageSources clear",
+      "sameCoreSha256": "6a903f737356fdf67845c9cd39385e4a5e2b39bcae0ee92ff2882480ecb7e49d"
+    }
+  ],
+  "registeredSuccessor": {
+    "study": "audit-resolution-v2",
+    "producerCount": 0,
+    "cohort": [
+      "business-outcomes/idiomatic/run-1",
+      "business-outcomes/idiomatic/run-2",
+      "business-outcomes/funnysharp/run-1",
+      "business-outcomes/funnysharp/run-2",
+      "collections/idiomatic/run-1",
+      "collections/idiomatic/run-2",
+      "collections/funnysharp/run-1",
+      "collections/funnysharp/run-2",
+      "async-streams/idiomatic/run-1",
+      "async-streams/idiomatic/run-2",
+      "async-streams/funnysharp/run-1",
+      "async-streams/funnysharp/run-2",
+      "concurrency/idiomatic/run-1",
+      "concurrency/idiomatic/run-2",
+      "concurrency/funnysharp/run-1",
+      "concurrency/funnysharp/run-2",
+      "aspnetcore/idiomatic/run-1",
+      "aspnetcore/idiomatic/run-2",
+      "aspnetcore/funnysharp/run-1",
+      "aspnetcore/funnysharp/run-2"
+    ],
+    "expectedTests": {
+      "business-outcomes": 10,
+      "collections": 9,
+      "async-streams": 10,
+      "concurrency": 12,
+      "aspnetcore": 9
+    },
+    "maxRounds": 3,
+    "condition": "unassisted-public-guides",
+    "oracleCopies": [
+      {
+        "path": "tasks/concurrency/brief.md",
+        "oldSha256": "c1172f269fabe5b996fd4b79c4d018066d02586db7548d61f154fe925b52a33c",
+        "successorSha256": "c1172f269fabe5b996fd4b79c4d018066d02586db7548d61f154fe925b52a33c"
+      },
+      {
+        "path": "tasks/concurrency/tests/ConcurrencyTests.cs",
+        "oldSha256": "221bf77515b0d63b6b82637ee3a0432ae9e6c286c03dfc70a41ff58f30d911cc",
+        "successorSha256": "221bf77515b0d63b6b82637ee3a0432ae9e6c286c03dfc70a41ff58f30d911cc"
+      },
+      {
+        "path": "tasks/concurrency/tests/Contract.cs",
+        "oldSha256": "99f6ab991fdd14ed524fd1f88060472698d920c6b72d29c16db7cbd7b1dd9cf9",
+        "successorSha256": "99f6ab991fdd14ed524fd1f88060472698d920c6b72d29c16db7cbd7b1dd9cf9"
+      },
+      {
+        "path": "tasks/business-outcomes/tests/Contract.cs",
+        "oldSha256": "ae4e8d0998ebd3332e4eabc0bdc51b1ef50ad2c1e6df8102377ee2bf7ccf79c9",
+        "successorSha256": "ae4e8d0998ebd3332e4eabc0bdc51b1ef50ad2c1e6df8102377ee2bf7ccf79c9"
+      },
+      {
+        "path": "tasks/business-outcomes/tests/SideEffectsTests.cs",
+        "oldSha256": "d359f596e622e61e3841fa231b40e1497f0a7f5c962df484221931b41a708df0",
+        "successorSha256": "d359f596e622e61e3841fa231b40e1497f0a7f5c962df484221931b41a708df0"
+      },
+      {
+        "path": "tasks/async-streams/brief.md",
+        "oldSha256": "28f128ac12446e0d1da99d2f00430e1fb7694883d5eb3dbee83ed1eaef4b5c22",
+        "successorSha256": "28f128ac12446e0d1da99d2f00430e1fb7694883d5eb3dbee83ed1eaef4b5c22"
+      },
+      {
+        "path": "tasks/async-streams/tests/AsyncStreamsTests.cs",
+        "oldSha256": "b2e236125974c0ec77b4fb7df33a9a6f502c7093b6f2a670929ab7d068407da6",
+        "successorSha256": "b2e236125974c0ec77b4fb7df33a9a6f502c7093b6f2a670929ab7d068407da6"
+      },
+      {
+        "path": "tasks/async-streams/tests/Contract.cs",
+        "oldSha256": "24a65f66642d4e7e91b84d4f3a04b16ae93ed5abcafecc827b159eaed6bd9307",
+        "successorSha256": "24a65f66642d4e7e91b84d4f3a04b16ae93ed5abcafecc827b159eaed6bd9307"
+      }
+    ],
+    "freezeMonitor": "mon_FVGXMGK151SNVHWY",
+    "freezeStatus": "PENDING"
+  },
+  "regressions": {
+    "selectedSourceRed": "113cases/112passed/1failed, exit1",
+    "successorRed": {
+      "receipt": "artifacts/audit-resolution/u12-successor-study-red.json",
+      "summary": {
+        "tests": 114,
+        "passed": 113,
+        "failed": 1,
+        "pending": 0,
+        "skipped": 0,
+        "other": 0,
+        "suites": 1,
+        "start": 1790929030807,
+        "stop": 1790929034634
+      },
+      "exitCode": 1
+    },
+    "completeGreen": {
+      "receipt": "artifacts/audit-resolution/u12-successor-study-green.json",
+      "summary": {
+        "tests": 114,
+        "passed": 114,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "other": 0,
+        "suites": 1,
+        "start": 1790929246740,
+        "stop": 1790929251168
+      },
+      "exitCode": 0
+    },
+    "legacy": "Historical default exact-byte configuration test remains unchanged and passing."
+  },
+  "sourceConfigurationReference": "https://learn.microsoft.com/en-us/nuget/reference/nuget-config-file",
+  "sourceBindings": [
+    {
+      "path": "eng/harness/Evaluation.fs",
+      "sha256": "46c6ce5a4f9db1d24b3b07721ad1d66e6bf4915c07f92776e76a1fd2bee94498"
+    },
+    {
+      "path": "tests/FunnySharp.Harness.Tests/EvaluationTests.fs",
+      "sha256": "f879f452b2cc514fb52d605ca5e3a085bf6b13a559f76c5ce6e435e172537c2f"
+    },
+    {
+      "path": "eng/evaluation/studies/audit-resolution-v2/plan.json",
+      "sha256": "875dd59a6117371b427b644e9721c56fc3649b9cb071c73e1d1e55c57db5cc95"
+    },
+    {
+      "path": "eng/evaluation/README.md",
+      "sha256": "dcb9de585e9391f04293d2b3d80e26dc7255f9b2fdb3867800f3a4036d733245"
+    }
+  ],
+  "cleanup": "All failed/successful probes and native suites settled. Evidence directories retained; the sole v2 freeze and read-only route-assessment child remain live.",
+  "limits": [
+    "v2freeze is not accepted until actual manifest,10kitlocks,SDK andFS1001 control receipts verify.",
+    "No AI generation or maintainer acceptance yet.",
+    "Original69finding verdict and all3 aggregate criteria pending."
+  ]
+}

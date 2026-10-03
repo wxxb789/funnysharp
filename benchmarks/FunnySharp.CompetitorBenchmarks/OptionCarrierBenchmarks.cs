@@ -44,6 +44,7 @@ public class OptionCarrierBenchmarks
     [GlobalSetup]
     public void Setup()
     {
+        BenchmarkPreflight.CaptureChild(this);
         hasPresentValue = true;
         funnySharpSome = Option.Some(PresentValue);
         funnySharpNone = Option.None<int>();
