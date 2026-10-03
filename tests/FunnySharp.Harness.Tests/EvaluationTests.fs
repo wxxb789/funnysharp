@@ -607,13 +607,27 @@ type EvaluationToolTests() =
     member this.CorrectionMustBindFeedbackAndContinueOnlyItsOwnSession(field: string) =
         let runDir, _, producerPath = this.StudyFixture("run-1", "fixture-session-1")
         fake.Build <- { ExitCode = 1; Stdout = ": error CS0103: fixture failure\n"; Stderr = "" }
-        let code, _, _ = this.Run [ "verify"; "aspnetcore"; "idiomatic"; runDir; "--study"; "audit-resolution-v1" ]
+        let code, out, err = this.Run [ "verify"; "aspnetcore"; "idiomatic"; runDir; "--study"; "audit-resolution-v1" ]
+        let diagnostic = sprintf "Initial correction fixture verify: exit=%d; calls=%A; stdout=%s; stderr=%s" code fake.Calls out err
+        Assert.True(code = 1 && err = "" && fake.Calls.Length = 1, diagnostic)
         Assert.Equal(1, code)
+        Assert.Equal("dotnet", fake.Calls.Head.[0])
+        Assert.Equal("build", fake.Calls.Head.[1])
+        Assert.Contains("VERDICT: RED", out)
+        let roundDir = Path.Combine(runDir, "rounds", "0001")
+        let feedback = Path.Combine(roundDir, "feedback.json")
+        Assert.True(File.Exists feedback && File.Exists(Path.Combine(roundDir, "receipt.json")), diagnostic)
+        let initial = readRecord (Path.Combine(roundDir, "record.json"))
+        Assert.False initial.CompilationOk
+        Assert.Equal(1, initial.Errors)
+        Assert.Equal(None, initial.SemanticOk)
+        let retainedFeedback = readNode feedback
+        Assert.Equal(fake.Build.Stdout, nodeText "buildStdout" retainedFeedback)
+        Assert.Equal(fake.Build.Stderr, nodeText "buildStderr" retainedFeedback)
         let contextDir = Path.Combine(runDir, "producer", "0002-context")
         let payload = Path.Combine(contextDir, "payload")
         Directory.CreateDirectory payload |> ignore
         File.Copy(Path.Combine(runDir, "producer", "0001-context", "payload", "prompt.md"), Path.Combine(payload, "prompt.md"))
-        let feedback = Path.Combine(runDir, "rounds", "0001", "feedback.json")
         File.Copy(feedback, Path.Combine(payload, "feedback.json"))
         let context = JsonObject()
         context.["files"] <- manifestFiles payload

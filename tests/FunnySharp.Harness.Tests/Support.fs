@@ -64,8 +64,17 @@ let lineOf (text: string) (needle: string) : int =
 
 /// A disposable temporary directory.
 type TempDirectory() =
+    let rec physicalDirectory (directory: DirectoryInfo) =
+        match directory.Parent with
+        | null ->
+            directory.FullName
+        | parent ->
+            match directory.ResolveLinkTarget true with
+            | null -> Path.Combine(physicalDirectory parent, directory.Name)
+            | target -> target.FullName
+
     let path =
-        Path.Combine(Path.GetTempPath(), "funnysharp-harness-" + Guid.NewGuid().ToString("N"))
+        Path.Combine(physicalDirectory (DirectoryInfo(Path.GetTempPath())), "funnysharp-harness-" + Guid.NewGuid().ToString("N"))
 
     do Directory.CreateDirectory path |> ignore
 

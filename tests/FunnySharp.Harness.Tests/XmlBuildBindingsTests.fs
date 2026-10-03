@@ -5,6 +5,7 @@ open System.IO
 open System.Reflection
 open System.Reflection.Emit
 open System.Security.Cryptography
+open System.Text
 open System.Text.Json.Nodes
 open System.Threading
 open Xunit
@@ -56,7 +57,14 @@ type private Fixture(root: string) =
         for name in names do
             write ("src/" + name + "/" + name + ".csproj") "<Project />"
             write ("src/" + name + "/Value.cs") "public static int Read() => 1;"
-            write (path name ".xml") ("<doc><members><member name=\"T:" + typeName name + "\"><summary>Value.</summary></member><member name=\"M:" + typeName name + ".Read\"><summary>Read.</summary></member></members></doc>")
+            let xml =
+                [ "<doc><members>"
+                  "<member name=\"T:" + typeName name + "\"><summary>Value.</summary></member>"
+                  "<member name=\"M:" + typeName name + ".Read\"><summary>Read.</summary></member>"
+                  "</members></doc>"
+                  "" ]
+                |> String.concat "\r\n"
+            write (path name ".xml") xml
             write (path name ".pdb") "sealed PDB"
             emit name
             let row = JsonObject()
@@ -64,10 +72,23 @@ type private Fixture(root: string) =
             row.["dllSha256"] <- JsonValue.Create(sha (Path.Combine(root, path name ".dll")))
             row.["xmlSha256"] <- JsonValue.Create(sha (Path.Combine(root, path name ".xml")))
             assemblies.Add row
-        let original = parse (File.ReadAllText(Path.Combine(repositoryRoot(), "eng/api-baseline/xml-contract-bindings.json")))
-        policy.["framework"] <- (get original "framework").DeepClone()
+        // This synthetic policy explicitly reviews the fixture machine's reference bytes.
+        // It must not assume the production policy's historical pack is installed.
+        let runtime = DirectoryInfo(Path.GetDirectoryName typeof<obj>.Assembly.Location |> Option.ofObj |> Option.get)
+        let mutable installationDirectory = runtime
+        for _ in 1 .. 3 do
+            installationDirectory <- installationDirectory.Parent |> Option.ofObj |> Option.get
+        let installation = installationDirectory.FullName
+        let frameworkPath =
+            Directory.GetDirectories(Path.Combine(installation, "packs/Microsoft.NETCore.App.Ref"), "10.0.*")
+            |> Array.sort
+            |> Array.map (fun directory -> Path.Combine(directory, "ref/net10.0/System.Runtime.xml"))
+            |> Array.find File.Exists
+        let framework = get policy "framework"
+        framework.["relativePath"] <- JsonValue.Create(Path.GetRelativePath(installation, frameworkPath).Replace('\\', '/'))
+        framework.["sha256"] <- JsonValue.Create(sha frameworkPath)
         write "eng/api-baseline/xml-contract-bindings.json" (policy.ToJsonString())
-        let anchor = parse """{"schema":"funnysharp-reviewed-xml-inputs/v1","scope":"","reviewBasis":{},"historicalExactReviewPreserved":"","files":[],"assemblies":[],"reviewedPolicy":{}}"""
+        let anchor = parse """{"schema":"funnysharp-reviewed-xml-inputs/v2","scope":"","reviewBasis":{},"historicalExactReviewPreserved":"","files":[],"assemblies":[],"reviewedPolicy":{}}"""
         let inputs = (get anchor "files").AsArray()
         for relative in [ yield "global.json"; yield "Directory.Build.props"
                           for name in names do
@@ -84,6 +105,8 @@ type private Fixture(root: string) =
             let assembly = JsonObject()
             assembly.["name"] <- (get (present row) "name").DeepClone()
             assembly.["xmlSha256"] <- (get (present row) "xmlSha256").DeepClone()
+            let xml = File.ReadAllText(Path.Combine(root, path ((get (present row) "name").ToString()) ".xml"))
+            assembly.["lfXmlSha256"] <- JsonValue.Create(Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(xml.Replace("\r\n", "\n")))).ToLowerInvariant())
             (get anchor "assemblies").AsArray().Add assembly
         write XmlBuildBindings.anchorPath (anchor.ToJsonString())
         let build = parse """{"schemaVersion":1,"name":"build","fileName":"dotnet","arguments":["build","FunnySharp.slnx","--configuration","Release","--no-restore"],"workingDirectory":"","exitCode":0,"completedAtUtc":"2026-10-03T00:00:00.0000000+00:00"}"""
@@ -139,6 +162,27 @@ let DistinctPostBuildBytesWithUnchangedReviewedInputsPassAndLegacyRemainsExact (
     Assert.Contains("reviewed contract binding", error.Message)
     // Reuse the loaded fixture metadata to check both historical and release policy paths.
     (present (get fixture.Policy "assemblies").[0]).["dllSha256"] <- JsonValue.Create(sha (fixture.Path "FunnySharp" ".dll"))
+    fixture.RebindPolicy()
+    Assert.Equal(2, (ReleaseVerifyArtifacts.getXmlDocumentationInventory temp.Path paths).Count)
+    for path in paths do File.WriteAllText(path, File.ReadAllText(path).Replace("\r\n", "\n"))
+    let lfDirectory = Path.Combine(temp.Path, "artifacts", "lf")
+    Directory.CreateDirectory(Path.Combine(lfDirectory, "receipts")) |> ignore
+    File.Copy(Path.Combine(fixture.Directory, "receipts/03-build.json"), Path.Combine(lfDirectory, "receipts/03-build.json"))
+    let lfPointer = XmlBuildBindings.capture temp.Path lfDirectory commit "attempt" "receipts/03-build.json" clock
+    let lfSummary = fixture.SealAt(lfPointer, lfDirectory)
+    let lfHashes = XmlBuildBindings.validate temp.Path lfDirectory commit lfSummary
+    Assert.Equal(sha (fixture.Path "FunnySharp" ".xml"), snd lfHashes.["FunnySharp"])
+    let inventory = ReleaseVerifyArtifacts.getReleaseXmlDocumentationInventory temp.Path paths lfDirectory commit lfSummary
+    Assert.Equal(2, inventory.Count)
+    for row in inventory do
+        let node = present row
+        Assert.Equal(sha ((get node "path").ToString()), (get node "sha256").ToString())
+        Assert.Equal(sha ((get node "frameworkPath").ToString()), (get node "frameworkSha256").ToString())
+    let legacyXml = Assert.Throws<ReleaseVerifySource.ReleaseVerifyFailure>(fun () -> ReleaseVerifyArtifacts.getXmlDocumentationInventory temp.Path paths |> ignore)
+    Assert.Contains("reviewed contract binding", legacyXml.Message)
+    // Both representations are reviewed, but a seal permits only the actual captured bytes.
+    for path in paths do File.WriteAllText(path, File.ReadAllText(path).Replace("\n", "\r\n"))
+    Assert.Throws<InvalidOperationException>(fun () -> XmlBuildBindings.validate temp.Path lfDirectory commit lfSummary |> ignore) |> ignore
     for kind in [ "alias"; "inheritance" ] do
         if kind = "alias" then
             let alias = parse """{"assembly":"FunnySharp","xmlId":"M:Unused.Read","typeXmlId":"T:Unused","kind":"synthesized-record-method","rationale":"fixture"}"""
@@ -156,11 +200,27 @@ let DistinctPostBuildBytesWithUnchangedReviewedInputsPassAndLegacyRemainsExact (
         let release = Assert.Throws<ReleaseVerifySource.ReleaseVerifyFailure>(fun () -> ReleaseVerifyArtifacts.getReleaseXmlDocumentationInventory temp.Path paths next commit summary |> ignore)
         Assert.Contains("unconsumed", legacy.Message)
         Assert.Contains("unconsumed", release.Message)
+    (get fixture.Policy "aliases").AsArray().Clear()
+    fixture.Inheritance.Clear()
+    (get fixture.Policy "framework").["relativePath"] <- JsonValue.Create "packs/Microsoft.NETCore.App.Ref/10.0.999/ref/net10.0/System.Runtime.xml"
+    fixture.RebindPolicy()
+    let frameworkDirectory = Path.Combine(temp.Path, "artifacts", "framework")
+    Directory.CreateDirectory(Path.Combine(frameworkDirectory, "receipts")) |> ignore
+    File.Copy(Path.Combine(fixture.Directory, "receipts/03-build.json"), Path.Combine(frameworkDirectory, "receipts/03-build.json"))
+    let frameworkPointer = XmlBuildBindings.capture temp.Path frameworkDirectory commit "attempt" "receipts/03-build.json" clock
+    let frameworkSummary = fixture.SealAt(frameworkPointer, frameworkDirectory)
+    Assert.Equal(2, (ReleaseVerifyArtifacts.getReleaseXmlDocumentationInventory temp.Path paths frameworkDirectory commit frameworkSummary).Count)
+    let legacyFramework = Assert.Throws<ReleaseVerifySource.ReleaseVerifyFailure>(fun () -> ReleaseVerifyArtifacts.getXmlDocumentationInventory temp.Path paths |> ignore)
+    Assert.Contains("framework bytes are absent or stale", legacyFramework.Message)
 
 [<Theory>]
 [<InlineData("source")>]
 [<InlineData("policy")>]
 [<InlineData("xml")>]
+[<InlineData("xml-content")>]
+[<InlineData("xml-mixed-newlines")>]
+[<InlineData("xml-bom")>]
+[<InlineData("xml-primary-review")>]
 [<InlineData("unexpected-source")>]
 [<InlineData("unexpected-build-input")>]
 [<InlineData("missing-anchor")>]
@@ -172,6 +232,23 @@ let DriftFailsBeforeSeal(kind: string) =
     | "source" -> fixture.Write "src/FunnySharp/Value.cs" "changed source"
     | "policy" -> fixture.Write "eng/api-baseline/xml-contract-bindings.json" "{}"
     | "xml" -> File.AppendAllText(fixture.Path "FunnySharp" ".xml", "changed XML")
+    | "xml-content" ->
+        let path = fixture.Path "FunnySharp" ".xml"
+        File.WriteAllText(path, File.ReadAllText(path).Replace("Read.", "Changed."))
+    | "xml-mixed-newlines" ->
+        let path = fixture.Path "FunnySharp" ".xml"
+        File.WriteAllText(path, File.ReadAllText(path).Replace("<doc><members>\r\n", "<doc><members>\n"))
+    | "xml-bom" ->
+        let path = fixture.Path "FunnySharp" ".xml"
+        File.WriteAllText(path, File.ReadAllText(path), UTF8Encoding(true))
+    | "xml-primary-review" ->
+        let path = Path.Combine(temp.Path, XmlBuildBindings.anchorPath)
+        let anchor = parse (File.ReadAllText path)
+        let assembly = present (get anchor "assemblies").[0]
+        assembly.["xmlSha256"] <- (get assembly "lfXmlSha256").DeepClone()
+        let xmlPath = fixture.Path "FunnySharp" ".xml"
+        File.WriteAllText(xmlPath, File.ReadAllText(xmlPath).Replace("\r\n", "\n"))
+        File.WriteAllText(path, anchor.ToJsonString())
     | "unexpected-source" -> fixture.Write "src/FunnySharp/New.cs" "new shipping input"
     | "unexpected-build-input" -> fixture.Write "Directory.Build.targets" "<Project />"
     | "missing-anchor" -> File.Delete(Path.Combine(temp.Path, XmlBuildBindings.anchorPath))
@@ -245,4 +322,44 @@ let CaptureCannotOverwriteAnExistingSeal () =
     let original = sha (Path.Combine(fixture.Directory, "xml-build-bindings.json"))
     Assert.Throws<IOException>(fun () -> fixture.Capture() |> ignore) |> ignore
     Assert.Equal(original, sha (Path.Combine(fixture.Directory, "xml-build-bindings.json")))
+
+[<Fact>]
+let ReleaseLocatesOnlyIdenticalReviewedReferenceBytesInInstalledNet10Pack () =
+    use temp = new TempDirectory()
+    let primary = "packs/Microsoft.NETCore.App.Ref/10.0.12/ref/net10.0/System.Runtime.xml"
+    let actual = Path.Combine(temp.Path, "packs/Microsoft.NETCore.App.Ref/10.0.11/ref/net10.0/System.Runtime.xml")
+    Directory.CreateDirectory(Path.GetDirectoryName actual |> Option.ofObj |> Option.get) |> ignore
+    File.WriteAllText(actual, "<doc><members><member name=\"M:System.Object.ToString\"><summary>Text.</summary></member></members></doc>")
+    let expectedHash = sha actual
+    Assert.Equal(Path.GetFullPath actual, Path.GetFullPath(ReleaseVerifyArtifacts.resolveReleaseFrameworkXml temp.Path primary expectedHash))
+    let preferred = Path.Combine(temp.Path, primary)
+    Directory.CreateDirectory(Path.GetDirectoryName preferred |> Option.ofObj |> Option.get) |> ignore
+    File.Copy(actual, preferred)
+    Assert.Equal(Path.GetFullPath preferred, Path.GetFullPath(ReleaseVerifyArtifacts.resolveReleaseFrameworkXml temp.Path primary expectedHash))
+
+[<Theory>]
+[<InlineData("absent")>]
+[<InlineData("stale")>]
+[<InlineData("wrong-tfm")>]
+[<InlineData("wrong-major")>]
+[<InlineData("stale-primary")>]
+let ReferenceLookupRejectsAbsentStaleOrUnrelatedPackBytes(kind: string) =
+    use temp = new TempDirectory()
+    let primary = "packs/Microsoft.NETCore.App.Ref/10.0.12/ref/net10.0/System.Runtime.xml"
+    let reviewed = "<doc><members /></doc>"
+    let expectedHash = Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes reviewed)).ToLowerInvariant()
+    let write (relative: string) (content: string) =
+        let path = Path.Combine(temp.Path, relative)
+        Directory.CreateDirectory(Path.GetDirectoryName path |> Option.ofObj |> Option.get) |> ignore
+        File.WriteAllText(path, content)
+    match kind with
+    | "absent" -> ()
+    | "stale" -> write "packs/Microsoft.NETCore.App.Ref/10.0.11/ref/net10.0/System.Runtime.xml" "stale"
+    | "wrong-tfm" -> write "packs/Microsoft.NETCore.App.Ref/10.0.11/ref/net9.0/System.Runtime.xml" reviewed
+    | "wrong-major" -> write "packs/Microsoft.NETCore.App.Ref/9.0.11/ref/net10.0/System.Runtime.xml" reviewed
+    | "stale-primary" ->
+        write primary "stale"
+        write "packs/Microsoft.NETCore.App.Ref/10.0.11/ref/net10.0/System.Runtime.xml" reviewed
+    | _ -> invalidArg "kind" kind
+    Assert.Throws<ReleaseVerifySource.ReleaseVerifyFailure>(fun () -> ReleaseVerifyArtifacts.resolveReleaseFrameworkXml temp.Path primary expectedHash |> ignore) |> ignore
 

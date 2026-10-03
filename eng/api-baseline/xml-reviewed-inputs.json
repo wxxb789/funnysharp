@@ -1,5 +1,5 @@
 {
-  "schema": "funnysharp-reviewed-xml-inputs/v1",
+  "schema": "funnysharp-reviewed-xml-inputs/v2",
   "scope": "Reviewed shipping compilation inputs and XML/alias policy; current PE/PDB bytes belong in post-build immutable attempt receipt, not Git-self-dependent source.",
   "reviewedPolicy": {
     "path": "eng/api-baseline/xml-contract-bindings.json",
@@ -214,16 +214,19 @@
   "assemblies": [
     {
       "name": "FunnySharp",
-      "xmlSha256": "4ef257af8378bd41f653b01215e5b016166a064320e7898e1794c4eb327489cc"
+      "xmlSha256": "4ef257af8378bd41f653b01215e5b016166a064320e7898e1794c4eb327489cc",
+      "lfXmlSha256": "1152678cd26b6912e38b3866496f4dd9f1274f1d27609bd5361af46bcc79bd3e"
     },
     {
       "name": "FunnySharp.AspNetCore",
-      "xmlSha256": "27af8c3d2b65daa59a081f0b24674be0c41fe9cd652a19455cce01f2637e66d0"
+      "xmlSha256": "27af8c3d2b65daa59a081f0b24674be0c41fe9cd652a19455cce01f2637e66d0",
+      "lfXmlSha256": "542ef12f9aa7e4e7e97e2211f73141305bb7fb24fbc0ba89b8147e9b97696edd"
     }
   ],
   "reviewBasis": {
     "changedShippingFilesAllMatchOriginalApprovedFreeze": 30,
-    "unchangedRemainderMatchesOriginalBase": "a8863473fd53eddc7cb47201508426db2e454f84"
+    "unchangedRemainderMatchesOriginalBase": "a8863473fd53eddc7cb47201508426db2e454f84",
+    "xmlRepresentations": "xmlSha256 preserves the exact historical CRLF bytes. lfXmlSha256 is derived only by replacing each CRLF pair with LF in those reviewed UTF-8, BOM-free bytes; inverse LF-to-CRLF translation reproduces the primary bytes exactly. No other formatting or content representation is accepted."
   },
   "historicalExactReviewPreserved": "Original v1 exact package/semantic path unchanged."
 }

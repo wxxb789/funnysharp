@@ -491,9 +491,32 @@ let private xmlMemberId (memberInfo: MemberInfo) : string =
     | :? EventInfo as value -> "E:" + name + "." + value.Name
     | _ -> failNow "Unsupported XML member metadata kind."
 
+/// Locate the same reviewed bytes in an installed .NET 10 reference pack for a current release.
+/// An existing stale primary file still fails; the historical entry point never uses this lookup.
+let resolveReleaseFrameworkXml (installation: string) (relativePath: string) (expectedHash: string) : string =
+    let primary = Path.Combine(installation, relativePath)
+    if File.Exists primary then
+        if sha256File primary <> expectedHash then failNow "XML framework bytes are absent or stale."
+        primary
+    else
+        let packs = Path.Combine(installation, "packs/Microsoft.NETCore.App.Ref")
+        let candidates =
+            if Directory.Exists packs then
+                Directory.GetDirectories(packs, "10.0.*")
+                |> Array.filter (fun directory ->
+                    match Version.TryParse(Path.GetFileName directory) with
+                    | true, version -> version |> Option.ofObj |> Option.exists (fun value -> value.Major = 10 && value.Minor = 0)
+                    | _ -> false)
+                |> Array.sort
+                |> Array.map (fun directory -> Path.Combine(directory, "ref/net10.0/System.Runtime.xml"))
+            else [||]
+        candidates
+        |> Array.tryFind (fun path -> File.Exists path && sha256File path = expectedHash)
+        |> Option.defaultWith (fun () -> failNow "XML framework bytes are absent or stale.")
+
 /// Exact reflected XML coverage, explicit generated aliases and metadata-supported inheritance.
 /// Semantic review and applicable compiler/runtime receipts remain separate acceptance dimensions.
-let private xmlDocumentationInventory (currentBuild: Map<string, string> option) (repositoryRoot: string) (paths: string list) : JsonArray =
+let private xmlDocumentationInventory (currentBuild: Map<string, string * string> option) (repositoryRoot: string) (paths: string list) : JsonArray =
     let inventories = JsonArray()
     let expectedInheritance = HashSet<string>(StringComparer.Ordinal)
     let usedInheritance = HashSet<string>(StringComparer.Ordinal)
@@ -555,12 +578,12 @@ let private xmlDocumentationInventory (currentBuild: Map<string, string> option)
         let assemblyBindings = array bindings "assemblies" |> List.filter (fun value -> text value "name" = assemblyName)
         if assemblyBindings.Length <> 1 then failNow ("XML assembly binding is absent or ambiguous: " + assemblyName)
         let boundAssembly = assemblyBindings.Head
-        let expectedAssemblyHash =
+        let expectedAssemblyHash, expectedXmlHash =
             match currentBuild with
-            | None -> text boundAssembly "dllSha256"
+            | None -> text boundAssembly "dllSha256", text boundAssembly "xmlSha256"
             | Some hashes ->
                 hashes |> Map.tryFind assemblyName |> Option.defaultWith (fun () -> failNow "XML assembly has no sealed build binding.")
-        if sha256File assemblyPath <> expectedAssemblyHash || sha256File path <> text boundAssembly "xmlSha256" then
+        if sha256File assemblyPath <> expectedAssemblyHash || sha256File path <> expectedXmlHash then
             failNow "XML or assembly bytes differ from the reviewed contract binding."
         if sha256File assembly.Location <> expectedAssemblyHash then
             failNow "Loaded XML assembly metadata differs from the supplied binary."
@@ -584,7 +607,10 @@ let private xmlDocumentationInventory (currentBuild: Map<string, string> option)
                 match installation.Parent with
                 | null -> failNow "Runtime installation has no reference-pack root."
                 | value -> value
-        let frameworkPath = Path.Combine(installation.FullName, text framework "relativePath")
+        let frameworkPath =
+            match currentBuild with
+            | None -> Path.Combine(installation.FullName, text framework "relativePath")
+            | Some _ -> resolveReleaseFrameworkXml installation.FullName (text framework "relativePath") (text framework "sha256")
         if not (File.Exists frameworkPath) || sha256File frameworkPath <> text framework "sha256" then
             failNow "XML framework bytes are absent or stale."
         let frameworkXml = indexXml (XDocument.Load frameworkPath)
@@ -722,6 +748,9 @@ let private xmlDocumentationInventory (currentBuild: Map<string, string> option)
         node.["exportedMembers"] <- jint rows.Count
         node.["assemblySha256"] <- jstr (sha256File assemblyPath)
         node.["bindingsSha256"] <- jstr (sha256File bindingPath)
+        if currentBuild.IsSome then
+            node.["frameworkPath"] <- jstr frameworkPath
+            node.["frameworkSha256"] <- jstr (sha256File frameworkPath)
         node.["completeSemanticAcceptance"] <- jbool false
         node.["memberBindings"] <- rows
         inventories.Add node

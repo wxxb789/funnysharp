@@ -86,11 +86,12 @@ let private reviewedInputs root =
     use document = JsonDocument.Parse(File.ReadAllText anchor)
     let node = document.RootElement
     fields [ "schema"; "scope"; "reviewedPolicy"; "files"; "assemblies"; "reviewBasis"; "historicalExactReviewPreserved" ] node
-    require (text "schema" node = "funnysharp-reviewed-xml-inputs/v1") "unexpected reviewed-input schema."
+    require (text "schema" node = "funnysharp-reviewed-xml-inputs/v2") "unexpected reviewed-input schema."
     let policy = field "reviewedPolicy" node
     fields [ "path"; "sha256" ] policy
     require (text "path" policy = policyPath) "wrong reviewed policy path."
     checkedHash root policyPath (text "sha256" policy) |> ignore
+    use policyDocument = JsonDocument.Parse(File.ReadAllText(Path.Combine(root, policyPath)))
     let files = rows "files" node
     let expected = files |> List.map (fun file ->
         fields [ "path"; "sha256" ] file
@@ -117,8 +118,15 @@ let private reviewedInputs root =
     let assemblies = rows "assemblies" node
     require (assemblies.Length = names.Length && (assemblies |> List.map (text "name") |> Set.ofList) = Set.ofList names) "reviewed assembly inventory changed."
     for assembly in assemblies do
-        fields [ "name"; "xmlSha256" ] assembly
-        checkedHash root (assemblyPath (text "name" assembly) ".xml") (text "xmlSha256" assembly) |> ignore
+        fields [ "name"; "xmlSha256"; "lfXmlSha256" ] assembly
+        let name = text "name" assembly
+        let primary = text "xmlSha256" assembly
+        let representations = [ primary; text "lfXmlSha256" assembly ]
+        require (representations |> List.forall (fun value -> Regex.IsMatch(value, "^[0-9a-f]{64}$"))) "invalid reviewed XML SHA256."
+        let historical = rows "assemblies" policyDocument.RootElement |> List.filter (fun value -> text "name" value = name)
+        require (historical.Length = 1 && text "xmlSha256" historical.Head = primary) "primary XML review differs from the historical policy."
+        let path = assemblyPath name ".xml"
+        require (List.contains (hash (safeFile root path)) representations) ("bytes changed: " + path)
     hash anchor, text "sha256" policy
 
 let private buildReceipt root directory relative =
@@ -170,7 +178,7 @@ let capture root directory commit attempt buildRelative (capturedAt: DateTimeOff
     pointer
 
 /// Consume external sealed evidence; never create or refresh it during verification.
-let validate root directory candidate (validatedExecution: JsonNode) : Map<string, string> =
+let validate root directory candidate (validatedExecution: JsonNode) : Map<string, string * string> =
     let manifestPath = safeFile directory "execution-evidence.json"
     use executionDocument = JsonDocument.Parse(validatedExecution.ToJsonString())
     let execution = executionDocument.RootElement
@@ -219,5 +227,5 @@ let validate root directory candidate (validatedExecution: JsonNode) : Map<strin
             let path = assemblyPath name ("." + kind)
             require (text (kind + "Path") assembly = path) "wrong sealed assembly path."
             checkedHash root path (text (kind + "Sha256") assembly) |> ignore
-        name, text "dllSha256" assembly)
+        name, (text "dllSha256" assembly, text "xmlSha256" assembly))
     |> Map.ofList
