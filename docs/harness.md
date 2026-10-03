@@ -20,6 +20,7 @@ A bare run (`dotnet fsi build.fsx`, no `-p`) prints the pipeline list instead of
 | `check-action-pins` | Check that every remote GitHub action is pinned to a full commit SHA. |
 | `verify-docs-snippets` | Verify every documentation sample against its source region. |
 | `verify-api-baseline` | Verify the shipping assemblies' public API surface against the committed baseline. |
+| `verify-stable-api-contracts` | Verify the final 468-member semantic index and its hash-bound source, compiler, runtime, and XML references. |
 | `verify-tooling` | Run the local pre-check over the release protocol's local steps. |
 | `generate-inventory` | Regenerate the next-stage evidence inventories. |
 | `vertical-slice` | Pack the solution and verify the vertical slice against the packages only. |
@@ -38,8 +39,21 @@ A bare run (`dotnet fsi build.fsx`, no `-p`) prints the pipeline list instead of
 
 Each pipeline keeps the command surface of the script it replaced, so flags such as
 `-ReceiptDirectory`, `-ManifestPath`, `-OutputDirectory`, or `--repository-root` still apply.
+The `vertical-slice` pipeline also accepts `--package-feed <URL>` for its upstream NuGet
+source, defaulting to `https://api.nuget.org/v3/index.json`. The isolated restore config keeps
+the newly packed local feed first and records the selected upstream; package vulnerability
+auditing and warnings-as-errors remain enabled.
 Run `dotnet fsi build.fsx` with no `-p` to print this list; each pipeline's `description` carries
 a one-line summary.
+
+`verify-stable-api-contracts` reads the current
+`docs/audits/goal-24-resolution/stable-api-semantic-proofs.json`, or the path supplied with
+`--proof-index <path>`. Its final package/compiler/runtime receipts must already exist. It
+checks exact identities, all eight dimensions, source/assertion spans and hashes, actual
+case IDs and statuses, compiler diagnostics/emissions, and explicit XML targets. Source
+invariants remain source evidence, not executed runtime cases; runtime NA is limited to
+the delegate ABI constructor and enum-storage mechanisms. The gate never regenerates
+evidence or infers maintainer acceptance from passing checks.
 
 ## Exit-Code Contract
 

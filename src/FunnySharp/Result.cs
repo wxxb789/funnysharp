@@ -17,6 +17,8 @@ public static class Result
     /// <typeparam name="TValue">The successful value type.</typeparam>
     /// <param name="operation">The operation to invoke.</param>
     /// <returns>The operation result or the original exception.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="operation"/> is null.</exception>
+    /// <exception cref="OperationCanceledException">The operation signals cancellation; it is not converted to failure.</exception>
     public static Result<TValue, Exception> Try<TValue>(Func<TValue> operation) =>
         Try(operation, PreserveException);
 
@@ -28,6 +30,9 @@ public static class Result
     /// <param name="operation">The operation to invoke.</param>
     /// <param name="errorMapper">The explicit exception-to-failure mapping.</param>
     /// <returns>The operation result or a mapped failure.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="operation"/> or <paramref name="errorMapper"/> is null.</exception>
+    /// <exception cref="OperationCanceledException">The operation signals cancellation; it is not mapped.</exception>
+    /// <remarks>Both delegates are checked before invocation. Exceptions thrown by the error mapper propagate unchanged.</remarks>
     public static Result<TValue, TError> Try<TValue, TError>(
         Func<TValue> operation,
         Func<Exception, TError> errorMapper)
@@ -492,6 +497,7 @@ public readonly struct Result<TValue, TError> : IEquatable<Result<TValue, TError
     /// <param name="failure">The branch invoked with a failure value.</param>
     /// <returns>The selected branch result.</returns>
     /// <exception cref="InvalidOperationException">This result is uninitialized.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="success"/> or <paramref name="failure"/> is null; guarded before state inspection or callback invocation.</exception>
     public TResult Match<TResult>(Func<TValue, TResult> success, Func<TError, TResult> failure)
     {
         ArgumentNullException.ThrowIfNull(success);
@@ -507,6 +513,7 @@ public readonly struct Result<TValue, TError> : IEquatable<Result<TValue, TError
     /// <param name="success">The branch invoked with a successful value.</param>
     /// <param name="failure">The branch invoked with a failure value.</param>
     /// <exception cref="InvalidOperationException">This result is uninitialized.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="success"/> or <paramref name="failure"/> is null; guarded before state inspection or callback invocation.</exception>
     public void Match(Action<TValue> success, Action<TError> failure)
     {
         ArgumentNullException.ThrowIfNull(success);
@@ -530,6 +537,7 @@ public readonly struct Result<TValue, TError> : IEquatable<Result<TValue, TError
     /// <param name="selector">The transformation to apply.</param>
     /// <returns>The transformed result, or the existing failure.</returns>
     /// <exception cref="InvalidOperationException">This result is uninitialized.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="selector"/> is null; guarded before state inspection or callback invocation.</exception>
     public Result<TResult, TError> Map<TResult>(Func<TValue, TResult> selector)
     {
         ArgumentNullException.ThrowIfNull(selector);
@@ -547,6 +555,7 @@ public readonly struct Result<TValue, TError> : IEquatable<Result<TValue, TError
     /// <param name="binder">The result-returning function to apply.</param>
     /// <returns>The bound result, or the existing failure.</returns>
     /// <exception cref="InvalidOperationException">This result is uninitialized.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="binder"/> is null; guarded before state inspection or callback invocation.</exception>
     public Result<TResult, TError> Bind<TResult>(Func<TValue, Result<TResult, TError>> binder)
     {
         ArgumentNullException.ThrowIfNull(binder);
@@ -564,6 +573,7 @@ public readonly struct Result<TValue, TError> : IEquatable<Result<TValue, TError
     /// <param name="selector">The failure transformation to apply.</param>
     /// <returns>The transformed failure, or the existing success.</returns>
     /// <exception cref="InvalidOperationException">This result is uninitialized.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="selector"/> is null; guarded before state inspection or callback invocation.</exception>
     public Result<TValue, TResultError> MapError<TResultError>(Func<TError, TResultError> selector)
     {
         ArgumentNullException.ThrowIfNull(selector);
@@ -581,6 +591,7 @@ public readonly struct Result<TValue, TError> : IEquatable<Result<TValue, TError
     /// <param name="error">The failure returned when the predicate is false.</param>
     /// <returns>This result when already failed or when the value matches; otherwise, a new failure.</returns>
     /// <exception cref="InvalidOperationException">This result is uninitialized.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="predicate"/> is null; guarded before state inspection or callback invocation.</exception>
     public Result<TValue, TError> Ensure(Func<TValue, bool> predicate, TError error)
     {
         ArgumentNullException.ThrowIfNull(predicate);
@@ -596,6 +607,7 @@ public readonly struct Result<TValue, TError> : IEquatable<Result<TValue, TError
     /// <param name="errorFactory">The failure factory invoked for an unsuccessful validation.</param>
     /// <returns>This result when already failed or when the value matches; otherwise, a new failure.</returns>
     /// <exception cref="InvalidOperationException">This result is uninitialized.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="predicate"/> or <paramref name="errorFactory"/> is null; guarded before state inspection or callback invocation.</exception>
     public Result<TValue, TError> Ensure(
         Func<TValue, bool> predicate,
         Func<TValue, TError> errorFactory)
@@ -618,6 +630,7 @@ public readonly struct Result<TValue, TError> : IEquatable<Result<TValue, TError
     /// <param name="recovery">The recovery function.</param>
     /// <returns>This result when successful; otherwise, the recovered success.</returns>
     /// <exception cref="InvalidOperationException">This result is uninitialized.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="recovery"/> is null; guarded before state inspection or callback invocation.</exception>
     public Result<TValue, TError> Recover(Func<TError, TValue> recovery)
     {
         ArgumentNullException.ThrowIfNull(recovery);
@@ -632,6 +645,7 @@ public readonly struct Result<TValue, TError> : IEquatable<Result<TValue, TError
     /// <param name="recovery">The result-returning recovery function.</param>
     /// <returns>This result when successful; otherwise, the recovery result.</returns>
     /// <exception cref="InvalidOperationException">This result is uninitialized.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="recovery"/> is null; guarded before state inspection or callback invocation.</exception>
     public Result<TValue, TError> RecoverWith(Func<TError, Result<TValue, TError>> recovery)
     {
         ArgumentNullException.ThrowIfNull(recovery);
@@ -781,6 +795,7 @@ public readonly struct Result<TValue, TError> : IEquatable<Result<TValue, TError
     /// <param name="secondFactory">The result factory to invoke after success.</param>
     /// <returns>Both successful values, or the first failure in left-to-right order.</returns>
     /// <exception cref="InvalidOperationException">This result is uninitialized.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="secondFactory"/> is null; guarded before state inspection or callback invocation.</exception>
     public Result<(TValue First, TSecond Second), TError> ZipWith<TSecond>(
         Func<Result<TSecond, TError>> secondFactory)
     {
@@ -810,6 +825,7 @@ public readonly struct Result<TValue, TError> : IEquatable<Result<TValue, TError
     /// <param name="projector">The projection to invoke when both results are successful.</param>
     /// <returns>The projected success, the existing failure, or the failure returned by <paramref name="binder"/>.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="binder"/> or <paramref name="projector"/> is null.</exception>
+    /// <exception cref="InvalidOperationException">This result or the result returned by the selected binder is uninitialized.</exception>
     public Result<TResult, TError> SelectMany<TIntermediate, TResult>(
         Func<TValue, Result<TIntermediate, TError>> binder,
         Func<TValue, TIntermediate, TResult> projector)
@@ -851,7 +867,7 @@ public readonly struct Result<TValue, TError> : IEquatable<Result<TValue, TError
     }
 
     /// <inheritdoc />
-    /// <exception cref="InvalidOperationException">This result is uninitialized.</exception>
+    /// <exception cref="InvalidOperationException">This result or a matching result boxed in <paramref name="obj"/> is uninitialized.</exception>
     public override bool Equals(object? obj)
     {
         EnsureInitialized();
@@ -871,6 +887,7 @@ public readonly struct Result<TValue, TError> : IEquatable<Result<TValue, TError
     /// <summary>
     /// Determines whether two results are equal.
     /// </summary>
+    /// <exception cref="InvalidOperationException">Either operand is uninitialized.</exception>
     public static bool operator ==(
         Result<TValue, TError> left,
         Result<TValue, TError> right) =>
@@ -879,12 +896,14 @@ public readonly struct Result<TValue, TError> : IEquatable<Result<TValue, TError
     /// <summary>
     /// Determines whether two results are unequal.
     /// </summary>
+    /// <exception cref="InvalidOperationException">Either operand is uninitialized.</exception>
     public static bool operator !=(
         Result<TValue, TError> left,
         Result<TValue, TError> right) =>
         !left.Equals(right);
 
     /// <inheritdoc />
+    /// <returns>Diagnostic <c>Success(value)</c>, <c>Failure(error)</c>, or <c>Uninitialized</c> text; payload formatting may invoke user behavior.</returns>
     public override string ToString() =>
         state switch
         {

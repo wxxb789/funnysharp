@@ -1,0 +1,277 @@
+{
+  "schema": "funnysharp-final-installed-pair-local-proofs/v1",
+  "state": "MATCHING_CURRENT_SOURCE_PDB_DLL_METADATA_XML_COMPILER_RUNTIME_AND_COST_GATES_PASS_SEMANTIC_DIMENSION_JOIN_PENDING",
+  "feed": "artifacts/audit-resolution/u14-post-xml/attempt-03/feed",
+  "packages": [
+    {
+      "name": "FunnySharp",
+      "dllSha256": "6a903f737356fdf67845c9cd39385e4a5e2b39bcae0ee92ff2882480ecb7e49d",
+      "xmlSha256": "4ef257af8378bd41f653b01215e5b016166a064320e7898e1794c4eb327489cc",
+      "nupkgSha256": "49886c3c6e505d03b1e3565bfe71d43f2476eae3edfd35c4d6afbe761203fc18"
+    },
+    {
+      "name": "FunnySharp.AspNetCore",
+      "dllSha256": "2daaff9c72db5b730c06d3270c00dfd7046fa27e26d59374e31cf270b8dc30c2",
+      "xmlSha256": "27af8c3d2b65daa59a081f0b24674be0c41fe9cd652a19455cce01f2637e66d0",
+      "nupkgSha256": "d0d5339eeb0525e24a80264e68448d5a863b5f13341fa925681e2131662d9a69"
+    }
+  ],
+  "pdbReceipt": "artifacts/audit-resolution/u14-package-probes/attempt-04/pdb-binding.json",
+  "sourcePdbDocuments": 31,
+  "censusReceipt": "artifacts/audit-resolution/u14-package-probes/attempt-04/package-inventory.json",
+  "census": {
+    "types": 49,
+    "members": 499,
+    "stable": 468,
+    "experimental": 31
+  },
+  "xmlProjection": "artifacts/audit-resolution/u14-package-probes/attempt-04/xml-metadata-02.json",
+  "installedXml": "artifacts/audit-resolution/u14-package-probes/attempt-04/installed-xml.json",
+  "runtime": [
+    {
+      "path": "artifacts/audit-resolution/u14-core-package-suite/attempt-02/contracts-01.json",
+      "summary": {
+        "tests": 1762,
+        "passed": 1762,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "other": 0,
+        "suites": 1,
+        "start": 1790910581041,
+        "stop": 1790910582075
+      }
+    },
+    {
+      "path": "artifacts/audit-resolution/u14-http-package-suite/attempt-02/contracts-01.json",
+      "summary": {
+        "tests": 28,
+        "passed": 28,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "other": 0,
+        "suites": 1,
+        "start": 1790910587698,
+        "stop": 1790910588429
+      }
+    },
+    {
+      "path": "artifacts/audit-resolution/u14-package-probes/attempt-04/contracts-01.json",
+      "summary": {
+        "tests": 18,
+        "passed": 18,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "other": 0,
+        "suites": 1,
+        "start": 1790910595283,
+        "stop": 1790910597567
+      }
+    }
+  ],
+  "runtimeBinaryBindings": [
+    {
+      "path": "artifacts/audit-resolution/u14-core-package-suite/attempt-02/bin/Release/net10.0/FunnySharp.dll",
+      "sha256": "6a903f737356fdf67845c9cd39385e4a5e2b39bcae0ee92ff2882480ecb7e49d"
+    },
+    {
+      "path": "artifacts/audit-resolution/u14-http-package-suite/attempt-02/bin/Release/net10.0/FunnySharp.dll",
+      "sha256": "6a903f737356fdf67845c9cd39385e4a5e2b39bcae0ee92ff2882480ecb7e49d"
+    },
+    {
+      "path": "artifacts/audit-resolution/u14-http-package-suite/attempt-02/bin/Release/net10.0/FunnySharp.AspNetCore.dll",
+      "sha256": "2daaff9c72db5b730c06d3270c00dfd7046fa27e26d59374e31cf270b8dc30c2"
+    },
+    {
+      "path": "artifacts/audit-resolution/u14-package-probes/attempt-04/bin/Release/net10.0/FunnySharp.dll",
+      "sha256": "6a903f737356fdf67845c9cd39385e4a5e2b39bcae0ee92ff2882480ecb7e49d"
+    },
+    {
+      "path": "artifacts/audit-resolution/u14-core-package-suite/attempt-02/contracts-01.trx",
+      "sha256": "4a4730e06866e5d3ec096510999868a1213de1312244811b1d7363c57502fe87"
+    }
+  ],
+  "compiler": {
+    "receipt": "artifacts/audit-resolution/u14-package-compiler-matrix-final/attempt-01/matrix.json",
+    "stableRows": 468,
+    "actualProbes": 2288,
+    "exactZeroDiagnosticEmissions": 1751,
+    "matchedNegative": 537,
+    "negativeExactAttributionLimits": 19,
+    "cliAbiSyntaxLimits": 4,
+    "unexpectedFailures": 0,
+    "parentSourceHashChecks": 2288,
+    "parentDiagnosticChecks": 2288,
+    "parentFrameworkReferenceHashChecks": 307,
+    "parentIssues": []
+  },
+  "cost": "artifacts/audit-resolution/u14-package-probes/attempt-04/cost-coverage.json",
+  "costSourceDelta": "docs/audits/goal-24-resolution/evidence/u14-final-documentation-source-delta.json",
+  "resourceWitnessJoin": [
+    {
+      "kind": "long-input-bound",
+      "member": "ExplicitFirstSuccessBoundLimits1024HeldCandidatesAndRefillsExactlyOneSlot",
+      "cases": [
+        {
+          "fullName": "FunnySharp.Tests.FirstSuccessTests.ExplicitFirstSuccessBoundLimits1024HeldCandidatesAndRefillsExactlyOneSlot(maxConcurrency: 32)",
+          "id": "285193e99b832507180530ae858698df460b990139dfbf3400fe3b98dfd8f0a8",
+          "status": "passed"
+        },
+        {
+          "fullName": "FunnySharp.Tests.FirstSuccessTests.ExplicitFirstSuccessBoundLimits1024HeldCandidatesAndRefillsExactlyOneSlot(maxConcurrency: 1)",
+          "id": "fd2244737df14a8432228fd855e3c6b1328701ab1bee8b0e32b52e39efa53eaa",
+          "status": "passed"
+        },
+        {
+          "fullName": "FunnySharp.Tests.FirstSuccessTests.ExplicitFirstSuccessBoundLimits1024HeldCandidatesAndRefillsExactlyOneSlot(maxConcurrency: 2)",
+          "id": "9a6812b1c62cb848ee8e8bf4c4bcce405827c13693633bad64b4f6fae7c28c1a",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "kind": "long-input-bound",
+      "member": "SelectParallelCompletionOrderValueAsyncBoundsUndeliveredWorkAndKeepsStreaming",
+      "cases": [
+        {
+          "fullName": "FunnySharp.Tests.ParallelAsyncEnumerableTests.SelectParallelCompletionOrderValueAsyncBoundsUndeliveredWorkAndKeepsStreaming",
+          "id": "3bdca60c3dd6463cc9e2d320b3b42827d509f292f2cc7755b109bd48e903eea1",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "kind": "cancel-drain",
+      "member": "FirstSuccessAwaitsRealUsingAsyncDisposalAndPropagatesItsFailureAfterAWinner",
+      "cases": [
+        {
+          "fullName": "FunnySharp.Tests.FirstSuccessTests.FirstSuccessAwaitsRealUsingAsyncDisposalAndPropagatesItsFailureAfterAWinner",
+          "id": "a6b5a88e2402eb98f3bc276edb1c5586e80200166160e662573550af72634644",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "kind": "cancel-drain",
+      "member": "ExplicitFirstSuccessBoundStopsAdmissionAndDrainsOnTimeoutOrCallerCancellation",
+      "cases": [
+        {
+          "fullName": "FunnySharp.Tests.FirstSuccessTests.ExplicitFirstSuccessBoundStopsAdmissionAndDrainsOnTimeoutOrCallerCancellation(maxConcurrency: 1, cancelCaller: False)",
+          "id": "4bbf66a18827ceeba25e8619a705f157134ff181bddef1cd8cc0abc9ab70f3ac",
+          "status": "passed"
+        },
+        {
+          "fullName": "FunnySharp.Tests.FirstSuccessTests.ExplicitFirstSuccessBoundStopsAdmissionAndDrainsOnTimeoutOrCallerCancellation(maxConcurrency: 32, cancelCaller: False)",
+          "id": "60e7807c7a894ae52552f043d261c72384777ed649d3084132442221a1454668",
+          "status": "passed"
+        },
+        {
+          "fullName": "FunnySharp.Tests.FirstSuccessTests.ExplicitFirstSuccessBoundStopsAdmissionAndDrainsOnTimeoutOrCallerCancellation(maxConcurrency: 32, cancelCaller: True)",
+          "id": "15df82eea20d85fcaa92a762a442cc8799624e6051b4ee3724c4965824830c31",
+          "status": "passed"
+        },
+        {
+          "fullName": "FunnySharp.Tests.FirstSuccessTests.ExplicitFirstSuccessBoundStopsAdmissionAndDrainsOnTimeoutOrCallerCancellation(maxConcurrency: 2, cancelCaller: True)",
+          "id": "e382ba8581d964144cc528ae581ed9c14b4bbed65ba40d34e5aeafe3d352b468",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "kind": "cancel-drain",
+      "member": "ExternalCancellationDoesNotPublishANonCooperatingSelectorAndCleansUpOnce",
+      "cases": [
+        {
+          "fullName": "FunnySharp.Tests.ParallelAsyncEnumerableTests.ExternalCancellationDoesNotPublishANonCooperatingSelectorAndCleansUpOnce(completionOrder: True, tokenAware: False, cleanupFault: False)",
+          "id": "30d064befbb9ae96238c72cdedbe79d5b31195b5919b5d69f86c7deaa7b7ff25",
+          "status": "passed"
+        },
+        {
+          "fullName": "FunnySharp.Tests.ParallelAsyncEnumerableTests.ExternalCancellationDoesNotPublishANonCooperatingSelectorAndCleansUpOnce(completionOrder: False, tokenAware: True, cleanupFault: True)",
+          "id": "9682d6668d2de8be37eda3a515f30af1633f44fd5b58aaa2157a5b5530089ad1",
+          "status": "passed"
+        },
+        {
+          "fullName": "FunnySharp.Tests.ParallelAsyncEnumerableTests.ExternalCancellationDoesNotPublishANonCooperatingSelectorAndCleansUpOnce(completionOrder: True, tokenAware: True, cleanupFault: False)",
+          "id": "a7893a02616fc90b7f42bf3e0cc4ee98a424ce40039c72c6edd80028d81b3be4",
+          "status": "passed"
+        },
+        {
+          "fullName": "FunnySharp.Tests.ParallelAsyncEnumerableTests.ExternalCancellationDoesNotPublishANonCooperatingSelectorAndCleansUpOnce(completionOrder: False, tokenAware: True, cleanupFault: False)",
+          "id": "fb6f389dd648805c5575813c21f6f05252c4d79a86dea0992bd243763245805b",
+          "status": "passed"
+        },
+        {
+          "fullName": "FunnySharp.Tests.ParallelAsyncEnumerableTests.ExternalCancellationDoesNotPublishANonCooperatingSelectorAndCleansUpOnce(completionOrder: False, tokenAware: False, cleanupFault: False)",
+          "id": "243dfe0f6f15ff32903742e99c98e00ab6904fe2e7f2dfb6c0de027b7d8e36d3",
+          "status": "passed"
+        },
+        {
+          "fullName": "FunnySharp.Tests.ParallelAsyncEnumerableTests.ExternalCancellationDoesNotPublishANonCooperatingSelectorAndCleansUpOnce(completionOrder: False, tokenAware: False, cleanupFault: True)",
+          "id": "8b220dfd946fbd6d093b6756e61f2a7a99a6f4ef86f7ed0208c42d94024c754f",
+          "status": "passed"
+        },
+        {
+          "fullName": "FunnySharp.Tests.ParallelAsyncEnumerableTests.ExternalCancellationDoesNotPublishANonCooperatingSelectorAndCleansUpOnce(completionOrder: True, tokenAware: True, cleanupFault: True)",
+          "id": "2c5d95971c6775948b28ebf303e1ef1a6bed959978a51d7ba7919efaf4b32f32",
+          "status": "passed"
+        },
+        {
+          "fullName": "FunnySharp.Tests.ParallelAsyncEnumerableTests.ExternalCancellationDoesNotPublishANonCooperatingSelectorAndCleansUpOnce(completionOrder: True, tokenAware: False, cleanupFault: True)",
+          "id": "0c100c5e35fa7342646c74645f5d4017421beccbc3dc02b60bb0da738588ce57",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "kind": "linear-first-success",
+      "member": "ExplicitFirstSuccessHandlesLargeSynchronousFailuresInOrderWithOneValueTaskConsumption",
+      "cases": [
+        {
+          "fullName": "FunnySharp.Tests.FirstSuccessTests.ExplicitFirstSuccessHandlesLargeSynchronousFailuresInOrderWithOneValueTaskConsumption(maxConcurrency: 4096)",
+          "id": "b5b700332a67fdfc70743fcb9ada6ced26e5f7410820c6d1f93f64e5b2b3a126",
+          "status": "passed"
+        },
+        {
+          "fullName": "FunnySharp.Tests.FirstSuccessTests.ExplicitFirstSuccessHandlesLargeSynchronousFailuresInOrderWithOneValueTaskConsumption(maxConcurrency: 32)",
+          "id": "ae4250fa1429a062f8002b2d27e3fdb48785e0557358771f6c3c35bde8a264f1",
+          "status": "passed"
+        },
+        {
+          "fullName": "FunnySharp.Tests.FirstSuccessTests.ExplicitFirstSuccessHandlesLargeSynchronousFailuresInOrderWithOneValueTaskConsumption(maxConcurrency: 1)",
+          "id": "edfb8584cf8f5c1c5086d00fbe4ecda1c5ad38495cf4f13a9b319c04cef09df7",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "kind": "linear-first-success",
+      "member": "ExplicitFirstSuccessAccountsForLargeStaggeredBatchesWithoutReorderingTypedFailures",
+      "cases": [
+        {
+          "fullName": "FunnySharp.Tests.FirstSuccessTests.ExplicitFirstSuccessAccountsForLargeStaggeredBatchesWithoutReorderingTypedFailures(maxConcurrency: 32)",
+          "id": "46a421427bffd4c3dff67b65ae224da177f2986fc91eeaab177973dd86d29a95",
+          "status": "passed"
+        },
+        {
+          "fullName": "FunnySharp.Tests.FirstSuccessTests.ExplicitFirstSuccessAccountsForLargeStaggeredBatchesWithoutReorderingTypedFailures(maxConcurrency: 2)",
+          "id": "1a0e705df1ef5205a9e92f2e2fc00e0456d0ad430115eeaa996010fa217639a1",
+          "status": "passed"
+        },
+        {
+          "fullName": "FunnySharp.Tests.FirstSuccessTests.ExplicitFirstSuccessAccountsForLargeStaggeredBatchesWithoutReorderingTypedFailures(maxConcurrency: 1024)",
+          "id": "a0053488aa6ba5b0eea54b628630447e31aaa94353916513b02547baf1c8a089",
+          "status": "passed"
+        }
+      ]
+    }
+  ],
+  "limits": [
+    "Exact468member dimension/NA/proof index and semantic rejection controls remain pending.",
+    "Current docs performance observation policy/input/protocol hashes are stale; three serial independent full190/40 repetitions and existing-harness observation approval remain open.",
+    "No product claim or maintainer acceptance is inferred from suite counts."
+  ],
+  "allProcessesExitCode": 0
+}

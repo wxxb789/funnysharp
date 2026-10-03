@@ -180,10 +180,10 @@ public sealed class ResultAsyncTests
         Assert.Same(taskBindFailure, await Assert.ThrowsAsync<InvalidOperationException>(() => taskBind));
         Assert.Same(
             valueMapFailure,
-            await Assert.ThrowsAsync<InvalidOperationException>(async () => await valueMap));
+            await Assert.ThrowsAsync<InvalidOperationException>(async () => { _ = await valueMap; }));
         Assert.Same(
             valueBindFailure,
-            await Assert.ThrowsAsync<InvalidOperationException>(async () => await valueBind));
+            await Assert.ThrowsAsync<InvalidOperationException>(async () => { _ = await valueBind; }));
     }
 
     [Fact]
@@ -301,9 +301,9 @@ public sealed class ResultAsyncTests
         var taskMapCancellation = await Assert.ThrowsAnyAsync<OperationCanceledException>(() => taskMap);
         var taskBindCancellation = await Assert.ThrowsAnyAsync<OperationCanceledException>(() => taskBind);
         var valueMapCancellation = await Assert.ThrowsAnyAsync<OperationCanceledException>(
-            async () => await valueMap);
+            async () => { _ = await valueMap; });
         var valueBindCancellation = await Assert.ThrowsAnyAsync<OperationCanceledException>(
-            async () => await valueBind);
+            async () => { _ = await valueBind; });
 
         Assert.True(taskMap.IsCanceled);
         Assert.True(taskBind.IsCanceled);
@@ -337,9 +337,9 @@ public sealed class ResultAsyncTests
         var taskMapCancellation = await Assert.ThrowsAnyAsync<OperationCanceledException>(() => taskMap);
         var taskBindCancellation = await Assert.ThrowsAnyAsync<OperationCanceledException>(() => taskBind);
         var valueMapCancellation = await Assert.ThrowsAnyAsync<OperationCanceledException>(
-            async () => await valueMap);
+            async () => { _ = await valueMap; });
         var valueBindCancellation = await Assert.ThrowsAnyAsync<OperationCanceledException>(
-            async () => await valueBind);
+            async () => { _ = await valueBind; });
 
         Assert.True(taskMap.IsCanceled);
         Assert.True(taskBind.IsCanceled);
@@ -375,7 +375,7 @@ public sealed class ResultAsyncTests
         Assert.Same(taskFailure, await Assert.ThrowsAsync<InvalidOperationException>(() => task));
         Assert.Same(
             valueFailure,
-            await Assert.ThrowsAsync<InvalidOperationException>(async () => await valueTask));
+            await Assert.ThrowsAsync<InvalidOperationException>(async () => { _ = await valueTask; }));
     }
 
     [Fact]

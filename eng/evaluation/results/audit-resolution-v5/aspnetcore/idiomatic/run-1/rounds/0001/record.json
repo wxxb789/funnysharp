@@ -1,0 +1,24 @@
+{
+  "task": "aspnetcore",
+  "style": "idiomatic",
+  "run": "run-1",
+  "round": 1,
+  "compilation": {
+    "ok": true,
+    "errors": 0,
+    "buildSeconds": 14.1
+  },
+  "semanticCorrectness": {
+    "ok": true,
+    "total": 9,
+    "failed": 0,
+    "succeeded": 9,
+    "skipped": 0
+  },
+  "apiMisuse": {
+    "fsDiagnostics": []
+  },
+  "consumerLoc": 126,
+  "verdict": "GREEN",
+  "evidenceKind": "generation-verification"
+}

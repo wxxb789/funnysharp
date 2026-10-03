@@ -1,0 +1,60 @@
+{
+  "executor": "main-session",
+  "findings": [
+    "G21-08",
+    "G21-12",
+    "G21-19"
+  ],
+  "baseCommit": "a8863473fd53eddc7cb47201508426db2e454f84",
+  "baseTree": "88e8a528017b0a5f68710cc1d955fda64486877f",
+  "unitDiffSha256": "7a8b9c01f0d1964783705495923cdda60313f66236b0d5e39b9510b4bb93b3e2",
+  "red": {
+    "exitCode": 2,
+    "total": 159,
+    "failed": 11,
+    "succeeded": 148,
+    "skipped": 0
+  },
+  "green": {
+    "exitCode": 0,
+    "total": 159,
+    "failed": 0,
+    "succeeded": 159,
+    "skipped": 0
+  },
+  "packaged": {
+    "exitCode": 0,
+    "total": 117,
+    "failed": 0,
+    "succeeded": 117,
+    "skipped": 0,
+    "packageSha256": "1f22cb9a956cfb98df5fdfef3de85e650f40a31c7a30e08f7049c5edfa9a52a5",
+    "analyzerSha256": "cbc82411aa4fa999ec3ae59ca100b0338f64eda212676b5162164a9ffc091104",
+    "projectReferences": [],
+    "loadedReferences": [
+      "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\fs1004\\packages\\funnysharp\\0.1.0\\analyzers\\dotnet\\cs\\FunnySharp.Analyzers.CodeFixes.dll",
+      "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\fs1004\\packages\\funnysharp\\0.1.0\\analyzers\\dotnet\\cs\\FunnySharp.Analyzers.dll",
+      "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\fs1004\\packages\\funnysharp.aspnetcore\\0.1.0\\lib\\net10.0\\FunnySharp.AspNetCore.dll",
+      "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\fs1004\\packages\\funnysharp\\0.1.0\\lib\\net10.0\\FunnySharp.dll"
+    ]
+  },
+  "runtime": "Actual completed and explicitly signaled pending IValueTaskSource success, fault and cancellation paths each consume GetResult once; ordinary fault identity/cancellation token are preserved, gates are released and operations drained in finally.",
+  "staticProof": "Same stable local/by-value parameter; IsCompletedSuccessfully dominates every path; acyclic local CFG with at most one consumption; replacement/alias/escape/field/ref/loop/exception/unsupported roots retain exact warnings.",
+  "documentation": "Current docs now include empty initializers, only true-discard safe actions, actually started unawaited work, and the precise completed-success proof boundary; source XML/unshipped notes match. No snippet bytes changed.",
+  "build": {
+    "initialExit": 1,
+    "initialReason": "Eight untouched worktree projects had no assets file (NETSDK1004), not product-source errors.",
+    "lockedRestoreExit": 0,
+    "finalExit": 0,
+    "warnings": 0,
+    "errors": 0
+  },
+  "docs": {
+    "exitCode": 0,
+    "snippets": 56,
+    "guides": 11
+  },
+  "diagnostics": "Changed C# analyzer and rule tests return No diagnostics found; runtime probe also returns clean diagnostics.",
+  "cleanup": "All own SDK/test/pack/restore/build commands exited; package runtime gates released and drained; no task-owned HTTP host/port.",
+  "finalCandidateReplay": "Refresh after remaining shipping/API changes; this is a complete unit snapshot, not aggregate product PASS."
+}

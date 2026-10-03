@@ -1,0 +1,324 @@
+{
+  "schema": "funnysharp-final-local-exact69-parent-reconciliation/v1",
+  "state": "SIXTY_ONE_LOCAL_VERIFIED_EIGHT_EXACT_OWNER_OBLIGATIONS_OPEN",
+  "observedUtc": "2026-10-03T01:29:25.062Z",
+  "candidateFingerprint": "bb058e6a972103c657e0d833f2ec86fab7994f8ba4cce8503432c4b8f74c4a9c",
+  "originalCounts": {
+    "total": 69,
+    "FAIL": 40,
+    "UNVERIFIED": 29
+  },
+  "uniqueOriginalIds": 69,
+  "originalIdentityFieldsUnchanged": true,
+  "originalAuditPreservation": {
+    "snapshot": "docs/audits/goal-24-resolution/original-criterion-matrix.csv",
+    "bytes": 124071,
+    "actualGitBlobSha1": "abc5fe16556b00f0ea495a1608c6cd4270faf69d",
+    "expectedGitBlobSha1": "abc5fe16556b00f0ea495a1608c6cd4270faf69d",
+    "sha256": "2a3cb04787c36c2a05fafd054fa7bc24cddce473b7b65febcdf9fe865ee02d6d"
+  },
+  "preFinalLedgerByteArchiveSha256": "066815c62cb052896f1860e0b939d800ad1a20e919395c9912d2456c59dc3318",
+  "canonicalLedgerSha256": "46013d8615a1297d8eb901b674e666dfa5b0d97e0000421fef9536838139bd2d",
+  "localTechnicalResolvedIds": [
+    "F01",
+    "F02",
+    "F03",
+    "F04",
+    "F05",
+    "F06",
+    "F07",
+    "F08",
+    "F09",
+    "F10",
+    "F11",
+    "F12",
+    "F13",
+    "F14",
+    "F15",
+    "F16",
+    "F17",
+    "F18",
+    "F19",
+    "F20",
+    "F21",
+    "F22",
+    "F23",
+    "F24",
+    "F25",
+    "F26",
+    "F27",
+    "F28",
+    "F29",
+    "F30",
+    "F31",
+    "F32",
+    "F33",
+    "F34",
+    "F35",
+    "F36",
+    "F40",
+    "U03",
+    "U04",
+    "U05",
+    "U06",
+    "U07",
+    "U08",
+    "U09",
+    "U10",
+    "U11",
+    "U12",
+    "U13",
+    "U14",
+    "U16",
+    "U17",
+    "U18",
+    "U19",
+    "U21",
+    "U22",
+    "U23",
+    "U24",
+    "U25",
+    "U26",
+    "U27",
+    "U28"
+  ],
+  "openIds": [
+    {
+      "tracking": "F37",
+      "criterion": "Release-quality preview consistently expresses accepted constitution",
+      "remaining": "Attributable materiality/readability decisions where required; final clean authorized candidate and matching-host release consumers; enforced four contexts and denial proofs; P/A/I; final parent69 ledger/report and independent gate review."
+    },
+    {
+      "tracking": "F38",
+      "criterion": "Fail-closed release-readiness record",
+      "remaining": "Actual final candidate-bound release-readiness record containing four-host checks, authorized control-plane/denial receipts and immutable P -> independent A -> external I, after remaining material findings are accepted."
+    },
+    {
+      "tracking": "F39",
+      "criterion": "Authorized four-context ruleset and deliberate blocking proof",
+      "remaining": "Owner authority/trust selection, four exact strict release contexts with zero bypass, control-plane readback, and one real non-bypass merge denial per deliberate context failure."
+    },
+    {
+      "tracking": "U01",
+      "criterion": "Materially less consumer semantic LOC",
+      "remaining": "Attributable maintainer review of the exact source hashes and an explicit judgment that the original material-density ambition and at-least-as-explicit/readable condition are met; alternatively an authorized superseding product decision. Neither exists."
+    },
+    {
+      "tracking": "U02",
+      "criterion": "Representative comparisons demonstrate shorter FunnySharp workflows",
+      "remaining": "Exact-source maintainer approval of representativeness, fairness, material reduction and readability under the unchanged Goal16 acceptance. No qualification is inferred from arithmetic."
+    },
+    {
+      "tracking": "U15",
+      "criterion": "Measurably friendly to agents and humans",
+      "remaining": "Attributable maintainer readability judgment and evidence-backed fulfillment of the unchanged friendliness/materiality ambition; explicit disposition of the literal producer-field discrepancy; final current claim report. No human approval or qualification is present."
+    },
+    {
+      "tracking": "U20",
+      "criterion": "Task model run solution and reviewer provenance",
+      "remaining": "Attributable maintainer identities and exact-source readability judgments, plus explicit disposition of declared16-field versus frozen-parser15-field initial compliance. Unknown upstream model must remain unknown unless actual provider evidence is supplied."
+    },
+    {
+      "tracking": "U29",
+      "criterion": "Immutable bundle independent attestation and external index",
+      "remaining": "Authorized final release producer P, independent attributable A bound only to P/contracts, external I bound to A and retrievable immutable artifacts; matching-host canonical packages, feed inventory/readback and explicit remote/integration authority."
+    }
+  ],
+  "currentV6Report": {
+    "path": "docs/audits/goal-24-resolution/ai-cohort-report-v6.md",
+    "sha256": "884a9707ca18f5edfd6e079e9bc357bac0b095398d0fe8248dbc058dfe6d6cdf",
+    "supersedesCurrentPointer": "ai-cohort-report.md retained unchanged asv4history",
+    "humanApproval": false,
+    "literalAll16Claim": false
+  },
+  "parent37CatalogChecks": [
+    {
+      "path": "docs/audits/goal-24-resolution/evidence/u16-strict-v6-final-local-candidate-freeze.json",
+      "expected": "e3d7f5e53e97c14c28255db27e08d4d67a7b5aee8c4f8b0947a6e702afd7d3ae",
+      "actual": "e3d7f5e53e97c14c28255db27e08d4d67a7b5aee8c4f8b0947a6e702afd7d3ae"
+    },
+    {
+      "path": "docs/audits/goal-24-resolution/stable-api-semantic-proofs.json",
+      "expected": "ad106d7ee1ed4772e898bc17edb020a3b4e3f836f32678613e13cc95a813da18",
+      "actual": "ad106d7ee1ed4772e898bc17edb020a3b4e3f836f32678613e13cc95a813da18"
+    },
+    {
+      "path": "docs/audits/goal-24-resolution/evidence/u14-formatted-source-parent-proof.json",
+      "expected": "da3c9c284287c91c41bf7d5b12279e859f95898336d5ef9cece30c9e05ac7699",
+      "actual": "da3c9c284287c91c41bf7d5b12279e859f95898336d5ef9cece30c9e05ac7699"
+    },
+    {
+      "path": "docs/audits/goal-24-resolution/evidence/u14-final-installed-pair-local-proofs.json",
+      "expected": "8dfec3a56a89eb8fa24306118901ecb1b165028b1b4affaa09a63c0922acf265",
+      "actual": "8dfec3a56a89eb8fa24306118901ecb1b165028b1b4affaa09a63c0922acf265"
+    },
+    {
+      "path": "docs/audits/goal-24-resolution/evidence/grammar/receipt.json",
+      "expected": "7d75ae9b561a40873b276e0407cc57bc3c7043a4acf2c0b481d595952a7bfabe",
+      "actual": "7d75ae9b561a40873b276e0407cc57bc3c7043a4acf2c0b481d595952a7bfabe"
+    },
+    {
+      "path": "docs/audits/goal-24-resolution/evidence/keyed/receipt.json",
+      "expected": "155dbb919d8685e09406b167036082203744a0ef903458e6496c2b67017d4c52",
+      "actual": "155dbb919d8685e09406b167036082203744a0ef903458e6496c2b67017d4c52"
+    },
+    {
+      "path": "docs/audits/goal-24-resolution/evidence/ordered/receipt.json",
+      "expected": "47edff7c05a38ae17f54249a6a2cc784932ab5d36148105a9423e5990d1bdf74",
+      "actual": "47edff7c05a38ae17f54249a6a2cc784932ab5d36148105a9423e5990d1bdf74"
+    },
+    {
+      "path": "docs/audits/goal-24-resolution/evidence/first-success/receipt.json",
+      "expected": "71f525bc7b34a311554de8efeb3e0be90437e41692d99764c726267c84adce39",
+      "actual": "71f525bc7b34a311554de8efeb3e0be90437e41692d99764c726267c84adce39"
+    },
+    {
+      "path": "docs/audits/goal-24-resolution/evidence/fs1001/receipt.json",
+      "expected": "8978237fb1c96dd3a5fb9b9bedb438b8b3e1fcd95afd8207bdd0293efac4701e",
+      "actual": "8978237fb1c96dd3a5fb9b9bedb438b8b3e1fcd95afd8207bdd0293efac4701e"
+    },
+    {
+      "path": "docs/audits/goal-24-resolution/evidence/fs1002/receipt.json",
+      "expected": "3a9dd7cb24997ba4ad0e318f2c3452689cbe9583e67ef3d084d267387f88f688",
+      "actual": "3a9dd7cb24997ba4ad0e318f2c3452689cbe9583e67ef3d084d267387f88f688"
+    },
+    {
+      "path": "docs/audits/goal-24-resolution/evidence/fs1004/receipt.json",
+      "expected": "18256f2ab175e92bf8b042117547e9d58ab9e2d48838f28e1f43ccc141058f97",
+      "actual": "18256f2ab175e92bf8b042117547e9d58ab9e2d48838f28e1f43ccc141058f97"
+    },
+    {
+      "path": "artifacts/audit-resolution/u13-formatted-current-index/attempt-01/u13-current-performance-claim-index.json",
+      "expected": "010a78bfe80039fc878f02a659339f385dfd1624e346fb925fc8e769eb12dd1c",
+      "actual": "010a78bfe80039fc878f02a659339f385dfd1624e346fb925fc8e769eb12dd1c"
+    },
+    {
+      "path": "docs/audits/goal-24-resolution/evidence/u13-formatted-current-performance-index-binding.json",
+      "expected": "d90b7269b1fe8db13c1311f9bee15f910b45bfb4111aa8349dc228440a0dd2cf",
+      "actual": "d90b7269b1fe8db13c1311f9bee15f910b45bfb4111aa8349dc228440a0dd2cf"
+    },
+    {
+      "path": "docs/audits/goal-24-resolution/evidence/u13-current-docs-and-full-test.json",
+      "expected": "965a6a7f36a56b0d561bc2116afe077179b3ce62e52fbcdb105b8b3c67024af9",
+      "actual": "965a6a7f36a56b0d561bc2116afe077179b3ce62e52fbcdb105b8b3c67024af9"
+    },
+    {
+      "path": "docs/audits/goal-24-resolution/evidence/u16-final-current-local-source-gates.json",
+      "expected": "8d12b2f9cceb9bf8c473cffdfafeaadaf6a62f6c7ab18974a13d83b1551dba4d",
+      "actual": "8d12b2f9cceb9bf8c473cffdfafeaadaf6a62f6c7ab18974a13d83b1551dba4d"
+    },
+    {
+      "path": "docs/audits/goal-24-resolution/evidence/u12-v6-strict-final-freeze-proof.json",
+      "expected": "8db6f89a35aca9158ea7bc7e20d40c503e99dc0dfd796da7488bdf03ea6c83f2",
+      "actual": "8db6f89a35aca9158ea7bc7e20d40c503e99dc0dfd796da7488bdf03ea6c83f2"
+    },
+    {
+      "path": "docs/audits/goal-24-resolution/evidence/u11-indexed-source-red-green.json",
+      "expected": "ff1f904f61ba3abe2d91787e955a7ddda4b77965bcf05c59decce41c6b40e551",
+      "actual": "ff1f904f61ba3abe2d91787e955a7ddda4b77965bcf05c59decce41c6b40e551"
+    },
+    {
+      "path": ".omo/audit-resolution/research/u11-successor-source-accounting.json",
+      "expected": "ab6149f367d7e6e9bd998a7e6447e0158ef2a2b88b77db35e08e56996232d7ba",
+      "actual": "ab6149f367d7e6e9bd998a7e6447e0158ef2a2b88b77db35e08e56996232d7ba"
+    },
+    {
+      "path": "docs/audits/goal-24-resolution/evidence/u12-v6-strict-native-cohort-parent-proof.json",
+      "expected": "9cb125ffe0d297c15d4e1b91d130cc9cdb87fdf1d2c1642ef0354bbe03a2e576",
+      "actual": "9cb125ffe0d297c15d4e1b91d130cc9cdb87fdf1d2c1642ef0354bbe03a2e576"
+    },
+    {
+      "path": "docs/audits/goal-24-resolution/evidence/u12-v6-final-metrics-parent-proof.json",
+      "expected": "cc7cf3b2167eb422f04b0bddcc2afa538c2a6cdd383a540dc55d0e47ef8149ae",
+      "actual": "cc7cf3b2167eb422f04b0bddcc2afa538c2a6cdd383a540dc55d0e47ef8149ae"
+    },
+    {
+      "path": "docs/audits/goal-24-resolution/evidence/u12-v6-original-producer-field-audit.json",
+      "expected": "d5bccac4689a1aecc063645aae5171fbd799732077679723595ac9009005c499",
+      "actual": "d5bccac4689a1aecc063645aae5171fbd799732077679723595ac9009005c499"
+    },
+    {
+      "path": "docs/audits/goal-24-resolution/evidence/u12-v6-real-kestrel-parent-proof.json",
+      "expected": "ffa6a91a7fd1a98b2dea14ec06f09dcce17718d14b09fd5c69d50bd5d7a0ac97",
+      "actual": "ffa6a91a7fd1a98b2dea14ec06f09dcce17718d14b09fd5c69d50bd5d7a0ac97"
+    },
+    {
+      "path": "docs/audits/goal-24-resolution/evidence/u12-v6-real-kestrel-parent-cleanup-correction.json",
+      "expected": "6d1770c1b77056500a07a69acfb314e2de0de7eed529b5a96a42797337be59b7",
+      "actual": "6d1770c1b77056500a07a69acfb314e2de0de7eed529b5a96a42797337be59b7"
+    },
+    {
+      "path": ".omo/audit-resolution/research/u12-v6-readability-advisory.json",
+      "expected": "ab25f02f4bf7afb40e80398951395fa78777ce7b0e1d4c4e4092bc9172991fd3",
+      "actual": "ab25f02f4bf7afb40e80398951395fa78777ce7b0e1d4c4e4092bc9172991fd3"
+    },
+    {
+      "path": ".omo/audit-resolution/research/u8-final-canonical-replay.json",
+      "expected": "81aff5169cd28aa72cc0ee87ff9051616695933bea7aa62a65ea5f8086cb14b3",
+      "actual": "81aff5169cd28aa72cc0ee87ff9051616695933bea7aa62a65ea5f8086cb14b3"
+    },
+    {
+      "path": "artifacts/audit-resolution/u8-final-canonical/attempt-01/same-host-http-proof.json",
+      "expected": "0972faad6eacac91ac5ae5e8a4b0a6f716f6206e0e71f4eef2f9af714f6def0d",
+      "actual": "0972faad6eacac91ac5ae5e8a4b0a6f716f6206e0e71f4eef2f9af714f6def0d"
+    },
+    {
+      "path": "docs/audits/goal-24-resolution/evidence/u16-compatibility-cancellation-probe-red-green.json",
+      "expected": "eaa3650e78b2e62c8f8e076e06f031bde3395a9edf410c446570701da2d6cd54",
+      "actual": "eaa3650e78b2e62c8f8e076e06f031bde3395a9edf410c446570701da2d6cd54"
+    },
+    {
+      "path": "docs/audits/goal-24-resolution/evidence/u16-compatibility-original-tree-cleanup-correction.json",
+      "expected": "2d6294a05dbf9525ec03543618948c4e01ca718728f11abe762545b92171c101",
+      "actual": "2d6294a05dbf9525ec03543618948c4e01ca718728f11abe762545b92171c101"
+    },
+    {
+      "path": "docs/audits/goal-24-resolution/evidence/u15-readonly-control-plane-refresh.json",
+      "expected": "357ea598bf7f73438b49a15003809eb10d027085934627b3d4203d53c640a99b",
+      "actual": "357ea598bf7f73438b49a15003809eb10d027085934627b3d4203d53c640a99b"
+    },
+    {
+      "path": "docs/audits/goal-24-resolution/evidence/u15-observed-check-integration.json",
+      "expected": "d10ad4b15780a43b7947cfcd6401541c8037a26e3422dae0453a5fb32f168006",
+      "actual": "d10ad4b15780a43b7947cfcd6401541c8037a26e3422dae0453a5fb32f168006"
+    },
+    {
+      "path": "docs/audits/goal-24-resolution/evidence/u15-owner-action-packet-parent.json",
+      "expected": "11768814a118d5451983b511b9f6d82715a21d5e1b8d7acc773d41c885b710dd",
+      "actual": "11768814a118d5451983b511b9f6d82715a21d5e1b8d7acc773d41c885b710dd"
+    },
+    {
+      "path": "docs/audits/goal-24-resolution/ai-cohort-report.md",
+      "expected": "fac2957862195d7e47bacae146fa25b6e61009d2364a1b668e211614b311de73",
+      "actual": "fac2957862195d7e47bacae146fa25b6e61009d2364a1b668e211614b311de73"
+    },
+    {
+      "path": "docs/grammar.md",
+      "expected": "c46cbe739485ff881a8add7166395c210b399dfe5e81f37aa5b64f98439ed48c",
+      "actual": "c46cbe739485ff881a8add7166395c210b399dfe5e81f37aa5b64f98439ed48c"
+    },
+    {
+      "path": "docs/product-contract.md",
+      "expected": "56e49ad95406612774b4d26e3e2763e11e06240c3dfd0de092a4011335fbf952",
+      "actual": "56e49ad95406612774b4d26e3e2763e11e06240c3dfd0de092a4011335fbf952"
+    },
+    {
+      "path": "docs/performance.md",
+      "expected": "2129bdea2477301bb87da0a5c2886f255292631c768accd692593fc6500a2c81",
+      "actual": "2129bdea2477301bb87da0a5c2886f255292631c768accd692593fc6500a2c81"
+    },
+    {
+      "path": "docs/analyzers.md",
+      "expected": "c40255afe05dc9d0c1515f3ba9ab4fb764a2e8b79016fe5944493790f22fd8b1",
+      "actual": "c40255afe05dc9d0c1515f3ba9ab4fb764a2e8b79016fe5944493790f22fd8b1"
+    },
+    {
+      "path": "docs/audits/goal-24-resolution/stable-api-contracts.json",
+      "expected": "558c22df94d08502b70fd8a964a9fd8f399a90e4ee7cf88e0ec730c88631f179",
+      "actual": "558c22df94d08502b70fd8a964a9fd8f399a90e4ee7cf88e0ec730c88631f179"
+    }
+  ],
+  "aggregateAccepted": false,
+  "independentGateReview": "PENDING",
+  "allOwnerQuestionsUnansweredNotAccepted": true
+}

@@ -1,18 +1,26 @@
 using System.Reflection;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Configs;
+using BenchmarkDotNet.Jobs;
 using BenchmarkDotNet.Running;
 using FunnySharp.Benchmarks;
 
+new OptionCarrierBenchmarks().ValidateEquivalence();
+new ResultCarrierBenchmarks().ValidateEquivalence();
+await BenchmarkPreflight.RunAsync(
+    typeof(OptionCarrierBenchmarks).Assembly,
+    "eng/performance/competitor-baseline.json",
+    40,
+    0).ConfigureAwait(false);
 if (args is ["--preflight"])
 {
-    new OptionCarrierBenchmarks().ValidateEquivalence();
-    new ResultCarrierBenchmarks().ValidateEquivalence();
-    Console.WriteLine("Competitor benchmark semantic preflight passed.");
+    Console.WriteLine(BenchmarkPreflight.Current.GetRawText());
     return;
 }
 
 var config = ManualConfig.Create(DefaultConfig.Instance)
+    .WithOptions(ConfigOptions.KeepBenchmarkFiles)
+    .AddJob(Job.Default.WithMsBuildArguments("/p:UseArtifactsOutput=false").AsMutator())
     .AddExporter(new CompetitorReceiptExporter());
 BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).Run(args, config);
 

@@ -1,0 +1,13 @@
+{
+  "study": "audit-resolution-v5",
+  "slot": "concurrency/funnysharp/run-2",
+  "sessionId": "study-session:a93c39b3-6d8d-47a2-91cb-1f7002b2bed0",
+  "invocationId": "native-call:7d364264-7350-4bbb-841d-727b6aecd398",
+  "requestedModel": "ghc/gpt-6.1-sol",
+  "route": "native-omo-cli/5.1.9/json-print",
+  "stdin": "closed",
+  "protocolSha256": "a45783f688d0fb0b160c30348a77d765ba0ca4b09841ed4342e99576f2f645d0",
+  "requestSha256": "0e7604d708678dc06f499d0dce77df57fd3379aa1528d5a9b112208d042f6705",
+  "status": "PREPARED_NOT_CALLED",
+  "launchCapture": "Use actual documented tool.monitor shell launch with raw stdout/stderr capture, fresh dedicated profile/session/no tools. Do not use directBun.spawn producer mechanism that failed8v4slots. Every attempt/correction preserved; max3total pernewlogicalslot."
+}

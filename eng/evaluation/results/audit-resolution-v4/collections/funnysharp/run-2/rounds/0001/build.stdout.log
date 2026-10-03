@@ -1,0 +1,16 @@
+  Determining projects to restore...
+  Restored Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\collections-funnysharp-run-2-b4088c4abeac43e492a7b33bf4c291e3\CollectionsKit.csproj (in 15.22 sec).
+CSC : warning CS2002: Source file 'Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\collections-funnysharp-run-2-b4088c4abeac43e492a7b33bf4c291e3\nuget_packages\xunit.v3.core.mtp-v2\4.0.0\_content\DefaultRunnerReporters.cs' specified multiple times [Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\collections-funnysharp-run-2-b4088c4abeac43e492a7b33bf4c291e3\CollectionsKit.csproj]
+CSC : warning CS2002: Source file 'Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\collections-funnysharp-run-2-b4088c4abeac43e492a7b33bf4c291e3\nuget_packages\xunit.v3.core.mtp-v2\4.0.0\_content\DefaultResultWriters.cs' specified multiple times [Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\collections-funnysharp-run-2-b4088c4abeac43e492a7b33bf4c291e3\CollectionsKit.csproj]
+  CollectionsKit -> Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\collections-funnysharp-run-2-b4088c4abeac43e492a7b33bf4c291e3\bin\Release\net10.0\CollectionsKit.dll
+
+Build succeeded.
+
+CSC : warning CS2002: Source file 'Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\collections-funnysharp-run-2-b4088c4abeac43e492a7b33bf4c291e3\nuget_packages\xunit.v3.core.mtp-v2\4.0.0\_content\DefaultRunnerReporters.cs' specified multiple times [Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\collections-funnysharp-run-2-b4088c4abeac43e492a7b33bf4c291e3\CollectionsKit.csproj]
+CSC : warning CS2002: Source file 'Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\collections-funnysharp-run-2-b4088c4abeac43e492a7b33bf4c291e3\nuget_packages\xunit.v3.core.mtp-v2\4.0.0\_content\DefaultResultWriters.cs' specified multiple times [Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\collections-funnysharp-run-2-b4088c4abeac43e492a7b33bf4c291e3\CollectionsKit.csproj]
+    2 Warning(s)
+    0 Error(s)
+
+BinaryLogger wrote to: Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\collections-funnysharp-run-2-b4088c4abeac43e492a7b33bf4c291e3\build.binlog
+
+Time Elapsed 00:00:27.87

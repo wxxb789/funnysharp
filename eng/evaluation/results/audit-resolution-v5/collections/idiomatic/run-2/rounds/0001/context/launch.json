@@ -1,0 +1,12 @@
+{
+  "study": "audit-resolution-v5",
+  "slot": "collections/idiomatic/run-2",
+  "sessionId": "study-session:25f166e7-85ee-41de-b979-63a81975d246",
+  "invocationId": "native-call:877f6279-2d5c-4213-bac9-3a3631b2f329",
+  "requestedModel": "ghc/gpt-6.1-sol",
+  "route": "native-omo-cli/5.1.9/json-print",
+  "stdin": "closed",
+  "protocolSha256": "a45783f688d0fb0b160c30348a77d765ba0ca4b09841ed4342e99576f2f645d0",
+  "requestSha256": "8805960917e9eb0bc0c1ccafdae9e8157fc0ca6e7db591ec06f8862580966f74",
+  "status": "PREPARED_NOT_CALLED"
+}

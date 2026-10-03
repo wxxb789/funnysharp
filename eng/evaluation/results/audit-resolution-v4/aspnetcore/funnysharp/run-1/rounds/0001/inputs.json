@@ -1,0 +1,55 @@
+{
+  "studySha256": "a28f133c7dc53ed83abb446a53ed832af4d3a9a2187f52654fcef02f683241c9",
+  "solution": [
+    {
+      "path": "Api.cs",
+      "sha256": "fe332b3ef5e92be95bc4d545c2fe5f3724d4c09c731a2a65e94ec85e2adfa113"
+    }
+  ],
+  "buildInputs": [
+    {
+      "path": "Api.cs",
+      "sha256": "fe332b3ef5e92be95bc4d545c2fe5f3724d4c09c731a2a65e94ec85e2adfa113"
+    },
+    {
+      "path": "AspnetcoreKit.csproj",
+      "sha256": "4d6381d51bc657902e59f8fc55d8672ea52c3c30d28010b835f601ebbbaaac01"
+    },
+    {
+      "path": "AspnetcoreTests.cs",
+      "sha256": "b4343005f670ae9c23f9338e3f56289459f79630b763b7dfe434ae289a8b39c7"
+    },
+    {
+      "path": "Contract.cs",
+      "sha256": "0e29dbaa90e69c2233652a6a742c9acef19b98a5ab90f1c9cbef191e138c9fec"
+    },
+    {
+      "path": "Directory.Build.props",
+      "sha256": "e1f773524cbe06e47ce9373a35995982889f95f1f943cde9830a99ba4257e76b"
+    },
+    {
+      "path": "NuGet.config",
+      "sha256": "4c407dab51c34a97f893f0aca4437b8ca90bb8a8b48ffcd1d09b38927af0156a"
+    },
+    {
+      "path": "global.json",
+      "sha256": "c48726ffb10a31e50395529e134bd0ab4d82d14febbda7863ab49d00a9fddcb4"
+    },
+    {
+      "path": "packages.lock.json",
+      "sha256": "e24cad0cb90736dbc86d0b0d1cc408523556b9fb0f73322fb87abfedf829fb7a"
+    },
+    {
+      "path": "restore.process.json",
+      "sha256": "fc4e71754b558fa266bc0250f07a9b6a1c60d68ce6a51dcfa1c13531b00d2198"
+    },
+    {
+      "path": "restore.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "restore.stdout.log",
+      "sha256": "43e8d557ca197a3f9529a4e03f6f94274c9ed666df7a4aba7c2a33e1f5431687"
+    }
+  ]
+}

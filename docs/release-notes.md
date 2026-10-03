@@ -18,6 +18,31 @@ section; the versioning rules and the committed public-API baseline that gate ev
 | Native AOT | a `PublishAot=true` consumer publish runs clean; the packages make no `IsAotCompatible` claim | `CoreNativeAot` and `AspNetCoreNativeAot` scenarios |
 | Dependencies | BCL-first: the core package declares no runtime package dependency and embeds its analyzers as build assets; the ASP.NET Core package depends only on the matching `FunnySharp` package and uses the `Microsoft.AspNetCore.App` shared framework | `.nuspec` inspection of the packed packages |
 
+## 0.2.0 (preview candidate)
+
+Goal 25 prepares this candidate; publication and final release acceptance are separate.
+The original Goal 24 audit and its missing historical evidence remain preserved.
+
+- Keyed traversal adds explicit equality-comparer overloads and preserves the publicly exposed
+  comparers of supported BCL dictionaries, including empty results. Opaque sources require an
+  explicit comparer to retain a nondefault equality policy. Empty string location keys are valid;
+  empty property names and null keys remain invalid. Located overloads remain experimental.
+- `FirstSuccessAsync` retains its `Validation` result and existing signatures. Existing overloads
+  use a bounded degree of 32; the required-argument timeout/provider/token/degree overload selects
+  an explicit positive bound. Finite input is still eagerly snapshotted. Independent faults,
+  including loser disposal faults after a winner, propagate after all admitted work is drained.
+  Callers must not depend on unlimited co-starting or on a success hiding losing faults.
+- Ordered parallel mapping checks cancellation after a pending selector completes and before
+  publishing its result. Caller cancellation, original terminal faults, and cleanup failures
+  retain their distinct exception behavior.
+- Packaged analyzer repairs diagnose empty invalid carrier initializers, withhold unsafe
+  underscore assignments, and recognize conservatively proven completed, single-use ValueTasks.
+- Reconciliation OpenAPI now declares the existing typed 500 problem outcome. Slice verification
+  uses an attempt-local NuGet configuration for its isolated consumer restores.
+- Current grammar preserves lazy value-producing `Recover` and partial `Lens`/`Optional`
+  composition. Fresh final-candidate performance, compatibility, and release evidence must be
+  verified independently; prior numeric observations are not proof for changed shipping bytes.
+
 ## 0.1.0 (preview)
 
 The first release-quality preview candidate. Every surface below is stable, XML-documented, covered

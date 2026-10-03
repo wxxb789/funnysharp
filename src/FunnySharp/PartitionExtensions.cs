@@ -7,8 +7,12 @@ namespace FunnySharp;
 /// <param name="True">The items whose predicate result was <see langword="true"/>, in source order.</param>
 /// <param name="False">The items whose predicate result was <see langword="false"/>, in source order.</param>
 /// <remarks>
-/// The partitioning operation is eager: it enumerates the source once and allocates a list for each
-/// non-empty side before it returns.
+/// Partitioning operations enumerate once and materialize both sides before returning. Direct
+/// construction instead stores the supplied references without validation, enumeration or copying;
+/// the public init properties can replace those references. Generated record copy/with operations
+/// are shallow, and deconstruction returns True then False. Generated equality and hashing use
+/// each property's default comparer, not sequence-structural equality. Equality, hashing and text
+/// formatting can invoke the stored collections' behavior and propagate its exceptions unchanged.
 /// </remarks>
 public sealed record Partition<T>(IReadOnlyList<T> True, IReadOnlyList<T> False);
 
@@ -20,7 +24,12 @@ public sealed record Partition<T>(IReadOnlyList<T> True, IReadOnlyList<T> False)
 /// <param name="Nones">The number of absent options.</param>
 /// <remarks>
 /// Absence has no value to list, so the absent side is the count of absent options rather than a
-/// list. The present values are materialized in source order by a single enumeration.
+/// list. Partitioning operations materialize present values by one source enumeration. Direct
+/// construction stores the supplied reference and count without validation, enumeration or copying;
+/// the public init properties can replace them. Generated record copy/with operations are shallow,
+/// and deconstruction returns Somes then Nones. Generated equality and hashing use each property's
+/// default comparer, not sequence-structural equality. Equality, hashing and text formatting can
+/// invoke the stored collection's behavior and propagate its exceptions unchanged.
 /// </remarks>
 public sealed record OptionPartition<T>(IReadOnlyList<T> Somes, int Nones);
 
@@ -34,7 +43,12 @@ public sealed record OptionPartition<T>(IReadOnlyList<T> Somes, int Nones);
 /// <remarks>
 /// The failed results' values are not retained: a failed result carries no value, so its error must
 /// carry everything the failure needs. Both sides are materialized in source order by a single
-/// enumeration.
+/// enumeration by partitioning operations. Direct construction stores the supplied references
+/// without validation, enumeration or copying; the public init properties can replace them.
+/// Generated record copy/with operations are shallow, and deconstruction returns Passed then Failed.
+/// Generated equality and hashing use each property's default comparer, not sequence-structural
+/// equality. Equality, hashing and text formatting can invoke the stored collections' behavior and
+/// propagate its exceptions unchanged.
 /// </remarks>
 public sealed record ResultPartition<TValue, TError>(
     IReadOnlyList<TValue> Passed,
@@ -48,7 +62,12 @@ public sealed record ResultPartition<TValue, TError>(
 /// <param name="Failed">The errors of the failed unit results, in source order.</param>
 /// <remarks>
 /// A unit result has no value channel, so the successful side is a count rather than a list. The
-/// failure side is materialized in source order by a single enumeration.
+/// failure side is materialized in source order by one enumeration in partitioning operations.
+/// Direct construction stores the supplied count and reference without validation, enumeration or
+/// copying; the public init properties can replace them. Generated record copy/with operations are
+/// shallow, and deconstruction returns Succeeded then Failed. Generated equality and hashing use
+/// each property's default comparer, not sequence-structural equality. Equality, hashing and text
+/// formatting can invoke the stored collection's behavior and propagate its exceptions unchanged.
 /// </remarks>
 public sealed record UnitResultPartition<TError>(int Succeeded, IReadOnlyList<TError> Failed);
 
@@ -160,6 +179,10 @@ public static class PartitionExtensions
     /// returns. The failed results' values are not retained: a failed result carries no value, so
     /// its error must carry everything the failure needs.
     /// </remarks>
+    /// <exception cref="InvalidOperationException">
+    /// A reached source carrier or selector result is uninitialized; reported while enumerating the source.
+    /// Unreached items are not inspected, and a disposal exception can replace this failure.
+    /// </exception>
     public static ResultPartition<TValue, TError> Partition<TValue, TError>(
         this IEnumerable<Result<TValue, TError>> source)
     {
@@ -201,6 +224,10 @@ public static class PartitionExtensions
     /// operation returns. A unit result has no value channel, so the successful side is a count
     /// rather than a list.
     /// </remarks>
+    /// <exception cref="InvalidOperationException">
+    /// A reached source carrier or selector result is uninitialized; reported while enumerating the source.
+    /// Unreached items are not inspected, and a disposal exception can replace this failure.
+    /// </exception>
     public static UnitResultPartition<TError> Partition<TError>(
         this IEnumerable<UnitResult<TError>> source)
     {
@@ -283,6 +310,10 @@ public static class PartitionExtensions
     /// everything the failure needs. Cancellation and exceptions flow through normal
     /// <c>await foreach</c> behavior and are not wrapped.
     /// </remarks>
+    /// <exception cref="InvalidOperationException">
+    /// A reached source carrier or selector result is uninitialized; reported by awaiting the returned operation.
+    /// Unreached items are not inspected, and a disposal exception can replace this failure.
+    /// </exception>
     public static ValueTask<ResultPartition<TValue, TError>> PartitionAsync<TValue, TError>(
         this IAsyncEnumerable<Result<TValue, TError>> source,
         CancellationToken cancellationToken = default)

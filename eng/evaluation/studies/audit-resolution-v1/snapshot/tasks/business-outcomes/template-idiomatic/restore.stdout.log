@@ -1,0 +1,3 @@
+  Determining projects to restore...
+Q:\repos\funnysharp-goal24-resolution\eng\evaluation\studies\audit-resolution-v1\snapshot\tasks\business-outcomes\template-idiomatic\BusinessOutcomesKit.csproj : error NU1101: Unable to find package xunit.v3. No packages exist with this id in source(s): C:\Program Files\dotnet\library-packs, evaluation-feed
+  Failed to restore Q:\repos\funnysharp-goal24-resolution\eng\evaluation\studies\audit-resolution-v1\snapshot\tasks\business-outcomes\template-idiomatic\BusinessOutcomesKit.csproj (in 146 ms).

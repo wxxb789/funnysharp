@@ -30,7 +30,10 @@ public static class AsyncCardinalityExtensions
     /// <c>None</c> can only mean that the sequence was empty. Cancellation and exceptions flow
     /// through normal <c>await foreach</c> behavior without wrapping.
     /// </remarks>
-    /// <exception cref="ArgumentNullException"><paramref name="source"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentNullException">
+    /// <paramref name="source"/> is <see langword="null"/> (rejected eagerly), or the selected
+    /// first item is <see langword="null"/> (rejected when the operation is awaited).
+    /// </exception>
     public static ValueTask<Option<T>> FirstOrNoneAsync<T>(
         this IAsyncEnumerable<T> source,
         CancellationToken cancellationToken = default)
@@ -55,7 +58,11 @@ public static class AsyncCardinalityExtensions
     /// last item. Cancellation and exceptions flow through normal <c>await foreach</c> behavior
     /// without wrapping.
     /// </remarks>
-    /// <exception cref="ArgumentNullException"><paramref name="source"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentNullException">
+    /// <paramref name="source"/> is <see langword="null"/> (rejected eagerly), or the selected
+    /// last item is <see langword="null"/> (rejected when the operation is awaited).
+    /// Earlier null items do not determine the selected value.
+    /// </exception>
     public static ValueTask<Option<T>> LastOrNoneAsync<T>(
         this IAsyncEnumerable<T> source,
         CancellationToken cancellationToken = default)
@@ -83,7 +90,11 @@ public static class AsyncCardinalityExtensions
     /// is enumerated at most until the second item. Cancellation and exceptions flow through
     /// normal <c>await foreach</c> behavior without wrapping.
     /// </remarks>
-    /// <exception cref="ArgumentNullException"><paramref name="source"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentNullException">
+    /// <paramref name="source"/> is <see langword="null"/> (rejected eagerly), or the singleton
+    /// item is <see langword="null"/> (rejected when the operation is awaited). A sequence with
+    /// multiple items returns <c>None</c> even when its first item is null.
+    /// </exception>
     public static ValueTask<Option<T>> SingleOrNoneAsync<T>(
         this IAsyncEnumerable<T> source,
         CancellationToken cancellationToken = default)
@@ -111,7 +122,10 @@ public static class AsyncCardinalityExtensions
     /// source. Cancellation and exceptions flow through normal <c>await foreach</c> behavior
     /// without wrapping.
     /// </remarks>
-    /// <exception cref="ArgumentNullException"><paramref name="source"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentNullException">
+    /// <paramref name="source"/> is <see langword="null"/> (rejected eagerly), or the item at
+    /// <paramref name="index"/> is <see langword="null"/> (rejected when the operation is awaited).
+    /// </exception>
     public static ValueTask<Option<T>> ElementAtOrNoneAsync<T>(
         this IAsyncEnumerable<T> source,
         int index,

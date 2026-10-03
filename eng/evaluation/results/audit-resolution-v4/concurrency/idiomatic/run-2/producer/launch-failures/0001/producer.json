@@ -1,0 +1,20 @@
+{
+  "studySha256": "a28f133c7dc53ed83abb446a53ed832af4d3a9a2187f52654fcef02f683241c9",
+  "task": "concurrency",
+  "style": "idiomatic",
+  "sessionId": "study-session:ef746ead-aafe-4515-ac18-13522fe58bcc",
+  "invocationId": "native-call:f796cdee-08a1-422a-92be-fc08a32aea95",
+  "route": "native-omo-cli/5.1.9/json-print",
+  "producerKind": "ai",
+  "requestedModel": "ghc/gpt-6.1-sol",
+  "providerModel": {
+    "value": null,
+    "unknownReason": "The native command requested ghc/gpt-6.1-sol. No provider metadata or actual upstream served-model metadata was observed; the process exited 1 with empty stdout and stderr."
+  },
+  "contextSha256": "7445fd4e7497c67651fdd60c6ecfcec771bce112a03eb90a3a4b89baf0ec38d3",
+  "solutionFiles": [],
+  "invocationSha256": "9da1b979eeae43316d2c39f8fea20e3d60fb96d2ae6dd311e06ff790f9cbc8e6",
+  "startedUtc": "2026-10-02T16:26:18.425Z",
+  "finishedUtc": "2026-10-02T16:26:33.733Z",
+  "status": "interrupted-native-exit-1"
+}

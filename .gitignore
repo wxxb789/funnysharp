@@ -19,3 +19,11 @@ package-lock.json
 
 # Microsoft.Testing.Platform diagnostic logs, written on request only
 TestResults/
+
+# Retained verification binaries/caches are evidence outputs, not candidate source.
+# Original records, solutions, transport captures and frozen task inputs remain tracked.
+/eng/evaluation/results/audit-resolution-*/**/verification-assets/
+
+# Live verdicts are generated after the candidate freezes; versioned snapshots retain history.
+/docs/audits/goal-24-resolution/findings.json
+/docs/audits/goal-24-resolution/final-local-reconciliation-report.md

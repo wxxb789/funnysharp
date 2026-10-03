@@ -1,0 +1,95 @@
+{
+  "schema": "funnysharp-native-invocation/v1",
+  "study": "audit-resolution-v2",
+  "studySha256": "ce3deafe90964e2388ca44c875223a508474d93868636ccb7a96d19e9a8a9c6f",
+  "slot": "collections/idiomatic/run-1",
+  "round": 1,
+  "sessionId": "study-session:b58278ee-d642-436f-9744-b1b6496e40e7",
+  "invocationId": "native-call:38d112e7-5f82-486b-b1ff-424a7e9bec8d",
+  "route": "native-omo-cli/5.1.9/json-print",
+  "requestedModel": "ghc/gpt-6.1-sol",
+  "providerModel": {
+    "value": null,
+    "unknownReason": "Selected native route/model is observed; actual upstream served model remains unknown unless returned metadata supplies it."
+  },
+  "argv": [
+    "C:/Users/lhan/.omo/binary-runtime/5.1.9/omo.exe",
+    "--mode",
+    "json",
+    "--print",
+    "--no-session",
+    "--no-extensions",
+    "--no-context-files",
+    "--no-skills",
+    "--no-prompt-templates",
+    "--no-tools",
+    "--offline",
+    "--provider",
+    "ghc",
+    "--model",
+    "gpt-6.1-sol",
+    "--thinking",
+    "high",
+    "--system-prompt",
+    "The attached request.json contains a JSON object with inputFiles, each with path and content. Those file contents are the complete task inputs. Return only a JSON object with a files array; each entry contains path, a top-level C# filename, and content, the complete file text. Return the complete solution. Do not replace supplied contract or test files.",
+    "--extension",
+    "Q:/repos/funnysharp-goal24-resolution/.omo/audit-resolution/probes/u12-native-context-observer.mjs",
+    "@request.json"
+  ],
+  "environment": {
+    "PI_RULES_DISABLED": "1"
+  },
+  "workingDirectory": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v2/collections/idiomatic/run-1/producer/0001-context",
+  "startedUtc": "2026-10-02T09:40:47.567Z",
+  "finishedUtc": "2026-10-02T09:41:25.952Z",
+  "exitCode": 0,
+  "timedOut": false,
+  "signal": null,
+  "systemPrompt": "The attached request.json contains a JSON object with inputFiles, each with path and content. Those file contents are the complete task inputs. Return only a JSON object with a files array; each entry contains path, a top-level C# filename, and content, the complete file text. Return the complete solution. Do not replace supplied contract or test files.",
+  "systemPromptSha256": "fbda330f8e40178394f701e3e4552726ec33026ba95f94aaa7aab3f03dd00d78",
+  "requestSha256": "e72c74b8ef5645f3b56199c452018627f4513ec4e441b63d7e66777c56185dac",
+  "rawStdout": {
+    "path": "native.stdout.jsonl",
+    "sha256": "69d42b3389440a8e243d98135882c13ebeb6fc367f129f37cd94439d211d15a9",
+    "bytes": 856531
+  },
+  "rawStderr": {
+    "path": "native.stderr.log",
+    "sha256": "d29c7b9417efb64c85da98d57c7f7f0af3cb330cbc9807f5e16accfbbdb59239",
+    "bytes": 443787
+  },
+  "rawResponse": {
+    "path": "response.json",
+    "sha256": "df4798a51e571389c8f907f0269c713d1dd94083e4af5044b35e1549d273cde2"
+  },
+  "observedStartup": {
+    "schema": "funnysharp-native-context-observation/v1",
+    "sessionId": "01a0fbfc-e7ae-7fb7-ba73-c1c251a36fc5",
+    "systemPrompt": "The attached request.json contains a JSON object with inputFiles, each with path and content. Those file contents are the complete task inputs. Return only a JSON object with a files array; each entry contains path, a top-level C# filename, and content, the complete file text. Return the complete solution. Do not replace supplied contract or test files.",
+    "contextFiles": [],
+    "skills": [],
+    "activeTools": [],
+    "model": {
+      "provider": "ghc",
+      "id": "gpt-6.1-sol"
+    }
+  },
+  "actualCLIUUID": "01a0fbfc-e7ae-7fb7-ba73-c1c251a36fc5",
+  "observer": {
+    "path": "observer-events.json",
+    "sha256": "ff034149b25c65de08a99afcd821a546753ec56f72fb7abd505f04dc3d7b4c80",
+    "effectiveMessageCount": 1,
+    "providerPayloadCount": 1
+  },
+  "nativeAssistantAttempts": [
+    {
+      "stopReason": "stop",
+      "errorMessage": null,
+      "modelLabel": "gpt-6.1-sol",
+      "providerLabel": "ghc",
+      "responseId": "ZWBCyAf4fs+MPDO8X9HM7KNR7zGCwWsZiYl2wJRc56lyfrOXQekd8JsvTCcHm47lnRET+fxSMj/OhhiQncIOa8LD4LrGgray0Swj8uX5qiI1qIt53R4hP8okK7pdv4Oy0rZVbvZf+uD2LMc5rfrtBXTXA5Wbsqzd+vO8pQGxebN4408XqgAyE7yRv886JjRZuPGPOrPXPo4tvfkYWCI9yEhvOjQxls9xWTxVXR5mxQyDYOvUSTU0pSRlluU1llhxKWCVC0ZFz1T4VZJzCI1+jQCSTfoA2VvImvcRwn24dABGcMmHCEA9tXvarXBUSGE2I7ShjDx+Ed0DqQUKMT0Qa+bV5VYCcI3c/98wgoWP5Qq1p6gDr4uhF5QGCF3/xPtuTFIXVY5kgO04BpiEuiarcJ/5iLT/gZbIKXAVU42oVXxOEA=="
+    }
+  ],
+  "status": "malformed-output",
+  "decodeError": "Invalid output path: solution/FeedCleaner.cs (expected a top-level .cs filename; no path normalization is registered)"
+}

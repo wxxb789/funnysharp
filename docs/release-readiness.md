@@ -10,8 +10,10 @@ Goal 13 review.
 - [ ] The attempt uses a new `artifacts/release-candidate/<commit>/<attempt-id>` directory.
 - [ ] Candidate commit, source fingerprint, workflow revision, event, run ID, attempt, job, RID,
   runner image, SDK, and runtime are recorded.
-- [ ] `FunnySharp` and `FunnySharp.AspNetCore` version `0.1.0` are unambiguously absent from every
-  intended distribution feed before the first pack and again before the final verdict.
+- [ ] The exact candidate versions of `FunnySharp` and `FunnySharp.AspNetCore` are unambiguously
+  absent from every intended distribution feed before the first pack and again before the final
+  verdict. Record the queried package IDs, versions, feed identities, and both checks; a prior
+  version's absence is not evidence for the current candidate.
 
 ## Fresh Build State
 
@@ -55,8 +57,9 @@ locally to refresh evidence.
 
 The exact required GitHub check contexts are:
 
-- `release / win-x64`: full source, package, correctness, BenchmarkDotNet, allocation, trimming, and
-  Native AOT proof; this job produces the canonical packages.
+- `release / win-x64`: benchmark-skipped source, package, correctness, approved performance
+  observation, trimming, and Native AOT proof; this job produces the canonical packages. Actual
+  benchmark measurements run on a developer machine, not in this hosted job.
 - `release / linux-x64`: benchmark-skipped source/package/trim/Native AOT proof plus consumption of
   the Windows-produced canonical package hashes.
 - `release / osx-arm64`: benchmark-skipped source/package/trim/Native AOT proof plus consumption of

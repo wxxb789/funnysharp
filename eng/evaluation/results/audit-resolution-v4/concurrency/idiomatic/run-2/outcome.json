@@ -1,0 +1,26 @@
+{
+  "slot": "concurrency/idiomatic/run-2",
+  "sessionId": "study-session:ef746ead-aafe-4515-ac18-13522fe58bcc",
+  "status": "MALFORMED_OR_INTERRUPTED",
+  "rounds": [
+    {
+      "round": 1,
+      "native": {
+        "pid": 29172,
+        "exitCode": 1,
+        "processAbsent": true,
+        "startedUtc": "2026-10-02T16:26:18.425Z",
+        "finishedUtc": "2026-10-02T16:26:33.733Z",
+        "actualCliSessionId": null,
+        "invocationId": "native-call:f796cdee-08a1-422a-92be-fc08a32aea95",
+        "actualProviderRequests": 0,
+        "outgoingInputByteExact": false
+      },
+      "solutionFiles": [],
+      "decodeError": "Native exit or payload/context boundary invalid",
+      "gradeExitCode": 1,
+      "gradeOutcome": "NO_GENERATED_SOLUTION",
+      "gradeRecordPresent": false
+    }
+  ]
+}

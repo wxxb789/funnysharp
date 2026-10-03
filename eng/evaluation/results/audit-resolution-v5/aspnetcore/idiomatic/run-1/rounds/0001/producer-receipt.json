@@ -1,0 +1,26 @@
+{
+  "studySha256": "b1e81657bb82f022da0abfccd18dc87f0895e121a2f9ec894785bb263cd6c235",
+  "task": "aspnetcore",
+  "style": "idiomatic",
+  "sessionId": "study-session:f0b1b459-1348-4c67-93e6-c4cea0cc04e5",
+  "invocationId": "native-call:5ed879ae-ac03-4897-9248-9ce196762061",
+  "route": "native-omo-cli/5.1.9/json-print",
+  "producerKind": "ai",
+  "requestedModel": "ghc/gpt-6.1-sol",
+  "providerModel": {
+    "value": null,
+    "unknownReason": "Native selected model/route is observed. Actual upstream served model is unknown unless independently returned metadata supplies it."
+  },
+  "contextSha256": "aeb8b19e3908da3765e982c525b1250c240a73452f76ecf9f5c99f10bb54ffde",
+  "solutionFiles": [
+    {
+      "path": "Api.cs",
+      "sha256": "65b6a2ed684a6f8d12e8f58830d6c6ae8b114b283ec28f3f080d2bb14fb36b25"
+    }
+  ],
+  "invocationSha256": "d7e67b1f37c7e8ac3cf9468e0b1acd9f2ceb79061025f0210ae7fa83d8ebbff6",
+  "startedUtc": "2026-10-02T22:04:50.825Z",
+  "finishedUtc": "2026-10-02T22:05:43.919Z",
+  "status": "completed",
+  "feedbackSha256": null
+}

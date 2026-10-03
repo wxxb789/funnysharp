@@ -1,5 +1,9 @@
 using System.Net;
 using System.Text.Json;
+using FunnySharp.VerticalSlice.Application;
+using FunnySharp.VerticalSlice.Domain;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace FunnySharp.VerticalSlice.Tests;
 
@@ -54,6 +58,13 @@ public sealed class OpenApiTests
         var cancellation = paths.GetProperty("/orders/{id}/cancellation").GetProperty("post");
         Assert.True(cancellation.GetProperty("responses").TryGetProperty("204", out _));
 
+        var reconciliation = paths.GetProperty("/orders/{id}/reconcile").GetProperty("get");
+        Assert.Contains("ReconciliationResponse", SchemaOf(Respond(reconciliation, "200")), StringComparison.Ordinal);
+        foreach (var status in new[] { "404", "500", "503" })
+        {
+            Assert.Contains("ProblemDetails", SchemaOf(Respond(reconciliation, status)), StringComparison.Ordinal);
+        }
+
         var export = paths.GetProperty("/orders/export").GetProperty("get");
         Assert.Contains("ExportRow", SchemaOf(Respond(export, "200")), StringComparison.Ordinal);
 
@@ -66,6 +77,39 @@ public sealed class OpenApiTests
 
         var streaming = paths.GetProperty("/suppliers/{sku}/quotes/stream").GetProperty("get");
         Assert.Contains("QuoteStreamRow", SchemaOf(Respond(streaming, "200")), StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public async Task ReconciliationHistoryFaultMatchesTheSameKestrelHostsOpenApi()
+    {
+        GateOrderStore? store = null;
+        await using var host = await SliceHost.StartKestrelAsync(
+            services => services.AddSingleton<IOrderStore>(store!),
+            options => store = new GateOrderStore(options));
+        var draft = Order.Draft(
+            OrderId.New(),
+            Refined.CustomerOf("customer-42"),
+            Refined.LinesOf(9.95m, ("SKU-BOOK", 2)),
+            Refined.Now);
+        store!.OnFind = (_, _) => ValueTask.FromResult(Option.Some(
+            new OrderRecord(draft, [new OrderEvent.Ship(Refined.TrackingOf("TRACK-1"), Refined.Now)])));
+
+        using var response = await host.Client.GetAsync($"/orders/{draft.Id.Value}/reconcile");
+        Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
+        Assert.Equal("application/problem+json", response.Content.Headers.ContentType?.MediaType);
+        var problem = await response.ReadJsonAsync<ProblemDetails>();
+        Assert.NotNull(problem);
+        Assert.Equal("https://funnysharp.example/problems/history-diverged", problem.Type);
+        Assert.Equal("HistoryDiverged", problem.Extensions["failure"]?.ToString());
+
+        using var openApiResponse = await host.Client.GetAsync("/openapi/v1.json");
+        Assert.Equal(HttpStatusCode.OK, openApiResponse.StatusCode);
+        using var document = JsonDocument.Parse(await openApiResponse.ReadStringAsync());
+        var operation = document.RootElement.GetProperty("paths")
+            .GetProperty("/orders/{id}/reconcile").GetProperty("get");
+        var declaredFailure = Respond(operation, "500");
+        Assert.True(declaredFailure.GetProperty("content").TryGetProperty("application/problem+json", out _));
+        Assert.Contains("ProblemDetails", SchemaOf(declaredFailure), StringComparison.Ordinal);
     }
 
     [Fact]

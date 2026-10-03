@@ -372,7 +372,7 @@ let mainWith
                                       "src/FunnySharp.AspNetCore/bin/Release/net10.0/FunnySharp.AspNetCore.xml"
                                   ) ]
 
-                            let value = getXmlDocumentationInventory paths
+                            let value = getXmlDocumentationInventory repositoryRoot paths
                             writeJsonFile (Path.Combine(outputDirectory, "xml-documentation.json")) value
 
                             let members =

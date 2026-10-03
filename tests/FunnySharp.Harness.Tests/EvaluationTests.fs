@@ -8,14 +8,37 @@ module FunnySharp.Harness.Tests.EvaluationTests
 
 open System
 open System.IO
+open System.Security.Cryptography
 open System.Text
 open System.Text.Json
+open System.Text.Json.Nodes
 open Xunit
 open FunnySharp.Harness.Proc
 open FunnySharp.Harness.Tests.Support
 open FunnySharp.Harness.Evaluation
 
 let private utf8NoBom = UTF8Encoding(false)
+
+let private requiredNode (value: JsonNode | null) : JsonNode =
+    match value with
+    | null -> failwith "Required fixture JSON node is missing."
+    | value -> value
+
+let private readNode (path: string) =
+    JsonNode.Parse(File.ReadAllText path) |> requiredNode
+
+let private nodeText (name: string) (node: JsonNode) =
+    (requiredNode node.[name]).GetValue<string>()
+
+let private xmlAttributeText name (element: System.Xml.Linq.XElement) =
+    match element.Attribute(System.Xml.Linq.XName.Get name) with
+    | null -> failwith ("Required fixture XML attribute is missing: " + name)
+    | attribute -> attribute.Value
+
+let private parentDirectory (path: string) =
+    match Path.GetDirectoryName path with
+    | null -> failwith "Fixture path has no parent directory."
+    | directory -> directory
 
 // ---- typed view of a written record ---------------------------------------
 
@@ -34,6 +57,9 @@ type private Record =
       ConsumerLoc: int }
 
 let private readRecord (path: string) : Record =
+    let path =
+        if File.Exists path then path
+        else Path.Combine(parentDirectory path, "rounds", "0001", "record.json")
     use document = JsonDocument.Parse(File.ReadAllText path)
     let root = document.RootElement
 
@@ -105,7 +131,26 @@ let private seedRun (runDir: string) (solution: string) : unit =
     File.WriteAllText(Path.Combine(solutionDir, "Solution.cs"), solution, utf8NoBom)
 
 let private buildDirOf (root: string) : string =
-    Path.Combine(root, "artifacts", "evaluation", "builds", "aspnetcore-idiomatic-run-1")
+    let directory = Path.Combine(root, "artifacts", "evaluation", "builds")
+    if not (Directory.Exists directory) then Path.Combine(directory, "aspnetcore-idiomatic-run-1")
+    else
+        Directory.GetDirectories(directory, "aspnetcore-idiomatic-run-1*")
+        |> Array.sort
+        |> Array.tryLast
+        |> Option.defaultValue (Path.Combine(directory, "aspnetcore-idiomatic-run-1"))
+
+let private hash (path: string) =
+    use stream = File.OpenRead path
+    SHA256.HashData stream |> Convert.ToHexString |> fun value -> value.ToLowerInvariant()
+
+let private manifestFiles (directory: string) =
+    let files = JsonArray()
+    for path in Directory.GetFiles(directory, "*", SearchOption.AllDirectories) |> Array.sort do
+        let file = JsonObject()
+        file.["path"] <- JsonValue.Create(Path.GetRelativePath(directory, path).Replace('\\', '/'))
+        file.["sha256"] <- JsonValue.Create(hash path)
+        files.Add file
+    files
 
 /// The deterministic clock: two readings 2.34 apart, so every verify records 2.3.
 let private installClock () : unit =
@@ -194,14 +239,15 @@ type EvaluationToolTests() =
         Assert.True(File.Exists(Path.Combine(buildDir, "NuGet.config")))
 
     [<Fact>]
-    member this.VerifyWipesTheBuildTreeOnEveryRun() =
+    member this.VerifyUsesAFreshBuildTreeWithoutDestroyingAnotherAttempt() =
         let buildDir = buildDirOf root
         Directory.CreateDirectory buildDir |> ignore
         File.WriteAllText(Path.Combine(buildDir, "stale.txt"), "stale\n")
         this.GreenRun ()
         let code, _, _ = this.Run [ "verify"; "aspnetcore"; "idiomatic"; this.RunDir ]
         Assert.Equal(0, code)
-        Assert.False(File.Exists(Path.Combine(buildDir, "stale.txt")))
+        Assert.True(File.Exists(Path.Combine(buildDir, "stale.txt")))
+        Assert.NotEqual<string>(buildDir, buildDirOf root)
 
     [<Fact>]
     member this.NuGetConfigMatchesThePythonBytes() =
@@ -245,6 +291,15 @@ type EvaluationToolTests() =
         Assert.Equal(0, record.Total)
         Assert.Equal(0, record.Failed)
         Assert.Equal<string list>([ "FS0044" ], record.FsDiagnostics)
+        let diagnosticReceipt = readNode (Path.Combine(this.RunDir, "rounds", "0001", "diagnostics.json"))
+        let fsOccurrences =
+            (requiredNode diagnosticReceipt.["occurrences"]).AsArray()
+            |> Seq.map requiredNode
+            |> Seq.filter (fun row -> nodeText "id" row = "FS0044")
+            |> Seq.toArray
+        Assert.Equal(2, fsOccurrences.Length)
+        Assert.Equal("warning", nodeText "severity" fsOccurrences.[0])
+        Assert.Equal("error", nodeText "severity" fsOccurrences.[1])
         Assert.Single fake.Calls |> ignore
 
     [<Fact>]
@@ -292,14 +347,457 @@ type EvaluationToolTests() =
         Assert.Equal(Some false, (readRecord (Path.Combine(this.RunDir, "record.json"))).SemanticOk)
 
     [<Fact>]
-    member this.RoundIsRecordedFromTheFlag() =
+    member this.MissingPredecessorIsRejectedBeforeAnyChild() =
         this.GreenRun ()
         let code, _, _ = this.Run [ "verify"; "aspnetcore"; "idiomatic"; this.RunDir; "--round"; "3" ]
+        Assert.Equal(1, code)
+        Assert.Empty fake.Calls
+
+    [<Theory>]
+    [<InlineData("4")>]
+    [<InlineData("0")>]
+    [<InlineData("-1")>]
+    member this.InvalidRoundIsUsageError(value: string) =
+        this.GreenRun ()
+        let code, _, _ = this.Run [ "verify"; "aspnetcore"; "idiomatic"; this.RunDir; "--round=" + value ]
+        Assert.Equal(2, code)
+        Assert.Empty fake.Calls
+
+    [<Theory>]
+    [<InlineData("Contract.cs")>]
+    [<InlineData("XTests.cs")>]
+    [<InlineData("contract.cs")>]
+    member this.SolutionCannotOverwriteAnOracle(filename: string) =
+        this.GreenRun ()
+        let trusted = Path.Combine(root, "eng", "evaluation", "tasks", "aspnetcore", "tests", "Contract.cs")
+        let before = hash trusted
+        File.WriteAllText(Path.Combine(this.RunDir, "solution", filename), "// malicious replacement\n")
+        let code, _, _ = this.Run [ "verify"; "aspnetcore"; "idiomatic"; this.RunDir ]
+        Assert.Equal(1, code)
+        Assert.Empty fake.Calls
+        Assert.Equal(before, hash trusted)
+
+    [<Theory>]
+    [<InlineData("Test run summary: Passed!\n")>]
+    [<InlineData("Test run summary: Passed!\ntotal: 0 failed: 0 succeeded: 0 skipped: 0\n")>]
+    [<InlineData("Test run summary: Passed!\ntotal: 9 failed: 0 succeeded: 8 skipped: 0\n")>]
+    [<InlineData("Test run summary: Passed!\ntotal: 9 failed: 1 succeeded: 8 skipped: 0\n")>]
+    [<InlineData("Test run summary: Passed!\ntotal: 9 failed: 0 succeeded: 8 skipped: 1\n")>]
+    [<InlineData("Test run summary: Passed!\ntotal: -9 failed: 0 succeeded: 9 skipped: 0\n")>]
+    [<InlineData("Test run summary: Passed!\ntotal: 9 failed: 0 succeeded: 9\n")>]
+    [<InlineData("Test run summary: Passed!\ntotal: 9 failed: 0 succeeded: 9 skipped: 0\nTest run summary: Passed!\n")>]
+    [<InlineData("Test run summary: Passed!\ntotal: 9 failed: 0 succeeded: 9 skipped: 0\ntotal: 9 failed: 0 succeeded: 9 skipped: 0\n")>]
+    [<InlineData("Test run summary: Passed!\ntotal: 99999999999999 failed: 0 succeeded: 99999999999999 skipped: 0\n")>]
+    member this.MalformedOrEmptyOrInconsistentOrSkippedCountsAreRed(output: string) =
+        this.GreenRun ()
+        fake.Test <- { ExitCode = 0; Stdout = output; Stderr = "" }
+        let code, _, _ = this.Run [ "verify"; "aspnetcore"; "idiomatic"; this.RunDir ]
+        Assert.Equal(1, code)
+        Assert.Equal(Some false, (readRecord (Path.Combine(this.RunDir, "record.json"))).SemanticOk)
+
+    [<Fact>]
+    member this.DuplicateAttemptCannotOverwriteAnyRoundBytes() =
+        this.GreenRun ()
+        let code, _, _ = this.Run [ "verify"; "aspnetcore"; "idiomatic"; this.RunDir ]
         Assert.Equal(0, code)
-        Assert.Equal(3, (readRecord (Path.Combine(this.RunDir, "record.json"))).Round)
-        let code, _, _ = this.Run [ "verify"; "aspnetcore"; "idiomatic"; this.RunDir; "--round=4" ]
+        let rounds = Path.Combine(this.RunDir, "rounds")
+        let before = (manifestFiles rounds).ToJsonString()
+        seedRun this.RunDir "different\n"
+        let code, _, _ = this.Run [ "verify"; "aspnetcore"; "idiomatic"; this.RunDir ]
+        Assert.Equal(1, code)
+        Assert.Equal(before, (manifestFiles rounds).ToJsonString())
+        Assert.Equal(2, fake.Calls.Length)
+
+    [<Theory>]
+    [<InlineData("record.json")>]
+    [<InlineData("feedback.json")>]
+    [<InlineData("build.stdout.log")>]
+    [<InlineData("solution/Solution.cs")>]
+    member this.OverwrittenHistoryRejectsACorrection(relative: string) =
+        this.GreenRun ()
+        fake.Build <- { ExitCode = 1; Stdout = ": error CS0103: failure\n"; Stderr = "full stderr\n" }
+        let code, _, _ = this.Run [ "verify"; "aspnetcore"; "idiomatic"; this.RunDir ]
+        Assert.Equal(1, code)
+        File.AppendAllText(Path.Combine(this.RunDir, "rounds", "0001", relative), "altered")
+        let code, _, _ = this.Run [ "verify"; "aspnetcore"; "idiomatic"; this.RunDir; "--round"; "2" ]
+        Assert.Equal(1, code)
+        Assert.Single fake.Calls |> ignore
+
+    [<Fact>]
+    member this.FullOutputsSolutionsAndFeedbackAreHashedAndCorrectionLinksThem() =
+        this.GreenRun ()
+        fake.Build <- { ExitCode = 1; Stdout = String.replicate 5000 "x" + ": error CS0103: missing\n"; Stderr = ": warning FS1001: fixture\n" }
+        let code, _, _ = this.Run [ "verify"; "aspnetcore"; "idiomatic"; this.RunDir ]
+        Assert.Equal(1, code)
+        let first = Path.Combine(this.RunDir, "rounds", "0001")
+        Assert.Equal(fake.Build.Stdout, File.ReadAllText(Path.Combine(first, "build.stdout.log")))
+        Assert.Equal(fake.Build.Stderr, File.ReadAllText(Path.Combine(first, "build.stderr.log")))
+        let receipt = readNode (Path.Combine(first, "receipt.json"))
+        for file in (requiredNode receipt.["files"]).AsArray() |> Seq.map requiredNode do
+            Assert.Equal(nodeText "sha256" file, hash (Path.Combine(first, nodeText "path" file)))
+        let solutionHash = hash (Path.Combine(first, "solution", "Solution.cs"))
+        let predecessor = hash (Path.Combine(first, "receipt.json"))
+        this.GreenRun ()
+        seedRun this.RunDir "corrected\n"
+        let code, _, _ = this.Run [ "verify"; "aspnetcore"; "idiomatic"; this.RunDir; "--round"; "2" ]
         Assert.Equal(0, code)
-        Assert.Equal(4, (readRecord (Path.Combine(this.RunDir, "record.json"))).Round)
+        let second = readNode (Path.Combine(this.RunDir, "rounds", "0002", "receipt.json"))
+        Assert.Equal(predecessor, nodeText "previousReceiptSha256" second)
+        Assert.Equal(solutionHash, hash (Path.Combine(first, "solution", "Solution.cs")))
+
+    [<Fact>]
+    member this.AllThreeFailedRoundsRemainAndFourthIsRejected() =
+        this.GreenRun ()
+        fake.Build <- { ExitCode = 1; Stdout = ": error CS0103: failure\n"; Stderr = "" }
+        for round in 1 .. 3 do
+            let code, _, _ = this.Run [ "verify"; "aspnetcore"; "idiomatic"; this.RunDir; "--round"; string round ]
+            Assert.Equal(1, code)
+        Assert.Equal(3, Directory.GetDirectories(Path.Combine(this.RunDir, "rounds")).Length)
+        let code, _, _ = this.Run [ "verify"; "aspnetcore"; "idiomatic"; this.RunDir; "--round"; "4" ]
+        Assert.Equal(2, code)
+        Assert.Equal(3, fake.Calls.Length)
+
+    [<Fact>]
+    member this.InterruptedAttemptIsNotReused() =
+        this.GreenRun ()
+        childRunner <- fun _ _ _ -> raise (IOException("fixture child launch failed"))
+        let code, _, _ = this.Run [ "verify"; "aspnetcore"; "idiomatic"; this.RunDir ]
+        Assert.Equal(1, code)
+        childRunner <- fake.Run
+        let code, _, _ = this.Run [ "verify"; "aspnetcore"; "idiomatic"; this.RunDir ]
+        Assert.Equal(1, code)
+        Assert.Empty fake.Calls
+
+    [<Fact>]
+    member this.HistoricalRunIsReadOnly() =
+        let historical = Path.Combine(root, "eng", "evaluation", "results", "aspnetcore", "idiomatic", "run-1")
+        seedRun historical "historical\n"
+        File.WriteAllText(Path.Combine(historical, "record.json"), "{}")
+        let before = (manifestFiles historical).ToJsonString()
+        let code, _, _ = this.Run [ "verify"; "aspnetcore"; "idiomatic"; historical ]
+        Assert.Equal(1, code)
+        Assert.Equal(before, (manifestFiles historical).ToJsonString())
+        Assert.Empty fake.Calls
+
+    // Synthetic metadata exercises joins only. It is never producer evidence.
+    member private this.StudyFixture(run: string, session: string) =
+        let studyRoot = Path.Combine(root, "eng", "evaluation", "studies", "audit-resolution-v1")
+        let snapshot = Path.Combine(studyRoot, "snapshot")
+        Directory.CreateDirectory(Path.Combine(snapshot, "tasks", "aspnetcore", "tests")) |> ignore
+        Directory.CreateDirectory(Path.Combine(snapshot, "tasks", "aspnetcore", "template-idiomatic")) |> ignore
+        for relative, content in
+            [ "tasks/aspnetcore/tests/Contract.cs", "// neutral contract\n"
+              "tasks/aspnetcore/tests/XTests.cs", "// oracle\n"
+              "tasks/aspnetcore/template-idiomatic/Kit.csproj", "<Project />"
+              "tasks/aspnetcore/template-idiomatic/packages.lock.json", "{}"
+              "tasks/aspnetcore/prompt-idiomatic.md", "fixture brief"
+              "feed/FunnySharp.0.2.0.nupkg", "candidate fixture bytes"
+              "analyzer-control/control.sarif", "{\"fixture\":\"FS1001\"}" ] do
+            let path = Path.Combine(snapshot, relative)
+            Directory.CreateDirectory(parentDirectory path) |> ignore
+            if not (File.Exists path) then File.WriteAllText(path, content)
+        for relative in [ "global.json"; "Directory.Build.props"; "build.fsx"; "eng/harness/Evaluation.fs" ] do
+            let source = Path.Combine(root, relative)
+            Directory.CreateDirectory(parentDirectory source) |> ignore
+            if not (File.Exists source) then File.WriteAllText(source, "fixture")
+            let target = Path.Combine(snapshot, "environment", relative)
+            Directory.CreateDirectory(parentDirectory target) |> ignore
+            if not (File.Exists target) then File.Copy(source, target)
+        let planPath = Path.Combine(studyRoot, "plan.json")
+        File.WriteAllText(planPath, "{}")
+        let studyManifest = JsonObject()
+        studyManifest.["files"] <- manifestFiles snapshot
+        studyManifest.["planSha256"] <- JsonValue.Create(hash planPath)
+        studyManifest.["expectedTests"] <- JsonNode.Parse("{\"aspnetcore\":9}")
+        studyManifest.["cohort"] <- JsonNode.Parse("[\"aspnetcore/idiomatic/run-1\",\"aspnetcore/idiomatic/run-2\"]")
+        let manifestPath = Path.Combine(studyRoot, "manifest.json")
+        File.WriteAllText(manifestPath, studyManifest.ToJsonString())
+        let runDir = Path.Combine(root, "eng", "evaluation", "results", "audit-resolution-v1", "aspnetcore", "idiomatic", run)
+        seedRun runDir "fixture solution\n"
+        let contextDir = Path.Combine(runDir, "producer", "0001-context")
+        let payload = Path.Combine(contextDir, "payload")
+        Directory.CreateDirectory payload |> ignore
+        File.Copy(Path.Combine(snapshot, "tasks", "aspnetcore", "prompt-idiomatic.md"), Path.Combine(payload, "prompt.md"))
+        let context = JsonObject()
+        context.["files"] <- manifestFiles payload
+        let contextPath = Path.Combine(contextDir, "context.json")
+        File.WriteAllText(contextPath, context.ToJsonString())
+        let invocationPath = Path.Combine(contextDir, "invocation.json")
+        File.WriteAllText(invocationPath, "{\"route\":\"fixture-only\",\"request\":\"fixture\",\"response\":\"fixture\"}")
+        let producer = JsonObject()
+        for key, value in
+            [ "studySha256", hash manifestPath; "task", "aspnetcore"; "style", "idiomatic"
+              "sessionId", session; "invocationId", "fixture-" + run; "route", "fixture-only"
+              "producerKind", "ai"; "requestedModel", "fixture-not-a-model"
+              "startedUtc", "2026-10-01T00:00:00Z"; "finishedUtc", "2026-10-01T00:00:01Z"
+              "status", "fixture"; "contextSha256", hash contextPath; "invocationSha256", hash invocationPath ] do producer.[key] <- JsonValue.Create value
+        producer.["providerModel"] <- JsonNode.Parse("{\"value\":null,\"unknownReason\":\"synthetic fixture\"}")
+        producer.["solutionFiles"] <- manifestFiles (Path.Combine(runDir, "solution"))
+        let producerPath = Path.Combine(runDir, "producer", "0001.json")
+        File.WriteAllText(producerPath, producer.ToJsonString())
+        fake.Build <- { ExitCode = 0; Stdout = "Build succeeded.\n"; Stderr = "" }
+        fake.Test <- { ExitCode = 0; Stdout = "Test run summary: Passed!\ntotal: 9 failed: 0 succeeded: 9 skipped: 0\n"; Stderr = "" }
+        runDir, studyRoot, producerPath
+
+    [<Theory>]
+    [<InlineData("studySha256")>]
+    [<InlineData("contextSha256")>]
+    [<InlineData("sessionId")>]
+    [<InlineData("requestedModel")>]
+    member this.WrongOrMissingProducerBindingsRejectBeforeChild(field: string) =
+        let runDir, _, path = this.StudyFixture("run-1", "fixture-session-1")
+        let producer = readNode path
+        producer.[field] <- JsonValue.Create ""
+        File.WriteAllText(path, producer.ToJsonString())
+        let code, _, _ = this.Run [ "verify"; "aspnetcore"; "idiomatic"; runDir; "--study"; "audit-resolution-v1" ]
+        Assert.Equal(1, code)
+        Assert.Empty fake.Calls
+
+    [<Theory>]
+    [<InlineData("feed/FunnySharp.0.2.0.nupkg")>]
+    [<InlineData("tasks/aspnetcore/tests/Contract.cs")>]
+    [<InlineData("analyzer-control/control.sarif")>]
+    [<InlineData("tasks/aspnetcore/template-idiomatic/packages.lock.json")>]
+    member this.ChangedPackageOracleAnalyzerOrLockInvalidatesStudy(relative: string) =
+        let runDir, studyRoot, _ = this.StudyFixture("run-1", "fixture-session-1")
+        File.AppendAllText(Path.Combine(studyRoot, "snapshot", relative), "changed")
+        let code, _, _ = this.Run [ "verify"; "aspnetcore"; "idiomatic"; runDir; "--study"; "audit-resolution-v1" ]
+        Assert.Equal(1, code)
+        Assert.Empty fake.Calls
+
+    [<Fact>]
+    member this.SuppliedAuditContextIsRejectedEvenWhenItsOwnHashesMatch() =
+        let runDir, _, path = this.StudyFixture("run-1", "fixture-session-1")
+        let contextDir = Path.Combine(runDir, "producer", "0001-context")
+        File.WriteAllText(Path.Combine(contextDir, "payload", "audit.md"), "non-public answer fixture")
+        let context = JsonObject()
+        context.["files"] <- manifestFiles (Path.Combine(contextDir, "payload"))
+        let contextPath = Path.Combine(contextDir, "context.json")
+        File.WriteAllText(contextPath, context.ToJsonString())
+        let producer = readNode path
+        producer.["contextSha256"] <- JsonValue.Create(hash contextPath)
+        File.WriteAllText(path, producer.ToJsonString())
+        let code, _, _ = this.Run [ "verify"; "aspnetcore"; "idiomatic"; runDir; "--study"; "audit-resolution-v1" ]
+        Assert.Equal(1, code)
+        Assert.Empty fake.Calls
+
+    [<Fact>]
+    member this.ProducerOutputCannotBeReplacedBeforeVerification() =
+        let runDir, _, _ = this.StudyFixture("run-1", "fixture-session-1")
+        seedRun runDir "changed after invocation"
+        let code, _, _ = this.Run [ "verify"; "aspnetcore"; "idiomatic"; runDir; "--study"; "audit-resolution-v1" ]
+        Assert.Equal(1, code)
+        Assert.Empty fake.Calls
+
+    [<Fact>]
+    member this.ReusedInitialSessionIsNotIndependent() =
+        let first, _, _ = this.StudyFixture("run-1", "fixture-session-shared")
+        let code, _, _ = this.Run [ "verify"; "aspnetcore"; "idiomatic"; first; "--study"; "audit-resolution-v1" ]
+        Assert.Equal(0, code)
+        let second, _, _ = this.StudyFixture("run-2", "fixture-session-shared")
+        let code, _, _ = this.Run [ "verify"; "aspnetcore"; "idiomatic"; second; "--study"; "audit-resolution-v1" ]
+        Assert.Equal(1, code)
+        Assert.Equal(2, fake.Calls.Length)
+
+    [<Theory>]
+    [<InlineData("feedbackSha256")>]
+    [<InlineData("sessionId")>]
+    [<InlineData("invocationId")>]
+    [<InlineData("contextSha256")>]
+    member this.CorrectionMustBindFeedbackAndContinueOnlyItsOwnSession(field: string) =
+        let runDir, _, producerPath = this.StudyFixture("run-1", "fixture-session-1")
+        fake.Build <- { ExitCode = 1; Stdout = ": error CS0103: fixture failure\n"; Stderr = "" }
+        let code, _, _ = this.Run [ "verify"; "aspnetcore"; "idiomatic"; runDir; "--study"; "audit-resolution-v1" ]
+        Assert.Equal(1, code)
+        let contextDir = Path.Combine(runDir, "producer", "0002-context")
+        let payload = Path.Combine(contextDir, "payload")
+        Directory.CreateDirectory payload |> ignore
+        File.Copy(Path.Combine(runDir, "producer", "0001-context", "payload", "prompt.md"), Path.Combine(payload, "prompt.md"))
+        let feedback = Path.Combine(runDir, "rounds", "0001", "feedback.json")
+        File.Copy(feedback, Path.Combine(payload, "feedback.json"))
+        let context = JsonObject()
+        context.["files"] <- manifestFiles payload
+        let contextPath = Path.Combine(contextDir, "context.json")
+        File.WriteAllText(contextPath, context.ToJsonString())
+        let invocationPath = Path.Combine(contextDir, "invocation.json")
+        File.WriteAllText(invocationPath, "{\"route\":\"fixture-only-correction\"}")
+        let producer = readNode producerPath
+        producer.["contextSha256"] <- JsonValue.Create(hash contextPath)
+        producer.["invocationSha256"] <- JsonValue.Create(hash invocationPath)
+        producer.["feedbackSha256"] <- JsonValue.Create(hash feedback)
+        producer.["invocationId"] <- JsonValue.Create "fixture-correction"
+        producer.[field] <- JsonValue.Create(if field = "invocationId" then "fixture-run-1" else "wrong-binding")
+        File.WriteAllText(Path.Combine(runDir, "producer", "0002.json"), producer.ToJsonString())
+        let code, _, _ = this.Run [ "verify"; "aspnetcore"; "idiomatic"; runDir; "--round"; "2"; "--study"; "audit-resolution-v1" ]
+        Assert.Equal(1, code)
+        Assert.Single fake.Calls |> ignore
+
+    [<Fact>]
+    member this.StudyPreparationHonorsExplicitUpstreamFeed() =
+        let study = Path.Combine(root, "eng", "evaluation", "studies", "audit-resolution-v1")
+        let feed = Path.Combine(root, "artifacts", "evaluation", "feed-audit-resolution-v1")
+        Directory.CreateDirectory study |> ignore
+        Directory.CreateDirectory feed |> ignore
+        for name in [ "FunnySharp.0.2.0.nupkg"; "FunnySharp.AspNetCore.0.2.0.nupkg" ] do
+            File.WriteAllText(Path.Combine(feed, name), "fixture package")
+        for relative in [ "global.json"; "Directory.Build.props"; "build.fsx"; "eng/harness/Evaluation.fs" ] do
+            let path = Path.Combine(root, relative)
+            Directory.CreateDirectory(parentDirectory path) |> ignore
+            File.WriteAllText(path, "fixture environment")
+        File.WriteAllText(
+            Path.Combine(root, "eng", "evaluation", "tasks", "aspnetcore", "prompt-idiomatic.md"),
+            "fixture brief\n## Style: idiomatic\n"
+        )
+        let upstream = "https://packagefeedproxy.microsoft.io/nuget/v3/index.json"
+        let plan = JsonNode.Parse("{\"guides\":[],\"tasks\":[\"aspnetcore\"],\"expectedTests\":{\"aspnetcore\":9},\"cohort\":[]}") |> requiredNode
+        plan.["upstreamPackageFeed"] <- JsonValue.Create upstream
+        File.WriteAllText(Path.Combine(study, "plan.json"), plan.ToJsonString())
+        fake.Build <- { ExitCode = 0; Stdout = "fixture FS1001 analyzer signal"; Stderr = "" }
+        let code, _, _ = this.Run [ "prep-feed"; "--study"; "audit-resolution-v1" ]
+        Assert.Equal(0, code)
+        for relative in
+            [ "tasks/aspnetcore/template-idiomatic/NuGet.config"
+              "tasks/aspnetcore/template-funnysharp/NuGet.config"
+              "analyzer-control/NuGet.config" ] do
+            let config = System.Xml.Linq.XDocument.Load(Path.Combine(study, "snapshot", relative))
+            let source = config.Descendants(System.Xml.Linq.XName.Get "add") |> Seq.find (fun add -> xmlAttributeText "key" add = "nuget.org")
+            Assert.Equal(upstream, xmlAttributeText "value" source)
+
+    [<Theory>]
+    [<InlineData("https://packagefeedproxy.microsoft.io/nuget/v3/index.json")>]
+    [<InlineData("https://feed.example.test/index.json?first=1&second=2")>]
+    member this.StudyRoundHonorsFrozenUpstreamFeed(upstream: string) =
+        let runDir, study, producerPath = this.StudyFixture("run-1", "fixture-session-1")
+        let planPath = Path.Combine(study, "plan.json")
+        let plan = readNode planPath
+        plan.["upstreamPackageFeed"] <- JsonValue.Create upstream
+        File.WriteAllText(planPath, plan.ToJsonString())
+        let manifestPath = Path.Combine(study, "manifest.json")
+        let manifest = readNode manifestPath
+        manifest.["planSha256"] <- JsonValue.Create(hash planPath)
+        File.WriteAllText(manifestPath, manifest.ToJsonString())
+        let producer = readNode producerPath
+        producer.["studySha256"] <- JsonValue.Create(hash manifestPath)
+        File.WriteAllText(producerPath, producer.ToJsonString())
+        let code, _, _ = this.Run [ "verify"; "aspnetcore"; "idiomatic"; runDir; "--study"; "audit-resolution-v1" ]
+        Assert.Equal(0, code)
+        let config = System.Xml.Linq.XDocument.Load(Path.Combine(buildDirOf root, "NuGet.config"))
+        let source = config.Descendants(System.Xml.Linq.XName.Get "add") |> Seq.find (fun add -> xmlAttributeText "key" add = "nuget.org")
+        Assert.Equal(upstream, xmlAttributeText "value" source)
+
+    [<Fact>]
+    member this.ExplicitStudyFeedOverridesInheritedSourceDisableFlags() =
+        let runDir, study, _ = this.StudyFixture("run-1", "fixture-session-1")
+        let planPath = Path.Combine(study, "plan.json")
+        let plan = readNode planPath
+        plan.["upstreamPackageFeed"] <- JsonValue.Create "https://packagefeedproxy.microsoft.io/nuget/v3/index.json"
+        File.WriteAllText(planPath, plan.ToJsonString())
+        let manifestPath = Path.Combine(study, "manifest.json")
+        let manifest = readNode manifestPath
+        manifest.["planSha256"] <- JsonValue.Create(hash planPath)
+        File.WriteAllText(manifestPath, manifest.ToJsonString())
+        let replay = Path.Combine(root, "explicit-source-control")
+        seedRun replay (File.ReadAllText(Path.Combine(runDir, "solution", "Solution.cs")))
+        let code, _, _ = this.Run [ "verify"; "aspnetcore"; "idiomatic"; replay; "--study"; "audit-resolution-v1"; "--replay" ]
+        Assert.Equal(0, code)
+        let buildRoot = Path.Combine(root, "artifacts", "evaluation", "builds")
+        let buildDir = Directory.GetDirectories(buildRoot) |> Array.exactlyOne
+        let config = System.Xml.Linq.XDocument.Load(Path.Combine(buildDir, "NuGet.config"))
+        let disabled = config.Descendants(System.Xml.Linq.XName.Get "disabledPackageSources") |> Seq.exactlyOne
+        Assert.Single(disabled.Elements(System.Xml.Linq.XName.Get "clear")) |> ignore
+        Assert.Empty(disabled.Elements(System.Xml.Linq.XName.Get "add"))
+
+    [<Fact>]
+    member this.RegisteredSuccessorStudyReplaysWithoutRewritingInterruptedStudy() =
+        let runDir, originalStudy, _ = this.StudyFixture("run-1", "fixture-session-1")
+        let successorStudy = Path.Combine(parentDirectory originalStudy, "audit-resolution-v2")
+        for source in Directory.GetFiles(originalStudy, "*", SearchOption.AllDirectories) do
+            let target = Path.Combine(successorStudy, Path.GetRelativePath(originalStudy, source))
+            Directory.CreateDirectory(parentDirectory target) |> ignore
+            File.Copy(source, target)
+        let originalManifestHash = hash (Path.Combine(originalStudy, "manifest.json"))
+        let replay = Path.Combine(root, "successor-study-control")
+        seedRun replay (File.ReadAllText(Path.Combine(runDir, "solution", "Solution.cs")))
+        let code, _, _ = this.Run [ "verify"; "aspnetcore"; "idiomatic"; replay; "--study"; "audit-resolution-v2"; "--replay" ]
+        Assert.Equal(0, code)
+        Assert.Equal(originalManifestHash, hash (Path.Combine(originalStudy, "manifest.json")))
+        Assert.False(Directory.Exists(Path.Combine(runDir, "rounds")))
+
+    [<Theory>]
+    [<InlineData("audit-resolution-v3")>]
+    [<InlineData("audit-resolution-v4")>]
+    [<InlineData("audit-resolution-v5")>]
+    [<InlineData("audit-resolution-v6")>]
+    member this.RegisteredTransportSuccessorStudyRetainsReplayControlClassification(study: string) =
+        let runDir, originalStudy, _ = this.StudyFixture("run-1", "fixture-session-1")
+        let failedStudy = Path.Combine(parentDirectory originalStudy, "audit-resolution-v2")
+        let successorStudy = Path.Combine(parentDirectory originalStudy, study)
+        for study in [ failedStudy; successorStudy ] do
+            for source in Directory.GetFiles(originalStudy, "*", SearchOption.AllDirectories) do
+                let target = Path.Combine(study, Path.GetRelativePath(originalStudy, source))
+                Directory.CreateDirectory(parentDirectory target) |> ignore
+                File.Copy(source, target)
+        let priorStudies =
+            [ originalStudy; failedStudy ]
+            |> List.map (fun study -> study, (manifestFiles study).ToJsonString())
+        let replay = Path.Combine(root, "transport-successor-control")
+        seedRun replay (File.ReadAllText(Path.Combine(runDir, "solution", "Solution.cs")))
+        let code, out, err = this.Run [ "verify"; "aspnetcore"; "idiomatic"; replay; "--study"; study; "--replay" ]
+        Assert.True((code = 0), err)
+        Assert.Contains("VERDICT: GREEN", out)
+        let round = Path.Combine(replay, "rounds", "0001")
+        let record = readNode (Path.Combine(round, "record.json"))
+        Assert.Equal("replay", nodeText "evidenceKind" record)
+        Assert.False(File.Exists(Path.Combine(round, "producer-receipt.json")))
+        Assert.False(Directory.Exists(Path.Combine(runDir, "rounds")))
+        Assert.False(Directory.Exists(Path.Combine(root, "eng", "evaluation", "results", study)))
+        for study, before in priorStudies do
+            Assert.Equal(before, (manifestFiles study).ToJsonString())
+        let calls = fake.Calls.Length
+        let unregistered = Path.Combine(root, "unregistered-study-control")
+        seedRun unregistered "fixture solution\n"
+        let code, _, err = this.Run [ "verify"; "aspnetcore"; "idiomatic"; unregistered; "--study"; "audit-resolution-unregistered"; "--replay" ]
+        Assert.Equal(1, code)
+        Assert.Contains("unknown study", err)
+        Assert.Equal(calls, fake.Calls.Length)
+
+    [<Fact>]
+    member this.ManualStudyReplayDoesNotRequireOrInventProducerIdentity() =
+        let cohort, _, _ = this.StudyFixture("run-1", "fixture-session-1")
+        let replay = Path.Combine(root, "oracle-control-1")
+        seedRun replay (File.ReadAllText(Path.Combine(cohort, "solution", "Solution.cs")))
+        Directory.Delete(Path.Combine(cohort, "producer"), true)
+        let code, _, _ = this.Run [ "verify"; "aspnetcore"; "idiomatic"; replay; "--study"; "audit-resolution-v1"; "--replay" ]
+        Assert.Equal(0, code)
+        let record = readNode (Path.Combine(replay, "rounds", "0001", "record.json"))
+        Assert.Equal("replay", nodeText "evidenceKind" record)
+        Assert.False(File.Exists(Path.Combine(replay, "rounds", "0001", "producer-receipt.json")))
+        Assert.False(Directory.Exists(Path.Combine(cohort, "rounds")))
+
+    [<Fact>]
+    member this.ReplayCannotConsumeACohortSlot() =
+        let cohort, _, _ = this.StudyFixture("run-1", "fixture-session-1")
+        let code, _, _ = this.Run [ "verify"; "aspnetcore"; "idiomatic"; cohort; "--study"; "audit-resolution-v1"; "--replay" ]
+        Assert.Equal(1, code)
+        Assert.Empty fake.Calls
+
+    [<Fact>]
+    member this.MissingFeedbackMakesHistoryIncompleteRatherThanStartingACorrection() =
+        this.GreenRun ()
+        fake.Build <- { ExitCode = 1; Stdout = ": error CS0103: failure\n"; Stderr = "" }
+        let code, _, _ = this.Run [ "verify"; "aspnetcore"; "idiomatic"; this.RunDir ]
+        Assert.Equal(1, code)
+        File.Delete(Path.Combine(this.RunDir, "rounds", "0001", "feedback.json"))
+        let code, _, _ = this.Run [ "verify"; "aspnetcore"; "idiomatic"; this.RunDir; "--round"; "2" ]
+        Assert.Equal(1, code)
+        Assert.Single fake.Calls |> ignore
+
+    [<Fact>]
+    member this.WrongExpectedDiscoveryCountIsRed() =
+        let runDir, _, _ = this.StudyFixture("run-1", "fixture-session-1")
+        fake.Test <- { ExitCode = 0; Stdout = "Test run summary: Passed!\ntotal: 8 failed: 0 succeeded: 8 skipped: 0\n"; Stderr = "" }
+        let code, _, _ = this.Run [ "verify"; "aspnetcore"; "idiomatic"; runDir; "--study"; "audit-resolution-v1" ]
+        Assert.Equal(1, code)
 
     [<Fact>]
     member this.UnknownTaskIsExitTwo() =

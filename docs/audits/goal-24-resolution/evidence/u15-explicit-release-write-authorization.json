@@ -1,0 +1,21 @@
+{
+  "schema": "funnysharp-explicit-release-write-authorization/v1",
+  "observedUtc": "2026-10-03T09:00:08.100Z",
+  "actualUserAnswer": "approve then continue",
+  "precedingPermissionScope": [
+    "Atomic local candidate commits",
+    "Push repair branch and proof PR; four-platform release CI",
+    "Strict four check contexts with zero bypass and disposable actual denial proof",
+    "Declared P to independent A to GitHub run provenance/index"
+  ],
+  "repository": "wxxb789/funnysharp",
+  "availableCliActor": {
+    "login": "wxxb789",
+    "id": 49564443
+  },
+  "packagePublicationAuthorized": false,
+  "normalSuccessfulMergeAuthorized": false,
+  "originalGoalAndAll69CriteriaUnchanged": true,
+  "sourceHumanAcceptanceStillValid": true,
+  "oldAuthorizationMissingRecordsHistorical": true
+}

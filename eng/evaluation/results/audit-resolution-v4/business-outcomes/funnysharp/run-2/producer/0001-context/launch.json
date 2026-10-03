@@ -1,0 +1,10 @@
+{
+  "study": "audit-resolution-v4",
+  "slot": "business-outcomes/funnysharp/run-2",
+  "sessionId": "study-session:4ff0e735-1e92-4dac-b128-a9924c820034",
+  "invocationId": "native-call:6f0b41f9-8a51-47bb-80a1-d798e607b7be",
+  "route": "native-omo-cli/5.1.9/json-print",
+  "requestedModel": "ghc/gpt-6.1-sol",
+  "stdin": "closed",
+  "status": "PREPARED_NOT_CALLED"
+}

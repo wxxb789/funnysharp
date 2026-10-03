@@ -6,6 +6,19 @@ on:
     branches:
       - main
   workflow_dispatch:
+    inputs:
+      provenance_mode:
+        description: Release proof or immutable provenance transport
+        type: choice
+        default: release
+        options:
+          - release
+          - freeze-producer
+          - stage-attestation
+      provenance_payload:
+        description: Gzip-base64 provenance JSON for transport modes
+        type: string
+        required: false
 
 permissions:
   contents: read
@@ -18,20 +31,31 @@ env:
   DOTNET_NOLOGO: true
   NUGET_XMLDOC_MODE: skip
   COMPATIBILITY_FEED: https://api.nuget.org/v3/index.json
+  CANDIDATE_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
 
 jobs:
   win-x64:
-    name: win-x64
+    name: ${{ inputs.provenance_mode && inputs.provenance_mode != 'release' && 'provenance transport / win-x64' || 'release / win-x64' }}
+    if: ${{ !inputs.provenance_mode || inputs.provenance_mode == 'release' }}
     runs-on: windows-2025
     timeout-minutes: 45
     steps:
       - name: Checkout
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ env.CANDIDATE_SHA }}
 
       - name: Setup .NET
         uses: actions/setup-dotnet@67a3573c9a986a3f9c594539f4ab511d57bb3ce9 # v4
         with:
           global-json-file: global.json
+
+      - name: Record runtime provenance
+        shell: bash
+        run: |
+          dotnet --info
+          printf 'CANDIDATE_SHA=%s\nRUNNER_OS=%s\nRUNNER_ARCH=%s\nIMAGE_OS=%s\nIMAGE_VERSION=%s\n' "$CANDIDATE_SHA" "$RUNNER_OS" "$RUNNER_ARCH" "${ImageOS:-}" "${ImageVersion:-}"
+
 
       # Benchmarks are a developer-machine activity (docs/release-readiness.md):
       # CI verifies the approved observation via performance-docs-verify instead
@@ -50,8 +74,8 @@ jobs:
         with:
           name: canonical-candidate-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
-            artifacts/release-candidate/${{ github.sha }}/${{ github.run_id }}-${{ github.run_attempt }}-win-x64
-            !artifacts/release-candidate/${{ github.sha }}/${{ github.run_id }}-${{ github.run_attempt }}-win-x64/nuget-packages/**
+            artifacts/release-candidate/${{ env.CANDIDATE_SHA }}/${{ github.run_id }}-${{ github.run_attempt }}-win-x64
+            !artifacts/release-candidate/${{ env.CANDIDATE_SHA }}/${{ github.run_id }}-${{ github.run_attempt }}-win-x64/nuget-packages/**
           if-no-files-found: error
           retention-days: 7
 
@@ -61,24 +85,34 @@ jobs:
         with:
           name: release-evidence-win-x64-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
-            artifacts/release-candidate/${{ github.sha }}/${{ github.run_id }}-${{ github.run_attempt }}-win-x64
-            !artifacts/release-candidate/${{ github.sha }}/${{ github.run_id }}-${{ github.run_attempt }}-win-x64/nuget-packages/**
+            artifacts/release-candidate/${{ env.CANDIDATE_SHA }}/${{ github.run_id }}-${{ github.run_attempt }}-win-x64
+            !artifacts/release-candidate/${{ env.CANDIDATE_SHA }}/${{ github.run_id }}-${{ github.run_attempt }}-win-x64/nuget-packages/**
           if-no-files-found: error
           retention-days: 7
 
   linux-x64:
-    name: linux-x64
+    name: ${{ inputs.provenance_mode && inputs.provenance_mode != 'release' && 'provenance transport / linux-x64' || 'release / linux-x64' }}
+    if: ${{ !inputs.provenance_mode || inputs.provenance_mode == 'release' }}
     needs: win-x64
     runs-on: ubuntu-latest
     timeout-minutes: 35
     steps:
       - name: Checkout
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ env.CANDIDATE_SHA }}
 
       - name: Setup .NET
         uses: actions/setup-dotnet@67a3573c9a986a3f9c594539f4ab511d57bb3ce9 # v4
         with:
           global-json-file: global.json
+
+      - name: Record runtime provenance
+        shell: bash
+        run: |
+          dotnet --info
+          printf 'CANDIDATE_SHA=%s\nRUNNER_OS=%s\nRUNNER_ARCH=%s\nIMAGE_OS=%s\nIMAGE_VERSION=%s\n' "$CANDIDATE_SHA" "$RUNNER_OS" "$RUNNER_ARCH" "${ImageOS:-}" "${ImageVersion:-}"
+
 
       - name: Download canonical candidate
         uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
@@ -110,25 +144,35 @@ jobs:
         with:
           name: release-evidence-linux-x64-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
-            artifacts/release-candidate/${{ github.sha }}/${{ github.run_id }}-${{ github.run_attempt }}-linux-x64
-            !artifacts/release-candidate/${{ github.sha }}/${{ github.run_id }}-${{ github.run_attempt }}-linux-x64/nuget-packages/**
+            artifacts/release-candidate/${{ env.CANDIDATE_SHA }}/${{ github.run_id }}-${{ github.run_attempt }}-linux-x64
+            !artifacts/release-candidate/${{ env.CANDIDATE_SHA }}/${{ github.run_id }}-${{ github.run_attempt }}-linux-x64/nuget-packages/**
             artifacts/canonical-consumer/linux-x64
           if-no-files-found: error
           retention-days: 7
 
   osx-arm64:
-    name: osx-arm64
+    name: ${{ inputs.provenance_mode && inputs.provenance_mode != 'release' && 'provenance transport / osx-arm64' || 'release / osx-arm64' }}
+    if: ${{ !inputs.provenance_mode || inputs.provenance_mode == 'release' }}
     needs: win-x64
     runs-on: macos-14
     timeout-minutes: 35
     steps:
       - name: Checkout
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ env.CANDIDATE_SHA }}
 
       - name: Setup .NET
         uses: actions/setup-dotnet@67a3573c9a986a3f9c594539f4ab511d57bb3ce9 # v4
         with:
           global-json-file: global.json
+
+      - name: Record runtime provenance
+        shell: bash
+        run: |
+          dotnet --info
+          printf 'CANDIDATE_SHA=%s\nRUNNER_OS=%s\nRUNNER_ARCH=%s\nIMAGE_OS=%s\nIMAGE_VERSION=%s\n' "$CANDIDATE_SHA" "$RUNNER_OS" "$RUNNER_ARCH" "${ImageOS:-}" "${ImageVersion:-}"
+
 
       - name: Download canonical candidate
         uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
@@ -160,25 +204,35 @@ jobs:
         with:
           name: release-evidence-osx-arm64-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
-            artifacts/release-candidate/${{ github.sha }}/${{ github.run_id }}-${{ github.run_attempt }}-osx-arm64
-            !artifacts/release-candidate/${{ github.sha }}/${{ github.run_id }}-${{ github.run_attempt }}-osx-arm64/nuget-packages/**
+            artifacts/release-candidate/${{ env.CANDIDATE_SHA }}/${{ github.run_id }}-${{ github.run_attempt }}-osx-arm64
+            !artifacts/release-candidate/${{ env.CANDIDATE_SHA }}/${{ github.run_id }}-${{ github.run_attempt }}-osx-arm64/nuget-packages/**
             artifacts/canonical-consumer/osx-arm64
           if-no-files-found: error
           retention-days: 7
 
   osx-x64-consumer:
-    name: osx-x64-consumer
+    name: ${{ inputs.provenance_mode && inputs.provenance_mode != 'release' && 'provenance transport / osx-x64-consumer' || 'release / osx-x64-consumer' }}
+    if: ${{ !inputs.provenance_mode || inputs.provenance_mode == 'release' }}
     needs: win-x64
     runs-on: macos-15-intel
     timeout-minutes: 20
     steps:
       - name: Checkout
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ env.CANDIDATE_SHA }}
 
       - name: Setup .NET
         uses: actions/setup-dotnet@67a3573c9a986a3f9c594539f4ab511d57bb3ce9 # v4
         with:
           global-json-file: global.json
+
+      - name: Record runtime provenance
+        shell: bash
+        run: |
+          dotnet --info
+          printf 'CANDIDATE_SHA=%s\nRUNNER_OS=%s\nRUNNER_ARCH=%s\nIMAGE_OS=%s\nIMAGE_VERSION=%s\n' "$CANDIDATE_SHA" "$RUNNER_OS" "$RUNNER_ARCH" "${ImageOS:-}" "${ImageVersion:-}"
+
 
       - name: Download canonical candidate
         uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
@@ -204,3 +258,69 @@ jobs:
           path: artifacts/canonical-consumer/osx-x64
           if-no-files-found: error
           retention-days: 7
+
+  provenance:
+    name: release provenance transport
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.provenance_mode != 'release' }}
+    runs-on: windows-2025
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      actions: read
+      checks: read
+      pull-requests: read
+    env:
+      GH_TOKEN: ${{ github.token }}
+      RELEASE_PROVENANCE_PAYLOAD: ${{ inputs.provenance_payload }}
+      PROVENANCE_DIRECTORY: artifacts/release-provenance/${{ github.run_id }}-${{ github.run_attempt }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ env.CANDIDATE_SHA }}
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@67a3573c9a986a3f9c594539f4ab511d57bb3ce9 # v4
+        with:
+          global-json-file: global.json
+
+      - name: Record runtime provenance
+        shell: bash
+        run: |
+          dotnet --info
+          printf 'CANDIDATE_SHA=%s\nRUNNER_OS=%s\nRUNNER_ARCH=%s\nIMAGE_OS=%s\nIMAGE_VERSION=%s\n' "$CANDIDATE_SHA" "$RUNNER_OS" "$RUNNER_ARCH" "${ImageOS:-}" "${ImageVersion:-}"
+
+
+      - name: Freeze producer or stage attestation
+        shell: bash
+        run: >
+          dotnet fsi build.fsx -- -p release-provenance
+          -Mode "${{ inputs.provenance_mode }}"
+          -OutputDirectory "$PROVENANCE_DIRECTORY"
+
+      - name: Upload immutable provenance bytes
+        id: provenance-artifact
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: release-provenance-${{ inputs.provenance_mode }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ env.PROVENANCE_DIRECTORY }}
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: Write external index after immutable upload
+        if: ${{ inputs.provenance_mode == 'stage-attestation' }}
+        shell: bash
+        run: >
+          dotnet fsi build.fsx -- -p release-provenance
+          -Mode write-index
+          -OutputDirectory "$PROVENANCE_DIRECTORY"
+          -ArtifactUrl "${{ steps.provenance-artifact.outputs.artifact-url }}"
+
+      - name: Upload external index
+        if: ${{ inputs.provenance_mode == 'stage-attestation' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: release-index-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ env.PROVENANCE_DIRECTORY }}/index.json
+          if-no-files-found: error
+          retention-days: 90

@@ -1,0 +1,64 @@
+{
+  "schema": "funnysharp-v5-first-actual-native-semantic-proof/v1",
+  "study": "audit-resolution-v5",
+  "slot": "business-outcomes/idiomatic/run-1",
+  "logicalSessionId": "study-session:9e64725d-bead-46f5-b063-b0922e0394ba",
+  "invocationId": "native-call:4181098c-0815-403d-bc7c-f98d11917d2c",
+  "actualCliSessionId": "01a0fea0-5da2-7243-83b5-b20cd4ac216a",
+  "actualNativeExit": 0,
+  "actualProviderRequests": 1,
+  "exactDeveloperSystem355": true,
+  "exactUserRequestBytes": true,
+  "startupFiles": [],
+  "startupSkills": [],
+  "startupTools": [],
+  "inputFiles": 19,
+  "inputHashIssues": [],
+  "requestSha256": "6400255c991ad58451167291d9e794fb5a30f518cfc3d8969c87c2262aca9138",
+  "source": [
+    {
+      "path": "OrderWorkflow.cs",
+      "sha256": "5b9f15e55df9d51bc778348e3cd893cd910dde42ae4cbc421e23b5fc98d20b66",
+      "expected": "5b9f15e55df9d51bc778348e3cd893cd910dde42ae4cbc421e23b5fc98d20b66"
+    }
+  ],
+  "producerReceipt": "eng/evaluation/results/audit-resolution-v5/business-outcomes/idiomatic/run-1/producer/0001.json",
+  "grade": {
+    "exitCode": 0,
+    "record": {
+      "task": "business-outcomes",
+      "style": "idiomatic",
+      "run": "run-1",
+      "round": 1,
+      "compilation": {
+        "ok": true,
+        "errors": 0,
+        "buildSeconds": 9.7
+      },
+      "semanticCorrectness": {
+        "ok": true,
+        "total": 10,
+        "failed": 0,
+        "succeeded": 10,
+        "skipped": 0
+      },
+      "apiMisuse": {
+        "fsDiagnostics": []
+      },
+      "consumerLoc": 68,
+      "verdict": "GREEN",
+      "evidenceKind": "generation-verification"
+    },
+    "kind": "generation-verification",
+    "round": 1,
+    "corrected": false,
+    "manualSourceChanges": 0
+  },
+  "cleanup": {
+    "query": "Exact ownedomo.exe path substring audit-resolution-v5/business-outcomes/idiomatic/run-1",
+    "exitCode": 0,
+    "output": "(no output)",
+    "ownedPidsAbsent": true
+  },
+  "limits": "Only1of20final-input slots accepted locally. Remaining19owned by originalparentmonitors/3boundedchildren; all69/owner/release pending."
+}

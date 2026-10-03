@@ -40,6 +40,40 @@ public class EffectBenchmarks
     private static readonly Effect<Result<int, string>> AsynchronousScopedEffect =
         Effect.FromValue(default(AsynchronousResource)).UsingAsync(static _ => CompletedValueEffect);
 
+    [GlobalSetup]
+    public void Setup() => BenchmarkPreflight.CaptureChild(this);
+
+    internal async Task<object?> NormalizePreflightAsync(object? value)
+    {
+        var environments = new[]
+        {
+            new BenchmarkEnvironment(-1),
+            new BenchmarkEnvironment(0),
+            new BenchmarkEnvironment(3),
+        };
+        Result<int, string>[] results;
+        if (value is Func<BenchmarkEnvironment, Result<int, string>> operation)
+        {
+            results = environments.Select(operation).ToArray();
+        }
+        else if (value is Effect<BenchmarkEnvironment, Result<int, string>> effect)
+        {
+            results = new Result<int, string>[environments.Length];
+            for (var index = 0; index < environments.Length; index++)
+            {
+                results[index] = await effect.RunAsync(environments[index]).ConfigureAwait(false);
+            }
+        }
+        else
+        {
+            results = new[] { (Result<int, string>)value! };
+        }
+        return results.Select(result => result.TryGetValue(out var item)
+            ? new { valid = true, value = item, errors = Array.Empty<string>() }
+            : new { valid = false, value = 0, errors = new[] { result.Match(_ => "", error => error) } })
+            .ToArray();
+    }
+
     [Benchmark(Baseline = true)]
     [BenchmarkCategory("Wrapper construction")]
     public Func<BenchmarkEnvironment, Result<int, string>> DirectSynchronousWrapperConstruction() =>

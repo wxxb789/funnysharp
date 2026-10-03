@@ -1,0 +1,5761 @@
+{
+  "schema": "funnysharp-reviewed-xml-only-source-relocation/v1",
+  "priorCoverageSha256": "f7368776bcf79b4aa0cae8cb949b83d07a7d868851bae6be4f2368651056e8c3",
+  "state": "EXACT_BEFORE_SHA_AND_NON_XML_SOURCE_RANGE_EXCERPTS_PROVED_FINAL_BINDING_SEPARATE",
+  "files": [
+    {
+      "path": "src/FunnySharp/AsyncCardinalityExtensions.cs",
+      "reviewedBeforeSha256": "ab85da8213bee74761ef4cd8b3bc5a0d4080d0a4ec2633571398acd912b2335f",
+      "beforeSha256": "ab85da8213bee74761ef4cd8b3bc5a0d4080d0a4ec2633571398acd912b2335f",
+      "afterSha256": "13a7d3790f2b5323aaa8636dade911614f4bd525011ad1e26c1a7f4c9429e28b",
+      "beforeExact": true,
+      "nonXmlExactlyEqual": true
+    },
+    {
+      "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+      "reviewedBeforeSha256": "1fe38d1b2ea3a1de9d22f43ae59a06848e9d1bd7f60ac9dee3999377b2e0a98f",
+      "beforeSha256": "1fe38d1b2ea3a1de9d22f43ae59a06848e9d1bd7f60ac9dee3999377b2e0a98f",
+      "afterSha256": "28d9549c202603dbe44c6075754f7ef1ef9edfca67bd486e0434742b66e69a17",
+      "beforeExact": true,
+      "nonXmlExactlyEqual": true
+    },
+    {
+      "path": "src/FunnySharp/CardinalityExtensions.cs",
+      "reviewedBeforeSha256": "e065a22f3de54ce71089ca5ad97fa01a466e1d7142ae9b83d7e2ba458e5d2325",
+      "beforeSha256": "e065a22f3de54ce71089ca5ad97fa01a466e1d7142ae9b83d7e2ba458e5d2325",
+      "afterSha256": "e311c9f0e93671b61ecbf5eee45155f301f03ed833da0a99b0ad0dd554ab2dfa",
+      "beforeExact": true,
+      "nonXmlExactlyEqual": true
+    },
+    {
+      "path": "src/FunnySharp/ConcurrentEffectExtensions.cs",
+      "reviewedBeforeSha256": "276f2713cf48651d75572fdd37b690cd11137f3180b422eb8950b83067b4e808",
+      "beforeSha256": "276f2713cf48651d75572fdd37b690cd11137f3180b422eb8950b83067b4e808",
+      "afterSha256": "176bf79c84b87d981e5ce6003f8af3e5539aece10f78c807bb013d45f1598fee",
+      "beforeExact": true,
+      "nonXmlExactlyEqual": true
+    },
+    {
+      "path": "src/FunnySharp/Effect.cs",
+      "reviewedBeforeSha256": "fdbe43b2a5f5cadf2d2bbd85a790f57b384b4d618c97bbf4435c4e853aee9c76",
+      "beforeSha256": "fdbe43b2a5f5cadf2d2bbd85a790f57b384b4d618c97bbf4435c4e853aee9c76",
+      "afterSha256": "8ece89909512180966e1fa38996e0b96d61e41c629ad18952a16645b87f71474",
+      "beforeExact": true,
+      "nonXmlExactlyEqual": true
+    },
+    {
+      "path": "src/FunnySharp/EffectResourceExtensions.cs",
+      "reviewedBeforeSha256": "575159f5e78775f0ec66a82ed4cab5f0a9594b22ec6aae2d3d4ce25cb8f494db",
+      "beforeSha256": "575159f5e78775f0ec66a82ed4cab5f0a9594b22ec6aae2d3d4ce25cb8f494db",
+      "afterSha256": "c21180895314c9f6cc2e4872e1c90bb2e7522c80db594cf568e7b7af662b0532",
+      "beforeExact": true,
+      "nonXmlExactlyEqual": true
+    },
+    {
+      "path": "src/FunnySharp/FunctionExtensions.cs",
+      "reviewedBeforeSha256": "c1e49f01451d1662a0162dbe2af1cbbf2d30a08317826b51c04a621bb8bd7389",
+      "beforeSha256": "c1e49f01451d1662a0162dbe2af1cbbf2d30a08317826b51c04a621bb8bd7389",
+      "afterSha256": "9782605bad2a01c89829cab4b86c8642f844a11b3ad4f06fe39bb7b21f16c785",
+      "beforeExact": true,
+      "nonXmlExactlyEqual": true
+    },
+    {
+      "path": "src/FunnySharp/NonEmpty.cs",
+      "reviewedBeforeSha256": "de7e2b8863d53fa4a6dab4a2657848cbf0141723bbb550376d413c8b7c0e35db",
+      "beforeSha256": "de7e2b8863d53fa4a6dab4a2657848cbf0141723bbb550376d413c8b7c0e35db",
+      "afterSha256": "1364b433e70add597fa34ca896a99118f99657882ce2593e9e4decd1a6220cea",
+      "beforeExact": true,
+      "nonXmlExactlyEqual": true
+    },
+    {
+      "path": "src/FunnySharp/Option.cs",
+      "reviewedBeforeSha256": "4ecec374778b197f1a26d5888e1d8c28a42dd0df680511f2714237f7a162eb7e",
+      "beforeSha256": "4ecec374778b197f1a26d5888e1d8c28a42dd0df680511f2714237f7a162eb7e",
+      "afterSha256": "2ab65969adf550465692cfa812ad2e8cc182306e1c2660eb549e1d21d873da36",
+      "beforeExact": true,
+      "nonXmlExactlyEqual": true
+    },
+    {
+      "path": "src/FunnySharp/OptionExtensions.cs",
+      "reviewedBeforeSha256": "72a2c67e5c138b7f973efcae906380d927643e3dad24763c6faa57242fcf5cda",
+      "beforeSha256": "72a2c67e5c138b7f973efcae906380d927643e3dad24763c6faa57242fcf5cda",
+      "afterSha256": "2c3f4bd0d1657f3fb93abaa101882230b5505184170c70315bc4803db4dea3a2",
+      "beforeExact": true,
+      "nonXmlExactlyEqual": true
+    },
+    {
+      "path": "src/FunnySharp/ParallelAsyncSequenceExtensions.cs",
+      "reviewedBeforeSha256": "07f7408dd7dbf40223031845cef848827381ccef267063ddf72029471e79ba0e",
+      "beforeSha256": "07f7408dd7dbf40223031845cef848827381ccef267063ddf72029471e79ba0e",
+      "afterSha256": "daa3b01123dca8f1f721906ed11f9b43d52630cac4480fc4e65a6595451ac47b",
+      "beforeExact": true,
+      "nonXmlExactlyEqual": true
+    },
+    {
+      "path": "src/FunnySharp/PartitionExtensions.cs",
+      "reviewedBeforeSha256": "a8cabbe32fbc84f0586a0f2870029639e74059d82f14c49aea255878a53ece93",
+      "beforeSha256": "a8cabbe32fbc84f0586a0f2870029639e74059d82f14c49aea255878a53ece93",
+      "afterSha256": "54414223c3dc4d0ac0b1b93b7abb8076c8720f1d276ad651f3dd19b38f502e7b",
+      "beforeExact": true,
+      "nonXmlExactlyEqual": true
+    },
+    {
+      "path": "src/FunnySharp/Result.cs",
+      "reviewedBeforeSha256": "5f34bb7755d4193059dc1bf9c4b0c1998c3debb3d4953acf5184e5c1a8ad83e9",
+      "beforeSha256": "5f34bb7755d4193059dc1bf9c4b0c1998c3debb3d4953acf5184e5c1a8ad83e9",
+      "afterSha256": "4e17f5ea36d1d6de9a963bc6f2b9900a5fe15e29fefe7e68ab1fdec45a9762b9",
+      "beforeExact": true,
+      "nonXmlExactlyEqual": true
+    },
+    {
+      "path": "src/FunnySharp/ResultExtensions.cs",
+      "reviewedBeforeSha256": "00186d19c9b2517f08e95391a69c265ae81ddfe7aa69a467e0c3a49e2b151d12",
+      "beforeSha256": "00186d19c9b2517f08e95391a69c265ae81ddfe7aa69a467e0c3a49e2b151d12",
+      "afterSha256": "3e08b3a64582430309052a61dc34fb68b6fc2a2331a44325dd54c70ed70af61b",
+      "beforeExact": true,
+      "nonXmlExactlyEqual": true
+    },
+    {
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "reviewedBeforeSha256": "f10244bbb9e6fd5791a665316213294a09f8a3099a6ded5c2a0a9db8f0be1f80",
+      "beforeSha256": "f10244bbb9e6fd5791a665316213294a09f8a3099a6ded5c2a0a9db8f0be1f80",
+      "afterSha256": "480804a00dfd2a6e0cce1d6cfc8a8a1c427c6a6c254482a1c991b050e53e6b9d",
+      "beforeExact": true,
+      "nonXmlExactlyEqual": true
+    },
+    {
+      "path": "src/FunnySharp/UnitResultExtensions.cs",
+      "reviewedBeforeSha256": "a6b1bb930a0120ab6ac3e3dde73fb2b6c33c998cae025533ede0dce213927f2d",
+      "beforeSha256": "a6b1bb930a0120ab6ac3e3dde73fb2b6c33c998cae025533ede0dce213927f2d",
+      "afterSha256": "18fdd7647fb79a66e53cd71135f74499076cc678a937f0f366c61fffde89ff05",
+      "beforeExact": true,
+      "nonXmlExactlyEqual": true
+    },
+    {
+      "path": "src/FunnySharp/Validation.cs",
+      "reviewedBeforeSha256": "5c14eceb10847046bf36cdfc4496e3e249a96541dc52b86e6ddacf27797e8626",
+      "beforeSha256": "5c14eceb10847046bf36cdfc4496e3e249a96541dc52b86e6ddacf27797e8626",
+      "afterSha256": "dd05968085c15247c63cbb321a4fcbfff425570f679c5b7fb163dfa34905c182",
+      "beforeExact": true,
+      "nonXmlExactlyEqual": true
+    },
+    {
+      "path": "src/FunnySharp/ValidationExtensions.cs",
+      "reviewedBeforeSha256": "ed4a5e4cd6a1be3c8f75d1d64679258e8cfc4b1981dc8faf123b44b8bfa735d9",
+      "beforeSha256": "ed4a5e4cd6a1be3c8f75d1d64679258e8cfc4b1981dc8faf123b44b8bfa735d9",
+      "afterSha256": "a60fa22d6c631154805cf1679c003c9bbaad8ff8b9576964b72e4770002c5c70",
+      "beforeExact": true,
+      "nonXmlExactlyEqual": true
+    }
+  ],
+  "ranges": [
+    {
+      "where": "root.members[0].source",
+      "path": "src/FunnySharp/AsyncCardinalityExtensions.cs",
+      "before": {
+        "firstLine": 259,
+        "lastLine": 266
+      },
+      "after": {
+        "firstLine": 273,
+        "lastLine": 280
+      },
+      "nonXmlExcerptSha256": "339da21ea7f3f65e046a40af2ada8f97f73bf25e970edcb7abf431e9172acc9b"
+    },
+    {
+      "where": "root.members[0].implementationRanges[0]",
+      "path": "src/FunnySharp/AsyncCardinalityExtensions.cs",
+      "before": {
+        "firstLine": 385,
+        "lastLine": 405
+      },
+      "after": {
+        "firstLine": 399,
+        "lastLine": 419
+      },
+      "nonXmlExcerptSha256": "95910727407f3e77711135a7598bfb7efba814164687726de3a538ec073bca77"
+    },
+    {
+      "where": "root.members[1].source",
+      "path": "src/FunnySharp/AsyncCardinalityExtensions.cs",
+      "before": {
+        "firstLine": 115,
+        "lastLine": 128
+      },
+      "after": {
+        "firstLine": 129,
+        "lastLine": 142
+      },
+      "nonXmlExcerptSha256": "69d540c0ec63e68474f5794ff79a0f7e9c9c6f16fd8c77e2d641fa9c656b8f0e"
+    },
+    {
+      "where": "root.members[1].implementationRanges[0]",
+      "path": "src/FunnySharp/AsyncCardinalityExtensions.cs",
+      "before": {
+        "firstLine": 318,
+        "lastLine": 335
+      },
+      "after": {
+        "firstLine": 332,
+        "lastLine": 349
+      },
+      "nonXmlExcerptSha256": "cfb81f9a8d7f2c898ed3976c5a96b83f978a10a7e3dbc0305a16a984bd92d767"
+    },
+    {
+      "where": "root.members[2].source",
+      "path": "src/FunnySharp/AsyncCardinalityExtensions.cs",
+      "before": {
+        "firstLine": 34,
+        "lastLine": 41
+      },
+      "after": {
+        "firstLine": 37,
+        "lastLine": 44
+      },
+      "nonXmlExcerptSha256": "171fecec33c1529aba9680152377ac05093622a95f321a034bdd03eac2d91d29"
+    },
+    {
+      "where": "root.members[2].implementationRanges[0]",
+      "path": "src/FunnySharp/AsyncCardinalityExtensions.cs",
+      "before": {
+        "firstLine": 268,
+        "lastLine": 278
+      },
+      "after": {
+        "firstLine": 282,
+        "lastLine": 292
+      },
+      "nonXmlExcerptSha256": "64972813f0786922e1a8ad59e90ce0a69b93942d389db02831ec49496f06ab96"
+    },
+    {
+      "where": "root.members[3].source",
+      "path": "src/FunnySharp/AsyncCardinalityExtensions.cs",
+      "before": {
+        "firstLine": 59,
+        "lastLine": 66
+      },
+      "after": {
+        "firstLine": 66,
+        "lastLine": 73
+      },
+      "nonXmlExcerptSha256": "3f7917a98e7e6b297c238a00e32ba1da28778a8701d763412a988901876dd048"
+    },
+    {
+      "where": "root.members[3].implementationRanges[0]",
+      "path": "src/FunnySharp/AsyncCardinalityExtensions.cs",
+      "before": {
+        "firstLine": 280,
+        "lastLine": 293
+      },
+      "after": {
+        "firstLine": 294,
+        "lastLine": 307
+      },
+      "nonXmlExcerptSha256": "1a8938f9b0820441b07ec0f2e446015f85750846175bd70053f759007e7ff5a2"
+    },
+    {
+      "where": "root.members[4].source",
+      "path": "src/FunnySharp/AsyncCardinalityExtensions.cs",
+      "before": {
+        "firstLine": 231,
+        "lastLine": 240
+      },
+      "after": {
+        "firstLine": 245,
+        "lastLine": 254
+      },
+      "nonXmlExcerptSha256": "74e2a1c2db12ad735669bd7385a432b7c8b72b3d0f033c6c7db69f763b6a36aa"
+    },
+    {
+      "where": "root.members[4].implementationRanges[0]",
+      "path": "src/FunnySharp/AsyncCardinalityExtensions.cs",
+      "before": {
+        "firstLine": 361,
+        "lastLine": 383
+      },
+      "after": {
+        "firstLine": 375,
+        "lastLine": 397
+      },
+      "nonXmlExcerptSha256": "bba79f7b00e75b53d91fa5ca0d7d02fbcd6a50f4617a5f873f8a3be16c7ca23c"
+    },
+    {
+      "where": "root.members[5].source",
+      "path": "src/FunnySharp/AsyncCardinalityExtensions.cs",
+      "before": {
+        "firstLine": 204,
+        "lastLine": 207
+      },
+      "after": {
+        "firstLine": 218,
+        "lastLine": 221
+      },
+      "nonXmlExcerptSha256": "f36832700c9da04b3697e1556f59bf16984cc002a3cfdcb254677e5950b74be1"
+    },
+    {
+      "where": "root.members[5].implementationRanges[0]",
+      "path": "src/FunnySharp/AsyncCardinalityExtensions.cs",
+      "before": {
+        "firstLine": 231,
+        "lastLine": 240
+      },
+      "after": {
+        "firstLine": 245,
+        "lastLine": 254
+      },
+      "nonXmlExcerptSha256": "74e2a1c2db12ad735669bd7385a432b7c8b72b3d0f033c6c7db69f763b6a36aa"
+    },
+    {
+      "where": "root.members[5].implementationRanges[1]",
+      "path": "src/FunnySharp/AsyncCardinalityExtensions.cs",
+      "before": {
+        "firstLine": 361,
+        "lastLine": 383
+      },
+      "after": {
+        "firstLine": 375,
+        "lastLine": 397
+      },
+      "nonXmlExcerptSha256": "bba79f7b00e75b53d91fa5ca0d7d02fbcd6a50f4617a5f873f8a3be16c7ca23c"
+    },
+    {
+      "where": "root.members[6].source",
+      "path": "src/FunnySharp/AsyncCardinalityExtensions.cs",
+      "before": {
+        "firstLine": 175,
+        "lastLine": 184
+      },
+      "after": {
+        "firstLine": 189,
+        "lastLine": 198
+      },
+      "nonXmlExcerptSha256": "9dfcb97e335ca2a1b3ee39ef2cbfb91baa4508e2c1440fe3e69abf7c14b321e8"
+    },
+    {
+      "where": "root.members[6].implementationRanges[0]",
+      "path": "src/FunnySharp/AsyncCardinalityExtensions.cs",
+      "before": {
+        "firstLine": 337,
+        "lastLine": 359
+      },
+      "after": {
+        "firstLine": 351,
+        "lastLine": 373
+      },
+      "nonXmlExcerptSha256": "9ed13d002c6369f571c6010726a5b2570b14ce803c870b24d89d27e96c5209c9"
+    },
+    {
+      "where": "root.members[7].source",
+      "path": "src/FunnySharp/AsyncCardinalityExtensions.cs",
+      "before": {
+        "firstLine": 148,
+        "lastLine": 151
+      },
+      "after": {
+        "firstLine": 162,
+        "lastLine": 165
+      },
+      "nonXmlExcerptSha256": "dcdcb31df9eb6ca79adbe0b7b10cf48ab26001e8dd8ea8d6fdd946f4fc3fc778"
+    },
+    {
+      "where": "root.members[7].implementationRanges[0]",
+      "path": "src/FunnySharp/AsyncCardinalityExtensions.cs",
+      "before": {
+        "firstLine": 175,
+        "lastLine": 184
+      },
+      "after": {
+        "firstLine": 189,
+        "lastLine": 198
+      },
+      "nonXmlExcerptSha256": "9dfcb97e335ca2a1b3ee39ef2cbfb91baa4508e2c1440fe3e69abf7c14b321e8"
+    },
+    {
+      "where": "root.members[7].implementationRanges[1]",
+      "path": "src/FunnySharp/AsyncCardinalityExtensions.cs",
+      "before": {
+        "firstLine": 337,
+        "lastLine": 359
+      },
+      "after": {
+        "firstLine": 351,
+        "lastLine": 373
+      },
+      "nonXmlExcerptSha256": "9ed13d002c6369f571c6010726a5b2570b14ce803c870b24d89d27e96c5209c9"
+    },
+    {
+      "where": "root.members[8].source",
+      "path": "src/FunnySharp/AsyncCardinalityExtensions.cs",
+      "before": {
+        "firstLine": 87,
+        "lastLine": 94
+      },
+      "after": {
+        "firstLine": 98,
+        "lastLine": 105
+      },
+      "nonXmlExcerptSha256": "23887dc0a562dc19a0fd0e20af47d87b05e220949b8284d8a2a8cc3389de2e5d"
+    },
+    {
+      "where": "root.members[8].implementationRanges[0]",
+      "path": "src/FunnySharp/AsyncCardinalityExtensions.cs",
+      "before": {
+        "firstLine": 295,
+        "lastLine": 316
+      },
+      "after": {
+        "firstLine": 309,
+        "lastLine": 330
+      },
+      "nonXmlExcerptSha256": "bca2f0014afc040ce4b90e9f64e667f89f05bbcbd0112ca74a8d9551c97ed189"
+    },
+    {
+      "where": "root.members[17].source",
+      "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+      "before": {
+        "firstLine": 490,
+        "lastLine": 505
+      },
+      "after": {
+        "firstLine": 538,
+        "lastLine": 553
+      },
+      "nonXmlExcerptSha256": "8c1c1742a736428ac12c4985c241bbfb5d30671f2b7afeface068297f385b5f3"
+    },
+    {
+      "where": "root.members[18].source",
+      "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+      "before": {
+        "firstLine": 49,
+        "lastLine": 61
+      },
+      "after": {
+        "firstLine": 49,
+        "lastLine": 61
+      },
+      "nonXmlExcerptSha256": "b3211763d5688dcd893845ea6cd38b2395e4f6efabf91ec39bf4a8271ae8e0ef"
+    },
+    {
+      "where": "root.members[18].implementationRanges[0]",
+      "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+      "before": {
+        "firstLine": 849,
+        "lastLine": 867
+      },
+      "after": {
+        "firstLine": 897,
+        "lastLine": 915
+      },
+      "nonXmlExcerptSha256": "bd1960028cbf4ac034d4f5fd9c40a91e9412fa1e3b2f31ee07492744082e34e4"
+    },
+    {
+      "where": "root.members[19].source",
+      "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+      "before": {
+        "firstLine": 685,
+        "lastLine": 700
+      },
+      "after": {
+        "firstLine": 733,
+        "lastLine": 748
+      },
+      "nonXmlExcerptSha256": "9f5551ef89edb7179b918fd93237198bce65c40aceb4020ad8464e1452ac9121"
+    },
+    {
+      "where": "root.members[20].source",
+      "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+      "before": {
+        "firstLine": 109,
+        "lastLine": 118
+      },
+      "after": {
+        "firstLine": 109,
+        "lastLine": 118
+      },
+      "nonXmlExcerptSha256": "93e02c361d220ed109e24b227bf7b9a3359e14a10fe2d5192f80d08314f52c71"
+    },
+    {
+      "where": "root.members[20].implementationRanges[0]",
+      "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+      "before": {
+        "firstLine": 849,
+        "lastLine": 867
+      },
+      "after": {
+        "firstLine": 897,
+        "lastLine": 915
+      },
+      "nonXmlExcerptSha256": "bd1960028cbf4ac034d4f5fd9c40a91e9412fa1e3b2f31ee07492744082e34e4"
+    },
+    {
+      "where": "root.members[21].source",
+      "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+      "before": {
+        "firstLine": 79,
+        "lastLine": 91
+      },
+      "after": {
+        "firstLine": 79,
+        "lastLine": 91
+      },
+      "nonXmlExcerptSha256": "cae39f2611bb959c823a8c770add25fbcd2812b7d750953a7b349a8fd95cd412"
+    },
+    {
+      "where": "root.members[21].implementationRanges[0]",
+      "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+      "before": {
+        "firstLine": 849,
+        "lastLine": 867
+      },
+      "after": {
+        "firstLine": 897,
+        "lastLine": 915
+      },
+      "nonXmlExcerptSha256": "bd1960028cbf4ac034d4f5fd9c40a91e9412fa1e3b2f31ee07492744082e34e4"
+    },
+    {
+      "where": "root.members[22].source",
+      "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+      "before": {
+        "firstLine": 21,
+        "lastLine": 31
+      },
+      "after": {
+        "firstLine": 21,
+        "lastLine": 31
+      },
+      "nonXmlExcerptSha256": "f151ae9b0499a7f480eef0c61560316557cf5ef049159317667a788e3a6e0699"
+    },
+    {
+      "where": "root.members[22].implementationRanges[0]",
+      "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+      "before": {
+        "firstLine": 849,
+        "lastLine": 867
+      },
+      "after": {
+        "firstLine": 897,
+        "lastLine": 915
+      },
+      "nonXmlExcerptSha256": "bd1960028cbf4ac034d4f5fd9c40a91e9412fa1e3b2f31ee07492744082e34e4"
+    },
+    {
+      "where": "root.members[23].source",
+      "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+      "before": {
+        "firstLine": 539,
+        "lastLine": 554
+      },
+      "after": {
+        "firstLine": 587,
+        "lastLine": 602
+      },
+      "nonXmlExcerptSha256": "e6d817fa1cbceb7a3844f7760f351dce9aafdabbb0b936dd4032930f1e681ae0"
+    },
+    {
+      "where": "root.members[24].source",
+      "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+      "before": {
+        "firstLine": 161,
+        "lastLine": 173
+      },
+      "after": {
+        "firstLine": 169,
+        "lastLine": 181
+      },
+      "nonXmlExcerptSha256": "420cda303992edb0929d2fa410ca8e5dbadb1ca276d08826bdfd5c4c63eca34b"
+    },
+    {
+      "where": "root.members[24].implementationRanges[0]",
+      "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+      "before": {
+        "firstLine": 869,
+        "lastLine": 889
+      },
+      "after": {
+        "firstLine": 917,
+        "lastLine": 937
+      },
+      "nonXmlExcerptSha256": "36d1b0d4cbdd0aaf96d46f460545f0b95bd9dbaf865c46d337418669abcba5f5"
+    },
+    {
+      "where": "root.members[25].source",
+      "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+      "before": {
+        "firstLine": 734,
+        "lastLine": 749
+      },
+      "after": {
+        "firstLine": 782,
+        "lastLine": 797
+      },
+      "nonXmlExcerptSha256": "762f2cbf1a3b1e851dccfaa6236a8244f7f75d46aed09821fa9bf5792d1cf43c"
+    },
+    {
+      "where": "root.members[26].source",
+      "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+      "before": {
+        "firstLine": 223,
+        "lastLine": 232
+      },
+      "after": {
+        "firstLine": 239,
+        "lastLine": 248
+      },
+      "nonXmlExcerptSha256": "88ec5eff0f2090185e45795113bdaf457b05624aa6ea6e1c205f6b0494846e05"
+    },
+    {
+      "where": "root.members[26].implementationRanges[0]",
+      "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+      "before": {
+        "firstLine": 869,
+        "lastLine": 889
+      },
+      "after": {
+        "firstLine": 917,
+        "lastLine": 937
+      },
+      "nonXmlExcerptSha256": "36d1b0d4cbdd0aaf96d46f460545f0b95bd9dbaf865c46d337418669abcba5f5"
+    },
+    {
+      "where": "root.members[27].source",
+      "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+      "before": {
+        "firstLine": 192,
+        "lastLine": 204
+      },
+      "after": {
+        "firstLine": 204,
+        "lastLine": 216
+      },
+      "nonXmlExcerptSha256": "cc87a199aa45548509757bf46f5a336247c3fe3967184ded309843887163c529"
+    },
+    {
+      "where": "root.members[27].implementationRanges[0]",
+      "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+      "before": {
+        "firstLine": 869,
+        "lastLine": 889
+      },
+      "after": {
+        "firstLine": 917,
+        "lastLine": 937
+      },
+      "nonXmlExcerptSha256": "36d1b0d4cbdd0aaf96d46f460545f0b95bd9dbaf865c46d337418669abcba5f5"
+    },
+    {
+      "where": "root.members[28].source",
+      "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+      "before": {
+        "firstLine": 132,
+        "lastLine": 142
+      },
+      "after": {
+        "firstLine": 136,
+        "lastLine": 146
+      },
+      "nonXmlExcerptSha256": "0fc987406d000935f943a23eb5cd0330cb035574ec7b9c93ed3f614dd2e9383f"
+    },
+    {
+      "where": "root.members[28].implementationRanges[0]",
+      "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+      "before": {
+        "firstLine": 869,
+        "lastLine": 889
+      },
+      "after": {
+        "firstLine": 917,
+        "lastLine": 937
+      },
+      "nonXmlExcerptSha256": "36d1b0d4cbdd0aaf96d46f460545f0b95bd9dbaf865c46d337418669abcba5f5"
+    },
+    {
+      "where": "root.members[29].source",
+      "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+      "before": {
+        "firstLine": 245,
+        "lastLine": 255
+      },
+      "after": {
+        "firstLine": 265,
+        "lastLine": 275
+      },
+      "nonXmlExcerptSha256": "e4d3fca4e6177b020721ed8b25afd0736749ba3368ebec132b064241093cf56a"
+    },
+    {
+      "where": "root.members[29].implementationRanges[0]",
+      "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+      "before": {
+        "firstLine": 891,
+        "lastLine": 907
+      },
+      "after": {
+        "firstLine": 939,
+        "lastLine": 955
+      },
+      "nonXmlExcerptSha256": "57c4fb27621b44a1f5194b00f57959d7fa148dc6cdef1fa1ceabac6194f48b62"
+    },
+    {
+      "where": "root.members[30].source",
+      "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+      "before": {
+        "firstLine": 587,
+        "lastLine": 602
+      },
+      "after": {
+        "firstLine": 635,
+        "lastLine": 650
+      },
+      "nonXmlExcerptSha256": "7cfffb3929cd801adf78a0a2f5dc2d12423e7e67c42de1b5108c8103ff3da6e2"
+    },
+    {
+      "where": "root.members[31].source",
+      "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+      "before": {
+        "firstLine": 273,
+        "lastLine": 285
+      },
+      "after": {
+        "firstLine": 297,
+        "lastLine": 309
+      },
+      "nonXmlExcerptSha256": "22c0375ef4b0af78a9e5c2295f802265aed33147d821062caecd36b6a9b9cf5d"
+    },
+    {
+      "where": "root.members[31].implementationRanges[0]",
+      "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+      "before": {
+        "firstLine": 891,
+        "lastLine": 907
+      },
+      "after": {
+        "firstLine": 939,
+        "lastLine": 955
+      },
+      "nonXmlExcerptSha256": "57c4fb27621b44a1f5194b00f57959d7fa148dc6cdef1fa1ceabac6194f48b62"
+    },
+    {
+      "where": "root.members[32].source",
+      "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+      "before": {
+        "firstLine": 782,
+        "lastLine": 797
+      },
+      "after": {
+        "firstLine": 830,
+        "lastLine": 845
+      },
+      "nonXmlExcerptSha256": "af5872e903ad16fe63956bfff78ad46a0f1d65fb1bc872e6f4ea2baee525141a"
+    },
+    {
+      "where": "root.members[33].source",
+      "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+      "before": {
+        "firstLine": 333,
+        "lastLine": 342
+      },
+      "after": {
+        "firstLine": 365,
+        "lastLine": 374
+      },
+      "nonXmlExcerptSha256": "c7dd957b2d136e9361eaf833258f9d45fbbf41b0965de3b670114561766b14e1"
+    },
+    {
+      "where": "root.members[33].implementationRanges[0]",
+      "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+      "before": {
+        "firstLine": 891,
+        "lastLine": 907
+      },
+      "after": {
+        "firstLine": 939,
+        "lastLine": 955
+      },
+      "nonXmlExcerptSha256": "57c4fb27621b44a1f5194b00f57959d7fa148dc6cdef1fa1ceabac6194f48b62"
+    },
+    {
+      "where": "root.members[34].source",
+      "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+      "before": {
+        "firstLine": 303,
+        "lastLine": 315
+      },
+      "after": {
+        "firstLine": 331,
+        "lastLine": 343
+      },
+      "nonXmlExcerptSha256": "24671f2fc3435e86a194593a5015ab881b08b8d167f329677aeab2fb8cdad2ce"
+    },
+    {
+      "where": "root.members[34].implementationRanges[0]",
+      "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+      "before": {
+        "firstLine": 891,
+        "lastLine": 907
+      },
+      "after": {
+        "firstLine": 939,
+        "lastLine": 955
+      },
+      "nonXmlExcerptSha256": "57c4fb27621b44a1f5194b00f57959d7fa148dc6cdef1fa1ceabac6194f48b62"
+    },
+    {
+      "where": "root.members[35].source",
+      "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+      "before": {
+        "firstLine": 637,
+        "lastLine": 652
+      },
+      "after": {
+        "firstLine": 685,
+        "lastLine": 700
+      },
+      "nonXmlExcerptSha256": "e70ba0b31dc955bd935fe3ecd828f636f8c4150dc67c7c806705e499a30d1b6b"
+    },
+    {
+      "where": "root.members[36].source",
+      "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+      "before": {
+        "firstLine": 386,
+        "lastLine": 398
+      },
+      "after": {
+        "firstLine": 426,
+        "lastLine": 438
+      },
+      "nonXmlExcerptSha256": "84c30dceab634262a4a04f8516f701be41be763d6e20dbc45e4746746a5dd8c4"
+    },
+    {
+      "where": "root.members[36].implementationRanges[0]",
+      "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+      "before": {
+        "firstLine": 909,
+        "lastLine": 943
+      },
+      "after": {
+        "firstLine": 957,
+        "lastLine": 991
+      },
+      "nonXmlExcerptSha256": "c0799507613b3eee2ba5e50e54c16cc02f942c6844b6d47ebc9c389fef9605a8"
+    },
+    {
+      "where": "root.members[37].source",
+      "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+      "before": {
+        "firstLine": 832,
+        "lastLine": 847
+      },
+      "after": {
+        "firstLine": 880,
+        "lastLine": 895
+      },
+      "nonXmlExcerptSha256": "a1c502e843ed847ea3d6445fb4b8c21bd119847ec30ed3ebf24ab3c9620fb55b"
+    },
+    {
+      "where": "root.members[38].source",
+      "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+      "before": {
+        "firstLine": 448,
+        "lastLine": 457
+      },
+      "after": {
+        "firstLine": 496,
+        "lastLine": 505
+      },
+      "nonXmlExcerptSha256": "24579057ad63a3dc81b53b2fb66ff1ec920dbde548f10fd2cd4e51cad60b2ca2"
+    },
+    {
+      "where": "root.members[38].implementationRanges[0]",
+      "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+      "before": {
+        "firstLine": 909,
+        "lastLine": 943
+      },
+      "after": {
+        "firstLine": 957,
+        "lastLine": 991
+      },
+      "nonXmlExcerptSha256": "c0799507613b3eee2ba5e50e54c16cc02f942c6844b6d47ebc9c389fef9605a8"
+    },
+    {
+      "where": "root.members[39].source",
+      "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+      "before": {
+        "firstLine": 417,
+        "lastLine": 429
+      },
+      "after": {
+        "firstLine": 461,
+        "lastLine": 473
+      },
+      "nonXmlExcerptSha256": "a57a1a2460b1e0a2c04e0c148c6a81b65c736ee090ca769bcfa2bdbf9b8e4741"
+    },
+    {
+      "where": "root.members[39].implementationRanges[0]",
+      "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+      "before": {
+        "firstLine": 909,
+        "lastLine": 943
+      },
+      "after": {
+        "firstLine": 957,
+        "lastLine": 991
+      },
+      "nonXmlExcerptSha256": "c0799507613b3eee2ba5e50e54c16cc02f942c6844b6d47ebc9c389fef9605a8"
+    },
+    {
+      "where": "root.members[40].source",
+      "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+      "before": {
+        "firstLine": 357,
+        "lastLine": 367
+      },
+      "after": {
+        "firstLine": 393,
+        "lastLine": 403
+      },
+      "nonXmlExcerptSha256": "6d1d823e8bbbaa5240aaa0e1f56532e67c00a4660d710a2e2081b9a5d08f8816"
+    },
+    {
+      "where": "root.members[40].implementationRanges[0]",
+      "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+      "before": {
+        "firstLine": 909,
+        "lastLine": 943
+      },
+      "after": {
+        "firstLine": 957,
+        "lastLine": 991
+      },
+      "nonXmlExcerptSha256": "c0799507613b3eee2ba5e50e54c16cc02f942c6844b6d47ebc9c389fef9605a8"
+    },
+    {
+      "where": "root.members[41].source",
+      "path": "src/FunnySharp/CardinalityExtensions.cs",
+      "before": {
+        "firstLine": 454,
+        "lastLine": 472
+      },
+      "after": {
+        "firstLine": 455,
+        "lastLine": 473
+      },
+      "nonXmlExcerptSha256": "d880bd4dbb5e8204acdd86cd66da30b2c0b716248465a99358a4db7741baea4e"
+    },
+    {
+      "where": "root.members[41].implementationRanges[0]",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 1204,
+        "lastLine": 1205
+      },
+      "after": {
+        "firstLine": 1260,
+        "lastLine": 1261
+      },
+      "nonXmlExcerptSha256": "bd683d65929ad2771e950c7e9232604562227ebc5586e077d7a8f97ca1d8283f"
+    },
+    {
+      "where": "root.members[42].source",
+      "path": "src/FunnySharp/CardinalityExtensions.cs",
+      "before": {
+        "firstLine": 261,
+        "lastLine": 303
+      },
+      "after": {
+        "firstLine": 262,
+        "lastLine": 304
+      },
+      "nonXmlExcerptSha256": "4fb56d269d855e963e8dc6aa1dfc8fa1af98f645d78ce6070000ef873a19a820"
+    },
+    {
+      "where": "root.members[43].source",
+      "path": "src/FunnySharp/CardinalityExtensions.cs",
+      "before": {
+        "firstLine": 33,
+        "lastLine": 43
+      },
+      "after": {
+        "firstLine": 34,
+        "lastLine": 44
+      },
+      "nonXmlExcerptSha256": "382c8140bb1f8e0d71cfc2c165224c10ac6b26f98f3ca72605649ef26298c213"
+    },
+    {
+      "where": "root.members[44].source",
+      "path": "src/FunnySharp/CardinalityExtensions.cs",
+      "before": {
+        "firstLine": 63,
+        "lastLine": 77
+      },
+      "after": {
+        "firstLine": 64,
+        "lastLine": 78
+      },
+      "nonXmlExcerptSha256": "5b27e47cfa83e08474f958fff5948d1a9eb6e60286120fc9fc70b319c74dd75b"
+    },
+    {
+      "where": "root.members[45].source",
+      "path": "src/FunnySharp/CardinalityExtensions.cs",
+      "before": {
+        "firstLine": 95,
+        "lastLine": 108
+      },
+      "after": {
+        "firstLine": 96,
+        "lastLine": 109
+      },
+      "nonXmlExcerptSha256": "31a77660d6c4d512a45eb4a4b4d3bd733912526047ccaeb6d423468c561cc094"
+    },
+    {
+      "where": "root.members[46].source",
+      "path": "src/FunnySharp/CardinalityExtensions.cs",
+      "before": {
+        "firstLine": 129,
+        "lastLine": 146
+      },
+      "after": {
+        "firstLine": 130,
+        "lastLine": 147
+      },
+      "nonXmlExcerptSha256": "f2d5966522a1496ebfae08b04de5332da1d05cb6d247761975141856ba1ca1ca"
+    },
+    {
+      "where": "root.members[47].source",
+      "path": "src/FunnySharp/CardinalityExtensions.cs",
+      "before": {
+        "firstLine": 387,
+        "lastLine": 388
+      },
+      "after": {
+        "firstLine": 388,
+        "lastLine": 389
+      },
+      "nonXmlExcerptSha256": "4761dea6a42b11ebe02d816699c8c3f6219a163b4525ecca9c84f417f7fd9cf8"
+    },
+    {
+      "where": "root.members[47].implementationRanges[0]",
+      "path": "src/FunnySharp/CardinalityExtensions.cs",
+      "before": {
+        "firstLine": 411,
+        "lastLine": 433
+      },
+      "after": {
+        "firstLine": 412,
+        "lastLine": 434
+      },
+      "nonXmlExcerptSha256": "1bcb63ff9276d620c5f5547032ce24739ddf8837155c1175c52523f64a9d022e"
+    },
+    {
+      "where": "root.members[48].source",
+      "path": "src/FunnySharp/CardinalityExtensions.cs",
+      "before": {
+        "firstLine": 411,
+        "lastLine": 433
+      },
+      "after": {
+        "firstLine": 412,
+        "lastLine": 434
+      },
+      "nonXmlExcerptSha256": "1bcb63ff9276d620c5f5547032ce24739ddf8837155c1175c52523f64a9d022e"
+    },
+    {
+      "where": "root.members[49].source",
+      "path": "src/FunnySharp/CardinalityExtensions.cs",
+      "before": {
+        "firstLine": 322,
+        "lastLine": 323
+      },
+      "after": {
+        "firstLine": 323,
+        "lastLine": 324
+      },
+      "nonXmlExcerptSha256": "fd22c65ee809ae139a5f06f0901309177888e53632becfcfab8dfab0b9cf5c0e"
+    },
+    {
+      "where": "root.members[49].implementationRanges[0]",
+      "path": "src/FunnySharp/CardinalityExtensions.cs",
+      "before": {
+        "firstLine": 346,
+        "lastLine": 368
+      },
+      "after": {
+        "firstLine": 347,
+        "lastLine": 369
+      },
+      "nonXmlExcerptSha256": "d14c4d0b37b60f6a174867120506f9d2469730ef1a9089333121c97deb024a9a"
+    },
+    {
+      "where": "root.members[50].source",
+      "path": "src/FunnySharp/CardinalityExtensions.cs",
+      "before": {
+        "firstLine": 346,
+        "lastLine": 368
+      },
+      "after": {
+        "firstLine": 347,
+        "lastLine": 369
+      },
+      "nonXmlExcerptSha256": "d14c4d0b37b60f6a174867120506f9d2469730ef1a9089333121c97deb024a9a"
+    },
+    {
+      "where": "root.members[51].source",
+      "path": "src/FunnySharp/CardinalityExtensions.cs",
+      "before": {
+        "firstLine": 170,
+        "lastLine": 188
+      },
+      "after": {
+        "firstLine": 171,
+        "lastLine": 189
+      },
+      "nonXmlExcerptSha256": "a615a3f10adad1ff1ee991032f0ffa76eed2a27474a571d8c830d0c5052ba849"
+    },
+    {
+      "where": "root.members[52].source",
+      "path": "src/FunnySharp/CardinalityExtensions.cs",
+      "before": {
+        "firstLine": 216,
+        "lastLine": 240
+      },
+      "after": {
+        "firstLine": 217,
+        "lastLine": 241
+      },
+      "nonXmlExcerptSha256": "9b593ec2b811722601ac1ba7252b17c30e4c034defa87152efbef74f812c30dc"
+    },
+    {
+      "where": "root.members[53].source",
+      "path": "src/FunnySharp/ConcurrentEffectExtensions.cs",
+      "before": {
+        "firstLine": 37,
+        "lastLine": 43
+      },
+      "after": {
+        "firstLine": 38,
+        "lastLine": 44
+      },
+      "nonXmlExcerptSha256": "cc13d069555ce0e6fd38479e8dcff4d21e534ce166b03109f146dfe718f057ca"
+    },
+    {
+      "where": "root.members[53].mechanismSources[0]",
+      "path": "src/FunnySharp/ConcurrentEffectExtensions.cs",
+      "before": {
+        "firstLine": 149,
+        "lastLine": 398
+      },
+      "after": {
+        "firstLine": 153,
+        "lastLine": 402
+      },
+      "nonXmlExcerptSha256": "4c114aa05f8563e50089e26094766042ecde7e1b30cf9f806928d8c7fbe748b0"
+    },
+    {
+      "where": "root.members[54].source",
+      "path": "src/FunnySharp/ConcurrentEffectExtensions.cs",
+      "before": {
+        "firstLine": 64,
+        "lastLine": 68
+      },
+      "after": {
+        "firstLine": 66,
+        "lastLine": 70
+      },
+      "nonXmlExcerptSha256": "f0c011105efb509f5e3f15239e5374e6fde5f6bb0803034aac30558920a1463b"
+    },
+    {
+      "where": "root.members[54].mechanismSources[0]",
+      "path": "src/FunnySharp/ConcurrentEffectExtensions.cs",
+      "before": {
+        "firstLine": 149,
+        "lastLine": 398
+      },
+      "after": {
+        "firstLine": 153,
+        "lastLine": 402
+      },
+      "nonXmlExcerptSha256": "4c114aa05f8563e50089e26094766042ecde7e1b30cf9f806928d8c7fbe748b0"
+    },
+    {
+      "where": "root.members[55].source",
+      "path": "src/FunnySharp/ConcurrentEffectExtensions.cs",
+      "before": {
+        "firstLine": 92,
+        "lastLine": 97
+      },
+      "after": {
+        "firstLine": 95,
+        "lastLine": 100
+      },
+      "nonXmlExcerptSha256": "556780377cfe33e882e77663b8be26d73add7942c7bc73f32471268bb8ae2459"
+    },
+    {
+      "where": "root.members[55].mechanismSources[0]",
+      "path": "src/FunnySharp/ConcurrentEffectExtensions.cs",
+      "before": {
+        "firstLine": 149,
+        "lastLine": 398
+      },
+      "after": {
+        "firstLine": 153,
+        "lastLine": 402
+      },
+      "nonXmlExcerptSha256": "4c114aa05f8563e50089e26094766042ecde7e1b30cf9f806928d8c7fbe748b0"
+    },
+    {
+      "where": "root.members[56].source",
+      "path": "src/FunnySharp/ConcurrentEffectExtensions.cs",
+      "before": {
+        "firstLine": 125,
+        "lastLine": 147
+      },
+      "after": {
+        "firstLine": 129,
+        "lastLine": 151
+      },
+      "nonXmlExcerptSha256": "70cf1adf2e32135617e6e939ce02a5c5b2cdf3faf73d8d7f6c2f5f294ac2695f"
+    },
+    {
+      "where": "root.members[56].mechanismSources[0]",
+      "path": "src/FunnySharp/ConcurrentEffectExtensions.cs",
+      "before": {
+        "firstLine": 149,
+        "lastLine": 398
+      },
+      "after": {
+        "firstLine": 153,
+        "lastLine": 402
+      },
+      "nonXmlExcerptSha256": "4c114aa05f8563e50089e26094766042ecde7e1b30cf9f806928d8c7fbe748b0"
+    },
+    {
+      "where": "root.members[65].source",
+      "path": "src/FunnySharp/Effect.cs",
+      "before": {
+        "firstLine": 26,
+        "lastLine": 28
+      },
+      "after": {
+        "firstLine": 26,
+        "lastLine": 28
+      },
+      "nonXmlExcerptSha256": "4396666d54bbb681d506dcf38a4f02f2670f6b54b28a8e38e302151deb3111b7"
+    },
+    {
+      "where": "root.members[66].source",
+      "path": "src/FunnySharp/Effect.cs",
+      "before": {
+        "firstLine": 50,
+        "lastLine": 54
+      },
+      "after": {
+        "firstLine": 50,
+        "lastLine": 54
+      },
+      "nonXmlExcerptSha256": "0db9208f0d586c126b0bedb87ac5c34177f5ff8603d7ac67b5b6dc3cf60855ec"
+    },
+    {
+      "where": "root.members[67].source",
+      "path": "src/FunnySharp/Effect.cs",
+      "before": {
+        "firstLine": 37,
+        "lastLine": 41
+      },
+      "after": {
+        "firstLine": 37,
+        "lastLine": 41
+      },
+      "nonXmlExcerptSha256": "3860ffc426dcc4e82436244e1a4ca95304344725abc54a649942619a37a405e3"
+    },
+    {
+      "where": "root.members[68].source",
+      "path": "src/FunnySharp/Effect.cs",
+      "before": {
+        "firstLine": 76,
+        "lastLine": 80
+      },
+      "after": {
+        "firstLine": 76,
+        "lastLine": 80
+      },
+      "nonXmlExcerptSha256": "a7af30d5d2517e9edac3e5b3c851f072d9f2c07930b9af6e41f05bd834ef8d50"
+    },
+    {
+      "where": "root.members[69].source",
+      "path": "src/FunnySharp/Effect.cs",
+      "before": {
+        "firstLine": 63,
+        "lastLine": 67
+      },
+      "after": {
+        "firstLine": 63,
+        "lastLine": 67
+      },
+      "nonXmlExcerptSha256": "3c36cf3b2ed3d530a539951e79e5c79bbbb06f79e7453ee5ae6abd30186c98dd"
+    },
+    {
+      "where": "root.members[70].source",
+      "path": "src/FunnySharp/Effect.cs",
+      "before": {
+        "firstLine": 16,
+        "lastLine": 17
+      },
+      "after": {
+        "firstLine": 16,
+        "lastLine": 17
+      },
+      "nonXmlExcerptSha256": "1e4c077a8fa5f3188c22c248fbe061174d19dd97f29a71d4530a4a30ba47502f"
+    },
+    {
+      "where": "root.members[71].source",
+      "path": "src/FunnySharp/Effect.cs",
+      "before": {
+        "firstLine": 102,
+        "lastLine": 106
+      },
+      "after": {
+        "firstLine": 102,
+        "lastLine": 106
+      },
+      "nonXmlExcerptSha256": "d7213289783ed06f2829ee61e46550a2bd8387f538b3518d0cfcef7683d40ef1"
+    },
+    {
+      "where": "root.members[72].source",
+      "path": "src/FunnySharp/Effect.cs",
+      "before": {
+        "firstLine": 89,
+        "lastLine": 93
+      },
+      "after": {
+        "firstLine": 89,
+        "lastLine": 93
+      },
+      "nonXmlExcerptSha256": "bc6018f3b9a041427d1ddd18654e00ef6278164799e38c2462824ff5bc949a21"
+    },
+    {
+      "where": "root.members[73].source",
+      "path": "src/FunnySharp/Effect.cs",
+      "before": {
+        "firstLine": 130,
+        "lastLine": 135
+      },
+      "after": {
+        "firstLine": 130,
+        "lastLine": 135
+      },
+      "nonXmlExcerptSha256": "7b0103c362cadff16da89c139b0d7f53a96389e545f9a4ae9716c25a3b1fdf58"
+    },
+    {
+      "where": "root.members[74].source",
+      "path": "src/FunnySharp/Effect.cs",
+      "before": {
+        "firstLine": 116,
+        "lastLine": 120
+      },
+      "after": {
+        "firstLine": 116,
+        "lastLine": 120
+      },
+      "nonXmlExcerptSha256": "253e9af9a8e9a527fcba7a364ac4c38a697138e7bdb5f03e4284d7d5e3eb1eb6"
+    },
+    {
+      "where": "root.members[75].source",
+      "path": "src/FunnySharp/Effect.cs",
+      "before": {
+        "firstLine": 159,
+        "lastLine": 164
+      },
+      "after": {
+        "firstLine": 159,
+        "lastLine": 164
+      },
+      "nonXmlExcerptSha256": "73abfbb4893e21829f4c3f849e363d57d886d2698380afa768ec937d4a8fa3d4"
+    },
+    {
+      "where": "root.members[76].source",
+      "path": "src/FunnySharp/Effect.cs",
+      "before": {
+        "firstLine": 145,
+        "lastLine": 149
+      },
+      "after": {
+        "firstLine": 145,
+        "lastLine": 149
+      },
+      "nonXmlExcerptSha256": "ef2598b7a06aefa3e1136965e535ef48beb4a37e118997d8ee4eee7aaabdba80"
+    },
+    {
+      "where": "root.members[77].source",
+      "path": "src/FunnySharp/Effect.cs",
+      "before": {
+        "firstLine": 189,
+        "lastLine": 194
+      },
+      "after": {
+        "firstLine": 189,
+        "lastLine": 194
+      },
+      "nonXmlExcerptSha256": "234fafbd3b122c2c73a37ac87842b99649e1fff346858e0c7691c83c9d13766f"
+    },
+    {
+      "where": "root.members[78].source",
+      "path": "src/FunnySharp/Effect.cs",
+      "before": {
+        "firstLine": 174,
+        "lastLine": 179
+      },
+      "after": {
+        "firstLine": 174,
+        "lastLine": 179
+      },
+      "nonXmlExcerptSha256": "fe6d8abdb131796f9c206cc7bbe19a33764ebea4bf9a216849e1de7c48b9bc2e"
+    },
+    {
+      "where": "root.members[79].source",
+      "path": "src/FunnySharp/EffectResourceExtensions.cs",
+      "before": {
+        "firstLine": 54,
+        "lastLine": 62
+      },
+      "after": {
+        "firstLine": 81,
+        "lastLine": 89
+      },
+      "nonXmlExcerptSha256": "b81de81d2c0e9f1549c336f75669157f194c592978af8991981f91df5162d93a"
+    },
+    {
+      "where": "root.members[80].source",
+      "path": "src/FunnySharp/EffectResourceExtensions.cs",
+      "before": {
+        "firstLine": 74,
+        "lastLine": 82
+      },
+      "after": {
+        "firstLine": 110,
+        "lastLine": 118
+      },
+      "nonXmlExcerptSha256": "aac61e71da2ea221dabf8b72092016b2cdb26e974864ec4f5b86f44d05f39ea8"
+    },
+    {
+      "where": "root.members[81].source",
+      "path": "src/FunnySharp/EffectResourceExtensions.cs",
+      "before": {
+        "firstLine": 17,
+        "lastLine": 24
+      },
+      "after": {
+        "firstLine": 26,
+        "lastLine": 33
+      },
+      "nonXmlExcerptSha256": "f2e3f745662a0c6dff9335ca6435b05aa924e94709ff758ac7b73fd50625a121"
+    },
+    {
+      "where": "root.members[82].source",
+      "path": "src/FunnySharp/EffectResourceExtensions.cs",
+      "before": {
+        "firstLine": 35,
+        "lastLine": 42
+      },
+      "after": {
+        "firstLine": 53,
+        "lastLine": 60
+      },
+      "nonXmlExcerptSha256": "6e81127cf636ffcc9274dfec707a37d3a2eac180de719825ed353414f655f6cc"
+    },
+    {
+      "where": "root.members[83].source",
+      "path": "src/FunnySharp/Effect.cs",
+      "before": {
+        "firstLine": 301,
+        "lastLine": 305
+      },
+      "after": {
+        "firstLine": 312,
+        "lastLine": 316
+      },
+      "nonXmlExcerptSha256": "237d93a9a9ef0bdfccac014785e4d84a60d4aea5cc3be2ffc0c59e3f9c8e0a5f"
+    },
+    {
+      "where": "root.members[84].source",
+      "path": "src/FunnySharp/Effect.cs",
+      "before": {
+        "firstLine": 289,
+        "lastLine": 294
+      },
+      "after": {
+        "firstLine": 300,
+        "lastLine": 305
+      },
+      "nonXmlExcerptSha256": "20672babdce9554bfe79c362504b5a2229ad91a10fc198886e16a477b16b955b"
+    },
+    {
+      "where": "root.members[85].source",
+      "path": "src/FunnySharp/Effect.cs",
+      "before": {
+        "firstLine": 275,
+        "lastLine": 280
+      },
+      "after": {
+        "firstLine": 280,
+        "lastLine": 285
+      },
+      "nonXmlExcerptSha256": "f3a46c953c359a7b5176cb079705bae8de3569bb01ee49e1b148ee1393692c38"
+    },
+    {
+      "where": "root.members[86].source",
+      "path": "src/FunnySharp/Effect.cs",
+      "before": {
+        "firstLine": 313,
+        "lastLine": 313
+      },
+      "after": {
+        "firstLine": 325,
+        "lastLine": 325
+      },
+      "nonXmlExcerptSha256": "2741952eca46610e59da4f310afa4d3c7d31f78022ff851b75eeaeb01c04c3fd"
+    },
+    {
+      "where": "root.members[87].source",
+      "path": "src/FunnySharp/Effect.cs",
+      "before": {
+        "firstLine": 326,
+        "lastLine": 338
+      },
+      "after": {
+        "firstLine": 338,
+        "lastLine": 350
+      },
+      "nonXmlExcerptSha256": "35c4316f8d34c0183609c4caadffa859757cff0edb4b6dd2438a9691607b46e7"
+    },
+    {
+      "where": "root.members[88].source",
+      "path": "src/FunnySharp/Effect.cs",
+      "before": {
+        "firstLine": 263,
+        "lastLine": 266
+      },
+      "after": {
+        "firstLine": 268,
+        "lastLine": 271
+      },
+      "nonXmlExcerptSha256": "995840f71559fe2d60a2f1b448cf7cb1bef4b622d58c09ebe7874fb573a13c8d"
+    },
+    {
+      "where": "root.members[89].source",
+      "path": "src/FunnySharp/Effect.cs",
+      "before": {
+        "firstLine": 399,
+        "lastLine": 403
+      },
+      "after": {
+        "firstLine": 416,
+        "lastLine": 420
+      },
+      "nonXmlExcerptSha256": "affca35cecff62f91cad09351f34f1b37d5abd8a708c955b0a1843f289c0bc04"
+    },
+    {
+      "where": "root.members[90].source",
+      "path": "src/FunnySharp/Effect.cs",
+      "before": {
+        "firstLine": 427,
+        "lastLine": 433
+      },
+      "after": {
+        "firstLine": 451,
+        "lastLine": 457
+      },
+      "nonXmlExcerptSha256": "5f4a03a96c8c6e9fb86447586ee00c1230c68a35a8eb847240cadef1c1d5accd"
+    },
+    {
+      "where": "root.members[91].source",
+      "path": "src/FunnySharp/Effect.cs",
+      "before": {
+        "firstLine": 454,
+        "lastLine": 468
+      },
+      "after": {
+        "firstLine": 479,
+        "lastLine": 493
+      },
+      "nonXmlExcerptSha256": "c8a1af5051f54bf7a696f927b36a462937d189ebb8d70129e4b71df4929f8462"
+    },
+    {
+      "where": "root.members[92].source",
+      "path": "src/FunnySharp/Effect.cs",
+      "before": {
+        "firstLine": 412,
+        "lastLine": 418
+      },
+      "after": {
+        "firstLine": 429,
+        "lastLine": 435
+      },
+      "nonXmlExcerptSha256": "3a17d1087edd364b4562fb5925770d9896031924186d42cecd53964098e8a58d"
+    },
+    {
+      "where": "root.members[93].source",
+      "path": "src/FunnySharp/Effect.cs",
+      "before": {
+        "firstLine": 441,
+        "lastLine": 441
+      },
+      "after": {
+        "firstLine": 466,
+        "lastLine": 466
+      },
+      "nonXmlExcerptSha256": "4fe85071d078fab714bd639ffcfdf3c4ace2261c380035976de22135d9f903aa"
+    },
+    {
+      "where": "root.members[94].source",
+      "path": "src/FunnySharp/Effect.cs",
+      "before": {
+        "firstLine": 389,
+        "lastLine": 392
+      },
+      "after": {
+        "firstLine": 406,
+        "lastLine": 409
+      },
+      "nonXmlExcerptSha256": "bae7657c539c3e23cf915bed524842dfb5b60b398d2a87d099d43553842c4b7e"
+    },
+    {
+      "where": "root.members[101].source",
+      "path": "src/FunnySharp/FunctionExtensions.cs",
+      "before": {
+        "firstLine": 199,
+        "lastLine": 211
+      },
+      "after": {
+        "firstLine": 210,
+        "lastLine": 222
+      },
+      "nonXmlExcerptSha256": "f58080a09f2454ac830263c990ba2a1650f0334b6d24a1428f7137295b3c36ea"
+    },
+    {
+      "where": "root.members[102].source",
+      "path": "src/FunnySharp/FunctionExtensions.cs",
+      "before": {
+        "firstLine": 153,
+        "lastLine": 165
+      },
+      "after": {
+        "firstLine": 162,
+        "lastLine": 174
+      },
+      "nonXmlExcerptSha256": "666be5b0ca259f26b841d2cebd208053e376e0e3d9368bb96dc26230eafb0c15"
+    },
+    {
+      "where": "root.members[103].source",
+      "path": "src/FunnySharp/FunctionExtensions.cs",
+      "before": {
+        "firstLine": 176,
+        "lastLine": 188
+      },
+      "after": {
+        "firstLine": 186,
+        "lastLine": 198
+      },
+      "nonXmlExcerptSha256": "0bfe05b77ca5aebe1685c3fdd8a223288b3fcb0ec9b215d177aa236af8ad0cf1"
+    },
+    {
+      "where": "root.members[104].source",
+      "path": "src/FunnySharp/FunctionExtensions.cs",
+      "before": {
+        "firstLine": 130,
+        "lastLine": 142
+      },
+      "after": {
+        "firstLine": 138,
+        "lastLine": 150
+      },
+      "nonXmlExcerptSha256": "45660a918867c0e8de54af33e0967e4fa0a3b19c7ff9c7179003e7b3c22625f3"
+    },
+    {
+      "where": "root.members[105].source",
+      "path": "src/FunnySharp/FunctionExtensions.cs",
+      "before": {
+        "firstLine": 31,
+        "lastLine": 39
+      },
+      "after": {
+        "firstLine": 33,
+        "lastLine": 41
+      },
+      "nonXmlExcerptSha256": "3de4945a09a5d872d30e4c7e9aa8a452d8c85e18fe8f792bcaf048a5371fe16a"
+    },
+    {
+      "where": "root.members[106].source",
+      "path": "src/FunnySharp/FunctionExtensions.cs",
+      "before": {
+        "firstLine": 49,
+        "lastLine": 55
+      },
+      "after": {
+        "firstLine": 52,
+        "lastLine": 58
+      },
+      "nonXmlExcerptSha256": "91d29c8ca61f1ab86eb6727c6dfc07e202ec56f5f2a35420454697115e1470c0"
+    },
+    {
+      "where": "root.members[107].source",
+      "path": "src/FunnySharp/FunctionExtensions.cs",
+      "before": {
+        "firstLine": 65,
+        "lastLine": 71
+      },
+      "after": {
+        "firstLine": 69,
+        "lastLine": 75
+      },
+      "nonXmlExcerptSha256": "b53e38c1efb6732750935adb2a6cc9f79f58d855616717500d3b4ac664730b5a"
+    },
+    {
+      "where": "root.members[108].source",
+      "path": "src/FunnySharp/FunctionExtensions.cs",
+      "before": {
+        "firstLine": 99,
+        "lastLine": 105
+      },
+      "after": {
+        "firstLine": 105,
+        "lastLine": 111
+      },
+      "nonXmlExcerptSha256": "3e91d6403f1fab8e594bb51c1dce2bf83d68cb19416ab9200ce7bd69081043d3"
+    },
+    {
+      "where": "root.members[109].source",
+      "path": "src/FunnySharp/FunctionExtensions.cs",
+      "before": {
+        "firstLine": 82,
+        "lastLine": 89
+      },
+      "after": {
+        "firstLine": 87,
+        "lastLine": 94
+      },
+      "nonXmlExcerptSha256": "69368f62d61999af6d9a4f261722ebd6677ed52ce9053c0c2e4958bd553a06fe"
+    },
+    {
+      "where": "root.members[110].source",
+      "path": "src/FunnySharp/FunctionExtensions.cs",
+      "before": {
+        "firstLine": 234,
+        "lastLine": 242
+      },
+      "after": {
+        "firstLine": 247,
+        "lastLine": 255
+      },
+      "nonXmlExcerptSha256": "67ebabfcb0fb60c3464196ae85f0d622931a0bc89dfe1f6f00dae9d4022505cf"
+    },
+    {
+      "where": "root.members[111].source",
+      "path": "src/FunnySharp/FunctionExtensions.cs",
+      "before": {
+        "firstLine": 220,
+        "lastLine": 224
+      },
+      "after": {
+        "firstLine": 232,
+        "lastLine": 236
+      },
+      "nonXmlExcerptSha256": "46ec14470151aa38a5c1e6ca243beacb470b2e0d474216bd4a81b0d43c20eddd"
+    },
+    {
+      "where": "root.members[112].source",
+      "path": "src/FunnySharp/FunctionExtensions.cs",
+      "before": {
+        "firstLine": 264,
+        "lastLine": 272
+      },
+      "after": {
+        "firstLine": 279,
+        "lastLine": 287
+      },
+      "nonXmlExcerptSha256": "dc3cf330eda038aae546a4e17000fe9981b72f367cf9848d3b8b531667b94bf9"
+    },
+    {
+      "where": "root.members[113].source",
+      "path": "src/FunnySharp/FunctionExtensions.cs",
+      "before": {
+        "firstLine": 250,
+        "lastLine": 254
+      },
+      "after": {
+        "firstLine": 264,
+        "lastLine": 268
+      },
+      "nonXmlExcerptSha256": "002eed5499f8e476e85cbb39eff759776bbe0bf266d7af603699943077d4d296"
+    },
+    {
+      "where": "root.members[114].source",
+      "path": "src/FunnySharp/FunctionExtensions.cs",
+      "before": {
+        "firstLine": 114,
+        "lastLine": 119
+      },
+      "after": {
+        "firstLine": 121,
+        "lastLine": 126
+      },
+      "nonXmlExcerptSha256": "c8c7ebbdc2b5bd5c9aa67df11704ed750c70e1785fecf7c13da789096e89f5d2"
+    },
+    {
+      "where": "root.members[115].source",
+      "path": "src/FunnySharp/FunctionExtensions.cs",
+      "before": {
+        "firstLine": 16,
+        "lastLine": 20
+      },
+      "after": {
+        "firstLine": 17,
+        "lastLine": 21
+      },
+      "nonXmlExcerptSha256": "854eb35e8641317cdfc38caf0fc7746a51ee7f61971a6bedc63bdedec1bbe07f"
+    },
+    {
+      "where": "root.members[135].source",
+      "path": "src/FunnySharp/NonEmpty.cs",
+      "before": {
+        "firstLine": 118,
+        "lastLine": 126
+      },
+      "after": {
+        "firstLine": 120,
+        "lastLine": 128
+      },
+      "nonXmlExcerptSha256": "1874b4b5e5fbed7906de2efac9e4940b343cba698b06b445afc813c4b4ff83f2"
+    },
+    {
+      "where": "root.members[135].implementationRanges[0]",
+      "path": "src/FunnySharp/NonEmpty.cs",
+      "before": {
+        "firstLine": 135,
+        "lastLine": 141
+      },
+      "after": {
+        "firstLine": 137,
+        "lastLine": 143
+      },
+      "nonXmlExcerptSha256": "cf8b55dff4907cc139ca3a3327dd71740b80dc6aa0fca116b5911704c8dffa19"
+    },
+    {
+      "where": "root.members[136].source",
+      "path": "src/FunnySharp/NonEmpty.cs",
+      "before": {
+        "firstLine": 132,
+        "lastLine": 133
+      },
+      "after": {
+        "firstLine": 134,
+        "lastLine": 135
+      },
+      "nonXmlExcerptSha256": "f854234ff3621a91bc0b1916dfa804b86aa1ec5ea79d786351a927c72d8f6d5e"
+    },
+    {
+      "where": "root.members[137].source",
+      "path": "src/FunnySharp/NonEmpty.cs",
+      "before": {
+        "firstLine": 92,
+        "lastLine": 104
+      },
+      "after": {
+        "firstLine": 94,
+        "lastLine": 106
+      },
+      "nonXmlExcerptSha256": "b8954cb9bbb1a2604b62d881b107402628d3ec374d5959f41090fa729e0e29b8"
+    },
+    {
+      "where": "root.members[137].implementationRanges[0]",
+      "path": "src/FunnySharp/NonEmpty.cs",
+      "before": {
+        "firstLine": 135,
+        "lastLine": 141
+      },
+      "after": {
+        "firstLine": 137,
+        "lastLine": 143
+      },
+      "nonXmlExcerptSha256": "cf8b55dff4907cc139ca3a3327dd71740b80dc6aa0fca116b5911704c8dffa19"
+    },
+    {
+      "where": "root.members[138].source",
+      "path": "src/FunnySharp/NonEmpty.cs",
+      "before": {
+        "firstLine": 56,
+        "lastLine": 63
+      },
+      "after": {
+        "firstLine": 58,
+        "lastLine": 65
+      },
+      "nonXmlExcerptSha256": "31d32f0c1820e674c2d394f578c7e86984f7e2d062c3dee640c53cb1d5179b9b"
+    },
+    {
+      "where": "root.members[138].implementationRanges[0]",
+      "path": "src/FunnySharp/NonEmpty.cs",
+      "before": {
+        "firstLine": 135,
+        "lastLine": 141
+      },
+      "after": {
+        "firstLine": 137,
+        "lastLine": 143
+      },
+      "nonXmlExcerptSha256": "cf8b55dff4907cc139ca3a3327dd71740b80dc6aa0fca116b5911704c8dffa19"
+    },
+    {
+      "where": "root.members[139].source",
+      "path": "src/FunnySharp/NonEmpty.cs",
+      "before": {
+        "firstLine": 69,
+        "lastLine": 76
+      },
+      "after": {
+        "firstLine": 71,
+        "lastLine": 78
+      },
+      "nonXmlExcerptSha256": "70d6b78ae1a97ee4aca5bc7734b69b106373ffd16c4a52048a8ffbf1c99b325c"
+    },
+    {
+      "where": "root.members[139].implementationRanges[0]",
+      "path": "src/FunnySharp/NonEmpty.cs",
+      "before": {
+        "firstLine": 135,
+        "lastLine": 141
+      },
+      "after": {
+        "firstLine": 137,
+        "lastLine": 143
+      },
+      "nonXmlExcerptSha256": "cf8b55dff4907cc139ca3a3327dd71740b80dc6aa0fca116b5911704c8dffa19"
+    },
+    {
+      "where": "root.members[140].source",
+      "path": "src/FunnySharp/NonEmpty.cs",
+      "before": {
+        "firstLine": 43,
+        "lastLine": 50
+      },
+      "after": {
+        "firstLine": 45,
+        "lastLine": 52
+      },
+      "nonXmlExcerptSha256": "df05a847ea4a00e4e849812040fec9cac202721520c7ae83ff798569e4126c03"
+    },
+    {
+      "where": "root.members[140].implementationRanges[0]",
+      "path": "src/FunnySharp/NonEmpty.cs",
+      "before": {
+        "firstLine": 135,
+        "lastLine": 141
+      },
+      "after": {
+        "firstLine": 137,
+        "lastLine": 143
+      },
+      "nonXmlExcerptSha256": "cf8b55dff4907cc139ca3a3327dd71740b80dc6aa0fca116b5911704c8dffa19"
+    },
+    {
+      "where": "root.members[141].source",
+      "path": "src/FunnySharp/Option.cs",
+      "before": {
+        "firstLine": 50,
+        "lastLine": 52
+      },
+      "after": {
+        "firstLine": 50,
+        "lastLine": 52
+      },
+      "nonXmlExcerptSha256": "a8c9e5e845abbdff5c9eca473fc15cb634fc68cd38aa39c4dac90da2d55cc221"
+    },
+    {
+      "where": "root.members[142].source",
+      "path": "src/FunnySharp/Option.cs",
+      "before": {
+        "firstLine": 40,
+        "lastLine": 42
+      },
+      "after": {
+        "firstLine": 40,
+        "lastLine": 42
+      },
+      "nonXmlExcerptSha256": "021b7070062e968aebc3f25f33a29c40002876c4340aa9b929cefbc91df8a8ed"
+    },
+    {
+      "where": "root.members[143].source",
+      "path": "src/FunnySharp/Option.cs",
+      "before": {
+        "firstLine": 32,
+        "lastLine": 32
+      },
+      "after": {
+        "firstLine": 32,
+        "lastLine": 32
+      },
+      "nonXmlExcerptSha256": "610298c1af7838ce07c97c906a43b3dc1ae7f9db7de8fb5b3d759ff818b5a86e"
+    },
+    {
+      "where": "root.members[144].source",
+      "path": "src/FunnySharp/Option.cs",
+      "before": {
+        "firstLine": 93,
+        "lastLine": 98
+      },
+      "after": {
+        "firstLine": 93,
+        "lastLine": 98
+      },
+      "nonXmlExcerptSha256": "86d1c8034cde9b24188f8be3a5592216024e3b2d0826474de6aedfae14b7cb06"
+    },
+    {
+      "where": "root.members[145].source",
+      "path": "src/FunnySharp/Option.cs",
+      "before": {
+        "firstLine": 79,
+        "lastLine": 80
+      },
+      "after": {
+        "firstLine": 79,
+        "lastLine": 80
+      },
+      "nonXmlExcerptSha256": "4823b6f6b9b835ecc339a3771b8ec51ac0a70fd703ebbf904c54c8a022f948b0"
+    },
+    {
+      "where": "root.members[146].source",
+      "path": "src/FunnySharp/Option.cs",
+      "before": {
+        "firstLine": 62,
+        "lastLine": 67
+      },
+      "after": {
+        "firstLine": 62,
+        "lastLine": 67
+      },
+      "nonXmlExcerptSha256": "e17c937490bfc956ecd9cc45c9db69c489f3eedff05fc4abdaba4fdb3daa84cd"
+    },
+    {
+      "where": "root.members[147].source",
+      "path": "src/FunnySharp/Option.cs",
+      "before": {
+        "firstLine": 25,
+        "lastLine": 25
+      },
+      "after": {
+        "firstLine": 25,
+        "lastLine": 25
+      },
+      "nonXmlExcerptSha256": "4a143fd0cd16cb8d6bcb6b683537b9cd454eae1f56621b62c3395898e3a8b481"
+    },
+    {
+      "where": "root.members[154].source",
+      "path": "src/FunnySharp/OptionExtensions.cs",
+      "before": {
+        "firstLine": 24,
+        "lastLine": 26
+      },
+      "after": {
+        "firstLine": 24,
+        "lastLine": 26
+      },
+      "nonXmlExcerptSha256": "94a9dec2e1544a890775baa467986246857e7926221d3e84e72c2896e6007901"
+    },
+    {
+      "where": "root.members[155].source",
+      "path": "src/FunnySharp/OptionExtensions.cs",
+      "before": {
+        "firstLine": 14,
+        "lastLine": 16
+      },
+      "after": {
+        "firstLine": 14,
+        "lastLine": 16
+      },
+      "nonXmlExcerptSha256": "c89aedf4d2a76cefe91805013c1391e329c04341dd9dcd2a24540abe2de5c623"
+    },
+    {
+      "where": "root.members[156].source",
+      "path": "src/FunnySharp/OptionExtensions.cs",
+      "before": {
+        "firstLine": 52,
+        "lastLine": 61
+      },
+      "after": {
+        "firstLine": 53,
+        "lastLine": 62
+      },
+      "nonXmlExcerptSha256": "3411c4ef0cc1d34ee2bfebd1d5802cde3095508cc047776f3e358777f9c5498a"
+    },
+    {
+      "where": "root.members[157].source",
+      "path": "src/FunnySharp/OptionExtensions.cs",
+      "before": {
+        "firstLine": 40,
+        "lastLine": 42
+      },
+      "after": {
+        "firstLine": 40,
+        "lastLine": 42
+      },
+      "nonXmlExcerptSha256": "a68dc8104258cabf1ca9e94c31d5be3f2e18cb7525ed0a5215e855dd25a69258"
+    },
+    {
+      "where": "root.members[158].source",
+      "path": "src/FunnySharp/OptionExtensions.cs",
+      "before": {
+        "firstLine": 252,
+        "lastLine": 257
+      },
+      "after": {
+        "firstLine": 327,
+        "lastLine": 332
+      },
+      "nonXmlExcerptSha256": "f9608cd0142f29406f42b8568d7c3c4c9f042e690a8041a08800456ebfae3efd"
+    },
+    {
+      "where": "root.members[159].source",
+      "path": "src/FunnySharp/OptionExtensions.cs",
+      "before": {
+        "firstLine": 238,
+        "lastLine": 243
+      },
+      "after": {
+        "firstLine": 308,
+        "lastLine": 313
+      },
+      "nonXmlExcerptSha256": "e894066e311ccb32981e3a48ca4983847e338fe7233652a20a3660248da6119a"
+    },
+    {
+      "where": "root.members[160].source",
+      "path": "src/FunnySharp/OptionExtensions.cs",
+      "before": {
+        "firstLine": 135,
+        "lastLine": 145
+      },
+      "after": {
+        "firstLine": 170,
+        "lastLine": 180
+      },
+      "nonXmlExcerptSha256": "69bc60851c93e465a778d07dcdab45ab70954e6d965353e71bf7545456384b5a"
+    },
+    {
+      "where": "root.members[161].source",
+      "path": "src/FunnySharp/OptionExtensions.cs",
+      "before": {
+        "firstLine": 114,
+        "lastLine": 123
+      },
+      "after": {
+        "firstLine": 140,
+        "lastLine": 149
+      },
+      "nonXmlExcerptSha256": "2b0bf764a097876f0d2fae6b4a1e9b98dc1942c7b88cd69e2284f729334d9576"
+    },
+    {
+      "where": "root.members[162].source",
+      "path": "src/FunnySharp/OptionExtensions.cs",
+      "before": {
+        "firstLine": 93,
+        "lastLine": 103
+      },
+      "after": {
+        "firstLine": 111,
+        "lastLine": 121
+      },
+      "nonXmlExcerptSha256": "d1e246b7fee4ea7f7bc851e505d48cf4ca00ccb0f70e3c3acc7553fc09343a44"
+    },
+    {
+      "where": "root.members[163].source",
+      "path": "src/FunnySharp/OptionExtensions.cs",
+      "before": {
+        "firstLine": 72,
+        "lastLine": 81
+      },
+      "after": {
+        "firstLine": 81,
+        "lastLine": 90
+      },
+      "nonXmlExcerptSha256": "0e1aa5c6e88781ebeac76cfb4a9c4870f48812fe1f927080b6654ca722e924a5"
+    },
+    {
+      "where": "root.members[164].source",
+      "path": "src/FunnySharp/OptionExtensions.cs",
+      "before": {
+        "firstLine": 275,
+        "lastLine": 277
+      },
+      "after": {
+        "firstLine": 360,
+        "lastLine": 362
+      },
+      "nonXmlExcerptSha256": "a302545bf8cef4bc6c0fe92ba31e99c80d8e47938f80f2ef7d431b3ba73c7939"
+    },
+    {
+      "where": "root.members[165].source",
+      "path": "src/FunnySharp/OptionExtensions.cs",
+      "before": {
+        "firstLine": 265,
+        "lastLine": 267
+      },
+      "after": {
+        "firstLine": 345,
+        "lastLine": 347
+      },
+      "nonXmlExcerptSha256": "16507493ce06250bcdf49a4b480b7790df02bb22b926bde7940b832c68d3f0e3"
+    },
+    {
+      "where": "root.members[166].source",
+      "path": "src/FunnySharp/OptionExtensions.cs",
+      "before": {
+        "firstLine": 219,
+        "lastLine": 229
+      },
+      "after": {
+        "firstLine": 284,
+        "lastLine": 294
+      },
+      "nonXmlExcerptSha256": "0bddd4c69d35ba1bb296d93ce088f5b7b61d9eabc8f9c9d2904ca27272c98fa9"
+    },
+    {
+      "where": "root.members[167].source",
+      "path": "src/FunnySharp/OptionExtensions.cs",
+      "before": {
+        "firstLine": 198,
+        "lastLine": 207
+      },
+      "after": {
+        "firstLine": 255,
+        "lastLine": 264
+      },
+      "nonXmlExcerptSha256": "647bb1bc8856a855f73e2f24288a23b140ea0db20d4a2385c12a128924b0b443"
+    },
+    {
+      "where": "root.members[168].source",
+      "path": "src/FunnySharp/OptionExtensions.cs",
+      "before": {
+        "firstLine": 177,
+        "lastLine": 187
+      },
+      "after": {
+        "firstLine": 227,
+        "lastLine": 237
+      },
+      "nonXmlExcerptSha256": "2fcb2a466cd20e3e0c90f5edd3131958c7c10aa874e422b1164726e408216a79"
+    },
+    {
+      "where": "root.members[169].source",
+      "path": "src/FunnySharp/OptionExtensions.cs",
+      "before": {
+        "firstLine": 156,
+        "lastLine": 165
+      },
+      "after": {
+        "firstLine": 198,
+        "lastLine": 207
+      },
+      "nonXmlExcerptSha256": "844bee295b3ca7d72a5b2de767669787e8a024109008766bde5534052feb08c0"
+    },
+    {
+      "where": "root.members[170].source",
+      "path": "src/FunnySharp/PartitionExtensions.cs",
+      "before": {
+        "firstLine": 34,
+        "lastLine": 34
+      },
+      "after": {
+        "firstLine": 34,
+        "lastLine": 34
+      },
+      "nonXmlExcerptSha256": "94eb0f4d121dca05a43043fb9e7360b75813a17d89421e51b5c47dd40f632018"
+    },
+    {
+      "where": "root.members[171].source",
+      "path": "src/FunnySharp/PartitionExtensions.cs",
+      "before": {
+        "firstLine": 34,
+        "lastLine": 34
+      },
+      "after": {
+        "firstLine": 34,
+        "lastLine": 34
+      },
+      "nonXmlExcerptSha256": "94eb0f4d121dca05a43043fb9e7360b75813a17d89421e51b5c47dd40f632018"
+    },
+    {
+      "where": "root.members[172].source",
+      "path": "src/FunnySharp/PartitionExtensions.cs",
+      "before": {
+        "firstLine": 34,
+        "lastLine": 34
+      },
+      "after": {
+        "firstLine": 34,
+        "lastLine": 34
+      },
+      "nonXmlExcerptSha256": "94eb0f4d121dca05a43043fb9e7360b75813a17d89421e51b5c47dd40f632018"
+    },
+    {
+      "where": "root.members[173].source",
+      "path": "src/FunnySharp/PartitionExtensions.cs",
+      "before": {
+        "firstLine": 34,
+        "lastLine": 34
+      },
+      "after": {
+        "firstLine": 34,
+        "lastLine": 34
+      },
+      "nonXmlExcerptSha256": "94eb0f4d121dca05a43043fb9e7360b75813a17d89421e51b5c47dd40f632018"
+    },
+    {
+      "where": "root.members[174].source",
+      "path": "src/FunnySharp/PartitionExtensions.cs",
+      "before": {
+        "firstLine": 34,
+        "lastLine": 34
+      },
+      "after": {
+        "firstLine": 34,
+        "lastLine": 34
+      },
+      "nonXmlExcerptSha256": "94eb0f4d121dca05a43043fb9e7360b75813a17d89421e51b5c47dd40f632018"
+    },
+    {
+      "where": "root.members[175].source",
+      "path": "src/FunnySharp/PartitionExtensions.cs",
+      "before": {
+        "firstLine": 34,
+        "lastLine": 34
+      },
+      "after": {
+        "firstLine": 34,
+        "lastLine": 34
+      },
+      "nonXmlExcerptSha256": "94eb0f4d121dca05a43043fb9e7360b75813a17d89421e51b5c47dd40f632018"
+    },
+    {
+      "where": "root.members[176].source",
+      "path": "src/FunnySharp/PartitionExtensions.cs",
+      "before": {
+        "firstLine": 34,
+        "lastLine": 34
+      },
+      "after": {
+        "firstLine": 34,
+        "lastLine": 34
+      },
+      "nonXmlExcerptSha256": "94eb0f4d121dca05a43043fb9e7360b75813a17d89421e51b5c47dd40f632018"
+    },
+    {
+      "where": "root.members[177].source",
+      "path": "src/FunnySharp/PartitionExtensions.cs",
+      "before": {
+        "firstLine": 34,
+        "lastLine": 34
+      },
+      "after": {
+        "firstLine": 34,
+        "lastLine": 34
+      },
+      "nonXmlExcerptSha256": "94eb0f4d121dca05a43043fb9e7360b75813a17d89421e51b5c47dd40f632018"
+    },
+    {
+      "where": "root.members[178].source",
+      "path": "src/FunnySharp/PartitionExtensions.cs",
+      "before": {
+        "firstLine": 34,
+        "lastLine": 34
+      },
+      "after": {
+        "firstLine": 34,
+        "lastLine": 34
+      },
+      "nonXmlExcerptSha256": "94eb0f4d121dca05a43043fb9e7360b75813a17d89421e51b5c47dd40f632018"
+    },
+    {
+      "where": "root.members[179].source",
+      "path": "src/FunnySharp/PartitionExtensions.cs",
+      "before": {
+        "firstLine": 34,
+        "lastLine": 34
+      },
+      "after": {
+        "firstLine": 34,
+        "lastLine": 34
+      },
+      "nonXmlExcerptSha256": "94eb0f4d121dca05a43043fb9e7360b75813a17d89421e51b5c47dd40f632018"
+    },
+    {
+      "where": "root.members[180].source",
+      "path": "src/FunnySharp/PartitionExtensions.cs",
+      "before": {
+        "firstLine": 34,
+        "lastLine": 34
+      },
+      "after": {
+        "firstLine": 34,
+        "lastLine": 34
+      },
+      "nonXmlExcerptSha256": "94eb0f4d121dca05a43043fb9e7360b75813a17d89421e51b5c47dd40f632018"
+    },
+    {
+      "where": "root.members[181].source",
+      "path": "src/FunnySharp/Option.cs",
+      "before": {
+        "firstLine": 232,
+        "lastLine": 235
+      },
+      "after": {
+        "firstLine": 235,
+        "lastLine": 238
+      },
+      "nonXmlExcerptSha256": "cc4788cac79c734417814886afc905a3d839262367f67c93111f30f54a34ab2e"
+    },
+    {
+      "where": "root.members[182].source",
+      "path": "src/FunnySharp/Option.cs",
+      "before": {
+        "firstLine": 219,
+        "lastLine": 224
+      },
+      "after": {
+        "firstLine": 222,
+        "lastLine": 227
+      },
+      "nonXmlExcerptSha256": "b6feb5323423cf89f4ac9a95048968600f846ab3fa38b021cf3b6be54efeac65"
+    },
+    {
+      "where": "root.members[183].source",
+      "path": "src/FunnySharp/Option.cs",
+      "before": {
+        "firstLine": 364,
+        "lastLine": 364
+      },
+      "after": {
+        "firstLine": 367,
+        "lastLine": 367
+      },
+      "nonXmlExcerptSha256": "e0c29f231b3eb30fc7097dc23eaf8e94794598284adf6fb25c6b7db5c3ec76e5"
+    },
+    {
+      "where": "root.members[184].source",
+      "path": "src/FunnySharp/Option.cs",
+      "before": {
+        "firstLine": 371,
+        "lastLine": 375
+      },
+      "after": {
+        "firstLine": 375,
+        "lastLine": 379
+      },
+      "nonXmlExcerptSha256": "d5c804af39274c9f12cf798ce2f3d9454f75e654c1714deea5220f0ed945190f"
+    },
+    {
+      "where": "root.members[185].source",
+      "path": "src/FunnySharp/Option.cs",
+      "before": {
+        "firstLine": 207,
+        "lastLine": 212
+      },
+      "after": {
+        "firstLine": 209,
+        "lastLine": 214
+      },
+      "nonXmlExcerptSha256": "dd1b164f7de7d94993d45f950b3d931b3088706a7aac9cf03c8adf957ee909de"
+    },
+    {
+      "where": "root.members[186].source",
+      "path": "src/FunnySharp/Option.cs",
+      "before": {
+        "firstLine": 398,
+        "lastLine": 413
+      },
+      "after": {
+        "firstLine": 402,
+        "lastLine": 417
+      },
+      "nonXmlExcerptSha256": "bd5c002aaf1b7750b926ba4e7617ab5f6df447ee6445b7b8101b3c6ae91ed5f5"
+    },
+    {
+      "where": "root.members[187].source",
+      "path": "src/FunnySharp/Option.cs",
+      "before": {
+        "firstLine": 248,
+        "lastLine": 257
+      },
+      "after": {
+        "firstLine": 251,
+        "lastLine": 260
+      },
+      "nonXmlExcerptSha256": "a22ae197b3e11746c91fae5d03e3470620d5f064d82764ad2f143ff414b55a58"
+    },
+    {
+      "where": "root.members[188].source",
+      "path": "src/FunnySharp/Option.cs",
+      "before": {
+        "firstLine": 301,
+        "lastLine": 315
+      },
+      "after": {
+        "firstLine": 304,
+        "lastLine": 318
+      },
+      "nonXmlExcerptSha256": "eeb87cedd1478ba51bcf91a499b61542303e453bb0ca36e64d5612271312bda0"
+    },
+    {
+      "where": "root.members[189].source",
+      "path": "src/FunnySharp/Option.cs",
+      "before": {
+        "firstLine": 272,
+        "lastLine": 284
+      },
+      "after": {
+        "firstLine": 275,
+        "lastLine": 287
+      },
+      "nonXmlExcerptSha256": "43fe08ec1e9775665f63be6e29d77ee7a0f05edf5d461e74c55e1db11419cfc7"
+    },
+    {
+      "where": "root.members[190].source",
+      "path": "src/FunnySharp/Option.cs",
+      "before": {
+        "firstLine": 194,
+        "lastLine": 199
+      },
+      "after": {
+        "firstLine": 196,
+        "lastLine": 201
+      },
+      "nonXmlExcerptSha256": "fef5c03a50ece9515d74e9401138985484192bea31ca3004da649cc83223dc97"
+    },
+    {
+      "where": "root.members[191].source",
+      "path": "src/FunnySharp/Option.cs",
+      "before": {
+        "firstLine": 384,
+        "lastLine": 384
+      },
+      "after": {
+        "firstLine": 388,
+        "lastLine": 388
+      },
+      "nonXmlExcerptSha256": "caa079f9e87e20acb819bdfa9f1c625b3274d04e88e3166a4395e93ced720117"
+    },
+    {
+      "where": "root.members[192].source",
+      "path": "src/FunnySharp/Option.cs",
+      "before": {
+        "firstLine": 136,
+        "lastLine": 139
+      },
+      "after": {
+        "firstLine": 136,
+        "lastLine": 139
+      },
+      "nonXmlExcerptSha256": "af9c733d4a8869c1932a873652a2f876ebc7762171a06d5ccdec9a84f3ad9733"
+    },
+    {
+      "where": "root.members[193].source",
+      "path": "src/FunnySharp/Option.cs",
+      "before": {
+        "firstLine": 432,
+        "lastLine": 432
+      },
+      "after": {
+        "firstLine": 437,
+        "lastLine": 437
+      },
+      "nonXmlExcerptSha256": "e2d1d55349b9c03252a208355f3192cc4978392b199acd4c28e55eb2049e0da6"
+    },
+    {
+      "where": "root.members[194].source",
+      "path": "src/FunnySharp/Option.cs",
+      "before": {
+        "firstLine": 437,
+        "lastLine": 437
+      },
+      "after": {
+        "firstLine": 443,
+        "lastLine": 443
+      },
+      "nonXmlExcerptSha256": "052a4abead77b99a8d5dbfcea46e8c184877adbdf8c9ba8aa0a1427a454b63c8"
+    },
+    {
+      "where": "root.members[195].source",
+      "path": "src/FunnySharp/Option.cs",
+      "before": {
+        "firstLine": 416,
+        "lastLine": 418
+      },
+      "after": {
+        "firstLine": 420,
+        "lastLine": 422
+      },
+      "nonXmlExcerptSha256": "99b1cef64694976bc8b626e81fdc811c455d42f07179162474b5497b0986703b"
+    },
+    {
+      "where": "root.members[196].source",
+      "path": "src/FunnySharp/Option.cs",
+      "before": {
+        "firstLine": 421,
+        "lastLine": 421
+      },
+      "after": {
+        "firstLine": 425,
+        "lastLine": 425
+      },
+      "nonXmlExcerptSha256": "ee8cfd2bf490311b6cca374ab55ea9364726253d680bea9d8690b9b4409912c7"
+    },
+    {
+      "where": "root.members[197].source",
+      "path": "src/FunnySharp/Option.cs",
+      "before": {
+        "firstLine": 146,
+        "lastLine": 150
+      },
+      "after": {
+        "firstLine": 146,
+        "lastLine": 150
+      },
+      "nonXmlExcerptSha256": "132b2a09b2a88f1951c14f337559c8c0547001367ffe2baae8fb619e1c01b78b"
+    },
+    {
+      "where": "root.members[198].source",
+      "path": "src/FunnySharp/Option.cs",
+      "before": {
+        "firstLine": 424,
+        "lastLine": 427
+      },
+      "after": {
+        "firstLine": 428,
+        "lastLine": 431
+      },
+      "nonXmlExcerptSha256": "147a37393c10b9890fee05980f7cf46b5fd39eee77f2612e17b96a8105789384"
+    },
+    {
+      "where": "root.members[199].source",
+      "path": "src/FunnySharp/Option.cs",
+      "before": {
+        "firstLine": 441,
+        "lastLine": 441
+      },
+      "after": {
+        "firstLine": 447,
+        "lastLine": 447
+      },
+      "nonXmlExcerptSha256": "0ebe197233b2414c57c2dc59e4044cc4a6407f87dcc8c40f822af2f87d4c57e1"
+    },
+    {
+      "where": "root.members[200].source",
+      "path": "src/FunnySharp/Option.cs",
+      "before": {
+        "firstLine": 172,
+        "lastLine": 185
+      },
+      "after": {
+        "firstLine": 174,
+        "lastLine": 187
+      },
+      "nonXmlExcerptSha256": "6bb1189760d11d7bd060636dd1ab39b310f2e6b6f779e3569e7a11a2f5324c91"
+    },
+    {
+      "where": "root.members[201].source",
+      "path": "src/FunnySharp/Option.cs",
+      "before": {
+        "firstLine": 324,
+        "lastLine": 328
+      },
+      "after": {
+        "firstLine": 327,
+        "lastLine": 331
+      },
+      "nonXmlExcerptSha256": "631aeb0055ee18c493ed7fe47642dbe2edb6620a347ccc891540e692172462c1"
+    },
+    {
+      "where": "root.members[202].source",
+      "path": "src/FunnySharp/Option.cs",
+      "before": {
+        "firstLine": 339,
+        "lastLine": 350
+      },
+      "after": {
+        "firstLine": 342,
+        "lastLine": 353
+      },
+      "nonXmlExcerptSha256": "f4b17beb744cbc3c1457ebdb47c4a6ab59505b7a35e7cc769cd6f6ceed5291e8"
+    },
+    {
+      "where": "root.members[203].source",
+      "path": "src/FunnySharp/Option.cs",
+      "before": {
+        "firstLine": 357,
+        "lastLine": 357
+      },
+      "after": {
+        "firstLine": 360,
+        "lastLine": 360
+      },
+      "nonXmlExcerptSha256": "86cebeb3d7f803051865fad1e7c1d9b958dc7590ced082a036ed133fa568be15"
+    },
+    {
+      "where": "root.members[204].source",
+      "path": "src/FunnySharp/Option.cs",
+      "before": {
+        "firstLine": 159,
+        "lastLine": 165
+      },
+      "after": {
+        "firstLine": 160,
+        "lastLine": 166
+      },
+      "nonXmlExcerptSha256": "7c71cbf2a44cd422903171b65a18a12a8c2e0a1301b694174abef09ce4ad22ba"
+    },
+    {
+      "where": "root.members[205].source",
+      "path": "src/FunnySharp/Option.cs",
+      "before": {
+        "firstLine": 118,
+        "lastLine": 118
+      },
+      "after": {
+        "firstLine": 118,
+        "lastLine": 118
+      },
+      "nonXmlExcerptSha256": "c12c658f789fb4593d75d9e3c163d36972efcc11e82f6c2d1999ec5a7c0c33f8"
+    },
+    {
+      "where": "root.members[206].source",
+      "path": "src/FunnySharp/Option.cs",
+      "before": {
+        "firstLine": 128,
+        "lastLine": 128
+      },
+      "after": {
+        "firstLine": 128,
+        "lastLine": 128
+      },
+      "nonXmlExcerptSha256": "4a1ba9693071805dc0eca3508c07317e0acd2adadd70ec2cf37e1248448a05e7"
+    },
+    {
+      "where": "root.members[207].source",
+      "path": "src/FunnySharp/Option.cs",
+      "before": {
+        "firstLine": 123,
+        "lastLine": 123
+      },
+      "after": {
+        "firstLine": 123,
+        "lastLine": 123
+      },
+      "nonXmlExcerptSha256": "d34c09f9bbcc4a10de2da7a60e614f0beaa128e2932cf74ab43857f773486ba6"
+    },
+    {
+      "where": "root.members[212].source",
+      "path": "src/FunnySharp/ParallelAsyncSequenceExtensions.cs",
+      "before": {
+        "firstLine": 61,
+        "lastLine": 72
+      },
+      "after": {
+        "firstLine": 61,
+        "lastLine": 72
+      },
+      "nonXmlExcerptSha256": "f041f2df6c64f1cead3a68db9bd0549bf959c16640e05b283fb8891d2c544bca"
+    },
+    {
+      "where": "root.members[213].source",
+      "path": "src/FunnySharp/ParallelAsyncSequenceExtensions.cs",
+      "before": {
+        "firstLine": 27,
+        "lastLine": 42
+      },
+      "after": {
+        "firstLine": 27,
+        "lastLine": 42
+      },
+      "nonXmlExcerptSha256": "60c6af4f289849b993f10f01d6581bf1ff930d5075183f08df47da5128eb3548"
+    },
+    {
+      "where": "root.members[214].source",
+      "path": "src/FunnySharp/ParallelAsyncSequenceExtensions.cs",
+      "before": {
+        "firstLine": 127,
+        "lastLine": 138
+      },
+      "after": {
+        "firstLine": 137,
+        "lastLine": 148
+      },
+      "nonXmlExcerptSha256": "364e7f72a1cd96d389d4b1c0714bf15e036cc356aa223edd5afa8de81284086c"
+    },
+    {
+      "where": "root.members[215].source",
+      "path": "src/FunnySharp/ParallelAsyncSequenceExtensions.cs",
+      "before": {
+        "firstLine": 92,
+        "lastLine": 107
+      },
+      "after": {
+        "firstLine": 97,
+        "lastLine": 112
+      },
+      "nonXmlExcerptSha256": "96e65af145150c8c93d0be07e65ada17dbad60b3afb98621520b448c3b8c93e4"
+    },
+    {
+      "where": "root.members[216].source",
+      "path": "src/FunnySharp/ParallelAsyncSequenceExtensions.cs",
+      "before": {
+        "firstLine": 194,
+        "lastLine": 205
+      },
+      "after": {
+        "firstLine": 214,
+        "lastLine": 225
+      },
+      "nonXmlExcerptSha256": "584fd2278724d0664fa942ebf35ba0bddb8dd8a1f442c02bd64daeee61f343be"
+    },
+    {
+      "where": "root.members[217].source",
+      "path": "src/FunnySharp/ParallelAsyncSequenceExtensions.cs",
+      "before": {
+        "firstLine": 158,
+        "lastLine": 173
+      },
+      "after": {
+        "firstLine": 173,
+        "lastLine": 188
+      },
+      "nonXmlExcerptSha256": "4971a7f6d94d35a4b20fdf984d812cef94847131c7cbeab95b3519468e8db280"
+    },
+    {
+      "where": "root.members[236].source",
+      "path": "src/FunnySharp/PartitionExtensions.cs",
+      "before": {
+        "firstLine": 141,
+        "lastLine": 162
+      },
+      "after": {
+        "firstLine": 141,
+        "lastLine": 162
+      },
+      "nonXmlExcerptSha256": "5d251ca4c6d70469d915432522533a04e78cb4328f015adcc332f9c3735278d3"
+    },
+    {
+      "where": "root.members[236].implementationRanges[0]",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 1204,
+        "lastLine": 1205
+      },
+      "after": {
+        "firstLine": 1260,
+        "lastLine": 1261
+      },
+      "nonXmlExcerptSha256": "bd683d65929ad2771e950c7e9232604562227ebc5586e077d7a8f97ca1d8283f"
+    },
+    {
+      "where": "root.members[236].implementationRanges[1]",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 1207,
+        "lastLine": 1208
+      },
+      "after": {
+        "firstLine": 1263,
+        "lastLine": 1264
+      },
+      "nonXmlExcerptSha256": "4082dcd27b22e2e285bb813ee9326f72230a8f54ae8f7e1ec5368ee428be534b"
+    },
+    {
+      "where": "root.members[237].source",
+      "path": "src/FunnySharp/PartitionExtensions.cs",
+      "before": {
+        "firstLine": 98,
+        "lastLine": 123
+      },
+      "after": {
+        "firstLine": 98,
+        "lastLine": 123
+      },
+      "nonXmlExcerptSha256": "2ee2ac27ed2b15afe4fbcd3382cd37142eb6b040b543fbe165c9367151ed87e1"
+    },
+    {
+      "where": "root.members[237].implementationRanges[0]",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 1204,
+        "lastLine": 1205
+      },
+      "after": {
+        "firstLine": 1260,
+        "lastLine": 1261
+      },
+      "nonXmlExcerptSha256": "bd683d65929ad2771e950c7e9232604562227ebc5586e077d7a8f97ca1d8283f"
+    },
+    {
+      "where": "root.members[237].implementationRanges[1]",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 1207,
+        "lastLine": 1208
+      },
+      "after": {
+        "firstLine": 1263,
+        "lastLine": 1264
+      },
+      "nonXmlExcerptSha256": "4082dcd27b22e2e285bb813ee9326f72230a8f54ae8f7e1ec5368ee428be534b"
+    },
+    {
+      "where": "root.members[238].source",
+      "path": "src/FunnySharp/PartitionExtensions.cs",
+      "before": {
+        "firstLine": 182,
+        "lastLine": 205
+      },
+      "after": {
+        "firstLine": 186,
+        "lastLine": 209
+      },
+      "nonXmlExcerptSha256": "64175daf71b180d2185f2815383e496b2172e6b3280937de37b0e5d4bae1803d"
+    },
+    {
+      "where": "root.members[238].implementationRanges[0]",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 1204,
+        "lastLine": 1205
+      },
+      "after": {
+        "firstLine": 1260,
+        "lastLine": 1261
+      },
+      "nonXmlExcerptSha256": "bd683d65929ad2771e950c7e9232604562227ebc5586e077d7a8f97ca1d8283f"
+    },
+    {
+      "where": "root.members[238].implementationRanges[1]",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 1207,
+        "lastLine": 1208
+      },
+      "after": {
+        "firstLine": 1263,
+        "lastLine": 1264
+      },
+      "nonXmlExcerptSha256": "4082dcd27b22e2e285bb813ee9326f72230a8f54ae8f7e1ec5368ee428be534b"
+    },
+    {
+      "where": "root.members[239].source",
+      "path": "src/FunnySharp/PartitionExtensions.cs",
+      "before": {
+        "firstLine": 223,
+        "lastLine": 244
+      },
+      "after": {
+        "firstLine": 231,
+        "lastLine": 252
+      },
+      "nonXmlExcerptSha256": "6acbfa917fd7bde835c7f0aa902aa81f9cfb436acda931b95a194cbedb7be13c"
+    },
+    {
+      "where": "root.members[239].implementationRanges[0]",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 1204,
+        "lastLine": 1205
+      },
+      "after": {
+        "firstLine": 1260,
+        "lastLine": 1261
+      },
+      "nonXmlExcerptSha256": "bd683d65929ad2771e950c7e9232604562227ebc5586e077d7a8f97ca1d8283f"
+    },
+    {
+      "where": "root.members[239].implementationRanges[1]",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 1207,
+        "lastLine": 1208
+      },
+      "after": {
+        "firstLine": 1263,
+        "lastLine": 1264
+      },
+      "nonXmlExcerptSha256": "4082dcd27b22e2e285bb813ee9326f72230a8f54ae8f7e1ec5368ee428be534b"
+    },
+    {
+      "where": "root.members[240].source",
+      "path": "src/FunnySharp/PartitionExtensions.cs",
+      "before": {
+        "firstLine": 271,
+        "lastLine": 280
+      },
+      "after": {
+        "firstLine": 279,
+        "lastLine": 288
+      },
+      "nonXmlExcerptSha256": "bc5a76b671bc0706ca777cfa944435293c4169ee9a741d9e98d093ca1482c436"
+    },
+    {
+      "where": "root.members[240].implementationRanges[0]",
+      "path": "src/FunnySharp/PartitionExtensions.cs",
+      "before": {
+        "firstLine": 314,
+        "lastLine": 336
+      },
+      "after": {
+        "firstLine": 326,
+        "lastLine": 348
+      },
+      "nonXmlExcerptSha256": "752e600bbb79237cfa68cad12e3ba85beb8779bb6bb017670f5854cc026b5fe5"
+    },
+    {
+      "where": "root.members[241].source",
+      "path": "src/FunnySharp/PartitionExtensions.cs",
+      "before": {
+        "firstLine": 305,
+        "lastLine": 312
+      },
+      "after": {
+        "firstLine": 317,
+        "lastLine": 324
+      },
+      "nonXmlExcerptSha256": "c18aa1f90e04c8752bb6f163437f7c1c5f3a2e45795bc47507fa98eae6d77c50"
+    },
+    {
+      "where": "root.members[241].implementationRanges[0]",
+      "path": "src/FunnySharp/PartitionExtensions.cs",
+      "before": {
+        "firstLine": 338,
+        "lastLine": 359
+      },
+      "after": {
+        "firstLine": 350,
+        "lastLine": 371
+      },
+      "nonXmlExcerptSha256": "a32726a62f741e918273c2a048b771331d7647e96111445ef1480d003b0f84f8"
+    },
+    {
+      "where": "root.members[242].source",
+      "path": "src/FunnySharp/PartitionExtensions.cs",
+      "before": {
+        "firstLine": 17,
+        "lastLine": 17
+      },
+      "after": {
+        "firstLine": 17,
+        "lastLine": 17
+      },
+      "nonXmlExcerptSha256": "df056f985eaf0cbad428dabe973ab284b0f4deb37cb344c012a17a9b79adb287"
+    },
+    {
+      "where": "root.members[243].source",
+      "path": "src/FunnySharp/PartitionExtensions.cs",
+      "before": {
+        "firstLine": 17,
+        "lastLine": 17
+      },
+      "after": {
+        "firstLine": 17,
+        "lastLine": 17
+      },
+      "nonXmlExcerptSha256": "df056f985eaf0cbad428dabe973ab284b0f4deb37cb344c012a17a9b79adb287"
+    },
+    {
+      "where": "root.members[244].source",
+      "path": "src/FunnySharp/PartitionExtensions.cs",
+      "before": {
+        "firstLine": 17,
+        "lastLine": 17
+      },
+      "after": {
+        "firstLine": 17,
+        "lastLine": 17
+      },
+      "nonXmlExcerptSha256": "df056f985eaf0cbad428dabe973ab284b0f4deb37cb344c012a17a9b79adb287"
+    },
+    {
+      "where": "root.members[245].source",
+      "path": "src/FunnySharp/PartitionExtensions.cs",
+      "before": {
+        "firstLine": 17,
+        "lastLine": 17
+      },
+      "after": {
+        "firstLine": 17,
+        "lastLine": 17
+      },
+      "nonXmlExcerptSha256": "df056f985eaf0cbad428dabe973ab284b0f4deb37cb344c012a17a9b79adb287"
+    },
+    {
+      "where": "root.members[246].source",
+      "path": "src/FunnySharp/PartitionExtensions.cs",
+      "before": {
+        "firstLine": 17,
+        "lastLine": 17
+      },
+      "after": {
+        "firstLine": 17,
+        "lastLine": 17
+      },
+      "nonXmlExcerptSha256": "df056f985eaf0cbad428dabe973ab284b0f4deb37cb344c012a17a9b79adb287"
+    },
+    {
+      "where": "root.members[247].source",
+      "path": "src/FunnySharp/PartitionExtensions.cs",
+      "before": {
+        "firstLine": 17,
+        "lastLine": 17
+      },
+      "after": {
+        "firstLine": 17,
+        "lastLine": 17
+      },
+      "nonXmlExcerptSha256": "df056f985eaf0cbad428dabe973ab284b0f4deb37cb344c012a17a9b79adb287"
+    },
+    {
+      "where": "root.members[248].source",
+      "path": "src/FunnySharp/PartitionExtensions.cs",
+      "before": {
+        "firstLine": 17,
+        "lastLine": 17
+      },
+      "after": {
+        "firstLine": 17,
+        "lastLine": 17
+      },
+      "nonXmlExcerptSha256": "df056f985eaf0cbad428dabe973ab284b0f4deb37cb344c012a17a9b79adb287"
+    },
+    {
+      "where": "root.members[249].source",
+      "path": "src/FunnySharp/PartitionExtensions.cs",
+      "before": {
+        "firstLine": 17,
+        "lastLine": 17
+      },
+      "after": {
+        "firstLine": 17,
+        "lastLine": 17
+      },
+      "nonXmlExcerptSha256": "df056f985eaf0cbad428dabe973ab284b0f4deb37cb344c012a17a9b79adb287"
+    },
+    {
+      "where": "root.members[250].source",
+      "path": "src/FunnySharp/PartitionExtensions.cs",
+      "before": {
+        "firstLine": 17,
+        "lastLine": 17
+      },
+      "after": {
+        "firstLine": 17,
+        "lastLine": 17
+      },
+      "nonXmlExcerptSha256": "df056f985eaf0cbad428dabe973ab284b0f4deb37cb344c012a17a9b79adb287"
+    },
+    {
+      "where": "root.members[251].source",
+      "path": "src/FunnySharp/PartitionExtensions.cs",
+      "before": {
+        "firstLine": 17,
+        "lastLine": 17
+      },
+      "after": {
+        "firstLine": 17,
+        "lastLine": 17
+      },
+      "nonXmlExcerptSha256": "df056f985eaf0cbad428dabe973ab284b0f4deb37cb344c012a17a9b79adb287"
+    },
+    {
+      "where": "root.members[252].source",
+      "path": "src/FunnySharp/PartitionExtensions.cs",
+      "before": {
+        "firstLine": 17,
+        "lastLine": 17
+      },
+      "after": {
+        "firstLine": 17,
+        "lastLine": 17
+      },
+      "nonXmlExcerptSha256": "df056f985eaf0cbad428dabe973ab284b0f4deb37cb344c012a17a9b79adb287"
+    },
+    {
+      "where": "root.members[253].source",
+      "path": "src/FunnySharp/Result.cs",
+      "before": {
+        "firstLine": 22,
+        "lastLine": 23
+      },
+      "after": {
+        "firstLine": 22,
+        "lastLine": 23
+      },
+      "nonXmlExcerptSha256": "a72466b0054bbccd1a9f191c0b66cf59ad185d536425371d281b0907f599892a"
+    },
+    {
+      "where": "root.members[254].source",
+      "path": "src/FunnySharp/Result.cs",
+      "before": {
+        "firstLine": 36,
+        "lastLine": 51
+      },
+      "after": {
+        "firstLine": 36,
+        "lastLine": 51
+      },
+      "nonXmlExcerptSha256": "c2fcd7778ef7f224c9cf0dddb802f7e3c8a3add629be945bf6d4c844cae9dca3"
+    },
+    {
+      "where": "root.members[255].source",
+      "path": "src/FunnySharp/Result.cs",
+      "before": {
+        "firstLine": 68,
+        "lastLine": 72
+      },
+      "after": {
+        "firstLine": 68,
+        "lastLine": 72
+      },
+      "nonXmlExcerptSha256": "b2d9ee2eb660b6c736ff30e2a3255aa5e7459023a4fd13fe2342ff922be2447d"
+    },
+    {
+      "where": "root.members[256].source",
+      "path": "src/FunnySharp/Result.cs",
+      "before": {
+        "firstLine": 92,
+        "lastLine": 99
+      },
+      "after": {
+        "firstLine": 92,
+        "lastLine": 99
+      },
+      "nonXmlExcerptSha256": "72baac6c116bd29c42cb0f2219deb2230c63ede98fdee8bdf3138a05d0e3916b"
+    },
+    {
+      "where": "root.members[257].source",
+      "path": "src/FunnySharp/Result.cs",
+      "before": {
+        "firstLine": 116,
+        "lastLine": 121
+      },
+      "after": {
+        "firstLine": 116,
+        "lastLine": 121
+      },
+      "nonXmlExcerptSha256": "b5c7fec8e910f3614a39eec7ad04d8acfe00702df10c1ac69176c4dc85ea59d5"
+    },
+    {
+      "where": "root.members[258].source",
+      "path": "src/FunnySharp/Result.cs",
+      "before": {
+        "firstLine": 141,
+        "lastLine": 148
+      },
+      "after": {
+        "firstLine": 141,
+        "lastLine": 148
+      },
+      "nonXmlExcerptSha256": "8f145ec62bf85deb6b5b30c35475ed75d4e66de389cd22a2a6753a65400c190c"
+    },
+    {
+      "where": "root.members[259].source",
+      "path": "src/FunnySharp/ResultExtensions.cs",
+      "before": {
+        "firstLine": 50,
+        "lastLine": 54
+      },
+      "after": {
+        "firstLine": 51,
+        "lastLine": 55
+      },
+      "nonXmlExcerptSha256": "5b1fc4cdc847dac195752eba6707e297b1c909630640bb406de1ca7702014c55"
+    },
+    {
+      "where": "root.members[260].source",
+      "path": "src/FunnySharp/ResultExtensions.cs",
+      "before": {
+        "firstLine": 32,
+        "lastLine": 41
+      },
+      "after": {
+        "firstLine": 32,
+        "lastLine": 41
+      },
+      "nonXmlExcerptSha256": "37f91e6344c910fabc5548afb263a1008653f77adaa61a3f4ffbfc09221f5e14"
+    },
+    {
+      "where": "root.members[261].source",
+      "path": "src/FunnySharp/ResultExtensions.cs",
+      "before": {
+        "firstLine": 16,
+        "lastLine": 21
+      },
+      "after": {
+        "firstLine": 16,
+        "lastLine": 21
+      },
+      "nonXmlExcerptSha256": "7c8fb0eb611b9364aa4bcfe12a3893decb0c47190678462d8b494b205ca6f301"
+    },
+    {
+      "where": "root.members[262].source",
+      "path": "src/FunnySharp/ResultExtensions.cs",
+      "before": {
+        "firstLine": 144,
+        "lastLine": 158
+      },
+      "after": {
+        "firstLine": 189,
+        "lastLine": 203
+      },
+      "nonXmlExcerptSha256": "ed26ec1c3fe83da7eee85e0645dd346e05e240551b90d6f1c5f8be05cecad9d0"
+    },
+    {
+      "where": "root.members[263].source",
+      "path": "src/FunnySharp/ResultExtensions.cs",
+      "before": {
+        "firstLine": 118,
+        "lastLine": 131
+      },
+      "after": {
+        "firstLine": 151,
+        "lastLine": 164
+      },
+      "nonXmlExcerptSha256": "94345b5002bee12e3fd47fdfc80edb6735df26e377f0cdc29c597fdd6eec53df"
+    },
+    {
+      "where": "root.members[264].source",
+      "path": "src/FunnySharp/ResultExtensions.cs",
+      "before": {
+        "firstLine": 92,
+        "lastLine": 106
+      },
+      "after": {
+        "firstLine": 114,
+        "lastLine": 128
+      },
+      "nonXmlExcerptSha256": "cf5b624ecb235d68559ae42c51eb8e02f9778593c9647e177d16d5875863ffd1"
+    },
+    {
+      "where": "root.members[265].source",
+      "path": "src/FunnySharp/ResultExtensions.cs",
+      "before": {
+        "firstLine": 66,
+        "lastLine": 79
+      },
+      "after": {
+        "firstLine": 77,
+        "lastLine": 90
+      },
+      "nonXmlExcerptSha256": "af9fa6e0401b97cdd1e19be7a0bb48a5ae3850a6267939534c83e26a75c1738b"
+    },
+    {
+      "where": "root.members[266].source",
+      "path": "src/FunnySharp/ResultExtensions.cs",
+      "before": {
+        "firstLine": 251,
+        "lastLine": 265
+      },
+      "after": {
+        "firstLine": 336,
+        "lastLine": 350
+      },
+      "nonXmlExcerptSha256": "cf678d91188e727e7b149d3337d9e6eec4bbef36de122554f9124a942f595ede"
+    },
+    {
+      "where": "root.members[267].source",
+      "path": "src/FunnySharp/ResultExtensions.cs",
+      "before": {
+        "firstLine": 225,
+        "lastLine": 238
+      },
+      "after": {
+        "firstLine": 299,
+        "lastLine": 312
+      },
+      "nonXmlExcerptSha256": "59361cb9c2e03774d79f1d554b8ebe638048f313f6718f1cfd5021936997e607"
+    },
+    {
+      "where": "root.members[268].source",
+      "path": "src/FunnySharp/ResultExtensions.cs",
+      "before": {
+        "firstLine": 196,
+        "lastLine": 213
+      },
+      "after": {
+        "firstLine": 260,
+        "lastLine": 277
+      },
+      "nonXmlExcerptSha256": "041af88ac72fa8d149bb4e4430b147fbe23109812bfa2ddca23bf678fdaa1714"
+    },
+    {
+      "where": "root.members[269].source",
+      "path": "src/FunnySharp/ResultExtensions.cs",
+      "before": {
+        "firstLine": 170,
+        "lastLine": 183
+      },
+      "after": {
+        "firstLine": 224,
+        "lastLine": 237
+      },
+      "nonXmlExcerptSha256": "50693e8764dadeb24fd5e245473945e8e20858978546ab0e0a24f45664d50e0f"
+    },
+    {
+      "where": "root.members[270].source",
+      "path": "src/FunnySharp/PartitionExtensions.cs",
+      "before": {
+        "firstLine": 53,
+        "lastLine": 55
+      },
+      "after": {
+        "firstLine": 53,
+        "lastLine": 55
+      },
+      "nonXmlExcerptSha256": "9bd4a60231660d64bd7ba05e64faf889b42e4ff6728445533e8cb10e49b2be18"
+    },
+    {
+      "where": "root.members[271].source",
+      "path": "src/FunnySharp/PartitionExtensions.cs",
+      "before": {
+        "firstLine": 53,
+        "lastLine": 55
+      },
+      "after": {
+        "firstLine": 53,
+        "lastLine": 55
+      },
+      "nonXmlExcerptSha256": "9bd4a60231660d64bd7ba05e64faf889b42e4ff6728445533e8cb10e49b2be18"
+    },
+    {
+      "where": "root.members[272].source",
+      "path": "src/FunnySharp/PartitionExtensions.cs",
+      "before": {
+        "firstLine": 53,
+        "lastLine": 55
+      },
+      "after": {
+        "firstLine": 53,
+        "lastLine": 55
+      },
+      "nonXmlExcerptSha256": "9bd4a60231660d64bd7ba05e64faf889b42e4ff6728445533e8cb10e49b2be18"
+    },
+    {
+      "where": "root.members[273].source",
+      "path": "src/FunnySharp/PartitionExtensions.cs",
+      "before": {
+        "firstLine": 53,
+        "lastLine": 55
+      },
+      "after": {
+        "firstLine": 53,
+        "lastLine": 55
+      },
+      "nonXmlExcerptSha256": "9bd4a60231660d64bd7ba05e64faf889b42e4ff6728445533e8cb10e49b2be18"
+    },
+    {
+      "where": "root.members[274].source",
+      "path": "src/FunnySharp/PartitionExtensions.cs",
+      "before": {
+        "firstLine": 53,
+        "lastLine": 55
+      },
+      "after": {
+        "firstLine": 53,
+        "lastLine": 55
+      },
+      "nonXmlExcerptSha256": "9bd4a60231660d64bd7ba05e64faf889b42e4ff6728445533e8cb10e49b2be18"
+    },
+    {
+      "where": "root.members[275].source",
+      "path": "src/FunnySharp/PartitionExtensions.cs",
+      "before": {
+        "firstLine": 53,
+        "lastLine": 55
+      },
+      "after": {
+        "firstLine": 53,
+        "lastLine": 55
+      },
+      "nonXmlExcerptSha256": "9bd4a60231660d64bd7ba05e64faf889b42e4ff6728445533e8cb10e49b2be18"
+    },
+    {
+      "where": "root.members[276].source",
+      "path": "src/FunnySharp/PartitionExtensions.cs",
+      "before": {
+        "firstLine": 53,
+        "lastLine": 55
+      },
+      "after": {
+        "firstLine": 53,
+        "lastLine": 55
+      },
+      "nonXmlExcerptSha256": "9bd4a60231660d64bd7ba05e64faf889b42e4ff6728445533e8cb10e49b2be18"
+    },
+    {
+      "where": "root.members[277].source",
+      "path": "src/FunnySharp/PartitionExtensions.cs",
+      "before": {
+        "firstLine": 53,
+        "lastLine": 55
+      },
+      "after": {
+        "firstLine": 53,
+        "lastLine": 55
+      },
+      "nonXmlExcerptSha256": "9bd4a60231660d64bd7ba05e64faf889b42e4ff6728445533e8cb10e49b2be18"
+    },
+    {
+      "where": "root.members[278].source",
+      "path": "src/FunnySharp/PartitionExtensions.cs",
+      "before": {
+        "firstLine": 53,
+        "lastLine": 55
+      },
+      "after": {
+        "firstLine": 53,
+        "lastLine": 55
+      },
+      "nonXmlExcerptSha256": "9bd4a60231660d64bd7ba05e64faf889b42e4ff6728445533e8cb10e49b2be18"
+    },
+    {
+      "where": "root.members[279].source",
+      "path": "src/FunnySharp/PartitionExtensions.cs",
+      "before": {
+        "firstLine": 53,
+        "lastLine": 55
+      },
+      "after": {
+        "firstLine": 53,
+        "lastLine": 55
+      },
+      "nonXmlExcerptSha256": "9bd4a60231660d64bd7ba05e64faf889b42e4ff6728445533e8cb10e49b2be18"
+    },
+    {
+      "where": "root.members[280].source",
+      "path": "src/FunnySharp/PartitionExtensions.cs",
+      "before": {
+        "firstLine": 53,
+        "lastLine": 55
+      },
+      "after": {
+        "firstLine": 53,
+        "lastLine": 55
+      },
+      "nonXmlExcerptSha256": "9bd4a60231660d64bd7ba05e64faf889b42e4ff6728445533e8cb10e49b2be18"
+    },
+    {
+      "where": "root.members[281].source",
+      "path": "src/FunnySharp/Result.cs",
+      "before": {
+        "firstLine": 655,
+        "lastLine": 669
+      },
+      "after": {
+        "firstLine": 664,
+        "lastLine": 678
+      },
+      "nonXmlExcerptSha256": "8f8cc5bbf23418fd60c476eed38e41b1bfed9c9167cadd25b1659acaca617a1b"
+    },
+    {
+      "where": "root.members[282].source",
+      "path": "src/FunnySharp/Result.cs",
+      "before": {
+        "firstLine": 789,
+        "lastLine": 798
+      },
+      "after": {
+        "firstLine": 799,
+        "lastLine": 808
+      },
+      "nonXmlExcerptSha256": "f5600c2b55d54d9cffa4a5a9c14af0d134dad95b50e87c4386fc76bf9358d35e"
+    },
+    {
+      "where": "root.members[283].source",
+      "path": "src/FunnySharp/Result.cs",
+      "before": {
+        "firstLine": 555,
+        "lastLine": 563
+      },
+      "after": {
+        "firstLine": 559,
+        "lastLine": 567
+      },
+      "nonXmlExcerptSha256": "bcb8a5cd500fff4c3240a4711d345a3320b205430323ddf16058de78124a4c0b"
+    },
+    {
+      "where": "root.members[284].source",
+      "path": "src/FunnySharp/Result.cs",
+      "before": {
+        "firstLine": 818,
+        "lastLine": 839
+      },
+      "after": {
+        "firstLine": 829,
+        "lastLine": 850
+      },
+      "nonXmlExcerptSha256": "015dcf66c3105219ee177d69310372225bb8dca3e830a5f84097fb4a38849975"
+    },
+    {
+      "where": "root.members[285].source",
+      "path": "src/FunnySharp/Result.cs",
+      "before": {
+        "firstLine": 681,
+        "lastLine": 697
+      },
+      "after": {
+        "firstLine": 690,
+        "lastLine": 706
+      },
+      "nonXmlExcerptSha256": "36a2ba4ee9b3d42da3901c4a8072131d91b04d64087b458124d20baa570e37e4"
+    },
+    {
+      "where": "root.members[286].source",
+      "path": "src/FunnySharp/Result.cs",
+      "before": {
+        "firstLine": 750,
+        "lastLine": 780
+      },
+      "after": {
+        "firstLine": 759,
+        "lastLine": 789
+      },
+      "nonXmlExcerptSha256": "97d7cc33e625cd6afed0e6360e2dde1be79587459961499fdde9cd4cd681efd7"
+    },
+    {
+      "where": "root.members[287].source",
+      "path": "src/FunnySharp/Result.cs",
+      "before": {
+        "firstLine": 711,
+        "lastLine": 734
+      },
+      "after": {
+        "firstLine": 720,
+        "lastLine": 743
+      },
+      "nonXmlExcerptSha256": "bda422f778dc28c17439effd898338bf9c9c50463b7c34dda9ef6a6095ad4ccc"
+    },
+    {
+      "where": "root.members[288].source",
+      "path": "src/FunnySharp/Result.cs",
+      "before": {
+        "firstLine": 538,
+        "lastLine": 546
+      },
+      "after": {
+        "firstLine": 541,
+        "lastLine": 549
+      },
+      "nonXmlExcerptSha256": "ec91d4a1afc80c7698c5eea45a978de676891ee10b5a9f9e8495a90cd0db454a"
+    },
+    {
+      "where": "root.members[289].source",
+      "path": "src/FunnySharp/Result.cs",
+      "before": {
+        "firstLine": 807,
+        "lastLine": 807
+      },
+      "after": {
+        "firstLine": 817,
+        "lastLine": 817
+      },
+      "nonXmlExcerptSha256": "749c8c93832d9e136635143e56b5fa6312646f75c2bc5d32a7b1c95f98046e5b"
+    },
+    {
+      "where": "root.members[290].source",
+      "path": "src/FunnySharp/Result.cs",
+      "before": {
+        "firstLine": 604,
+        "lastLine": 618
+      },
+      "after": {
+        "firstLine": 611,
+        "lastLine": 625
+      },
+      "nonXmlExcerptSha256": "820e379885c567ef595b075d21b5f2fc502c30457992834f8835b8c96a52e9f6"
+    },
+    {
+      "where": "root.members[291].source",
+      "path": "src/FunnySharp/Result.cs",
+      "before": {
+        "firstLine": 589,
+        "lastLine": 595
+      },
+      "after": {
+        "firstLine": 595,
+        "lastLine": 601
+      },
+      "nonXmlExcerptSha256": "10e71b26b15b23bbed4640b7738892ee3a11e0d931658cc949c965269011392e"
+    },
+    {
+      "where": "root.members[292].source",
+      "path": "src/FunnySharp/Result.cs",
+      "before": {
+        "firstLine": 626,
+        "lastLine": 632
+      },
+      "after": {
+        "firstLine": 634,
+        "lastLine": 640
+      },
+      "nonXmlExcerptSha256": "51938b1824958d2f00b9f831af4180a846350342cea5c6aba3c1b74d0cb1124a"
+    },
+    {
+      "where": "root.members[293].source",
+      "path": "src/FunnySharp/Result.cs",
+      "before": {
+        "firstLine": 640,
+        "lastLine": 646
+      },
+      "after": {
+        "firstLine": 649,
+        "lastLine": 655
+      },
+      "nonXmlExcerptSha256": "507e156cb5e70fd2795cfbd56a3e66a78689f0d82fd36d5f785464af253cb2c8"
+    },
+    {
+      "where": "root.members[294].source",
+      "path": "src/FunnySharp/Result.cs",
+      "before": {
+        "firstLine": 572,
+        "lastLine": 580
+      },
+      "after": {
+        "firstLine": 577,
+        "lastLine": 585
+      },
+      "nonXmlExcerptSha256": "491a95611159651fa6838d13c60e140170f03263564fed2d018fa912979591fd"
+    },
+    {
+      "where": "root.members[295].source",
+      "path": "src/FunnySharp/Result.cs",
+      "before": {
+        "firstLine": 464,
+        "lastLine": 464
+      },
+      "after": {
+        "firstLine": 464,
+        "lastLine": 464
+      },
+      "nonXmlExcerptSha256": "0f44291c96065c4c974453ac750f6695a42288a7ced6a3cc5e2aa0b477b602ce"
+    },
+    {
+      "where": "root.members[296].source",
+      "path": "src/FunnySharp/Result.cs",
+      "before": {
+        "firstLine": 457,
+        "lastLine": 457
+      },
+      "after": {
+        "firstLine": 457,
+        "lastLine": 457
+      },
+      "nonXmlExcerptSha256": "ffc57e74c179bc50377f117878e7a74a33dc45a692db2d86a43c0297f7ed185e"
+    },
+    {
+      "where": "root.members[297].source",
+      "path": "src/FunnySharp/Result.cs",
+      "before": {
+        "firstLine": 879,
+        "lastLine": 882
+      },
+      "after": {
+        "firstLine": 891,
+        "lastLine": 894
+      },
+      "nonXmlExcerptSha256": "5a47c897079713063023c6961cb6aa4cedcc8a2d6bbdaa3804888fcda94659bb"
+    },
+    {
+      "where": "root.members[298].source",
+      "path": "src/FunnySharp/Result.cs",
+      "before": {
+        "firstLine": 887,
+        "lastLine": 890
+      },
+      "after": {
+        "firstLine": 900,
+        "lastLine": 903
+      },
+      "nonXmlExcerptSha256": "a4320bf3c6de5791c87d6fd88e7fc898d5c43d00b1629c77255eb57fea80650b"
+    },
+    {
+      "where": "root.members[299].source",
+      "path": "src/FunnySharp/Result.cs",
+      "before": {
+        "firstLine": 843,
+        "lastLine": 856
+      },
+      "after": {
+        "firstLine": 854,
+        "lastLine": 867
+      },
+      "nonXmlExcerptSha256": "9f279149d4757e21d5e8b885569968af8ed3db7fc6ba2fc3c9f1267843e4f703"
+    },
+    {
+      "where": "root.members[300].source",
+      "path": "src/FunnySharp/Result.cs",
+      "before": {
+        "firstLine": 860,
+        "lastLine": 864
+      },
+      "after": {
+        "firstLine": 871,
+        "lastLine": 875
+      },
+      "nonXmlExcerptSha256": "41c7c80f28419ed303fea547002f20350f7048acb5c32765c332e4d08a8238da"
+    },
+    {
+      "where": "root.members[301].source",
+      "path": "src/FunnySharp/Result.cs",
+      "before": {
+        "firstLine": 485,
+        "lastLine": 490
+      },
+      "after": {
+        "firstLine": 485,
+        "lastLine": 490
+      },
+      "nonXmlExcerptSha256": "27b5fe365fd2ee19cc5afc3515a7aa3cb21e6dbbaa60a9ea747637a40bb0ca80"
+    },
+    {
+      "where": "root.members[302].source",
+      "path": "src/FunnySharp/Result.cs",
+      "before": {
+        "firstLine": 472,
+        "lastLine": 477
+      },
+      "after": {
+        "firstLine": 472,
+        "lastLine": 477
+      },
+      "nonXmlExcerptSha256": "f6bac63256a4f58505b9b798a94506ab74b3073f3a9346267e3294bf2a404ba1"
+    },
+    {
+      "where": "root.members[303].source",
+      "path": "src/FunnySharp/Result.cs",
+      "before": {
+        "firstLine": 868,
+        "lastLine": 874
+      },
+      "after": {
+        "firstLine": 879,
+        "lastLine": 885
+      },
+      "nonXmlExcerptSha256": "72dfd06aa34a0cc94225bb57b0c8fff8a36b61b5fafa5e39ddb693cd16547509"
+    },
+    {
+      "where": "root.members[304].source",
+      "path": "src/FunnySharp/Result.cs",
+      "before": {
+        "firstLine": 894,
+        "lastLine": 900
+      },
+      "after": {
+        "firstLine": 907,
+        "lastLine": 913
+      },
+      "nonXmlExcerptSha256": "1698acaec90d363c2828a96b6f6507df644ed2dd824a9960ec9a6343637669bb"
+    },
+    {
+      "where": "root.members[305].source",
+      "path": "src/FunnySharp/Result.cs",
+      "before": {
+        "firstLine": 515,
+        "lastLine": 529
+      },
+      "after": {
+        "firstLine": 517,
+        "lastLine": 531
+      },
+      "nonXmlExcerptSha256": "7c0382c5b79f401fa0983ef038e2fd78184173b67f0ae124b9013f58f81550a8"
+    },
+    {
+      "where": "root.members[306].source",
+      "path": "src/FunnySharp/Result.cs",
+      "before": {
+        "firstLine": 500,
+        "lastLine": 507
+      },
+      "after": {
+        "firstLine": 501,
+        "lastLine": 508
+      },
+      "nonXmlExcerptSha256": "6dcd4e84761a52552b67a1e78a3ee5aea5b1752333af03912d6b1ff90232ef6b"
+    },
+    {
+      "where": "root.members[307].source",
+      "path": "src/FunnySharp/Result.cs",
+      "before": {
+        "firstLine": 443,
+        "lastLine": 450
+      },
+      "after": {
+        "firstLine": 443,
+        "lastLine": 450
+      },
+      "nonXmlExcerptSha256": "ff1247be135ed8e43619e629eb1da95e6c9e8f38b2a19a368a53fac5f8c0a297"
+    },
+    {
+      "where": "root.members[308].source",
+      "path": "src/FunnySharp/Result.cs",
+      "before": {
+        "firstLine": 430,
+        "lastLine": 437
+      },
+      "after": {
+        "firstLine": 430,
+        "lastLine": 437
+      },
+      "nonXmlExcerptSha256": "ef0debd9559918798a5cdf480734b21e4d4ac873a337e97b412d0ac06c906700"
+    },
+    {
+      "where": "root.members[309].source",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 925,
+        "lastLine": 937
+      },
+      "after": {
+        "firstLine": 981,
+        "lastLine": 993
+      },
+      "nonXmlExcerptSha256": "307d482b73ce4cad1bf870cd223b49311a32ab52b0a3b5f50284eb1ade7c60ef"
+    },
+    {
+      "where": "root.members[310].source",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 962,
+        "lastLine": 977
+      },
+      "after": {
+        "firstLine": 1018,
+        "lastLine": 1033
+      },
+      "nonXmlExcerptSha256": "e2e706cb620d326c16f329cbb5c05da0ab2330cf0728684c2e427ed415a790bb"
+    },
+    {
+      "where": "root.members[311].source",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 438,
+        "lastLine": 447
+      },
+      "after": {
+        "firstLine": 474,
+        "lastLine": 483
+      },
+      "nonXmlExcerptSha256": "bb5b9eb15273ca1e4ae8e71c88a3b402a9d349947fe9e6d3a35efa83f296bbe4"
+    },
+    {
+      "where": "root.members[311].implementationRanges[0]",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 469,
+        "lastLine": 492
+      },
+      "after": {
+        "firstLine": 505,
+        "lastLine": 528
+      },
+      "nonXmlExcerptSha256": "780c0dac7c149dc7fc69f689a70375ccbf81dd1723881215c59fcc8e3ae617c9"
+    },
+    {
+      "where": "root.members[311].implementationRanges[1]",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 1210,
+        "lastLine": 1219
+      },
+      "after": {
+        "firstLine": 1266,
+        "lastLine": 1275
+      },
+      "nonXmlExcerptSha256": "8dea87b36a35e47a0530220fb6121ee6c02dd6e7c04c038c5e5c25ff5da80340"
+    },
+    {
+      "where": "root.members[311].implementationRanges[2]",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 1221,
+        "lastLine": 1225
+      },
+      "after": {
+        "firstLine": 1277,
+        "lastLine": 1281
+      },
+      "nonXmlExcerptSha256": "d7475e82915cafa8e5bbd71d235dc7ad1ee39aa33966918012a87145074fcb2b"
+    },
+    {
+      "where": "root.members[312].source",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 469,
+        "lastLine": 492
+      },
+      "after": {
+        "firstLine": 505,
+        "lastLine": 528
+      },
+      "nonXmlExcerptSha256": "780c0dac7c149dc7fc69f689a70375ccbf81dd1723881215c59fcc8e3ae617c9"
+    },
+    {
+      "where": "root.members[312].implementationRanges[0]",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 1221,
+        "lastLine": 1225
+      },
+      "after": {
+        "firstLine": 1277,
+        "lastLine": 1281
+      },
+      "nonXmlExcerptSha256": "d7475e82915cafa8e5bbd71d235dc7ad1ee39aa33966918012a87145074fcb2b"
+    },
+    {
+      "where": "root.members[313].source",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 246,
+        "lastLine": 266
+      },
+      "after": {
+        "firstLine": 270,
+        "lastLine": 290
+      },
+      "nonXmlExcerptSha256": "d48ae1af8480a4da42e00592fd9657a74ca9160674e73c3439764e0ec2a40084"
+    },
+    {
+      "where": "root.members[313].implementationRanges[0]",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 1204,
+        "lastLine": 1205
+      },
+      "after": {
+        "firstLine": 1260,
+        "lastLine": 1261
+      },
+      "nonXmlExcerptSha256": "bd683d65929ad2771e950c7e9232604562227ebc5586e077d7a8f97ca1d8283f"
+    },
+    {
+      "where": "root.members[313].implementationRanges[1]",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 1207,
+        "lastLine": 1208
+      },
+      "after": {
+        "firstLine": 1263,
+        "lastLine": 1264
+      },
+      "nonXmlExcerptSha256": "4082dcd27b22e2e285bb813ee9326f72230a8f54ae8f7e1ec5368ee428be534b"
+    },
+    {
+      "where": "root.members[314].source",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 40,
+        "lastLine": 59
+      },
+      "after": {
+        "firstLine": 40,
+        "lastLine": 59
+      },
+      "nonXmlExcerptSha256": "5aa28a75dcb6d453a58f6f3640bac130f6b67ac092f980027bf85ecadf8035fb"
+    },
+    {
+      "where": "root.members[314].implementationRanges[0]",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 1204,
+        "lastLine": 1205
+      },
+      "after": {
+        "firstLine": 1260,
+        "lastLine": 1261
+      },
+      "nonXmlExcerptSha256": "bd683d65929ad2771e950c7e9232604562227ebc5586e077d7a8f97ca1d8283f"
+    },
+    {
+      "where": "root.members[314].implementationRanges[1]",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 1207,
+        "lastLine": 1208
+      },
+      "after": {
+        "firstLine": 1263,
+        "lastLine": 1264
+      },
+      "nonXmlExcerptSha256": "4082dcd27b22e2e285bb813ee9326f72230a8f54ae8f7e1ec5368ee428be534b"
+    },
+    {
+      "where": "root.members[315].source",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 749,
+        "lastLine": 759
+      },
+      "after": {
+        "firstLine": 805,
+        "lastLine": 815
+      },
+      "nonXmlExcerptSha256": "f93f431bd1f193c7798532439a206464f1ba6231ebddb83baf0b031ab519f143"
+    },
+    {
+      "where": "root.members[316].source",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 21,
+        "lastLine": 23
+      },
+      "after": {
+        "firstLine": 21,
+        "lastLine": 23
+      },
+      "nonXmlExcerptSha256": "ec7b91dad4ac86889078870af5ba73b0172e12e0ebe532b8dc4f9e3ef0dafac7"
+    },
+    {
+      "where": "root.members[316].implementationRanges[0]",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 40,
+        "lastLine": 59
+      },
+      "after": {
+        "firstLine": 40,
+        "lastLine": 59
+      },
+      "nonXmlExcerptSha256": "5aa28a75dcb6d453a58f6f3640bac130f6b67ac092f980027bf85ecadf8035fb"
+    },
+    {
+      "where": "root.members[316].implementationRanges[1]",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 1204,
+        "lastLine": 1205
+      },
+      "after": {
+        "firstLine": 1260,
+        "lastLine": 1261
+      },
+      "nonXmlExcerptSha256": "bd683d65929ad2771e950c7e9232604562227ebc5586e077d7a8f97ca1d8283f"
+    },
+    {
+      "where": "root.members[316].implementationRanges[2]",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 1207,
+        "lastLine": 1208
+      },
+      "after": {
+        "firstLine": 1263,
+        "lastLine": 1264
+      },
+      "nonXmlExcerptSha256": "4082dcd27b22e2e285bb813ee9326f72230a8f54ae8f7e1ec5368ee428be534b"
+    },
+    {
+      "where": "root.members[317].source",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 521,
+        "lastLine": 530
+      },
+      "after": {
+        "firstLine": 561,
+        "lastLine": 570
+      },
+      "nonXmlExcerptSha256": "c42b4c070b535bd4204c85de81dd7593d8e21294a880f541a1ce948bf61aff72"
+    },
+    {
+      "where": "root.members[317].implementationRanges[0]",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 553,
+        "lastLine": 578
+      },
+      "after": {
+        "firstLine": 597,
+        "lastLine": 622
+      },
+      "nonXmlExcerptSha256": "28c51ddcc14d21913848dde22835f5c1bbc9ac84d42263b99b845bfd59390020"
+    },
+    {
+      "where": "root.members[317].implementationRanges[1]",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 1210,
+        "lastLine": 1219
+      },
+      "after": {
+        "firstLine": 1266,
+        "lastLine": 1275
+      },
+      "nonXmlExcerptSha256": "8dea87b36a35e47a0530220fb6121ee6c02dd6e7c04c038c5e5c25ff5da80340"
+    },
+    {
+      "where": "root.members[317].implementationRanges[2]",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 1221,
+        "lastLine": 1225
+      },
+      "after": {
+        "firstLine": 1277,
+        "lastLine": 1281
+      },
+      "nonXmlExcerptSha256": "d7475e82915cafa8e5bbd71d235dc7ad1ee39aa33966918012a87145074fcb2b"
+    },
+    {
+      "where": "root.members[318].source",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 1014,
+        "lastLine": 1026
+      },
+      "after": {
+        "firstLine": 1070,
+        "lastLine": 1082
+      },
+      "nonXmlExcerptSha256": "e9965b2af611ed9b8f54b3fc795c04b9789397796533b77b90cdc8e4bfdec272"
+    },
+    {
+      "where": "root.members[319].source",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 1052,
+        "lastLine": 1067
+      },
+      "after": {
+        "firstLine": 1108,
+        "lastLine": 1123
+      },
+      "nonXmlExcerptSha256": "7e684a37bbce6a9f4383d0b655a16110377dd04a7b4fa04cb4971954951e3e8c"
+    },
+    {
+      "where": "root.members[320].source",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 553,
+        "lastLine": 578
+      },
+      "after": {
+        "firstLine": 597,
+        "lastLine": 622
+      },
+      "nonXmlExcerptSha256": "28c51ddcc14d21913848dde22835f5c1bbc9ac84d42263b99b845bfd59390020"
+    },
+    {
+      "where": "root.members[320].implementationRanges[0]",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 1221,
+        "lastLine": 1225
+      },
+      "after": {
+        "firstLine": 1277,
+        "lastLine": 1281
+      },
+      "nonXmlExcerptSha256": "d7475e82915cafa8e5bbd71d235dc7ad1ee39aa33966918012a87145074fcb2b"
+    },
+    {
+      "where": "root.members[321].source",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 792,
+        "lastLine": 803
+      },
+      "after": {
+        "firstLine": 848,
+        "lastLine": 859
+      },
+      "nonXmlExcerptSha256": "7f77056a8ad5ec94a7a9f882576b6ea50b17858e7880e7001f7b1a7dae2bd07f"
+    },
+    {
+      "where": "root.members[322].source",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 289,
+        "lastLine": 311
+      },
+      "after": {
+        "firstLine": 317,
+        "lastLine": 339
+      },
+      "nonXmlExcerptSha256": "af688acccf68fda0b95ffa25ac2049f2e778485de9cbd5ae215fa4b29cb61928"
+    },
+    {
+      "where": "root.members[322].implementationRanges[0]",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 1204,
+        "lastLine": 1205
+      },
+      "after": {
+        "firstLine": 1260,
+        "lastLine": 1261
+      },
+      "nonXmlExcerptSha256": "bd683d65929ad2771e950c7e9232604562227ebc5586e077d7a8f97ca1d8283f"
+    },
+    {
+      "where": "root.members[322].implementationRanges[1]",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 1207,
+        "lastLine": 1208
+      },
+      "after": {
+        "firstLine": 1263,
+        "lastLine": 1264
+      },
+      "nonXmlExcerptSha256": "4082dcd27b22e2e285bb813ee9326f72230a8f54ae8f7e1ec5368ee428be534b"
+    },
+    {
+      "where": "root.members[323].source",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 90,
+        "lastLine": 111
+      },
+      "after": {
+        "firstLine": 98,
+        "lastLine": 119
+      },
+      "nonXmlExcerptSha256": "2625a6ceb7f2aeee554daf7ef41ed6d5f953c2b42d73f5b0ee1cf3abea9f5f59"
+    },
+    {
+      "where": "root.members[323].implementationRanges[0]",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 1204,
+        "lastLine": 1205
+      },
+      "after": {
+        "firstLine": 1260,
+        "lastLine": 1261
+      },
+      "nonXmlExcerptSha256": "bd683d65929ad2771e950c7e9232604562227ebc5586e077d7a8f97ca1d8283f"
+    },
+    {
+      "where": "root.members[323].implementationRanges[1]",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 1207,
+        "lastLine": 1208
+      },
+      "after": {
+        "firstLine": 1263,
+        "lastLine": 1264
+      },
+      "nonXmlExcerptSha256": "4082dcd27b22e2e285bb813ee9326f72230a8f54ae8f7e1ec5368ee428be534b"
+    },
+    {
+      "where": "root.members[324].source",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 71,
+        "lastLine": 73
+      },
+      "after": {
+        "firstLine": 75,
+        "lastLine": 77
+      },
+      "nonXmlExcerptSha256": "1e5243833ca4fc74175b02a5219019ededef8f7afa54d001ac611e0d838ed5bc"
+    },
+    {
+      "where": "root.members[324].implementationRanges[0]",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 90,
+        "lastLine": 111
+      },
+      "after": {
+        "firstLine": 98,
+        "lastLine": 119
+      },
+      "nonXmlExcerptSha256": "2625a6ceb7f2aeee554daf7ef41ed6d5f953c2b42d73f5b0ee1cf3abea9f5f59"
+    },
+    {
+      "where": "root.members[324].implementationRanges[1]",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 1204,
+        "lastLine": 1205
+      },
+      "after": {
+        "firstLine": 1260,
+        "lastLine": 1261
+      },
+      "nonXmlExcerptSha256": "bd683d65929ad2771e950c7e9232604562227ebc5586e077d7a8f97ca1d8283f"
+    },
+    {
+      "where": "root.members[324].implementationRanges[2]",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 1207,
+        "lastLine": 1208
+      },
+      "after": {
+        "firstLine": 1263,
+        "lastLine": 1264
+      },
+      "nonXmlExcerptSha256": "4082dcd27b22e2e285bb813ee9326f72230a8f54ae8f7e1ec5368ee428be534b"
+    },
+    {
+      "where": "root.members[325].source",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 120,
+        "lastLine": 122
+      },
+      "after": {
+        "firstLine": 132,
+        "lastLine": 134
+      },
+      "nonXmlExcerptSha256": "e1b168e927195dff40f8868c32903237c8ec46cfc453b58aa50efafff0eb0724"
+    },
+    {
+      "where": "root.members[325].implementationRanges[0]",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 137,
+        "lastLine": 155
+      },
+      "after": {
+        "firstLine": 153,
+        "lastLine": 171
+      },
+      "nonXmlExcerptSha256": "7b538e051d85d2e4a2165cbf3365c817be949a37c33dff5696564bbbbb192432"
+    },
+    {
+      "where": "root.members[326].source",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 332,
+        "lastLine": 351
+      },
+      "after": {
+        "firstLine": 364,
+        "lastLine": 383
+      },
+      "nonXmlExcerptSha256": "5cb3562d9275ec8a42dd16441351f03fc5b6120a32fdbae6432d32f7db274580"
+    },
+    {
+      "where": "root.members[327].source",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 137,
+        "lastLine": 155
+      },
+      "after": {
+        "firstLine": 153,
+        "lastLine": 171
+      },
+      "nonXmlExcerptSha256": "7b538e051d85d2e4a2165cbf3365c817be949a37c33dff5696564bbbbb192432"
+    },
+    {
+      "where": "root.members[328].source",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 1099,
+        "lastLine": 1111
+      },
+      "after": {
+        "firstLine": 1155,
+        "lastLine": 1167
+      },
+      "nonXmlExcerptSha256": "13f86c91503620cc5caec479fc042665261897c5100515bf0ec17b55102f563a"
+    },
+    {
+      "where": "root.members[329].source",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 595,
+        "lastLine": 614
+      },
+      "after": {
+        "firstLine": 643,
+        "lastLine": 662
+      },
+      "nonXmlExcerptSha256": "f4d09cef8107f5f1d8a285b1761fbeebb3db260b659037e34b55c0fbc864520d"
+    },
+    {
+      "where": "root.members[330].source",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 834,
+        "lastLine": 845
+      },
+      "after": {
+        "firstLine": 890,
+        "lastLine": 901
+      },
+      "nonXmlExcerptSha256": "db6aeb93a70e195528c67d1805c13760d742cccb6f180aa468cca1989e58edba"
+    },
+    {
+      "where": "root.members[331].source",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 644,
+        "lastLine": 653
+      },
+      "after": {
+        "firstLine": 696,
+        "lastLine": 705
+      },
+      "nonXmlExcerptSha256": "b0917fd738174dae6a424e515626a937f10b248b4d8e784c3546199e6d9d83f9"
+    },
+    {
+      "where": "root.members[331].implementationRanges[0]",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 677,
+        "lastLine": 717
+      },
+      "after": {
+        "firstLine": 733,
+        "lastLine": 773
+      },
+      "nonXmlExcerptSha256": "9f85966e8552afd7719940c3b393e61097dbe4031a8c6185934a39e6892145c8"
+    },
+    {
+      "where": "root.members[331].implementationRanges[1]",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 1210,
+        "lastLine": 1219
+      },
+      "after": {
+        "firstLine": 1266,
+        "lastLine": 1275
+      },
+      "nonXmlExcerptSha256": "8dea87b36a35e47a0530220fb6121ee6c02dd6e7c04c038c5e5c25ff5da80340"
+    },
+    {
+      "where": "root.members[331].implementationRanges[2]",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 1221,
+        "lastLine": 1225
+      },
+      "after": {
+        "firstLine": 1277,
+        "lastLine": 1281
+      },
+      "nonXmlExcerptSha256": "d7475e82915cafa8e5bbd71d235dc7ad1ee39aa33966918012a87145074fcb2b"
+    },
+    {
+      "where": "root.members[332].source",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 1148,
+        "lastLine": 1160
+      },
+      "after": {
+        "firstLine": 1204,
+        "lastLine": 1216
+      },
+      "nonXmlExcerptSha256": "56feef2afedc35bdbe497b164a16c9067a9498e1d22fc52ad61f80db9f13261c"
+    },
+    {
+      "where": "root.members[333].source",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 1187,
+        "lastLine": 1202
+      },
+      "after": {
+        "firstLine": 1243,
+        "lastLine": 1258
+      },
+      "nonXmlExcerptSha256": "be33889090cbbd8238a7f2e978475dc08420c57c540ef100f2bb19faf49e1d8a"
+    },
+    {
+      "where": "root.members[334].source",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 677,
+        "lastLine": 717
+      },
+      "after": {
+        "firstLine": 733,
+        "lastLine": 773
+      },
+      "nonXmlExcerptSha256": "9f85966e8552afd7719940c3b393e61097dbe4031a8c6185934a39e6892145c8"
+    },
+    {
+      "where": "root.members[334].implementationRanges[0]",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 1221,
+        "lastLine": 1225
+      },
+      "after": {
+        "firstLine": 1277,
+        "lastLine": 1281
+      },
+      "nonXmlExcerptSha256": "d7475e82915cafa8e5bbd71d235dc7ad1ee39aa33966918012a87145074fcb2b"
+    },
+    {
+      "where": "root.members[335].source",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 878,
+        "lastLine": 889
+      },
+      "after": {
+        "firstLine": 934,
+        "lastLine": 945
+      },
+      "nonXmlExcerptSha256": "f2766603cc09bccd04b446bb365ddd24402d76927c163fadbf87a1bf5b244cff"
+    },
+    {
+      "where": "root.members[336].source",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 373,
+        "lastLine": 410
+      },
+      "after": {
+        "firstLine": 409,
+        "lastLine": 446
+      },
+      "nonXmlExcerptSha256": "e230139a64a4ffe1af58c404b33eb967421692c26687629f70d42827930f50bd"
+    },
+    {
+      "where": "root.members[336].implementationRanges[0]",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 1204,
+        "lastLine": 1205
+      },
+      "after": {
+        "firstLine": 1260,
+        "lastLine": 1261
+      },
+      "nonXmlExcerptSha256": "bd683d65929ad2771e950c7e9232604562227ebc5586e077d7a8f97ca1d8283f"
+    },
+    {
+      "where": "root.members[336].implementationRanges[1]",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 1207,
+        "lastLine": 1208
+      },
+      "after": {
+        "firstLine": 1263,
+        "lastLine": 1264
+      },
+      "nonXmlExcerptSha256": "4082dcd27b22e2e285bb813ee9326f72230a8f54ae8f7e1ec5368ee428be534b"
+    },
+    {
+      "where": "root.members[337].source",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 188,
+        "lastLine": 224
+      },
+      "after": {
+        "firstLine": 212,
+        "lastLine": 248
+      },
+      "nonXmlExcerptSha256": "e754940bd8372caf79ad399a80d44f7bd423b6fd100e5658169d472a5bfdac3e"
+    },
+    {
+      "where": "root.members[337].implementationRanges[0]",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 1204,
+        "lastLine": 1205
+      },
+      "after": {
+        "firstLine": 1260,
+        "lastLine": 1261
+      },
+      "nonXmlExcerptSha256": "bd683d65929ad2771e950c7e9232604562227ebc5586e077d7a8f97ca1d8283f"
+    },
+    {
+      "where": "root.members[337].implementationRanges[1]",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 1207,
+        "lastLine": 1208
+      },
+      "after": {
+        "firstLine": 1263,
+        "lastLine": 1264
+      },
+      "nonXmlExcerptSha256": "4082dcd27b22e2e285bb813ee9326f72230a8f54ae8f7e1ec5368ee428be534b"
+    },
+    {
+      "where": "root.members[338].source",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 168,
+        "lastLine": 170
+      },
+      "after": {
+        "firstLine": 188,
+        "lastLine": 190
+      },
+      "nonXmlExcerptSha256": "394fb73772826f60ca7d12c0dcd3519c3f07c38e7f1ac7c66f169606595af9e5"
+    },
+    {
+      "where": "root.members[338].implementationRanges[0]",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 188,
+        "lastLine": 224
+      },
+      "after": {
+        "firstLine": 212,
+        "lastLine": 248
+      },
+      "nonXmlExcerptSha256": "e754940bd8372caf79ad399a80d44f7bd423b6fd100e5658169d472a5bfdac3e"
+    },
+    {
+      "where": "root.members[338].implementationRanges[1]",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 1204,
+        "lastLine": 1205
+      },
+      "after": {
+        "firstLine": 1260,
+        "lastLine": 1261
+      },
+      "nonXmlExcerptSha256": "bd683d65929ad2771e950c7e9232604562227ebc5586e077d7a8f97ca1d8283f"
+    },
+    {
+      "where": "root.members[338].implementationRanges[2]",
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "before": {
+        "firstLine": 1207,
+        "lastLine": 1208
+      },
+      "after": {
+        "firstLine": 1263,
+        "lastLine": 1264
+      },
+      "nonXmlExcerptSha256": "4082dcd27b22e2e285bb813ee9326f72230a8f54ae8f7e1ec5368ee428be534b"
+    },
+    {
+      "where": "root.members[396].source",
+      "path": "src/FunnySharp/Option.cs",
+      "before": {
+        "firstLine": 11,
+        "lastLine": 11
+      },
+      "after": {
+        "firstLine": 11,
+        "lastLine": 11
+      },
+      "nonXmlExcerptSha256": "957d546d78c87d36189f36d8496a68aff5f15f1b005acba09735a651e62cafb8"
+    },
+    {
+      "where": "root.members[397].source",
+      "path": "src/FunnySharp/Option.cs",
+      "before": {
+        "firstLine": 11,
+        "lastLine": 11
+      },
+      "after": {
+        "firstLine": 11,
+        "lastLine": 11
+      },
+      "nonXmlExcerptSha256": "957d546d78c87d36189f36d8496a68aff5f15f1b005acba09735a651e62cafb8"
+    },
+    {
+      "where": "root.members[398].source",
+      "path": "src/FunnySharp/Option.cs",
+      "before": {
+        "firstLine": 11,
+        "lastLine": 11
+      },
+      "after": {
+        "firstLine": 11,
+        "lastLine": 11
+      },
+      "nonXmlExcerptSha256": "957d546d78c87d36189f36d8496a68aff5f15f1b005acba09735a651e62cafb8"
+    },
+    {
+      "where": "root.members[399].source",
+      "path": "src/FunnySharp/Option.cs",
+      "before": {
+        "firstLine": 11,
+        "lastLine": 11
+      },
+      "after": {
+        "firstLine": 11,
+        "lastLine": 11
+      },
+      "nonXmlExcerptSha256": "957d546d78c87d36189f36d8496a68aff5f15f1b005acba09735a651e62cafb8"
+    },
+    {
+      "where": "root.members[408].source",
+      "path": "src/FunnySharp/UnitResultExtensions.cs",
+      "before": {
+        "firstLine": 81,
+        "lastLine": 90
+      },
+      "after": {
+        "firstLine": 93,
+        "lastLine": 102
+      },
+      "nonXmlExcerptSha256": "27c04489bb47c18579b9b55a5efa13f697d14087604507b858b1e307a3f083b5"
+    },
+    {
+      "where": "root.members[409].source",
+      "path": "src/FunnySharp/UnitResultExtensions.cs",
+      "before": {
+        "firstLine": 65,
+        "lastLine": 70
+      },
+      "after": {
+        "firstLine": 77,
+        "lastLine": 82
+      },
+      "nonXmlExcerptSha256": "c3a6f078136b72e4dd0c78f89934556a7c56cc47658d00279492e604fffacfb3"
+    },
+    {
+      "where": "root.members[410].source",
+      "path": "src/FunnySharp/UnitResultExtensions.cs",
+      "before": {
+        "firstLine": 16,
+        "lastLine": 25
+      },
+      "after": {
+        "firstLine": 16,
+        "lastLine": 25
+      },
+      "nonXmlExcerptSha256": "8e35aa2f38f9f4100c62155308085f7223ab2f3c96f7c04b8632827138d4866c"
+    },
+    {
+      "where": "root.members[411].source",
+      "path": "src/FunnySharp/UnitResultExtensions.cs",
+      "before": {
+        "firstLine": 127,
+        "lastLine": 140
+      },
+      "after": {
+        "firstLine": 158,
+        "lastLine": 171
+      },
+      "nonXmlExcerptSha256": "83486f512c6030bc6a9bd8aac5a9aecb71d95d927285a3212c4a70dffa046e48"
+    },
+    {
+      "where": "root.members[412].source",
+      "path": "src/FunnySharp/UnitResultExtensions.cs",
+      "before": {
+        "firstLine": 102,
+        "lastLine": 114
+      },
+      "after": {
+        "firstLine": 123,
+        "lastLine": 135
+      },
+      "nonXmlExcerptSha256": "96989389a05768ddd06f1ded61de3d4bffd74f211451d8e699def80b27057c5d"
+    },
+    {
+      "where": "root.members[413].source",
+      "path": "src/FunnySharp/UnitResultExtensions.cs",
+      "before": {
+        "firstLine": 225,
+        "lastLine": 238
+      },
+      "after": {
+        "firstLine": 294,
+        "lastLine": 307
+      },
+      "nonXmlExcerptSha256": "cb0dea123a90df767faac51752a481f7d13a1ae7bb92bb5861379e0182c966fc"
+    },
+    {
+      "where": "root.members[414].source",
+      "path": "src/FunnySharp/UnitResultExtensions.cs",
+      "before": {
+        "firstLine": 201,
+        "lastLine": 213
+      },
+      "after": {
+        "firstLine": 259,
+        "lastLine": 271
+      },
+      "nonXmlExcerptSha256": "7f092e2c1f636c9d036bbbf8529f1ff22ba4e588a759aed8db2b790a30702984"
+    },
+    {
+      "where": "root.members[415].source",
+      "path": "src/FunnySharp/UnitResultExtensions.cs",
+      "before": {
+        "firstLine": 36,
+        "lastLine": 41
+      },
+      "after": {
+        "firstLine": 42,
+        "lastLine": 47
+      },
+      "nonXmlExcerptSha256": "8a75bfcd3b2af51fbf193220c7bd37ea9a03b09ad1471a358a8351e7b1c5d2f6"
+    },
+    {
+      "where": "root.members[416].source",
+      "path": "src/FunnySharp/UnitResultExtensions.cs",
+      "before": {
+        "firstLine": 177,
+        "lastLine": 190
+      },
+      "after": {
+        "firstLine": 225,
+        "lastLine": 238
+      },
+      "nonXmlExcerptSha256": "393648e6dc20585cb4844ba69e5088c8a3cc98d8592ccdf72c65933ccfbdca4e"
+    },
+    {
+      "where": "root.members[417].source",
+      "path": "src/FunnySharp/UnitResultExtensions.cs",
+      "before": {
+        "firstLine": 152,
+        "lastLine": 164
+      },
+      "after": {
+        "firstLine": 191,
+        "lastLine": 203
+      },
+      "nonXmlExcerptSha256": "31b456d63448b289b3fd506bd43d787d1705043db486bf43eaab628fca56ef39"
+    },
+    {
+      "where": "root.members[418].source",
+      "path": "src/FunnySharp/UnitResultExtensions.cs",
+      "before": {
+        "firstLine": 273,
+        "lastLine": 286
+      },
+      "after": {
+        "firstLine": 361,
+        "lastLine": 374
+      },
+      "nonXmlExcerptSha256": "73405a9e25fa0f32eac5da181daf460e6d8ee0d1355bd62cfa05a904b1351651"
+    },
+    {
+      "where": "root.members[419].source",
+      "path": "src/FunnySharp/UnitResultExtensions.cs",
+      "before": {
+        "firstLine": 249,
+        "lastLine": 261
+      },
+      "after": {
+        "firstLine": 327,
+        "lastLine": 339
+      },
+      "nonXmlExcerptSha256": "f0ad0141f6a17ad00b232e23be82a9a4836b5b5ae1e5d981ea633ce42b68ae20"
+    },
+    {
+      "where": "root.members[420].source",
+      "path": "src/FunnySharp/UnitResultExtensions.cs",
+      "before": {
+        "firstLine": 53,
+        "lastLine": 55
+      },
+      "after": {
+        "firstLine": 65,
+        "lastLine": 67
+      },
+      "nonXmlExcerptSha256": "2dedb40fc4f853e8cba7d8a737366fc42f0f566f621e04b558160a9432b77127"
+    },
+    {
+      "where": "root.members[421].source",
+      "path": "src/FunnySharp/PartitionExtensions.cs",
+      "before": {
+        "firstLine": 72,
+        "lastLine": 72
+      },
+      "after": {
+        "firstLine": 72,
+        "lastLine": 72
+      },
+      "nonXmlExcerptSha256": "80892059cecc57c85bc8129045f65cadf49311242fc02f05eafb2d0f05a3516f"
+    },
+    {
+      "where": "root.members[422].source",
+      "path": "src/FunnySharp/PartitionExtensions.cs",
+      "before": {
+        "firstLine": 72,
+        "lastLine": 72
+      },
+      "after": {
+        "firstLine": 72,
+        "lastLine": 72
+      },
+      "nonXmlExcerptSha256": "80892059cecc57c85bc8129045f65cadf49311242fc02f05eafb2d0f05a3516f"
+    },
+    {
+      "where": "root.members[423].source",
+      "path": "src/FunnySharp/PartitionExtensions.cs",
+      "before": {
+        "firstLine": 72,
+        "lastLine": 72
+      },
+      "after": {
+        "firstLine": 72,
+        "lastLine": 72
+      },
+      "nonXmlExcerptSha256": "80892059cecc57c85bc8129045f65cadf49311242fc02f05eafb2d0f05a3516f"
+    },
+    {
+      "where": "root.members[424].source",
+      "path": "src/FunnySharp/PartitionExtensions.cs",
+      "before": {
+        "firstLine": 72,
+        "lastLine": 72
+      },
+      "after": {
+        "firstLine": 72,
+        "lastLine": 72
+      },
+      "nonXmlExcerptSha256": "80892059cecc57c85bc8129045f65cadf49311242fc02f05eafb2d0f05a3516f"
+    },
+    {
+      "where": "root.members[425].source",
+      "path": "src/FunnySharp/PartitionExtensions.cs",
+      "before": {
+        "firstLine": 72,
+        "lastLine": 72
+      },
+      "after": {
+        "firstLine": 72,
+        "lastLine": 72
+      },
+      "nonXmlExcerptSha256": "80892059cecc57c85bc8129045f65cadf49311242fc02f05eafb2d0f05a3516f"
+    },
+    {
+      "where": "root.members[426].source",
+      "path": "src/FunnySharp/PartitionExtensions.cs",
+      "before": {
+        "firstLine": 72,
+        "lastLine": 72
+      },
+      "after": {
+        "firstLine": 72,
+        "lastLine": 72
+      },
+      "nonXmlExcerptSha256": "80892059cecc57c85bc8129045f65cadf49311242fc02f05eafb2d0f05a3516f"
+    },
+    {
+      "where": "root.members[427].source",
+      "path": "src/FunnySharp/PartitionExtensions.cs",
+      "before": {
+        "firstLine": 72,
+        "lastLine": 72
+      },
+      "after": {
+        "firstLine": 72,
+        "lastLine": 72
+      },
+      "nonXmlExcerptSha256": "80892059cecc57c85bc8129045f65cadf49311242fc02f05eafb2d0f05a3516f"
+    },
+    {
+      "where": "root.members[428].source",
+      "path": "src/FunnySharp/PartitionExtensions.cs",
+      "before": {
+        "firstLine": 72,
+        "lastLine": 72
+      },
+      "after": {
+        "firstLine": 72,
+        "lastLine": 72
+      },
+      "nonXmlExcerptSha256": "80892059cecc57c85bc8129045f65cadf49311242fc02f05eafb2d0f05a3516f"
+    },
+    {
+      "where": "root.members[429].source",
+      "path": "src/FunnySharp/PartitionExtensions.cs",
+      "before": {
+        "firstLine": 72,
+        "lastLine": 72
+      },
+      "after": {
+        "firstLine": 72,
+        "lastLine": 72
+      },
+      "nonXmlExcerptSha256": "80892059cecc57c85bc8129045f65cadf49311242fc02f05eafb2d0f05a3516f"
+    },
+    {
+      "where": "root.members[430].source",
+      "path": "src/FunnySharp/PartitionExtensions.cs",
+      "before": {
+        "firstLine": 72,
+        "lastLine": 72
+      },
+      "after": {
+        "firstLine": 72,
+        "lastLine": 72
+      },
+      "nonXmlExcerptSha256": "80892059cecc57c85bc8129045f65cadf49311242fc02f05eafb2d0f05a3516f"
+    },
+    {
+      "where": "root.members[431].source",
+      "path": "src/FunnySharp/PartitionExtensions.cs",
+      "before": {
+        "firstLine": 72,
+        "lastLine": 72
+      },
+      "after": {
+        "firstLine": 72,
+        "lastLine": 72
+      },
+      "nonXmlExcerptSha256": "80892059cecc57c85bc8129045f65cadf49311242fc02f05eafb2d0f05a3516f"
+    },
+    {
+      "where": "root.members[453].source",
+      "path": "src/FunnySharp/ValidationExtensions.cs",
+      "before": {
+        "firstLine": 21,
+        "lastLine": 24
+      },
+      "after": {
+        "firstLine": 27,
+        "lastLine": 30
+      },
+      "nonXmlExcerptSha256": "b2b1f0aa0ec7a97c7964d9ffd76edc299be654930d8aafae61232f5e24b7769a"
+    },
+    {
+      "where": "root.members[454].source",
+      "path": "src/FunnySharp/ValidationExtensions.cs",
+      "before": {
+        "firstLine": 65,
+        "lastLine": 79
+      },
+      "after": {
+        "firstLine": 90,
+        "lastLine": 104
+      },
+      "nonXmlExcerptSha256": "bf4cfb9b4affe1de9e445b8731a5d5db40a8b19c90210ecdf25f2ab1d60a4553"
+    },
+    {
+      "where": "root.members[455].source",
+      "path": "src/FunnySharp/ValidationExtensions.cs",
+      "before": {
+        "firstLine": 37,
+        "lastLine": 50
+      },
+      "after": {
+        "firstLine": 52,
+        "lastLine": 65
+      },
+      "nonXmlExcerptSha256": "432c6ae5b2d5a78548f2933e4b340edc6ba2d1a9928f4c0487f0b1caff0ca975"
+    },
+    {
+      "where": "root.members[456].source",
+      "path": "src/FunnySharp/ValidationExtensions.cs",
+      "before": {
+        "firstLine": 122,
+        "lastLine": 140
+      },
+      "after": {
+        "firstLine": 164,
+        "lastLine": 182
+      },
+      "nonXmlExcerptSha256": "081939514a1cd4587d96333d2975645741075f3fead34ad1d0b8e24f432ac7b2"
+    },
+    {
+      "where": "root.members[457].source",
+      "path": "src/FunnySharp/ValidationExtensions.cs",
+      "before": {
+        "firstLine": 93,
+        "lastLine": 107
+      },
+      "after": {
+        "firstLine": 126,
+        "lastLine": 140
+      },
+      "nonXmlExcerptSha256": "5a0a713404da540d1cba6aedd82679ce0e7fa88ac6010c12da7f59b79b76ad30"
+    },
+    {
+      "where": "root.members[458].source",
+      "path": "src/FunnySharp/Validation.cs",
+      "before": {
+        "firstLine": 208,
+        "lastLine": 231
+      },
+      "after": {
+        "firstLine": 212,
+        "lastLine": 235
+      },
+      "nonXmlExcerptSha256": "3ec831753501aab94644b7d21976f74589298305e1cb03489f90fef10f830514"
+    },
+    {
+      "where": "root.members[459].source",
+      "path": "src/FunnySharp/Validation.cs",
+      "before": {
+        "firstLine": 244,
+        "lastLine": 266
+      },
+      "after": {
+        "firstLine": 248,
+        "lastLine": 270
+      },
+      "nonXmlExcerptSha256": "d1c1a096bfaff4a5071fad059dcbdd67e46433f6941c96ac8d58fb7c7b5f6784"
+    },
+    {
+      "where": "root.members[460].source",
+      "path": "src/FunnySharp/Validation.cs",
+      "before": {
+        "firstLine": 323,
+        "lastLine": 355
+      },
+      "after": {
+        "firstLine": 327,
+        "lastLine": 359
+      },
+      "nonXmlExcerptSha256": "e723ce871734ff622ec5ae4c83060915635e3bf1c9fc91f2507ca23cc6837f0b"
+    },
+    {
+      "where": "root.members[461].source",
+      "path": "src/FunnySharp/Validation.cs",
+      "before": {
+        "firstLine": 281,
+        "lastLine": 306
+      },
+      "after": {
+        "firstLine": 285,
+        "lastLine": 310
+      },
+      "nonXmlExcerptSha256": "e974b5bcff0c9ad8fbba4f80802962586d4336530b96b4f987ce68f77075d2a8"
+    },
+    {
+      "where": "root.members[462].source",
+      "path": "src/FunnySharp/Validation.cs",
+      "before": {
+        "firstLine": 162,
+        "lastLine": 170
+      },
+      "after": {
+        "firstLine": 165,
+        "lastLine": 173
+      },
+      "nonXmlExcerptSha256": "ae3082e47579cafc5e79ffe1963fa1c55a241285370181057ca12d153c7b19de"
+    },
+    {
+      "where": "root.members[463].source",
+      "path": "src/FunnySharp/Validation.cs",
+      "before": {
+        "firstLine": 179,
+        "lastLine": 196
+      },
+      "after": {
+        "firstLine": 183,
+        "lastLine": 200
+      },
+      "nonXmlExcerptSha256": "54bbe38d4a2cf298e2479446582949d1b27d9db00e810987efe8f24f355ef032"
+    },
+    {
+      "where": "root.members[464].source",
+      "path": "src/FunnySharp/Validation.cs",
+      "before": {
+        "firstLine": 65,
+        "lastLine": 66
+      },
+      "after": {
+        "firstLine": 65,
+        "lastLine": 66
+      },
+      "nonXmlExcerptSha256": "0dfb1be946336003c763a1dc548d9ffc974be2a3f9989f1e0a58eeff3846773d"
+    },
+    {
+      "where": "root.members[465].source",
+      "path": "src/FunnySharp/Validation.cs",
+      "before": {
+        "firstLine": 75,
+        "lastLine": 86
+      },
+      "after": {
+        "firstLine": 75,
+        "lastLine": 86
+      },
+      "nonXmlExcerptSha256": "194a2523f248fe51f320a0b56b9dc0e9d7e21a7033e1f80f7726c80ad3e47d1f"
+    },
+    {
+      "where": "root.members[466].source",
+      "path": "src/FunnySharp/Validation.cs",
+      "before": {
+        "firstLine": 58,
+        "lastLine": 58
+      },
+      "after": {
+        "firstLine": 58,
+        "lastLine": 58
+      },
+      "nonXmlExcerptSha256": "bfeb448c543859e0e435c9f6a4697fa545834d93864c7c6ea9b99780e2cbd742"
+    },
+    {
+      "where": "root.members[467].source",
+      "path": "src/FunnySharp/Validation.cs",
+      "before": {
+        "firstLine": 428,
+        "lastLine": 431
+      },
+      "after": {
+        "firstLine": 433,
+        "lastLine": 436
+      },
+      "nonXmlExcerptSha256": "78374996188e18074e93604b778aa6028e22dd8c206782438735965211c1c80e"
+    },
+    {
+      "where": "root.members[468].source",
+      "path": "src/FunnySharp/Validation.cs",
+      "before": {
+        "firstLine": 436,
+        "lastLine": 439
+      },
+      "after": {
+        "firstLine": 442,
+        "lastLine": 445
+      },
+      "nonXmlExcerptSha256": "c3f7276e6502a099d50c4594347daf5c7d89f0fee0edd496539441038bc361e5"
+    },
+    {
+      "where": "root.members[469].source",
+      "path": "src/FunnySharp/Validation.cs",
+      "before": {
+        "firstLine": 359,
+        "lastLine": 390
+      },
+      "after": {
+        "firstLine": 363,
+        "lastLine": 394
+      },
+      "nonXmlExcerptSha256": "80fbfdeed73c37a710131bf5d392a89fec8b69ce327adc4a3102007f9081ec92"
+    },
+    {
+      "where": "root.members[470].source",
+      "path": "src/FunnySharp/Validation.cs",
+      "before": {
+        "firstLine": 394,
+        "lastLine": 398
+      },
+      "after": {
+        "firstLine": 398,
+        "lastLine": 402
+      },
+      "nonXmlExcerptSha256": "5ee8c3925fac078dc71e362117d55be3f354b163800800ef7637e792cd38ba55"
+    },
+    {
+      "where": "root.members[471].source",
+      "path": "src/FunnySharp/Validation.cs",
+      "before": {
+        "firstLine": 107,
+        "lastLine": 112
+      },
+      "after": {
+        "firstLine": 107,
+        "lastLine": 112
+      },
+      "nonXmlExcerptSha256": "904c3e88e41c5a8ba875f0b9d474e5e14a50860b6e276e5853b73b27b782ddad"
+    },
+    {
+      "where": "root.members[472].source",
+      "path": "src/FunnySharp/Validation.cs",
+      "before": {
+        "firstLine": 94,
+        "lastLine": 99
+      },
+      "after": {
+        "firstLine": 94,
+        "lastLine": 99
+      },
+      "nonXmlExcerptSha256": "dee05939b237df79a8480da82a0ad3574fb6179e958635dc0170ebfc2894a386"
+    },
+    {
+      "where": "root.members[473].source",
+      "path": "src/FunnySharp/Validation.cs",
+      "before": {
+        "firstLine": 402,
+        "lastLine": 423
+      },
+      "after": {
+        "firstLine": 406,
+        "lastLine": 427
+      },
+      "nonXmlExcerptSha256": "a0ecea5dc04915767a8a89a999c6695b5276f32949cfca68d15cdb62717480d2"
+    },
+    {
+      "where": "root.members[474].source",
+      "path": "src/FunnySharp/Validation.cs",
+      "before": {
+        "firstLine": 443,
+        "lastLine": 449
+      },
+      "after": {
+        "firstLine": 449,
+        "lastLine": 455
+      },
+      "nonXmlExcerptSha256": "14f36e20f617a8e3d1d76b4071a258511e375fd88f4cb40afd70d45231b6bedc"
+    },
+    {
+      "where": "root.members[475].source",
+      "path": "src/FunnySharp/Validation.cs",
+      "before": {
+        "firstLine": 139,
+        "lastLine": 153
+      },
+      "after": {
+        "firstLine": 141,
+        "lastLine": 155
+      },
+      "nonXmlExcerptSha256": "7953475294ab2b2b46f4ec8beacffadca093125edd5a74c2b55df1c8b7adade7"
+    },
+    {
+      "where": "root.members[476].source",
+      "path": "src/FunnySharp/Validation.cs",
+      "before": {
+        "firstLine": 122,
+        "lastLine": 131
+      },
+      "after": {
+        "firstLine": 123,
+        "lastLine": 132
+      },
+      "nonXmlExcerptSha256": "e6e4154015752ac4440e11e1a3823dd08a04f81f4f1e98105166f9f95e237a5b"
+    },
+    {
+      "where": "root.members[477].source",
+      "path": "src/FunnySharp/Validation.cs",
+      "before": {
+        "firstLine": 44,
+        "lastLine": 51
+      },
+      "after": {
+        "firstLine": 44,
+        "lastLine": 51
+      },
+      "nonXmlExcerptSha256": "3fc20c85613f1e4c1a682dbcf1892921f4252a290f2040c1cfb0848dc7278da5"
+    },
+    {
+      "where": "root.members[478].source",
+      "path": "src/FunnySharp/Validation.cs",
+      "before": {
+        "firstLine": 31,
+        "lastLine": 38
+      },
+      "after": {
+        "firstLine": 31,
+        "lastLine": 38
+      },
+      "nonXmlExcerptSha256": "52ca10adf496fb87d85288a8d977a530afc8a795478813a88077d569ef0c76cf"
+    }
+  ],
+  "embeddedReferences": [
+    {
+      "where": "root.members[0].boxing",
+      "path": "src/FunnySharp/Option.cs",
+      "before": "Option.cs:447-457",
+      "after": "Option.cs:453-463"
+    },
+    {
+      "where": "root.members[1].boxing",
+      "path": "src/FunnySharp/Option.cs",
+      "before": "Option.cs:447-457",
+      "after": "Option.cs:453-463"
+    },
+    {
+      "where": "root.members[2].boxing",
+      "path": "src/FunnySharp/Option.cs",
+      "before": "Option.cs:447-457",
+      "after": "Option.cs:453-463"
+    },
+    {
+      "where": "root.members[3].boxing",
+      "path": "src/FunnySharp/Option.cs",
+      "before": "Option.cs:447-457",
+      "after": "Option.cs:453-463"
+    },
+    {
+      "where": "root.members[4].boxing",
+      "path": "src/FunnySharp/Option.cs",
+      "before": "Option.cs:447-457",
+      "after": "Option.cs:453-463"
+    },
+    {
+      "where": "root.members[5].boxing",
+      "path": "src/FunnySharp/Option.cs",
+      "before": "Option.cs:447-457",
+      "after": "Option.cs:453-463"
+    },
+    {
+      "where": "root.members[6].boxing",
+      "path": "src/FunnySharp/Option.cs",
+      "before": "Option.cs:447-457",
+      "after": "Option.cs:453-463"
+    },
+    {
+      "where": "root.members[7].boxing",
+      "path": "src/FunnySharp/Option.cs",
+      "before": "Option.cs:447-457",
+      "after": "Option.cs:453-463"
+    },
+    {
+      "where": "root.members[8].boxing",
+      "path": "src/FunnySharp/Option.cs",
+      "before": "Option.cs:447-457",
+      "after": "Option.cs:453-463"
+    },
+    {
+      "where": "root.members[41].boxing",
+      "path": "src/FunnySharp/Option.cs",
+      "before": "Option.cs:447-457",
+      "after": "Option.cs:453-463"
+    },
+    {
+      "where": "root.members[42].boxing",
+      "path": "src/FunnySharp/Option.cs",
+      "before": "Option.cs:447-457",
+      "after": "Option.cs:453-463"
+    },
+    {
+      "where": "root.members[43].boxing",
+      "path": "src/FunnySharp/Option.cs",
+      "before": "Option.cs:447-457",
+      "after": "Option.cs:453-463"
+    },
+    {
+      "where": "root.members[44].boxing",
+      "path": "src/FunnySharp/Option.cs",
+      "before": "Option.cs:447-457",
+      "after": "Option.cs:453-463"
+    },
+    {
+      "where": "root.members[45].boxing",
+      "path": "src/FunnySharp/Option.cs",
+      "before": "Option.cs:447-457",
+      "after": "Option.cs:453-463"
+    },
+    {
+      "where": "root.members[46].boxing",
+      "path": "src/FunnySharp/Option.cs",
+      "before": "Option.cs:447-457",
+      "after": "Option.cs:453-463"
+    },
+    {
+      "where": "root.members[47].boxing",
+      "path": "src/FunnySharp/Option.cs",
+      "before": "Option.cs:447-457",
+      "after": "Option.cs:453-463"
+    },
+    {
+      "where": "root.members[48].boxing",
+      "path": "src/FunnySharp/Option.cs",
+      "before": "Option.cs:447-457",
+      "after": "Option.cs:453-463"
+    },
+    {
+      "where": "root.members[49].boxing",
+      "path": "src/FunnySharp/Option.cs",
+      "before": "Option.cs:447-457",
+      "after": "Option.cs:453-463"
+    },
+    {
+      "where": "root.members[50].boxing",
+      "path": "src/FunnySharp/Option.cs",
+      "before": "Option.cs:447-457",
+      "after": "Option.cs:453-463"
+    },
+    {
+      "where": "root.members[51].boxing",
+      "path": "src/FunnySharp/Option.cs",
+      "before": "Option.cs:447-457",
+      "after": "Option.cs:453-463"
+    },
+    {
+      "where": "root.members[52].boxing",
+      "path": "src/FunnySharp/Option.cs",
+      "before": "Option.cs:447-457",
+      "after": "Option.cs:453-463"
+    },
+    {
+      "where": "root.members[53].resources",
+      "path": "src/FunnySharp/ConcurrentEffectExtensions.cs",
+      "before": "ConcurrentEffectExtensions.cs:203-204",
+      "after": "ConcurrentEffectExtensions.cs:207-208"
+    },
+    {
+      "where": "root.members[54].resources",
+      "path": "src/FunnySharp/ConcurrentEffectExtensions.cs",
+      "before": "ConcurrentEffectExtensions.cs:203-204",
+      "after": "ConcurrentEffectExtensions.cs:207-208"
+    },
+    {
+      "where": "root.members[55].resources",
+      "path": "src/FunnySharp/ConcurrentEffectExtensions.cs",
+      "before": "ConcurrentEffectExtensions.cs:203-204",
+      "after": "ConcurrentEffectExtensions.cs:207-208"
+    },
+    {
+      "where": "root.members[56].resources",
+      "path": "src/FunnySharp/ConcurrentEffectExtensions.cs",
+      "before": "ConcurrentEffectExtensions.cs:203-204",
+      "after": "ConcurrentEffectExtensions.cs:207-208"
+    },
+    {
+      "where": "root.members[57].boxing",
+      "path": "src/FunnySharp/Option.cs",
+      "before": "Option.cs:447-457",
+      "after": "Option.cs:453-463"
+    },
+    {
+      "where": "root.members[58].boxing",
+      "path": "src/FunnySharp/Option.cs",
+      "before": "Option.cs:447-457",
+      "after": "Option.cs:453-463"
+    },
+    {
+      "where": "root.members[59].boxing",
+      "path": "src/FunnySharp/Option.cs",
+      "before": "Option.cs:447-457",
+      "after": "Option.cs:453-463"
+    },
+    {
+      "where": "root.members[60].boxing",
+      "path": "src/FunnySharp/Option.cs",
+      "before": "Option.cs:447-457",
+      "after": "Option.cs:453-463"
+    },
+    {
+      "where": "root.members[61].boxing",
+      "path": "src/FunnySharp/Option.cs",
+      "before": "Option.cs:447-457",
+      "after": "Option.cs:453-463"
+    },
+    {
+      "where": "root.members[62].boxing",
+      "path": "src/FunnySharp/Option.cs",
+      "before": "Option.cs:447-457",
+      "after": "Option.cs:453-463"
+    },
+    {
+      "where": "root.members[63].boxing",
+      "path": "src/FunnySharp/Option.cs",
+      "before": "Option.cs:447-457",
+      "after": "Option.cs:453-463"
+    },
+    {
+      "where": "root.members[64].boxing",
+      "path": "src/FunnySharp/Option.cs",
+      "before": "Option.cs:447-457",
+      "after": "Option.cs:453-463"
+    },
+    {
+      "where": "root.members[147].retainedExistingReview",
+      "path": "src/FunnySharp/Option.cs",
+      "before": "Option.cs:25",
+      "after": "Option.cs:25"
+    },
+    {
+      "where": "root.members[190].retainedExistingReview",
+      "path": "src/FunnySharp/Option.cs",
+      "before": "Option.cs:194-199",
+      "after": "Option.cs:196-201"
+    },
+    {
+      "where": "root.members[192].retainedExistingReview",
+      "path": "src/FunnySharp/Option.cs",
+      "before": "Option.cs:136-139",
+      "after": "Option.cs:136-139"
+    },
+    {
+      "where": "root.members[197].retainedExistingReview",
+      "path": "src/FunnySharp/Option.cs",
+      "before": "Option.cs:146-150",
+      "after": "Option.cs:146-150"
+    },
+    {
+      "where": "root.members[253].retainedExistingReview",
+      "path": "src/FunnySharp/Result.cs",
+      "before": "Result.cs:22-23",
+      "after": "Result.cs:22-23"
+    },
+    {
+      "where": "root.members[254].retainedExistingReview",
+      "path": "src/FunnySharp/Result.cs",
+      "before": "Result.cs:36-51",
+      "after": "Result.cs:36-51"
+    },
+    {
+      "where": "root.members[255].retainedExistingReview",
+      "path": "src/FunnySharp/Result.cs",
+      "before": "Result.cs:68-72",
+      "after": "Result.cs:68-72"
+    },
+    {
+      "where": "root.members[256].retainedExistingReview",
+      "path": "src/FunnySharp/Result.cs",
+      "before": "Result.cs:92-99",
+      "after": "Result.cs:92-99"
+    },
+    {
+      "where": "root.members[257].retainedExistingReview",
+      "path": "src/FunnySharp/Result.cs",
+      "before": "Result.cs:116-121",
+      "after": "Result.cs:116-121"
+    },
+    {
+      "where": "root.members[258].retainedExistingReview",
+      "path": "src/FunnySharp/Result.cs",
+      "before": "Result.cs:141-148",
+      "after": "Result.cs:141-148"
+    },
+    {
+      "where": "root.members[295].retainedExistingReview",
+      "path": "src/FunnySharp/Result.cs",
+      "before": "Result.cs:464",
+      "after": "Result.cs:464"
+    },
+    {
+      "where": "root.members[296].retainedExistingReview",
+      "path": "src/FunnySharp/Result.cs",
+      "before": "Result.cs:457",
+      "after": "Result.cs:457"
+    },
+    {
+      "where": "root.members[301].retainedExistingReview",
+      "path": "src/FunnySharp/Result.cs",
+      "before": "Result.cs:485-490",
+      "after": "Result.cs:485-490"
+    },
+    {
+      "where": "root.members[302].retainedExistingReview",
+      "path": "src/FunnySharp/Result.cs",
+      "before": "Result.cs:472-477",
+      "after": "Result.cs:472-477"
+    },
+    {
+      "where": "root.members[464].retainedExistingReview",
+      "path": "src/FunnySharp/Validation.cs",
+      "before": "Validation.cs:65-66",
+      "after": "Validation.cs:65-66"
+    },
+    {
+      "where": "root.members[465].retainedExistingReview",
+      "path": "src/FunnySharp/Validation.cs",
+      "before": "Validation.cs:75-86",
+      "after": "Validation.cs:75-86"
+    },
+    {
+      "where": "root.members[466].retainedExistingReview",
+      "path": "src/FunnySharp/Validation.cs",
+      "before": "Validation.cs:58",
+      "after": "Validation.cs:58"
+    },
+    {
+      "where": "root.members[471].retainedExistingReview",
+      "path": "src/FunnySharp/Validation.cs",
+      "before": "Validation.cs:107-112",
+      "after": "Validation.cs:107-112"
+    },
+    {
+      "where": "root.members[472].retainedExistingReview",
+      "path": "src/FunnySharp/Validation.cs",
+      "before": "Validation.cs:94-99",
+      "after": "Validation.cs:94-99"
+    }
+  ],
+  "limitations": "This proves source-body equality and exact source/helper line relocation only. Final census/runtime/byte binding and newly measured performance receipts are mandatory; historical numeric observations are not rebound or exempted.",
+  "priorCoverageCanonicalJsonSha256": "22de2318679e74d203629080857afa021ad111df639c7819ece73e5a58f40c5d",
+  "previousDocumentationOnlyDelta": "docs/audits/goal-24-resolution/evidence/u14-documentation-source-delta.json"
+}

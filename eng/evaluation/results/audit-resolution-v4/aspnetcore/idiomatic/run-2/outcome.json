@@ -1,0 +1,26 @@
+{
+  "slot": "aspnetcore/idiomatic/run-2",
+  "sessionId": "study-session:27706c06-521f-4ed2-b183-91340576df4f",
+  "status": "MALFORMED_OR_INTERRUPTED",
+  "rounds": [
+    {
+      "round": 1,
+      "native": {
+        "pid": 46144,
+        "exitCode": 1,
+        "processAbsent": true,
+        "startedUtc": "2026-10-02T16:26:20.684Z",
+        "finishedUtc": "2026-10-02T16:26:40.189Z",
+        "actualCliSessionId": null,
+        "invocationId": "native-call:54f7c2a7-bbd3-4aff-8bbb-9533bb8da2e8",
+        "actualProviderRequests": 0,
+        "outgoingInputByteExact": false
+      },
+      "solutionFiles": [],
+      "decodeError": "Native exit or payload/context boundary invalid",
+      "gradeExitCode": 1,
+      "gradeOutcome": "NO_GENERATED_SOLUTION",
+      "gradeRecordPresent": false
+    }
+  ]
+}

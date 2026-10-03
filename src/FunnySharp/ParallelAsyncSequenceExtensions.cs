@@ -89,6 +89,11 @@ public static class ParallelAsyncSequenceExtensions
     /// <paramref name="source"/> or <paramref name="selector"/> is <see langword="null"/>.
     /// </exception>
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="maxConcurrency"/> is less than one.</exception>
+    /// <exception cref="InvalidOperationException">
+    /// A started selector returns an uninitialized result and this is the sole recorded fault. Observing
+    /// it stops admission and cancels the linked operation token; started work is drained and the source
+    /// enumerator disposed before the fault is reported. Multiple recorded faults form an AggregateException.
+    /// </exception>
     public static ValueTask<Result<IReadOnlyList<TResult>, TError>> TraverseParallelValueAsync<TSource, TResult, TError>(
         this IAsyncEnumerable<TSource> source,
         int maxConcurrency,
@@ -124,6 +129,11 @@ public static class ParallelAsyncSequenceExtensions
     /// <paramref name="source"/> or <paramref name="selector"/> is <see langword="null"/>.
     /// </exception>
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="maxConcurrency"/> is less than one.</exception>
+    /// <exception cref="InvalidOperationException">
+    /// A started selector returns an uninitialized result and this is the sole recorded fault. Observing
+    /// it stops admission and cancels the linked operation token; started work is drained and the source
+    /// enumerator disposed before the fault is reported. Multiple recorded faults form an AggregateException.
+    /// </exception>
     public static ValueTask<Result<IReadOnlyList<TResult>, TError>> TraverseParallelValueAsync<TSource, TResult, TError>(
         this IAsyncEnumerable<TSource> source,
         int maxConcurrency,
@@ -155,6 +165,11 @@ public static class ParallelAsyncSequenceExtensions
     /// <paramref name="source"/> or <paramref name="selector"/> is <see langword="null"/>.
     /// </exception>
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="maxConcurrency"/> is less than one.</exception>
+    /// <exception cref="InvalidOperationException">
+    /// Normal traversal, started selector operations, and source disposal succeed, but a collected validation
+    /// is uninitialized. Validation values are inspected only after full admission, drain, and disposal;
+    /// this default-state fault is not a typed validation failure and does not stop earlier admission.
+    /// </exception>
     public static ValueTask<Validation<IReadOnlyList<TResult>, TError>> TraverseParallelValueAsync<TSource, TResult, TError>(
         this IAsyncEnumerable<TSource> source,
         int maxConcurrency,
@@ -191,6 +206,11 @@ public static class ParallelAsyncSequenceExtensions
     /// <paramref name="source"/> or <paramref name="selector"/> is <see langword="null"/>.
     /// </exception>
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="maxConcurrency"/> is less than one.</exception>
+    /// <exception cref="InvalidOperationException">
+    /// Normal traversal, started selector operations, and source disposal succeed, but a collected validation
+    /// is uninitialized. Validation values are inspected only after full admission, drain, and disposal;
+    /// this default-state fault is not a typed validation failure and does not stop earlier admission.
+    /// </exception>
     public static ValueTask<Validation<IReadOnlyList<TResult>, TError>> TraverseParallelValueAsync<TSource, TResult, TError>(
         this IAsyncEnumerable<TSource> source,
         int maxConcurrency,

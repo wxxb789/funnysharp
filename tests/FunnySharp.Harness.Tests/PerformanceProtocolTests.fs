@@ -13,6 +13,10 @@ open System.IO
 open System.Security.Cryptography
 open System.Text
 open System.Text.Json
+open System.Text.Json.Nodes
+open System.Reflection
+open System.Reflection.Metadata
+open System.Reflection.PortableExecutable
 open System.Text.RegularExpressions
 open Xunit
 open FunnySharp.Harness.Tests.Support
@@ -520,7 +524,348 @@ let private assertFailsWith (pattern: string) (exitCode: int) (stderr: string) :
 
 // ---- Facts ----
 
+let private parseObject (text: string) : JsonObject =
+    match JsonNode.Parse(text) with
+    | null -> failwith "Expected a JSON object."
+    | node -> node.AsObject()
+
+let private requiredNode (node: JsonNode | null) : JsonNode =
+    match node with
+    | null -> failwith "Missing trusted fixture node."
+    | value -> value
+
+let private nodeField (node: JsonNode) (name: string) : JsonNode = requiredNode node[name]
+let private nodeItem (node: JsonNode) (index: int) : JsonNode = requiredNode node[index]
+
+let private binaryJson (path: string) : string =
+    use stream = File.OpenRead path
+    use pe = new PEReader(stream)
+    let reader = pe.GetMetadataReader()
+    let mvid = reader.GetGuid(reader.GetModuleDefinition().Mvid).ToString()
+    jsonObjectText
+        [ "file", jsonString (Path.GetFullPath path)
+          "sha256", jsonString (fileSha256 path)
+          "mvid", jsonString mvid
+          "identity", jsonString (AssemblyName.GetAssemblyName(path).FullName) ]
+
+let private boundFixture (root: string) : Fixture =
+    let initial = newFixture root
+    let sourceDir = Path.Combine(root, "src", "Fixture")
+    let benchmarkDir = Path.Combine(root, "benchmarks", "Fixture")
+    Directory.CreateDirectory sourceDir |> ignore
+    Directory.CreateDirectory benchmarkDir |> ignore
+
+    let extraFiles =
+        [ "Directory.Build.props", "<Project />"
+          "README.md", "fixture package readme"
+          "global.json", "{}"
+          "src/Fixture/UnitResult.cs", "fixture source"
+          "src/Fixture/Fixture.csproj", "<Project />"
+          "src/Fixture/packages.lock.json", "{}"
+          "benchmarks/Fixture/Fixture.csproj", "<Project />"
+          "benchmarks/Fixture/Fixture.cs", "fixture benchmark"
+          "benchmarks/Fixture/packages.lock.json", "{}" ]
+
+    for relative, text in extraFiles do
+        writeText (Path.Combine(root, relative)) text
+
+    let files =
+        [ "a-input.txt"; "Z-input.txt" ]
+        @ (extraFiles |> List.map fst)
+        |> List.sortWith (fun left right -> String.CompareOrdinal(left, right))
+
+    let manifest = parseObject (File.ReadAllText initial.ManifestPath)
+    (nodeField manifest "benchmarkInput")["files"] <-
+        JsonNode.Parse(jsonArrayText (files |> List.map jsonString))
+
+    manifest["runBinding"] <-
+        JsonNode.Parse(
+            jsonObjectText
+                [ "baseCommit", jsonString (String.replicate 40 "a")
+                  "baseTree", jsonString (String.replicate 40 "b")
+                  "benchmarkProject", jsonString "benchmarks/Fixture/Fixture.csproj" ])
+
+    writeJson initial.ManifestPath (manifest.ToJsonString())
+    let inputFingerprint = fileSetFingerprint root files
+    let protocolFingerprint = initial.ProtocolFingerprint
+    let policyFingerprintValue = policyFingerprint initial.ManifestPath
+    let snapshot =
+        "snapshot:"
+        + textSha256 (
+            String.concat "\000"
+                [ String.replicate 40 "a"
+                  String.replicate 40 "b"
+                  policyFingerprintValue
+                  inputFingerprint
+                  protocolFingerprint ])
+
+    let fixture =
+        { initial with
+            CandidateCommit = snapshot
+            InputFingerprint = inputFingerprint
+            PolicyFingerprint = policyFingerprintValue }
+
+    writeReceipt fixture
+
+    // Real, distinct managed PE files preserve the hash/MVID checks under test.
+    let benchmarkDll = Path.Combine(fixture.ReceiptsDir, "fixture-benchmark.dll")
+    let workloadDll = Path.Combine(fixture.ReceiptsDir, "fixture-workload.dll")
+    File.Copy(typeof<FunnySharp.Harness.Output.HarnessError>.Assembly.Location, benchmarkDll)
+    File.Copy(typeof<JsonDocument>.Assembly.Location, workloadDll)
+
+    let runId = "11111111111111111111111111111111"
+    let preflightPath = Path.Combine(fixture.ReceiptsDir, runId + "-preflight.json")
+    let rows =
+        fixture.PolicyRows
+        |> List.filter (fun row -> row.Included)
+        |> List.map (fun row ->
+            let node = parseObject row.Json
+            node["outcomeSha256"] <- JsonValue.Create(textSha256 "42")
+            node.ToJsonString())
+
+    let preflight =
+        jsonObjectText
+            [ "schemaVersion", "1"
+              "runId", jsonString runId
+              "completedAtUtc", jsonString "2026-09-24T00:00:00Z"
+              "candidateSnapshot", jsonString snapshot
+              "baseCommit", jsonString (String.replicate 40 "a")
+              "baseTree", jsonString (String.replicate 40 "b")
+              "policyFingerprint", jsonString policyFingerprintValue
+              "benchmarkInputFingerprint", jsonString inputFingerprint
+              "protocolFingerprint", jsonString protocolFingerprint
+              "runtime", jsonString fixture.Environment.Runtime
+              "rows", jsonArrayText rows
+              "semanticCases", jsonArrayText [ jsonString "Fixture|" ]
+              "excludedIds", jsonArrayText [ jsonString "excluded|fixture" ]
+              "assemblies", jsonArrayText [ binaryJson benchmarkDll ] ]
+
+    writeJson preflightPath preflight
+    let child =
+        jsonObjectText
+            [ "runId", jsonString runId
+              "candidateSnapshot", jsonString snapshot
+              "capturedAtUtc", jsonString "2026-09-24T01:00:00Z"
+              "processId", "1234"
+              "runtime", jsonString fixture.Environment.Runtime
+              "benchmarkClass", jsonString "Fixture"
+              "parameters", jsonString ""
+              "workload", binaryJson workloadDll
+              "assemblies", jsonArrayText [ binaryJson benchmarkDll ] ]
+
+    let marker =
+        "// funnysharp-workload:"
+        + Convert.ToBase64String(Encoding.UTF8.GetBytes child)
+
+    let launches =
+        fixture.ReceiptRows
+        |> List.mapi (fun index row ->
+            let name = sprintf "fixture-launch-%d.log" index
+            let path = Path.Combine(fixture.ReceiptsDir, name)
+            writeText path marker
+            jsonObjectText
+                [ "rowId", jsonString row.Id
+                  "file", jsonString name
+                  "sha256", jsonString (fileSha256 path) ])
+
+    let receipt = parseObject (File.ReadAllText fixture.ReceiptPath)
+    receipt["binding"] <-
+        JsonNode.Parse(
+            jsonObjectText
+                [ "preflight",
+                  jsonObjectText
+                      [ "file", jsonString (match Path.GetFileName preflightPath with null -> failwith "Missing preflight filename." | name -> name)
+                        "sha256", jsonString (fileSha256 preflightPath) ]
+                  "launches", jsonArrayText launches ])
+    writeJson fixture.ReceiptPath (receipt.ToJsonString())
+    fixture
+
+let private mutateBoundPreflight (fixture: Fixture) (mutate: JsonObject -> unit) : unit =
+    let receipt = parseObject (File.ReadAllText fixture.ReceiptPath)
+    let evidence = (nodeField (nodeField receipt "binding") "preflight")
+    let path = Path.Combine(fixture.ReceiptsDir, (nodeField evidence "file").GetValue<string>())
+    let preflight = parseObject (File.ReadAllText path)
+    mutate preflight
+    writeJson path (preflight.ToJsonString())
+    evidence["sha256"] <- JsonValue.Create(fileSha256 path)
+    writeJson fixture.ReceiptPath (receipt.ToJsonString())
+
+let private mutateBoundLaunch (fixture: Fixture) (mutate: JsonObject -> unit) : unit =
+    let receipt = parseObject (File.ReadAllText fixture.ReceiptPath)
+    let evidence = (nodeItem (nodeField (nodeField receipt "binding") "launches") 0)
+    let path = Path.Combine(fixture.ReceiptsDir, (nodeField evidence "file").GetValue<string>())
+    let marker = File.ReadAllText path
+    let payload = marker.Substring("// funnysharp-workload:".Length)
+    let child = parseObject (Encoding.UTF8.GetString(Convert.FromBase64String payload))
+    mutate child
+    writeText path (
+        "// funnysharp-workload:"
+        + Convert.ToBase64String(Encoding.UTF8.GetBytes(child.ToJsonString())))
+    evidence["sha256"] <- JsonValue.Create(fileSha256 path)
+    writeJson fixture.ReceiptPath (receipt.ToJsonString())
+
+
+// Coverage fixtures preserve legacy receipt semantics while independently binding
+// a small exact API surface, source declarations and mandatory resource witnesses.
+let private coverageFixture (root: string) : Fixture =
+    let fixture = newFixture root
+    let baselineDir = Path.Combine(root, "eng", "api-baseline")
+    let coverageDir = Path.Combine(root, "eng", "performance", "coverage")
+    Directory.CreateDirectory baselineDir |> ignore
+    Directory.CreateDirectory coverageDir |> ignore
+    let core = "ASSEMBLY FunnySharp, Culture=neutral, PublicKeyToken=null\nCLASS FunnySharp.Fixture\n  METHOD static System.Int32 Value()\nCLASS FunnySharp.Location\n  METHOD static FunnySharp.Location Root()\n"
+    let http = "ASSEMBLY FunnySharp.AspNetCore, Culture=neutral, PublicKeyToken=null\nCLASS FunnySharp.AspNetCore.HttpResultExtensions\n  METHOD static System.Int32 Value()\n"
+    let corePath = "eng/api-baseline/FunnySharp.public-api.txt"
+    let httpPath = "eng/api-baseline/FunnySharp.AspNetCore.public-api.txt"
+    writeText (Path.Combine(root, corePath)) core
+    writeText (Path.Combine(root, httpPath)) http
+    let sourcePath = "coverage-source.txt"
+    writeText (Path.Combine(root, sourcePath)) "public static int Value() => 42;\n[Experimental(\"FS0017\")]\npublic sealed class Location { public static Location Root() => new(); }\n"
+    let witnessPath = "coverage-witness.txt"
+    writeText (Path.Combine(root, witnessPath)) "LongInputBound\nCancelAndDrain\nLinearFirstSuccess\n"
+    let boundFile path =
+        jsonObjectText [ "path", jsonString path; "sha256", jsonString (fileSha256 (Path.Combine(root, path))) ]
+    let source first last =
+        jsonObjectText [ "path", jsonString sourcePath; "firstLine", string first; "lastLine", string last ]
+    let row identity assembly declaring memberLine stability first last =
+        jsonObjectText
+            [ "identity", jsonString identity
+              "assembly", jsonString assembly
+              "declaringType", jsonString declaring
+              "member", jsonString memberLine
+              "stability", jsonString stability
+              "source", source first last
+              "allocation", jsonString "Immediate scalar return; no managed storage."
+              "cost", jsonString "One constant scalar return."
+              "boxing", jsonString "No conversion to object or interface."
+              "resources", jsonString "No resource acquisition, admission, disposal or awaitable consumption."
+              "benchmarkRows", if stability = "stable" then jsonArrayText [ jsonString fixture.PolicyRows[0].Id ] else "[]"
+              "exclusionReason", if stability = "experimental" then jsonString "Experimental FS0017 Location declaration; no stable promise." else "null" ]
+    let rows =
+        [ row "C:3" (core.Split('\n')[0]) "CLASS FunnySharp.Fixture" "  METHOD static System.Int32 Value()" "stable" 1 1
+          row "C:5" (core.Split('\n')[0]) "CLASS FunnySharp.Location" "  METHOD static FunnySharp.Location Root()" "experimental" 2 3
+          row "H:3" (http.Split('\n')[0]) "CLASS FunnySharp.AspNetCore.HttpResultExtensions" "  METHOD static System.Int32 Value()" "stable" 1 1 ]
+    // This small census is deliberately synthetic, independent of the coverage
+    // stability flags. The actual checkout requires both real package DLLs.
+    let metadata declaring memberText token experimental =
+        jsonObjectText
+            [ "declaringType", jsonString declaring; "memberKind", jsonString "Method"
+              "member", jsonString memberText; "metadataToken", string token
+              "experimentalDiagnostic", if experimental then jsonString "FS0017" else "null" ]
+    let coreMetadata =
+        [ metadata "FunnySharp.Fixture" "Int32 Value()" 100663297 false
+          metadata "FunnySharp.Location" "FunnySharp.Location Root()" 100663298 true ]
+    let httpMetadata = [ metadata "FunnySharp.AspNetCore.HttpResultExtensions" "Int32 Value()" 100663297 false ]
+    let censusPath = "coverage-census.json"
+    let assembly name baseline members =
+        jsonObjectText
+            [ "assembly", jsonString name; "baselineSha256", jsonString (fileSha256 (Path.Combine(root, baseline)))
+              "metadata", jsonArrayText members ]
+    writeJson (Path.Combine(root, censusPath)) (
+        jsonObjectText
+            [ "assemblies", jsonArrayText
+                  [ assembly "FunnySharp" corePath coreMetadata
+                    assembly "FunnySharp.AspNetCore" httpPath httpMetadata ] ])
+    let rows =
+        List.zip rows (coreMetadata @ httpMetadata)
+        |> List.map (fun (row, memberMetadata) ->
+            let node = parseObject row
+            node["metadata"] <- JsonNode.Parse memberMetadata
+            node.ToJsonString())
+    let witness kind name line =
+        jsonObjectText
+            [ "kind", jsonString kind; "path", jsonString witnessPath
+              "sha256", jsonString (fileSha256 (Path.Combine(root, witnessPath)))
+              "member", jsonString name; "firstLine", string line; "lastLine", string line ]
+    let coverage =
+        jsonObjectText
+            [ "schema", jsonString "funnysharp-stable-performance-coverage/v1"
+              "baselines", jsonObjectText [ "C", boundFile corePath; "H", boundFile httpPath ]
+              "metadataCensus", boundFile censusPath
+              "sourceFiles", jsonArrayText [ boundFile sourcePath ]
+              "benchmarkManifests", jsonArrayText [ jsonObjectText [ "path", jsonString (Path.GetRelativePath(root, fixture.ManifestPath)); "policySha256", jsonString (policyFingerprint fixture.ManifestPath) ] ]
+              "members", jsonArrayText rows
+              "mandatoryWitnesses", jsonArrayText [ witness "long-input-bound" "LongInputBound" 1; witness "cancel-drain" "CancelAndDrain" 2; witness "linear-first-success" "LinearFirstSuccess" 3 ] ]
+    writeJson (Path.Combine(coverageDir, "stable-members.json")) coverage
+    fixture
+
+let private coveragePath (fixture: Fixture) =
+    Path.Combine(fixture.Root, "eng", "performance", "coverage", "stable-members.json")
+
+
 type PerformanceProtocolTests() =
+
+    [<Fact>]
+    member _.VerifyPerformance_U13_CompleteExactCoverage_Succeeds() =
+        use temp = new TempDirectory()
+        let fixture = coverageFixture (Path.Combine(temp.Path, "coverage"))
+        let exitCode, _, stderr = runVerifier fixture
+        assertPassed exitCode stderr
+
+    [<Theory>]
+    [<InlineData("missing-map")>]
+    [<InlineData("missing-member")>]
+    [<InlineData("duplicate-member")>]
+    [<InlineData("stale-identity")>]
+    [<InlineData("stale-baseline")>]
+    [<InlineData("stale-source")>]
+    [<InlineData("missing-census")>]
+    [<InlineData("stale-census")>]
+    [<InlineData("stale-metadata")>]
+    [<InlineData("unknown-row")>]
+    [<InlineData("empty-exclusion")>]
+    [<InlineData("experimental-as-stable")>]
+    [<InlineData("stable-as-experimental")>]
+    [<InlineData("missing-allocation")>]
+    [<InlineData("missing-cost")>]
+    [<InlineData("missing-boxing")>]
+    [<InlineData("missing-resources")>]
+    [<InlineData("missing-long-input-witness")>]
+    [<InlineData("missing-drain-witness")>]
+    [<InlineData("missing-linear-witness")>]
+    member _.VerifyPerformance_U13_IncompleteOrStaleCoverage_Rejects(mutation: string) =
+        use temp = new TempDirectory()
+        let fixture = coverageFixture (Path.Combine(temp.Path, mutation))
+        let path = coveragePath fixture
+        let coverage = parseObject (File.ReadAllText path)
+        let members = (nodeField coverage "members").AsArray()
+        let stable = nodeItem members 0
+        let experimental = nodeItem members 1
+        match mutation with
+        | "missing-map" -> File.Delete path
+        | "missing-member" -> members.RemoveAt(0)
+        | "duplicate-member" -> members.Add(stable.DeepClone())
+        | "stale-identity" -> stable["member"] <- JsonValue.Create("  METHOD static System.Int64 Value()")
+        | "stale-baseline" -> File.AppendAllText(Path.Combine(fixture.Root, "eng", "api-baseline", "FunnySharp.public-api.txt"), "changed")
+        | "stale-source" -> File.AppendAllText(Path.Combine(fixture.Root, "coverage-source.txt"), "changed")
+        | "missing-census" -> File.Delete(Path.Combine(fixture.Root, "coverage-census.json"))
+        | "stale-census" -> File.AppendAllText(Path.Combine(fixture.Root, "coverage-census.json"), "changed")
+        | "stale-metadata" -> (nodeField stable "metadata")["metadataToken"] <- JsonValue.Create(100663299)
+        | "unknown-row" -> stable["benchmarkRows"] <- JsonNode.Parse("[\"unknown-row\"]")
+        | "empty-exclusion" ->
+            stable["benchmarkRows"] <- JsonNode.Parse("[]")
+            stable["exclusionReason"] <- JsonValue.Create(" ")
+        | "experimental-as-stable" -> experimental["stability"] <- JsonValue.Create("stable")
+        | "stable-as-experimental" -> stable["stability"] <- JsonValue.Create("experimental")
+        | "missing-allocation" | "missing-cost" | "missing-boxing" | "missing-resources" ->
+            stable.AsObject().Remove(mutation.Substring("missing-".Length)) |> ignore
+        | "missing-long-input-witness" -> (nodeField coverage "mandatoryWitnesses").AsArray().RemoveAt(0)
+        | "missing-drain-witness" -> (nodeField coverage "mandatoryWitnesses").AsArray().RemoveAt(1)
+        | "missing-linear-witness" -> (nodeField coverage "mandatoryWitnesses").AsArray().RemoveAt(2)
+        | _ -> failwith "Unknown coverage mutation."
+        if mutation <> "missing-map" then writeJson path (coverage.ToJsonString())
+        let exitCode, _, stderr = runVerifier fixture
+        assertFailsWith "Stable performance coverage" exitCode stderr
+
+    [<Fact>]
+    member _.VerifyPerformance_U13_ActualSourceCannotUseLegacyCoverageBypass() =
+        use temp = new TempDirectory()
+        let fixture = newFixture (Path.Combine(temp.Path, "actual-source"))
+        Directory.CreateDirectory(Path.Combine(fixture.Root, "src", "FunnySharp")) |> ignore
+        let exitCode, _, stderr = runVerifier fixture
+        assertFailsWith "Stable performance coverage: stable-members.json is required" exitCode stderr
+
+
 
     [<Fact>]
     member _.VerifyPerformance_ValidPolicyAndReceipt_Succeeds() =
@@ -533,6 +878,142 @@ type PerformanceProtocolTests() =
             "Verified 2 included performance rows and 1 explicit exclusions across 1 receipts.",
             stdout
         )
+
+    [<Fact>]
+    member _.VerifyPerformance_U10_CompleteBinding_SucceedsWithoutChangingPolicy() =
+        use temp = new TempDirectory()
+        let fixture = boundFixture (Path.Combine(temp.Path, "bound"))
+        let before = policyFingerprint fixture.ManifestPath
+        let exitCode, _, stderr = runVerifier fixture
+        assertPassed exitCode stderr
+        Assert.Equal(before, policyFingerprint fixture.ManifestPath)
+
+    [<Theory>]
+    [<InlineData("missing-binding")>]
+    [<InlineData("missing-preflight")>]
+    [<InlineData("missing-launch")>]
+    [<InlineData("incomplete-preflight")>]
+    [<InlineData("duplicate-preflight")>]
+    [<InlineData("wrong-baseline")>]
+    [<InlineData("missing-semantic-case")>]
+    [<InlineData("wrong-preflight-policy")>]
+    [<InlineData("wrong-preflight-source")>]
+    [<InlineData("wrong-preflight-protocol")>]
+    [<InlineData("wrong-workload")>]
+    [<InlineData("wrong-mvid")>]
+    [<InlineData("wrong-run")>]
+    [<InlineData("null-candidate")>]
+    [<InlineData("wrong-candidate")>]
+    [<InlineData("null-launch-candidate")>]
+    [<InlineData("tampered-preflight")>]
+    [<InlineData("tampered-workload")>]
+    [<InlineData("tampered-launch")>]
+    [<InlineData("new-source")>]
+    [<InlineData("new-import")>]
+    member _.VerifyPerformance_U10_MissingWrongOrTamperedBinding_Rejects(mutation: string) =
+        use temp = new TempDirectory()
+        let fixture = boundFixture (Path.Combine(temp.Path, mutation))
+        let receipt = parseObject (File.ReadAllText fixture.ReceiptPath)
+        match mutation with
+        | "missing-binding" ->
+            receipt.Remove("binding") |> ignore
+            writeJson fixture.ReceiptPath (receipt.ToJsonString())
+        | "missing-preflight" ->
+            File.Delete(Path.Combine(
+                fixture.ReceiptsDir,
+                (nodeField (nodeField (nodeField receipt "binding") "preflight") "file").GetValue<string>()))
+        | "missing-launch" ->
+            (nodeField (nodeField receipt "binding") "launches").AsArray().RemoveAt(0)
+            writeJson fixture.ReceiptPath (receipt.ToJsonString())
+        | "incomplete-preflight" ->
+            mutateBoundPreflight fixture (fun node -> (nodeField node "rows").AsArray().RemoveAt(0))
+        | "duplicate-preflight" ->
+            mutateBoundPreflight fixture (fun node ->
+                (nodeField node "rows").AsArray().Add((nodeItem (nodeField node "rows") 0).DeepClone()))
+        | "wrong-baseline" ->
+            mutateBoundPreflight fixture (fun node ->
+                (nodeItem (nodeField node "rows") 0)["baseline"] <- JsonValue.Create(false))
+        | "missing-semantic-case" ->
+            mutateBoundPreflight fixture (fun node -> (nodeField node "semanticCases").AsArray().Clear())
+        | "wrong-preflight-policy" ->
+            mutateBoundPreflight fixture (fun node ->
+                node["policyFingerprint"] <- JsonValue.Create(String.replicate 64 "0"))
+        | "wrong-preflight-source" ->
+            mutateBoundPreflight fixture (fun node ->
+                node["benchmarkInputFingerprint"] <- JsonValue.Create(String.replicate 64 "0"))
+        | "wrong-preflight-protocol" ->
+            mutateBoundPreflight fixture (fun node ->
+                node["protocolFingerprint"] <- JsonValue.Create(String.replicate 64 "0"))
+        | "wrong-workload" ->
+            mutateBoundLaunch fixture (fun node ->
+                node["workload"] <- (nodeItem (nodeField node "assemblies") 0).DeepClone())
+        | "wrong-mvid" ->
+            mutateBoundLaunch fixture (fun node ->
+                (nodeField node "workload")["mvid"] <- JsonValue.Create(Guid.Empty.ToString()))
+        | "wrong-run" ->
+            mutateBoundLaunch fixture (fun node ->
+                node["runId"] <- JsonValue.Create("22222222222222222222222222222222"))
+        | "null-candidate" ->
+            receipt["candidateCommit"] <- null
+            writeJson fixture.ReceiptPath (receipt.ToJsonString())
+        | "wrong-candidate" ->
+            receipt["candidateCommit"] <- JsonValue.Create("snapshot:" + String.replicate 64 "0")
+            writeJson fixture.ReceiptPath (receipt.ToJsonString())
+        | "null-launch-candidate" ->
+            mutateBoundLaunch fixture (fun node -> node["candidateSnapshot"] <- null)
+        | "tampered-preflight" ->
+            let path = Path.Combine(
+                fixture.ReceiptsDir,
+                (nodeField (nodeField (nodeField receipt "binding") "preflight") "file").GetValue<string>())
+            File.AppendAllText(path, " ")
+        | "tampered-workload" ->
+            File.AppendAllText(Path.Combine(fixture.ReceiptsDir, "fixture-workload.dll"), "changed")
+        | "tampered-launch" ->
+            let path = Path.Combine(
+                fixture.ReceiptsDir,
+                (nodeField (nodeItem (nodeField (nodeField receipt "binding") "launches") 0) "file").GetValue<string>())
+            File.AppendAllText(path, "changed")
+        | "new-source" ->
+            writeText (Path.Combine(fixture.Root, "src", "Fixture", "New.cs")) "new shipping input"
+        | "new-import" ->
+            writeText (Path.Combine(fixture.Root, "New.props")) "<Project />"
+        | _ -> failwith "Unknown mutation."
+        let exitCode, _, stderr = runVerifier fixture
+        Assert.Equal(1, exitCode)
+        Assert.False(String.IsNullOrWhiteSpace stderr)
+
+    [<Theory>]
+    [<InlineData("src/Fixture/UnitResult.cs")>]
+    [<InlineData("src/Fixture/Fixture.csproj")>]
+    [<InlineData("src/Fixture/packages.lock.json")>]
+    [<InlineData("Directory.Build.props")>]
+    member _.VerifyPerformance_U10_StaleShippingBuildInput_Rejects(relative: string) =
+        use temp = new TempDirectory()
+        let fixture = boundFixture (Path.Combine(temp.Path, "stale"))
+        File.AppendAllText(Path.Combine(fixture.Root, relative), "changed")
+        let exitCode, _, stderr = runVerifier fixture
+        Assert.Equal(1, exitCode)
+        Assert.False(String.IsNullOrWhiteSpace stderr)
+
+    [<Fact>]
+    member _.VerifyPerformance_U10_TwoBaselinesInAComparisonGroup_Rejects() =
+        use temp = new TempDirectory()
+        let fixture = newFixture (Path.Combine(temp.Path, "two-baselines"))
+        let mutated =
+            { fixture with
+                PolicyRows =
+                    [ fixture.PolicyRows[0]
+                      { fixture.PolicyRows[1] with Baseline = true }
+                      fixture.PolicyRows[2] ]
+                ReceiptRows =
+                    [ fixture.ReceiptRows[0]
+                      { fixture.ReceiptRows[1] with Baseline = true } ] }
+        writeManifest mutated
+        let repinned = { mutated with PolicyFingerprint = policyFingerprint mutated.ManifestPath }
+        writeReceipt repinned
+        let exitCode, _, stderr = runVerifier repinned
+        Assert.Equal(1, exitCode)
+        Assert.False(String.IsNullOrWhiteSpace stderr)
 
     [<Fact>]
     member _.VerifyPerformance_ZeroBudgetRegressedToNonZero_Rejects() =

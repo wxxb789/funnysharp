@@ -446,15 +446,240 @@ let renderPublicApiText (inventory: JsonArray) : string list =
 // XML documentation inventory
 // ---------------------------------------------------------------------------
 
-/// Get-XmlDocumentationInventory.
-let getXmlDocumentationInventory (paths: string list) : JsonArray =
+let private xmlDeclaredTypeName (apiType: Type) : string =
+    match apiType.FullName with
+    | null -> failNow "XML metadata has no declared type name."
+    | value -> value.Replace('+', '.')
+
+let rec private xmlTypeName (apiType: Type) : string =
+    let element () =
+        match apiType.GetElementType() with
+        | null -> failNow "XML metadata has no element type."
+        | value -> xmlTypeName value
+
+    if apiType.IsByRef then element () + "@"
+    elif apiType.IsPointer then element () + "*"
+    elif apiType.IsArray then
+        element () + (if apiType.IsSZArray then "[]" else "[" + String.concat "," (Array.create (apiType.GetArrayRank()) "0:") + "]")
+    elif apiType.IsGenericParameter then
+        (if isNull apiType.DeclaringMethod then "`" else "``") + string apiType.GenericParameterPosition
+    else
+        let name = Option.ofObj apiType.FullName |> Option.defaultValue apiType.Name
+        if apiType.IsGenericType then
+            Regex.Replace(xmlDeclaredTypeName (apiType.GetGenericTypeDefinition()), "`[0-9]+", "")
+            + "{" + String.concat "," (apiType.GetGenericArguments() |> Array.map xmlTypeName) + "}"
+        else name.Replace('+', '.')
+
+let private xmlMemberId (memberInfo: MemberInfo) : string =
+    let declaringType =
+        match memberInfo.DeclaringType with
+        | null -> failNow "XML member metadata has no declaring type."
+        | value -> value
+    let name = xmlDeclaredTypeName declaringType
+    let parameters (values: ParameterInfo array) =
+        if values.Length = 0 then ""
+        else "(" + String.concat "," (values |> Array.map (fun value -> xmlTypeName value.ParameterType)) + ")"
+    match memberInfo with
+    | :? ConstructorInfo as value -> "M:" + name + ".#ctor" + parameters (value.GetParameters())
+    | :? MethodInfo as value ->
+        "M:" + name + "." + value.Name.Replace('.', '#')
+        + (if value.IsGenericMethod then "``" + string (value.GetGenericArguments().Length) else "")
+        + parameters (value.GetParameters())
+        + (if value.Name = "op_Implicit" || value.Name = "op_Explicit" then "~" + xmlTypeName value.ReturnType else "")
+    | :? PropertyInfo as value -> "P:" + name + "." + value.Name + parameters (value.GetIndexParameters())
+    | :? FieldInfo as value -> "F:" + name + "." + value.Name
+    | :? EventInfo as value -> "E:" + name + "." + value.Name
+    | _ -> failNow "Unsupported XML member metadata kind."
+
+/// Exact reflected XML coverage, explicit generated aliases and metadata-supported inheritance.
+/// Semantic review and applicable compiler/runtime receipts remain separate acceptance dimensions.
+let getXmlDocumentationInventory (repositoryRoot: string) (paths: string list) : JsonArray =
     let inventories = JsonArray()
+    let expectedInheritance = HashSet<string>(StringComparer.Ordinal)
+    let usedInheritance = HashSet<string>(StringComparer.Ordinal)
+    let text (node: JsonNode | null) (key: string) =
+        match node with
+        | null -> failNow ("XML binding is missing object for: " + key)
+        | value ->
+            match value.[key] with
+            | :? JsonValue as value -> value.ToString()
+            | _ -> failNow ("XML binding is missing field: " + key)
+    let array (node: JsonNode) (key: string) =
+        match node.[key] with
+        | :? JsonArray as values ->
+            values |> Seq.map (function | null -> failNow "XML binding contains a null entry." | value -> value) |> Seq.toList
+        | _ -> failNow ("XML binding is missing array: " + key)
+    let indexXml (document: XDocument) =
+        let index = Dictionary<string, XElement>(StringComparer.Ordinal)
+        for memberElement in document.Descendants(XName.Get "member") do
+            let id =
+                match memberElement.Attribute(XName.Get "name") with
+                | null -> failNow "XML member identity is missing."
+                | value -> value.Value
+            if String.IsNullOrWhiteSpace id || not (index.TryAdd(id, memberElement)) then
+                failNow ("XML contains a duplicate or empty member identity: " + id)
+        index
+    let flags = BindingFlags.Public ||| BindingFlags.Instance ||| BindingFlags.Static ||| BindingFlags.DeclaredOnly
+    let loadedMetadata = lazy (
+        let assemblyPaths = paths |> List.map (fun path ->
+            match Path.ChangeExtension(path, ".dll") with
+            | null -> failNow "XML assembly metadata path is missing."
+            | value -> value)
+        for assemblyPath in assemblyPaths do
+            if not (File.Exists assemblyPath) then failNow ("XML assembly metadata was not found: " + assemblyPath)
+        getPublicApiInventory assemblyPaths repositoryRoot |> ignore)
 
     for path in List.sortWith (fun left right -> StringComparer.OrdinalIgnoreCase.Compare(left, right)) paths do
         if not (File.Exists path) then
             failNow (sprintf "XML documentation file was not found: '%s'." path)
 
         let document = XDocument.Parse(File.ReadAllText path)
+        let xml = indexXml document
+        let assemblyPath =
+            match Path.ChangeExtension(path, ".dll") with
+            | null -> failNow "XML assembly metadata path is missing."
+            | value -> value
+        if not (File.Exists assemblyPath) then
+            failNow ("XML assembly metadata was not found: " + assemblyPath)
+        let bindingPath = Path.Combine(repositoryRoot, "eng/api-baseline/xml-contract-bindings.json")
+        if not (File.Exists bindingPath) then failNow ("Explicit XML bindings were not found: " + bindingPath)
+        let bindings =
+            match JsonNode.Parse(File.ReadAllText bindingPath) with
+            | null -> failNow "Explicit XML bindings are empty."
+            | value -> value
+        if text bindings "schema" <> "funnysharp-explicit-xml-bindings/v1" then failNow "Unexpected XML binding schema."
+        // The canonical renderer also loads the ASP.NET shared framework dependencies.
+        loadedMetadata.Force()
+        let assembly = Assembly.LoadFrom assemblyPath
+        let assemblyName = assembly.GetName().Name |> Option.ofObj |> Option.defaultValue ""
+        let assemblyBindings = array bindings "assemblies" |> List.filter (fun value -> text value "name" = assemblyName)
+        if assemblyBindings.Length <> 1 then failNow ("XML assembly binding is absent or ambiguous: " + assemblyName)
+        let boundAssembly = assemblyBindings.Head
+        if sha256File assemblyPath <> text boundAssembly "dllSha256" || sha256File path <> text boundAssembly "xmlSha256" then
+            failNow "XML or assembly bytes differ from the reviewed contract binding."
+        if sha256File assembly.Location <> text boundAssembly "dllSha256" then
+            failNow "Loaded XML assembly metadata differs from the supplied binary."
+        let aliases = Dictionary<string, JsonNode>(StringComparer.Ordinal)
+        for alias in array bindings "aliases" |> List.filter (fun value -> text value "assembly" = assemblyName) do
+            if not (aliases.TryAdd(text alias "xmlId", alias)) then failNow "XML alias is duplicate."
+        let inherited = Dictionary<string, JsonNode>(StringComparer.Ordinal)
+        for binding in array bindings "inheritance" do
+            if not (inherited.TryAdd(text binding "xmlId", binding)) then failNow "XML inheritance binding is duplicate."
+        expectedInheritance.UnionWith inherited.Keys
+        let framework = bindings.["framework"]
+        if isNull framework then failNow "XML framework binding is missing."
+        let runtimeDirectory =
+            match Path.GetDirectoryName typeof<obj>.Assembly.Location with
+            | null -> failNow "Runtime installation directory is missing."
+            | value -> value
+        let mutable installation = DirectoryInfo runtimeDirectory
+        for _ in 1 .. 3 do
+            installation <-
+                match installation.Parent with
+                | null -> failNow "Runtime installation has no reference-pack root."
+                | value -> value
+        let frameworkPath = Path.Combine(installation.FullName, text framework "relativePath")
+        if not (File.Exists frameworkPath) || sha256File frameworkPath <> text framework "sha256" then
+            failNow "XML framework bytes are absent or stale."
+        let frameworkXml = indexXml (XDocument.Load frameworkPath)
+        let usedAliases = HashSet<string>(StringComparer.Ordinal)
+        let rows = JsonArray()
+        for apiType in assembly.GetExportedTypes() do
+            let typeId = "T:" + xmlDeclaredTypeName apiType
+            if not (xml.ContainsKey typeId) then failNow ("Exported type has no XML contract: " + typeId)
+            let metadata = apiType.GetMembers flags |> Array.filter (fun value ->
+                match value with
+                | :? ConstructorInfo -> true
+                | :? MethodInfo as method -> not method.IsSpecialName || method.Name.StartsWith("op_", StringComparison.Ordinal)
+                | :? PropertyInfo | :? FieldInfo | :? EventInfo -> true
+                | _ -> false)
+            for memberInfo in metadata do
+                let id = xmlMemberId memberInfo
+                let mutable target = ""
+                let bindingKind =
+                    match xml.TryGetValue id with
+                    | true, element ->
+                        match element.Element(XName.Get "inheritdoc") with
+                        | null -> "direct"
+                        | inheritdoc ->
+                            if not (inherited.ContainsKey id) then failNow ("XML inheritance has no explicit target: " + id)
+                            usedInheritance.Add id |> ignore
+                            target <- text inherited.[id] "target"
+                            match inheritdoc.Attribute(XName.Get "cref") with
+                            | null -> ()
+                            | cref when cref.Value = target -> ()
+                            | _ -> failNow ("XML inheritance has an unrelated target: " + id)
+                            let method =
+                                match memberInfo with
+                                | :? MethodInfo as value -> value
+                                | _ -> failNow ("XML inheritance member is not a method: " + id)
+                            let candidates = ResizeArray<string>()
+                            let baseMethod = method.GetBaseDefinition()
+                            if baseMethod.MetadataToken <> method.MetadataToken || baseMethod.Module <> method.Module then
+                                candidates.Add(xmlMemberId baseMethod)
+                            for interfaceType in apiType.GetInterfaces() do
+                                let mapping = apiType.GetInterfaceMap interfaceType
+                                for index in 0 .. mapping.TargetMethods.Length - 1 do
+                                    if mapping.TargetMethods.[index].MetadataToken = method.MetadataToken then
+                                        let interfaceMethod = mapping.InterfaceMethods.[index]
+                                        let definition =
+                                            if interfaceType.IsGenericType then
+                                                interfaceType.GetGenericTypeDefinition().GetMethods()
+                                                |> Array.find (fun value -> value.MetadataToken = interfaceMethod.MetadataToken)
+                                            else interfaceMethod
+                                        candidates.Add(xmlMemberId definition)
+                            if not (candidates.Contains target) || not (frameworkXml.ContainsKey target) then
+                                failNow ("XML inheritance target is missing or not metadata-supported: " + id)
+                            if not (isNull (frameworkXml.[target].Element(XName.Get "inheritdoc"))) then
+                                failNow ("XML inheritance target is not terminal: " + id)
+                            "explicit-inheritance"
+                    | _ ->
+                        if not (aliases.ContainsKey id) then failNow ("Exported member has no XML contract: " + id)
+                        let alias = aliases.[id]
+                        if text alias "typeXmlId" <> typeId || String.IsNullOrWhiteSpace(text alias "rationale") then
+                            failNow ("XML alias has no exact declaring-type rationale: " + id)
+                        let isDelegate = apiType.BaseType = typeof<MulticastDelegate>
+                        let kind = text alias "kind"
+                        let valid =
+                            match kind, memberInfo with
+                            | "synthesized-record-method", (:? MethodInfo as method) ->
+                                method.IsDefined(typeof<System.Runtime.CompilerServices.CompilerGeneratedAttribute>, false)
+                                && not (isNull (xml.[typeId].Element(XName.Get "remarks")))
+                            | "logical-delegate-invoke", (:? MethodInfo as method) ->
+                                let parameters = method.GetParameters() |> Array.map (fun value -> value.Name) |> Array.toList
+                                let documented = xml.[typeId].Elements(XName.Get "param") |> Seq.map (fun element ->
+                                    match element.Attribute(XName.Get "name") with | null -> "" | value -> value.Value) |> Seq.toList
+                                isDelegate && method.Name = "Invoke" && parameters = documented
+                            | "delegate-runtime-plumbing", (:? MethodBase as method) ->
+                                isDelegate && (method.IsConstructor || method.Name = "BeginInvoke" || method.Name = "EndInvoke")
+                                && (method.GetMethodImplementationFlags() &&& MethodImplAttributes.CodeTypeMask) = MethodImplAttributes.Runtime
+                            | "enum-storage-plumbing", (:? FieldInfo as field) ->
+                                apiType.IsEnum && field.Name = "value__" && field.FieldType = typeof<int>
+                                && field.IsSpecialName && (field.Attributes &&& FieldAttributes.RTSpecialName) <> enum 0
+                            | _ -> false
+                        if not valid then failNow ("XML alias mechanism does not match metadata: " + id)
+                        usedAliases.Add id |> ignore
+                        kind
+                let diagnostic (value: MemberInfo) =
+                    value.GetCustomAttributesData()
+                    |> Seq.tryFind (fun attribute -> attribute.AttributeType.FullName = "System.Diagnostics.CodeAnalysis.ExperimentalAttribute")
+                    |> Option.map (fun attribute -> objText attribute.ConstructorArguments.[0].Value)
+                let experimental = diagnostic memberInfo |> Option.orElse (diagnostic apiType)
+                let row = JsonObject()
+                row.["xmlId"] <- jstr id
+                row.["metadataToken"] <- jint memberInfo.MetadataToken
+                row.["binding"] <- jstr bindingKind
+                row.["inheritanceTarget"] <- jstr target
+                match experimental with
+                | Some value -> row.["experimentalDiagnostic"] <- jstr value
+                | None -> row.["experimentalDiagnostic"] <- null
+                // Preserve local exception clauses rather than overwriting them with inherited prose.
+                row.["localExceptions"] <-
+                    match xml.TryGetValue id with
+                    | true, element -> element.Elements(XName.Get "exception") |> Seq.map (fun value -> value.ToString(SaveOptions.DisableFormatting)) |> jsonStringArray
+                    | _ -> JsonArray()
+                rows.Add row
+        if usedAliases.Count <> aliases.Count then failNow "XML alias set contains unconsumed identities."
 
         let members =
             match document.Root with
@@ -488,8 +713,15 @@ let getXmlDocumentationInventory (paths: string list) : JsonArray =
         node.["sha256"] <- jstr (sha256File path)
         node.["members"] <- jint members.Length
         node.["missingSummaryOrInheritdoc"] <- jint 0
+        node.["exportedMembers"] <- jint rows.Count
+        node.["assemblySha256"] <- jstr (sha256File assemblyPath)
+        node.["bindingsSha256"] <- jstr (sha256File bindingPath)
+        node.["completeSemanticAcceptance"] <- jbool false
+        node.["memberBindings"] <- rows
         inventories.Add node
 
+    if not (expectedInheritance.SetEquals usedInheritance) then
+        failNow "XML inheritance binding set contains unconsumed identities."
     inventories
 
 // ---------------------------------------------------------------------------

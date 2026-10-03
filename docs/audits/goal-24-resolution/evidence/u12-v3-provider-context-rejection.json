@@ -1,0 +1,27 @@
+{
+  "schema": "funnysharp-v3-provider-context-rejection/v1",
+  "slot": "business-outcomes/idiomatic/run-1",
+  "sessionId": "study-session:dc843709-5471-4900-b792-c0dcd8f8443d",
+  "invocationId": "native-call:5211cccd-6e7f-4186-a918-3c2c5dd156ac",
+  "nativeSessionId": "01a0fd3a-4780-7257-ab39-655a8a21fce1",
+  "exitCode": 0,
+  "accepted": false,
+  "reason": "ctx.getSystemPrompt changed after startup; late getter returned355registered+4878runtime characters.",
+  "actual": {
+    "providerRequests": 1,
+    "developerCharacters": 5233,
+    "expectedDeveloperCharacters": 355,
+    "userRequestExact": true,
+    "stdoutSha256": "d703c6b4ff467a671e43764c4701a56a9ed4a9ba260d90428feb815ab41e8b64",
+    "stderrSha256": "a1e6bef8ee652c0e262d4d2079fcc3ff9de8af1a2a3339048494cbf1669b8969"
+  },
+  "oldBoundarySource": "import { readFile } from \"node:fs/promises\";\n\nexport default function isolateProducer(pi) {\n    pi.on(\"session_start\", (_event, ctx) => {\n        const options = ctx.getSystemPromptOptions();\n        console.log(\"U12_CONTEXT_READY \" + JSON.stringify({\n            schema: \"funnysharp-native-context-observation/v2\",\n            sessionId: ctx.sessionManager.getSessionId(),\n            systemPrompt: ctx.getSystemPrompt(),\n            contextFiles: options.contextFiles?.map(file => file.path) ?? [],\n            skills: options.skills?.map(skill => skill.name) ?? [],\n            activeTools: pi.getActiveTools(),\n            model: { provider: ctx.model?.provider, id: ctx.model?.id }\n        }));\n    });\n    pi.on(\"before_provider_request\", async (event, ctx) => {\n        const request = await readFile(\"request.json\", \"utf8\");\n        const payload = {\n            ...event.payload,\n            input: [\n                { role: \"developer\", content: ctx.getSystemPrompt() },\n                { role: \"user\", content: request }\n            ]\n        };\n        console.log(\"U12_PRE_BOUNDARY_PROVIDER_PAYLOAD \" + JSON.stringify(event.payload));\n        console.log(\"U12_PROVIDER_PAYLOAD \" + JSON.stringify(payload));\n        return payload;\n    });\n}\n",
+  "oldBoundarySha256": "eb698ed0a63e5ca2013ba9b89c3c5695b92553d30bebe9973e75db5f4d193fd5",
+  "correction": "Capture systemPrompt once in session_start and reuse that immutable string in before_provider_request.",
+  "changedGetterControl": {
+    "exitCode": 0,
+    "passed": true,
+    "modelCalls": 0
+  },
+  "sourceAndHistoricalBytesNotAltered": "Priorv3rawrequest/response/protocol/frozen snapshot retained; corrected boundary is a new future route revision, not repinning old outgoing data."
+}

@@ -7,7 +7,8 @@ using Microsoft.CodeAnalysis.Operations;
 
 /// <summary>
 /// Reports creation of a FunnySharp carrier that has no valid default value through a
-/// <c>default</c> expression, a <c>default</c> literal, or a parameterless <c>new()</c>.
+/// <c>default</c> expression, a <c>default</c> literal, or a parameterless <c>new()</c>,
+/// including creation with an empty object initializer.
 /// </summary>
 /// <remarks>
 /// <c>Result&lt;TValue, TError&gt;</c>, <c>UnitResult&lt;TError&gt;</c>,
@@ -61,7 +62,7 @@ public sealed class UninitializedCarrierAnalyzer : DiagnosticAnalyzer
     {
         var operation = (IObjectCreationOperation)context.Operation;
         if (operation.Arguments.Length == 0 &&
-            operation.Initializer is null &&
+            (operation.Initializer is null || operation.Initializer.Initializers.IsEmpty) &&
             types.IsNonDefaultable(operation.Type))
         {
             Report(context, operation.Type!);

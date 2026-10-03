@@ -1,0 +1,21 @@
+{
+  "schema": "funnysharp-compatibility-original-orphan-cleanup/v1",
+  "oldParentProof": "u16-compatibility-cancellation-probe-red-green.json",
+  "initialBashTreeKillDidNotStopOriginalConsumer": true,
+  "originalOrphanPid": 32996,
+  "archivedOwnership": {
+    "ProcessId": 32996,
+    "ParentProcessId": 26760,
+    "Name": "FunnySharp.Compatibility.Core.exe",
+    "CreationDate": "/Date(1790982209864)/",
+    "CommandLine": "\"Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\final-current-compatibility\\attempt-01\\CoreSmoke\\publish\\FunnySharp.Compatibility.Core.exe\""
+  },
+  "safeOwnershipChecks": [
+    "Exact executablepath originalattempt01/CoreSmoke/publish",
+    "ExactCreationDate1790982209864"
+  ],
+  "actualStopResult": "ORIGINAL_OWNED_ORPHAN_STOPPED 32996",
+  "actualFinalCensus": "(no output)",
+  "actualExit": 0,
+  "oldHangAndNewSixPassedEvidenceUnchanged": true
+}
