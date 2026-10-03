@@ -2,8 +2,12 @@ namespace FunnySharp.Tests;
 
 public sealed class DefaultStateTests
 {
+#pragma warning disable FS1001 // Intentional runtime misuse witness.
     private static readonly Result<int, string> DefaultResultField = default;
+#pragma warning restore FS1001
+#pragma warning disable FS1001 // Intentional runtime misuse witness.
     private static readonly Validation<int, string> DefaultValidationField = default;
+#pragma warning restore FS1001
 
     [Fact]
     public void DefaultResultThrowsForStateAccessAndReportsUninitializedText()
@@ -58,8 +62,12 @@ public sealed class DefaultStateTests
         AssertUninitializedResult(() => result.Equals(initialized));
         AssertUninitializedResult(() => result.Equals((object)initialized));
         AssertUninitializedResult(() => initialized.Equals(result));
+#pragma warning disable FS1001 // Intentional runtime misuse witness.
         AssertUninitializedResult(() => initialized.Equals(default(Result<int, string>)));
+#pragma warning restore FS1001
+#pragma warning disable FS1001 // Intentional runtime misuse witness.
         AssertUninitializedResult(() => default(Result<int, string>).Equals(initialized));
+#pragma warning restore FS1001
         AssertUninitializedResult(() => initialized.Equals((object)result));
         AssertUninitializedResult(() => result == initialized);
         AssertUninitializedResult(() => initialized == result);
@@ -118,10 +126,14 @@ public sealed class DefaultStateTests
             Validation<int, string>.Valid(3),
             (first, second, third) => first + second + third));
         AssertUninitializedValidation(() =>
+#pragma warning disable FS1001 // Intentional runtime misuse witness.
             default(Validation<Func<int, int>, string>).Apply(Validation<int, string>.Valid(1)));
+#pragma warning restore FS1001
         AssertUninitializedValidation(() =>
             Validation<Func<int, int>, string>.Valid(value => value + 1)
+#pragma warning disable FS1001 // Intentional runtime misuse witness.
                 .Apply(default(Validation<int, string>)));
+#pragma warning restore FS1001
     }
 
     [Fact]
@@ -134,8 +146,12 @@ public sealed class DefaultStateTests
         AssertUninitializedValidation(() => validation.Equals(initialized));
         AssertUninitializedValidation(() => validation.Equals((object)initialized));
         AssertUninitializedValidation(() => initialized.Equals(validation));
+#pragma warning disable FS1001 // Intentional runtime misuse witness.
         AssertUninitializedValidation(() => initialized.Equals(default(Validation<int, string>)));
+#pragma warning restore FS1001
+#pragma warning disable FS1001 // Intentional runtime misuse witness.
         AssertUninitializedValidation(() => default(Validation<int, string>).Equals(initialized));
+#pragma warning restore FS1001
         AssertUninitializedValidation(() => initialized.Equals((object)validation));
         AssertUninitializedValidation(() => validation == initialized);
         AssertUninitializedValidation(() => initialized == validation);
@@ -210,25 +226,33 @@ public sealed class DefaultStateTests
         Assert.Throws<ArgumentNullException>(() =>
         {
             _ = ResultExtensions.MapAsync<int, string, int>(
+#pragma warning disable FS1001 // Intentional runtime misuse witness.
                 default(Result<int, string>),
+#pragma warning restore FS1001
                 (Func<int, Task<int>>)null!);
         });
         Assert.Throws<ArgumentNullException>(() =>
         {
             _ = ResultExtensions.MapValueAsync<int, string, int>(
+#pragma warning disable FS1001 // Intentional runtime misuse witness.
                 default(Result<int, string>),
+#pragma warning restore FS1001
                 (Func<int, ValueTask<int>>)null!);
         });
         Assert.Throws<ArgumentNullException>(() =>
         {
             _ = ResultExtensions.BindAsync<int, string, int>(
+#pragma warning disable FS1001 // Intentional runtime misuse witness.
                 default(Result<int, string>),
+#pragma warning restore FS1001
                 (Func<int, Task<Result<int, string>>>)null!);
         });
         Assert.Throws<ArgumentNullException>(() =>
         {
             _ = ResultExtensions.BindValueAsync<int, string, int>(
+#pragma warning disable FS1001 // Intentional runtime misuse witness.
                 default(Result<int, string>),
+#pragma warning restore FS1001
                 (Func<int, ValueTask<Result<int, string>>>)null!);
         });
     }
@@ -250,13 +274,17 @@ public sealed class DefaultStateTests
         Assert.Throws<ArgumentNullException>(() =>
         {
             _ = ValidationExtensions.MapAsync<int, int, string>(
+#pragma warning disable FS1001 // Intentional runtime misuse witness.
                 default(Validation<int, string>),
+#pragma warning restore FS1001
                 (Func<int, Task<int>>)null!);
         });
         Assert.Throws<ArgumentNullException>(() =>
         {
             _ = ValidationExtensions.MapValueAsync<int, int, string>(
+#pragma warning disable FS1001 // Intentional runtime misuse witness.
                 default(Validation<int, string>),
+#pragma warning restore FS1001
                 (Func<int, ValueTask<int>>)null!);
         });
     }
@@ -265,51 +293,83 @@ public sealed class DefaultStateTests
     public void UninitializedTraversalFailsFast()
     {
         AssertUninitializedResult(() =>
+#pragma warning disable FS1001 // Intentional runtime misuse witness.
             new[] { Result<int, string>.Success(1), default }.Sequence());
+#pragma warning restore FS1001
         AssertUninitializedResult(() =>
             new[] { 1, 2 }.Traverse(item => item == 1
                 ? Result<int, string>.Success(item)
+#pragma warning disable FS1001 // Intentional runtime misuse witness.
                 : default(Result<int, string>)));
+#pragma warning restore FS1001
 
         AssertUninitializedValidation(() =>
+#pragma warning disable FS1001 // Intentional runtime misuse witness.
             new[] { Validation<int, string>.Valid(1), default }.Sequence());
+#pragma warning restore FS1001
         AssertUninitializedValidation(() =>
             new[] { 1, 2 }.Traverse(item => item == 1
                 ? Validation<int, string>.Valid(item)
+#pragma warning disable FS1001 // Intentional runtime misuse witness.
                 : default(Validation<int, string>)));
+#pragma warning restore FS1001
     }
 
     [Fact]
     public async Task UninitializedAsyncTraversalFailsFastWhenAwaited()
     {
         await AssertUninitializedResultAsync(async () =>
-            await AsyncValues(Result<int, string>.Success(1), default).SequenceAsync());
+#pragma warning disable FS1001 // Intentional runtime misuse witness.
+            { _ = await AsyncValues(Result<int, string>.Success(1), default).SequenceAsync(); });
+#pragma warning restore FS1001
         await AssertUninitializedResultAsync(async () =>
-            await AsyncValues(1, 2).TraverseAsync(item => item == 1
+            {
+                _ = await AsyncValues(1, 2).TraverseAsync(item => item == 1
                 ? Result<int, string>.Success(item)
-                : default(Result<int, string>)));
+#pragma warning disable FS1001 // Intentional runtime misuse witness.
+                : default(Result<int, string>));
+            });
+#pragma warning restore FS1001
         await AssertUninitializedResultAsync(async () =>
-            await AsyncValues(1, 2).TraverseValueAsync(item => ValueTask.FromResult(
+            {
+                _ = await AsyncValues(1, 2).TraverseValueAsync(item => ValueTask.FromResult(
                 item == 1
                     ? Result<int, string>.Success(item)
-                    : default(Result<int, string>))));
+#pragma warning disable FS1001 // Intentional runtime misuse witness.
+                    : default(Result<int, string>)));
+            });
+#pragma warning restore FS1001
 
         await AssertUninitializedValidationAsync(async () =>
-            await AsyncValues(Validation<int, string>.Valid(1), default).SequenceAsync());
+#pragma warning disable FS1001 // Intentional runtime misuse witness.
+            { _ = await AsyncValues(Validation<int, string>.Valid(1), default).SequenceAsync(); });
+#pragma warning restore FS1001
         await AssertUninitializedValidationAsync(async () =>
-            await AsyncValues(1, 2).TraverseAsync(item => item == 1
+            {
+                _ = await AsyncValues(1, 2).TraverseAsync(item => item == 1
                 ? Validation<int, string>.Valid(item)
-                : default(Validation<int, string>)));
+#pragma warning disable FS1001 // Intentional runtime misuse witness.
+                : default(Validation<int, string>));
+            });
+#pragma warning restore FS1001
         await AssertUninitializedValidationAsync(async () =>
-            await AsyncValues(1, 2).TraverseValueAsync(item => ValueTask.FromResult(
+            {
+                _ = await AsyncValues(1, 2).TraverseValueAsync(item => ValueTask.FromResult(
                 item == 1
                     ? Validation<int, string>.Valid(item)
-                    : default(Validation<int, string>))));
+#pragma warning disable FS1001 // Intentional runtime misuse witness.
+                    : default(Validation<int, string>)));
+            });
+#pragma warning restore FS1001
     }
 
+#pragma warning disable FS1001 // Intentional runtime misuse witness.
     private static Result<int, string> UninitializedResult() => default;
+#pragma warning restore FS1001
 
+#pragma warning disable FS1001 // Intentional runtime misuse witness.
     private static Validation<int, string> UninitializedValidation() => default;
+#pragma warning restore FS1001
 
     private static void AssertUninitializedResult(Action action)
     {

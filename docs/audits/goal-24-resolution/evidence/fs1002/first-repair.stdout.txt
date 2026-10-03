@@ -1,0 +1,64 @@
+Running tests from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\bin\Release\net10.0\FunnySharp.Analyzers.Tests.dll (net10.0|x64)
+failed FunnySharp.Analyzers.Tests.CodeFixTests.DiscardedOutcomeFixPreservesStatementAndSemicolonComments (28ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\bin\Release\net10.0\FunnySharp.Analyzers.Tests.dll (net10.0|x64)
+  Assert.NotEmpty() Failure: Collection was empty
+    at FunnySharp.Analyzers.Tests.AnalyzerHarness.ApplyFirstFixAsync(String source, String diagnosticId, CodeFixProvider fixProvider, Boolean includeAspNetCore) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\AnalyzerHarness.cs:106
+    at FunnySharp.Analyzers.Tests.CodeFixTests.DiscardedOutcomeFixPreservesStatementAndSemicolonComments() in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\CodeFixTests.cs:148
+    --- End of stack trace from previous location ---
+failed FunnySharp.Analyzers.Tests.CodeFixTests.DiscardedOutcomeFixIsOfferedOnlyForATrueDiscard(members: "void Use() { Find(); { int _ = 0; GC.KeepAlive(_);"···) (25ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\bin\Release\net10.0\FunnySharp.Analyzers.Tests.dll (net10.0|x64)
+  Assert.Single() Failure: The collection was empty
+    at FunnySharp.Analyzers.Tests.CodeFixTests.DiscardedOutcomeFixIsOfferedOnlyForATrueDiscard(String members) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\CodeFixTests.cs:113
+    --- End of stack trace from previous location ---
+failed FunnySharp.Analyzers.Tests.CodeFixTests.DiscardedOutcomeFixIsOfferedOnlyForATrueDiscard(members: "void Use() { Find(); }") (17ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\bin\Release\net10.0\FunnySharp.Analyzers.Tests.dll (net10.0|x64)
+  Assert.Single() Failure: The collection was empty
+    at FunnySharp.Analyzers.Tests.CodeFixTests.DiscardedOutcomeFixIsOfferedOnlyForATrueDiscard(String members) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\CodeFixTests.cs:113
+    --- End of stack trace from previous location ---
+failed FunnySharp.Analyzers.Tests.CodeFixTests.DiscardedOutcomeFixIsOfferedOnlyForATrueDiscard(members: "async Task UseAsync() { await Task.FromResult(Find"···) (16ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\bin\Release\net10.0\FunnySharp.Analyzers.Tests.dll (net10.0|x64)
+  Assert.Single() Failure: The collection was empty
+    at FunnySharp.Analyzers.Tests.CodeFixTests.DiscardedOutcomeFixIsOfferedOnlyForATrueDiscard(String members) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\CodeFixTests.cs:113
+    --- End of stack trace from previous location ---
+failed FunnySharp.Analyzers.Tests.CodeFixTests.DiscardedOutcomeFixIsOfferedOnlyForATrueDiscard(members: "void Use(C? subject) { subject?.Find(); }") (17ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\bin\Release\net10.0\FunnySharp.Analyzers.Tests.dll (net10.0|x64)
+  Assert.Single() Failure: The collection was empty
+    at FunnySharp.Analyzers.Tests.CodeFixTests.DiscardedOutcomeFixIsOfferedOnlyForATrueDiscard(String members) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\CodeFixTests.cs:113
+    --- End of stack trace from previous location ---
+failed FunnySharp.Analyzers.Tests.CodeFixTests.DiscardedOutcomeFixIsOfferedOnlyForATrueDiscard(members: "void Other(int _) { } void Use() { Find(); }") (32ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\bin\Release\net10.0\FunnySharp.Analyzers.Tests.dll (net10.0|x64)
+  Assert.Single() Failure: The collection was empty
+    at FunnySharp.Analyzers.Tests.CodeFixTests.DiscardedOutcomeFixIsOfferedOnlyForATrueDiscard(String members) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\CodeFixTests.cs:113
+    --- End of stack trace from previous location ---
+failed FunnySharp.Analyzers.Tests.CodeFixTests.DiscardedOutcomeFixIsOfferedOnlyForATrueDiscard(members: "void Use() { { int _ = 0; GC.KeepAlive(_); } Find("···) (15ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\bin\Release\net10.0\FunnySharp.Analyzers.Tests.dll (net10.0|x64)
+  Assert.Single() Failure: The collection was empty
+    at FunnySharp.Analyzers.Tests.CodeFixTests.DiscardedOutcomeFixIsOfferedOnlyForATrueDiscard(String members) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\CodeFixTests.cs:113
+    --- End of stack trace from previous location ---
+failed FunnySharp.Analyzers.Tests.CodeFixTests.DiscardedOutcomeFixPreservesAwaitedStatements (16ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\bin\Release\net10.0\FunnySharp.Analyzers.Tests.dll (net10.0|x64)
+  Assert.NotEmpty() Failure: Collection was empty
+    at FunnySharp.Analyzers.Tests.AnalyzerHarness.ApplyFirstFixAsync(String source, String diagnosticId, CodeFixProvider fixProvider, Boolean includeAspNetCore) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\AnalyzerHarness.cs:106
+    at FunnySharp.Analyzers.Tests.CodeFixTests.DiscardedOutcomeFixPreservesAwaitedStatements() in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\CodeFixTests.cs:40
+    --- End of stack trace from previous location ---
+failed FunnySharp.Analyzers.Tests.CodeFixTests.DiscardedOutcomeFixMakesTheDiscardExplicit (14ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\bin\Release\net10.0\FunnySharp.Analyzers.Tests.dll (net10.0|x64)
+  Assert.NotEmpty() Failure: Collection was empty
+    at FunnySharp.Analyzers.Tests.AnalyzerHarness.ApplyFirstFixAsync(String source, String diagnosticId, CodeFixProvider fixProvider, Boolean includeAspNetCore) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\AnalyzerHarness.cs:106
+    at FunnySharp.Analyzers.Tests.CodeFixTests.DiscardedOutcomeFixMakesTheDiscardExplicit() in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\CodeFixTests.cs:16
+    --- End of stack trace from previous location ---
+failed FunnySharp.Analyzers.Tests.CodeFixTests.DiscardedOutcomeBatchFixChangesOnlySafeStatements (21ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\bin\Release\net10.0\FunnySharp.Analyzers.Tests.dll (net10.0|x64)
+  Assert.Single() Failure: The collection was empty
+    at FunnySharp.Analyzers.Tests.CodeFixTests.DiscardedOutcomeBatchFixChangesOnlySafeStatements() in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\CodeFixTests.cs:205
+    --- End of stack trace from previous location ---
+Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\bin\Release\net10.0\FunnySharp.Analyzers.Tests.dll (net10.0|x64) failed with 10 error(s) (4s 670ms)
+Exit code: 2
+
+Test run summary: Failed!
+  total: 109
+  failed: 10
+  succeeded: 99
+  skipped: 0
+  duration: 5s 080ms
+Test run completed with non-success exit code: 2 (see: https://aka.ms/testingplatform/exitcodes)

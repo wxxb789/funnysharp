@@ -21,6 +21,7 @@ public class DataPipelineBenchmarks
     [GlobalSetup]
     public void Setup()
     {
+        BenchmarkPreflight.CaptureChild(this);
         values = Enumerable.Range(0, Count);
         asyncValues = values.ToAsyncEnumerable();
         spanValues = Enumerable.Range(0, Count).ToArray();
@@ -93,6 +94,35 @@ public class DataPipelineBenchmarks
     public ValueTask<int> FunnySharpAsyncScan() => LastAsync(asyncValues.Scan(0, Add));
 
     private static bool IsEven(int value) => value % 2 == 0;
+
+    internal async Task ValidateFullSemanticsAsync()
+    {
+        var expectedChosen = values.Where(IsEven).Select(Double).ToArray();
+        BenchmarkPreflight.Require(values.Choose(ChooseEven).SequenceEqual(expectedChosen),
+            "Choose changed full output.");
+        BenchmarkPreflight.Require(
+            (await asyncValues.Where(IsEven).Select(Double).ToArrayAsync().ConfigureAwait(false))
+                .SequenceEqual(expectedChosen)
+            && (await asyncValues.Choose(ChooseEven).ToArrayAsync().ConfigureAwait(false))
+                .SequenceEqual(expectedChosen), "Async filter-map changed full output.");
+        var expectedScan = DirectRunningAggregateSequence(values, 0, Add).ToArray();
+        BenchmarkPreflight.Require(values.Scan(0, Add).SequenceEqual(expectedScan)
+            && (await asyncValues.Scan(0, Add).ToArrayAsync().ConfigureAwait(false))
+                .SequenceEqual(expectedScan)
+            && (await DirectAsyncRunningAggregateSequence(asyncValues, 0, Add)
+                .ToArrayAsync().ConfigureAwait(false)).SequenceEqual(expectedScan),
+            "Scan changed an intermediate output or included its seed.");
+        Array.Fill(spanDestination, int.MinValue);
+        var directSum = DirectSpanLoop();
+        var direct = spanDestination.ToArray();
+        Array.Fill(spanDestination, int.MinValue);
+        var candidateSum = FunnySharpSpanChoose();
+        BenchmarkPreflight.Require(directSum == candidateSum
+            && direct.SequenceEqual(spanDestination)
+            && spanDestination.Take(expectedChosen.Length).SequenceEqual(expectedChosen)
+            && spanDestination.Skip(expectedChosen.Length).All(value => value == int.MinValue),
+            "Span Choose changed its written prefix or unwritten tail.");
+    }
 
     private static int Double(int value) => value * 2;
 

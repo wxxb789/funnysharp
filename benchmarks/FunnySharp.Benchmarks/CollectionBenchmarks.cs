@@ -31,6 +31,7 @@ public class CollectionBenchmarks
     [GlobalSetup]
     public void Setup()
     {
+        BenchmarkPreflight.CaptureChild(this);
         values = Enumerable.Range(0, Count).ToArray();
 
         // The unique negative at the end keeps the single-or-none and min-or-none scans full-length.
@@ -220,6 +221,27 @@ public class CollectionBenchmarks
     }
 
     private static bool IsTarget(string? text) => text == Target;
+
+    internal Task ValidateFullSemanticsAsync()
+    {
+        var partition = values.Partition(IsEven);
+        BenchmarkPreflight.Require(
+            partition.True.SequenceEqual(values.Where(IsEven))
+            && partition.False.SequenceEqual(values.Where(IsOdd)),
+            "Partition changed contents or ordering.");
+        var zip = values.ZipExactOrNone(otherValues);
+        BenchmarkPreflight.Require(zip.TryGetValue(out var pairs)
+            && pairs.Select(pair => (pair.First, pair.Second))
+                .SequenceEqual(values.Zip(otherValues)),
+            "Exact zip changed its full pair sequence.");
+        BenchmarkPreflight.Require(
+            nullableTexts.WhereNotNull().SequenceEqual(nullableTexts.Where(IsNotNull).Select(text => text!)),
+            "Null filtering changed contents or order.");
+        BenchmarkPreflight.Require(
+            HandWrittenLocationPaths().SequenceEqual(FunnySharpLocatedTraverse()),
+            "Located traversal changed complete errors or error order.");
+        return Task.CompletedTask;
+    }
 
     private static bool IsNegative(int value) => value < 0;
 

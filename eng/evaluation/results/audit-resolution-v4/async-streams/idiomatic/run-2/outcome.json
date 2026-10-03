@@ -1,0 +1,222 @@
+{
+  "schema": "funnysharp-u12-v4-slot-outcome/v1",
+  "study": "audit-resolution-v4",
+  "slot": "async-streams/idiomatic/run-2",
+  "status": "COMPLETE",
+  "verdict": "GREEN",
+  "evidenceKind": "generation-verification",
+  "producerKind": "ai",
+  "rounds": 1,
+  "initialOnly": true,
+  "stoppedOnGreen": true,
+  "corrections": 0,
+  "sessionId": "study-session:842d84a5-86b5-4176-a690-fcdbf5012740",
+  "invocationId": "native-call:79472a0b-5f90-4df8-bd48-defbc20003ee",
+  "actualCliSessionId": "01a0fd6d-a782-75e9-8a44-a42638aa8fcc",
+  "route": "native-omo-cli/5.1.9/json-print",
+  "requestedModel": "ghc/gpt-6.1-sol",
+  "thinking": "high",
+  "providerModel": {
+    "value": null,
+    "unknownReason": "Native selected model/route is observed. Actual upstream served model is unknown unless independently returned metadata supplies it."
+  },
+  "native": {
+    "pid": 9348,
+    "startedUtc": "2026-10-02T16:23:35.823Z",
+    "finishedUtc": "2026-10-02T16:24:09.821Z",
+    "exitCode": 0,
+    "stdin": "closed",
+    "pidAbsenceObservation": {
+      "checkedUtc": "2026-10-02T16:26:59.5713528Z",
+      "requestedPids": [
+        28420,
+        33552,
+        30352,
+        15120,
+        11380,
+        9348,
+        43060,
+        20048
+      ],
+      "present": [],
+      "allAbsent": true
+    },
+    "monitorId": "mon_7HRG2HZH5F29E9PB",
+    "actualProviderRequests": 1,
+    "outgoingInputByteExact": true,
+    "contextValid": true,
+    "retries": 0,
+    "abortEvents": 0,
+    "errorEvents": [],
+    "assistantStops": [
+      "stop"
+    ],
+    "stdoutSha256": "ca2d3667de5863779c6af79cbbe3ee425864ca3e3cb4b008b4b32b03e4202498",
+    "stderrSha256": "e5d5a3a6492bbbfea32f3b4fa4d466f3b17c127bd3b97ebcd2c1a8ee3f67953c",
+    "requestSha256": "48d25977b353593c9f0cd212b93c7e6e454bc3ef2e17a326921ce0a1a7894249",
+    "systemSha256": "fbda330f8e40178394f701e3e4552726ec33026ba95f94aaa7aab3f03dd00d78"
+  },
+  "inputAudit": {
+    "slot": "async-streams/idiomatic/run-2",
+    "inputCount": 18,
+    "ordinalSorted": true,
+    "allHashEqual": true,
+    "allRequestEqual": true,
+    "allTerminalLF": true,
+    "rawSolutionByteEqual": true,
+    "requestHash": "48d25977b353593c9f0cd212b93c7e6e454bc3ef2e17a326921ce0a1a7894249"
+  },
+  "producer": {
+    "studySha256": "a28f133c7dc53ed83abb446a53ed832af4d3a9a2187f52654fcef02f683241c9",
+    "task": "async-streams",
+    "style": "idiomatic",
+    "sessionId": "study-session:842d84a5-86b5-4176-a690-fcdbf5012740",
+    "invocationId": "native-call:79472a0b-5f90-4df8-bd48-defbc20003ee",
+    "route": "native-omo-cli/5.1.9/json-print",
+    "producerKind": "ai",
+    "requestedModel": "ghc/gpt-6.1-sol",
+    "providerModel": {
+      "value": null,
+      "unknownReason": "Native selected model/route is observed. Actual upstream served model is unknown unless independently returned metadata supplies it."
+    },
+    "contextSha256": "c85e50671c72d6d4c5558a2b796bdf371831926122e7b35fd364b63df5dbf7f9",
+    "solutionFiles": [
+      {
+        "path": "SensorStream.cs",
+        "sha256": "b93c2202234892f64a0efeb2e10a88f183a3c5ffefa3010fd1a29cf15d14ef82"
+      }
+    ],
+    "invocationSha256": "0df08d20a357e862a5780aa7e364e84d7f29d2cf4905dc52e71ba9cad5a549b9",
+    "startedUtc": "2026-10-02T16:23:35.823Z",
+    "finishedUtc": "2026-10-02T16:24:09.821Z",
+    "status": "completed"
+  },
+  "producerSchema": {
+    "registeredFieldCount": 16,
+    "initialFieldsPresent": [
+      "studySha256",
+      "task",
+      "style",
+      "sessionId",
+      "invocationId",
+      "route",
+      "producerKind",
+      "requestedModel",
+      "providerModel",
+      "contextSha256",
+      "solutionFiles",
+      "invocationSha256",
+      "startedUtc",
+      "finishedUtc",
+      "status"
+    ],
+    "feedbackSha256": "Not applicable for round 1; required only on a correction, matching the validated parent example."
+  },
+  "grade": {
+    "command": [
+      "dotnet",
+      "fsi",
+      "build.fsx",
+      "--",
+      "-p",
+      "eval-verify",
+      "--study",
+      "audit-resolution-v4",
+      "--task",
+      "async-streams",
+      "--style",
+      "idiomatic",
+      "--run-dir",
+      "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/async-streams/idiomatic/run-2",
+      "--round",
+      "1"
+    ],
+    "process": {
+      "command": [
+        "dotnet",
+        "fsi",
+        "build.fsx",
+        "--",
+        "-p",
+        "eval-verify",
+        "--study",
+        "audit-resolution-v4",
+        "--task",
+        "async-streams",
+        "--style",
+        "idiomatic",
+        "--run-dir",
+        "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/async-streams/idiomatic/run-2",
+        "--round",
+        "1"
+      ],
+      "workingDirectory": "Q:/repos/funnysharp-goal24-resolution",
+      "slot": "async-streams/idiomatic/run-2",
+      "round": 1,
+      "pid": 34956,
+      "startedUtc": "2026-10-02T16:25:46.152Z",
+      "finishedUtc": "2026-10-02T16:26:56.937Z",
+      "exitCode": 0,
+      "stdoutSha256": "5f75bed7947248edac54a41c879110caf4c01c77e645d126aef6bcccf8259e7f",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "slot": "async-streams/idiomatic/run-2",
+    "round": 1,
+    "producerReceiptByteEqual": true,
+    "invocationSha256": "0df08d20a357e862a5780aa7e364e84d7f29d2cf4905dc52e71ba9cad5a549b9",
+    "contextSha256": "c85e50671c72d6d4c5558a2b796bdf371831926122e7b35fd364b63df5dbf7f9",
+    "solutionFiles": [
+      {
+        "path": "SensorStream.cs",
+        "sha256": "b93c2202234892f64a0efeb2e10a88f183a3c5ffefa3010fd1a29cf15d14ef82"
+      }
+    ],
+    "manifestBound": true,
+    "gradeBuildDirectory": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\async-streams-idiomatic-run-2-493a1cdf817f4f14a9db7ca0db51bff3",
+    "privateCache": true,
+    "buildExit": 0,
+    "testExit": 0,
+    "record": {
+      "task": "async-streams",
+      "style": "idiomatic",
+      "run": "run-2",
+      "round": 1,
+      "compilation": {
+        "ok": true,
+        "errors": 0,
+        "buildSeconds": 24.7
+      },
+      "semanticCorrectness": {
+        "ok": true,
+        "total": 10,
+        "failed": 0,
+        "succeeded": 10,
+        "skipped": 0
+      },
+      "apiMisuse": {
+        "fsDiagnostics": []
+      },
+      "consumerLoc": 57,
+      "verdict": "GREEN",
+      "evidenceKind": "generation-verification"
+    },
+    "feedbackSha256": "587fc0cc3dd3c99b4a70f04fb033d964e5f25b2e7754cb35aee561c1acd75a78",
+    "receiptSha256": "2e019b0656f3b89d93f1b4f1ae1798ce0c27063b1e5556c9a8beca73e3cfb146"
+  },
+  "paths": {
+    "outcome": "eng/evaluation/results/audit-resolution-v4/async-streams/idiomatic/run-2/outcome.json",
+    "producer": "eng/evaluation/results/audit-resolution-v4/async-streams/idiomatic/run-2/producer/0001.json",
+    "context": "eng/evaluation/results/audit-resolution-v4/async-streams/idiomatic/run-2/producer/0001-context/context.json",
+    "payload": "eng/evaluation/results/audit-resolution-v4/async-streams/idiomatic/run-2/producer/0001-context/payload",
+    "request": "eng/evaluation/results/audit-resolution-v4/async-streams/idiomatic/run-2/producer/0001-context/request.json",
+    "invocation": "eng/evaluation/results/audit-resolution-v4/async-streams/idiomatic/run-2/producer/0001-context/invocation.json",
+    "rawAssistant": "eng/evaluation/results/audit-resolution-v4/async-streams/idiomatic/run-2/producer/0001-context/assistant-raw.json",
+    "stdout": "eng/evaluation/results/audit-resolution-v4/async-streams/idiomatic/run-2/producer/0001-context/native.stdout.jsonl",
+    "stderr": "eng/evaluation/results/audit-resolution-v4/async-streams/idiomatic/run-2/producer/0001-context/native.stderr.log",
+    "round": "eng/evaluation/results/audit-resolution-v4/async-streams/idiomatic/run-2/rounds/0001",
+    "record": "eng/evaluation/results/audit-resolution-v4/async-streams/idiomatic/run-2/rounds/0001/record.json",
+    "feedback": "eng/evaluation/results/audit-resolution-v4/async-streams/idiomatic/run-2/rounds/0001/feedback.json",
+    "receipt": "eng/evaluation/results/audit-resolution-v4/async-streams/idiomatic/run-2/rounds/0001/receipt.json",
+    "gradeProcess": "eng/evaluation/results/audit-resolution-v4/async-streams/idiomatic/run-2/producer/0001-context/grade.process.json"
+  }
+}

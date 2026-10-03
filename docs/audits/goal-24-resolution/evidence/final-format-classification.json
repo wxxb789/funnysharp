@@ -1,0 +1,367 @@
+{
+  "schema": "funnysharp-final-formatter-classification/v1",
+  "capturedGate": "artifacts/audit-resolution/final-format/attempt-02/format.log",
+  "gateExit": 1,
+  "totalErrors": 422,
+  "allCode": "WHITESPACE",
+  "files": [
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/benchmarks/FunnySharp.Benchmarks/BenchmarkPreflight.cs",
+      "count": 4,
+      "relative": "benchmarks/FunnySharp.Benchmarks/BenchmarkPreflight.cs",
+      "trackedDiffRanges": [],
+      "diagnosticsInChangedRanges": 0,
+      "untracked": true
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/tests/FunnySharp.Tests/AsyncCollectionTraversalTests.cs",
+      "count": 2,
+      "relative": "tests/FunnySharp.Tests/AsyncCollectionTraversalTests.cs",
+      "trackedDiffRanges": [
+        {
+          "start": 272,
+          "count": 1
+        },
+        {
+          "start": 337,
+          "count": 1
+        },
+        {
+          "start": 341,
+          "count": 1
+        },
+        {
+          "start": 345,
+          "count": 2
+        }
+      ],
+      "diagnosticsInChangedRanges": 2,
+      "untracked": false
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/tests/FunnySharp.Tests/DefaultStateTests.cs",
+      "count": 8,
+      "relative": "tests/FunnySharp.Tests/DefaultStateTests.cs",
+      "trackedDiffRanges": [
+        {
+          "start": 5,
+          "count": 1
+        },
+        {
+          "start": 7,
+          "count": 2
+        },
+        {
+          "start": 10,
+          "count": 1
+        },
+        {
+          "start": 65,
+          "count": 1
+        },
+        {
+          "start": 67,
+          "count": 2
+        },
+        {
+          "start": 70,
+          "count": 1
+        },
+        {
+          "start": 129,
+          "count": 1
+        },
+        {
+          "start": 131,
+          "count": 1
+        },
+        {
+          "start": 134,
+          "count": 1
+        },
+        {
+          "start": 136,
+          "count": 1
+        },
+        {
+          "start": 149,
+          "count": 1
+        },
+        {
+          "start": 151,
+          "count": 2
+        },
+        {
+          "start": 154,
+          "count": 1
+        },
+        {
+          "start": 229,
+          "count": 1
+        },
+        {
+          "start": 231,
+          "count": 1
+        },
+        {
+          "start": 237,
+          "count": 1
+        },
+        {
+          "start": 239,
+          "count": 1
+        },
+        {
+          "start": 245,
+          "count": 1
+        },
+        {
+          "start": 247,
+          "count": 1
+        },
+        {
+          "start": 253,
+          "count": 1
+        },
+        {
+          "start": 255,
+          "count": 1
+        },
+        {
+          "start": 277,
+          "count": 1
+        },
+        {
+          "start": 279,
+          "count": 1
+        },
+        {
+          "start": 285,
+          "count": 1
+        },
+        {
+          "start": 287,
+          "count": 1
+        },
+        {
+          "start": 296,
+          "count": 1
+        },
+        {
+          "start": 298,
+          "count": 1
+        },
+        {
+          "start": 302,
+          "count": 1
+        },
+        {
+          "start": 304,
+          "count": 1
+        },
+        {
+          "start": 307,
+          "count": 1
+        },
+        {
+          "start": 309,
+          "count": 1
+        },
+        {
+          "start": 313,
+          "count": 1
+        },
+        {
+          "start": 315,
+          "count": 1
+        },
+        {
+          "start": 322,
+          "count": 3
+        },
+        {
+          "start": 326,
+          "count": 1
+        },
+        {
+          "start": 328,
+          "count": 3
+        },
+        {
+          "start": 332,
+          "count": 1
+        },
+        {
+          "start": 335,
+          "count": 3
+        },
+        {
+          "start": 340,
+          "count": 3
+        },
+        {
+          "start": 344,
+          "count": 1
+        },
+        {
+          "start": 346,
+          "count": 3
+        },
+        {
+          "start": 350,
+          "count": 1
+        },
+        {
+          "start": 353,
+          "count": 3
+        },
+        {
+          "start": 358,
+          "count": 1
+        },
+        {
+          "start": 360,
+          "count": 1
+        },
+        {
+          "start": 362,
+          "count": 1
+        },
+        {
+          "start": 364,
+          "count": 1
+        },
+        {
+          "start": 410,
+          "count": 1
+        }
+      ],
+      "diagnosticsInChangedRanges": 8,
+      "untracked": false
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/tests/FunnySharp.Tests/OptionAsyncTests.cs",
+      "count": 3,
+      "relative": "tests/FunnySharp.Tests/OptionAsyncTests.cs",
+      "trackedDiffRanges": [
+        {
+          "start": 165,
+          "count": 1
+        },
+        {
+          "start": 169,
+          "count": 1
+        },
+        {
+          "start": 205,
+          "count": 1
+        },
+        {
+          "start": 208,
+          "count": 1
+        },
+        {
+          "start": 228,
+          "count": 2
+        },
+        {
+          "start": 290,
+          "count": 1
+        },
+        {
+          "start": 348,
+          "count": 1
+        },
+        {
+          "start": 365,
+          "count": 1
+        }
+      ],
+      "diagnosticsInChangedRanges": 3,
+      "untracked": false
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/tests/FunnySharp.Tests/StableCarrierAsyncMatrixTests.cs",
+      "count": 32,
+      "relative": "tests/FunnySharp.Tests/StableCarrierAsyncMatrixTests.cs",
+      "trackedDiffRanges": [],
+      "diagnosticsInChangedRanges": 0,
+      "untracked": true
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/tests/FunnySharp.Tests/StableCarrierSyncMatrixTests.cs",
+      "count": 32,
+      "relative": "tests/FunnySharp.Tests/StableCarrierSyncMatrixTests.cs",
+      "trackedDiffRanges": [],
+      "diagnosticsInChangedRanges": 0,
+      "untracked": true
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/tests/FunnySharp.Tests/StableCollectionSyncMatrixTests.cs",
+      "count": 174,
+      "relative": "tests/FunnySharp.Tests/StableCollectionSyncMatrixTests.cs",
+      "trackedDiffRanges": [],
+      "diagnosticsInChangedRanges": 0,
+      "untracked": true
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/tests/FunnySharp.Tests/StableCollectionTraversalMatrixTests.cs",
+      "count": 159,
+      "relative": "tests/FunnySharp.Tests/StableCollectionTraversalMatrixTests.cs",
+      "trackedDiffRanges": [],
+      "diagnosticsInChangedRanges": 0,
+      "untracked": true
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/tests/FunnySharp.Tests/StableParallelDefaultContractTests.cs",
+      "count": 8,
+      "relative": "tests/FunnySharp.Tests/StableParallelDefaultContractTests.cs",
+      "trackedDiffRanges": [],
+      "diagnosticsInChangedRanges": 0,
+      "untracked": true
+    }
+  ],
+  "allTaskOwned": true,
+  "diagnosticsInTrackedTaskChanges": 13,
+  "diagnosticsInNewTaskFiles": 409,
+  "shippingSourceFilesAffected": 0,
+  "modelVisibleFrozenFilesAffected": 0,
+  "currentActual200CaseCohortAnd36SceneKestrelPackageBindingsRemainUnchanged": true,
+  "preflightSourceAffected": "benchmarks/FunnySharp.Benchmarks/BenchmarkPreflight.cs:4layoutchanges",
+  "semanticTestSourceFilesAffected": 8,
+  "semanticSourceReferencesAffected": [
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/tests/FunnySharp.Tests/AsyncCollectionTraversalTests.cs",
+      "occurrences": 53
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/tests/FunnySharp.Tests/DefaultStateTests.cs",
+      "occurrences": 29
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/tests/FunnySharp.Tests/OptionAsyncTests.cs",
+      "occurrences": 65
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/tests/FunnySharp.Tests/StableCarrierAsyncMatrixTests.cs",
+      "occurrences": 415
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/tests/FunnySharp.Tests/StableCarrierSyncMatrixTests.cs",
+      "occurrences": 229
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/tests/FunnySharp.Tests/StableCollectionSyncMatrixTests.cs",
+      "occurrences": 465
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/tests/FunnySharp.Tests/StableCollectionTraversalMatrixTests.cs",
+      "occurrences": 531
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/tests/FunnySharp.Tests/StableParallelDefaultContractTests.cs",
+      "occurrences": 9
+    }
+  ],
+  "plannedRepair": "Use exact formatter-produced whitespace-only edits through apply_patch; retain all9 original source bytes. Recheck complete formatter and affected source/provenance; any changed measured input must receive genuine new verification, never rehash old executions."
+}

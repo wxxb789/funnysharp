@@ -1,0 +1,246 @@
+{
+  "schema": "funnysharp-final-frozen-control-parent-join/v1",
+  "study": "audit-resolution-v2",
+  "manifestSha256": "ce3deafe90964e2388ca44c875223a508474d93868636ccb7a96d19e9a8a9c6f",
+  "evidenceKind": "replay",
+  "cohortMembers": 0,
+  "producerGenerationCalls": 0,
+  "positiveCases": 50,
+  "positivePassed": 50,
+  "compiledMutants": 5,
+  "mutantFailedTests": 12,
+  "skipped": 0,
+  "rootCliExitsForMutants": "Not independently available at parent integration; actual immutable build/test subprocess exits and semantic records are verified.",
+  "controls": [
+    {
+      "dir": "positive-business-01",
+      "state": "GREEN",
+      "compilation": {
+        "ok": true,
+        "errors": 0,
+        "buildSeconds": 9.3
+      },
+      "semantic": {
+        "ok": true,
+        "total": 10,
+        "failed": 0,
+        "succeeded": 10,
+        "skipped": 0
+      },
+      "roundDirectory": "artifacts/audit-resolution/u12-final-frozen-controls/positive-business-01/rounds/0001",
+      "buildExitCode": 0,
+      "testExitCode": 0,
+      "recordSha256": "8693e6f5707617526842aba08d27ab02ade2124b0dc51fdc43599e9ce4e01126",
+      "buildProcessSha256": "22e3e6ed91c8c0f0b03c6851f00b839a5e4882773af634e68c68386a01a80ed0",
+      "testProcessSha256": "97cd0be47294305c4950f3fb4568709c4d9ad7a8d603c55909f6f2f0c78bed1d",
+      "testStdoutSha256": "458dc8e346f40ab8aa985eaaf9e0a2c0ff7eb1603e89962589af369aa81c3739"
+    },
+    {
+      "dir": "positive-collections-01",
+      "state": "GREEN",
+      "compilation": {
+        "ok": true,
+        "errors": 0,
+        "buildSeconds": 7.6
+      },
+      "semantic": {
+        "ok": true,
+        "total": 9,
+        "failed": 0,
+        "succeeded": 9,
+        "skipped": 0
+      },
+      "roundDirectory": "artifacts/audit-resolution/u12-final-frozen-controls/positive-collections-01/rounds/0001",
+      "buildExitCode": 0,
+      "testExitCode": 0,
+      "recordSha256": "51167b6df2e286d700e38a47dbbc2d83bc613a48be28a33def0d1662c9b73d13",
+      "buildProcessSha256": "e01bf7d05c8c543bfd9732590d0aa99aed6ac2ff6ed10138f46894234787b74a",
+      "testProcessSha256": "5b01464eec21702a97bfdf1cceed413acfbf313658a95fc31e39c71722b2ca63",
+      "testStdoutSha256": "e45de5df163a68d9f32ae59f2cbb10ac0203fdbd7985d0ee1b479fcb2770680b"
+    },
+    {
+      "dir": "positive-streams-01",
+      "state": "GREEN",
+      "compilation": {
+        "ok": true,
+        "errors": 0,
+        "buildSeconds": 8.6
+      },
+      "semantic": {
+        "ok": true,
+        "total": 10,
+        "failed": 0,
+        "succeeded": 10,
+        "skipped": 0
+      },
+      "roundDirectory": "artifacts/audit-resolution/u12-final-frozen-controls/positive-streams-01/rounds/0001",
+      "buildExitCode": 0,
+      "testExitCode": 0,
+      "recordSha256": "e906f8af07ea9409aa1e59826413bf9453611376eeb81e759aefe62e5a6e574e",
+      "buildProcessSha256": "29dc77c9d41ad64d928fbc31dc0eb3c234f891dadf47bee0d5e5f042cd202799",
+      "testProcessSha256": "75e998d3f740d2857e958741639ab7f4f028dfa109aba9f5b752653067f48933",
+      "testStdoutSha256": "45757aa5a86c78210ebb9ec5e3542b6e68c83f261e3a970213081e5a05333cfc"
+    },
+    {
+      "dir": "positive-concurrency-01",
+      "state": "GREEN",
+      "compilation": {
+        "ok": true,
+        "errors": 0,
+        "buildSeconds": 7.4
+      },
+      "semantic": {
+        "ok": true,
+        "total": 12,
+        "failed": 0,
+        "succeeded": 12,
+        "skipped": 0
+      },
+      "roundDirectory": "artifacts/audit-resolution/u12-final-frozen-controls/positive-concurrency-01/rounds/0001",
+      "buildExitCode": 0,
+      "testExitCode": 0,
+      "recordSha256": "7cc657bf3e719cb344743fb2851f8e2113f7f4328a323e966c1fe73e77c5a46e",
+      "buildProcessSha256": "3ea64782da1e6c695a1d8a913905778fe987013f3bf60530637657d044fed722",
+      "testProcessSha256": "59eedad06cbae47b63edd5374aa32ecdec1c31abc75eafebdb8a9ea6b512d05e",
+      "testStdoutSha256": "35cc3cf4cb130ce17f9e7433b79ac571b6d118db4acc7a6373ee564b6ec617f8"
+    },
+    {
+      "dir": "positive-http-01",
+      "state": "GREEN",
+      "compilation": {
+        "ok": true,
+        "errors": 0,
+        "buildSeconds": 8.6
+      },
+      "semantic": {
+        "ok": true,
+        "total": 9,
+        "failed": 0,
+        "succeeded": 9,
+        "skipped": 0
+      },
+      "roundDirectory": "artifacts/audit-resolution/u12-final-frozen-controls/positive-http-01/rounds/0001",
+      "buildExitCode": 0,
+      "testExitCode": 0,
+      "recordSha256": "7e58c0849163203409b26497f33e85760f42e32808a32e7ade7dca9669dca208",
+      "buildProcessSha256": "667828d71853e9b80c0543411673ea209e0edcf3dc9b403eb92759bb44a9e74e",
+      "testProcessSha256": "89c5fe005f9f4b2376051bb3f1d519a52948215518c55a27fb86586b1a9af0f0",
+      "testStdoutSha256": "8ce12ed72943ddbd65964a67074159cf3106588b4dbee74dcc9dcbfec24c76b6"
+    },
+    {
+      "dir": "early-side-effects-01",
+      "state": "RED",
+      "compilation": {
+        "ok": true,
+        "errors": 0,
+        "buildSeconds": 7.6
+      },
+      "semantic": {
+        "ok": false,
+        "total": 10,
+        "failed": 2,
+        "succeeded": 8,
+        "skipped": 0
+      },
+      "roundDirectory": "artifacts/audit-resolution/u12-final-frozen-controls/early-side-effects-01/rounds/0001",
+      "buildExitCode": 0,
+      "testExitCode": 2,
+      "recordSha256": "3e48ed4d9ba04b8e22b84483f6afb8e9118df67aea48ea4f5712d44ccfa412b0",
+      "buildProcessSha256": "4adcba84a226e35ef694ea7bb9716003095d5ee65501dbc135140fca7b6c7782",
+      "testProcessSha256": "63bb9334fd864370aec60577166c1bb641e4509f0827155b1750df765cb4fab8",
+      "testStdoutSha256": "5ee9662be3d965c6a419feed2d906d75335d5db3f1827745fbd356aae555be1e"
+    },
+    {
+      "dir": "streaming-validation-01",
+      "state": "RED",
+      "compilation": {
+        "ok": true,
+        "errors": 0,
+        "buildSeconds": 7.6
+      },
+      "semantic": {
+        "ok": false,
+        "total": 10,
+        "failed": 4,
+        "succeeded": 6,
+        "skipped": 0
+      },
+      "roundDirectory": "artifacts/audit-resolution/u12-final-frozen-controls/streaming-validation-01/rounds/0001",
+      "buildExitCode": 0,
+      "testExitCode": 2,
+      "recordSha256": "9d307faa9a7134aa30f9f007d9d7a76d4a3db5e30e3c274af35de247bc0d5d23",
+      "buildProcessSha256": "b91620b15c745c871b80e779458c36bbebe308a5e8b46c5cb5e685e041853b9a",
+      "testProcessSha256": "992f8d698893b91d79f45798d4638ffee31fe4b108ed54072281b9dc220b977c",
+      "testStdoutSha256": "e34ec81270d3cdfebf9f0d249f54622d4b00708ac3802077581449de73552054"
+    },
+    {
+      "dir": "last-winner-01",
+      "state": "RED",
+      "compilation": {
+        "ok": true,
+        "errors": 0,
+        "buildSeconds": 7.1
+      },
+      "semantic": {
+        "ok": false,
+        "total": 12,
+        "failed": 2,
+        "succeeded": 10,
+        "skipped": 0
+      },
+      "roundDirectory": "artifacts/audit-resolution/u12-final-frozen-controls/last-winner-01/rounds/0001",
+      "buildExitCode": 0,
+      "testExitCode": 2,
+      "recordSha256": "772a92b6b8bbd20ad0b51a573201152b08d161b98971fc61423533e2eb507738",
+      "buildProcessSha256": "55dc1e2483d7d46634a846f32493f3bfd7200c0937db79b9be93d3db90d16907",
+      "testProcessSha256": "3de2598145ff60ea79a89e7cf9fafd5909cbeb9d7461c81781e921c9e109dd45",
+      "testStdoutSha256": "b13adeafb17073d9be5a19ecd6301d8af95f0da80dbe2bb68537202243a8aa6b"
+    },
+    {
+      "dir": "unobserved-cleanup-fault-01",
+      "state": "RED",
+      "compilation": {
+        "ok": true,
+        "errors": 0,
+        "buildSeconds": 7.8
+      },
+      "semantic": {
+        "ok": false,
+        "total": 12,
+        "failed": 1,
+        "succeeded": 11,
+        "skipped": 0
+      },
+      "roundDirectory": "artifacts/audit-resolution/u12-final-frozen-controls/unobserved-cleanup-fault-01/rounds/0001",
+      "buildExitCode": 0,
+      "testExitCode": 2,
+      "recordSha256": "06be6e5b80b1ffc488e782070a8de28fe4b009de68058157e2884c5019e188b8",
+      "buildProcessSha256": "448482024fafda8303a573e1554dedc76a8ceba4d61fb8006e76d139f8dbc2df",
+      "testProcessSha256": "dba0802ad0d72d25dc69b6679c8307218f2e4d10d9a901231fd35f30c35df809",
+      "testStdoutSha256": "3b71655b012b0c08a2a0523ac417e2c8c76472878bfc373861e7f3cb3cbad0e8"
+    },
+    {
+      "dir": "unbounded-admission-01",
+      "state": "RED",
+      "compilation": {
+        "ok": true,
+        "errors": 0,
+        "buildSeconds": 6.9
+      },
+      "semantic": {
+        "ok": false,
+        "total": 12,
+        "failed": 3,
+        "succeeded": 9,
+        "skipped": 0
+      },
+      "roundDirectory": "artifacts/audit-resolution/u12-final-frozen-controls/unbounded-admission-01/rounds/0001",
+      "buildExitCode": 0,
+      "testExitCode": 2,
+      "recordSha256": "2710bdb1b90dc25c466653179889c1fc30903171e6224748b1cfa0f5144dbab3",
+      "buildProcessSha256": "a7e6cde3beca21eb4c3bf3587e4c7272ee573f39c45d2067f6d63f3e95c0acf8",
+      "testProcessSha256": "f927a8491d2099eb6749739c3d3ee907ef7fca420edf248a892fec2b2fa4277b",
+      "testStdoutSha256": "fbcaff096ed15938ef2197ffe9f85d3e2a8787030447af546c4411a1640230ec"
+    }
+  ]
+}

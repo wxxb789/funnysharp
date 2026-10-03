@@ -1,0 +1,53 @@
+{
+  "schema": "funnysharp-formatted-current-docs-test/v1",
+  "state": "REAL_MAIN11_COMPETITOR1_GENERATED_VERIFIED_AND_CURRENT_2440_PASS",
+  "docs": {
+    "mainGenerateExit0": true,
+    "competitorGenerateExit0": true,
+    "mainVerifyExit0": true,
+    "competitorVerifyExit0": true,
+    "chainExit0": true,
+    "mainRegions": 11,
+    "competitorRegions": 1,
+    "monitor": "mon_WGHH4DEFSB2DBP7N/bash_44"
+  },
+  "tests": {
+    "command": "dotnet fsi build.fsx -- -p test",
+    "exitCode": 0,
+    "passed": 2440,
+    "total": 2440,
+    "failed": 0,
+    "skipped": 0,
+    "includesPerformanceDocsStrictTests": 12,
+    "log": "artifacts/audit-resolution/u13-formatted-repetitions/current-observation-tests.log",
+    "logSha256": "a6d0756a478b86522b619500b5669deb3c8a1873a73bcc8bdcce6eead16cb3da"
+  },
+  "approvedManifests": [
+    {
+      "kind": "main",
+      "path": "eng/performance/baseline.json",
+      "actual": "33b8961ce40827825022163cfde202f5797957510c8920a88fca490b544e8671",
+      "expected": "33b8961ce40827825022163cfde202f5797957510c8920a88fca490b544e8671",
+      "proposalSha": "b7ac48dc3442f87c991229bb23508f14cb577573d44aaca418fd5c49512b5978",
+      "policyFingerprint": "0f700b3b231a2ae914f526a565d75874680c4036a1c2c50ae90e54ef83ad04b6",
+      "inputFingerprint": "6151154d65392234a6a7bb3c283c8cabeee4e7f4dac569bd9226b79df30fa1db",
+      "protocolFingerprint": "765702cfa309615ebad721de84cd992a4ef3c883560703541d3a2f9c6eb8b207",
+      "protectedPrefixSha": "11f6e8e986753019590b1be9708c077afeb71e5b15148956d254b82d2725bfda",
+      "protectedSuffixSha": "0f867f7f0bbddf12ede2bd74aab07253ef33d6c047cea7345b5face6e685c8f8"
+    },
+    {
+      "kind": "competitor",
+      "path": "eng/performance/competitor-baseline.json",
+      "actual": "d866b8c0a8cf5fefb684af105ff6ceeba0fbc4381d169ed97e42ecd8306761ee",
+      "expected": "d866b8c0a8cf5fefb684af105ff6ceeba0fbc4381d169ed97e42ecd8306761ee",
+      "proposalSha": "13fbffa98adf64e289f3968e58993e6e00e0e7a1e675cc429ddfe30633ea2e39",
+      "policyFingerprint": "07e26d0baedb09c5562f824004d2f63df935639d4986e61358c622549d71b35a",
+      "inputFingerprint": "42bc2320c505741ae9d2d466174be1c1a6498c00c1f92a08dc199af63ee1de91",
+      "protocolFingerprint": "b3f5f0ed419a004320407f6e8f6c58d795128bb3ae1e536f6b624e2ffa55eddd",
+      "protectedPrefixSha": "0bfd6475438959eaa68164dad16cb455880f91cdb1030bee523fe755f6f63739",
+      "protectedSuffixSha": "804f89fc0ec98c9824183e795d3edd19e930f7bc471f9012aa3d503be2f8974b"
+    }
+  ],
+  "guideDrift": "u12-real-generated-guide-drift.json:9of14suppliedguides changed; separatefinal-input successorrequired.",
+  "limits": "Currentdocs/test unitproof; not all69finalverdict or owner/releaseacceptance."
+}

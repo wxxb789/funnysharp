@@ -162,11 +162,11 @@ public sealed class OptionAsyncTests
         Assert.Same(taskExpected, await Assert.ThrowsAsync<InvalidOperationException>(() => taskResult!));
         Assert.Same(
             valueTaskExpected,
-            await Assert.ThrowsAsync<InvalidOperationException>(async () => await valueTaskResult));
+            await Assert.ThrowsAsync<InvalidOperationException>(async () => { _ = await valueTaskResult; }));
         Assert.Same(bindTaskExpected, await Assert.ThrowsAsync<InvalidOperationException>(() => bindTaskResult!));
         Assert.Same(
             bindValueTaskExpected,
-            await Assert.ThrowsAsync<InvalidOperationException>(async () => await bindValueTaskResult));
+            await Assert.ThrowsAsync<InvalidOperationException>(async () => { _ = await bindValueTaskResult; }));
     }
 
     [Fact]
@@ -202,10 +202,10 @@ public sealed class OptionAsyncTests
         Assert.Null(bindValueTaskInvocationException);
         var taskCancellation = await Assert.ThrowsAnyAsync<OperationCanceledException>(() => taskResult!);
         var valueTaskCancellation = await Assert.ThrowsAnyAsync<OperationCanceledException>(
-            async () => await valueTaskResult);
+            async () => { _ = await valueTaskResult; });
         var bindTaskCancellation = await Assert.ThrowsAnyAsync<OperationCanceledException>(() => bindTaskResult!);
         var bindValueTaskCancellation = await Assert.ThrowsAnyAsync<OperationCanceledException>(
-            async () => await bindValueTaskResult);
+            async () => { _ = await bindValueTaskResult; });
         Assert.True(taskResult!.IsCanceled);
         Assert.True(valueTaskResult.IsCanceled);
         Assert.True(bindTaskResult!.IsCanceled);
@@ -225,8 +225,11 @@ public sealed class OptionAsyncTests
         var taskActual = await Assert.ThrowsAsync<InvalidOperationException>(
             () => Option.Some(1).MapAsync(_ => Task.FromException<int>(taskExpected)));
         var valueTaskActual = await Assert.ThrowsAsync<InvalidOperationException>(
-            async () => await Option.Some(1).MapValueAsync(
-                _ => ValueTask.FromException<int>(valueTaskExpected)));
+            async () =>
+            {
+                _ = await Option.Some(1).MapValueAsync(
+                _ => ValueTask.FromException<int>(valueTaskExpected));
+            });
         await Assert.ThrowsAsync<NullReferenceException>(
             () => Option.Some(1).MapAsync<int, int>(_ => null!));
 
@@ -287,7 +290,7 @@ public sealed class OptionAsyncTests
             cancellationSource.Token);
         var taskCancellation = await Assert.ThrowsAnyAsync<OperationCanceledException>(() => task);
         var valueTaskCancellation = await Assert.ThrowsAnyAsync<OperationCanceledException>(
-            async () => await valueTask);
+            async () => { _ = await valueTask; });
 
         Assert.True(task.IsCanceled);
         Assert.True(valueTask.IsCanceled);
@@ -345,7 +348,7 @@ public sealed class OptionAsyncTests
         Option<string> defaultTextOption = await defaultText.ToOptionAsync();
         Option<int> zeroOption = await zero.ToOptionAsync();
         var fault = await Assert.ThrowsAsync<InvalidOperationException>(
-            async () => await ValueTask.FromException<string?>(expected).ToOptionAsync());
+            async () => { _ = await ValueTask.FromException<string?>(expected).ToOptionAsync(); });
 
         Assert.True(defaultTextOption.IsNone);
         Assert.Equal(Option.Some(0), zeroOption);
@@ -362,7 +365,7 @@ public sealed class OptionAsyncTests
         var valueTask = ValueTask.FromCanceled<string?>(cancellationSource.Token).ToOptionAsync();
         var taskCancellation = await Assert.ThrowsAnyAsync<OperationCanceledException>(() => task);
         var valueTaskCancellation = await Assert.ThrowsAnyAsync<OperationCanceledException>(
-            async () => await valueTask);
+            async () => { _ = await valueTask; });
 
         Assert.True(task.IsCanceled);
         Assert.True(valueTask.IsCanceled);

@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>PositiveBusiness</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(ControlRoot)solutions/OrderWorkflow.cs" />
+    <Compile Include="$(ControlRoot)../tasks/business-outcomes/tests/Contract.cs" />
+    <Compile Include="$(ControlRoot)../tasks/business-outcomes/tests/SideEffectsTests.cs" />
+    <Compile Include="$(ControlRoot)../../../tasks/business-outcomes/tests/PlaceOrderTests.cs" />
+  </ItemGroup>
+</Project>

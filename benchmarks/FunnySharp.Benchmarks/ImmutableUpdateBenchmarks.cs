@@ -40,6 +40,7 @@ public class ImmutableUpdateBenchmarks
     [GlobalSetup]
     public void Setup()
     {
+        BenchmarkPreflight.CaptureChild(this);
         cityReplacement = "Paris";
         customer = new Customer(new Profile(new Address("London")));
 
@@ -159,6 +160,27 @@ public class ImmutableUpdateBenchmarks
         builder[0] = builder[0] with { Quantity = firstQuantityReplacement };
         builder[1] = builder[1] with { Quantity = secondQuantityReplacement };
         return builder.ToImmutable();
+    }
+
+    internal Task ValidateFullSemanticsAsync()
+    {
+        var expectedItems = new[]
+        {
+            new LineItem("SKU-1", 4),
+            new LineItem("SKU-2", 7),
+            new LineItem("SKU-3", 3),
+        };
+        BenchmarkPreflight.Require(
+            DirectNestedRecordReplacement().Profile.Address.City == "Paris"
+            && FunnySharpNestedRecordReplacement().Profile.Address.City == "Paris"
+            && DirectImmutableCollectionBatchUpdate().LineItems.SequenceEqual(expectedItems)
+            && FunnySharpImmutableCollectionBatchUpdate().LineItems.SequenceEqual(expectedItems)
+            && DirectExistingKeyUpdate()["home"] == new Address("Berlin")
+            && FunnySharpExistingKeyUpdate()["home"] == new Address("Berlin")
+            && DirectMissingOptionalUpdate() && FunnySharpMissingOptionalUpdate()
+            && DirectFrozenDictionaryLookup() == 42 && FunnySharpFrozenDictionaryLookup() == 42,
+            "Immutable update changed a complete value, collection, or missing-focus identity.");
+        return Task.CompletedTask;
     }
 
     public sealed record Customer(Profile Profile);

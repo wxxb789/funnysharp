@@ -305,7 +305,9 @@ public static class ParallelAsyncEnumerableExtensions
                     }
 
                     var next = await channel.Reader.ReadAsync(operationCancellation.Token).ConfigureAwait(false);
-                    Current = await next.Task.ConfigureAwait(false);
+                    var result = await next.Task.ConfigureAwait(false);
+                    operationCancellation.Token.ThrowIfCancellationRequested();
+                    Current = result;
                     lock (gate)
                     {
                         // The removal keys on the StartedWork instance, not its task:

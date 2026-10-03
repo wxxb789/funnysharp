@@ -1,14 +1,25 @@
 using System.Runtime.ExceptionServices;
+using System.Threading.Channels;
 
 namespace FunnySharp;
 
 /// <summary>
 /// Provides concurrent coordination operations for deferred effects.
 /// </summary>
+/// <remarks>
+/// Inputs must be finite and are eagerly snapshotted once, requiring O(N) storage. Existing overloads admit
+/// at most 32 candidates at a time. A candidate occupies its slot until its completion has been accounted for.
+/// Each ready batch selects its lowest-input-index success. Selection stops admission, cancels remaining work,
+/// and awaits every admitted candidate, completion observer, and cancellation callback before publication.
+/// Independent candidate faults propagate in input order, followed by cancellation-callback faults; they are
+/// not hidden by a successful alternative. Caller cancellation remains primary, otherwise a selected timeout
+/// remains primary. When there is no caller cancellation or timeout, the first independent source cancellation
+/// is retained. Only canceled-task artifacts carrying the canceled operation token are suppressed.
+/// </remarks>
 public static class ConcurrentEffectExtensions
 {
     /// <summary>
-    /// Starts every source effect and returns the first observed successful result.
+    /// Runs up to 32 source effects concurrently and returns the first observed successful result.
     /// </summary>
     /// <typeparam name="TValue">The successful result value type.</typeparam>
     /// <typeparam name="TError">The result error type.</typeparam>
@@ -18,21 +29,22 @@ public static class ConcurrentEffectExtensions
     /// An asynchronous operation that returns the first observed successful value as a valid validation. When every
     /// effect returns a typed failure, it returns an invalid validation containing those failures in input order.
     /// Started effects receive an internal operation token, and remaining work is canceled and drained after a success.
-    /// Without a success, ordinary faults and source cancellation propagate instead of becoming typed errors.
+    /// Independent faults and source cancellation propagate even after a success instead of becoming typed errors.
     /// </returns>
     /// <exception cref="ArgumentNullException"><paramref name="effects"/> is <see langword="null"/>.</exception>
     /// <exception cref="ArgumentException"><paramref name="effects"/> is empty.</exception>
-    /// <exception cref="OperationCanceledException">The caller cancellation token is canceled.</exception>
+    /// <exception cref="OperationCanceledException">Caller or independent source cancellation propagates when it is the sole failure.</exception>
+    /// <exception cref="AggregateException">Multiple independent candidate, source-cancellation, or cancellation-callback failures are retained; caller cancellation is first when present.</exception>
     public static ValueTask<Validation<TValue, TError>> FirstSuccessAsync<TValue, TError>(
         this IEnumerable<Effect<Result<TValue, TError>>> effects,
         CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(effects);
-        return FirstSuccessAsyncCore(Snapshot(effects), cancellationToken, null);
+        return FirstSuccessAsyncCore(Snapshot(effects), 32, cancellationToken, null);
     }
 
     /// <summary>
-    /// Starts every source effect and returns the first observed successful result before the timeout expires.
+    /// Runs up to 32 source effects concurrently and returns the first observed success before the timeout expires.
     /// </summary>
     /// <typeparam name="TValue">The successful result value type.</typeparam>
     /// <typeparam name="TError">The result error type.</typeparam>
@@ -43,13 +55,14 @@ public static class ConcurrentEffectExtensions
     /// An asynchronous operation that returns the first observed successful value as a valid validation. When every
     /// effect returns a typed failure, it returns an invalid validation containing those failures in input order.
     /// Started effects receive an internal operation token, and remaining work is canceled and drained after a success.
-    /// Without a success, ordinary faults and source cancellation propagate instead of becoming typed errors.
+    /// Independent faults and source cancellation propagate even after a success instead of becoming typed errors.
     /// </returns>
     /// <exception cref="ArgumentNullException"><paramref name="effects"/> is <see langword="null"/>.</exception>
     /// <exception cref="ArgumentException"><paramref name="effects"/> is empty.</exception>
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="timeout"/> is invalid.</exception>
     /// <exception cref="TimeoutException">The timeout expires before a successful result is observed.</exception>
-    /// <exception cref="OperationCanceledException">The caller cancellation token is canceled.</exception>
+    /// <exception cref="OperationCanceledException">Caller or independent source cancellation propagates when it is the sole failure.</exception>
+    /// <exception cref="AggregateException">Multiple independent failures are retained, with caller cancellation or the selected timeout first when present.</exception>
     public static ValueTask<Validation<TValue, TError>> FirstSuccessAsync<TValue, TError>(
         this IEnumerable<Effect<Result<TValue, TError>>> effects,
         TimeSpan timeout,
@@ -57,7 +70,7 @@ public static class ConcurrentEffectExtensions
         FirstSuccessAsync(effects, timeout, TimeProvider.System, cancellationToken);
 
     /// <summary>
-    /// Starts every source effect and returns the first observed successful result before the timeout expires.
+    /// Runs up to 32 source effects concurrently and returns the first observed success before the timeout expires.
     /// </summary>
     /// <typeparam name="TValue">The successful result value type.</typeparam>
     /// <typeparam name="TError">The result error type.</typeparam>
@@ -69,7 +82,7 @@ public static class ConcurrentEffectExtensions
     /// An asynchronous operation that returns the first observed successful value as a valid validation. When every
     /// effect returns a typed failure, it returns an invalid validation containing those failures in input order.
     /// Started effects receive an internal operation token, and remaining work is canceled and drained after a success.
-    /// Without a success, ordinary faults and source cancellation propagate instead of becoming typed errors.
+    /// Independent faults and source cancellation propagate even after a success instead of becoming typed errors.
     /// </returns>
     /// <exception cref="ArgumentNullException">
     /// <paramref name="effects"/> or <paramref name="timeProvider"/> is <see langword="null"/>.
@@ -77,20 +90,58 @@ public static class ConcurrentEffectExtensions
     /// <exception cref="ArgumentException"><paramref name="effects"/> is empty.</exception>
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="timeout"/> is invalid.</exception>
     /// <exception cref="TimeoutException">The timeout expires before a successful result is observed.</exception>
-    /// <exception cref="OperationCanceledException">The caller cancellation token is canceled.</exception>
+    /// <exception cref="OperationCanceledException">Caller or independent source cancellation propagates when it is the sole failure.</exception>
+    /// <exception cref="AggregateException">Multiple independent failures are retained, with caller cancellation or the selected timeout first when present.</exception>
     public static ValueTask<Validation<TValue, TError>> FirstSuccessAsync<TValue, TError>(
         this IEnumerable<Effect<Result<TValue, TError>>> effects,
         TimeSpan timeout,
         TimeProvider timeProvider,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken = default) =>
+        FirstSuccessAsync(effects, timeout, timeProvider, cancellationToken, 32);
+
+    /// <summary>
+    /// Runs source effects within the supplied concurrency bound and returns the first observed success.
+    /// </summary>
+    /// <typeparam name="TValue">The successful result value type.</typeparam>
+    /// <typeparam name="TError">The result error type.</typeparam>
+    /// <param name="effects">The finite effects to snapshot and admit in input order.</param>
+    /// <param name="timeout">
+    /// The maximum duration to wait for a success, or <see cref="Timeout.InfiniteTimeSpan"/> for no timeout.
+    /// </param>
+    /// <param name="timeProvider">The time provider used to measure <paramref name="timeout"/>.</param>
+    /// <param name="cancellationToken">The caller cancellation token.</param>
+    /// <param name="maxConcurrency">The positive maximum number of admitted, unaccounted-for candidates.</param>
+    /// <returns>
+    /// The lowest-input-index success in the selected ready batch as a valid validation, or all typed failures
+    /// in input order as an invalid validation. Independent exceptions and source cancellation propagate rather
+    /// than becoming typed errors. Publication waits for cancellation callbacks and all admitted work to drain.
+    /// </returns>
+    /// <exception cref="ArgumentNullException">
+    /// <paramref name="effects"/> or <paramref name="timeProvider"/> is <see langword="null"/>.
+    /// </exception>
+    /// <exception cref="ArgumentException"><paramref name="effects"/> is empty.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">
+    /// <paramref name="timeout"/> is invalid or <paramref name="maxConcurrency"/> is not positive.
+    /// </exception>
+    /// <exception cref="TimeoutException">The timeout is selected before a successful result.</exception>
+    /// <exception cref="OperationCanceledException">Caller or independent source cancellation propagates.</exception>
+    /// <exception cref="AggregateException">Multiple independent failures are retained, with caller cancellation or the selected timeout first when present.</exception>
+    public static ValueTask<Validation<TValue, TError>> FirstSuccessAsync<TValue, TError>(
+        this IEnumerable<Effect<Result<TValue, TError>>> effects,
+        TimeSpan timeout,
+        TimeProvider timeProvider,
+        CancellationToken cancellationToken,
+        int maxConcurrency)
     {
         ArgumentNullException.ThrowIfNull(effects);
         ArgumentNullException.ThrowIfNull(timeProvider);
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(maxConcurrency);
 
         var timeoutCancellationSource = new CancellationTokenSource(timeout, timeProvider);
         try
         {
-            return FirstSuccessAsyncCore(Snapshot(effects), cancellationToken, timeoutCancellationSource);
+            return FirstSuccessAsyncCore(
+                Snapshot(effects), maxConcurrency, cancellationToken, timeoutCancellationSource);
         }
         catch
         {
@@ -114,6 +165,7 @@ public static class ConcurrentEffectExtensions
 
     private static async ValueTask<Validation<TValue, TError>> FirstSuccessAsyncCore<TValue, TError>(
         Effect<Result<TValue, TError>>[] effects,
+        int maxConcurrency,
         CancellationToken cancellationToken,
         CancellationTokenSource? timeoutCancellationSource)
     {
@@ -125,166 +177,172 @@ public static class ConcurrentEffectExtensions
                 : CancellationTokenSource.CreateLinkedTokenSource(
                     cancellationToken,
                     timeoutCancellationSource.Token);
-            Exception? signalCancellationFailure = null;
-            var cancellationSignal = new TaskCompletionSource(
-                TaskCreationOptions.RunContinuationsAsynchronously);
-            using var cancellationRegistration = signalCancellationSource.Token.Register(() =>
-            {
-                try
+            var completions = Channel.CreateUnbounded<FirstSuccessCandidate<Result<TValue, TError>>?>(
+                new UnboundedChannelOptions
                 {
-                    operationCancellationSource.Cancel();
-                }
-                catch (Exception exception)
-                {
-                    Interlocked.CompareExchange(ref signalCancellationFailure, exception, null);
-                }
-                finally
-                {
-                    cancellationSignal.TrySetResult();
-                }
-            });
-
+                    SingleReader = true,
+                    AllowSynchronousContinuations = false,
+                });
+            using var cancellationRegistration = signalCancellationSource.Token.Register(
+                () => completions.Writer.TryWrite(null));
             var operationToken = operationCancellationSource.Token;
-            var tasks = new Task<Result<TValue, TError>>[effects.Length];
-            for (var index = 0; index < effects.Length; index++)
+            var typedFailures = new TError[effects.Length];
+            var faults = new IReadOnlyList<Exception>?[effects.Length];
+            var cancellations = new OperationCanceledException?[effects.Length];
+            var nextIndex = 0;
+            var pending = 0;
+            var winnerIndex = int.MaxValue;
+            TValue? winner = default;
+
+            while (true)
             {
-                tasks[index] = effects[index].RunAsync(operationToken).AsTask();
+                // Fill the initial window before selecting any synchronous success. Subsequent
+                // windows only refill slots whose candidate and observer have been accounted for.
+                while (nextIndex < effects.Length &&
+                    pending < maxConcurrency &&
+                    !signalCancellationSource.IsCancellationRequested)
+                {
+                    var index = nextIndex++;
+                    pending++;
+                    _ = new FirstSuccessCandidate<Result<TValue, TError>>(
+                        index, effects[index].RunAsync(operationToken).AsTask(), completions.Writer);
+                }
+
+                if (signalCancellationSource.IsCancellationRequested || pending == 0)
+                {
+                    break;
+                }
+
+                var completed = await completions.Reader.ReadAsync().ConfigureAwait(false);
+                do
+                {
+                    if (completed is not null)
+                    {
+                        await ObserveAsync(completed, selectWinner: true).ConfigureAwait(false);
+                    }
+                }
+                while (completions.Reader.TryRead(out completed));
+
+                // No new admissions occur while observing a batch, so it contains at most K
+                // candidate notifications, plus the single cancellation wake-up.
+                if (winnerIndex != int.MaxValue || signalCancellationSource.IsCancellationRequested)
+                {
+                    break;
+                }
             }
 
-            var pending = new List<Task<Result<TValue, TError>>>(tasks);
-            var typedFailures = new TError[effects.Length];
-            var hasTypedFailure = new bool[effects.Length];
-            var faults = new Exception?[effects.Length];
-            var cancellations = new OperationCanceledException?[effects.Length];
-
-            while (pending.Count > 0)
+            var timedOut = timeoutCancellationSource is { IsCancellationRequested: true };
+            StopTimeout(timeoutCancellationSource);
+            Task? cancellation = null;
+            if (winnerIndex != int.MaxValue || cancellationToken.IsCancellationRequested || timedOut)
             {
-                var observedCompletion = false;
-                var hasWinner = false;
-                TValue? winner = default;
+                // One cancellation owner means callback faults cannot be lost between signal
+                // handling and winner cleanup. CancelAsync also gives cleanup an awaitable lifetime.
+                cancellation = operationCancellationSource.CancelAsync();
+            }
 
-                for (var index = 0; index < tasks.Length; index++)
+            while (pending > 0)
+            {
+                var completed = await completions.Reader.ReadAsync().ConfigureAwait(false);
+                if (completed is not null)
                 {
-                    var task = tasks[index];
-                    if (!task.IsCompleted || !pending.Remove(task))
-                    {
-                        continue;
-                    }
+                    await ObserveAsync(completed, selectWinner: false).ConfigureAwait(false);
+                }
+            }
 
-                    observedCompletion = true;
-                    try
-                    {
-                        var result = await task.ConfigureAwait(false);
-                        if (result.TryGetValue(out var value))
-                        {
-                            if (!hasWinner)
-                            {
-                                hasWinner = true;
-                                winner = value;
-                            }
+            if (cancellation is not null)
+            {
+                // Read the task's complete exception collection below, not just await's first exception.
+                await cancellation.ConfigureAwait(ConfigureAwaitOptions.SuppressThrowing);
+            }
 
-                            continue;
-                        }
-
-                        result.TryGetError(out var error);
-                        typedFailures[index] = error!;
-                        hasTypedFailure[index] = true;
-                    }
-                    catch (OperationCanceledException exception) when (task.IsCanceled)
+            List<Exception>? failures = null;
+            var errors = winnerIndex == int.MaxValue ? new List<TError>(nextIndex) : null;
+            var hasSourceCancellation = false;
+            for (var index = 0; index < nextIndex; index++)
+            {
+                if (faults[index] is { } candidateFaults)
+                {
+                    (failures ??= []).AddRange(candidateFaults);
+                }
+                else if (cancellations[index] is { } sourceCancellation)
+                {
+                    // Preserve the existing first-source-cancellation selection rule.
+                    if (!hasSourceCancellation)
                     {
-                        cancellations[index] = exception;
-                    }
-                    catch (Exception exception)
-                    {
-                        faults[index] = exception;
+                        hasSourceCancellation = true;
+                        (failures ??= []).Add(sourceCancellation);
                     }
                 }
-
-                if (hasWinner)
+                else
                 {
-                    Exception? primaryFailure = null;
-                    if (cancellationToken.IsCancellationRequested)
+                    errors?.Add(typedFailures[index]);
+                }
+            }
+
+            if (cancellation?.Exception is { } callbackFaults)
+            {
+                (failures ??= []).AddRange(callbackFaults.InnerExceptions);
+            }
+
+            Exception? primaryFailure = cancellationToken.IsCancellationRequested
+                ? new OperationCanceledException(cancellationToken)
+                : timedOut ? new TimeoutException() : null;
+            if (primaryFailure is not null)
+            {
+                (failures ??= []).Insert(0, primaryFailure);
+            }
+
+            ThrowFailures(failures);
+            return winnerIndex != int.MaxValue
+                ? Validation<TValue, TError>.Valid(winner!)
+                : Validation<TValue, TError>.InvalidFromOwnedErrors(errors!);
+
+            async ValueTask ObserveAsync(
+                FirstSuccessCandidate<Result<TValue, TError>> candidate,
+                bool selectWinner)
+            {
+                await candidate.Observer.ConfigureAwait(false);
+                pending--;
+                var index = candidate.Index;
+                var task = candidate.Completion;
+                if (task.IsFaulted)
+                {
+                    // A faulted OCE is an independent fault, regardless of its token. Reading
+                    // InnerExceptions also retains every exception represented by a source task.
+                    faults[index] = task.Exception!.InnerExceptions;
+                    return;
+                }
+
+                try
+                {
+                    var result = await task.ConfigureAwait(false);
+                    if (result.TryGetValue(out var value))
                     {
-                        primaryFailure = new OperationCanceledException(cancellationToken);
-                    }
-                    else if (timeoutCancellationSource is { IsCancellationRequested: true })
-                    {
-                        primaryFailure = new TimeoutException();
+                        if (selectWinner && index < winnerIndex)
+                        {
+                            winnerIndex = index;
+                            winner = value;
+                        }
                     }
                     else
                     {
-                        StopTimeout(timeoutCancellationSource);
+                        result.TryGetError(out var error);
+                        typedFailures[index] = error!;
                     }
-
-                    var winnerCleanupFailure = await CancelAndDrainAsync(pending, operationCancellationSource).ConfigureAwait(false);
-                    winnerCleanupFailure ??= Volatile.Read(ref signalCancellationFailure);
-                    ThrowPostDrainFailure(cancellationToken, primaryFailure, winnerCleanupFailure);
-
-                    return Validation<TValue, TError>.Valid(winner!);
                 }
-
-                if (cancellationToken.IsCancellationRequested)
+                catch (OperationCanceledException exception) when (task.IsCanceled)
                 {
-                    var cleanupFailure = await CancelAndDrainAsync(pending, operationCancellationSource).ConfigureAwait(false);
-                    cleanupFailure ??= Volatile.Read(ref signalCancellationFailure);
-                    ThrowPostDrainFailure(
-                        cancellationToken,
-                        new OperationCanceledException(cancellationToken),
-                        cleanupFailure);
-                    continue;
+                    if (!operationToken.IsCancellationRequested || exception.CancellationToken != operationToken)
+                    {
+                        cancellations[index] = exception;
+                    }
                 }
-
-                if (timeoutCancellationSource is { IsCancellationRequested: true })
+                catch (Exception exception)
                 {
-                    var cleanupFailure = await CancelAndDrainAsync(pending, operationCancellationSource).ConfigureAwait(false);
-                    cleanupFailure ??= Volatile.Read(ref signalCancellationFailure);
-                    ThrowPostDrainFailure(cancellationToken, new TimeoutException(), cleanupFailure);
-                    continue;
-                }
-
-                if (observedCompletion)
-                {
-                    continue;
-                }
-
-                var taskCompletion = Task.WhenAny(pending);
-                var signal = await Task.WhenAny(taskCompletion, cancellationSignal.Task).ConfigureAwait(false);
-                if (signal == cancellationSignal.Task)
-                {
-                    Exception? primaryFailure = cancellationToken.IsCancellationRequested
-                        ? new OperationCanceledException(cancellationToken)
-                        : timeoutCancellationSource is { IsCancellationRequested: true }
-                            ? new TimeoutException()
-                            : null;
-                    var cleanupFailure = await CancelAndDrainAsync(pending, operationCancellationSource).ConfigureAwait(false);
-                    cleanupFailure ??= Volatile.Read(ref signalCancellationFailure);
-                    ThrowPostDrainFailure(cancellationToken, primaryFailure, cleanupFailure);
+                    faults[index] = [exception];
                 }
             }
-
-            if (cancellationToken.IsCancellationRequested)
-            {
-                throw new OperationCanceledException(cancellationToken);
-            }
-
-            if (timeoutCancellationSource is { IsCancellationRequested: true })
-            {
-                throw new TimeoutException();
-            }
-
-            ThrowFailures(faults);
-            ThrowCancellations(cancellations);
-
-            var errors = new List<TError>(effects.Length);
-            for (var index = 0; index < typedFailures.Length; index++)
-            {
-                if (hasTypedFailure[index])
-                {
-                    errors.Add(typedFailures[index]);
-                }
-            }
-
-            return Validation<TValue, TError>.InvalidFromOwnedErrors(errors);
         }
         finally
         {
@@ -292,68 +350,32 @@ public static class ConcurrentEffectExtensions
         }
     }
 
-    private static async Task<Exception?> CancelAndDrainAsync<TValue, TError>(
-        IReadOnlyCollection<Task<Result<TValue, TError>>> tasks,
-        CancellationTokenSource operationCancellationSource)
+    private sealed class FirstSuccessCandidate<T>
     {
-        Exception? cancellationFailure = null;
-        if (tasks.Count == 0)
+        public FirstSuccessCandidate(
+            int index,
+            Task<T> completion,
+            ChannelWriter<FirstSuccessCandidate<T>?> writer)
         {
-            return cancellationFailure;
+            Index = index;
+            Completion = completion;
+            Observer = NotifyAsync(this, writer);
         }
 
-        try
+        public int Index { get; }
+
+        public Task<T> Completion { get; }
+
+        public Task Observer { get; }
+
+        private static async Task NotifyAsync(
+            FirstSuccessCandidate<T> candidate,
+            ChannelWriter<FirstSuccessCandidate<T>?> writer)
         {
-            operationCancellationSource.Cancel();
+            // The coordinator accounts for the source task's full terminal outcome.
+            await ((Task)candidate.Completion).ConfigureAwait(ConfigureAwaitOptions.SuppressThrowing);
+            writer.TryWrite(candidate);
         }
-        catch (Exception exception)
-        {
-            cancellationFailure = exception;
-        }
-
-        try
-        {
-            await Task.WhenAll(tasks).ConfigureAwait(false);
-        }
-        catch (Exception)
-        {
-        }
-
-        return cancellationFailure;
-    }
-
-    private static Exception CreatePrimaryFailure(Exception primaryFailure, Exception? cleanupFailure) =>
-        cleanupFailure is null
-            ? primaryFailure
-            : new AggregateException(primaryFailure, cleanupFailure);
-
-    private static void ThrowPostDrainFailure(
-        CancellationToken cancellationToken,
-        Exception? primaryFailure,
-        Exception? cleanupFailure)
-    {
-        if (cancellationToken.IsCancellationRequested)
-        {
-            primaryFailure = new OperationCanceledException(cancellationToken);
-        }
-
-        if (primaryFailure is null)
-        {
-            ThrowCleanupFailure(cleanupFailure);
-            return;
-        }
-
-        ExceptionDispatchInfo.Capture(CreatePrimaryFailure(primaryFailure, cleanupFailure)).Throw();
-    }
-
-    private static void ThrowCleanupFailure(Exception? cleanupFailure)
-    {
-        if (cleanupFailure is null)
-        {
-            return;
-        }
-
-        ExceptionDispatchInfo.Capture(cleanupFailure).Throw();
     }
 
     private static void StopTimeout(CancellationTokenSource? timeoutCancellationSource)
@@ -364,17 +386,8 @@ public static class ConcurrentEffectExtensions
         }
     }
 
-    private static void ThrowFailures(IReadOnlyList<Exception?> faults)
+    private static void ThrowFailures(List<Exception>? failures)
     {
-        List<Exception>? failures = null;
-        for (var index = 0; index < faults.Count; index++)
-        {
-            if (faults[index] is { } failure)
-            {
-                (failures ??= []).Add(failure);
-            }
-        }
-
         if (failures is null)
         {
             return;
@@ -387,16 +400,5 @@ public static class ConcurrentEffectExtensions
         }
 
         throw new AggregateException(failures);
-    }
-
-    private static void ThrowCancellations(IReadOnlyList<OperationCanceledException?> cancellations)
-    {
-        for (var index = 0; index < cancellations.Count; index++)
-        {
-            if (cancellations[index] is { } cancellation)
-            {
-                ExceptionDispatchInfo.Capture(cancellation).Throw();
-            }
-        }
     }
 }

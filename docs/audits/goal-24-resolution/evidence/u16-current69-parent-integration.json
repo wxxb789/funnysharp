@@ -1,0 +1,22 @@
+{
+  "schema": "funnysharp-current69-parent-integration/v1",
+  "capturedUtc": "2026-10-02T10:25:55.587Z",
+  "originalIds": 69,
+  "uniqueIds": 69,
+  "originalFail": 40,
+  "originalUnverified": 29,
+  "joinReportSha256": "4fa972d02e1af53907d81be664cac1c7d7a37af32e95d54d9b6402e8c5e77a83",
+  "catalog": {
+    "checks": 26,
+    "unchanged": 25,
+    "knownPostReviewParentEdit": {
+      "path": "eng/evaluation/studies/audit-resolution-v2/native-cli-producer-protocol.json",
+      "expected": "9879d11264cf23ea9e2cb6ac6a790d2673e4d5394032ac916696f447d8f9e14c",
+      "actual": "4dc89f4104a211365cb6e3393e9102e5a7c1f9bee2cc825bf4a32598c5e18af4"
+    },
+    "explanation": "Independent join captured the actual stale CLI recordFields; parent subsequently corrected those route/requestedModel fields. The report is a retained capture, not rewritten."
+  },
+  "finalAccepted": 0,
+  "originalFindingDispositionNotChanged": true,
+  "aggregateCriteriaNotPromoted": true
+}

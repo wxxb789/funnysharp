@@ -1,0 +1,119 @@
+diff --git i/docs/grammar.md w/docs/grammar.md
+index 023aa90..6b389c3 100644
+--- i/docs/grammar.md
++++ w/docs/grammar.md
+@@ -50,9 +50,10 @@ outcome wrappers remain out of scope ([product contract](product-contract.md)).
+   `SelectParallelCompletionOrderValueAsync` yields completion order; no boolean or enum ordering
+   parameter hides the contract from the call site.
+ - A `CancellationToken` is always an explicit parameter and is forwarded unchanged.
+-- Eager fallbacks are plain parameters (`OrElse`, `Recover`, `GetValueOr`); lazy fallbacks are
+-  factories (`OrElseWith`, `RecoverWith`, `GetValueOrElse`); `GetValueOrDefault` is the only member
+-  that may return `default(T)`.
++- Eager absence fallbacks are plain parameters (`OrElse`, `GetValueOr`); lazy absence fallbacks
++  are factories (`OrElseWith`, `GetValueOrElse`). Recovery callbacks are lazy in both forms:
++  `Recover` produces a successful value, while `RecoverWith` produces another value of the same
++  carrier. `GetValueOrDefault` is the only absence getter with an implicit `default(T)` fallback.
+ - Sequence cardinality and container/parse absence use the `*OrNone` suffix (`FirstOrNone`, `LastOrNone`,
+   `SingleOrNone`, `ElementAtOrNone`, `MinOrNone`/`MaxOrNone`, `ToNonEmptyOrNone`, `DequeueOrNone`,
+   `PopOrNone`, `PeekOrNone`, `IndexOfOrNone`, `RemoveOrNone`, the generic `ParseOrNone`, and the named
+@@ -63,6 +64,25 @@ outcome wrappers remain out of scope ([product contract](product-contract.md)).
+ 
+ ## The Verb Table
+ 
++The table covers workflow operations. Constructors, state/payload properties, equality, hashing,
++diagnostic formatting, and compiler-generated record/delegate members follow their documented
++.NET/C# contracts; they are not alternative pipeline vocabulary. Experimental location operations
++remain outside the stable table and are identified in the [stability inventory](stability-inventory.md).
++
++### Construction And Exception Boundaries
++
++| Verb | Meaning | Present on | Output shape | Async forms | Key contract |
++| --- | --- | --- | --- | --- | --- |
++| `Some`/`None` | Explicitly constructs presence or absence. | `Option` | `Option<T>` | — | `Some` rejects runtime null; `None` is the valid default option. |
++| `Success`/`Failure` | Explicitly constructs a fail-fast outcome. | `Result`, `UnitResult` | Same carrier | — | `UnitResult.Success` has no payload; typed nullable payloads retain their declared meaning. |
++| `Valid`/`Invalid`/`InvalidMany` | Explicitly constructs a valid value or ordered validation errors. | `Validation` | `Validation<TValue, TError>` | — | `Invalid` owns one error; `InvalidMany` enumerates once into a nonempty snapshot and rejects null or empty input. |
++| `FromNullable` | Converts nullable input to presence or absence. | nullable values | `Option<T>` | — | Runtime null is `None`; a present default value is not absence. |
++| `FromTry` | Invokes a Boolean-returning Try-pattern operation. | `TryOperation<T>` | `Option<T>` | — | Invoked once; false or a runtime-null successful output is `None`; exceptions propagate unchanged. |
++| `FromBoolean` | Constructs presence when a condition is true. | Boolean plus value or value factory | `Option<T>` | — | The value overload is eager; the factory is validated at entry but invoked only when true; a runtime-null selected value is `None`. |
++| `Try` | Executes an explicit non-cancellation exception boundary. | value-producing or valueless work | `Result<TValue, TError>` / `UnitResult<TError>` | `TryAsync`, `TryValueAsync` | Ordinary operation exceptions are preserved or mapped by the supplied mapper; cancellation and mapper exceptions propagate. |
++| `TryAsync` | Executes the boundary over a Task-returning operation. | tokenless `Func<Task<T>>` / `Func<Task>` | `Task<Result<...>>` / `Task<UnitResult<...>>` | — | The callback owns any captured token; canceled tasks and faulted OCE tasks retain their states, and a null returned Task faults rather than reaching the mapper. |
++| `TryValueAsync` | Executes the boundary over a ValueTask-returning operation. | tokenless `Func<ValueTask<T>>` / `Func<ValueTask>` | `ValueTask<Result<...>>` / `ValueTask<UnitResult<...>>` | — | Each ValueTask is consumed once; cancellation and faulted OCE are not domain failures. |
++
+ ### Function Grammar
+ 
+ | Verb | Meaning | Present on | Output shape | Async forms | Key contract |
+@@ -98,13 +118,13 @@ outcome wrappers remain out of scope ([product contract](product-contract.md)).
+ 
+ | Verb | Meaning | Present on | Output shape | Async forms | Key contract |
+ | --- | --- | --- | --- | --- | --- |
+-| `Recover` | Eagerly replaces a failure with a value. | `Result` | `Result<TValue, TError>` (success-shaped) | — | Recovery skipped after success; invoked at most once. |
+-| `RecoverWith` | Lazily replaces a failure with another value of the same carrier. | `Result`, `UnitResult` | Same carrier | — | Factory skipped after success; `UnitResult` has no plain `Recover` because there is no value to produce eagerly. |
++| `Recover` | Lazily replaces a failure with a successful value produced from its error. | `Result` | `Result<TValue, TError>` (success-shaped) | — | Callback validated at entry, skipped after success, and invoked at most once after failure. |
++| `RecoverWith` | Lazily replaces a failure with another value of the same carrier. | `Result`, `UnitResult` | Same carrier | — | Callback validated at entry and skipped after success; `UnitResult` has no plain `Recover` because its success has no value payload. |
+ | `OrElse` | Returns the first value when it is present, otherwise an eager fallback. | `Option`, `StateMachine` | `Option<T>`; machine | — | Fallback skipped for `Some`; on machines, the fallback runs only when the first returns `Undefined`. |
+ | `OrElseWith` | Returns the first value when present, otherwise invokes a fallback factory. | `Option` | `Option<T>` | — | Factory validated at entry and invoked only for `None`. |
+ | `GetValueOr` | Returns the contained value or an eager non-null fallback. | `Option` | `T` (non-null) | — | Fallback validated before the option is examined. |
+ | `GetValueOrElse` | Returns the contained value or invokes a fallback factory. | `Option` | `T` (non-null) | — | Factory invoked only for `None`; a null factory result is rejected. |
+-| `GetValueOrDefault` | Returns the contained value or `default`. | `Option` | `T` (may be `default`) | — | The only member that may return `default(T)`; named to say so. |
++| `GetValueOrDefault` | Returns the contained value or `default`. | `Option` | `T` (may be `default`) | — | The only absence getter with an implicit `default(T)` fallback; named to say so. |
+ 
+ ### Combination
+ 
+@@ -134,6 +154,18 @@ outcome wrappers remain out of scope ([product contract](product-contract.md)).
+ | `WhereNotNull` | Filters nulls in one deferred pass. | `IEnumerable<T?>`, `IAsyncEnumerable<T?>` (class and struct overloads) | Same sequence carrier without nulls | — (bare verb; no callback exists) | Deferred; single pass per consumer enumeration; source order; no caching or intermediate collection. |
+ | `Choose` | Fused Option-aware filter-map. | `IEnumerable<T>`, `IAsyncEnumerable<T>` (bare verb) | `IEnumerable<TResult>` / `IAsyncEnumerable<TResult>` | `ChooseValueAsync` (cancellation-aware chooser receives the enumeration token) | Deferred; single pass per consumer enumeration; source order; no intermediate collection or caching. |
+ | `Scan` | Running aggregate: yields the accumulator after each element. | `IEnumerable<T>`, `IAsyncEnumerable<T>` (bare verb) | Sequence of accumulators | `ScanValueAsync` (cancellation-aware accumulator receives the enumeration token) | Deferred; the seed is never yielded; an empty source yields nothing; for a non-empty source the last value equals `Aggregate`/`AggregateAsync`; accumulator exceptions propagate unchanged. |
++| `Aggregate` | Folds a nonempty sequence without a separate seed. | `NonEmpty<T>` | `T` | — | Starts from `First`, visits `Rest` once in order, and propagates callback exceptions; seeded folds remain BCL operations. |
++| `ToReadOnlyList` | Materializes the nonempty sequence into a fresh read-only list. | `NonEmpty<T>` | `IReadOnlyList<T>` | — | Copies `First` followed by `Rest`; the list and wrapper are allocated and do not alias the nonempty value's state. |
++
++### Immediate Span And Memory Pipelines
++
++| Verb | Meaning | Present on | Output shape | Async forms | Key contract |
++| --- | --- | --- | --- | --- | --- |
++| `SelectTo` | Projects every source item into caller-owned destination storage. | span and memory views | Written `Span<TResult>` / `Memory<TResult>` prefix | — | Immediate; source/destination must not overlap; whole-source capacity is validated before callbacks/writes; completed writes remain if the selector throws. |
++| `WhereTo` | Copies matching items into caller-owned destination storage. | span and memory views | Written `Span<T>` / `Memory<T>` prefix | — | Immediate and source-ordered; nonoverlapping destination capacity must cover the whole source before callbacks; partial writes remain on a predicate fault. |
++| `ChooseTo` | Writes each present chooser result into caller-owned destination storage. | span and memory views | Written `Span<TResult>` / `Memory<TResult>` prefix | — | Immediate, once per source item, and source-ordered; nonoverlapping capacity is validated before callbacks; no intermediate collection, and partial writes remain on a fault. |
++| `SelectInPlace` | Replaces every item through a projection in its existing storage. | mutable span and memory views | Same span/memory view | — | Immediate, once per item; projections completed before a callback fault remain. |
++| `WhereInPlace` | Stably compacts matching items in existing storage. | mutable span and memory views | Valid source prefix | — | Immediate and source-ordered; reference-containing tail slots are cleared after successful compaction, other tail values are unspecified, and completed moves remain on a predicate fault. |
+ 
+ ### Async And Concurrency
+ 
+@@ -171,16 +203,19 @@ outcome wrappers remain out of scope ([product contract](product-contract.md)).
+ | Verb | Meaning | Present on | Output shape | Async forms | Key contract |
+ | --- | --- | --- | --- | --- | --- |
+ | `Create` | Builds a total (`Lens`) or possibly absent (`Optional`) focus from caller delegates. | any source type | `Lens<TSource, TFocus>` / `Optional<TSource, TFocus>` | — | Lens laws are caller obligations; uninitialized optics throw on every operation. |
++| `Identity` | Creates a total focus on the entire source. | `Lens` | `Lens<T, T>` | — | `Get` returns the source; `Set` returns the supplied replacement focus. |
+ | `Get` | Reads the focus of a total lens. | `Lens` | `TFocus` | — | Invokes the caller getter. |
+ | `GetOption` | Reads a possibly absent focus (also the keyed-lookup bridge). | `Optional`, keyed containers | `Option<TFocus>` | — | An absent focus is `None`; a missing key is distinct from a present default value. |
+ | `Set` | Writes the focus, returning an updated source. | `Lens`, `Optional` | `TSource` | — | An absent optional focus returns the exact original source without invoking the setter. |
+ | `Update` | Applies a function to the focus, returning an updated source. | `Lens`, `Optional` | `TSource` | — | An absent optional focus skips both setter and updater. |
+-| `Compose` | Left-to-right optic composition. | `Lens`, `Optional` | Same optic kind | — | Written and evaluated left to right. |
++| `Compose` | Left-to-right optic composition. | `Lens`, `Optional` | `Lens` for total lens plus total lens; otherwise `Optional` | — | Any partial focus keeps the composed path partial; written and evaluated left to right. |
+ 
+ ### State
+ 
+ | Verb | Meaning | Present on | Output shape | Async forms | Key contract |
+ | --- | --- | --- | --- | --- | --- |
++| `To` | Constructs a state change and snapshots its outputs. | `StateChange<TState, TOutput>` | `StateChange<TState, TOutput>` | — | The output array is cloned; a null array is rejected, individual nullable outputs are retained. |
++| `Applied`/`Rejected`/`Failed`/`Undefined` | Explicitly constructs one of the four transition statuses. | `TransitionResult` | `TransitionResult<TState, TOutput, TError>` | — | `Applied` requires a non-null state change; rejected/failed errors stay typed; `Undefined` is the meaningful default, not a caught exception. |
+ | `Then` | Composes two transitions; the first runs once and its state feeds the second. | `StateTransition` | `StateTransition` | — | Outputs are concatenated in execution order; the second transition is not run after a first-transition exception. |
+ | `OrElse` | Falls back to a second machine only when the first returns `Undefined`. | `StateMachine` | `StateMachine` | — | `Applied`, `Rejected`, and `Failed` pass through unchanged. |
+ | `Replay` | Applies a machine to an event history in order. | `StateMachine` + `IEnumerable<TEvent>` | `TransitionResult` (final state, output history) | — | Stops at the first non-applied result and preserves its status; an empty history succeeds with the initial state. |
+diff --git i/docs/product-contract.md w/docs/product-contract.md
+index 28c5e73..066b053 100644
+--- i/docs/product-contract.md
++++ w/docs/product-contract.md
+@@ -32,8 +32,11 @@ analysis, and compile-verified call sites are in [`next-stage/`](next-stage/).
+ - LINQ `Select`/`SelectMany` are a secondary bridge that exists only where `Bind` exists;
+   `Validation` never gets them. Documentation presents the member-centric vocabulary first.
+ - Cardinality access uses the `*OrNone` suffix; keyed lookups use `GetOption`; value conversion
+-  uses `ToOption`. Eager fallbacks are parameters; lazy fallbacks are factories (`...With`/
+-  `...Else`); `GetValueOrDefault` is the only member that may return `default(T)`.
++  uses `ToOption`. Eager absence fallbacks are parameters; lazy absence fallbacks are factories
++  (`...With`/`...Else`). Recovery callbacks are lazy: `Recover` produces a successful value,
++  while `RecoverWith` produces another value of the same carrier. `GetValueOrDefault` is the
++  only absence getter with an implicit `default(T)` fallback. This vocabulary correction is
++  recorded in [Goal 25](goals/0025-goal.md); the historical decisions remain unchanged.
+ - No naming concession, alias, or carrier conversion for any competitor is allowed.
+ - **Scope rejections that remain in force** (product-scope rejections, not deferrals): no custom
+   runtime or scheduler, no replacement collection universe, no pervasive immutability, no

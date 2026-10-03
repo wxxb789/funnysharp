@@ -1,0 +1,29 @@
+{
+  "record": {
+    "task": "aspnetcore",
+    "style": "idiomatic",
+    "run": "run-1",
+    "round": 1,
+    "compilation": {
+      "ok": false,
+      "errors": 2,
+      "buildSeconds": 10.9
+    },
+    "semanticCorrectness": {
+      "ok": null,
+      "total": 0,
+      "failed": 0,
+      "succeeded": 0,
+      "skipped": 0
+    },
+    "apiMisuse": {
+      "fsDiagnostics": []
+    },
+    "consumerLoc": 123,
+    "verdict": "RED",
+    "evidenceKind": "generation-verification"
+  },
+  "buildStdout": "  Determining projects to restore...\r\n  Restored Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-46625574ea364ae8900d3a6bc9208352\\AspnetcoreKit.csproj (in 6.11 sec).\r\nCSC : warning CS2002: Source file \u0027Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-46625574ea364ae8900d3a6bc9208352\\nuget_packages\\xunit.v3.core.mtp-v2\\4.0.0\\_content\\DefaultRunnerReporters.cs\u0027 specified multiple times [Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-46625574ea364ae8900d3a6bc9208352\\AspnetcoreKit.csproj]\r\nCSC : warning CS2002: Source file \u0027Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-46625574ea364ae8900d3a6bc9208352\\nuget_packages\\xunit.v3.core.mtp-v2\\4.0.0\\_content\\DefaultResultWriters.cs\u0027 specified multiple times [Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-46625574ea364ae8900d3a6bc9208352\\AspnetcoreKit.csproj]\r\nQ:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-46625574ea364ae8900d3a6bc9208352\\Api.cs(77,41): error CS8604: Possible null reference argument for parameter \u0027customerEmail\u0027 in \u0027int ShopData.AddOrder(string customerEmail, decimal total)\u0027. [Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-46625574ea364ae8900d3a6bc9208352\\AspnetcoreKit.csproj]\r\n\r\nBuild FAILED.\r\n\r\nCSC : warning CS2002: Source file \u0027Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-46625574ea364ae8900d3a6bc9208352\\nuget_packages\\xunit.v3.core.mtp-v2\\4.0.0\\_content\\DefaultRunnerReporters.cs\u0027 specified multiple times [Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-46625574ea364ae8900d3a6bc9208352\\AspnetcoreKit.csproj]\r\nCSC : warning CS2002: Source file \u0027Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-46625574ea364ae8900d3a6bc9208352\\nuget_packages\\xunit.v3.core.mtp-v2\\4.0.0\\_content\\DefaultResultWriters.cs\u0027 specified multiple times [Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-46625574ea364ae8900d3a6bc9208352\\AspnetcoreKit.csproj]\r\nQ:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-46625574ea364ae8900d3a6bc9208352\\Api.cs(77,41): error CS8604: Possible null reference argument for parameter \u0027customerEmail\u0027 in \u0027int ShopData.AddOrder(string customerEmail, decimal total)\u0027. [Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-46625574ea364ae8900d3a6bc9208352\\AspnetcoreKit.csproj]\r\n    2 Warning(s)\r\n    1 Error(s)\r\n\r\nBinaryLogger wrote to: Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-46625574ea364ae8900d3a6bc9208352\\build.binlog\r\n\r\nTime Elapsed 00:00:10.07\r\n",
+  "buildStderr": "",
+  "testOutput": ""
+}

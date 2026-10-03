@@ -88,7 +88,9 @@ public sealed class UnitResultTests
     {
         var success = UnitResult<string>.Success();
         var failure = UnitResult<string>.Failure("bad");
+#pragma warning disable FS1001 // Intentional runtime misuse witness.
         UnitResult<string> uninitialized = default;
+#pragma warning restore FS1001
 
         Assert.Throws<ArgumentNullException>(() => { _ = success.Match<int>(null!, _ => 0); });
         Assert.Throws<ArgumentNullException>(() => { _ = success.Match(() => 0, (Func<string, int>)null!); });
@@ -330,9 +332,13 @@ public sealed class UnitResultTests
         Assert.Equal(first, first.Zip(second));
         Assert.Equal(first, first.Zip(success));
 
+#pragma warning disable FS1001 // Intentional runtime misuse witness.
         var uninitializedException = Assert.Throws<InvalidOperationException>(() => { _ = success.Zip(default); });
+#pragma warning restore FS1001
         Assert.Equal("The unit result has not been initialized.", uninitializedException.Message);
+#pragma warning disable FS1001 // Intentional runtime misuse witness.
         Assert.Throws<InvalidOperationException>(() => { _ = first.Zip(default); });
+#pragma warning restore FS1001
 
         var factoryCalls = 0;
         Func<UnitResult<string>> factory = () =>
@@ -393,13 +399,17 @@ public sealed class UnitResultTests
         Assert.Equal("Success", UnitResult<string>.Success().ToString());
         Assert.Equal("Failure(bad)", UnitResult<string>.Failure("bad").ToString());
         Assert.Equal("Failure(42)", UnitResult<int>.Failure(42).ToString());
+#pragma warning disable FS1001 // Intentional runtime misuse witness.
         Assert.Equal("Uninitialized", default(UnitResult<string>).ToString());
+#pragma warning restore FS1001
     }
 
     [Fact]
     public void DefaultUnitResultThrowsForEveryStateReadingMember()
     {
+#pragma warning disable FS1001 // Intentional runtime misuse witness.
         UnitResult<string> result = default;
+#pragma warning restore FS1001
 
         Assert.Equal("Uninitialized", result.ToString());
         AssertUninitialized(() => { _ = result.IsSuccess; });
@@ -426,7 +436,9 @@ public sealed class UnitResultTests
     public void ComparisonsBetweenInitializedAndDefaultValuesThrow()
     {
         var success = UnitResult<string>.Success();
+#pragma warning disable FS1001 // Intentional runtime misuse witness.
         UnitResult<string> uninitialized = default;
+#pragma warning restore FS1001
 
         AssertUninitialized(() => { _ = success.Equals((object?)uninitialized); });
         AssertUninitialized(() => { _ = success.Equals(uninitialized); });
@@ -441,7 +453,9 @@ public sealed class UnitResultTests
     public void DelegateValidationPrecedesCaseInspectionAndShortCircuiting()
     {
         var failure = UnitResult<string>.Failure("bad");
+#pragma warning disable FS1001 // Intentional runtime misuse witness.
         UnitResult<string> uninitialized = default;
+#pragma warning restore FS1001
 
         Assert.Throws<ArgumentNullException>(() => { _ = failure.ToResult<int>(null!); });
         Assert.Throws<ArgumentNullException>(() => { _ = failure.Bind(null!); });

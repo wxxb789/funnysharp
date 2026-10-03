@@ -1,0 +1,60 @@
+{
+  "schema": "funnysharp-declared-feed-readonly-package-state/v1",
+  "observedUtc": "2026-10-03T04:30:27.412Z",
+  "question": {
+    "id": "release_distribution_inventory",
+    "status": "EXPIRED_WITHOUT_ANSWER",
+    "noQuestionRepeated": true,
+    "timeoutNotPublicationOrGitAuthority": true
+  },
+  "effectiveReadOnlyProbeScope": {
+    "source": "Existing repository release command and best judgment after timeout",
+    "declaredServiceIndex": "https://packagefeedproxy.microsoft.io/nuget/v3/index.json",
+    "discoveredFeedIdentity": "urn:uuid:52ee4efa-5537-4eae-acb1-a914a4cca686",
+    "label": "nuget-public",
+    "project": "1es-public",
+    "resource": "PackageBaseAddress/3.0.0",
+    "baseAddress": "https://ms-feed-25.pkgs.visualstudio.com/6f084628-a36d-42cb-934d-057357e379dc/_packaging/52ee4efa-5537-4eae-acb1-a914a4cca686/nuget/v3/flat2/"
+  },
+  "packages": [
+    {
+      "id": "FunnySharp",
+      "intendedCandidateVersion": "0.2.0",
+      "request": "https://ms-feed-25.pkgs.visualstudio.com/6f084628-a36d-42cb-934d-057357e379dc/_packaging/52ee4efa-5537-4eae-acb1-a914a4cca686/nuget/v3/flat2/funnysharp/index.json",
+      "status": 404,
+      "rawBody": "{\"$id\":\"1\",\"innerException\":null,\"message\":\"Can't find the package 'funnysharp' in feed 'nuget-public'.\",\"typeName\":\"Microsoft.VisualStudio.Services.NuGet.WebApi.Exceptions.PackageNotFoundException, Microsoft.VisualStudio.Services.NuGet.WebApi\",\"typeKey\":\"PackageNotFoundException\",\"errorCode\":0,\"eventId\":3000}",
+      "rawBodySha256": "0b6b4ade66eb000497f3e3e2d5086a5e3c2a7a8493aa531f1f5f1d603a0040d3",
+      "result": "PACKAGE_NOT_FOUND_IN_THIS_DECLARED_ADO_FEED",
+      "tlsBypassed": false
+    },
+    {
+      "id": "FunnySharp.AspNetCore",
+      "intendedCandidateVersion": "0.2.0",
+      "request": "https://ms-feed-25.pkgs.visualstudio.com/6f084628-a36d-42cb-934d-057357e379dc/_packaging/52ee4efa-5537-4eae-acb1-a914a4cca686/nuget/v3/flat2/funnysharp.aspnetcore/index.json",
+      "status": 404,
+      "rawBody": "{\"$id\":\"1\",\"innerException\":null,\"message\":\"Can't find the package 'funnysharp.aspnetcore' in feed 'nuget-public'.\",\"typeName\":\"Microsoft.VisualStudio.Services.NuGet.WebApi.Exceptions.PackageNotFoundException, Microsoft.VisualStudio.Services.NuGet.WebApi\",\"typeKey\":\"PackageNotFoundException\",\"errorCode\":0,\"eventId\":3000}",
+      "rawBodySha256": "ed6487dc85c97a65e092760bf8481283ea2b45cddda4e0878ec7a9bed0aed6bf",
+      "result": "PACKAGE_NOT_FOUND_IN_THIS_DECLARED_ADO_FEED",
+      "tlsBypassed": false
+    }
+  ],
+  "scopeLimits": {
+    "ownerConfirmedCompleteInventory": false,
+    "nugetOrgOriginAbsenceProved": false,
+    "cleanCandidateCommitAvailable": false,
+    "finalReleaseBeforePackCheck": false,
+    "finalReleaseFinalVerdictCheck": false,
+    "additionalIntendedFeedsExcludedByOwner": false
+  },
+  "writeAuthorityReceived": false,
+  "actualCommitPushSettingsPublicationExecuted": false,
+  "remainingOriginalIds": [
+    "F37",
+    "F38",
+    "F39",
+    "U29"
+  ],
+  "humanRowAcceptanceUnchanged": true,
+  "resolved": 65,
+  "open": 4
+}

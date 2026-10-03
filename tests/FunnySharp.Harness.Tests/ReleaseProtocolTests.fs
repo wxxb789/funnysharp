@@ -270,8 +270,16 @@ type ReleaseProtocolModelTests() =
         let workflow =
             File.ReadAllText(Path.Combine(repositoryRoot (), ".github", "workflows", "release.yml"))
 
-        for context in [ "win-x64"; "linux-x64"; "osx-arm64"; "osx-x64-consumer" ] do
-            Assert.Matches(Regex(@"^\s+name:\s+" + Regex.Escape context + @"\s*$", RegexOptions.Multiline), workflow)
+        for context in Ruleset.requiredContexts do
+            Assert.Matches(
+                Regex(@"^\s+name:.*\|\| '" + Regex.Escape context + @"' \}\}\s*$", RegexOptions.Multiline),
+                workflow
+            )
+
+        Assert.Contains("'provenance transport / win-x64'", workflow)
+        Assert.Contains("'provenance transport / linux-x64'", workflow)
+        Assert.Contains("'provenance transport / osx-arm64'", workflow)
+        Assert.Contains("'provenance transport / osx-x64-consumer'", workflow)
 
         Assert.False(
             Regex.IsMatch(workflow, @"pull_request_target|continue-on-error:\s*true"),

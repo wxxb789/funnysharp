@@ -119,6 +119,7 @@ public readonly struct Validation<TValue, TError> : IEquatable<Validation<TValue
     /// <param name="invalid">The branch invoked with validation errors.</param>
     /// <returns>The selected branch result.</returns>
     /// <exception cref="InvalidOperationException">This validation is uninitialized.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="valid"/> or <paramref name="invalid"/> is null; guarded before state inspection or callback invocation.</exception>
     public TResult Match<TResult>(
         Func<TValue, TResult> valid,
         Func<IReadOnlyList<TError>, TResult> invalid)
@@ -136,6 +137,7 @@ public readonly struct Validation<TValue, TError> : IEquatable<Validation<TValue
     /// <param name="valid">The branch invoked with a valid value.</param>
     /// <param name="invalid">The branch invoked with validation errors.</param>
     /// <exception cref="InvalidOperationException">This validation is uninitialized.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="valid"/> or <paramref name="invalid"/> is null; guarded before state inspection or callback invocation.</exception>
     public void Match(Action<TValue> valid, Action<IReadOnlyList<TError>> invalid)
     {
         ArgumentNullException.ThrowIfNull(valid);
@@ -159,6 +161,7 @@ public readonly struct Validation<TValue, TError> : IEquatable<Validation<TValue
     /// <param name="selector">The transformation to apply.</param>
     /// <returns>The transformed validation, or the existing errors.</returns>
     /// <exception cref="InvalidOperationException">This validation is uninitialized.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="selector"/> is null; guarded before state inspection or callback invocation.</exception>
     public Validation<TResult, TError> Map<TResult>(Func<TValue, TResult> selector)
     {
         ArgumentNullException.ThrowIfNull(selector);
@@ -176,6 +179,7 @@ public readonly struct Validation<TValue, TError> : IEquatable<Validation<TValue
     /// <param name="selector">The transformation to apply to each validation error.</param>
     /// <returns>The transformed validation, or the existing valid value.</returns>
     /// <exception cref="InvalidOperationException">This validation is uninitialized.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="selector"/> is null; guarded before state inspection or callback invocation.</exception>
     public Validation<TValue, TResultError> MapErrors<TResultError>(Func<TError, TResultError> selector)
     {
         ArgumentNullException.ThrowIfNull(selector);
@@ -390,7 +394,7 @@ public readonly struct Validation<TValue, TError> : IEquatable<Validation<TValue
     }
 
     /// <inheritdoc />
-    /// <exception cref="InvalidOperationException">This validation is uninitialized.</exception>
+    /// <exception cref="InvalidOperationException">This validation or a matching validation boxed in <paramref name="obj"/> is uninitialized.</exception>
     public override bool Equals(object? obj)
     {
         EnsureInitialized();
@@ -425,6 +429,7 @@ public readonly struct Validation<TValue, TError> : IEquatable<Validation<TValue
     /// <summary>
     /// Determines whether two validations are equal.
     /// </summary>
+    /// <exception cref="InvalidOperationException">Either operand is uninitialized.</exception>
     public static bool operator ==(
         Validation<TValue, TError> left,
         Validation<TValue, TError> right) =>
@@ -433,12 +438,14 @@ public readonly struct Validation<TValue, TError> : IEquatable<Validation<TValue
     /// <summary>
     /// Determines whether two validations are unequal.
     /// </summary>
+    /// <exception cref="InvalidOperationException">Either operand is uninitialized.</exception>
     public static bool operator !=(
         Validation<TValue, TError> left,
         Validation<TValue, TError> right) =>
         !left.Equals(right);
 
     /// <inheritdoc />
+    /// <returns>Diagnostic <c>Valid(value)</c>, <c>Invalid([errors])</c>, or <c>Uninitialized</c> text; payload formatting may invoke user behavior.</returns>
     public override string ToString() =>
         state switch
         {

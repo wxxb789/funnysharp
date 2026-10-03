@@ -1,0 +1,10 @@
+import { readFile } from 'node:fs/promises';
+const launch = JSON.parse(await readFile(process.argv[2], 'utf8'));
+const startedUtc = new Date().toISOString();
+const proc = Bun.spawn(launch.argv, { cwd: launch.cwd, env: { ...process.env, PI_RULES_DISABLED: '1' }, stdin: 'ignore', stdout: 'pipe', stderr: 'pipe' });
+const [stdoutBuffer, stderrBuffer, exitCode] = await Promise.all([new Response(proc.stdout).arrayBuffer(), new Response(proc.stderr).arrayBuffer(), proc.exited]);
+const receipt = { invocationId: launch.invocationId, argv: launch.argv, workingDirectory: launch.cwd, environment: { PI_RULES_DISABLED: '1' }, startedUtc, finishedUtc: new Date().toISOString(), exitCode, stdoutBase64: Buffer.from(stdoutBuffer).toString('base64'), stderrBase64: Buffer.from(stderrBuffer).toString('base64') };
+const response = await fetch(launch.captureUrl, { method: 'POST', headers: { authorization: launch.captureToken, 'content-type': 'application/json' }, body: JSON.stringify(receipt) });
+if (!response.ok) throw new Error('Capture receiver rejected receipt: ' + response.status);
+console.log('U12_NATIVE_CAPTURED ' + launch.invocationId + ' EXIT ' + exitCode);
+process.exitCode = exitCode;

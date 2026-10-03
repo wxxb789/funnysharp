@@ -1,0 +1,13 @@
+{
+  "study": "audit-resolution-v5",
+  "slot": "aspnetcore/idiomatic/run-2",
+  "sessionId": "study-session:789d92d2-27d5-4836-a7cb-6141a431a4e9",
+  "invocationId": "native-call:91e82b01-525f-48b1-beb5-f7dee97ea1e1",
+  "requestedModel": "ghc/gpt-6.1-sol",
+  "route": "native-omo-cli/5.1.9/json-print",
+  "stdin": "closed",
+  "protocolSha256": "a45783f688d0fb0b160c30348a77d765ba0ca4b09841ed4342e99576f2f645d0",
+  "requestSha256": "ca2fad75116225393b3569eff52064c205a9bd17e7a1228f93c29880f399fdbe",
+  "status": "PREPARED_NOT_CALLED",
+  "launchCapture": "NativeGitBash documented monitor; raw stdout and stderr unchanged; exact registered flags and PI_RULES_DISABLED=1; dedicated cwd request only."
+}
