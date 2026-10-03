@@ -150,6 +150,45 @@ jobs:
           if-no-files-found: error
           retention-days: 7
 
+      - name: Deliberate U15 ordinary failed test
+        id: denial-test
+        shell: bash
+        env:
+          FUNNYSHARP_U15_DENIAL_CONTEXT: release / linux-x64
+          DOTNET_CLI_UI_LANGUAGE: en
+        run: |
+          proof="artifacts/disposable-denial/${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}/${GITHUB_JOB}"
+          mkdir -p "$proof"
+          printf 'candidateSha=%s\ncheckoutHead=%s\nrunId=%s\nrunAttempt=%s\njob=%s\nevent=%s\nref=%s\nactor=%s\ntriggeringActor=%s\ncontext=%s\nrunnerOS=%s\nrunnerArch=%s\nworkflowRef=%s\nworkflowSha=%s\n' \
+            "$CANDIDATE_SHA" "$(git rev-parse HEAD)" "$GITHUB_RUN_ID" "$GITHUB_RUN_ATTEMPT" \
+            "$GITHUB_JOB" "$GITHUB_EVENT_NAME" "$GITHUB_REF" "$GITHUB_ACTOR" "$GITHUB_TRIGGERING_ACTOR" \
+            "${FUNNYSHARP_U15_DENIAL_CONTEXT-}" "$RUNNER_OS" "$RUNNER_ARCH" \
+            "$GITHUB_WORKFLOW_REF" "$GITHUB_WORKFLOW_SHA" > "$proof/identity.txt"
+          cp .github/workflows/release.yml "$proof/release.yml"
+          cp tests/FunnySharp.Harness.Tests/DisposableReleaseDenialTests.fs "$proof/DisposableReleaseDenialTests.fs"
+          cp tests/FunnySharp.Harness.Tests/FunnySharp.Harness.Tests.fsproj "$proof/FunnySharp.Harness.Tests.fsproj"
+          dotnet --info > "$proof/dotnet-info.txt"
+          printf '%s\n' 'dotnet test tests/FunnySharp.Harness.Tests/FunnySharp.Harness.Tests.fsproj --configuration Release --no-build --no-restore --filter FullyQualifiedName~DisposableReleaseDenialTests' > "$proof/command.txt"
+          set +e
+          dotnet test tests/FunnySharp.Harness.Tests/FunnySharp.Harness.Tests.fsproj \
+            --configuration Release --no-build --no-restore \
+            --filter FullyQualifiedName~DisposableReleaseDenialTests 2>&1 | tee "$proof/test.log"
+          statuses=("${PIPESTATUS[@]}")
+          set -e
+          printf '%s\n' "${statuses[0]}" > "$proof/test-exit-code.txt"
+          printf '%s\n' "${statuses[1]}" > "$proof/log-exit-code.txt"
+          if [ "${statuses[1]}" -ne 0 ]; then exit "${statuses[1]}"; fi
+          exit "${statuses[0]}"
+
+      - name: Upload disposable denial test evidence
+        if: ${{ always() && steps.denial-test.outcome != 'skipped' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: disposable-denial-${{ github.job }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/disposable-denial/${{ github.run_id }}-${{ github.run_attempt }}/${{ github.job }}
+          if-no-files-found: error
+          retention-days: 90
+
   osx-arm64:
     name: ${{ inputs.provenance_mode && inputs.provenance_mode != 'release' && 'provenance transport / osx-arm64' || 'release / osx-arm64' }}
     if: ${{ !inputs.provenance_mode || inputs.provenance_mode == 'release' }}
