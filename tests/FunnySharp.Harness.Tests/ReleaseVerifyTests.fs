@@ -424,3 +424,17 @@ let ``Main_MissingRequiredArguments_ReturnsUsageFailure`` () =
     Assert.Equal(1, exitCode)
     Assert.Contains("usage:", stderr.ToString())
     Assert.Contains("parameters are required", stderr.ToString())
+
+[<Fact>]
+let ``XmlInventory_RejectsSummaryNodesWithoutAssemblyMetadata`` () =
+    use temp = new TempDirectory()
+    let path = Path.Combine(temp.Path, "Missing.dll.xml")
+    File.WriteAllText(path, "<doc><members><member name=\"M:Fixture.Run\"><summary>Contract.</summary></member></members></doc>")
+    expectFailure "assembly metadata" (fun () -> getXmlDocumentationInventory temp.Path [ path ] |> ignore)
+
+[<Fact>]
+let ``XmlInventory_RejectsDuplicateMemberIdentities`` () =
+    use temp = new TempDirectory()
+    let path = Path.Combine(temp.Path, "Duplicate.xml")
+    File.WriteAllText(path, "<doc><members><member name=\"M:Fixture.Run\"><summary>Contract.</summary></member><member name=\"M:Fixture.Run\"><summary>Other.</summary></member></members></doc>")
+    expectFailure "duplicate" (fun () -> getXmlDocumentationInventory temp.Path [ path ] |> ignore)

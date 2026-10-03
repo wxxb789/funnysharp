@@ -1,0 +1,16 @@
+  Determining projects to restore...
+  Restored Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\aspnetcore-funnysharp-run-2-441f70bbe9564c08ac057d6681428ce5\AspnetcoreKit.csproj (in 4.46 sec).
+CSC : warning CS2002: Source file 'Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\aspnetcore-funnysharp-run-2-441f70bbe9564c08ac057d6681428ce5\nuget_packages\xunit.v3.core.mtp-v2\4.0.0\_content\DefaultRunnerReporters.cs' specified multiple times [Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\aspnetcore-funnysharp-run-2-441f70bbe9564c08ac057d6681428ce5\AspnetcoreKit.csproj]
+CSC : warning CS2002: Source file 'Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\aspnetcore-funnysharp-run-2-441f70bbe9564c08ac057d6681428ce5\nuget_packages\xunit.v3.core.mtp-v2\4.0.0\_content\DefaultResultWriters.cs' specified multiple times [Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\aspnetcore-funnysharp-run-2-441f70bbe9564c08ac057d6681428ce5\AspnetcoreKit.csproj]
+  AspnetcoreKit -> Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\aspnetcore-funnysharp-run-2-441f70bbe9564c08ac057d6681428ce5\bin\Release\net10.0\AspnetcoreKit.dll
+
+Build succeeded.
+
+CSC : warning CS2002: Source file 'Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\aspnetcore-funnysharp-run-2-441f70bbe9564c08ac057d6681428ce5\nuget_packages\xunit.v3.core.mtp-v2\4.0.0\_content\DefaultRunnerReporters.cs' specified multiple times [Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\aspnetcore-funnysharp-run-2-441f70bbe9564c08ac057d6681428ce5\AspnetcoreKit.csproj]
+CSC : warning CS2002: Source file 'Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\aspnetcore-funnysharp-run-2-441f70bbe9564c08ac057d6681428ce5\nuget_packages\xunit.v3.core.mtp-v2\4.0.0\_content\DefaultResultWriters.cs' specified multiple times [Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\aspnetcore-funnysharp-run-2-441f70bbe9564c08ac057d6681428ce5\AspnetcoreKit.csproj]
+    2 Warning(s)
+    0 Error(s)
+
+BinaryLogger wrote to: Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\aspnetcore-funnysharp-run-2-441f70bbe9564c08ac057d6681428ce5\build.binlog
+
+Time Elapsed 00:00:07.74

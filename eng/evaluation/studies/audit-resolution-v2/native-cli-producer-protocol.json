@@ -1,0 +1,219 @@
+{
+  "schema": "funnysharp-native-cli-producer-protocol/v1",
+  "study": "audit-resolution-v2",
+  "studyManifestSha256": "ce3deafe90964e2388ca44c875223a508474d93868636ccb7a96d19e9a8a9c6f",
+  "state": "PREREGISTERED_ALL20_ISOLATED_NATIVE_CLI_NO_GENERATION_YET",
+  "route": "native-omo-cli/5.1.9/json-print",
+  "requestedModel": "ghc/gpt-6.1-sol",
+  "actualInvocationForm": "omo.exe --mode json --print --no-session --no-extensions --no-context-files --no-skills --no-prompt-templates --no-tools --offline --provider ghc --model gpt-6.1-sol --thinking high --system-prompt <fixed transport> --extension <read-only observer> @request.json",
+  "transportSystem": "The attached request.json contains a JSON object with inputFiles, each with path and content. Those file contents are the complete task inputs. Return only a JSON object with a files array; each entry contains path, a top-level C# filename, and content, the complete file text. Return the complete solution. Do not replace supplied contract or test files.",
+  "transportSystemSha256": "fbda330f8e40178394f701e3e4552726ec33026ba95f94aaa7aab3f03dd00d78",
+  "providerModel": {
+    "value": null,
+    "unknownReason": "Selected native route/model is observed; actual upstream served model remains unknown unless returned metadata supplies it."
+  },
+  "sessionIdentityKind": "orchestrator-study-session; not a provider thread identifier",
+  "invocationIdentityKind": "unique orchestrator native-call UUID; not a provider-issued request identifier",
+  "initialInputs": {
+    "encoding": "UTF-8, byte-preserving roundtrip required",
+    "ordering": "Ordinal relative-path sort",
+    "files": [
+      "All14frozen public guides",
+      "One matching frozen task/style prompt",
+      "Same-area fixed neutral contract/tests",
+      "Matching style frozen template text/configuration"
+    ],
+    "excluded": "Repository source, AGENTS, memory, audit/plan material, other slots, runtime inspection and binary package contents are not model input."
+  },
+  "output": {
+    "format": "Raw text retained first; one JSON object with files array, each unique top-level .cs path and complete content",
+    "mechanicalDecodeOnly": true,
+    "noOracleCollisions": true
+  },
+  "corrections": {
+    "maxVerifyRounds": 3,
+    "initialPlusCorrections": 2,
+    "sameLogicalSession": true,
+    "uniqueInvocationEachRound": true,
+    "feedback": "Exact immediate predecessor feedback.json and all its solution.cs files only, added to unchanged initial payload; no parent diagnosis."
+  },
+  "cohort": [
+    {
+      "slot": "business-outcomes/idiomatic/run-1",
+      "sessionId": "study-session:a42f40ce-5ff5-4bff-8ca2-4165a21e64e6",
+      "model": "ghc/gpt-6.1-sol",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "business-outcomes/idiomatic/run-2",
+      "sessionId": "study-session:88a6c93f-348d-4c47-9ce8-630a6bcf16cf",
+      "model": "ghc/gpt-6.1-sol",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "business-outcomes/funnysharp/run-1",
+      "sessionId": "study-session:be7c304e-1b19-40e4-94da-2efb9c285765",
+      "model": "ghc/gpt-6.1-sol",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "business-outcomes/funnysharp/run-2",
+      "sessionId": "study-session:969d0901-13d0-49bf-9152-12b8bbd5f8be",
+      "model": "ghc/gpt-6.1-sol",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "collections/idiomatic/run-1",
+      "sessionId": "study-session:b58278ee-d642-436f-9744-b1b6496e40e7",
+      "model": "ghc/gpt-6.1-sol",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "collections/idiomatic/run-2",
+      "sessionId": "study-session:b0335e8d-ee85-4476-ba04-12029705aa49",
+      "model": "ghc/gpt-6.1-sol",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "collections/funnysharp/run-1",
+      "sessionId": "study-session:af8ebc8b-c582-4b31-9370-a17ad41ddd59",
+      "model": "ghc/gpt-6.1-sol",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "collections/funnysharp/run-2",
+      "sessionId": "study-session:96a3e9cb-9242-44d9-a708-da2f35695e66",
+      "model": "ghc/gpt-6.1-sol",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "async-streams/idiomatic/run-1",
+      "sessionId": "study-session:537d8e34-e39f-49c7-9952-62a2fa956e53",
+      "model": "ghc/gpt-6.1-sol",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "async-streams/idiomatic/run-2",
+      "sessionId": "study-session:b146c1e0-7229-48d1-a79b-b000b6690079",
+      "model": "ghc/gpt-6.1-sol",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "async-streams/funnysharp/run-1",
+      "sessionId": "study-session:086821ff-b76f-4d69-bc62-e4d9b150e9f5",
+      "model": "ghc/gpt-6.1-sol",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "async-streams/funnysharp/run-2",
+      "sessionId": "study-session:dfb21041-b996-460f-bb2d-6d6ce4758467",
+      "model": "ghc/gpt-6.1-sol",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "concurrency/idiomatic/run-1",
+      "sessionId": "study-session:1a5fc176-9a74-4e76-9af0-7a3845321141",
+      "model": "ghc/gpt-6.1-sol",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "concurrency/idiomatic/run-2",
+      "sessionId": "study-session:667a17b9-d4fa-4c7c-8fe4-cb062b6e4451",
+      "model": "ghc/gpt-6.1-sol",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "concurrency/funnysharp/run-1",
+      "sessionId": "study-session:2fca5b60-6dce-4934-8c97-c769699f0ae4",
+      "model": "ghc/gpt-6.1-sol",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "concurrency/funnysharp/run-2",
+      "sessionId": "study-session:c7b5f5f8-a586-4ab7-bc39-460473236541",
+      "model": "ghc/gpt-6.1-sol",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "aspnetcore/idiomatic/run-1",
+      "sessionId": "study-session:42a49d4d-5fa5-4b29-9c37-a71464684ad8",
+      "model": "ghc/gpt-6.1-sol",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "aspnetcore/idiomatic/run-2",
+      "sessionId": "study-session:0f894478-5280-4835-83fc-2eba32a8f143",
+      "model": "ghc/gpt-6.1-sol",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "aspnetcore/funnysharp/run-1",
+      "sessionId": "study-session:42750d19-6119-4932-908e-dbfb82aff430",
+      "model": "ghc/gpt-6.1-sol",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "aspnetcore/funnysharp/run-2",
+      "sessionId": "study-session:e87ad001-05c9-4626-8858-21eb60582ed5",
+      "model": "ghc/gpt-6.1-sol",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    }
+  ],
+  "recordFields": {
+    "studySha256": "SHA256 of accepted v2 manifest.json bytes",
+    "task": "Exact preregistered area",
+    "style": "Exact preregistered style",
+    "sessionId": "Slot study-session:<UUID>; stable across corrections",
+    "invocationId": "Fresh native-call:<UUID> for this actual API call",
+    "route": "native-omo-cli/5.1.9/json-print",
+    "producerKind": "ai only after actual model invocation; never this assessment or a replay",
+    "requestedModel": "ghc/gpt-6.1-sol",
+    "providerModel": {
+      "value": null,
+      "unknownReason": "The selected native route is observed; the actual upstream served model remains unknown unless reliable returned metadata supplies it."
+    },
+    "contextSha256": "SHA256 of finalized context.json bytes",
+    "solutionFiles": "Complete sorted array of {path, sha256}, relative to solution/, after mechanical decoding",
+    "invocationSha256": "SHA256 of finalized invocation.json bytes",
+    "startedUtc": "Orchestrator UTC timestamp immediately before API call",
+    "finishedUtc": "Orchestrator UTC timestamp on API return; not a fabricated provider finish event",
+    "status": "Observed call outcome, e.g. completed; not verifier GREEN",
+    "feedbackSha256": "Corrections only: SHA256 of immediate predecessor rounds/<r-1>/feedback.json; omitted initially"
+  },
+  "contextBoundary": {
+    "freshBootSessionId": "01a0fbe8-1b33-7870-bb84-972900b100c7",
+    "systemOnly": true,
+    "contextFiles": [],
+    "skills": [],
+    "tools": [],
+    "messages": [],
+    "usage": 0,
+    "profile": "Only read-only observer extension; each actual model request must retain context_with_system and before_provider_request payload."
+  },
+  "acceptance": "No generation is accepted merely from registration, fixture results or helperstatelessness; effective context boundary and actual request/response must be evidenced.",
+  "replacesUninvokedProtocol": "native-producer-protocol.json",
+  "thinking": "high",
+  "environment": {
+    "PI_RULES_DISABLED": "1"
+  }
+}

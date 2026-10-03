@@ -15,7 +15,9 @@ public sealed class UnitResultInteropTests
         Assert.Same(error, actual);
 
         var uninitializedException = Assert.Throws<InvalidOperationException>(
+#pragma warning disable FS1001 // Intentional runtime misuse witness.
             () => default(Result<int, string>).ToUnitResult());
+#pragma warning restore FS1001
         Assert.Equal("The result has not been initialized.", uninitializedException.Message);
     }
 

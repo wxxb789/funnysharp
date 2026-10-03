@@ -59,6 +59,7 @@ public class ResultCarrierBenchmarks
     [GlobalSetup]
     public void Setup()
     {
+        BenchmarkPreflight.CaptureChild(this);
         successValue = 42;
         hasSuccess = true;
         hasFailure = false;

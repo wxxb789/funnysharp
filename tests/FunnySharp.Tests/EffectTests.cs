@@ -95,7 +95,9 @@ public sealed class EffectTests
     [Fact]
     public async Task DefaultEnvironmentEffectFailsAndLiftedEffectIgnoresEnvironmentWhileForwardingToken()
     {
+#pragma warning disable FS1001 // Intentional runtime misuse witness.
         Effect<TestEnvironment, int> uninitialized = default;
+#pragma warning restore FS1001
 
         await Assert.ThrowsAsync<InvalidOperationException>(async () =>
             await uninitialized.RunAsync(new TestEnvironment(0), TestContext.Current.CancellationToken));
@@ -470,7 +472,9 @@ public sealed class EffectTests
     [Fact]
     public async Task DefaultEffectFailsExplicitlyWhenRun()
     {
+#pragma warning disable FS1001 // Intentional runtime misuse witness.
         Effect<int> effect = default;
+#pragma warning restore FS1001
 
         await Assert.ThrowsAsync<InvalidOperationException>(async () =>
             await effect.RunAsync(TestContext.Current.CancellationToken));

@@ -1,0 +1,20 @@
+{
+  "studySha256": "a28f133c7dc53ed83abb446a53ed832af4d3a9a2187f52654fcef02f683241c9",
+  "task": "aspnetcore",
+  "style": "funnysharp",
+  "sessionId": "study-session:7edf5fa1-c9a4-4cb3-a6e9-5f8471a2cf62",
+  "invocationId": "native-call:527136d7-f046-4bf9-840d-7b4b0b38724a",
+  "route": "native-omo-cli/5.1.9/json-print",
+  "producerKind": "ai",
+  "requestedModel": "ghc/gpt-6.1-sol",
+  "providerModel": {
+    "value": null,
+    "unknownReason": "The native command requested ghc/gpt-6.1-sol. No provider metadata or actual upstream served-model metadata was observed; the process exited 1 with empty stdout and stderr."
+  },
+  "contextSha256": "0acd7a405f3020aad727dac88cfbfbdae9d99bc4c190e92b516096c1b4b16bce",
+  "solutionFiles": [],
+  "invocationSha256": "dfe27988c9cdb4f6bc542330ff6704dcac7817fd86200d621fc0075b6d461987",
+  "startedUtc": "2026-10-02T16:26:24.720Z",
+  "finishedUtc": "2026-10-02T16:26:42.698Z",
+  "status": "interrupted-native-exit-1"
+}

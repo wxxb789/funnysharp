@@ -2,7 +2,9 @@ namespace FunnySharp.Tests;
 
 public sealed class NonEmptyTests
 {
+#pragma warning disable FS1001 // Intentional runtime misuse witness.
     private static readonly NonEmpty<int> DefaultNonEmptyField = default;
+#pragma warning restore FS1001
 
     [Fact]
     public void ToNonEmptyOrNoneReturnsNoneForAnEmptySource()

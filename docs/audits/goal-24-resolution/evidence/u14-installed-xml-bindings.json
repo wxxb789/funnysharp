@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "status": "INSTALLED_EXACT_XML_BINDING_DIMENSION_PASS_FULL_SEMANTICS_OPEN",
+  "entryPoint": "FunnySharp.Harness.ReleaseVerifyArtifacts.getXmlDocumentationInventory",
+  "releaseCaller": "eng/harness/ReleaseVerify.fs:XML documentation",
+  "bindings": "eng/api-baseline/xml-contract-bindings.json",
+  "proof": {
+    "compiledRed": {
+      "receipt": "artifacts/audit-resolution/u14-xml-gate/red-01.trx",
+      "total": 2,
+      "failed": 2,
+      "exitCode": 1
+    },
+    "compiledGreen": {
+      "receipt": "artifacts/audit-resolution/u14-xml-gate/green-04-related.trx",
+      "total": 29,
+      "passed": 29,
+      "skipped": 0,
+      "exitCode": 0
+    },
+    "actualPackage": {
+      "receipt": "artifacts/audit-resolution/u14-xml-gate/package-green-03.json",
+      "members": 499,
+      "stable": 468,
+      "experimental": 31,
+      "inheritance": 19,
+      "explicitAliases": 45,
+      "exitCode": 0
+    },
+    "unknownIdentityRegression": {
+      "redDirectory": "artifacts/audit-resolution/u14-xml-gate/unconsumed-red-01",
+      "redExitCode": 1,
+      "redFailure": "Incorrectly accepted adversarial fixture: unconsumed-inheritance",
+      "greenReceipt": "artifacts/audit-resolution/u14-xml-gate/unconsumed-green-01/results.json",
+      "passed": 1,
+      "exitCode": 0
+    },
+    "adversarial": {
+      "receipt": "artifacts/audit-resolution/u14-xml-gate/mutations-01/results.json",
+      "total": 12,
+      "passed": 12,
+      "exitCode": 0
+    }
+  },
+  "packageBytes": [
+    {
+      "name": "FunnySharp",
+      "source": {
+        "version": 2,
+        "contentHash": "vj1oAEb6iaKeUZLpOUYfmGomKQxSCOT/6J+D6Rqntcaw8stXwqd4uC9Sj0NVPIEoA5E5LK3x502c/UHVgsU2uQ==",
+        "source": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\u14-post-xml\\attempt-01\\feed"
+      },
+      "packageSha256": "4b676ed38ad9f38c7e99f61ed813db717bb9f73e0f7ec113dfa256db604fddf0",
+      "cacheDllSha256": "179a0f9ea0b7b6fd7635e20b8a0847fa9800f275ad650a2982114837cac51aa9",
+      "runtimeDllSha256": "179a0f9ea0b7b6fd7635e20b8a0847fa9800f275ad650a2982114837cac51aa9"
+    },
+    {
+      "name": "FunnySharp.AspNetCore",
+      "source": {
+        "version": 2,
+        "contentHash": "POI4LBpHwUPW55Jc0un5LsgBXeyC62IOdoDsfBHkXyTINdelfA5LHIepR7nbVYZoK0yjz3ee7WnV3z6a8TGKXA==",
+        "source": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\u14-post-xml\\attempt-01\\feed"
+      },
+      "packageSha256": "511acad818e52539335bd12ddd179c2ac6f1a3c77a2e05e494bf68e02575eb8a",
+      "cacheDllSha256": "2daaff9c72db5b730c06d3270c00dfd7046fa27e26d59374e31cf270b8dc30c2",
+      "runtimeDllSha256": "2daaff9c72db5b730c06d3270c00dfd7046fa27e26d59374e31cf270b8dc30c2"
+    }
+  ],
+  "failuresRetained": [
+    "Initial F#nullable/type inference compile failure was fixed with explicit patterns, no suppression.",
+    "First package XML entrypoint failed isolated ASP/core dependency lookup. Canonical renderer now loads the complete supplied DLL set together; actual499pair passed."
+  ],
+  "limits": [
+    "This gate proves byte-bound metadata/XML aliases/inheritance and preserves local exception clauses, not complete468source/compiler/runtime semantics.",
+    "Final performance source/line/package/resource bindings and three serial paired repetitions remain open."
+  ]
+}

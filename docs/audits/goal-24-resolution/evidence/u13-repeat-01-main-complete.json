@@ -1,0 +1,31 @@
+{
+  "schema": "funnysharp-first-paired-main-proof/v1",
+  "state": "MAIN190_ACTUAL_NUMERIC_VERIFY_PASS_COMPETITOR40_STILL_PENDING_PAIR_NOT_COMPLETE",
+  "directory": "artifacts/audit-resolution/u13-final-repeat-01-main/results",
+  "executedRows": 190,
+  "elapsedSeconds": 2078.75,
+  "receiptFiles": 13,
+  "uniqueRows": 190,
+  "integerAllocationsWithinOriginalBudgets": true,
+  "rawReportFiles": 39,
+  "parentReportHashIssues": [],
+  "snapshot": "snapshot:f97e16b26f00914a9746c0db3788dde33b6dcf937c0119426e0c3bacd5af8b7f",
+  "preflight": {
+    "runId": "8fe27a3e59744d1c9a3e84d4e8175dd7",
+    "rows": 190,
+    "exclusions": 11,
+    "coreDllSha256": "6a903f737356fdf67845c9cd39385e4a5e2b39bcae0ee92ff2882480ecb7e49d"
+  },
+  "verification": {
+    "entrypoint": "dotnet fsi build.fsx -- -p verify-performance -ReceiptDirectory artifacts/audit-resolution/u13-final-repeat-01-main/results",
+    "exitCode": 0,
+    "observedSurface": "Original && command advanced to competitor preflight only after the main entrypoint succeeded."
+  },
+  "competitorStarted": {
+    "runId": "afc2c77d4097429abdb87356e061a717",
+    "rows": 40,
+    "snapshot": "snapshot:93a3168bf86fc5bbcdebd0ab2201f1de282460804378dc27ca61d42ed00762c6",
+    "coreDllSha256": "6a903f737356fdf67845c9cd39385e4a5e2b39bcae0ee92ff2882480ecb7e49d"
+  },
+  "limitation": "No paired-repetition acceptance until the competitor40 actual measurement and verifier complete; no final aggregate acceptance."
+}

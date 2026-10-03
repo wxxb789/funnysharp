@@ -1,0 +1,29 @@
+{
+  "record": {
+    "task": "async-streams",
+    "style": "idiomatic",
+    "run": "run-1",
+    "round": 1,
+    "compilation": {
+      "ok": true,
+      "errors": 0,
+      "buildSeconds": 25.1
+    },
+    "semanticCorrectness": {
+      "ok": true,
+      "total": 10,
+      "failed": 0,
+      "succeeded": 10,
+      "skipped": 0
+    },
+    "apiMisuse": {
+      "fsDiagnostics": []
+    },
+    "consumerLoc": 54,
+    "verdict": "GREEN",
+    "evidenceKind": "generation-verification"
+  },
+  "buildStdout": "  Determining projects to restore...\r\n  Restored Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\async-streams-idiomatic-run-1-c4d88661718a4bde80b68945ebc45d71\\AsyncStreamsKit.csproj (in 14.51 sec).\r\nCSC : warning CS2002: Source file \u0027Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\async-streams-idiomatic-run-1-c4d88661718a4bde80b68945ebc45d71\\nuget_packages\\xunit.v3.core.mtp-v2\\4.0.0\\_content\\DefaultRunnerReporters.cs\u0027 specified multiple times [Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\async-streams-idiomatic-run-1-c4d88661718a4bde80b68945ebc45d71\\AsyncStreamsKit.csproj]\r\nCSC : warning CS2002: Source file \u0027Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\async-streams-idiomatic-run-1-c4d88661718a4bde80b68945ebc45d71\\nuget_packages\\xunit.v3.core.mtp-v2\\4.0.0\\_content\\DefaultResultWriters.cs\u0027 specified multiple times [Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\async-streams-idiomatic-run-1-c4d88661718a4bde80b68945ebc45d71\\AsyncStreamsKit.csproj]\r\n  AsyncStreamsKit -\u003E Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\async-streams-idiomatic-run-1-c4d88661718a4bde80b68945ebc45d71\\bin\\Release\\net10.0\\AsyncStreamsKit.dll\r\n\r\nBuild succeeded.\r\n\r\nCSC : warning CS2002: Source file \u0027Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\async-streams-idiomatic-run-1-c4d88661718a4bde80b68945ebc45d71\\nuget_packages\\xunit.v3.core.mtp-v2\\4.0.0\\_content\\DefaultRunnerReporters.cs\u0027 specified multiple times [Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\async-streams-idiomatic-run-1-c4d88661718a4bde80b68945ebc45d71\\AsyncStreamsKit.csproj]\r\nCSC : warning CS2002: Source file \u0027Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\async-streams-idiomatic-run-1-c4d88661718a4bde80b68945ebc45d71\\nuget_packages\\xunit.v3.core.mtp-v2\\4.0.0\\_content\\DefaultResultWriters.cs\u0027 specified multiple times [Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\async-streams-idiomatic-run-1-c4d88661718a4bde80b68945ebc45d71\\AsyncStreamsKit.csproj]\r\n    2 Warning(s)\r\n    0 Error(s)\r\n\r\nBinaryLogger wrote to: Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\async-streams-idiomatic-run-1-c4d88661718a4bde80b68945ebc45d71\\build.binlog\r\n\r\nTime Elapsed 00:00:24.03\r\n",
+  "buildStderr": "",
+  "testOutput": "Running tests from Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\async-streams-idiomatic-run-1-c4d88661718a4bde80b68945ebc45d71\\bin\\Release\\net10.0\\AsyncStreamsKit.dll (net10.0|x64)\r\nQ:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\async-streams-idiomatic-run-1-c4d88661718a4bde80b68945ebc45d71\\bin\\Release\\net10.0\\AsyncStreamsKit.dll (net10.0|x64) passed (1s 100ms)\r\n\r\nTest run summary: Passed!\r\n  total: 10\r\n  failed: 0\r\n  succeeded: 10\r\n  skipped: 0\r\n  duration: 2s 299ms\r\n"
+}

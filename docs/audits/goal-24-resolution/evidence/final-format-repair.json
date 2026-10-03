@@ -1,0 +1,140 @@
+{
+  "schema": "funnysharp-owned-format-repair/v1",
+  "originalErrors": 422,
+  "originalFileCount": 9,
+  "originalGateExitCode": 1,
+  "repairedFormatterCommand": "dotnet fsi build.fsx -- -p format",
+  "repairedFormatterExitCode": 0,
+  "exactWhitespaceOnly": true,
+  "nonWhitespaceSequenceUnchanged": true,
+  "originalSourceArchives": [
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/benchmarks/FunnySharp.Benchmarks/BenchmarkPreflight.cs",
+      "archive": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/final-format/originals/benchmarks/FunnySharp.Benchmarks/BenchmarkPreflight.cs",
+      "expected": "35e08c0239602107292fa3bd587225354d46d7b964895db4ce3ecaadd2f8f2bd",
+      "actual": "35e08c0239602107292fa3bd587225354d46d7b964895db4ce3ecaadd2f8f2bd"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/tests/FunnySharp.Tests/AsyncCollectionTraversalTests.cs",
+      "archive": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/final-format/originals/tests/FunnySharp.Tests/AsyncCollectionTraversalTests.cs",
+      "expected": "64c6a3c59e5c20e3f4d5974743a541582aff5c3a48522c247bf23f366af73f1d",
+      "actual": "64c6a3c59e5c20e3f4d5974743a541582aff5c3a48522c247bf23f366af73f1d"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/tests/FunnySharp.Tests/DefaultStateTests.cs",
+      "archive": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/final-format/originals/tests/FunnySharp.Tests/DefaultStateTests.cs",
+      "expected": "246cf68796adc68bf35f7948a02e73c4bdac3f7b3b25d8e45d2aaecee64b4452",
+      "actual": "246cf68796adc68bf35f7948a02e73c4bdac3f7b3b25d8e45d2aaecee64b4452"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/tests/FunnySharp.Tests/OptionAsyncTests.cs",
+      "archive": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/final-format/originals/tests/FunnySharp.Tests/OptionAsyncTests.cs",
+      "expected": "ca43ab35d9df82eed761cfcd2f5eea42eff2de4124a4cc080bca21657dd63b57",
+      "actual": "ca43ab35d9df82eed761cfcd2f5eea42eff2de4124a4cc080bca21657dd63b57"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/tests/FunnySharp.Tests/StableCarrierAsyncMatrixTests.cs",
+      "archive": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/final-format/originals/tests/FunnySharp.Tests/StableCarrierAsyncMatrixTests.cs",
+      "expected": "9855f9a66d9e55a61637e5f9fecf6a394d89b34503823d3803b73cb1469fe4b4",
+      "actual": "9855f9a66d9e55a61637e5f9fecf6a394d89b34503823d3803b73cb1469fe4b4"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/tests/FunnySharp.Tests/StableCarrierSyncMatrixTests.cs",
+      "archive": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/final-format/originals/tests/FunnySharp.Tests/StableCarrierSyncMatrixTests.cs",
+      "expected": "15efe9799af3faf93ec1ee5d7d03dfdac3c3ba622e8aa6bfed644ee315794e23",
+      "actual": "15efe9799af3faf93ec1ee5d7d03dfdac3c3ba622e8aa6bfed644ee315794e23"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/tests/FunnySharp.Tests/StableCollectionSyncMatrixTests.cs",
+      "archive": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/final-format/originals/tests/FunnySharp.Tests/StableCollectionSyncMatrixTests.cs",
+      "expected": "fde2a905cddba699ab929b8202c02bbdbdee99f5d9f42fe179cfd92a998ad41a",
+      "actual": "fde2a905cddba699ab929b8202c02bbdbdee99f5d9f42fe179cfd92a998ad41a"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/tests/FunnySharp.Tests/StableCollectionTraversalMatrixTests.cs",
+      "archive": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/final-format/originals/tests/FunnySharp.Tests/StableCollectionTraversalMatrixTests.cs",
+      "expected": "91c5e73b6c6124e3f85164ddceaea32f034a1f091fd5b3ae2b834d976d061465",
+      "actual": "91c5e73b6c6124e3f85164ddceaea32f034a1f091fd5b3ae2b834d976d061465"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/tests/FunnySharp.Tests/StableParallelDefaultContractTests.cs",
+      "archive": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/final-format/originals/tests/FunnySharp.Tests/StableParallelDefaultContractTests.cs",
+      "expected": "bc55eae7d59f460185c1f10cc37459a8b0b231563013a022e6c28a315ee23454",
+      "actual": "bc55eae7d59f460185c1f10cc37459a8b0b231563013a022e6c28a315ee23454"
+    }
+  ],
+  "postSourceHashes": [
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/benchmarks/FunnySharp.Benchmarks/BenchmarkPreflight.cs",
+      "expected": "179bf2fda316b4aec578d08fcd8fe0a244b121b72071cc9775da29f0e83abb46",
+      "actual": "179bf2fda316b4aec578d08fcd8fe0a244b121b72071cc9775da29f0e83abb46",
+      "whitespaceOnly": true
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/tests/FunnySharp.Tests/AsyncCollectionTraversalTests.cs",
+      "expected": "85788dcb484611e26a025506a3d338f92cea44ce951b96abebad4f8b763dfe2a",
+      "actual": "85788dcb484611e26a025506a3d338f92cea44ce951b96abebad4f8b763dfe2a",
+      "whitespaceOnly": true
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/tests/FunnySharp.Tests/DefaultStateTests.cs",
+      "expected": "74fdacb42d4a67b727b7c2152d8bf405db0d93a0de08460ffd0b7084d1845a3c",
+      "actual": "74fdacb42d4a67b727b7c2152d8bf405db0d93a0de08460ffd0b7084d1845a3c",
+      "whitespaceOnly": true
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/tests/FunnySharp.Tests/OptionAsyncTests.cs",
+      "expected": "888f58c7ddec55e49a0b0e84256339253bffca82e670833c686bf03caa3a5f0f",
+      "actual": "888f58c7ddec55e49a0b0e84256339253bffca82e670833c686bf03caa3a5f0f",
+      "whitespaceOnly": true
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/tests/FunnySharp.Tests/StableCarrierAsyncMatrixTests.cs",
+      "expected": "ef1ca5ca1083976fcea975537604faf57124e96bc1f6037688d32637ac620574",
+      "actual": "ef1ca5ca1083976fcea975537604faf57124e96bc1f6037688d32637ac620574",
+      "whitespaceOnly": true
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/tests/FunnySharp.Tests/StableCarrierSyncMatrixTests.cs",
+      "expected": "84a8f3262c9bac419c3ff7c868a740c67cefdc53ac01c44d81953ff6d1440016",
+      "actual": "84a8f3262c9bac419c3ff7c868a740c67cefdc53ac01c44d81953ff6d1440016",
+      "whitespaceOnly": true
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/tests/FunnySharp.Tests/StableCollectionSyncMatrixTests.cs",
+      "expected": "f09f5d0101bf1b0e4115f17a159627d8cfcd3cda1b86ff4daee1eb394d0e0f06",
+      "actual": "f09f5d0101bf1b0e4115f17a159627d8cfcd3cda1b86ff4daee1eb394d0e0f06",
+      "whitespaceOnly": true
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/tests/FunnySharp.Tests/StableCollectionTraversalMatrixTests.cs",
+      "expected": "c2ff35aad27aceb187d000304a5122bbccba79be787cae6d852a5c77cdd74c4e",
+      "actual": "c2ff35aad27aceb187d000304a5122bbccba79be787cae6d852a5c77cdd74c4e",
+      "whitespaceOnly": true
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/tests/FunnySharp.Tests/StableParallelDefaultContractTests.cs",
+      "expected": "20cfa429a6b64520be8b1eb1b30c90f1ba8eca73ce2cabf265b2453da913d21b",
+      "actual": "20cfa429a6b64520be8b1eb1b30c90f1ba8eca73ce2cabf265b2453da913d21b",
+      "whitespaceOnly": true
+    }
+  ],
+  "sourceLSPLimitations": "Fresh C# diagnostics time out; exact422formatter repairs verified and fullcompilation succeeded. No diagnostics suppressed orserverinstalled.",
+  "postSourceTest": {
+    "total": 2440,
+    "passed": 2438,
+    "failed": 2,
+    "skipped": 0,
+    "exit": 1,
+    "failingCases": [
+      "PerformanceDocsTests.RealManifestTests.BaselineManifestVerifiesElevenRegions",
+      "PerformanceDocsTests.RealManifestTests.CompetitorManifestReproducesProtocolStep13"
+    ],
+    "classification": "New formatter source changes invalidate actual performance-doc source snapshot verification; do not weaken or edit tests."
+  },
+  "pendingSourceBindings": [
+    "Revalidate formatted semantic source provenance and spans",
+    "Refresh affected benchmark evidence after formatting correction"
+  ],
+  "shippingAnd20ActualAIInputsUnchanged": true
+}

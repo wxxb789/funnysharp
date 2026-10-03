@@ -1,0 +1,68 @@
+{
+  "schema": "funnysharp-empty-native-launch-comparison/v1",
+  "failedLane": ".omo/audit-resolution/research/u12-v4-concurrency-http.json",
+  "sourceDiagnosis": ".omo/audit-resolution/research/u12-v4-empty-capture-launch-diagnosis.md",
+  "sameFailedContext": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/concurrency/idiomatic/run-1/producer/0001-context",
+  "shellRPC": {
+    "actualOutput": "child reaper unavailable under Bun on win32: children orphaned by a terminated worker thread stay as zombies until this host exits\n{\"type\":\"settings_source_selected\",\"path\":\"C:\\\\Users\\\\lhan\\\\.omo\\\\agent\\\\settings.json\",\"format\":\"json\",\"reason\":\"json-only\",\"scope\":\"global\"}\n{\"type\":\"extension_ui_request\",\"id\":\"fcf8e58a-98b8-42dd-bed6-61a4b34991e0\",\"method\":\"setWidget\",\"widgetKey\":\"todo-sidebar\"}\n{\"type\":\"extension_ui_request\",\"id\":\"ea0a6b12-16ba-4f24-b06b-a9c1ec229059\",\"method\":\"setStatus\",\"statusKey\":\"anthropic-web-search\"}\n{\"type\":\"extension_ui_request\",\"id\":\"76ce6530-6939-4503-aa3f-eafa4c39e343\",\"method\":\"setWidget\",\"widgetKey\":\"anthropic-web-search\"}\n{\"type\":\"extension_ui_request\",\"id\":\"f87fbc60-99a4-4cd3-a834-1c2e9a184ff2\",\"method\":\"setStatus\",\"statusKey\":\"openai-web-search\"}\n{\"type\":\"extension_ui_request\",\"id\":\"0eab3146-8754-463d-af31-f43005304f90\",\"method\":\"setWidget\",\"widgetKey\":\"openai-web-search\"}\n{\"type\":\"extension_ui_request\",\"id\":\"22215144-f46d-4145-a4a2-4ebcc6fa106b\",\"method\":\"setStatus\",\"statusKey\":\"monitors\"}\n{\"type\":\"extension_ui_request\",\"id\":\"85d9808d-d375-4540-ac4d-b10ec3fd010f\",\"method\":\"setStatus\",\"statusKey\":\"pi-websearch\"}\n{\"type\":\"extension_ui_request\",\"id\":\"6f0a216f-f8aa-4b81-9892-31ef0ea3389f\",\"method\":\"setWidget\",\"widgetKey\":\"pi-websearch\"}\n{\"type\":\"extension_ui_request\",\"id\":\"d169e5e8-01ee-4a7f-97ea-0a5a7e09600c\",\"method\":\"setStatus\",\"statusKey\":\"pi-webfetch\"}\n{\"type\":\"extension_ui_request\",\"id\":\"693fd6e8-9144-496f-879d-ae0e7362b883\",\"method\":\"setWidget\",\"widgetKey\":\"pi-webfetch\"}\n{\"type\":\"extension_ui_request\",\"id\":\"b994f94e-033a-4269-8851-44f9eec4dfb0\",\"method\":\"setStatus\",\"statusKey\":\"goal\"}\nU12_CONTEXT_READY {\"schema\":\"funnysharp-native-context-observation/v2\",\"sessionId\":\"01a0fd7e-55e2-7b55-9af8-4331dfc6ef9e\",\"systemPrompt\":\"U12_V4_EMPTY_CAPTURE_BOOT_ONLY\",\"contextFiles\":[],\"skills\":[],\"activeTools\":[],\"model\":{\"provider\":\"ghc\",\"id\":\"gpt-6.1-sol\"}}\n{\"id\":\"u12-failed-state\",\"type\":\"response\",\"command\":\"get_state\",\"success\":true,\"data\":{\"pendingQuestions\":[],\"model\":{\"id\":\"gpt-6.1-sol\",\"name\":\"GPT-6.1 Sol\",\"api\":\"openai-responses\",\"provider\":\"ghc\",\"baseUrl\":\"http://localhost:4141/v1\",\"reasoning\":true,\"input\":[\"text\",\"image\"],\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0},\"contextWindow\":1050000,\"maxTokens\":128000},\"thinkingLevel\":\"high\",\"thinkingSelection\":{\"level\":\"high\",\"source\":\"explicit\"},\"fastMode\":false,\"isStreaming\":false,\"isCompacting\":false,\"retryAttempt\":0,\"isBashRunning\":false,\"steeringMode\":\"all\",\"followUpMode\":\"one-at-a-time\",\"sessionId\":\"01a0fd7e-55e2-7b55-9af8-4331dfc6ef9e\",\"cwd\":\"Q:\\\\repos\\\\funnysharp-goal24-resolution\\\\eng\\\\evaluation\\\\results\\\\audit-resolution-v4\\\\concurrency\\\\idiomatic\\\\run-1\\\\producer\\\\0001-context\",\"projectTrusted\":false,\"steering\":[],\"followUp\":[],\"ordered\":[],\"autoCompactionEnabled\":true,\"messageCount\":0,\"pendingMessageCount\":0,\"usageTotals\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"cost\":0},\"contextUsage\":{\"tokens\":0,\"contextWindow\":1050000,\"percent\":0},\"favoriteModels\":[],\"scopedModels\":[]}}\n{\"id\":\"u12-failed-messages\",\"type\":\"response\",\"command\":\"get_messages\",\"success\":true,\"data\":{\"messages\":[]}}\n{\"id\":\"u12-failed-protocol\",\"type\":\"response\",\"command\":\"get_protocol_info\",\"success\":true,\"data\":{\"protocolVersion\":1,\"serverVersion\":\"5.1.9\",\"capabilities\":[\"multi_session\",\"auto_title_sessions\",\"media_placeholders\"],\"mode\":\"classic\",\"instanceId\":\"e9219bfa-5ac2-4941-afcd-3ec7285fd1cb\",\"generation\":0,\"engineVersion\":\"5.1.9\",\"engineOrdinal\":[5,1,9,0,0],\"launch_profile\":{\"profile_id\":\"5c27332e449a108dcd7accfe984567f95aa93f5fcd9b1f92cea610323e42cd2f\",\"core\":{\"extensions\":[\"Q:\\\\repos\\\\funnysharp-goal24-resolution\\\\.omo\\\\audit-resolution\\\\probes\\\\u12-native-producer-boundary.mjs\"],\"multi_session\":false,\"session_runtime\":\"worker\"}}}}\n{\"type\":\"extension_ui_request\",\"id\":\"66b22860-7ae6-4aea-86c6-862d70a28942\",\"method\":\"setStatus\",\"statusKey\":\"anthropic-web-search\"}\n{\"type\":\"extension_ui_request\",\"id\":\"19c3e17c-4722-4c71-b48e-6e7441038537\",\"method\":\"setWidget\",\"widgetKey\":\"anthropic-web-search\"}\n{\"type\":\"extension_ui_request\",\"id\":\"34d0d8a0-d407-4f55-a0a0-6f32be622803\",\"method\":\"setStatus\",\"statusKey\":\"openai-web-search\"}\n{\"type\":\"extension_ui_request\",\"id\":\"4e9c6ae8-f22f-4b3b-9563-9b6838ee73a5\",\"method\":\"setWidget\",\"widgetKey\":\"openai-web-search\"}\n{\"type\":\"extension_ui_request\",\"id\":\"f7e83e23-62d3-4ba3-989a-804d9fbed153\",\"method\":\"setStatus\",\"statusKey\":\"monitors\"}\n{\"type\":\"extension_ui_request\",\"id\":\"bd8de3be-599b-49bf-93af-0b01f5a89c78\",\"method\":\"setStatus\",\"statusKey\":\"pi-websearch\"}\n{\"type\":\"extension_ui_request\",\"id\":\"94de8f48-263f-40db-a411-06f7a7151b3b\",\"method\":\"setWidget\",\"widgetKey\":\"pi-websearch\"}\n{\"type\":\"extension_ui_request\",\"id\":\"cbed6de8-3f03-4300-9d73-538fe7062b1e\",\"method\":\"setStatus\",\"statusKey\":\"pi-webfetch\"}\n{\"type\":\"extension_ui_request\",\"id\":\"0ac5dc0c-b0fb-4362-b60c-3530a81fae79\",\"method\":\"setWidget\",\"widgetKey\":\"pi-webfetch\"}\n{\"type\":\"extension_ui_request\",\"id\":\"0acdb4b2-716b-49ff-9946-94658fb9de2e\",\"method\":\"setStatus\",\"statusKey\":\"loop\"}\n",
+    "exitCode": 0,
+    "usage": 0,
+    "messages": 0
+  },
+  "directBunRPC": {
+    "pid": 58212,
+    "stdout": "",
+    "stderr": "",
+    "exitCode": 1,
+    "actualModelGeneration": false
+  },
+  "modelCallsInBothQA": 0,
+  "cleanup": {
+    "command": "Get-CimInstance Win32_Process | Where-Object { $_.Name -eq \"omo.exe\" -and $_.CommandLine -like \"*U12_V4_*_BOOT_ONLY*\" } | Select-Object ProcessId | ConvertTo-Json -Compress",
+    "allOwnedProbePidsAbsent": true
+  },
+  "finding": "Same emptyexit1 reproduced using directBun launch without ANYmodelprompt, while shellmonitor samecontext succeeded. Confirms failure is not task/API semantic failure. Exact OS/runtime mechanism remainsunknown. Use known-good shellmonitor mechanism for recovery.",
+  "original8Retained": [
+    {
+      "slot": "concurrency/idiomatic/run-1",
+      "failedProducerPath": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/concurrency/idiomatic/run-1/producer/0001.json",
+      "failedContextPath": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/concurrency/idiomatic/run-1/producer/0001-context"
+    },
+    {
+      "slot": "concurrency/idiomatic/run-2",
+      "failedProducerPath": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/concurrency/idiomatic/run-2/producer/0001.json",
+      "failedContextPath": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/concurrency/idiomatic/run-2/producer/0001-context"
+    },
+    {
+      "slot": "concurrency/funnysharp/run-1",
+      "failedProducerPath": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/concurrency/funnysharp/run-1/producer/0001.json",
+      "failedContextPath": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/concurrency/funnysharp/run-1/producer/0001-context"
+    },
+    {
+      "slot": "concurrency/funnysharp/run-2",
+      "failedProducerPath": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/concurrency/funnysharp/run-2/producer/0001.json",
+      "failedContextPath": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/concurrency/funnysharp/run-2/producer/0001-context"
+    },
+    {
+      "slot": "aspnetcore/idiomatic/run-1",
+      "failedProducerPath": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/aspnetcore/idiomatic/run-1/producer/0001.json",
+      "failedContextPath": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/aspnetcore/idiomatic/run-1/producer/0001-context"
+    },
+    {
+      "slot": "aspnetcore/idiomatic/run-2",
+      "failedProducerPath": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/aspnetcore/idiomatic/run-2/producer/0001.json",
+      "failedContextPath": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/aspnetcore/idiomatic/run-2/producer/0001-context"
+    },
+    {
+      "slot": "aspnetcore/funnysharp/run-1",
+      "failedProducerPath": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/aspnetcore/funnysharp/run-1/producer/0001.json",
+      "failedContextPath": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/aspnetcore/funnysharp/run-1/producer/0001-context"
+    },
+    {
+      "slot": "aspnetcore/funnysharp/run-2",
+      "failedProducerPath": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/aspnetcore/funnysharp/run-2/producer/0001.json",
+      "failedContextPath": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/aspnetcore/funnysharp/run-2/producer/0001-context"
+    }
+  ],
+  "acceptedSamplesFromFailures": 0
+}

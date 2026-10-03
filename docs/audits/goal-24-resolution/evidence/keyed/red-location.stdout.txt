@@ -1,0 +1,20 @@
+Running tests from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\bin\Release\net10.0\FunnySharp.Tests.dll (net10.0|x64)
+failed FunnySharp.Tests.LocationTests.EmptyStringKeysRenderIdenticallyWhenBoxedAndRemainDistinctFromRoot (1ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\bin\Release\net10.0\FunnySharp.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: System.ArgumentException : The value cannot be an empty string. (Parameter 'key')
+    at System.ArgumentException.ThrowNullOrEmptyException(String argument, String paramName)
+    at System.ArgumentException.ThrowIfNullOrEmpty(String argument, String paramName)
+    at FunnySharp.Location.Key(String key) in Q:\repos\funnysharp-goal24-resolution\src\FunnySharp\Location.cs:54
+    at FunnySharp.Tests.LocationTests.EmptyStringKeysRenderIdenticallyWhenBoxedAndRemainDistinctFromRoot() in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\LocationTests.cs:130
+    at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)
+    at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\bin\Release\net10.0\FunnySharp.Tests.dll (net10.0|x64) failed with 1 error(s) (1s 518ms)
+Exit code: 2
+
+Test run summary: Failed!
+  total: 10
+  failed: 1
+  succeeded: 9
+  skipped: 0
+  duration: 2s 012ms
+Test run completed with non-success exit code: 2 (see: https://aka.ms/testingplatform/exitcodes)

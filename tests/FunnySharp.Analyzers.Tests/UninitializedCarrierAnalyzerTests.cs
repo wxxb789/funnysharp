@@ -136,6 +136,49 @@ public sealed class UninitializedCarrierAnalyzerTests
             "FS1001");
     }
 
+    [Theory]
+    [InlineData("Result<int, string>")]
+    [InlineData("UnitResult<string>")]
+    [InlineData("Validation<int, string>")]
+    [InlineData("NonEmpty<int>")]
+    [InlineData("Effect<int>")]
+    [InlineData("Effect<Env, int>")]
+    [InlineData("Lens<int, string>")]
+    [InlineData("Optional<int, string>")]
+    public async Task EmptyInitializersDoNotInitializeNondefaultableCarriers(string typeText)
+    {
+        foreach (var creation in new[] { $"new {typeText} {{ }}", $"new {typeText}() {{ }}", "new() { }" })
+        {
+            await AnalyzerTestAssert.DiagnosticAsync(
+                """
+                using FunnySharp;
+                class Env;
+                class C
+                {
+                    TYPE Make() => CREATION;
+                }
+                """.Replace("TYPE", typeText).Replace("CREATION", creation),
+                "FS1001");
+        }
+    }
+
+    [Theory]
+    [InlineData("Option<int>")]
+    [InlineData("TransitionResult<int, int, string>")]
+    [InlineData("UserValue")]
+    public async Task EmptyInitializersForDefaultValidTypesStayQuiet(string typeText)
+    {
+        await AnalyzerTestAssert.QuietAsync(
+            """
+            using FunnySharp;
+            struct UserValue;
+            class C
+            {
+                TYPE Make() => new() { };
+            }
+            """.Replace("TYPE", typeText));
+    }
+
     [Fact]
     public async Task DefaultOptionIsAValidNoneAndStaysQuiet()
     {

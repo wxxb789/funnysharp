@@ -1,0 +1,9 @@
+Running tests from Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\aspnetcore-idiomatic-run-2-d256379b5c4b48b39f70206fa9f09bc5\bin\Release\net10.0\AspnetcoreKit.dll (net10.0|x64)
+Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\aspnetcore-idiomatic-run-2-d256379b5c4b48b39f70206fa9f09bc5\bin\Release\net10.0\AspnetcoreKit.dll (net10.0|x64) passed (1s 743ms)
+
+Test run summary: Passed!
+  total: 9
+  failed: 0
+  succeeded: 9
+  skipped: 0
+  duration: 2s 541ms

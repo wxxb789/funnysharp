@@ -1,0 +1,150 @@
+TASK_ID=st_01a0f665
+CANONICAL_CHECKOUT=Q:/repos/funnysharp-goal24-resolution
+USER_SUPPLIED_BRANCH=audit/goal24-resolution
+USER_SUPPLIED_BASE_COMMIT=a8863473fd53eddc7cb47201508426db2e454f84
+USER_SUPPLIED_BASE_TREE=88e8a528017b0a5f68710cc1d955fda64486877f
+BASE_NOT_VALIDATED_NO_GIT_COMMANDS_USED
+BINDING=actual working-tree SHA256, user-reported dirty candidate, not final acceptance
+
+CAPTURE_UTC=2026-10-01T07:36:26Z
+
+EXACT_COMMAND: dotnet --info
+.NET SDK:
+ Version:           10.0.401
+ Commit:            e34a38d2ae
+ Workload version:  10.0.400-manifests.b0700452
+ MSBuild version:   18.9.11+e34a38d2a
+
+Runtime Environment:
+ OS Name:     Windows
+ OS Version:  10.0.26300
+ OS Platform: Windows
+ RID:         win-x64
+ Base Path:   C:\Program Files\dotnet\sdk\10.0.401\
+
+.NET workloads installed:
+ [android]
+   Installation Source: VS 18.10.12224.181
+   Manifest Version:    36.1.69/10.0.100
+   Manifest Path:       C:\Program Files\dotnet\sdk-manifests\10.0.100\microsoft.net.sdk.android\36.1.69\WorkloadManifest.json
+   Install Type:              Msi
+
+ [maccatalyst]
+   Installation Source: VS 18.10.12224.181
+   Manifest Version:    26.5.10301/10.0.100
+   Manifest Path:       C:\Program Files\dotnet\sdk-manifests\10.0.100\microsoft.net.sdk.maccatalyst\26.5.10301\WorkloadManifest.json
+   Install Type:              Msi
+
+ [ios]
+   Installation Source: VS 18.10.12224.181
+   Manifest Version:    26.5.10301/10.0.100
+   Manifest Path:       C:\Program Files\dotnet\sdk-manifests\10.0.100\microsoft.net.sdk.ios\26.5.10301\WorkloadManifest.json
+   Install Type:              Msi
+
+ [maui-windows]
+   Installation Source: VS 18.10.12224.181
+   Manifest Version:    10.0.20/10.0.100
+   Manifest Path:       C:\Program Files\dotnet\sdk-manifests\10.0.100\microsoft.net.sdk.maui\10.0.20\WorkloadManifest.json
+   Install Type:              Msi
+
+Configured to use workload sets when installing new manifests.
+No workload sets are installed. Run "dotnet workload restore" to install a workload set.
+
+Host:
+  Version:      10.0.12
+  Architecture: x64
+  Commit:       95017c711e
+
+.NET SDKs installed:
+  6.0.308 [C:\Program Files\dotnet\sdk]
+  6.0.417 [C:\Program Files\dotnet\sdk]
+  7.0.200 [C:\Program Files\dotnet\sdk]
+  8.0.100 [C:\Program Files\dotnet\sdk]
+  8.0.425 [C:\Program Files\dotnet\sdk]
+  10.0.112 [C:\Program Files\dotnet\sdk]
+  10.0.401 [C:\Program Files\dotnet\sdk]
+
+.NET runtimes installed:
+  Microsoft.AspNetCore.App 6.0.13 [C:\Program Files\dotnet\shared\Microsoft.AspNetCore.App]
+  Microsoft.AspNetCore.App 6.0.25 [C:\Program Files\dotnet\shared\Microsoft.AspNetCore.App]
+  Microsoft.AspNetCore.App 7.0.3 [C:\Program Files\dotnet\shared\Microsoft.AspNetCore.App]
+  Microsoft.AspNetCore.App 8.0.0 [C:\Program Files\dotnet\shared\Microsoft.AspNetCore.App]
+  Microsoft.AspNetCore.App 8.0.31 [C:\Program Files\dotnet\shared\Microsoft.AspNetCore.App]
+  Microsoft.AspNetCore.App 10.0.12 [C:\Program Files\dotnet\shared\Microsoft.AspNetCore.App]
+  Microsoft.NETCore.App 6.0.13 [C:\Program Files\dotnet\shared\Microsoft.NETCore.App]
+  Microsoft.NETCore.App 6.0.25 [C:\Program Files\dotnet\shared\Microsoft.NETCore.App]
+  Microsoft.NETCore.App 7.0.3 [C:\Program Files\dotnet\shared\Microsoft.NETCore.App]
+  Microsoft.NETCore.App 8.0.0 [C:\Program Files\dotnet\shared\Microsoft.NETCore.App]
+  Microsoft.NETCore.App 8.0.31 [C:\Program Files\dotnet\shared\Microsoft.NETCore.App]
+  Microsoft.NETCore.App 10.0.12 [C:\Program Files\dotnet\shared\Microsoft.NETCore.App]
+  Microsoft.WindowsDesktop.App 6.0.13 [C:\Program Files\dotnet\shared\Microsoft.WindowsDesktop.App]
+  Microsoft.WindowsDesktop.App 6.0.25 [C:\Program Files\dotnet\shared\Microsoft.WindowsDesktop.App]
+  Microsoft.WindowsDesktop.App 7.0.3 [C:\Program Files\dotnet\shared\Microsoft.WindowsDesktop.App]
+  Microsoft.WindowsDesktop.App 8.0.0 [C:\Program Files\dotnet\shared\Microsoft.WindowsDesktop.App]
+  Microsoft.WindowsDesktop.App 8.0.31 [C:\Program Files\dotnet\shared\Microsoft.WindowsDesktop.App]
+  Microsoft.WindowsDesktop.App 10.0.12 [C:\Program Files\dotnet\shared\Microsoft.WindowsDesktop.App]
+
+Other architectures found:
+  x86   [C:\Program Files (x86)\dotnet]
+    registered at [HKLM\SOFTWARE\dotnet\Setup\InstalledVersions\x86\InstallLocation]
+
+Environment variables:
+  Not set
+
+global.json file:
+  Q:\repos\funnysharp-goal24-resolution\global.json
+
+Learn more:
+  https://aka.ms/dotnet/info
+
+Download .NET:
+  https://aka.ms/dotnet/download
+DOTNET_INFO_EXIT=0
+
+EXACT_COMMAND: command -v apply_patch
+APPLY_PATCH_LOOKUP_EXIT=1
+
+EXPOSED_NATIVE_TOOLS=functions.read,bash,edit,write,grep,lsp_diagnostics,lsp_goto_definition,lsp_find_references,lsp_symbols,lsp_prepare_rename,lsp_rename,multi_tool_use.parallel
+REQUIRED_UNAVAILABLE_NATIVE_TOOLS=JS eval/tool.monitor; apply_patch
+ENVIRONMENT_BLOCKER=Required native long-run notification and patch tooling are absent; focused tests and official pipeline were not launched. No alternate runner, callbacks, source edits, downgrades, feed changes, git/index/commit or publication used.
+
+EXACT_COMMAND: sha256sum build.fsx eng/harness/VerticalSlice.fs tests/FunnySharp.Harness.Tests/{VerticalSliceTests,ToolingVerifyTests}.fs src/FunnySharp/FunnySharp.csproj src/FunnySharp.AspNetCore/FunnySharp.AspNetCore.csproj tests/FunnySharp.VerticalSlice/*/*.csproj
+b11ad01a541863ebf4e0d5094a6e9523db178b2670e7792dff372c4fb8c46d85 *build.fsx
+e0e5da2144e94636ce102fc2a0112af3d56ccbfab73cb5c067fed8e1cd364436 *eng/harness/VerticalSlice.fs
+3aa7206ce47e2d887461390acb71ef2616735810f0fed17911ec6eaf05388125 *tests/FunnySharp.Harness.Tests/VerticalSliceTests.fs
+6adbd45d5d4c5a8fa07ae660e19693cf82fd69b48f8827dead084df0726511be *tests/FunnySharp.Harness.Tests/ToolingVerifyTests.fs
+c7a8f9444bb0c9a3dee4a703df2628d02e9f62490029969ccec28f5d01087af9 *src/FunnySharp/FunnySharp.csproj
+83332aa0d92ad6af9ee54da6ae7f604ad70a0f1eee2b9fd5f5a63fc03b3b4ee5 *src/FunnySharp.AspNetCore/FunnySharp.AspNetCore.csproj
+e3eff0418058a34fb90b0810708da3b26bbb7d98a353b629b0952bb1d85b9c8a *tests/FunnySharp.VerticalSlice/FunnySharp.VerticalSlice.Api/FunnySharp.VerticalSlice.Api.csproj
+540aff1257ee2471463e35ba76cb3418523d8b97ce89185ebd717c83443a336f *tests/FunnySharp.VerticalSlice/FunnySharp.VerticalSlice.Baseline/FunnySharp.VerticalSlice.Baseline.csproj
+e33a4d4182d03a8a1ba815f9b7673b363d0496242a2c333a0b2b9b9ebe539e31 *tests/FunnySharp.VerticalSlice/FunnySharp.VerticalSlice.Measurements/FunnySharp.VerticalSlice.Measurements.csproj
+f3d19108130cad5e740fe220aa0c833f3c0be12d1ed5fe66365d33a922a28086 *tests/FunnySharp.VerticalSlice/FunnySharp.VerticalSlice.Tests/FunnySharp.VerticalSlice.Tests.csproj
+SOURCE_HASH_EXIT=0
+
+EXACT_COMMAND: dotnet nuget locals global-packages --list
+global-packages: Q:\.tools\.nuget\packages\
+NUGET_LOCALS_EXIT=0
+
+EXACT_COMMAND: find /q/.tools/.nuget/packages/{microsoft.net.illink.tasks,microsoft.aspnetcore.openapi,microsoft.aspnetcore.mvc.testing} -maxdepth 2 -type f -name "*.nupkg" -print
+/q/.tools/.nuget/packages/microsoft.net.illink.tasks/10.0.10/microsoft.net.illink.tasks.10.0.10.nupkg
+/q/.tools/.nuget/packages/microsoft.net.illink.tasks/10.0.11/microsoft.net.illink.tasks.10.0.11.nupkg
+/q/.tools/.nuget/packages/microsoft.net.illink.tasks/10.0.12/microsoft.net.illink.tasks.10.0.12.nupkg
+/q/.tools/.nuget/packages/microsoft.net.illink.tasks/10.0.8/microsoft.net.illink.tasks.10.0.8.nupkg
+/q/.tools/.nuget/packages/microsoft.net.illink.tasks/10.0.9/microsoft.net.illink.tasks.10.0.9.nupkg
+/q/.tools/.nuget/packages/microsoft.net.illink.tasks/7.0.100-1.23211.1/microsoft.net.illink.tasks.7.0.100-1.23211.1.nupkg
+/q/.tools/.nuget/packages/microsoft.net.illink.tasks/8.0.29/microsoft.net.illink.tasks.8.0.29.nupkg
+/q/.tools/.nuget/packages/microsoft.net.illink.tasks/9.0.18/microsoft.net.illink.tasks.9.0.18.nupkg
+CACHE_DIRECTORY_MISSING=microsoft.aspnetcore.openapi
+/q/.tools/.nuget/packages/microsoft.aspnetcore.mvc.testing/10.0.5/microsoft.aspnetcore.mvc.testing.10.0.5.nupkg
+/q/.tools/.nuget/packages/microsoft.aspnetcore.mvc.testing/10.0.8/microsoft.aspnetcore.mvc.testing.10.0.8.nupkg
+
+EXACT_COMMAND: find /q/repos/funnysharp/artifacts -maxdepth 5 -type d -name nuget-packages -print
+ORIGINAL_ARTIFACTS_DIRECTORY_MISSING
+
+RUN_RESULT=NOT_RUN_ENVIRONMENT_BLOCKER
+FOCUSED_TESTCOUNTS=not measured
+OFFICIAL_TESTCOUNTS=not measured
+STEP_MARKERS=not measured
+PACKAGE_HASHES=none produced
+ATTEMPT_NUGET_CONFIG=not produced
+CLEANUP=No listener or long-running process launched by this child; bounded foreground probes ended. No child build cache/feed/output was produced.

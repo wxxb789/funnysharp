@@ -1,0 +1,63 @@
+{
+  "schema": "funnysharp-v5-parent-settled-area-join/v1",
+  "acceptedOnlyFormalCompletedSlots": 15,
+  "formalPassedCases": 154,
+  "formalSkippedCases": 0,
+  "business": "u12-v5-business-parent-proof.json:4slots40cases,5actualcalls/oneCS8602feedbackcorrection; initialREDimmutable.",
+  "concurrency": {
+    "slots": 4,
+    "cases": 48,
+    "allOriginalNativeGrade0": true,
+    "immutableRoundFileShaChecks": 1542,
+    "hashIssues": [],
+    "actualRawContextProof": [
+      {
+        "slot": "concurrency/idiomatic/run-1",
+        "actualCliSessionId": "01a0fea6-129b-7de2-b2ba-859331548081",
+        "actualProviderRequests": 1,
+        "developerExact355": true,
+        "userRequestExact": true,
+        "contextResourcesEmpty": true
+      },
+      {
+        "slot": "concurrency/idiomatic/run-2",
+        "actualCliSessionId": "01a0fea6-124c-7ff2-a196-05507ea38d6e",
+        "actualProviderRequests": 1,
+        "developerExact355": true,
+        "userRequestExact": true,
+        "contextResourcesEmpty": true
+      },
+      {
+        "slot": "concurrency/funnysharp/run-1",
+        "actualCliSessionId": "01a0fea6-12d9-77ed-9ac0-f2312df051ae",
+        "actualProviderRequests": 1,
+        "developerExact355": true,
+        "userRequestExact": true,
+        "contextResourcesEmpty": true
+      },
+      {
+        "slot": "concurrency/funnysharp/run-2",
+        "actualCliSessionId": "01a0fea6-1353-7d3c-8541-f05869fd3466",
+        "actualProviderRequests": 1,
+        "developerExact355": true,
+        "userRequestExact": true,
+        "contextResourcesEmpty": true
+      }
+    ],
+    "childReport": ".omo/audit-resolution/research/u12-v5-concurrency.json"
+  },
+  "collectionsStreams": {
+    "assignedSlots": 8,
+    "formalGreenSlots": 7,
+    "formalCases": 66,
+    "parentProofShaChecks": 117,
+    "hashIssues": [],
+    "failedTechnicalSlot": "async-streams/idiomatic/run-1",
+    "observedTests10NotCountedAsFormalGreen": true,
+    "originalGraderExit1": true,
+    "reason": "Windows AV denied verificationasset AsyncStreamsKit.dll copy afteractualbuild/test0; missingrecord/feedback/receipt retained.",
+    "recoveryConsultation": "st_01a0feb0/deep-high/ghc/gpt-6-astra: read-only exactcontract recoveryproposal active."
+  },
+  "http": "st_01a0fea6 same4slots:3initialGREEN/1RED, exactfeedbackCRLFartifact materialization andregisteredcorrection stillactive; no assumedGREEN.",
+  "limits": "Aggregate20final-input cohort stillincomplete, owner/release/original69criteria notaccepted."
+}

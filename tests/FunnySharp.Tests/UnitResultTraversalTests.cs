@@ -86,15 +86,21 @@ public sealed class UnitResultTraversalTests
         Assert.Throws<ArgumentNullException>(() =>
             values!.Traverse((Func<int, UnitResult<string>>)null!));
 
+#pragma warning disable FS1001 // Intentional runtime misuse witness.
         var uninitializedElement = new[] { UnitResult<string>.Success(), default };
+#pragma warning restore FS1001
         var sequenceException = Assert.Throws<InvalidOperationException>(() => uninitializedElement.Sequence());
         var traversalException = Assert.Throws<InvalidOperationException>(() =>
+#pragma warning disable FS1001 // Intentional runtime misuse witness.
             new[] { 1 }.Traverse<int, string>((Func<int, UnitResult<string>>)(_ => default)));
+#pragma warning restore FS1001
 
         Assert.Equal("The unit result has not been initialized.", sequenceException.Message);
         Assert.Equal("The unit result has not been initialized.", traversalException.Message);
 
+#pragma warning disable FS1001 // Intentional runtime misuse witness.
         var failureBeforeDefault = new[] { UnitResult<string>.Failure("bad"), default };
+#pragma warning restore FS1001
 
         Assert.Equal(UnitResult<string>.Failure("bad"), failureBeforeDefault.Sequence());
     }
@@ -344,9 +350,13 @@ public sealed class UnitResultTraversalTests
     [Fact]
     public async Task AsyncTraversalFaultsForDefaultElements()
     {
+#pragma warning disable FS1001 // Intentional runtime misuse witness.
         var sequenceOperation = AsyncValues(UnitResult<string>.Success(), default).SequenceAsync().AsTask();
+#pragma warning restore FS1001
         var traversalOperation = AsyncValues(1).TraverseAsync<int, string>(
+#pragma warning disable FS1001 // Intentional runtime misuse witness.
             (Func<int, UnitResult<string>>)(_ => default)).AsTask();
+#pragma warning restore FS1001
 
         var sequenceException = await Assert.ThrowsAsync<InvalidOperationException>(() => sequenceOperation);
         var traversalException = await Assert.ThrowsAsync<InvalidOperationException>(() => traversalOperation);

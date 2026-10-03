@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>PositiveCollections</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(ControlRoot)solutions/FeedCleaner.cs" />
+    <Compile Include="$(ControlRoot)../../../tasks/collections/tests/Contract.cs" />
+    <Compile Include="$(ControlRoot)../../../tasks/collections/tests/CollectionsTests.cs" />
+  </ItemGroup>
+</Project>

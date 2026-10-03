@@ -96,6 +96,34 @@ internal static class AnalyzerHarness
         bool includeAspNetCore = false)
     {
         using var workspace = new AdhocWorkspace();
+        var (document, diagnostics, fixes) = await GetCodeFixesAsync(
+            workspace,
+            source,
+            diagnosticId,
+            fixProvider,
+            includeAspNetCore);
+        Assert.Single(diagnostics);
+        Assert.NotEmpty(fixes);
+
+        var operations = await fixes[0].GetOperationsAsync(CancellationToken.None);
+        var apply = Assert.Single(operations.OfType<ApplyChangesOperation>());
+        var fixedDocument = apply.ChangedSolution.GetDocument(document.Id);
+        Assert.True(fixedDocument is not null, "The fixed harness document must exist.");
+        var fixedCompilation = await fixedDocument.Project.GetCompilationAsync();
+        AssertNoCompileErrors(Assert.IsType<CSharpCompilation>(fixedCompilation));
+        return (await fixedDocument.GetTextAsync(CancellationToken.None)).ToString();
+    }
+
+    internal static async Task<(
+        Document Document,
+        ImmutableArray<Diagnostic> Diagnostics,
+        IReadOnlyList<CodeAction> Actions)> GetCodeFixesAsync(
+        AdhocWorkspace workspace,
+        string source,
+        string diagnosticId,
+        CodeFixProvider fixProvider,
+        bool includeAspNetCore = false)
+    {
         var projectId = ProjectId.CreateNewId(debugName: "AnalyzerHarnessProject");
         var documentId = DocumentId.CreateNewId(projectId, debugName: "AnalyzerHarnessDocument.cs");
         var parseOptions = CreateParseOptions();
@@ -116,8 +144,12 @@ internal static class AnalyzerHarness
         Assert.True(document is not null, "The harness document must exist.");
         var projectCompilation = await document.Project.GetCompilationAsync();
         var compilation = Assert.IsType<CSharpCompilation>(projectCompilation);
-        var diagnostics = await GetDiagnosticsAsync(compilation);
-        var target = diagnostics.Single(diagnostic => diagnostic.Id == diagnosticId);
+        var diagnostics = (await GetDiagnosticsAsync(compilation))
+            .Where(diagnostic => diagnostic.Id == diagnosticId)
+            .OrderBy(diagnostic => diagnostic.Location.SourceSpan.Start)
+            .ToImmutableArray();
+        Assert.NotEmpty(diagnostics);
+        var target = diagnostics[0];
 
         var fixes = new List<CodeAction>();
         var context = new CodeFixContext(
@@ -127,13 +159,7 @@ internal static class AnalyzerHarness
             (action, _) => fixes.Add(action),
             CancellationToken.None);
         await fixProvider.RegisterCodeFixesAsync(context);
-        Assert.NotEmpty(fixes);
-
-        var operations = await fixes[0].GetOperationsAsync(CancellationToken.None);
-        var apply = Assert.Single(operations.OfType<ApplyChangesOperation>());
-        var fixedDocument = apply.ChangedSolution.GetDocument(documentId);
-        Assert.True(fixedDocument is not null, "The fixed harness document must exist.");
-        return (await fixedDocument.GetTextAsync(CancellationToken.None)).ToString();
+        return (document, diagnostics, fixes);
     }
 
     internal static void AssertNoCompileErrors(Compilation compilation)

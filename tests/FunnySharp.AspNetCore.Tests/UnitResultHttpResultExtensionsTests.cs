@@ -245,7 +245,9 @@ public sealed class UnitResultHttpResultExtensionsTests
     [Fact]
     public async Task UninitializedUnitResultThrowsFromSyncAndAwaitedMappings()
     {
+#pragma warning disable FS1001 // Intentional runtime default-state witness.
         UnitResult<string> uninitialized = default;
+#pragma warning restore FS1001
 
         var syncException = Assert.Throws<InvalidOperationException>(
             () => uninitialized.ToHttpResult(_ => NotFound()));
@@ -280,15 +282,15 @@ public sealed class UnitResultHttpResultExtensionsTests
         var cases = new (string Name, string ParameterName, Action Invoke)[]
         {
             ("UnitResult mapper", "failure", () => success.ToHttpResult(null!)),
-            ("Task<UnitResult> source", "result", () => nullTask!.ToHttpResultAsync(Forbidden)),
-            ("Task<UnitResult> mapper", "failure", () => successTask.ToHttpResultAsync(null!)),
-            ("ValueTask<UnitResult> mapper", "failure", () => successValueTask.ToHttpResultAsync(null!)),
-            ("Effect<UnitResult> context", "context", () => successEffect.ToHttpResultAsync(null!, Forbidden)),
-            ("Effect<UnitResult> mapper", "failure", () => successEffect.ToHttpResultAsync(context, null!)),
+            ("Task<UnitResult> source", "result", () => _ = nullTask!.ToHttpResultAsync(Forbidden)),
+            ("Task<UnitResult> mapper", "failure", () => _ = successTask.ToHttpResultAsync(null!)),
+            ("ValueTask<UnitResult> mapper", "failure", () => _ = successValueTask.ToHttpResultAsync(null!)),
+            ("Effect<UnitResult> context", "context", () => _ = successEffect.ToHttpResultAsync(null!, Forbidden)),
+            ("Effect<UnitResult> mapper", "failure", () => _ = successEffect.ToHttpResultAsync(context, null!)),
             ("Environment Effect<UnitResult> context", "context", () =>
-                environmentSuccessEffect.ToHttpResultAsync(environment, null!, Forbidden)),
+                _ = environmentSuccessEffect.ToHttpResultAsync(environment, null!, Forbidden)),
             ("Environment Effect<UnitResult> mapper", "failure", () =>
-                environmentSuccessEffect.ToHttpResultAsync(environment, context, null!)),
+                _ = environmentSuccessEffect.ToHttpResultAsync(environment, context, null!)),
         };
 
         foreach (var (name, parameterName, invoke) in cases)

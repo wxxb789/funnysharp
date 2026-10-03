@@ -10,6 +10,9 @@ namespace FunnySharp.Benchmarks;
 [CategoriesColumn]
 public class FunctionCompositionBenchmarks
 {
+    [GlobalSetup]
+    public void Setup() => BenchmarkPreflight.CaptureChild(this);
+
     private const int Input = 42;
 
     private static readonly Func<int, int> First = Increment;

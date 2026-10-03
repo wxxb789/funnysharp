@@ -1,0 +1,47 @@
+{
+  "schema": "funnysharp-declared-release-provenance-roles/v1",
+  "observedUtc": "2026-10-03T03:29:07.741Z",
+  "authority": "docs/release-readiness.md Evidence Freeze And Verdict and originalGoal23 external-publication boundary",
+  "candidateRemoteRef": {
+    "command": "git ls-remote --heads origin audit/goal24-resolution",
+    "rawOutput": "(no output)",
+    "branchExistsObserved": false,
+    "uncommittedWorktreeNotRemoteCandidate": true
+  },
+  "producerP": "Assemble only after finalfeedcheck/allrequiredjobs/packagehashes/rulesetproof final; not currentlyproduced.",
+  "attestationA": {
+    "contract": "Named read-only reviewer evaluates immutable P and Goals01-13, replays Goal04/09 packageprobes and emits A referencing only P/contracts.",
+    "proposedExecutor": "A separately launched named read-only native reviewer after P is final; actor/task/model identifiers recorded truthfully.",
+    "actualReviewerOrAttestationExists": false,
+    "ownerSourceAcceptanceNotReleaseAttestation": true
+  },
+  "externalI": {
+    "declaredPublisher": "GitHub job summary or run provenance",
+    "contents": "A hash and retrievable artifact locations",
+    "actualTarget": "Final authorized release run URL, not yet available",
+    "noAlternatePublicationTargetInvented": true,
+    "actualExternalIndexExists": false
+  },
+  "distributionInventory": {
+    "question": "release_distribution_inventory",
+    "status": "PENDING_OWNER_FACT",
+    "knownDeclaredRoute": "publicNuGet via https://packagefeedproxy.microsoft.io/nuget/v3/index.json",
+    "completeInventoryNotInferred": true,
+    "selectionWouldNotAuthorizeWrites": true
+  },
+  "remotePermissionsRequestedPlainly": [
+    "Atomic local candidate commits",
+    "Push repair branch/proof PR/four-host release CI",
+    "Strict context/no-bypass ruleset and disposable denial proof"
+  ],
+  "remotePermissionsReceived": false,
+  "actualRuleStateProof": "u15-current-readonly-access-and-known-feed.json",
+  "remainingOriginalIds": [
+    "F37",
+    "F38",
+    "F39",
+    "U29"
+  ],
+  "priorNineFactPacketRetainedAsHistory": true,
+  "noCommitPushRulesetPublicationExecuted": true
+}

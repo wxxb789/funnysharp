@@ -1,0 +1,76 @@
+{
+  "files": [
+    {
+      "path": "guides/README.md",
+      "sha256": "cc536213ce3dd198741dd81ae4518fd492f24016400b9cbd02b5e85f2d2be517"
+    },
+    {
+      "path": "guides/docs/analyzers.md",
+      "sha256": "c40255afe05dc9d0c1515f3ba9ab4fb764a2e8b79016fe5944493790f22fd8b1"
+    },
+    {
+      "path": "guides/docs/aspnet-core.md",
+      "sha256": "71f12c3f333d07f9b7375df751ed6606153c9ceb0093b8057909a81f925c2930"
+    },
+    {
+      "path": "guides/docs/collections.md",
+      "sha256": "6001aebd200b67edf0c2b135ae0c3e0af3c961e99836b7f762d9bb2d83620558"
+    },
+    {
+      "path": "guides/docs/concurrency.md",
+      "sha256": "6e4324334f51dd240aa3fcd4e1531ad6dcb017ff21b41ca5b983e81a81f3fad9"
+    },
+    {
+      "path": "guides/docs/data-pipelines.md",
+      "sha256": "78f5787bbf0c7fe23bbcf023712a967a8fdef2ad9ca6900ebc7a7512ba51b242"
+    },
+    {
+      "path": "guides/docs/effects.md",
+      "sha256": "eba44570793bc8e72f15ed6c6155e925df38a200873c795dab8a34b504600928"
+    },
+    {
+      "path": "guides/docs/function-composition.md",
+      "sha256": "dd6f4863c89da837b50d5d789e8283a97164357dad599b781711dd22c4d7b66c"
+    },
+    {
+      "path": "guides/docs/grammar.md",
+      "sha256": "c46cbe739485ff881a8add7166395c210b399dfe5e81f37aa5b64f98439ed48c"
+    },
+    {
+      "path": "guides/docs/option.md",
+      "sha256": "c3d468d148cd6c41b60a303839727265b1b4c4b2488e0cd34291e4ce7516b366"
+    },
+    {
+      "path": "guides/docs/product-contract.md",
+      "sha256": "56e49ad95406612774b4d26e3e2763e11e06240c3dfd0de092a4011335fbf952"
+    },
+    {
+      "path": "guides/docs/result.md",
+      "sha256": "6b78664086ec6f4599aebc220def97c46b5b714499644ccdbe1a1975691803c5"
+    },
+    {
+      "path": "guides/docs/unit-result.md",
+      "sha256": "0c8682d7fdc4a7e1ce6b22d031a06ab1dd7f2db1f24755c947e6e0b440c56cfb"
+    },
+    {
+      "path": "guides/docs/validation.md",
+      "sha256": "923151c1e3de02825dfbc2b49393c9a261e939ec1e474addd98bb893915414b9"
+    },
+    {
+      "path": "tasks/async-streams/prompt-funnysharp.md",
+      "sha256": "40cfc2edd0967fc052f7bc71592f602006b82e2b979fd3d34deadc3d409f3011"
+    },
+    {
+      "path": "tasks/async-streams/template-funnysharp/AsyncStreamsKit.csproj",
+      "sha256": "f4adc1d0b296be415bdb42f8159827c30a5cdaae6907a123f6893043b437ecd4"
+    },
+    {
+      "path": "tasks/async-streams/tests/AsyncStreamsTests.cs",
+      "sha256": "b2e236125974c0ec77b4fb7df33a9a6f502c7093b6f2a670929ab7d068407da6"
+    },
+    {
+      "path": "tasks/async-streams/tests/Contract.cs",
+      "sha256": "24a65f66642d4e7e91b84d4f3a04b16ae93ed5abcafecc827b159eaed6bd9307"
+    }
+  ]
+}

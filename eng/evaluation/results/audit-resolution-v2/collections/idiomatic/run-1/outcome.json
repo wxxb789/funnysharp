@@ -1,0 +1,27 @@
+{
+  "schema": "funnysharp-native-slot-outcome/v1",
+  "slot": "collections/idiomatic/run-1",
+  "status": "MALFORMED_OUTPUT",
+  "rounds": 1,
+  "verifier": {
+    "status": "NOT_RUN",
+    "reason": "Invalid output path: solution/FeedCleaner.cs (expected a top-level .cs filename; no path normalization is registered)",
+    "eligibleCorrection": false
+  },
+  "logicalSessionId": "study-session:b58278ee-d642-436f-9744-b1b6496e40e7",
+  "actualCLIUUID": "01a0fbfc-e7ae-7fb7-ba73-c1c251a36fc5",
+  "history": [
+    {
+      "round": 1,
+      "status": "malformed-output",
+      "invocationId": "native-call:38d112e7-5f82-486b-b1ff-424a7e9bec8d",
+      "actualCLIUUID": "01a0fbfc-e7ae-7fb7-ba73-c1c251a36fc5",
+      "exitCode": 0,
+      "startedUtc": "2026-10-02T09:40:47.567Z",
+      "finishedUtc": "2026-10-02T09:41:25.952Z",
+      "decodeError": "Invalid output path: solution/FeedCleaner.cs (expected a top-level .cs filename; no path normalization is registered)",
+      "context": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v2/collections/idiomatic/run-1/producer/0001-context",
+      "providerRequests": 1
+    }
+  ]
+}

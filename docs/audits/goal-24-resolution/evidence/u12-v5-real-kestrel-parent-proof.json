@@ -1,0 +1,252 @@
+{
+  "schema": "funnysharp-v5-generated-http-parent-proof/v1",
+  "state": "ACTUAL_4_CONSUMERS_36_CASES_72_REQUESTS_AND_PARENT_BINDING_CLEANUP_VERIFIED",
+  "finalReceipt": {
+    "path": "artifacts/audit-resolution/u12-v5-http-runtime/attempt-01/final-receipt.json",
+    "sha256": "86755856026a9d3d7bec83d558e8156f0e3568ad3cf6e0849ac2a236d8eda871"
+  },
+  "parent": {
+    "terminalArtifactHashes": 38,
+    "originalSourceDllPdbPackageRuntimeHashes": 241,
+    "issues": [],
+    "completeHostSourceRead": true,
+    "hostSourceSha256": "bf2a00d6b38531edd80c458ed192a2c2a64e148678b02b1845258e8dbd282587",
+    "currentListenerChecks": [
+      {
+        "url": "http://127.0.0.1:49174/",
+        "closed": true,
+        "error": "ConnectionRefused"
+      },
+      {
+        "url": "http://127.0.0.1:60135/",
+        "closed": true,
+        "error": "ConnectionRefused"
+      },
+      {
+        "url": "http://127.0.0.1:60141/",
+        "closed": true,
+        "error": "ConnectionRefused"
+      },
+      {
+        "url": "http://127.0.0.1:60149/",
+        "closed": true,
+        "error": "ConnectionRefused"
+      },
+      {
+        "url": "http://127.0.0.1:60162/",
+        "closed": true,
+        "error": "ConnectionRefused"
+      },
+      {
+        "url": "http://127.0.0.1:60169/",
+        "closed": true,
+        "error": "ConnectionRefused"
+      },
+      {
+        "url": "http://127.0.0.1:60177/",
+        "closed": true,
+        "error": "ConnectionRefused"
+      },
+      {
+        "url": "http://127.0.0.1:60180/",
+        "closed": true,
+        "error": "ConnectionRefused"
+      },
+      {
+        "url": "http://127.0.0.1:60191/",
+        "closed": true,
+        "error": "ConnectionRefused"
+      },
+      {
+        "url": "http://127.0.0.1:60208/",
+        "closed": true,
+        "error": "ConnectionRefused"
+      },
+      {
+        "url": "http://127.0.0.1:60216/",
+        "closed": true,
+        "error": "ConnectionRefused"
+      },
+      {
+        "url": "http://127.0.0.1:60221/",
+        "closed": true,
+        "error": "ConnectionRefused"
+      },
+      {
+        "url": "http://127.0.0.1:60226/",
+        "closed": true,
+        "error": "ConnectionRefused"
+      },
+      {
+        "url": "http://127.0.0.1:60239/",
+        "closed": true,
+        "error": "ConnectionRefused"
+      },
+      {
+        "url": "http://127.0.0.1:60245/",
+        "closed": true,
+        "error": "ConnectionRefused"
+      },
+      {
+        "url": "http://127.0.0.1:60256/",
+        "closed": true,
+        "error": "ConnectionRefused"
+      },
+      {
+        "url": "http://127.0.0.1:60260/",
+        "closed": true,
+        "error": "ConnectionRefused"
+      },
+      {
+        "url": "http://127.0.0.1:60268/",
+        "closed": true,
+        "error": "ConnectionRefused"
+      },
+      {
+        "url": "http://127.0.0.1:60282/",
+        "closed": true,
+        "error": "ConnectionRefused"
+      },
+      {
+        "url": "http://127.0.0.1:60289/",
+        "closed": true,
+        "error": "ConnectionRefused"
+      },
+      {
+        "url": "http://127.0.0.1:60295/",
+        "closed": true,
+        "error": "ConnectionRefused"
+      },
+      {
+        "url": "http://127.0.0.1:60300/",
+        "closed": true,
+        "error": "ConnectionRefused"
+      },
+      {
+        "url": "http://127.0.0.1:60311/",
+        "closed": true,
+        "error": "ConnectionRefused"
+      },
+      {
+        "url": "http://127.0.0.1:60327/",
+        "closed": true,
+        "error": "ConnectionRefused"
+      },
+      {
+        "url": "http://127.0.0.1:60333/",
+        "closed": true,
+        "error": "ConnectionRefused"
+      },
+      {
+        "url": "http://127.0.0.1:60338/",
+        "closed": true,
+        "error": "ConnectionRefused"
+      },
+      {
+        "url": "http://127.0.0.1:60343/",
+        "closed": true,
+        "error": "ConnectionRefused"
+      },
+      {
+        "url": "http://127.0.0.1:60355/",
+        "closed": true,
+        "error": "ConnectionRefused"
+      },
+      {
+        "url": "http://127.0.0.1:60360/",
+        "closed": true,
+        "error": "ConnectionRefused"
+      },
+      {
+        "url": "http://127.0.0.1:60371/",
+        "closed": true,
+        "error": "ConnectionRefused"
+      },
+      {
+        "url": "http://127.0.0.1:60377/",
+        "closed": true,
+        "error": "ConnectionRefused"
+      },
+      {
+        "url": "http://127.0.0.1:56558/",
+        "closed": true,
+        "error": "ConnectionRefused"
+      },
+      {
+        "url": "http://127.0.0.1:56570/",
+        "closed": true,
+        "error": "ConnectionRefused"
+      },
+      {
+        "url": "http://127.0.0.1:56577/",
+        "closed": true,
+        "error": "ConnectionRefused"
+      },
+      {
+        "url": "http://127.0.0.1:56583/",
+        "closed": true,
+        "error": "ConnectionRefused"
+      },
+      {
+        "url": "http://127.0.0.1:56589/",
+        "closed": true,
+        "error": "ConnectionRefused"
+      }
+    ],
+    "ownedPidQueryExit0": true,
+    "ownedPidQueryOutput": "(no output)",
+    "originalAbsentPids": [
+      37752,
+      4880,
+      40220,
+      14424,
+      48612
+    ]
+  },
+  "runtime": {
+    "frameworkDescription": ".NET 10.0.12",
+    "runtimeVersion": "10.0.12",
+    "processArchitecture": "X64",
+    "osDescription": "Microsoft Windows 10.0.26300",
+    "runtimeAssemblies": [
+      {
+        "fullName": "System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e",
+        "path": "C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\10.0.12\\System.Private.CoreLib.dll",
+        "sha256": "1125acc8106c43fc8bad2d203c4c4485df6182d292846c2fff415c1040c54678",
+        "mvid": "77d2994f-32f8-4ff2-8313-7ebf44feba98"
+      },
+      {
+        "fullName": "Microsoft.AspNetCore, Version=10.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60",
+        "path": "C:\\Program Files\\dotnet\\shared\\Microsoft.AspNetCore.App\\10.0.12\\Microsoft.AspNetCore.dll",
+        "sha256": "3bfd8a9ad4aa79e4cf809fab1cf133e0ceb43c89e80dc6eff47405f27cbf779f",
+        "mvid": "f504d2f9-3c3c-47c1-9632-6600de967e0d"
+      },
+      {
+        "fullName": "Microsoft.AspNetCore.Server.Kestrel.Core, Version=10.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60",
+        "path": "C:\\Program Files\\dotnet\\shared\\Microsoft.AspNetCore.App\\10.0.12\\Microsoft.AspNetCore.Server.Kestrel.Core.dll",
+        "sha256": "62b5ab79f5f896235e4068039450a15a7bcdb5bb4eb73f2f6bdf5a787d4cc239",
+        "mvid": "f52d264e-a8e7-441f-ab3f-3e35e6745db9"
+      }
+    ],
+    "sameRuntimeAssemblyHashesAcrossAllConsumers": true,
+    "actualServerType": "Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl, Microsoft.AspNetCore.Server.Kestrel.Core, Version=10.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60",
+    "testHostLoaded": false,
+    "privateHostPackageReferences": 0,
+    "privateHostProjectReferences": 0,
+    "privateHostDllPath": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v5-http-runtime/attempt-01/host/bin/Release/net10.0/HttpRuntimeProbe.dll",
+    "privateHostDllSha256": "4e30bdef16be0161812765808e70e694ff4ffdf9fb12d58764dceca78524a8ec",
+    "privateHostPdbSha256": "468de6efba116485df3d1409d70c1fb1db86fbf8615e813729d1228cec4631ed",
+    "hostLsp": "No diagnostics found",
+    "hostCompileExitCode": 0,
+    "hostWarnings": 0,
+    "hostErrors": 0
+  },
+  "consumerCount": 4,
+  "scenarioCases": 36,
+  "actualTcpRequests": 72,
+  "listenerTeardowns": 36,
+  "socketError": "ConnectionRefused",
+  "equivalence": "ApplicablefixedDTO/errororder/state/pricing/charge/scenario fields same across all4consumers; exactrawtitle differences retained, notbyteequalbody claim.",
+  "history": "Originalconsumer/source/assemblies/rounds unchanged. PrivateobserverfirstValueTaskwaiting falsefailure retained andcorrectedbeforeindependentchildcheck; parentcurrent36refusals separately verified. GetProcess missingIDs queryexit1 retained, finalCim enumeration correctexit0.",
+  "limits": "RuntimeQA only; aggregate20cohort/owner/materiality/release/original69acceptance stillpending."
+}

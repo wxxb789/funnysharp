@@ -1,0 +1,31 @@
+{
+  "baseAddress": "http://127.0.0.1:52820",
+  "placement": {
+    "status": 201,
+    "body": "{\"orderId\":\"ORD-1\",\"status\":\"Placed\",\"revision\":1,\"total\":27.10,\"currency\":\"EUR\",\"paymentReference\":null,\"trackingCode\":null}"
+  },
+  "reconciliation": {
+    "status": 500,
+    "contentType": "application/problem+json",
+    "body": "{\"type\":\"https://funnysharp.example/problems/history-diverged\",\"title\":\"Stored order history no longer replays\",\"status\":500,\"detail\":\"Replaying the Ship event diverged from the stored projection.\",\"failure\":\"HistoryDiverged\",\"traceId\":\"00-c428cf3f835b7ce5c1baa94b67f2cd3b-629bfef2ed1e754a-00\"}"
+  },
+  "openApi": {
+    "status": 200,
+    "responseCodes": [
+      "200",
+      "404",
+      "500",
+      "503"
+    ],
+    "typedFailure": {
+      "description": "Internal Server Error",
+      "content": {
+        "application/problem+json": {
+          "schema": {
+            "$ref": "#/components/schemas/ProblemDetails"
+          }
+        }
+      }
+    }
+  }
+}

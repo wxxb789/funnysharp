@@ -1,0 +1,240 @@
+{
+  "schema": "funnysharp-v5-append-only-grading-supplement-proof/v1",
+  "state": "NEW_REPLAY_AND_ACTUAL_RUNTIME_VERIFIED_ORIGINAL_COHORT_FAILURE_RETAINED",
+  "originalGeneration": {
+    "slot": "async-streams/idiomatic/run-1",
+    "sourceSha256": "8e02b9c31b7377525d39526a58fb992c7fa413bb12471df5f636b593597b906a",
+    "producer": {
+      "path": "eng/evaluation/results/audit-resolution-v5/async-streams/idiomatic/run-1/producer/0001.json",
+      "sha256": "a3336b320881fab7da63ddc2bf464ffd97b1225b6974bcf6173ea25f661e811f"
+    },
+    "invocation": {
+      "path": "eng/evaluation/results/audit-resolution-v5/async-streams/idiomatic/run-1/producer/0001-context/invocation.json",
+      "sha256": "6165a9c08ec39edd5a6b0a8585a87e67ba8cc29870edf7522bb0c7acc951bd48"
+    },
+    "newModelCalls": 0
+  },
+  "originalGrading": {
+    "exitCode": 1,
+    "missingTerminalReceipt": true,
+    "formalOriginalGreen": false,
+    "defenderDetection": "PUA:Win32/IdleBuddy",
+    "quarantinedOriginalBinaryNotReconstructed": true,
+    "sourceUnaffected": true,
+    "originalTreeFileCount": 80,
+    "originalTreeHashIssues": []
+  },
+  "replay": {
+    "path": "artifacts/audit-resolution/u12-v5-grading-recovery/async-streams-idiomatic-run-1/attempt-0001/replay",
+    "exitCode": 0,
+    "record": {
+      "task": "async-streams",
+      "style": "idiomatic",
+      "run": "replay",
+      "round": 1,
+      "compilation": {
+        "ok": true,
+        "errors": 0,
+        "buildSeconds": 9.5
+      },
+      "semanticCorrectness": {
+        "ok": true,
+        "total": 10,
+        "failed": 0,
+        "succeeded": 10,
+        "skipped": 0
+      },
+      "apiMisuse": {
+        "fsDiagnostics": []
+      },
+      "consumerLoc": 56,
+      "verdict": "GREEN",
+      "evidenceKind": "replay"
+    },
+    "receiptHashChecks": 355,
+    "receiptHashIssues": [],
+    "evidenceKind": "replay",
+    "newModelCalls": 0,
+    "newAiSamples": 0
+  },
+  "runtimeWitnesses": {
+    "firstFiltered": {
+      "exitCode": 0,
+      "cases": 10,
+      "pid": 38100,
+      "consumerSha": "f71a8f9e4d31c5e886249dbef230140339958983db6eefc334222b330b04f862",
+      "absenceNotClaimed": true
+    },
+    "completeCensus": {
+      "exitCode": 0,
+      "cases": 10,
+      "pid": 12564,
+      "consumer": {
+        "kind": "assembly-load",
+        "pid": 12564,
+        "name": "AsyncStreamsKit",
+        "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\u12-v5-grading-recovery\\async-streams-idiomatic-run-1\\attempt-0001\\replay\\rounds\\0001\\verification-assets\\bin\\Release\\net10.0\\AsyncStreamsKit.dll",
+        "mvid": "33b30023-fa9e-492c-8291-eb89bee68a6b",
+        "sha256": "f71a8f9e4d31c5e886249dbef230140339958983db6eefc334222b330b04f862",
+        "framework": ".NET 10.0.12",
+        "architecture": "X64"
+      },
+      "allLoadedAssemblyNames": [
+        "AsyncStreamsKit",
+        "Microsoft.Bcl.AsyncInterfaces",
+        "Microsoft.Testing.Platform",
+        "RuntimeObserver",
+        "System.Collections",
+        "System.Collections.Concurrent",
+        "System.Collections.Immutable",
+        "System.Console",
+        "System.Diagnostics.TraceSource",
+        "System.Diagnostics.Tracing",
+        "System.IO.Pipelines",
+        "System.Linq",
+        "System.Memory",
+        "System.Numerics.Vectors",
+        "System.Private.CoreLib",
+        "System.Private.Uri",
+        "System.Private.Xml",
+        "System.Private.Xml.Linq",
+        "System.Reflection.Emit.ILGeneration",
+        "System.Reflection.Emit.Lightweight",
+        "System.Reflection.Primitives",
+        "System.Runtime",
+        "System.Runtime.InteropServices",
+        "System.Runtime.Numerics",
+        "System.Security.Cryptography",
+        "System.Text.Encoding.Extensions",
+        "System.Text.Encodings.Web",
+        "System.Text.Json",
+        "System.Text.RegularExpressions",
+        "System.Threading",
+        "System.Threading.Tasks.Extensions",
+        "System.Threading.Thread",
+        "System.Threading.ThreadPool",
+        "System.Xml.ReaderWriter",
+        "System.Xml.XDocument",
+        "netstandard",
+        "xunit.v3.assert",
+        "xunit.v3.common",
+        "xunit.v3.core",
+        "xunit.v3.mtp-v2",
+        "xunit.v3.runner.common",
+        "xunit.v3.runner.inproc.console"
+      ],
+      "funnySharpLoaded": false,
+      "framework": ".NET 10.0.12",
+      "architecture": "X64",
+      "sourceUnchanged": true,
+      "passiveObserverNoConsumerRebuild": true
+    }
+  },
+  "validation": {
+    "actualMachineInputs": {
+      "sourceSha": "8e02b9c31b7377525d39526a58fb992c7fa413bb12471df5f636b593597b906a",
+      "rawSourceSha": "8e02b9c31b7377525d39526a58fb992c7fa413bb12471df5f636b593597b906a",
+      "manifestSha": "b1e81657bb82f022da0abfccd18dc87f0895e121a2f9ec894785bb263cd6c235",
+      "observedManifestSha": "b1e81657bb82f022da0abfccd18dc87f0895e121a2f9ec894785bb263cd6c235",
+      "originalExit": 1,
+      "originalMissing": true,
+      "replayEvidenceKind": "replay",
+      "replayTotal": 10,
+      "replayPassed": 10,
+      "replaySkipped": 0,
+      "replayExit": 0,
+      "assetsValid": true,
+      "runtimeConsumerSha": "f71a8f9e4d31c5e886249dbef230140339958983db6eefc334222b330b04f862",
+      "retainedConsumerSha": "f71a8f9e4d31c5e886249dbef230140339958983db6eefc334222b330b04f862",
+      "runtimePid": 12564,
+      "exitPid": 12564,
+      "allLoadedKnown": true,
+      "unexpectedFunnySharpLoaded": false,
+      "originalTreeUnchanged": true,
+      "producerKind": "ai",
+      "newModelCalls": 0,
+      "newAiSamples": 0
+    },
+    "predicateSource": "q=>q.sourceSha===q.rawSourceSha&&q.manifestSha===q.observedManifestSha&&q.originalExit===1&&q.originalMissing&&q.replayEvidenceKind==='replay'&&q.replayTotal===10&&q.replayPassed===10&&q.replaySkipped===0&&q.replayExit===0&&q.assetsValid&&q.runtimeConsumerSha===q.retainedConsumerSha&&q.runtimePid===q.exitPid&&q.runtimePid>0&&q.allLoadedKnown&&!q.unexpectedFunnySharpLoaded&&q.originalTreeUnchanged&&q.producerKind==='ai'&&q.newModelCalls===0&&q.newAiSamples===0",
+    "negativeControls": [
+      {
+        "field": "sourceSha",
+        "changedValue": "changed",
+        "rejected": true
+      },
+      {
+        "field": "observedManifestSha",
+        "changedValue": "changed",
+        "rejected": true
+      },
+      {
+        "field": "originalExit",
+        "changedValue": 0,
+        "rejected": true
+      },
+      {
+        "field": "originalMissing",
+        "changedValue": false,
+        "rejected": true
+      },
+      {
+        "field": "replayEvidenceKind",
+        "changedValue": "generation-verification",
+        "rejected": true
+      },
+      {
+        "field": "replaySkipped",
+        "changedValue": 1,
+        "rejected": true
+      },
+      {
+        "field": "assetsValid",
+        "changedValue": false,
+        "rejected": true
+      },
+      {
+        "field": "runtimeConsumerSha",
+        "changedValue": "changed",
+        "rejected": true
+      },
+      {
+        "field": "exitPid",
+        "changedValue": -1,
+        "rejected": true
+      },
+      {
+        "field": "allLoadedKnown",
+        "changedValue": false,
+        "rejected": true
+      },
+      {
+        "field": "unexpectedFunnySharpLoaded",
+        "changedValue": true,
+        "rejected": true
+      },
+      {
+        "field": "originalTreeUnchanged",
+        "changedValue": false,
+        "rejected": true
+      },
+      {
+        "field": "producerKind",
+        "changedValue": "manual",
+        "rejected": true
+      },
+      {
+        "field": "newAiSamples",
+        "changedValue": 1,
+        "rejected": true
+      }
+    ],
+    "all14Rejected": true,
+    "scope": "Machinebinding validation only; actualruntime evidence comes fromrealexecutions above."
+  },
+  "cleanup": {
+    "ownedDotnetPids": [],
+    "queryOutput": "(no output)"
+  },
+  "packageScope": "BCL-onlyidiomaticconsumer, noFunnySharpPackage orassemblyexpected/loaded; frozencommonstudypackages retained asprovenance only.",
+  "acceptance": "OriginalallGREENcohortcontract notretroactivelysatisfied.19formalGREEN190cases plus1samegenerationqualifiedsupplement10. Requiresattributableacceptance revision forcombinedqualifiedclaim, or independentlyregisteredstrictcohort. No inferenceofmaintainer/release/69finalacceptance."
+}

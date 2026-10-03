@@ -1,0 +1,19 @@
+  FunnySharp.Analyzers -> Q:\repos\funnysharp-goal24-resolution\src\FunnySharp.Analyzers\bin\Release\netstandard2.0\FunnySharp.Analyzers.dll
+  FunnySharp.Analyzers.CodeFixes -> Q:\repos\funnysharp-goal24-resolution\src\FunnySharp.Analyzers.CodeFixes\bin\Release\netstandard2.0\FunnySharp.Analyzers.CodeFixes.dll
+  FunnySharp -> Q:\repos\funnysharp-goal24-resolution\src\FunnySharp\bin\Release\net10.0\FunnySharp.dll
+  FunnySharp.AspNetCore -> Q:\repos\funnysharp-goal24-resolution\src\FunnySharp.AspNetCore\bin\Release\net10.0\FunnySharp.AspNetCore.dll
+  FunnySharp.Examples -> Q:\repos\funnysharp-goal24-resolution\examples\FunnySharp.Examples\bin\Release\net10.0\FunnySharp.Examples.dll
+  FunnySharp.Analyzers.Tests -> Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\bin\Release\net10.0\FunnySharp.Analyzers.Tests.dll
+  FunnySharp.Tests -> Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\bin\Release\net10.0\FunnySharp.Tests.dll
+  FunnySharp.DocumentationSamples -> Q:\repos\funnysharp-goal24-resolution\examples\FunnySharp.DocumentationSamples\bin\Release\net10.0\FunnySharp.DocumentationSamples.dll
+  FunnySharp.Benchmarks -> Q:\repos\funnysharp-goal24-resolution\benchmarks\FunnySharp.Benchmarks\bin\Release\net10.0\FunnySharp.Benchmarks.dll
+  FunnySharp.AspNetCore.Tests -> Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.AspNetCore.Tests\bin\Release\net10.0\FunnySharp.AspNetCore.Tests.dll
+  FunnySharp.AspNetCore.Examples -> Q:\repos\funnysharp-goal24-resolution\examples\FunnySharp.AspNetCore.Examples\bin\Release\net10.0\FunnySharp.AspNetCore.Examples.dll
+  FunnySharp.Harness -> Q:\repos\funnysharp-goal24-resolution\eng\harness\bin\Release\net10.0\FunnySharp.Harness.dll
+  FunnySharp.Harness.Tests -> Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Harness.Tests\bin\Release\net10.0\FunnySharp.Harness.Tests.dll
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:15.65

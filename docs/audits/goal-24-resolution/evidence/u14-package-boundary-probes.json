@@ -1,0 +1,187 @@
+{
+  "schemaVersion": 1,
+  "unit": "U14",
+  "status": "SOURCE_EXACT_SET_AND_PACKAGE_BOUNDARY_PROBES_PASS_NOT_COMPLETE_XML_SEMANTIC_ACCEPTANCE",
+  "sourceExactSet": {
+    "allExported": 499,
+    "sourceClassifiedExperimental": 31,
+    "stableSource": 468,
+    "joined": 468,
+    "missing": [],
+    "extra": [],
+    "all29SourceHashesMatch": true,
+    "packageExperimentalProjectionVerified": false
+  },
+  "sourceFiles": [
+    {
+      "path": "src/FunnySharp/Option.cs",
+      "matches": true
+    },
+    {
+      "path": "src/FunnySharp/OptionExtensions.cs",
+      "matches": true
+    },
+    {
+      "path": "src/FunnySharp/Result.cs",
+      "matches": true
+    },
+    {
+      "path": "src/FunnySharp/ResultExtensions.cs",
+      "matches": true
+    },
+    {
+      "path": "src/FunnySharp/UnitResult.cs",
+      "matches": true
+    },
+    {
+      "path": "src/FunnySharp/UnitResultExtensions.cs",
+      "matches": true
+    },
+    {
+      "path": "src/FunnySharp/Validation.cs",
+      "matches": true
+    },
+    {
+      "path": "src/FunnySharp/ValidationExtensions.cs",
+      "matches": true
+    },
+    {
+      "path": "src/FunnySharp/AsyncCardinalityExtensions.cs",
+      "matches": true
+    },
+    {
+      "path": "src/FunnySharp/AsyncEnumerablePipelineExtensions.cs",
+      "matches": true
+    },
+    {
+      "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+      "matches": true
+    },
+    {
+      "path": "src/FunnySharp/CardinalityExtensions.cs",
+      "matches": true
+    },
+    {
+      "path": "src/FunnySharp/ContainerExtensions.cs",
+      "matches": true
+    },
+    {
+      "path": "src/FunnySharp/EnumerablePipelineExtensions.cs",
+      "matches": true
+    },
+    {
+      "path": "src/FunnySharp/ExactZipExtensions.cs",
+      "matches": true
+    },
+    {
+      "path": "src/FunnySharp/NonEmpty.cs",
+      "matches": true
+    },
+    {
+      "path": "src/FunnySharp/ParseExtensions.cs",
+      "matches": true
+    },
+    {
+      "path": "src/FunnySharp/PartitionExtensions.cs",
+      "matches": true
+    },
+    {
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "matches": true
+    },
+    {
+      "path": "src/FunnySharp/SpanPipelineExtensions.cs",
+      "matches": true
+    },
+    {
+      "path": "src/FunnySharp/Effect.cs",
+      "matches": true
+    },
+    {
+      "path": "src/FunnySharp/EffectResourceExtensions.cs",
+      "matches": true
+    },
+    {
+      "path": "src/FunnySharp/ConcurrentEffectExtensions.cs",
+      "matches": true
+    },
+    {
+      "path": "src/FunnySharp/FunctionExtensions.cs",
+      "matches": true
+    },
+    {
+      "path": "src/FunnySharp/Optics.cs",
+      "matches": true
+    },
+    {
+      "path": "src/FunnySharp/ParallelAsyncEnumerableExtensions.cs",
+      "matches": true
+    },
+    {
+      "path": "src/FunnySharp/ParallelAsyncSequenceExtensions.cs",
+      "matches": true
+    },
+    {
+      "path": "src/FunnySharp/StateTransition.cs",
+      "matches": true
+    },
+    {
+      "path": "src/FunnySharp/StateMachine.cs",
+      "matches": true
+    }
+  ],
+  "packageMetadata": {
+    "receipt": "artifacts/audit-resolution/u14-package-probes/attempt-01/package-inventory.json",
+    "exitCode": 0,
+    "types": 49,
+    "members": 499,
+    "stable": 468,
+    "experimental": 31,
+    "canonicalBaselineEquality": true
+  },
+  "packageProbes": {
+    "receipt": "artifacts/audit-resolution/u14-package-probes/attempt-01/contracts-02.json",
+    "total": 13,
+    "passed": 13,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "packageSources": [
+    {
+      "package": "funnysharp",
+      "data": {
+        "version": 2,
+        "contentHash": "hheXsCy6jl0XHzea68LV8Mx5JyUfRWQyQHsVCVzKOMykTF4fugzGpGcLC0eaYPOJhwA4omIiLRH5JzvHu6RXZg==",
+        "source": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\slice-harness-resume\\attempt-4\\feed"
+      }
+    },
+    {
+      "package": "funnysharp.aspnetcore",
+      "data": {
+        "version": 2,
+        "contentHash": "V2Gn1KVJztCsFsfR2z92kq6WUmpStVVU95c9IcBQlHF82dnbwtHrnZXpFUS6y0tF82F+bYqf2Pot37UO62kFUQ==",
+        "source": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\slice-harness-resume\\attempt-4\\feed"
+      }
+    }
+  ],
+  "matchingPackageAndRuntimeDlls": {
+    "FunnySharp": "37f4b3be823a254b5510c57f08e4e5127a7f7c0f567abe1144adc1b5a19d7fcc",
+    "AspNetCore": "6daebbbb5aa0f95945a211f438d96032ec5ec052682a9d086b042c60d9efd429"
+  },
+  "nupkgs": {
+    "FunnySharp": "fba1feaa30287ad94f7fcb60f87e170e1d2dd3ac6bb645e9b44a0cdc1029adb5",
+    "AspNetCore": "64cf0997334abc63e6522694a29a2d4a12404deb664377bc38b53b443d5400e7"
+  },
+  "retainedInfrastructureFailures": [
+    "First package probe build rejected5 omitted compiler cancellation tokens and duplicate package-cache Compile items; corrected without suppressing diagnostics.",
+    "First metadata script referenced test DLL rather than production harness DLL; compilation failure, no semantic verdict."
+  ],
+  "remaining": [
+    "Exact per-member Experimental identity join",
+    "Generated/plumbing XML aliases and18 stable implicit inheritdoc targets",
+    "Individually demonstrated shipped XML gaps",
+    "Complete per-member source/package/XML/compiler/runtime receipt joins",
+    "Final frozen-candidate replay"
+  ]
+}

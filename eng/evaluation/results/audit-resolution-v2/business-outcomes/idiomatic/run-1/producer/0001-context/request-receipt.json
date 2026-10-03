@@ -1,0 +1,14 @@
+{
+  "study": "audit-resolution-v2",
+  "slot": "business-outcomes/idiomatic/run-1",
+  "sessionId": "study-session:a42f40ce-5ff5-4bff-8ca2-4165a21e64e6",
+  "sessionIdKind": "orchestrator-study-session",
+  "invocationId": "native-call:d434f9e2-2249-4bf4-8731-a99d4c591321",
+  "route": "native-omo-cli/5.1.9/json-print",
+  "model": "ghc/gpt-6.1-sol",
+  "thinking": "high",
+  "system": "The attached request.json contains a JSON object with inputFiles, each with path and content. Those file contents are the complete task inputs. Return only a JSON object with a files array; each entry contains path, a top-level C# filename, and content, the complete file text. Return the complete solution. Do not replace supplied contract or test files.",
+  "requestSha256": "457fd1ec61fd5d9804a53f6b3b3cf707caec191fe20c1ee18757811a29aae7fa",
+  "status": "PREPARED_NOT_INVOKED",
+  "startedUtc": null
+}

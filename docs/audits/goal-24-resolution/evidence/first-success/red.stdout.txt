@@ -1,0 +1,162 @@
+Running tests from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\bin\Release\net10.0\FunnySharp.Tests.dll (net10.0|x64)
+failed FunnySharp.Tests.FirstSuccessTests.FirstSuccessRetainsAFaultAlreadyAccountedForBeforeARefilledCandidateWins (17ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\bin\Release\net10.0\FunnySharp.Tests.dll (net10.0|x64)
+  Assert.Throws() Failure: No exception was thrown
+  Expected: typeof(System.InvalidOperationException)
+    at FunnySharp.Tests.FirstSuccessTests.FirstSuccessRetainsAFaultAlreadyAccountedForBeforeARefilledCandidateWins() in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\FirstSuccessTests.cs:479
+    at FunnySharp.Tests.FirstSuccessTests.FirstSuccessRetainsAFaultAlreadyAccountedForBeforeARefilledCandidateWins()
+    --- End of stack trace from previous location ---
+failed FunnySharp.Tests.FirstSuccessTests.LegacyFirstSuccessBoundsHeldCandidatesRefillsAfterFailureAndStopsAfterSelection (10ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\bin\Release\net10.0\FunnySharp.Tests.dll (net10.0|x64)
+  Assert.Equal() Failure: Values differ
+  Expected: 33
+  Actual:   1024
+    at FunnySharp.Tests.FirstSuccessTests.LegacyFirstSuccessBoundsHeldCandidatesRefillsAfterFailureAndStopsAfterSelection() in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\FirstSuccessTests.cs:455
+    at FunnySharp.Tests.FirstSuccessTests.LegacyFirstSuccessBoundsHeldCandidatesRefillsAfterFailureAndStopsAfterSelection() in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\FirstSuccessTests.cs:462
+    --- End of stack trace from previous location ---
+failed FunnySharp.Tests.FirstSuccessTests.FirstSuccessAsyncCancelsAndDrainsLosersAndObservesTheirFaultsBeforeReturning (6ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\bin\Release\net10.0\FunnySharp.Tests.dll (net10.0|x64)
+  Assert.Throws() Failure: No exception was thrown
+  Expected: typeof(System.InvalidOperationException)
+    at FunnySharp.Tests.FirstSuccessTests.FirstSuccessAsyncCancelsAndDrainsLosersAndObservesTheirFaultsBeforeReturning() in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\FirstSuccessTests.cs:179
+    --- End of stack trace from previous location ---
+failed FunnySharp.Tests.FirstSuccessTests.FirstSuccessStopsAdmissionWhenTheCallerCancelsBeforeOrDuringStartup(beforeStartup: True) (2ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\bin\Release\net10.0\FunnySharp.Tests.dll (net10.0|x64)
+  Assert.Equal() Failure: Values differ
+  Expected: 0
+  Actual:   1024
+    at FunnySharp.Tests.FirstSuccessTests.FirstSuccessStopsAdmissionWhenTheCallerCancelsBeforeOrDuringStartup(Boolean beforeStartup) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\FirstSuccessTests.cs:739
+    --- End of stack trace from previous location ---
+failed FunnySharp.Tests.FirstSuccessTests.FirstSuccessStopsAdmissionWhenTheCallerCancelsBeforeOrDuringStartup(beforeStartup: False) (0ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\bin\Release\net10.0\FunnySharp.Tests.dll (net10.0|x64)
+  Assert.Equal() Failure: Values differ
+  Expected: 1
+  Actual:   1024
+    at FunnySharp.Tests.FirstSuccessTests.FirstSuccessStopsAdmissionWhenTheCallerCancelsBeforeOrDuringStartup(Boolean beforeStartup) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\FirstSuccessTests.cs:739
+    --- End of stack trace from previous location ---
+failed FunnySharp.Tests.FirstSuccessTests.FirstSuccessRetainsAFaultedCancellationExceptionEvenWhenItUsesTheOperationToken (2ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\bin\Release\net10.0\FunnySharp.Tests.dll (net10.0|x64)
+  Assert.ThrowsAny() Failure: No exception was thrown
+  Expected: typeof(System.OperationCanceledException)
+    at FunnySharp.Tests.FirstSuccessTests.FirstSuccessRetainsAFaultedCancellationExceptionEvenWhenItUsesTheOperationToken() in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\FirstSuccessTests.cs:570
+    --- End of stack trace from previous location ---
+failed FunnySharp.Tests.FirstSuccessTests.FirstSuccessKeepsCancellationOrTimeoutPrimaryWithoutDroppingCandidateFaults(cancelCaller: False) (2ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\bin\Release\net10.0\FunnySharp.Tests.dll (net10.0|x64)
+  Assert.Throws() Failure: Exception type was not an exact match
+  Expected: typeof(System.AggregateException)
+  Actual:   typeof(System.TimeoutException)
+  ---- System.TimeoutException : The operation has timed out.
+    at FunnySharp.Tests.FirstSuccessTests.FirstSuccessKeepsCancellationOrTimeoutPrimaryWithoutDroppingCandidateFaults(Boolean cancelCaller) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\FirstSuccessTests.cs:691
+    at FunnySharp.Tests.FirstSuccessTests.FirstSuccessKeepsCancellationOrTimeoutPrimaryWithoutDroppingCandidateFaults(Boolean cancelCaller)
+    --- End of stack trace from previous location ---
+    ----- Inner Stack Trace -----
+    at FunnySharp.ConcurrentEffectExtensions.ThrowPostDrainFailure(CancellationToken cancellationToken, Exception primaryFailure, Exception cleanupFailure) in Q:\repos\funnysharp-goal24-resolution\src\FunnySharp\ConcurrentEffectExtensions.cs:346
+    at FunnySharp.ConcurrentEffectExtensions.FirstSuccessAsyncCore[TValue,TError](Effect`1[] effects, CancellationToken cancellationToken, CancellationTokenSource timeoutCancellationSource) in Q:\repos\funnysharp-goal24-resolution\src\FunnySharp\ConcurrentEffectExtensions.cs:261
+    at FunnySharp.Tests.FirstSuccessTests.AwaitFirstSuccessAsync(IEnumerable`1 effects, TimeSpan timeout, TimeProvider timeProvider, CancellationToken cancellationToken) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\FirstSuccessTests.cs:832
+failed FunnySharp.Tests.FirstSuccessTests.FirstSuccessKeepsCancellationOrTimeoutPrimaryWithoutDroppingCandidateFaults(cancelCaller: True) (1ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\bin\Release\net10.0\FunnySharp.Tests.dll (net10.0|x64)
+  Assert.Throws() Failure: Exception type was not an exact match
+  Expected: typeof(System.AggregateException)
+  Actual:   typeof(System.OperationCanceledException)
+  ---- System.OperationCanceledException : The operation was canceled.
+    at FunnySharp.Tests.FirstSuccessTests.FirstSuccessKeepsCancellationOrTimeoutPrimaryWithoutDroppingCandidateFaults(Boolean cancelCaller) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\FirstSuccessTests.cs:691
+    at FunnySharp.Tests.FirstSuccessTests.FirstSuccessKeepsCancellationOrTimeoutPrimaryWithoutDroppingCandidateFaults(Boolean cancelCaller)
+    --- End of stack trace from previous location ---
+    ----- Inner Stack Trace -----
+    at FunnySharp.ConcurrentEffectExtensions.ThrowPostDrainFailure(CancellationToken cancellationToken, Exception primaryFailure, Exception cleanupFailure) in Q:\repos\funnysharp-goal24-resolution\src\FunnySharp\ConcurrentEffectExtensions.cs:346
+    at FunnySharp.ConcurrentEffectExtensions.FirstSuccessAsyncCore[TValue,TError](Effect`1[] effects, CancellationToken cancellationToken, CancellationTokenSource timeoutCancellationSource) in Q:\repos\funnysharp-goal24-resolution\src\FunnySharp\ConcurrentEffectExtensions.cs:261
+    at FunnySharp.Tests.FirstSuccessTests.AwaitFirstSuccessAsync(IEnumerable`1 effects, TimeSpan timeout, TimeProvider timeProvider, CancellationToken cancellationToken) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\FirstSuccessTests.cs:832
+failed FunnySharp.Tests.FirstSuccessTests.FirstSuccessRetainsEveryExceptionRepresentedByASourceTask(hasWinner: False) (2ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\bin\Release\net10.0\FunnySharp.Tests.dll (net10.0|x64)
+  Assert.Throws() Failure: Exception type was not an exact match
+  Expected: typeof(System.AggregateException)
+  Actual:   typeof(System.InvalidOperationException)
+  ---- System.InvalidOperationException : first
+    at FunnySharp.Tests.FirstSuccessTests.FirstSuccessRetainsEveryExceptionRepresentedByASourceTask(Boolean hasWinner) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\FirstSuccessTests.cs:510
+    --- End of stack trace from previous location ---
+    ----- Inner Stack Trace -----
+    at FunnySharp.ConcurrentEffectExtensions.FirstSuccessAsyncCore[TValue,TError](Effect`1[] effects, CancellationToken cancellationToken, CancellationTokenSource timeoutCancellationSource) in Q:\repos\funnysharp-goal24-resolution\src\FunnySharp\ConcurrentEffectExtensions.cs:177
+    at FunnySharp.ConcurrentEffectExtensions.ThrowFailures(IReadOnlyList`1 faults) in Q:\repos\funnysharp-goal24-resolution\src\FunnySharp\ConcurrentEffectExtensions.cs:385
+    at FunnySharp.ConcurrentEffectExtensions.FirstSuccessAsyncCore[TValue,TError](Effect`1[] effects, CancellationToken cancellationToken, CancellationTokenSource timeoutCancellationSource) in Q:\repos\funnysharp-goal24-resolution\src\FunnySharp\ConcurrentEffectExtensions.cs:275
+    at FunnySharp.Tests.FirstSuccessTests.AwaitFirstSuccessAsync(IEnumerable`1 effects, CancellationToken cancellationToken) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\FirstSuccessTests.cs:825
+failed FunnySharp.Tests.FirstSuccessTests.FirstSuccessRetainsEveryExceptionRepresentedByASourceTask(hasWinner: True) (0ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\bin\Release\net10.0\FunnySharp.Tests.dll (net10.0|x64)
+  Assert.Throws() Failure: No exception was thrown
+  Expected: typeof(System.AggregateException)
+    at FunnySharp.Tests.FirstSuccessTests.FirstSuccessRetainsEveryExceptionRepresentedByASourceTask(Boolean hasWinner) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\FirstSuccessTests.cs:510
+    --- End of stack trace from previous location ---
+failed FunnySharp.Tests.FirstSuccessTests.FirstSuccessStopsAdmissionWhenTheTimeoutExpiresDuringStartup (1ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\bin\Release\net10.0\FunnySharp.Tests.dll (net10.0|x64)
+  Assert.Equal() Failure: Values differ
+  Expected: 1
+  Actual:   1024
+    at FunnySharp.Tests.FirstSuccessTests.FirstSuccessStopsAdmissionWhenTheTimeoutExpiresDuringStartup() in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\FirstSuccessTests.cs:759
+    --- End of stack trace from previous location ---
+failed FunnySharp.Tests.FirstSuccessTests.FirstSuccessRetainsEarlierDrainAndCancellationCallbackFaultsTogether (10ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\bin\Release\net10.0\FunnySharp.Tests.dll (net10.0|x64)
+  Assert.Equal() Failure: Collections differ
+             ↓ (pos 0, type System.InvalidOperationException)
+  Expected: [System.InvalidOperationException: earlier
+     at FunnySharp.ConcurrentEffectExtensions.FirstSuccessAsyncCore[TValue,TError](Effect`1[] effects, CancellationToken cancellationToken, CancellationTokenSource timeoutCancellationSource) in Q:\repos\funnysharp-goal24-resolution\src\FunnySharp\ConcurrentEffectExtensions.cs:line 177, System.ArgumentException: first drain
+     at FunnySharp.ConcurrentEffectExtensions.CancelAndDrainAsync[TValue,TError](IReadOnlyCollection`1 tasks, CancellationTokenSource operationCancellationSource) in Q:\repos\funnysharp-goal24-resolution\src\FunnySharp\ConcurrentEffectExtensions.cs:line 316, System.NotSupportedException: second drain, System.ApplicationException: callback
+     at FunnySharp.Tests.FirstSuccessTests.<>c__DisplayClass25_0.<FirstSuccessRetainsEarlierDrainAndCancellationCallbackFaultsTogether>b__3() in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\FirstSuccessTests.cs:line 637
+     at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+  --- End of stack trace from previous location ---
+     at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+     at System.Threading.CancellationTokenSource.ExecuteCallbackHandlers(Boolean throwOnFirstException)]
+  Actual:   [System.ApplicationException: callback
+     at FunnySharp.Tests.FirstSuccessTests.<>c__DisplayClass25_0.<FirstSuccessRetainsEarlierDrainAndCancellationCallbackFaultsTogether>b__3() in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\FirstSuccessTests.cs:line 637
+     at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+  --- End of stack trace from previous location ---
+     at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+     at System.Threading.CancellationTokenSource.ExecuteCallbackHandlers(Boolean throwOnFirstException)]
+             ↑ (pos 0, type System.ApplicationException)
+    at FunnySharp.Tests.FirstSuccessTests.FirstSuccessRetainsEarlierDrainAndCancellationCallbackFaultsTogether() in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\FirstSuccessTests.cs:647
+    --- End of stack trace from previous location ---
+failed FunnySharp.Tests.FirstSuccessTests.LegacyFirstSuccessOverloadsAdmitOnlyThirtyTwoOf1024SynchronousSuccesses(overload: 0) (21ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\bin\Release\net10.0\FunnySharp.Tests.dll (net10.0|x64)
+  Assert.Equal() Failure: Collections differ
+  Expected: RangeIterator<int> [···, 30, 31]
+  Actual:   List<int>          [···, 30, 31, 32, 33, 34, ···]
+                                             ↑ (pos 32)
+    at FunnySharp.Tests.FirstSuccessTests.LegacyFirstSuccessOverloadsAdmitOnlyThirtyTwoOf1024SynchronousSuccesses(Int32 overload) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\FirstSuccessTests.cs:439
+    --- End of stack trace from previous location ---
+failed FunnySharp.Tests.FirstSuccessTests.LegacyFirstSuccessOverloadsAdmitOnlyThirtyTwoOf1024SynchronousSuccesses(overload: 1) (1ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\bin\Release\net10.0\FunnySharp.Tests.dll (net10.0|x64)
+  Assert.Equal() Failure: Collections differ
+  Expected: RangeIterator<int> [···, 30, 31]
+  Actual:   List<int>          [···, 30, 31, 32, 33, 34, ···]
+                                             ↑ (pos 32)
+    at FunnySharp.Tests.FirstSuccessTests.LegacyFirstSuccessOverloadsAdmitOnlyThirtyTwoOf1024SynchronousSuccesses(Int32 overload) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\FirstSuccessTests.cs:439
+    --- End of stack trace from previous location ---
+failed FunnySharp.Tests.FirstSuccessTests.LegacyFirstSuccessOverloadsAdmitOnlyThirtyTwoOf1024SynchronousSuccesses(overload: 2) (0ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\bin\Release\net10.0\FunnySharp.Tests.dll (net10.0|x64)
+  Assert.Equal() Failure: Collections differ
+  Expected: RangeIterator<int> [···, 30, 31]
+  Actual:   List<int>          [···, 30, 31, 32, 33, 34, ···]
+                                             ↑ (pos 32)
+    at FunnySharp.Tests.FirstSuccessTests.LegacyFirstSuccessOverloadsAdmitOnlyThirtyTwoOf1024SynchronousSuccesses(Int32 overload) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\FirstSuccessTests.cs:439
+    --- End of stack trace from previous location ---
+failed FunnySharp.Tests.FirstSuccessTests.FirstSuccessAwaitsRealUsingAsyncDisposalAndPropagatesItsFailureAfterAWinner (12ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\bin\Release\net10.0\FunnySharp.Tests.dll (net10.0|x64)
+  Assert.Throws() Failure: No exception was thrown
+  Expected: typeof(System.InvalidOperationException)
+    at FunnySharp.Tests.FirstSuccessTests.FirstSuccessAwaitsRealUsingAsyncDisposalAndPropagatesItsFailureAfterAWinner() in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\FirstSuccessTests.cs:603
+    at FunnySharp.Tests.FirstSuccessTests.FirstSuccessAwaitsRealUsingAsyncDisposalAndPropagatesItsFailureAfterAWinner()
+    --- End of stack trace from previous location ---
+failed FunnySharp.Tests.FirstSuccessTests.FirstSuccessDoesNotHideUnrelatedSourceCancellationBehindAWinner (1ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\bin\Release\net10.0\FunnySharp.Tests.dll (net10.0|x64)
+  Assert.ThrowsAny() Failure: No exception was thrown
+  Expected: typeof(System.OperationCanceledException)
+    at FunnySharp.Tests.FirstSuccessTests.FirstSuccessDoesNotHideUnrelatedSourceCancellationBehindAWinner() in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\FirstSuccessTests.cs:543
+    --- End of stack trace from previous location ---
+Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\bin\Release\net10.0\FunnySharp.Tests.dll (net10.0|x64) failed with 17 error(s) (1s 806ms)
+Exit code: 2
+
+Test run summary: Failed!
+  total: 36
+  failed: 17
+  succeeded: 19
+  skipped: 0
+  duration: 2s 402ms
+Test run completed with non-success exit code: 2 (see: https://aka.ms/testingplatform/exitcodes)

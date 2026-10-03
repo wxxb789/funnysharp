@@ -1,0 +1,738 @@
+diff --git i/docs/analyzers.md w/docs/analyzers.md
+index 762b9ef..f3de169 100644
+--- i/docs/analyzers.md
++++ w/docs/analyzers.md
+@@ -17,7 +17,7 @@ itself: no separate package, no separate version, and new rules are tracked in
+ | ID | Severity | Title | Code fix |
+ | --- | --- | --- | --- |
+ | FS1001 | error | Do not create a FunnySharp carrier with default or new() | none (intent-dependent) |
+-| FS1002 | warning | Do not silently discard a FunnySharp outcome | make the discard explicit with `_ =` |
++| FS1002 | warning | Do not silently discard a FunnySharp outcome | make the discard explicit with `_ =` only when it binds as a discard |
+ | FS1003 | warning | Use the Boolean result of a FunnySharp TryGet* member | none (branch intent unknown) |
+ | FS1004 | warning | Await the ValueTask returned by FunnySharp instead of blocking on it | none (await needs an async context) |
+ | FS1005 | warning | Use UsingAsync for a resource that implements IAsyncDisposable | rename `Using` to `UsingAsync` |
+@@ -48,7 +48,7 @@ Result<int, string> result = Result<int, string>.Success(42);
+ ```
+ 
+ Reported forms: `default`, `default(T)`, `default!`, parameterless `new()` /
+-`new Result<...>()`, and default-valued optional parameters. Deliberately excluded, because their
++`new Result<...>()` including empty object initializers, and default-valued optional parameters. Deliberately excluded, because their
+ defaults are valid: `Option<T>` (default is `None`) and `TransitionResult` (default is
+ `Undefined`). Array creation is not reported: array elements are write targets, and a read of an
+ unwritten element still fails at run time. Unassigned fields are not reported either: constructor
+@@ -80,7 +80,8 @@ Result<Order, CheckoutError> saved = checkout.Save();
+ 
+ A `Task`/``ValueTask`` of an outcome is equally reported, awaited or not, from any method, and an
+ unawaited `Task`/``ValueTask`` of any payload is reported when the invoked member belongs to
+-FunnySharp, because for FunnySharp members the work never runs at all without the await:
++FunnySharp. The work may already have started or completed; abandoning the awaitable drops
++completion, outcome, and exception observation:
+ 
+ <!-- documentation-sample: DocumentationSamples.Analyzers.DiscardedAsyncWork -->
+ ```csharp
+@@ -93,8 +94,13 @@ documented purpose is to observe a value and return it — stay callable as stat
+ FunnySharp member whose payload is not an outcome stays quiet: the work ran and discarding a
+ non-outcome value is the author's choice.
+ 
+-The code fix makes the discard explicit; it does not decide what the discarded outcome should
+-mean. The documented escape hatch for a deliberate fire-and-forget is a scoped suppression:
++The code fix makes the discard explicit only when the candidate assignment semantically targets
++a discard. An underscore can instead name a local, parameter, captured variable, or member;
++the automatic fix is withheld in that case so it cannot change that variable or break compilation.
++Safe fixes preserve the awaited expression and statement/semicolon comments, and Fix All leaves
++unsafe sites diagnosed. The fix does not decide what the discarded outcome should mean.
++Awaiting an outcome without consuming its result still drops the semantic outcome. The documented
++escape hatch for a deliberate fire-and-forget is a scoped suppression:
+ 
+ <!-- documentation-sample: DocumentationSamples.Analyzers.DiscardedOutcomeSuppression -->
+ ```csharp
+@@ -149,7 +155,14 @@ var value = await option.MapValueAsync(number => ValueTask.FromResult(number));
+ 
+ Reported are `ValueTask<T>` values whose payload is a FunnySharp outcome — regardless of where
+ the value came from, including values stored in intermediate variables — plus any ValueTask
+-produced directly by a FunnySharp member. Blocking a `Task` (including `vt.AsTask().Result`)
++produced directly by a FunnySharp member. A locally proven `IsCompletedSuccessfully` fast path
++is quiet when it reads the same stable local or by-value parameter and consumes that value at most
++once on every reachable path. The proof covers ordinary branches, early returns, and mutually
++exclusive conditional extraction/await paths. Reassignment, aliases, captures, unknown consuming
++calls, mutable fields/properties, by-reference values, loops, and exception regions are outside
++that local proof and retain the warning; `IsCompleted` alone does not establish successful
++completion. This is not a general or interprocedural ValueTask lifetime analyzer.
++Blocking a `Task` (including `vt.AsTask().Result`)
+ stays quiet: that is the general sync-over-async concern rather than FunnySharp's
+ single-consumption contract, and a Task can be blocked safely in narrow contexts. No code fix:
+ converting a blocking access into an await requires an async context the fix cannot invent.
+@@ -218,11 +231,13 @@ here so the boundary is deliberate:
+   `src/FunnySharp.Analyzers/AnalyzerReleases.Unshipped.md` until the package version containing
+   it ships, when it moves to `AnalyzerReleases.Shipped.md` with that version. The Roslyn
+   reference floor is 4.14 (the .NET 10 SDK); raising it is a deliberate, recorded decision.
+-- Measured maintenance surface at delivery: 932 analyzer/code-fix lines of code across 10 files,
++- Historical Goal 21 maintenance surface at delivery: 932 analyzer/code-fix lines of code across 10 files,
+   five diagnostics, two code fixes, and 73 tests (1,577 test lines) covering every reported form,
+   every quiet form, the suppressions, both fixes, the embedding invariant, and the clean analysis
+   of all three example projects. Ordinary rule changes touch one analyzer plus its test file; the
+-  suite runs with the repository tests in about 15 seconds.
++  suite timing describes that historical run, not a current guarantee. The Goal 24 repair evidence
++  records the current reported/quiet-path and packaged-provider regressions separately under
++  [audit resolution](audits/goal-24-resolution/findings.json).
+ - `tests/FunnySharp.Analyzers.Tests` covers every diagnostic (reported forms, quiet forms,
+   suppressions, severities), both code fixes, the package-embedding invariant, and compiles the
+   repository's example projects with the analyzers to prove ordinary code stays quiet.
+diff --git i/src/FunnySharp.Analyzers/AnalyzerReleases.Unshipped.md w/src/FunnySharp.Analyzers/AnalyzerReleases.Unshipped.md
+index e2b9094..43eb4c8 100644
+--- i/src/FunnySharp.Analyzers/AnalyzerReleases.Unshipped.md
++++ w/src/FunnySharp.Analyzers/AnalyzerReleases.Unshipped.md
+@@ -5,8 +5,8 @@
+ 
+ Rule ID | Category | Severity | Notes
+ --------|----------|----------|-------
+-FS1001  | FunnySharp | Error   | A carrier with no valid default was created through default or new() (Goal 21).
+-FS1002  | FunnySharp | Warning | A FunnySharp outcome value was silently discarded as a statement (Goal 21).
++FS1001  | FunnySharp | Error   | A carrier with no valid default was created through default or parameterless new(), including an empty object initializer (Goal 21).
++FS1002  | FunnySharp | Warning | A FunnySharp outcome value was silently discarded; its code fix requires a true discard target (Goal 21).
+ FS1003  | FunnySharp | Warning | The Boolean presence result of a FunnySharp TryGet* member was ignored (Goal 21).
+-FS1004  | FunnySharp | Warning | A ValueTask returned by a FunnySharp member was blocked instead of awaited (Goal 21).
++FS1004  | FunnySharp | Warning | A relevant ValueTask is accessed without a completed-success, single-consumption local proof (Goal 21).
+ FS1005  | FunnySharp | Warning | A resource that also implements IAsyncDisposable was scoped with the synchronous Using (Goal 21).
+diff --git i/src/FunnySharp.Analyzers/BlockedValueTaskAnalyzer.cs w/src/FunnySharp.Analyzers/BlockedValueTaskAnalyzer.cs
+index 271d686..d7e12bd 100644
+--- i/src/FunnySharp.Analyzers/BlockedValueTaskAnalyzer.cs
++++ w/src/FunnySharp.Analyzers/BlockedValueTaskAnalyzer.cs
+@@ -1,9 +1,16 @@
+ namespace FunnySharp.Analyzers;
+ 
++using System;
++using System.Collections.Generic;
+ using System.Collections.Immutable;
++using System.Linq;
++using System.Runtime.CompilerServices;
++using System.Threading;
+ using Microsoft.CodeAnalysis;
+ using Microsoft.CodeAnalysis.Diagnostics;
++using Microsoft.CodeAnalysis.FlowAnalysis;
+ using Microsoft.CodeAnalysis.Operations;
++using Microsoft.CodeAnalysis.Text;
+ 
+ /// <summary>
+ /// Reports blocking access to a ValueTask that carries a FunnySharp outcome or was produced by a
+@@ -12,8 +19,10 @@ using Microsoft.CodeAnalysis.Operations;
+ /// <remarks>
+ /// FunnySharp's <c>*ValueAsync</c> members return <c>ValueTask&lt;TResult&gt;</c> under the
+ /// documented single-consumption rule, and the underlying value may be backed by pooled resources.
+-/// Reading <c>Result</c> or calling <c>GetAwaiter().GetResult()</c> on such a ValueTask blocks and
+-/// may consume it without a proper await. Reported are <c>ValueTask&lt;T&gt;</c> values whose
++/// Reading <c>Result</c> or calling <c>GetAwaiter().GetResult()</c> on such a ValueTask may block or
++/// consume it incorrectly. A proven successfully completed, single-consumption local or by-value
++/// parameter path is exempt; mutable, escaped, repeating, and unsupported paths remain diagnosed.
++/// Reported are <c>ValueTask&lt;T&gt;</c> values whose
+ /// payload is a FunnySharp outcome — regardless of where the value came from — and any ValueTask
+ /// produced directly by a FunnySharp member. Blocking a Task, and the general sync-over-async
+ /// hazard, stay outside this diagnostic's low-false-positive scope.
+@@ -38,36 +47,70 @@ public sealed class BlockedValueTaskAnalyzer : DiagnosticAnalyzer
+                 return;
+             }
+ 
++            var proofs = new ConditionalWeakTable<IOperation, Lazy<ImmutableHashSet<TextSpan>>>();
+             startContext.RegisterOperationAction(
+-                operationContext => AnalyzePropertyReference(operationContext, types),
+-                OperationKind.PropertyReference);
+-            startContext.RegisterOperationAction(
+-                operationContext => AnalyzeInvocation(operationContext, types),
++                operationContext => Analyze(operationContext, types, proofs),
++                OperationKind.PropertyReference,
+                 OperationKind.Invocation);
+         });
+     }
+ 
+-    private static void AnalyzePropertyReference(OperationAnalysisContext context, FunnySharpWellKnownTypes types)
++    private static void Analyze(
++        OperationAnalysisContext context,
++        FunnySharpWellKnownTypes types,
++        ConditionalWeakTable<IOperation, Lazy<ImmutableHashSet<TextSpan>>> proofs)
+     {
+-        var reference = (IPropertyReferenceOperation)context.Operation;
+-        if (reference.Property.Name == "Result" &&
+-            types.IsValueTask(reference.Property.ContainingType) &&
+-            IsBlockedValueTask(reference.Instance, types))
++        var value = GetBlockingReceiver(context.Operation, types, out var blockedMember);
++        if (!IsBlockedValueTask(value, types))
+         {
+-            Report(context, "Result");
++            return;
+         }
++
++        if (GetSymbol(value) is not null)
++        {
++            var root = context.Operation;
++            while (root.Parent is { } parent)
++            {
++                root = parent;
++            }
++
++            var cancellationToken = context.CancellationToken;
++            var proof = proofs.GetValue(root, body =>
++                new Lazy<ImmutableHashSet<TextSpan>>(
++                    () => FindCompletedAccesses(body, types, cancellationToken)));
++            if (proof.Value.Contains(context.Operation.Syntax.Span))
++            {
++                return;
++            }
++        }
++
++        Report(context, blockedMember!);
+     }
+ 
+-    private static void AnalyzeInvocation(OperationAnalysisContext context, FunnySharpWellKnownTypes types)
++    private static IOperation? GetBlockingReceiver(
++        IOperation operation,
++        FunnySharpWellKnownTypes types,
++        out string? blockedMember)
+     {
+-        var invocation = (IInvocationOperation)context.Operation;
+-        if (invocation.TargetMethod.Name == "GetResult" &&
+-            invocation.Instance is IInvocationOperation getAwaiterCall &&
+-            getAwaiterCall.TargetMethod.Name == "GetAwaiter" &&
+-            IsBlockedValueTask(getAwaiterCall.Instance, types))
++        if (operation is IPropertyReferenceOperation reference &&
++            reference.Property.Name == "Result" &&
++            types.IsValueTask(reference.Property.ContainingType))
+         {
+-            Report(context, "GetAwaiter().GetResult()");
++            blockedMember = "Result";
++            return reference.Instance;
+         }
++
++        if (operation is IInvocationOperation invocation &&
++            invocation.TargetMethod.Name == "GetResult" &&
++            invocation.Instance is IInvocationOperation getAwaiterCall &&
++            getAwaiterCall.TargetMethod.Name == "GetAwaiter")
++        {
++            blockedMember = "GetAwaiter().GetResult()";
++            return getAwaiterCall.Instance;
++        }
++
++        blockedMember = null;
++        return null;
+     }
+ 
+     private static bool IsBlockedValueTask(IOperation? value, FunnySharpWellKnownTypes types)
+@@ -82,6 +125,314 @@ public sealed class BlockedValueTaskAnalyzer : DiagnosticAnalyzer
+                 types.IsFunnySharpAssembly(producer.TargetMethod?.ContainingAssembly));
+     }
+ 
++    private static ImmutableHashSet<TextSpan> FindCompletedAccesses(
++        IOperation root,
++        FunnySharpWellKnownTypes types,
++        CancellationToken cancellationToken)
++    {
++        var operations = root.DescendantsAndSelf().ToImmutableArray();
++        if (operations.Any(operation => operation is ILoopOperation or ITryOperation or IInvalidOperation))
++        {
++            return ImmutableHashSet<TextSpan>.Empty;
++        }
++
++        var symbols = new HashSet<ISymbol>(SymbolEqualityComparer.Default);
++        foreach (var operation in operations)
++        {
++            var receiver = GetBlockingReceiver(operation, types, out _);
++            if (IsBlockedValueTask(receiver, types) && GetSymbol(receiver) is { } symbol)
++            {
++                symbols.Add(symbol);
++            }
++        }
++
++        symbols.RemoveWhere(symbol => !IsStable(symbol, operations, types));
++        if (symbols.Count == 0)
++        {
++            return ImmutableHashSet<TextSpan>.Empty;
++        }
++
++        // Unsupported roots keep the original diagnostic. No analysis failure grants an exemption.
++        ControlFlowGraph? graph = root switch
++        {
++            IMethodBodyOperation body => ControlFlowGraph.Create(body, cancellationToken),
++            IConstructorBodyOperation body => ControlFlowGraph.Create(body, cancellationToken),
++            IBlockOperation body => ControlFlowGraph.Create(body, cancellationToken),
++            _ => null,
++        };
++        if (graph is null)
++        {
++            return ImmutableHashSet<TextSpan>.Empty;
++        }
++
++        foreach (var block in graph.Blocks)
++        {
++            if (block.Predecessors.Any(branch => branch.Source.Ordinal >= block.Ordinal))
++            {
++                return ImmutableHashSet<TextSpan>.Empty;
++            }
++
++            for (ControlFlowRegion? region = block.EnclosingRegion; region is not null; region = region.EnclosingRegion)
++            {
++                if (region.Kind is not (ControlFlowRegionKind.Root or ControlFlowRegionKind.LocalLifetime))
++                {
++                    return ImmutableHashSet<TextSpan>.Empty;
++                }
++            }
++        }
++
++        var blockOperations = graph.Blocks.Select(block =>
++            block.Operations.SelectMany(operation => operation.DescendantsAndSelf())
++                .Concat(block.BranchValue is { } branchValue
++                    ? branchValue.DescendantsAndSelf()
++                    : Enumerable.Empty<IOperation>())
++                .ToImmutableArray()).ToImmutableArray();
++
++        // CFG operations are different instances. Consumption sites retain their kind and span,
++        // including when conditional results or configured awaitables move into flow captures.
++        var loweredSites = blockOperations.SelectMany(block => block)
++            .Select(operation => (operation.Kind, operation.Syntax.Span))
++            .ToImmutableHashSet();
++        var captures = new Dictionary<CaptureId, IOperation?>();
++        foreach (var capture in blockOperations.SelectMany(block => block).OfType<IFlowCaptureOperation>())
++        {
++            captures[capture.Id] = captures.ContainsKey(capture.Id) ? null : capture.Value;
++        }
++
++        var result = ImmutableHashSet.CreateBuilder<TextSpan>();
++        foreach (var symbol in symbols)
++        {
++            cancellationToken.ThrowIfCancellationRequested();
++            var consumptions = operations
++                .Where(operation => SymbolEqualityComparer.Default.Equals(
++                    GetSymbol(GetConsumedValue(operation, types)), symbol))
++                .Select(operation => (operation.Kind, operation.Syntax.Span))
++                .ToImmutableHashSet();
++
++            // An unrecognized lowering must not hide a prior or later consumption.
++            if (consumptions.IsSubsetOf(loweredSites))
++            {
++                result.UnionWith(ProveSingleConsumption(
++                    symbol, consumptions, graph, blockOperations, captures, types));
++            }
++        }
++
++        return result.ToImmutable();
++    }
++
++    private static ImmutableHashSet<TextSpan> ProveSingleConsumption(
++        ISymbol symbol,
++        ImmutableHashSet<(OperationKind Kind, TextSpan Span)> consumptions,
++        ControlFlowGraph graph,
++        ImmutableArray<ImmutableArray<IOperation>> blockOperations,
++        Dictionary<CaptureId, IOperation?> captures,
++        FunnySharpWellKnownTypes types)
++    {
++        var reached = new bool[graph.Blocks.Length];
++        var completedAt = new bool[graph.Blocks.Length];
++        var consumedAt = new bool[graph.Blocks.Length];
++        var proven = ImmutableHashSet.CreateBuilder<TextSpan>();
++        var uncompleted = new HashSet<TextSpan>();
++        reached[0] = true;
++
++        // Back edges and exception regions were excluded. A single forward pass therefore
++        // intersects completion facts and unions possible prior consumption at every join.
++        foreach (var block in graph.Blocks)
++        {
++            if (!block.IsReachable || !reached[block.Ordinal])
++            {
++                continue;
++            }
++
++            var completed = completedAt[block.Ordinal];
++            var consumed = consumedAt[block.Ordinal];
++            foreach (var operation in blockOperations[block.Ordinal])
++            {
++                if (!consumptions.Contains((operation.Kind, operation.Syntax.Span)))
++                {
++                    continue;
++                }
++
++                if (consumed)
++                {
++                    // This also withdraws exemptions for accesses earlier on the path.
++                    return ImmutableHashSet<TextSpan>.Empty;
++                }
++
++                if (completed)
++                {
++                    proven.Add(operation.Syntax.Span);
++                }
++                else
++                {
++                    uncompleted.Add(operation.Syntax.Span);
++                }
++
++                consumed = true;
++            }
++
++            var guard = GetCompletionTest(block.BranchValue, captures, types, out var completedWhenTrue);
++            foreach (var branch in new[] { block.FallThroughSuccessor, block.ConditionalSuccessor })
++            {
++                if (branch?.Destination is not { } destination)
++                {
++                    continue;
++                }
++
++                var nextCompleted = completed;
++                if (block.ConditionKind != ControlFlowConditionKind.None &&
++                    SymbolEqualityComparer.Default.Equals(guard, symbol))
++                {
++                    var takesTrue = branch.IsConditionalSuccessor ==
++                        (block.ConditionKind == ControlFlowConditionKind.WhenTrue);
++                    nextCompleted = takesTrue == completedWhenTrue;
++                }
++
++                var ordinal = destination.Ordinal;
++                if (reached[ordinal])
++                {
++                    completedAt[ordinal] &= nextCompleted;
++                    consumedAt[ordinal] |= consumed;
++                }
++                else
++                {
++                    reached[ordinal] = true;
++                    completedAt[ordinal] = nextCompleted;
++                    consumedAt[ordinal] = consumed;
++                }
++            }
++        }
++
++        proven.ExceptWith(uncompleted);
++        return proven.ToImmutable();
++    }
++
++    private static bool IsStable(
++        ISymbol symbol,
++        ImmutableArray<IOperation> operations,
++        FunnySharpWellKnownTypes types)
++    {
++        foreach (var operation in operations)
++        {
++            // A copied local is not a new owned value. Replacements are rejected below rather
++            // than carrying a completion fact from one value generation to another.
++            if (operation is IVariableDeclaratorOperation declarator &&
++                SymbolEqualityComparer.Default.Equals(declarator.Symbol, symbol) &&
++                declarator.Initializer?.Value is not (
++                    IInvocationOperation { TargetMethod.RefKind: RefKind.None } or
++                    IObjectCreationOperation or IDefaultValueOperation))
++            {
++                return false;
++            }
++
++            if (!SymbolEqualityComparer.Default.Equals(GetSymbol(operation), symbol))
++            {
++                continue;
++            }
++
++            for (var parent = operation.Parent; parent is not null; parent = parent.Parent)
++            {
++                if (parent is IAnonymousFunctionOperation or ILocalFunctionOperation)
++                {
++                    return false;
++                }
++            }
++
++            var use = operation.Parent;
++            if (use is IPropertyReferenceOperation property &&
++                property.Property.Name == "IsCompletedSuccessfully" &&
++                types.IsValueTask(property.Property.ContainingType) &&
++                ReferenceEquals(property.Instance, operation))
++            {
++                continue;
++            }
++
++            if (use is IInvocationOperation invocation &&
++                types.IsValueTask(invocation.TargetMethod.ContainingType) &&
++                invocation.TargetMethod.Name is "GetAwaiter" or "ConfigureAwait")
++            {
++                use = use.Parent;
++            }
++
++            // Everything else, including assignments, aliases, ref arguments, returns of the
++            // ValueTask itself and unknown calls, prevents a local single-consumption proof.
++            if (use is null || !ReferenceEquals(GetConsumedValue(use, types), operation))
++            {
++                return false;
++            }
++        }
++
++        return true;
++    }
++
++    private static IOperation? GetConsumedValue(IOperation operation, FunnySharpWellKnownTypes types)
++    {
++        if (operation is IAwaitOperation awaited)
++        {
++            return awaited.Operation is IInvocationOperation configured &&
++                configured.TargetMethod.Name == "ConfigureAwait" &&
++                types.IsValueTask(configured.TargetMethod.ContainingType)
++                    ? configured.Instance
++                    : awaited.Operation;
++        }
++
++        if (operation is IInvocationOperation invocation &&
++            invocation.TargetMethod.Name == "AsTask" &&
++            types.IsValueTask(invocation.TargetMethod.ContainingType))
++        {
++            return invocation.Instance;
++        }
++
++        return GetBlockingReceiver(operation, types, out _);
++    }
++
++    private static ISymbol? GetSymbol(IOperation? operation)
++    {
++        return operation switch
++        {
++            ILocalReferenceOperation { Local.RefKind: RefKind.None } local => local.Local,
++            IParameterReferenceOperation { Parameter.RefKind: RefKind.None } parameter => parameter.Parameter,
++            _ => null,
++        };
++    }
++
++    private static ISymbol? GetCompletionTest(
++        IOperation? operation,
++        Dictionary<CaptureId, IOperation?> captures,
++        FunnySharpWellKnownTypes types,
++        out bool completedWhenTrue)
++    {
++        operation = ResolveCapture(operation, captures);
++        completedWhenTrue = true;
++        if (operation is IUnaryOperation { OperatorKind: UnaryOperatorKind.Not, OperatorMethod: null } negated)
++        {
++            var symbol = GetCompletionTest(negated.Operand, captures, types, out completedWhenTrue);
++            completedWhenTrue = !completedWhenTrue;
++            return symbol;
++        }
++
++        return operation is IPropertyReferenceOperation property &&
++            property.Property.Name == "IsCompletedSuccessfully" &&
++            types.IsValueTask(property.Property.ContainingType)
++                ? GetSymbol(ResolveCapture(property.Instance, captures))
++                : null;
++    }
++
++    private static IOperation? ResolveCapture(
++        IOperation? operation,
++        Dictionary<CaptureId, IOperation?> captures)
++    {
++        while (operation is IFlowCaptureReferenceOperation capture)
++        {
++            if (!captures.TryGetValue(capture.Id, out operation))
++            {
++                return null;
++            }
++        }
++
++        return operation;
++    }
++
+     private static void Report(OperationAnalysisContext context, string blockedMember)
+     {
+         context.ReportDiagnostic(Diagnostic.Create(
+diff --git i/tests/FunnySharp.Analyzers.Tests/BlockedValueTaskAnalyzerTests.cs w/tests/FunnySharp.Analyzers.Tests/BlockedValueTaskAnalyzerTests.cs
+index de42646..ba5c924 100644
+--- i/tests/FunnySharp.Analyzers.Tests/BlockedValueTaskAnalyzerTests.cs
++++ w/tests/FunnySharp.Analyzers.Tests/BlockedValueTaskAnalyzerTests.cs
+@@ -1,5 +1,8 @@
+ namespace FunnySharp.Analyzers.Tests;
+ 
++using Microsoft.CodeAnalysis;
++using Microsoft.CodeAnalysis.Text;
++
+ public sealed class BlockedValueTaskAnalyzerTests
+ {
+     [Fact]
+@@ -97,6 +100,191 @@ public sealed class BlockedValueTaskAnalyzerTests
+             """);
+     }
+ 
++    [Theory]
++    [InlineData("if (pending.IsCompletedSuccessfully) return pending.Result; return await pending;")]
++    [InlineData("if (pending.IsCompletedSuccessfully) { return pending.Result; } else { return await pending; }")]
++    [InlineData("if (!pending.IsCompletedSuccessfully) return await pending; return pending.Result;")]
++    [InlineData("return pending.IsCompletedSuccessfully ? pending.Result : await pending;")]
++    [InlineData("if (pending.IsCompletedSuccessfully) return pending.GetAwaiter().GetResult(); return await pending;")]
++    [InlineData("if (!pending.IsCompletedSuccessfully) return await pending; if (choose) return pending.Result; return pending.GetAwaiter().GetResult();")]
++    [InlineData("if (pending.IsCompletedSuccessfully && choose) return pending.Result; return await pending;")]
++    [InlineData("return pending.IsCompletedSuccessfully ? pending.Result : await pending.ConfigureAwait(choose ? true : false);")]
++    [InlineData("return choose ? (pending.IsCompletedSuccessfully ? pending.Result : await pending) : (pending.IsCompletedSuccessfully ? pending.GetAwaiter().GetResult() : await pending);")]
++    public async Task CompletedParameterWithSingleConsumptionIsQuiet(string body)
++    {
++        await AnalyzerTestAssert.QuietAsync(
++            $$"""
++            using FunnySharp;
++            class C
++            {
++                async ValueTask<Option<int>> UseAsync(ValueTask<Option<int>> pending, bool choose)
++                {
++                    {{body}}
++                }
++            }
++            """);
++    }
++
++    [Theory]
++    [InlineData("pending.Result")]
++    [InlineData("pending.GetAwaiter().GetResult()")]
++    public async Task CompletedLocalWithSingleConsumptionIsQuiet(string access)
++    {
++        await AnalyzerTestAssert.QuietAsync(
++            $$"""
++            using FunnySharp;
++            class C
++            {
++                async ValueTask<Option<int>> UseAsync()
++                {
++                    var pending = Option.Some(1).MapValueAsync(number => ValueTask.FromResult(number));
++                    if (pending.IsCompletedSuccessfully)
++                    {
++                        return {{access}};
++                    }
++                    else
++                    {
++                        return await pending;
++                    }
++                }
++            }
++            """);
++    }
++
++    [Theory]
++    [InlineData("if (other.IsCompletedSuccessfully) { _ = pending.Result; }", "pending.Result")]
++    [InlineData("if (other.IsCompletedSuccessfully) { _ = pending.GetAwaiter().GetResult(); }", "pending.GetAwaiter().GetResult()")]
++    [InlineData("if (LoadAsync().IsCompletedSuccessfully) { _ = LoadAsync().Result; }", "LoadAsync().Result")]
++    [InlineData("if (!pending.IsCompletedSuccessfully) { _ = pending.Result; }", "pending.Result")]
++    [InlineData("_ = pending.IsCompletedSuccessfully ? await pending : pending.Result;", "pending.Result")]
++    [InlineData("if (pending.IsCompleted) { _ = pending.Result; }", "pending.Result")]
++    [InlineData("if (pending.IsCompletedSuccessfully) { pending = LoadAsync(); _ = pending.Result; }", "pending.Result")]
++    [InlineData("var local = LoadAsync(); if (local.IsCompletedSuccessfully) { local = LoadAsync(); _ = local.Result; }", "local.Result")]
++    [InlineData("if (pending.IsCompletedSuccessfully) { _ = pending.Result; } pending = LoadAsync();", "pending.Result")]
++    [InlineData("if (choose) { if (!pending.IsCompletedSuccessfully) return await pending; } _ = pending.Result;", "pending.Result")]
++    [InlineData("if (pending.IsCompletedSuccessfully) { _ = pending.Result; _ = pending.Result; }", "pending.Result", "pending.Result")]
++    [InlineData("if (pending.IsCompletedSuccessfully) { _ = pending.GetAwaiter().GetResult(); _ = pending.GetAwaiter().GetResult(); }", "pending.GetAwaiter().GetResult()", "pending.GetAwaiter().GetResult()")]
++    [InlineData("if (pending.IsCompletedSuccessfully) { _ = pending.Result; _ = await pending; }", "pending.Result")]
++    [InlineData("_ = await pending; if (pending.IsCompletedSuccessfully) { _ = pending.Result; }", "pending.Result")]
++    [InlineData("if (choose) { _ = await pending; } if (pending.IsCompletedSuccessfully) { _ = pending.Result; }", "pending.Result")]
++    [InlineData("if (pending.IsCompletedSuccessfully) { _ = pending.Result; _ = await pending.ConfigureAwait(choose ? true : false); }", "pending.Result")]
++    [InlineData("_ = await pending.ConfigureAwait(choose ? true : false); if (pending.IsCompletedSuccessfully) { _ = pending.Result; }", "pending.Result")]
++    [InlineData("_ = pending.AsTask(); if (pending.IsCompletedSuccessfully) { _ = pending.Result; }", "pending.Result")]
++    [InlineData("if (pending.IsCompletedSuccessfully) { _ = pending.Result; _ = pending.AsTask(); }", "pending.Result")]
++    [InlineData("_ = pending.GetAwaiter().GetResult(); if (pending.IsCompletedSuccessfully) { _ = pending.Result; }", "pending.GetAwaiter().GetResult()", "pending.Result")]
++    [InlineData("if (pending.IsCompletedSuccessfully) { _ = pending.Result; _ = pending.GetAwaiter().GetResult(); }", "pending.Result", "pending.GetAwaiter().GetResult()")]
++    [InlineData("var copy = pending; if (pending.IsCompletedSuccessfully) { _ = pending.Result; }", "pending.Result")]
++    [InlineData("var copy = pending; if (copy.IsCompletedSuccessfully) { _ = copy.Result; }", "copy.Result")]
++    [InlineData("if (pending.IsCompletedSuccessfully) { _ = pending.Result; } Store(pending);", "pending.Result")]
++    [InlineData("Store(pending); if (pending.IsCompletedSuccessfully) { _ = pending.Result; }", "pending.Result")]
++    [InlineData("Escape(ref pending); if (pending.IsCompletedSuccessfully) { _ = pending.Result; }", "pending.Result")]
++    [InlineData("Observe(in pending); if (pending.IsCompletedSuccessfully) { _ = pending.Result; }", "pending.Result")]
++    [InlineData("object boxed = pending; if (pending.IsCompletedSuccessfully) { _ = pending.Result; }", "pending.Result")]
++    [InlineData("Func<ValueTask<Option<int>>> capture = () => pending; if (pending.IsCompletedSuccessfully) { _ = pending.Result; }", "pending.Result")]
++    [InlineData("ValueTask<Option<int>> Capture() => pending; _ = Capture(); if (pending.IsCompletedSuccessfully) { _ = pending.Result; }", "pending.Result")]
++    [InlineData("Func<Option<int>> read = () => pending.IsCompletedSuccessfully ? pending.Result : Option.Some(0);", "pending.Result")]
++    [InlineData("while (choose && pending.IsCompletedSuccessfully) { _ = pending.Result; }", "pending.Result")]
++    [InlineData("try { if (pending.IsCompletedSuccessfully) { _ = pending.Result; } } finally { _ = await pending; }", "pending.Result")]
++    [InlineData("if (field.IsCompletedSuccessfully) { _ = field.Result; }", "field.Result")]
++    public async Task UnprovenFastPathsKeepExactDiagnostics(string body, params string[] accesses)
++    {
++        var source = $$"""
++            using FunnySharp;
++            class C
++            {
++                ValueTask<Option<int>> field;
++
++                static ValueTask<Option<int>> LoadAsync() => ValueTask.FromResult(Option.Some(1));
++                static void Store(ValueTask<Option<int>> value) { }
++                static void Escape(ref ValueTask<Option<int>> value) { }
++                static void Observe(in ValueTask<Option<int>> value) { }
++
++                async ValueTask<Option<int>> UseAsync(
++                    ValueTask<Option<int>> pending,
++                    ValueTask<Option<int>> other,
++                    bool choose)
++                {
++                    {{body}}
++                    return Option.Some(0);
++                }
++            }
++            """;
++
++        var diagnostics = (await AnalyzerTestAssert.AnalyzeAsync(source))
++            .OrderBy(diagnostic => diagnostic.Location.SourceSpan.Start)
++            .ToArray();
++
++        Assert.Equal(accesses.Length, diagnostics.Length);
++        var searchFrom = 0;
++        for (var index = 0; index < accesses.Length; index++)
++        {
++            var access = accesses[index];
++            var start = source.IndexOf(access, searchFrom, StringComparison.Ordinal);
++            Assert.True(start >= 0);
++            Assert.Equal("FS1004", diagnostics[index].Id);
++            Assert.Equal(DiagnosticSeverity.Warning, diagnostics[index].Severity);
++            Assert.Equal(new TextSpan(start, access.Length), diagnostics[index].Location.SourceSpan);
++            searchFrom = start + access.Length;
++        }
++    }
++
++    [Theory]
++    [InlineData("ref")]
++    [InlineData("in")]
++    [InlineData("ref readonly")]
++    public async Task ByReferenceParameterFastPathIsReported(string modifier)
++    {
++        await AnalyzerTestAssert.DiagnosticAsync(
++            $$"""
++            using FunnySharp;
++            class C
++            {
++                Option<int> Use({{modifier}} ValueTask<Option<int>> pending)
++                {
++                    if (pending.IsCompletedSuccessfully)
++                        return pending.Result;
++                    return Option.Some(0);
++                }
++            }
++            """,
++            "FS1004");
++    }
++
++    [Fact]
++    public async Task ByReferenceLocalFastPathIsReported()
++    {
++        await AnalyzerTestAssert.DiagnosticAsync(
++            """
++            using FunnySharp;
++            class C
++            {
++                Option<int> Use(ValueTask<Option<int>> input)
++                {
++                    ref var pending = ref input;
++                    if (pending.IsCompletedSuccessfully)
++                        return pending.Result;
++                    return Option.Some(0);
++                }
++            }
++            """,
++            "FS1004");
++    }
++
++    [Fact]
++    public async Task UnsupportedInitializerRootKeepsDiagnostic()
++    {
++        await AnalyzerTestAssert.DiagnosticAsync(
++            """
++            using FunnySharp;
++            class C
++            {
++                static readonly Func<ValueTask<Option<int>>, Option<int>> Read =
++                    pending => pending.IsCompletedSuccessfully ? pending.Result : Option.Some(0);
++            }
++            """,
++            "FS1004");
++    }
++
+     [Fact]
+     public async Task UserNonOutcomeValueTaskIsQuiet()
+     {

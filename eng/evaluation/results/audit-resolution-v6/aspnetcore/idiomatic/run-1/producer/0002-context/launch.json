@@ -1,0 +1,14 @@
+{
+  "study": "audit-resolution-v6",
+  "slot": "aspnetcore/idiomatic/run-1",
+  "sessionId": "study-session:a667d482-d977-45cc-b6be-179d3ed3a480",
+  "invocationId": "native-call:a75f864f-f440-42a9-b232-3bd4082e369e",
+  "requestedModel": "ghc/gpt-6.1-sol",
+  "route": "native-omo-cli/5.1.9/json-print",
+  "stdin": "closed",
+  "protocolSha256": "6c45ea6963b7789adfcbc2f2eec42bf60cbeb367e8cecd8e611030ed7b89d05b",
+  "requestSha256": "cfa5917132f05044d875c2eb82f7792ea7c3d36bb8f6bd1aa24d1a5add6acc3f",
+  "feedbackSha256": "9f4cef5ec00aa1e69d31a170c76b9c1d2ed424995a767a8bdf1537372cc887ad",
+  "priorReceiptSha256": "22a30173055f839ee6e355babc971ca86e9c21b02d85d2bbadf15bebc9f329ea",
+  "status": "PREPARED_NOT_CALLED"
+}

@@ -224,10 +224,10 @@ public sealed class UnitResultAsyncTests
         Assert.Same(taskBindFailure, await Assert.ThrowsAsync<InvalidOperationException>(() => taskBind));
         Assert.Same(
             valueMapFailure,
-            await Assert.ThrowsAsync<InvalidOperationException>(async () => await valueMap));
+            await Assert.ThrowsAsync<InvalidOperationException>(async () => { _ = await valueMap; }));
         Assert.Same(
             valueBindFailure,
-            await Assert.ThrowsAsync<InvalidOperationException>(async () => await valueBind));
+            await Assert.ThrowsAsync<InvalidOperationException>(async () => { _ = await valueBind; }));
     }
 
     [Fact]
@@ -260,17 +260,17 @@ public sealed class UnitResultAsyncTests
         var taskMapCancellation = await Assert.ThrowsAnyAsync<OperationCanceledException>(() => taskMap);
         var taskBindCancellation = await Assert.ThrowsAnyAsync<OperationCanceledException>(() => taskBind);
         var valueMapCancellation = await Assert.ThrowsAnyAsync<OperationCanceledException>(
-            async () => await valueMap);
+            async () => { _ = await valueMap; });
         var valueBindCancellation = await Assert.ThrowsAnyAsync<OperationCanceledException>(
-            async () => await valueBind);
+            async () => { _ = await valueBind; });
         var taskMapWithTokenCancellation = await Assert.ThrowsAnyAsync<OperationCanceledException>(
             () => taskMapWithToken);
         var taskBindWithTokenCancellation = await Assert.ThrowsAnyAsync<OperationCanceledException>(
             () => taskBindWithToken);
         var valueMapWithTokenCancellation = await Assert.ThrowsAnyAsync<OperationCanceledException>(
-            async () => await valueMapWithToken);
+            async () => { _ = await valueMapWithToken; });
         var valueBindWithTokenCancellation = await Assert.ThrowsAnyAsync<OperationCanceledException>(
-            async () => await valueBindWithToken);
+            async () => { _ = await valueBindWithToken; });
 
         Assert.True(taskMap.IsCanceled);
         Assert.True(taskBind.IsCanceled);
@@ -327,10 +327,10 @@ public sealed class UnitResultAsyncTests
         Assert.Same(taskBindFailure, await Assert.ThrowsAsync<InvalidOperationException>(() => taskBind));
         Assert.Same(
             valueMapFailure,
-            await Assert.ThrowsAsync<InvalidOperationException>(async () => await valueMap));
+            await Assert.ThrowsAsync<InvalidOperationException>(async () => { _ = await valueMap; }));
         Assert.Same(
             valueBindFailure,
-            await Assert.ThrowsAsync<InvalidOperationException>(async () => await valueBind));
+            await Assert.ThrowsAsync<InvalidOperationException>(async () => { _ = await valueBind; }));
         Assert.True(taskMap.IsFaulted);
         Assert.True(taskBind.IsFaulted);
         Assert.True(valueMap.IsFaulted);
@@ -375,7 +375,9 @@ public sealed class UnitResultAsyncTests
     public void NullDelegatesAreRejectedAtCallTimeBeforeTheCarrierIsInspected()
     {
         var failure = UnitResult<string>.Failure("bad");
+#pragma warning disable FS1001 // Intentional runtime misuse witness.
         UnitResult<string> uninitialized = default;
+#pragma warning restore FS1001
 
         Assert.Throws<ArgumentNullException>(() => { _ = failure.ToResultAsync<string, int>(null!); });
         Assert.Throws<ArgumentNullException>(() => { _ = failure.ToResultAsync<string, int>(null!, CancellationToken.None); });
@@ -395,7 +397,9 @@ public sealed class UnitResultAsyncTests
     [Fact]
     public void DefaultCarrierThrowsSynchronouslyForValidDelegates()
     {
+#pragma warning disable FS1001 // Intentional runtime misuse witness.
         UnitResult<string> uninitialized = default;
+#pragma warning restore FS1001
         var operations = new Action[]
         {
             () => { _ = uninitialized.ToResultAsync<string, int>(() => Task.FromResult(1)); },

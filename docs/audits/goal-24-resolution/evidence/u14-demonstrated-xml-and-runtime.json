@@ -1,0 +1,71 @@
+{
+  "schemaVersion": 1,
+  "status": "DEMONSTRATED_XML_GAPS_CORRECTED_AND_NARROW_RUNTIME_PASS_FULL_ACCEPTANCE_OPEN",
+  "crosswalk": {
+    "path": ".omo/audit-resolution/research/u14-packaged-xml-crosswalk.json",
+    "members": 499,
+    "stable": 468,
+    "experimental": 31,
+    "completeStableSemanticProofs": 0,
+    "route": "deep-high / gpt-6-astra"
+  },
+  "shippingXmlOnlyChanges": [
+    "src/FunnySharp/PartitionExtensions.cs",
+    "src/FunnySharp/Option.cs",
+    "src/FunnySharp/Result.cs",
+    "src/FunnySharp/UnitResult.cs",
+    "src/FunnySharp/Validation.cs",
+    "src/FunnySharp/StateMachine.cs",
+    "src/FunnySharp/ParseExtensions.cs",
+    "src/FunnySharp.AspNetCore/HttpResultExtensions.cs"
+  ],
+  "fixes": [
+    "Four positional records distinguish factory materialization from raw storage/init/shallow copying/default property comparison/deconstruction and custom formatting exceptions.",
+    "Three Equals(object) overloads document matching boxed default failure.",
+    "Option.Map eagerly guards selector even for None.",
+    "Result.Try sync overloads document eager guards, cancellation passthrough and mapper exception escape.",
+    "Sixteen named parse wrappers document eager source-null failure.",
+    "Four carrier/transition ToString overrides document local diagnostic cases without prose tests.",
+    "Twenty HTTP overloads individually document actual required guards, selected mapper validation/defaults and natural await/effect request-token behavior."
+  ],
+  "verified": {
+    "integratedBuild": {
+      "command": "dotnet fsi build.fsx -- -p build",
+      "exitCode": 0
+    },
+    "packageRuntime": {
+      "receipt": "artifacts/audit-resolution/u14-package-probes/attempt-01/contracts-06.json",
+      "passed": 18,
+      "failed": 0,
+      "skipped": 0,
+      "exitCode": 0
+    },
+    "canonical": {
+      "receipt": "artifacts/audit-resolution/u14-package-probes/attempt-01/canonical-contracts-01.json",
+      "passed": 57,
+      "failed": 0,
+      "skipped": 0,
+      "exitCode": 0
+    }
+  },
+  "probeScope": [
+    "All six generated delegate APM calls throw exact PlatformNotSupportedException with0target/0callback.",
+    "All four record families execute raw reference storage, negative count acceptance, init/with replacement, shallow clone, typed/object equality, ==/!=, default-comparer hashing, positional deconstruction, formatter exception identity and runtime null-reference storage.",
+    "Three initialized carrier object equality calls reject matching boxed defaults; unrelated/null objects are false."
+  ],
+  "retainedFailures": [
+    {
+      "receipt": "artifacts/audit-resolution/u14-package-probes/attempt-01/contracts-04.json",
+      "classification": "New test assertion defect, not a demonstrated product failure",
+      "reason": "Aggregate Assert.Equal performed inappropriate nested collection comparison; replaced by exact positional reference/scalar assertions. contracts-05 had15/15PASS."
+    }
+  ],
+  "firstSuccessAcknowledgement": "Canonical test-owned completion awaits now use explicit discards to preserve the exact waits/assertions while compiling against packaged FS1002; canonical FirstSuccess52cases pass.",
+  "remaining": [
+    "Install exact package/XML/inheritance/per-member semantic receipt gate; no unused helper claimed installed.",
+    "Repack final candidate and refresh package/XML/DLL/MVID/compiler/runtime source bindings after comment changes.",
+    "Relocate strict performance mapping source/helper/embedded anchors and hashes; do not exempt stale documentation edits.",
+    "Three serial independent full190/40performance repetitions on settled frozen inputs.",
+    "Full468stable semantic acceptance, maintainer review and all69final finding dispositions remain open."
+  ]
+}

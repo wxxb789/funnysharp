@@ -1,0 +1,26 @@
+{
+  "slot": "aspnetcore/funnysharp/run-1",
+  "sessionId": "study-session:d39a7dc3-8b92-4fed-8c46-c0762f0a45f9",
+  "status": "MALFORMED_OR_INTERRUPTED",
+  "rounds": [
+    {
+      "round": 1,
+      "native": {
+        "pid": 56264,
+        "exitCode": 1,
+        "processAbsent": true,
+        "startedUtc": "2026-10-02T16:26:24.002Z",
+        "finishedUtc": "2026-10-02T16:27:44.004Z",
+        "actualCliSessionId": null,
+        "invocationId": "native-call:02164d58-938f-4629-aa24-78b773053e97",
+        "actualProviderRequests": 0,
+        "outgoingInputByteExact": false
+      },
+      "solutionFiles": [],
+      "decodeError": "Native exit or payload/context boundary invalid",
+      "gradeExitCode": 1,
+      "gradeOutcome": "NO_GENERATED_SOLUTION",
+      "gradeRecordPresent": false
+    }
+  ]
+}

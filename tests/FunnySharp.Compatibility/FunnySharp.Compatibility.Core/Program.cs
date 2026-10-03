@@ -52,6 +52,7 @@ static async Task VerifyResultCancellationAsync()
 
 static async Task VerifyFirstSuccessCancellationPrecedenceAsync()
 {
+    var timeProvider = new SmokeTimeProvider();
     using var callerCancellation = new CancellationTokenSource();
     var loserCanceled = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
     var loserRelease = new TaskCompletionSource<Result<int, string>>(
@@ -63,10 +64,16 @@ static async Task VerifyFirstSuccessCancellationPrecedenceAsync()
             token.Register(() => loserCanceled.TrySetResult());
             return loserRelease.Task;
         }),
+        Effect.FromSync(() =>
+        {
+            timeProvider.Expire();
+            return Result<int, string>.Failure("expired");
+        }),
     };
-    var operation = effects.FirstSuccessAsync(TimeSpan.Zero, callerCancellation.Token).AsTask();
+    var operation = effects.FirstSuccessAsync(
+        TimeSpan.FromSeconds(5), timeProvider, callerCancellation.Token).AsTask();
 
-    await loserCanceled.Task;
+    await loserCanceled.Task.WaitAsync(TimeSpan.FromSeconds(30));
     Require(!operation.IsCompleted, "FirstSuccess cleanup was not held open.");
     callerCancellation.Cancel();
     loserRelease.SetResult(Result<int, string>.Failure("late"));
@@ -114,5 +121,50 @@ static void Require(bool condition, string message)
     if (!condition)
     {
         throw new InvalidOperationException(message);
+    }
+}
+
+sealed class SmokeTimeProvider : TimeProvider
+{
+    private SmokeTimer? timer;
+
+    public override ITimer CreateTimer(
+        TimerCallback callback, object? state, TimeSpan dueTime, TimeSpan period) =>
+        timer = new SmokeTimer(callback, state, dueTime);
+
+    public void Expire() => timer!.Expire();
+
+    private sealed class SmokeTimer(TimerCallback callback, object? state, TimeSpan dueTime) : ITimer
+    {
+        private bool scheduled = dueTime != Timeout.InfiniteTimeSpan;
+        private bool disposed;
+
+        public bool Change(TimeSpan dueTime, TimeSpan period)
+        {
+            if (disposed)
+            {
+                return false;
+            }
+
+            scheduled = dueTime != Timeout.InfiniteTimeSpan;
+            return true;
+        }
+
+        public void Expire()
+        {
+            if (!disposed && scheduled)
+            {
+                scheduled = false;
+                callback(state);
+            }
+        }
+
+        public void Dispose() => disposed = true;
+
+        public ValueTask DisposeAsync()
+        {
+            Dispose();
+            return ValueTask.CompletedTask;
+        }
     }
 }

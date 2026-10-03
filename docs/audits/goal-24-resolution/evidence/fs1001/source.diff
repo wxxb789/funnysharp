@@ -1,0 +1,90 @@
+diff --git i/src/FunnySharp.Analyzers/AnalyzerReleases.Unshipped.md w/src/FunnySharp.Analyzers/AnalyzerReleases.Unshipped.md
+index e2b9094..2e3d8eb 100644
+--- i/src/FunnySharp.Analyzers/AnalyzerReleases.Unshipped.md
++++ w/src/FunnySharp.Analyzers/AnalyzerReleases.Unshipped.md
+@@ -5,7 +5,7 @@
+ 
+ Rule ID | Category | Severity | Notes
+ --------|----------|----------|-------
+-FS1001  | FunnySharp | Error   | A carrier with no valid default was created through default or new() (Goal 21).
++FS1001  | FunnySharp | Error   | A carrier with no valid default was created through default or parameterless new(), including an empty object initializer (Goal 21).
+ FS1002  | FunnySharp | Warning | A FunnySharp outcome value was silently discarded as a statement (Goal 21).
+ FS1003  | FunnySharp | Warning | The Boolean presence result of a FunnySharp TryGet* member was ignored (Goal 21).
+ FS1004  | FunnySharp | Warning | A ValueTask returned by a FunnySharp member was blocked instead of awaited (Goal 21).
+diff --git i/src/FunnySharp.Analyzers/UninitializedCarrierAnalyzer.cs w/src/FunnySharp.Analyzers/UninitializedCarrierAnalyzer.cs
+index 226962d..b1d685d 100644
+--- i/src/FunnySharp.Analyzers/UninitializedCarrierAnalyzer.cs
++++ w/src/FunnySharp.Analyzers/UninitializedCarrierAnalyzer.cs
+@@ -7,7 +7,8 @@ using Microsoft.CodeAnalysis.Operations;
+ 
+ /// <summary>
+ /// Reports creation of a FunnySharp carrier that has no valid default value through a
+-/// <c>default</c> expression, a <c>default</c> literal, or a parameterless <c>new()</c>.
++/// <c>default</c> expression, a <c>default</c> literal, or a parameterless <c>new()</c>,
++/// including creation with an empty object initializer.
+ /// </summary>
+ /// <remarks>
+ /// <c>Result&lt;TValue, TError&gt;</c>, <c>UnitResult&lt;TError&gt;</c>,
+@@ -61,7 +62,7 @@ public sealed class UninitializedCarrierAnalyzer : DiagnosticAnalyzer
+     {
+         var operation = (IObjectCreationOperation)context.Operation;
+         if (operation.Arguments.Length == 0 &&
+-            operation.Initializer is null &&
++            (operation.Initializer is null || operation.Initializer.Initializers.IsEmpty) &&
+             types.IsNonDefaultable(operation.Type))
+         {
+             Report(context, operation.Type!);
+diff --git i/tests/FunnySharp.Analyzers.Tests/UninitializedCarrierAnalyzerTests.cs w/tests/FunnySharp.Analyzers.Tests/UninitializedCarrierAnalyzerTests.cs
+index b4e59c7..2eecc06 100644
+--- i/tests/FunnySharp.Analyzers.Tests/UninitializedCarrierAnalyzerTests.cs
++++ w/tests/FunnySharp.Analyzers.Tests/UninitializedCarrierAnalyzerTests.cs
+@@ -136,6 +136,49 @@ public sealed class UninitializedCarrierAnalyzerTests
+             "FS1001");
+     }
+ 
++    [Theory]
++    [InlineData("Result<int, string>")]
++    [InlineData("UnitResult<string>")]
++    [InlineData("Validation<int, string>")]
++    [InlineData("NonEmpty<int>")]
++    [InlineData("Effect<int>")]
++    [InlineData("Effect<Env, int>")]
++    [InlineData("Lens<int, string>")]
++    [InlineData("Optional<int, string>")]
++    public async Task EmptyInitializersDoNotInitializeNondefaultableCarriers(string typeText)
++    {
++        foreach (var creation in new[] { $"new {typeText} {{ }}", $"new {typeText}() {{ }}", "new() { }" })
++        {
++            await AnalyzerTestAssert.DiagnosticAsync(
++                """
++                using FunnySharp;
++                class Env;
++                class C
++                {
++                    TYPE Make() => CREATION;
++                }
++                """.Replace("TYPE", typeText).Replace("CREATION", creation),
++                "FS1001");
++        }
++    }
++
++    [Theory]
++    [InlineData("Option<int>")]
++    [InlineData("TransitionResult<int, int, string>")]
++    [InlineData("UserValue")]
++    public async Task EmptyInitializersForDefaultValidTypesStayQuiet(string typeText)
++    {
++        await AnalyzerTestAssert.QuietAsync(
++            """
++            using FunnySharp;
++            struct UserValue;
++            class C
++            {
++                TYPE Make() => new() { };
++            }
++            """.Replace("TYPE", typeText));
++    }
++
+     [Fact]
+     public async Task DefaultOptionIsAValidNoneAndStaysQuiet()
+     {

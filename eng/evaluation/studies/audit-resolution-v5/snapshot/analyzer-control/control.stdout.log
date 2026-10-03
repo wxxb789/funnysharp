@@ -1,0 +1,13 @@
+  Determining projects to restore...
+  Restored Q:\repos\funnysharp-goal24-resolution\eng\evaluation\studies\audit-resolution-v5\snapshot\analyzer-control\Control.csproj (in 381 ms).
+Q:\repos\funnysharp-goal24-resolution\eng\evaluation\studies\audit-resolution-v5\snapshot\analyzer-control\Control.cs(1,88): error FS1001: 'Result<int, string>' has no valid default value: every member that reads a default Result<int, string> throws InvalidOperationException; create it with a factory instead (https://github.com/wxxb789/funnysharp/blob/main/docs/analyzers.md#fs1001-uninitialized-semantic-carrier) [Q:\repos\funnysharp-goal24-resolution\eng\evaluation\studies\audit-resolution-v5\snapshot\analyzer-control\Control.csproj]
+
+Build FAILED.
+
+Q:\repos\funnysharp-goal24-resolution\eng\evaluation\studies\audit-resolution-v5\snapshot\analyzer-control\Control.cs(1,88): error FS1001: 'Result<int, string>' has no valid default value: every member that reads a default Result<int, string> throws InvalidOperationException; create it with a factory instead (https://github.com/wxxb789/funnysharp/blob/main/docs/analyzers.md#fs1001-uninitialized-semantic-carrier) [Q:\repos\funnysharp-goal24-resolution\eng\evaluation\studies\audit-resolution-v5\snapshot\analyzer-control\Control.csproj]
+    0 Warning(s)
+    1 Error(s)
+
+BinaryLogger wrote to: Q:\repos\funnysharp-goal24-resolution\eng\evaluation\studies\audit-resolution-v5\snapshot\analyzer-control\control.binlog
+
+Time Elapsed 00:00:02.35
