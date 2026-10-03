@@ -1,0 +1,194 @@
+{
+  "schema": "funnysharp-native-cli-producer-protocol/v2",
+  "state": "PREREGISTERED_20_FRESH_V3_SLOTS_NO_CALLS",
+  "study": "audit-resolution-v3",
+  "supersedesTransport": "audit-resolution-v2/native-cli-producer-protocol.json",
+  "rejectedHistory": {
+    "logicalInvocations": 12,
+    "accepted": 0,
+    "providerRequests": "At least12; collections/streams alone had11 across8 invocations. All raw retries/error/abort events remain recorded."
+  },
+  "route": "native-omo-cli/5.1.9/json-print",
+  "requestedModel": "ghc/gpt-6.1-sol",
+  "thinking": "high",
+  "environment": {
+    "PI_RULES_DISABLED": "1"
+  },
+  "boundaryExtension": {
+    "path": ".omo/audit-resolution/probes/u12-native-producer-boundary.mjs",
+    "sha256": "eb698ed0a63e5ca2013ba9b89c3c5695b92553d30bebe9973e75db5f4d193fd5",
+    "handler": "before_provider_request replaces only input after recording original payload",
+    "documentedActualRequestContract": "Installed docs/extensions.md:906-918; non-undefined return replaces payload for subsequent handlers and actual request.",
+    "pureCheck": {
+      "exitCode": 0,
+      "modelCalls": 0,
+      "exactSystem": true,
+      "exactRequestFile": true,
+      "originalBodyUnmodified": true,
+      "modelStreamStoreUnchanged": true
+    },
+    "actualProviderUseVerified": false
+  },
+  "transportSystem": "The attached request.json contains a JSON object with inputFiles, each with path and content. Those file contents are the complete task inputs. Return only a JSON object with a files array; each entry contains path, a top-level C# filename, and content, the complete file text. Return the complete solution. Do not replace supplied contract or test files.",
+  "transportSystemSha256": "fbda330f8e40178394f701e3e4552726ec33026ba95f94aaa7aab3f03dd00d78",
+  "output": {
+    "format": "Exactly one JSON object with files array. Preserve full original text before decoding.",
+    "paths": "Either top-level Name.cs or exact solution/Name.cs prefix from frozen task prompt. Strip only this single registered directory prefix when storing in solution/; reject every other directory, duplicate, traversal or oracle collision.",
+    "content": "Whole original content string; no markdown fence stripping, syntax edits, hints or orchestrator repair."
+  },
+  "initialInputs": "All14frozen public guides, exactly one matching area/style prompt, same-area fixed tests/Contract and matching style csproj; ordinal sorted, frozen UTF8 hashes exact.",
+  "cohort": [
+    {
+      "slot": "business-outcomes/idiomatic/run-1",
+      "sessionId": "study-session:dc843709-5471-4900-b792-c0dcd8f8443d",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "business-outcomes/idiomatic/run-2",
+      "sessionId": "study-session:b1d8be13-3b80-4990-a7bc-44de928e8332",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "business-outcomes/funnysharp/run-1",
+      "sessionId": "study-session:506fbe93-c224-438e-85f1-d3646789ba9d",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "business-outcomes/funnysharp/run-2",
+      "sessionId": "study-session:4df554d2-b775-4fd9-8085-01b64743782b",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "collections/idiomatic/run-1",
+      "sessionId": "study-session:6116bfe2-03c5-416d-ae43-f19fa68e6631",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "collections/idiomatic/run-2",
+      "sessionId": "study-session:021a2fc7-1d10-4411-8171-7e5ce3e6adcf",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "collections/funnysharp/run-1",
+      "sessionId": "study-session:dbe800b0-4644-42a1-8946-fe3bf63589dc",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "collections/funnysharp/run-2",
+      "sessionId": "study-session:aa797348-41fa-4da5-92f4-ee59bd1ec9a3",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "async-streams/idiomatic/run-1",
+      "sessionId": "study-session:99862a97-620a-4e07-a04c-620c9492a2cb",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "async-streams/idiomatic/run-2",
+      "sessionId": "study-session:c089a898-cb39-45ce-81ff-3551d3ddb764",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "async-streams/funnysharp/run-1",
+      "sessionId": "study-session:b0a9d9f5-ab41-40c8-8067-581fd0f80029",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "async-streams/funnysharp/run-2",
+      "sessionId": "study-session:a742faf0-66ea-4d1c-abe8-85bdac297d72",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "concurrency/idiomatic/run-1",
+      "sessionId": "study-session:0d3a5aca-08eb-4f0c-8395-2eca2388221a",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "concurrency/idiomatic/run-2",
+      "sessionId": "study-session:2243f0e3-9237-4ab9-b447-3c1bb74de1a7",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "concurrency/funnysharp/run-1",
+      "sessionId": "study-session:2023ee67-a0fa-4cd4-8710-ec56db150903",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "concurrency/funnysharp/run-2",
+      "sessionId": "study-session:7b76b825-30b7-4695-b401-9230ef9cb3fc",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "aspnetcore/idiomatic/run-1",
+      "sessionId": "study-session:acb5b176-c625-452d-b490-bf4bf5d3ac33",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "aspnetcore/idiomatic/run-2",
+      "sessionId": "study-session:ea73b726-ef7c-4735-9757-d47793e501ee",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "aspnetcore/funnysharp/run-1",
+      "sessionId": "study-session:9c0e1ff2-97f6-4683-b4f4-f7247186dd02",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "aspnetcore/funnysharp/run-2",
+      "sessionId": "study-session:49a33971-5251-4448-9534-e3cc837adbdf",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    }
+  ],
+  "corrections": "Initial plus at most2 corrections; only exact immediately preceding feedback.json and complete prior solution plus unchanged initial files. Unique invocation ID each time; stable logical slot ID is not claimed as provider conversation.",
+  "completion": "Actual outgoing provider payload byte equality must be proven for each request, including observed internal retries. The pure check alone cannot establish real cohort acceptance.",
+  "studyManifestSha256": "d3bb639eb7659782aacc3cd1470567b3f136f80320e9c5105bd639dcd4b52fb3",
+  "actualInvocationForm": "C:/Users/lhan/.omo/binary-runtime/5.1.9/omo.exe --mode json --print --no-session --no-extensions --no-context-files --no-skills --no-prompt-templates --no-tools --offline --provider ghc --model gpt-6.1-sol --thinking high --system-prompt <transportSystem> --extension Q:/repos/funnysharp-goal24-resolution/.omo/audit-resolution/probes/u12-native-producer-boundary.mjs @request.json",
+  "stdin": "closed/ignore; no hidden piped prompt",
+  "contextSchema": {
+    "files": "Exact array of frozen-relative path+sha256 entries; files in payload/. Initial45 allowlist scoped to14guides+onearea/styleprompt+itsfixedtests+matchingcsproj."
+  },
+  "recordFields": [
+    "studySha256",
+    "task",
+    "style",
+    "sessionId",
+    "invocationId",
+    "route",
+    "producerKind",
+    "requestedModel",
+    "providerModel",
+    "contextSha256",
+    "solutionFiles",
+    "invocationSha256",
+    "startedUtc",
+    "finishedUtc",
+    "status",
+    "feedbackSha256"
+  ],
+  "providerModel": {
+    "value": null,
+    "unknownReason": "Native selected model/route is observed. Actual upstream served model is unknown unless independently returned metadata supplies it."
+  },
+  "outgoingInputCheck": "Each actual U12_PROVIDER_PAYLOAD must have exactly two inputs: developer equal registered transportSystem and user equal complete UTF8 request.json bytes; capture pre-boundary payload too. Preserve every request retry/abort/error.",
+  "gradePolicy": "No correction or manual repair outside declared3rounds. Stop GREEN; preserve capped/malformed/protocol failures and all20 outcomes. No replay counted asAI."
+}

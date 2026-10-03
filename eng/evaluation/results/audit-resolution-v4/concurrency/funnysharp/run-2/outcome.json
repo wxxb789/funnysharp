@@ -1,0 +1,26 @@
+{
+  "slot": "concurrency/funnysharp/run-2",
+  "sessionId": "study-session:a984f2ee-db8f-43e8-b1ba-bf6302490de6",
+  "status": "MALFORMED_OR_INTERRUPTED",
+  "rounds": [
+    {
+      "round": 1,
+      "native": {
+        "pid": 37580,
+        "exitCode": 1,
+        "processAbsent": true,
+        "startedUtc": "2026-10-02T16:26:18.860Z",
+        "finishedUtc": "2026-10-02T16:26:36.833Z",
+        "actualCliSessionId": null,
+        "invocationId": "native-call:54af27f6-9509-4d46-9eff-a49ad6645825",
+        "actualProviderRequests": 0,
+        "outgoingInputByteExact": false
+      },
+      "solutionFiles": [],
+      "decodeError": "Native exit or payload/context boundary invalid",
+      "gradeExitCode": 1,
+      "gradeOutcome": "NO_GENERATED_SOLUTION",
+      "gradeRecordPresent": false
+    }
+  ]
+}

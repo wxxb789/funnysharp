@@ -1,0 +1,66 @@
+{
+  "state": "DEMONSTRATED_CARRIER_XML_BUILD_PASS_FRESH_PACKAGE_REBIND_OPEN",
+  "build": {
+    "command": "dotnet build src/FunnySharp/FunnySharp.csproj -c Release --no-restore",
+    "exitCode": 0
+  },
+  "runtimeReceipts": [
+    "artifacts/audit-resolution/u14-core-package-suite/attempt-01/contracts-green-01.json",
+    "artifacts/audit-resolution/u14-carrier-runtime-matrix/attempt-01/contracts-green-01.json"
+  ],
+  "files": [
+    {
+      "file": "src/FunnySharp/OptionExtensions.cs",
+      "beforeSha256": "72a2c67e5c138b7f973efcae906380d927643e3dad24763c6faa57242fcf5cda",
+      "afterSha256": "2c3f4bd0d1657f3fb93abaa101882230b5505184170c70315bc4803db4dea3a2",
+      "nonXmlSourceExactlyIdentical": true,
+      "memberClauses": 13
+    },
+    {
+      "file": "src/FunnySharp/ResultExtensions.cs",
+      "beforeSha256": "00186d19c9b2517f08e95391a69c265ae81ddfe7aa69a467e0c3a49e2b151d12",
+      "afterSha256": "3e08b3a64582430309052a61dc34fb68b6fc2a2331a44325dd54c70ed70af61b",
+      "nonXmlSourceExactlyIdentical": true,
+      "memberClauses": 9
+    },
+    {
+      "file": "src/FunnySharp/UnitResultExtensions.cs",
+      "beforeSha256": "a6b1bb930a0120ab6ac3e3dde73fb2b6c33c998cae025533ede0dce213927f2d",
+      "afterSha256": "18fdd7647fb79a66e53cd71135f74499076cc678a937f0f366c61fffde89ff05",
+      "nonXmlSourceExactlyIdentical": true,
+      "memberClauses": 10
+    },
+    {
+      "file": "src/FunnySharp/ValidationExtensions.cs",
+      "beforeSha256": "ed4a5e4cd6a1be3c8f75d1d64679258e8cfc4b1981dc8faf123b44b8bfa735d9",
+      "afterSha256": "a60fa22d6c631154805cf1679c003c9bbaad8ff8b9576964b72e4770002c5c70",
+      "nonXmlSourceExactlyIdentical": true,
+      "memberClauses": 5
+    },
+    {
+      "file": "src/FunnySharp/Option.cs",
+      "beforeSha256": "4ecec374778b197f1a26d5888e1d8c28a42dd0df680511f2714237f7a162eb7e",
+      "afterSha256": "2ab65969adf550465692cfa812ad2e8cc182306e1c2660eb549e1d21d873da36",
+      "nonXmlSourceExactlyIdentical": true,
+      "memberClauses": 6
+    },
+    {
+      "file": "src/FunnySharp/Result.cs",
+      "beforeSha256": "5f34bb7755d4193059dc1bf9c4b0c1998c3debb3d4953acf5184e5c1a8ad83e9",
+      "afterSha256": "4e17f5ea36d1d6de9a963bc6f2b9900a5fe15e29fefe7e68ab1fdec45a9762b9",
+      "nonXmlSourceExactlyIdentical": true,
+      "memberClauses": 13
+    },
+    {
+      "file": "src/FunnySharp/Validation.cs",
+      "beforeSha256": "5c14eceb10847046bf36cdfc4496e3e249a96541dc52b86e6ddacf27797e8626",
+      "afterSha256": "dd05968085c15247c63cbb321a4fcbfff425570f679c5b7fb163dfa34905c182",
+      "nonXmlSourceExactlyIdentical": true,
+      "memberClauses": 6
+    }
+  ],
+  "remaining": [
+    "Strict new package/DLL/XML/metadata and cost-source line-range rebinding is required.",
+    "These source clauses do not close compiler, other-domain runtime, maintainer or final frozen-candidate acceptance."
+  ]
+}

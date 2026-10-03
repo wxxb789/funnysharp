@@ -1,0 +1,906 @@
+{
+  "schema": "funnysharp-v6-real-kestrel-parent-proof/v1",
+  "state": "ACTUAL_ORIGINAL_FOUR_DLL_36_FIELD_EXACT_72_TCP_36_STOPPED_PARENT_BOUND",
+  "study": "audit-resolution-v6",
+  "total": 36,
+  "passed": 36,
+  "failed": 0,
+  "skipped": 0,
+  "requests": 72,
+  "consumerRebuilds": 0,
+  "newModelCalls": 0,
+  "retainedFailures": {
+    "originalGeneration": [
+      {
+        "slot": "aspnetcore/idiomatic/run-1",
+        "round": 1,
+        "kind": "original-generation-compilation",
+        "verdict": "RED",
+        "diagnostic": "CS8604: Possible null reference argument for parameter customerEmail in ShopData.AddOrder.",
+        "compilerErrorOccurrences": 2,
+        "uniqueCompilerErrors": 1,
+        "testsRun": false,
+        "recordPath": "eng/evaluation/results/audit-resolution-v6/aspnetcore/idiomatic/run-1/rounds/0001/record.json",
+        "feedbackPath": "eng/evaluation/results/audit-resolution-v6/aspnetcore/idiomatic/run-1/rounds/0001/feedback.json",
+        "immutableReceiptSha256": "22a30173055f839ee6e355babc971ca86e9c21b02d85d2bbadf15bebc9f329ea"
+      }
+    ],
+    "originalHostPreRequestBindingFailures": [
+      {
+        "process": {
+          "label": "funnysharp-run-1",
+          "command": [
+            "dotnet",
+            "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\u12-v6-http-runtime\\attempt-01\\host\\bin\\Release\\net10.0\\HttpRuntimeProbe.dll",
+            "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\u12-v6-http-runtime\\attempt-01\\pre-registration.json",
+            "funnysharp/run-1",
+            "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\u12-v6-http-runtime\\attempt-01\\runtime-funnysharp-run-1.json"
+          ],
+          "workingDirectory": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\u12-v6-http-runtime\\attempt-01\\host",
+          "pid": 24360,
+          "launcherPid": 54056,
+          "exitCode": 1,
+          "pidAbsentAfterWait": true,
+          "startedAtUtc": "2026-10-03T00:39:14.5470700+00:00",
+          "finishedAtUtc": "2026-10-03T00:39:15.1927170+00:00",
+          "stdoutPath": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\u12-v6-http-runtime\\attempt-01\\funnysharp-run-1.stdout.log",
+          "stdoutSha256": "df1b3859364531726713d02228bdc795cd90d3e6dd7625479f2b90db6645c82a",
+          "stderrPath": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\u12-v6-http-runtime\\attempt-01\\funnysharp-run-1.stderr.log",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\u12-v6-http-runtime\\attempt-01\\runtime-funnysharp-run-1.json",
+        "sha256": "f1867fb619fda904327340f6b2a911c8cf2f2035ed8967a570ffdbad5bb208a5",
+        "failures": [
+          "System.InvalidOperationException: Sequence contains more than one matching element\r\n   at System.Linq.ThrowHelper.ThrowMoreThanOneMatchException()\r\n   at System.Linq.Enumerable.TryGetSingle[TSource](IEnumerable`1 source, Func`2 predicate, Boolean& found)\r\n   at System.Linq.Enumerable.Single[TSource](IEnumerable`1 source, Func`2 predicate)\r\n   at Probe.RunAsync(String[] args) in Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\u12-v6-http-runtime\\attempt-01\\host\\Program.cs:line 76"
+        ],
+        "actualTcpRequests": 0,
+        "consumerBehaviorFailure": false
+      },
+      {
+        "process": {
+          "label": "funnysharp-run-2",
+          "command": [
+            "dotnet",
+            "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\u12-v6-http-runtime\\attempt-01\\host\\bin\\Release\\net10.0\\HttpRuntimeProbe.dll",
+            "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\u12-v6-http-runtime\\attempt-01\\pre-registration.json",
+            "funnysharp/run-2",
+            "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\u12-v6-http-runtime\\attempt-01\\runtime-funnysharp-run-2.json"
+          ],
+          "workingDirectory": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\u12-v6-http-runtime\\attempt-01\\host",
+          "pid": 3216,
+          "launcherPid": 54056,
+          "exitCode": 1,
+          "pidAbsentAfterWait": true,
+          "startedAtUtc": "2026-10-03T00:39:15.1973627+00:00",
+          "finishedAtUtc": "2026-10-03T00:39:15.7756021+00:00",
+          "stdoutPath": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\u12-v6-http-runtime\\attempt-01\\funnysharp-run-2.stdout.log",
+          "stdoutSha256": "dcf2c674b4e0431bc0747a9e6c35cc03ea071c441f7bf59916e98009ee82d51e",
+          "stderrPath": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\u12-v6-http-runtime\\attempt-01\\funnysharp-run-2.stderr.log",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\u12-v6-http-runtime\\attempt-01\\runtime-funnysharp-run-2.json",
+        "sha256": "40d30d3d63a62275b3144c97bb66328f67779561335cb7cb97f1d8422b3ca2d4",
+        "failures": [
+          "System.InvalidOperationException: Sequence contains more than one matching element\r\n   at System.Linq.ThrowHelper.ThrowMoreThanOneMatchException()\r\n   at System.Linq.Enumerable.TryGetSingle[TSource](IEnumerable`1 source, Func`2 predicate, Boolean& found)\r\n   at System.Linq.Enumerable.Single[TSource](IEnumerable`1 source, Func`2 predicate)\r\n   at Probe.RunAsync(String[] args) in Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\u12-v6-http-runtime\\attempt-01\\host\\Program.cs:line 76"
+        ],
+        "actualTcpRequests": 0,
+        "consumerBehaviorFailure": false
+      }
+    ],
+    "mechanicalCorrection": {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/binding-correction.json",
+      "sha256": "826d03986ae80fc16511537ff958622418c72907072b694288527459dbe193c2"
+    },
+    "firstHostBinarySourceAndRawFailureReceiptsPreserved": true,
+    "failedHostLaunchHttpRequests": 0,
+    "v5HistoryUntouched": true
+  },
+  "hashChecks": [
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/binding-correction.json",
+      "expected": "826d03986ae80fc16511537ff958622418c72907072b694288527459dbe193c2",
+      "actual": "826d03986ae80fc16511537ff958622418c72907072b694288527459dbe193c2"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/binding-fix-launch.json",
+      "expected": "779b36b1636ee238d4dcc40ba00a9ac5e94e1e042caf69f0b5bd95b0c2028a78",
+      "actual": "779b36b1636ee238d4dcc40ba00a9ac5e94e1e042caf69f0b5bd95b0c2028a78"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/case-field-proof.json",
+      "expected": "89fc1318f7a1091668fa4e65a205e5ff9d7aa3b626f26f2ebf8e8a5da97513f6",
+      "actual": "89fc1318f7a1091668fa4e65a205e5ff9d7aa3b626f26f2ebf8e8a5da97513f6"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/comparison-contract.json",
+      "expected": "19bd2eb8ba3c0a38180625eb439aa6c4445aa4d7de37dc23de3f8643c3838825",
+      "actual": "19bd2eb8ba3c0a38180625eb439aa6c4445aa4d7de37dc23de3f8643c3838825"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/completion-audit.json",
+      "expected": "823817a224c8d716e9da9a5e31d4b845f6a6fc1559a70d01355f0abaff393994",
+      "actual": "823817a224c8d716e9da9a5e31d4b845f6a6fc1559a70d01355f0abaff393994"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/execute.ps1",
+      "expected": "9b38bd2221d0ef6494baae01f829f9ed408d2d15c25d01a32d86917a2a4bb1c2",
+      "actual": "9b38bd2221d0ef6494baae01f829f9ed408d2d15c25d01a32d86917a2a4bb1c2"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/execution-build-binding-fix.json",
+      "expected": "7932b9b5b14c668c5e18c35d50abfca0530a4577fd0ae3894ee80e7fbf3b43bd",
+      "actual": "7932b9b5b14c668c5e18c35d50abfca0530a4577fd0ae3894ee80e7fbf3b43bd"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/execution-build.json",
+      "expected": "3700ae055e155b4c48b747a053c6524c82f229379bac4d7b55200cd3a4766a1e",
+      "actual": "3700ae055e155b4c48b747a053c6524c82f229379bac4d7b55200cd3a4766a1e"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/execution-observe.json",
+      "expected": "3b9124f51a7c665d7ac07e273d5b59ffc10df419cbbe4e1f986ccaad0f8632bc",
+      "actual": "3b9124f51a7c665d7ac07e273d5b59ffc10df419cbbe4e1f986ccaad0f8632bc"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/execution-run-binding-fix.json",
+      "expected": "a584bb10e002442ccf6e6e2af61fae1f277598eb3a4a373fea70e5e334f1c5a1",
+      "actual": "a584bb10e002442ccf6e6e2af61fae1f277598eb3a4a373fea70e5e334f1c5a1"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/execution-run.json",
+      "expected": "a141b3a0ed53211bba2fc3e454841d5064dc0274944460104a2d072dee01dca3",
+      "actual": "a141b3a0ed53211bba2fc3e454841d5064dc0274944460104a2d072dee01dca3"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/final-pid-reader.json",
+      "expected": "d3a2563bdbf63d5a46edefe56d00e48ee1c8e895d76f5fd338707146eb7ded8b",
+      "actual": "d3a2563bdbf63d5a46edefe56d00e48ee1c8e895d76f5fd338707146eb7ded8b"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/final-process-check.ps1",
+      "expected": "6cb10526bc3a2f96bd53b6e0bb61cf6bb10b1d41c6dd5ba1e40bffa66135f0cc",
+      "actual": "6cb10526bc3a2f96bd53b6e0bb61cf6bb10b1d41c6dd5ba1e40bffa66135f0cc"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/final-process-observation.json",
+      "expected": "b53ac74a9408b52beaa629982f9ec85f8bfd44e8f672d1712687debc79072bc0",
+      "actual": "b53ac74a9408b52beaa629982f9ec85f8bfd44e8f672d1712687debc79072bc0"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/frozen-expectations.json",
+      "expected": "80706e8c1526859a7ca889421457994fdcf867553d0d880d9594b842200a92de",
+      "actual": "80706e8c1526859a7ca889421457994fdcf867553d0d880d9594b842200a92de"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/funnysharp-run-1-binding-fix.stderr.log",
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/funnysharp-run-1-binding-fix.stdout.log",
+      "expected": "3b7e04e96953db2e2aa9bbe5cd25caeba664e22dbafde968298f0e38c511d02b",
+      "actual": "3b7e04e96953db2e2aa9bbe5cd25caeba664e22dbafde968298f0e38c511d02b"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/funnysharp-run-1.stderr.log",
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/funnysharp-run-1.stdout.log",
+      "expected": "df1b3859364531726713d02228bdc795cd90d3e6dd7625479f2b90db6645c82a",
+      "actual": "df1b3859364531726713d02228bdc795cd90d3e6dd7625479f2b90db6645c82a"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/funnysharp-run-2-binding-fix.stderr.log",
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/funnysharp-run-2-binding-fix.stdout.log",
+      "expected": "b17cb842c046ea210948b185cb4b8af9a04f8cbbe78acf9b3fe15dd59f16edab",
+      "actual": "b17cb842c046ea210948b185cb4b8af9a04f8cbbe78acf9b3fe15dd59f16edab"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/funnysharp-run-2.stderr.log",
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/funnysharp-run-2.stdout.log",
+      "expected": "dcf2c674b4e0431bc0747a9e6c35cc03ea071c441f7bf59916e98009ee82d51e",
+      "actual": "dcf2c674b4e0431bc0747a9e6c35cc03ea071c441f7bf59916e98009ee82d51e"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/idiomatic-run-1.stderr.log",
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/idiomatic-run-1.stdout.log",
+      "expected": "510d398e0f5f51078c6a89720be300d143309086a9366397250587a5590d563e",
+      "actual": "510d398e0f5f51078c6a89720be300d143309086a9366397250587a5590d563e"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/idiomatic-run-2.stderr.log",
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/idiomatic-run-2.stdout.log",
+      "expected": "01c8253f5b9b44e3fd78e4ea9878c584b340a289d271034d22c0dd48efc11762",
+      "actual": "01c8253f5b9b44e3fd78e4ea9878c584b340a289d271034d22c0dd48efc11762"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/launch-binding.json",
+      "expected": "3c9b6bcf61f9fe2886d09166317ff180d0323d612b05cb3ca87c1bbfca7dcf76",
+      "actual": "3c9b6bcf61f9fe2886d09166317ff180d0323d612b05cb3ca87c1bbfca7dcf76"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/listener-lifecycle-proof.json",
+      "expected": "310e12758ca5aed9360bedb92b56dc76bfcdb40ee2b6e7fb407be2d335475144",
+      "actual": "310e12758ca5aed9360bedb92b56dc76bfcdb40ee2b6e7fb407be2d335475144"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/observer.stderr.log",
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/observer.stdout.log",
+      "expected": "3bc65f5092bf97a3fae097657b989dd1676c855cc1d90b44d794a2143979d844",
+      "actual": "3bc65f5092bf97a3fae097657b989dd1676c855cc1d90b44d794a2143979d844"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/pre-registration.json",
+      "expected": "ce7cbe2e7d8e0aa65a8ede70c8b4838675c25341c0b8c5a3e61913088d484af7",
+      "actual": "ce7cbe2e7d8e0aa65a8ede70c8b4838675c25341c0b8c5a3e61913088d484af7"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/probe-build-binding-fix.binlog",
+      "expected": "cab6599c7440ba54ec2bd9cc675765fe063ad202e9e2639149cf503b3a7bc25b",
+      "actual": "cab6599c7440ba54ec2bd9cc675765fe063ad202e9e2639149cf503b3a7bc25b"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/probe-build-binding-fix.stderr.log",
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/probe-build-binding-fix.stdout.log",
+      "expected": "a4b5c1ad78fba2c8471694c2bac2cefaeeba673fda28af1047ff24e10cd83c70",
+      "actual": "a4b5c1ad78fba2c8471694c2bac2cefaeeba673fda28af1047ff24e10cd83c70"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/probe-build.binlog",
+      "expected": "37ae86cb1be184e329190919ed77df035a4f2342eb5adbfb089935d161a06a11",
+      "actual": "37ae86cb1be184e329190919ed77df035a4f2342eb5adbfb089935d161a06a11"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/probe-build.stderr.log",
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/probe-build.stdout.log",
+      "expected": "976c61b568fc5c5e898d0c7646fe78b62ce0ffe3967f492b6639ccd97ac9f318",
+      "actual": "976c61b568fc5c5e898d0c7646fe78b62ce0ffe3967f492b6639ccd97ac9f318"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/retain-first-host.ps1",
+      "expected": "5cf4e9d9c2e3192ceb5e1538ac0f91113d95f921c79d1000e75c8f063afb2e6d",
+      "actual": "5cf4e9d9c2e3192ceb5e1538ac0f91113d95f921c79d1000e75c8f063afb2e6d"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/runtime-funnysharp-run-1-binding-fix.json",
+      "expected": "d03ce5d7cd955f193c926f9751709e9e2a327239129d9ee098b31e04921ff654",
+      "actual": "d03ce5d7cd955f193c926f9751709e9e2a327239129d9ee098b31e04921ff654"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/runtime-funnysharp-run-1.json",
+      "expected": "f1867fb619fda904327340f6b2a911c8cf2f2035ed8967a570ffdbad5bb208a5",
+      "actual": "f1867fb619fda904327340f6b2a911c8cf2f2035ed8967a570ffdbad5bb208a5"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/runtime-funnysharp-run-2-binding-fix.json",
+      "expected": "8b89b5a7cf27ac133d2c2b41a376b857cd9fd73bd8b80100b16fd47c75172153",
+      "actual": "8b89b5a7cf27ac133d2c2b41a376b857cd9fd73bd8b80100b16fd47c75172153"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/runtime-funnysharp-run-2.json",
+      "expected": "40d30d3d63a62275b3144c97bb66328f67779561335cb7cb97f1d8422b3ca2d4",
+      "actual": "40d30d3d63a62275b3144c97bb66328f67779561335cb7cb97f1d8422b3ca2d4"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/runtime-idiomatic-run-1.json",
+      "expected": "f44bac43f63810691682c8d2095c372534357bdb5a6fff328f131622e731a342",
+      "actual": "f44bac43f63810691682c8d2095c372534357bdb5a6fff328f131622e731a342"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/runtime-idiomatic-run-2.json",
+      "expected": "137b51a672edda321a9f9cc932215dbb17f9aee7e0a76d1151340408e3cd5872",
+      "actual": "137b51a672edda321a9f9cc932215dbb17f9aee7e0a76d1151340408e3cd5872"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/scope-and-mechanics.json",
+      "expected": "5d4946397ddf5fd269fef0ddca26bfaabe7bb9c3d8ee57c332da41495efc1ea4",
+      "actual": "5d4946397ddf5fd269fef0ddca26bfaabe7bb9c3d8ee57c332da41495efc1ea4"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/separate-observation.json",
+      "expected": "8fd5aeb4c4dae8297360275eaf0bddb596c33f43ab84b75170506a5c1938f5c4",
+      "actual": "8fd5aeb4c4dae8297360275eaf0bddb596c33f43ab84b75170506a5c1938f5c4"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/tcp-request-traces.json",
+      "expected": "62542255e4a4c7c72847ff67d213c1c1e34f26c33c2d7c6b6508b706f03aa9d0",
+      "actual": "62542255e4a4c7c72847ff67d213c1c1e34f26c33c2d7c6b6508b706f03aa9d0"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/verification.json",
+      "expected": "b8f9251cd0d8cee5436aaf34874d3485af708e3ef1ead1467c1bbbb57a4f787f",
+      "actual": "b8f9251cd0d8cee5436aaf34874d3485af708e3ef1ead1467c1bbbb57a4f787f"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/verify.mjs",
+      "expected": "6ae98fbec02bdfe2acba450ed71bffd28b18021a6fdb28b5ccefcd6d5b73d960",
+      "actual": "6ae98fbec02bdfe2acba450ed71bffd28b18021a6fdb28b5ccefcd6d5b73d960"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/retained-binding-failure/execute.ps1",
+      "expected": "a16d4531dcea18df0a9048d7a497d351406ad1b3a97040a83bef23338b31ec26",
+      "actual": "a16d4531dcea18df0a9048d7a497d351406ad1b3a97040a83bef23338b31ec26"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/retained-binding-failure/HttpRuntimeProbe.deps.json",
+      "expected": "36b866ea745688290f34b26e10f94f4580e800bb2bf00d50c6d3450e3a3eb6ff",
+      "actual": "36b866ea745688290f34b26e10f94f4580e800bb2bf00d50c6d3450e3a3eb6ff"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/retained-binding-failure/HttpRuntimeProbe.dll",
+      "expected": "fa7eb7bca447f27ab1f71b1d5b8b034fa454e2328b7c3e3d56ab51a8a73364f9",
+      "actual": "fa7eb7bca447f27ab1f71b1d5b8b034fa454e2328b7c3e3d56ab51a8a73364f9"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/retained-binding-failure/HttpRuntimeProbe.pdb",
+      "expected": "288bfc7b4104cbcbf74d5518a922319b6e273942341a3d261718aba95e5e7668",
+      "actual": "288bfc7b4104cbcbf74d5518a922319b6e273942341a3d261718aba95e5e7668"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/retained-binding-failure/HttpRuntimeProbe.runtimeconfig.json",
+      "expected": "b4aad84277c120c025a443649c4e09ca20b08725acc12ef60940786bfb8c024f",
+      "actual": "b4aad84277c120c025a443649c4e09ca20b08725acc12ef60940786bfb8c024f"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/retained-binding-failure/Program.cs",
+      "expected": "de938382bee40391efaec9b159c46bbb286e96d5d7151975b9b1a91f15057745",
+      "actual": "de938382bee40391efaec9b159c46bbb286e96d5d7151975b9b1a91f15057745"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/host/Directory.Build.props",
+      "expected": "f2b70ee7c746112d345d279d2b21c149e35124eeb7ea6f88b5fd0ab39810cdbf",
+      "actual": "f2b70ee7c746112d345d279d2b21c149e35124eeb7ea6f88b5fd0ab39810cdbf"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/host/Directory.Build.targets",
+      "expected": "17284cb74605517cbec8a8153505da71a685b28694b67b5ef80608cd79b1c0ea",
+      "actual": "17284cb74605517cbec8a8153505da71a685b28694b67b5ef80608cd79b1c0ea"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/host/HttpRuntimeProbe.csproj",
+      "expected": "12ccbc1c0bcdfc9f2db8b82704322fba00ffda0a0f51c0ba109e47e3879010d1",
+      "actual": "12ccbc1c0bcdfc9f2db8b82704322fba00ffda0a0f51c0ba109e47e3879010d1"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/host/NuGet.config",
+      "expected": "2142cfb2dfa2c7feefbe40fabcc68b0dfecadafa99a1db9b70239d977cf2a7ef",
+      "actual": "2142cfb2dfa2c7feefbe40fabcc68b0dfecadafa99a1db9b70239d977cf2a7ef"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/host/packages.lock.json",
+      "expected": "a4364d81a6de2707d66fbced18fbbc926c882ab96e1d1aebbb17e871285b9d75",
+      "actual": "a4364d81a6de2707d66fbced18fbbc926c882ab96e1d1aebbb17e871285b9d75"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/host/Program.cs",
+      "expected": "f118042814ca0d4a4f6e40fe593f467d6fb6e16cab399bdf8538d386c289a866",
+      "actual": "f118042814ca0d4a4f6e40fe593f467d6fb6e16cab399bdf8538d386c289a866"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/host/bin/Release/net10.0/HttpRuntimeProbe.deps.json",
+      "expected": "36b866ea745688290f34b26e10f94f4580e800bb2bf00d50c6d3450e3a3eb6ff",
+      "actual": "36b866ea745688290f34b26e10f94f4580e800bb2bf00d50c6d3450e3a3eb6ff"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/host/bin/Release/net10.0/HttpRuntimeProbe.dll",
+      "expected": "905de30caba26030998c70e3a9115fa979cb03ca1aa177ec38763dbfd048a676",
+      "actual": "905de30caba26030998c70e3a9115fa979cb03ca1aa177ec38763dbfd048a676"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/host/bin/Release/net10.0/HttpRuntimeProbe.exe",
+      "expected": "07745707163e3b9818a69b41e18ac58ef4f34ecb06179fe47d049703f87bf3bf",
+      "actual": "07745707163e3b9818a69b41e18ac58ef4f34ecb06179fe47d049703f87bf3bf"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/host/bin/Release/net10.0/HttpRuntimeProbe.pdb",
+      "expected": "1decf03eb131b16341630c759356cd2b8d5cf2c924c3d35a9f266e318e4b0de0",
+      "actual": "1decf03eb131b16341630c759356cd2b8d5cf2c924c3d35a9f266e318e4b0de0"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/host/bin/Release/net10.0/HttpRuntimeProbe.runtimeconfig.json",
+      "expected": "b4aad84277c120c025a443649c4e09ca20b08725acc12ef60940786bfb8c024f",
+      "actual": "b4aad84277c120c025a443649c4e09ca20b08725acc12ef60940786bfb8c024f"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/.omo/audit-resolution/research/u12-v6-http-runtime.md",
+      "expected": "4cea4514b6551eb8b46f83ea03a88724eb3f8aaf6efd16d09bb455bc5e042ea2",
+      "actual": "4cea4514b6551eb8b46f83ea03a88724eb3f8aaf6efd16d09bb455bc5e042ea2"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/.omo/audit-resolution/research/u12-v6-http-runtime.json",
+      "expected": "75a74fef535cae126aa1628dfd7bed06095ede109f8889d686a436060e6277e3",
+      "actual": "75a74fef535cae126aa1628dfd7bed06095ede109f8889d686a436060e6277e3"
+    }
+  ],
+  "runtimeBindings": [
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/registration.json",
+      "expected": "af2459592840c326a1301ddda301cb6b0f70e7cbf8f93c23a17393ee28d5ab58",
+      "actual": "af2459592840c326a1301ddda301cb6b0f70e7cbf8f93c23a17393ee28d5ab58"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/.omo/audit-resolution/research/u12-v6-http.json",
+      "expected": "1ec02c8cb5992e24c5194880a74b0349fc00b15491247a1549ab94a73812a239",
+      "actual": "1ec02c8cb5992e24c5194880a74b0349fc00b15491247a1549ab94a73812a239"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/pre-registration.json",
+      "expected": "ce7cbe2e7d8e0aa65a8ede70c8b4838675c25341c0b8c5a3e61913088d484af7",
+      "actual": "ce7cbe2e7d8e0aa65a8ede70c8b4838675c25341c0b8c5a3e61913088d484af7"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/studies/audit-resolution-v6/snapshot/tasks/aspnetcore/tests/AspnetcoreTests.cs",
+      "expected": "b4343005f670ae9c23f9338e3f56289459f79630b763b7dfe434ae289a8b39c7",
+      "actual": "b4343005f670ae9c23f9338e3f56289459f79630b763b7dfe434ae289a8b39c7"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/studies/audit-resolution-v6/snapshot/tasks/aspnetcore/tests/Contract.cs",
+      "expected": "0e29dbaa90e69c2233652a6a742c9acef19b98a5ab90f1c9cbef191e138c9fec",
+      "actual": "0e29dbaa90e69c2233652a6a742c9acef19b98a5ab90f1c9cbef191e138c9fec"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/verification.json",
+      "expected": "b8f9251cd0d8cee5436aaf34874d3485af708e3ef1ead1467c1bbbb57a4f787f",
+      "actual": "b8f9251cd0d8cee5436aaf34874d3485af708e3ef1ead1467c1bbbb57a4f787f"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/case-field-proof.json",
+      "expected": "89fc1318f7a1091668fa4e65a205e5ff9d7aa3b626f26f2ebf8e8a5da97513f6",
+      "actual": "89fc1318f7a1091668fa4e65a205e5ff9d7aa3b626f26f2ebf8e8a5da97513f6"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/tcp-request-traces.json",
+      "expected": "62542255e4a4c7c72847ff67d213c1c1e34f26c33c2d7c6b6508b706f03aa9d0",
+      "actual": "62542255e4a4c7c72847ff67d213c1c1e34f26c33c2d7c6b6508b706f03aa9d0"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/listener-lifecycle-proof.json",
+      "expected": "310e12758ca5aed9360bedb92b56dc76bfcdb40ee2b6e7fb407be2d335475144",
+      "actual": "310e12758ca5aed9360bedb92b56dc76bfcdb40ee2b6e7fb407be2d335475144"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/separate-observation.json",
+      "expected": "8fd5aeb4c4dae8297360275eaf0bddb596c33f43ab84b75170506a5c1938f5c4",
+      "actual": "8fd5aeb4c4dae8297360275eaf0bddb596c33f43ab84b75170506a5c1938f5c4"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/execution-observe.json",
+      "expected": "3b9124f51a7c665d7ac07e273d5b59ffc10df419cbbe4e1f986ccaad0f8632bc",
+      "actual": "3b9124f51a7c665d7ac07e273d5b59ffc10df419cbbe4e1f986ccaad0f8632bc"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/binding-correction.json",
+      "expected": "826d03986ae80fc16511537ff958622418c72907072b694288527459dbe193c2",
+      "actual": "826d03986ae80fc16511537ff958622418c72907072b694288527459dbe193c2"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/binding-fix-launch.json",
+      "expected": "779b36b1636ee238d4dcc40ba00a9ac5e94e1e042caf69f0b5bd95b0c2028a78",
+      "actual": "779b36b1636ee238d4dcc40ba00a9ac5e94e1e042caf69f0b5bd95b0c2028a78"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/launch-binding.json",
+      "expected": "3c9b6bcf61f9fe2886d09166317ff180d0323d612b05cb3ca87c1bbfca7dcf76",
+      "actual": "3c9b6bcf61f9fe2886d09166317ff180d0323d612b05cb3ca87c1bbfca7dcf76"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/final-process-observation.json",
+      "expected": "b53ac74a9408b52beaa629982f9ec85f8bfd44e8f672d1712687debc79072bc0",
+      "actual": "b53ac74a9408b52beaa629982f9ec85f8bfd44e8f672d1712687debc79072bc0"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/final-pid-reader.json",
+      "expected": "d3a2563bdbf63d5a46edefe56d00e48ee1c8e895d76f5fd338707146eb7ded8b",
+      "actual": "d3a2563bdbf63d5a46edefe56d00e48ee1c8e895d76f5fd338707146eb7ded8b"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/evaluation/builds/aspnetcore-idiomatic-run-1-b5ae1e7d3cca449ba877385c2fe70502/Api.cs",
+      "expected": "c2cda778886d0f022ee1266b8ddd6bc79a0a0bb18252e8b3111f112e3307555d",
+      "actual": "c2cda778886d0f022ee1266b8ddd6bc79a0a0bb18252e8b3111f112e3307555d"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v6/aspnetcore/idiomatic/run-1/rounds/0002/receipt.json",
+      "expected": "fcb9aced573859ea9d11f1a899d57ccf9e58b5607f8d9c904548c09cd58b919b",
+      "actual": "fcb9aced573859ea9d11f1a899d57ccf9e58b5607f8d9c904548c09cd58b919b"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-b5ae1e7d3cca449ba877385c2fe70502\\bin\\Release\\net10.0\\AspnetcoreKit.dll",
+      "expected": "a99f7aec1370b16beb38c9c8d5df32ee5b6301f306a021217d57e10c4ea76a1e",
+      "actual": "a99f7aec1370b16beb38c9c8d5df32ee5b6301f306a021217d57e10c4ea76a1e"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\u12-v6-http-runtime\\attempt-01\\runtime-idiomatic-run-1.json",
+      "expected": "f44bac43f63810691682c8d2095c372534357bdb5a6fff328f131622e731a342",
+      "actual": "f44bac43f63810691682c8d2095c372534357bdb5a6fff328f131622e731a342"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/evaluation/builds/aspnetcore-idiomatic-run-2-2240977f04cf44469ae146961aec4a9f/Api.cs",
+      "expected": "9ebfb147a43415ecca67b378acfb8b3b7b0c3f26195ba2fffed1ab7905dcc29b",
+      "actual": "9ebfb147a43415ecca67b378acfb8b3b7b0c3f26195ba2fffed1ab7905dcc29b"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v6/aspnetcore/idiomatic/run-2/rounds/0001/receipt.json",
+      "expected": "575a5fcffc058568026bf9d28127b1d4c5e8a98aa8e6bbffa734331605c01352",
+      "actual": "575a5fcffc058568026bf9d28127b1d4c5e8a98aa8e6bbffa734331605c01352"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-2-2240977f04cf44469ae146961aec4a9f\\bin\\Release\\net10.0\\AspnetcoreKit.dll",
+      "expected": "cebb231291278636d0e9366eee88d180b3e38c336526c069149283205b379d07",
+      "actual": "cebb231291278636d0e9366eee88d180b3e38c336526c069149283205b379d07"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\u12-v6-http-runtime\\attempt-01\\runtime-idiomatic-run-2.json",
+      "expected": "137b51a672edda321a9f9cc932215dbb17f9aee7e0a76d1151340408e3cd5872",
+      "actual": "137b51a672edda321a9f9cc932215dbb17f9aee7e0a76d1151340408e3cd5872"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/evaluation/builds/aspnetcore-funnysharp-run-1-46c41c90c37e46058ea23832890d0833/Api.cs",
+      "expected": "b89f5d5fb9b60f1be74f87355887f039db9f4a2198bd2239e0b68ebd4d333db5",
+      "actual": "b89f5d5fb9b60f1be74f87355887f039db9f4a2198bd2239e0b68ebd4d333db5"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v6/aspnetcore/funnysharp/run-1/rounds/0001/receipt.json",
+      "expected": "9460f75b18ac84e2b1670799f4f580ecd77fe404235cd50fb0d4fded13f3a38e",
+      "actual": "9460f75b18ac84e2b1670799f4f580ecd77fe404235cd50fb0d4fded13f3a38e"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-1-46c41c90c37e46058ea23832890d0833\\bin\\Release\\net10.0\\AspnetcoreKit.dll",
+      "expected": "462a128b1d68835246b90b19f0f1ed39c5b8b4874f1551d21fa02d1ca15ab493",
+      "actual": "462a128b1d68835246b90b19f0f1ed39c5b8b4874f1551d21fa02d1ca15ab493"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-1-46c41c90c37e46058ea23832890d0833\\bin\\Release\\net10.0\\FunnySharp.dll",
+      "expected": "6a903f737356fdf67845c9cd39385e4a5e2b39bcae0ee92ff2882480ecb7e49d",
+      "actual": "6a903f737356fdf67845c9cd39385e4a5e2b39bcae0ee92ff2882480ecb7e49d"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-1-46c41c90c37e46058ea23832890d0833\\bin\\Release\\net10.0\\FunnySharp.AspNetCore.dll",
+      "expected": "2daaff9c72db5b730c06d3270c00dfd7046fa27e26d59374e31cf270b8dc30c2",
+      "actual": "2daaff9c72db5b730c06d3270c00dfd7046fa27e26d59374e31cf270b8dc30c2"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\u12-v6-http-runtime\\attempt-01\\runtime-funnysharp-run-1-binding-fix.json",
+      "expected": "d03ce5d7cd955f193c926f9751709e9e2a327239129d9ee098b31e04921ff654",
+      "actual": "d03ce5d7cd955f193c926f9751709e9e2a327239129d9ee098b31e04921ff654"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/evaluation/builds/aspnetcore-funnysharp-run-2-441f70bbe9564c08ac057d6681428ce5/Api.cs",
+      "expected": "659e8de72d01ef1f1ba1028c8a82abf297ea166be8999c29d8a6a8f3057ff6a5",
+      "actual": "659e8de72d01ef1f1ba1028c8a82abf297ea166be8999c29d8a6a8f3057ff6a5"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v6/aspnetcore/funnysharp/run-2/rounds/0001/receipt.json",
+      "expected": "a4cd243563cca598cfaa645373f0b5e6f1f592ba5975a2bc4c99c6aba9d9ff6b",
+      "actual": "a4cd243563cca598cfaa645373f0b5e6f1f592ba5975a2bc4c99c6aba9d9ff6b"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-2-441f70bbe9564c08ac057d6681428ce5\\bin\\Release\\net10.0\\AspnetcoreKit.dll",
+      "expected": "b0a64fb96f6ade6c7be685fc51d26623b3201eb9dec0ceb74935fea32d88766a",
+      "actual": "b0a64fb96f6ade6c7be685fc51d26623b3201eb9dec0ceb74935fea32d88766a"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-2-441f70bbe9564c08ac057d6681428ce5\\bin\\Release\\net10.0\\FunnySharp.dll",
+      "expected": "6a903f737356fdf67845c9cd39385e4a5e2b39bcae0ee92ff2882480ecb7e49d",
+      "actual": "6a903f737356fdf67845c9cd39385e4a5e2b39bcae0ee92ff2882480ecb7e49d"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-2-441f70bbe9564c08ac057d6681428ce5\\bin\\Release\\net10.0\\FunnySharp.AspNetCore.dll",
+      "expected": "2daaff9c72db5b730c06d3270c00dfd7046fa27e26d59374e31cf270b8dc30c2",
+      "actual": "2daaff9c72db5b730c06d3270c00dfd7046fa27e26d59374e31cf270b8dc30c2"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\u12-v6-http-runtime\\attempt-01\\runtime-funnysharp-run-2-binding-fix.json",
+      "expected": "8b89b5a7cf27ac133d2c2b41a376b857cd9fd73bd8b80100b16fd47c75172153",
+      "actual": "8b89b5a7cf27ac133d2c2b41a376b857cd9fd73bd8b80100b16fd47c75172153"
+    },
+    {
+      "path": "C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\10.0.12\\System.Private.CoreLib.dll",
+      "expected": "1125acc8106c43fc8bad2d203c4c4485df6182d292846c2fff415c1040c54678",
+      "actual": "1125acc8106c43fc8bad2d203c4c4485df6182d292846c2fff415c1040c54678"
+    },
+    {
+      "path": "C:\\Program Files\\dotnet\\shared\\Microsoft.AspNetCore.App\\10.0.12\\Microsoft.AspNetCore.dll",
+      "expected": "3bfd8a9ad4aa79e4cf809fab1cf133e0ceb43c89e80dc6eff47405f27cbf779f",
+      "actual": "3bfd8a9ad4aa79e4cf809fab1cf133e0ceb43c89e80dc6eff47405f27cbf779f"
+    },
+    {
+      "path": "C:\\Program Files\\dotnet\\shared\\Microsoft.AspNetCore.App\\10.0.12\\Microsoft.AspNetCore.Server.Kestrel.Core.dll",
+      "expected": "62b5ab79f5f896235e4068039450a15a7bcdb5bb4eb73f2f6bdf5a787d4cc239",
+      "actual": "62b5ab79f5f896235e4068039450a15a7bcdb5bb4eb73f2f6bdf5a787d4cc239"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/retained-binding-failure/HttpRuntimeProbe.dll",
+      "expected": "fa7eb7bca447f27ab1f71b1d5b8b034fa454e2328b7c3e3d56ab51a8a73364f9",
+      "actual": "fa7eb7bca447f27ab1f71b1d5b8b034fa454e2328b7c3e3d56ab51a8a73364f9"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/host/bin/Release/net10.0/HttpRuntimeProbe.dll",
+      "expected": "905de30caba26030998c70e3a9115fa979cb03ca1aa177ec38763dbfd048a676",
+      "actual": "905de30caba26030998c70e3a9115fa979cb03ca1aa177ec38763dbfd048a676"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/host/Program.cs",
+      "expected": "f118042814ca0d4a4f6e40fe593f467d6fb6e16cab399bdf8538d386c289a866",
+      "actual": "f118042814ca0d4a4f6e40fe593f467d6fb6e16cab399bdf8538d386c289a866"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v6-http-runtime/attempt-01/frozen-expectations.json",
+      "expected": "80706e8c1526859a7ca889421457994fdcf867553d0d880d9594b842200a92de",
+      "actual": "80706e8c1526859a7ca889421457994fdcf867553d0d880d9594b842200a92de"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\u12-v6-http-runtime\\attempt-01\\runtime-funnysharp-run-1.json",
+      "expected": "f1867fb619fda904327340f6b2a911c8cf2f2035ed8967a570ffdbad5bb208a5",
+      "actual": "f1867fb619fda904327340f6b2a911c8cf2f2035ed8967a570ffdbad5bb208a5"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\u12-v6-http-runtime\\attempt-01\\runtime-funnysharp-run-2.json",
+      "expected": "40d30d3d63a62275b3144c97bb66328f67779561335cb7cb97f1d8422b3ca2d4",
+      "actual": "40d30d3d63a62275b3144c97bb66328f67779561335cb7cb97f1d8422b3ca2d4"
+    }
+  ],
+  "parentRefusals": [
+    {
+      "url": "http://127.0.0.1:57543/",
+      "error": "ECONNREFUSED"
+    },
+    {
+      "url": "http://127.0.0.1:57551/",
+      "error": "ECONNREFUSED"
+    },
+    {
+      "url": "http://127.0.0.1:57557/",
+      "error": "ECONNREFUSED"
+    },
+    {
+      "url": "http://127.0.0.1:57565/",
+      "error": "ECONNREFUSED"
+    },
+    {
+      "url": "http://127.0.0.1:57572/",
+      "error": "ECONNREFUSED"
+    },
+    {
+      "url": "http://127.0.0.1:57584/",
+      "error": "ECONNREFUSED"
+    },
+    {
+      "url": "http://127.0.0.1:57595/",
+      "error": "ECONNREFUSED"
+    },
+    {
+      "url": "http://127.0.0.1:57603/",
+      "error": "ECONNREFUSED"
+    },
+    {
+      "url": "http://127.0.0.1:57610/",
+      "error": "ECONNREFUSED"
+    },
+    {
+      "url": "http://127.0.0.1:57623/",
+      "error": "ECONNREFUSED"
+    },
+    {
+      "url": "http://127.0.0.1:57627/",
+      "error": "ECONNREFUSED"
+    },
+    {
+      "url": "http://127.0.0.1:57634/",
+      "error": "ECONNREFUSED"
+    },
+    {
+      "url": "http://127.0.0.1:57646/",
+      "error": "ECONNREFUSED"
+    },
+    {
+      "url": "http://127.0.0.1:57652/",
+      "error": "ECONNREFUSED"
+    },
+    {
+      "url": "http://127.0.0.1:57663/",
+      "error": "ECONNREFUSED"
+    },
+    {
+      "url": "http://127.0.0.1:57667/",
+      "error": "ECONNREFUSED"
+    },
+    {
+      "url": "http://127.0.0.1:57676/",
+      "error": "ECONNREFUSED"
+    },
+    {
+      "url": "http://127.0.0.1:57681/",
+      "error": "ECONNREFUSED"
+    },
+    {
+      "url": "http://127.0.0.1:54655/",
+      "error": "ECONNREFUSED"
+    },
+    {
+      "url": "http://127.0.0.1:54661/",
+      "error": "ECONNREFUSED"
+    },
+    {
+      "url": "http://127.0.0.1:54673/",
+      "error": "ECONNREFUSED"
+    },
+    {
+      "url": "http://127.0.0.1:54687/",
+      "error": "ECONNREFUSED"
+    },
+    {
+      "url": "http://127.0.0.1:54706/",
+      "error": "ECONNREFUSED"
+    },
+    {
+      "url": "http://127.0.0.1:54712/",
+      "error": "ECONNREFUSED"
+    },
+    {
+      "url": "http://127.0.0.1:54725/",
+      "error": "ECONNREFUSED"
+    },
+    {
+      "url": "http://127.0.0.1:54735/",
+      "error": "ECONNREFUSED"
+    },
+    {
+      "url": "http://127.0.0.1:54741/",
+      "error": "ECONNREFUSED"
+    },
+    {
+      "url": "http://127.0.0.1:60114/",
+      "error": "ECONNREFUSED"
+    },
+    {
+      "url": "http://127.0.0.1:60121/",
+      "error": "ECONNREFUSED"
+    },
+    {
+      "url": "http://127.0.0.1:60132/",
+      "error": "ECONNREFUSED"
+    },
+    {
+      "url": "http://127.0.0.1:60640/",
+      "error": "ECONNREFUSED"
+    },
+    {
+      "url": "http://127.0.0.1:60648/",
+      "error": "ECONNREFUSED"
+    },
+    {
+      "url": "http://127.0.0.1:60660/",
+      "error": "ECONNREFUSED"
+    },
+    {
+      "url": "http://127.0.0.1:60667/",
+      "error": "ECONNREFUSED"
+    },
+    {
+      "url": "http://127.0.0.1:60677/",
+      "error": "ECONNREFUSED"
+    },
+    {
+      "url": "http://127.0.0.1:60683/",
+      "error": "ECONNREFUSED"
+    }
+  ],
+  "caseFieldsAllExact": true,
+  "eventLifecycleSubscriptionsBeforeTrigger": true,
+  "actualConsumerDLLs": [
+    {
+      "key": "idiomatic/run-1",
+      "acceptedRound": 2,
+      "assembly": {
+        "fullName": "AspnetcoreKit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+        "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-b5ae1e7d3cca449ba877385c2fe70502\\bin\\Release\\net10.0\\AspnetcoreKit.dll",
+        "sha256": "a99f7aec1370b16beb38c9c8d5df32ee5b6301f306a021217d57e10c4ea76a1e",
+        "mvid": "54e77b1e-059c-48f6-b568-7cac19db69bf"
+      },
+      "pid": 55388,
+      "source": {
+        "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/evaluation/builds/aspnetcore-idiomatic-run-1-b5ae1e7d3cca449ba877385c2fe70502/Api.cs",
+        "sha256": "c2cda778886d0f022ee1266b8ddd6bc79a0a0bb18252e8b3111f112e3307555d"
+      },
+      "receipt": {
+        "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v6/aspnetcore/idiomatic/run-1/rounds/0002/receipt.json",
+        "sha256": "fcb9aced573859ea9d11f1a899d57ccf9e58b5607f8d9c904548c09cd58b919b"
+      }
+    },
+    {
+      "key": "idiomatic/run-2",
+      "acceptedRound": 1,
+      "assembly": {
+        "fullName": "AspnetcoreKit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+        "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-2-2240977f04cf44469ae146961aec4a9f\\bin\\Release\\net10.0\\AspnetcoreKit.dll",
+        "sha256": "cebb231291278636d0e9366eee88d180b3e38c336526c069149283205b379d07",
+        "mvid": "d389d370-efad-4d1a-8836-c607ea44a251"
+      },
+      "pid": 55368,
+      "source": {
+        "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/evaluation/builds/aspnetcore-idiomatic-run-2-2240977f04cf44469ae146961aec4a9f/Api.cs",
+        "sha256": "9ebfb147a43415ecca67b378acfb8b3b7b0c3f26195ba2fffed1ab7905dcc29b"
+      },
+      "receipt": {
+        "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v6/aspnetcore/idiomatic/run-2/rounds/0001/receipt.json",
+        "sha256": "575a5fcffc058568026bf9d28127b1d4c5e8a98aa8e6bbffa734331605c01352"
+      }
+    },
+    {
+      "key": "funnysharp/run-1",
+      "acceptedRound": 1,
+      "assembly": {
+        "fullName": "AspnetcoreKit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+        "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-1-46c41c90c37e46058ea23832890d0833\\bin\\Release\\net10.0\\AspnetcoreKit.dll",
+        "sha256": "462a128b1d68835246b90b19f0f1ed39c5b8b4874f1551d21fa02d1ca15ab493",
+        "mvid": "3c21f7af-bfeb-49aa-933b-5cd5847963a8"
+      },
+      "pid": 36288,
+      "source": {
+        "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/evaluation/builds/aspnetcore-funnysharp-run-1-46c41c90c37e46058ea23832890d0833/Api.cs",
+        "sha256": "b89f5d5fb9b60f1be74f87355887f039db9f4a2198bd2239e0b68ebd4d333db5"
+      },
+      "receipt": {
+        "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v6/aspnetcore/funnysharp/run-1/rounds/0001/receipt.json",
+        "sha256": "9460f75b18ac84e2b1670799f4f580ecd77fe404235cd50fb0d4fded13f3a38e"
+      }
+    },
+    {
+      "key": "funnysharp/run-2",
+      "acceptedRound": 1,
+      "assembly": {
+        "fullName": "AspnetcoreKit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+        "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-2-441f70bbe9564c08ac057d6681428ce5\\bin\\Release\\net10.0\\AspnetcoreKit.dll",
+        "sha256": "b0a64fb96f6ade6c7be685fc51d26623b3201eb9dec0ceb74935fea32d88766a",
+        "mvid": "7b36b8db-d36c-467e-baaa-96244979196b"
+      },
+      "pid": 36884,
+      "source": {
+        "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/evaluation/builds/aspnetcore-funnysharp-run-2-441f70bbe9564c08ac057d6681428ce5/Api.cs",
+        "sha256": "659e8de72d01ef1f1ba1028c8a82abf297ea166be8999c29d8a6a8f3057ff6a5"
+      },
+      "receipt": {
+        "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v6/aspnetcore/funnysharp/run-2/rounds/0001/receipt.json",
+        "sha256": "a4cd243563cca598cfaa645373f0b5e6f1f592ba5975a2bc4c99c6aba9d9ff6b"
+      }
+    }
+  ],
+  "cleanup": {
+    "output": "    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n \nYou cannot call a method on a null-valued expression.\nAt line:1 char:48\n+ ... re-Object { $_.CommandLine.Replace([char]92,[char]47).Contains(\"u12-v ...\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException\n    + FullyQualifiedErrorId : InvokeMethodOnNull\n\n[Showing lines 236-1252 of 1252; earlier output dropped]",
+    "remaining": [],
+    "exit": 0
+  },
+  "hostReview": "Read562lineactualhost;9samefrozencases/pricingvalidationbillingorderstate fields; awaitedstart/stop/dispose andexactSocketConnectionRefused10061; canonical9+7namedentries verified, noTestHost.",
+  "parentVerificationCorrection": "InitialJSONStringifyordercomparisonfailed; stableobjectkeysort leavesvalues/array/error orderunchanged,actual36expectedvsactualallEqual.",
+  "scope": "RuntimeQAonly; finalmaintainer/release/all69independent."
+}

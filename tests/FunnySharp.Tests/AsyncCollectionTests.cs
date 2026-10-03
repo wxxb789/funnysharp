@@ -221,9 +221,9 @@ public sealed class AsyncCollectionTests
     public async Task LastOrNoneAsyncThrowsWhenTheSelectedItemIsNull()
     {
         await Assert.ThrowsAsync<ArgumentNullException>(
-            async () => await AsyncValues<string?>("first", null).LastOrNoneAsync());
+            async () => { _ = await AsyncValues<string?>("first", null).LastOrNoneAsync(); });
         await Assert.ThrowsAsync<ArgumentNullException>(
-            async () => await AsyncValues<string?>(null, null).LastOrNoneAsync());
+            async () => { _ = await AsyncValues<string?>(null, null).LastOrNoneAsync(); });
     }
 
     [Fact]

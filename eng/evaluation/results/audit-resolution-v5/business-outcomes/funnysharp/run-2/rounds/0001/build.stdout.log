@@ -1,0 +1,17 @@
+  Determining projects to restore...
+  Restored Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\business-outcomes-funnysharp-run-2-cae1fdbcac32431091a700af07ec7013\BusinessOutcomesKit.csproj (in 5.54 sec).
+CSC : warning CS2002: Source file 'Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\business-outcomes-funnysharp-run-2-cae1fdbcac32431091a700af07ec7013\nuget_packages\xunit.v3.core.mtp-v2\4.0.0\_content\DefaultRunnerReporters.cs' specified multiple times [Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\business-outcomes-funnysharp-run-2-cae1fdbcac32431091a700af07ec7013\BusinessOutcomesKit.csproj]
+CSC : warning CS2002: Source file 'Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\business-outcomes-funnysharp-run-2-cae1fdbcac32431091a700af07ec7013\nuget_packages\xunit.v3.core.mtp-v2\4.0.0\_content\DefaultResultWriters.cs' specified multiple times [Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\business-outcomes-funnysharp-run-2-cae1fdbcac32431091a700af07ec7013\BusinessOutcomesKit.csproj]
+Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\business-outcomes-funnysharp-run-2-cae1fdbcac32431091a700af07ec7013\OrderWorkflow.cs(28,23): error CS8602: Dereference of a possibly null reference. [Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\business-outcomes-funnysharp-run-2-cae1fdbcac32431091a700af07ec7013\BusinessOutcomesKit.csproj]
+
+Build FAILED.
+
+CSC : warning CS2002: Source file 'Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\business-outcomes-funnysharp-run-2-cae1fdbcac32431091a700af07ec7013\nuget_packages\xunit.v3.core.mtp-v2\4.0.0\_content\DefaultRunnerReporters.cs' specified multiple times [Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\business-outcomes-funnysharp-run-2-cae1fdbcac32431091a700af07ec7013\BusinessOutcomesKit.csproj]
+CSC : warning CS2002: Source file 'Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\business-outcomes-funnysharp-run-2-cae1fdbcac32431091a700af07ec7013\nuget_packages\xunit.v3.core.mtp-v2\4.0.0\_content\DefaultResultWriters.cs' specified multiple times [Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\business-outcomes-funnysharp-run-2-cae1fdbcac32431091a700af07ec7013\BusinessOutcomesKit.csproj]
+Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\business-outcomes-funnysharp-run-2-cae1fdbcac32431091a700af07ec7013\OrderWorkflow.cs(28,23): error CS8602: Dereference of a possibly null reference. [Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\business-outcomes-funnysharp-run-2-cae1fdbcac32431091a700af07ec7013\BusinessOutcomesKit.csproj]
+    2 Warning(s)
+    1 Error(s)
+
+BinaryLogger wrote to: Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\business-outcomes-funnysharp-run-2-cae1fdbcac32431091a700af07ec7013\build.binlog
+
+Time Elapsed 00:00:09.17

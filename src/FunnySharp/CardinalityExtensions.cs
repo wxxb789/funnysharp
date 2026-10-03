@@ -7,11 +7,12 @@ namespace FunnySharp;
 /// Every member validates its arguments eagerly, enumerates the source at most once, preserves
 /// source order, never invokes a delegate again after short-circuiting, and runs iteratively, so
 /// inputs of any size are safe (no recursion). The option carrier cannot hold
-/// <see langword="null"/>: a selected null item, which is possible only for a nullable reference
-/// item type, is rejected by the option's non-null guarantee with
+/// <see langword="null"/>: a selected null item of a nullable reference or value type is
+/// rejected by the option's non-null guarantee with
 /// <see cref="ArgumentNullException"/> instead of being folded into <c>None</c>. The
-/// null-skipping <c>MinOrNone</c> and <c>MaxOrNone</c> members are the exception. Each member
-/// documents the single meaning of its <c>None</c>.
+/// null-skipping <c>MinOrNone</c> and <c>MaxOrNone</c> members are exceptions, as is
+/// <c>ToNonEmptyOrNone</c>: its option contains a non-null wrapper that preserves null items.
+/// Each member documents the single meaning of its <c>None</c>.
 /// </remarks>
 public static class CardinalityExtensions
 {
@@ -313,7 +314,7 @@ public static class CardinalityExtensions
     /// </returns>
     /// <remarks>
     /// This member is eager, enumerates <paramref name="source"/> at most once, and preserves
-    /// source order. It follows the BCL null semantics for a nullable reference item type: null
+    /// source order. It follows the BCL null semantics for nullable reference and value types: null
     /// items are skipped, the comparison never sees a null item, and a source that is empty or
     /// all null becomes <c>None</c>. The loop is iterative, so inputs of any size are safe
     /// (no recursion).
@@ -335,7 +336,7 @@ public static class CardinalityExtensions
     /// </returns>
     /// <remarks>
     /// This member is eager, enumerates <paramref name="source"/> at most once, and preserves
-    /// source order. It follows the BCL null semantics for a nullable reference item type: null
+    /// source order. It follows the BCL null semantics for nullable reference and value types: null
     /// items are skipped, so <paramref name="comparer"/> never sees a null item, and a source
     /// that is empty or all null becomes <c>None</c>. The loop is iterative, so inputs of any
     /// size are safe (no recursion).
@@ -378,7 +379,7 @@ public static class CardinalityExtensions
     /// </returns>
     /// <remarks>
     /// This member is eager, enumerates <paramref name="source"/> at most once, and preserves
-    /// source order. It follows the BCL null semantics for a nullable reference item type: null
+    /// source order. It follows the BCL null semantics for nullable reference and value types: null
     /// items are skipped, the comparison never sees a null item, and a source that is empty or
     /// all null becomes <c>None</c>. The loop is iterative, so inputs of any size are safe
     /// (no recursion).
@@ -400,7 +401,7 @@ public static class CardinalityExtensions
     /// </returns>
     /// <remarks>
     /// This member is eager, enumerates <paramref name="source"/> at most once, and preserves
-    /// source order. It follows the BCL null semantics for a nullable reference item type: null
+    /// source order. It follows the BCL null semantics for nullable reference and value types: null
     /// items are skipped, so <paramref name="comparer"/> never sees a null item, and a source
     /// that is empty or all null becomes <c>None</c>. The loop is iterative, so inputs of any
     /// size are safe (no recursion).

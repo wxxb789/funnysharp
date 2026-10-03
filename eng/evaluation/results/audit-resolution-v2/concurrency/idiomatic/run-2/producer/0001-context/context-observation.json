@@ -1,0 +1,12 @@
+{
+  "schema": "funnysharp-native-context-observation/v1",
+  "sessionId": "01a0fc01-7973-7be1-b79c-7e42db3ff810",
+  "systemPrompt": "The attached request.json contains a JSON object with inputFiles, each with path and content. Those file contents are the complete task inputs. Return only a JSON object with a files array; each entry contains path, a top-level C# filename, and content, the complete file text. Return the complete solution. Do not replace supplied contract or test files.",
+  "contextFiles": [],
+  "skills": [],
+  "activeTools": [],
+  "model": {
+    "provider": "ghc",
+    "id": "gpt-6.1-sol"
+  }
+}

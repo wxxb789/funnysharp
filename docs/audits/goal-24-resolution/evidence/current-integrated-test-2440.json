@@ -1,0 +1,27 @@
+{
+  "schema": "funnysharp-current-full-solution-test/v1",
+  "command": "dotnet fsi build.fsx -- -p test",
+  "exitCode": 0,
+  "total": 2440,
+  "succeeded": 2440,
+  "failed": 0,
+  "skipped": 0,
+  "changesCovered": [
+    "Evaluation explicit v3/v4 registered successor guard",
+    "Registered transport replay v3/v4 Theory and unregistered-name rejection"
+  ],
+  "monitor": "mon_D3DSQKW17A8W75JF",
+  "bashId": "bash_11",
+  "actualSummary": "status: completed exit_code: 0\nTest run summary: Passed!\n  total: 2440\n  failed: 0\n  succeeded: 2440\n  skipped: 0",
+  "sourceHashes": [
+    {
+      "path": "eng/harness/Evaluation.fs",
+      "sha256": "fc25e73a13da1694b4be27ff3a5743dd99a1a5bfdbf17a3ff8f4ce48796c770b"
+    },
+    {
+      "path": "tests/FunnySharp.Harness.Tests/EvaluationTests.fs",
+      "sha256": "a187708c4013ade9bbcc1a82a6b43a8b45207232e30130e031a49d5c23bc7322"
+    }
+  ],
+  "scope": "Complete current source solution test/build surface; not four-host release or AIcohort acceptance."
+}

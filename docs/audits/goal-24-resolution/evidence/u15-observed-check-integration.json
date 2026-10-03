@@ -1,0 +1,128 @@
+{
+  "schema": "funnysharp-observed-check-integration/v1",
+  "capturedAtUtc": "2026-10-02T20:00:55.937Z",
+  "repository": "wxxb789/funnysharp",
+  "actualQuery": {
+    "endpoint": "repos/wxxb789/funnysharp/commits/main/check-runs",
+    "exitCode": 0,
+    "stderr": "",
+    "totalCount": 8,
+    "checks": [
+      {
+        "id": 109804231283,
+        "name": "linux-x64",
+        "headSha": "a8863473fd53eddc7cb47201508426db2e454f84",
+        "status": "completed",
+        "conclusion": "success",
+        "app": {
+          "id": 15368,
+          "slug": "github-actions",
+          "name": "GitHub Actions"
+        }
+      },
+      {
+        "id": 109804231223,
+        "name": "osx-arm64",
+        "headSha": "a8863473fd53eddc7cb47201508426db2e454f84",
+        "status": "completed",
+        "conclusion": "success",
+        "app": {
+          "id": 15368,
+          "slug": "github-actions",
+          "name": "GitHub Actions"
+        }
+      },
+      {
+        "id": 109804231138,
+        "name": "osx-x64-consumer",
+        "headSha": "a8863473fd53eddc7cb47201508426db2e454f84",
+        "status": "completed",
+        "conclusion": "success",
+        "app": {
+          "id": 15368,
+          "slug": "github-actions",
+          "name": "GitHub Actions"
+        }
+      },
+      {
+        "id": 109804093423,
+        "name": "tooling-gate",
+        "headSha": "a8863473fd53eddc7cb47201508426db2e454f84",
+        "status": "completed",
+        "conclusion": "success",
+        "app": {
+          "id": 15368,
+          "slug": "github-actions",
+          "name": "GitHub Actions"
+        }
+      },
+      {
+        "id": 109802625390,
+        "name": "tooling (windows-2025)",
+        "headSha": "a8863473fd53eddc7cb47201508426db2e454f84",
+        "status": "completed",
+        "conclusion": "success",
+        "app": {
+          "id": 15368,
+          "slug": "github-actions",
+          "name": "GitHub Actions"
+        }
+      },
+      {
+        "id": 109802625323,
+        "name": "tooling (macos-15)",
+        "headSha": "a8863473fd53eddc7cb47201508426db2e454f84",
+        "status": "completed",
+        "conclusion": "success",
+        "app": {
+          "id": 15368,
+          "slug": "github-actions",
+          "name": "GitHub Actions"
+        }
+      },
+      {
+        "id": 109802625034,
+        "name": "win-x64",
+        "headSha": "a8863473fd53eddc7cb47201508426db2e454f84",
+        "status": "completed",
+        "conclusion": "success",
+        "app": {
+          "id": 15368,
+          "slug": "github-actions",
+          "name": "GitHub Actions"
+        }
+      },
+      {
+        "id": 109802624966,
+        "name": "tooling (ubuntu-latest)",
+        "headSha": "a8863473fd53eddc7cb47201508426db2e454f84",
+        "status": "completed",
+        "conclusion": "success",
+        "app": {
+          "id": 15368,
+          "slug": "github-actions",
+          "name": "GitHub Actions"
+        }
+      }
+    ]
+  },
+  "observedApplication": {
+    "id": 15368,
+    "slug": "github-actions",
+    "name": "GitHub Actions"
+  },
+  "observedHead": "a8863473fd53eddc7cb47201508426db2e454f84",
+  "requiredCurrentReleaseContexts": [
+    "release/win-x64",
+    "release/linux-x64",
+    "release/osx-arm64",
+    "release/osx-x64-consumer"
+  ],
+  "scope": "Actual observed check-run app identity, not an owner-approved trust choice, current dirty-candidate checks, strict ruleset enforcement or non-bypass denial.",
+  "historicalChecksNotCurrentCandidateProof": true,
+  "toolingGateNotReleaseGate": true,
+  "allMethods": "GET",
+  "mutations": [],
+  "approvalSupplied": false,
+  "ownerPacketSupplement": ".omo/audit-resolution/research/u15-owner-action-packet.json remains historical packet; this supplement supplies app discovery only."
+}

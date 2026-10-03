@@ -156,6 +156,7 @@ public readonly struct Option<T> : IEquatable<Option<T>>
     /// <param name="some">The branch invoked with a present value.</param>
     /// <param name="none">The branch invoked when absent.</param>
     /// <returns>The selected branch result.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="some"/> or <paramref name="none"/> is null; guarded before state inspection or callback invocation.</exception>
     public TResult Match<TResult>(Func<T, TResult> some, Func<TResult> none)
     {
         ArgumentNullException.ThrowIfNull(some);
@@ -169,6 +170,7 @@ public readonly struct Option<T> : IEquatable<Option<T>>
     /// </summary>
     /// <param name="some">The branch invoked with a present value.</param>
     /// <param name="none">The branch invoked when absent.</param>
+    /// <exception cref="ArgumentNullException"><paramref name="some"/> or <paramref name="none"/> is null; guarded before state inspection or callback invocation.</exception>
     public void Match(Action<T> some, Action none)
     {
         ArgumentNullException.ThrowIfNull(some);
@@ -190,6 +192,7 @@ public readonly struct Option<T> : IEquatable<Option<T>>
     /// <typeparam name="TResult">The transformed value type.</typeparam>
     /// <param name="selector">The transformation to apply.</param>
     /// <returns>The transformed option, or <c>None</c> when absent or when the result is null.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="selector"/> is null, including when this option is absent.</exception>
     public Option<TResult> Map<TResult>(Func<T, TResult> selector)
     {
         ArgumentNullException.ThrowIfNull(selector);
@@ -215,6 +218,7 @@ public readonly struct Option<T> : IEquatable<Option<T>>
     /// </summary>
     /// <param name="predicate">The predicate to evaluate.</param>
     /// <returns>This option when present and matching; otherwise, <c>None</c>.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="predicate"/> is null; guarded before state inspection or callback invocation.</exception>
     public Option<T> Filter(Func<T, bool> predicate)
     {
         ArgumentNullException.ThrowIfNull(predicate);
@@ -367,6 +371,7 @@ public readonly struct Option<T> : IEquatable<Option<T>>
     /// </summary>
     /// <param name="fallbackFactory">The fallback option factory.</param>
     /// <returns>This option when present; otherwise, the factory result.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="fallbackFactory"/> is null; guarded before state inspection or callback invocation.</exception>
     public Option<T> OrElseWith(Func<Option<T>> fallbackFactory)
     {
         ArgumentNullException.ThrowIfNull(fallbackFactory);
@@ -428,14 +433,17 @@ public readonly struct Option<T> : IEquatable<Option<T>>
     /// <summary>
     /// Determines whether two options are equal.
     /// </summary>
+    /// <exception cref="InvalidOperationException">Either operand is uninitialized.</exception>
     public static bool operator ==(Option<T> left, Option<T> right) => left.Equals(right);
 
     /// <summary>
     /// Determines whether two options are unequal.
     /// </summary>
+    /// <exception cref="InvalidOperationException">Either operand is uninitialized.</exception>
     public static bool operator !=(Option<T> left, Option<T> right) => !left.Equals(right);
 
     /// <inheritdoc />
+    /// <returns>Diagnostic <c>Some(value)</c> or <c>None</c> text; present-value formatting may invoke user behavior.</returns>
     public override string ToString() => IsSome ? $"Some({value})" : "None";
 
     internal static Option<T> FromNullable([AllowNull] T value) =>

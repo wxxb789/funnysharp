@@ -5,7 +5,9 @@ public sealed class ResultTests
     [Fact]
     public void DefaultResultIsUninitializedAndThrowsInsteadOfMasquerading()
     {
+#pragma warning disable FS1001 // Intentional runtime misuse witness.
         Result<string, int> result = default;
+#pragma warning restore FS1001
 
         Assert.Equal("Uninitialized", result.ToString());
         Assert.Throws<InvalidOperationException>(() => result.IsFailure);
@@ -451,7 +453,9 @@ public sealed class ResultTests
         Func<int, int, int, int> combineThree = (first, second, third) => first + second + third;
         var initialized = Result<int, Exception>.Success(1);
         var failure = Result<int, Exception>.Failure(new InvalidOperationException("first"));
+#pragma warning disable FS1001 // Intentional runtime misuse witness.
         var uninitialized = default(Result<int, Exception>);
+#pragma warning restore FS1001
 
         var secondException = Assert.Throws<InvalidOperationException>(
             () => initialized.Zip(uninitialized, combineTwo));
@@ -554,11 +558,15 @@ public sealed class ResultTests
                 Result<int, string>.Success(3),
                 (Func<int, int, int, int>)null!));
         Assert.Throws<ArgumentNullException>(() =>
+#pragma warning disable FS1001 // Intentional runtime misuse witness.
             default(Result<int, string>).Zip(
+#pragma warning restore FS1001
                 Result<int, string>.Success(2),
                 (Func<int, int, int>)null!));
         Assert.Throws<ArgumentNullException>(() =>
+#pragma warning disable FS1001 // Intentional runtime misuse witness.
             default(Result<int, string>).Zip(
+#pragma warning restore FS1001
                 Result<int, string>.Success(2),
                 Result<int, string>.Success(3),
                 (Func<int, int, int, int>)null!));
@@ -622,7 +630,9 @@ public sealed class ResultTests
             (first, second, third, fourth) => first + second + third + fourth;
         var initialized = Result<int, Exception>.Success(1);
         var failure = Result<int, Exception>.Failure(new InvalidOperationException("first"));
+#pragma warning disable FS1001 // Intentional runtime misuse witness.
         var uninitialized = default(Result<int, Exception>);
+#pragma warning restore FS1001
 
         var secondException = Assert.Throws<InvalidOperationException>(
             () => initialized.Zip(uninitialized, initialized, initialized, combineFour));
@@ -717,7 +727,9 @@ public sealed class ResultTests
                 Result<int, string>.Success(4),
                 (Func<int, int, int, int, int>)null!));
         Assert.Throws<ArgumentNullException>(() =>
+#pragma warning disable FS1001 // Intentional runtime misuse witness.
             default(Result<int, string>).Zip(
+#pragma warning restore FS1001
                 Result<int, string>.Success(2),
                 Result<int, string>.Success(3),
                 Result<int, string>.Success(4),

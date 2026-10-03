@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>StreamingValidation</AssemblyName>
+    <DefineConstants>$(DefineConstants);STREAMING_VALIDATION</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(ControlRoot)solutions/SensorStream.cs" />
+    <Compile Include="$(ControlRoot)../tasks/async-streams/tests/Contract.cs" />
+    <Compile Include="$(ControlRoot)../tasks/async-streams/tests/AsyncStreamsTests.cs" />
+  </ItemGroup>
+</Project>

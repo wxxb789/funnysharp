@@ -1,0 +1,4524 @@
+{
+  "schema": "funnysharp-strict-v6-native-cohort-parent-proof/v1",
+  "study": "audit-resolution-v6",
+  "state": "TWENTY_ORIGINAL_FORMAL_GREEN_200_CASES_PARENT_BYTE_BOUND_RUNTIME_QA_PENDING",
+  "slots": 20,
+  "logicalFreshIds": 20,
+  "actualNativeCalls": 21,
+  "actualRequests": 21,
+  "freshActualNativeIds": 21,
+  "originalFormalFinalGreen": 20,
+  "fixedFinalCasesPassed": 200,
+  "failed": 0,
+  "skipped": 0,
+  "initialGreen": 19,
+  "retainedInitialCompileRed": 1,
+  "feedbackCorrections": 1,
+  "maxActualCalls": 2,
+  "manualSourceChanges": 0,
+  "replaySubstitutions": 0,
+  "independentRoundFileHashes": 8044,
+  "hashIssues": [],
+  "actualRequestsProof": [
+    {
+      "slot": "business-outcomes/idiomatic/run-1",
+      "round": 1,
+      "actualNativeId": "01a0ff01-e0a8-7afb-8319-7f6c0908a947",
+      "providerRequests": 1,
+      "developerCharacters": 355,
+      "exactFullRequest": true,
+      "zeroToolsSkillsContext": true,
+      "originalSourceFileCount": 1,
+      "sourceBytesExact": true,
+      "producerFields": 15,
+      "requestedModel": "ghc/gpt-6.1-sol",
+      "providerModel": {
+        "value": null,
+        "unknownReason": "Native selected model/route is observed. Actual upstream served model is unknown unless independently returned metadata supplies it."
+      },
+      "recordVerdict": "GREEN",
+      "evidenceKind": "generation-verification",
+      "buildExit": 0
+    },
+    {
+      "slot": "business-outcomes/idiomatic/run-2",
+      "round": 1,
+      "actualNativeId": "01a0ff08-52df-770b-bf48-d876660f9dcb",
+      "providerRequests": 1,
+      "developerCharacters": 355,
+      "exactFullRequest": true,
+      "zeroToolsSkillsContext": true,
+      "originalSourceFileCount": 1,
+      "sourceBytesExact": true,
+      "producerFields": 15,
+      "requestedModel": "ghc/gpt-6.1-sol",
+      "providerModel": {
+        "value": null,
+        "unknownReason": "Native selected model/route is observed. Actual upstream served model is unknown unless independently returned metadata supplies it."
+      },
+      "recordVerdict": "GREEN",
+      "evidenceKind": "generation-verification",
+      "buildExit": 0
+    },
+    {
+      "slot": "business-outcomes/funnysharp/run-1",
+      "round": 1,
+      "actualNativeId": "01a0ff08-6215-7d2c-b66d-b51c6991a4d4",
+      "providerRequests": 1,
+      "developerCharacters": 355,
+      "exactFullRequest": true,
+      "zeroToolsSkillsContext": true,
+      "originalSourceFileCount": 1,
+      "sourceBytesExact": true,
+      "producerFields": 15,
+      "requestedModel": "ghc/gpt-6.1-sol",
+      "providerModel": {
+        "value": null,
+        "unknownReason": "Native selected model/route is observed. Actual upstream served model is unknown unless independently returned metadata supplies it."
+      },
+      "recordVerdict": "GREEN",
+      "evidenceKind": "generation-verification",
+      "buildExit": 0
+    },
+    {
+      "slot": "business-outcomes/funnysharp/run-2",
+      "round": 1,
+      "actualNativeId": "01a0ff08-71f3-7873-99b0-8c152f9fc777",
+      "providerRequests": 1,
+      "developerCharacters": 355,
+      "exactFullRequest": true,
+      "zeroToolsSkillsContext": true,
+      "originalSourceFileCount": 1,
+      "sourceBytesExact": true,
+      "producerFields": 15,
+      "requestedModel": "ghc/gpt-6.1-sol",
+      "providerModel": {
+        "value": null,
+        "unknownReason": "Native selected model/route is observed. Actual upstream served model is unknown unless independently returned metadata supplies it."
+      },
+      "recordVerdict": "GREEN",
+      "evidenceKind": "generation-verification",
+      "buildExit": 0
+    },
+    {
+      "slot": "collections/idiomatic/run-1",
+      "round": 1,
+      "actualNativeId": "01a0ff09-fec1-7951-aec5-0c6a159491e8",
+      "providerRequests": 1,
+      "developerCharacters": 355,
+      "exactFullRequest": true,
+      "zeroToolsSkillsContext": true,
+      "originalSourceFileCount": 1,
+      "sourceBytesExact": true,
+      "producerFields": 16,
+      "requestedModel": "ghc/gpt-6.1-sol",
+      "providerModel": {
+        "value": null,
+        "unknownReason": "Native selected model/route is observed. Actual upstream served model is unknown unless independently returned metadata supplies it."
+      },
+      "recordVerdict": "GREEN",
+      "evidenceKind": "generation-verification",
+      "buildExit": 0
+    },
+    {
+      "slot": "collections/idiomatic/run-2",
+      "round": 1,
+      "actualNativeId": "01a0ff0a-573b-79c8-ab04-e5f748e867c2",
+      "providerRequests": 1,
+      "developerCharacters": 355,
+      "exactFullRequest": true,
+      "zeroToolsSkillsContext": true,
+      "originalSourceFileCount": 1,
+      "sourceBytesExact": true,
+      "producerFields": 16,
+      "requestedModel": "ghc/gpt-6.1-sol",
+      "providerModel": {
+        "value": null,
+        "unknownReason": "Native selected model/route is observed. Actual upstream served model is unknown unless independently returned metadata supplies it."
+      },
+      "recordVerdict": "GREEN",
+      "evidenceKind": "generation-verification",
+      "buildExit": 0
+    },
+    {
+      "slot": "collections/funnysharp/run-1",
+      "round": 1,
+      "actualNativeId": "01a0ff0a-6739-7bb4-b9da-b5eda9c84c47",
+      "providerRequests": 1,
+      "developerCharacters": 355,
+      "exactFullRequest": true,
+      "zeroToolsSkillsContext": true,
+      "originalSourceFileCount": 1,
+      "sourceBytesExact": true,
+      "producerFields": 16,
+      "requestedModel": "ghc/gpt-6.1-sol",
+      "providerModel": {
+        "value": null,
+        "unknownReason": "Native selected model/route is observed. Actual upstream served model is unknown unless independently returned metadata supplies it."
+      },
+      "recordVerdict": "GREEN",
+      "evidenceKind": "generation-verification",
+      "buildExit": 0
+    },
+    {
+      "slot": "collections/funnysharp/run-2",
+      "round": 1,
+      "actualNativeId": "01a0ff0a-7aed-7306-a16a-2ca27b0efa18",
+      "providerRequests": 1,
+      "developerCharacters": 355,
+      "exactFullRequest": true,
+      "zeroToolsSkillsContext": true,
+      "originalSourceFileCount": 1,
+      "sourceBytesExact": true,
+      "producerFields": 16,
+      "requestedModel": "ghc/gpt-6.1-sol",
+      "providerModel": {
+        "value": null,
+        "unknownReason": "Native selected model/route is observed. Actual upstream served model is unknown unless independently returned metadata supplies it."
+      },
+      "recordVerdict": "GREEN",
+      "evidenceKind": "generation-verification",
+      "buildExit": 0
+    },
+    {
+      "slot": "async-streams/idiomatic/run-1",
+      "round": 1,
+      "actualNativeId": "01a0ff0d-3dd1-751a-90dd-97c174f7525b",
+      "providerRequests": 1,
+      "developerCharacters": 355,
+      "exactFullRequest": true,
+      "zeroToolsSkillsContext": true,
+      "originalSourceFileCount": 1,
+      "sourceBytesExact": true,
+      "producerFields": 16,
+      "requestedModel": "ghc/gpt-6.1-sol",
+      "providerModel": {
+        "value": null,
+        "unknownReason": "Native selected model/route is observed. Actual upstream served model is unknown unless independently returned metadata supplies it."
+      },
+      "recordVerdict": "GREEN",
+      "evidenceKind": "generation-verification",
+      "buildExit": 0
+    },
+    {
+      "slot": "async-streams/idiomatic/run-2",
+      "round": 1,
+      "actualNativeId": "01a0ff0d-50c6-7cc5-8031-c68618c1636a",
+      "providerRequests": 1,
+      "developerCharacters": 355,
+      "exactFullRequest": true,
+      "zeroToolsSkillsContext": true,
+      "originalSourceFileCount": 1,
+      "sourceBytesExact": true,
+      "producerFields": 16,
+      "requestedModel": "ghc/gpt-6.1-sol",
+      "providerModel": {
+        "value": null,
+        "unknownReason": "Native selected model/route is observed. Actual upstream served model is unknown unless independently returned metadata supplies it."
+      },
+      "recordVerdict": "GREEN",
+      "evidenceKind": "generation-verification",
+      "buildExit": 0
+    },
+    {
+      "slot": "async-streams/funnysharp/run-1",
+      "round": 1,
+      "actualNativeId": "01a0ff0d-50c7-7e5d-b43b-20af53a29dbd",
+      "providerRequests": 1,
+      "developerCharacters": 355,
+      "exactFullRequest": true,
+      "zeroToolsSkillsContext": true,
+      "originalSourceFileCount": 1,
+      "sourceBytesExact": true,
+      "producerFields": 16,
+      "requestedModel": "ghc/gpt-6.1-sol",
+      "providerModel": {
+        "value": null,
+        "unknownReason": "Native selected model/route is observed. Actual upstream served model is unknown unless independently returned metadata supplies it."
+      },
+      "recordVerdict": "GREEN",
+      "evidenceKind": "generation-verification",
+      "buildExit": 0
+    },
+    {
+      "slot": "async-streams/funnysharp/run-2",
+      "round": 1,
+      "actualNativeId": "01a0ff0d-5112-79f8-9e47-fc76523d3d51",
+      "providerRequests": 1,
+      "developerCharacters": 355,
+      "exactFullRequest": true,
+      "zeroToolsSkillsContext": true,
+      "originalSourceFileCount": 1,
+      "sourceBytesExact": true,
+      "producerFields": 16,
+      "requestedModel": "ghc/gpt-6.1-sol",
+      "providerModel": {
+        "value": null,
+        "unknownReason": "Native selected model/route is observed. Actual upstream served model is unknown unless independently returned metadata supplies it."
+      },
+      "recordVerdict": "GREEN",
+      "evidenceKind": "generation-verification",
+      "buildExit": 0
+    },
+    {
+      "slot": "concurrency/idiomatic/run-1",
+      "round": 1,
+      "actualNativeId": "01a0ff0a-1d74-7c97-b040-dc22f1cf874a",
+      "providerRequests": 1,
+      "developerCharacters": 355,
+      "exactFullRequest": true,
+      "zeroToolsSkillsContext": true,
+      "originalSourceFileCount": 1,
+      "sourceBytesExact": true,
+      "producerFields": 16,
+      "requestedModel": "ghc/gpt-6.1-sol",
+      "providerModel": {
+        "value": null,
+        "unknownReason": "Native selected model/route is observed. Actual upstream served model is unknown unless independently returned metadata supplies it."
+      },
+      "recordVerdict": "GREEN",
+      "evidenceKind": "generation-verification",
+      "buildExit": 0
+    },
+    {
+      "slot": "concurrency/idiomatic/run-2",
+      "round": 1,
+      "actualNativeId": "01a0ff0a-3f49-73cb-8170-89140946f366",
+      "providerRequests": 1,
+      "developerCharacters": 355,
+      "exactFullRequest": true,
+      "zeroToolsSkillsContext": true,
+      "originalSourceFileCount": 1,
+      "sourceBytesExact": true,
+      "producerFields": 16,
+      "requestedModel": "ghc/gpt-6.1-sol",
+      "providerModel": {
+        "value": null,
+        "unknownReason": "Native selected model/route is observed. Actual upstream served model is unknown unless independently returned metadata supplies it."
+      },
+      "recordVerdict": "GREEN",
+      "evidenceKind": "generation-verification",
+      "buildExit": 0
+    },
+    {
+      "slot": "concurrency/funnysharp/run-1",
+      "round": 1,
+      "actualNativeId": "01a0ff0a-404a-7f59-8877-7759f9aec087",
+      "providerRequests": 1,
+      "developerCharacters": 355,
+      "exactFullRequest": true,
+      "zeroToolsSkillsContext": true,
+      "originalSourceFileCount": 1,
+      "sourceBytesExact": true,
+      "producerFields": 16,
+      "requestedModel": "ghc/gpt-6.1-sol",
+      "providerModel": {
+        "value": null,
+        "unknownReason": "Native selected model/route is observed. Actual upstream served model is unknown unless independently returned metadata supplies it."
+      },
+      "recordVerdict": "GREEN",
+      "evidenceKind": "generation-verification",
+      "buildExit": 0
+    },
+    {
+      "slot": "concurrency/funnysharp/run-2",
+      "round": 1,
+      "actualNativeId": "01a0ff0a-4140-7593-aeeb-32255703fe24",
+      "providerRequests": 1,
+      "developerCharacters": 355,
+      "exactFullRequest": true,
+      "zeroToolsSkillsContext": true,
+      "originalSourceFileCount": 1,
+      "sourceBytesExact": true,
+      "producerFields": 16,
+      "requestedModel": "ghc/gpt-6.1-sol",
+      "providerModel": {
+        "value": null,
+        "unknownReason": "Native selected model/route is observed. Actual upstream served model is unknown unless independently returned metadata supplies it."
+      },
+      "recordVerdict": "GREEN",
+      "evidenceKind": "generation-verification",
+      "buildExit": 0
+    },
+    {
+      "slot": "aspnetcore/idiomatic/run-1",
+      "round": 1,
+      "actualNativeId": "01a0ff0a-384c-7950-9986-dc43904185f6",
+      "providerRequests": 1,
+      "developerCharacters": 355,
+      "exactFullRequest": true,
+      "zeroToolsSkillsContext": true,
+      "originalSourceFileCount": 1,
+      "sourceBytesExact": true,
+      "producerFields": 16,
+      "requestedModel": "ghc/gpt-6.1-sol",
+      "providerModel": {
+        "value": null,
+        "unknownReason": "Native selected model/route is observed. Actual upstream served model is unknown unless independently returned metadata supplies it."
+      },
+      "recordVerdict": "RED",
+      "evidenceKind": "generation-verification",
+      "buildExit": 1
+    },
+    {
+      "slot": "aspnetcore/idiomatic/run-1",
+      "round": 2,
+      "actualNativeId": "01a0ff12-3750-772b-9569-bd1e96f542b5",
+      "providerRequests": 1,
+      "developerCharacters": 355,
+      "exactFullRequest": true,
+      "zeroToolsSkillsContext": true,
+      "originalSourceFileCount": 1,
+      "sourceBytesExact": true,
+      "producerFields": 16,
+      "requestedModel": "ghc/gpt-6.1-sol",
+      "providerModel": {
+        "value": null,
+        "unknownReason": "Native selected model/route is observed. Actual upstream served model is unknown unless independently returned metadata supplies it."
+      },
+      "recordVerdict": "GREEN",
+      "evidenceKind": "generation-verification",
+      "buildExit": 0
+    },
+    {
+      "slot": "aspnetcore/idiomatic/run-2",
+      "round": 1,
+      "actualNativeId": "01a0ff0a-5fe2-7abe-9bf9-41f0ee33178a",
+      "providerRequests": 1,
+      "developerCharacters": 355,
+      "exactFullRequest": true,
+      "zeroToolsSkillsContext": true,
+      "originalSourceFileCount": 1,
+      "sourceBytesExact": true,
+      "producerFields": 16,
+      "requestedModel": "ghc/gpt-6.1-sol",
+      "providerModel": {
+        "value": null,
+        "unknownReason": "Native selected model/route is observed. Actual upstream served model is unknown unless independently returned metadata supplies it."
+      },
+      "recordVerdict": "GREEN",
+      "evidenceKind": "generation-verification",
+      "buildExit": 0
+    },
+    {
+      "slot": "aspnetcore/funnysharp/run-1",
+      "round": 1,
+      "actualNativeId": "01a0ff0a-6f89-7314-a12a-8abb5fac44d7",
+      "providerRequests": 1,
+      "developerCharacters": 355,
+      "exactFullRequest": true,
+      "zeroToolsSkillsContext": true,
+      "originalSourceFileCount": 1,
+      "sourceBytesExact": true,
+      "producerFields": 16,
+      "requestedModel": "ghc/gpt-6.1-sol",
+      "providerModel": {
+        "value": null,
+        "unknownReason": "Native selected model/route is observed. Actual upstream served model is unknown unless independently returned metadata supplies it."
+      },
+      "recordVerdict": "GREEN",
+      "evidenceKind": "generation-verification",
+      "buildExit": 0
+    },
+    {
+      "slot": "aspnetcore/funnysharp/run-2",
+      "round": 1,
+      "actualNativeId": "01a0ff0a-8534-7bf0-85da-549f3cc5a133",
+      "providerRequests": 1,
+      "developerCharacters": 355,
+      "exactFullRequest": true,
+      "zeroToolsSkillsContext": true,
+      "originalSourceFileCount": 1,
+      "sourceBytesExact": true,
+      "producerFields": 16,
+      "requestedModel": "ghc/gpt-6.1-sol",
+      "providerModel": {
+        "value": null,
+        "unknownReason": "Native selected model/route is observed. Actual upstream served model is unknown unless independently returned metadata supplies it."
+      },
+      "recordVerdict": "GREEN",
+      "evidenceKind": "generation-verification",
+      "buildExit": 0
+    }
+  ],
+  "allContextFileProof": [
+    {
+      "slot": "business-outcomes/idiomatic/run-1",
+      "round": 1,
+      "files": [
+        {
+          "path": "guides/README.md",
+          "sha256": "cc536213ce3dd198741dd81ae4518fd492f24016400b9cbd02b5e85f2d2be517",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/analyzers.md",
+          "sha256": "c40255afe05dc9d0c1515f3ba9ab4fb764a2e8b79016fe5944493790f22fd8b1",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/aspnet-core.md",
+          "sha256": "31fd17e3283e02599612eef4969844b682dbfa3714cfe9a9bd8d9eed74e81e0f",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/collections.md",
+          "sha256": "f5d1b2f8ff9c92dcb94319e8860e8d0f957bd6da7faf811e47a9995f3e0f08bc",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/concurrency.md",
+          "sha256": "89a326d020c1b0274d520789cf6edde242239ba3f2aa50ae3e829db9f9b31cf6",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/data-pipelines.md",
+          "sha256": "f246b803edc480eab1dacb1d9549ef29b80a72a738171d7c4019c33d96906064",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/effects.md",
+          "sha256": "fb9012a5c6dbaabb8bc02cbc50f9710f96e49cb3a34a361fde96d8bd1bc4a694",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/function-composition.md",
+          "sha256": "644cb2bb3cbb9bf42cfe43bbe96eac2df5d021e3b6c371763d45c8f55243f641",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/grammar.md",
+          "sha256": "c46cbe739485ff881a8add7166395c210b399dfe5e81f37aa5b64f98439ed48c",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/option.md",
+          "sha256": "3a98a70031f5c6bf1f11172e807f39165e70f55f32b3d786e476dbd9e3dc6c0b",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/product-contract.md",
+          "sha256": "56e49ad95406612774b4d26e3e2763e11e06240c3dfd0de092a4011335fbf952",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/result.md",
+          "sha256": "e4bb306822cff30233a880840c1f7d4b9b2ea85cf2385dc599578a1fb93ec256",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/unit-result.md",
+          "sha256": "0c8682d7fdc4a7e1ce6b22d031a06ab1dd7f2db1f24755c947e6e0b440c56cfb",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/validation.md",
+          "sha256": "7ea23db45dad422f9aab8d7677e697473af4e8c82a5145f325dd2accb8b7cac6",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/business-outcomes/prompt-idiomatic.md",
+          "sha256": "afd6a99571794497520aa500aebd4a5502c4e9dae78637f790b23807035c4f6f",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/business-outcomes/template-idiomatic/BusinessOutcomesKit.csproj",
+          "sha256": "23b2955bdf1d32698eaa08a46748a4f673479a9b76332ec79cb884d4f6f394bd",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/business-outcomes/tests/Contract.cs",
+          "sha256": "ae4e8d0998ebd3332e4eabc0bdc51b1ef50ad2c1e6df8102377ee2bf7ccf79c9",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/business-outcomes/tests/PlaceOrderTests.cs",
+          "sha256": "be36ad4fcc030392fd18ffed49b395b686b4c84ee52c264c4083e69352184ab9",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/business-outcomes/tests/SideEffectsTests.cs",
+          "sha256": "d359f596e622e61e3841fa231b40e1497f0a7f5c962df484221931b41a708df0",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        }
+      ]
+    },
+    {
+      "slot": "business-outcomes/idiomatic/run-2",
+      "round": 1,
+      "files": [
+        {
+          "path": "guides/README.md",
+          "sha256": "cc536213ce3dd198741dd81ae4518fd492f24016400b9cbd02b5e85f2d2be517",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/analyzers.md",
+          "sha256": "c40255afe05dc9d0c1515f3ba9ab4fb764a2e8b79016fe5944493790f22fd8b1",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/aspnet-core.md",
+          "sha256": "31fd17e3283e02599612eef4969844b682dbfa3714cfe9a9bd8d9eed74e81e0f",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/collections.md",
+          "sha256": "f5d1b2f8ff9c92dcb94319e8860e8d0f957bd6da7faf811e47a9995f3e0f08bc",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/concurrency.md",
+          "sha256": "89a326d020c1b0274d520789cf6edde242239ba3f2aa50ae3e829db9f9b31cf6",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/data-pipelines.md",
+          "sha256": "f246b803edc480eab1dacb1d9549ef29b80a72a738171d7c4019c33d96906064",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/effects.md",
+          "sha256": "fb9012a5c6dbaabb8bc02cbc50f9710f96e49cb3a34a361fde96d8bd1bc4a694",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/function-composition.md",
+          "sha256": "644cb2bb3cbb9bf42cfe43bbe96eac2df5d021e3b6c371763d45c8f55243f641",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/grammar.md",
+          "sha256": "c46cbe739485ff881a8add7166395c210b399dfe5e81f37aa5b64f98439ed48c",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/option.md",
+          "sha256": "3a98a70031f5c6bf1f11172e807f39165e70f55f32b3d786e476dbd9e3dc6c0b",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/product-contract.md",
+          "sha256": "56e49ad95406612774b4d26e3e2763e11e06240c3dfd0de092a4011335fbf952",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/result.md",
+          "sha256": "e4bb306822cff30233a880840c1f7d4b9b2ea85cf2385dc599578a1fb93ec256",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/unit-result.md",
+          "sha256": "0c8682d7fdc4a7e1ce6b22d031a06ab1dd7f2db1f24755c947e6e0b440c56cfb",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/validation.md",
+          "sha256": "7ea23db45dad422f9aab8d7677e697473af4e8c82a5145f325dd2accb8b7cac6",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/business-outcomes/prompt-idiomatic.md",
+          "sha256": "afd6a99571794497520aa500aebd4a5502c4e9dae78637f790b23807035c4f6f",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/business-outcomes/template-idiomatic/BusinessOutcomesKit.csproj",
+          "sha256": "23b2955bdf1d32698eaa08a46748a4f673479a9b76332ec79cb884d4f6f394bd",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/business-outcomes/tests/Contract.cs",
+          "sha256": "ae4e8d0998ebd3332e4eabc0bdc51b1ef50ad2c1e6df8102377ee2bf7ccf79c9",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/business-outcomes/tests/PlaceOrderTests.cs",
+          "sha256": "be36ad4fcc030392fd18ffed49b395b686b4c84ee52c264c4083e69352184ab9",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/business-outcomes/tests/SideEffectsTests.cs",
+          "sha256": "d359f596e622e61e3841fa231b40e1497f0a7f5c962df484221931b41a708df0",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        }
+      ]
+    },
+    {
+      "slot": "business-outcomes/funnysharp/run-1",
+      "round": 1,
+      "files": [
+        {
+          "path": "guides/README.md",
+          "sha256": "cc536213ce3dd198741dd81ae4518fd492f24016400b9cbd02b5e85f2d2be517",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/analyzers.md",
+          "sha256": "c40255afe05dc9d0c1515f3ba9ab4fb764a2e8b79016fe5944493790f22fd8b1",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/aspnet-core.md",
+          "sha256": "31fd17e3283e02599612eef4969844b682dbfa3714cfe9a9bd8d9eed74e81e0f",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/collections.md",
+          "sha256": "f5d1b2f8ff9c92dcb94319e8860e8d0f957bd6da7faf811e47a9995f3e0f08bc",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/concurrency.md",
+          "sha256": "89a326d020c1b0274d520789cf6edde242239ba3f2aa50ae3e829db9f9b31cf6",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/data-pipelines.md",
+          "sha256": "f246b803edc480eab1dacb1d9549ef29b80a72a738171d7c4019c33d96906064",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/effects.md",
+          "sha256": "fb9012a5c6dbaabb8bc02cbc50f9710f96e49cb3a34a361fde96d8bd1bc4a694",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/function-composition.md",
+          "sha256": "644cb2bb3cbb9bf42cfe43bbe96eac2df5d021e3b6c371763d45c8f55243f641",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/grammar.md",
+          "sha256": "c46cbe739485ff881a8add7166395c210b399dfe5e81f37aa5b64f98439ed48c",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/option.md",
+          "sha256": "3a98a70031f5c6bf1f11172e807f39165e70f55f32b3d786e476dbd9e3dc6c0b",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/product-contract.md",
+          "sha256": "56e49ad95406612774b4d26e3e2763e11e06240c3dfd0de092a4011335fbf952",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/result.md",
+          "sha256": "e4bb306822cff30233a880840c1f7d4b9b2ea85cf2385dc599578a1fb93ec256",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/unit-result.md",
+          "sha256": "0c8682d7fdc4a7e1ce6b22d031a06ab1dd7f2db1f24755c947e6e0b440c56cfb",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/validation.md",
+          "sha256": "7ea23db45dad422f9aab8d7677e697473af4e8c82a5145f325dd2accb8b7cac6",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/business-outcomes/prompt-funnysharp.md",
+          "sha256": "56d667e0a8aee9b30b10d0020367aeb19a369af349c56d8a7868aa8ffb8db49c",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/business-outcomes/template-funnysharp/BusinessOutcomesKit.csproj",
+          "sha256": "56d4c5e636c9fec400a746dcc0ec225c3bbd8498972ddb479d30aad4e68b749d",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/business-outcomes/tests/Contract.cs",
+          "sha256": "ae4e8d0998ebd3332e4eabc0bdc51b1ef50ad2c1e6df8102377ee2bf7ccf79c9",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/business-outcomes/tests/PlaceOrderTests.cs",
+          "sha256": "be36ad4fcc030392fd18ffed49b395b686b4c84ee52c264c4083e69352184ab9",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/business-outcomes/tests/SideEffectsTests.cs",
+          "sha256": "d359f596e622e61e3841fa231b40e1497f0a7f5c962df484221931b41a708df0",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        }
+      ]
+    },
+    {
+      "slot": "business-outcomes/funnysharp/run-2",
+      "round": 1,
+      "files": [
+        {
+          "path": "guides/README.md",
+          "sha256": "cc536213ce3dd198741dd81ae4518fd492f24016400b9cbd02b5e85f2d2be517",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/analyzers.md",
+          "sha256": "c40255afe05dc9d0c1515f3ba9ab4fb764a2e8b79016fe5944493790f22fd8b1",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/aspnet-core.md",
+          "sha256": "31fd17e3283e02599612eef4969844b682dbfa3714cfe9a9bd8d9eed74e81e0f",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/collections.md",
+          "sha256": "f5d1b2f8ff9c92dcb94319e8860e8d0f957bd6da7faf811e47a9995f3e0f08bc",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/concurrency.md",
+          "sha256": "89a326d020c1b0274d520789cf6edde242239ba3f2aa50ae3e829db9f9b31cf6",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/data-pipelines.md",
+          "sha256": "f246b803edc480eab1dacb1d9549ef29b80a72a738171d7c4019c33d96906064",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/effects.md",
+          "sha256": "fb9012a5c6dbaabb8bc02cbc50f9710f96e49cb3a34a361fde96d8bd1bc4a694",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/function-composition.md",
+          "sha256": "644cb2bb3cbb9bf42cfe43bbe96eac2df5d021e3b6c371763d45c8f55243f641",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/grammar.md",
+          "sha256": "c46cbe739485ff881a8add7166395c210b399dfe5e81f37aa5b64f98439ed48c",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/option.md",
+          "sha256": "3a98a70031f5c6bf1f11172e807f39165e70f55f32b3d786e476dbd9e3dc6c0b",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/product-contract.md",
+          "sha256": "56e49ad95406612774b4d26e3e2763e11e06240c3dfd0de092a4011335fbf952",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/result.md",
+          "sha256": "e4bb306822cff30233a880840c1f7d4b9b2ea85cf2385dc599578a1fb93ec256",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/unit-result.md",
+          "sha256": "0c8682d7fdc4a7e1ce6b22d031a06ab1dd7f2db1f24755c947e6e0b440c56cfb",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/validation.md",
+          "sha256": "7ea23db45dad422f9aab8d7677e697473af4e8c82a5145f325dd2accb8b7cac6",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/business-outcomes/prompt-funnysharp.md",
+          "sha256": "56d667e0a8aee9b30b10d0020367aeb19a369af349c56d8a7868aa8ffb8db49c",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/business-outcomes/template-funnysharp/BusinessOutcomesKit.csproj",
+          "sha256": "56d4c5e636c9fec400a746dcc0ec225c3bbd8498972ddb479d30aad4e68b749d",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/business-outcomes/tests/Contract.cs",
+          "sha256": "ae4e8d0998ebd3332e4eabc0bdc51b1ef50ad2c1e6df8102377ee2bf7ccf79c9",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/business-outcomes/tests/PlaceOrderTests.cs",
+          "sha256": "be36ad4fcc030392fd18ffed49b395b686b4c84ee52c264c4083e69352184ab9",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/business-outcomes/tests/SideEffectsTests.cs",
+          "sha256": "d359f596e622e61e3841fa231b40e1497f0a7f5c962df484221931b41a708df0",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        }
+      ]
+    },
+    {
+      "slot": "collections/idiomatic/run-1",
+      "round": 1,
+      "files": [
+        {
+          "path": "guides/README.md",
+          "sha256": "cc536213ce3dd198741dd81ae4518fd492f24016400b9cbd02b5e85f2d2be517",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/analyzers.md",
+          "sha256": "c40255afe05dc9d0c1515f3ba9ab4fb764a2e8b79016fe5944493790f22fd8b1",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/aspnet-core.md",
+          "sha256": "31fd17e3283e02599612eef4969844b682dbfa3714cfe9a9bd8d9eed74e81e0f",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/collections.md",
+          "sha256": "f5d1b2f8ff9c92dcb94319e8860e8d0f957bd6da7faf811e47a9995f3e0f08bc",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/concurrency.md",
+          "sha256": "89a326d020c1b0274d520789cf6edde242239ba3f2aa50ae3e829db9f9b31cf6",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/data-pipelines.md",
+          "sha256": "f246b803edc480eab1dacb1d9549ef29b80a72a738171d7c4019c33d96906064",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/effects.md",
+          "sha256": "fb9012a5c6dbaabb8bc02cbc50f9710f96e49cb3a34a361fde96d8bd1bc4a694",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/function-composition.md",
+          "sha256": "644cb2bb3cbb9bf42cfe43bbe96eac2df5d021e3b6c371763d45c8f55243f641",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/grammar.md",
+          "sha256": "c46cbe739485ff881a8add7166395c210b399dfe5e81f37aa5b64f98439ed48c",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/option.md",
+          "sha256": "3a98a70031f5c6bf1f11172e807f39165e70f55f32b3d786e476dbd9e3dc6c0b",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/product-contract.md",
+          "sha256": "56e49ad95406612774b4d26e3e2763e11e06240c3dfd0de092a4011335fbf952",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/result.md",
+          "sha256": "e4bb306822cff30233a880840c1f7d4b9b2ea85cf2385dc599578a1fb93ec256",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/unit-result.md",
+          "sha256": "0c8682d7fdc4a7e1ce6b22d031a06ab1dd7f2db1f24755c947e6e0b440c56cfb",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/validation.md",
+          "sha256": "7ea23db45dad422f9aab8d7677e697473af4e8c82a5145f325dd2accb8b7cac6",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/collections/prompt-idiomatic.md",
+          "sha256": "0f1f0e70ba09bb44b138500b1c5dad6a65474a4d4f17f86ff0270b9aed38a449",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/collections/template-idiomatic/CollectionsKit.csproj",
+          "sha256": "4741f97a1aefc01c6bf4c584cb07a4891737c41b2973be05f18504867c78ae69",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/collections/tests/CollectionsTests.cs",
+          "sha256": "2e10e1a067df0eebb5ae6344413bb359f9498ce27796874c1ecb37963ae1c4c6",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/collections/tests/Contract.cs",
+          "sha256": "0e07124557c7887f439c15e8c4677abcc13a3c16d87a9f0817fcf6ae2c87293c",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        }
+      ]
+    },
+    {
+      "slot": "collections/idiomatic/run-2",
+      "round": 1,
+      "files": [
+        {
+          "path": "guides/README.md",
+          "sha256": "cc536213ce3dd198741dd81ae4518fd492f24016400b9cbd02b5e85f2d2be517",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/analyzers.md",
+          "sha256": "c40255afe05dc9d0c1515f3ba9ab4fb764a2e8b79016fe5944493790f22fd8b1",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/aspnet-core.md",
+          "sha256": "31fd17e3283e02599612eef4969844b682dbfa3714cfe9a9bd8d9eed74e81e0f",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/collections.md",
+          "sha256": "f5d1b2f8ff9c92dcb94319e8860e8d0f957bd6da7faf811e47a9995f3e0f08bc",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/concurrency.md",
+          "sha256": "89a326d020c1b0274d520789cf6edde242239ba3f2aa50ae3e829db9f9b31cf6",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/data-pipelines.md",
+          "sha256": "f246b803edc480eab1dacb1d9549ef29b80a72a738171d7c4019c33d96906064",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/effects.md",
+          "sha256": "fb9012a5c6dbaabb8bc02cbc50f9710f96e49cb3a34a361fde96d8bd1bc4a694",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/function-composition.md",
+          "sha256": "644cb2bb3cbb9bf42cfe43bbe96eac2df5d021e3b6c371763d45c8f55243f641",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/grammar.md",
+          "sha256": "c46cbe739485ff881a8add7166395c210b399dfe5e81f37aa5b64f98439ed48c",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/option.md",
+          "sha256": "3a98a70031f5c6bf1f11172e807f39165e70f55f32b3d786e476dbd9e3dc6c0b",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/product-contract.md",
+          "sha256": "56e49ad95406612774b4d26e3e2763e11e06240c3dfd0de092a4011335fbf952",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/result.md",
+          "sha256": "e4bb306822cff30233a880840c1f7d4b9b2ea85cf2385dc599578a1fb93ec256",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/unit-result.md",
+          "sha256": "0c8682d7fdc4a7e1ce6b22d031a06ab1dd7f2db1f24755c947e6e0b440c56cfb",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/validation.md",
+          "sha256": "7ea23db45dad422f9aab8d7677e697473af4e8c82a5145f325dd2accb8b7cac6",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/collections/prompt-idiomatic.md",
+          "sha256": "0f1f0e70ba09bb44b138500b1c5dad6a65474a4d4f17f86ff0270b9aed38a449",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/collections/template-idiomatic/CollectionsKit.csproj",
+          "sha256": "4741f97a1aefc01c6bf4c584cb07a4891737c41b2973be05f18504867c78ae69",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/collections/tests/CollectionsTests.cs",
+          "sha256": "2e10e1a067df0eebb5ae6344413bb359f9498ce27796874c1ecb37963ae1c4c6",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/collections/tests/Contract.cs",
+          "sha256": "0e07124557c7887f439c15e8c4677abcc13a3c16d87a9f0817fcf6ae2c87293c",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        }
+      ]
+    },
+    {
+      "slot": "collections/funnysharp/run-1",
+      "round": 1,
+      "files": [
+        {
+          "path": "guides/README.md",
+          "sha256": "cc536213ce3dd198741dd81ae4518fd492f24016400b9cbd02b5e85f2d2be517",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/analyzers.md",
+          "sha256": "c40255afe05dc9d0c1515f3ba9ab4fb764a2e8b79016fe5944493790f22fd8b1",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/aspnet-core.md",
+          "sha256": "31fd17e3283e02599612eef4969844b682dbfa3714cfe9a9bd8d9eed74e81e0f",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/collections.md",
+          "sha256": "f5d1b2f8ff9c92dcb94319e8860e8d0f957bd6da7faf811e47a9995f3e0f08bc",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/concurrency.md",
+          "sha256": "89a326d020c1b0274d520789cf6edde242239ba3f2aa50ae3e829db9f9b31cf6",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/data-pipelines.md",
+          "sha256": "f246b803edc480eab1dacb1d9549ef29b80a72a738171d7c4019c33d96906064",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/effects.md",
+          "sha256": "fb9012a5c6dbaabb8bc02cbc50f9710f96e49cb3a34a361fde96d8bd1bc4a694",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/function-composition.md",
+          "sha256": "644cb2bb3cbb9bf42cfe43bbe96eac2df5d021e3b6c371763d45c8f55243f641",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/grammar.md",
+          "sha256": "c46cbe739485ff881a8add7166395c210b399dfe5e81f37aa5b64f98439ed48c",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/option.md",
+          "sha256": "3a98a70031f5c6bf1f11172e807f39165e70f55f32b3d786e476dbd9e3dc6c0b",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/product-contract.md",
+          "sha256": "56e49ad95406612774b4d26e3e2763e11e06240c3dfd0de092a4011335fbf952",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/result.md",
+          "sha256": "e4bb306822cff30233a880840c1f7d4b9b2ea85cf2385dc599578a1fb93ec256",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/unit-result.md",
+          "sha256": "0c8682d7fdc4a7e1ce6b22d031a06ab1dd7f2db1f24755c947e6e0b440c56cfb",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/validation.md",
+          "sha256": "7ea23db45dad422f9aab8d7677e697473af4e8c82a5145f325dd2accb8b7cac6",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/collections/prompt-funnysharp.md",
+          "sha256": "301787e65ddfbcb746f7b6acfc2f5040e6c7d276517e65f87227ff21a87f3a6b",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/collections/template-funnysharp/CollectionsKit.csproj",
+          "sha256": "068c56ffa0702057901aed9a8161593dc8e340fe4eccc22dd5bdd1bafdf5a63a",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/collections/tests/CollectionsTests.cs",
+          "sha256": "2e10e1a067df0eebb5ae6344413bb359f9498ce27796874c1ecb37963ae1c4c6",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/collections/tests/Contract.cs",
+          "sha256": "0e07124557c7887f439c15e8c4677abcc13a3c16d87a9f0817fcf6ae2c87293c",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        }
+      ]
+    },
+    {
+      "slot": "collections/funnysharp/run-2",
+      "round": 1,
+      "files": [
+        {
+          "path": "guides/README.md",
+          "sha256": "cc536213ce3dd198741dd81ae4518fd492f24016400b9cbd02b5e85f2d2be517",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/analyzers.md",
+          "sha256": "c40255afe05dc9d0c1515f3ba9ab4fb764a2e8b79016fe5944493790f22fd8b1",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/aspnet-core.md",
+          "sha256": "31fd17e3283e02599612eef4969844b682dbfa3714cfe9a9bd8d9eed74e81e0f",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/collections.md",
+          "sha256": "f5d1b2f8ff9c92dcb94319e8860e8d0f957bd6da7faf811e47a9995f3e0f08bc",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/concurrency.md",
+          "sha256": "89a326d020c1b0274d520789cf6edde242239ba3f2aa50ae3e829db9f9b31cf6",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/data-pipelines.md",
+          "sha256": "f246b803edc480eab1dacb1d9549ef29b80a72a738171d7c4019c33d96906064",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/effects.md",
+          "sha256": "fb9012a5c6dbaabb8bc02cbc50f9710f96e49cb3a34a361fde96d8bd1bc4a694",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/function-composition.md",
+          "sha256": "644cb2bb3cbb9bf42cfe43bbe96eac2df5d021e3b6c371763d45c8f55243f641",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/grammar.md",
+          "sha256": "c46cbe739485ff881a8add7166395c210b399dfe5e81f37aa5b64f98439ed48c",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/option.md",
+          "sha256": "3a98a70031f5c6bf1f11172e807f39165e70f55f32b3d786e476dbd9e3dc6c0b",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/product-contract.md",
+          "sha256": "56e49ad95406612774b4d26e3e2763e11e06240c3dfd0de092a4011335fbf952",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/result.md",
+          "sha256": "e4bb306822cff30233a880840c1f7d4b9b2ea85cf2385dc599578a1fb93ec256",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/unit-result.md",
+          "sha256": "0c8682d7fdc4a7e1ce6b22d031a06ab1dd7f2db1f24755c947e6e0b440c56cfb",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/validation.md",
+          "sha256": "7ea23db45dad422f9aab8d7677e697473af4e8c82a5145f325dd2accb8b7cac6",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/collections/prompt-funnysharp.md",
+          "sha256": "301787e65ddfbcb746f7b6acfc2f5040e6c7d276517e65f87227ff21a87f3a6b",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/collections/template-funnysharp/CollectionsKit.csproj",
+          "sha256": "068c56ffa0702057901aed9a8161593dc8e340fe4eccc22dd5bdd1bafdf5a63a",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/collections/tests/CollectionsTests.cs",
+          "sha256": "2e10e1a067df0eebb5ae6344413bb359f9498ce27796874c1ecb37963ae1c4c6",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/collections/tests/Contract.cs",
+          "sha256": "0e07124557c7887f439c15e8c4677abcc13a3c16d87a9f0817fcf6ae2c87293c",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        }
+      ]
+    },
+    {
+      "slot": "async-streams/idiomatic/run-1",
+      "round": 1,
+      "files": [
+        {
+          "path": "guides/README.md",
+          "sha256": "cc536213ce3dd198741dd81ae4518fd492f24016400b9cbd02b5e85f2d2be517",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/analyzers.md",
+          "sha256": "c40255afe05dc9d0c1515f3ba9ab4fb764a2e8b79016fe5944493790f22fd8b1",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/aspnet-core.md",
+          "sha256": "31fd17e3283e02599612eef4969844b682dbfa3714cfe9a9bd8d9eed74e81e0f",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/collections.md",
+          "sha256": "f5d1b2f8ff9c92dcb94319e8860e8d0f957bd6da7faf811e47a9995f3e0f08bc",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/concurrency.md",
+          "sha256": "89a326d020c1b0274d520789cf6edde242239ba3f2aa50ae3e829db9f9b31cf6",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/data-pipelines.md",
+          "sha256": "f246b803edc480eab1dacb1d9549ef29b80a72a738171d7c4019c33d96906064",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/effects.md",
+          "sha256": "fb9012a5c6dbaabb8bc02cbc50f9710f96e49cb3a34a361fde96d8bd1bc4a694",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/function-composition.md",
+          "sha256": "644cb2bb3cbb9bf42cfe43bbe96eac2df5d021e3b6c371763d45c8f55243f641",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/grammar.md",
+          "sha256": "c46cbe739485ff881a8add7166395c210b399dfe5e81f37aa5b64f98439ed48c",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/option.md",
+          "sha256": "3a98a70031f5c6bf1f11172e807f39165e70f55f32b3d786e476dbd9e3dc6c0b",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/product-contract.md",
+          "sha256": "56e49ad95406612774b4d26e3e2763e11e06240c3dfd0de092a4011335fbf952",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/result.md",
+          "sha256": "e4bb306822cff30233a880840c1f7d4b9b2ea85cf2385dc599578a1fb93ec256",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/unit-result.md",
+          "sha256": "0c8682d7fdc4a7e1ce6b22d031a06ab1dd7f2db1f24755c947e6e0b440c56cfb",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/validation.md",
+          "sha256": "7ea23db45dad422f9aab8d7677e697473af4e8c82a5145f325dd2accb8b7cac6",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/async-streams/prompt-idiomatic.md",
+          "sha256": "279096ab842969f1b3d76d473adc32eed13bd8b41ca331fd6c51ee9e35f97fc4",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/async-streams/template-idiomatic/AsyncStreamsKit.csproj",
+          "sha256": "4861e4e22c8001260cb273be9eadf5d101a75a9135fd5c775a56863721d9e873",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/async-streams/tests/AsyncStreamsTests.cs",
+          "sha256": "b2e236125974c0ec77b4fb7df33a9a6f502c7093b6f2a670929ab7d068407da6",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/async-streams/tests/Contract.cs",
+          "sha256": "24a65f66642d4e7e91b84d4f3a04b16ae93ed5abcafecc827b159eaed6bd9307",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        }
+      ]
+    },
+    {
+      "slot": "async-streams/idiomatic/run-2",
+      "round": 1,
+      "files": [
+        {
+          "path": "guides/README.md",
+          "sha256": "cc536213ce3dd198741dd81ae4518fd492f24016400b9cbd02b5e85f2d2be517",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/analyzers.md",
+          "sha256": "c40255afe05dc9d0c1515f3ba9ab4fb764a2e8b79016fe5944493790f22fd8b1",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/aspnet-core.md",
+          "sha256": "31fd17e3283e02599612eef4969844b682dbfa3714cfe9a9bd8d9eed74e81e0f",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/collections.md",
+          "sha256": "f5d1b2f8ff9c92dcb94319e8860e8d0f957bd6da7faf811e47a9995f3e0f08bc",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/concurrency.md",
+          "sha256": "89a326d020c1b0274d520789cf6edde242239ba3f2aa50ae3e829db9f9b31cf6",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/data-pipelines.md",
+          "sha256": "f246b803edc480eab1dacb1d9549ef29b80a72a738171d7c4019c33d96906064",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/effects.md",
+          "sha256": "fb9012a5c6dbaabb8bc02cbc50f9710f96e49cb3a34a361fde96d8bd1bc4a694",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/function-composition.md",
+          "sha256": "644cb2bb3cbb9bf42cfe43bbe96eac2df5d021e3b6c371763d45c8f55243f641",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/grammar.md",
+          "sha256": "c46cbe739485ff881a8add7166395c210b399dfe5e81f37aa5b64f98439ed48c",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/option.md",
+          "sha256": "3a98a70031f5c6bf1f11172e807f39165e70f55f32b3d786e476dbd9e3dc6c0b",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/product-contract.md",
+          "sha256": "56e49ad95406612774b4d26e3e2763e11e06240c3dfd0de092a4011335fbf952",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/result.md",
+          "sha256": "e4bb306822cff30233a880840c1f7d4b9b2ea85cf2385dc599578a1fb93ec256",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/unit-result.md",
+          "sha256": "0c8682d7fdc4a7e1ce6b22d031a06ab1dd7f2db1f24755c947e6e0b440c56cfb",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/validation.md",
+          "sha256": "7ea23db45dad422f9aab8d7677e697473af4e8c82a5145f325dd2accb8b7cac6",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/async-streams/prompt-idiomatic.md",
+          "sha256": "279096ab842969f1b3d76d473adc32eed13bd8b41ca331fd6c51ee9e35f97fc4",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/async-streams/template-idiomatic/AsyncStreamsKit.csproj",
+          "sha256": "4861e4e22c8001260cb273be9eadf5d101a75a9135fd5c775a56863721d9e873",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/async-streams/tests/AsyncStreamsTests.cs",
+          "sha256": "b2e236125974c0ec77b4fb7df33a9a6f502c7093b6f2a670929ab7d068407da6",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/async-streams/tests/Contract.cs",
+          "sha256": "24a65f66642d4e7e91b84d4f3a04b16ae93ed5abcafecc827b159eaed6bd9307",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        }
+      ]
+    },
+    {
+      "slot": "async-streams/funnysharp/run-1",
+      "round": 1,
+      "files": [
+        {
+          "path": "guides/README.md",
+          "sha256": "cc536213ce3dd198741dd81ae4518fd492f24016400b9cbd02b5e85f2d2be517",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/analyzers.md",
+          "sha256": "c40255afe05dc9d0c1515f3ba9ab4fb764a2e8b79016fe5944493790f22fd8b1",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/aspnet-core.md",
+          "sha256": "31fd17e3283e02599612eef4969844b682dbfa3714cfe9a9bd8d9eed74e81e0f",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/collections.md",
+          "sha256": "f5d1b2f8ff9c92dcb94319e8860e8d0f957bd6da7faf811e47a9995f3e0f08bc",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/concurrency.md",
+          "sha256": "89a326d020c1b0274d520789cf6edde242239ba3f2aa50ae3e829db9f9b31cf6",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/data-pipelines.md",
+          "sha256": "f246b803edc480eab1dacb1d9549ef29b80a72a738171d7c4019c33d96906064",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/effects.md",
+          "sha256": "fb9012a5c6dbaabb8bc02cbc50f9710f96e49cb3a34a361fde96d8bd1bc4a694",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/function-composition.md",
+          "sha256": "644cb2bb3cbb9bf42cfe43bbe96eac2df5d021e3b6c371763d45c8f55243f641",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/grammar.md",
+          "sha256": "c46cbe739485ff881a8add7166395c210b399dfe5e81f37aa5b64f98439ed48c",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/option.md",
+          "sha256": "3a98a70031f5c6bf1f11172e807f39165e70f55f32b3d786e476dbd9e3dc6c0b",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/product-contract.md",
+          "sha256": "56e49ad95406612774b4d26e3e2763e11e06240c3dfd0de092a4011335fbf952",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/result.md",
+          "sha256": "e4bb306822cff30233a880840c1f7d4b9b2ea85cf2385dc599578a1fb93ec256",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/unit-result.md",
+          "sha256": "0c8682d7fdc4a7e1ce6b22d031a06ab1dd7f2db1f24755c947e6e0b440c56cfb",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/validation.md",
+          "sha256": "7ea23db45dad422f9aab8d7677e697473af4e8c82a5145f325dd2accb8b7cac6",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/async-streams/prompt-funnysharp.md",
+          "sha256": "40cfc2edd0967fc052f7bc71592f602006b82e2b979fd3d34deadc3d409f3011",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/async-streams/template-funnysharp/AsyncStreamsKit.csproj",
+          "sha256": "f4adc1d0b296be415bdb42f8159827c30a5cdaae6907a123f6893043b437ecd4",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/async-streams/tests/AsyncStreamsTests.cs",
+          "sha256": "b2e236125974c0ec77b4fb7df33a9a6f502c7093b6f2a670929ab7d068407da6",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/async-streams/tests/Contract.cs",
+          "sha256": "24a65f66642d4e7e91b84d4f3a04b16ae93ed5abcafecc827b159eaed6bd9307",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        }
+      ]
+    },
+    {
+      "slot": "async-streams/funnysharp/run-2",
+      "round": 1,
+      "files": [
+        {
+          "path": "guides/README.md",
+          "sha256": "cc536213ce3dd198741dd81ae4518fd492f24016400b9cbd02b5e85f2d2be517",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/analyzers.md",
+          "sha256": "c40255afe05dc9d0c1515f3ba9ab4fb764a2e8b79016fe5944493790f22fd8b1",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/aspnet-core.md",
+          "sha256": "31fd17e3283e02599612eef4969844b682dbfa3714cfe9a9bd8d9eed74e81e0f",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/collections.md",
+          "sha256": "f5d1b2f8ff9c92dcb94319e8860e8d0f957bd6da7faf811e47a9995f3e0f08bc",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/concurrency.md",
+          "sha256": "89a326d020c1b0274d520789cf6edde242239ba3f2aa50ae3e829db9f9b31cf6",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/data-pipelines.md",
+          "sha256": "f246b803edc480eab1dacb1d9549ef29b80a72a738171d7c4019c33d96906064",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/effects.md",
+          "sha256": "fb9012a5c6dbaabb8bc02cbc50f9710f96e49cb3a34a361fde96d8bd1bc4a694",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/function-composition.md",
+          "sha256": "644cb2bb3cbb9bf42cfe43bbe96eac2df5d021e3b6c371763d45c8f55243f641",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/grammar.md",
+          "sha256": "c46cbe739485ff881a8add7166395c210b399dfe5e81f37aa5b64f98439ed48c",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/option.md",
+          "sha256": "3a98a70031f5c6bf1f11172e807f39165e70f55f32b3d786e476dbd9e3dc6c0b",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/product-contract.md",
+          "sha256": "56e49ad95406612774b4d26e3e2763e11e06240c3dfd0de092a4011335fbf952",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/result.md",
+          "sha256": "e4bb306822cff30233a880840c1f7d4b9b2ea85cf2385dc599578a1fb93ec256",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/unit-result.md",
+          "sha256": "0c8682d7fdc4a7e1ce6b22d031a06ab1dd7f2db1f24755c947e6e0b440c56cfb",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/validation.md",
+          "sha256": "7ea23db45dad422f9aab8d7677e697473af4e8c82a5145f325dd2accb8b7cac6",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/async-streams/prompt-funnysharp.md",
+          "sha256": "40cfc2edd0967fc052f7bc71592f602006b82e2b979fd3d34deadc3d409f3011",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/async-streams/template-funnysharp/AsyncStreamsKit.csproj",
+          "sha256": "f4adc1d0b296be415bdb42f8159827c30a5cdaae6907a123f6893043b437ecd4",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/async-streams/tests/AsyncStreamsTests.cs",
+          "sha256": "b2e236125974c0ec77b4fb7df33a9a6f502c7093b6f2a670929ab7d068407da6",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/async-streams/tests/Contract.cs",
+          "sha256": "24a65f66642d4e7e91b84d4f3a04b16ae93ed5abcafecc827b159eaed6bd9307",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        }
+      ]
+    },
+    {
+      "slot": "concurrency/idiomatic/run-1",
+      "round": 1,
+      "files": [
+        {
+          "path": "guides/README.md",
+          "sha256": "cc536213ce3dd198741dd81ae4518fd492f24016400b9cbd02b5e85f2d2be517",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/analyzers.md",
+          "sha256": "c40255afe05dc9d0c1515f3ba9ab4fb764a2e8b79016fe5944493790f22fd8b1",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/aspnet-core.md",
+          "sha256": "31fd17e3283e02599612eef4969844b682dbfa3714cfe9a9bd8d9eed74e81e0f",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/collections.md",
+          "sha256": "f5d1b2f8ff9c92dcb94319e8860e8d0f957bd6da7faf811e47a9995f3e0f08bc",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/concurrency.md",
+          "sha256": "89a326d020c1b0274d520789cf6edde242239ba3f2aa50ae3e829db9f9b31cf6",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/data-pipelines.md",
+          "sha256": "f246b803edc480eab1dacb1d9549ef29b80a72a738171d7c4019c33d96906064",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/effects.md",
+          "sha256": "fb9012a5c6dbaabb8bc02cbc50f9710f96e49cb3a34a361fde96d8bd1bc4a694",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/function-composition.md",
+          "sha256": "644cb2bb3cbb9bf42cfe43bbe96eac2df5d021e3b6c371763d45c8f55243f641",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/grammar.md",
+          "sha256": "c46cbe739485ff881a8add7166395c210b399dfe5e81f37aa5b64f98439ed48c",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/option.md",
+          "sha256": "3a98a70031f5c6bf1f11172e807f39165e70f55f32b3d786e476dbd9e3dc6c0b",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/product-contract.md",
+          "sha256": "56e49ad95406612774b4d26e3e2763e11e06240c3dfd0de092a4011335fbf952",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/result.md",
+          "sha256": "e4bb306822cff30233a880840c1f7d4b9b2ea85cf2385dc599578a1fb93ec256",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/unit-result.md",
+          "sha256": "0c8682d7fdc4a7e1ce6b22d031a06ab1dd7f2db1f24755c947e6e0b440c56cfb",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/validation.md",
+          "sha256": "7ea23db45dad422f9aab8d7677e697473af4e8c82a5145f325dd2accb8b7cac6",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/concurrency/prompt-idiomatic.md",
+          "sha256": "387db807ecae2b176425949a1e385768c8b0bd3344096ac47e672c1423ed82dc",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/concurrency/template-idiomatic/ConcurrencyKit.csproj",
+          "sha256": "c5a058c4c776ebdf1eb1e8e865a8e2e524b504d4bd061758d7e31f8a95210e8c",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/concurrency/tests/ConcurrencyTests.cs",
+          "sha256": "221bf77515b0d63b6b82637ee3a0432ae9e6c286c03dfc70a41ff58f30d911cc",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/concurrency/tests/Contract.cs",
+          "sha256": "99f6ab991fdd14ed524fd1f88060472698d920c6b72d29c16db7cbd7b1dd9cf9",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        }
+      ]
+    },
+    {
+      "slot": "concurrency/idiomatic/run-2",
+      "round": 1,
+      "files": [
+        {
+          "path": "guides/README.md",
+          "sha256": "cc536213ce3dd198741dd81ae4518fd492f24016400b9cbd02b5e85f2d2be517",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/analyzers.md",
+          "sha256": "c40255afe05dc9d0c1515f3ba9ab4fb764a2e8b79016fe5944493790f22fd8b1",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/aspnet-core.md",
+          "sha256": "31fd17e3283e02599612eef4969844b682dbfa3714cfe9a9bd8d9eed74e81e0f",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/collections.md",
+          "sha256": "f5d1b2f8ff9c92dcb94319e8860e8d0f957bd6da7faf811e47a9995f3e0f08bc",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/concurrency.md",
+          "sha256": "89a326d020c1b0274d520789cf6edde242239ba3f2aa50ae3e829db9f9b31cf6",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/data-pipelines.md",
+          "sha256": "f246b803edc480eab1dacb1d9549ef29b80a72a738171d7c4019c33d96906064",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/effects.md",
+          "sha256": "fb9012a5c6dbaabb8bc02cbc50f9710f96e49cb3a34a361fde96d8bd1bc4a694",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/function-composition.md",
+          "sha256": "644cb2bb3cbb9bf42cfe43bbe96eac2df5d021e3b6c371763d45c8f55243f641",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/grammar.md",
+          "sha256": "c46cbe739485ff881a8add7166395c210b399dfe5e81f37aa5b64f98439ed48c",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/option.md",
+          "sha256": "3a98a70031f5c6bf1f11172e807f39165e70f55f32b3d786e476dbd9e3dc6c0b",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/product-contract.md",
+          "sha256": "56e49ad95406612774b4d26e3e2763e11e06240c3dfd0de092a4011335fbf952",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/result.md",
+          "sha256": "e4bb306822cff30233a880840c1f7d4b9b2ea85cf2385dc599578a1fb93ec256",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/unit-result.md",
+          "sha256": "0c8682d7fdc4a7e1ce6b22d031a06ab1dd7f2db1f24755c947e6e0b440c56cfb",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/validation.md",
+          "sha256": "7ea23db45dad422f9aab8d7677e697473af4e8c82a5145f325dd2accb8b7cac6",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/concurrency/prompt-idiomatic.md",
+          "sha256": "387db807ecae2b176425949a1e385768c8b0bd3344096ac47e672c1423ed82dc",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/concurrency/template-idiomatic/ConcurrencyKit.csproj",
+          "sha256": "c5a058c4c776ebdf1eb1e8e865a8e2e524b504d4bd061758d7e31f8a95210e8c",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/concurrency/tests/ConcurrencyTests.cs",
+          "sha256": "221bf77515b0d63b6b82637ee3a0432ae9e6c286c03dfc70a41ff58f30d911cc",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/concurrency/tests/Contract.cs",
+          "sha256": "99f6ab991fdd14ed524fd1f88060472698d920c6b72d29c16db7cbd7b1dd9cf9",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        }
+      ]
+    },
+    {
+      "slot": "concurrency/funnysharp/run-1",
+      "round": 1,
+      "files": [
+        {
+          "path": "guides/README.md",
+          "sha256": "cc536213ce3dd198741dd81ae4518fd492f24016400b9cbd02b5e85f2d2be517",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/analyzers.md",
+          "sha256": "c40255afe05dc9d0c1515f3ba9ab4fb764a2e8b79016fe5944493790f22fd8b1",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/aspnet-core.md",
+          "sha256": "31fd17e3283e02599612eef4969844b682dbfa3714cfe9a9bd8d9eed74e81e0f",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/collections.md",
+          "sha256": "f5d1b2f8ff9c92dcb94319e8860e8d0f957bd6da7faf811e47a9995f3e0f08bc",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/concurrency.md",
+          "sha256": "89a326d020c1b0274d520789cf6edde242239ba3f2aa50ae3e829db9f9b31cf6",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/data-pipelines.md",
+          "sha256": "f246b803edc480eab1dacb1d9549ef29b80a72a738171d7c4019c33d96906064",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/effects.md",
+          "sha256": "fb9012a5c6dbaabb8bc02cbc50f9710f96e49cb3a34a361fde96d8bd1bc4a694",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/function-composition.md",
+          "sha256": "644cb2bb3cbb9bf42cfe43bbe96eac2df5d021e3b6c371763d45c8f55243f641",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/grammar.md",
+          "sha256": "c46cbe739485ff881a8add7166395c210b399dfe5e81f37aa5b64f98439ed48c",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/option.md",
+          "sha256": "3a98a70031f5c6bf1f11172e807f39165e70f55f32b3d786e476dbd9e3dc6c0b",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/product-contract.md",
+          "sha256": "56e49ad95406612774b4d26e3e2763e11e06240c3dfd0de092a4011335fbf952",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/result.md",
+          "sha256": "e4bb306822cff30233a880840c1f7d4b9b2ea85cf2385dc599578a1fb93ec256",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/unit-result.md",
+          "sha256": "0c8682d7fdc4a7e1ce6b22d031a06ab1dd7f2db1f24755c947e6e0b440c56cfb",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/validation.md",
+          "sha256": "7ea23db45dad422f9aab8d7677e697473af4e8c82a5145f325dd2accb8b7cac6",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/concurrency/prompt-funnysharp.md",
+          "sha256": "10767fe3fd1a696d86f8cac14dd56d5417a798eda87bad7a9a49d11c87d444a9",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/concurrency/template-funnysharp/ConcurrencyKit.csproj",
+          "sha256": "ba32a95254d405c0f90f62ba870fcc94ed88ee41f1610d5247da735cd788aa9e",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/concurrency/tests/ConcurrencyTests.cs",
+          "sha256": "221bf77515b0d63b6b82637ee3a0432ae9e6c286c03dfc70a41ff58f30d911cc",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/concurrency/tests/Contract.cs",
+          "sha256": "99f6ab991fdd14ed524fd1f88060472698d920c6b72d29c16db7cbd7b1dd9cf9",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        }
+      ]
+    },
+    {
+      "slot": "concurrency/funnysharp/run-2",
+      "round": 1,
+      "files": [
+        {
+          "path": "guides/README.md",
+          "sha256": "cc536213ce3dd198741dd81ae4518fd492f24016400b9cbd02b5e85f2d2be517",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/analyzers.md",
+          "sha256": "c40255afe05dc9d0c1515f3ba9ab4fb764a2e8b79016fe5944493790f22fd8b1",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/aspnet-core.md",
+          "sha256": "31fd17e3283e02599612eef4969844b682dbfa3714cfe9a9bd8d9eed74e81e0f",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/collections.md",
+          "sha256": "f5d1b2f8ff9c92dcb94319e8860e8d0f957bd6da7faf811e47a9995f3e0f08bc",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/concurrency.md",
+          "sha256": "89a326d020c1b0274d520789cf6edde242239ba3f2aa50ae3e829db9f9b31cf6",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/data-pipelines.md",
+          "sha256": "f246b803edc480eab1dacb1d9549ef29b80a72a738171d7c4019c33d96906064",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/effects.md",
+          "sha256": "fb9012a5c6dbaabb8bc02cbc50f9710f96e49cb3a34a361fde96d8bd1bc4a694",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/function-composition.md",
+          "sha256": "644cb2bb3cbb9bf42cfe43bbe96eac2df5d021e3b6c371763d45c8f55243f641",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/grammar.md",
+          "sha256": "c46cbe739485ff881a8add7166395c210b399dfe5e81f37aa5b64f98439ed48c",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/option.md",
+          "sha256": "3a98a70031f5c6bf1f11172e807f39165e70f55f32b3d786e476dbd9e3dc6c0b",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/product-contract.md",
+          "sha256": "56e49ad95406612774b4d26e3e2763e11e06240c3dfd0de092a4011335fbf952",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/result.md",
+          "sha256": "e4bb306822cff30233a880840c1f7d4b9b2ea85cf2385dc599578a1fb93ec256",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/unit-result.md",
+          "sha256": "0c8682d7fdc4a7e1ce6b22d031a06ab1dd7f2db1f24755c947e6e0b440c56cfb",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/validation.md",
+          "sha256": "7ea23db45dad422f9aab8d7677e697473af4e8c82a5145f325dd2accb8b7cac6",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/concurrency/prompt-funnysharp.md",
+          "sha256": "10767fe3fd1a696d86f8cac14dd56d5417a798eda87bad7a9a49d11c87d444a9",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/concurrency/template-funnysharp/ConcurrencyKit.csproj",
+          "sha256": "ba32a95254d405c0f90f62ba870fcc94ed88ee41f1610d5247da735cd788aa9e",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/concurrency/tests/ConcurrencyTests.cs",
+          "sha256": "221bf77515b0d63b6b82637ee3a0432ae9e6c286c03dfc70a41ff58f30d911cc",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/concurrency/tests/Contract.cs",
+          "sha256": "99f6ab991fdd14ed524fd1f88060472698d920c6b72d29c16db7cbd7b1dd9cf9",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        }
+      ]
+    },
+    {
+      "slot": "aspnetcore/idiomatic/run-1",
+      "round": 1,
+      "files": [
+        {
+          "path": "guides/README.md",
+          "sha256": "cc536213ce3dd198741dd81ae4518fd492f24016400b9cbd02b5e85f2d2be517",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/analyzers.md",
+          "sha256": "c40255afe05dc9d0c1515f3ba9ab4fb764a2e8b79016fe5944493790f22fd8b1",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/aspnet-core.md",
+          "sha256": "31fd17e3283e02599612eef4969844b682dbfa3714cfe9a9bd8d9eed74e81e0f",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/collections.md",
+          "sha256": "f5d1b2f8ff9c92dcb94319e8860e8d0f957bd6da7faf811e47a9995f3e0f08bc",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/concurrency.md",
+          "sha256": "89a326d020c1b0274d520789cf6edde242239ba3f2aa50ae3e829db9f9b31cf6",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/data-pipelines.md",
+          "sha256": "f246b803edc480eab1dacb1d9549ef29b80a72a738171d7c4019c33d96906064",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/effects.md",
+          "sha256": "fb9012a5c6dbaabb8bc02cbc50f9710f96e49cb3a34a361fde96d8bd1bc4a694",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/function-composition.md",
+          "sha256": "644cb2bb3cbb9bf42cfe43bbe96eac2df5d021e3b6c371763d45c8f55243f641",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/grammar.md",
+          "sha256": "c46cbe739485ff881a8add7166395c210b399dfe5e81f37aa5b64f98439ed48c",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/option.md",
+          "sha256": "3a98a70031f5c6bf1f11172e807f39165e70f55f32b3d786e476dbd9e3dc6c0b",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/product-contract.md",
+          "sha256": "56e49ad95406612774b4d26e3e2763e11e06240c3dfd0de092a4011335fbf952",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/result.md",
+          "sha256": "e4bb306822cff30233a880840c1f7d4b9b2ea85cf2385dc599578a1fb93ec256",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/unit-result.md",
+          "sha256": "0c8682d7fdc4a7e1ce6b22d031a06ab1dd7f2db1f24755c947e6e0b440c56cfb",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/validation.md",
+          "sha256": "7ea23db45dad422f9aab8d7677e697473af4e8c82a5145f325dd2accb8b7cac6",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/aspnetcore/prompt-idiomatic.md",
+          "sha256": "92d05dd5d0e0bd42989ebe2572518ddbfb3ddb0a6fef78fbe3073245555bf6fc",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/aspnetcore/template-idiomatic/AspnetcoreKit.csproj",
+          "sha256": "90b68ac8fff1017135ffe6db36f0182b7ffdad3411aa81fa82c8caadc692808d",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/aspnetcore/tests/AspnetcoreTests.cs",
+          "sha256": "b4343005f670ae9c23f9338e3f56289459f79630b763b7dfe434ae289a8b39c7",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/aspnetcore/tests/Contract.cs",
+          "sha256": "0e29dbaa90e69c2233652a6a742c9acef19b98a5ab90f1c9cbef191e138c9fec",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        }
+      ]
+    },
+    {
+      "slot": "aspnetcore/idiomatic/run-1",
+      "round": 2,
+      "files": [
+        {
+          "path": "feedback.json",
+          "sha256": "9f4cef5ec00aa1e69d31a170c76b9c1d2ed424995a767a8bdf1537372cc887ad",
+          "kind": "EXACT_PRECEDING_RAW_FEEDBACK"
+        },
+        {
+          "path": "guides/README.md",
+          "sha256": "cc536213ce3dd198741dd81ae4518fd492f24016400b9cbd02b5e85f2d2be517",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/analyzers.md",
+          "sha256": "c40255afe05dc9d0c1515f3ba9ab4fb764a2e8b79016fe5944493790f22fd8b1",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/aspnet-core.md",
+          "sha256": "31fd17e3283e02599612eef4969844b682dbfa3714cfe9a9bd8d9eed74e81e0f",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/collections.md",
+          "sha256": "f5d1b2f8ff9c92dcb94319e8860e8d0f957bd6da7faf811e47a9995f3e0f08bc",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/concurrency.md",
+          "sha256": "89a326d020c1b0274d520789cf6edde242239ba3f2aa50ae3e829db9f9b31cf6",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/data-pipelines.md",
+          "sha256": "f246b803edc480eab1dacb1d9549ef29b80a72a738171d7c4019c33d96906064",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/effects.md",
+          "sha256": "fb9012a5c6dbaabb8bc02cbc50f9710f96e49cb3a34a361fde96d8bd1bc4a694",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/function-composition.md",
+          "sha256": "644cb2bb3cbb9bf42cfe43bbe96eac2df5d021e3b6c371763d45c8f55243f641",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/grammar.md",
+          "sha256": "c46cbe739485ff881a8add7166395c210b399dfe5e81f37aa5b64f98439ed48c",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/option.md",
+          "sha256": "3a98a70031f5c6bf1f11172e807f39165e70f55f32b3d786e476dbd9e3dc6c0b",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/product-contract.md",
+          "sha256": "56e49ad95406612774b4d26e3e2763e11e06240c3dfd0de092a4011335fbf952",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/result.md",
+          "sha256": "e4bb306822cff30233a880840c1f7d4b9b2ea85cf2385dc599578a1fb93ec256",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/unit-result.md",
+          "sha256": "0c8682d7fdc4a7e1ce6b22d031a06ab1dd7f2db1f24755c947e6e0b440c56cfb",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/validation.md",
+          "sha256": "7ea23db45dad422f9aab8d7677e697473af4e8c82a5145f325dd2accb8b7cac6",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "solution/Api.cs",
+          "sha256": "0720e96f4384ed0d7f00f81a5938b318ad9dc12a641b6a96447a36c25184a593",
+          "kind": "WHOLE_PRECEDING_ORIGINAL_MODEL_CODE"
+        },
+        {
+          "path": "tasks/aspnetcore/prompt-idiomatic.md",
+          "sha256": "92d05dd5d0e0bd42989ebe2572518ddbfb3ddb0a6fef78fbe3073245555bf6fc",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/aspnetcore/template-idiomatic/AspnetcoreKit.csproj",
+          "sha256": "90b68ac8fff1017135ffe6db36f0182b7ffdad3411aa81fa82c8caadc692808d",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/aspnetcore/tests/AspnetcoreTests.cs",
+          "sha256": "b4343005f670ae9c23f9338e3f56289459f79630b763b7dfe434ae289a8b39c7",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/aspnetcore/tests/Contract.cs",
+          "sha256": "0e29dbaa90e69c2233652a6a742c9acef19b98a5ab90f1c9cbef191e138c9fec",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        }
+      ]
+    },
+    {
+      "slot": "aspnetcore/idiomatic/run-2",
+      "round": 1,
+      "files": [
+        {
+          "path": "guides/README.md",
+          "sha256": "cc536213ce3dd198741dd81ae4518fd492f24016400b9cbd02b5e85f2d2be517",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/analyzers.md",
+          "sha256": "c40255afe05dc9d0c1515f3ba9ab4fb764a2e8b79016fe5944493790f22fd8b1",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/aspnet-core.md",
+          "sha256": "31fd17e3283e02599612eef4969844b682dbfa3714cfe9a9bd8d9eed74e81e0f",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/collections.md",
+          "sha256": "f5d1b2f8ff9c92dcb94319e8860e8d0f957bd6da7faf811e47a9995f3e0f08bc",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/concurrency.md",
+          "sha256": "89a326d020c1b0274d520789cf6edde242239ba3f2aa50ae3e829db9f9b31cf6",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/data-pipelines.md",
+          "sha256": "f246b803edc480eab1dacb1d9549ef29b80a72a738171d7c4019c33d96906064",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/effects.md",
+          "sha256": "fb9012a5c6dbaabb8bc02cbc50f9710f96e49cb3a34a361fde96d8bd1bc4a694",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/function-composition.md",
+          "sha256": "644cb2bb3cbb9bf42cfe43bbe96eac2df5d021e3b6c371763d45c8f55243f641",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/grammar.md",
+          "sha256": "c46cbe739485ff881a8add7166395c210b399dfe5e81f37aa5b64f98439ed48c",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/option.md",
+          "sha256": "3a98a70031f5c6bf1f11172e807f39165e70f55f32b3d786e476dbd9e3dc6c0b",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/product-contract.md",
+          "sha256": "56e49ad95406612774b4d26e3e2763e11e06240c3dfd0de092a4011335fbf952",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/result.md",
+          "sha256": "e4bb306822cff30233a880840c1f7d4b9b2ea85cf2385dc599578a1fb93ec256",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/unit-result.md",
+          "sha256": "0c8682d7fdc4a7e1ce6b22d031a06ab1dd7f2db1f24755c947e6e0b440c56cfb",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/validation.md",
+          "sha256": "7ea23db45dad422f9aab8d7677e697473af4e8c82a5145f325dd2accb8b7cac6",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/aspnetcore/prompt-idiomatic.md",
+          "sha256": "92d05dd5d0e0bd42989ebe2572518ddbfb3ddb0a6fef78fbe3073245555bf6fc",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/aspnetcore/template-idiomatic/AspnetcoreKit.csproj",
+          "sha256": "90b68ac8fff1017135ffe6db36f0182b7ffdad3411aa81fa82c8caadc692808d",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/aspnetcore/tests/AspnetcoreTests.cs",
+          "sha256": "b4343005f670ae9c23f9338e3f56289459f79630b763b7dfe434ae289a8b39c7",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/aspnetcore/tests/Contract.cs",
+          "sha256": "0e29dbaa90e69c2233652a6a742c9acef19b98a5ab90f1c9cbef191e138c9fec",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        }
+      ]
+    },
+    {
+      "slot": "aspnetcore/funnysharp/run-1",
+      "round": 1,
+      "files": [
+        {
+          "path": "guides/README.md",
+          "sha256": "cc536213ce3dd198741dd81ae4518fd492f24016400b9cbd02b5e85f2d2be517",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/analyzers.md",
+          "sha256": "c40255afe05dc9d0c1515f3ba9ab4fb764a2e8b79016fe5944493790f22fd8b1",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/aspnet-core.md",
+          "sha256": "31fd17e3283e02599612eef4969844b682dbfa3714cfe9a9bd8d9eed74e81e0f",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/collections.md",
+          "sha256": "f5d1b2f8ff9c92dcb94319e8860e8d0f957bd6da7faf811e47a9995f3e0f08bc",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/concurrency.md",
+          "sha256": "89a326d020c1b0274d520789cf6edde242239ba3f2aa50ae3e829db9f9b31cf6",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/data-pipelines.md",
+          "sha256": "f246b803edc480eab1dacb1d9549ef29b80a72a738171d7c4019c33d96906064",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/effects.md",
+          "sha256": "fb9012a5c6dbaabb8bc02cbc50f9710f96e49cb3a34a361fde96d8bd1bc4a694",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/function-composition.md",
+          "sha256": "644cb2bb3cbb9bf42cfe43bbe96eac2df5d021e3b6c371763d45c8f55243f641",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/grammar.md",
+          "sha256": "c46cbe739485ff881a8add7166395c210b399dfe5e81f37aa5b64f98439ed48c",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/option.md",
+          "sha256": "3a98a70031f5c6bf1f11172e807f39165e70f55f32b3d786e476dbd9e3dc6c0b",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/product-contract.md",
+          "sha256": "56e49ad95406612774b4d26e3e2763e11e06240c3dfd0de092a4011335fbf952",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/result.md",
+          "sha256": "e4bb306822cff30233a880840c1f7d4b9b2ea85cf2385dc599578a1fb93ec256",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/unit-result.md",
+          "sha256": "0c8682d7fdc4a7e1ce6b22d031a06ab1dd7f2db1f24755c947e6e0b440c56cfb",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/validation.md",
+          "sha256": "7ea23db45dad422f9aab8d7677e697473af4e8c82a5145f325dd2accb8b7cac6",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/aspnetcore/prompt-funnysharp.md",
+          "sha256": "d5b9f021837d24107341a3eea61d0ec8691faae1c7bb7c939c9e2ee660c0849c",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/aspnetcore/template-funnysharp/AspnetcoreKit.csproj",
+          "sha256": "4d6381d51bc657902e59f8fc55d8672ea52c3c30d28010b835f601ebbbaaac01",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/aspnetcore/tests/AspnetcoreTests.cs",
+          "sha256": "b4343005f670ae9c23f9338e3f56289459f79630b763b7dfe434ae289a8b39c7",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/aspnetcore/tests/Contract.cs",
+          "sha256": "0e29dbaa90e69c2233652a6a742c9acef19b98a5ab90f1c9cbef191e138c9fec",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        }
+      ]
+    },
+    {
+      "slot": "aspnetcore/funnysharp/run-2",
+      "round": 1,
+      "files": [
+        {
+          "path": "guides/README.md",
+          "sha256": "cc536213ce3dd198741dd81ae4518fd492f24016400b9cbd02b5e85f2d2be517",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/analyzers.md",
+          "sha256": "c40255afe05dc9d0c1515f3ba9ab4fb764a2e8b79016fe5944493790f22fd8b1",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/aspnet-core.md",
+          "sha256": "31fd17e3283e02599612eef4969844b682dbfa3714cfe9a9bd8d9eed74e81e0f",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/collections.md",
+          "sha256": "f5d1b2f8ff9c92dcb94319e8860e8d0f957bd6da7faf811e47a9995f3e0f08bc",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/concurrency.md",
+          "sha256": "89a326d020c1b0274d520789cf6edde242239ba3f2aa50ae3e829db9f9b31cf6",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/data-pipelines.md",
+          "sha256": "f246b803edc480eab1dacb1d9549ef29b80a72a738171d7c4019c33d96906064",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/effects.md",
+          "sha256": "fb9012a5c6dbaabb8bc02cbc50f9710f96e49cb3a34a361fde96d8bd1bc4a694",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/function-composition.md",
+          "sha256": "644cb2bb3cbb9bf42cfe43bbe96eac2df5d021e3b6c371763d45c8f55243f641",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/grammar.md",
+          "sha256": "c46cbe739485ff881a8add7166395c210b399dfe5e81f37aa5b64f98439ed48c",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/option.md",
+          "sha256": "3a98a70031f5c6bf1f11172e807f39165e70f55f32b3d786e476dbd9e3dc6c0b",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/product-contract.md",
+          "sha256": "56e49ad95406612774b4d26e3e2763e11e06240c3dfd0de092a4011335fbf952",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/result.md",
+          "sha256": "e4bb306822cff30233a880840c1f7d4b9b2ea85cf2385dc599578a1fb93ec256",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/unit-result.md",
+          "sha256": "0c8682d7fdc4a7e1ce6b22d031a06ab1dd7f2db1f24755c947e6e0b440c56cfb",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "guides/docs/validation.md",
+          "sha256": "7ea23db45dad422f9aab8d7677e697473af4e8c82a5145f325dd2accb8b7cac6",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/aspnetcore/prompt-funnysharp.md",
+          "sha256": "d5b9f021837d24107341a3eea61d0ec8691faae1c7bb7c939c9e2ee660c0849c",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/aspnetcore/template-funnysharp/AspnetcoreKit.csproj",
+          "sha256": "4d6381d51bc657902e59f8fc55d8672ea52c3c30d28010b835f601ebbbaaac01",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/aspnetcore/tests/AspnetcoreTests.cs",
+          "sha256": "b4343005f670ae9c23f9338e3f56289459f79630b763b7dfe434ae289a8b39c7",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        },
+        {
+          "path": "tasks/aspnetcore/tests/Contract.cs",
+          "sha256": "0e29dbaa90e69c2233652a6a742c9acef19b98a5ab90f1c9cbef191e138c9fec",
+          "kind": "SAME_FROZEN_INITIAL_INPUT"
+        }
+      ]
+    }
+  ],
+  "finalRecords": [
+    {
+      "slot": "business-outcomes/idiomatic/run-1",
+      "round": 1,
+      "record": {
+        "task": "business-outcomes",
+        "style": "idiomatic",
+        "run": "run-1",
+        "round": 1,
+        "compilation": {
+          "ok": true,
+          "errors": 0,
+          "buildSeconds": 8.1
+        },
+        "semanticCorrectness": {
+          "ok": true,
+          "total": 10,
+          "failed": 0,
+          "succeeded": 10,
+          "skipped": 0
+        },
+        "apiMisuse": {
+          "fsDiagnostics": []
+        },
+        "consumerLoc": 66,
+        "verdict": "GREEN",
+        "evidenceKind": "generation-verification"
+      },
+      "producer": {
+        "studySha256": "83d7d3522ccad4fa04cc56bbf8ed540521147d178d1940cc656d9667e49ac76d",
+        "task": "business-outcomes",
+        "style": "idiomatic",
+        "sessionId": "study-session:5ed755f2-66d2-40ce-a81f-36230bec859b",
+        "invocationId": "native-call:c7f9d7f9-8ca2-4c7f-80bc-14533d9996cf",
+        "route": "native-omo-cli/5.1.9/json-print",
+        "producerKind": "ai",
+        "requestedModel": "ghc/gpt-6.1-sol",
+        "providerModel": {
+          "value": null,
+          "unknownReason": "Native selected model/route is observed. Actual upstream served model is unknown unless independently returned metadata supplies it."
+        },
+        "contextSha256": "97271e0102ee0ecbcb6d86273cc7560e44c9e696c1301b41151878e2a0ca6490",
+        "solutionFiles": [
+          {
+            "path": "OrderWorkflow.cs",
+            "sha256": "eae13805f0626fc62a5d65e7399d4361cf3073c3edd214217ec35432d3723e66"
+          }
+        ],
+        "invocationSha256": "32161d05658adb33896528ea3a72267fba4b26ace15ab6099386ed84abef8e15",
+        "startedUtc": "2026-10-02T23:45:05.646Z",
+        "finishedUtc": "2026-10-02T23:49:53.964Z",
+        "status": "completed"
+      }
+    },
+    {
+      "slot": "business-outcomes/idiomatic/run-2",
+      "round": 1,
+      "record": {
+        "task": "business-outcomes",
+        "style": "idiomatic",
+        "run": "run-2",
+        "round": 1,
+        "compilation": {
+          "ok": true,
+          "errors": 0,
+          "buildSeconds": 9
+        },
+        "semanticCorrectness": {
+          "ok": true,
+          "total": 10,
+          "failed": 0,
+          "succeeded": 10,
+          "skipped": 0
+        },
+        "apiMisuse": {
+          "fsDiagnostics": []
+        },
+        "consumerLoc": 69,
+        "verdict": "GREEN",
+        "evidenceKind": "generation-verification"
+      },
+      "producer": {
+        "studySha256": "83d7d3522ccad4fa04cc56bbf8ed540521147d178d1940cc656d9667e49ac76d",
+        "task": "business-outcomes",
+        "style": "idiomatic",
+        "sessionId": "study-session:aec4d5a7-bc77-4d3b-a9fa-890b4bd98726",
+        "invocationId": "native-call:8aa7f5ac-d226-4366-bd59-eca0b8e7d557",
+        "route": "native-omo-cli/5.1.9/json-print",
+        "producerKind": "ai",
+        "requestedModel": "ghc/gpt-6.1-sol",
+        "providerModel": {
+          "value": null,
+          "unknownReason": "Native selected model/route is observed. Actual upstream served model is unknown unless independently returned metadata supplies it."
+        },
+        "contextSha256": "97271e0102ee0ecbcb6d86273cc7560e44c9e696c1301b41151878e2a0ca6490",
+        "solutionFiles": [
+          {
+            "path": "OrderWorkflow.cs",
+            "sha256": "d38e3c9a4d6cc3f90597f3d30d2da2d587930116182d5a6a5f790651615abfa5"
+          }
+        ],
+        "invocationSha256": "0c0d0ad49a0226cb11b4bed84cdd2aeca7d89ef42b9181722f477f2dcbf950e3",
+        "startedUtc": "2026-10-02T23:52:09.714Z",
+        "finishedUtc": "2026-10-02T23:54:03.367Z",
+        "status": "completed"
+      }
+    },
+    {
+      "slot": "business-outcomes/funnysharp/run-1",
+      "round": 1,
+      "record": {
+        "task": "business-outcomes",
+        "style": "funnysharp",
+        "run": "run-1",
+        "round": 1,
+        "compilation": {
+          "ok": true,
+          "errors": 0,
+          "buildSeconds": 9.6
+        },
+        "semanticCorrectness": {
+          "ok": true,
+          "total": 10,
+          "failed": 0,
+          "succeeded": 10,
+          "skipped": 0
+        },
+        "apiMisuse": {
+          "fsDiagnostics": []
+        },
+        "consumerLoc": 91,
+        "verdict": "GREEN",
+        "evidenceKind": "generation-verification"
+      },
+      "producer": {
+        "studySha256": "83d7d3522ccad4fa04cc56bbf8ed540521147d178d1940cc656d9667e49ac76d",
+        "task": "business-outcomes",
+        "style": "funnysharp",
+        "sessionId": "study-session:e812e0bd-decc-4d3d-a075-67d6fdc2e864",
+        "invocationId": "native-call:5a8ddee7-0c0f-48d7-95bd-159ce708632c",
+        "route": "native-omo-cli/5.1.9/json-print",
+        "producerKind": "ai",
+        "requestedModel": "ghc/gpt-6.1-sol",
+        "providerModel": {
+          "value": null,
+          "unknownReason": "Native selected model/route is observed. Actual upstream served model is unknown unless independently returned metadata supplies it."
+        },
+        "contextSha256": "d14002f4ec76747f83fc5a6d297855e07ac04e8ec58a61419ecfe224484a1545",
+        "solutionFiles": [
+          {
+            "path": "OrderWorkflow.cs",
+            "sha256": "2e1e21fa2d3ed1dda7bf02057d1ec1248335c9e20fa777e1ced6982bbec5b821"
+          }
+        ],
+        "invocationSha256": "eb4b835cf5b3bfb170cf120afec17904c4fd2970a2c9aaed881869f8d92050d5",
+        "startedUtc": "2026-10-02T23:52:13.566Z",
+        "finishedUtc": "2026-10-02T23:54:04.267Z",
+        "status": "completed"
+      }
+    },
+    {
+      "slot": "business-outcomes/funnysharp/run-2",
+      "round": 1,
+      "record": {
+        "task": "business-outcomes",
+        "style": "funnysharp",
+        "run": "run-2",
+        "round": 1,
+        "compilation": {
+          "ok": true,
+          "errors": 0,
+          "buildSeconds": 11.2
+        },
+        "semanticCorrectness": {
+          "ok": true,
+          "total": 10,
+          "failed": 0,
+          "succeeded": 10,
+          "skipped": 0
+        },
+        "apiMisuse": {
+          "fsDiagnostics": []
+        },
+        "consumerLoc": 85,
+        "verdict": "GREEN",
+        "evidenceKind": "generation-verification"
+      },
+      "producer": {
+        "studySha256": "83d7d3522ccad4fa04cc56bbf8ed540521147d178d1940cc656d9667e49ac76d",
+        "task": "business-outcomes",
+        "style": "funnysharp",
+        "sessionId": "study-session:e317833c-43bc-4d7e-87e4-c6e9183a3d67",
+        "invocationId": "native-call:cd7d1694-cb8a-4e39-8b8a-55eb780a93ce",
+        "route": "native-omo-cli/5.1.9/json-print",
+        "producerKind": "ai",
+        "requestedModel": "ghc/gpt-6.1-sol",
+        "providerModel": {
+          "value": null,
+          "unknownReason": "Native selected model/route is observed. Actual upstream served model is unknown unless independently returned metadata supplies it."
+        },
+        "contextSha256": "d14002f4ec76747f83fc5a6d297855e07ac04e8ec58a61419ecfe224484a1545",
+        "solutionFiles": [
+          {
+            "path": "OrderWorkflow.cs",
+            "sha256": "7bae33a582e1175e1a25e810bcf8d9746c81261296cc96b07ba200596a5ebb23"
+          }
+        ],
+        "invocationSha256": "4e4c820efea2f4aa3e9f3fdc1096b5a4a40c37670b373226f1470643f68d91bf",
+        "startedUtc": "2026-10-02T23:52:17.733Z",
+        "finishedUtc": "2026-10-02T23:54:05.260Z",
+        "status": "completed"
+      }
+    },
+    {
+      "slot": "collections/idiomatic/run-1",
+      "round": 1,
+      "record": {
+        "task": "collections",
+        "style": "idiomatic",
+        "run": "run-1",
+        "round": 1,
+        "compilation": {
+          "ok": true,
+          "errors": 0,
+          "buildSeconds": 9.6
+        },
+        "semanticCorrectness": {
+          "ok": true,
+          "total": 9,
+          "failed": 0,
+          "succeeded": 9,
+          "skipped": 0
+        },
+        "apiMisuse": {
+          "fsDiagnostics": []
+        },
+        "consumerLoc": 78,
+        "verdict": "GREEN",
+        "evidenceKind": "generation-verification"
+      },
+      "producer": {
+        "studySha256": "83d7d3522ccad4fa04cc56bbf8ed540521147d178d1940cc656d9667e49ac76d",
+        "task": "collections",
+        "style": "idiomatic",
+        "sessionId": "study-session:98bda11e-9980-4d5a-af4c-d7d140e86237",
+        "invocationId": "native-call:7205d52b-06de-4c0e-ba90-05e8592b8bac",
+        "route": "native-omo-cli/5.1.9/json-print",
+        "producerKind": "ai",
+        "requestedModel": "ghc/gpt-6.1-sol",
+        "providerModel": {
+          "value": null,
+          "unknownReason": "Native selected model/route is observed. Actual upstream served model is unknown unless independently returned metadata supplies it."
+        },
+        "contextSha256": "35c6a3b6c8e9bf81590255fe543f037bcbfb48b7d664e537d7e863cb3ef5e06b",
+        "solutionFiles": [
+          {
+            "path": "FeedCleaner.cs",
+            "sha256": "73bb34b30aaec710ec3d5b1979986ae4ad265dab307c8422a6e69e499cbc16a3"
+          }
+        ],
+        "invocationSha256": "4eed26fcc6c1222183cc20c283816c6f9a7a520440d25a927631f0350000044d",
+        "startedUtc": "2026-10-02T23:53:59.354Z",
+        "finishedUtc": "2026-10-02T23:56:40.768Z",
+        "status": "GENERATED",
+        "feedbackSha256": null
+      }
+    },
+    {
+      "slot": "collections/idiomatic/run-2",
+      "round": 1,
+      "record": {
+        "task": "collections",
+        "style": "idiomatic",
+        "run": "run-2",
+        "round": 1,
+        "compilation": {
+          "ok": true,
+          "errors": 0,
+          "buildSeconds": 8.9
+        },
+        "semanticCorrectness": {
+          "ok": true,
+          "total": 9,
+          "failed": 0,
+          "succeeded": 9,
+          "skipped": 0
+        },
+        "apiMisuse": {
+          "fsDiagnostics": []
+        },
+        "consumerLoc": 81,
+        "verdict": "GREEN",
+        "evidenceKind": "generation-verification"
+      },
+      "producer": {
+        "studySha256": "83d7d3522ccad4fa04cc56bbf8ed540521147d178d1940cc656d9667e49ac76d",
+        "task": "collections",
+        "style": "idiomatic",
+        "sessionId": "study-session:9177e8fd-6509-4605-9680-07bf43e51afc",
+        "invocationId": "native-call:14b0eddc-e152-4ce1-8b3e-77b72d8d75e1",
+        "route": "native-omo-cli/5.1.9/json-print",
+        "producerKind": "ai",
+        "requestedModel": "ghc/gpt-6.1-sol",
+        "providerModel": {
+          "value": null,
+          "unknownReason": "Native selected model/route is observed. Actual upstream served model is unknown unless independently returned metadata supplies it."
+        },
+        "contextSha256": "35c6a3b6c8e9bf81590255fe543f037bcbfb48b7d664e537d7e863cb3ef5e06b",
+        "solutionFiles": [
+          {
+            "path": "FeedCleaner.cs",
+            "sha256": "e6739085163d3289e89f9a949971d33fb03c900fe56f74d3418efde69a0b8dc0"
+          }
+        ],
+        "invocationSha256": "afe33c809dbbf08680d4c2d89994d2799d10a79fb9f3d3d5a817c842eb15aeaa",
+        "startedUtc": "2026-10-02T23:54:21.427Z",
+        "finishedUtc": "2026-10-02T23:56:40.768Z",
+        "status": "GENERATED",
+        "feedbackSha256": null
+      }
+    },
+    {
+      "slot": "collections/funnysharp/run-1",
+      "round": 1,
+      "record": {
+        "task": "collections",
+        "style": "funnysharp",
+        "run": "run-1",
+        "round": 1,
+        "compilation": {
+          "ok": true,
+          "errors": 0,
+          "buildSeconds": 8.6
+        },
+        "semanticCorrectness": {
+          "ok": true,
+          "total": 9,
+          "failed": 0,
+          "succeeded": 9,
+          "skipped": 0
+        },
+        "apiMisuse": {
+          "fsDiagnostics": []
+        },
+        "consumerLoc": 83,
+        "verdict": "GREEN",
+        "evidenceKind": "generation-verification"
+      },
+      "producer": {
+        "studySha256": "83d7d3522ccad4fa04cc56bbf8ed540521147d178d1940cc656d9667e49ac76d",
+        "task": "collections",
+        "style": "funnysharp",
+        "sessionId": "study-session:ec9d770c-8443-47e1-9534-4c4643e81f62",
+        "invocationId": "native-call:c89b2014-7f14-49c8-9f6f-4b4dddb94bcf",
+        "route": "native-omo-cli/5.1.9/json-print",
+        "producerKind": "ai",
+        "requestedModel": "ghc/gpt-6.1-sol",
+        "providerModel": {
+          "value": null,
+          "unknownReason": "Native selected model/route is observed. Actual upstream served model is unknown unless independently returned metadata supplies it."
+        },
+        "contextSha256": "52f8b667a4328e7b1398bf7ba59935e82ba97a9ebae378b47d42fe18b44c143c",
+        "solutionFiles": [
+          {
+            "path": "FeedCleaner.cs",
+            "sha256": "a65379b0e61ec9fa67862d2e99acb463793f60365f7dbc1cdb9a4acd0bafcbcf"
+          }
+        ],
+        "invocationSha256": "a028ea0d804d1ba55e241f29b810996dacb9cce77bbdb4245a678aea21ba211f",
+        "startedUtc": "2026-10-02T23:54:25.385Z",
+        "finishedUtc": "2026-10-02T23:56:40.768Z",
+        "status": "GENERATED",
+        "feedbackSha256": null
+      }
+    },
+    {
+      "slot": "collections/funnysharp/run-2",
+      "round": 1,
+      "record": {
+        "task": "collections",
+        "style": "funnysharp",
+        "run": "run-2",
+        "round": 1,
+        "compilation": {
+          "ok": true,
+          "errors": 0,
+          "buildSeconds": 9.1
+        },
+        "semanticCorrectness": {
+          "ok": true,
+          "total": 9,
+          "failed": 0,
+          "succeeded": 9,
+          "skipped": 0
+        },
+        "apiMisuse": {
+          "fsDiagnostics": []
+        },
+        "consumerLoc": 91,
+        "verdict": "GREEN",
+        "evidenceKind": "generation-verification"
+      },
+      "producer": {
+        "studySha256": "83d7d3522ccad4fa04cc56bbf8ed540521147d178d1940cc656d9667e49ac76d",
+        "task": "collections",
+        "style": "funnysharp",
+        "sessionId": "study-session:002c543c-45f5-4c22-b582-7ed01934a369",
+        "invocationId": "native-call:cf1a5411-9af2-4b20-b405-1e1a7c82f658",
+        "route": "native-omo-cli/5.1.9/json-print",
+        "producerKind": "ai",
+        "requestedModel": "ghc/gpt-6.1-sol",
+        "providerModel": {
+          "value": null,
+          "unknownReason": "Native selected model/route is observed. Actual upstream served model is unknown unless independently returned metadata supplies it."
+        },
+        "contextSha256": "52f8b667a4328e7b1398bf7ba59935e82ba97a9ebae378b47d42fe18b44c143c",
+        "solutionFiles": [
+          {
+            "path": "FeedCleaner.cs",
+            "sha256": "6fb2f7ec5b2c0d8102b7d7938c6c3daac58c45a216f1d12269e411e4ed64bf58"
+          }
+        ],
+        "invocationSha256": "14e8030521337932e94aada4e312622e3bc253195d84b65a413538450aa0a81c",
+        "startedUtc": "2026-10-02T23:54:30.190Z",
+        "finishedUtc": "2026-10-02T23:56:40.768Z",
+        "status": "GENERATED",
+        "feedbackSha256": null
+      }
+    },
+    {
+      "slot": "async-streams/idiomatic/run-1",
+      "round": 1,
+      "record": {
+        "task": "async-streams",
+        "style": "idiomatic",
+        "run": "run-1",
+        "round": 1,
+        "compilation": {
+          "ok": true,
+          "errors": 0,
+          "buildSeconds": 9.3
+        },
+        "semanticCorrectness": {
+          "ok": true,
+          "total": 10,
+          "failed": 0,
+          "succeeded": 10,
+          "skipped": 0
+        },
+        "apiMisuse": {
+          "fsDiagnostics": []
+        },
+        "consumerLoc": 55,
+        "verdict": "GREEN",
+        "evidenceKind": "generation-verification"
+      },
+      "producer": {
+        "studySha256": "83d7d3522ccad4fa04cc56bbf8ed540521147d178d1940cc656d9667e49ac76d",
+        "task": "async-streams",
+        "style": "idiomatic",
+        "sessionId": "study-session:9abee98b-6f64-4d90-8125-692d48bb3bb2",
+        "invocationId": "native-call:0ed93e24-7ec0-4f46-9ccd-c6b2d106fd55",
+        "route": "native-omo-cli/5.1.9/json-print",
+        "producerKind": "ai",
+        "requestedModel": "ghc/gpt-6.1-sol",
+        "providerModel": {
+          "value": null,
+          "unknownReason": "Native selected model/route is observed. Actual upstream served model is unknown unless independently returned metadata supplies it."
+        },
+        "contextSha256": "4b8b954abc8237897e4831cdd15a0b6fc6d41ce201f9e7fc7aa7e1b6326b2857",
+        "solutionFiles": [
+          {
+            "path": "SensorStream.cs",
+            "sha256": "a6260b7ebb4f0cbdf524c3963be72381dcc4db5d3eda62dc7c69474de5623fa2"
+          }
+        ],
+        "invocationSha256": "0e5b2d02ce97236bb3dea7aef31f4df2ccdf609ff45000c7b5549dc10f2ff646",
+        "startedUtc": "2026-10-02T23:57:31.967Z",
+        "finishedUtc": "2026-10-02T23:59:40.650Z",
+        "status": "GENERATED",
+        "feedbackSha256": null
+      }
+    },
+    {
+      "slot": "async-streams/idiomatic/run-2",
+      "round": 1,
+      "record": {
+        "task": "async-streams",
+        "style": "idiomatic",
+        "run": "run-2",
+        "round": 1,
+        "compilation": {
+          "ok": true,
+          "errors": 0,
+          "buildSeconds": 9.7
+        },
+        "semanticCorrectness": {
+          "ok": true,
+          "total": 10,
+          "failed": 0,
+          "succeeded": 10,
+          "skipped": 0
+        },
+        "apiMisuse": {
+          "fsDiagnostics": []
+        },
+        "consumerLoc": 54,
+        "verdict": "GREEN",
+        "evidenceKind": "generation-verification"
+      },
+      "producer": {
+        "studySha256": "83d7d3522ccad4fa04cc56bbf8ed540521147d178d1940cc656d9667e49ac76d",
+        "task": "async-streams",
+        "style": "idiomatic",
+        "sessionId": "study-session:eb5f7d02-47b5-4bfa-b4ec-a06550cf0087",
+        "invocationId": "native-call:1bc26240-bb33-4c31-98b4-ac040d8e2422",
+        "route": "native-omo-cli/5.1.9/json-print",
+        "producerKind": "ai",
+        "requestedModel": "ghc/gpt-6.1-sol",
+        "providerModel": {
+          "value": null,
+          "unknownReason": "Native selected model/route is observed. Actual upstream served model is unknown unless independently returned metadata supplies it."
+        },
+        "contextSha256": "4b8b954abc8237897e4831cdd15a0b6fc6d41ce201f9e7fc7aa7e1b6326b2857",
+        "solutionFiles": [
+          {
+            "path": "SensorStream.cs",
+            "sha256": "1047021e161c1c249a834b5c9474e7d7086e52bcfc8ab57ea85feed14e369632"
+          }
+        ],
+        "invocationSha256": "b0a2d3a0d63cd34fc90cab7e991a1bce3809036e77acd74734abcb9e96617caf",
+        "startedUtc": "2026-10-02T23:57:36.563Z",
+        "finishedUtc": "2026-10-02T23:59:40.650Z",
+        "status": "GENERATED",
+        "feedbackSha256": null
+      }
+    },
+    {
+      "slot": "async-streams/funnysharp/run-1",
+      "round": 1,
+      "record": {
+        "task": "async-streams",
+        "style": "funnysharp",
+        "run": "run-1",
+        "round": 1,
+        "compilation": {
+          "ok": true,
+          "errors": 0,
+          "buildSeconds": 12.3
+        },
+        "semanticCorrectness": {
+          "ok": true,
+          "total": 10,
+          "failed": 0,
+          "succeeded": 10,
+          "skipped": 0
+        },
+        "apiMisuse": {
+          "fsDiagnostics": []
+        },
+        "consumerLoc": 63,
+        "verdict": "GREEN",
+        "evidenceKind": "generation-verification"
+      },
+      "producer": {
+        "studySha256": "83d7d3522ccad4fa04cc56bbf8ed540521147d178d1940cc656d9667e49ac76d",
+        "task": "async-streams",
+        "style": "funnysharp",
+        "sessionId": "study-session:68c451c9-377c-4c7e-8bc1-24e941373188",
+        "invocationId": "native-call:16d5363f-5558-485b-8cab-8fd5cf177f39",
+        "route": "native-omo-cli/5.1.9/json-print",
+        "producerKind": "ai",
+        "requestedModel": "ghc/gpt-6.1-sol",
+        "providerModel": {
+          "value": null,
+          "unknownReason": "Native selected model/route is observed. Actual upstream served model is unknown unless independently returned metadata supplies it."
+        },
+        "contextSha256": "b2ffbc88ad55e833c6696c536a32432131526ba0c8ffd344f15467595ce29c46",
+        "solutionFiles": [
+          {
+            "path": "SensorStream.cs",
+            "sha256": "fef70eb742f14076296aa0f5b9ecb13be7db2f961621c3805ebc4abcc8b31094"
+          }
+        ],
+        "invocationSha256": "5d7b0a8b1cc1dbb48dc3b25b96ce1cf7e8bc0fc0e190316a6040bdf952f2a805",
+        "startedUtc": "2026-10-02T23:57:36.584Z",
+        "finishedUtc": "2026-10-02T23:59:40.650Z",
+        "status": "GENERATED",
+        "feedbackSha256": null
+      }
+    },
+    {
+      "slot": "async-streams/funnysharp/run-2",
+      "round": 1,
+      "record": {
+        "task": "async-streams",
+        "style": "funnysharp",
+        "run": "run-2",
+        "round": 1,
+        "compilation": {
+          "ok": true,
+          "errors": 0,
+          "buildSeconds": 10.9
+        },
+        "semanticCorrectness": {
+          "ok": true,
+          "total": 10,
+          "failed": 0,
+          "succeeded": 10,
+          "skipped": 0
+        },
+        "apiMisuse": {
+          "fsDiagnostics": []
+        },
+        "consumerLoc": 50,
+        "verdict": "GREEN",
+        "evidenceKind": "generation-verification"
+      },
+      "producer": {
+        "studySha256": "83d7d3522ccad4fa04cc56bbf8ed540521147d178d1940cc656d9667e49ac76d",
+        "task": "async-streams",
+        "style": "funnysharp",
+        "sessionId": "study-session:ac2ec0fe-2d68-456f-bdee-bb1e46bb1cf4",
+        "invocationId": "native-call:8ea63143-746e-4585-87c1-547ad8af4f46",
+        "route": "native-omo-cli/5.1.9/json-print",
+        "producerKind": "ai",
+        "requestedModel": "ghc/gpt-6.1-sol",
+        "providerModel": {
+          "value": null,
+          "unknownReason": "Native selected model/route is observed. Actual upstream served model is unknown unless independently returned metadata supplies it."
+        },
+        "contextSha256": "b2ffbc88ad55e833c6696c536a32432131526ba0c8ffd344f15467595ce29c46",
+        "solutionFiles": [
+          {
+            "path": "SensorStream.cs",
+            "sha256": "8a30dc7a66e1aae300dd05621b5d89c5d1b868ee7be670f18e249f5e5aba3da5"
+          }
+        ],
+        "invocationSha256": "feba890867e0a90d533f481f7ff4497fbb76039d9a84f0bf2109e8bfb8269c01",
+        "startedUtc": "2026-10-02T23:57:36.604Z",
+        "finishedUtc": "2026-10-02T23:59:40.650Z",
+        "status": "GENERATED",
+        "feedbackSha256": null
+      }
+    },
+    {
+      "slot": "concurrency/idiomatic/run-1",
+      "round": 1,
+      "record": {
+        "task": "concurrency",
+        "style": "idiomatic",
+        "run": "run-1",
+        "round": 1,
+        "compilation": {
+          "ok": true,
+          "errors": 0,
+          "buildSeconds": 13.2
+        },
+        "semanticCorrectness": {
+          "ok": true,
+          "total": 12,
+          "failed": 0,
+          "succeeded": 12,
+          "skipped": 0
+        },
+        "apiMisuse": {
+          "fsDiagnostics": []
+        },
+        "consumerLoc": 188,
+        "verdict": "GREEN",
+        "evidenceKind": "generation-verification"
+      },
+      "producer": {
+        "studySha256": "83d7d3522ccad4fa04cc56bbf8ed540521147d178d1940cc656d9667e49ac76d",
+        "task": "concurrency",
+        "style": "idiomatic",
+        "sessionId": "study-session:ac75b023-9141-4969-ae42-8a9073f75eaf",
+        "invocationId": "native-call:67a4b2a3-dea8-49ee-93db-ce93f6e76de9",
+        "route": "native-omo-cli/5.1.9/json-print",
+        "producerKind": "ai",
+        "requestedModel": "ghc/gpt-6.1-sol",
+        "providerModel": {
+          "value": null,
+          "unknownReason": "Native selected model/route is observed. Actual upstream served model is unknown unless independently returned metadata supplies it."
+        },
+        "contextSha256": "57e6fa4e96af06ab7b54c6a7a61c94ffe5caa4c0d61d5b97d09ad9485c664b47",
+        "solutionFiles": [
+          {
+            "path": "AvailabilityCoordinator.cs",
+            "sha256": "e789506e8dcbfcc8a6b8047717904e36c79d322cd5ee9d3e1a0533bbf42769c4"
+          }
+        ],
+        "invocationSha256": "900f79b36e37e864edc3f3b674ec3b17853c59fd36cb5be492140422f3135f9f",
+        "startedUtc": "2026-10-02T23:54:07.082Z",
+        "finishedUtc": "2026-10-03T00:03:24.059Z",
+        "status": "completed",
+        "feedbackSha256": null
+      }
+    },
+    {
+      "slot": "concurrency/idiomatic/run-2",
+      "round": 1,
+      "record": {
+        "task": "concurrency",
+        "style": "idiomatic",
+        "run": "run-2",
+        "round": 1,
+        "compilation": {
+          "ok": true,
+          "errors": 0,
+          "buildSeconds": 13.6
+        },
+        "semanticCorrectness": {
+          "ok": true,
+          "total": 12,
+          "failed": 0,
+          "succeeded": 12,
+          "skipped": 0
+        },
+        "apiMisuse": {
+          "fsDiagnostics": []
+        },
+        "consumerLoc": 233,
+        "verdict": "GREEN",
+        "evidenceKind": "generation-verification"
+      },
+      "producer": {
+        "studySha256": "83d7d3522ccad4fa04cc56bbf8ed540521147d178d1940cc656d9667e49ac76d",
+        "task": "concurrency",
+        "style": "idiomatic",
+        "sessionId": "study-session:32015dfa-042e-471a-a548-b5ed903597ae",
+        "invocationId": "native-call:eeb551cd-3e02-4d48-b219-64b4239a944f",
+        "route": "native-omo-cli/5.1.9/json-print",
+        "producerKind": "ai",
+        "requestedModel": "ghc/gpt-6.1-sol",
+        "providerModel": {
+          "value": null,
+          "unknownReason": "Native selected model/route is observed. Actual upstream served model is unknown unless independently returned metadata supplies it."
+        },
+        "contextSha256": "57e6fa4e96af06ab7b54c6a7a61c94ffe5caa4c0d61d5b97d09ad9485c664b47",
+        "solutionFiles": [
+          {
+            "path": "AvailabilityCoordinator.cs",
+            "sha256": "8827571afbc9b22f9b887fcb5bd40c5a05e0f9bfc65b644c3eeccd3afc4b4de1"
+          }
+        ],
+        "invocationSha256": "f6a1c10dad58c34292d6521a3f546be08c80267e89293b260b92702831d3ae0a",
+        "startedUtc": "2026-10-02T23:54:15.398Z",
+        "finishedUtc": "2026-10-03T00:03:24.073Z",
+        "status": "completed",
+        "feedbackSha256": null
+      }
+    },
+    {
+      "slot": "concurrency/funnysharp/run-1",
+      "round": 1,
+      "record": {
+        "task": "concurrency",
+        "style": "funnysharp",
+        "run": "run-1",
+        "round": 1,
+        "compilation": {
+          "ok": true,
+          "errors": 0,
+          "buildSeconds": 14.1
+        },
+        "semanticCorrectness": {
+          "ok": true,
+          "total": 12,
+          "failed": 0,
+          "succeeded": 12,
+          "skipped": 0
+        },
+        "apiMisuse": {
+          "fsDiagnostics": []
+        },
+        "consumerLoc": 180,
+        "verdict": "GREEN",
+        "evidenceKind": "generation-verification"
+      },
+      "producer": {
+        "studySha256": "83d7d3522ccad4fa04cc56bbf8ed540521147d178d1940cc656d9667e49ac76d",
+        "task": "concurrency",
+        "style": "funnysharp",
+        "sessionId": "study-session:770e8fcf-61dc-42f4-9413-045771a6de43",
+        "invocationId": "native-call:a8fb9dd9-71d8-4d8f-b9df-325705ef2f05",
+        "route": "native-omo-cli/5.1.9/json-print",
+        "producerKind": "ai",
+        "requestedModel": "ghc/gpt-6.1-sol",
+        "providerModel": {
+          "value": null,
+          "unknownReason": "Native selected model/route is observed. Actual upstream served model is unknown unless independently returned metadata supplies it."
+        },
+        "contextSha256": "cf750661af1800ef6186fddcea021e9e6218aef7b8c1488ba0e395ff5a546155",
+        "solutionFiles": [
+          {
+            "path": "AvailabilityCoordinator.cs",
+            "sha256": "114b7049e3f3f328e9c5cf60d2112afadb8f03dc7ca62010244832168a2d6ab3"
+          }
+        ],
+        "invocationSha256": "6477d94fcac6d257a96121ddf096f79e82a7485c45bbe90602b173acd5ddb80f",
+        "startedUtc": "2026-10-02T23:54:15.657Z",
+        "finishedUtc": "2026-10-03T00:03:24.086Z",
+        "status": "completed",
+        "feedbackSha256": null
+      }
+    },
+    {
+      "slot": "concurrency/funnysharp/run-2",
+      "round": 1,
+      "record": {
+        "task": "concurrency",
+        "style": "funnysharp",
+        "run": "run-2",
+        "round": 1,
+        "compilation": {
+          "ok": true,
+          "errors": 0,
+          "buildSeconds": 13.4
+        },
+        "semanticCorrectness": {
+          "ok": true,
+          "total": 12,
+          "failed": 0,
+          "succeeded": 12,
+          "skipped": 0
+        },
+        "apiMisuse": {
+          "fsDiagnostics": []
+        },
+        "consumerLoc": 79,
+        "verdict": "GREEN",
+        "evidenceKind": "generation-verification"
+      },
+      "producer": {
+        "studySha256": "83d7d3522ccad4fa04cc56bbf8ed540521147d178d1940cc656d9667e49ac76d",
+        "task": "concurrency",
+        "style": "funnysharp",
+        "sessionId": "study-session:7db18aa7-de89-405d-a77e-dea4f926b30a",
+        "invocationId": "native-call:3bfa538c-b508-4470-b1b8-260c33e0500f",
+        "route": "native-omo-cli/5.1.9/json-print",
+        "producerKind": "ai",
+        "requestedModel": "ghc/gpt-6.1-sol",
+        "providerModel": {
+          "value": null,
+          "unknownReason": "Native selected model/route is observed. Actual upstream served model is unknown unless independently returned metadata supplies it."
+        },
+        "contextSha256": "cf750661af1800ef6186fddcea021e9e6218aef7b8c1488ba0e395ff5a546155",
+        "solutionFiles": [
+          {
+            "path": "AvailabilityCoordinator.cs",
+            "sha256": "13e588ab9a4ad7568f9a95499f2aad24b436f8f627e38bf792532669510aee1e"
+          }
+        ],
+        "invocationSha256": "3233386986d101873538fdc575cf7457271427f403feb24425652ec23f27e5c6",
+        "startedUtc": "2026-10-02T23:54:15.924Z",
+        "finishedUtc": "2026-10-03T00:03:24.099Z",
+        "status": "completed",
+        "feedbackSha256": null
+      }
+    },
+    {
+      "slot": "aspnetcore/idiomatic/run-1",
+      "round": 2,
+      "record": {
+        "task": "aspnetcore",
+        "style": "idiomatic",
+        "run": "run-1",
+        "round": 2,
+        "compilation": {
+          "ok": true,
+          "errors": 0,
+          "buildSeconds": 9.4
+        },
+        "semanticCorrectness": {
+          "ok": true,
+          "total": 9,
+          "failed": 0,
+          "succeeded": 9,
+          "skipped": 0
+        },
+        "apiMisuse": {
+          "fsDiagnostics": []
+        },
+        "consumerLoc": 124,
+        "verdict": "GREEN",
+        "evidenceKind": "generation-verification"
+      },
+      "producer": {
+        "studySha256": "83d7d3522ccad4fa04cc56bbf8ed540521147d178d1940cc656d9667e49ac76d",
+        "task": "aspnetcore",
+        "style": "idiomatic",
+        "sessionId": "study-session:a667d482-d977-45cc-b6be-179d3ed3a480",
+        "invocationId": "native-call:a75f864f-f440-42a9-b232-3bd4082e369e",
+        "route": "native-omo-cli/5.1.9/json-print",
+        "producerKind": "ai",
+        "requestedModel": "ghc/gpt-6.1-sol",
+        "providerModel": {
+          "value": null,
+          "unknownReason": "Native selected model/route is observed. Actual upstream served model is unknown unless independently returned metadata supplies it."
+        },
+        "contextSha256": "bc27c4ce4ed6d21b5bbc7e473f6a5fcf92988f613ab2cc6aa66ec88cdf1f2994",
+        "solutionFiles": [
+          {
+            "path": "Api.cs",
+            "sha256": "c2cda778886d0f022ee1266b8ddd6bc79a0a0bb18252e8b3111f112e3307555d"
+          }
+        ],
+        "invocationSha256": "b86ee52e0b711b1af528caed047694882d626b4e82c95fbd7e9a20a389c13d2c",
+        "startedUtc": "2026-10-03T00:02:58.131Z",
+        "finishedUtc": "2026-10-03T00:03:55.915Z",
+        "status": "completed",
+        "feedbackSha256": "9f4cef5ec00aa1e69d31a170c76b9c1d2ed424995a767a8bdf1537372cc887ad"
+      }
+    },
+    {
+      "slot": "aspnetcore/idiomatic/run-2",
+      "round": 1,
+      "record": {
+        "task": "aspnetcore",
+        "style": "idiomatic",
+        "run": "run-2",
+        "round": 1,
+        "compilation": {
+          "ok": true,
+          "errors": 0,
+          "buildSeconds": 10.4
+        },
+        "semanticCorrectness": {
+          "ok": true,
+          "total": 9,
+          "failed": 0,
+          "succeeded": 9,
+          "skipped": 0
+        },
+        "apiMisuse": {
+          "fsDiagnostics": []
+        },
+        "consumerLoc": 133,
+        "verdict": "GREEN",
+        "evidenceKind": "generation-verification"
+      },
+      "producer": {
+        "studySha256": "83d7d3522ccad4fa04cc56bbf8ed540521147d178d1940cc656d9667e49ac76d",
+        "task": "aspnetcore",
+        "style": "idiomatic",
+        "sessionId": "study-session:43a13564-28db-4944-8d0e-c03761f0d6e3",
+        "invocationId": "native-call:0c894cc7-6804-4b86-a8b7-7167d21079d0",
+        "route": "native-omo-cli/5.1.9/json-print",
+        "producerKind": "ai",
+        "requestedModel": "ghc/gpt-6.1-sol",
+        "providerModel": {
+          "value": null,
+          "unknownReason": "Native selected model/route is observed. Actual upstream served model is unknown unless independently returned metadata supplies it."
+        },
+        "contextSha256": "aeb8b19e3908da3765e982c525b1250c240a73452f76ecf9f5c99f10bb54ffde",
+        "solutionFiles": [
+          {
+            "path": "Api.cs",
+            "sha256": "9ebfb147a43415ecca67b378acfb8b3b7b0c3f26195ba2fffed1ab7905dcc29b"
+          }
+        ],
+        "invocationSha256": "43c55af275a19b0f9ce148cbc1dfc25ad61ae3bfb536d15addae3e7692e4f119",
+        "startedUtc": "2026-10-02T23:54:23.658Z",
+        "finishedUtc": "2026-10-02T23:59:05.483Z",
+        "status": "completed",
+        "feedbackSha256": null
+      }
+    },
+    {
+      "slot": "aspnetcore/funnysharp/run-1",
+      "round": 1,
+      "record": {
+        "task": "aspnetcore",
+        "style": "funnysharp",
+        "run": "run-1",
+        "round": 1,
+        "compilation": {
+          "ok": true,
+          "errors": 0,
+          "buildSeconds": 9.2
+        },
+        "semanticCorrectness": {
+          "ok": true,
+          "total": 9,
+          "failed": 0,
+          "succeeded": 9,
+          "skipped": 0
+        },
+        "apiMisuse": {
+          "fsDiagnostics": []
+        },
+        "consumerLoc": 113,
+        "verdict": "GREEN",
+        "evidenceKind": "generation-verification"
+      },
+      "producer": {
+        "studySha256": "83d7d3522ccad4fa04cc56bbf8ed540521147d178d1940cc656d9667e49ac76d",
+        "task": "aspnetcore",
+        "style": "funnysharp",
+        "sessionId": "study-session:d8b1c193-fa26-4557-b6b9-981415e46cb3",
+        "invocationId": "native-call:14fab8e8-93ba-455f-921c-d37b9924825c",
+        "route": "native-omo-cli/5.1.9/json-print",
+        "producerKind": "ai",
+        "requestedModel": "ghc/gpt-6.1-sol",
+        "providerModel": {
+          "value": null,
+          "unknownReason": "Native selected model/route is observed. Actual upstream served model is unknown unless independently returned metadata supplies it."
+        },
+        "contextSha256": "1671ccfae02f586f603e59ac0592b0f2ddb7e2242aa376380aad426f4322cd8f",
+        "solutionFiles": [
+          {
+            "path": "Api.cs",
+            "sha256": "b89f5d5fb9b60f1be74f87355887f039db9f4a2198bd2239e0b68ebd4d333db5"
+          }
+        ],
+        "invocationSha256": "b411dac34a122cb5eeceb0fb4856f341f6fdcdf9b31357e24c8cc88ca6d180f0",
+        "startedUtc": "2026-10-02T23:54:27.548Z",
+        "finishedUtc": "2026-10-02T23:59:05.495Z",
+        "status": "completed",
+        "feedbackSha256": null
+      }
+    },
+    {
+      "slot": "aspnetcore/funnysharp/run-2",
+      "round": 1,
+      "record": {
+        "task": "aspnetcore",
+        "style": "funnysharp",
+        "run": "run-2",
+        "round": 1,
+        "compilation": {
+          "ok": true,
+          "errors": 0,
+          "buildSeconds": 8.7
+        },
+        "semanticCorrectness": {
+          "ok": true,
+          "total": 9,
+          "failed": 0,
+          "succeeded": 9,
+          "skipped": 0
+        },
+        "apiMisuse": {
+          "fsDiagnostics": []
+        },
+        "consumerLoc": 122,
+        "verdict": "GREEN",
+        "evidenceKind": "generation-verification"
+      },
+      "producer": {
+        "studySha256": "83d7d3522ccad4fa04cc56bbf8ed540521147d178d1940cc656d9667e49ac76d",
+        "task": "aspnetcore",
+        "style": "funnysharp",
+        "sessionId": "study-session:f3ef720c-9daf-4722-a6b5-dcb0ec4d5c1c",
+        "invocationId": "native-call:9bca70af-dfba-4114-81d7-709c8a4d3fd5",
+        "route": "native-omo-cli/5.1.9/json-print",
+        "producerKind": "ai",
+        "requestedModel": "ghc/gpt-6.1-sol",
+        "providerModel": {
+          "value": null,
+          "unknownReason": "Native selected model/route is observed. Actual upstream served model is unknown unless independently returned metadata supplies it."
+        },
+        "contextSha256": "1671ccfae02f586f603e59ac0592b0f2ddb7e2242aa376380aad426f4322cd8f",
+        "solutionFiles": [
+          {
+            "path": "Api.cs",
+            "sha256": "659e8de72d01ef1f1ba1028c8a82abf297ea166be8999c29d8a6a8f3057ff6a5"
+          }
+        ],
+        "invocationSha256": "7ec5810e2538b1c9f035a9465f298214c8a79871690a253205b45e4e639c0fb2",
+        "startedUtc": "2026-10-02T23:54:32.505Z",
+        "finishedUtc": "2026-10-02T23:59:05.510Z",
+        "status": "completed",
+        "feedbackSha256": null
+      }
+    }
+  ],
+  "frozenSnapshot188SHAchecks": [
+    {
+      "path": "analyzer-control/Control.cs",
+      "expected": "3d3329db4bc51a207ed3e93ec4a8f98950fac227a1ec14dae6702a6300a48a82",
+      "actual": "3d3329db4bc51a207ed3e93ec4a8f98950fac227a1ec14dae6702a6300a48a82"
+    },
+    {
+      "path": "analyzer-control/Control.csproj",
+      "expected": "a653a999866bfe9456be7d419c0de118cd34a75a13bcdf0fd489f238eb364b79",
+      "actual": "a653a999866bfe9456be7d419c0de118cd34a75a13bcdf0fd489f238eb364b79"
+    },
+    {
+      "path": "analyzer-control/NuGet.config",
+      "expected": "b24b1b3943dee459a732ae35ee1f6dd4f4baa5de7c5a9800c632bf1a78cd86d8",
+      "actual": "b24b1b3943dee459a732ae35ee1f6dd4f4baa5de7c5a9800c632bf1a78cd86d8"
+    },
+    {
+      "path": "analyzer-control/control.binlog",
+      "expected": "a4e4d72a2d3fc0eb222be5bfaa76cebc91bc411796e56796c194cc6475e97fad",
+      "actual": "a4e4d72a2d3fc0eb222be5bfaa76cebc91bc411796e56796c194cc6475e97fad"
+    },
+    {
+      "path": "analyzer-control/control.process.json",
+      "expected": "a6f22a306e18b8c3e88231588348f544113626bc41b1918ba72d676302823e12",
+      "actual": "a6f22a306e18b8c3e88231588348f544113626bc41b1918ba72d676302823e12"
+    },
+    {
+      "path": "analyzer-control/control.sarif",
+      "expected": "5ed28f6e2076bf7bbf60daebf6bafb432a919a90ec1a1145635ec0e852d6cf5e",
+      "actual": "5ed28f6e2076bf7bbf60daebf6bafb432a919a90ec1a1145635ec0e852d6cf5e"
+    },
+    {
+      "path": "analyzer-control/control.stderr.log",
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "analyzer-control/control.stdout.log",
+      "expected": "61c6a2c6472a09b47459431cf6df8727bbc849fadd6733b3c9001540a88a659e",
+      "actual": "61c6a2c6472a09b47459431cf6df8727bbc849fadd6733b3c9001540a88a659e"
+    },
+    {
+      "path": "analyzer-control/obj/Control.csproj.nuget.dgspec.json",
+      "expected": "236a96505ef901191c1b58901811a225a7cc930b7e7763331a72f2aa56972c32",
+      "actual": "236a96505ef901191c1b58901811a225a7cc930b7e7763331a72f2aa56972c32"
+    },
+    {
+      "path": "analyzer-control/obj/Control.csproj.nuget.g.props",
+      "expected": "e27bbc5bfdf9c29524a46bc131da182e7d76fde87cd2f622fa034438f109610b",
+      "actual": "e27bbc5bfdf9c29524a46bc131da182e7d76fde87cd2f622fa034438f109610b"
+    },
+    {
+      "path": "analyzer-control/obj/Control.csproj.nuget.g.targets",
+      "expected": "971cc9b535384849b5c661d776cd7a80833a416265e32e8968e06c367368b8b5",
+      "actual": "971cc9b535384849b5c661d776cd7a80833a416265e32e8968e06c367368b8b5"
+    },
+    {
+      "path": "analyzer-control/obj/Debug/net10.0/.NETCoreApp,Version=v10.0.AssemblyAttributes.cs",
+      "expected": "93d67476196ebfc80d1d7d8844b91146cfd678d105f5ce635eb900ca40610c9b",
+      "actual": "93d67476196ebfc80d1d7d8844b91146cfd678d105f5ce635eb900ca40610c9b"
+    },
+    {
+      "path": "analyzer-control/obj/Debug/net10.0/Control.AssemblyInfo.cs",
+      "expected": "97181aac5879d31b30fe8580bdf5e04a12beba9b291689814927b69839b4458f",
+      "actual": "97181aac5879d31b30fe8580bdf5e04a12beba9b291689814927b69839b4458f"
+    },
+    {
+      "path": "analyzer-control/obj/Debug/net10.0/Control.AssemblyInfoInputs.cache",
+      "expected": "5d5b6bd33e670ff0f7462d804dd3372660ca7fd726e0552fc64f2d4c20ff29de",
+      "actual": "5d5b6bd33e670ff0f7462d804dd3372660ca7fd726e0552fc64f2d4c20ff29de"
+    },
+    {
+      "path": "analyzer-control/obj/Debug/net10.0/Control.GeneratedMSBuildEditorConfig.editorconfig",
+      "expected": "752959bc23e3f6d917b68ab63b67939eb221fc5bb67c5297bd98315322d57a39",
+      "actual": "752959bc23e3f6d917b68ab63b67939eb221fc5bb67c5297bd98315322d57a39"
+    },
+    {
+      "path": "analyzer-control/obj/Debug/net10.0/Control.GlobalUsings.g.cs",
+      "expected": "a3c6048bb4d922b1799a9977f84362a3787b68810cac67aa86ac3aa23295f227",
+      "actual": "a3c6048bb4d922b1799a9977f84362a3787b68810cac67aa86ac3aa23295f227"
+    },
+    {
+      "path": "analyzer-control/obj/Debug/net10.0/Control.assets.cache",
+      "expected": "1a8296a7b583a9493c1b861570d165eaee374562f105b38c74a15b0e053678e6",
+      "actual": "1a8296a7b583a9493c1b861570d165eaee374562f105b38c74a15b0e053678e6"
+    },
+    {
+      "path": "analyzer-control/obj/Debug/net10.0/Control.csproj.AssemblyReference.cache",
+      "expected": "9552f7f25b5a6bbd58e8a25124de2179d68c31a8ab30032edbf5784d90ab34b1",
+      "actual": "9552f7f25b5a6bbd58e8a25124de2179d68c31a8ab30032edbf5784d90ab34b1"
+    },
+    {
+      "path": "analyzer-control/obj/Debug/net10.0/Control.csproj.CoreCompileInputs.cache",
+      "expected": "294ea52b46dbd8651ff3ad717cbf06eb5bf554b20a8fc07fc2617856e22cf8ec",
+      "actual": "294ea52b46dbd8651ff3ad717cbf06eb5bf554b20a8fc07fc2617856e22cf8ec"
+    },
+    {
+      "path": "analyzer-control/obj/Debug/net10.0/Control.csproj.FileListAbsolute.txt",
+      "expected": "acf595bcf73c9d99ab0cc09b12e4049e6f028f21b6bd23705814940fad1ceaeb",
+      "actual": "acf595bcf73c9d99ab0cc09b12e4049e6f028f21b6bd23705814940fad1ceaeb"
+    },
+    {
+      "path": "analyzer-control/obj/Debug/net10.0/Control.sourcelink.json",
+      "expected": "bc08b9df8f4141cd917138a00b7ac29ae32ed4f09987497845d49e70b36ae601",
+      "actual": "bc08b9df8f4141cd917138a00b7ac29ae32ed4f09987497845d49e70b36ae601"
+    },
+    {
+      "path": "analyzer-control/obj/project.assets.json",
+      "expected": "3d0c7b0c333274db452c3347aa6dc00c2ed80ced2fece5aa5937aaa5bedc23ba",
+      "actual": "3d0c7b0c333274db452c3347aa6dc00c2ed80ced2fece5aa5937aaa5bedc23ba"
+    },
+    {
+      "path": "analyzer-control/obj/project.nuget.cache",
+      "expected": "4c030ea6d768af1f56b5084d118f3e0aca7a744354518aa3854debb2994e168a",
+      "actual": "4c030ea6d768af1f56b5084d118f3e0aca7a744354518aa3854debb2994e168a"
+    },
+    {
+      "path": "environment/Directory.Build.props",
+      "expected": "e1f773524cbe06e47ce9373a35995982889f95f1f943cde9830a99ba4257e76b",
+      "actual": "e1f773524cbe06e47ce9373a35995982889f95f1f943cde9830a99ba4257e76b"
+    },
+    {
+      "path": "environment/build.fsx",
+      "expected": "d14fead601ab57cd98046f0c9e2f0592cf1d5723e62a06e126329bb943b8c004",
+      "actual": "d14fead601ab57cd98046f0c9e2f0592cf1d5723e62a06e126329bb943b8c004"
+    },
+    {
+      "path": "environment/eng/harness/Evaluation.fs",
+      "expected": "308f85f94b5a803a37b69cff05a2dd6e8065c74e88a88641a43996d8334d31e4",
+      "actual": "308f85f94b5a803a37b69cff05a2dd6e8065c74e88a88641a43996d8334d31e4"
+    },
+    {
+      "path": "environment/global.json",
+      "expected": "c48726ffb10a31e50395529e134bd0ab4d82d14febbda7863ab49d00a9fddcb4",
+      "actual": "c48726ffb10a31e50395529e134bd0ab4d82d14febbda7863ab49d00a9fddcb4"
+    },
+    {
+      "path": "feed/FunnySharp.0.2.0.nupkg",
+      "expected": "6c61e5c2c9238f4075a0cea44e1683c69bd852add2c504a9f129eba1438afcce",
+      "actual": "6c61e5c2c9238f4075a0cea44e1683c69bd852add2c504a9f129eba1438afcce"
+    },
+    {
+      "path": "feed/FunnySharp.AspNetCore.0.2.0.nupkg",
+      "expected": "b7fd563fdc33ee283dfd00999a982586e6d1f262b9356baab79b89dd6ddf2ef1",
+      "actual": "b7fd563fdc33ee283dfd00999a982586e6d1f262b9356baab79b89dd6ddf2ef1"
+    },
+    {
+      "path": "freeze.started.json",
+      "expected": "96df6a81ffc98ea5ca1227119fca6b675d1420d7480b373ec84aeb89ebb81a2e",
+      "actual": "96df6a81ffc98ea5ca1227119fca6b675d1420d7480b373ec84aeb89ebb81a2e"
+    },
+    {
+      "path": "guides/README.md",
+      "expected": "cc536213ce3dd198741dd81ae4518fd492f24016400b9cbd02b5e85f2d2be517",
+      "actual": "cc536213ce3dd198741dd81ae4518fd492f24016400b9cbd02b5e85f2d2be517"
+    },
+    {
+      "path": "guides/docs/analyzers.md",
+      "expected": "c40255afe05dc9d0c1515f3ba9ab4fb764a2e8b79016fe5944493790f22fd8b1",
+      "actual": "c40255afe05dc9d0c1515f3ba9ab4fb764a2e8b79016fe5944493790f22fd8b1"
+    },
+    {
+      "path": "guides/docs/aspnet-core.md",
+      "expected": "31fd17e3283e02599612eef4969844b682dbfa3714cfe9a9bd8d9eed74e81e0f",
+      "actual": "31fd17e3283e02599612eef4969844b682dbfa3714cfe9a9bd8d9eed74e81e0f"
+    },
+    {
+      "path": "guides/docs/collections.md",
+      "expected": "f5d1b2f8ff9c92dcb94319e8860e8d0f957bd6da7faf811e47a9995f3e0f08bc",
+      "actual": "f5d1b2f8ff9c92dcb94319e8860e8d0f957bd6da7faf811e47a9995f3e0f08bc"
+    },
+    {
+      "path": "guides/docs/concurrency.md",
+      "expected": "89a326d020c1b0274d520789cf6edde242239ba3f2aa50ae3e829db9f9b31cf6",
+      "actual": "89a326d020c1b0274d520789cf6edde242239ba3f2aa50ae3e829db9f9b31cf6"
+    },
+    {
+      "path": "guides/docs/data-pipelines.md",
+      "expected": "f246b803edc480eab1dacb1d9549ef29b80a72a738171d7c4019c33d96906064",
+      "actual": "f246b803edc480eab1dacb1d9549ef29b80a72a738171d7c4019c33d96906064"
+    },
+    {
+      "path": "guides/docs/effects.md",
+      "expected": "fb9012a5c6dbaabb8bc02cbc50f9710f96e49cb3a34a361fde96d8bd1bc4a694",
+      "actual": "fb9012a5c6dbaabb8bc02cbc50f9710f96e49cb3a34a361fde96d8bd1bc4a694"
+    },
+    {
+      "path": "guides/docs/function-composition.md",
+      "expected": "644cb2bb3cbb9bf42cfe43bbe96eac2df5d021e3b6c371763d45c8f55243f641",
+      "actual": "644cb2bb3cbb9bf42cfe43bbe96eac2df5d021e3b6c371763d45c8f55243f641"
+    },
+    {
+      "path": "guides/docs/grammar.md",
+      "expected": "c46cbe739485ff881a8add7166395c210b399dfe5e81f37aa5b64f98439ed48c",
+      "actual": "c46cbe739485ff881a8add7166395c210b399dfe5e81f37aa5b64f98439ed48c"
+    },
+    {
+      "path": "guides/docs/option.md",
+      "expected": "3a98a70031f5c6bf1f11172e807f39165e70f55f32b3d786e476dbd9e3dc6c0b",
+      "actual": "3a98a70031f5c6bf1f11172e807f39165e70f55f32b3d786e476dbd9e3dc6c0b"
+    },
+    {
+      "path": "guides/docs/product-contract.md",
+      "expected": "56e49ad95406612774b4d26e3e2763e11e06240c3dfd0de092a4011335fbf952",
+      "actual": "56e49ad95406612774b4d26e3e2763e11e06240c3dfd0de092a4011335fbf952"
+    },
+    {
+      "path": "guides/docs/result.md",
+      "expected": "e4bb306822cff30233a880840c1f7d4b9b2ea85cf2385dc599578a1fb93ec256",
+      "actual": "e4bb306822cff30233a880840c1f7d4b9b2ea85cf2385dc599578a1fb93ec256"
+    },
+    {
+      "path": "guides/docs/unit-result.md",
+      "expected": "0c8682d7fdc4a7e1ce6b22d031a06ab1dd7f2db1f24755c947e6e0b440c56cfb",
+      "actual": "0c8682d7fdc4a7e1ce6b22d031a06ab1dd7f2db1f24755c947e6e0b440c56cfb"
+    },
+    {
+      "path": "guides/docs/validation.md",
+      "expected": "7ea23db45dad422f9aab8d7677e697473af4e8c82a5145f325dd2accb8b7cac6",
+      "actual": "7ea23db45dad422f9aab8d7677e697473af4e8c82a5145f325dd2accb8b7cac6"
+    },
+    {
+      "path": "sdk.process.json",
+      "expected": "fdfc0331b4b74f241969e15a7b26b63c51a8c9ad01b2b25276e0f6ca910b1d05",
+      "actual": "fdfc0331b4b74f241969e15a7b26b63c51a8c9ad01b2b25276e0f6ca910b1d05"
+    },
+    {
+      "path": "sdk.stderr.log",
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "sdk.stdout.log",
+      "expected": "6499d58091aa87491843cbb719750909e09a58a83818e0dbb0e9e77208a3ea18",
+      "actual": "6499d58091aa87491843cbb719750909e09a58a83818e0dbb0e9e77208a3ea18"
+    },
+    {
+      "path": "tasks/aspnetcore/prompt-funnysharp.md",
+      "expected": "d5b9f021837d24107341a3eea61d0ec8691faae1c7bb7c939c9e2ee660c0849c",
+      "actual": "d5b9f021837d24107341a3eea61d0ec8691faae1c7bb7c939c9e2ee660c0849c"
+    },
+    {
+      "path": "tasks/aspnetcore/prompt-idiomatic.md",
+      "expected": "92d05dd5d0e0bd42989ebe2572518ddbfb3ddb0a6fef78fbe3073245555bf6fc",
+      "actual": "92d05dd5d0e0bd42989ebe2572518ddbfb3ddb0a6fef78fbe3073245555bf6fc"
+    },
+    {
+      "path": "tasks/aspnetcore/template-funnysharp/AspnetcoreKit.csproj",
+      "expected": "4d6381d51bc657902e59f8fc55d8672ea52c3c30d28010b835f601ebbbaaac01",
+      "actual": "4d6381d51bc657902e59f8fc55d8672ea52c3c30d28010b835f601ebbbaaac01"
+    },
+    {
+      "path": "tasks/aspnetcore/template-funnysharp/Directory.Build.props",
+      "expected": "e1f773524cbe06e47ce9373a35995982889f95f1f943cde9830a99ba4257e76b",
+      "actual": "e1f773524cbe06e47ce9373a35995982889f95f1f943cde9830a99ba4257e76b"
+    },
+    {
+      "path": "tasks/aspnetcore/template-funnysharp/NuGet.config",
+      "expected": "b24b1b3943dee459a732ae35ee1f6dd4f4baa5de7c5a9800c632bf1a78cd86d8",
+      "actual": "b24b1b3943dee459a732ae35ee1f6dd4f4baa5de7c5a9800c632bf1a78cd86d8"
+    },
+    {
+      "path": "tasks/aspnetcore/template-funnysharp/obj/AspnetcoreKit.csproj.nuget.dgspec.json",
+      "expected": "025612f33f0fdea777cd12f067c99b345b42acd676e92353e8d7ce18de826a5d",
+      "actual": "025612f33f0fdea777cd12f067c99b345b42acd676e92353e8d7ce18de826a5d"
+    },
+    {
+      "path": "tasks/aspnetcore/template-funnysharp/obj/AspnetcoreKit.csproj.nuget.g.props",
+      "expected": "e79a9b2de145688933695b9aa95675e4d07755f212b8a42f5827319172a48798",
+      "actual": "e79a9b2de145688933695b9aa95675e4d07755f212b8a42f5827319172a48798"
+    },
+    {
+      "path": "tasks/aspnetcore/template-funnysharp/obj/AspnetcoreKit.csproj.nuget.g.targets",
+      "expected": "c3f5b5b760da48943a8979582ed95ffe1e227c8c3442766a793ae0e2747cfb4c",
+      "actual": "c3f5b5b760da48943a8979582ed95ffe1e227c8c3442766a793ae0e2747cfb4c"
+    },
+    {
+      "path": "tasks/aspnetcore/template-funnysharp/obj/project.assets.json",
+      "expected": "e3a2f53aef2a88357d67fded8a0df2ab8fdb2d2dbc4463db8020039ea77d212c",
+      "actual": "e3a2f53aef2a88357d67fded8a0df2ab8fdb2d2dbc4463db8020039ea77d212c"
+    },
+    {
+      "path": "tasks/aspnetcore/template-funnysharp/obj/project.nuget.cache",
+      "expected": "6ec1aafff77cda8d949ee0c3ff24c638fa96d4309d442833a6a91eac271e7148",
+      "actual": "6ec1aafff77cda8d949ee0c3ff24c638fa96d4309d442833a6a91eac271e7148"
+    },
+    {
+      "path": "tasks/aspnetcore/template-funnysharp/packages.lock.json",
+      "expected": "bf2040d6fe9807fe7d30d56613d6e3385736b5989ff3ec2d0b855b68793b3875",
+      "actual": "bf2040d6fe9807fe7d30d56613d6e3385736b5989ff3ec2d0b855b68793b3875"
+    },
+    {
+      "path": "tasks/aspnetcore/template-funnysharp/restore.process.json",
+      "expected": "6765c071f6cca554f70f03191de2325fbfc7f951bf8e150755c68cafd7dcc077",
+      "actual": "6765c071f6cca554f70f03191de2325fbfc7f951bf8e150755c68cafd7dcc077"
+    },
+    {
+      "path": "tasks/aspnetcore/template-funnysharp/restore.stderr.log",
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "tasks/aspnetcore/template-funnysharp/restore.stdout.log",
+      "expected": "9b731a728414e3171d025a0c2098ab016e67e31640f851cb4072be06274767c6",
+      "actual": "9b731a728414e3171d025a0c2098ab016e67e31640f851cb4072be06274767c6"
+    },
+    {
+      "path": "tasks/aspnetcore/template-idiomatic/AspnetcoreKit.csproj",
+      "expected": "90b68ac8fff1017135ffe6db36f0182b7ffdad3411aa81fa82c8caadc692808d",
+      "actual": "90b68ac8fff1017135ffe6db36f0182b7ffdad3411aa81fa82c8caadc692808d"
+    },
+    {
+      "path": "tasks/aspnetcore/template-idiomatic/Directory.Build.props",
+      "expected": "e1f773524cbe06e47ce9373a35995982889f95f1f943cde9830a99ba4257e76b",
+      "actual": "e1f773524cbe06e47ce9373a35995982889f95f1f943cde9830a99ba4257e76b"
+    },
+    {
+      "path": "tasks/aspnetcore/template-idiomatic/NuGet.config",
+      "expected": "b24b1b3943dee459a732ae35ee1f6dd4f4baa5de7c5a9800c632bf1a78cd86d8",
+      "actual": "b24b1b3943dee459a732ae35ee1f6dd4f4baa5de7c5a9800c632bf1a78cd86d8"
+    },
+    {
+      "path": "tasks/aspnetcore/template-idiomatic/obj/AspnetcoreKit.csproj.nuget.dgspec.json",
+      "expected": "16ccc830a817d608723548267557786112d91415063a97eba735997d2b41a523",
+      "actual": "16ccc830a817d608723548267557786112d91415063a97eba735997d2b41a523"
+    },
+    {
+      "path": "tasks/aspnetcore/template-idiomatic/obj/AspnetcoreKit.csproj.nuget.g.props",
+      "expected": "e79a9b2de145688933695b9aa95675e4d07755f212b8a42f5827319172a48798",
+      "actual": "e79a9b2de145688933695b9aa95675e4d07755f212b8a42f5827319172a48798"
+    },
+    {
+      "path": "tasks/aspnetcore/template-idiomatic/obj/AspnetcoreKit.csproj.nuget.g.targets",
+      "expected": "c3f5b5b760da48943a8979582ed95ffe1e227c8c3442766a793ae0e2747cfb4c",
+      "actual": "c3f5b5b760da48943a8979582ed95ffe1e227c8c3442766a793ae0e2747cfb4c"
+    },
+    {
+      "path": "tasks/aspnetcore/template-idiomatic/obj/project.assets.json",
+      "expected": "501bef79f65c1aab8723113968a68956d56d2ad2b72f924d67c956b4f6318774",
+      "actual": "501bef79f65c1aab8723113968a68956d56d2ad2b72f924d67c956b4f6318774"
+    },
+    {
+      "path": "tasks/aspnetcore/template-idiomatic/obj/project.nuget.cache",
+      "expected": "d57e89ecee2bc5064fe2c72bcc377670f4b33aa6263786922c209d311ff3ec9f",
+      "actual": "d57e89ecee2bc5064fe2c72bcc377670f4b33aa6263786922c209d311ff3ec9f"
+    },
+    {
+      "path": "tasks/aspnetcore/template-idiomatic/packages.lock.json",
+      "expected": "c2dc472b1d2255088e3ee6eb375d2fad6b98558ff16be5d65adcbcf8b5a7e85a",
+      "actual": "c2dc472b1d2255088e3ee6eb375d2fad6b98558ff16be5d65adcbcf8b5a7e85a"
+    },
+    {
+      "path": "tasks/aspnetcore/template-idiomatic/restore.process.json",
+      "expected": "d36fd6c8aefb5d7ff4ba414a76f344ed1302c6066e455b0d1e9b4ec09828283d",
+      "actual": "d36fd6c8aefb5d7ff4ba414a76f344ed1302c6066e455b0d1e9b4ec09828283d"
+    },
+    {
+      "path": "tasks/aspnetcore/template-idiomatic/restore.stderr.log",
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "tasks/aspnetcore/template-idiomatic/restore.stdout.log",
+      "expected": "41eeaf54406e4b0cca85157b5c1eefd509dfba20c79e1940790b5b8b228b250b",
+      "actual": "41eeaf54406e4b0cca85157b5c1eefd509dfba20c79e1940790b5b8b228b250b"
+    },
+    {
+      "path": "tasks/aspnetcore/tests/AspnetcoreTests.cs",
+      "expected": "b4343005f670ae9c23f9338e3f56289459f79630b763b7dfe434ae289a8b39c7",
+      "actual": "b4343005f670ae9c23f9338e3f56289459f79630b763b7dfe434ae289a8b39c7"
+    },
+    {
+      "path": "tasks/aspnetcore/tests/Contract.cs",
+      "expected": "0e29dbaa90e69c2233652a6a742c9acef19b98a5ab90f1c9cbef191e138c9fec",
+      "actual": "0e29dbaa90e69c2233652a6a742c9acef19b98a5ab90f1c9cbef191e138c9fec"
+    },
+    {
+      "path": "tasks/async-streams/prompt-funnysharp.md",
+      "expected": "40cfc2edd0967fc052f7bc71592f602006b82e2b979fd3d34deadc3d409f3011",
+      "actual": "40cfc2edd0967fc052f7bc71592f602006b82e2b979fd3d34deadc3d409f3011"
+    },
+    {
+      "path": "tasks/async-streams/prompt-idiomatic.md",
+      "expected": "279096ab842969f1b3d76d473adc32eed13bd8b41ca331fd6c51ee9e35f97fc4",
+      "actual": "279096ab842969f1b3d76d473adc32eed13bd8b41ca331fd6c51ee9e35f97fc4"
+    },
+    {
+      "path": "tasks/async-streams/template-funnysharp/AsyncStreamsKit.csproj",
+      "expected": "f4adc1d0b296be415bdb42f8159827c30a5cdaae6907a123f6893043b437ecd4",
+      "actual": "f4adc1d0b296be415bdb42f8159827c30a5cdaae6907a123f6893043b437ecd4"
+    },
+    {
+      "path": "tasks/async-streams/template-funnysharp/Directory.Build.props",
+      "expected": "e1f773524cbe06e47ce9373a35995982889f95f1f943cde9830a99ba4257e76b",
+      "actual": "e1f773524cbe06e47ce9373a35995982889f95f1f943cde9830a99ba4257e76b"
+    },
+    {
+      "path": "tasks/async-streams/template-funnysharp/NuGet.config",
+      "expected": "b24b1b3943dee459a732ae35ee1f6dd4f4baa5de7c5a9800c632bf1a78cd86d8",
+      "actual": "b24b1b3943dee459a732ae35ee1f6dd4f4baa5de7c5a9800c632bf1a78cd86d8"
+    },
+    {
+      "path": "tasks/async-streams/template-funnysharp/obj/AsyncStreamsKit.csproj.nuget.dgspec.json",
+      "expected": "094761501c9df36af2f2232864213efe16cc694d3f830fbdcfddc00ce919858f",
+      "actual": "094761501c9df36af2f2232864213efe16cc694d3f830fbdcfddc00ce919858f"
+    },
+    {
+      "path": "tasks/async-streams/template-funnysharp/obj/AsyncStreamsKit.csproj.nuget.g.props",
+      "expected": "e79a9b2de145688933695b9aa95675e4d07755f212b8a42f5827319172a48798",
+      "actual": "e79a9b2de145688933695b9aa95675e4d07755f212b8a42f5827319172a48798"
+    },
+    {
+      "path": "tasks/async-streams/template-funnysharp/obj/AsyncStreamsKit.csproj.nuget.g.targets",
+      "expected": "c3f5b5b760da48943a8979582ed95ffe1e227c8c3442766a793ae0e2747cfb4c",
+      "actual": "c3f5b5b760da48943a8979582ed95ffe1e227c8c3442766a793ae0e2747cfb4c"
+    },
+    {
+      "path": "tasks/async-streams/template-funnysharp/obj/project.assets.json",
+      "expected": "32cb95632341c53c4254798625f1b0e80dfbc3ee994ea7fe7b7a3a924e705913",
+      "actual": "32cb95632341c53c4254798625f1b0e80dfbc3ee994ea7fe7b7a3a924e705913"
+    },
+    {
+      "path": "tasks/async-streams/template-funnysharp/obj/project.nuget.cache",
+      "expected": "2d7507028bee2ea189ed3f5944cb24ebe266a3962ed6794058320a19364c13a1",
+      "actual": "2d7507028bee2ea189ed3f5944cb24ebe266a3962ed6794058320a19364c13a1"
+    },
+    {
+      "path": "tasks/async-streams/template-funnysharp/packages.lock.json",
+      "expected": "763076cdecbf109fdca8d2c254f4abd9044c93cc4f4af3dde949f911aa1b3502",
+      "actual": "763076cdecbf109fdca8d2c254f4abd9044c93cc4f4af3dde949f911aa1b3502"
+    },
+    {
+      "path": "tasks/async-streams/template-funnysharp/restore.process.json",
+      "expected": "911d5d45b5fe6fc3fc790cede0ab45334db8f754af29b520e0c8fbfb4a36abf1",
+      "actual": "911d5d45b5fe6fc3fc790cede0ab45334db8f754af29b520e0c8fbfb4a36abf1"
+    },
+    {
+      "path": "tasks/async-streams/template-funnysharp/restore.stderr.log",
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "tasks/async-streams/template-funnysharp/restore.stdout.log",
+      "expected": "b9b4d4f030b45365598f9187ea1cfb1fda02648683acf1672d31b68f89adbb19",
+      "actual": "b9b4d4f030b45365598f9187ea1cfb1fda02648683acf1672d31b68f89adbb19"
+    },
+    {
+      "path": "tasks/async-streams/template-idiomatic/AsyncStreamsKit.csproj",
+      "expected": "4861e4e22c8001260cb273be9eadf5d101a75a9135fd5c775a56863721d9e873",
+      "actual": "4861e4e22c8001260cb273be9eadf5d101a75a9135fd5c775a56863721d9e873"
+    },
+    {
+      "path": "tasks/async-streams/template-idiomatic/Directory.Build.props",
+      "expected": "e1f773524cbe06e47ce9373a35995982889f95f1f943cde9830a99ba4257e76b",
+      "actual": "e1f773524cbe06e47ce9373a35995982889f95f1f943cde9830a99ba4257e76b"
+    },
+    {
+      "path": "tasks/async-streams/template-idiomatic/NuGet.config",
+      "expected": "b24b1b3943dee459a732ae35ee1f6dd4f4baa5de7c5a9800c632bf1a78cd86d8",
+      "actual": "b24b1b3943dee459a732ae35ee1f6dd4f4baa5de7c5a9800c632bf1a78cd86d8"
+    },
+    {
+      "path": "tasks/async-streams/template-idiomatic/obj/AsyncStreamsKit.csproj.nuget.dgspec.json",
+      "expected": "f8eb54907ebf03ed5a86cdd415a07f40f144ee59793cdd71ae7f1bcf58767de3",
+      "actual": "f8eb54907ebf03ed5a86cdd415a07f40f144ee59793cdd71ae7f1bcf58767de3"
+    },
+    {
+      "path": "tasks/async-streams/template-idiomatic/obj/AsyncStreamsKit.csproj.nuget.g.props",
+      "expected": "e79a9b2de145688933695b9aa95675e4d07755f212b8a42f5827319172a48798",
+      "actual": "e79a9b2de145688933695b9aa95675e4d07755f212b8a42f5827319172a48798"
+    },
+    {
+      "path": "tasks/async-streams/template-idiomatic/obj/AsyncStreamsKit.csproj.nuget.g.targets",
+      "expected": "c3f5b5b760da48943a8979582ed95ffe1e227c8c3442766a793ae0e2747cfb4c",
+      "actual": "c3f5b5b760da48943a8979582ed95ffe1e227c8c3442766a793ae0e2747cfb4c"
+    },
+    {
+      "path": "tasks/async-streams/template-idiomatic/obj/project.assets.json",
+      "expected": "2d561f5170aa42234a32d31928473c49ef07f0589d83315caf6483d38630f6dd",
+      "actual": "2d561f5170aa42234a32d31928473c49ef07f0589d83315caf6483d38630f6dd"
+    },
+    {
+      "path": "tasks/async-streams/template-idiomatic/obj/project.nuget.cache",
+      "expected": "931cf39845b82c43bd413b3e9c7e9d3184a7fdb380dce8604a4e4310ffd49319",
+      "actual": "931cf39845b82c43bd413b3e9c7e9d3184a7fdb380dce8604a4e4310ffd49319"
+    },
+    {
+      "path": "tasks/async-streams/template-idiomatic/packages.lock.json",
+      "expected": "7cc0db884f1e4f29395d3378611ca1fba863ca61e643cee750f2536ad4bcee6b",
+      "actual": "7cc0db884f1e4f29395d3378611ca1fba863ca61e643cee750f2536ad4bcee6b"
+    },
+    {
+      "path": "tasks/async-streams/template-idiomatic/restore.process.json",
+      "expected": "28ee87871aea97c8f2c8c53b0ed6829ac110a2f27173998471e2f5344c6ac995",
+      "actual": "28ee87871aea97c8f2c8c53b0ed6829ac110a2f27173998471e2f5344c6ac995"
+    },
+    {
+      "path": "tasks/async-streams/template-idiomatic/restore.stderr.log",
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "tasks/async-streams/template-idiomatic/restore.stdout.log",
+      "expected": "009cfb5ef5297cc0c6f2c955312f6ec121b33434548a193385f1cf4bbbf73f46",
+      "actual": "009cfb5ef5297cc0c6f2c955312f6ec121b33434548a193385f1cf4bbbf73f46"
+    },
+    {
+      "path": "tasks/async-streams/tests/AsyncStreamsTests.cs",
+      "expected": "b2e236125974c0ec77b4fb7df33a9a6f502c7093b6f2a670929ab7d068407da6",
+      "actual": "b2e236125974c0ec77b4fb7df33a9a6f502c7093b6f2a670929ab7d068407da6"
+    },
+    {
+      "path": "tasks/async-streams/tests/Contract.cs",
+      "expected": "24a65f66642d4e7e91b84d4f3a04b16ae93ed5abcafecc827b159eaed6bd9307",
+      "actual": "24a65f66642d4e7e91b84d4f3a04b16ae93ed5abcafecc827b159eaed6bd9307"
+    },
+    {
+      "path": "tasks/business-outcomes/prompt-funnysharp.md",
+      "expected": "56d667e0a8aee9b30b10d0020367aeb19a369af349c56d8a7868aa8ffb8db49c",
+      "actual": "56d667e0a8aee9b30b10d0020367aeb19a369af349c56d8a7868aa8ffb8db49c"
+    },
+    {
+      "path": "tasks/business-outcomes/prompt-idiomatic.md",
+      "expected": "afd6a99571794497520aa500aebd4a5502c4e9dae78637f790b23807035c4f6f",
+      "actual": "afd6a99571794497520aa500aebd4a5502c4e9dae78637f790b23807035c4f6f"
+    },
+    {
+      "path": "tasks/business-outcomes/template-funnysharp/BusinessOutcomesKit.csproj",
+      "expected": "56d4c5e636c9fec400a746dcc0ec225c3bbd8498972ddb479d30aad4e68b749d",
+      "actual": "56d4c5e636c9fec400a746dcc0ec225c3bbd8498972ddb479d30aad4e68b749d"
+    },
+    {
+      "path": "tasks/business-outcomes/template-funnysharp/Directory.Build.props",
+      "expected": "e1f773524cbe06e47ce9373a35995982889f95f1f943cde9830a99ba4257e76b",
+      "actual": "e1f773524cbe06e47ce9373a35995982889f95f1f943cde9830a99ba4257e76b"
+    },
+    {
+      "path": "tasks/business-outcomes/template-funnysharp/NuGet.config",
+      "expected": "b24b1b3943dee459a732ae35ee1f6dd4f4baa5de7c5a9800c632bf1a78cd86d8",
+      "actual": "b24b1b3943dee459a732ae35ee1f6dd4f4baa5de7c5a9800c632bf1a78cd86d8"
+    },
+    {
+      "path": "tasks/business-outcomes/template-funnysharp/obj/BusinessOutcomesKit.csproj.nuget.dgspec.json",
+      "expected": "ca0551ca2a4fecba069a5af039c358248044774c5a92c2cbf45e1157236b8003",
+      "actual": "ca0551ca2a4fecba069a5af039c358248044774c5a92c2cbf45e1157236b8003"
+    },
+    {
+      "path": "tasks/business-outcomes/template-funnysharp/obj/BusinessOutcomesKit.csproj.nuget.g.props",
+      "expected": "e79a9b2de145688933695b9aa95675e4d07755f212b8a42f5827319172a48798",
+      "actual": "e79a9b2de145688933695b9aa95675e4d07755f212b8a42f5827319172a48798"
+    },
+    {
+      "path": "tasks/business-outcomes/template-funnysharp/obj/BusinessOutcomesKit.csproj.nuget.g.targets",
+      "expected": "c3f5b5b760da48943a8979582ed95ffe1e227c8c3442766a793ae0e2747cfb4c",
+      "actual": "c3f5b5b760da48943a8979582ed95ffe1e227c8c3442766a793ae0e2747cfb4c"
+    },
+    {
+      "path": "tasks/business-outcomes/template-funnysharp/obj/project.assets.json",
+      "expected": "8994d53ee3b1ad84c0268931bcaa7c6f1b2d6fcafaa50837b93df6322a49fd5e",
+      "actual": "8994d53ee3b1ad84c0268931bcaa7c6f1b2d6fcafaa50837b93df6322a49fd5e"
+    },
+    {
+      "path": "tasks/business-outcomes/template-funnysharp/obj/project.nuget.cache",
+      "expected": "d953004042351759f7378f849dca5418876934ccef18e3a0986d504f6bda58c3",
+      "actual": "d953004042351759f7378f849dca5418876934ccef18e3a0986d504f6bda58c3"
+    },
+    {
+      "path": "tasks/business-outcomes/template-funnysharp/packages.lock.json",
+      "expected": "763076cdecbf109fdca8d2c254f4abd9044c93cc4f4af3dde949f911aa1b3502",
+      "actual": "763076cdecbf109fdca8d2c254f4abd9044c93cc4f4af3dde949f911aa1b3502"
+    },
+    {
+      "path": "tasks/business-outcomes/template-funnysharp/restore.process.json",
+      "expected": "f53f152fe3c0fdbd4da4b9aa9b9240e4820b499229fae46e8fe2eaf248a939f1",
+      "actual": "f53f152fe3c0fdbd4da4b9aa9b9240e4820b499229fae46e8fe2eaf248a939f1"
+    },
+    {
+      "path": "tasks/business-outcomes/template-funnysharp/restore.stderr.log",
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "tasks/business-outcomes/template-funnysharp/restore.stdout.log",
+      "expected": "c6fb7561ae5de0fe329c0d1e80cb5a56606f8bc50a5ba3a3e478efe40b8c7f56",
+      "actual": "c6fb7561ae5de0fe329c0d1e80cb5a56606f8bc50a5ba3a3e478efe40b8c7f56"
+    },
+    {
+      "path": "tasks/business-outcomes/template-idiomatic/BusinessOutcomesKit.csproj",
+      "expected": "23b2955bdf1d32698eaa08a46748a4f673479a9b76332ec79cb884d4f6f394bd",
+      "actual": "23b2955bdf1d32698eaa08a46748a4f673479a9b76332ec79cb884d4f6f394bd"
+    },
+    {
+      "path": "tasks/business-outcomes/template-idiomatic/Directory.Build.props",
+      "expected": "e1f773524cbe06e47ce9373a35995982889f95f1f943cde9830a99ba4257e76b",
+      "actual": "e1f773524cbe06e47ce9373a35995982889f95f1f943cde9830a99ba4257e76b"
+    },
+    {
+      "path": "tasks/business-outcomes/template-idiomatic/NuGet.config",
+      "expected": "b24b1b3943dee459a732ae35ee1f6dd4f4baa5de7c5a9800c632bf1a78cd86d8",
+      "actual": "b24b1b3943dee459a732ae35ee1f6dd4f4baa5de7c5a9800c632bf1a78cd86d8"
+    },
+    {
+      "path": "tasks/business-outcomes/template-idiomatic/obj/BusinessOutcomesKit.csproj.nuget.dgspec.json",
+      "expected": "f3b4970ac3c5853ed7d283ae4b5a7d5f4bc07fc51c06186d3d8443db81ce7e3e",
+      "actual": "f3b4970ac3c5853ed7d283ae4b5a7d5f4bc07fc51c06186d3d8443db81ce7e3e"
+    },
+    {
+      "path": "tasks/business-outcomes/template-idiomatic/obj/BusinessOutcomesKit.csproj.nuget.g.props",
+      "expected": "e79a9b2de145688933695b9aa95675e4d07755f212b8a42f5827319172a48798",
+      "actual": "e79a9b2de145688933695b9aa95675e4d07755f212b8a42f5827319172a48798"
+    },
+    {
+      "path": "tasks/business-outcomes/template-idiomatic/obj/BusinessOutcomesKit.csproj.nuget.g.targets",
+      "expected": "c3f5b5b760da48943a8979582ed95ffe1e227c8c3442766a793ae0e2747cfb4c",
+      "actual": "c3f5b5b760da48943a8979582ed95ffe1e227c8c3442766a793ae0e2747cfb4c"
+    },
+    {
+      "path": "tasks/business-outcomes/template-idiomatic/obj/project.assets.json",
+      "expected": "d96ee9560ba719183970cf811cbec36883a399847cd8db562999611cf77645f1",
+      "actual": "d96ee9560ba719183970cf811cbec36883a399847cd8db562999611cf77645f1"
+    },
+    {
+      "path": "tasks/business-outcomes/template-idiomatic/obj/project.nuget.cache",
+      "expected": "27cd306ead87bffbee944850d59b583c2cbd09ef1578fcd43af088f77a998736",
+      "actual": "27cd306ead87bffbee944850d59b583c2cbd09ef1578fcd43af088f77a998736"
+    },
+    {
+      "path": "tasks/business-outcomes/template-idiomatic/packages.lock.json",
+      "expected": "7cc0db884f1e4f29395d3378611ca1fba863ca61e643cee750f2536ad4bcee6b",
+      "actual": "7cc0db884f1e4f29395d3378611ca1fba863ca61e643cee750f2536ad4bcee6b"
+    },
+    {
+      "path": "tasks/business-outcomes/template-idiomatic/restore.process.json",
+      "expected": "0343912faef6869e25c13ceaca41a95c4201982ae47159278d25ab909340c6dd",
+      "actual": "0343912faef6869e25c13ceaca41a95c4201982ae47159278d25ab909340c6dd"
+    },
+    {
+      "path": "tasks/business-outcomes/template-idiomatic/restore.stderr.log",
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "tasks/business-outcomes/template-idiomatic/restore.stdout.log",
+      "expected": "8ce91615a26ea3b63f260b2799e91a5c25a932ebb8122af30b98c5bc86b39459",
+      "actual": "8ce91615a26ea3b63f260b2799e91a5c25a932ebb8122af30b98c5bc86b39459"
+    },
+    {
+      "path": "tasks/business-outcomes/tests/Contract.cs",
+      "expected": "ae4e8d0998ebd3332e4eabc0bdc51b1ef50ad2c1e6df8102377ee2bf7ccf79c9",
+      "actual": "ae4e8d0998ebd3332e4eabc0bdc51b1ef50ad2c1e6df8102377ee2bf7ccf79c9"
+    },
+    {
+      "path": "tasks/business-outcomes/tests/PlaceOrderTests.cs",
+      "expected": "be36ad4fcc030392fd18ffed49b395b686b4c84ee52c264c4083e69352184ab9",
+      "actual": "be36ad4fcc030392fd18ffed49b395b686b4c84ee52c264c4083e69352184ab9"
+    },
+    {
+      "path": "tasks/business-outcomes/tests/SideEffectsTests.cs",
+      "expected": "d359f596e622e61e3841fa231b40e1497f0a7f5c962df484221931b41a708df0",
+      "actual": "d359f596e622e61e3841fa231b40e1497f0a7f5c962df484221931b41a708df0"
+    },
+    {
+      "path": "tasks/collections/prompt-funnysharp.md",
+      "expected": "301787e65ddfbcb746f7b6acfc2f5040e6c7d276517e65f87227ff21a87f3a6b",
+      "actual": "301787e65ddfbcb746f7b6acfc2f5040e6c7d276517e65f87227ff21a87f3a6b"
+    },
+    {
+      "path": "tasks/collections/prompt-idiomatic.md",
+      "expected": "0f1f0e70ba09bb44b138500b1c5dad6a65474a4d4f17f86ff0270b9aed38a449",
+      "actual": "0f1f0e70ba09bb44b138500b1c5dad6a65474a4d4f17f86ff0270b9aed38a449"
+    },
+    {
+      "path": "tasks/collections/template-funnysharp/CollectionsKit.csproj",
+      "expected": "068c56ffa0702057901aed9a8161593dc8e340fe4eccc22dd5bdd1bafdf5a63a",
+      "actual": "068c56ffa0702057901aed9a8161593dc8e340fe4eccc22dd5bdd1bafdf5a63a"
+    },
+    {
+      "path": "tasks/collections/template-funnysharp/Directory.Build.props",
+      "expected": "e1f773524cbe06e47ce9373a35995982889f95f1f943cde9830a99ba4257e76b",
+      "actual": "e1f773524cbe06e47ce9373a35995982889f95f1f943cde9830a99ba4257e76b"
+    },
+    {
+      "path": "tasks/collections/template-funnysharp/NuGet.config",
+      "expected": "b24b1b3943dee459a732ae35ee1f6dd4f4baa5de7c5a9800c632bf1a78cd86d8",
+      "actual": "b24b1b3943dee459a732ae35ee1f6dd4f4baa5de7c5a9800c632bf1a78cd86d8"
+    },
+    {
+      "path": "tasks/collections/template-funnysharp/obj/CollectionsKit.csproj.nuget.dgspec.json",
+      "expected": "961759e768ef3521ae2d2a678644529ffd546c90bedf32f41312ff9954325f47",
+      "actual": "961759e768ef3521ae2d2a678644529ffd546c90bedf32f41312ff9954325f47"
+    },
+    {
+      "path": "tasks/collections/template-funnysharp/obj/CollectionsKit.csproj.nuget.g.props",
+      "expected": "e79a9b2de145688933695b9aa95675e4d07755f212b8a42f5827319172a48798",
+      "actual": "e79a9b2de145688933695b9aa95675e4d07755f212b8a42f5827319172a48798"
+    },
+    {
+      "path": "tasks/collections/template-funnysharp/obj/CollectionsKit.csproj.nuget.g.targets",
+      "expected": "c3f5b5b760da48943a8979582ed95ffe1e227c8c3442766a793ae0e2747cfb4c",
+      "actual": "c3f5b5b760da48943a8979582ed95ffe1e227c8c3442766a793ae0e2747cfb4c"
+    },
+    {
+      "path": "tasks/collections/template-funnysharp/obj/project.assets.json",
+      "expected": "e0dae7a4d2cbfe344bb20c8a967bcf23f580b2863dda7b349a286b95d77b5440",
+      "actual": "e0dae7a4d2cbfe344bb20c8a967bcf23f580b2863dda7b349a286b95d77b5440"
+    },
+    {
+      "path": "tasks/collections/template-funnysharp/obj/project.nuget.cache",
+      "expected": "81b2c356c9e14590d2d9d675c954287ce9b352ca913c2fdcb76f876049479f34",
+      "actual": "81b2c356c9e14590d2d9d675c954287ce9b352ca913c2fdcb76f876049479f34"
+    },
+    {
+      "path": "tasks/collections/template-funnysharp/packages.lock.json",
+      "expected": "763076cdecbf109fdca8d2c254f4abd9044c93cc4f4af3dde949f911aa1b3502",
+      "actual": "763076cdecbf109fdca8d2c254f4abd9044c93cc4f4af3dde949f911aa1b3502"
+    },
+    {
+      "path": "tasks/collections/template-funnysharp/restore.process.json",
+      "expected": "5845822d3ec11ddd0656d077b4ce8dbcd1a018e7ab6c0ea9616e6305a022917b",
+      "actual": "5845822d3ec11ddd0656d077b4ce8dbcd1a018e7ab6c0ea9616e6305a022917b"
+    },
+    {
+      "path": "tasks/collections/template-funnysharp/restore.stderr.log",
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "tasks/collections/template-funnysharp/restore.stdout.log",
+      "expected": "8bb70202a4daeea7f9afc5ba8cf655630c531a87a772d2c5af0ec26ec7cf2ea6",
+      "actual": "8bb70202a4daeea7f9afc5ba8cf655630c531a87a772d2c5af0ec26ec7cf2ea6"
+    },
+    {
+      "path": "tasks/collections/template-idiomatic/CollectionsKit.csproj",
+      "expected": "4741f97a1aefc01c6bf4c584cb07a4891737c41b2973be05f18504867c78ae69",
+      "actual": "4741f97a1aefc01c6bf4c584cb07a4891737c41b2973be05f18504867c78ae69"
+    },
+    {
+      "path": "tasks/collections/template-idiomatic/Directory.Build.props",
+      "expected": "e1f773524cbe06e47ce9373a35995982889f95f1f943cde9830a99ba4257e76b",
+      "actual": "e1f773524cbe06e47ce9373a35995982889f95f1f943cde9830a99ba4257e76b"
+    },
+    {
+      "path": "tasks/collections/template-idiomatic/NuGet.config",
+      "expected": "b24b1b3943dee459a732ae35ee1f6dd4f4baa5de7c5a9800c632bf1a78cd86d8",
+      "actual": "b24b1b3943dee459a732ae35ee1f6dd4f4baa5de7c5a9800c632bf1a78cd86d8"
+    },
+    {
+      "path": "tasks/collections/template-idiomatic/obj/CollectionsKit.csproj.nuget.dgspec.json",
+      "expected": "339bb38adc306ca94a6c77de8bee6f3e60d68aa719d4529856b766bcb5e26f75",
+      "actual": "339bb38adc306ca94a6c77de8bee6f3e60d68aa719d4529856b766bcb5e26f75"
+    },
+    {
+      "path": "tasks/collections/template-idiomatic/obj/CollectionsKit.csproj.nuget.g.props",
+      "expected": "e79a9b2de145688933695b9aa95675e4d07755f212b8a42f5827319172a48798",
+      "actual": "e79a9b2de145688933695b9aa95675e4d07755f212b8a42f5827319172a48798"
+    },
+    {
+      "path": "tasks/collections/template-idiomatic/obj/CollectionsKit.csproj.nuget.g.targets",
+      "expected": "c3f5b5b760da48943a8979582ed95ffe1e227c8c3442766a793ae0e2747cfb4c",
+      "actual": "c3f5b5b760da48943a8979582ed95ffe1e227c8c3442766a793ae0e2747cfb4c"
+    },
+    {
+      "path": "tasks/collections/template-idiomatic/obj/project.assets.json",
+      "expected": "a2059e3ab5708c346a963bbe55bc747114a61302a1f96f19c206979c48d0c7f0",
+      "actual": "a2059e3ab5708c346a963bbe55bc747114a61302a1f96f19c206979c48d0c7f0"
+    },
+    {
+      "path": "tasks/collections/template-idiomatic/obj/project.nuget.cache",
+      "expected": "8ff14c394ab626044dc313f48b6b6ac4a9f286f2b1dc5f0c40ac73d76ecaec4a",
+      "actual": "8ff14c394ab626044dc313f48b6b6ac4a9f286f2b1dc5f0c40ac73d76ecaec4a"
+    },
+    {
+      "path": "tasks/collections/template-idiomatic/packages.lock.json",
+      "expected": "7cc0db884f1e4f29395d3378611ca1fba863ca61e643cee750f2536ad4bcee6b",
+      "actual": "7cc0db884f1e4f29395d3378611ca1fba863ca61e643cee750f2536ad4bcee6b"
+    },
+    {
+      "path": "tasks/collections/template-idiomatic/restore.process.json",
+      "expected": "8f43befb5ce0b04e409c6f33876c48b0437c2b926a7af84c7b1a82fe72def271",
+      "actual": "8f43befb5ce0b04e409c6f33876c48b0437c2b926a7af84c7b1a82fe72def271"
+    },
+    {
+      "path": "tasks/collections/template-idiomatic/restore.stderr.log",
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "tasks/collections/template-idiomatic/restore.stdout.log",
+      "expected": "1ff30d2d6bb93f752bf5ed694d4ed837188c1c8df03ecdb32313439a4435b4c8",
+      "actual": "1ff30d2d6bb93f752bf5ed694d4ed837188c1c8df03ecdb32313439a4435b4c8"
+    },
+    {
+      "path": "tasks/collections/tests/CollectionsTests.cs",
+      "expected": "2e10e1a067df0eebb5ae6344413bb359f9498ce27796874c1ecb37963ae1c4c6",
+      "actual": "2e10e1a067df0eebb5ae6344413bb359f9498ce27796874c1ecb37963ae1c4c6"
+    },
+    {
+      "path": "tasks/collections/tests/Contract.cs",
+      "expected": "0e07124557c7887f439c15e8c4677abcc13a3c16d87a9f0817fcf6ae2c87293c",
+      "actual": "0e07124557c7887f439c15e8c4677abcc13a3c16d87a9f0817fcf6ae2c87293c"
+    },
+    {
+      "path": "tasks/concurrency/prompt-funnysharp.md",
+      "expected": "10767fe3fd1a696d86f8cac14dd56d5417a798eda87bad7a9a49d11c87d444a9",
+      "actual": "10767fe3fd1a696d86f8cac14dd56d5417a798eda87bad7a9a49d11c87d444a9"
+    },
+    {
+      "path": "tasks/concurrency/prompt-idiomatic.md",
+      "expected": "387db807ecae2b176425949a1e385768c8b0bd3344096ac47e672c1423ed82dc",
+      "actual": "387db807ecae2b176425949a1e385768c8b0bd3344096ac47e672c1423ed82dc"
+    },
+    {
+      "path": "tasks/concurrency/template-funnysharp/ConcurrencyKit.csproj",
+      "expected": "ba32a95254d405c0f90f62ba870fcc94ed88ee41f1610d5247da735cd788aa9e",
+      "actual": "ba32a95254d405c0f90f62ba870fcc94ed88ee41f1610d5247da735cd788aa9e"
+    },
+    {
+      "path": "tasks/concurrency/template-funnysharp/Directory.Build.props",
+      "expected": "e1f773524cbe06e47ce9373a35995982889f95f1f943cde9830a99ba4257e76b",
+      "actual": "e1f773524cbe06e47ce9373a35995982889f95f1f943cde9830a99ba4257e76b"
+    },
+    {
+      "path": "tasks/concurrency/template-funnysharp/NuGet.config",
+      "expected": "b24b1b3943dee459a732ae35ee1f6dd4f4baa5de7c5a9800c632bf1a78cd86d8",
+      "actual": "b24b1b3943dee459a732ae35ee1f6dd4f4baa5de7c5a9800c632bf1a78cd86d8"
+    },
+    {
+      "path": "tasks/concurrency/template-funnysharp/obj/ConcurrencyKit.csproj.nuget.dgspec.json",
+      "expected": "a2521c85b15dbe3ab7a201b325888775b8e1e08f3a645952a6131b757cc24e3c",
+      "actual": "a2521c85b15dbe3ab7a201b325888775b8e1e08f3a645952a6131b757cc24e3c"
+    },
+    {
+      "path": "tasks/concurrency/template-funnysharp/obj/ConcurrencyKit.csproj.nuget.g.props",
+      "expected": "e79a9b2de145688933695b9aa95675e4d07755f212b8a42f5827319172a48798",
+      "actual": "e79a9b2de145688933695b9aa95675e4d07755f212b8a42f5827319172a48798"
+    },
+    {
+      "path": "tasks/concurrency/template-funnysharp/obj/ConcurrencyKit.csproj.nuget.g.targets",
+      "expected": "c3f5b5b760da48943a8979582ed95ffe1e227c8c3442766a793ae0e2747cfb4c",
+      "actual": "c3f5b5b760da48943a8979582ed95ffe1e227c8c3442766a793ae0e2747cfb4c"
+    },
+    {
+      "path": "tasks/concurrency/template-funnysharp/obj/project.assets.json",
+      "expected": "bb4ac86a48647da8467620f30600b1b23c684484f05147debed4bbffa30727b1",
+      "actual": "bb4ac86a48647da8467620f30600b1b23c684484f05147debed4bbffa30727b1"
+    },
+    {
+      "path": "tasks/concurrency/template-funnysharp/obj/project.nuget.cache",
+      "expected": "0aa16bb0a066a4d8567ae120f0afcb7d484733aa0a3e7b4eaef15a690aa5b416",
+      "actual": "0aa16bb0a066a4d8567ae120f0afcb7d484733aa0a3e7b4eaef15a690aa5b416"
+    },
+    {
+      "path": "tasks/concurrency/template-funnysharp/packages.lock.json",
+      "expected": "763076cdecbf109fdca8d2c254f4abd9044c93cc4f4af3dde949f911aa1b3502",
+      "actual": "763076cdecbf109fdca8d2c254f4abd9044c93cc4f4af3dde949f911aa1b3502"
+    },
+    {
+      "path": "tasks/concurrency/template-funnysharp/restore.process.json",
+      "expected": "5e0cbd0b8e4f25a943a0ff6c831694c7a117ea5333f4eb93174550b988a7502e",
+      "actual": "5e0cbd0b8e4f25a943a0ff6c831694c7a117ea5333f4eb93174550b988a7502e"
+    },
+    {
+      "path": "tasks/concurrency/template-funnysharp/restore.stderr.log",
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "tasks/concurrency/template-funnysharp/restore.stdout.log",
+      "expected": "c3ae0436ade939a350b0843c25cbf18ea2034021fae63fd387fe48c6260bd7a6",
+      "actual": "c3ae0436ade939a350b0843c25cbf18ea2034021fae63fd387fe48c6260bd7a6"
+    },
+    {
+      "path": "tasks/concurrency/template-idiomatic/ConcurrencyKit.csproj",
+      "expected": "c5a058c4c776ebdf1eb1e8e865a8e2e524b504d4bd061758d7e31f8a95210e8c",
+      "actual": "c5a058c4c776ebdf1eb1e8e865a8e2e524b504d4bd061758d7e31f8a95210e8c"
+    },
+    {
+      "path": "tasks/concurrency/template-idiomatic/Directory.Build.props",
+      "expected": "e1f773524cbe06e47ce9373a35995982889f95f1f943cde9830a99ba4257e76b",
+      "actual": "e1f773524cbe06e47ce9373a35995982889f95f1f943cde9830a99ba4257e76b"
+    },
+    {
+      "path": "tasks/concurrency/template-idiomatic/NuGet.config",
+      "expected": "b24b1b3943dee459a732ae35ee1f6dd4f4baa5de7c5a9800c632bf1a78cd86d8",
+      "actual": "b24b1b3943dee459a732ae35ee1f6dd4f4baa5de7c5a9800c632bf1a78cd86d8"
+    },
+    {
+      "path": "tasks/concurrency/template-idiomatic/obj/ConcurrencyKit.csproj.nuget.dgspec.json",
+      "expected": "99cec623c8041b4ca6c3878a24def1e8c843b58e1bcb0af5911231e52e82550b",
+      "actual": "99cec623c8041b4ca6c3878a24def1e8c843b58e1bcb0af5911231e52e82550b"
+    },
+    {
+      "path": "tasks/concurrency/template-idiomatic/obj/ConcurrencyKit.csproj.nuget.g.props",
+      "expected": "e79a9b2de145688933695b9aa95675e4d07755f212b8a42f5827319172a48798",
+      "actual": "e79a9b2de145688933695b9aa95675e4d07755f212b8a42f5827319172a48798"
+    },
+    {
+      "path": "tasks/concurrency/template-idiomatic/obj/ConcurrencyKit.csproj.nuget.g.targets",
+      "expected": "c3f5b5b760da48943a8979582ed95ffe1e227c8c3442766a793ae0e2747cfb4c",
+      "actual": "c3f5b5b760da48943a8979582ed95ffe1e227c8c3442766a793ae0e2747cfb4c"
+    },
+    {
+      "path": "tasks/concurrency/template-idiomatic/obj/project.assets.json",
+      "expected": "5df971661b42e30e2a94fa389f975047700e25dfdca0ad42e877fbf333eb187d",
+      "actual": "5df971661b42e30e2a94fa389f975047700e25dfdca0ad42e877fbf333eb187d"
+    },
+    {
+      "path": "tasks/concurrency/template-idiomatic/obj/project.nuget.cache",
+      "expected": "e3878bd1bb75fa5c194c5f479ee8990e069013f355682e5f2fca743a7dfa1cac",
+      "actual": "e3878bd1bb75fa5c194c5f479ee8990e069013f355682e5f2fca743a7dfa1cac"
+    },
+    {
+      "path": "tasks/concurrency/template-idiomatic/packages.lock.json",
+      "expected": "7cc0db884f1e4f29395d3378611ca1fba863ca61e643cee750f2536ad4bcee6b",
+      "actual": "7cc0db884f1e4f29395d3378611ca1fba863ca61e643cee750f2536ad4bcee6b"
+    },
+    {
+      "path": "tasks/concurrency/template-idiomatic/restore.process.json",
+      "expected": "c640ac46f12f94881a85ec2f872a0bc9674cb607c9f61334c9a09382c3536585",
+      "actual": "c640ac46f12f94881a85ec2f872a0bc9674cb607c9f61334c9a09382c3536585"
+    },
+    {
+      "path": "tasks/concurrency/template-idiomatic/restore.stderr.log",
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "tasks/concurrency/template-idiomatic/restore.stdout.log",
+      "expected": "e10dd82afc62695f9370231d41abdf4fde4c4df2e37e278c9c402688dd050905",
+      "actual": "e10dd82afc62695f9370231d41abdf4fde4c4df2e37e278c9c402688dd050905"
+    },
+    {
+      "path": "tasks/concurrency/tests/ConcurrencyTests.cs",
+      "expected": "221bf77515b0d63b6b82637ee3a0432ae9e6c286c03dfc70a41ff58f30d911cc",
+      "actual": "221bf77515b0d63b6b82637ee3a0432ae9e6c286c03dfc70a41ff58f30d911cc"
+    },
+    {
+      "path": "tasks/concurrency/tests/Contract.cs",
+      "expected": "99f6ab991fdd14ed524fd1f88060472698d920c6b72d29c16db7cbd7b1dd9cf9",
+      "actual": "99f6ab991fdd14ed524fd1f88060472698d920c6b72d29c16db7cbd7b1dd9cf9"
+    }
+  ],
+  "producerGraderCleanup": {
+    "output": "(no output)",
+    "actualExit": 0,
+    "remaining": []
+  },
+  "limitations": [
+    "Actualupstreamservedmodelunknown; selectedCLI5.1.9/ghc/gpt-6.1-sol/high observed.",
+    "RuntimeHTTP36/72QA stillownedbychildst_01a0ff2d; notcompleteacceptance.",
+    "Attributablemaintainer/U11materiality/releaseauthority/all69aggregateacceptance remainopen.",
+    "NativeBun/win32stderr andconsumerbuildCS2002warnings retained; no claimallAIbuildwarningfree."
+  ],
+  "oldV5HistoryImmutable": true
+}

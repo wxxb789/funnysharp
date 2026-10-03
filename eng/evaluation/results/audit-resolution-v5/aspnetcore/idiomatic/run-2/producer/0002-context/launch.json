@@ -1,0 +1,25 @@
+{
+  "study": "audit-resolution-v5",
+  "slot": "aspnetcore/idiomatic/run-2",
+  "sessionId": "study-session:789d92d2-27d5-4836-a7cb-6141a431a4e9",
+  "invocationId": "native-call:fe6f6da5-267f-4088-825c-e2701a657969",
+  "requestedModel": "ghc/gpt-6.1-sol",
+  "route": "native-omo-cli/5.1.9/json-print",
+  "stdin": "closed",
+  "protocolSha256": "a45783f688d0fb0b160c30348a77d765ba0ca4b09841ed4342e99576f2f645d0",
+  "requestSha256": "12a2920b5b82dc738ae380e638346ec84ffa276b6638260209e46a8aa0b34c5d",
+  "status": "REGISTERED_FEEDBACK_CORRECTION_NOT_CALLED",
+  "launchCapture": "NativeGitBash documented monitor; raw stdout and stderr unchanged; exact registered flags and PI_RULES_DISABLED=1; dedicated cwd request only.",
+  "round": 2,
+  "feedbackSha256": "dce8acac14bccd3eaeff5305f5f0d6bc574cd3a2315f369ceb7c2efb12290923",
+  "previousSolutionFiles": [
+    {
+      "path": "Api.cs",
+      "sha256": "471402c864d1c82fbc9443a34799c3d30db9de40fcf9db51819d68cfd00d3af0"
+    }
+  ],
+  "maxTotalCalls": 3,
+  "preservedFailedMaterialization": "artifacts/audit-resolution/u12-v5-producer-lanes/http/followup-attempt-1/feedback.normalized-lf.json",
+  "materializationProbe": "artifacts/audit-resolution/u12-v5-producer-lanes/http/copy-preserved-feedback.fsx",
+  "previousPreparedNotCalledInvocationId": "native-call:79663434-1f8d-4983-abfb-cbfb7f61cc66"
+}

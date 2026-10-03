@@ -1,0 +1,24 @@
+{
+  "task": "business-outcomes",
+  "style": "funnysharp",
+  "run": "run-2",
+  "round": 1,
+  "compilation": {
+    "ok": false,
+    "errors": 2,
+    "buildSeconds": 9.8
+  },
+  "semanticCorrectness": {
+    "ok": null,
+    "total": 0,
+    "failed": 0,
+    "succeeded": 0,
+    "skipped": 0
+  },
+  "apiMisuse": {
+    "fsDiagnostics": []
+  },
+  "consumerLoc": 99,
+  "verdict": "RED",
+  "evidenceKind": "generation-verification"
+}

@@ -1,0 +1,50 @@
+{
+  "state": "ACTUAL_FULL_HTTP_PACKAGE_SUITE_PASS_SEMANTIC_MATRIX_OPEN",
+  "redDiagnostics": {
+    "FS1001": 1,
+    "FS1002": 28
+  },
+  "redLog": "artifacts/audit-resolution/u14-http-package-suite/attempt-01/compile-red.log",
+  "receipt": "artifacts/audit-resolution/u14-http-package-suite/attempt-01/contracts-green-01.json",
+  "summary": {
+    "tests": 28,
+    "passed": 28,
+    "failed": 0,
+    "pending": 0,
+    "skipped": 0,
+    "other": 0,
+    "suites": 1,
+    "start": 1790903390946,
+    "stop": 1790903391691
+  },
+  "exitCode": 0,
+  "runtimeAssemblies": [
+    {
+      "name": "FunnySharp.dll",
+      "sha256": "179a0f9ea0b7b6fd7635e20b8a0847fa9800f275ad650a2982114837cac51aa9"
+    },
+    {
+      "name": "FunnySharp.AspNetCore.dll",
+      "sha256": "2daaff9c72db5b730c06d3270c00dfd7046fa27e26d59374e31cf270b8dc30c2"
+    }
+  ],
+  "sourcePreservation": [
+    {
+      "file": "HttpResultExtensionsTests.cs",
+      "beforeSha256": "598a80a82cb6342fc7c6499077b476b2d1225d7c57771d530785ece811dd3fa6",
+      "afterSha256": "7fe9624b31b3fb4438132ed7f3fc65ff68639b5e3dc0a4db71ebed957dd9f188",
+      "exactOriginalReconstructed": true,
+      "explicitSynchronousDiscards": 21,
+      "intentionalDefaultRegions": 0
+    },
+    {
+      "file": "UnitResultHttpResultExtensionsTests.cs",
+      "beforeSha256": "5a6a481d1522efb19101cfc339442a8f5093beb418fda47f69d30bbc4acca0ca",
+      "afterSha256": "cdd969364ee3b8629bded0dd2337aaa3b4fc5a06b956db6eb2579e496e553065",
+      "exactOriginalReconstructed": true,
+      "explicitSynchronousDiscards": 7,
+      "intentionalDefaultRegions": 1
+    }
+  ],
+  "analyzersGloballyDisabled": false
+}

@@ -1,0 +1,150 @@
+# ASP.NET Core Integration
+
+`FunnySharp.AspNetCore` is the optional HTTP-boundary package for Minimal APIs. It maps
+`Option<T>`, `Result<TValue, TError>`, `UnitResult<TError>`, and `Validation<TValue, TError>` to
+`IResult` without introducing ASP.NET Core types into the `FunnySharp` core package.
+
+## Package Boundary
+
+Add the integration package alongside the core package in an ASP.NET Core application. The
+integration assembly depends on `FunnySharp` and the `Microsoft.AspNetCore.App` framework
+reference only. It provides no DI registrations, service location, middleware, global error
+policy, or exception handler. Domain code can continue to use the core package without any HTTP
+concepts.
+
+## Mapping Outcomes
+
+Every mapping requires an explicit problem mapper. It must return a non-null `ProblemDetails` or
+`HttpValidationProblemDetails` with `Status` set. A success mapper is optional: when omitted,
+the integration layer returns `Results.Ok(value)`. Supply one to select a different success status,
+headers, or body shape.
+
+<!-- documentation-sample: DocumentationSamples.AspNetCore.MappingOutcomes -->
+```csharp
+IResult optionResult = option.ToHttpResult(NotFound);
+IResult resultResult = result.ToHttpResult(Conflict);
+IResult validationResult = validation.ToHttpResult(MapValidationFailure);
+```
+
+Equivalent `ToHttpResultAsync` overloads accept `Task<...>` and `ValueTask<...>` carriers.
+They await the supplied operation normally: faults and cancellation are transparent and are not
+converted into HTTP responses.
+
+<!-- documentation-sample: DocumentationSamples.AspNetCore.MapAsyncOutcomes -->
+```csharp
+app.MapGet("/inventory/{sku}", (string sku, CancellationToken cancellationToken) =>
+    GetInventoryAsync(sku, cancellationToken).ToHttpResultAsync(NotFound));
+
+app.MapGet("/deliveries/{sku}", (string sku, CancellationToken cancellationToken) =>
+    GetDeliveryAsync(sku, cancellationToken).ToHttpResultAsync(
+        Conflict,
+        delivery => Results.Accepted(value: delivery)));
+```
+
+`ProblemDetails` mappers control both HTTP status and payload. For example, an absent option can
+produce 404 while a typed domain failure produces 409; neither convention is selected by the
+library.
+
+<!-- documentation-sample: DocumentationSamples.AspNetCore.MapProblemDetails -->
+```csharp
+static ProblemDetails NotFound() => new()
+{
+    Status = StatusCodes.Status404NotFound,
+    Title = "Not found",
+};
+
+static ProblemDetails Conflict(ReservationError error) => new()
+{
+    Status = StatusCodes.Status409Conflict,
+    Title = "Reservation conflict",
+    Detail = error.Code,
+};
+```
+
+For `Validation`, the mapper receives the complete ordered error list. Grouping for
+`HttpValidationProblemDetails.Errors` is application policy. When grouping, add fields on their
+first encounter and append messages in input order so a field's array retains the validation
+order. The integration forwards `Errors`, the standard `ProblemDetails` fields, and `Extensions`;
+put application-specific data in `Extensions` rather than custom subclass properties. The compiled
+example shows this explicitly.
+
+For `UnitResult<TError>`, the failure mapper returns a `ProblemDetails` with a status exactly like
+`Result`. Because there is no successful value, the default success result is `204 No Content`;
+supply a success mapper to select a different status, headers, or body.
+
+<!-- documentation-sample: DocumentationSamples.AspNetCore.UnitResultOutcome -->
+```csharp
+app.MapDelete("/carts/{id:int}", (int id, CancellationToken cancellationToken) =>
+    DeleteCartAsync(id, cancellationToken).ToHttpResultAsync(OrderConflict));
+
+app.MapPost("/orders/{id:int}/confirm", (int id, CancellationToken cancellationToken) =>
+    ConfirmOrderAsync(id, cancellationToken).ToHttpResultAsync(
+        OrderConflict,
+        () => Results.Accepted()));
+```
+
+## Effects And Cancellation
+
+Effects have overloads for values that produce an `Option`, `Result`, `UnitResult`, or
+`Validation`. The `HttpContext` argument is intentional: the integration calls `RunAsync` with
+exactly `context.RequestAborted`; it does not create, link, replace, or swallow the request
+cancellation token.
+
+<!-- documentation-sample: DocumentationSamples.AspNetCore.MapEffect -->
+```csharp
+app.MapGet("/catalog/{id:int}/refresh", (HttpContext context, int id) =>
+    LoadProductEffect(id).ToHttpResultAsync(
+        catalog,
+        context,
+        () => NotFound()));
+```
+
+Environment-dependent effects require the caller to supply their environment explicitly. This
+keeps dependency acquisition and HTTP policy visible at the endpoint boundary.
+
+## Before And After
+
+The mapping keeps the endpoint focused on domain work and chosen HTTP policy while retaining both
+branches visibly in the mapper functions.
+
+<!-- documentation-sample: DocumentationSamples.AspNetCore.CompareBeforeAndAfter -->
+```csharp
+// Before
+var product = await LoadProductEffect(id).RunAsync(catalog, context.RequestAborted);
+_ = product.Match(
+    value => Results.Ok(value),
+    () => Results.Problem(statusCode: StatusCodes.Status404NotFound));
+
+// After
+_ = await LoadProductEffect(id).ToHttpResultAsync(
+    catalog,
+    context,
+    () => new ProblemDetails { Status = StatusCodes.Status404NotFound });
+```
+
+Run the compiling Minimal API sample without starting a server:
+
+```shell
+dotnet run --project examples/FunnySharp.AspNetCore.Examples/FunnySharp.AspNetCore.Examples.csproj --configuration Release -- --verify
+```
+
+## Performance Boundary
+
+Request pipeline, serialization, dependency injection, transport, and application policy dominate
+realistic endpoint measurements and remain caller-owned. The mapping helpers are measured in
+isolation: the performance manifest assigns a blocking allocation budget to the carrier-to-`IResult`
+mapping of each outcome shape, paired against the equivalent hand-written Minimal API code.
+
+## Measured mapping cost
+
+Each row pairs the hand-written direct baseline with the FunnySharp mapping helper for the same
+carrier outcome. Only the mapping call is measured: no result is executed and no host is started.
+
+<!-- performance-table:start aspnet-core -->
+| Scenario | Baseline mean | Candidate mean | Ratio | Baseline allocation | Candidate allocation |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| HTTP mapping overhead - absence | 30.018 ns | 39.525 ns | 1.32x | 168 B | 168 B |
+| HTTP mapping overhead - no value | 0.757 ns | 1.377 ns | 1.82x | 0 B | 0 B |
+| HTTP mapping overhead - success | 5.329 ns | 5.887 ns | 1.10x | 24 B | 24 B |
+| HTTP mapping overhead - typed failure | 28.306 ns | 29.742 ns | 1.05x | 168 B | 168 B |
+<!-- performance-table:end aspnet-core -->

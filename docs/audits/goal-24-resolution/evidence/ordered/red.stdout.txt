@@ -1,0 +1,59 @@
+Running tests from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\bin\Release\net10.0\FunnySharp.Tests.dll (net10.0|x64)
+failed FunnySharp.Tests.ParallelAsyncEnumerableTests.LaterSelectorFaultDoesNotPublishAnEarlierNonCooperatingSelector(completionOrder: False, tokenAware: False) (11ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\bin\Release\net10.0\FunnySharp.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: System.InvalidOperationException : later selector
+    at FunnySharp.ParallelAsyncEnumerableExtensions.ParallelSelectAsyncEnumerable`2.Enumerator.StopAndCleanupCoreAsync(Exception primaryFailure) in Q:\repos\funnysharp-goal24-resolution\src\FunnySharp\ParallelAsyncEnumerableExtensions.cs:551
+    at FunnySharp.ParallelAsyncEnumerableExtensions.ParallelSelectAsyncEnumerable`2.Enumerator.ThrowCleanupFailures(IReadOnlyList`1 failures) in Q:\repos\funnysharp-goal24-resolution\src\FunnySharp\ParallelAsyncEnumerableExtensions.cs:666
+    at FunnySharp.ParallelAsyncEnumerableExtensions.ParallelSelectAsyncEnumerable`2.Enumerator.DisposeAsync() in Q:\repos\funnysharp-goal24-resolution\src\FunnySharp\ParallelAsyncEnumerableExtensions.cs:245
+    at FunnySharp.Tests.ParallelAsyncEnumerableTests.LaterSelectorFaultDoesNotPublishAnEarlierNonCooperatingSelector(Boolean completionOrder, Boolean tokenAware) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\ParallelAsyncEnumerableTests.cs:420
+    --- End of stack trace from previous location ---
+failed FunnySharp.Tests.ParallelAsyncEnumerableTests.LaterSelectorFaultDoesNotPublishAnEarlierNonCooperatingSelector(completionOrder: False, tokenAware: True) (0ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\bin\Release\net10.0\FunnySharp.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: System.InvalidOperationException : later selector
+    at FunnySharp.ParallelAsyncEnumerableExtensions.ParallelSelectAsyncEnumerable`2.Enumerator.StopAndCleanupCoreAsync(Exception primaryFailure) in Q:\repos\funnysharp-goal24-resolution\src\FunnySharp\ParallelAsyncEnumerableExtensions.cs:551
+    at FunnySharp.ParallelAsyncEnumerableExtensions.ParallelSelectAsyncEnumerable`2.Enumerator.ThrowCleanupFailures(IReadOnlyList`1 failures) in Q:\repos\funnysharp-goal24-resolution\src\FunnySharp\ParallelAsyncEnumerableExtensions.cs:666
+    at FunnySharp.ParallelAsyncEnumerableExtensions.ParallelSelectAsyncEnumerable`2.Enumerator.DisposeAsync() in Q:\repos\funnysharp-goal24-resolution\src\FunnySharp\ParallelAsyncEnumerableExtensions.cs:245
+    at FunnySharp.Tests.ParallelAsyncEnumerableTests.LaterSelectorFaultDoesNotPublishAnEarlierNonCooperatingSelector(Boolean completionOrder, Boolean tokenAware) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\ParallelAsyncEnumerableTests.cs:420
+    --- End of stack trace from previous location ---
+failed FunnySharp.Tests.ParallelAsyncEnumerableTests.ExternalCancellationDoesNotPublishANonCooperatingSelectorAndCleansUpOnce(completionOrder: False, tokenAware: False, cleanupFault: True) (2ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\bin\Release\net10.0\FunnySharp.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: System.InvalidOperationException : dispose
+    at FunnySharp.ParallelAsyncEnumerableExtensions.ParallelSelectAsyncEnumerable`2.Enumerator.StopAndCleanupCoreAsync(Exception primaryFailure) in Q:\repos\funnysharp-goal24-resolution\src\FunnySharp\ParallelAsyncEnumerableExtensions.cs:571
+    at FunnySharp.ParallelAsyncEnumerableExtensions.ParallelSelectAsyncEnumerable`2.Enumerator.ThrowCleanupFailures(IReadOnlyList`1 failures) in Q:\repos\funnysharp-goal24-resolution\src\FunnySharp\ParallelAsyncEnumerableExtensions.cs:666
+    at FunnySharp.ParallelAsyncEnumerableExtensions.ParallelSelectAsyncEnumerable`2.Enumerator.DisposeAsync() in Q:\repos\funnysharp-goal24-resolution\src\FunnySharp\ParallelAsyncEnumerableExtensions.cs:245
+    at FunnySharp.Tests.ParallelAsyncEnumerableTests.ExternalCancellationDoesNotPublishANonCooperatingSelectorAndCleansUpOnce(Boolean completionOrder, Boolean tokenAware, Boolean cleanupFault) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\ParallelAsyncEnumerableTests.cs:348
+    --- End of stack trace from previous location ---
+failed FunnySharp.Tests.ParallelAsyncEnumerableTests.ExternalCancellationDoesNotPublishANonCooperatingSelectorAndCleansUpOnce(completionOrder: False, tokenAware: True, cleanupFault: False) (2ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\bin\Release\net10.0\FunnySharp.Tests.dll (net10.0|x64)
+  Assert.ThrowsAny() Failure: No exception was thrown
+  Expected: typeof(System.OperationCanceledException)
+    at FunnySharp.Tests.ParallelAsyncEnumerableTests.ExternalCancellationDoesNotPublishANonCooperatingSelectorAndCleansUpOnce(Boolean completionOrder, Boolean tokenAware, Boolean cleanupFault) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\ParallelAsyncEnumerableTests.cs:314
+    at FunnySharp.Tests.ParallelAsyncEnumerableTests.ExternalCancellationDoesNotPublishANonCooperatingSelectorAndCleansUpOnce(Boolean completionOrder, Boolean tokenAware, Boolean cleanupFault) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\ParallelAsyncEnumerableTests.cs:348
+    at FunnySharp.Tests.ParallelAsyncEnumerableTests.ExternalCancellationDoesNotPublishANonCooperatingSelectorAndCleansUpOnce(Boolean completionOrder, Boolean tokenAware, Boolean cleanupFault) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\ParallelAsyncEnumerableTests.cs:348
+    --- End of stack trace from previous location ---
+failed FunnySharp.Tests.ParallelAsyncEnumerableTests.ExternalCancellationDoesNotPublishANonCooperatingSelectorAndCleansUpOnce(completionOrder: False, tokenAware: True, cleanupFault: True) (0ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\bin\Release\net10.0\FunnySharp.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: System.InvalidOperationException : dispose
+    at FunnySharp.ParallelAsyncEnumerableExtensions.ParallelSelectAsyncEnumerable`2.Enumerator.StopAndCleanupCoreAsync(Exception primaryFailure) in Q:\repos\funnysharp-goal24-resolution\src\FunnySharp\ParallelAsyncEnumerableExtensions.cs:571
+    at FunnySharp.ParallelAsyncEnumerableExtensions.ParallelSelectAsyncEnumerable`2.Enumerator.ThrowCleanupFailures(IReadOnlyList`1 failures) in Q:\repos\funnysharp-goal24-resolution\src\FunnySharp\ParallelAsyncEnumerableExtensions.cs:666
+    at FunnySharp.ParallelAsyncEnumerableExtensions.ParallelSelectAsyncEnumerable`2.Enumerator.DisposeAsync() in Q:\repos\funnysharp-goal24-resolution\src\FunnySharp\ParallelAsyncEnumerableExtensions.cs:245
+    at FunnySharp.Tests.ParallelAsyncEnumerableTests.ExternalCancellationDoesNotPublishANonCooperatingSelectorAndCleansUpOnce(Boolean completionOrder, Boolean tokenAware, Boolean cleanupFault) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\ParallelAsyncEnumerableTests.cs:348
+    --- End of stack trace from previous location ---
+failed FunnySharp.Tests.ParallelAsyncEnumerableTests.ExternalCancellationDoesNotPublishANonCooperatingSelectorAndCleansUpOnce(completionOrder: False, tokenAware: False, cleanupFault: False) (0ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\bin\Release\net10.0\FunnySharp.Tests.dll (net10.0|x64)
+  Assert.ThrowsAny() Failure: No exception was thrown
+  Expected: typeof(System.OperationCanceledException)
+    at FunnySharp.Tests.ParallelAsyncEnumerableTests.ExternalCancellationDoesNotPublishANonCooperatingSelectorAndCleansUpOnce(Boolean completionOrder, Boolean tokenAware, Boolean cleanupFault) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\ParallelAsyncEnumerableTests.cs:314
+    at FunnySharp.Tests.ParallelAsyncEnumerableTests.ExternalCancellationDoesNotPublishANonCooperatingSelectorAndCleansUpOnce(Boolean completionOrder, Boolean tokenAware, Boolean cleanupFault) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\ParallelAsyncEnumerableTests.cs:348
+    at FunnySharp.Tests.ParallelAsyncEnumerableTests.ExternalCancellationDoesNotPublishANonCooperatingSelectorAndCleansUpOnce(Boolean completionOrder, Boolean tokenAware, Boolean cleanupFault) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\ParallelAsyncEnumerableTests.cs:348
+    --- End of stack trace from previous location ---
+Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\bin\Release\net10.0\FunnySharp.Tests.dll (net10.0|x64) failed with 6 error(s) (3s 713ms)
+Exit code: 2
+
+Test run summary: Failed!
+  total: 54
+  failed: 6
+  succeeded: 48
+  skipped: 0
+  duration: 5s 329ms
+Test run completed with non-success exit code: 2 (see: https://aka.ms/testingplatform/exitcodes)

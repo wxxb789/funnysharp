@@ -1,3 +1,5 @@
+using System.Collections.Frozen;
+using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 
 namespace FunnySharp;
@@ -66,6 +68,10 @@ public static class SequenceExtensions
     /// A successful result containing the values in source order, or the first failed result's error.
     /// </returns>
     /// <exception cref="ArgumentNullException"><paramref name="source"/> is <see langword="null"/>.</exception>
+    /// <exception cref="InvalidOperationException">
+    /// A reached source carrier or selector result is uninitialized; reported while enumerating the source.
+    /// Unreached items are not inspected, and a disposal exception can replace this failure.
+    /// </exception>
     public static Result<IReadOnlyList<TValue>, TError> Sequence<TValue, TError>(
         this IEnumerable<Result<TValue, TError>> source) =>
         source.Traverse(static value => value);
@@ -84,6 +90,10 @@ public static class SequenceExtensions
     /// </returns>
     /// <exception cref="ArgumentNullException">
     /// <paramref name="source"/> or <paramref name="selector"/> is <see langword="null"/>.
+    /// </exception>
+    /// <exception cref="InvalidOperationException">
+    /// A reached source carrier or selector result is uninitialized; reported while enumerating the source.
+    /// Unreached items are not inspected, and a disposal exception can replace this failure.
     /// </exception>
     public static Result<IReadOnlyList<TResult>, TError> Traverse<TSource, TResult, TError>(
         this IEnumerable<TSource> source,
@@ -115,6 +125,10 @@ public static class SequenceExtensions
     /// <param name="source">The sequence of unit results to collect.</param>
     /// <returns>Success when every source unit result is successful; otherwise, the first failure's error.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="source"/> is <see langword="null"/>.</exception>
+    /// <exception cref="InvalidOperationException">
+    /// A reached source carrier or selector result is uninitialized; reported while enumerating the source.
+    /// Unreached items are not inspected, and a disposal exception can replace this failure.
+    /// </exception>
     public static UnitResult<TError> Sequence<TError>(
         this IEnumerable<UnitResult<TError>> source) =>
         source.Traverse(static value => value);
@@ -131,6 +145,10 @@ public static class SequenceExtensions
     /// </returns>
     /// <exception cref="ArgumentNullException">
     /// <paramref name="source"/> or <paramref name="selector"/> is <see langword="null"/>.
+    /// </exception>
+    /// <exception cref="InvalidOperationException">
+    /// A reached source carrier or selector result is uninitialized; reported while enumerating the source.
+    /// Unreached items are not inspected, and a disposal exception can replace this failure.
     /// </exception>
     public static UnitResult<TError> Traverse<TSource, TError>(
         this IEnumerable<TSource> source,
@@ -163,6 +181,10 @@ public static class SequenceExtensions
     /// errors in source and per-validation order.
     /// </returns>
     /// <exception cref="ArgumentNullException"><paramref name="source"/> is <see langword="null"/>.</exception>
+    /// <exception cref="InvalidOperationException">
+    /// A reached source carrier or selector result is uninitialized; reported while enumerating the source.
+    /// Unreached items are not inspected, and a disposal exception can replace this failure.
+    /// </exception>
     public static Validation<IReadOnlyList<TValue>, TError> Sequence<TValue, TError>(
         this IEnumerable<Validation<TValue, TError>> source) =>
         source.Traverse(static value => value);
@@ -182,6 +204,10 @@ public static class SequenceExtensions
     /// </returns>
     /// <exception cref="ArgumentNullException">
     /// <paramref name="source"/> or <paramref name="selector"/> is <see langword="null"/>.
+    /// </exception>
+    /// <exception cref="InvalidOperationException">
+    /// A reached source carrier or selector result is uninitialized; reported while enumerating the source.
+    /// Unreached items are not inspected, and a disposal exception can replace this failure.
     /// </exception>
     public static Validation<IReadOnlyList<TResult>, TError> Traverse<TSource, TResult, TError>(
         this IEnumerable<TSource> source,
@@ -284,6 +310,10 @@ public static class SequenceExtensions
     /// <exception cref="ArgumentNullException">
     /// <paramref name="source"/> or <paramref name="selector"/> is <see langword="null"/>.
     /// </exception>
+    /// <exception cref="InvalidOperationException">
+    /// A reached source carrier or selector result is uninitialized; reported while enumerating the source.
+    /// Unreached items are not inspected, and a disposal exception can replace this failure.
+    /// </exception>
     public static Result<IReadOnlyList<TResult>, TError> Traverse<TSource, TResult, TError>(
         this IEnumerable<TSource> source,
         Func<int, TSource, Result<TResult, TError>> selector)
@@ -327,6 +357,10 @@ public static class SequenceExtensions
     /// <exception cref="ArgumentNullException">
     /// <paramref name="source"/> or <paramref name="selector"/> is <see langword="null"/>.
     /// </exception>
+    /// <exception cref="InvalidOperationException">
+    /// A reached source carrier or selector result is uninitialized; reported while enumerating the source.
+    /// Unreached items are not inspected, and a disposal exception can replace this failure.
+    /// </exception>
     public static UnitResult<TError> Traverse<TSource, TError>(
         this IEnumerable<TSource> source,
         Func<int, TSource, UnitResult<TError>> selector)
@@ -367,6 +401,10 @@ public static class SequenceExtensions
     /// </remarks>
     /// <exception cref="ArgumentNullException">
     /// <paramref name="source"/> or <paramref name="selector"/> is <see langword="null"/>.
+    /// </exception>
+    /// <exception cref="InvalidOperationException">
+    /// A reached source carrier or selector result is uninitialized; reported while enumerating the source.
+    /// Unreached items are not inspected, and a disposal exception can replace this failure.
     /// </exception>
     public static Validation<IReadOnlyList<TResult>, TError> Traverse<TSource, TResult, TError>(
         this IEnumerable<TSource> source,
@@ -425,6 +463,10 @@ public static class SequenceExtensions
     /// dictionary filled in the source dictionary's enumeration order, with its capacity hinted from
     /// the source dictionary's <c>Count</c>. <c>Dictionary</c> in practice preserves insertion order,
     /// but the BCL does not contract it.
+    /// The result uses the publicly exposed equality comparer of a <c>Dictionary</c>,
+    /// <c>FrozenDictionary</c>, or <c>ImmutableDictionary</c>, including for an empty result.
+    /// Other sources, including <c>ReadOnlyDictionary</c> wrappers, retain the default-equality
+    /// compatibility fallback; use the explicit comparer overload to preserve their key policy.
     /// </remarks>
     /// <exception cref="ArgumentNullException">
     /// <paramref name="source"/> or <paramref name="selector"/> is <see langword="null"/>.
@@ -437,6 +479,39 @@ public static class SequenceExtensions
         ArgumentNullException.ThrowIfNull(source);
         ArgumentNullException.ThrowIfNull(selector);
 
+        return source.Traverse(selector, GetKeyComparer(source));
+    }
+
+    /// <summary>
+    /// Applies an option-producing selector to each dictionary value and collects present results
+    /// using an explicit key-equality comparer.
+    /// </summary>
+    /// <typeparam name="TKey">The dictionary key type.</typeparam>
+    /// <typeparam name="TValue">The dictionary value type.</typeparam>
+    /// <typeparam name="TResult">The selected option value type.</typeparam>
+    /// <param name="source">The dictionary whose values to traverse.</param>
+    /// <param name="selector">The option-producing selector, invoked once per reached entry with its key and value.</param>
+    /// <param name="comparer">The non-null key-equality comparer to use for the result dictionary.</param>
+    /// <returns>A new dictionary in <c>Some</c>, or <c>None</c> at the first absent result.</returns>
+    /// <remarks>
+    /// The source is enumerated once in its enumeration order. The result uses
+    /// <paramref name="comparer"/> even when empty; it must distinguish the source's distinct keys.
+    /// Successful values are buffered only after the first present result.
+    /// </remarks>
+    /// <exception cref="ArgumentNullException">
+    /// <paramref name="source"/>, <paramref name="selector"/>, or <paramref name="comparer"/>
+    /// is <see langword="null"/>.
+    /// </exception>
+    public static Option<IReadOnlyDictionary<TKey, TResult>> Traverse<TKey, TValue, TResult>(
+        this IReadOnlyDictionary<TKey, TValue> source,
+        Func<TKey, TValue, Option<TResult>> selector,
+        IEqualityComparer<TKey> comparer)
+        where TKey : notnull
+    {
+        ArgumentNullException.ThrowIfNull(source);
+        ArgumentNullException.ThrowIfNull(selector);
+        ArgumentNullException.ThrowIfNull(comparer);
+
         Dictionary<TKey, TResult>? values = null;
         foreach (var pair in source)
         {
@@ -445,11 +520,11 @@ public static class SequenceExtensions
                 return Option<IReadOnlyDictionary<TKey, TResult>>.None;
             }
 
-            (values ??= new Dictionary<TKey, TResult>(source.Count)).Add(pair.Key, value!);
+            (values ??= new Dictionary<TKey, TResult>(source.Count, comparer)).Add(pair.Key, value!);
         }
 
         return Option<IReadOnlyDictionary<TKey, TResult>>.Some(
-            ToReadOnlyDictionary(values));
+            ToReadOnlyDictionary(values, comparer));
     }
 
     /// <summary>
@@ -471,9 +546,17 @@ public static class SequenceExtensions
     /// dictionary filled in the source dictionary's enumeration order, with its capacity hinted from
     /// the source dictionary's <c>Count</c>. <c>Dictionary</c> in practice preserves insertion order,
     /// but the BCL does not contract it.
+    /// The result uses the publicly exposed equality comparer of a <c>Dictionary</c>,
+    /// <c>FrozenDictionary</c>, or <c>ImmutableDictionary</c>, including for an empty result.
+    /// Other sources, including <c>ReadOnlyDictionary</c> wrappers, retain the default-equality
+    /// compatibility fallback; use the explicit comparer overload to preserve their key policy.
     /// </remarks>
     /// <exception cref="ArgumentNullException">
     /// <paramref name="source"/> or <paramref name="selector"/> is <see langword="null"/>.
+    /// </exception>
+    /// <exception cref="InvalidOperationException">
+    /// A reached source carrier or selector result is uninitialized; reported while enumerating the source.
+    /// Unreached items are not inspected, and a disposal exception can replace this failure.
     /// </exception>
     public static Result<IReadOnlyDictionary<TKey, TResult>, TError> Traverse<TKey, TValue, TResult, TError>(
         this IReadOnlyDictionary<TKey, TValue> source,
@@ -482,6 +565,44 @@ public static class SequenceExtensions
     {
         ArgumentNullException.ThrowIfNull(source);
         ArgumentNullException.ThrowIfNull(selector);
+
+        return source.Traverse(selector, GetKeyComparer(source));
+    }
+
+    /// <summary>
+    /// Applies a result-producing selector to each dictionary value and collects successful results
+    /// using an explicit key-equality comparer.
+    /// </summary>
+    /// <typeparam name="TKey">The dictionary key type.</typeparam>
+    /// <typeparam name="TValue">The dictionary value type.</typeparam>
+    /// <typeparam name="TResult">The selected result value type.</typeparam>
+    /// <typeparam name="TError">The result error type.</typeparam>
+    /// <param name="source">The dictionary whose values to traverse.</param>
+    /// <param name="selector">The result-producing selector, invoked once per reached entry with its key and value.</param>
+    /// <param name="comparer">The non-null key-equality comparer to use for the result dictionary.</param>
+    /// <returns>A successful new dictionary, or the first selector failure.</returns>
+    /// <remarks>
+    /// The source is enumerated once in its enumeration order. The result uses
+    /// <paramref name="comparer"/> even when empty; it must distinguish the source's distinct keys.
+    /// Successful values are buffered only after the first successful result.
+    /// </remarks>
+    /// <exception cref="ArgumentNullException">
+    /// <paramref name="source"/>, <paramref name="selector"/>, or <paramref name="comparer"/>
+    /// is <see langword="null"/>.
+    /// </exception>
+    /// <exception cref="InvalidOperationException">
+    /// A reached source carrier or selector result is uninitialized; reported while enumerating the source.
+    /// Unreached items are not inspected, and a disposal exception can replace this failure.
+    /// </exception>
+    public static Result<IReadOnlyDictionary<TKey, TResult>, TError> Traverse<TKey, TValue, TResult, TError>(
+        this IReadOnlyDictionary<TKey, TValue> source,
+        Func<TKey, TValue, Result<TResult, TError>> selector,
+        IEqualityComparer<TKey> comparer)
+        where TKey : notnull
+    {
+        ArgumentNullException.ThrowIfNull(source);
+        ArgumentNullException.ThrowIfNull(selector);
+        ArgumentNullException.ThrowIfNull(comparer);
 
         Dictionary<TKey, TResult>? values = null;
         foreach (var pair in source)
@@ -493,11 +614,11 @@ public static class SequenceExtensions
                 return Result<IReadOnlyDictionary<TKey, TResult>, TError>.Failure(error!);
             }
 
-            (values ??= new Dictionary<TKey, TResult>(source.Count)).Add(pair.Key, value!);
+            (values ??= new Dictionary<TKey, TResult>(source.Count, comparer)).Add(pair.Key, value!);
         }
 
         return Result<IReadOnlyDictionary<TKey, TResult>, TError>.Success(
-            ToReadOnlyDictionary(values));
+            ToReadOnlyDictionary(values, comparer));
     }
 
     /// <summary>
@@ -514,6 +635,10 @@ public static class SequenceExtensions
     /// </returns>
     /// <exception cref="ArgumentNullException">
     /// <paramref name="source"/> or <paramref name="selector"/> is <see langword="null"/>.
+    /// </exception>
+    /// <exception cref="InvalidOperationException">
+    /// A reached source carrier or selector result is uninitialized; reported while enumerating the source.
+    /// Unreached items are not inspected, and a disposal exception can replace this failure.
     /// </exception>
     public static UnitResult<TError> Traverse<TKey, TValue, TError>(
         this IReadOnlyDictionary<TKey, TValue> source,
@@ -556,9 +681,17 @@ public static class SequenceExtensions
     /// the source dictionary's <c>Count</c>. <c>Dictionary</c> in practice preserves insertion order,
     /// but the BCL does not contract it. Validation reads every entry and accumulates all errors in
     /// the source dictionary's enumeration order.
+    /// The result uses the publicly exposed equality comparer of a <c>Dictionary</c>,
+    /// <c>FrozenDictionary</c>, or <c>ImmutableDictionary</c>, including for an empty result.
+    /// Other sources, including <c>ReadOnlyDictionary</c> wrappers, retain the default-equality
+    /// compatibility fallback; use the explicit comparer overload to preserve their key policy.
     /// </remarks>
     /// <exception cref="ArgumentNullException">
     /// <paramref name="source"/> or <paramref name="selector"/> is <see langword="null"/>.
+    /// </exception>
+    /// <exception cref="InvalidOperationException">
+    /// A reached source carrier or selector result is uninitialized; reported while enumerating the source.
+    /// Unreached items are not inspected, and a disposal exception can replace this failure.
     /// </exception>
     public static Validation<IReadOnlyDictionary<TKey, TResult>, TError> Traverse<TKey, TValue, TResult, TError>(
         this IReadOnlyDictionary<TKey, TValue> source,
@@ -567,6 +700,45 @@ public static class SequenceExtensions
     {
         ArgumentNullException.ThrowIfNull(source);
         ArgumentNullException.ThrowIfNull(selector);
+
+        return source.Traverse(selector, GetKeyComparer(source));
+    }
+
+    /// <summary>
+    /// Applies a validation-producing selector to each dictionary value, collecting valid results
+    /// using an explicit key-equality comparer or accumulating all errors.
+    /// </summary>
+    /// <typeparam name="TKey">The dictionary key type.</typeparam>
+    /// <typeparam name="TValue">The dictionary value type.</typeparam>
+    /// <typeparam name="TResult">The selected validation value type.</typeparam>
+    /// <typeparam name="TError">The validation error type.</typeparam>
+    /// <param name="source">The dictionary whose values to traverse.</param>
+    /// <param name="selector">The validation-producing selector, invoked once per entry with its key and value.</param>
+    /// <param name="comparer">The non-null key-equality comparer to use for the result dictionary.</param>
+    /// <returns>A valid new dictionary, or all errors in source and per-validation order.</returns>
+    /// <remarks>
+    /// The source is enumerated once in its enumeration order. The result uses
+    /// <paramref name="comparer"/> even when empty; it must distinguish the source's distinct keys.
+    /// The success buffer is allocated lazily and released at the first invalid result;
+    /// subsequent valid results are not buffered.
+    /// </remarks>
+    /// <exception cref="ArgumentNullException">
+    /// <paramref name="source"/>, <paramref name="selector"/>, or <paramref name="comparer"/>
+    /// is <see langword="null"/>.
+    /// </exception>
+    /// <exception cref="InvalidOperationException">
+    /// A reached source carrier or selector result is uninitialized; reported while enumerating the source.
+    /// Unreached items are not inspected, and a disposal exception can replace this failure.
+    /// </exception>
+    public static Validation<IReadOnlyDictionary<TKey, TResult>, TError> Traverse<TKey, TValue, TResult, TError>(
+        this IReadOnlyDictionary<TKey, TValue> source,
+        Func<TKey, TValue, Validation<TResult, TError>> selector,
+        IEqualityComparer<TKey> comparer)
+        where TKey : notnull
+    {
+        ArgumentNullException.ThrowIfNull(source);
+        ArgumentNullException.ThrowIfNull(selector);
+        ArgumentNullException.ThrowIfNull(comparer);
 
         Dictionary<TKey, TResult>? values = null;
         List<TError>? errors = null;
@@ -578,7 +750,7 @@ public static class SequenceExtensions
             {
                 if (errors is null)
                 {
-                    (values ??= new Dictionary<TKey, TResult>(source.Count)).Add(pair.Key, value!);
+                    (values ??= new Dictionary<TKey, TResult>(source.Count, comparer)).Add(pair.Key, value!);
                 }
 
                 continue;
@@ -596,7 +768,7 @@ public static class SequenceExtensions
 
         return errors is null
             ? Validation<IReadOnlyDictionary<TKey, TResult>, TError>.Valid(
-                ToReadOnlyDictionary(values))
+                ToReadOnlyDictionary(values, comparer))
             : Validation<IReadOnlyDictionary<TKey, TResult>, TError>.InvalidFromOwnedErrors(errors);
     }
 
@@ -797,6 +969,9 @@ public static class SequenceExtensions
     /// a new dictionary filled in the source dictionary's enumeration order, with its capacity hinted
     /// from the source dictionary's <c>Count</c>; <c>Dictionary</c> in practice preserves insertion
     /// order, but the BCL does not contract it.
+    /// Equality comparers are inferred only for <c>Dictionary</c>, <c>FrozenDictionary</c>, and
+    /// <c>ImmutableDictionary</c>. Other sources use default equality for compatibility;
+    /// use the explicit comparer overload for opaque sources or <c>ReadOnlyDictionary</c> wrappers.
     /// </remarks>
     /// <exception cref="ArgumentNullException">
     /// <paramref name="source"/>, <paramref name="root"/>, or <paramref name="selector"/> is
@@ -815,6 +990,46 @@ public static class SequenceExtensions
 
         return source.Traverse<TKey, TValue, TResult>(
             (key, value) => selector(KeyedLocation(root, key), key, value));
+    }
+
+    /// <summary>
+    /// Applies a location-aware option-producing selector to each dictionary value and collects
+    /// present results using an explicit key-equality comparer.
+    /// </summary>
+    /// <typeparam name="TKey">The dictionary key type.</typeparam>
+    /// <typeparam name="TValue">The dictionary value type.</typeparam>
+    /// <typeparam name="TResult">The selected option value type.</typeparam>
+    /// <param name="source">The dictionary whose values to traverse.</param>
+    /// <param name="root">The location root that each entry's location is composed from.</param>
+    /// <param name="selector">The selector receiving each reached entry's composed location, key, and value.</param>
+    /// <param name="comparer">The non-null key-equality comparer to use for the result dictionary.</param>
+    /// <returns>A new dictionary in <c>Some</c>, or <c>None</c> at the first absent result.</returns>
+    /// <remarks>
+    /// This method is experimental under <c>FS0017</c>. Each reached entry receives
+    /// <c>root.Key(key)</c>; string keys are quoted and may be empty. The source is enumerated once
+    /// in its enumeration order. The result uses <paramref name="comparer"/> even when empty;
+    /// it must distinguish the source's distinct keys.
+    /// </remarks>
+    /// <exception cref="ArgumentNullException">
+    /// <paramref name="source"/>, <paramref name="root"/>, <paramref name="selector"/>, or
+    /// <paramref name="comparer"/> is <see langword="null"/>.
+    /// </exception>
+    [Experimental("FS0017")]
+    public static Option<IReadOnlyDictionary<TKey, TResult>> Traverse<TKey, TValue, TResult>(
+        this IReadOnlyDictionary<TKey, TValue> source,
+        Location root,
+        Func<Location, TKey, TValue, Option<TResult>> selector,
+        IEqualityComparer<TKey> comparer)
+        where TKey : notnull
+    {
+        ArgumentNullException.ThrowIfNull(source);
+        ArgumentNullException.ThrowIfNull(root);
+        ArgumentNullException.ThrowIfNull(selector);
+        ArgumentNullException.ThrowIfNull(comparer);
+
+        return source.Traverse<TKey, TValue, TResult>(
+            (key, value) => selector(KeyedLocation(root, key), key, value),
+            comparer);
     }
 
     /// <summary>
@@ -843,6 +1058,9 @@ public static class SequenceExtensions
     /// a new dictionary filled in the source dictionary's enumeration order, with its capacity hinted
     /// from the source dictionary's <c>Count</c>; <c>Dictionary</c> in practice preserves insertion
     /// order, but the BCL does not contract it.
+    /// Equality comparers are inferred only for <c>Dictionary</c>, <c>FrozenDictionary</c>, and
+    /// <c>ImmutableDictionary</c>. Other sources use default equality for compatibility;
+    /// use the explicit comparer overload for opaque sources or <c>ReadOnlyDictionary</c> wrappers.
     /// </remarks>
     /// <exception cref="ArgumentNullException">
     /// <paramref name="source"/>, <paramref name="root"/>, or <paramref name="selector"/> is
@@ -861,6 +1079,47 @@ public static class SequenceExtensions
 
         return source.Traverse<TKey, TValue, TResult, TError>(
             (key, value) => selector(KeyedLocation(root, key), key, value));
+    }
+
+    /// <summary>
+    /// Applies a location-aware result-producing selector to each dictionary value and collects
+    /// successful results using an explicit key-equality comparer.
+    /// </summary>
+    /// <typeparam name="TKey">The dictionary key type.</typeparam>
+    /// <typeparam name="TValue">The dictionary value type.</typeparam>
+    /// <typeparam name="TResult">The selected result value type.</typeparam>
+    /// <typeparam name="TError">The result error type.</typeparam>
+    /// <param name="source">The dictionary whose values to traverse.</param>
+    /// <param name="root">The location root that each entry's location is composed from.</param>
+    /// <param name="selector">The selector receiving each reached entry's composed location, key, and value.</param>
+    /// <param name="comparer">The non-null key-equality comparer to use for the result dictionary.</param>
+    /// <returns>A successful new dictionary, or the first selector failure.</returns>
+    /// <remarks>
+    /// This method is experimental under <c>FS0017</c>. Each reached entry receives
+    /// <c>root.Key(key)</c>; string keys are quoted and may be empty. The source is enumerated once
+    /// in its enumeration order. The result uses <paramref name="comparer"/> even when empty;
+    /// it must distinguish the source's distinct keys.
+    /// </remarks>
+    /// <exception cref="ArgumentNullException">
+    /// <paramref name="source"/>, <paramref name="root"/>, <paramref name="selector"/>, or
+    /// <paramref name="comparer"/> is <see langword="null"/>.
+    /// </exception>
+    [Experimental("FS0017")]
+    public static Result<IReadOnlyDictionary<TKey, TResult>, TError> Traverse<TKey, TValue, TResult, TError>(
+        this IReadOnlyDictionary<TKey, TValue> source,
+        Location root,
+        Func<Location, TKey, TValue, Result<TResult, TError>> selector,
+        IEqualityComparer<TKey> comparer)
+        where TKey : notnull
+    {
+        ArgumentNullException.ThrowIfNull(source);
+        ArgumentNullException.ThrowIfNull(root);
+        ArgumentNullException.ThrowIfNull(selector);
+        ArgumentNullException.ThrowIfNull(comparer);
+
+        return source.Traverse<TKey, TValue, TResult, TError>(
+            (key, value) => selector(KeyedLocation(root, key), key, value),
+            comparer);
     }
 
     /// <summary>
@@ -933,6 +1192,9 @@ public static class SequenceExtensions
     /// a new dictionary filled in the source dictionary's enumeration order, with its capacity hinted
     /// from the source dictionary's <c>Count</c>; <c>Dictionary</c> in practice preserves insertion
     /// order, but the BCL does not contract it.
+    /// Equality comparers are inferred only for <c>Dictionary</c>, <c>FrozenDictionary</c>, and
+    /// <c>ImmutableDictionary</c>. Other sources use default equality for compatibility;
+    /// use the explicit comparer overload for opaque sources or <c>ReadOnlyDictionary</c> wrappers.
     /// </remarks>
     /// <exception cref="ArgumentNullException">
     /// <paramref name="source"/>, <paramref name="root"/>, or <paramref name="selector"/> is
@@ -953,16 +1215,70 @@ public static class SequenceExtensions
             (key, value) => selector(KeyedLocation(root, key), key, value));
     }
 
+    /// <summary>
+    /// Applies a location-aware validation-producing selector to each dictionary value, collecting
+    /// valid results using an explicit key-equality comparer or accumulating all errors.
+    /// </summary>
+    /// <typeparam name="TKey">The dictionary key type.</typeparam>
+    /// <typeparam name="TValue">The dictionary value type.</typeparam>
+    /// <typeparam name="TResult">The selected validation value type.</typeparam>
+    /// <typeparam name="TError">The validation error type.</typeparam>
+    /// <param name="source">The dictionary whose values to traverse.</param>
+    /// <param name="root">The location root that each entry's location is composed from.</param>
+    /// <param name="selector">The selector receiving each entry's composed location, key, and value.</param>
+    /// <param name="comparer">The non-null key-equality comparer to use for the result dictionary.</param>
+    /// <returns>A valid new dictionary, or all errors in source and per-validation order.</returns>
+    /// <remarks>
+    /// This method is experimental under <c>FS0017</c>. Each entry receives <c>root.Key(key)</c>;
+    /// string keys are quoted and may be empty. The source is enumerated once in its enumeration
+    /// order. The result uses <paramref name="comparer"/> even when empty; it must distinguish the
+    /// source's distinct keys. The success buffer is allocated lazily and released at the first
+    /// invalid result; subsequent valid results are not buffered.
+    /// </remarks>
+    /// <exception cref="ArgumentNullException">
+    /// <paramref name="source"/>, <paramref name="root"/>, <paramref name="selector"/>, or
+    /// <paramref name="comparer"/> is <see langword="null"/>.
+    /// </exception>
+    [Experimental("FS0017")]
+    public static Validation<IReadOnlyDictionary<TKey, TResult>, TError> Traverse<TKey, TValue, TResult, TError>(
+        this IReadOnlyDictionary<TKey, TValue> source,
+        Location root,
+        Func<Location, TKey, TValue, Validation<TResult, TError>> selector,
+        IEqualityComparer<TKey> comparer)
+        where TKey : notnull
+    {
+        ArgumentNullException.ThrowIfNull(source);
+        ArgumentNullException.ThrowIfNull(root);
+        ArgumentNullException.ThrowIfNull(selector);
+        ArgumentNullException.ThrowIfNull(comparer);
+
+        return source.Traverse<TKey, TValue, TResult, TError>(
+            (key, value) => selector(KeyedLocation(root, key), key, value),
+            comparer);
+    }
+
     internal static int GetInitialCapacity<T>(IEnumerable<T> source) =>
         Enumerable.TryGetNonEnumeratedCount(source, out var count) ? count : 0;
 
     internal static IReadOnlyList<T> ToReadOnlyList<T>(List<T>? values) =>
         values is null ? Array.Empty<T>() : values.AsReadOnly();
 
-    private static IReadOnlyDictionary<TKey, TValue> ToReadOnlyDictionary<TKey, TValue>(
-        Dictionary<TKey, TValue>? values)
+    private static IEqualityComparer<TKey> GetKeyComparer<TKey, TValue>(
+        IReadOnlyDictionary<TKey, TValue> source)
         where TKey : notnull =>
-        values ?? new Dictionary<TKey, TValue>();
+        source switch
+        {
+            Dictionary<TKey, TValue> dictionary => dictionary.Comparer,
+            FrozenDictionary<TKey, TValue> dictionary => dictionary.Comparer,
+            ImmutableDictionary<TKey, TValue> dictionary => dictionary.KeyComparer,
+            _ => EqualityComparer<TKey>.Default,
+        };
+
+    private static IReadOnlyDictionary<TKey, TValue> ToReadOnlyDictionary<TKey, TValue>(
+        Dictionary<TKey, TValue>? values,
+        IEqualityComparer<TKey> comparer)
+        where TKey : notnull =>
+        values ?? new Dictionary<TKey, TValue>(comparer);
 
     [Experimental("FS0017")]
     private static Location KeyedLocation<TKey>(Location root, TKey key)

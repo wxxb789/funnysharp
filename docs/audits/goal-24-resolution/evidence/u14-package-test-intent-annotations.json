@@ -1,0 +1,169 @@
+{
+  "schemaVersion": 1,
+  "state": "SOURCE_PRESERVATION_VERIFIED_PACKAGE_RUNTIME_PASS_FULL_SEMANTIC_MATRIX_OPEN",
+  "runtime": {
+    "receipt": "artifacts/audit-resolution/u14-core-package-suite/attempt-01/contracts-green-01.json",
+    "total": 726,
+    "passed": 726,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0,
+    "coreDllSha256": "179a0f9ea0b7b6fd7635e20b8a0847fa9800f275ad650a2982114837cac51aa9",
+    "packageSource": "artifacts/audit-resolution/u14-post-xml/attempt-01/feed"
+  },
+  "diagnosticLog": "artifacts/audit-resolution/u14-core-package-suite/attempt-01/compile-red.log",
+  "diagnostics": {
+    "FS1001": 61,
+    "FS1002": 45,
+    "FS1005": 1
+  },
+  "files": [
+    {
+      "file": "DefaultStateTests.cs",
+      "beforeSha256": "142338e0f884c22ce306358e379204d8ae2262323ef267df04476a4a73f0d488",
+      "afterSha256": "e764837dde3345e0b6f15f4d7451012f172a1db33f1f435f81337375bfc86a81",
+      "onlyIntentAnnotationsAndDiscards": true,
+      "explicitDiscards": 6,
+      "intentionalMisuseRegions": 26
+    },
+    {
+      "file": "NonEmptyTests.cs",
+      "beforeSha256": "501b77f7f8cfa5b922d73c423fd52d9605ac3cb0891ad75cba4ecc634d376fe5",
+      "afterSha256": "b002601863850d3385b451e63329819e99ae18add99371ebbdcc352d8ddd4509",
+      "onlyIntentAnnotationsAndDiscards": true,
+      "explicitDiscards": 0,
+      "intentionalMisuseRegions": 1
+    },
+    {
+      "file": "EffectTests.cs",
+      "beforeSha256": "beacf6e7d584140f5e34ba840d9d7c64c3b2f2381d66aada252f728ca744de28",
+      "afterSha256": "bdffa1e21f5ac42bc9e67392a473aff2a30d1f2eefa52454c2f3b43caed9be4c",
+      "onlyIntentAnnotationsAndDiscards": true,
+      "explicitDiscards": 0,
+      "intentionalMisuseRegions": 2
+    },
+    {
+      "file": "AsyncCollectionTests.cs",
+      "beforeSha256": "ef7a85334feb3c450fe65ce098e35f0ca7a1032b57fa8e932eeaae0fb7a1d1d8",
+      "afterSha256": "fd9ebc6ce57ae56e8b7774084e50a6cad2c083d9047d452cbf532fca240f7d4b",
+      "onlyIntentAnnotationsAndDiscards": true,
+      "explicitDiscards": 2,
+      "intentionalMisuseRegions": 0
+    },
+    {
+      "file": "UnitResultInteropTests.cs",
+      "beforeSha256": "1e280743b68a32d874d3cb0017301e1867f82bb096d4ecd99f8c49e4d597ae8c",
+      "afterSha256": "59a50c4053bd2996fcc4f0fcfdbbff03a16891810f87a5d0464a8e31010c0c64",
+      "onlyIntentAnnotationsAndDiscards": true,
+      "explicitDiscards": 0,
+      "intentionalMisuseRegions": 1
+    },
+    {
+      "file": "ResultTests.cs",
+      "beforeSha256": "982faa3fb92c0bbac4e5ddfe609a9ca4eb862bbe90632f83e933d986625f515b",
+      "afterSha256": "c12ad46eda95d8917735c0aba46445300ede43671f7d33a6e026beb9b729d769",
+      "onlyIntentAnnotationsAndDiscards": true,
+      "explicitDiscards": 0,
+      "intentionalMisuseRegions": 6
+    },
+    {
+      "file": "UnitResultBoundaryTests.cs",
+      "beforeSha256": "ae6321e1dbc77a7edbc3f5b4b2b15daf0749a2f2d23e0ef24adf0d326ecbc696",
+      "afterSha256": "e95ec4a209669e533d9167a04a50bc4f5db6b5990857a629ada75c577facdcb8",
+      "onlyIntentAnnotationsAndDiscards": true,
+      "explicitDiscards": 2,
+      "intentionalMisuseRegions": 0
+    },
+    {
+      "file": "ResultAsyncTests.cs",
+      "beforeSha256": "99bd6fcf639aa69176edd7f15ef216d206978d351cefcae80f4534e3db885b5b",
+      "afterSha256": "ccd2b0a99d2ae2124ee75856e567674f47beef3f33c499a989f1f02be3eade02",
+      "onlyIntentAnnotationsAndDiscards": true,
+      "explicitDiscards": 7,
+      "intentionalMisuseRegions": 0
+    },
+    {
+      "file": "ResultBoundaryTests.cs",
+      "beforeSha256": "8eccc17026b8bb35b37284a6af0f6fb6d782a3bb75c00748b571699ef8332a8d",
+      "afterSha256": "545f87761282aa43ee8ac03d6fd21cc458fad26f1ccfc0354564dc5fb76c043f",
+      "onlyIntentAnnotationsAndDiscards": true,
+      "explicitDiscards": 2,
+      "intentionalMisuseRegions": 0
+    },
+    {
+      "file": "UnitResultTests.cs",
+      "beforeSha256": "1ca4d982e25092b5c5aa0e14e6a6858d183a4d4b6fd0b802c53f51097a04f8b6",
+      "afterSha256": "743f61a4d98311728a87d2657c522ff3cfdc0f3c20b4d675bd02ea13ec4bfbf4",
+      "onlyIntentAnnotationsAndDiscards": true,
+      "explicitDiscards": 0,
+      "intentionalMisuseRegions": 7
+    },
+    {
+      "file": "OptionAsyncTests.cs",
+      "beforeSha256": "4c5e41ef23531af258f22d78d824fdcdd7df78b506b7c309b1b17946c922b7f4",
+      "afterSha256": "ca43ab35d9df82eed761cfcd2f5eea42eff2de4124a4cc080bca21657dd63b57",
+      "onlyIntentAnnotationsAndDiscards": true,
+      "explicitDiscards": 8,
+      "intentionalMisuseRegions": 0
+    },
+    {
+      "file": "AsyncCollectionTraversalTests.cs",
+      "beforeSha256": "7d1ddc8a54576b4b9efaeeb4aaca109f0cf1cb5c86357a18100c103db64b93ef",
+      "afterSha256": "64c6a3c59e5c20e3f4d5974743a541582aff5c3a48522c247bf23f366af73f1d",
+      "onlyIntentAnnotationsAndDiscards": true,
+      "explicitDiscards": 4,
+      "intentionalMisuseRegions": 0
+    },
+    {
+      "file": "OpticsTests.cs",
+      "beforeSha256": "d596d84ae89eee1bf63cf835312fea158fe9ad6ecb19ce66d36d2145ac3698ec",
+      "afterSha256": "62d6bfa9d47402e91f48bfd7a4bee0bbfd16f6608c73a34a983574a4df48e36d",
+      "onlyIntentAnnotationsAndDiscards": true,
+      "explicitDiscards": 0,
+      "intentionalMisuseRegions": 2
+    },
+    {
+      "file": "UnitResultTraversalTests.cs",
+      "beforeSha256": "2e802c197dcaab359a5225fce0f6da549ef227809c3b94c95846acc07d5a35e6",
+      "afterSha256": "7754a65e3a583f59b82aa3f303582b25c218594a97c9afe4cbf13e17d8653923",
+      "onlyIntentAnnotationsAndDiscards": true,
+      "explicitDiscards": 0,
+      "intentionalMisuseRegions": 5
+    },
+    {
+      "file": "EffectResourceTests.cs",
+      "beforeSha256": "118fbed6d693799b18f7256f287e63efb02983ac56bd16c5ecc3a4a8bef71a3b",
+      "afterSha256": "84bc0e97cce8b2e49f9f5dbd96842f14cd426baff3b77a221ad23206fce594b4",
+      "onlyIntentAnnotationsAndDiscards": true,
+      "explicitDiscards": 0,
+      "intentionalMisuseRegions": 1
+    },
+    {
+      "file": "ValidationTests.cs",
+      "beforeSha256": "bfe96ff7f0e4729fdedac2218f4367cb7bfe6d8a114a020ad4af7bdbbedcec33",
+      "afterSha256": "011529fe1ba5f34e1aee0ae6af27d36e05bfa2fa2b523b654fc586f07442192f",
+      "onlyIntentAnnotationsAndDiscards": true,
+      "explicitDiscards": 0,
+      "intentionalMisuseRegions": 8
+    },
+    {
+      "file": "UnitResultAsyncTests.cs",
+      "beforeSha256": "714ea8a0a53163d7a45a532190d446b453916a4114061755fd540f59a1edadbe",
+      "afterSha256": "03061885459a0619ee4d9b59fc85c8ec4eadf30e23bab3ba2d5c13edd7c655d4",
+      "onlyIntentAnnotationsAndDiscards": true,
+      "explicitDiscards": 8,
+      "intentionalMisuseRegions": 2
+    },
+    {
+      "file": "ValidationAsyncTests.cs",
+      "beforeSha256": "906d0346bfb22ab74da60c7e0f3415db74d6c032a1beb28665d21f12634d2e76",
+      "afterSha256": "aba59ada50f1301972882af59ec95f110a80b3d238e5820182789b2e406fc723",
+      "onlyIntentAnnotationsAndDiscards": true,
+      "explicitDiscards": 6,
+      "intentionalMisuseRegions": 1
+    }
+  ],
+  "runtimeAssertionsChanged": false,
+  "analyzersGloballyDisabled": false,
+  "existingSkipsAdded": false
+}

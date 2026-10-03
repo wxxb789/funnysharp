@@ -1,0 +1,2882 @@
+{
+  "schema": "funnysharp-stable-api-contracts/v1",
+  "status": "SOURCE_REVIEWED_NOT_FINAL_PACKAGE_VERIFIED",
+  "criteria": [
+    "U22",
+    "U23",
+    "U24",
+    "U25",
+    "U26"
+  ],
+  "identityProtocol": "An identity is baseline key plus 1-based member line. Resolve the exact assembly header, declaring type header and entire member line from the SHA256-bound baseline. Never identify by name alone. Ranges below enumerate individual lines, not family evidence. A changed baseline hash invalidates all references. Every line not individually reviewed below is unresolved, including generated members. No unresolved row may pass.",
+  "baselines": {
+    "C": {
+      "path": "eng/api-baseline/FunnySharp.public-api.txt",
+      "sha256": "57f80c4aa428a6a45cd0ca54c1fc0b4244a07d6047ed01a50e789b0cd4ea9cb5",
+      "types": 48,
+      "members": 479
+    },
+    "H": {
+      "path": "eng/api-baseline/FunnySharp.AspNetCore.public-api.txt",
+      "sha256": "90afec795c3ddc3ca2266bf8e80e3412f00aad223e5c70a22103b8140d46c794",
+      "types": 1,
+      "members": 20
+    }
+  },
+  "coverage": {
+    "rangeColumns": [
+      "typeHeaderLine",
+      "firstMemberLine",
+      "lastMemberLine"
+    ],
+    "C": [
+      [
+        2,
+        3,
+        11
+      ],
+      [
+        12,
+        13,
+        20
+      ],
+      [
+        21,
+        22,
+        45
+      ],
+      [
+        46,
+        47,
+        58
+      ],
+      [
+        59,
+        60,
+        63
+      ],
+      [
+        64,
+        65,
+        72
+      ],
+      [
+        73,
+        74,
+        87
+      ],
+      [
+        88,
+        89,
+        92
+      ],
+      [
+        93,
+        94,
+        99
+      ],
+      [
+        100,
+        101,
+        106
+      ],
+      [
+        107,
+        108,
+        111
+      ],
+      [
+        112,
+        113,
+        114
+      ],
+      [
+        115,
+        116,
+        130
+      ],
+      [
+        131,
+        132,
+        133
+      ],
+      [
+        134,
+        135,
+        139
+      ],
+      [
+        140,
+        141,
+        152
+      ],
+      [
+        153,
+        154,
+        159
+      ],
+      [
+        160,
+        161,
+        167
+      ],
+      [
+        168,
+        169,
+        169
+      ],
+      [
+        170,
+        171,
+        175
+      ],
+      [
+        176,
+        177,
+        192
+      ],
+      [
+        193,
+        194,
+        204
+      ],
+      [
+        205,
+        206,
+        232
+      ],
+      [
+        233,
+        234,
+        237
+      ],
+      [
+        238,
+        239,
+        244
+      ],
+      [
+        245,
+        246,
+        263
+      ],
+      [
+        264,
+        265,
+        270
+      ],
+      [
+        271,
+        272,
+        282
+      ],
+      [
+        283,
+        284,
+        289
+      ],
+      [
+        290,
+        291,
+        301
+      ],
+      [
+        302,
+        303,
+        313
+      ],
+      [
+        314,
+        315,
+        342
+      ],
+      [
+        343,
+        344,
+        373
+      ],
+      [
+        374,
+        375,
+        390
+      ],
+      [
+        391,
+        392,
+        398
+      ],
+      [
+        399,
+        400,
+        401
+      ],
+      [
+        402,
+        403,
+        406
+      ],
+      [
+        407,
+        408,
+        408
+      ],
+      [
+        409,
+        410,
+        413
+      ],
+      [
+        414,
+        415,
+        432
+      ],
+      [
+        433,
+        434,
+        438
+      ],
+      [
+        439,
+        440,
+        443
+      ],
+      [
+        444,
+        445,
+        452
+      ],
+      [
+        453,
+        454,
+        466
+      ],
+      [
+        467,
+        468,
+        478
+      ],
+      [
+        479,
+        480,
+        500
+      ],
+      [
+        501,
+        502,
+        506
+      ],
+      [
+        507,
+        508,
+        528
+      ]
+    ],
+    "H": [
+      [
+        2,
+        3,
+        22
+      ]
+    ],
+    "experimental": {
+      "C": [
+        22,
+        24,
+        28,
+        30,
+        35,
+        37,
+        40,
+        42,
+        141,
+        142,
+        143,
+        144,
+        145,
+        146,
+        147,
+        148,
+        149,
+        150,
+        151,
+        152,
+        344,
+        345,
+        350,
+        353,
+        354,
+        356,
+        363,
+        365,
+        367,
+        368,
+        370
+      ],
+      "H": []
+    },
+    "experimentalRationale": "FS0017: Location type (all 12 exported members), eight located AsyncSequenceExtensions overloads, eleven located SequenceExtensions overloads. Source Experimental attributes and docs/stability-inventory.md define these exclusions, not an Async or Traverse name heuristic. Package metadata replay remains required.",
+    "generated": {
+      "C": [
+        195,
+        196,
+        197,
+        198,
+        199,
+        200,
+        201,
+        202,
+        273,
+        274,
+        275,
+        276,
+        277,
+        278,
+        279,
+        280,
+        304,
+        305,
+        306,
+        307,
+        308,
+        309,
+        310,
+        311,
+        403,
+        404,
+        406,
+        410,
+        411,
+        413,
+        438,
+        440,
+        441,
+        443,
+        469,
+        470,
+        471,
+        472,
+        473,
+        474,
+        475,
+        476
+      ],
+      "H": []
+    },
+    "generatedRationale": "32 synthesized record methods (eight each on OptionPartition, Partition, ResultPartition, UnitResultPartition), nine delegate ctor/BeginInvoke/EndInvoke members, one enum value__ field. These 42 identities are stable, not experimental exclusions. Invoke members are separately mapped to their delegate declarations. Generated XML aliases, ABI behavior, nullability and runtime proof are unresolved rather than silently omitted.",
+    "sourceDeclaredPositionalRecordMembers": {
+      "C": [
+        194,
+        203,
+        204,
+        272,
+        281,
+        282,
+        303,
+        312,
+        313,
+        468,
+        477,
+        478
+      ],
+      "H": []
+    },
+    "positionalRecordRationale": "Four primary constructors and eight positional properties are compiler-materialized but source-declared through positional record parameters in src/FunnySharp/PartitionExtensions.cs:13,25,39,53. They are not included in the 42 solely synthesized/plumbing members. Their nullability, absence of runtime constructor guards, setter surface and XML parameter/property mapping remain separately unresolved.",
+    "logicalDelegateInvokes": {
+      "C": [
+        405,
+        412,
+        442
+      ],
+      "H": []
+    },
+    "delegateInvokeRationale": "Three compiler-materialized Invoke methods represent source-declared StateMachine, StateTransition and TryOperation delegate signatures. Their type-level XML parameter/return contracts must be joined explicitly to these member identities. Delegate ctor/BeginInvoke/EndInvoke cannot inherit that alias automatically.",
+    "unreviewedStableSet": "",
+    "completeStableProofCount": 0,
+    "sourceReviewedStableCount": 468
+  },
+  "observedPackages": [
+    {
+      "path": "artifacts/audit-resolution/ordered/feed/FunnySharp.0.2.0.nupkg",
+      "sha256": "d8d0a83baa7e8f3f1f64a6140ec9a72e7277e094d96f5f144564b77a6ea9ac55",
+      "dllSha256": "37f4b3be823a254b5510c57f08e4e5127a7f7c0f567abe1144adc1b5a19d7fcc",
+      "xmlSha256": "c0715bc2968d6a67487ec16a7a1323bb7ab7ff5a756fef26966a8d25f56412b0",
+      "xmlMemberNodes": 486,
+      "role": "inspected existing core only; not a final candidate receipt"
+    },
+    {
+      "path": "artifacts/audit-resolution/fs1004/feed/FunnySharp.0.1.0.nupkg",
+      "sha256": "1f22cb9a956cfb98df5fdfef3de85e650f40a31c7a30e08f7049c5edfa9a52a5",
+      "dllSha256": "cc94d4330b9a2b0f0dbd526103bcf0d660e17a7174bfb4f0aa5ecca1bb1bda95",
+      "xmlSha256": "d22115a94e95a5ffa94facfc4028dc9217e143c0385a2b8916f59f08dec020ff",
+      "xmlMemberNodes": 479,
+      "role": "older core; not additive baseline proof"
+    },
+    {
+      "path": "artifacts/audit-resolution/fs1004/feed/FunnySharp.AspNetCore.0.1.0.nupkg",
+      "sha256": "395d260144d53d79297ac89fc655410c6aad2a68f1ea20c47a34a2fc1151cb27",
+      "dllSha256": "423b8e5947ad005f59ba64c64dc3c77aad1960a76fea757055085476980f5fbe",
+      "xmlSha256": "f1bc0c15854e1bb97b88d6715031d985314a5d1ca0e9ec649d18bfe39386ff25",
+      "xmlMemberNodes": 21,
+      "role": "older HTTP; depends on core 0.1.0; cannot pair with ordered core as final proof"
+    }
+  ],
+  "sourceRowColumns": [
+    "identity",
+    "source",
+    "nameAndOutput",
+    "conditionalNullability",
+    "guards",
+    "exceptionsAndCancellation",
+    "counterpartOrAbsence",
+    "shippedXmlId",
+    "existingTestOrPlannedProbe",
+    "unresolved"
+  ],
+  "sourceRows": [
+    [
+      "C:167",
+      "src/FunnySharp/Option.cs:25",
+      "Some<T> -> Option<T>",
+      "DisallowNull input; Some payload is never runtime null, including T=string? or int?",
+      "eager value check via C:217",
+      "ArgumentNullException(value); no async cancellation",
+      "C:217 is the inference-free factory; absence of an async factory is intentional, no work is awaited",
+      "M:FunnySharp.Option.Some``1(``0)",
+      "OptionTests.SomeRejectsNullAndNullableConversionTreatsNullAsAbsence; OptionInteropTests.DirectNullableOptionStillRejectsRuntimeNull",
+      "final package compiler/runtime receipt"
+    ],
+    [
+      "C:217",
+      "src/FunnySharp/Option.cs:136",
+      "Some -> Option<T>",
+      "DisallowNull; EnsureNotNull tests default(T) is null and candidate is null",
+      "eager value check",
+      "ArgumentNullException(value); no cancellation",
+      "C:167 inference-friendly factory; no async work",
+      "M:FunnySharp.Option`1.Some(`0)",
+      "OptionInteropTests.DirectNullableOptionStillRejectsRuntimeNull",
+      "final package compiler/runtime receipt"
+    ],
+    [
+      "C:215",
+      "src/FunnySharp/Option.cs:193",
+      "Map<TResult> -> Option<TResult>",
+      "null selector output becomes None; non-null output becomes Some",
+      "selector eagerly checked even for None; selector invoked only for Some",
+      "ArgumentNullException(selector); selected callback exception propagates unchanged; no cancellation",
+      "C:185,C:186 Task MapAsync; C:191,C:192 ValueTask MapValueAsync; counterpart overload bodies not audited here",
+      "M:FunnySharp.Option`1.Map``1(System.Func{`0,``0})",
+      "OptionTests.MapShortCircuitsAbsenceAndConvertsNullResultsToNone; OptionTests.TransformationsPreserveCallbackExceptions; OptionTests.TransformationsValidateCallbacksEagerly",
+      "shipped XML omits proven eager ArgumentNullException contract; final package compiler/runtime receipt; counterpart body review"
+    ],
+    [
+      "C:222",
+      "src/FunnySharp/Option.cs:146",
+      "TryGetValue -> bool and out T?",
+      "NotNullWhen(true), stronger than Result/Validation nullable payload flow; false may return null/default",
+      "no callback guard",
+      "no ordinary argument exception; default Option is None",
+      "no async counterpart: synchronous tag and payload observation",
+      "M:FunnySharp.Option`1.TryGetValue(`0@)",
+      "OptionTests.TryGetValueExposesOnlyPresentValues; OptionInteropTests.TryGetValueAnnotationEstablishesTheRuntimeNonNullInvariant",
+      "final package compiler/runtime receipt"
+    ],
+    [
+      "C:329",
+      "src/FunnySharp/Result.cs:459",
+      "Failure -> Result<TValue,TError>",
+      "TError may be null when instantiated nullable; no Some-style invariant",
+      "none",
+      "no payload-null exception; no cancellation",
+      "no async factory: stores an already supplied error",
+      "M:FunnySharp.Result`2.Failure(`1)",
+      "ResultTests.FactoriesPreserveTheirCaseAndPayloadIncludingNull",
+      "final package compiler/runtime receipt"
+    ],
+    [
+      "C:330",
+      "src/FunnySharp/Result.cs:452",
+      "Success -> Result<TValue,TError>",
+      "TValue may be null when instantiated nullable",
+      "none",
+      "no payload-null exception; no cancellation",
+      "no async factory: stores an already supplied value",
+      "M:FunnySharp.Result`2.Success(`0)",
+      "ResultTests.FactoriesPreserveTheirCaseAndPayloadIncludingNull",
+      "final package compiler/runtime receipt"
+    ],
+    [
+      "C:335",
+      "src/FunnySharp/Result.cs:480",
+      "TryGetError -> bool and out TError",
+      "MaybeNullWhen(false), not NotNullWhen(true); nullable TError remains nullable on true",
+      "EnsureInitialized before tag observation",
+      "InvalidOperationException on default/uninitialized",
+      "no async counterpart: immediate payload observation",
+      "M:FunnySharp.Result`2.TryGetError(`1@)",
+      "ResultTests.DefaultResultIsUninitializedAndThrowsInsteadOfMasquerading; planned StableNullabilityContractTests.NullablePayloadFlowDoesNotPromiseNonNull",
+      "final package nullable-error compiler probe and runtime receipt"
+    ],
+    [
+      "C:336",
+      "src/FunnySharp/Result.cs:467",
+      "TryGetValue -> bool and out TValue",
+      "MaybeNullWhen(false); nullable TValue may still be null on true",
+      "EnsureInitialized before tag observation",
+      "InvalidOperationException on default/uninitialized",
+      "no async counterpart: immediate payload observation",
+      "M:FunnySharp.Result`2.TryGetValue(`0@)",
+      "ResultTests.FactoriesPreserveTheirCaseAndPayloadIncludingNull; planned StableNullabilityContractTests.NullablePayloadFlowDoesNotPromiseNonNull",
+      "final package nullable-value compiler probe and runtime receipt"
+    ],
+    [
+      "C:284",
+      "src/FunnySharp/Result.cs:20-21",
+      "Try<TValue> -> Result<TValue,Exception>",
+      "successful nullable payload retained; failure carries original non-cancellation exception",
+      "operation eagerly checked by typed Try",
+      "operation non-OCE becomes Failure with same exception object; OCE thrown unchanged",
+      "C:286 Task; C:288 ValueTask; tokenless boundaries deliberately do not own cancellation",
+      "M:FunnySharp.Result.Try``1(System.Func{``0})",
+      "ResultBoundaryTests.TryReturnsSuccessOrTheOriginalException; ResultBoundaryTests.TryNeverConvertsCancellationIntoFailure",
+      "final package runtime receipt; sync XML lacks explicit null/OCE detail"
+    ],
+    [
+      "C:285",
+      "src/FunnySharp/Result.cs:31-46",
+      "Try<TValue,TError> -> Result<TValue,TError>",
+      "nullable value and mapped error retained",
+      "operation then errorMapper eagerly checked",
+      "non-OCE operation exception mapped; OCE bypasses mapper; mapper exceptions escape unchanged",
+      "C:287 Task; C:289 ValueTask; tokenless boundary intentional",
+      "M:FunnySharp.Result.Try``2(System.Func{``0},System.Func{System.Exception,``1})",
+      "ResultBoundaryTests.TryMapsErrorsOnlyWhenTheOperationFails; ResultBoundaryTests.TryValidatesDelegatesAndPreservesMapperExceptions",
+      "final package runtime receipt; sync XML lacks explicit guard/OCE detail"
+    ],
+    [
+      "C:286",
+      "src/FunnySharp/Result.cs:63;147-397",
+      "TryAsync<TValue> -> Task<Result<TValue,Exception>>",
+      "nullable payload retained; null returned Task is invalid, not Failure",
+      "operation synchronously checked before returned Task",
+      "faulted OCE input remains faulted; canceled input remains canceled; synchronously thrown OCE returned canceled; null Task faults InvalidOperationException",
+      "C:284 sync; C:288 ValueTask, same exception-boundary intent",
+      "M:FunnySharp.Result.TryAsync``1(System.Func{System.Threading.Tasks.Task{``0}})",
+      "ResultBoundaryTests.SynchronousAsyncBoundaryThrowsAreReturnedAndClassified; ResultBoundaryTests.TryAsyncRejectsNullTasksWithoutMappingThem",
+      "final package replay; faulted-OCE named test directly exercises typed overload only"
+    ],
+    [
+      "C:287",
+      "src/FunnySharp/Result.cs:87;147-397",
+      "TryAsync<TValue,TError> -> Task<Result<TValue,TError>>",
+      "nullable payload/mapped error retained; null Task not mapped",
+      "operation then errorMapper synchronously checked",
+      "faulted OCE stays faulted and bypasses mapper; naturally canceled Task stays canceled; synchronous callback/mapper OCE becomes canceled; non-OCE mapper fault preserves identity",
+      "C:285 sync; C:289 ValueTask",
+      "M:FunnySharp.Result.TryAsync``2(System.Func{System.Threading.Tasks.Task{``0}},System.Func{System.Exception,``1})",
+      "ResultBoundaryTests.AsyncTryKeepsFaultedOperationCanceledExceptionsFaulted; ResultBoundaryTests.AsyncErrorMapperCancellationPreservesIdentityStackTokenAndStatus; ResultBoundaryTests.AsyncTryValidatesDelegatesSynchronously",
+      "final package replay; explicit non-OCE async mapper identity witness"
+    ],
+    [
+      "C:288",
+      "src/FunnySharp/Result.cs:111;170-188;361-397",
+      "TryValueAsync<TValue> -> ValueTask<Result<TValue,Exception>>",
+      "nullable payload retained",
+      "operation synchronously checked",
+      "completed successful input reads Result once; other input AsTask once then TransformTask; cancellation/fault classification follows boundary, not naive async await",
+      "C:284 sync; C:286 Task",
+      "M:FunnySharp.Result.TryValueAsync``1(System.Func{System.Threading.Tasks.ValueTask{``0}})",
+      "ResultBoundaryTests.TryValueAsyncReturnsSuccessOrTheOriginalExceptionAndConsumesOnce; ResultBoundaryTests.AsyncTryNeverConvertsCancellationIntoFailure",
+      "completed/pending/faulted final-package single-consumption replay; unmapped faulted-OCE witness"
+    ],
+    [
+      "C:289",
+      "src/FunnySharp/Result.cs:136;170-188;361-397",
+      "TryValueAsync<TValue,TError> -> ValueTask<Result<TValue,TError>>",
+      "nullable payload and mapped error retained",
+      "operation then errorMapper synchronously checked",
+      "faulted OCE input stays faulted and not mapped; canceled input stays canceled; synchronous mapper OCE becomes canceled; consume input once",
+      "C:285 sync; C:287 Task",
+      "M:FunnySharp.Result.TryValueAsync``2(System.Func{System.Threading.Tasks.ValueTask{``0}},System.Func{System.Exception,``1})",
+      "ResultBoundaryTests.AsyncTryKeepsFaultedOperationCanceledExceptionsFaulted; ResultBoundaryTests.AsyncTryMappersRunOnlyForFailure",
+      "final package replay; typed completed/pending single-consumption witness"
+    ],
+    [
+      "C:514",
+      "src/FunnySharp/Validation.cs:65",
+      "Invalid -> Validation<TValue,TError>",
+      "single error may be null; error list is nonempty",
+      "none",
+      "no null-payload rejection",
+      "no async factory: supplied error stored",
+      "M:FunnySharp.Validation`2.Invalid(`1)",
+      "ValidationTests.InvalidManyRejectsEmptySequencesAndInvalidPreservesSingleErrorsIncludingNull",
+      "final package runtime receipt"
+    ],
+    [
+      "C:515",
+      "src/FunnySharp/Validation.cs:75",
+      "InvalidMany -> Validation<TValue,TError>",
+      "collection non-null and nonempty; nullable error elements preserved",
+      "errors eager ThrowIfNull; eager single ToArray snapshot",
+      "ArgumentNullException(errors); ArgumentException for empty; enumeration faults propagate",
+      "no async factory: eager supplied enumerable snapshot; async traversal is not this contract",
+      "M:FunnySharp.Validation`2.InvalidMany(System.Collections.Generic.IEnumerable{`1})",
+      "ValidationTests.InvalidManySnapshotsTheInputAndEnumeratesItOnce; ValidationTests.InvalidManyRejectsEmptySequencesAndInvalidPreservesSingleErrorsIncludingNull",
+      "final package replay; nullable multi-error witness"
+    ],
+    [
+      "C:516",
+      "src/FunnySharp/Validation.cs:58",
+      "Valid -> Validation<TValue,TError>",
+      "nullable TValue may be null; not Option.Some semantics",
+      "none",
+      "no null-payload exception",
+      "no async factory: supplied value stored",
+      "M:FunnySharp.Validation`2.Valid(`0)",
+      "planned StableNullablePayloadTests.NullableValidationAndEffectValuesArePreserved",
+      "missing existing explicit Valid(null) witness and final package replay"
+    ],
+    [
+      "C:521",
+      "src/FunnySharp/Validation.cs:107",
+      "TryGetErrors -> bool and out IReadOnlyList<TError>?",
+      "NotNullWhen(true) applies to collection, NOT each error element; false yields null",
+      "EnsureInitialized first",
+      "InvalidOperationException on default",
+      "no async counterpart: immediate observation",
+      "M:FunnySharp.Validation`2.TryGetErrors(System.Collections.Generic.IReadOnlyList{`1}@)",
+      "ValidationTests.InvalidManyRejectsEmptySequencesAndInvalidPreservesSingleErrorsIncludingNull; planned StableNullabilityContractTests.NullablePayloadFlowDoesNotPromiseNonNull",
+      "final package compiler/runtime receipt"
+    ],
+    [
+      "C:522",
+      "src/FunnySharp/Validation.cs:94",
+      "TryGetValue -> bool and out TValue",
+      "MaybeNullWhen(false); true nullable payload still nullable",
+      "EnsureInitialized first",
+      "InvalidOperationException on default",
+      "no async counterpart: immediate observation",
+      "M:FunnySharp.Validation`2.TryGetValue(`0@)",
+      "ValidationTests.DefaultValidationIsUninitializedAndThrowsInsteadOfMasquerading; planned StableNullabilityContractTests.NullablePayloadFlowDoesNotPromiseNonNull",
+      "explicit nullable true-case compiler/runtime receipt"
+    ],
+    [
+      "C:79",
+      "src/FunnySharp/Effect.cs:16-17",
+      "FromValue -> Effect<T>",
+      "nullable value is ordinary effect output; null is not None",
+      "no guard; deferred value delivery",
+      "no null-payload exception; supplied token not automatically checked",
+      "C:74 FromResult for Result ordinary value; no async factory needed for supplied value",
+      "M:FunnySharp.Effect.FromValue``1(``0)",
+      "EffectTests.FactoriesBridgeValuesSynchronousTasksValueTasksAndResults; planned StableNullablePayloadTests.NullableValidationAndEffectValuesArePreserved",
+      "explicit nullable final package compiler/runtime receipt"
+    ],
+    [
+      "C:99",
+      "src/FunnySharp/Effect.cs:210-244;263",
+      "RunAsync -> ValueTask<T>",
+      "nullable T output retained; runner absent on default Effect",
+      "default runner checked on Run, fault returned in awaitable",
+      "default faults InvalidOperationException; synchronous delegate fault captured; synchronous OCE becomes cancellation; returned task-backed ValueTask not rewrapped; token forwarded, not automatically checked",
+      "no synchronous Run: deferred effect executes through async boundary; C:106 environment-bearing variant",
+      "M:FunnySharp.Effect`1.RunAsync(System.Threading.CancellationToken)",
+      "EffectTests.CallerTokensAreForwardedWithoutAnEagerCancellationCheck; EffectTests.RunAsyncReturnsTaskBackedValueTasksWithoutRewrappingThem; EffectTests.RunAsyncCapturesSynchronousDelegateFailuresInTheReturnedAwaitable",
+      "final package replay; preserve distinction between direct returned faulted OCE and later naturally awaited composition"
+    ],
+    [
+      "C:106",
+      "src/FunnySharp/Effect.cs:210-244;389",
+      "RunAsync(environment) -> ValueTask<T>",
+      "nullable environment/payload follows declared generic type; no automatic environment non-null check",
+      "default runner checked on Run",
+      "default faults InvalidOperationException; synchronous failure captured; token/environment passed unchanged",
+      "C:99 environment-free; no synchronous Run; C:101 Provide binds an environment without running",
+      "M:FunnySharp.Effect`2.RunAsync(`0,System.Threading.CancellationToken)",
+      "EffectTests.EnvironmentEffectsComposeWithTheSameEnvironmentAndExactToken; EffectTests.DefaultEnvironmentEffectFailsAndLiftedEffectIgnoresEnvironmentWhileForwardingToken",
+      "final package nullable environment/value and OCE replay"
+    ]
+  ],
+  "httpProtocol": {
+    "source": "src/FunnySharp.AspNetCore/HttpResultExtensions.cs",
+    "rowColumns": [
+      "identity",
+      "sourceLines",
+      "carrier",
+      "output",
+      "eagerRequiredGuards",
+      "optionalMapper",
+      "sameCarrierSync",
+      "xmlNodeOrdinal",
+      "existingTests",
+      "unresolved"
+    ],
+    "xmlOrdinalProtocol": "1-based member-node ordinal in the SHA-bound inspected HTTP XML, including the type as ordinal 1. This resolves an exact overload XML ID; names alone do not. Final package XML must be independently rebound, not treated as ordinal-stable after edits.",
+    "perRowDimensions": "Resolve accepted name/output from exact baseline; source row identifies eager guards and nullable optional mapper. No optional mapper is guarded. For nullable Result/Validation/UnitResult payload instantiations the mapper receives that nullable payload; Option Some is non-null by invariant. Sync HTTP default success is Ok(value), except UnitResult -> NoContent; supplied success mapper returning null throws InvalidOperationException. Selected problem mapper returning null or ProblemDetails without Status throws InvalidOperationException. Direct sync mapper exceptions propagate unchanged. Each async source row invokes its own async Core wrapper, whose natural await makes an input faulted OCE yield a canceled returned awaitable, unlike Result.TryAsync. Async Core awaits input exactly once, then invokes selected mapper once; unselected mappers are not invoked. Effect variants run immediately with context.RequestAborted after guards, not at IResult.ExecuteAsync. No independent ownership of cancellation is added to Task/ValueTask carrier mapping. These are source findings, not runtime receipts.",
+    "xmlAdequacy": "All 20 inspected shipped nodes have summaries and parameter/return docs but omit explicit exception tags; no inheritdoc nodes. Guards, invalid mapper output and async natural-await cancellation semantics are absent from their shipped XML. Existing XML counter does not establish adequacy. Keep U26 OPEN; no speculative documentation rewrite in this proposal."
+  },
+  "httpRows": [
+    [
+      "H:3",
+      "20-27",
+      "Option",
+      "IResult",
+      "none",
+      "some=null -> Ok",
+      "H:3",
+      2,
+      "HttpResultExtensionsTests.OptionSomeUsesTheDefaultJsonSuccessResult; RequiredMappersAreValidatedAndProblemsWithoutStatusAreRejected",
+      "shipped semantic XML; final compiler/runtime replay"
+    ],
+    [
+      "H:4",
+      "73",
+      "UnitResult",
+      "IResult",
+      "failure",
+      "success=null -> NoContent",
+      "H:4",
+      5,
+      "UnitResultHttpResultExtensionsTests.UnitResultSuccessUsesTheDefaultNoContentResult; UnitResultGuardsRejectNullMappersAndInvalidProblems",
+      "shipped semantic XML; final compiler/runtime replay"
+    ],
+    [
+      "H:5",
+      "38-45",
+      "Result",
+      "IResult",
+      "failure",
+      "success=null -> Ok",
+      "H:5",
+      3,
+      "HttpResultExtensionsTests.ResultFailureUsesTheMappedDomainProblem; RequiredMappersAreValidatedAndProblemsWithoutStatusAreRejected",
+      "shipped semantic XML; nullable success/error compiler/runtime replay"
+    ],
+    [
+      "H:6",
+      "56-63",
+      "Validation",
+      "IResult",
+      "invalid",
+      "valid=null -> Ok",
+      "H:6",
+      4,
+      "HttpResultExtensionsTests.ValidationInvalidUsesTheMappedValidationProblemWithOrderedErrors; RequiredMappersAreValidatedAndProblemsWithoutStatusAreRejected",
+      "shipped semantic XML; nullable value/error compiler/runtime replay"
+    ],
+    [
+      "H:7",
+      "90;460",
+      "Task<Option>",
+      "Task<IResult>",
+      "option,none",
+      "some=null -> Ok",
+      "H:3",
+      6,
+      "HttpResultExtensionsTests.AsyncOverloadsValidateEveryRequiredArgument; AsyncCarriersPreserveFaultIdentityAndCancellationToken",
+      "shipped XML; faulted-OCE status and selected mapper identity final-package witness"
+    ],
+    [
+      "H:8",
+      "146;454",
+      "Task<UnitResult>",
+      "Task<IResult>",
+      "result,failure",
+      "success=null -> NoContent",
+      "H:4",
+      9,
+      "UnitResultHttpResultExtensionsTests.TaskAndValueTaskUnitResultsUseMatchingAsyncMappers; UnitResultGuardsRejectNullMappersAndInvalidProblems",
+      "shipped XML; faulted-OCE status and selected mapper identity final-package witness"
+    ],
+    [
+      "H:9",
+      "109;466",
+      "Task<Result>",
+      "Task<IResult>",
+      "result,failure",
+      "success=null -> Ok",
+      "H:5",
+      7,
+      "HttpResultExtensionsTests.TaskAndValueTaskCarriersUseMatchingAsyncMappers; AsyncOverloadsValidateEveryRequiredArgument",
+      "shipped XML; nullable payload; faulted-OCE status; selected mapper identity final-package witness"
+    ],
+    [
+      "H:10",
+      "128;472",
+      "Task<Validation>",
+      "Task<IResult>",
+      "validation,invalid",
+      "valid=null -> Ok",
+      "H:6",
+      8,
+      "HttpResultExtensionsTests.TaskAndValueTaskCarriersUseMatchingAsyncMappers; AsyncOverloadsValidateEveryRequiredArgument",
+      "shipped XML; nullable value/error; faulted-OCE status final-package witness"
+    ],
+    [
+      "H:11",
+      "235;484",
+      "Effect<Option>",
+      "ValueTask<IResult>",
+      "context,none",
+      "some=null -> Ok",
+      "H:3",
+      14,
+      "HttpResultExtensionsTests.EffectUsesTheExactRequestAbortedToken; AsyncOverloadsValidateEveryRequiredArgument",
+      "shipped XML; source RunAsync faulted-OCE vs naturally awaited HTTP mapping; single-use replay"
+    ],
+    [
+      "H:12",
+      "164;484",
+      "ValueTask<Option>",
+      "ValueTask<IResult>",
+      "none",
+      "some=null -> Ok",
+      "H:3",
+      10,
+      "HttpResultExtensionsTests.ValueTaskCarrierIsConsumedExactlyOnce; AsyncOverloadsValidateEveryRequiredArgument",
+      "shipped XML; pending single-use and OCE/mapper identity final-package witness"
+    ],
+    [
+      "H:13",
+      "319;484",
+      "Effect<TEnvironment,Option>",
+      "ValueTask<IResult>",
+      "context,none",
+      "some=null -> Ok",
+      "H:3",
+      18,
+      "HttpResultExtensionsTests.EnvironmentEffectReceivesTheExplicitEnvironment; AsyncOverloadsValidateEveryRequiredArgument",
+      "shipped XML; nullable environment; pending single-use and OCE final-package witness"
+    ],
+    [
+      "H:14",
+      "391;478",
+      "Effect<TEnvironment,UnitResult>",
+      "ValueTask<IResult>",
+      "context,failure",
+      "success=null -> NoContent",
+      "H:4",
+      21,
+      "UnitResultHttpResultExtensionsTests.UnitResultEffectsMapWithAndWithoutEnvironments; UnitResultGuardsRejectNullMappersAndInvalidProblems",
+      "shipped XML; pending single-use and OCE/mapper identity final-package witness"
+    ],
+    [
+      "H:15",
+      "343;490",
+      "Effect<TEnvironment,Result>",
+      "ValueTask<IResult>",
+      "context,failure",
+      "success=null -> Ok",
+      "H:5",
+      19,
+      "HttpResultExtensionsTests.ResultAndValidationEffectsMapWithAndWithoutEnvironments; AsyncOverloadsValidateEveryRequiredArgument",
+      "shipped XML; nullable value/error/environment; pending single-use and OCE final-package witness"
+    ],
+    [
+      "H:16",
+      "367;496",
+      "Effect<TEnvironment,Validation>",
+      "ValueTask<IResult>",
+      "context,invalid",
+      "valid=null -> Ok",
+      "H:6",
+      20,
+      "HttpResultExtensionsTests.ResultAndValidationEffectsMapWithAndWithoutEnvironments; AsyncOverloadsValidateEveryRequiredArgument",
+      "shipped XML; nullable value/error/environment; pending single-use and OCE final-package witness"
+    ],
+    [
+      "H:17",
+      "297;478",
+      "Effect<UnitResult>",
+      "ValueTask<IResult>",
+      "context,failure",
+      "success=null -> NoContent",
+      "H:4",
+      17,
+      "UnitResultHttpResultExtensionsTests.UnitResultEffectsMapWithAndWithoutEnvironments; UnitResultGuardsRejectNullMappersAndInvalidProblems",
+      "shipped XML; pending single-use and OCE/mapper identity final-package witness"
+    ],
+    [
+      "H:18",
+      "217;478",
+      "ValueTask<UnitResult>",
+      "ValueTask<IResult>",
+      "failure",
+      "success=null -> NoContent",
+      "H:4",
+      13,
+      "UnitResultHttpResultExtensionsTests.TaskAndValueTaskUnitResultsUseMatchingAsyncMappers; UnitResultGuardsRejectNullMappersAndInvalidProblems",
+      "shipped XML; pending single-use and OCE/mapper identity final-package witness"
+    ],
+    [
+      "H:19",
+      "256;490",
+      "Effect<Result>",
+      "ValueTask<IResult>",
+      "context,failure",
+      "success=null -> Ok",
+      "H:5",
+      15,
+      "HttpResultExtensionsTests.ResultAndValidationEffectsMapWithAndWithoutEnvironments; AsyncSuccessMappersOverrideTheDefaultJsonResult",
+      "shipped XML; nullable payload; pending single-use and OCE final-package witness"
+    ],
+    [
+      "H:20",
+      "277;496",
+      "Effect<Validation>",
+      "ValueTask<IResult>",
+      "context,invalid",
+      "valid=null -> Ok",
+      "H:6",
+      16,
+      "HttpResultExtensionsTests.ResultAndValidationEffectsMapWithAndWithoutEnvironments; AsyncOverloadsValidateEveryRequiredArgument",
+      "shipped XML; nullable value/error; pending single-use and OCE final-package witness"
+    ],
+    [
+      "H:21",
+      "182;490",
+      "ValueTask<Result>",
+      "ValueTask<IResult>",
+      "failure",
+      "success=null -> Ok",
+      "H:5",
+      11,
+      "HttpResultExtensionsTests.TaskAndValueTaskCarriersUseMatchingAsyncMappers; AsyncCarriersPreserveFaultIdentityAndCancellationToken",
+      "shipped XML; nullable payload; pending single-use and faulted-OCE status final-package witness"
+    ],
+    [
+      "H:22",
+      "200;496",
+      "ValueTask<Validation>",
+      "ValueTask<IResult>",
+      "invalid",
+      "valid=null -> Ok",
+      "H:6",
+      12,
+      "HttpResultExtensionsTests.TaskAndValueTaskCarriersUseMatchingAsyncMappers; AsyncOverloadsValidateEveryRequiredArgument",
+      "shipped XML; nullable value/error; pending single-use and faulted-OCE status final-package witness"
+    ]
+  ],
+  "xmlResolutionGaps": {
+    "C:220": "IEquatable<Option<T>>.Equals logical inherited contract must be resolved from implementation/interface metadata, not by accepting an empty inheritdoc tag",
+    "implicitInheritdocCountInOrderedCore": 19,
+    "allImplicitInheritdocUnresolved": true,
+    "generatedAliasesUnresolved": true,
+    "typeXmlCoverageUnresolved": true,
+    "explanation": "getXmlDocumentationInventory checks only nodes already present and accepts any inheritdoc tag. It cannot detect missing exported members, missing generated aliases, unresolved targets or cycles. This proposal does not call that counter a semantic/XML crosswalk pass."
+  },
+  "acceptanceBlockers": [
+    "all 468 stable members require final package source/XML/compiler/runtime binding",
+    "31 experimental exclusions require exact package attribute replay",
+    "42 generated/plumbing identities require intentional dimension and XML alias review",
+    "19 implicit core inheritdoc targets not resolved",
+    "Option.Map proven eager null guard absent from inspected shipped XML",
+    "20 HTTP shipped nodes omit demonstrated exception/cancellation/single-consumption contracts",
+    "Matching U8 local0.2.0 package pair exists, but the final frozen package/source/metadata/XML/compiler/runtime joins remain unexecuted."
+  ],
+  "sourceReviewFiles": [
+    {
+      "domain": "carriers",
+      "path": ".omo/audit-resolution/research/u14-domain-carriers.json",
+      "sha256": "d02a9038777f8b3382de35b36abe863ef85681325be0cdf02a3f94f675201ba3",
+      "records": 148
+    },
+    {
+      "domain": "collections",
+      "path": ".omo/audit-resolution/research/u14-domain-collections.json",
+      "sha256": "43279c8460c9fc10722056eacd6708822320ead48ef129fbe964d3d08ef0f997",
+      "records": 168
+    },
+    {
+      "domain": "advanced",
+      "path": ".omo/audit-resolution/research/u14-domain-advanced.json",
+      "sha256": "a5f01fdfd3ff0f92833a41d785cc12517731b7d6394cf32e00d7b4e9099cee16",
+      "records": 113
+    }
+  ],
+  "sourceReviewExactSet": {
+    "allExported": 499,
+    "sourceClassifiedExperimental": 31,
+    "stableSource": 468,
+    "joined": 468,
+    "missing": [],
+    "extra": [],
+    "all29SourceHashesMatch": true,
+    "packageExperimentalProjectionVerified": false
+  },
+  "sourceReviewIndex": [
+    {
+      "identity": "C:167",
+      "review": "sourceRows/C:167"
+    },
+    {
+      "identity": "C:217",
+      "review": "sourceRows/C:217"
+    },
+    {
+      "identity": "C:215",
+      "review": "sourceRows/C:215"
+    },
+    {
+      "identity": "C:222",
+      "review": "sourceRows/C:222"
+    },
+    {
+      "identity": "C:329",
+      "review": "sourceRows/C:329"
+    },
+    {
+      "identity": "C:330",
+      "review": "sourceRows/C:330"
+    },
+    {
+      "identity": "C:335",
+      "review": "sourceRows/C:335"
+    },
+    {
+      "identity": "C:336",
+      "review": "sourceRows/C:336"
+    },
+    {
+      "identity": "C:284",
+      "review": "sourceRows/C:284"
+    },
+    {
+      "identity": "C:285",
+      "review": "sourceRows/C:285"
+    },
+    {
+      "identity": "C:286",
+      "review": "sourceRows/C:286"
+    },
+    {
+      "identity": "C:287",
+      "review": "sourceRows/C:287"
+    },
+    {
+      "identity": "C:288",
+      "review": "sourceRows/C:288"
+    },
+    {
+      "identity": "C:289",
+      "review": "sourceRows/C:289"
+    },
+    {
+      "identity": "C:514",
+      "review": "sourceRows/C:514"
+    },
+    {
+      "identity": "C:515",
+      "review": "sourceRows/C:515"
+    },
+    {
+      "identity": "C:516",
+      "review": "sourceRows/C:516"
+    },
+    {
+      "identity": "C:521",
+      "review": "sourceRows/C:521"
+    },
+    {
+      "identity": "C:522",
+      "review": "sourceRows/C:522"
+    },
+    {
+      "identity": "C:79",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:79"
+    },
+    {
+      "identity": "C:99",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:99"
+    },
+    {
+      "identity": "C:106",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:106"
+    },
+    {
+      "identity": "H:3",
+      "review": "httpRows/H:3"
+    },
+    {
+      "identity": "H:4",
+      "review": "httpRows/H:4"
+    },
+    {
+      "identity": "H:5",
+      "review": "httpRows/H:5"
+    },
+    {
+      "identity": "H:6",
+      "review": "httpRows/H:6"
+    },
+    {
+      "identity": "H:7",
+      "review": "httpRows/H:7"
+    },
+    {
+      "identity": "H:8",
+      "review": "httpRows/H:8"
+    },
+    {
+      "identity": "H:9",
+      "review": "httpRows/H:9"
+    },
+    {
+      "identity": "H:10",
+      "review": "httpRows/H:10"
+    },
+    {
+      "identity": "H:11",
+      "review": "httpRows/H:11"
+    },
+    {
+      "identity": "H:12",
+      "review": "httpRows/H:12"
+    },
+    {
+      "identity": "H:13",
+      "review": "httpRows/H:13"
+    },
+    {
+      "identity": "H:14",
+      "review": "httpRows/H:14"
+    },
+    {
+      "identity": "H:15",
+      "review": "httpRows/H:15"
+    },
+    {
+      "identity": "H:16",
+      "review": "httpRows/H:16"
+    },
+    {
+      "identity": "H:17",
+      "review": "httpRows/H:17"
+    },
+    {
+      "identity": "H:18",
+      "review": "httpRows/H:18"
+    },
+    {
+      "identity": "H:19",
+      "review": "httpRows/H:19"
+    },
+    {
+      "identity": "H:20",
+      "review": "httpRows/H:20"
+    },
+    {
+      "identity": "H:21",
+      "review": "httpRows/H:21"
+    },
+    {
+      "identity": "H:22",
+      "review": "httpRows/H:22"
+    },
+    {
+      "identity": "C:161",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:161"
+    },
+    {
+      "identity": "C:162",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:162"
+    },
+    {
+      "identity": "C:163",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:163"
+    },
+    {
+      "identity": "C:164",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:164"
+    },
+    {
+      "identity": "C:165",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:165"
+    },
+    {
+      "identity": "C:166",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:166"
+    },
+    {
+      "identity": "C:177",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:177"
+    },
+    {
+      "identity": "C:178",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:178"
+    },
+    {
+      "identity": "C:179",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:179"
+    },
+    {
+      "identity": "C:180",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:180"
+    },
+    {
+      "identity": "C:181",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:181"
+    },
+    {
+      "identity": "C:182",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:182"
+    },
+    {
+      "identity": "C:183",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:183"
+    },
+    {
+      "identity": "C:184",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:184"
+    },
+    {
+      "identity": "C:185",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:185"
+    },
+    {
+      "identity": "C:186",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:186"
+    },
+    {
+      "identity": "C:187",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:187"
+    },
+    {
+      "identity": "C:188",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:188"
+    },
+    {
+      "identity": "C:189",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:189"
+    },
+    {
+      "identity": "C:190",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:190"
+    },
+    {
+      "identity": "C:191",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:191"
+    },
+    {
+      "identity": "C:192",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:192"
+    },
+    {
+      "identity": "C:206",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:206"
+    },
+    {
+      "identity": "C:207",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:207"
+    },
+    {
+      "identity": "C:208",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:208"
+    },
+    {
+      "identity": "C:209",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:209"
+    },
+    {
+      "identity": "C:210",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:210"
+    },
+    {
+      "identity": "C:211",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:211"
+    },
+    {
+      "identity": "C:212",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:212"
+    },
+    {
+      "identity": "C:213",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:213"
+    },
+    {
+      "identity": "C:214",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:214"
+    },
+    {
+      "identity": "C:216",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:216"
+    },
+    {
+      "identity": "C:218",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:218"
+    },
+    {
+      "identity": "C:219",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:219"
+    },
+    {
+      "identity": "C:220",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:220"
+    },
+    {
+      "identity": "C:221",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:221"
+    },
+    {
+      "identity": "C:223",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:223"
+    },
+    {
+      "identity": "C:224",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:224"
+    },
+    {
+      "identity": "C:225",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:225"
+    },
+    {
+      "identity": "C:226",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:226"
+    },
+    {
+      "identity": "C:227",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:227"
+    },
+    {
+      "identity": "C:228",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:228"
+    },
+    {
+      "identity": "C:229",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:229"
+    },
+    {
+      "identity": "C:230",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:230"
+    },
+    {
+      "identity": "C:231",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:231"
+    },
+    {
+      "identity": "C:232",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:232"
+    },
+    {
+      "identity": "C:291",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:291"
+    },
+    {
+      "identity": "C:292",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:292"
+    },
+    {
+      "identity": "C:293",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:293"
+    },
+    {
+      "identity": "C:294",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:294"
+    },
+    {
+      "identity": "C:295",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:295"
+    },
+    {
+      "identity": "C:296",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:296"
+    },
+    {
+      "identity": "C:297",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:297"
+    },
+    {
+      "identity": "C:298",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:298"
+    },
+    {
+      "identity": "C:299",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:299"
+    },
+    {
+      "identity": "C:300",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:300"
+    },
+    {
+      "identity": "C:301",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:301"
+    },
+    {
+      "identity": "C:315",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:315"
+    },
+    {
+      "identity": "C:316",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:316"
+    },
+    {
+      "identity": "C:317",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:317"
+    },
+    {
+      "identity": "C:318",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:318"
+    },
+    {
+      "identity": "C:319",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:319"
+    },
+    {
+      "identity": "C:320",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:320"
+    },
+    {
+      "identity": "C:321",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:321"
+    },
+    {
+      "identity": "C:322",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:322"
+    },
+    {
+      "identity": "C:323",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:323"
+    },
+    {
+      "identity": "C:324",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:324"
+    },
+    {
+      "identity": "C:325",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:325"
+    },
+    {
+      "identity": "C:326",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:326"
+    },
+    {
+      "identity": "C:327",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:327"
+    },
+    {
+      "identity": "C:328",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:328"
+    },
+    {
+      "identity": "C:331",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:331"
+    },
+    {
+      "identity": "C:332",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:332"
+    },
+    {
+      "identity": "C:333",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:333"
+    },
+    {
+      "identity": "C:334",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:334"
+    },
+    {
+      "identity": "C:337",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:337"
+    },
+    {
+      "identity": "C:338",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:338"
+    },
+    {
+      "identity": "C:339",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:339"
+    },
+    {
+      "identity": "C:340",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:340"
+    },
+    {
+      "identity": "C:341",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:341"
+    },
+    {
+      "identity": "C:342",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:342"
+    },
+    {
+      "identity": "C:440",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:440"
+    },
+    {
+      "identity": "C:441",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:441"
+    },
+    {
+      "identity": "C:442",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:442"
+    },
+    {
+      "identity": "C:443",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:443"
+    },
+    {
+      "identity": "C:445",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:445"
+    },
+    {
+      "identity": "C:446",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:446"
+    },
+    {
+      "identity": "C:447",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:447"
+    },
+    {
+      "identity": "C:448",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:448"
+    },
+    {
+      "identity": "C:449",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:449"
+    },
+    {
+      "identity": "C:450",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:450"
+    },
+    {
+      "identity": "C:451",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:451"
+    },
+    {
+      "identity": "C:452",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:452"
+    },
+    {
+      "identity": "C:454",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:454"
+    },
+    {
+      "identity": "C:455",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:455"
+    },
+    {
+      "identity": "C:456",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:456"
+    },
+    {
+      "identity": "C:457",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:457"
+    },
+    {
+      "identity": "C:458",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:458"
+    },
+    {
+      "identity": "C:459",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:459"
+    },
+    {
+      "identity": "C:460",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:460"
+    },
+    {
+      "identity": "C:461",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:461"
+    },
+    {
+      "identity": "C:462",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:462"
+    },
+    {
+      "identity": "C:463",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:463"
+    },
+    {
+      "identity": "C:464",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:464"
+    },
+    {
+      "identity": "C:465",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:465"
+    },
+    {
+      "identity": "C:466",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:466"
+    },
+    {
+      "identity": "C:480",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:480"
+    },
+    {
+      "identity": "C:481",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:481"
+    },
+    {
+      "identity": "C:482",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:482"
+    },
+    {
+      "identity": "C:483",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:483"
+    },
+    {
+      "identity": "C:484",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:484"
+    },
+    {
+      "identity": "C:485",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:485"
+    },
+    {
+      "identity": "C:486",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:486"
+    },
+    {
+      "identity": "C:487",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:487"
+    },
+    {
+      "identity": "C:488",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:488"
+    },
+    {
+      "identity": "C:489",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:489"
+    },
+    {
+      "identity": "C:490",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:490"
+    },
+    {
+      "identity": "C:491",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:491"
+    },
+    {
+      "identity": "C:492",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:492"
+    },
+    {
+      "identity": "C:493",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:493"
+    },
+    {
+      "identity": "C:494",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:494"
+    },
+    {
+      "identity": "C:495",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:495"
+    },
+    {
+      "identity": "C:496",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:496"
+    },
+    {
+      "identity": "C:497",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:497"
+    },
+    {
+      "identity": "C:498",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:498"
+    },
+    {
+      "identity": "C:499",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:499"
+    },
+    {
+      "identity": "C:500",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:500"
+    },
+    {
+      "identity": "C:502",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:502"
+    },
+    {
+      "identity": "C:503",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:503"
+    },
+    {
+      "identity": "C:504",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:504"
+    },
+    {
+      "identity": "C:505",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:505"
+    },
+    {
+      "identity": "C:506",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:506"
+    },
+    {
+      "identity": "C:508",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:508"
+    },
+    {
+      "identity": "C:509",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:509"
+    },
+    {
+      "identity": "C:510",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:510"
+    },
+    {
+      "identity": "C:511",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:511"
+    },
+    {
+      "identity": "C:512",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:512"
+    },
+    {
+      "identity": "C:513",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:513"
+    },
+    {
+      "identity": "C:517",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:517"
+    },
+    {
+      "identity": "C:518",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:518"
+    },
+    {
+      "identity": "C:519",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:519"
+    },
+    {
+      "identity": "C:520",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:520"
+    },
+    {
+      "identity": "C:523",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:523"
+    },
+    {
+      "identity": "C:524",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:524"
+    },
+    {
+      "identity": "C:525",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:525"
+    },
+    {
+      "identity": "C:526",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:526"
+    },
+    {
+      "identity": "C:527",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:527"
+    },
+    {
+      "identity": "C:528",
+      "review": ".omo/audit-resolution/research/u14-domain-carriers.json#rows/C:528"
+    },
+    {
+      "identity": "C:3",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:3"
+    },
+    {
+      "identity": "C:4",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:4"
+    },
+    {
+      "identity": "C:5",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:5"
+    },
+    {
+      "identity": "C:6",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:6"
+    },
+    {
+      "identity": "C:7",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:7"
+    },
+    {
+      "identity": "C:8",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:8"
+    },
+    {
+      "identity": "C:9",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:9"
+    },
+    {
+      "identity": "C:10",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:10"
+    },
+    {
+      "identity": "C:11",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:11"
+    },
+    {
+      "identity": "C:13",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:13"
+    },
+    {
+      "identity": "C:14",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:14"
+    },
+    {
+      "identity": "C:15",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:15"
+    },
+    {
+      "identity": "C:16",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:16"
+    },
+    {
+      "identity": "C:17",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:17"
+    },
+    {
+      "identity": "C:18",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:18"
+    },
+    {
+      "identity": "C:19",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:19"
+    },
+    {
+      "identity": "C:20",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:20"
+    },
+    {
+      "identity": "C:23",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:23"
+    },
+    {
+      "identity": "C:25",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:25"
+    },
+    {
+      "identity": "C:26",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:26"
+    },
+    {
+      "identity": "C:27",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:27"
+    },
+    {
+      "identity": "C:29",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:29"
+    },
+    {
+      "identity": "C:31",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:31"
+    },
+    {
+      "identity": "C:32",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:32"
+    },
+    {
+      "identity": "C:33",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:33"
+    },
+    {
+      "identity": "C:34",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:34"
+    },
+    {
+      "identity": "C:36",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:36"
+    },
+    {
+      "identity": "C:38",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:38"
+    },
+    {
+      "identity": "C:39",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:39"
+    },
+    {
+      "identity": "C:41",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:41"
+    },
+    {
+      "identity": "C:43",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:43"
+    },
+    {
+      "identity": "C:44",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:44"
+    },
+    {
+      "identity": "C:45",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:45"
+    },
+    {
+      "identity": "C:47",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:47"
+    },
+    {
+      "identity": "C:48",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:48"
+    },
+    {
+      "identity": "C:49",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:49"
+    },
+    {
+      "identity": "C:50",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:50"
+    },
+    {
+      "identity": "C:51",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:51"
+    },
+    {
+      "identity": "C:52",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:52"
+    },
+    {
+      "identity": "C:53",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:53"
+    },
+    {
+      "identity": "C:54",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:54"
+    },
+    {
+      "identity": "C:55",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:55"
+    },
+    {
+      "identity": "C:56",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:56"
+    },
+    {
+      "identity": "C:57",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:57"
+    },
+    {
+      "identity": "C:58",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:58"
+    },
+    {
+      "identity": "C:65",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:65"
+    },
+    {
+      "identity": "C:66",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:66"
+    },
+    {
+      "identity": "C:67",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:67"
+    },
+    {
+      "identity": "C:68",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:68"
+    },
+    {
+      "identity": "C:69",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:69"
+    },
+    {
+      "identity": "C:70",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:70"
+    },
+    {
+      "identity": "C:71",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:71"
+    },
+    {
+      "identity": "C:72",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:72"
+    },
+    {
+      "identity": "C:108",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:108"
+    },
+    {
+      "identity": "C:109",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:109"
+    },
+    {
+      "identity": "C:110",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:110"
+    },
+    {
+      "identity": "C:111",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:111"
+    },
+    {
+      "identity": "C:113",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:113"
+    },
+    {
+      "identity": "C:114",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:114"
+    },
+    {
+      "identity": "C:154",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:154"
+    },
+    {
+      "identity": "C:155",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:155"
+    },
+    {
+      "identity": "C:156",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:156"
+    },
+    {
+      "identity": "C:157",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:157"
+    },
+    {
+      "identity": "C:158",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:158"
+    },
+    {
+      "identity": "C:159",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:159"
+    },
+    {
+      "identity": "C:246",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:246"
+    },
+    {
+      "identity": "C:247",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:247"
+    },
+    {
+      "identity": "C:248",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:248"
+    },
+    {
+      "identity": "C:249",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:249"
+    },
+    {
+      "identity": "C:250",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:250"
+    },
+    {
+      "identity": "C:251",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:251"
+    },
+    {
+      "identity": "C:252",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:252"
+    },
+    {
+      "identity": "C:253",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:253"
+    },
+    {
+      "identity": "C:254",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:254"
+    },
+    {
+      "identity": "C:255",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:255"
+    },
+    {
+      "identity": "C:256",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:256"
+    },
+    {
+      "identity": "C:257",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:257"
+    },
+    {
+      "identity": "C:258",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:258"
+    },
+    {
+      "identity": "C:259",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:259"
+    },
+    {
+      "identity": "C:260",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:260"
+    },
+    {
+      "identity": "C:261",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:261"
+    },
+    {
+      "identity": "C:262",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:262"
+    },
+    {
+      "identity": "C:263",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:263"
+    },
+    {
+      "identity": "C:265",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:265"
+    },
+    {
+      "identity": "C:266",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:266"
+    },
+    {
+      "identity": "C:267",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:267"
+    },
+    {
+      "identity": "C:268",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:268"
+    },
+    {
+      "identity": "C:269",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:269"
+    },
+    {
+      "identity": "C:270",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:270"
+    },
+    {
+      "identity": "C:346",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:346"
+    },
+    {
+      "identity": "C:347",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:347"
+    },
+    {
+      "identity": "C:348",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:348"
+    },
+    {
+      "identity": "C:349",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:349"
+    },
+    {
+      "identity": "C:351",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:351"
+    },
+    {
+      "identity": "C:352",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:352"
+    },
+    {
+      "identity": "C:355",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:355"
+    },
+    {
+      "identity": "C:357",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:357"
+    },
+    {
+      "identity": "C:358",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:358"
+    },
+    {
+      "identity": "C:359",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:359"
+    },
+    {
+      "identity": "C:360",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:360"
+    },
+    {
+      "identity": "C:361",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:361"
+    },
+    {
+      "identity": "C:362",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:362"
+    },
+    {
+      "identity": "C:364",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:364"
+    },
+    {
+      "identity": "C:366",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:366"
+    },
+    {
+      "identity": "C:369",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:369"
+    },
+    {
+      "identity": "C:371",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:371"
+    },
+    {
+      "identity": "C:372",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:372"
+    },
+    {
+      "identity": "C:373",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:373"
+    },
+    {
+      "identity": "C:375",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:375"
+    },
+    {
+      "identity": "C:376",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:376"
+    },
+    {
+      "identity": "C:377",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:377"
+    },
+    {
+      "identity": "C:378",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:378"
+    },
+    {
+      "identity": "C:379",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:379"
+    },
+    {
+      "identity": "C:380",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:380"
+    },
+    {
+      "identity": "C:381",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:381"
+    },
+    {
+      "identity": "C:382",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:382"
+    },
+    {
+      "identity": "C:383",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:383"
+    },
+    {
+      "identity": "C:384",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:384"
+    },
+    {
+      "identity": "C:385",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:385"
+    },
+    {
+      "identity": "C:386",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:386"
+    },
+    {
+      "identity": "C:387",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:387"
+    },
+    {
+      "identity": "C:388",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:388"
+    },
+    {
+      "identity": "C:389",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:389"
+    },
+    {
+      "identity": "C:390",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:390"
+    },
+    {
+      "identity": "C:194",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:194"
+    },
+    {
+      "identity": "C:195",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:195"
+    },
+    {
+      "identity": "C:196",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:196"
+    },
+    {
+      "identity": "C:197",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:197"
+    },
+    {
+      "identity": "C:198",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:198"
+    },
+    {
+      "identity": "C:199",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:199"
+    },
+    {
+      "identity": "C:200",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:200"
+    },
+    {
+      "identity": "C:201",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:201"
+    },
+    {
+      "identity": "C:202",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:202"
+    },
+    {
+      "identity": "C:203",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:203"
+    },
+    {
+      "identity": "C:204",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:204"
+    },
+    {
+      "identity": "C:272",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:272"
+    },
+    {
+      "identity": "C:273",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:273"
+    },
+    {
+      "identity": "C:274",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:274"
+    },
+    {
+      "identity": "C:275",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:275"
+    },
+    {
+      "identity": "C:276",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:276"
+    },
+    {
+      "identity": "C:277",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:277"
+    },
+    {
+      "identity": "C:278",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:278"
+    },
+    {
+      "identity": "C:279",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:279"
+    },
+    {
+      "identity": "C:280",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:280"
+    },
+    {
+      "identity": "C:281",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:281"
+    },
+    {
+      "identity": "C:282",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:282"
+    },
+    {
+      "identity": "C:303",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:303"
+    },
+    {
+      "identity": "C:304",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:304"
+    },
+    {
+      "identity": "C:305",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:305"
+    },
+    {
+      "identity": "C:306",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:306"
+    },
+    {
+      "identity": "C:307",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:307"
+    },
+    {
+      "identity": "C:308",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:308"
+    },
+    {
+      "identity": "C:309",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:309"
+    },
+    {
+      "identity": "C:310",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:310"
+    },
+    {
+      "identity": "C:311",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:311"
+    },
+    {
+      "identity": "C:312",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:312"
+    },
+    {
+      "identity": "C:313",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:313"
+    },
+    {
+      "identity": "C:468",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:468"
+    },
+    {
+      "identity": "C:469",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:469"
+    },
+    {
+      "identity": "C:470",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:470"
+    },
+    {
+      "identity": "C:471",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:471"
+    },
+    {
+      "identity": "C:472",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:472"
+    },
+    {
+      "identity": "C:473",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:473"
+    },
+    {
+      "identity": "C:474",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:474"
+    },
+    {
+      "identity": "C:475",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:475"
+    },
+    {
+      "identity": "C:476",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:476"
+    },
+    {
+      "identity": "C:477",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:477"
+    },
+    {
+      "identity": "C:478",
+      "review": ".omo/audit-resolution/research/u14-domain-collections.json#rows/C:478"
+    },
+    {
+      "identity": "C:60",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:60"
+    },
+    {
+      "identity": "C:61",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:61"
+    },
+    {
+      "identity": "C:62",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:62"
+    },
+    {
+      "identity": "C:63",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:63"
+    },
+    {
+      "identity": "C:74",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:74"
+    },
+    {
+      "identity": "C:75",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:75"
+    },
+    {
+      "identity": "C:76",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:76"
+    },
+    {
+      "identity": "C:77",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:77"
+    },
+    {
+      "identity": "C:78",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:78"
+    },
+    {
+      "identity": "C:80",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:80"
+    },
+    {
+      "identity": "C:81",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:81"
+    },
+    {
+      "identity": "C:82",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:82"
+    },
+    {
+      "identity": "C:83",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:83"
+    },
+    {
+      "identity": "C:84",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:84"
+    },
+    {
+      "identity": "C:85",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:85"
+    },
+    {
+      "identity": "C:86",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:86"
+    },
+    {
+      "identity": "C:87",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:87"
+    },
+    {
+      "identity": "C:89",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:89"
+    },
+    {
+      "identity": "C:90",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:90"
+    },
+    {
+      "identity": "C:91",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:91"
+    },
+    {
+      "identity": "C:92",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:92"
+    },
+    {
+      "identity": "C:94",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:94"
+    },
+    {
+      "identity": "C:95",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:95"
+    },
+    {
+      "identity": "C:96",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:96"
+    },
+    {
+      "identity": "C:97",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:97"
+    },
+    {
+      "identity": "C:98",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:98"
+    },
+    {
+      "identity": "C:101",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:101"
+    },
+    {
+      "identity": "C:102",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:102"
+    },
+    {
+      "identity": "C:103",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:103"
+    },
+    {
+      "identity": "C:104",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:104"
+    },
+    {
+      "identity": "C:105",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:105"
+    },
+    {
+      "identity": "C:116",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:116"
+    },
+    {
+      "identity": "C:117",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:117"
+    },
+    {
+      "identity": "C:118",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:118"
+    },
+    {
+      "identity": "C:119",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:119"
+    },
+    {
+      "identity": "C:120",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:120"
+    },
+    {
+      "identity": "C:121",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:121"
+    },
+    {
+      "identity": "C:122",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:122"
+    },
+    {
+      "identity": "C:123",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:123"
+    },
+    {
+      "identity": "C:124",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:124"
+    },
+    {
+      "identity": "C:125",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:125"
+    },
+    {
+      "identity": "C:126",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:126"
+    },
+    {
+      "identity": "C:127",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:127"
+    },
+    {
+      "identity": "C:128",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:128"
+    },
+    {
+      "identity": "C:129",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:129"
+    },
+    {
+      "identity": "C:130",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:130"
+    },
+    {
+      "identity": "C:132",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:132"
+    },
+    {
+      "identity": "C:133",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:133"
+    },
+    {
+      "identity": "C:135",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:135"
+    },
+    {
+      "identity": "C:136",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:136"
+    },
+    {
+      "identity": "C:137",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:137"
+    },
+    {
+      "identity": "C:138",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:138"
+    },
+    {
+      "identity": "C:139",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:139"
+    },
+    {
+      "identity": "C:169",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:169"
+    },
+    {
+      "identity": "C:171",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:171"
+    },
+    {
+      "identity": "C:172",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:172"
+    },
+    {
+      "identity": "C:173",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:173"
+    },
+    {
+      "identity": "C:174",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:174"
+    },
+    {
+      "identity": "C:175",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:175"
+    },
+    {
+      "identity": "C:234",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:234"
+    },
+    {
+      "identity": "C:235",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:235"
+    },
+    {
+      "identity": "C:236",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:236"
+    },
+    {
+      "identity": "C:237",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:237"
+    },
+    {
+      "identity": "C:239",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:239"
+    },
+    {
+      "identity": "C:240",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:240"
+    },
+    {
+      "identity": "C:241",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:241"
+    },
+    {
+      "identity": "C:242",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:242"
+    },
+    {
+      "identity": "C:243",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:243"
+    },
+    {
+      "identity": "C:244",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:244"
+    },
+    {
+      "identity": "C:392",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:392"
+    },
+    {
+      "identity": "C:393",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:393"
+    },
+    {
+      "identity": "C:394",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:394"
+    },
+    {
+      "identity": "C:395",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:395"
+    },
+    {
+      "identity": "C:396",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:396"
+    },
+    {
+      "identity": "C:397",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:397"
+    },
+    {
+      "identity": "C:398",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:398"
+    },
+    {
+      "identity": "C:400",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:400"
+    },
+    {
+      "identity": "C:401",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:401"
+    },
+    {
+      "identity": "C:403",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:403"
+    },
+    {
+      "identity": "C:404",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:404"
+    },
+    {
+      "identity": "C:405",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:405"
+    },
+    {
+      "identity": "C:406",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:406"
+    },
+    {
+      "identity": "C:408",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:408"
+    },
+    {
+      "identity": "C:410",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:410"
+    },
+    {
+      "identity": "C:411",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:411"
+    },
+    {
+      "identity": "C:412",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:412"
+    },
+    {
+      "identity": "C:413",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:413"
+    },
+    {
+      "identity": "C:415",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:415"
+    },
+    {
+      "identity": "C:416",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:416"
+    },
+    {
+      "identity": "C:417",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:417"
+    },
+    {
+      "identity": "C:418",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:418"
+    },
+    {
+      "identity": "C:419",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:419"
+    },
+    {
+      "identity": "C:420",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:420"
+    },
+    {
+      "identity": "C:421",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:421"
+    },
+    {
+      "identity": "C:422",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:422"
+    },
+    {
+      "identity": "C:423",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:423"
+    },
+    {
+      "identity": "C:424",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:424"
+    },
+    {
+      "identity": "C:425",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:425"
+    },
+    {
+      "identity": "C:426",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:426"
+    },
+    {
+      "identity": "C:427",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:427"
+    },
+    {
+      "identity": "C:428",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:428"
+    },
+    {
+      "identity": "C:429",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:429"
+    },
+    {
+      "identity": "C:430",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:430"
+    },
+    {
+      "identity": "C:431",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:431"
+    },
+    {
+      "identity": "C:432",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:432"
+    },
+    {
+      "identity": "C:434",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:434"
+    },
+    {
+      "identity": "C:435",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:435"
+    },
+    {
+      "identity": "C:436",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:436"
+    },
+    {
+      "identity": "C:437",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:437"
+    },
+    {
+      "identity": "C:438",
+      "review": ".omo/audit-resolution/research/u14-domain-advanced.json#records/C:438"
+    }
+  ]
+}

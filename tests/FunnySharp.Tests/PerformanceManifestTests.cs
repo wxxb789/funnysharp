@@ -6,6 +6,32 @@ namespace FunnySharp.Tests;
 public sealed class PerformanceManifestTests
 {
     [Fact]
+    public void BenchmarkInputsCoverShippingSourcesProjectsLocksAndImports()
+    {
+        var root = TestRepositoryRoot.Find()
+            ?? throw new DirectoryNotFoundException("Could not locate the FunnySharp repository root.");
+        var required = Directory.EnumerateFiles(Path.Combine(root, "src"), "*", SearchOption.AllDirectories)
+            .Select(path => Path.GetRelativePath(root, path).Replace('\\', '/'))
+            .Where(path => !path.Split('/').Any(part => part is "bin" or "obj"))
+            .Where(path => path.EndsWith(".cs", StringComparison.Ordinal)
+                || path.EndsWith(".csproj", StringComparison.Ordinal)
+                || path.EndsWith(".props", StringComparison.Ordinal)
+                || path.EndsWith(".targets", StringComparison.Ordinal)
+                || path.EndsWith("/packages.lock.json", StringComparison.Ordinal)
+                || Path.GetFileName(path).StartsWith("AnalyzerReleases.", StringComparison.Ordinal))
+            .Concat(new[] { "Directory.Build.props", "README.md", "global.json" })
+            .ToArray();
+
+        foreach (var name in new[] { "baseline.json", "competitor-baseline.json" })
+        {
+            using var manifest = JsonDocument.Parse(File.ReadAllText(Path.Combine(root, "eng", "performance", name)));
+            var files = manifest.RootElement.GetProperty("benchmarkInput").GetProperty("files")
+                .EnumerateArray().Select(file => file.GetString()!).ToHashSet(StringComparer.Ordinal);
+            Assert.All(required, file => Assert.Contains(file, files));
+        }
+    }
+
+    [Fact]
     public void ManifestFilesArraysStayOrdinalSortedAndForwardSlashed()
     {
         var repositoryRoot = TestRepositoryRoot.Find()

@@ -1,0 +1,11 @@
+{
+  "schema": "funnysharp-compatibility-old-monitor-tree-correction/v1",
+  "firstTreeKillIncomplete": true,
+  "originalMonitorLateEvent": "CoreSmoke failed: Published application exited with code -1 after stopping originalownedconsumer. Historical original76not6pass.",
+  "originalAttempt01MayHaveBegunNextScenarioAfterConsumerStopped": true,
+  "originalOutputPreservedUnaccepted": true,
+  "ownedRootsAndDescendantsStop": "[{\"ProcessId\":55988,\"ParentProcessId\":31728,\"Name\":\"dotnet.exe\",\"CreationDate\":\"\\/Date(1790982179853)\\/\"},{\"ProcessId\":26760,\"ParentProcessId\":55988,\"Name\":\"dotnet.exe\",\"CreationDate\":\"\\/Date(1790982180087)\\/\"},{\"ProcessId\":57712,\"ParentProcessId\":26760,\"Name\":\"dotnet.exe\",\"CreationDate\":\"\\/Date(1790989349994)\\/\"},{\"ProcessId\":53652,\"ParentProcessId\":57712,\"Name\":\"MSBuild.exe\",\"CreationDate\":\"\\/Date(1790989357285)\\/\"},{\"ProcessId\":21812,\"ParentProcessId\":53652,\"Name\":\"conhost.exe\",\"CreationDate\":\"\\/Date(1790989357299)\\/\"},{\"ProcessId\":41636,\"ParentProcessId\":57712,\"Name\":\"cmd.exe\",\"CreationDate\":\"\\/Date(1790989357588)\\/\"},{\"ProcessId\":57528,\"ParentProcessId\":41636,\"Name\":\"conhost.exe\",\"CreationDate\":\"\\/Date(1790989357606)\\/\"},{\"ProcessId\":54600,\"ParentProcessId\":41636,\"Name\":\"ilc.exe\",\"CreationDate\":\"\\/Date(1790989357658)\\/\"}]\nOWNED_ORIGINAL_COMPATIBILITY_TREE_STOPPED",
+  "actualBothAttemptScopesAbsent": "(no output)",
+  "actualExit": 0,
+  "newAttempt02SixPassUnchanged": true
+}

@@ -261,7 +261,9 @@ type VerifyLocalTestBase() =
     let temp = new TempDirectory()
     let repo = repoRoot ()
     let binDirectory = Path.Combine(temp.Path, "bin")
-    do installStub binDirectory "dotnet" "#!/bin/sh\nexit 0\n"
+    do
+        let name = if OperatingSystem.IsWindows() then "dotnet.exe" else "dotnet"
+        installStub binDirectory name "#!/bin/sh\nexit 0\n"
     let runner = FakeRunner repo
 
     let env =

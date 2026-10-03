@@ -1,0 +1,34 @@
+{
+  "state": "SIX_FUNCTION_OVERLOAD_RUNTIME_CLAUSES_PASS_NEW_XML_BUILD_PASS_FINAL_REBIND_OPEN",
+  "receipt": "artifacts/audit-resolution/u14-function-runtime/attempt-01/contracts-01.json",
+  "summary": {
+    "tests": 30,
+    "passed": 30,
+    "failed": 0,
+    "pending": 0,
+    "skipped": 0,
+    "other": 0,
+    "suites": 1,
+    "start": 1790905732685,
+    "stop": 1790905732982
+  },
+  "exitCode": 0,
+  "identities": [
+    "C:116",
+    "C:117",
+    "C:118",
+    "C:119",
+    "C:125",
+    "C:126"
+  ],
+  "sourceSha256": "65fcc526596e4a1be41c77aaddcb6c0e69c7cc1175a7de218d696195ca68bc45",
+  "runtimeDllSha256": "179a0f9ea0b7b6fd7635e20b8a0847fa9800f275ad650a2982114837cac51aa9",
+  "proofScope": [
+    "Both Task composition stages: null Task, synchronous ordinary exception, synchronous OCE, faulted-OCE input; exact instance/token/output status and second-stage skip counts.",
+    "Both ValueTask composition overloads: both completed, first pending or second pending; nullable intermediate/output, selected-stage subscription-before-trigger and exact single consumption.",
+    "Both Task observer overloads: nullable input and null Task/ordinary/synchronous OCE/faulted OCE with exact callback count/token/status."
+  ],
+  "remaining": [
+    "ValueTask stage-failure combinations, sync function nullable/defer probes, effects/resource matrices and final candidate metadata/XML rebinding remain separate open dimensions."
+  ]
+}

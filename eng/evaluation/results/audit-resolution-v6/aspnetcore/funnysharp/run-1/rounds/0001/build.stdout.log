@@ -1,0 +1,16 @@
+  Determining projects to restore...
+  Restored Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\aspnetcore-funnysharp-run-1-46c41c90c37e46058ea23832890d0833\AspnetcoreKit.csproj (in 4.76 sec).
+CSC : warning CS2002: Source file 'Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\aspnetcore-funnysharp-run-1-46c41c90c37e46058ea23832890d0833\nuget_packages\xunit.v3.core.mtp-v2\4.0.0\_content\DefaultRunnerReporters.cs' specified multiple times [Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\aspnetcore-funnysharp-run-1-46c41c90c37e46058ea23832890d0833\AspnetcoreKit.csproj]
+CSC : warning CS2002: Source file 'Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\aspnetcore-funnysharp-run-1-46c41c90c37e46058ea23832890d0833\nuget_packages\xunit.v3.core.mtp-v2\4.0.0\_content\DefaultResultWriters.cs' specified multiple times [Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\aspnetcore-funnysharp-run-1-46c41c90c37e46058ea23832890d0833\AspnetcoreKit.csproj]
+  AspnetcoreKit -> Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\aspnetcore-funnysharp-run-1-46c41c90c37e46058ea23832890d0833\bin\Release\net10.0\AspnetcoreKit.dll
+
+Build succeeded.
+
+CSC : warning CS2002: Source file 'Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\aspnetcore-funnysharp-run-1-46c41c90c37e46058ea23832890d0833\nuget_packages\xunit.v3.core.mtp-v2\4.0.0\_content\DefaultRunnerReporters.cs' specified multiple times [Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\aspnetcore-funnysharp-run-1-46c41c90c37e46058ea23832890d0833\AspnetcoreKit.csproj]
+CSC : warning CS2002: Source file 'Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\aspnetcore-funnysharp-run-1-46c41c90c37e46058ea23832890d0833\nuget_packages\xunit.v3.core.mtp-v2\4.0.0\_content\DefaultResultWriters.cs' specified multiple times [Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\aspnetcore-funnysharp-run-1-46c41c90c37e46058ea23832890d0833\AspnetcoreKit.csproj]
+    2 Warning(s)
+    0 Error(s)
+
+BinaryLogger wrote to: Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\aspnetcore-funnysharp-run-1-46c41c90c37e46058ea23832890d0833\build.binlog
+
+Time Elapsed 00:00:08.49

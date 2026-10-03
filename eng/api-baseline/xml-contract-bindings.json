@@ -1,0 +1,567 @@
+{
+  "schema": "funnysharp-explicit-xml-bindings/v1",
+  "scope": "Exact reflected XML bindings; semantic acceptance and compiler/runtime receipts remain separate.",
+  "assemblies": [
+    {
+      "name": "FunnySharp",
+      "dllSha256": "6a903f737356fdf67845c9cd39385e4a5e2b39bcae0ee92ff2882480ecb7e49d",
+      "xmlSha256": "4ef257af8378bd41f653b01215e5b016166a064320e7898e1794c4eb327489cc"
+    },
+    {
+      "name": "FunnySharp.AspNetCore",
+      "dllSha256": "2daaff9c72db5b730c06d3270c00dfd7046fa27e26d59374e31cf270b8dc30c2",
+      "xmlSha256": "27af8c3d2b65daa59a081f0b24674be0c41fe9cd652a19455cce01f2637e66d0"
+    }
+  ],
+  "framework": {
+    "relativePath": "packs/Microsoft.NETCore.App.Ref/10.0.12/ref/net10.0/System.Runtime.xml",
+    "sha256": "a6708171773d23000bf45673b97cf0daaa8d34566c6581df6833c3a4a14d411a"
+  },
+  "aliases": [
+    {
+      "assembly": "FunnySharp",
+      "xmlId": "M:FunnySharp.OptionPartition`1.<Clone>$",
+      "typeXmlId": "T:FunnySharp.OptionPartition`1",
+      "kind": "synthesized-record-method",
+      "rationale": "Exact CompilerGenerated metadata and IL identify this synthesized operation on the positional record. Existing type XML is the source-declaration anchor only; it lacks this operation contract, so alias is NOT semantic acceptance.",
+      "parameters": []
+    },
+    {
+      "assembly": "FunnySharp",
+      "xmlId": "M:FunnySharp.OptionPartition`1.op_Equality(FunnySharp.OptionPartition{`0},FunnySharp.OptionPartition{`0})",
+      "typeXmlId": "T:FunnySharp.OptionPartition`1",
+      "kind": "synthesized-record-method",
+      "rationale": "Exact CompilerGenerated metadata and IL identify this synthesized operation on the positional record. Existing type XML is the source-declaration anchor only; it lacks this operation contract, so alias is NOT semantic acceptance.",
+      "parameters": [
+        "left",
+        "right"
+      ]
+    },
+    {
+      "assembly": "FunnySharp",
+      "xmlId": "M:FunnySharp.OptionPartition`1.op_Inequality(FunnySharp.OptionPartition{`0},FunnySharp.OptionPartition{`0})",
+      "typeXmlId": "T:FunnySharp.OptionPartition`1",
+      "kind": "synthesized-record-method",
+      "rationale": "Exact CompilerGenerated metadata and IL identify this synthesized operation on the positional record. Existing type XML is the source-declaration anchor only; it lacks this operation contract, so alias is NOT semantic acceptance.",
+      "parameters": [
+        "left",
+        "right"
+      ]
+    },
+    {
+      "assembly": "FunnySharp",
+      "xmlId": "M:FunnySharp.OptionPartition`1.Equals(FunnySharp.OptionPartition{`0})",
+      "typeXmlId": "T:FunnySharp.OptionPartition`1",
+      "kind": "synthesized-record-method",
+      "rationale": "Exact CompilerGenerated metadata and IL identify this synthesized operation on the positional record. Existing type XML is the source-declaration anchor only; it lacks this operation contract, so alias is NOT semantic acceptance.",
+      "parameters": [
+        "other"
+      ]
+    },
+    {
+      "assembly": "FunnySharp",
+      "xmlId": "M:FunnySharp.OptionPartition`1.Equals(System.Object)",
+      "typeXmlId": "T:FunnySharp.OptionPartition`1",
+      "kind": "synthesized-record-method",
+      "rationale": "Exact CompilerGenerated metadata and IL identify this synthesized operation on the positional record. Existing type XML is the source-declaration anchor only; it lacks this operation contract, so alias is NOT semantic acceptance.",
+      "parameters": [
+        "obj"
+      ]
+    },
+    {
+      "assembly": "FunnySharp",
+      "xmlId": "M:FunnySharp.OptionPartition`1.GetHashCode",
+      "typeXmlId": "T:FunnySharp.OptionPartition`1",
+      "kind": "synthesized-record-method",
+      "rationale": "Exact CompilerGenerated metadata and IL identify this synthesized operation on the positional record. Existing type XML is the source-declaration anchor only; it lacks this operation contract, so alias is NOT semantic acceptance.",
+      "parameters": []
+    },
+    {
+      "assembly": "FunnySharp",
+      "xmlId": "M:FunnySharp.OptionPartition`1.ToString",
+      "typeXmlId": "T:FunnySharp.OptionPartition`1",
+      "kind": "synthesized-record-method",
+      "rationale": "Exact CompilerGenerated metadata and IL identify this synthesized operation on the positional record. Existing type XML is the source-declaration anchor only; it lacks this operation contract, so alias is NOT semantic acceptance.",
+      "parameters": []
+    },
+    {
+      "assembly": "FunnySharp",
+      "xmlId": "M:FunnySharp.OptionPartition`1.Deconstruct(System.Collections.Generic.IReadOnlyList{`0}@,System.Int32@)",
+      "typeXmlId": "T:FunnySharp.OptionPartition`1",
+      "kind": "synthesized-record-method",
+      "rationale": "Exact CompilerGenerated metadata and IL identify this synthesized operation on the positional record. Existing type XML is the source-declaration anchor only; it lacks this operation contract, so alias is NOT semantic acceptance.",
+      "parameters": [
+        "Somes",
+        "Nones"
+      ]
+    },
+    {
+      "assembly": "FunnySharp",
+      "xmlId": "M:FunnySharp.Partition`1.<Clone>$",
+      "typeXmlId": "T:FunnySharp.Partition`1",
+      "kind": "synthesized-record-method",
+      "rationale": "Exact CompilerGenerated metadata and IL identify this synthesized operation on the positional record. Existing type XML is the source-declaration anchor only; it lacks this operation contract, so alias is NOT semantic acceptance.",
+      "parameters": []
+    },
+    {
+      "assembly": "FunnySharp",
+      "xmlId": "M:FunnySharp.Partition`1.op_Equality(FunnySharp.Partition{`0},FunnySharp.Partition{`0})",
+      "typeXmlId": "T:FunnySharp.Partition`1",
+      "kind": "synthesized-record-method",
+      "rationale": "Exact CompilerGenerated metadata and IL identify this synthesized operation on the positional record. Existing type XML is the source-declaration anchor only; it lacks this operation contract, so alias is NOT semantic acceptance.",
+      "parameters": [
+        "left",
+        "right"
+      ]
+    },
+    {
+      "assembly": "FunnySharp",
+      "xmlId": "M:FunnySharp.Partition`1.op_Inequality(FunnySharp.Partition{`0},FunnySharp.Partition{`0})",
+      "typeXmlId": "T:FunnySharp.Partition`1",
+      "kind": "synthesized-record-method",
+      "rationale": "Exact CompilerGenerated metadata and IL identify this synthesized operation on the positional record. Existing type XML is the source-declaration anchor only; it lacks this operation contract, so alias is NOT semantic acceptance.",
+      "parameters": [
+        "left",
+        "right"
+      ]
+    },
+    {
+      "assembly": "FunnySharp",
+      "xmlId": "M:FunnySharp.Partition`1.Equals(FunnySharp.Partition{`0})",
+      "typeXmlId": "T:FunnySharp.Partition`1",
+      "kind": "synthesized-record-method",
+      "rationale": "Exact CompilerGenerated metadata and IL identify this synthesized operation on the positional record. Existing type XML is the source-declaration anchor only; it lacks this operation contract, so alias is NOT semantic acceptance.",
+      "parameters": [
+        "other"
+      ]
+    },
+    {
+      "assembly": "FunnySharp",
+      "xmlId": "M:FunnySharp.Partition`1.Equals(System.Object)",
+      "typeXmlId": "T:FunnySharp.Partition`1",
+      "kind": "synthesized-record-method",
+      "rationale": "Exact CompilerGenerated metadata and IL identify this synthesized operation on the positional record. Existing type XML is the source-declaration anchor only; it lacks this operation contract, so alias is NOT semantic acceptance.",
+      "parameters": [
+        "obj"
+      ]
+    },
+    {
+      "assembly": "FunnySharp",
+      "xmlId": "M:FunnySharp.Partition`1.GetHashCode",
+      "typeXmlId": "T:FunnySharp.Partition`1",
+      "kind": "synthesized-record-method",
+      "rationale": "Exact CompilerGenerated metadata and IL identify this synthesized operation on the positional record. Existing type XML is the source-declaration anchor only; it lacks this operation contract, so alias is NOT semantic acceptance.",
+      "parameters": []
+    },
+    {
+      "assembly": "FunnySharp",
+      "xmlId": "M:FunnySharp.Partition`1.ToString",
+      "typeXmlId": "T:FunnySharp.Partition`1",
+      "kind": "synthesized-record-method",
+      "rationale": "Exact CompilerGenerated metadata and IL identify this synthesized operation on the positional record. Existing type XML is the source-declaration anchor only; it lacks this operation contract, so alias is NOT semantic acceptance.",
+      "parameters": []
+    },
+    {
+      "assembly": "FunnySharp",
+      "xmlId": "M:FunnySharp.Partition`1.Deconstruct(System.Collections.Generic.IReadOnlyList{`0}@,System.Collections.Generic.IReadOnlyList{`0}@)",
+      "typeXmlId": "T:FunnySharp.Partition`1",
+      "kind": "synthesized-record-method",
+      "rationale": "Exact CompilerGenerated metadata and IL identify this synthesized operation on the positional record. Existing type XML is the source-declaration anchor only; it lacks this operation contract, so alias is NOT semantic acceptance.",
+      "parameters": [
+        "True",
+        "False"
+      ]
+    },
+    {
+      "assembly": "FunnySharp",
+      "xmlId": "M:FunnySharp.ResultPartition`2.<Clone>$",
+      "typeXmlId": "T:FunnySharp.ResultPartition`2",
+      "kind": "synthesized-record-method",
+      "rationale": "Exact CompilerGenerated metadata and IL identify this synthesized operation on the positional record. Existing type XML is the source-declaration anchor only; it lacks this operation contract, so alias is NOT semantic acceptance.",
+      "parameters": []
+    },
+    {
+      "assembly": "FunnySharp",
+      "xmlId": "M:FunnySharp.ResultPartition`2.op_Equality(FunnySharp.ResultPartition{`0,`1},FunnySharp.ResultPartition{`0,`1})",
+      "typeXmlId": "T:FunnySharp.ResultPartition`2",
+      "kind": "synthesized-record-method",
+      "rationale": "Exact CompilerGenerated metadata and IL identify this synthesized operation on the positional record. Existing type XML is the source-declaration anchor only; it lacks this operation contract, so alias is NOT semantic acceptance.",
+      "parameters": [
+        "left",
+        "right"
+      ]
+    },
+    {
+      "assembly": "FunnySharp",
+      "xmlId": "M:FunnySharp.ResultPartition`2.op_Inequality(FunnySharp.ResultPartition{`0,`1},FunnySharp.ResultPartition{`0,`1})",
+      "typeXmlId": "T:FunnySharp.ResultPartition`2",
+      "kind": "synthesized-record-method",
+      "rationale": "Exact CompilerGenerated metadata and IL identify this synthesized operation on the positional record. Existing type XML is the source-declaration anchor only; it lacks this operation contract, so alias is NOT semantic acceptance.",
+      "parameters": [
+        "left",
+        "right"
+      ]
+    },
+    {
+      "assembly": "FunnySharp",
+      "xmlId": "M:FunnySharp.ResultPartition`2.Equals(FunnySharp.ResultPartition{`0,`1})",
+      "typeXmlId": "T:FunnySharp.ResultPartition`2",
+      "kind": "synthesized-record-method",
+      "rationale": "Exact CompilerGenerated metadata and IL identify this synthesized operation on the positional record. Existing type XML is the source-declaration anchor only; it lacks this operation contract, so alias is NOT semantic acceptance.",
+      "parameters": [
+        "other"
+      ]
+    },
+    {
+      "assembly": "FunnySharp",
+      "xmlId": "M:FunnySharp.ResultPartition`2.Equals(System.Object)",
+      "typeXmlId": "T:FunnySharp.ResultPartition`2",
+      "kind": "synthesized-record-method",
+      "rationale": "Exact CompilerGenerated metadata and IL identify this synthesized operation on the positional record. Existing type XML is the source-declaration anchor only; it lacks this operation contract, so alias is NOT semantic acceptance.",
+      "parameters": [
+        "obj"
+      ]
+    },
+    {
+      "assembly": "FunnySharp",
+      "xmlId": "M:FunnySharp.ResultPartition`2.GetHashCode",
+      "typeXmlId": "T:FunnySharp.ResultPartition`2",
+      "kind": "synthesized-record-method",
+      "rationale": "Exact CompilerGenerated metadata and IL identify this synthesized operation on the positional record. Existing type XML is the source-declaration anchor only; it lacks this operation contract, so alias is NOT semantic acceptance.",
+      "parameters": []
+    },
+    {
+      "assembly": "FunnySharp",
+      "xmlId": "M:FunnySharp.ResultPartition`2.ToString",
+      "typeXmlId": "T:FunnySharp.ResultPartition`2",
+      "kind": "synthesized-record-method",
+      "rationale": "Exact CompilerGenerated metadata and IL identify this synthesized operation on the positional record. Existing type XML is the source-declaration anchor only; it lacks this operation contract, so alias is NOT semantic acceptance.",
+      "parameters": []
+    },
+    {
+      "assembly": "FunnySharp",
+      "xmlId": "M:FunnySharp.ResultPartition`2.Deconstruct(System.Collections.Generic.IReadOnlyList{`0}@,System.Collections.Generic.IReadOnlyList{`1}@)",
+      "typeXmlId": "T:FunnySharp.ResultPartition`2",
+      "kind": "synthesized-record-method",
+      "rationale": "Exact CompilerGenerated metadata and IL identify this synthesized operation on the positional record. Existing type XML is the source-declaration anchor only; it lacks this operation contract, so alias is NOT semantic acceptance.",
+      "parameters": [
+        "Passed",
+        "Failed"
+      ]
+    },
+    {
+      "assembly": "FunnySharp",
+      "xmlId": "M:FunnySharp.StateMachine`4.#ctor(System.Object,System.IntPtr)",
+      "typeXmlId": "T:FunnySharp.StateMachine`4",
+      "kind": "delegate-runtime-plumbing",
+      "rationale": "Compiler emits Runtime delegate ABI member, not a source-declared functional operation. Keep exact signature/token and delegate-type anchor; no automatic Invoke contract inheritance or runtime support claim.",
+      "parameters": [
+        "object",
+        "method"
+      ]
+    },
+    {
+      "assembly": "FunnySharp",
+      "xmlId": "M:FunnySharp.StateMachine`4.EndInvoke(System.IAsyncResult)",
+      "typeXmlId": "T:FunnySharp.StateMachine`4",
+      "kind": "delegate-runtime-plumbing",
+      "rationale": "Compiler emits Runtime delegate ABI member, not a source-declared functional operation. Keep exact signature/token and delegate-type anchor; no automatic Invoke contract inheritance or runtime support claim.",
+      "parameters": [
+        "result"
+      ]
+    },
+    {
+      "assembly": "FunnySharp",
+      "xmlId": "M:FunnySharp.StateMachine`4.Invoke(`0,`1)",
+      "typeXmlId": "T:FunnySharp.StateMachine`4",
+      "kind": "logical-delegate-invoke",
+      "rationale": "Source delegate declaration defines this Runtime Invoke signature. Type XML param names/order and returns correspond exactly; not transferable to ctor/APM members.",
+      "parameters": [
+        "state",
+        "event"
+      ]
+    },
+    {
+      "assembly": "FunnySharp",
+      "xmlId": "M:FunnySharp.StateMachine`4.BeginInvoke(`0,`1,System.AsyncCallback,System.Object)",
+      "typeXmlId": "T:FunnySharp.StateMachine`4",
+      "kind": "delegate-runtime-plumbing",
+      "rationale": "Compiler emits Runtime delegate ABI member, not a source-declared functional operation. Keep exact signature/token and delegate-type anchor; no automatic Invoke contract inheritance or runtime support claim.",
+      "parameters": [
+        "state",
+        "event",
+        "callback",
+        "object"
+      ]
+    },
+    {
+      "assembly": "FunnySharp",
+      "xmlId": "M:FunnySharp.StateTransition`2.#ctor(System.Object,System.IntPtr)",
+      "typeXmlId": "T:FunnySharp.StateTransition`2",
+      "kind": "delegate-runtime-plumbing",
+      "rationale": "Compiler emits Runtime delegate ABI member, not a source-declared functional operation. Keep exact signature/token and delegate-type anchor; no automatic Invoke contract inheritance or runtime support claim.",
+      "parameters": [
+        "object",
+        "method"
+      ]
+    },
+    {
+      "assembly": "FunnySharp",
+      "xmlId": "M:FunnySharp.StateTransition`2.EndInvoke(System.IAsyncResult)",
+      "typeXmlId": "T:FunnySharp.StateTransition`2",
+      "kind": "delegate-runtime-plumbing",
+      "rationale": "Compiler emits Runtime delegate ABI member, not a source-declared functional operation. Keep exact signature/token and delegate-type anchor; no automatic Invoke contract inheritance or runtime support claim.",
+      "parameters": [
+        "result"
+      ]
+    },
+    {
+      "assembly": "FunnySharp",
+      "xmlId": "M:FunnySharp.StateTransition`2.Invoke(`0)",
+      "typeXmlId": "T:FunnySharp.StateTransition`2",
+      "kind": "logical-delegate-invoke",
+      "rationale": "Source delegate declaration defines this Runtime Invoke signature. Type XML param names/order and returns correspond exactly; not transferable to ctor/APM members.",
+      "parameters": [
+        "state"
+      ]
+    },
+    {
+      "assembly": "FunnySharp",
+      "xmlId": "M:FunnySharp.StateTransition`2.BeginInvoke(`0,System.AsyncCallback,System.Object)",
+      "typeXmlId": "T:FunnySharp.StateTransition`2",
+      "kind": "delegate-runtime-plumbing",
+      "rationale": "Compiler emits Runtime delegate ABI member, not a source-declared functional operation. Keep exact signature/token and delegate-type anchor; no automatic Invoke contract inheritance or runtime support claim.",
+      "parameters": [
+        "state",
+        "callback",
+        "object"
+      ]
+    },
+    {
+      "assembly": "FunnySharp",
+      "xmlId": "F:FunnySharp.TransitionStatus.value__",
+      "typeXmlId": "T:FunnySharp.TransitionStatus",
+      "kind": "enum-storage-plumbing",
+      "rationale": "CLR enum underlying storage field: Public, SpecialName, RTSpecialName, System.Int32; not a named enum literal or authored operation. Type node documents the enum, not a callable member. Explicit plumbing classification, never a missing-row exemption.",
+      "parameters": []
+    },
+    {
+      "assembly": "FunnySharp",
+      "xmlId": "M:FunnySharp.TryOperation`1.#ctor(System.Object,System.IntPtr)",
+      "typeXmlId": "T:FunnySharp.TryOperation`1",
+      "kind": "delegate-runtime-plumbing",
+      "rationale": "Compiler emits Runtime delegate ABI member, not a source-declared functional operation. Keep exact signature/token and delegate-type anchor; no automatic Invoke contract inheritance or runtime support claim.",
+      "parameters": [
+        "object",
+        "method"
+      ]
+    },
+    {
+      "assembly": "FunnySharp",
+      "xmlId": "M:FunnySharp.TryOperation`1.EndInvoke(`0@,System.IAsyncResult)",
+      "typeXmlId": "T:FunnySharp.TryOperation`1",
+      "kind": "delegate-runtime-plumbing",
+      "rationale": "Compiler emits Runtime delegate ABI member, not a source-declared functional operation. Keep exact signature/token and delegate-type anchor; no automatic Invoke contract inheritance or runtime support claim.",
+      "parameters": [
+        "value",
+        "result"
+      ]
+    },
+    {
+      "assembly": "FunnySharp",
+      "xmlId": "M:FunnySharp.TryOperation`1.Invoke(`0@)",
+      "typeXmlId": "T:FunnySharp.TryOperation`1",
+      "kind": "logical-delegate-invoke",
+      "rationale": "Source delegate declaration defines this Runtime Invoke signature. Type XML param names/order and returns correspond exactly; not transferable to ctor/APM members.",
+      "parameters": [
+        "value"
+      ]
+    },
+    {
+      "assembly": "FunnySharp",
+      "xmlId": "M:FunnySharp.TryOperation`1.BeginInvoke(`0@,System.AsyncCallback,System.Object)",
+      "typeXmlId": "T:FunnySharp.TryOperation`1",
+      "kind": "delegate-runtime-plumbing",
+      "rationale": "Compiler emits Runtime delegate ABI member, not a source-declared functional operation. Keep exact signature/token and delegate-type anchor; no automatic Invoke contract inheritance or runtime support claim.",
+      "parameters": [
+        "value",
+        "callback",
+        "object"
+      ]
+    },
+    {
+      "assembly": "FunnySharp",
+      "xmlId": "M:FunnySharp.UnitResultPartition`1.<Clone>$",
+      "typeXmlId": "T:FunnySharp.UnitResultPartition`1",
+      "kind": "synthesized-record-method",
+      "rationale": "Exact CompilerGenerated metadata and IL identify this synthesized operation on the positional record. Existing type XML is the source-declaration anchor only; it lacks this operation contract, so alias is NOT semantic acceptance.",
+      "parameters": []
+    },
+    {
+      "assembly": "FunnySharp",
+      "xmlId": "M:FunnySharp.UnitResultPartition`1.op_Equality(FunnySharp.UnitResultPartition{`0},FunnySharp.UnitResultPartition{`0})",
+      "typeXmlId": "T:FunnySharp.UnitResultPartition`1",
+      "kind": "synthesized-record-method",
+      "rationale": "Exact CompilerGenerated metadata and IL identify this synthesized operation on the positional record. Existing type XML is the source-declaration anchor only; it lacks this operation contract, so alias is NOT semantic acceptance.",
+      "parameters": [
+        "left",
+        "right"
+      ]
+    },
+    {
+      "assembly": "FunnySharp",
+      "xmlId": "M:FunnySharp.UnitResultPartition`1.op_Inequality(FunnySharp.UnitResultPartition{`0},FunnySharp.UnitResultPartition{`0})",
+      "typeXmlId": "T:FunnySharp.UnitResultPartition`1",
+      "kind": "synthesized-record-method",
+      "rationale": "Exact CompilerGenerated metadata and IL identify this synthesized operation on the positional record. Existing type XML is the source-declaration anchor only; it lacks this operation contract, so alias is NOT semantic acceptance.",
+      "parameters": [
+        "left",
+        "right"
+      ]
+    },
+    {
+      "assembly": "FunnySharp",
+      "xmlId": "M:FunnySharp.UnitResultPartition`1.Equals(FunnySharp.UnitResultPartition{`0})",
+      "typeXmlId": "T:FunnySharp.UnitResultPartition`1",
+      "kind": "synthesized-record-method",
+      "rationale": "Exact CompilerGenerated metadata and IL identify this synthesized operation on the positional record. Existing type XML is the source-declaration anchor only; it lacks this operation contract, so alias is NOT semantic acceptance.",
+      "parameters": [
+        "other"
+      ]
+    },
+    {
+      "assembly": "FunnySharp",
+      "xmlId": "M:FunnySharp.UnitResultPartition`1.Equals(System.Object)",
+      "typeXmlId": "T:FunnySharp.UnitResultPartition`1",
+      "kind": "synthesized-record-method",
+      "rationale": "Exact CompilerGenerated metadata and IL identify this synthesized operation on the positional record. Existing type XML is the source-declaration anchor only; it lacks this operation contract, so alias is NOT semantic acceptance.",
+      "parameters": [
+        "obj"
+      ]
+    },
+    {
+      "assembly": "FunnySharp",
+      "xmlId": "M:FunnySharp.UnitResultPartition`1.GetHashCode",
+      "typeXmlId": "T:FunnySharp.UnitResultPartition`1",
+      "kind": "synthesized-record-method",
+      "rationale": "Exact CompilerGenerated metadata and IL identify this synthesized operation on the positional record. Existing type XML is the source-declaration anchor only; it lacks this operation contract, so alias is NOT semantic acceptance.",
+      "parameters": []
+    },
+    {
+      "assembly": "FunnySharp",
+      "xmlId": "M:FunnySharp.UnitResultPartition`1.ToString",
+      "typeXmlId": "T:FunnySharp.UnitResultPartition`1",
+      "kind": "synthesized-record-method",
+      "rationale": "Exact CompilerGenerated metadata and IL identify this synthesized operation on the positional record. Existing type XML is the source-declaration anchor only; it lacks this operation contract, so alias is NOT semantic acceptance.",
+      "parameters": []
+    },
+    {
+      "assembly": "FunnySharp",
+      "xmlId": "M:FunnySharp.UnitResultPartition`1.Deconstruct(System.Int32@,System.Collections.Generic.IReadOnlyList{`0}@)",
+      "typeXmlId": "T:FunnySharp.UnitResultPartition`1",
+      "kind": "synthesized-record-method",
+      "rationale": "Exact CompilerGenerated metadata and IL identify this synthesized operation on the positional record. Existing type XML is the source-declaration anchor only; it lacks this operation contract, so alias is NOT semantic acceptance.",
+      "parameters": [
+        "Succeeded",
+        "Failed"
+      ]
+    }
+  ],
+  "inheritance": [
+    {
+      "xmlId": "M:FunnySharp.Location.Equals(System.Object)",
+      "target": "M:System.Object.Equals(System.Object)",
+      "mechanism": "GetBaseDefinition override slot"
+    },
+    {
+      "xmlId": "M:FunnySharp.Option`1.Equals(FunnySharp.Option{`0})",
+      "target": "M:System.IEquatable`1.Equals(`0)",
+      "mechanism": "GetInterfaceMap target token"
+    },
+    {
+      "xmlId": "M:FunnySharp.Option`1.Equals(System.Object)",
+      "target": "M:System.Object.Equals(System.Object)",
+      "mechanism": "GetBaseDefinition override slot"
+    },
+    {
+      "xmlId": "M:FunnySharp.Option`1.GetHashCode",
+      "target": "M:System.Object.GetHashCode",
+      "mechanism": "GetBaseDefinition override slot"
+    },
+    {
+      "xmlId": "M:FunnySharp.Option`1.ToString",
+      "target": "M:System.Object.ToString",
+      "mechanism": "GetBaseDefinition override slot"
+    },
+    {
+      "xmlId": "M:FunnySharp.Result`2.Equals(FunnySharp.Result{`0,`1})",
+      "target": "M:System.IEquatable`1.Equals(`0)",
+      "mechanism": "GetInterfaceMap target token"
+    },
+    {
+      "xmlId": "M:FunnySharp.Result`2.Equals(System.Object)",
+      "target": "M:System.Object.Equals(System.Object)",
+      "mechanism": "GetBaseDefinition override slot"
+    },
+    {
+      "xmlId": "M:FunnySharp.Result`2.GetHashCode",
+      "target": "M:System.Object.GetHashCode",
+      "mechanism": "GetBaseDefinition override slot"
+    },
+    {
+      "xmlId": "M:FunnySharp.Result`2.ToString",
+      "target": "M:System.Object.ToString",
+      "mechanism": "GetBaseDefinition override slot"
+    },
+    {
+      "xmlId": "M:FunnySharp.TransitionResult`3.Equals(FunnySharp.TransitionResult{`0,`1,`2})",
+      "target": "M:System.IEquatable`1.Equals(`0)",
+      "mechanism": "GetInterfaceMap target token"
+    },
+    {
+      "xmlId": "M:FunnySharp.TransitionResult`3.Equals(System.Object)",
+      "target": "M:System.Object.Equals(System.Object)",
+      "mechanism": "GetBaseDefinition override slot"
+    },
+    {
+      "xmlId": "M:FunnySharp.TransitionResult`3.GetHashCode",
+      "target": "M:System.Object.GetHashCode",
+      "mechanism": "GetBaseDefinition override slot"
+    },
+    {
+      "xmlId": "M:FunnySharp.TransitionResult`3.ToString",
+      "target": "M:System.Object.ToString",
+      "mechanism": "GetBaseDefinition override slot"
+    },
+    {
+      "xmlId": "M:FunnySharp.UnitResult`1.Equals(FunnySharp.UnitResult{`0})",
+      "target": "M:System.IEquatable`1.Equals(`0)",
+      "mechanism": "GetInterfaceMap target token"
+    },
+    {
+      "xmlId": "M:FunnySharp.UnitResult`1.GetHashCode",
+      "target": "M:System.Object.GetHashCode",
+      "mechanism": "GetBaseDefinition override slot"
+    },
+    {
+      "xmlId": "M:FunnySharp.Validation`2.Equals(FunnySharp.Validation{`0,`1})",
+      "target": "M:System.IEquatable`1.Equals(`0)",
+      "mechanism": "GetInterfaceMap target token"
+    },
+    {
+      "xmlId": "M:FunnySharp.Validation`2.Equals(System.Object)",
+      "target": "M:System.Object.Equals(System.Object)",
+      "mechanism": "GetBaseDefinition override slot"
+    },
+    {
+      "xmlId": "M:FunnySharp.Validation`2.GetHashCode",
+      "target": "M:System.Object.GetHashCode",
+      "mechanism": "GetBaseDefinition override slot"
+    },
+    {
+      "xmlId": "M:FunnySharp.Validation`2.ToString",
+      "target": "M:System.Object.ToString",
+      "mechanism": "GetBaseDefinition override slot"
+    }
+  ]
+}

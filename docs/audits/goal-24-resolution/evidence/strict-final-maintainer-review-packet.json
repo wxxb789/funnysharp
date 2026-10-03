@@ -1,0 +1,315 @@
+{
+  "schema": "funnysharp-strict-final-exact-source-maintainer-packet/v1",
+  "state": "READY_FOR_ATTRIBUTABLE_HUMAN_REVIEW_NOT_ACCEPTED",
+  "createdUtc": "2026-10-03T01:25:23.608Z",
+  "candidateFreeze": "docs/audits/goal-24-resolution/evidence/u16-strict-v6-final-local-candidate-freeze.json",
+  "candidateFingerprint": "bb058e6a972103c657e0d833f2ec86fab7994f8ba4cce8503432c4b8f74c4a9c",
+  "notGitTree": true,
+  "canonicalCoreSha256": "6a903f737356fdf67845c9cd39385e4a5e2b39bcae0ee92ff2882480ecb7e49d",
+  "canonicalHttpSha256": "2daaff9c72db5b730c06d3270c00dfd7046fa27e26d59374e31cf270b8dc30c2",
+  "functionStudy": {
+    "registration": ".omo/audit-resolution/research/u11-owner-source-review/registration.json",
+    "randomizedPresentationUnchanged": true,
+    "assessorBlindnessNotClaimed": true,
+    "variants": [
+      {
+        "alias": "A",
+        "presentedPath": ".omo/audit-resolution/research/u11-owner-source-review/source-A.txt",
+        "originalPath": "artifacts/audit-resolution/u11-successor-indexed/attempt-01/FunnySharpWorkflows.cs",
+        "sha256": "8b0728945c3e8ecfc371e54975f5ad8b0fbc8e6294f022656aa5eb666931da8c"
+      },
+      {
+        "alias": "B",
+        "presentedPath": ".omo/audit-resolution/research/u11-owner-source-review/source-B.txt",
+        "originalPath": "artifacts/audit-resolution/u11-successor-indexed/attempt-01/IdiomaticWorkflows.cs",
+        "sha256": "10d982b0a3eed246ff2aba6fb83d582a9370f4e017881bc2d0a089bc3949b044"
+      }
+    ],
+    "verifiedPresentationBytes": [
+      {
+        "path": ".omo/audit-resolution/research/u11-owner-source-review/source-A.txt",
+        "expected": "8b0728945c3e8ecfc371e54975f5ad8b0fbc8e6294f022656aa5eb666931da8c",
+        "actual": "8b0728945c3e8ecfc371e54975f5ad8b0fbc8e6294f022656aa5eb666931da8c"
+      },
+      {
+        "path": "artifacts/audit-resolution/u11-successor-indexed/attempt-01/FunnySharpWorkflows.cs",
+        "expected": "8b0728945c3e8ecfc371e54975f5ad8b0fbc8e6294f022656aa5eb666931da8c",
+        "actual": "8b0728945c3e8ecfc371e54975f5ad8b0fbc8e6294f022656aa5eb666931da8c"
+      },
+      {
+        "path": ".omo/audit-resolution/research/u11-owner-source-review/source-B.txt",
+        "expected": "10d982b0a3eed246ff2aba6fb83d582a9370f4e017881bc2d0a089bc3949b044",
+        "actual": "10d982b0a3eed246ff2aba6fb83d582a9370f4e017881bc2d0a089bc3949b044"
+      },
+      {
+        "path": "artifacts/audit-resolution/u11-successor-indexed/attempt-01/IdiomaticWorkflows.cs",
+        "expected": "10d982b0a3eed246ff2aba6fb83d582a9370f4e017881bc2d0a089bc3949b044",
+        "actual": "10d982b0a3eed246ff2aba6fb83d582a9370f4e017881bc2d0a089bc3949b044"
+      }
+    ],
+    "allSevenPairs": true,
+    "equivalenceCases": 38,
+    "semanticUnits": {
+      "bcl": 106,
+      "funnysharp": 96,
+      "metric": "S+O whole complete consumer classes",
+      "arithmeticDeltaPercent": -9.43
+    },
+    "rawLoc": {
+      "wholeClass": [
+        86,
+        76
+      ],
+      "wholeFile": [
+        88,
+        79
+      ]
+    },
+    "outcomes": {
+      "wins": 3,
+      "ties": 3,
+      "losses": 1
+    },
+    "negativeHistoryUnchanged": [
+      "123/144 original package study",
+      "101/117 partly nonequivalent historical study"
+    ],
+    "authority": "docs/next-stage/call-sites-audit-resolution-successor.md"
+  },
+  "nativeCohort": {
+    "study": "audit-resolution-v6",
+    "manifestSha256": "83d7d3522ccad4fa04cc56bbf8ed540521147d178d1940cc656d9667e49ac76d",
+    "selectedModel": "CLI5.1.9/ghc/gpt-6.1-sol/high",
+    "upstreamModel": "UNKNOWN",
+    "logicalSamples": 20,
+    "actualCalls": 21,
+    "finalOriginalFormalGreen": 20,
+    "passedCases": 200,
+    "exactFeedbackCorrections": 1,
+    "wholeConsumerLOC": {
+      "bcl": 1081,
+      "funnysharp": 957,
+      "delta": -124,
+      "percent": -11.47,
+      "withoutConcurrency": [
+        660,
+        698
+      ]
+    },
+    "initialProducerFields": {
+      "count15": 4,
+      "count16Final": 16,
+      "feedbackSha256RequiredOnlyCorrections": true,
+      "literalAll16NotClaimed": true
+    },
+    "rawWarnings": {
+      "CS2002Occurrences": 84,
+      "BunWin32Warnings": 21
+    },
+    "advisory": ".omo/audit-resolution/research/u12-v6-readability-advisory.md",
+    "sources": [
+      {
+        "slot": "business-outcomes/idiomatic/run-1",
+        "round": 1,
+        "path": "eng/evaluation/results/audit-resolution-v6/business-outcomes/idiomatic/run-1/rounds/0001/solution/OrderWorkflow.cs",
+        "sha256": "eae13805f0626fc62a5d65e7399d4361cf3073c3edd214217ec35432d3723e66",
+        "consumerLoc": 66,
+        "fixedCases": 10,
+        "producerFields": 15
+      },
+      {
+        "slot": "business-outcomes/idiomatic/run-2",
+        "round": 1,
+        "path": "eng/evaluation/results/audit-resolution-v6/business-outcomes/idiomatic/run-2/rounds/0001/solution/OrderWorkflow.cs",
+        "sha256": "d38e3c9a4d6cc3f90597f3d30d2da2d587930116182d5a6a5f790651615abfa5",
+        "consumerLoc": 69,
+        "fixedCases": 10,
+        "producerFields": 15
+      },
+      {
+        "slot": "business-outcomes/funnysharp/run-1",
+        "round": 1,
+        "path": "eng/evaluation/results/audit-resolution-v6/business-outcomes/funnysharp/run-1/rounds/0001/solution/OrderWorkflow.cs",
+        "sha256": "2e1e21fa2d3ed1dda7bf02057d1ec1248335c9e20fa777e1ced6982bbec5b821",
+        "consumerLoc": 91,
+        "fixedCases": 10,
+        "producerFields": 15
+      },
+      {
+        "slot": "business-outcomes/funnysharp/run-2",
+        "round": 1,
+        "path": "eng/evaluation/results/audit-resolution-v6/business-outcomes/funnysharp/run-2/rounds/0001/solution/OrderWorkflow.cs",
+        "sha256": "7bae33a582e1175e1a25e810bcf8d9746c81261296cc96b07ba200596a5ebb23",
+        "consumerLoc": 85,
+        "fixedCases": 10,
+        "producerFields": 15
+      },
+      {
+        "slot": "collections/idiomatic/run-1",
+        "round": 1,
+        "path": "eng/evaluation/results/audit-resolution-v6/collections/idiomatic/run-1/rounds/0001/solution/FeedCleaner.cs",
+        "sha256": "73bb34b30aaec710ec3d5b1979986ae4ad265dab307c8422a6e69e499cbc16a3",
+        "consumerLoc": 78,
+        "fixedCases": 9,
+        "producerFields": 16
+      },
+      {
+        "slot": "collections/idiomatic/run-2",
+        "round": 1,
+        "path": "eng/evaluation/results/audit-resolution-v6/collections/idiomatic/run-2/rounds/0001/solution/FeedCleaner.cs",
+        "sha256": "e6739085163d3289e89f9a949971d33fb03c900fe56f74d3418efde69a0b8dc0",
+        "consumerLoc": 81,
+        "fixedCases": 9,
+        "producerFields": 16
+      },
+      {
+        "slot": "collections/funnysharp/run-1",
+        "round": 1,
+        "path": "eng/evaluation/results/audit-resolution-v6/collections/funnysharp/run-1/rounds/0001/solution/FeedCleaner.cs",
+        "sha256": "a65379b0e61ec9fa67862d2e99acb463793f60365f7dbc1cdb9a4acd0bafcbcf",
+        "consumerLoc": 83,
+        "fixedCases": 9,
+        "producerFields": 16
+      },
+      {
+        "slot": "collections/funnysharp/run-2",
+        "round": 1,
+        "path": "eng/evaluation/results/audit-resolution-v6/collections/funnysharp/run-2/rounds/0001/solution/FeedCleaner.cs",
+        "sha256": "6fb2f7ec5b2c0d8102b7d7938c6c3daac58c45a216f1d12269e411e4ed64bf58",
+        "consumerLoc": 91,
+        "fixedCases": 9,
+        "producerFields": 16
+      },
+      {
+        "slot": "async-streams/idiomatic/run-1",
+        "round": 1,
+        "path": "eng/evaluation/results/audit-resolution-v6/async-streams/idiomatic/run-1/rounds/0001/solution/SensorStream.cs",
+        "sha256": "a6260b7ebb4f0cbdf524c3963be72381dcc4db5d3eda62dc7c69474de5623fa2",
+        "consumerLoc": 55,
+        "fixedCases": 10,
+        "producerFields": 16
+      },
+      {
+        "slot": "async-streams/idiomatic/run-2",
+        "round": 1,
+        "path": "eng/evaluation/results/audit-resolution-v6/async-streams/idiomatic/run-2/rounds/0001/solution/SensorStream.cs",
+        "sha256": "1047021e161c1c249a834b5c9474e7d7086e52bcfc8ab57ea85feed14e369632",
+        "consumerLoc": 54,
+        "fixedCases": 10,
+        "producerFields": 16
+      },
+      {
+        "slot": "async-streams/funnysharp/run-1",
+        "round": 1,
+        "path": "eng/evaluation/results/audit-resolution-v6/async-streams/funnysharp/run-1/rounds/0001/solution/SensorStream.cs",
+        "sha256": "fef70eb742f14076296aa0f5b9ecb13be7db2f961621c3805ebc4abcc8b31094",
+        "consumerLoc": 63,
+        "fixedCases": 10,
+        "producerFields": 16
+      },
+      {
+        "slot": "async-streams/funnysharp/run-2",
+        "round": 1,
+        "path": "eng/evaluation/results/audit-resolution-v6/async-streams/funnysharp/run-2/rounds/0001/solution/SensorStream.cs",
+        "sha256": "8a30dc7a66e1aae300dd05621b5d89c5d1b868ee7be670f18e249f5e5aba3da5",
+        "consumerLoc": 50,
+        "fixedCases": 10,
+        "producerFields": 16
+      },
+      {
+        "slot": "concurrency/idiomatic/run-1",
+        "round": 1,
+        "path": "eng/evaluation/results/audit-resolution-v6/concurrency/idiomatic/run-1/rounds/0001/solution/AvailabilityCoordinator.cs",
+        "sha256": "e789506e8dcbfcc8a6b8047717904e36c79d322cd5ee9d3e1a0533bbf42769c4",
+        "consumerLoc": 188,
+        "fixedCases": 12,
+        "producerFields": 16
+      },
+      {
+        "slot": "concurrency/idiomatic/run-2",
+        "round": 1,
+        "path": "eng/evaluation/results/audit-resolution-v6/concurrency/idiomatic/run-2/rounds/0001/solution/AvailabilityCoordinator.cs",
+        "sha256": "8827571afbc9b22f9b887fcb5bd40c5a05e0f9bfc65b644c3eeccd3afc4b4de1",
+        "consumerLoc": 233,
+        "fixedCases": 12,
+        "producerFields": 16
+      },
+      {
+        "slot": "concurrency/funnysharp/run-1",
+        "round": 1,
+        "path": "eng/evaluation/results/audit-resolution-v6/concurrency/funnysharp/run-1/rounds/0001/solution/AvailabilityCoordinator.cs",
+        "sha256": "114b7049e3f3f328e9c5cf60d2112afadb8f03dc7ca62010244832168a2d6ab3",
+        "consumerLoc": 180,
+        "fixedCases": 12,
+        "producerFields": 16
+      },
+      {
+        "slot": "concurrency/funnysharp/run-2",
+        "round": 1,
+        "path": "eng/evaluation/results/audit-resolution-v6/concurrency/funnysharp/run-2/rounds/0001/solution/AvailabilityCoordinator.cs",
+        "sha256": "13e588ab9a4ad7568f9a95499f2aad24b436f8f627e38bf792532669510aee1e",
+        "consumerLoc": 79,
+        "fixedCases": 12,
+        "producerFields": 16
+      },
+      {
+        "slot": "aspnetcore/idiomatic/run-1",
+        "round": 2,
+        "path": "eng/evaluation/results/audit-resolution-v6/aspnetcore/idiomatic/run-1/rounds/0002/solution/Api.cs",
+        "sha256": "c2cda778886d0f022ee1266b8ddd6bc79a0a0bb18252e8b3111f112e3307555d",
+        "consumerLoc": 124,
+        "fixedCases": 9,
+        "producerFields": 16
+      },
+      {
+        "slot": "aspnetcore/idiomatic/run-2",
+        "round": 1,
+        "path": "eng/evaluation/results/audit-resolution-v6/aspnetcore/idiomatic/run-2/rounds/0001/solution/Api.cs",
+        "sha256": "9ebfb147a43415ecca67b378acfb8b3b7b0c3f26195ba2fffed1ab7905dcc29b",
+        "consumerLoc": 133,
+        "fixedCases": 9,
+        "producerFields": 16
+      },
+      {
+        "slot": "aspnetcore/funnysharp/run-1",
+        "round": 1,
+        "path": "eng/evaluation/results/audit-resolution-v6/aspnetcore/funnysharp/run-1/rounds/0001/solution/Api.cs",
+        "sha256": "b89f5d5fb9b60f1be74f87355887f039db9f4a2198bd2239e0b68ebd4d333db5",
+        "consumerLoc": 113,
+        "fixedCases": 9,
+        "producerFields": 16
+      },
+      {
+        "slot": "aspnetcore/funnysharp/run-2",
+        "round": 1,
+        "path": "eng/evaluation/results/audit-resolution-v6/aspnetcore/funnysharp/run-2/rounds/0001/solution/Api.cs",
+        "sha256": "659e8de72d01ef1f1ba1028c8a82abf297ea166be8999c29d8a6a8f3057ff6a5",
+        "consumerLoc": 122,
+        "fixedCases": 9,
+        "producerFields": 16
+      }
+    ]
+  },
+  "requiredHumanAssessment": {
+    "attribution": [
+      "Reviewer identity",
+      "Maintainer role or relationship to FunnySharp",
+      "Review date",
+      "Exact packet and source hash references"
+    ],
+    "functionStudy": [
+      "Overall materiality under the original ambition; no numeric threshold invented",
+      "Readability and maintainability of both exact full sources",
+      "Workflow-specific wins, ties, losses and construction/error/cancellation/materialization burden"
+    ],
+    "nativeCohort": [
+      "All five areas and both complete final repeats, not a favorable subset",
+      "Actual usability and maintenance tradeoffs distinct from lexical LOC",
+      "Concerns outside the fixed oracle coverage, including failure Total divergence and max32 supplier domain"
+    ],
+    "decision": "An attributable reasoned acceptance or rejection; a materiality option alone does not substitute for exact-source maintainer review"
+  },
+  "noHumanVerdictRecorded": true,
+  "ownerQualificationNotInferred": true,
+  "releaseAuthoritySeparate": true
+}

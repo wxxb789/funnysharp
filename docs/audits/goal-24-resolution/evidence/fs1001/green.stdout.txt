@@ -1,0 +1,9 @@
+Running tests from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\bin\Release\net10.0\FunnySharp.Analyzers.Tests.dll (net10.0|x64)
+Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\bin\Release\net10.0\FunnySharp.Analyzers.Tests.dll (net10.0|x64) passed (5s 296ms)
+
+Test run summary: Passed!
+  total: 88
+  failed: 0
+  succeeded: 88
+  skipped: 0
+  duration: 5s 735ms

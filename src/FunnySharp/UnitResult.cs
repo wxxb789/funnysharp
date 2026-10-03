@@ -509,7 +509,7 @@ public readonly struct UnitResult<TError> : IEquatable<UnitResult<TError>>
     /// <see langword="true"/> when <paramref name="obj"/> is an initialized unit result with the same case and
     /// payload; otherwise, <see langword="false"/> for <see langword="null"/> and unrelated objects.
     /// </returns>
-    /// <exception cref="InvalidOperationException">This unit result is the default value.</exception>
+    /// <exception cref="InvalidOperationException">This unit result or a matching unit result boxed in <paramref name="obj"/> is the default value.</exception>
     public override bool Equals(object? obj)
     {
         ThrowIfUninitialized();

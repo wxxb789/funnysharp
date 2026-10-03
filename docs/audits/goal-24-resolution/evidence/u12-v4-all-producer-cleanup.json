@@ -1,0 +1,33 @@
+{
+  "schema": "funnysharp-v4-all-producer-cleanup/v1",
+  "registeredLogicalSessions": 20,
+  "acceptedActualNativeSessions": 20,
+  "acceptedProviderRequests": 20,
+  "acceptedActualExitCodesAllZero": true,
+  "earlierDirectBunFailedNativeProcesses": 8,
+  "earlierFailedExitCodesAllOne": true,
+  "previousProbeProcessesAbsent": true,
+  "currentOwnedV4ProducerPidsAbsent": true,
+  "query": "Get-CimInstance Win32_Process | Where-Object { $_.Name -eq \"omo.exe\" -and ($_.CommandLine -replace \"\\\\\",\"/\") -like \"*audit-resolution-v4/*\" } | Select-Object ProcessId | ConvertTo-Json -Compress",
+  "coreFacts": "Accepted20actualnativeinvocations and8retainedtechnicalfailures are distinct. Failurepayloads unavailable; priorupstream requests unknown, notclaimed0. Allobservedactualacceptedrequests byte-exact. RuntimeKestrelprobe cleanup has its separate task.",
+  "oldFailedPids": [
+    42844,
+    29172,
+    52516,
+    37580,
+    42332,
+    46144,
+    56264,
+    12532
+  ],
+  "otherLanePids": [
+    28420,
+    33552,
+    30352,
+    15120,
+    11380,
+    9348,
+    43060,
+    20048
+  ]
+}

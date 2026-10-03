@@ -142,7 +142,7 @@ public sealed class UnitResultBoundaryTests
             () => ValueTask.FromCanceled(cancellationSource.Token));
         var taskCancellation = await Assert.ThrowsAnyAsync<OperationCanceledException>(() => task);
         var valueTaskCancellation = await Assert.ThrowsAnyAsync<OperationCanceledException>(
-            async () => await valueTask);
+            async () => { _ = await valueTask; });
 
         Assert.True(task.IsCanceled);
         Assert.True(valueTask.IsCanceled);
@@ -227,7 +227,7 @@ public sealed class UnitResultBoundaryTests
             await Assert.ThrowsAnyAsync<OperationCanceledException>(() => cancelledTask));
         Assert.Same(
             cancellation,
-            await Assert.ThrowsAnyAsync<OperationCanceledException>(async () => await cancelledValueTask));
+            await Assert.ThrowsAnyAsync<OperationCanceledException>(async () => { _ = await cancelledValueTask; }));
         Assert.True(cancelledTask.IsCanceled);
         Assert.True(cancelledValueTask.IsCanceled);
     }

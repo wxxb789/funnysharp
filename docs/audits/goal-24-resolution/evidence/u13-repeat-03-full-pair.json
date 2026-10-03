@@ -1,0 +1,336 @@
+{
+  "schema": "funnysharp-final-paired-repetition/v1",
+  "repetition": 3,
+  "status": "ACTUAL_FULL_PAIR_VERIFIED",
+  "commandExitCode": 0,
+  "sentinel": "PAIRED_REPEAT_03_VERIFIED",
+  "main": {
+    "rows": 190,
+    "excluded": 11,
+    "elapsedSeconds": 2044.2,
+    "receiptFiles": 13,
+    "rawReportFiles": 39,
+    "runId": "8aec8bf3be00472a97eae0ea21f886bf",
+    "candidateSnapshot": "snapshot:f97e16b26f00914a9746c0db3788dde33b6dcf937c0119426e0c3bacd5af8b7f",
+    "receiptDirectory": "artifacts/audit-resolution/u13-final-repeat-03-main/results"
+  },
+  "competitor": {
+    "rows": 40,
+    "excluded": 0,
+    "elapsedSeconds": 880.45,
+    "receiptFiles": 2,
+    "rawReportFiles": 6,
+    "runId": "d3cae835a47b438e8ca7416a5311ff70",
+    "candidateSnapshot": "snapshot:93a3168bf86fc5bbcdebd0ab2201f1de282460804378dc27ca61d42ed00762c6",
+    "receiptDirectory": "artifacts/audit-resolution/u13-final-repeat-03-competitor/results"
+  },
+  "parentVerification": {
+    "numericRows": 230,
+    "integerAllocationsWithinUnchangedPolicyCeilings": true,
+    "preflightRawReportLaunchHashChecks": 290,
+    "uniqueBoundFiles": 277,
+    "measuredChildMarkers": 230,
+    "distinctProcessIds": 219,
+    "retainedPeFilesHashChecked": 58,
+    "coreDllSha256": "6a903f737356fdf67845c9cd39385e4a5e2b39bcae0ee92ff2882480ecb7e49d",
+    "coreMvid": "6e857675-f36e-4d73-8ed5-99ec28a2e51b",
+    "httpDllSha256": "2daaff9c72db5b730c06d3270c00dfd7046fa27e26d59374e31cf270b8dc30c2",
+    "httpMvid": "f41cfdd4-a88b-4a31-8c9c-0f760ae3cb58",
+    "issues": [],
+    "retainedPeFiles": [
+      {
+        "file": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\performance-preflight\\8aec8bf3be00472a97eae0ea21f886bf\\binaries\\23e84a0f1fd551d947901692015fa4a3c6a6628075c35af39daa2b888f71503a\\FunnySharp.Benchmarks-ShortRun-1.dll",
+        "expected": "23e84a0f1fd551d947901692015fa4a3c6a6628075c35af39daa2b888f71503a",
+        "actual": "23e84a0f1fd551d947901692015fa4a3c6a6628075c35af39daa2b888f71503a"
+      },
+      {
+        "file": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\performance-preflight\\8aec8bf3be00472a97eae0ea21f886bf\\binaries\\4b5d273032cae7c8fc97e16713b8d4f1ee3a2aa28a0e2bd0695232fb9dd7d558\\BenchmarkDotNet.Annotations.dll",
+        "expected": "4b5d273032cae7c8fc97e16713b8d4f1ee3a2aa28a0e2bd0695232fb9dd7d558",
+        "actual": "4b5d273032cae7c8fc97e16713b8d4f1ee3a2aa28a0e2bd0695232fb9dd7d558"
+      },
+      {
+        "file": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\performance-preflight\\8aec8bf3be00472a97eae0ea21f886bf\\binaries\\d460626b2e1a9fa2f786e09e6c85cdf4d7b73deca636450a0e23892c8ce6192b\\BenchmarkDotNet.dll",
+        "expected": "d460626b2e1a9fa2f786e09e6c85cdf4d7b73deca636450a0e23892c8ce6192b",
+        "actual": "d460626b2e1a9fa2f786e09e6c85cdf4d7b73deca636450a0e23892c8ce6192b"
+      },
+      {
+        "file": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\performance-preflight\\8aec8bf3be00472a97eae0ea21f886bf\\binaries\\8a55501cd1a1590a4bd93a17c6fdd2c01a0ed5bff1aea9036bdc78d98c9a3fad\\CommandLine.dll",
+        "expected": "8a55501cd1a1590a4bd93a17c6fdd2c01a0ed5bff1aea9036bdc78d98c9a3fad",
+        "actual": "8a55501cd1a1590a4bd93a17c6fdd2c01a0ed5bff1aea9036bdc78d98c9a3fad"
+      },
+      {
+        "file": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\performance-preflight\\8aec8bf3be00472a97eae0ea21f886bf\\binaries\\6c4cac68010fe032218efe5e9fcf46eef9f77bfaa5f3bd33f03c5ff77d5a8fac\\Dia2Lib.dll",
+        "expected": "6c4cac68010fe032218efe5e9fcf46eef9f77bfaa5f3bd33f03c5ff77d5a8fac",
+        "actual": "6c4cac68010fe032218efe5e9fcf46eef9f77bfaa5f3bd33f03c5ff77d5a8fac"
+      },
+      {
+        "file": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\performance-preflight\\8aec8bf3be00472a97eae0ea21f886bf\\binaries\\047f25341d202fbed81587126de6d7de1a9903ca6ffe0ca4387ab183066c5acc\\FunnySharp.Analyzers.CodeFixes.dll",
+        "expected": "047f25341d202fbed81587126de6d7de1a9903ca6ffe0ca4387ab183066c5acc",
+        "actual": "047f25341d202fbed81587126de6d7de1a9903ca6ffe0ca4387ab183066c5acc"
+      },
+      {
+        "file": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\performance-preflight\\8aec8bf3be00472a97eae0ea21f886bf\\binaries\\cbc82411aa4fa999ec3ae59ca100b0338f64eda212676b5162164a9ffc091104\\FunnySharp.Analyzers.dll",
+        "expected": "cbc82411aa4fa999ec3ae59ca100b0338f64eda212676b5162164a9ffc091104",
+        "actual": "cbc82411aa4fa999ec3ae59ca100b0338f64eda212676b5162164a9ffc091104"
+      },
+      {
+        "file": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\performance-preflight\\8aec8bf3be00472a97eae0ea21f886bf\\binaries\\2daaff9c72db5b730c06d3270c00dfd7046fa27e26d59374e31cf270b8dc30c2\\FunnySharp.AspNetCore.dll",
+        "expected": "2daaff9c72db5b730c06d3270c00dfd7046fa27e26d59374e31cf270b8dc30c2",
+        "actual": "2daaff9c72db5b730c06d3270c00dfd7046fa27e26d59374e31cf270b8dc30c2"
+      },
+      {
+        "file": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\performance-preflight\\8aec8bf3be00472a97eae0ea21f886bf\\binaries\\042d01fd73e7704213dcefda3e271aea272b2b0a0226cba90eef4a9fd45048be\\FunnySharp.Benchmarks.dll",
+        "expected": "042d01fd73e7704213dcefda3e271aea272b2b0a0226cba90eef4a9fd45048be",
+        "actual": "042d01fd73e7704213dcefda3e271aea272b2b0a0226cba90eef4a9fd45048be"
+      },
+      {
+        "file": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\performance-preflight\\8aec8bf3be00472a97eae0ea21f886bf\\binaries\\6a903f737356fdf67845c9cd39385e4a5e2b39bcae0ee92ff2882480ecb7e49d\\FunnySharp.dll",
+        "expected": "6a903f737356fdf67845c9cd39385e4a5e2b39bcae0ee92ff2882480ecb7e49d",
+        "actual": "6a903f737356fdf67845c9cd39385e4a5e2b39bcae0ee92ff2882480ecb7e49d"
+      },
+      {
+        "file": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\performance-preflight\\8aec8bf3be00472a97eae0ea21f886bf\\binaries\\6dfda67784598de9677173b89d0692593935f1a4024d36040c95dea48c1b5965\\Gee.External.Capstone.dll",
+        "expected": "6dfda67784598de9677173b89d0692593935f1a4024d36040c95dea48c1b5965",
+        "actual": "6dfda67784598de9677173b89d0692593935f1a4024d36040c95dea48c1b5965"
+      },
+      {
+        "file": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\performance-preflight\\8aec8bf3be00472a97eae0ea21f886bf\\binaries\\f058c01321b4cdfc9b9151879e88e59571c8d0ba176fbcf95bc936a8f3d073ed\\Iced.dll",
+        "expected": "f058c01321b4cdfc9b9151879e88e59571c8d0ba176fbcf95bc936a8f3d073ed",
+        "actual": "f058c01321b4cdfc9b9151879e88e59571c8d0ba176fbcf95bc936a8f3d073ed"
+      },
+      {
+        "file": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\performance-preflight\\8aec8bf3be00472a97eae0ea21f886bf\\binaries\\53302acca07700e9bb10dcf21034435d6e0454c8eebf2481164ec13e520004c9\\Microsoft.CodeAnalysis.CSharp.dll",
+        "expected": "53302acca07700e9bb10dcf21034435d6e0454c8eebf2481164ec13e520004c9",
+        "actual": "53302acca07700e9bb10dcf21034435d6e0454c8eebf2481164ec13e520004c9"
+      },
+      {
+        "file": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\performance-preflight\\8aec8bf3be00472a97eae0ea21f886bf\\binaries\\395736b2d0e02be77bedc3847b269da7a93bf8e49cd3431a4a8e68d2c52d5846\\Microsoft.CodeAnalysis.dll",
+        "expected": "395736b2d0e02be77bedc3847b269da7a93bf8e49cd3431a4a8e68d2c52d5846",
+        "actual": "395736b2d0e02be77bedc3847b269da7a93bf8e49cd3431a4a8e68d2c52d5846"
+      },
+      {
+        "file": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\performance-preflight\\8aec8bf3be00472a97eae0ea21f886bf\\binaries\\83e89baf0bbecca8cfa194cff13365f716849e22efc374b669206f26998a019f\\Microsoft.Diagnostics.FastSerialization.dll",
+        "expected": "83e89baf0bbecca8cfa194cff13365f716849e22efc374b669206f26998a019f",
+        "actual": "83e89baf0bbecca8cfa194cff13365f716849e22efc374b669206f26998a019f"
+      },
+      {
+        "file": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\performance-preflight\\8aec8bf3be00472a97eae0ea21f886bf\\binaries\\baed2d25ca5bc53a3447c237d5572c92eac1fd842807b3e72602a711749b1b22\\Microsoft.Diagnostics.NETCore.Client.dll",
+        "expected": "baed2d25ca5bc53a3447c237d5572c92eac1fd842807b3e72602a711749b1b22",
+        "actual": "baed2d25ca5bc53a3447c237d5572c92eac1fd842807b3e72602a711749b1b22"
+      },
+      {
+        "file": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\performance-preflight\\8aec8bf3be00472a97eae0ea21f886bf\\binaries\\06f9910c8a37f8d4d758538e6dd307de58bcfb3bb13e83658142c08087a25382\\Microsoft.Diagnostics.Runtime.dll",
+        "expected": "06f9910c8a37f8d4d758538e6dd307de58bcfb3bb13e83658142c08087a25382",
+        "actual": "06f9910c8a37f8d4d758538e6dd307de58bcfb3bb13e83658142c08087a25382"
+      },
+      {
+        "file": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\performance-preflight\\8aec8bf3be00472a97eae0ea21f886bf\\binaries\\401e948dac99d0f9756ef96d5a8b8e4736e19e9f82ce8cdd744495951e3a94bb\\Microsoft.Diagnostics.Tracing.TraceEvent.dll",
+        "expected": "401e948dac99d0f9756ef96d5a8b8e4736e19e9f82ce8cdd744495951e3a94bb",
+        "actual": "401e948dac99d0f9756ef96d5a8b8e4736e19e9f82ce8cdd744495951e3a94bb"
+      },
+      {
+        "file": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\performance-preflight\\8aec8bf3be00472a97eae0ea21f886bf\\binaries\\b1f4ad169fb192747f5d2d3111c01db4257e3ec1f7f18f301f7fc4be3b869ff3\\Microsoft.DotNet.PlatformAbstractions.dll",
+        "expected": "b1f4ad169fb192747f5d2d3111c01db4257e3ec1f7f18f301f7fc4be3b869ff3",
+        "actual": "b1f4ad169fb192747f5d2d3111c01db4257e3ec1f7f18f301f7fc4be3b869ff3"
+      },
+      {
+        "file": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\performance-preflight\\8aec8bf3be00472a97eae0ea21f886bf\\binaries\\22a4a336db943465cbdfc8d0a8e23e89df3024d39f1c5954d97554b3da39e300\\Perfolizer.dll",
+        "expected": "22a4a336db943465cbdfc8d0a8e23e89df3024d39f1c5954d97554b3da39e300",
+        "actual": "22a4a336db943465cbdfc8d0a8e23e89df3024d39f1c5954d97554b3da39e300"
+      },
+      {
+        "file": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\performance-preflight\\8aec8bf3be00472a97eae0ea21f886bf\\binaries\\e9b3fc36000e7fe3fb11d3ea6a65f3c9c7b17e03c9f5034306437d65972e8c51\\Pragmastat.dll",
+        "expected": "e9b3fc36000e7fe3fb11d3ea6a65f3c9c7b17e03c9f5034306437d65972e8c51",
+        "actual": "e9b3fc36000e7fe3fb11d3ea6a65f3c9c7b17e03c9f5034306437d65972e8c51"
+      },
+      {
+        "file": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\performance-preflight\\8aec8bf3be00472a97eae0ea21f886bf\\binaries\\8d0cf191c86feea81c9875652c06e454abe8dbff66bea9e4cb5f8aa2dc02f32a\\System.CodeDom.dll",
+        "expected": "8d0cf191c86feea81c9875652c06e454abe8dbff66bea9e4cb5f8aa2dc02f32a",
+        "actual": "8d0cf191c86feea81c9875652c06e454abe8dbff66bea9e4cb5f8aa2dc02f32a"
+      },
+      {
+        "file": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\performance-preflight\\8aec8bf3be00472a97eae0ea21f886bf\\binaries\\0be24b09da5abad0b20efcb58fab14b0dedc79b09d4fbdcb894be268105a2195\\System.Management.dll",
+        "expected": "0be24b09da5abad0b20efcb58fab14b0dedc79b09d4fbdcb894be268105a2195",
+        "actual": "0be24b09da5abad0b20efcb58fab14b0dedc79b09d4fbdcb894be268105a2195"
+      },
+      {
+        "file": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\performance-preflight\\8aec8bf3be00472a97eae0ea21f886bf\\binaries\\6830c0f1d3f3c17719181e73dd5cfa8ccbb3f3c575329d2120576545103467b5\\TraceReloggerLib.dll",
+        "expected": "6830c0f1d3f3c17719181e73dd5cfa8ccbb3f3c575329d2120576545103467b5",
+        "actual": "6830c0f1d3f3c17719181e73dd5cfa8ccbb3f3c575329d2120576545103467b5"
+      },
+      {
+        "file": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\performance-preflight\\d3cae835a47b438e8ca7416a5311ff70\\binaries\\35311fa0da24c30a6fac01026e495dbcbbbab9eb27b2c0c9086a93cbbeaf36e0\\FunnySharp.CompetitorBenchmarks-1.dll",
+        "expected": "35311fa0da24c30a6fac01026e495dbcbbbab9eb27b2c0c9086a93cbbeaf36e0",
+        "actual": "35311fa0da24c30a6fac01026e495dbcbbbab9eb27b2c0c9086a93cbbeaf36e0"
+      },
+      {
+        "file": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\performance-preflight\\d3cae835a47b438e8ca7416a5311ff70\\binaries\\4b5d273032cae7c8fc97e16713b8d4f1ee3a2aa28a0e2bd0695232fb9dd7d558\\BenchmarkDotNet.Annotations.dll",
+        "expected": "4b5d273032cae7c8fc97e16713b8d4f1ee3a2aa28a0e2bd0695232fb9dd7d558",
+        "actual": "4b5d273032cae7c8fc97e16713b8d4f1ee3a2aa28a0e2bd0695232fb9dd7d558"
+      },
+      {
+        "file": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\performance-preflight\\d3cae835a47b438e8ca7416a5311ff70\\binaries\\d460626b2e1a9fa2f786e09e6c85cdf4d7b73deca636450a0e23892c8ce6192b\\BenchmarkDotNet.dll",
+        "expected": "d460626b2e1a9fa2f786e09e6c85cdf4d7b73deca636450a0e23892c8ce6192b",
+        "actual": "d460626b2e1a9fa2f786e09e6c85cdf4d7b73deca636450a0e23892c8ce6192b"
+      },
+      {
+        "file": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\performance-preflight\\d3cae835a47b438e8ca7416a5311ff70\\binaries\\ae48cfff9ddc4e3ca9c5c8378805482055a821da9c9e7c5465b22398840db304\\CSharpFunctionalExtensions.dll",
+        "expected": "ae48cfff9ddc4e3ca9c5c8378805482055a821da9c9e7c5465b22398840db304",
+        "actual": "ae48cfff9ddc4e3ca9c5c8378805482055a821da9c9e7c5465b22398840db304"
+      },
+      {
+        "file": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\performance-preflight\\d3cae835a47b438e8ca7416a5311ff70\\binaries\\8a55501cd1a1590a4bd93a17c6fdd2c01a0ed5bff1aea9036bdc78d98c9a3fad\\CommandLine.dll",
+        "expected": "8a55501cd1a1590a4bd93a17c6fdd2c01a0ed5bff1aea9036bdc78d98c9a3fad",
+        "actual": "8a55501cd1a1590a4bd93a17c6fdd2c01a0ed5bff1aea9036bdc78d98c9a3fad"
+      },
+      {
+        "file": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\performance-preflight\\d3cae835a47b438e8ca7416a5311ff70\\binaries\\6c4cac68010fe032218efe5e9fcf46eef9f77bfaa5f3bd33f03c5ff77d5a8fac\\Dia2Lib.dll",
+        "expected": "6c4cac68010fe032218efe5e9fcf46eef9f77bfaa5f3bd33f03c5ff77d5a8fac",
+        "actual": "6c4cac68010fe032218efe5e9fcf46eef9f77bfaa5f3bd33f03c5ff77d5a8fac"
+      },
+      {
+        "file": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\performance-preflight\\d3cae835a47b438e8ca7416a5311ff70\\binaries\\454275e6f64f26c19f989cc0e0c43a2eaf41705fc0f456097faa1da445139394\\FSharp.Core.dll",
+        "expected": "454275e6f64f26c19f989cc0e0c43a2eaf41705fc0f456097faa1da445139394",
+        "actual": "454275e6f64f26c19f989cc0e0c43a2eaf41705fc0f456097faa1da445139394"
+      },
+      {
+        "file": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\performance-preflight\\d3cae835a47b438e8ca7416a5311ff70\\binaries\\e515bf36a6fef5045dee35e9964bc8937c6ac654d023d50973f65d03951cbf00\\Funcky.dll",
+        "expected": "e515bf36a6fef5045dee35e9964bc8937c6ac654d023d50973f65d03951cbf00",
+        "actual": "e515bf36a6fef5045dee35e9964bc8937c6ac654d023d50973f65d03951cbf00"
+      },
+      {
+        "file": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\performance-preflight\\d3cae835a47b438e8ca7416a5311ff70\\binaries\\047f25341d202fbed81587126de6d7de1a9903ca6ffe0ca4387ab183066c5acc\\FunnySharp.Analyzers.CodeFixes.dll",
+        "expected": "047f25341d202fbed81587126de6d7de1a9903ca6ffe0ca4387ab183066c5acc",
+        "actual": "047f25341d202fbed81587126de6d7de1a9903ca6ffe0ca4387ab183066c5acc"
+      },
+      {
+        "file": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\performance-preflight\\d3cae835a47b438e8ca7416a5311ff70\\binaries\\cbc82411aa4fa999ec3ae59ca100b0338f64eda212676b5162164a9ffc091104\\FunnySharp.Analyzers.dll",
+        "expected": "cbc82411aa4fa999ec3ae59ca100b0338f64eda212676b5162164a9ffc091104",
+        "actual": "cbc82411aa4fa999ec3ae59ca100b0338f64eda212676b5162164a9ffc091104"
+      },
+      {
+        "file": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\performance-preflight\\d3cae835a47b438e8ca7416a5311ff70\\binaries\\d8c66755572c8fe671d765534e84934e96d7bc191c50090cbfbc74c29c5a287c\\FunnySharp.CompetitorBenchmarks.dll",
+        "expected": "d8c66755572c8fe671d765534e84934e96d7bc191c50090cbfbc74c29c5a287c",
+        "actual": "d8c66755572c8fe671d765534e84934e96d7bc191c50090cbfbc74c29c5a287c"
+      },
+      {
+        "file": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\performance-preflight\\d3cae835a47b438e8ca7416a5311ff70\\binaries\\6a903f737356fdf67845c9cd39385e4a5e2b39bcae0ee92ff2882480ecb7e49d\\FunnySharp.dll",
+        "expected": "6a903f737356fdf67845c9cd39385e4a5e2b39bcae0ee92ff2882480ecb7e49d",
+        "actual": "6a903f737356fdf67845c9cd39385e4a5e2b39bcae0ee92ff2882480ecb7e49d"
+      },
+      {
+        "file": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\performance-preflight\\d3cae835a47b438e8ca7416a5311ff70\\binaries\\6dfda67784598de9677173b89d0692593935f1a4024d36040c95dea48c1b5965\\Gee.External.Capstone.dll",
+        "expected": "6dfda67784598de9677173b89d0692593935f1a4024d36040c95dea48c1b5965",
+        "actual": "6dfda67784598de9677173b89d0692593935f1a4024d36040c95dea48c1b5965"
+      },
+      {
+        "file": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\performance-preflight\\d3cae835a47b438e8ca7416a5311ff70\\binaries\\f058c01321b4cdfc9b9151879e88e59571c8d0ba176fbcf95bc936a8f3d073ed\\Iced.dll",
+        "expected": "f058c01321b4cdfc9b9151879e88e59571c8d0ba176fbcf95bc936a8f3d073ed",
+        "actual": "f058c01321b4cdfc9b9151879e88e59571c8d0ba176fbcf95bc936a8f3d073ed"
+      },
+      {
+        "file": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\performance-preflight\\d3cae835a47b438e8ca7416a5311ff70\\binaries\\0abfbbe708f176c95a9facc804207a6b9ecc394e7c10a49528c4dff147e9a8a0\\LanguageExt.Core.dll",
+        "expected": "0abfbbe708f176c95a9facc804207a6b9ecc394e7c10a49528c4dff147e9a8a0",
+        "actual": "0abfbbe708f176c95a9facc804207a6b9ecc394e7c10a49528c4dff147e9a8a0"
+      },
+      {
+        "file": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\performance-preflight\\d3cae835a47b438e8ca7416a5311ff70\\binaries\\299ddf949035e52e4758732c202029e2c89a16174d83904bef0cc04205e097b7\\Microsoft.Bcl.AsyncInterfaces.dll",
+        "expected": "299ddf949035e52e4758732c202029e2c89a16174d83904bef0cc04205e097b7",
+        "actual": "299ddf949035e52e4758732c202029e2c89a16174d83904bef0cc04205e097b7"
+      },
+      {
+        "file": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\performance-preflight\\d3cae835a47b438e8ca7416a5311ff70\\binaries\\53302acca07700e9bb10dcf21034435d6e0454c8eebf2481164ec13e520004c9\\Microsoft.CodeAnalysis.CSharp.dll",
+        "expected": "53302acca07700e9bb10dcf21034435d6e0454c8eebf2481164ec13e520004c9",
+        "actual": "53302acca07700e9bb10dcf21034435d6e0454c8eebf2481164ec13e520004c9"
+      },
+      {
+        "file": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\performance-preflight\\d3cae835a47b438e8ca7416a5311ff70\\binaries\\395736b2d0e02be77bedc3847b269da7a93bf8e49cd3431a4a8e68d2c52d5846\\Microsoft.CodeAnalysis.dll",
+        "expected": "395736b2d0e02be77bedc3847b269da7a93bf8e49cd3431a4a8e68d2c52d5846",
+        "actual": "395736b2d0e02be77bedc3847b269da7a93bf8e49cd3431a4a8e68d2c52d5846"
+      },
+      {
+        "file": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\performance-preflight\\d3cae835a47b438e8ca7416a5311ff70\\binaries\\83e89baf0bbecca8cfa194cff13365f716849e22efc374b669206f26998a019f\\Microsoft.Diagnostics.FastSerialization.dll",
+        "expected": "83e89baf0bbecca8cfa194cff13365f716849e22efc374b669206f26998a019f",
+        "actual": "83e89baf0bbecca8cfa194cff13365f716849e22efc374b669206f26998a019f"
+      },
+      {
+        "file": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\performance-preflight\\d3cae835a47b438e8ca7416a5311ff70\\binaries\\baed2d25ca5bc53a3447c237d5572c92eac1fd842807b3e72602a711749b1b22\\Microsoft.Diagnostics.NETCore.Client.dll",
+        "expected": "baed2d25ca5bc53a3447c237d5572c92eac1fd842807b3e72602a711749b1b22",
+        "actual": "baed2d25ca5bc53a3447c237d5572c92eac1fd842807b3e72602a711749b1b22"
+      },
+      {
+        "file": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\performance-preflight\\d3cae835a47b438e8ca7416a5311ff70\\binaries\\06f9910c8a37f8d4d758538e6dd307de58bcfb3bb13e83658142c08087a25382\\Microsoft.Diagnostics.Runtime.dll",
+        "expected": "06f9910c8a37f8d4d758538e6dd307de58bcfb3bb13e83658142c08087a25382",
+        "actual": "06f9910c8a37f8d4d758538e6dd307de58bcfb3bb13e83658142c08087a25382"
+      },
+      {
+        "file": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\performance-preflight\\d3cae835a47b438e8ca7416a5311ff70\\binaries\\401e948dac99d0f9756ef96d5a8b8e4736e19e9f82ce8cdd744495951e3a94bb\\Microsoft.Diagnostics.Tracing.TraceEvent.dll",
+        "expected": "401e948dac99d0f9756ef96d5a8b8e4736e19e9f82ce8cdd744495951e3a94bb",
+        "actual": "401e948dac99d0f9756ef96d5a8b8e4736e19e9f82ce8cdd744495951e3a94bb"
+      },
+      {
+        "file": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\performance-preflight\\d3cae835a47b438e8ca7416a5311ff70\\binaries\\b1f4ad169fb192747f5d2d3111c01db4257e3ec1f7f18f301f7fc4be3b869ff3\\Microsoft.DotNet.PlatformAbstractions.dll",
+        "expected": "b1f4ad169fb192747f5d2d3111c01db4257e3ec1f7f18f301f7fc4be3b869ff3",
+        "actual": "b1f4ad169fb192747f5d2d3111c01db4257e3ec1f7f18f301f7fc4be3b869ff3"
+      },
+      {
+        "file": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\performance-preflight\\d3cae835a47b438e8ca7416a5311ff70\\binaries\\9ccd830351aa28bc683d4f8d1cefd9e724161f972d25bfb64eee5bf55c48c5e3\\Microsoft.Extensions.DependencyInjection.Abstractions.dll",
+        "expected": "9ccd830351aa28bc683d4f8d1cefd9e724161f972d25bfb64eee5bf55c48c5e3",
+        "actual": "9ccd830351aa28bc683d4f8d1cefd9e724161f972d25bfb64eee5bf55c48c5e3"
+      },
+      {
+        "file": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\performance-preflight\\d3cae835a47b438e8ca7416a5311ff70\\binaries\\2aa8182b5356a8cc5c35fc3641a87e814857d8d9be399ac78f260343754d09e0\\Microsoft.Extensions.DependencyInjection.dll",
+        "expected": "2aa8182b5356a8cc5c35fc3641a87e814857d8d9be399ac78f260343754d09e0",
+        "actual": "2aa8182b5356a8cc5c35fc3641a87e814857d8d9be399ac78f260343754d09e0"
+      },
+      {
+        "file": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\performance-preflight\\d3cae835a47b438e8ca7416a5311ff70\\binaries\\d575c9d1543ca726ce14dbdffd103e93ea527cd46bb28316da1f4122dbc55d56\\Microsoft.Extensions.Logging.Abstractions.dll",
+        "expected": "d575c9d1543ca726ce14dbdffd103e93ea527cd46bb28316da1f4122dbc55d56",
+        "actual": "d575c9d1543ca726ce14dbdffd103e93ea527cd46bb28316da1f4122dbc55d56"
+      },
+      {
+        "file": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\performance-preflight\\d3cae835a47b438e8ca7416a5311ff70\\binaries\\183650081b551dfad967a7cbf79946a229cb79458b8d04a12db7c44b03bb9ab7\\Microsoft.Extensions.Logging.dll",
+        "expected": "183650081b551dfad967a7cbf79946a229cb79458b8d04a12db7c44b03bb9ab7",
+        "actual": "183650081b551dfad967a7cbf79946a229cb79458b8d04a12db7c44b03bb9ab7"
+      },
+      {
+        "file": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\performance-preflight\\d3cae835a47b438e8ca7416a5311ff70\\binaries\\786112cb2f6646ef1170219a8c0bb813c9f14a6781e67c6266414f55a679565d\\Microsoft.Extensions.Options.dll",
+        "expected": "786112cb2f6646ef1170219a8c0bb813c9f14a6781e67c6266414f55a679565d",
+        "actual": "786112cb2f6646ef1170219a8c0bb813c9f14a6781e67c6266414f55a679565d"
+      },
+      {
+        "file": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\performance-preflight\\d3cae835a47b438e8ca7416a5311ff70\\binaries\\8ce9a85927ec7507b11ffe90080e7a811d51304a9e8b1da20c350159ba403902\\Microsoft.Extensions.Primitives.dll",
+        "expected": "8ce9a85927ec7507b11ffe90080e7a811d51304a9e8b1da20c350159ba403902",
+        "actual": "8ce9a85927ec7507b11ffe90080e7a811d51304a9e8b1da20c350159ba403902"
+      },
+      {
+        "file": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\performance-preflight\\d3cae835a47b438e8ca7416a5311ff70\\binaries\\22a4a336db943465cbdfc8d0a8e23e89df3024d39f1c5954d97554b3da39e300\\Perfolizer.dll",
+        "expected": "22a4a336db943465cbdfc8d0a8e23e89df3024d39f1c5954d97554b3da39e300",
+        "actual": "22a4a336db943465cbdfc8d0a8e23e89df3024d39f1c5954d97554b3da39e300"
+      },
+      {
+        "file": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\performance-preflight\\d3cae835a47b438e8ca7416a5311ff70\\binaries\\e9b3fc36000e7fe3fb11d3ea6a65f3c9c7b17e03c9f5034306437d65972e8c51\\Pragmastat.dll",
+        "expected": "e9b3fc36000e7fe3fb11d3ea6a65f3c9c7b17e03c9f5034306437d65972e8c51",
+        "actual": "e9b3fc36000e7fe3fb11d3ea6a65f3c9c7b17e03c9f5034306437d65972e8c51"
+      },
+      {
+        "file": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\performance-preflight\\d3cae835a47b438e8ca7416a5311ff70\\binaries\\8d0cf191c86feea81c9875652c06e454abe8dbff66bea9e4cb5f8aa2dc02f32a\\System.CodeDom.dll",
+        "expected": "8d0cf191c86feea81c9875652c06e454abe8dbff66bea9e4cb5f8aa2dc02f32a",
+        "actual": "8d0cf191c86feea81c9875652c06e454abe8dbff66bea9e4cb5f8aa2dc02f32a"
+      },
+      {
+        "file": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\performance-preflight\\d3cae835a47b438e8ca7416a5311ff70\\binaries\\0be24b09da5abad0b20efcb58fab14b0dedc79b09d4fbdcb894be268105a2195\\System.Management.dll",
+        "expected": "0be24b09da5abad0b20efcb58fab14b0dedc79b09d4fbdcb894be268105a2195",
+        "actual": "0be24b09da5abad0b20efcb58fab14b0dedc79b09d4fbdcb894be268105a2195"
+      },
+      {
+        "file": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\performance-preflight\\d3cae835a47b438e8ca7416a5311ff70\\binaries\\6830c0f1d3f3c17719181e73dd5cfa8ccbb3f3c575329d2120576545103467b5\\TraceReloggerLib.dll",
+        "expected": "6830c0f1d3f3c17719181e73dd5cfa8ccbb3f3c575329d2120576545103467b5",
+        "actual": "6830c0f1d3f3c17719181e73dd5cfa8ccbb3f3c575329d2120576545103467b5"
+      }
+    ]
+  },
+  "limits": [
+    "All three numeric repetitions passed; member/resource/proposal/docs/evaluation/release/final69 acceptance remain separate."
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "monitor": {
+    "monitor_id": "mon_9NHYBNY8PB6X3KCY",
+    "bash_id": "bash_15",
+    "monitor": true
+  },
+  "observedUtc": "2026-10-02T23:59:40.650Z",
+  "result": "status: completed exit_code: 0\nV6_NATIVE_EXIT 0"
+}

@@ -5,7 +5,9 @@ public sealed class ValidationTests
     [Fact]
     public void DefaultValidationIsUninitializedAndThrowsInsteadOfMasquerading()
     {
+#pragma warning disable FS1001 // Intentional runtime misuse witness.
         Validation<string, int> validation = default;
+#pragma warning restore FS1001
 
         Assert.Equal("Uninitialized", validation.ToString());
         Assert.Throws<InvalidOperationException>(() => validation.IsInvalid);
@@ -429,9 +431,15 @@ public sealed class ValidationTests
         var invalidFirst = Validation<int, string>.InvalidMany(["first-1"]);
         var invalidSecond = Validation<string, string>.InvalidMany(["second-1"]);
         var expected = new InvalidOperationException("combine failed");
+#pragma warning disable FS1001 // Intentional runtime misuse witness.
         Validation<int, string> uninitializedFirst = default;
+#pragma warning restore FS1001
+#pragma warning disable FS1001 // Intentional runtime misuse witness.
         Validation<string, string> uninitializedSecond = default;
+#pragma warning restore FS1001
+#pragma warning disable FS1001 // Intentional runtime misuse witness.
         Validation<long, string> uninitializedThird = default;
+#pragma warning restore FS1001
 
         Assert.Same(
             expected,
@@ -605,10 +613,18 @@ public sealed class ValidationTests
         var invalidFirst = Validation<int, string>.InvalidMany(["first-1"]);
         var invalidSecond = Validation<string, string>.InvalidMany(["second-1"]);
         var expected = new InvalidOperationException("combine failed");
+#pragma warning disable FS1001 // Intentional runtime misuse witness.
         Validation<int, string> uninitializedFirst = default;
+#pragma warning restore FS1001
+#pragma warning disable FS1001 // Intentional runtime misuse witness.
         Validation<string, string> uninitializedSecond = default;
+#pragma warning restore FS1001
+#pragma warning disable FS1001 // Intentional runtime misuse witness.
         Validation<long, string> uninitializedThird = default;
+#pragma warning restore FS1001
+#pragma warning disable FS1001 // Intentional runtime misuse witness.
         Validation<bool, string> uninitializedFourth = default;
+#pragma warning restore FS1001
 
         Assert.Same(
             expected,

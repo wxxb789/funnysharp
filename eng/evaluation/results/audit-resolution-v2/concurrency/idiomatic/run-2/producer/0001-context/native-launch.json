@@ -1,0 +1,30 @@
+{
+  "invocationId": "native-call:d61d2eed-59f6-4d33-a963-8861a5f4a3cc",
+  "argv": [
+    "C:/Users/lhan/.omo/binary-runtime/5.1.9/omo.exe",
+    "--mode",
+    "json",
+    "--print",
+    "--no-session",
+    "--no-extensions",
+    "--no-context-files",
+    "--no-skills",
+    "--no-prompt-templates",
+    "--no-tools",
+    "--offline",
+    "--provider",
+    "ghc",
+    "--model",
+    "gpt-6.1-sol",
+    "--thinking",
+    "high",
+    "--system-prompt",
+    "The attached request.json contains a JSON object with inputFiles, each with path and content. Those file contents are the complete task inputs. Return only a JSON object with a files array; each entry contains path, a top-level C# filename, and content, the complete file text. Return the complete solution. Do not replace supplied contract or test files.",
+    "--extension",
+    "Q:/repos/funnysharp-goal24-resolution/.omo/audit-resolution/probes/u12-native-context-observer.mjs",
+    "@request.json"
+  ],
+  "cwd": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v2/concurrency/idiomatic/run-2/producer/0001-context",
+  "captureUrl": "http://127.0.0.1:61038/",
+  "captureToken": "f023afbb-b157-4625-abbf-ec6d9c5924d0"
+}

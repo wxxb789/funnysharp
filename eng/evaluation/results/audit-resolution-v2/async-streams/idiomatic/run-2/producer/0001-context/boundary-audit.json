@@ -1,0 +1,31 @@
+{
+  "schema": "funnysharp-native-boundary-audit/v1",
+  "slot": "async-streams/idiomatic/run-2",
+  "requestedSystemSha256": "fbda330f8e40178394f701e3e4552726ec33026ba95f94aaa7aab3f03dd00d78",
+  "startupSystemMatches": true,
+  "startupContextFiles": [],
+  "startupSkills": [],
+  "startupActiveTools": [],
+  "providerRequests": [
+    {
+      "index": 1,
+      "requestedModelLabel": "gpt-6.1-sol",
+      "developerTexts": [
+        {
+          "role": "developer",
+          "sha256": "af5f4d8e0ad6bd7423689496bb968ad3e7b7c7ec4d2a5fcda9aa0db8e19ba805",
+          "length": 5233,
+          "matchesFixedTransport": false,
+          "startsWithFixedTransport": true,
+          "extraSuffix": "\n\n## Image Generation\n\nWhen image generation tooling is present, read the gpt-image-gen skill before generating.\nUse the image generation tool currently available in this session.\n\n\n<Task_Management>\n## Todo Management\n\nA request with three or more distinct steps gets a phased todo before the first edit - investigation, implementation, verification, final report - in the todo tool; its description carries the operations, anatomy, and rules. Mark each item done the moment it finishes and reconcile the list against the newest user message before ending a turn.\n\n## Evidence\n- File edit: inspect the changed files and diagnostics.\n- Build command: require exit code 0.\n- Test run: require passing output, or state the pre-existing failure.\n</Task_Management>\n\n## Bash Tool Timeout Policy\n\nThe `bash` tool's `timeout` parameter is the process kill deadline, not how long you wait for output: the command is killed when it reaches the deadline.\n\n- Default timeout: 1800s (30 min). Applied automatically when you do not set `timeout`.\n- Recommended maximum timeout: 1800s (30 min). Explicit `timeout` values are preserved because different hosts may use different timeout units.\n- Foreground blocking stops at the ~60s window. A command still running then auto-detaches alive to a background session with a `bash_id` and keeps running until it exits or hits the kill deadline; the session tools in the terminal section steer or stop it.\n\n## Persistent terminal sessions\n\nThe `bash` tool is PTY-backed. For long-running or interactive work, do NOT use tmux or\nmanual `&` backgrounding — use the built-in session tools:\n\n- `bash({ command, run_in_background: true })` starts a persistent session and returns a\n  `bash_id` immediately. Foreground calls still block and return output; their `timeout`\n  (seconds) is a kill deadline. Background sessions ignore `timeout` and live until they\n  exit or you call `kill_bash`.\n- `bash_output({ bash_id, filter, view })` peeks at a session without blocking: new output\n  since the last read, the status line, or a rendered full-screen snapshot of TUIs via\n  `view: \"screen\"`. Completion arrives as a notification carrying the exit code and output\n  tail — peeking is for steering, never for waiting.\n- `monitor` subscribes you to a change. Pass `command` XOR `path` — one branch per call,\n  never both:\n  - `monitor({ description, command, filter?, timeout_ms?, persistent? })` watches a command:\n    newline-terminated PTY output lines (stderr included) matching `filter` arrive as injected\n    events while you keep working; command exit always delivers a summary. One-shot gate: wait\n    inside the command and print one sentinel (`until <cond>; do sleep 1; done;\n    printf 'READY\\n'`). Stream: `tail -n 0 -F | grep --line-buffered`. Filter noise at the\n    source and stop with `kill_bash`. Persistent command watches are re-run after a restart with\n    `SENPI_MONITOR_RESTORED=1`; keep any baseline in `$SENPI_MONITOR_STATE_DIR` so a move during\n    downtime (at most `$SENPI_MONITOR_DOWNTIME_MS` ms) is still reported:\n    `b=\"$SENPI_MONITOR_STATE_DIR/base\"; p=$(cat \"$b\" 2>/dev/null || git rev-parse origin/main | tee \"$b\"); while sleep 30; do git fetch -q || true; n=$(git rev-parse origin/main); [ \"$n\" != \"$p\" ] && { echo \"MOVED $p..$n\"; p=$n; echo \"$p\" > \"$b\"; }; done`.\n    A watch whose command exits is not restarted, so keep failures inside the loop non-fatal.\n  - `monitor({ description, path, event?, persistent? })` natively watches one regular file and\n    fires once — prefer it over a shell poll loop. `\"create\"` (the default) fires only when the file\n    appears after registration, so watch an already-existing file with `\"modify\"`; registration needs\n    the parent directory to exist already, so poll with a `command` when the run creates that\n    directory too. This branch takes no `filter`.\n  A standing watch is marked `persistent: true`: it has no deadline, survives a session restart\n  (the file is rescanned and any change missed while detached reported), expires 7 days after\n  creation, has no per-session cap unless the `terminal.maxDurableMonitors` setting sets one,\n  and is accounted for in one restart-report line on session start.\n  Identical updates are deduped; repeated monitor-only wakes pause the noisy monitor(s) that\n  caused them, not all monitors. Completion still wakes the session, and\n  `monitor({ action: \"rearm\", bash_id })` resumes one while `monitor({ action: \"rearm\" })`\n  resumes all paused monitors; real user input also resumes paused monitors.\n- `bash_input({ bash_id, input, keys, submit })` sends stdin or named keys (e.g.\n  `[\"ctrl+c\"]`, `[\"enter\"]`) to steer a REPL or interrupt a process.\n- `bash_resize({ bash_id, cols, rows })` resizes the PTY so full-screen programs reflow.\n- `kill_bash({ bash_id })` (or `{ all: true }`) tears the session tree down with no orphans.\n"
+        }
+      ],
+      "effectiveMessageRoles": [
+        "user"
+      ],
+      "additionalUserMessages": []
+    }
+  ],
+  "compliant": false,
+  "actualUpstreamServedModelKnown": false
+}

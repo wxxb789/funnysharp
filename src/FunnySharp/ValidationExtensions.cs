@@ -18,6 +18,12 @@ public static class ValidationExtensions
     /// A valid result when both validations are valid; otherwise, an invalid validation containing all
     /// errors in function-then-argument order.
     /// </returns>
+    /// <remarks>
+    /// When both operands are valid, the function payload is invoked once without a null-payload
+    /// guard. An invalid operand skips invocation. Callback exceptions propagate unchanged.
+    /// </remarks>
+    /// <exception cref="InvalidOperationException">Either operand is uninitialized.</exception>
+    /// <exception cref="NullReferenceException">Both operands are valid and the function payload is null.</exception>
     public static Validation<TResult, TError> Apply<TValue, TResult, TError>(
         this Validation<Func<TValue, TResult>, TError> function,
         Validation<TValue, TError> argument) =>
@@ -32,6 +38,15 @@ public static class ValidationExtensions
     /// <param name="validation">The validation to transform.</param>
     /// <param name="selector">The asynchronous transformation to invoke for a valid value.</param>
     /// <returns>A task that produces the transformed validation or preserves the existing errors.</returns>
+    /// <remarks>
+    /// The callback is guarded synchronously even when its branch will not invoke it.
+    /// The callback is invoked once only for the successful branch; failure skips it. Its operation
+    /// is consumed once. Synchronous callback exceptions are captured in the returned operation,
+    /// and a synchronously thrown OperationCanceledException produces cancellation. A faulted callback
+    /// operation remains faulted, including a faulted OperationCanceledException; a canceled callback
+    /// operation remains canceled. These exceptions are not converted to typed carrier failures.
+    /// A selected callback returning a null Task faults with NullReferenceException.
+    /// </remarks>
     /// <exception cref="ArgumentNullException"><paramref name="selector"/> is null.</exception>
     /// <exception cref="InvalidOperationException">This validation is uninitialized.</exception>
     public static Task<Validation<TResult, TError>> MapAsync<TValue, TResult, TError>(
@@ -60,6 +75,16 @@ public static class ValidationExtensions
     /// <param name="selector">The asynchronous transformation to invoke for a valid value.</param>
     /// <param name="cancellationToken">The token passed unchanged to <paramref name="selector"/> when the validation is valid.</param>
     /// <returns>A task that produces the transformed validation or preserves the existing errors.</returns>
+    /// <remarks>
+    /// The callback is guarded synchronously even when its branch will not invoke it.
+    /// The callback is invoked once only for the successful branch; failure skips it. Its operation
+    /// is consumed once. Synchronous callback exceptions are captured in the returned operation,
+    /// and a synchronously thrown OperationCanceledException produces cancellation. A faulted callback
+    /// operation remains faulted, including a faulted OperationCanceledException; a canceled callback
+    /// operation remains canceled. These exceptions are not converted to typed carrier failures.
+    /// The token is forwarded unchanged to the selected callback, not checked independently.
+    /// A selected callback returning a null Task faults with NullReferenceException.
+    /// </remarks>
     /// <exception cref="ArgumentNullException"><paramref name="selector"/> is null.</exception>
     /// <exception cref="InvalidOperationException">This validation is uninitialized.</exception>
     public static Task<Validation<TResult, TError>> MapAsync<TValue, TResult, TError>(
@@ -88,6 +113,14 @@ public static class ValidationExtensions
     /// <param name="validation">The validation to transform.</param>
     /// <param name="selector">The asynchronous transformation to invoke for a valid value.</param>
     /// <returns>A value task that produces the transformed validation or preserves the existing errors.</returns>
+    /// <remarks>
+    /// The callback is guarded synchronously even when its branch will not invoke it.
+    /// The callback is invoked once only for the successful branch; failure skips it. Its operation
+    /// is consumed once. Synchronous callback exceptions are captured in the returned operation,
+    /// and a synchronously thrown OperationCanceledException produces cancellation. A faulted callback
+    /// operation remains faulted, including a faulted OperationCanceledException; a canceled callback
+    /// operation remains canceled. These exceptions are not converted to typed carrier failures.
+    /// </remarks>
     /// <exception cref="ArgumentNullException"><paramref name="selector"/> is null.</exception>
     /// <exception cref="InvalidOperationException">This validation is uninitialized.</exception>
     public static ValueTask<Validation<TResult, TError>> MapValueAsync<TValue, TResult, TError>(
@@ -117,6 +150,15 @@ public static class ValidationExtensions
     /// <param name="selector">The asynchronous transformation to invoke for a valid value.</param>
     /// <param name="cancellationToken">The token passed unchanged to <paramref name="selector"/> when the validation is valid.</param>
     /// <returns>A value task that produces the transformed validation or preserves the existing errors.</returns>
+    /// <remarks>
+    /// The callback is guarded synchronously even when its branch will not invoke it.
+    /// The callback is invoked once only for the successful branch; failure skips it. Its operation
+    /// is consumed once. Synchronous callback exceptions are captured in the returned operation,
+    /// and a synchronously thrown OperationCanceledException produces cancellation. A faulted callback
+    /// operation remains faulted, including a faulted OperationCanceledException; a canceled callback
+    /// operation remains canceled. These exceptions are not converted to typed carrier failures.
+    /// The token is forwarded unchanged to the selected callback, not checked independently.
+    /// </remarks>
     /// <exception cref="ArgumentNullException"><paramref name="selector"/> is null.</exception>
     /// <exception cref="InvalidOperationException">This validation is uninitialized.</exception>
     public static ValueTask<Validation<TResult, TError>> MapValueAsync<TValue, TResult, TError>(

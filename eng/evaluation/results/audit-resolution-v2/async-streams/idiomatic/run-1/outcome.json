@@ -1,0 +1,27 @@
+{
+  "schema": "funnysharp-native-slot-outcome/v1",
+  "slot": "async-streams/idiomatic/run-1",
+  "status": "MALFORMED_OUTPUT",
+  "rounds": 1,
+  "verifier": {
+    "status": "NOT_RUN",
+    "reason": "Invalid output path: solution/SensorStream.cs (expected a top-level .cs filename; no path normalization is registered)",
+    "eligibleCorrection": false
+  },
+  "logicalSessionId": "study-session:537d8e34-e39f-49c7-9952-62a2fa956e53",
+  "actualCLIUUID": "01a0fbfc-e817-72f2-9b5f-068238489c2a",
+  "history": [
+    {
+      "round": 1,
+      "status": "malformed-output",
+      "invocationId": "native-call:55b8bb3b-8ce7-4d1e-af51-6e07277aa349",
+      "actualCLIUUID": "01a0fbfc-e817-72f2-9b5f-068238489c2a",
+      "exitCode": 0,
+      "startedUtc": "2026-10-02T09:40:47.567Z",
+      "finishedUtc": "2026-10-02T09:42:04.702Z",
+      "decodeError": "Invalid output path: solution/SensorStream.cs (expected a top-level .cs filename; no path normalization is registered)",
+      "context": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v2/async-streams/idiomatic/run-1/producer/0001-context",
+      "providerRequests": 3
+    }
+  ]
+}

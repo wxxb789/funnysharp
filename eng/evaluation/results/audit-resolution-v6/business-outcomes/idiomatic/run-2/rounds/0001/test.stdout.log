@@ -1,0 +1,9 @@
+Running tests from Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\business-outcomes-idiomatic-run-2-aa9e5eee849d439ab317cae716352cc9\bin\Release\net10.0\BusinessOutcomesKit.dll (net10.0|x64)
+Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\business-outcomes-idiomatic-run-2-aa9e5eee849d439ab317cae716352cc9\bin\Release\net10.0\BusinessOutcomesKit.dll (net10.0|x64) passed (795ms)
+
+Test run summary: Passed!
+  total: 10
+  failed: 0
+  succeeded: 10
+  skipped: 0
+  duration: 1s 619ms

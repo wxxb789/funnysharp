@@ -1,0 +1,85 @@
+{
+  "$schema": "http://json.schemastore.org/sarif-1.0.0",
+  "version": "1.0.0",
+  "runs": [
+    {
+      "tool": {
+        "name": "Microsoft (R) Visual C# Compiler",
+        "version": "5.9.0.0",
+        "fileVersion": "5.9.0-1.26423.113 (e34a38d2ae1fc26406a317517196e55c68ff83ab)",
+        "semanticVersion": "5.9.0",
+        "language": "en"
+      },
+      "results": [
+        {
+          "ruleId": "CA1050",
+          "level": "note",
+          "message": "Declare types in namespaces",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///Q:/repos/funnysharp-goal24-resolution/eng/evaluation/studies/audit-resolution-v4/snapshot/analyzer-control/Control.cs",
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 21,
+                  "endLine": 1,
+                  "endColumn": 28
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "FS1001",
+          "level": "error",
+          "message": "'Result<int, string>' has no valid default value: every member that reads a default Result<int, string> throws InvalidOperationException; create it with a factory instead",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///Q:/repos/funnysharp-goal24-resolution/eng/evaluation/studies/audit-resolution-v4/snapshot/analyzer-control/Control.cs",
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 88,
+                  "endLine": 1,
+                  "endColumn": 126
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "rules": {
+        "CA1050": {
+          "id": "CA1050",
+          "shortDescription": "Declare types in namespaces",
+          "fullDescription": "Types are declared in namespaces to prevent name collisions and as a way to organize related types in an object hierarchy.",
+          "defaultLevel": "note",
+          "helpUri": "https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1050",
+          "properties": {
+            "category": "Design",
+            "isEnabledByDefault": true,
+            "tags": [
+              "PortedFromFxCop",
+              "Telemetry",
+              "EnabledRuleInAggressiveMode"
+            ]
+          }
+        },
+        "FS1001": {
+          "id": "FS1001",
+          "shortDescription": "Do not create a FunnySharp carrier with default or new()",
+          "fullDescription": "Result<TValue, TError>, UnitResult<TError>, Validation<TValue, TError>, NonEmpty<T>, Effect<T>, Effect<TEnvironment, T>, Lens<TSource, TFocus>, and Optional<TSource, TFocus> are uninitialized in their default state, and every member that reads them throws InvalidOperationException. Use the factories (Success/Failure, Valid/Invalid, ToNonEmptyOrNone, the Effect factories, Create) instead. Option<T> (default is None) and TransitionResult (default is Undefined) are excluded because their defaults are valid.",
+          "defaultLevel": "error",
+          "helpUri": "https://github.com/wxxb789/funnysharp/blob/main/docs/analyzers.md#fs1001-uninitialized-semantic-carrier",
+          "properties": {
+            "category": "FunnySharp",
+            "isEnabledByDefault": true
+          }
+        }
+      }
+    }
+  ]
+}

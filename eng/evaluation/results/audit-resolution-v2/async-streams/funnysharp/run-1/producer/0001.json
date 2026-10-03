@@ -1,0 +1,20 @@
+{
+  "studySha256": "ce3deafe90964e2388ca44c875223a508474d93868636ccb7a96d19e9a8a9c6f",
+  "task": "async-streams",
+  "style": "funnysharp",
+  "sessionId": "study-session:086821ff-b76f-4d69-bc62-e4d9b150e9f5",
+  "invocationId": "native-call:923b5cb4-3355-433e-a7af-f315d9675d5e",
+  "route": "native-omo-cli/5.1.9/json-print",
+  "producerKind": "ai",
+  "requestedModel": "ghc/gpt-6.1-sol",
+  "providerModel": {
+    "value": null,
+    "unknownReason": "Selected native route/model is observed; actual upstream served model remains unknown unless returned metadata supplies it."
+  },
+  "contextSha256": "b2b66227d62b2d7cdea69a060fe905674d5e82ad5852bab38e56e99879ac734c",
+  "solutionFiles": [],
+  "invocationSha256": "47d3281da324b6a8027b7d89e0bdd9760925e995217764169613cf1fa28dbdfd",
+  "startedUtc": "2026-10-02T09:40:47.567Z",
+  "finishedUtc": "2026-10-02T09:41:42.836Z",
+  "status": "malformed-output"
+}
