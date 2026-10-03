@@ -1,0 +1,18 @@
+Running tests from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\bin\Release\net10.0\FunnySharp.Analyzers.Tests.dll (net10.0|x64)
+failed FunnySharp.Analyzers.Tests.CodeFixTests.DiscardedOutcomeFixPreservesStatementAndSemicolonComments (181ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\bin\Release\net10.0\FunnySharp.Analyzers.Tests.dll (net10.0|x64)
+  Assert.True() Failure
+  Expected: True
+  Actual:   False
+    at FunnySharp.Analyzers.Tests.CodeFixTests.DiscardedOutcomeFixPreservesStatementAndSemicolonComments() in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\CodeFixTests.cs:152
+    --- End of stack trace from previous location ---
+Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\bin\Release\net10.0\FunnySharp.Analyzers.Tests.dll (net10.0|x64) failed with 1 error(s) (5s 624ms)
+Exit code: 2
+
+Test run summary: Failed!
+  total: 109
+  failed: 1
+  succeeded: 108
+  skipped: 0
+  duration: 6s 083ms
+Test run completed with non-success exit code: 2 (see: https://aka.ms/testingplatform/exitcodes)

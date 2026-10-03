@@ -1,0 +1,14 @@
+  Determining projects to restore...
+  Restored Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.AspNetCore.Tests\FunnySharp.AspNetCore.Tests.csproj (in 274 ms).
+  Restored Q:\repos\funnysharp-goal24-resolution\src\FunnySharp.AspNetCore\FunnySharp.AspNetCore.csproj (in 261 ms).
+  Restored Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Tests\FunnySharp.Tests.csproj (in 273 ms).
+  Restored Q:\repos\funnysharp-goal24-resolution\examples\FunnySharp.AspNetCore.Examples\FunnySharp.AspNetCore.Examples.csproj (in 262 ms).
+  Restored Q:\repos\funnysharp-goal24-resolution\src\FunnySharp.Analyzers.CodeFixes\FunnySharp.Analyzers.CodeFixes.csproj (in 269 ms).
+  Restored Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Harness.Tests\FunnySharp.Harness.Tests.fsproj (in 273 ms).
+  Restored Q:\repos\funnysharp-goal24-resolution\examples\FunnySharp.DocumentationSamples\FunnySharp.DocumentationSamples.csproj (in 260 ms).
+  Restored Q:\repos\funnysharp-goal24-resolution\examples\FunnySharp.Examples\FunnySharp.Examples.csproj (in 261 ms).
+  Restored Q:\repos\funnysharp-goal24-resolution\eng\harness\FunnySharp.Harness.fsproj (in 262 ms).
+  Restored Q:\repos\funnysharp-goal24-resolution\src\FunnySharp\FunnySharp.csproj (in 262 ms).
+  Restored Q:\repos\funnysharp-goal24-resolution\src\FunnySharp.Analyzers\FunnySharp.Analyzers.csproj (in 268 ms).
+  Restored Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\FunnySharp.Analyzers.Tests.csproj (in 273 ms).
+  Restored Q:\repos\funnysharp-goal24-resolution\benchmarks\FunnySharp.Benchmarks\FunnySharp.Benchmarks.csproj (in 363 ms).

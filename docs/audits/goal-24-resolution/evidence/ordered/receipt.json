@@ -1,0 +1,51 @@
+{
+  "executor": "main-session",
+  "baseCommit": "a8863473fd53eddc7cb47201508426db2e454f84",
+  "baseTree": "88e8a528017b0a5f68710cc1d955fda64486877f",
+  "unitDiffSha256": "dfd493bb01b2ac2d5edba515812909bc46eaa57cc82e677d1bc58115ebd41471",
+  "findings": [
+    "G18-CANCELLATION-PUBLICATION",
+    "G18-14",
+    "G18-21"
+  ],
+  "red": {
+    "exitCode": 2,
+    "total": 54,
+    "failed": 6,
+    "succeeded": 48,
+    "skipped": 0
+  },
+  "green": {
+    "exitCode": 0,
+    "total": 54,
+    "failed": 0,
+    "succeeded": 54,
+    "skipped": 0
+  },
+  "core": {
+    "exitCode": 0,
+    "total": 719,
+    "failed": 0,
+    "succeeded": 719,
+    "skipped": 0
+  },
+  "package": {
+    "version": "0.2.0 unit-local override",
+    "sha256": "d8d0a83baa7e8f3f1f64a6140ec9a72e7277e094d96f5f144564b77a6ea9ac55",
+    "exitCode": 0,
+    "total": 54,
+    "failed": 0,
+    "succeeded": 54,
+    "skipped": 0,
+    "stdoutCapture": "Verbatim foreground eval result, not rerun",
+    "projectReferences": [],
+    "coreDll": [
+      "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\ordered\\packages\\funnysharp\\0.2.0\\lib\\net10.0\\FunnySharp.dll"
+    ]
+  },
+  "mechanism": "Await next.Task into a local; check operation cancellation; publish Current then remove StartedWork. Existing caller/terminal primary and cleanup aggregate retained. IValueTaskSource consumed once, source disposed once, repeated disposal stable.",
+  "causality": "Subscribe token-cancellation signal before later fault; cancel pending pull before non-cooperating selector release. Both factory overloads, both delivery modes, clean/faulting cleanup. Route tests use synchronous second completion and source-exhaustion publication barrier, no timed silence.",
+  "diagnostics": "Changed C# source/tests clean; initial freshness timeouts resolved.",
+  "cleanup": "All gated candidates and pulls released/drained in finally, enumeration disposed once, all commands exited.",
+  "finalCandidateReplay": "Unit proof only; full frozen candidate and release replay still required."
+}

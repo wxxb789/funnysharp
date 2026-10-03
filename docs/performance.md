@@ -28,20 +28,24 @@ cross-cutting characteristics that do not fit a single table row.
 ## Carrier foundation
 
 `Option<T>`, `Result<TValue, TError>`, `UnitResult<TError>`, and `Validation<TValue, TError>`
-are `readonly struct` carriers. Construction, dispatch (`Map`, `Bind`, `Ensure`, `Filter`,
-`MapError`, `Recover`, `OrElse`), and extraction (`Match`, `TryGetValue`,
-`GetValueOr*`) are O(1) branch-and-call operations over struct fields: they allocate nothing on
-the heap and never box a contained value type. The zero-allocation observations for the value,
-completed-`ValueTask`, and span rows in each topic table are direct measurements of this
-foundation. Reference-type payloads are stored as references, not copied; the carriers add no
-hidden per-operation cost beyond the selector or predicate the caller supplies.
+are `readonly struct` carriers. Their representation does not itself allocate, but individual
+operations can allocate library-owned arrays, wrappers, delegates, iterators, or collections.
+Converting a carrier to `object` or an interface can box it. Callback, payload, comparer,
+enumerator, and exception costs must be added to the library work below. A measured zero applies
+to that exact successful execution path, not every member or construction path in a family.
 
 Fail-fast carriers short-circuit on the first failure: a failed `Result`/`UnitResult` never
 invokes the next selector, and `Option` preserves absence without invoking any callback.
-`Validation` is the deliberate exception: independent checks accumulate every error, so its
-traversal cost is always O(n) selector invocations plus one list per accumulated error group.
+`Validation` is the deliberate exception: independent checks accumulate every error. Traversal
+visits every input and copies every retained error into its ordered error list. Error factories,
+error mapping, and combination have distinct array and read-only-wrapper costs.
 
 ## Per-operation characteristics
+
+The bounds describe library work for initialized values and valid arguments, excluding caller
+work and waits. Let n be reached source items, e accumulated errors, p the configured concurrency
+bound, and k retained parallel outcomes. Receiver-dependent operations and interface enumeration
+do not acquire a universal zero-allocation or constant-time guarantee from these extensions.
 
 | Family | Operation | Complexity | Enumeration | Allocation / boxing | Materialization / buffering | Async scheduling |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -51,31 +55,40 @@ traversal cost is always O(n) selector invocations plus one list per accumulated
 | Option | `Zip`, `ZipWith` | O(1) | — | Zero (the tuple is a struct field) | None | — |
 | Option | `MapAsync`/`BindAsync` (`Task`) | O(1) + awaitable | — | Completed path: the async machinery plus the returned `Task` (measured 216-256 B per call); pending: per continuation | None | Continues on the awaited task's scheduler; no sync-over-async |
 | Option | `MapValueAsync`/`BindValueAsync` (`ValueTask`) | O(1) + awaitable | — | Completed path: zero; pending: per continuation | None | Preserves the underlying `ValueTask`; never blocks |
-| Option bridges | `ToOption`, `ToNullable`, `GetOption`, `FromTry` parse/dictionary bridges | O(1) (hash lookup for `GetOption`) | — | Zero | None | — |
-| Container bridges | `PopOrNone`, `PeekOrNone`, `DequeueOrNone` (stack, queue, priority queue) | O(1); `DequeueOrNone` peeks, validates, then removes | — | Zero | None; the container is mutated only when the returned option is present, which is why `DequeueOrNone` acquires the head twice (peek, then dequeue) | — |
-| Result / UnitResult | `Success`, `Failure`, `Map`, `Bind`, `Ensure`, `MapError`, `Recover`, `OrElse`, `Match`, `TryGetValue` | O(1) + selector/predicate | — | Zero beyond caller callbacks | None | — |
+| Option bridges | `ToOption`, `ToNullable`, `FromTry` | O(1) carrier work plus the supplied operation | — | No library-owned result buffer | None | — |
+| Container bridges | `GetOption`, `RemoveOrNone`, `IndexOfOrNone` | Receiver-dependent hashing/equality/search; `IList<T>.IndexOf` can scan O(n) | — | No library-owned search buffer | Dictionary removal validates the selected value before mutation | — |
+| Container bridges | `PopOrNone`, `PeekOrNone`, `DequeueOrNone` | Stack/Queue head operations O(1); PriorityQueue removal O(log n), plus comparer work | — | No library-owned result buffer | PriorityQueue dequeue peeks and validates before removing the root | — |
+| Result | `Success`, `Failure`, `Map`, `Bind`, `Ensure`, `MapError`, `Recover`, `RecoverWith`, `Match`, `TryGetValue` | O(1) + selector/predicate | — | No library-owned payload buffer | None | — |
+| UnitResult | `Success`, `Failure`, `Bind`, `Ensure`, `MapError`, `RecoverWith`, `ToResult`, `Match`, `TryGetError` | O(1) + callback | — | No success payload or success-value buffer | `ToResult` explicitly constructs a value-producing result | — |
 | Result | `Result.Try` | O(1) + operation | — | Zero on success; the caught exception is the operation's own allocation | None | — |
 | Result / UnitResult | `MapAsync`/`BindAsync` (`Task`) and `*ValueAsync` variants | O(1) + awaitable | — | Completed `Task` path: async machinery plus the returned `Task`; completed `ValueTask` path: zero (measured); pending: per continuation | None | Token forwarded unchanged; no sync-over-async |
-| Validation | `Valid`, `Invalid`, `Map`, `MapErrors`, `Recover` | O(1) + callback | — | Zero beyond callbacks | Error groups are shared `IReadOnlyList` values, not copied | — |
-| Validation | accumulation (`Apply`, `Combine`, traversal) | O(errors) | — | One wrapper per combined error group | Errors accumulate eagerly in order | — |
-| Sequences | `Sequence`/`Traverse` (Option, Result, UnitResult: fail-fast) | O(n) selectors, single pass | Source enumerated exactly once | Values list (capacity-hinted when the source is a collection) | Materializes one `IReadOnlyList` result; fails fast, no partial list | — |
-| Sequences | `Traverse` (Validation) | O(n) selectors, single pass | Source enumerated exactly once | Values list plus one error list | Materializes values or the full ordered error list | — |
-| Sequences | located `Traverse` overloads (experimental, FS0017) | O(n) selectors, single pass | Once | Values list plus `Location` chain per selector call | Same as the non-located form | — |
-| Sequences | `SequenceAsync`/`TraverseAsync`/`*ValueAsync` | O(n) awaits, single pass | Source enumerated exactly once | Same as sync plus per-await state machines on pending paths | Same as sync | Sequential awaiting; token forwarded to the enumerator |
+| Validation | `Valid`, `Map`, valid `MapErrors` | O(1) + callback | — | No new error buffer; invalid `Map` shares the existing errors | None | — |
+| Validation | `Invalid`, `InvalidMany` | O(1) for one error; O(e) for a supplied error sequence | `InvalidMany` enumerates once | Owned error array and read-only wrapper | Snapshots all supplied errors | — |
+| Validation | Invalid `MapErrors` | O(e) callbacks and writes | Visits every stored error | New error array and read-only wrapper | Materializes all mapped errors | — |
+| Validation | `Zip`, `Apply` | O(e) when combining invalid error groups; O(1) + callback when valid | Copies combined errors in operand order | Combined invalid groups create an array and wrapper; a single invalid group can be shared | Eager accumulation; valid operands have no error buffer | — |
+| Sequences | `Sequence`/`Traverse` (Option, Result: fail-fast) | O(n) + selectors | One pass, stops on first failure | Lazily created values list, capacity-hinted where available; success wrapper | Successful values materialized; no partial collection returned on failure | — |
+| Sequences | `Sequence`/`Traverse` (UnitResult: fail-fast) | O(n) + selectors | One pass, stops on first failure | No success-value list | Returns only success or the first error | — |
+| Sequences | `Traverse` (Validation) | O(n + e) + selectors | Source enumerated once; all selector errors visited | Successful prefix list is discarded after the first error; ordered error list and wrapper retained | Materializes values on success or all errors on invalid result | — |
+| Sequences | Keyed `Traverse` (Option, Result, Validation) | Receiver/comparer-dependent dictionary insertion plus reached-item/error work | Source enumerated once | Successful dictionary and read-only wrapper; Validation also retains errors | Preserves exposed or explicitly supplied equality; UnitResult creates no dictionary | — |
+| Sequences | located `Traverse` overloads (experimental, FS0017) | Carrier-specific traversal work plus location construction | Once | Location chain per reached item plus the corresponding carrier buffers | Same outcome shape as the non-located form | — |
+| Sequences | `SequenceAsync`/`TraverseAsync`/`TraverseValueAsync` | Same carrier-specific traversal work, plus awaits | One source pass | Same carrier buffers plus asynchronous machinery where needed | Same carrier-specific materialization | Sequential awaiting; token forwarded to the enumerator |
 | Pipelines | `Choose`, `WhereNotNull`, `Scan` (sync and async) | O(n) per enumeration | Deferred; re-enumerates the source per enumeration | Iterator state machine once per enumeration | No materialization; `Scan` state is per-enumeration | Async forms await sequentially, token forwarded |
-| Pipelines | span/memory `Choose`/`Scan` variants | O(n) immediate | Single immediate pass | Zero beyond caller-supplied buffers | Writes into caller-owned storage; respects view lifetimes | — |
-| Cardinality | `FirstOrNone`, `SingleOrNone`, `LastOrNone`, `MinOrNone`, `MaxOrNone`, `ElementAtOrNone`, aggregates | O(n) single pass | Once | Zero | No materialization; `SingleOrNone` keeps scanning to reject duplicates | — |
-| Cardinality | `NonEmpty`, `NonEmptyAggregate` | O(n) single pass | Once | Zero when empty; one list when non-empty | Materializes only the non-empty proof | — |
-| Cardinality | `ZipExact`, `ZipExactOrNone` | O(min(n, m)) + one count check | Each source once | Zero | No materialization; unequal lengths fail without buffering | — |
-| Partition | `Partition`, `OptionPartition`, `ResultPartition`, `UnitResultPartition` | O(n) single pass | Once | Two lists, allocated lazily on first element | Materializes both result lists | — |
+| Pipelines | span/memory `SelectTo`, `WhereTo`, `ChooseTo`, `SelectInPlace`, `WhereInPlace` | O(n) immediate | Single immediate pass | Caller-owned storage; no library-owned output buffer | Writes or compacts the destination prefix; no span `Scan` member | — |
+| Cardinality | `FirstOrNone`, `SingleOrNone`, `LastOrNone`, `MinOrNone`, `MaxOrNone`, `ElementAtOrNone` | Member/receiver-dependent, at most a source scan plus predicate/comparer work | One pass where enumeration is needed | No library-owned result buffer; enumerator costs depend on the source | `SingleOrNone` stops at the second qualifying item; unique/no-match predicate cases can scan all inputs | — |
+| NonEmpty | `ToNonEmptyOrNone`, `First`, `Rest`, `Count`, `Aggregate` | Construction and fold O(n); access O(1) | Construction consumes one source pass; fold visits stored rest | Construction stores remaining items in a list | Retains first/rest; seedless fold needs no output buffer | — |
+| NonEmpty | `ToReadOnlyList` | O(n) copy | Visits retained items | Fresh list and read-only wrapper on each call | Materializes a new ordered collection | — |
+| Cardinality | `ZipExact`, `ZipExactOrNone` | O(n + m) for both full input lengths | Each source once; the longer side is drained | Pair list allocated even on mismatch; success also creates a read-only wrapper | Stores up to min(n, m) common-prefix pairs and reports exact counts | — |
+| Partition | Predicate and Result `Partition` | O(n) | Once | Up to two lazy lists and corresponding read-only views, plus a reference-type partition record | Stores each non-empty side in source order | — |
+| Partition | Option `Partition` | O(n) | Once | Lazy present-value list/view and partition record | Stores present values; counts absences | — |
+| Partition | UnitResult `Partition` | O(n) | Once | Lazy error list/view and partition record | Stores errors; counts successes; no success-value list | — |
 | Function grammar | `Pipe`, `Tap` | O(1) | — | Zero | None | — |
 | Function grammar | `Compose`, `Curry`, `Uncurry`, `Partial`, `Flip` | O(1) per call | — | One composed delegate at construction | None | — |
 | Function grammar | `ComposeAsync`/`ComposeValueAsync` | O(1) per call | — | State machine per invocation on pending paths | None | Sequential await, token forwarded |
-| Effects | `Effect.From*`, `Map`, `Bind` construction | O(1) | — | Struct wrapper; closures only where the caller captures | Deferred until `RunAsync` | `RunAsync` returns `ValueTask`; synchronous completion is zero-allocation |
-| Effects | `EffectResourceExtensions` scopes | O(scope) | — | The `using`-shaped scope; released on success, failure, exception, and cancellation | None | Token forwarded; no fire-and-forget |
-| Concurrency | `SelectParallelValueAsync`, `SelectParallelCompletionOrderValueAsync` | O(n/parallelism) | Source enumerated once | Bounded `Channel` buffering; per-item task coordination | Streams results with backpressure; no unbounded queue | Caller's scheduler; linked cancellation; delivery order fixed by the method name |
-| Concurrency | parallel traversal | O(n/parallelism) | Once | Results array sized to the source | Materializes ordered values (fail-fast vs. accumulation per carrier) | Bounded fan-out; linked cancellation |
-| Concurrency | first-success family | O(started work) | Cold effects only | One coordination scope | Drains all started work before returning `Validation` | `TimeProvider` timeouts are cooperative, coordinator-owned |
+| Effects | `Effect.From*`, `Map`, `Bind`, `Provide`, `WithEnvironment` construction | O(1) construction work | — | Library-owned runner closures retain values, source effects, environments, or callbacks where needed; a supplied runner can also be retained directly | Execution deferred until `RunAsync`; construction is a separate cost | A measured completed run of a preconstructed effect does not establish zero-cost construction |
+| Effects | `EffectResourceExtensions` scopes | Constant coordination plus acquisition/use/disposal work | — | Construction captures the resource/use effects; pending execution has async machinery | Releases the acquired resource once, including failure/cancellation | Token forwarded; natural C# disposal-fault precedence |
+| Concurrency | `SelectParallelValueAsync`, `SelectParallelCompletionOrderValueAsync` | O(n * p) conservative bookkeeping bound plus source/selector work | Source enumerated once | Channel, admission window, and started-work list bounded by p; per-item tasks/observers | Streams with backpressure; indexed list lookup/removal can scan the window | BCL async coordination; linked cancellation; elapsed parallelism is not an algorithmic bound |
+| Concurrency | Parallel traversal | O(n * p + k log k + e) coordination/finalization plus source/selector work | Once | Active-work list bounded by p, growing indexed outcome list, final carrier-specific buffers | Sorts retained outcomes by index before materializing values or errors | Bounded admission and cancel-and-drain |
+| Concurrency | `FirstSuccessAsync` | O(n) finite snapshot/final ordered pass plus O(started work) indexed completion accounting | Cold inputs snapshotted once | O(n) snapshot/outcome storage and coordination bounded by p (default 32) | Stops admission after selection and drains candidates/observers/callbacks; returns Validation or propagates independent faults | Cooperative TimeProvider timeout is not a hard cleanup deadline; 32 is compatibility policy, not measured optimal parallelism |
 | State machines | `StateChange.To` | O(outputs) snapshot | — | Params array plus snapshot copy plus read-only view (visible per-step semantics) | Snapshot per change | — |
 | State machines | `Then` composition | O(1) per composition; O(steps) evaluation, iterative | — | One composition node per `Then`; pooled scratch; one exact-size output array per evaluation | Single-materialization: outputs concatenate once | — |
 | State machines | `OrElse` | O(1) | — | Zero | None | — |
@@ -134,46 +147,45 @@ comparable functional-programming carriers; they are never API-compatibility evi
 compatibility promise. Pinned packages: FSharp.Core 10.1.400, Funcky 3.6.0,
 CSharpFunctionalExtensions 3.7.0, language-ext Core 4.4.9.
 
-Read the generated table below by row, not by column header: the baseline columns carry each
-scenario's `Direct` reference method, and the columns headed `FunnySharp` carry the method named in
-the row label - for competitor rows that is the competitor library's method, not FunnySharp's.
-Attribute every number to the row's named method, never to the column header.
+Read the generated table below by row: baseline columns carry the scenario's `Direct` reference
+method, and candidate columns carry the exact method named in the row label. A competitor method
+is attributed to that competitor, not to FunnySharp. Neither column is a library-wide average.
 
 <!-- performance-table:start competitor-comparison -->
-| Scenario | Baseline mean | FunnySharp mean | Ratio | Baseline allocation | FunnySharp allocation |
+| Scenario | Baseline mean | Candidate mean | Ratio | Baseline allocation | Candidate allocation |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Map - absent - FSharpCoreMapAbsent | N/A | 0.264 ns | N/A | 0 B | 0 B |
-| Map - absent - FunckyMapAbsent | N/A | 5.874 ns | N/A | 0 B | 24 B |
+| Map - absent - FSharpCoreMapAbsent | N/A | 0.270 ns | N/A | 0 B | 0 B |
+| Map - absent - FunckyMapAbsent | N/A | 4.055 ns | N/A | 0 B | 24 B |
 | Map - absent - FunnySharpMapAbsent | N/A | 0.791 ns | N/A | 0 B | 0 B |
-| Map - absent - LanguageExtMapAbsent | N/A | 0.504 ns | N/A | 0 B | 0 B |
-| Map - present - FSharpCoreMapPresent | 0.146 ns | 2.388 ns | 16.36x | 0 B | 0 B |
-| Map - present - FunckyMapPresent | 0.146 ns | 8.081 ns | 55.35x | 0 B | 24 B |
-| Map - present - FunnySharpMapPresent | 0.146 ns | 2.189 ns | 15.00x | 0 B | 0 B |
-| Map - present - LanguageExtMapPresent | 0.146 ns | 2.222 ns | 15.22x | 0 B | 0 B |
+| Map - absent - LanguageExtMapAbsent | N/A | 0.265 ns | N/A | 0 B | 0 B |
+| Map - present - FSharpCoreMapPresent | N/A | 2.808 ns | N/A | 0 B | 0 B |
+| Map - present - FunckyMapPresent | N/A | 5.948 ns | N/A | 0 B | 24 B |
+| Map - present - FunnySharpMapPresent | N/A | 2.347 ns | N/A | 0 B | 0 B |
+| Map - present - LanguageExtMapPresent | N/A | 1.998 ns | N/A | 0 B | 0 B |
 | Value-or-fallback - absent - FSharpCoreValueOrFallbackAbsent | N/A | N/A | N/A | 0 B | 0 B |
 | Value-or-fallback - absent - FunckyValueOrFallbackAbsent | N/A | N/A | N/A | 0 B | 0 B |
-| Value-or-fallback - absent - FunnySharpValueOrFallbackAbsent | N/A | N/A | N/A | 0 B | 0 B |
+| Value-or-fallback - absent - FunnySharpValueOrFallbackAbsent | N/A | 0.134 ns | N/A | 0 B | 0 B |
 | Value-or-fallback - absent - LanguageExtValueOrFallbackAbsent | N/A | N/A | N/A | 0 B | 0 B |
 | Value-or-fallback - present - FSharpCoreValueOrFallbackPresent | N/A | N/A | N/A | 0 B | 0 B |
-| Value-or-fallback - present - FunckyValueOrFallbackPresent | N/A | 0.307 ns | N/A | 0 B | 0 B |
+| Value-or-fallback - present - FunckyValueOrFallbackPresent | N/A | 0.359 ns | N/A | 0 B | 0 B |
 | Value-or-fallback - present - FunnySharpValueOrFallbackPresent | N/A | N/A | N/A | 0 B | 0 B |
 | Value-or-fallback - present - LanguageExtValueOrFallbackPresent | N/A | N/A | N/A | 0 B | 0 B |
-| Construction and inspection - failure - CSharpFunctionalExtensionsConstructionInspectionFailure | N/A | 0.509 ns | N/A | 0 B | 0 B |
+| Construction and inspection - failure - CSharpFunctionalExtensionsConstructionInspectionFailure | N/A | 0.513 ns | N/A | 0 B | 0 B |
 | Construction and inspection - failure - FSharpCoreConstructionInspectionFailure | N/A | N/A | N/A | 0 B | 0 B |
-| Construction and inspection - failure - FunnySharpConstructionInspectionFailure | N/A | N/A | N/A | 0 B | 0 B |
-| Construction and inspection - failure - LanguageExtConstructionInspectionFailure | N/A | 4.546 ns | N/A | 0 B | 24 B |
-| Construction and inspection - success - CSharpFunctionalExtensionsConstructionInspectionSuccess | N/A | 0.795 ns | N/A | 0 B | 0 B |
-| Construction and inspection - success - FSharpCoreConstructionInspectionSuccess | N/A | N/A | N/A | 0 B | 0 B |
+| Construction and inspection - failure - FunnySharpConstructionInspectionFailure | N/A | 0.105 ns | N/A | 0 B | 0 B |
+| Construction and inspection - failure - LanguageExtConstructionInspectionFailure | N/A | 2.829 ns | N/A | 0 B | 24 B |
+| Construction and inspection - success - CSharpFunctionalExtensionsConstructionInspectionSuccess | N/A | 1.344 ns | N/A | 0 B | 0 B |
+| Construction and inspection - success - FSharpCoreConstructionInspectionSuccess | N/A | 0.117 ns | N/A | 0 B | 0 B |
 | Construction and inspection - success - FunnySharpConstructionInspectionSuccess | N/A | N/A | N/A | 0 B | 0 B |
-| Construction and inspection - success - LanguageExtConstructionInspectionSuccess | N/A | 6.477 ns | N/A | 0 B | 24 B |
-| Fail-fast pipeline - failure - CSharpFunctionalExtensionsFailFastPipelineFailure | N/A | 6.900 ns | N/A | 0 B | 0 B |
-| Fail-fast pipeline - failure - FSharpCoreFailFastPipelineFailure | N/A | 8.770 ns | N/A | 0 B | 0 B |
-| Fail-fast pipeline - failure - FunnySharpFailFastPipelineFailure | N/A | 1.867 ns | N/A | 0 B | 0 B |
-| Fail-fast pipeline - failure - LanguageExtFailFastPipelineFailure | N/A | 48.717 ns | N/A | 0 B | 48 B |
-| Fail-fast pipeline - success - CSharpFunctionalExtensionsFailFastPipelineSuccess | 0.420 ns | 12.770 ns | 30.39x | 0 B | 0 B |
-| Fail-fast pipeline - success - FSharpCoreFailFastPipelineSuccess | 0.420 ns | 11.731 ns | 27.92x | 0 B | 0 B |
-| Fail-fast pipeline - success - FunnySharpFailFastPipelineSuccess | 0.420 ns | 10.032 ns | 23.87x | 0 B | 0 B |
-| Fail-fast pipeline - success - LanguageExtFailFastPipelineSuccess | 0.420 ns | 40.474 ns | 96.32x | 0 B | 48 B |
+| Construction and inspection - success - LanguageExtConstructionInspectionSuccess | N/A | 5.305 ns | N/A | 0 B | 24 B |
+| Fail-fast pipeline - failure - CSharpFunctionalExtensionsFailFastPipelineFailure | N/A | 4.635 ns | N/A | 0 B | 0 B |
+| Fail-fast pipeline - failure - FSharpCoreFailFastPipelineFailure | N/A | 3.500 ns | N/A | 0 B | 0 B |
+| Fail-fast pipeline - failure - FunnySharpFailFastPipelineFailure | N/A | 1.809 ns | N/A | 0 B | 0 B |
+| Fail-fast pipeline - failure - LanguageExtFailFastPipelineFailure | N/A | 44.991 ns | N/A | 0 B | 48 B |
+| Fail-fast pipeline - success - CSharpFunctionalExtensionsFailFastPipelineSuccess | N/A | 16.282 ns | N/A | 0 B | 0 B |
+| Fail-fast pipeline - success - FSharpCoreFailFastPipelineSuccess | N/A | 7.028 ns | N/A | 0 B | 0 B |
+| Fail-fast pipeline - success - FunnySharpFailFastPipelineSuccess | N/A | 8.712 ns | N/A | 0 B | 0 B |
+| Fail-fast pipeline - success - LanguageExtFailFastPipelineSuccess | N/A | 34.851 ns | N/A | 0 B | 48 B |
 <!-- performance-table:end competitor-comparison -->
 
 Absence is represented differently across these libraries (struct carriers for FunnySharp,

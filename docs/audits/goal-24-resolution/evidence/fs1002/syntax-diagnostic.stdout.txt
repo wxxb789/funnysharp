@@ -1,0 +1,20 @@
+Running tests from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\bin\Release\net10.0\FunnySharp.Analyzers.Tests.dll (net10.0|x64)
+failed FunnySharp.Analyzers.Tests.CodeFixTests.DiscardedOutcomeFixPreservesStatementAndSemicolonComments (2s 644ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\bin\Release\net10.0\FunnySharp.Analyzers.Tests.dll (net10.0|x64)
+  Original:         // leading statement
+          await /* before call */ SaveAsync() // after expression
+  
+  Fixed: await /* before call */ SaveAsync() // after expression
+  
+    at FunnySharp.Analyzers.Tests.CodeFixTests.DiscardedOutcomeFixPreservesStatementAndSemicolonComments() in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\CodeFixTests.cs:152
+    --- End of stack trace from previous location ---
+Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\bin\Release\net10.0\FunnySharp.Analyzers.Tests.dll (net10.0|x64) failed with 1 error(s) (3s 832ms)
+Exit code: 2
+
+Test run summary: Failed!
+  total: 1
+  failed: 1
+  succeeded: 0
+  skipped: 0
+  duration: 4s 253ms
+Test run completed with non-success exit code: 2 (see: https://aka.ms/testingplatform/exitcodes)

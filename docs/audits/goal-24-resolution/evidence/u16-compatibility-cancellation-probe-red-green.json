@@ -1,0 +1,270 @@
+{
+  "schema": "funnysharp-compatibility-cancellation-probe-red-green/v1",
+  "state": "CANONICAL_SIX_CONSUMERS_PASS_AFTER_DETERMINISTIC_PROBE_ONLY_FIX",
+  "red": {
+    "originalHang": {
+      "schema": "funnysharp-compatibility-original-hang/v1",
+      "state": "ORIGINAL_CORE_SMOKE_BLOCKED_AT_ZERO_TIMEOUT_STARTUP_CANCEL_SIGNAL",
+      "observedUtc": "2026-10-03T00:48:33.081Z",
+      "originalMonitor": "mon_YE5VBBAAZKBVR52X",
+      "bashId": "bash_76",
+      "harnessPid": 55988,
+      "fsiPid": 26760,
+      "consumerPid": 32996,
+      "consumerCreatedUtc": "2026-10-02T23:03:29.864Z",
+      "actualProcessTree": [
+        {
+          "ProcessId": 55988,
+          "ParentProcessId": 31728,
+          "Name": "dotnet.exe",
+          "CreationDate": "/Date(1790982179853)/",
+          "CommandLine": "\"C:\\Program Files\\dotnet\\dotnet.exe\" fsi build.fsx -- -p compatibility -PackageDirectory artifacts/audit-resolution/u14-post-xml/attempt-03/feed -OutputDirectory artifacts/audit-resolution/final-current-compatibility/attempt-01 -RuntimeIdentifier win-x64 -PackageFeed https://packagefeedproxy.microsoft.io/nuget/v3/index.json -Scenario CoreSmoke,CoreTrimmed,CoreNativeAot,AspNetCoreSmoke,AspNetCoreTrimmed,AspNetCoreNativeAot"
+        },
+        {
+          "ProcessId": 26760,
+          "ParentProcessId": 55988,
+          "Name": "dotnet.exe",
+          "CreationDate": "/Date(1790982180087)/",
+          "CommandLine": "\"C:\\Program Files\\dotnet\\dotnet.exe\" exec \"C:\\Program Files\\dotnet\\sdk\\10.0.401\\FSharp/fsi.dll\" build.fsx -p compatibility -PackageDirectory artifacts/audit-resolution/u14-post-xml/attempt-03/feed -OutputDirectory artifacts/audit-resolution/final-current-compatibility/attempt-01 -RuntimeIdentifier win-x64 -PackageFeed https://packagefeedproxy.microsoft.io/nuget/v3/index.json -Scenario CoreSmoke,CoreTrimmed,CoreNativeAot,AspNetCoreSmoke,AspNetCoreTrimmed,AspNetCoreNativeAot"
+        },
+        {
+          "ProcessId": 32996,
+          "ParentProcessId": 26760,
+          "Name": "FunnySharp.Compatibility.Core.exe",
+          "CreationDate": "/Date(1790982209864)/",
+          "CommandLine": "\"Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\final-current-compatibility\\attempt-01\\CoreSmoke\\publish\\FunnySharp.Compatibility.Core.exe\""
+        }
+      ],
+      "originalProgramSha256": "48cf75e172c9fc11707d7d72f03d76b634d9fa5e5bb4ee4fa4ff9d4847daf9e4",
+      "publishedCoreSha256": "6a903f737356fdf67845c9cd39385e4a5e2b39bcae0ee92ff2882480ecb7e49d",
+      "publishedConsumerSha256": "db878700c00bfb09b58366d5d39394d7f8c03d69d83f7b24323fd96eb3964de2",
+      "causalHypothesis": "Program.cs:68zeroSystemtimeout maypreventanycandidateadmission viaConcurrentEffectExtensions.cs:212-221 signalcancellationguard; loser callbackneverregisters soProgram.cs:70unboundedcancelawaitcannotcomplete. PrivatecanonicalDLL red diagnosticrunning, no success inferred.",
+      "oldScenarioAssetsRetained": true,
+      "remainingFiveOriginalScenariosNotExecuted": true
+    },
+    "privateConfirmed": "ZERO_TIMEOUT_STARTUP_RED starts=0 canceled=false operationTimedOut=true",
+    "diagnosticExit": 1,
+    "compileOverloadFailureRetained": true
+  },
+  "green": {
+    "actualExit": 0,
+    "scenarioCount": 6,
+    "results": {
+      "SchemaVersion": 1,
+      "Succeeded": true,
+      "RuntimeIdentifier": "win-x64",
+      "PackageFeed": "https://packagefeedproxy.microsoft.io/nuget/v3/index.json",
+      "CorePackageVersion": "0.2.0",
+      "AspNetCorePackageVersion": "0.2.0",
+      "CorePackageSha256": "49886C3C6E505D03B1E3565BFE71D43F2476EAE3EDFD35C4D6AFBE761203FC18",
+      "AspNetCorePackageSha256": "D0D5339EEB0525E24A80264E68448D5A863B5F13341FA925681E2131662D9A69",
+      "CoreAssemblySha256": "6a903f737356fdf67845c9cd39385e4a5e2b39bcae0ee92ff2882480ecb7e49d",
+      "AspNetCoreAssemblySha256": "2daaff9c72db5b730c06d3270c00dfd7046fa27e26d59374e31cf270b8dc30c2",
+      "Scenarios": [
+        {
+          "Scenario": "CoreSmoke",
+          "Outcome": "Passed",
+          "StartedAtUtc": "2026-10-03T00:53:25.5760342+00:00",
+          "FinishedAtUtc": "2026-10-03T00:53:41.5611256+00:00",
+          "RuntimeIdentifier": "win-x64",
+          "PackageFeed": "https://packagefeedproxy.microsoft.io/nuget/v3/index.json",
+          "Project": "Q:\\repos\\funnysharp-goal24-resolution\\tests\\FunnySharp.Compatibility\\FunnySharp.Compatibility.Core\\FunnySharp.Compatibility.Core.csproj",
+          "PublishProperties": [],
+          "CorePackageVersion": "0.2.0",
+          "AspNetCorePackageVersion": "0.2.0",
+          "CorePackageSha256": "49886C3C6E505D03B1E3565BFE71D43F2476EAE3EDFD35C4D6AFBE761203FC18",
+          "AspNetCorePackageSha256": "D0D5339EEB0525E24A80264E68448D5A863B5F13341FA925681E2131662D9A69",
+          "CoreAssemblySha256": "6a903f737356fdf67845c9cd39385e4a5e2b39bcae0ee92ff2882480ecb7e49d",
+          "AspNetCoreAssemblySha256": "2daaff9c72db5b730c06d3270c00dfd7046fa27e26d59374e31cf270b8dc30c2",
+          "PublishedCoreAssemblySha256": "6a903f737356fdf67845c9cd39385e4a5e2b39bcae0ee92ff2882480ecb7e49d",
+          "PublishedAspNetCoreAssemblySha256": null,
+          "Error": null
+        },
+        {
+          "Scenario": "CoreTrimmed",
+          "Outcome": "Passed",
+          "StartedAtUtc": "2026-10-03T00:53:41.5612563+00:00",
+          "FinishedAtUtc": "2026-10-03T00:53:53.7212865+00:00",
+          "RuntimeIdentifier": "win-x64",
+          "PackageFeed": "https://packagefeedproxy.microsoft.io/nuget/v3/index.json",
+          "Project": "Q:\\repos\\funnysharp-goal24-resolution\\tests\\FunnySharp.Compatibility\\FunnySharp.Compatibility.Core\\FunnySharp.Compatibility.Core.csproj",
+          "PublishProperties": [
+            "-p:PublishTrimmed=true",
+            "-p:TrimMode=full",
+            "-p:RootShippingAssemblies=true"
+          ],
+          "CorePackageVersion": "0.2.0",
+          "AspNetCorePackageVersion": "0.2.0",
+          "CorePackageSha256": "49886C3C6E505D03B1E3565BFE71D43F2476EAE3EDFD35C4D6AFBE761203FC18",
+          "AspNetCorePackageSha256": "D0D5339EEB0525E24A80264E68448D5A863B5F13341FA925681E2131662D9A69",
+          "CoreAssemblySha256": "6a903f737356fdf67845c9cd39385e4a5e2b39bcae0ee92ff2882480ecb7e49d",
+          "AspNetCoreAssemblySha256": "2daaff9c72db5b730c06d3270c00dfd7046fa27e26d59374e31cf270b8dc30c2",
+          "PublishedCoreAssemblySha256": "6ea98bec894835dfa740199873d48012b7b221cf8ace6efe07290c06f5725b63",
+          "PublishedAspNetCoreAssemblySha256": null,
+          "Error": null
+        },
+        {
+          "Scenario": "CoreNativeAot",
+          "Outcome": "Passed",
+          "StartedAtUtc": "2026-10-03T00:53:53.7213039+00:00",
+          "FinishedAtUtc": "2026-10-03T00:54:13.1506105+00:00",
+          "RuntimeIdentifier": "win-x64",
+          "PackageFeed": "https://packagefeedproxy.microsoft.io/nuget/v3/index.json",
+          "Project": "Q:\\repos\\funnysharp-goal24-resolution\\tests\\FunnySharp.Compatibility\\FunnySharp.Compatibility.Core\\FunnySharp.Compatibility.Core.csproj",
+          "PublishProperties": [
+            "-p:PublishTrimmed=true",
+            "-p:TrimMode=full",
+            "-p:PublishAot=true",
+            "-p:IsAotCompatible=true",
+            "-p:RootShippingAssemblies=false"
+          ],
+          "CorePackageVersion": "0.2.0",
+          "AspNetCorePackageVersion": "0.2.0",
+          "CorePackageSha256": "49886C3C6E505D03B1E3565BFE71D43F2476EAE3EDFD35C4D6AFBE761203FC18",
+          "AspNetCorePackageSha256": "D0D5339EEB0525E24A80264E68448D5A863B5F13341FA925681E2131662D9A69",
+          "CoreAssemblySha256": "6a903f737356fdf67845c9cd39385e4a5e2b39bcae0ee92ff2882480ecb7e49d",
+          "AspNetCoreAssemblySha256": "2daaff9c72db5b730c06d3270c00dfd7046fa27e26d59374e31cf270b8dc30c2",
+          "PublishedCoreAssemblySha256": null,
+          "PublishedAspNetCoreAssemblySha256": null,
+          "Error": null
+        },
+        {
+          "Scenario": "AspNetCoreSmoke",
+          "Outcome": "Passed",
+          "StartedAtUtc": "2026-10-03T00:54:13.1506157+00:00",
+          "FinishedAtUtc": "2026-10-03T00:54:19.2441257+00:00",
+          "RuntimeIdentifier": "win-x64",
+          "PackageFeed": "https://packagefeedproxy.microsoft.io/nuget/v3/index.json",
+          "Project": "Q:\\repos\\funnysharp-goal24-resolution\\tests\\FunnySharp.Compatibility\\FunnySharp.Compatibility.AspNetCore\\FunnySharp.Compatibility.AspNetCore.csproj",
+          "PublishProperties": [],
+          "CorePackageVersion": "0.2.0",
+          "AspNetCorePackageVersion": "0.2.0",
+          "CorePackageSha256": "49886C3C6E505D03B1E3565BFE71D43F2476EAE3EDFD35C4D6AFBE761203FC18",
+          "AspNetCorePackageSha256": "D0D5339EEB0525E24A80264E68448D5A863B5F13341FA925681E2131662D9A69",
+          "CoreAssemblySha256": "6a903f737356fdf67845c9cd39385e4a5e2b39bcae0ee92ff2882480ecb7e49d",
+          "AspNetCoreAssemblySha256": "2daaff9c72db5b730c06d3270c00dfd7046fa27e26d59374e31cf270b8dc30c2",
+          "PublishedCoreAssemblySha256": "6a903f737356fdf67845c9cd39385e4a5e2b39bcae0ee92ff2882480ecb7e49d",
+          "PublishedAspNetCoreAssemblySha256": "2daaff9c72db5b730c06d3270c00dfd7046fa27e26d59374e31cf270b8dc30c2",
+          "Error": null
+        },
+        {
+          "Scenario": "AspNetCoreTrimmed",
+          "Outcome": "Passed",
+          "StartedAtUtc": "2026-10-03T00:54:19.2441437+00:00",
+          "FinishedAtUtc": "2026-10-03T00:54:34.8129156+00:00",
+          "RuntimeIdentifier": "win-x64",
+          "PackageFeed": "https://packagefeedproxy.microsoft.io/nuget/v3/index.json",
+          "Project": "Q:\\repos\\funnysharp-goal24-resolution\\tests\\FunnySharp.Compatibility\\FunnySharp.Compatibility.AspNetCore\\FunnySharp.Compatibility.AspNetCore.csproj",
+          "PublishProperties": [
+            "-p:PublishTrimmed=true",
+            "-p:TrimMode=full",
+            "-p:RootShippingAssemblies=true"
+          ],
+          "CorePackageVersion": "0.2.0",
+          "AspNetCorePackageVersion": "0.2.0",
+          "CorePackageSha256": "49886C3C6E505D03B1E3565BFE71D43F2476EAE3EDFD35C4D6AFBE761203FC18",
+          "AspNetCorePackageSha256": "D0D5339EEB0525E24A80264E68448D5A863B5F13341FA925681E2131662D9A69",
+          "CoreAssemblySha256": "6a903f737356fdf67845c9cd39385e4a5e2b39bcae0ee92ff2882480ecb7e49d",
+          "AspNetCoreAssemblySha256": "2daaff9c72db5b730c06d3270c00dfd7046fa27e26d59374e31cf270b8dc30c2",
+          "PublishedCoreAssemblySha256": "6ea98bec894835dfa740199873d48012b7b221cf8ace6efe07290c06f5725b63",
+          "PublishedAspNetCoreAssemblySha256": "ebbe64bf9a5415c863a2a5bcb0d2383af32b6379568ee1b4b0affa0014bb27df",
+          "Error": null
+        },
+        {
+          "Scenario": "AspNetCoreNativeAot",
+          "Outcome": "Passed",
+          "StartedAtUtc": "2026-10-03T00:54:34.8129205+00:00",
+          "FinishedAtUtc": "2026-10-03T00:54:56.9036245+00:00",
+          "RuntimeIdentifier": "win-x64",
+          "PackageFeed": "https://packagefeedproxy.microsoft.io/nuget/v3/index.json",
+          "Project": "Q:\\repos\\funnysharp-goal24-resolution\\tests\\FunnySharp.Compatibility\\FunnySharp.Compatibility.AspNetCore\\FunnySharp.Compatibility.AspNetCore.csproj",
+          "PublishProperties": [
+            "-p:PublishTrimmed=true",
+            "-p:TrimMode=full",
+            "-p:PublishAot=true",
+            "-p:IsAotCompatible=true",
+            "-p:RootShippingAssemblies=false"
+          ],
+          "CorePackageVersion": "0.2.0",
+          "AspNetCorePackageVersion": "0.2.0",
+          "CorePackageSha256": "49886C3C6E505D03B1E3565BFE71D43F2476EAE3EDFD35C4D6AFBE761203FC18",
+          "AspNetCorePackageSha256": "D0D5339EEB0525E24A80264E68448D5A863B5F13341FA925681E2131662D9A69",
+          "CoreAssemblySha256": "6a903f737356fdf67845c9cd39385e4a5e2b39bcae0ee92ff2882480ecb7e49d",
+          "AspNetCoreAssemblySha256": "2daaff9c72db5b730c06d3270c00dfd7046fa27e26d59374e31cf270b8dc30c2",
+          "PublishedCoreAssemblySha256": null,
+          "PublishedAspNetCoreAssemblySha256": null,
+          "Error": null
+        }
+      ]
+    },
+    "publishedBindings": [
+      {
+        "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/final-current-compatibility/attempt-02/CoreSmoke/publish/FunnySharp.Compatibility.Core.exe",
+        "expected": null,
+        "actual": "955aeb7cf18739e32e70a7bf65e5150dc1807a65265967efa11b1fa3a6b1a0f5"
+      },
+      {
+        "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/final-current-compatibility/attempt-02/CoreSmoke/publish/FunnySharp.dll",
+        "expected": "6a903f737356fdf67845c9cd39385e4a5e2b39bcae0ee92ff2882480ecb7e49d",
+        "actual": "6a903f737356fdf67845c9cd39385e4a5e2b39bcae0ee92ff2882480ecb7e49d"
+      },
+      {
+        "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/final-current-compatibility/attempt-02/CoreTrimmed/publish/FunnySharp.Compatibility.Core.exe",
+        "expected": null,
+        "actual": "955aeb7cf18739e32e70a7bf65e5150dc1807a65265967efa11b1fa3a6b1a0f5"
+      },
+      {
+        "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/final-current-compatibility/attempt-02/CoreTrimmed/publish/FunnySharp.dll",
+        "expected": "6ea98bec894835dfa740199873d48012b7b221cf8ace6efe07290c06f5725b63",
+        "actual": "6ea98bec894835dfa740199873d48012b7b221cf8ace6efe07290c06f5725b63"
+      },
+      {
+        "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/final-current-compatibility/attempt-02/CoreNativeAot/publish/FunnySharp.Compatibility.Core.exe",
+        "expected": null,
+        "actual": "10962af1e6345ac32086ed477ad5fdc46bfc0da2e8dcea48222eaab5cf14bb9a"
+      },
+      {
+        "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/final-current-compatibility/attempt-02/AspNetCoreSmoke/publish/FunnySharp.Compatibility.AspNetCore.exe",
+        "expected": null,
+        "actual": "9b1c44dd0e14d12d88e19df05301bf25ace3d4e99a237fa57f93c7366eb93129"
+      },
+      {
+        "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/final-current-compatibility/attempt-02/AspNetCoreSmoke/publish/FunnySharp.dll",
+        "expected": "6a903f737356fdf67845c9cd39385e4a5e2b39bcae0ee92ff2882480ecb7e49d",
+        "actual": "6a903f737356fdf67845c9cd39385e4a5e2b39bcae0ee92ff2882480ecb7e49d"
+      },
+      {
+        "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/final-current-compatibility/attempt-02/AspNetCoreSmoke/publish/FunnySharp.AspNetCore.dll",
+        "expected": "2daaff9c72db5b730c06d3270c00dfd7046fa27e26d59374e31cf270b8dc30c2",
+        "actual": "2daaff9c72db5b730c06d3270c00dfd7046fa27e26d59374e31cf270b8dc30c2"
+      },
+      {
+        "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/final-current-compatibility/attempt-02/AspNetCoreTrimmed/publish/FunnySharp.Compatibility.AspNetCore.exe",
+        "expected": null,
+        "actual": "9b1c44dd0e14d12d88e19df05301bf25ace3d4e99a237fa57f93c7366eb93129"
+      },
+      {
+        "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/final-current-compatibility/attempt-02/AspNetCoreTrimmed/publish/FunnySharp.dll",
+        "expected": "6ea98bec894835dfa740199873d48012b7b221cf8ace6efe07290c06f5725b63",
+        "actual": "6ea98bec894835dfa740199873d48012b7b221cf8ace6efe07290c06f5725b63"
+      },
+      {
+        "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/final-current-compatibility/attempt-02/AspNetCoreTrimmed/publish/FunnySharp.AspNetCore.dll",
+        "expected": "ebbe64bf9a5415c863a2a5bcb0d2383af32b6379568ee1b4b0affa0014bb27df",
+        "actual": "ebbe64bf9a5415c863a2a5bcb0d2383af32b6379568ee1b4b0affa0014bb27df"
+      },
+      {
+        "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/final-current-compatibility/attempt-02/AspNetCoreNativeAot/publish/FunnySharp.Compatibility.AspNetCore.exe",
+        "expected": null,
+        "actual": "1d587661eb883758b48191310db619cb1f7b1f65129e01f0102240f4f389a0c9"
+      }
+    ],
+    "cleanupOutput": "{\"ProcessId\":32996,\"Name\":\"FunnySharp.Compatibility.Core.exe\"}"
+  },
+  "consumerChangeOnly": true,
+  "shippingPayloadsUnchanged": true,
+  "performanceAndModelVisibleInputsUnchanged": true,
+  "sourceDiagnostics": "CSharpProgram.csLSP0 beforebuild",
+  "noWeakeningOfCancellationPrecedenceAssertions": true,
+  "oldAttempt01Retained": true
+}

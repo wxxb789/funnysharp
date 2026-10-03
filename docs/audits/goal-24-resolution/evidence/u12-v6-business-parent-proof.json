@@ -1,0 +1,242 @@
+{
+  "schema": "funnysharp-v6-business-strict-native-parent-proof/v1",
+  "state": "FOUR_ORIGINAL_INITIAL_AI_GREEN_40_CASES_NO_CORRECTIONS",
+  "study": "audit-resolution-v6",
+  "formalOriginalGreen": 4,
+  "formalOriginalCasesPassed": 40,
+  "failed": 0,
+  "skipped": 0,
+  "actualNativeCalls": 4,
+  "actualRequests": 4,
+  "freshNativeIds": 4,
+  "feedbackCorrections": 0,
+  "manualSourceChanges": 0,
+  "rows": [
+    {
+      "slot": "business-outcomes/idiomatic/run-1",
+      "record": {
+        "task": "business-outcomes",
+        "style": "idiomatic",
+        "run": "run-1",
+        "round": 1,
+        "compilation": {
+          "ok": true,
+          "errors": 0,
+          "buildSeconds": 8.1
+        },
+        "semanticCorrectness": {
+          "ok": true,
+          "total": 10,
+          "failed": 0,
+          "succeeded": 10,
+          "skipped": 0
+        },
+        "apiMisuse": {
+          "fsDiagnostics": []
+        },
+        "consumerLoc": 66,
+        "verdict": "GREEN",
+        "evidenceKind": "generation-verification"
+      },
+      "producer": {
+        "studySha256": "83d7d3522ccad4fa04cc56bbf8ed540521147d178d1940cc656d9667e49ac76d",
+        "task": "business-outcomes",
+        "style": "idiomatic",
+        "sessionId": "study-session:5ed755f2-66d2-40ce-a81f-36230bec859b",
+        "invocationId": "native-call:c7f9d7f9-8ca2-4c7f-80bc-14533d9996cf",
+        "route": "native-omo-cli/5.1.9/json-print",
+        "producerKind": "ai",
+        "requestedModel": "ghc/gpt-6.1-sol",
+        "providerModel": {
+          "value": null,
+          "unknownReason": "Native selected model/route is observed. Actual upstream served model is unknown unless independently returned metadata supplies it."
+        },
+        "contextSha256": "97271e0102ee0ecbcb6d86273cc7560e44c9e696c1301b41151878e2a0ca6490",
+        "solutionFiles": [
+          {
+            "path": "OrderWorkflow.cs",
+            "sha256": "eae13805f0626fc62a5d65e7399d4361cf3073c3edd214217ec35432d3723e66"
+          }
+        ],
+        "invocationSha256": "32161d05658adb33896528ea3a72267fba4b26ace15ab6099386ed84abef8e15",
+        "startedUtc": "2026-10-02T23:45:05.646Z",
+        "finishedUtc": "2026-10-02T23:49:53.964Z",
+        "status": "completed"
+      },
+      "actualCliId": "01a0ff01-e0a8-7afb-8319-7f6c0908a947",
+      "actualRequests": 1,
+      "providerExact": true
+    },
+    {
+      "slot": "business-outcomes/idiomatic/run-2",
+      "record": {
+        "task": "business-outcomes",
+        "style": "idiomatic",
+        "run": "run-2",
+        "round": 1,
+        "compilation": {
+          "ok": true,
+          "errors": 0,
+          "buildSeconds": 9
+        },
+        "semanticCorrectness": {
+          "ok": true,
+          "total": 10,
+          "failed": 0,
+          "succeeded": 10,
+          "skipped": 0
+        },
+        "apiMisuse": {
+          "fsDiagnostics": []
+        },
+        "consumerLoc": 69,
+        "verdict": "GREEN",
+        "evidenceKind": "generation-verification"
+      },
+      "producer": {
+        "studySha256": "83d7d3522ccad4fa04cc56bbf8ed540521147d178d1940cc656d9667e49ac76d",
+        "task": "business-outcomes",
+        "style": "idiomatic",
+        "sessionId": "study-session:aec4d5a7-bc77-4d3b-a9fa-890b4bd98726",
+        "invocationId": "native-call:8aa7f5ac-d226-4366-bd59-eca0b8e7d557",
+        "route": "native-omo-cli/5.1.9/json-print",
+        "producerKind": "ai",
+        "requestedModel": "ghc/gpt-6.1-sol",
+        "providerModel": {
+          "value": null,
+          "unknownReason": "Native selected model/route is observed. Actual upstream served model is unknown unless independently returned metadata supplies it."
+        },
+        "contextSha256": "97271e0102ee0ecbcb6d86273cc7560e44c9e696c1301b41151878e2a0ca6490",
+        "solutionFiles": [
+          {
+            "path": "OrderWorkflow.cs",
+            "sha256": "d38e3c9a4d6cc3f90597f3d30d2da2d587930116182d5a6a5f790651615abfa5"
+          }
+        ],
+        "invocationSha256": "0c0d0ad49a0226cb11b4bed84cdd2aeca7d89ef42b9181722f477f2dcbf950e3",
+        "startedUtc": "2026-10-02T23:52:09.714Z",
+        "finishedUtc": "2026-10-02T23:54:03.367Z",
+        "status": "completed"
+      },
+      "actualCliId": "01a0ff08-52df-770b-bf48-d876660f9dcb",
+      "actualRequests": 1,
+      "providerExact": true
+    },
+    {
+      "slot": "business-outcomes/funnysharp/run-1",
+      "record": {
+        "task": "business-outcomes",
+        "style": "funnysharp",
+        "run": "run-1",
+        "round": 1,
+        "compilation": {
+          "ok": true,
+          "errors": 0,
+          "buildSeconds": 9.6
+        },
+        "semanticCorrectness": {
+          "ok": true,
+          "total": 10,
+          "failed": 0,
+          "succeeded": 10,
+          "skipped": 0
+        },
+        "apiMisuse": {
+          "fsDiagnostics": []
+        },
+        "consumerLoc": 91,
+        "verdict": "GREEN",
+        "evidenceKind": "generation-verification"
+      },
+      "producer": {
+        "studySha256": "83d7d3522ccad4fa04cc56bbf8ed540521147d178d1940cc656d9667e49ac76d",
+        "task": "business-outcomes",
+        "style": "funnysharp",
+        "sessionId": "study-session:e812e0bd-decc-4d3d-a075-67d6fdc2e864",
+        "invocationId": "native-call:5a8ddee7-0c0f-48d7-95bd-159ce708632c",
+        "route": "native-omo-cli/5.1.9/json-print",
+        "producerKind": "ai",
+        "requestedModel": "ghc/gpt-6.1-sol",
+        "providerModel": {
+          "value": null,
+          "unknownReason": "Native selected model/route is observed. Actual upstream served model is unknown unless independently returned metadata supplies it."
+        },
+        "contextSha256": "d14002f4ec76747f83fc5a6d297855e07ac04e8ec58a61419ecfe224484a1545",
+        "solutionFiles": [
+          {
+            "path": "OrderWorkflow.cs",
+            "sha256": "2e1e21fa2d3ed1dda7bf02057d1ec1248335c9e20fa777e1ced6982bbec5b821"
+          }
+        ],
+        "invocationSha256": "eb4b835cf5b3bfb170cf120afec17904c4fd2970a2c9aaed881869f8d92050d5",
+        "startedUtc": "2026-10-02T23:52:13.566Z",
+        "finishedUtc": "2026-10-02T23:54:04.267Z",
+        "status": "completed"
+      },
+      "actualCliId": "01a0ff08-6215-7d2c-b66d-b51c6991a4d4",
+      "actualRequests": 1,
+      "providerExact": true
+    },
+    {
+      "slot": "business-outcomes/funnysharp/run-2",
+      "record": {
+        "task": "business-outcomes",
+        "style": "funnysharp",
+        "run": "run-2",
+        "round": 1,
+        "compilation": {
+          "ok": true,
+          "errors": 0,
+          "buildSeconds": 11.2
+        },
+        "semanticCorrectness": {
+          "ok": true,
+          "total": 10,
+          "failed": 0,
+          "succeeded": 10,
+          "skipped": 0
+        },
+        "apiMisuse": {
+          "fsDiagnostics": []
+        },
+        "consumerLoc": 85,
+        "verdict": "GREEN",
+        "evidenceKind": "generation-verification"
+      },
+      "producer": {
+        "studySha256": "83d7d3522ccad4fa04cc56bbf8ed540521147d178d1940cc656d9667e49ac76d",
+        "task": "business-outcomes",
+        "style": "funnysharp",
+        "sessionId": "study-session:e317833c-43bc-4d7e-87e4-c6e9183a3d67",
+        "invocationId": "native-call:cd7d1694-cb8a-4e39-8b8a-55eb780a93ce",
+        "route": "native-omo-cli/5.1.9/json-print",
+        "producerKind": "ai",
+        "requestedModel": "ghc/gpt-6.1-sol",
+        "providerModel": {
+          "value": null,
+          "unknownReason": "Native selected model/route is observed. Actual upstream served model is unknown unless independently returned metadata supplies it."
+        },
+        "contextSha256": "d14002f4ec76747f83fc5a6d297855e07ac04e8ec58a61419ecfe224484a1545",
+        "solutionFiles": [
+          {
+            "path": "OrderWorkflow.cs",
+            "sha256": "7bae33a582e1175e1a25e810bcf8d9746c81261296cc96b07ba200596a5ebb23"
+          }
+        ],
+        "invocationSha256": "4e4c820efea2f4aa3e9f3fdc1096b5a4a40c37670b373226f1470643f68d91bf",
+        "startedUtc": "2026-10-02T23:52:17.733Z",
+        "finishedUtc": "2026-10-02T23:54:05.260Z",
+        "status": "completed"
+      },
+      "actualCliId": "01a0ff08-71f3-7873-99b0-8c152f9fc777",
+      "actualRequests": 1,
+      "providerExact": true
+    }
+  ],
+  "cleanup": {
+    "queryExit0": true,
+    "remainingOwnedPids": [],
+    "output": "(no output)"
+  },
+  "limits": "4of20strictsamples; other16original childnative/grade monitorsactive, aggregatefinalnotaccepted. Oldv5technicalfailure/supplement history remainsseparate."
+}

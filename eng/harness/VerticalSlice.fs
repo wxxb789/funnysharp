@@ -20,6 +20,7 @@ open System.Text
 open System.Text.Json
 open System.Text.Json.Nodes
 open System.Text.RegularExpressions
+open System.Xml
 open FunnySharp.Harness.Output
 open FunnySharp.Harness.Proc
 
@@ -320,6 +321,7 @@ let parseFailingTests (output: string) : string list =
 type private CliOptions =
     { Output: string
       Feed: string option
+      PackageFeed: string
       NoPack: bool
       SkipTests: bool
       SkipMeasurements: bool
@@ -330,6 +332,7 @@ type private CliOptions =
 let private defaultOptions =
     { Output = "artifacts/vertical-slice/consumer-run"
       Feed = None
+      PackageFeed = publicFeed
       NoPack = false
       SkipTests = false
       SkipMeasurements = false
@@ -341,7 +344,8 @@ let private usageText =
     String.concat
         "\n"
         [ "usage: vertical_slice.py [-h] [--output DIR] [--feed DIR] [--no-pack] [--skip-tests]"
-          "                            [--skip-measurements] [--json] [--repository-root PATH]" ]
+          "                            [--skip-measurements] [--json] [--repository-root PATH]"
+          "                            [--package-feed URL]" ]
 
 let private parseArgs (argv: string list) : Result<CliOptions, string> =
     let rec loop (options: CliOptions) (remaining: string list) =
@@ -356,12 +360,16 @@ let private parseArgs (argv: string list) : Result<CliOptions, string> =
         | [ "--output" ] -> Error "argument --output: expected one argument"
         | "--feed" :: value :: rest -> loop { options with Feed = Some value } rest
         | [ "--feed" ] -> Error "argument --feed: expected one argument"
+        | "--package-feed" :: value :: rest -> loop { options with PackageFeed = value } rest
+        | [ "--package-feed" ] -> Error "argument --package-feed: expected one argument"
         | "--repository-root" :: value :: rest -> loop { options with RepositoryRoot = Some value } rest
         | [ "--repository-root" ] -> Error "argument --repository-root: expected one argument"
         | arg :: rest when arg.StartsWith("--output=", StringComparison.Ordinal) ->
             loop { options with Output = arg.Substring "--output=".Length } rest
         | arg :: rest when arg.StartsWith("--feed=", StringComparison.Ordinal) ->
             loop { options with Feed = Some(arg.Substring "--feed=".Length) } rest
+        | arg :: rest when arg.StartsWith("--package-feed=", StringComparison.Ordinal) ->
+            loop { options with PackageFeed = arg.Substring "--package-feed=".Length } rest
         | arg :: rest when arg.StartsWith("--repository-root=", StringComparison.Ordinal) ->
             loop { options with RepositoryRoot = Some(arg.Substring "--repository-root=".Length) } rest
         | arg :: _ -> Error("unrecognized arguments: " + arg)
@@ -517,6 +525,27 @@ let mainWith (stdout: TextWriter) (stderr: TextWriter) (argv: string list) : int
                         [ sprintf "-p:FunnySharpPackageVersion=%s" versions.["FunnySharp"]
                           sprintf "-p:FunnySharpAspNetCorePackageVersion=%s" versions.["FunnySharp.AspNetCore"] ]
 
+                    let nugetConfigPath =
+                        let path = Path.Combine(outputDirectory, "NuGet.Config")
+                        let settings = XmlWriterSettings(Indent = true, Encoding = UTF8Encoding(false))
+                        use writer = XmlWriter.Create(path, settings)
+                        writer.WriteStartDocument()
+                        writer.WriteStartElement "configuration"
+                        writer.WriteStartElement "packageSources"
+                        writer.WriteStartElement "clear"
+                        writer.WriteEndElement()
+
+                        for key, source in [ "local", feedDirectory; "nuget.org", options.PackageFeed ] do
+                            writer.WriteStartElement "add"
+                            writer.WriteAttributeString("key", key)
+                            writer.WriteAttributeString("value", source)
+                            writer.WriteEndElement()
+
+                        writer.WriteEndElement()
+                        writer.WriteEndElement()
+                        writer.WriteEndDocument()
+                        path
+
                     let projects =
                         [ "api", apiProject
                           "tests", testProject
@@ -525,7 +554,7 @@ let mainWith (stdout: TextWriter) (stderr: TextWriter) (argv: string list) : int
 
                     for name, project in projects do
                         let command =
-                            [ dotnetPath; "restore"; project; "--source"; feedDirectory; "--source"; publicFeed ]
+                            [ dotnetPath; "restore"; project; "--configfile"; nugetConfigPath ]
                             @ versionArgs
 
                         record (sprintf "restore-%s" name) command (stepRunner root childEnvironment stepTimeoutSeconds command)

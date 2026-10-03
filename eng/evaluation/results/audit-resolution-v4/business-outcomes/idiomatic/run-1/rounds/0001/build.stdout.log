@@ -1,0 +1,16 @@
+  Determining projects to restore...
+  Restored Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\business-outcomes-idiomatic-run-1-00ebf253234349e4acd1076cda2d043c\BusinessOutcomesKit.csproj (in 5.08 sec).
+CSC : warning CS2002: Source file 'Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\business-outcomes-idiomatic-run-1-00ebf253234349e4acd1076cda2d043c\nuget_packages\xunit.v3.core.mtp-v2\4.0.0\_content\DefaultRunnerReporters.cs' specified multiple times [Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\business-outcomes-idiomatic-run-1-00ebf253234349e4acd1076cda2d043c\BusinessOutcomesKit.csproj]
+CSC : warning CS2002: Source file 'Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\business-outcomes-idiomatic-run-1-00ebf253234349e4acd1076cda2d043c\nuget_packages\xunit.v3.core.mtp-v2\4.0.0\_content\DefaultResultWriters.cs' specified multiple times [Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\business-outcomes-idiomatic-run-1-00ebf253234349e4acd1076cda2d043c\BusinessOutcomesKit.csproj]
+  BusinessOutcomesKit -> Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\business-outcomes-idiomatic-run-1-00ebf253234349e4acd1076cda2d043c\bin\Release\net10.0\BusinessOutcomesKit.dll
+
+Build succeeded.
+
+CSC : warning CS2002: Source file 'Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\business-outcomes-idiomatic-run-1-00ebf253234349e4acd1076cda2d043c\nuget_packages\xunit.v3.core.mtp-v2\4.0.0\_content\DefaultRunnerReporters.cs' specified multiple times [Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\business-outcomes-idiomatic-run-1-00ebf253234349e4acd1076cda2d043c\BusinessOutcomesKit.csproj]
+CSC : warning CS2002: Source file 'Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\business-outcomes-idiomatic-run-1-00ebf253234349e4acd1076cda2d043c\nuget_packages\xunit.v3.core.mtp-v2\4.0.0\_content\DefaultResultWriters.cs' specified multiple times [Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\business-outcomes-idiomatic-run-1-00ebf253234349e4acd1076cda2d043c\BusinessOutcomesKit.csproj]
+    2 Warning(s)
+    0 Error(s)
+
+BinaryLogger wrote to: Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\business-outcomes-idiomatic-run-1-00ebf253234349e4acd1076cda2d043c\build.binlog
+
+Time Elapsed 00:00:10.31

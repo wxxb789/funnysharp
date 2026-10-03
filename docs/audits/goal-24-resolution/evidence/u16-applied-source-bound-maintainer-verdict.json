@@ -1,0 +1,37 @@
+{
+  "schema": "funnysharp-applied-source-bound-maintainer-verdict/v1",
+  "observedUtc": "2026-10-03T03:19:01.449Z",
+  "actualUserAnswer": "人工审阅: 接受原条件下的结果 (Recommended)",
+  "actualDeltaGate": "st_01a0ffbe: U01/U02/U15/U20 APPROVE; wholeGoal REJECT release4 remain",
+  "acceptedOriginalIds": [
+    "U01",
+    "U02",
+    "U15",
+    "U20"
+  ],
+  "remainingOriginalIds": [
+    "F37",
+    "F38",
+    "F39",
+    "U29"
+  ],
+  "ledgerSha256": "221ba127f590bb832fd48ff5ca4d8f7e23bf2b7c0faa05ff084df39a6d6fe067",
+  "previousLedgerSha256": "f9ef7cf60247cc90e0ef09898c5173c7889a51a6e65b50026e0e0941e03adbb8",
+  "original69IdentityFieldsUnchanged": true,
+  "originalCounts": {
+    "FAIL": 40,
+    "UNVERIFIED": 29
+  },
+  "resolved": 65,
+  "open": 4,
+  "sourcePacketSha256": "77fd024515d567fb39f73a12cdd5b9ae4d8b2935920d458068bafde706c36d4f",
+  "candidateFingerprint": "bb058e6a972103c657e0d833f2ec86fab7994f8ba4cce8503432c4b8f74c4a9c",
+  "identity": "Actual user answer scoped to this conversation; no legal-name or GitHub-identity invention.",
+  "supplementaryQuestionsUnanswered": true,
+  "answerToSupplementsFabricated": false,
+  "producerFields": "Four initial records remain15; actual frozen contract only requires feedbackSha256 for corrections; no literalall16 claim or receipt rewrite.",
+  "remoteAuthorityGranted": false,
+  "sourceModelPerformanceInputsChanged": false,
+  "noNewCriterionOrThreshold": true,
+  "originalHistoricalNegativeEvidenceUnchanged": true
+}

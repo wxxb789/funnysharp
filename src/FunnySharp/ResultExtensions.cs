@@ -47,6 +47,7 @@ public static class ResultExtensions
     /// <typeparam name="TError">The failure value type.</typeparam>
     /// <param name="result">The result to convert.</param>
     /// <returns>An option containing a non-null successful value, or <c>None</c> for a failure or a null successful value.</returns>
+    /// <exception cref="InvalidOperationException"><paramref name="result"/> is uninitialized.</exception>
     public static Option<TValue> ToOption<TValue, TError>(
         this Result<TValue, TError> result) =>
         result.TryGetValue(out var value)
@@ -62,6 +63,16 @@ public static class ResultExtensions
     /// <param name="result">The result to transform.</param>
     /// <param name="selector">The asynchronous transformation to invoke for a success.</param>
     /// <returns>A task that produces the transformed success or preserves the existing failure.</returns>
+    /// <remarks>
+    /// The callback is guarded synchronously even when its branch will not invoke it.
+    /// The callback is invoked once only for the successful branch; failure skips it. Its operation
+    /// is consumed once. Synchronous callback exceptions are captured in the returned operation,
+    /// and a synchronously thrown OperationCanceledException produces cancellation. A faulted callback
+    /// operation remains faulted, including a faulted OperationCanceledException; a canceled callback
+    /// operation remains canceled. These exceptions are not converted to typed carrier failures.
+    /// A selected callback returning a null Task faults with NullReferenceException.
+    /// </remarks>
+    /// <exception cref="InvalidOperationException"><paramref name="result"/> is uninitialized; rejected synchronously after the callback guard.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="selector"/> is null.</exception>
     public static Task<Result<TResult, TError>> MapAsync<TValue, TError, TResult>(
         this Result<TValue, TError> result,
@@ -88,6 +99,17 @@ public static class ResultExtensions
     /// <param name="selector">The asynchronous transformation to invoke for a success.</param>
     /// <param name="cancellationToken">The token passed unchanged to <paramref name="selector"/> when the result is successful.</param>
     /// <returns>A task that produces the transformed success or preserves the existing failure.</returns>
+    /// <remarks>
+    /// The callback is guarded synchronously even when its branch will not invoke it.
+    /// The callback is invoked once only for the successful branch; failure skips it. Its operation
+    /// is consumed once. Synchronous callback exceptions are captured in the returned operation,
+    /// and a synchronously thrown OperationCanceledException produces cancellation. A faulted callback
+    /// operation remains faulted, including a faulted OperationCanceledException; a canceled callback
+    /// operation remains canceled. These exceptions are not converted to typed carrier failures.
+    /// The token is forwarded unchanged to the selected callback, not checked independently.
+    /// A selected callback returning a null Task faults with NullReferenceException.
+    /// </remarks>
+    /// <exception cref="InvalidOperationException"><paramref name="result"/> is uninitialized; rejected synchronously after the callback guard.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="selector"/> is null.</exception>
     public static Task<Result<TResult, TError>> MapAsync<TValue, TError, TResult>(
         this Result<TValue, TError> result,
@@ -114,6 +136,17 @@ public static class ResultExtensions
     /// <param name="result">The result to bind.</param>
     /// <param name="binder">The asynchronous result-producing function to invoke for a success.</param>
     /// <returns>A task that produces the bound result or preserves the existing failure.</returns>
+    /// <remarks>
+    /// The callback is guarded synchronously even when its branch will not invoke it.
+    /// The callback is invoked once only for the successful branch; failure skips it. Its operation
+    /// is consumed once. Synchronous callback exceptions are captured in the returned operation,
+    /// and a synchronously thrown OperationCanceledException produces cancellation. A faulted callback
+    /// operation remains faulted, including a faulted OperationCanceledException; a canceled callback
+    /// operation remains canceled. These exceptions are not converted to typed carrier failures.
+    /// A selected callback returning a null Task faults with NullReferenceException.
+    /// The returned carrier is passed through without an initialization check.
+    /// </remarks>
+    /// <exception cref="InvalidOperationException"><paramref name="result"/> is uninitialized; rejected synchronously after the callback guard.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="binder"/> is null.</exception>
     public static Task<Result<TResult, TError>> BindAsync<TValue, TError, TResult>(
         this Result<TValue, TError> result,
@@ -140,6 +173,18 @@ public static class ResultExtensions
     /// <param name="binder">The asynchronous result-producing function to invoke for a success.</param>
     /// <param name="cancellationToken">The token passed unchanged to <paramref name="binder"/> when the result is successful.</param>
     /// <returns>A task that produces the bound result or preserves the existing failure.</returns>
+    /// <remarks>
+    /// The callback is guarded synchronously even when its branch will not invoke it.
+    /// The callback is invoked once only for the successful branch; failure skips it. Its operation
+    /// is consumed once. Synchronous callback exceptions are captured in the returned operation,
+    /// and a synchronously thrown OperationCanceledException produces cancellation. A faulted callback
+    /// operation remains faulted, including a faulted OperationCanceledException; a canceled callback
+    /// operation remains canceled. These exceptions are not converted to typed carrier failures.
+    /// The token is forwarded unchanged to the selected callback, not checked independently.
+    /// A selected callback returning a null Task faults with NullReferenceException.
+    /// The returned carrier is passed through without an initialization check.
+    /// </remarks>
+    /// <exception cref="InvalidOperationException"><paramref name="result"/> is uninitialized; rejected synchronously after the callback guard.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="binder"/> is null.</exception>
     public static Task<Result<TResult, TError>> BindAsync<TValue, TError, TResult>(
         this Result<TValue, TError> result,
@@ -166,6 +211,15 @@ public static class ResultExtensions
     /// <param name="result">The result to transform.</param>
     /// <param name="selector">The asynchronous transformation to invoke for a success.</param>
     /// <returns>A value task that produces the transformed success or preserves the existing failure.</returns>
+    /// <remarks>
+    /// The callback is guarded synchronously even when its branch will not invoke it.
+    /// The callback is invoked once only for the successful branch; failure skips it. Its operation
+    /// is consumed once. Synchronous callback exceptions are captured in the returned operation,
+    /// and a synchronously thrown OperationCanceledException produces cancellation. A faulted callback
+    /// operation remains faulted, including a faulted OperationCanceledException; a canceled callback
+    /// operation remains canceled. These exceptions are not converted to typed carrier failures.
+    /// </remarks>
+    /// <exception cref="InvalidOperationException"><paramref name="result"/> is uninitialized; rejected synchronously after the callback guard.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="selector"/> is null.</exception>
     public static ValueTask<Result<TResult, TError>> MapValueAsync<TValue, TError, TResult>(
         this Result<TValue, TError> result,
@@ -192,6 +246,16 @@ public static class ResultExtensions
     /// <param name="selector">The asynchronous transformation to invoke for a success.</param>
     /// <param name="cancellationToken">The token passed unchanged to <paramref name="selector"/> when the result is successful.</param>
     /// <returns>A value task that produces the transformed success or preserves the existing failure.</returns>
+    /// <remarks>
+    /// The callback is guarded synchronously even when its branch will not invoke it.
+    /// The callback is invoked once only for the successful branch; failure skips it. Its operation
+    /// is consumed once. Synchronous callback exceptions are captured in the returned operation,
+    /// and a synchronously thrown OperationCanceledException produces cancellation. A faulted callback
+    /// operation remains faulted, including a faulted OperationCanceledException; a canceled callback
+    /// operation remains canceled. These exceptions are not converted to typed carrier failures.
+    /// The token is forwarded unchanged to the selected callback, not checked independently.
+    /// </remarks>
+    /// <exception cref="InvalidOperationException"><paramref name="result"/> is uninitialized; rejected synchronously after the callback guard.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="selector"/> is null.</exception>
     public static ValueTask<Result<TResult, TError>> MapValueAsync<TValue, TError, TResult>(
         this Result<TValue, TError> result,
@@ -221,6 +285,16 @@ public static class ResultExtensions
     /// <param name="result">The result to bind.</param>
     /// <param name="binder">The asynchronous result-producing function to invoke for a success.</param>
     /// <returns>A value task that produces the bound result or preserves the existing failure.</returns>
+    /// <remarks>
+    /// The callback is guarded synchronously even when its branch will not invoke it.
+    /// The callback is invoked once only for the successful branch; failure skips it. Its operation
+    /// is consumed once. Synchronous callback exceptions are captured in the returned operation,
+    /// and a synchronously thrown OperationCanceledException produces cancellation. A faulted callback
+    /// operation remains faulted, including a faulted OperationCanceledException; a canceled callback
+    /// operation remains canceled. These exceptions are not converted to typed carrier failures.
+    /// The returned carrier is passed through without an initialization check.
+    /// </remarks>
+    /// <exception cref="InvalidOperationException"><paramref name="result"/> is uninitialized; rejected synchronously after the callback guard.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="binder"/> is null.</exception>
     public static ValueTask<Result<TResult, TError>> BindValueAsync<TValue, TError, TResult>(
         this Result<TValue, TError> result,
@@ -247,6 +321,17 @@ public static class ResultExtensions
     /// <param name="binder">The asynchronous result-producing function to invoke for a success.</param>
     /// <param name="cancellationToken">The token passed unchanged to <paramref name="binder"/> when the result is successful.</param>
     /// <returns>A value task that produces the bound result or preserves the existing failure.</returns>
+    /// <remarks>
+    /// The callback is guarded synchronously even when its branch will not invoke it.
+    /// The callback is invoked once only for the successful branch; failure skips it. Its operation
+    /// is consumed once. Synchronous callback exceptions are captured in the returned operation,
+    /// and a synchronously thrown OperationCanceledException produces cancellation. A faulted callback
+    /// operation remains faulted, including a faulted OperationCanceledException; a canceled callback
+    /// operation remains canceled. These exceptions are not converted to typed carrier failures.
+    /// The token is forwarded unchanged to the selected callback, not checked independently.
+    /// The returned carrier is passed through without an initialization check.
+    /// </remarks>
+    /// <exception cref="InvalidOperationException"><paramref name="result"/> is uninitialized; rejected synchronously after the callback guard.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="binder"/> is null.</exception>
     public static ValueTask<Result<TResult, TError>> BindValueAsync<TValue, TError, TResult>(
         this Result<TValue, TError> result,

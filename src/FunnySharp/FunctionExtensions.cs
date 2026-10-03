@@ -13,6 +13,7 @@ public static class FunctionExtensions
     /// <param name="value">The value to pass to <paramref name="function"/>.</param>
     /// <param name="function">The function to apply.</param>
     /// <returns>The result produced by <paramref name="function"/>.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="function"/> is null; rejected before invocation or construction of the returned function.</exception>
     public static TResult Pipe<T, TResult>(this T value, Func<T, TResult> function)
     {
         ArgumentNullException.ThrowIfNull(function);
@@ -28,6 +29,7 @@ public static class FunctionExtensions
     /// <param name="first">The function applied first.</param>
     /// <param name="second">The function applied after <paramref name="first"/>.</param>
     /// <returns>A function that applies <paramref name="first"/> and then <paramref name="second"/>.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="first"/> or <paramref name="second"/> is null; rejected before invocation or construction of the returned function.</exception>
     public static Func<T, TResult> Compose<T, TIntermediate, TResult>(
         this Func<T, TIntermediate> first,
         Func<TIntermediate, TResult> second)
@@ -46,6 +48,7 @@ public static class FunctionExtensions
     /// <typeparam name="TResult">The function result type.</typeparam>
     /// <param name="function">The binary function to curry.</param>
     /// <returns>A function that accepts the first argument and returns a function for the second argument.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="function"/> is null; rejected before invocation or construction of the returned function.</exception>
     public static Func<TFirst, Func<TSecond, TResult>> Curry<TFirst, TSecond, TResult>(
         this Func<TFirst, TSecond, TResult> function)
     {
@@ -62,6 +65,7 @@ public static class FunctionExtensions
     /// <typeparam name="TResult">The function result type.</typeparam>
     /// <param name="function">The curried function to uncurry.</param>
     /// <returns>A function that accepts both arguments.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="function"/> is null; rejected before invocation or construction of the returned function.</exception>
     public static Func<TFirst, TSecond, TResult> Uncurry<TFirst, TSecond, TResult>(
         this Func<TFirst, Func<TSecond, TResult>> function)
     {
@@ -79,6 +83,7 @@ public static class FunctionExtensions
     /// <param name="function">The binary function to partially apply.</param>
     /// <param name="first">The value to bind as the first argument.</param>
     /// <returns>A function that accepts the remaining argument.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="function"/> is null; rejected before invocation or construction of the returned function.</exception>
     public static Func<TSecond, TResult> Partial<TFirst, TSecond, TResult>(
         this Func<TFirst, TSecond, TResult> function,
         TFirst first)
@@ -96,6 +101,7 @@ public static class FunctionExtensions
     /// <typeparam name="TResult">The function result type.</typeparam>
     /// <param name="function">The binary function to reverse.</param>
     /// <returns>A function that accepts the second argument before the first.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="function"/> is null; rejected before invocation or construction of the returned function.</exception>
     public static Func<TSecond, TFirst, TResult> Flip<TFirst, TSecond, TResult>(
         this Func<TFirst, TSecond, TResult> function)
     {
@@ -111,6 +117,7 @@ public static class FunctionExtensions
     /// <param name="value">The value to observe.</param>
     /// <param name="observer">The action that observes <paramref name="value"/>.</param>
     /// <returns><paramref name="value"/>.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="observer"/> is null; rejected before invocation or construction of the returned function.</exception>
     public static T Tap<T>(this T value, Action<T> observer)
     {
         ArgumentNullException.ThrowIfNull(observer);
@@ -127,6 +134,7 @@ public static class FunctionExtensions
     /// <param name="first">The function applied first.</param>
     /// <param name="second">The function applied after <paramref name="first"/> completes.</param>
     /// <returns>A task-returning function that applies both functions in order.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="first"/> or <paramref name="second"/> is null; rejected before invocation or construction of the returned function.</exception>
     public static Func<T, Task<TResult>> ComposeAsync<T, TIntermediate, TResult>(
         this Func<T, Task<TIntermediate>> first,
         Func<TIntermediate, Task<TResult>> second)
@@ -150,6 +158,7 @@ public static class FunctionExtensions
     /// <param name="first">The function applied first.</param>
     /// <param name="second">The function applied after <paramref name="first"/> completes.</param>
     /// <returns>A value-task-returning function that applies both functions in order.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="first"/> or <paramref name="second"/> is null; rejected before invocation or construction of the returned function.</exception>
     public static Func<T, ValueTask<TResult>> ComposeValueAsync<T, TIntermediate, TResult>(
         this Func<T, ValueTask<TIntermediate>> first,
         Func<TIntermediate, ValueTask<TResult>> second)
@@ -173,6 +182,7 @@ public static class FunctionExtensions
     /// <param name="first">The function applied first.</param>
     /// <param name="second">The function applied after <paramref name="first"/> completes.</param>
     /// <returns>A cancellation-aware task-returning function that applies both functions in order.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="first"/> or <paramref name="second"/> is null; rejected before invocation or construction of the returned function.</exception>
     public static Func<T, CancellationToken, Task<TResult>> ComposeAsync<T, TIntermediate, TResult>(
         this Func<T, CancellationToken, Task<TIntermediate>> first,
         Func<TIntermediate, CancellationToken, Task<TResult>> second)
@@ -196,6 +206,7 @@ public static class FunctionExtensions
     /// <param name="first">The function applied first.</param>
     /// <param name="second">The function applied after <paramref name="first"/> completes.</param>
     /// <returns>A cancellation-aware value-task-returning function that applies both functions in order.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="first"/> or <paramref name="second"/> is null; rejected before invocation or construction of the returned function.</exception>
     public static Func<T, CancellationToken, ValueTask<TResult>> ComposeValueAsync<T, TIntermediate, TResult>(
         this Func<T, CancellationToken, ValueTask<TIntermediate>> first,
         Func<TIntermediate, CancellationToken, ValueTask<TResult>> second)
@@ -217,6 +228,7 @@ public static class FunctionExtensions
     /// <param name="value">The value to observe.</param>
     /// <param name="observer">The asynchronous observer.</param>
     /// <returns>A task that completes with <paramref name="value"/> after observation.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="observer"/> is null; rejected before invocation or construction of the returned function.</exception>
     public static Task<T> TapAsync<T>(this T value, Func<T, Task> observer)
     {
         ArgumentNullException.ThrowIfNull(observer);
@@ -231,6 +243,7 @@ public static class FunctionExtensions
     /// <param name="observer">The cancellation-aware asynchronous observer.</param>
     /// <param name="cancellationToken">The token passed to <paramref name="observer"/>.</param>
     /// <returns>A task that completes with <paramref name="value"/> after observation.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="observer"/> is null; rejected before invocation or construction of the returned function.</exception>
     public static Task<T> TapAsync<T>(
         this T value,
         Func<T, CancellationToken, Task> observer,
@@ -247,6 +260,7 @@ public static class FunctionExtensions
     /// <param name="value">The value to observe.</param>
     /// <param name="observer">The asynchronous observer.</param>
     /// <returns>A value task that completes with <paramref name="value"/> after observation.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="observer"/> is null; rejected before invocation or construction of the returned function.</exception>
     public static ValueTask<T> TapValueAsync<T>(this T value, Func<T, ValueTask> observer)
     {
         ArgumentNullException.ThrowIfNull(observer);
@@ -261,6 +275,7 @@ public static class FunctionExtensions
     /// <param name="observer">The cancellation-aware asynchronous observer.</param>
     /// <param name="cancellationToken">The token passed to <paramref name="observer"/>.</param>
     /// <returns>A value task that completes with <paramref name="value"/> after observation.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="observer"/> is null; rejected before invocation or construction of the returned function.</exception>
     public static ValueTask<T> TapValueAsync<T>(
         this T value,
         Func<T, CancellationToken, ValueTask> observer,

@@ -260,6 +260,11 @@ public readonly struct Effect<T>
     /// <param name="cancellationToken">The token forwarded to cancellation-aware operations.</param>
     /// <returns>An awaitable operation that produces the effect value.</returns>
     /// <exception cref="InvalidOperationException">This effect is the default value.</exception>
+    /// <remarks>
+    /// An operation-returned ValueTask is forwarded without awaiting or rewrapping it. A task-backed
+    /// ValueTask retains its underlying task identity and status, including a faulted task containing
+    /// an OperationCanceledException. Synchronous invocation failures are captured separately.
+    /// </remarks>
     public ValueTask<T> RunAsync(CancellationToken cancellationToken = default) =>
         runner is null
             ? ValueTask.FromException<T>(new InvalidOperationException("The effect has not been initialized."))
@@ -286,6 +291,12 @@ public readonly struct Effect<T>
     /// <param name="binder">The effect-producing function invoked after this effect completes.</param>
     /// <returns>A deferred effect that runs the bound effect.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="binder"/> is <see langword="null"/>.</exception>
+    /// <remarks>
+    /// When the source has already completed successfully, the bound effect's RunAsync result is
+    /// returned directly. Otherwise, composition awaits the source and, if successful, the bound effect.
+    /// A bound task faulted with an OperationCanceledException remains faulted on the direct-return
+    /// path; awaiting that same task after a pending source produces a canceled composition.
+    /// </remarks>
     public Effect<TResult> Bind<TResult>(Func<T, Effect<TResult>> binder)
     {
         ArgumentNullException.ThrowIfNull(binder);
@@ -310,6 +321,7 @@ public readonly struct Effect<T>
     /// <typeparam name="TResult">The transformed value type.</typeparam>
     /// <param name="selector">The transformation invoked after this effect completes.</param>
     /// <returns>A deferred effect that applies <paramref name="selector"/>.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="selector"/> is null; rejected before constructing the deferred effect.</exception>
     public Effect<TResult> Select<TResult>(Func<T, TResult> selector) => Map(selector);
 
     /// <summary>
@@ -386,6 +398,11 @@ public readonly struct Effect<TEnvironment, T>
     /// <param name="cancellationToken">The token forwarded to cancellation-aware operations.</param>
     /// <returns>An awaitable operation that produces the effect value.</returns>
     /// <exception cref="InvalidOperationException">This effect is the default value.</exception>
+    /// <remarks>
+    /// An operation-returned ValueTask is forwarded without awaiting or rewrapping it. A task-backed
+    /// ValueTask retains its underlying task identity and status, including a faulted task containing
+    /// an OperationCanceledException. Synchronous invocation failures are captured separately.
+    /// </remarks>
     public ValueTask<T> RunAsync(TEnvironment environment, CancellationToken cancellationToken = default) =>
         runner is null
             ? ValueTask.FromException<T>(new InvalidOperationException("The effect has not been initialized."))
@@ -424,6 +441,13 @@ public readonly struct Effect<TEnvironment, T>
     /// <param name="binder">The effect-producing function invoked after this effect completes.</param>
     /// <returns>A deferred environment-dependent effect that runs the bound effect.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="binder"/> is <see langword="null"/>.</exception>
+    /// <remarks>
+    /// Both runs receive the supplied environment and cancellation token. When the source has already
+    /// completed successfully, the bound effect's RunAsync result is returned directly. Otherwise,
+    /// composition awaits the source and, if successful, the bound effect. A bound task faulted with an
+    /// OperationCanceledException remains faulted on the direct-return path; awaiting that same task
+    /// after a pending source produces a canceled composition.
+    /// </remarks>
     public Effect<TEnvironment, TResult> Bind<TResult>(Func<T, Effect<TEnvironment, TResult>> binder)
     {
         ArgumentNullException.ThrowIfNull(binder);
@@ -438,6 +462,7 @@ public readonly struct Effect<TEnvironment, T>
     /// <typeparam name="TResult">The transformed value type.</typeparam>
     /// <param name="selector">The transformation invoked after this effect completes.</param>
     /// <returns>A deferred environment-dependent effect that applies <paramref name="selector"/>.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="selector"/> is null; rejected before constructing the deferred effect.</exception>
     public Effect<TEnvironment, TResult> Select<TResult>(Func<T, TResult> selector) => Map(selector);
 
     /// <summary>

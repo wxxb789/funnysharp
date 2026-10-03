@@ -1,0 +1,79 @@
+Running tests from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.VerticalSlice\FunnySharp.VerticalSlice.Tests\bin\Release\net10.0\FunnySharp.VerticalSlice.Tests.dll (net10.0|x64)
+failed FunnySharp.VerticalSlice.Tests.OpenApiTests.ReconciliationHistoryFaultMatchesTheSameKestrelHostsOpenApi (934ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.VerticalSlice\FunnySharp.VerticalSlice.Tests\bin\Release\net10.0\FunnySharp.VerticalSlice.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: System.Collections.Generic.KeyNotFoundException : The given key was not present in the dictionary.
+    at System.Text.Json.JsonElement.GetProperty(String propertyName)
+    at FunnySharp.VerticalSlice.Tests.OpenApiTests.Respond(JsonElement operation, String statusCode) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.VerticalSlice\FunnySharp.VerticalSlice.Tests\OpenApiTests.cs:130
+    at FunnySharp.VerticalSlice.Tests.OpenApiTests.ReconciliationHistoryFaultMatchesTheSameKestrelHostsOpenApi() in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.VerticalSlice\FunnySharp.VerticalSlice.Tests\OpenApiTests.cs:108
+    at FunnySharp.VerticalSlice.Tests.OpenApiTests.ReconciliationHistoryFaultMatchesTheSameKestrelHostsOpenApi() in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.VerticalSlice\FunnySharp.VerticalSlice.Tests\OpenApiTests.cs:112
+    --- End of stack trace from previous location ---
+failed FunnySharp.VerticalSlice.Tests.OpenApiTests.EveryEndpointAppearsWithItsRealOutcomes (106ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.VerticalSlice\FunnySharp.VerticalSlice.Tests\bin\Release\net10.0\FunnySharp.VerticalSlice.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: System.Collections.Generic.KeyNotFoundException : The given key was not present in the dictionary.
+    at System.Text.Json.JsonElement.GetProperty(String propertyName)
+    at FunnySharp.VerticalSlice.Tests.OpenApiTests.Respond(JsonElement operation, String statusCode) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.VerticalSlice\FunnySharp.VerticalSlice.Tests\OpenApiTests.cs:130
+    at FunnySharp.VerticalSlice.Tests.OpenApiTests.EveryEndpointAppearsWithItsRealOutcomes() in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.VerticalSlice\FunnySharp.VerticalSlice.Tests\OpenApiTests.cs:65
+    at FunnySharp.VerticalSlice.Tests.OpenApiTests.EveryEndpointAppearsWithItsRealOutcomes() in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.VerticalSlice\FunnySharp.VerticalSlice.Tests\OpenApiTests.cs:79
+    --- End of stack trace from previous location ---
+Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.VerticalSlice\FunnySharp.VerticalSlice.Tests\bin\Release\net10.0\FunnySharp.VerticalSlice.Tests.dll (net10.0|x64) failed with 2 error(s) (2s 623ms)
+Exit code: 2
+  Standard output: info: Microsoft.Hosting.Lifetime[14]
+        Now listening on: http://127.0.0.1:58290
+  info: Microsoft.Hosting.Lifetime[0]
+        Application started. Press Ctrl+C to shut down.
+  info: Microsoft.Hosting.Lifetime[0]
+        Hosting environment: Production
+  info: Microsoft.Hosting.Lifetime[0]
+        Content root path: Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.VerticalSlice\FunnySharp.VerticalSlice.Tests\bin\Release\net10.0
+  info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+        Request starting HTTP/1.1 GET http://127.0.0.1:58290/orders/ORD-1/reconcile - - -
+  info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+        Executing endpoint 'HTTP: GET /orders/{id}/reconcile => ReconcileOrderAsync'
+  fail: FunnySharp.VerticalSlice.Http.ProblemMappings[0]
+        Order failure HistoryDiverged produced a server fault history-diverged.
+  info: Microsoft.AspNetCore.Http.HttpResults.ProblemHttpResult[1]
+        Setting HTTP status code 500.
+  info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+        Executed endpoint 'HTTP: GET /orders/{id}/reconcile => ReconcileOrderAsync'
+  info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+        Request finished HTTP/1.1 GET http://127.0.0.1:58290/orders/ORD-1/reconcile - 500 - application/problem+json 229.4688ms
+  info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+        Request starting HTTP/1.1 GET http://127.0.0.1:58290/openapi/v1.json - - -
+  info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+        Executing endpoint 'HTTP: GET /openapi/{documentName}.json'
+  info: Microsoft.AspNetCore.Mvc.Infrastructure.DefaultActionDescriptorCollectionProvider[1]
+        No action descriptors found. This may indicate an incorrectly configured application or missing application parts. To learn more, visit https://aka.ms/aspnet/mvc/app-parts
+  info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+        Executed endpoint 'HTTP: GET /openapi/{documentName}.json'
+  info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+        Request finished HTTP/1.1 GET http://127.0.0.1:58290/openapi/v1.json - 200 - application/json;charset=utf-8 239.8003ms
+  info: Microsoft.Hosting.Lifetime[0]
+        Application is shutting down...
+  info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+        Request starting HTTP/1.1 GET http://localhost/openapi/v1.json - - -
+  info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+        Executing endpoint 'HTTP: GET /openapi/{documentName}.json'
+  info: Microsoft.AspNetCore.Mvc.Infrastructure.DefaultActionDescriptorCollectionProvider[1]
+        No action descriptors found. This may indicate an incorrectly configured application or missing application parts. To learn more, visit https://aka.ms/aspnet/mvc/app-parts
+  info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+        Executed endpoint 'HTTP: GET /openapi/{documentName}.json'
+  info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+        Request finished HTTP/1.1 GET http://localhost/openapi/v1.json - 200 - application/json;charset=utf-8 86.0931ms
+  info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+        Request starting HTTP/1.1 GET http://localhost/openapi/v1.json - - -
+  info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+        Executing endpoint 'HTTP: GET /openapi/{documentName}.json'
+  info: Microsoft.AspNetCore.Mvc.Infrastructure.DefaultActionDescriptorCollectionProvider[1]
+        No action descriptors found. This may indicate an incorrectly configured application or missing application parts. To learn more, visit https://aka.ms/aspnet/mvc/app-parts
+  info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+        Executed endpoint 'HTTP: GET /openapi/{documentName}.json'
+  info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+        Request finished HTTP/1.1 GET http://localhost/openapi/v1.json - 200 - application/json;charset=utf-8 94.2458ms
+
+Test run summary: Failed!
+  total: 3
+  failed: 2
+  succeeded: 1
+  skipped: 0
+  duration: 3s 308ms
+Test run completed with non-success exit code: 2 (see: https://aka.ms/testingplatform/exitcodes)

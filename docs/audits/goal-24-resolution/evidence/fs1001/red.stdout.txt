@@ -1,0 +1,59 @@
+Running tests from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\bin\Release\net10.0\FunnySharp.Analyzers.Tests.dll (net10.0|x64)
+failed FunnySharp.Analyzers.Tests.UninitializedCarrierAnalyzerTests.EmptyInitializersDoNotInitializeNondefaultableCarriers(typeText: "Result<int, string>") (33ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\bin\Release\net10.0\FunnySharp.Analyzers.Tests.dll (net10.0|x64)
+  Assert.Single() Failure: The collection was empty
+    at FunnySharp.Analyzers.Tests.AnalyzerTestAssert.DiagnosticAsync(String source, String expectedId, String messageFragment) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\AnalyzerTestAssert.cs:13
+    at FunnySharp.Analyzers.Tests.UninitializedCarrierAnalyzerTests.EmptyInitializersDoNotInitializeNondefaultableCarriers(String typeText) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\UninitializedCarrierAnalyzerTests.cs:152
+    --- End of stack trace from previous location ---
+failed FunnySharp.Analyzers.Tests.UninitializedCarrierAnalyzerTests.EmptyInitializersDoNotInitializeNondefaultableCarriers(typeText: "UnitResult<string>") (13ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\bin\Release\net10.0\FunnySharp.Analyzers.Tests.dll (net10.0|x64)
+  Assert.Single() Failure: The collection was empty
+    at FunnySharp.Analyzers.Tests.AnalyzerTestAssert.DiagnosticAsync(String source, String expectedId, String messageFragment) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\AnalyzerTestAssert.cs:13
+    at FunnySharp.Analyzers.Tests.UninitializedCarrierAnalyzerTests.EmptyInitializersDoNotInitializeNondefaultableCarriers(String typeText) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\UninitializedCarrierAnalyzerTests.cs:152
+    --- End of stack trace from previous location ---
+failed FunnySharp.Analyzers.Tests.UninitializedCarrierAnalyzerTests.EmptyInitializersDoNotInitializeNondefaultableCarriers(typeText: "Optional<int, string>") (14ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\bin\Release\net10.0\FunnySharp.Analyzers.Tests.dll (net10.0|x64)
+  Assert.Single() Failure: The collection was empty
+    at FunnySharp.Analyzers.Tests.AnalyzerTestAssert.DiagnosticAsync(String source, String expectedId, String messageFragment) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\AnalyzerTestAssert.cs:13
+    at FunnySharp.Analyzers.Tests.UninitializedCarrierAnalyzerTests.EmptyInitializersDoNotInitializeNondefaultableCarriers(String typeText) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\UninitializedCarrierAnalyzerTests.cs:152
+    --- End of stack trace from previous location ---
+failed FunnySharp.Analyzers.Tests.UninitializedCarrierAnalyzerTests.EmptyInitializersDoNotInitializeNondefaultableCarriers(typeText: "NonEmpty<int>") (12ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\bin\Release\net10.0\FunnySharp.Analyzers.Tests.dll (net10.0|x64)
+  Assert.Single() Failure: The collection was empty
+    at FunnySharp.Analyzers.Tests.AnalyzerTestAssert.DiagnosticAsync(String source, String expectedId, String messageFragment) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\AnalyzerTestAssert.cs:13
+    at FunnySharp.Analyzers.Tests.UninitializedCarrierAnalyzerTests.EmptyInitializersDoNotInitializeNondefaultableCarriers(String typeText) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\UninitializedCarrierAnalyzerTests.cs:152
+    --- End of stack trace from previous location ---
+failed FunnySharp.Analyzers.Tests.UninitializedCarrierAnalyzerTests.EmptyInitializersDoNotInitializeNondefaultableCarriers(typeText: "Validation<int, string>") (30ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\bin\Release\net10.0\FunnySharp.Analyzers.Tests.dll (net10.0|x64)
+  Assert.Single() Failure: The collection was empty
+    at FunnySharp.Analyzers.Tests.AnalyzerTestAssert.DiagnosticAsync(String source, String expectedId, String messageFragment) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\AnalyzerTestAssert.cs:13
+    at FunnySharp.Analyzers.Tests.UninitializedCarrierAnalyzerTests.EmptyInitializersDoNotInitializeNondefaultableCarriers(String typeText) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\UninitializedCarrierAnalyzerTests.cs:152
+    --- End of stack trace from previous location ---
+failed FunnySharp.Analyzers.Tests.UninitializedCarrierAnalyzerTests.EmptyInitializersDoNotInitializeNondefaultableCarriers(typeText: "Lens<int, string>") (11ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\bin\Release\net10.0\FunnySharp.Analyzers.Tests.dll (net10.0|x64)
+  Assert.Single() Failure: The collection was empty
+    at FunnySharp.Analyzers.Tests.AnalyzerTestAssert.DiagnosticAsync(String source, String expectedId, String messageFragment) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\AnalyzerTestAssert.cs:13
+    at FunnySharp.Analyzers.Tests.UninitializedCarrierAnalyzerTests.EmptyInitializersDoNotInitializeNondefaultableCarriers(String typeText) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\UninitializedCarrierAnalyzerTests.cs:152
+    --- End of stack trace from previous location ---
+failed FunnySharp.Analyzers.Tests.UninitializedCarrierAnalyzerTests.EmptyInitializersDoNotInitializeNondefaultableCarriers(typeText: "Effect<int>") (12ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\bin\Release\net10.0\FunnySharp.Analyzers.Tests.dll (net10.0|x64)
+  Assert.Single() Failure: The collection was empty
+    at FunnySharp.Analyzers.Tests.AnalyzerTestAssert.DiagnosticAsync(String source, String expectedId, String messageFragment) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\AnalyzerTestAssert.cs:13
+    at FunnySharp.Analyzers.Tests.UninitializedCarrierAnalyzerTests.EmptyInitializersDoNotInitializeNondefaultableCarriers(String typeText) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\UninitializedCarrierAnalyzerTests.cs:152
+    --- End of stack trace from previous location ---
+failed FunnySharp.Analyzers.Tests.UninitializedCarrierAnalyzerTests.EmptyInitializersDoNotInitializeNondefaultableCarriers(typeText: "Effect<Env, int>") (11ms)
+  from Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\bin\Release\net10.0\FunnySharp.Analyzers.Tests.dll (net10.0|x64)
+  Assert.Single() Failure: The collection was empty
+    at FunnySharp.Analyzers.Tests.AnalyzerTestAssert.DiagnosticAsync(String source, String expectedId, String messageFragment) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\AnalyzerTestAssert.cs:13
+    at FunnySharp.Analyzers.Tests.UninitializedCarrierAnalyzerTests.EmptyInitializersDoNotInitializeNondefaultableCarriers(String typeText) in Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\UninitializedCarrierAnalyzerTests.cs:152
+    --- End of stack trace from previous location ---
+Q:\repos\funnysharp-goal24-resolution\tests\FunnySharp.Analyzers.Tests\bin\Release\net10.0\FunnySharp.Analyzers.Tests.dll (net10.0|x64) failed with 8 error(s) (6s 009ms)
+Exit code: 2
+
+Test run summary: Failed!
+  total: 88
+  failed: 8
+  succeeded: 80
+  skipped: 0
+  duration: 6s 751ms
+Test run completed with non-success exit code: 2 (see: https://aka.ms/testingplatform/exitcodes)

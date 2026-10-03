@@ -1,0 +1,267 @@
+{
+  "schema": "funnysharp-v4-concurrency-http-parent/v1",
+  "study": "audit-resolution-v4",
+  "slots": [
+    {
+      "slot": "concurrency/idiomatic/run-1",
+      "sessionId": "study-session:d7db243c-1628-4d40-8bc4-bd09846d4fec",
+      "invocationId": "native-call:a50f81ae-912c-4eef-9286-bc1b8c01344a",
+      "record": {
+        "task": "concurrency",
+        "style": "idiomatic",
+        "run": "run-1",
+        "round": 1,
+        "compilation": {
+          "ok": true,
+          "errors": 0,
+          "buildSeconds": 7.6
+        },
+        "semanticCorrectness": {
+          "ok": true,
+          "total": 12,
+          "failed": 0,
+          "succeeded": 12,
+          "skipped": 0
+        },
+        "apiMisuse": {
+          "fsDiagnostics": []
+        },
+        "consumerLoc": 220,
+        "verdict": "GREEN",
+        "evidenceKind": "generation-verification"
+      },
+      "buildExit": 0,
+      "testExit": 0
+    },
+    {
+      "slot": "concurrency/idiomatic/run-2",
+      "sessionId": "study-session:ef746ead-aafe-4515-ac18-13522fe58bcc",
+      "invocationId": "native-call:38baa389-5770-49c5-b94d-b5db1a5a1cca",
+      "record": {
+        "task": "concurrency",
+        "style": "idiomatic",
+        "run": "run-2",
+        "round": 1,
+        "compilation": {
+          "ok": true,
+          "errors": 0,
+          "buildSeconds": 10.7
+        },
+        "semanticCorrectness": {
+          "ok": true,
+          "total": 12,
+          "failed": 0,
+          "succeeded": 12,
+          "skipped": 0
+        },
+        "apiMisuse": {
+          "fsDiagnostics": []
+        },
+        "consumerLoc": 181,
+        "verdict": "GREEN",
+        "evidenceKind": "generation-verification"
+      },
+      "buildExit": 0,
+      "testExit": 0
+    },
+    {
+      "slot": "concurrency/funnysharp/run-1",
+      "sessionId": "study-session:b41091a7-4ee4-4fb1-b0b8-588c480fbf36",
+      "invocationId": "native-call:ddef7945-43c8-4e11-8889-0a621bfacab5",
+      "record": {
+        "task": "concurrency",
+        "style": "funnysharp",
+        "run": "run-1",
+        "round": 1,
+        "compilation": {
+          "ok": true,
+          "errors": 0,
+          "buildSeconds": 10.8
+        },
+        "semanticCorrectness": {
+          "ok": true,
+          "total": 12,
+          "failed": 0,
+          "succeeded": 12,
+          "skipped": 0
+        },
+        "apiMisuse": {
+          "fsDiagnostics": []
+        },
+        "consumerLoc": 184,
+        "verdict": "GREEN",
+        "evidenceKind": "generation-verification"
+      },
+      "buildExit": 0,
+      "testExit": 0
+    },
+    {
+      "slot": "concurrency/funnysharp/run-2",
+      "sessionId": "study-session:a984f2ee-db8f-43e8-b1ba-bf6302490de6",
+      "invocationId": "native-call:0b5b2383-aa3d-486c-a90f-c9b0c1e78114",
+      "record": {
+        "task": "concurrency",
+        "style": "funnysharp",
+        "run": "run-2",
+        "round": 1,
+        "compilation": {
+          "ok": true,
+          "errors": 0,
+          "buildSeconds": 10.2
+        },
+        "semanticCorrectness": {
+          "ok": true,
+          "total": 12,
+          "failed": 0,
+          "succeeded": 12,
+          "skipped": 0
+        },
+        "apiMisuse": {
+          "fsDiagnostics": []
+        },
+        "consumerLoc": 169,
+        "verdict": "GREEN",
+        "evidenceKind": "generation-verification"
+      },
+      "buildExit": 0,
+      "testExit": 0
+    },
+    {
+      "slot": "aspnetcore/idiomatic/run-1",
+      "sessionId": "study-session:e127c262-4785-4eed-8c0a-3e197260752c",
+      "invocationId": "native-call:1d4c0d63-8769-4262-84ce-699a90357d12",
+      "record": {
+        "task": "aspnetcore",
+        "style": "idiomatic",
+        "run": "run-1",
+        "round": 1,
+        "compilation": {
+          "ok": true,
+          "errors": 0,
+          "buildSeconds": 13.1
+        },
+        "semanticCorrectness": {
+          "ok": true,
+          "total": 9,
+          "failed": 0,
+          "succeeded": 9,
+          "skipped": 0
+        },
+        "apiMisuse": {
+          "fsDiagnostics": []
+        },
+        "consumerLoc": 129,
+        "verdict": "GREEN",
+        "evidenceKind": "generation-verification"
+      },
+      "buildExit": 0,
+      "testExit": 0
+    },
+    {
+      "slot": "aspnetcore/idiomatic/run-2",
+      "sessionId": "study-session:27706c06-521f-4ed2-b183-91340576df4f",
+      "invocationId": "native-call:4395e23d-8b49-4384-b8ef-5695e47fa0ac",
+      "record": {
+        "task": "aspnetcore",
+        "style": "idiomatic",
+        "run": "run-2",
+        "round": 1,
+        "compilation": {
+          "ok": true,
+          "errors": 0,
+          "buildSeconds": 11.5
+        },
+        "semanticCorrectness": {
+          "ok": true,
+          "total": 9,
+          "failed": 0,
+          "succeeded": 9,
+          "skipped": 0
+        },
+        "apiMisuse": {
+          "fsDiagnostics": []
+        },
+        "consumerLoc": 137,
+        "verdict": "GREEN",
+        "evidenceKind": "generation-verification"
+      },
+      "buildExit": 0,
+      "testExit": 0
+    },
+    {
+      "slot": "aspnetcore/funnysharp/run-1",
+      "sessionId": "study-session:d39a7dc3-8b92-4fed-8c46-c0762f0a45f9",
+      "invocationId": "native-call:b9d48fc6-82ac-44a7-96f2-006e15c18f1d",
+      "record": {
+        "task": "aspnetcore",
+        "style": "funnysharp",
+        "run": "run-1",
+        "round": 1,
+        "compilation": {
+          "ok": true,
+          "errors": 0,
+          "buildSeconds": 10
+        },
+        "semanticCorrectness": {
+          "ok": true,
+          "total": 9,
+          "failed": 0,
+          "succeeded": 9,
+          "skipped": 0
+        },
+        "apiMisuse": {
+          "fsDiagnostics": []
+        },
+        "consumerLoc": 121,
+        "verdict": "GREEN",
+        "evidenceKind": "generation-verification"
+      },
+      "buildExit": 0,
+      "testExit": 0
+    },
+    {
+      "slot": "aspnetcore/funnysharp/run-2",
+      "sessionId": "study-session:7edf5fa1-c9a4-4cb3-a6e9-5f8471a2cf62",
+      "invocationId": "native-call:9f21353d-5189-4894-af98-01a802d7a9b4",
+      "record": {
+        "task": "aspnetcore",
+        "style": "funnysharp",
+        "run": "run-2",
+        "round": 1,
+        "compilation": {
+          "ok": true,
+          "errors": 0,
+          "buildSeconds": 9.8
+        },
+        "semanticCorrectness": {
+          "ok": true,
+          "total": 9,
+          "failed": 0,
+          "succeeded": 9,
+          "skipped": 0
+        },
+        "apiMisuse": {
+          "fsDiagnostics": []
+        },
+        "consumerLoc": 109,
+        "verdict": "GREEN",
+        "evidenceKind": "generation-verification"
+      },
+      "buildExit": 0,
+      "testExit": 0
+    }
+  ],
+  "actualInitialSemanticGenerations": 8,
+  "actualFixedCases": 84,
+  "passed": 84,
+  "failed": 0,
+  "skipped": 0,
+  "corrections": 0,
+  "technicalLaunchFailureCount": 8,
+  "originalTechnicalHistoryUnchangedExceptSelectedPregradePointersWith16ByteExactArchives": true,
+  "originalUnknownUpstreamRequestsNotClaimedZero": true,
+  "recoveryRegistration": "eng/evaluation/studies/audit-resolution-v4/native-cli-startup-recovery-protocol.json",
+  "firstActualSemanticRound": 1,
+  "realKestrelQA": "Pending originalst_01a0fd9c, not replacedbyTestServergrade orU8.",
+  "roundHashChecks": 3103
+}

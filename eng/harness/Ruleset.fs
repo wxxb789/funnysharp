@@ -363,7 +363,7 @@ let private tryFindExecutable (name: string) : string option =
                 if File.Exists candidate then Some candidate else None)
 
 let defaultCollaborators: Collaborators =
-    { HasGitHubCli = fun () -> (tryFindExecutable "gh").IsSome
+    { HasGitHubCli = fun () -> (tryFindExecutable (if OperatingSystem.IsWindows() then "gh.exe" else "gh")).IsSome
       RunGitHubCli = fun arguments -> runCaptureSync "gh" arguments }
 
 let private usageLine =

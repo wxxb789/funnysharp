@@ -35,6 +35,7 @@ public class OptionBenchmarks
     [GlobalSetup]
     public void Setup()
     {
+        BenchmarkPreflight.CaptureChild(this);
         presentValue = 42;
         fallbackValue = -1;
         hasPresentValue = true;

@@ -1,0 +1,56 @@
+PACKAGE_SHA256 53d0e1ebffe623383567d06e54ae8dbb698cbf3368892f5b18df8d9957012a3f
+ASSEMBLY_SHA256 cc94d4330b9a2b0f0dbd526103bcf0d660e17a7174bfb4f0aa5ecca1bb1bda95
+FRAMEWORK .NET 10.0.12
+TYPE FunnySharp.AsyncCardinalityExtensions VERBS ElementAtOrNoneAsync,FirstOrNoneAsync,LastOrNoneAsync,MaxOrNoneAsync,MinOrNoneAsync,SingleOrNoneAsync,ToNonEmptyOrNoneAsync
+TYPE FunnySharp.AsyncEnumerablePipelineExtensions VERBS Choose,ChooseValueAsync,Scan,ScanValueAsync,WhereNotNull
+TYPE FunnySharp.AsyncSequenceExtensions VERBS SequenceAsync,TraverseAsync,TraverseValueAsync
+TYPE FunnySharp.CardinalityExtensions VERBS ElementAtOrNone,FirstOrNone,LastOrNone,MaxOrNone,MinOrNone,SingleOrNone,ToNonEmptyOrNone
+TYPE FunnySharp.ConcurrentEffectExtensions VERBS FirstSuccessAsync
+TYPE FunnySharp.ContainerExtensions VERBS DequeueOrNone,IndexOfOrNone,PeekOrNone,PopOrNone,RemoveOrNone
+TYPE FunnySharp.Effect VERBS FromResult,FromSync,FromTask,FromValue,FromValueTask
+TYPE FunnySharp.Effect`1 VERBS Bind,Map,RunAsync,Select,SelectMany,WithEnvironment
+TYPE FunnySharp.Effect`2 VERBS Bind,Map,Provide,RunAsync,Select,SelectMany
+TYPE FunnySharp.EffectResourceExtensions VERBS Using,UsingAsync
+TYPE FunnySharp.EnumerablePipelineExtensions VERBS Choose,Scan,WhereNotNull
+TYPE FunnySharp.ExactZipExtensions VERBS ZipExact,ZipExactOrNone
+TYPE FunnySharp.FunctionExtensions VERBS Compose,ComposeAsync,ComposeValueAsync,Curry,Flip,Partial,Pipe,Tap,TapAsync,TapValueAsync,Uncurry
+TYPE FunnySharp.Lens VERBS Create,Identity
+TYPE FunnySharp.Lens`2 VERBS Compose,Get,Set,Update
+TYPE FunnySharp.Location VERBS At,Equals,GetHashCode,Key,Nest,Property,ToString
+TYPE FunnySharp.NonEmpty`1 VERBS Aggregate,ToReadOnlyList,ToString
+TYPE FunnySharp.Option VERBS FromBoolean,FromNullable,FromTry,None,Some
+TYPE FunnySharp.Option`1 VERBS Bind,Equals,Filter,GetHashCode,GetValueOr,GetValueOrDefault,GetValueOrElse,Map,Match,OrElse,OrElseWith,Select,SelectMany,Some,ToString,TryGetValue,Zip
+TYPE FunnySharp.Optional VERBS Create
+TYPE FunnySharp.Optional`2 VERBS Compose,GetOption,Set,Update
+TYPE FunnySharp.OptionExtensions VERBS BindAsync,BindValueAsync,GetOption,MapAsync,MapValueAsync,ToNullable,ToOption,ToOptionAsync
+TYPE FunnySharp.OptionPartition`1 VERBS <Clone>$,Deconstruct,Equals,GetHashCode,ToString
+TYPE FunnySharp.ParallelAsyncEnumerableExtensions VERBS SelectParallelCompletionOrderValueAsync,SelectParallelValueAsync
+TYPE FunnySharp.ParallelAsyncSequenceExtensions VERBS TraverseParallelValueAsync
+TYPE FunnySharp.ParseExtensions VERBS ParseBoolOrNone,ParseByteOrNone,ParseDateTimeOffsetOrNone,ParseDateTimeOrNone,ParseDecimalOrNone,ParseDoubleOrNone,ParseFloatOrNone,ParseGuidOrNone,ParseIntOrNone,ParseLongOrNone,ParseOrNone,ParseSByteOrNone,ParseShortOrNone,ParseTimeSpanOrNone,ParseUIntOrNone,ParseULongOrNone,ParseUShortOrNone
+TYPE FunnySharp.Partition`1 VERBS <Clone>$,Deconstruct,Equals,GetHashCode,ToString
+TYPE FunnySharp.PartitionExtensions VERBS Partition,PartitionAsync
+TYPE FunnySharp.Result VERBS Try,TryAsync,TryValueAsync
+TYPE FunnySharp.Result`2 VERBS Bind,Ensure,Equals,Failure,GetHashCode,Map,MapError,Match,Recover,RecoverWith,Select,SelectMany,Success,ToString,TryGetError,TryGetValue,Zip,ZipWith
+TYPE FunnySharp.ResultExtensions VERBS BindAsync,BindValueAsync,MapAsync,MapValueAsync,ToOption,ToResult
+TYPE FunnySharp.ResultPartition`2 VERBS <Clone>$,Deconstruct,Equals,GetHashCode,ToString
+TYPE FunnySharp.SequenceExtensions VERBS Sequence,Traverse
+TYPE FunnySharp.SpanPipelineExtensions VERBS ChooseTo,SelectInPlace,SelectTo,WhereInPlace,WhereTo
+TYPE FunnySharp.StateChange`2 VERBS Equals,GetHashCode,To,ToString
+TYPE FunnySharp.StateMachine`4 VERBS BeginInvoke,EndInvoke,Invoke
+TYPE FunnySharp.StateMachineExtensions VERBS OrElse,Replay
+TYPE FunnySharp.StateTransition`2 VERBS BeginInvoke,EndInvoke,Invoke
+TYPE FunnySharp.StateTransitionExtensions VERBS Then
+TYPE FunnySharp.TransitionResult`3 VERBS Applied,Equals,Failed,GetHashCode,Match,Rejected,ToString,TryGetChange,TryGetError,Undefined
+TYPE FunnySharp.TransitionStatus VERBS 
+TYPE FunnySharp.TryOperation`1 VERBS BeginInvoke,EndInvoke,Invoke
+TYPE FunnySharp.UnitResult VERBS Failure,Success,Try,TryAsync,TryValueAsync
+TYPE FunnySharp.UnitResult`1 VERBS Bind,Ensure,Equals,Failure,GetHashCode,MapError,Match,RecoverWith,Success,ToResult,ToString,TryGetError,Zip,ZipWith
+TYPE FunnySharp.UnitResultExtensions VERBS BindAsync,BindValueAsync,ToResultAsync,ToResultValueAsync,ToUnitResult,ToUnitResultAsync
+TYPE FunnySharp.UnitResultPartition`1 VERBS <Clone>$,Deconstruct,Equals,GetHashCode,ToString
+TYPE FunnySharp.Validation`2 VERBS Equals,GetHashCode,Invalid,InvalidMany,Map,MapErrors,Match,ToString,TryGetErrors,TryGetValue,Valid,Zip
+TYPE FunnySharp.ValidationExtensions VERBS Apply,MapAsync,MapValueAsync
+RECOVER_SIGNATURE FunnySharp.Result`2[System.Int32,System.String] Recover(System.Func`2[System.String,System.Int32])
+RECOVER_SUCCESS_CALLS 0 VALUE 1
+RECOVER_FAILURE_CALLS 1 VALUE 42
+LENS_OPTIONAL_COMPOSE FunnySharp.Optional`2[TSource,TNext] Compose[TNext](FunnySharp.Optional`2[TFocus,TNext])
+GRAMMAR_PACKAGE_PROBE PASS

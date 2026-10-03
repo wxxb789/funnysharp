@@ -1,0 +1,40 @@
+{
+  "schema": "funnysharp-native-call-registration/v1",
+  "slot": "async-streams/idiomatic/run-2",
+  "round": 1,
+  "sessionId": "study-session:b146c1e0-7229-48d1-a79b-b000b6690079",
+  "invocationId": "native-call:63bb6c94-fea9-4224-878e-81e0db246178",
+  "argv": [
+    "C:/Users/lhan/.omo/binary-runtime/5.1.9/omo.exe",
+    "--mode",
+    "json",
+    "--print",
+    "--no-session",
+    "--no-extensions",
+    "--no-context-files",
+    "--no-skills",
+    "--no-prompt-templates",
+    "--no-tools",
+    "--offline",
+    "--provider",
+    "ghc",
+    "--model",
+    "gpt-6.1-sol",
+    "--thinking",
+    "high",
+    "--system-prompt",
+    "The attached request.json contains a JSON object with inputFiles, each with path and content. Those file contents are the complete task inputs. Return only a JSON object with a files array; each entry contains path, a top-level C# filename, and content, the complete file text. Return the complete solution. Do not replace supplied contract or test files.",
+    "--extension",
+    "Q:/repos/funnysharp-goal24-resolution/.omo/audit-resolution/probes/u12-native-context-observer.mjs",
+    "@request.json"
+  ],
+  "environment": {
+    "PI_RULES_DISABLED": "1"
+  },
+  "monitor": {
+    "monitor_id": "mon_C45JZ6VKFCXKD7D9",
+    "bash_id": "bash_12",
+    "monitor": true
+  },
+  "requestSha256": "48d25977b353593c9f0cd212b93c7e6e454bc3ef2e17a326921ce0a1a7894249"
+}

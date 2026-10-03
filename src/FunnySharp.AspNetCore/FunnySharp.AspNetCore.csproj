@@ -2,7 +2,7 @@
   <PropertyGroup>
     <IsPackable>true</IsPackable>
     <PackageId>FunnySharp.AspNetCore</PackageId>
-    <VersionPrefix>0.1.0</VersionPrefix>
+    <VersionPrefix>0.2.0</VersionPrefix>
     <Authors>FunnySharp contributors</Authors>
     <Description>Explicit ASP.NET Core result mapping for FunnySharp outcomes and effects.</Description>
     <PackageTags>functional-programming;csharp;dotnet;aspnetcore;minimal-api</PackageTags>

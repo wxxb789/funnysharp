@@ -1,0 +1,194 @@
+{
+  "schema": "funnysharp-native-cli-producer-protocol/v2",
+  "state": "PREREGISTERED_20_FRESH_CAPTURED_SYSTEM_SLOTS_NO_CALLS",
+  "study": "audit-resolution-v4",
+  "supersedesTransport": "audit-resolution-v3/native-cli-producer-protocol.json",
+  "rejectedHistory": {
+    "v2LogicalInvocations": 12,
+    "v3LogicalInvocations": 1,
+    "accepted": 0,
+    "allRawPreserved": true
+  },
+  "route": "native-omo-cli/5.1.9/json-print",
+  "requestedModel": "ghc/gpt-6.1-sol",
+  "thinking": "high",
+  "environment": {
+    "PI_RULES_DISABLED": "1"
+  },
+  "boundaryExtension": {
+    "path": ".omo/audit-resolution/probes/u12-native-producer-boundary.mjs",
+    "sha256": "9f37c24ca79f6839bf9e4483e29ace9d47ae950246ae9a65a116d33dae3f2605",
+    "handler": "Capture getSystemPrompt once in session_start, then use that immutable string for developer input. Record original serialized runtime body before replacing input.",
+    "documentedActualRequestContract": "Installed docs/extensions.md:906-918; non-undefined return replaces payload for subsequent handlers and actual request.",
+    "pureCheck": {
+      "exitCode": 0,
+      "sequence": "session_start->getSystemPrompt changed->before_provider_request",
+      "originalBodyUnmodified": true,
+      "exactRequest": true,
+      "modelCalls": 0
+    },
+    "actualProviderUseVerified": false
+  },
+  "transportSystem": "The attached request.json contains a JSON object with inputFiles, each with path and content. Those file contents are the complete task inputs. Return only a JSON object with a files array; each entry contains path, a top-level C# filename, and content, the complete file text. Return the complete solution. Do not replace supplied contract or test files.",
+  "transportSystemSha256": "fbda330f8e40178394f701e3e4552726ec33026ba95f94aaa7aab3f03dd00d78",
+  "output": {
+    "format": "Exactly one JSON object with files array. Preserve full original text before decoding.",
+    "paths": "Either top-level Name.cs or exact solution/Name.cs prefix from frozen task prompt. Strip only this single registered directory prefix when storing in solution/; reject every other directory, duplicate, traversal or oracle collision.",
+    "content": "Whole original content string; no markdown fence stripping, syntax edits, hints or orchestrator repair."
+  },
+  "initialInputs": "All14frozen public guides, exactly one matching area/style prompt, same-area fixed tests/Contract and matching style csproj; ordinal sorted, frozen UTF8 hashes exact.",
+  "cohort": [
+    {
+      "slot": "business-outcomes/idiomatic/run-1",
+      "sessionId": "study-session:6f17ee77-e3b0-477c-9a37-2ddc6f5b45c2",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "business-outcomes/idiomatic/run-2",
+      "sessionId": "study-session:8fff72cd-47ab-457d-9ab1-f3f1792e383f",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "business-outcomes/funnysharp/run-1",
+      "sessionId": "study-session:001ce189-32f9-46e5-be03-6b31f7457409",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "business-outcomes/funnysharp/run-2",
+      "sessionId": "study-session:4ff0e735-1e92-4dac-b128-a9924c820034",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "collections/idiomatic/run-1",
+      "sessionId": "study-session:21378666-b4d0-44ff-820b-1691de84ea07",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "collections/idiomatic/run-2",
+      "sessionId": "study-session:8ec6a158-201a-4bba-ac74-fef15644c8a5",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "collections/funnysharp/run-1",
+      "sessionId": "study-session:432411b0-077b-4ca1-bcca-49e2f2e4d197",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "collections/funnysharp/run-2",
+      "sessionId": "study-session:ebbdb12d-bcdf-4ae7-9798-0ec4f996ebf7",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "async-streams/idiomatic/run-1",
+      "sessionId": "study-session:642b3218-a49a-43f8-97de-643cf5bd8d38",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "async-streams/idiomatic/run-2",
+      "sessionId": "study-session:842d84a5-86b5-4176-a690-fcdbf5012740",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "async-streams/funnysharp/run-1",
+      "sessionId": "study-session:d4dd31e6-10a6-4f51-a82f-3eed62d1b96c",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "async-streams/funnysharp/run-2",
+      "sessionId": "study-session:b3c87460-acf9-4739-a537-5b8418355e74",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "concurrency/idiomatic/run-1",
+      "sessionId": "study-session:d7db243c-1628-4d40-8bc4-bd09846d4fec",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "concurrency/idiomatic/run-2",
+      "sessionId": "study-session:ef746ead-aafe-4515-ac18-13522fe58bcc",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "concurrency/funnysharp/run-1",
+      "sessionId": "study-session:b41091a7-4ee4-4fb1-b0b8-588c480fbf36",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "concurrency/funnysharp/run-2",
+      "sessionId": "study-session:a984f2ee-db8f-43e8-b1ba-bf6302490de6",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "aspnetcore/idiomatic/run-1",
+      "sessionId": "study-session:e127c262-4785-4eed-8c0a-3e197260752c",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "aspnetcore/idiomatic/run-2",
+      "sessionId": "study-session:27706c06-521f-4ed2-b183-91340576df4f",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "aspnetcore/funnysharp/run-1",
+      "sessionId": "study-session:d39a7dc3-8b92-4fed-8c46-c0762f0a45f9",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "aspnetcore/funnysharp/run-2",
+      "sessionId": "study-session:7edf5fa1-c9a4-4cb3-a6e9-5f8471a2cf62",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    }
+  ],
+  "corrections": "Initial plus at most2 corrections; only exact immediately preceding feedback.json and complete prior solution plus unchanged initial files. Unique invocation ID each time; stable logical slot ID is not claimed as provider conversation.",
+  "completion": "Actual outgoing provider payload byte equality must be proven for each request, including observed internal retries. The pure check alone cannot establish real cohort acceptance.",
+  "studyManifestSha256": "a28f133c7dc53ed83abb446a53ed832af4d3a9a2187f52654fcef02f683241c9",
+  "actualInvocationForm": "C:/Users/lhan/.omo/binary-runtime/5.1.9/omo.exe --mode json --print --no-session --no-extensions --no-context-files --no-skills --no-prompt-templates --no-tools --offline --provider ghc --model gpt-6.1-sol --thinking high --system-prompt <transportSystem> --extension Q:/repos/funnysharp-goal24-resolution/.omo/audit-resolution/probes/u12-native-producer-boundary.mjs @request.json",
+  "stdin": "closed/ignore; no hidden piped prompt",
+  "contextSchema": {
+    "files": "Exact array of frozen-relative path+sha256 entries; files in payload/. Initial45 allowlist scoped to14guides+onearea/styleprompt+itsfixedtests+matchingcsproj."
+  },
+  "recordFields": [
+    "studySha256",
+    "task",
+    "style",
+    "sessionId",
+    "invocationId",
+    "route",
+    "producerKind",
+    "requestedModel",
+    "providerModel",
+    "contextSha256",
+    "solutionFiles",
+    "invocationSha256",
+    "startedUtc",
+    "finishedUtc",
+    "status",
+    "feedbackSha256"
+  ],
+  "providerModel": {
+    "value": null,
+    "unknownReason": "Native selected model/route is observed. Actual upstream served model is unknown unless independently returned metadata supplies it."
+  },
+  "outgoingInputCheck": "Each actual U12_PROVIDER_PAYLOAD must have exactly two inputs: developer equal registered transportSystem and user equal complete UTF8 request.json bytes; capture pre-boundary payload too. Preserve every request retry/abort/error.",
+  "gradePolicy": "No correction or manual repair outside declared3rounds. Stop GREEN; preserve capped/malformed/protocol failures and all20 outcomes. No replay counted asAI."
+}

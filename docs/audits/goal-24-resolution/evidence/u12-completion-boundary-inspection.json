@@ -1,0 +1,41 @@
+{
+  "schema": "funnysharp-u12-completion-boundary-inspection/v1",
+  "state": "LOCAL_ASSEMBLY_READ_HOST_PROVIDER_BOUNDARY_NOT_YET_ATTESTED",
+  "runtime": "C:/Users/lhan/.omo/binary-runtime/5.1.9/omo.exe",
+  "packageVersion": "2026.10.1-3",
+  "sourceBindings": [
+    {
+      "path": "C:/Users/lhan/.omo/binary-runtime/5.1.9/node_modules/@code-yeongyu/senpi-codemode/src/completion/handler.ts",
+      "sha256": "fdf58ea8664065bc032cfab564757fc5717eed6d7c006b689d21d92ea27660d7"
+    },
+    {
+      "path": "C:/Users/lhan/.omo/binary-runtime/5.1.9/node_modules/@code-yeongyu/senpi-codemode/src/completion/tool-bridge.ts",
+      "sha256": "5ccca65a99766ad02a0823e366556ec4966b129b417334f7156a37d33bea7e27"
+    },
+    {
+      "path": "C:/Users/lhan/.omo/binary-runtime/5.1.9/node_modules/@code-yeongyu/senpi-codemode/src/index.ts",
+      "sha256": "e5add7c1d398f8f047ef7c3d50f75cddd16fcdf6d2e716a6335a39380cd05175"
+    },
+    {
+      "path": "C:/Users/lhan/.omo/binary-runtime/5.1.9/node_modules/@code-yeongyu/senpi-codemode/src/kernels/js/worker-runtime.js",
+      "sha256": "eaf7b6578d7d9edf0359e9909b943baa4a83a93c5c3a3361ba1a3fbe4deb34ed"
+    },
+    {
+      "path": "C:/Users/lhan/.omo/binary-runtime/5.1.9/node_modules/@code-yeongyu/senpi-codemode/package.json",
+      "sha256": "0802da054162320521e13f94b021e4b082f513e784e99d3b2293f27fe500f6f1"
+    }
+  ],
+  "observed": {
+    "workerCall": "completion(prompt, opts) passes exactly {prompt, opts}; JavaScript callers must use completion(prompt, {model:\"default\",system:fixedSystem}).",
+    "handlerContext": "runCompletion creates systemPrompt=request.system and exactly one user message from request.prompt when schema omitted. It does not read AGENTS, memory or session transcript.",
+    "hostHook": "src/index.ts supports options.complete override; its default is createCompletionHandler.",
+    "auth": "Default handler also passes modelRegistry auth headers/env/extraBody into completeSimple.",
+    "reply": "tool-bridge drops actual model details and returns only text/value."
+  },
+  "missing": [
+    "Actual host invocation/override binding is not visible in source-only installedpackage.",
+    "completeSimple/provider/model-registry implementation is compiled into thehost executable; guessed externalaliaspaths didnotexist and Bun resolution failed."
+  ],
+  "outcome": "Preserve conditional native-completion recipe; no cohort call made as a pilot. Further inspection must establish recorded input boundary rather than infer from stateless label.",
+  "recipe": ".omo/audit-resolution/research/u12-native-producer-provenance.json"
+}

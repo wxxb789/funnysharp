@@ -1,0 +1,32 @@
+{
+  "schema": "funnysharp-formatted-semantic-parent-integration/v1",
+  "canonicalIndexSha256": "ad106d7ee1ed4772e898bc17edb020a3b4e3f836f32678613e13cc95a813da18",
+  "historicalIndexSha256": "17677c661609cd6061c1e77497606e3590f563b5585c4082e74f3619ffd66da1",
+  "actualNewWholeCoreCases": 1762,
+  "passed": 1762,
+  "failed": 0,
+  "skipped": 0,
+  "canonicalGateExit0": true,
+  "stableMembers": 468,
+  "dimensions": 3744,
+  "currentFileHashChecks": 158,
+  "parentAdditionalArtifactChecks": 25,
+  "hashMismatches": 0,
+  "roslyn": {
+    "tokens": 41642,
+    "structuredDirectives": 112,
+    "files": 8,
+    "exactSyntaxAndTokenEquality": true
+  },
+  "pdbCurrentDocuments": 77,
+  "freshCoreJoins": 1612,
+  "assertions": 697,
+  "caseCatalog": 1635,
+  "executionJoins": 1641,
+  "sourceInvariantDimensions": 183,
+  "canonicalCrosswalkOneWayIndexSha": "ad106d7ee1ed4772e898bc17edb020a3b4e3f836f32678613e13cc95a813da18",
+  "preservation": "Original index and actual runtime/compiler/XML/package receipts retained; no historical binary relabeled.",
+  "patchRecovery": "Large full-index patch response timed out after writes. Parent inspected actual canonical SHA and crosswalk expected SHA; both correct, no duplicate patch. Actual parent canonical gate then executed exit0.",
+  "packageCoreSha": "6a903f737356fdf67845c9cd39385e4a5e2b39bcae0ee92ff2882480ecb7e49d",
+  "gateLog": "artifacts/audit-resolution/u14-formatted-source/attempt-01/parent-canonical-gate.log"
+}

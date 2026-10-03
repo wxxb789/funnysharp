@@ -1,0 +1,95 @@
+{
+  "schema": "funnysharp-u8-final-canonical-parent/v1",
+  "officialReceipt": "artifacts/audit-resolution/u8-final-canonical/attempt-01/vertical-slice-results.json",
+  "officialExitCode": 0,
+  "officialSteps": 13,
+  "consumerTests": {
+    "total": 50,
+    "passed": 50,
+    "failed": 0,
+    "skipped": 0
+  },
+  "equivalentPairs": 10,
+  "runtimeHashChecks": 265,
+  "receiptLogScriptHashChecks": 11,
+  "hashIssues": [],
+  "coreDllSha256": "6a903f737356fdf67845c9cd39385e4a5e2b39bcae0ee92ff2882480ecb7e49d",
+  "httpDllSha256": "2daaff9c72db5b730c06d3270c00dfd7046fa27e26d59374e31cf270b8dc30c2",
+  "sameHostOutcomes": [
+    {
+      "path": "/orders/ORD-1/reconcile",
+      "status": 200,
+      "contentType": "application/json",
+      "body": {
+        "orderId": "ORD-1",
+        "status": "Placed",
+        "revision": 1,
+        "historyReplaysToStoredProjection": true,
+        "lines": [
+          {
+            "sku": "SKU-BOOK",
+            "ordered": 2,
+            "available": 9
+          }
+        ]
+      }
+    },
+    {
+      "path": "/orders/ORD-999999/reconcile",
+      "status": 404,
+      "contentType": "application/problem+json",
+      "body": {
+        "type": "https://funnysharp.example/problems/order-not-found",
+        "title": "The order was not found",
+        "status": 404,
+        "detail": "Order 'ORD-999999' does not exist.",
+        "traceId": "00-221a1a28fd9e094c404fd5b1d2fc7c6b-ce67596b645a8ee5-00"
+      }
+    },
+    {
+      "path": "/orders/ORD-1/reconcile",
+      "status": 500,
+      "contentType": "application/problem+json",
+      "body": {
+        "type": "https://funnysharp.example/problems/history-diverged",
+        "title": "Stored order history no longer replays",
+        "status": 500,
+        "detail": "Replaying the Ship event diverged from the stored projection.",
+        "failure": "HistoryDiverged",
+        "traceId": "00-ea92f63f9133d84534049e176baa9af3-1784ad580c1f8b7b-00"
+      }
+    },
+    {
+      "path": "/orders/ORD-1/reconcile",
+      "status": 503,
+      "contentType": "application/problem+json",
+      "body": {
+        "type": "https://funnysharp.example/problems/dependency-unavailable",
+        "title": "A dependency did not answer",
+        "status": 503,
+        "detail": "The 'inventory' dependency failed while performing 'reconcile'.",
+        "failure": "DependencyUnavailable",
+        "dependency": "inventory",
+        "operation": "reconcile",
+        "traceId": "00-72083ac360d172eea9b8c910d9684c38-04c6db6184c335e4-00"
+      }
+    }
+  ],
+  "openApiStatuses": [
+    200,
+    404,
+    500,
+    503
+  ],
+  "cleanupReceipt": {
+    "address": "http://127.0.0.1:49713",
+    "socketError": "ConnectionRefused"
+  },
+  "parentCurrentCleanupProbe": {
+    "code": "ConnectionRefused",
+    "message": "Unable to connect. Is the computer able to access the url?"
+  },
+  "ordinaryVsLockedBoundary": "Original consumer projects disable lock generation and have no committed locks; their official restore exits are ordinary, not locked. The separate artifact-only HTTP verifier creates its own lock without altering source consumers.",
+  "sourceAndHistoricalAttemptsPreserved": true,
+  "all69FinalAcceptance": false
+}

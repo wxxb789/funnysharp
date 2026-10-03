@@ -1,0 +1,124 @@
+{
+  "schema": "function-grammar-semantic-units/v1",
+  "status": "package-equivalence-verified-hand-count-no-maintainer-acceptance",
+  "rules": "docs/next-stage/call-sites-audit-resolution.md",
+  "rawLoc": { "idiomatic": 122, "funnysharp": 119 },
+  "wholeSourceFileLoc": { "idiomatic": 124, "funnysharp": 122 },
+  "sourceHashes": {
+    "IdiomaticWorkflows.cs": "c980d97124df48a12ffc3cea6fabb169e7559c9fa42b1b3ef77972f18d507019",
+    "FunnySharpWorkflows.cs": "08c14fd68301bc1acda028187828cf104f5e9166561924e0e24ff6ca3400115d"
+  },
+  "packageHashes": {
+    "FunnySharp.0.2.0.nupkg": "fba1feaa30287ad94f7fcb60f87e170e1d2dd3ac6bb645e9b44a0cdc1029adb5",
+    "packageAndRuntimeFunnySharpDll": "37f4b3be823a254b5510c57f08e4e5127a7f7c0f567abe1144adc1b5a19d7fcc"
+  },
+  "equivalenceReceipt": {
+    "file": "artifacts/audit-resolution/u11-attempt-01/equivalence-red.json",
+    "total": 37, "passed": 37, "failed": 0, "skipped": 0,
+    "exitCode": 0
+  },
+  "rows": [
+    {
+      "workflow": "WF-1",
+      "idiomatic": [
+        { "member": "ProductIdWithAudit", "S": 3, "O": 7,
+          "operations": "Trim; ToUpperInvariant; audit; interpolation; TryGetValue; ?:; ??" }
+      ],
+      "funnysharp": [
+        { "member": "ProductIdWithAudit", "S": 4, "O": 9,
+          "operations": "Pipe x2; Trim; ToUpperInvariant; Tap; audit; interpolation; GetOption; GetValueOr" }
+      ]
+    },
+    {
+      "workflow": "WF-2",
+      "idiomatic": [
+        { "member": "CampaignAdjustment", "S": 2, "O": 3, "operations": "Scale x2; RoundTo" },
+        { "member": "PriceCampaignLines", "S": 2, "O": 4, "operations": "Select; adjust; LineTotal; ToArray" },
+        { "member": "QuoteCampaignLine", "S": 1, "O": 2, "operations": "adjust; LineTotal" },
+        { "member": "LineTotal", "S": 1, "O": 1, "operations": "*" },
+        { "member": "Scale", "S": 1, "O": 1, "operations": "*" },
+        { "member": "RoundTo", "S": 1, "O": 1, "operations": "Math.Round" }
+      ],
+      "funnysharp": [
+        { "member": "CampaignAdjustment", "S": 1, "O": 6, "operations": "Partial x3; Compose x2; Flip" },
+        { "member": "PriceCampaignLines", "S": 2, "O": 4, "operations": "Select; adjust; LineTotal; ToArray" },
+        { "member": "QuoteCampaignLine", "S": 1, "O": 2, "operations": "adjust; LineTotal" },
+        { "member": "LineTotal", "S": 1, "O": 1, "operations": "*" },
+        { "member": "Scale initializer", "S": 2, "O": 1, "operations": "*" },
+        { "member": "RoundTo initializer", "S": 2, "O": 1, "operations": "Math.Round" }
+      ]
+    },
+    {
+      "workflow": "WF-3",
+      "idiomatic": [
+        { "member": "ShippingQuote", "S": 9, "O": 9,
+          "operations": "decimal.Parse; audit x2; interpolation x2; !; TryGetValue; Math.Round; *" }
+      ],
+      "funnysharp": [
+        { "member": "ParseWeight", "S": 4, "O": 4,
+          "operations": "decimal.Parse; Success; Failure; interpolation" },
+        { "member": "ShippingQuote", "S": 9, "O": 14,
+          "operations": "ParseWeight; Bind; GetOption; ToResult; interpolation x3; Recover; audit x2; Map; Math.Round; *; Match" }
+      ]
+    },
+    {
+      "workflow": "WF-4",
+      "idiomatic": [
+        { "member": "RunningBalances", "S": 6, "O": 4, "operations": "new List; +=; Add; ToArray" },
+        { "member": "ClosingBalance", "S": 2, "O": 2, "operations": "Aggregate; +" }
+      ],
+      "funnysharp": [
+        { "member": "RunningBalances", "S": 2, "O": 3, "operations": "Scan; +; ToArray" },
+        { "member": "ClosingBalance", "S": 2, "O": 2, "operations": "Aggregate; +" }
+      ]
+    },
+    {
+      "workflow": "WF-5",
+      "idiomatic": [
+        { "member": "QuoteValuePipeline", "S": 3, "O": 4,
+          "operations": "RateForValueAsync; ApplyValueAsync; await x2" },
+        { "member": "QuoteAuditPipeline", "S": 3, "O": 4,
+          "operations": "RateForAsync; ApplyAsync; await x2" },
+        { "member": "QuoteAllAsync", "S": 4, "O": 5,
+          "operations": "new List; Add; quote; await; ToArray" },
+        { "member": "QuoteForAuditAsync", "S": 1, "O": 1, "operations": "quote" }
+      ],
+      "funnysharp": [
+        { "member": "QuoteValuePipeline", "S": 1, "O": 2, "operations": "new Func; ComposeValueAsync" },
+        { "member": "QuoteAuditPipeline", "S": 1, "O": 2, "operations": "new Func; ComposeAsync" },
+        { "member": "QuoteAllAsync", "S": 4, "O": 5,
+          "operations": "new List; Add; quote; await; ToArray" },
+        { "member": "QuoteForAuditAsync", "S": 1, "O": 1, "operations": "quote" }
+      ]
+    },
+    {
+      "workflow": "WF-6",
+      "idiomatic": [
+        { "member": "ValidateAccount", "S": 10, "O": 22,
+          "operations": "new List; IsNullOrWhiteSpace; Contains; || x3; ! x2; Add x4; < x2; >; !=; All; new FormOutput; ==; ?:; new AccountForm; ToArray" }
+      ],
+      "funnysharp": [
+        { "member": "ValidateAccount", "S": 4, "O": 11,
+          "operations": "ValidateEmail; ValidatePassword; ValidateAge; ValidateCountry; Zip; new AccountForm; Match; new FormOutput x2; []; ToArray" },
+        { "member": "ValidateEmail", "S": 1, "O": 7,
+          "operations": "!; IsNullOrWhiteSpace; &&; Contains; ?:; Valid; Invalid" },
+        { "member": "ValidatePassword", "S": 1, "O": 4, "operations": ">=; ?:; Valid; Invalid" },
+        { "member": "ValidateAge", "S": 1, "O": 6, "operations": ">=; <=; &&; ?:; Valid; Invalid" },
+        { "member": "ValidateCountry", "S": 1, "O": 6, "operations": "==; &&; All; ?:; Valid; Invalid" }
+      ]
+    },
+    {
+      "workflow": "WF-7",
+      "idiomatic": [
+        { "member": "PromoLabel", "S": 1, "O": 3, "operations": "GetValueOrDefault; ?. x2" }
+      ],
+      "funnysharp": [
+        { "member": "PromoLabel", "S": 3, "O": 5, "operations": "GetOption; Bind; ToOption; Map; GetValueOrDefault" }
+      ]
+    }
+  ],
+  "provisionalTotals": {
+    "idiomatic": { "S": 50, "O": 73, "semanticUnits": 123 },
+    "funnysharp": { "S": 48, "O": 96, "semanticUnits": 144 }
+  }
+}
