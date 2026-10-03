@@ -414,6 +414,154 @@ type ReleaseProtocolModelTests() =
         Assert.Contains("ambiguous", messageOf result)
 
 // ---------------------------------------------------------------------------
+// Workflow provenance input transport (machine configuration and shell behavior)
+// ---------------------------------------------------------------------------
+
+let private releaseWorkflow () =
+    File.ReadAllText(Path.Combine(repositoryRoot (), ".github", "workflows", "release.yml")).Replace("\r\n", "\n")
+
+let private workflowStep (workflow: string) id =
+    Regex.Split(workflow, @"(?m)^      - ")
+    |> Array.filter (fun block -> Regex.IsMatch(block, @"(?m)^        id: " + Regex.Escape id + "$"))
+    |> Assert.Single
+
+let private workflowScript (step: string) =
+    Assert.Matches(@"(?m)^        shell: bash$", step)
+    let matched = Regex.Match(step, @"(?m)^        run: ([|>])\n((?:          [^\n]*(?:\n|$))+)" )
+    Assert.True(matched.Success, "Missing executable workflow run block.")
+    let lines = matched.Groups.[2].Value.TrimEnd('\n').Split('\n') |> Array.map (fun line -> line.Substring 10)
+    let script = String.Join((if matched.Groups.[1].Value = "|" then "\n" else " "), lines)
+    Assert.DoesNotContain("${{", script)
+    script
+
+let private runWorkflowScript directory script (environment: (string * string) list) = task {
+    use proc = new System.Diagnostics.Process()
+    // Resolve PATH explicitly: Windows otherwise prefers System32/bash.exe (WSL).
+    let bash =
+        if OperatingSystem.IsWindows() then
+            let path = Environment.GetEnvironmentVariable "PATH" |> Option.ofObj |> Option.defaultWith (fun () -> failwith "PATH is required to locate Bash.")
+            path.Split(Path.PathSeparator)
+            |> Seq.map (fun directory -> Path.Combine(directory, "bash.exe"))
+            |> Seq.find File.Exists
+        else "bash"
+    proc.StartInfo <- System.Diagnostics.ProcessStartInfo(bash, UseShellExecute = false, RedirectStandardOutput = true, RedirectStandardError = true, WorkingDirectory = directory)
+    for argument in [ "--noprofile"; "--norc"; "-e"; "-o"; "pipefail"; "-c"; script ] do
+        proc.StartInfo.ArgumentList.Add argument
+    for key, value in environment do proc.StartInfo.Environment.[key] <- value
+    Assert.True(proc.Start())
+    use timeout = new System.Threading.CancellationTokenSource(TimeSpan.FromSeconds 15.)
+    let stdout = proc.StandardOutput.ReadToEndAsync()
+    let stderr = proc.StandardError.ReadToEndAsync()
+    try
+        do! proc.WaitForExitAsync timeout.Token
+        let! output = stdout
+        let! error = stderr
+        return proc.ExitCode, output, error
+    with ex ->
+        if not proc.HasExited then
+            use cleanupTimeout = new System.Threading.CancellationTokenSource(TimeSpan.FromSeconds 15.)
+            let exited = proc.WaitForExitAsync cleanupTimeout.Token
+            proc.Kill(true)
+            do! exited
+        let! _ = stdout
+        let! _ = stderr
+        return! System.Threading.Tasks.Task.FromException<_>(ex)
+}
+
+type ReleaseWorkflowProvenanceTests() =
+
+    [<Fact>]
+    member _.FileCheckoutIsSameRepositoryPinnedAndGuardedBeforeExecution() =
+        let workflow = releaseWorkflow ()
+        Assert.Matches(@"(?m)^      provenance_input_ref:\n(?:        [^\n]*\n)*        type: string\n        required: false$", workflow)
+        let provenance = workflow.Substring(workflow.IndexOf("\n  provenance:\n", StringComparison.Ordinal))
+        Assert.Matches(@"(?m)^      RELEASE_PROVENANCE_PAYLOAD: \$\{\{ inputs.provenance_payload \}\}$", provenance)
+        Assert.Matches(@"(?m)^      PROVENANCE_INPUT_REF: \$\{\{ inputs.provenance_input_ref \}\}$", provenance)
+        let guard = workflowStep provenance "provenance-input"
+        let checkout = workflowStep provenance "provenance-input-checkout"
+        let run = workflowStep provenance "provenance-run"
+        Assert.DoesNotMatch(@"(?m)^        (?:if|continue-on-error):", guard)
+        Assert.DoesNotMatch(@"(?m)^        (?:if|continue-on-error):", run)
+        Assert.Matches(@"(?m)^        if: \$\{\{ steps.provenance-input.outputs.source == 'file' \}\}$", checkout)
+        Assert.Matches(@"(?m)^        uses: actions/checkout@" + checkoutSha + @"(?:\s+#.*)?$", checkout)
+        Assert.Matches(@"(?m)^          repository: \$\{\{ github.repository \}\}$", checkout)
+        Assert.Matches(@"(?m)^          ref: \$\{\{ steps.provenance-input.outputs.ref \}\}$", checkout)
+        Assert.Matches(@"(?m)^          path: artifacts/provenance-input$", checkout)
+        Assert.Matches(@"(?m)^          persist-credentials: false$", checkout)
+        Assert.Matches(@"(?m)^          PROVENANCE_INPUT_SOURCE: \$\{\{ steps.provenance-input.outputs.source \}\}$", run)
+        Assert.Matches(@"(?m)^          PROVENANCE_MODE: \$\{\{ inputs.provenance_mode \}\}$", run)
+        Assert.True(provenance.IndexOf(guard, StringComparison.Ordinal) < provenance.IndexOf(checkout, StringComparison.Ordinal))
+        Assert.True(provenance.IndexOf(checkout, StringComparison.Ordinal) < provenance.IndexOf(run, StringComparison.Ordinal))
+        let checkouts = Regex.Matches(provenance, @"(?m)^        uses: actions/checkout@")
+        Assert.Equal(2, checkouts.Count)
+        Assert.True(checkouts.[0].Index < provenance.IndexOf(guard, StringComparison.Ordinal))
+        Assert.Contains("          ref: ${{ env.CANDIDATE_SHA }}", provenance.Substring(0, provenance.IndexOf(guard, StringComparison.Ordinal)))
+        let ignored = Proc.runCaptureSync "git" [ "-C"; repositoryRoot (); "check-ignore"; "artifacts/provenance-input/input.json" ]
+        Assert.Equal(0, ignored.ExitCode)
+
+    [<Theory>]
+    [<InlineData("inline", "opaque-inline", "", 0)>]
+    [<InlineData("file", "", "0123456789abcdef0123456789abcdef01234567", 0)>]
+    [<InlineData("", "", "", 1)>]
+    [<InlineData("", "payload", "0123456789abcdef0123456789abcdef01234567", 1)>]
+    [<InlineData("", "", "main", 1)>]
+    [<InlineData("", "", "refs/heads/main", 1)>]
+    [<InlineData("", "", "0123456", 1)>]
+    [<InlineData("", "", "0123456789ABCDEF0123456789ABCDEF01234567", 1)>]
+    [<InlineData("", "", "g123456789abcdef0123456789abcdef01234567", 1)>]
+    [<InlineData("", "", "0123456789abcdef0123456789abcdef012345678", 1)>]
+    [<InlineData("", "", "0123456789abcdef0123456789abcdef01234567\n", 1)>]
+    [<InlineData("", "", "$(printf injected)", 1)>]
+    member _.SourceSelectionExecutesWorkflowGuard(source: string, payload: string, reference: string, expectedExit: int) = task {
+        use temp = new TempDirectory()
+        let outputPath = Path.Combine(temp.Path, "github-output")
+        let script = workflowStep (releaseWorkflow ()) "provenance-input" |> workflowScript
+        let! code, stdout, error = runWorkflowScript temp.Path script [ "RELEASE_PROVENANCE_PAYLOAD", payload; "PROVENANCE_INPUT_REF", reference; "GITHUB_OUTPUT", outputPath.Replace('\\', '/') ]
+        Assert.True((expectedExit = code), sprintf "Expected exit %d, got %d: %s" expectedExit code error)
+        Assert.Empty stdout
+        let outputs = if File.Exists outputPath then File.ReadAllLines outputPath |> Array.toList else []
+        Assert.Equal<string list>((if source = "inline" then [ "source=inline" ] elif source = "file" then [ "source=file"; "ref=" + reference ] else []), outputs)
+    }
+
+    [<Theory>]
+    [<InlineData("inline", "freeze-producer")>]
+    [<InlineData("file", "freeze-producer")>]
+    [<InlineData("inline", "stage-attestation")>]
+    [<InlineData("file", "stage-attestation")>]
+    member _.SelectedRoutePassesExactHarnessArguments(source: string, mode: string) = task {
+        use temp = new TempDirectory()
+        let script = workflowStep (releaseWorkflow ()) "provenance-run" |> workflowScript
+        let! code, stdout, error = runWorkflowScript temp.Path ("dotnet() { printf '%s\\0' \"$@\"; }\n" + script) [ "PROVENANCE_INPUT_SOURCE", source; "PROVENANCE_MODE", mode; "PROVENANCE_DIRECTORY", "artifacts/output with spaces" ]
+        Assert.True((code = 0), error)
+        let expected = [ "fsi"; "build.fsx"; "--"; "-p"; "release-provenance"; "-Mode"; mode; "-OutputDirectory"; "artifacts/output with spaces" ] @ (if source = "file" then [ "-InputPath"; "artifacts/provenance-input/input.json" ] else [])
+        Assert.Equal<string list>(expected, stdout.TrimEnd('\000').Split('\000') |> Array.toList)
+    }
+
+    [<Fact>]
+    member _.FileInputReadsBeyondDispatchLimitWithoutPayloadEnvironment() = task {
+        use temp = new TempDirectory()
+        use stdout = new StringWriter()
+        use stderr = new StringWriter()
+        let requested = ResizeArray<string>()
+        let environment = ResizeArray<string>()
+        let inputPath = Path.Combine(temp.Path, "input.json")
+        let output = Path.Combine(temp.Path, "output")
+        let input = JsonSerializer.Serialize(dict [ "repository", box "owner/repo"; "producer", box (dict [ "artifactId", box 123; "entry", box "P.json"; "sha256", box (String.replicate 64 "a") ]); "attestation", box (dict [ "base64", box (Convert.ToBase64String(Array.zeroCreate<byte> 65536)); "sha256", box (String.replicate 64 "b") ]) ])
+        File.WriteAllText(inputPath, input)
+        Assert.True(FileInfo(inputPath).Length > 65535L)
+        let collaborators: ReleaseProvenance.Collaborators =
+            { Get = fun url -> requested.Add url; System.Threading.Tasks.Task.FromResult { StatusCode = 404; EffectiveUrl = url; Body = [||] }
+              UtcNow = fun () -> DateTimeOffset.Parse "2026-10-03T12:00:00Z"
+              Environment = fun name -> environment.Add name; None }
+        let! code = ReleaseProvenance.mainWith stdout stderr collaborators [ "-Mode"; "stage-attestation"; "-InputPath"; inputPath; "-OutputDirectory"; output ]
+        Assert.Equal(1, code)
+        Assert.Equal<string list>([ "https://api.github.com/repos/owner/repo/actions/artifacts/123" ], requested |> Seq.toList)
+        Assert.Empty environment
+        Assert.False(File.Exists(Path.Combine(output, "P.json")))
+        Assert.False(File.Exists(Path.Combine(output, "A.json")))
+    }
+
+// ---------------------------------------------------------------------------
 // Reproducibility cases (Compare-ReproducibleBuilds.ps1)
 // ---------------------------------------------------------------------------
 
