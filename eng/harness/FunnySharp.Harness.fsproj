@@ -26,6 +26,7 @@
     <Compile Include="Ruleset.fs" />
     <Compile Include="Compatibility.fs" />
     <Compile Include="ReleaseProtocol.fs" />
+    <Compile Include="XmlBuildBindings.fs" />
     <Compile Include="ReleaseRun.fs" />
     <Compile Include="ReleaseVerifySource.fs" />
     <Compile Include="ReleaseVerifyArtifacts.fs" />

@@ -493,7 +493,7 @@ let private xmlMemberId (memberInfo: MemberInfo) : string =
 
 /// Exact reflected XML coverage, explicit generated aliases and metadata-supported inheritance.
 /// Semantic review and applicable compiler/runtime receipts remain separate acceptance dimensions.
-let getXmlDocumentationInventory (repositoryRoot: string) (paths: string list) : JsonArray =
+let private xmlDocumentationInventory (currentBuild: Map<string, string> option) (repositoryRoot: string) (paths: string list) : JsonArray =
     let inventories = JsonArray()
     let expectedInheritance = HashSet<string>(StringComparer.Ordinal)
     let usedInheritance = HashSet<string>(StringComparer.Ordinal)
@@ -555,10 +555,16 @@ let getXmlDocumentationInventory (repositoryRoot: string) (paths: string list) :
         let assemblyBindings = array bindings "assemblies" |> List.filter (fun value -> text value "name" = assemblyName)
         if assemblyBindings.Length <> 1 then failNow ("XML assembly binding is absent or ambiguous: " + assemblyName)
         let boundAssembly = assemblyBindings.Head
-        if sha256File assemblyPath <> text boundAssembly "dllSha256" || sha256File path <> text boundAssembly "xmlSha256" then
+        let expectedAssemblyHash =
+            match currentBuild with
+            | None -> text boundAssembly "dllSha256"
+            | Some hashes ->
+                hashes |> Map.tryFind assemblyName |> Option.defaultWith (fun () -> failNow "XML assembly has no sealed build binding.")
+        if sha256File assemblyPath <> expectedAssemblyHash || sha256File path <> text boundAssembly "xmlSha256" then
             failNow "XML or assembly bytes differ from the reviewed contract binding."
-        if sha256File assembly.Location <> text boundAssembly "dllSha256" then
+        if sha256File assembly.Location <> expectedAssemblyHash then
             failNow "Loaded XML assembly metadata differs from the supplied binary."
+        if currentBuild.IsSome then XmlBuildBindings.assertLoadedAssembly assembly assemblyPath expectedAssemblyHash
         let aliases = Dictionary<string, JsonNode>(StringComparer.Ordinal)
         for alias in array bindings "aliases" |> List.filter (fun value -> text value "assembly" = assemblyName) do
             if not (aliases.TryAdd(text alias "xmlId", alias)) then failNow "XML alias is duplicate."
@@ -723,6 +729,21 @@ let getXmlDocumentationInventory (repositoryRoot: string) (paths: string list) :
     if not (expectedInheritance.SetEquals usedInheritance) then
         failNow "XML inheritance binding set contains unconsumed identities."
     inventories
+
+/// Preserve the historical exact reviewed-package entry point.
+let getXmlDocumentationInventory (repositoryRoot: string) (paths: string list) : JsonArray =
+    xmlDocumentationInventory None repositoryRoot paths
+
+/// Release-only entry point: validate external post-build evidence before applying the same XML policy.
+let getReleaseXmlDocumentationInventory (repositoryRoot: string) (paths: string list) executionDirectory candidate validatedExecution : JsonArray =
+    let hashes = XmlBuildBindings.validate repositoryRoot executionDirectory candidate validatedExecution
+    let expectedPaths =
+        [ "FunnySharp"; "FunnySharp.AspNetCore" ]
+        |> List.map (fun name -> Path.GetFullPath(Path.Combine(repositoryRoot, "src", name, "bin/Release/net10.0", name + ".xml")))
+        |> Set.ofList
+    if paths.Length <> expectedPaths.Count || (paths |> List.map Path.GetFullPath |> Set.ofList) <> expectedPaths then
+        failNow "Release XML paths differ from the sealed assembly inventory."
+    xmlDocumentationInventory (Some hashes) repositoryRoot paths
 
 // ---------------------------------------------------------------------------
 // NuGet package inspection

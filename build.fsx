@@ -16,6 +16,7 @@ open Fun.Build
 #load "eng/harness/Ruleset.fs"
 #load "eng/harness/Compatibility.fs"
 #load "eng/harness/ReleaseProtocol.fs"
+#load "eng/harness/XmlBuildBindings.fs"
 #load "eng/harness/ReleaseRun.fs"
 #load "eng/harness/ReleaseVerifySource.fs"
 #load "eng/harness/ReleaseVerifyArtifacts.fs"

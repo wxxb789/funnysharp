@@ -41,6 +41,7 @@
     <Compile Include="ReleaseProtocolTests.fs" />
     <Compile Include="ReleaseRunTests.fs" />
     <Compile Include="ReleaseVerifyTests.fs" />
+    <Compile Include="XmlBuildBindingsTests.fs" />
     <Compile Include="ReleaseProvenanceTests.fs" />
     <Compile Include="LocTests.fs" />
     <Compile Include="EvaluationTests.fs" />
