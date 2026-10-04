@@ -31,6 +31,7 @@ A bare run (`dotnet fsi build.fsx`, no `-p`) prints the pipeline list instead of
 | `compatibility` | Verify the packed packages with the compatibility consumer scenarios. |
 | `release` | Run the canonical release protocol (`benchmarkSkipped` mode with `-SkipBenchmarks`). |
 | `release-verify` | Audit a release attempt's evidence tree. |
+| `release-provenance` | Freeze P, locally pack a stage bundle, stage independent A, or write external I. |
 | `eval-prep-feed` | Prepare the evaluation feed used by the coding-evaluation harness. |
 | `eval-verify` | Verify one evaluation solution directory and write its `record.json`. |
 | `eval-aggregate` | Aggregate the recorded evaluation runs into one markdown table. |
@@ -54,6 +55,62 @@ case IDs and statuses, compiler diagnostics/emissions, and explicit XML targets.
 invariants remain source evidence, not executed runtime cases; runtime NA is limited to
 the delegate ABI constructor and enum-storage mechanisms. The gate never regenerates
 evidence or infers maintainer acceptance from passing checks.
+
+## Immutable Release Stage Bundles
+
+`release-provenance -Mode stage-attestation` retains the legacy
+`{repository,producer,attestation}` input, including file, base64 and artifact byte
+references. P attachments still require a local P path or a root artifact `P.json`.
+For large local evidence, `pack-stage-bundle` takes that same input with **local
+path/SHA256 references for both P and A** and emits a new directory:
+
+```bash
+dotnet fsi build.fsx -- -p release-provenance -Mode pack-stage-bundle \
+  -InputPath local-pa.json -OutputDirectory stage-input
+dotnet fsi build.fsx -- -p release-provenance -Mode stage-attestation \
+  -InputPath stage-input/input.json -OutputDirectory staged-pa
+```
+
+Local source paths retain legacy semantics (relative paths are relative to the
+process working directory). Attachments are adjacent to P. The packer performs no
+remote requests or mutations. It verifies P/A and every P-bound payload and raw
+HTTP body, writes ordered binary `parts/<file>/<part>.stage-part` files, and writes
+`input.json` last. Output must not already exist; failed attempts remain claimed
+and cannot be resumed or overwritten. P, A and the original attachments are never
+rewritten, normalized or serialized again.
+
+The new stage input is exclusively `{repository,bundle}`. `bundle` contains
+`schemaVersion: 1` and `files`. Each logical file has `path`, nonnegative integer
+`length`, lowercase `sha256`, and ordered `parts`; each part has `path`, `length`
+and lowercase `sha256`. A part is at most **33,554,432 bytes (32 MiB)**. Empty files
+use exactly one empty part. Nonempty files cannot contain empty parts.
+
+This form requires `-InputPath`; an inline `RELEASE_PROVENANCE_PAYLOAD` cannot
+resolve bundle parts. Part paths are slash-separated relative file paths beneath
+the selected descriptor's directory, not beneath the working directory. Segments
+use letters, digits, dots, underscores and hyphens, start with a letter or digit,
+and are at most 128 characters; trailing dots, Windows device names, absolute
+paths, traversal, backslashes and reparse points (including ancestor directories
+and the descriptor itself) are rejected. Logical file paths must be `P.json`,
+`A.json`, or P's `payload/...` and `http/<number>.body` paths. Case aliases and
+duplicate logical or part paths are rejected across the entire descriptor.
+
+Stage reconstructs and hashes streams in declared part order with a 64 KiB copy
+buffer, checking each part's length/hash and each whole file's length/hash. Its
+exact logical file inventory is derived from P: P, A, **every** P payload and
+**every** retained P HTTP body, with no fixed attachment count. Extra/missing
+logical entries, extra/missing part bytes and attachment hashes differing from P
+fail closed. Existing independent reviewer, Goals 01-13, and post-P Goal 04/09
+replay checks still apply. Only after all checks pass are final P/A/attachments
+moved from scratch and `review.md` emitted from A's exact embedded report bytes.
+No downloaded outer producer archive is added by this local route.
+
+The existing `stage-attestation` workflow can consume the descriptor and its
+parts through root `input.json` at a full-SHA `provenance_input_ref`. Preserve the
+`.stage-part` binary attribute in that data checkout. The data/publication commit
+is distinct from the product candidate recorded in P; transport does not issue
+required release checks or alter the candidate. Upload/index provenance and byte
+checks remain mandatory; fixture pack/stage success is not publication acceptance.
 
 ## Exit-Code Contract
 

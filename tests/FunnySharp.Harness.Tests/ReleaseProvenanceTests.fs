@@ -2,12 +2,14 @@ module FunnySharp.Harness.Tests.ReleaseProvenanceTests
 
 open System
 open System.Collections.Generic
+open System.Diagnostics
 open System.IO
 open System.IO.Compression
 open System.Security.Cryptography
 open System.Text
 open System.Text.Json
 open System.Text.Json.Nodes
+open System.Threading
 open System.Threading.Tasks
 open Xunit
 open FunnySharp.Harness.ReleaseProvenance
@@ -251,7 +253,311 @@ let private attestation (producer: byte array) =
                         "replays", box [ for goal in [ 4; 9 ] -> obj [ "goal", box goal; "inputEvidenceIds", box [ "FunnySharp.nupkg" ]; "receipt", box (receipt goal) ] ];
                         "report", box (reference (bytes "actual retained reviewer report\n")) ]))
 
+// A small local P/A seam: no producer rerun or network is needed to test transport.
+type private StageBundleFixture(?root: string, ?bodyLength: int) =
+    let temp = new TempDirectory()
+    let root = defaultArg root temp.Path
+    let producerDirectory = Path.Combine(root, "original")
+    let files = Dictionary<string, byte array>()
+    do
+        Directory.CreateDirectory producerDirectory |> ignore
+        for id in [ for goal in 1 .. 13 -> sprintf "goal-%02d" goal ] @ [ "local-proof"; "FunnySharp.nupkg" ] do
+            files.Add("payload/" + id, bytes (id + "\r\n"))
+        files.Add("http/0000.body", Array.init (defaultArg bodyLength 8193) (fun i -> byte (i % 251)))
+        files.Add("http/0001.body", [||])
+        let evidence = [ for pair in files do if pair.Key.StartsWith "payload/" then yield obj [ "id", box (pair.Key.Substring 8); "path", box pair.Key; "sha256", box (sha256 pair.Value) ] ]
+        let producer = encode (obj [ "schemaVersion", box 1; "kind", box "producer"; "createdAtUtc", box (now.ToString("O"));
+                                    "input", box (obj [ "candidateCommit", box candidate; "producerIdentity", box "producer";
+                                                        "contracts", box [ for goal in 1 .. 13 -> obj [ "goal", box goal; "evidenceId", box (sprintf "goal-%02d" goal) ] ] ]);
+                                    "evidence", box evidence;
+                                    "http", box [ for pair in files do if pair.Key.StartsWith "http/" then yield obj [ "bodyPath", box pair.Key; "bodySha256", box (sha256 pair.Value) ] ] ])
+        // Noncanonical whitespace proves P/A are transported, not serialized again.
+        let producer = Array.concat [ bytes " \r\n"; producer; bytes "\r\n" ]
+        files.Add("P.json", producer)
+        files.Add("A.json", Array.concat [ bytes "\r\n"; bytes ((attestation producer).ToJsonString()); bytes "\r\n" ])
+        for pair in files do
+            let path = Path.Combine(producerDirectory, pair.Key)
+            Directory.CreateDirectory(Path.GetDirectoryName path |> Option.ofObj |> Option.get) |> ignore
+            File.WriteAllBytes(path, pair.Value)
+    member _.Root = root
+    member _.Files = files
+    member _.LocalInput =
+        let reference name = obj [ "path", box (Path.Combine(producerDirectory, name)); "sha256", box (sha256 files.[name]) ]
+        node (encode (obj [ "repository", box "owner/repo"; "producer", box (reference "P.json"); "attestation", box (reference "A.json") ]))
+    member _.Bundle() =
+        let entries =
+            [ for index, pair in files |> Seq.indexed do
+                let chunks = if pair.Value.Length = 0 then [| [||] |] else Array.chunkBySize 4096 pair.Value
+                let parts =
+                    [ for part, content in chunks |> Array.indexed do
+                        let path = sprintf "parts/%04d/%04d.stage-part" index part
+                        let full = Path.Combine(root, path)
+                        Directory.CreateDirectory(Path.GetDirectoryName full |> Option.ofObj |> Option.get) |> ignore
+                        File.WriteAllBytes(full, content)
+                        yield obj [ "path", box path; "length", box content.LongLength; "sha256", box (sha256 content) ] ]
+                yield obj [ "path", box pair.Key; "length", box pair.Value.LongLength; "sha256", box (sha256 pair.Value); "parts", box parts ] ]
+        node (encode (obj [ "repository", box "owner/repo"; "bundle", box (obj [ "schemaVersion", box 1; "files", box entries ]) ]))
+    member _.Run(mode, input: JsonNode, output, ?payload: bool) = task {
+        use stdout = new StringWriter()
+        use stderr = new StringWriter()
+        let inputBytes = bytes (input.ToJsonString())
+        let path = Path.Combine(root, "input.json")
+        File.WriteAllBytes(path, inputBytes)
+        use compressed = new MemoryStream()
+        do
+            use gzip = new GZipStream(compressed, CompressionMode.Compress, true)
+            gzip.Write inputBytes
+        let collaborators =
+            { Get = fun _ -> failwith "Local bundle transport must not request remote state."
+              UtcNow = fun () -> now.AddSeconds 10.
+              Environment = fun name -> if name = "RELEASE_PROVENANCE_PAYLOAD" then Some (Convert.ToBase64String(compressed.ToArray())) else None }
+        let! code = mainWith stdout stderr collaborators ([ "-Mode"; mode; "-OutputDirectory"; output ] @ if defaultArg payload false then [] else [ "-InputPath"; path ])
+        return code, stderr.ToString()
+    }
+    member _.AssertStage(output) =
+        for pair in files do Assert.Equal<byte>(pair.Value, File.ReadAllBytes(Path.Combine(output, pair.Key)))
+        let report = node files.["A.json"] |> at "report" |> at "base64" |> fun value -> Convert.FromBase64String(value.GetValue<string>())
+        Assert.Equal<byte>(report, File.ReadAllBytes(Path.Combine(output, "review.md")))
+        Assert.False(Directory.Exists(Path.Combine(output, "transport")))
+    interface IDisposable with member _.Dispose() = (temp :> IDisposable).Dispose()
+
 type ReleaseProvenanceTests() =
+    [<Fact>]
+    member _.StageBundlePreservesLegacyRootArtifactAndInlineInput() = task {
+        use fixture = new Fixture()
+        let original = Path.Combine(fixture.Root, "producer")
+        let! freezeCode, freezeError = fixture.Run("freeze-producer", original, fixture.Input)
+        Assert.True((freezeCode = 0), freezeError)
+        let producer = File.ReadAllBytes(Path.Combine(original, "P.json"))
+        let attestation = bytes ((attestation producer).ToJsonString())
+        let entries = Directory.GetFiles(original, "*", SearchOption.AllDirectories) |> Array.map (fun path -> Path.GetRelativePath(original, path).Replace('\\', '/'), File.ReadAllBytes path) |> Array.toList
+        fixture.Artifact(200L, 30L, archive entries)
+        fixture.CurrentTime <- now.AddSeconds 10.
+        let input = node (encode (obj [ "repository", box "owner/repo"; "producer", box (obj [ "artifactId", box 200L; "entry", box "P.json"; "sha256", box (sha256 producer) ]); "attestation", box (reference attestation) ]))
+        let output = Path.Combine(fixture.Root, "stage")
+        let! code, error = fixture.Run("stage-attestation", output, input, payload = true)
+        Assert.True((code = 0), error)
+        for path, content in entries |> List.filter (fun (path, _) -> path <> ".claim") do Assert.Equal<byte>(content, File.ReadAllBytes(Path.Combine(output, path)))
+        Assert.Equal<byte>(attestation, File.ReadAllBytes(Path.Combine(output, "A.json")))
+        Assert.Contains(api + "/actions/artifacts/200/zip", fixture.Requested)
+    }
+
+    [<Theory>]
+    [<InlineData(0)>]
+    [<InlineData(33554432)>]
+    [<InlineData(33554433)>]
+    member _.StageBundlePackerHonorsPartBoundary(length: int) = task {
+        use fixture = new StageBundleFixture(bodyLength = length)
+        let packed = Path.Combine(fixture.Root, "packed")
+        let! code, error = fixture.Run("pack-stage-bundle", fixture.LocalInput, packed)
+        Assert.True((code = 0), error)
+        let descriptor = node (File.ReadAllBytes(Path.Combine(packed, "input.json")))
+        let files = descriptor |> at "bundle" |> at "files" |> fun value -> value.AsArray()
+        Assert.Equal(fixture.Files.Count, files.Count)
+        let body = files |> Seq.choose Option.ofObj |> Seq.find (fun file -> (at "path" file).GetValue<string>() = "http/0000.body")
+        let parts = (at "parts" body).AsArray() |> Seq.choose Option.ofObj |> Seq.toList
+        Assert.Equal((if length <= 33554432 then 1 else 2), parts.Length)
+        Assert.Equal(int64 (min length 33554432), (at "length" parts.Head).GetValue<int64>())
+        for part in parts do
+            let content = File.ReadAllBytes(Path.Combine(packed, (at "path" part).GetValue<string>()))
+            Assert.Equal(content.LongLength, (at "length" part).GetValue<int64>())
+            Assert.Equal(sha256 content, (at "sha256" part).GetValue<string>())
+        // Resolve relative to the descriptor, not the process working directory.
+        use stdout = new StringWriter()
+        use stderr = new StringWriter()
+        let collaborators = { defaultCollaborators with Get = fun _ -> failwith "Unexpected network access." }
+        let! stageCode = mainWith stdout stderr collaborators [ "-Mode"; "stage-attestation"; "-InputPath"; Path.Combine(packed, "input.json"); "-OutputDirectory"; Path.Combine(fixture.Root, "stage") ]
+        Assert.True((stageCode = 0), stderr.ToString())
+        fixture.AssertStage(Path.Combine(fixture.Root, "stage"))
+        let! again, _ = fixture.Run("pack-stage-bundle", fixture.LocalInput, packed)
+        Assert.NotEqual(0, again)
+        // A declared or actual part over the boundary must fail before final output.
+        if length = 33554433 then
+            let first = parts.Head
+            let full = Path.Combine(packed, (at "path" first).GetValue<string>())
+            File.WriteAllBytes(full, fixture.Files.["http/0000.body"])
+            first.["length"] <- num (int64 length)
+            first.["sha256"] <- str (sha256 fixture.Files.["http/0000.body"])
+            (at "parts" body).AsArray().RemoveAt 1
+            File.WriteAllText(Path.Combine(packed, "input.json"), descriptor.ToJsonString())
+            let rejected = Path.Combine(fixture.Root, "oversized")
+            let! oversized = mainWith stdout stderr collaborators [ "-Mode"; "stage-attestation"; "-InputPath"; Path.Combine(packed, "input.json"); "-OutputDirectory"; rejected ]
+            Assert.NotEqual(0, oversized)
+            Assert.False(File.Exists(Path.Combine(rejected, "P.json")))
+    }
+
+    [<Theory>]
+    [<InlineData("base64")>]
+    [<InlineData("artifact")>]
+    [<InlineData("hash")>]
+    [<InlineData("attachment")>]
+    [<InlineData("reparse")>]
+    [<InlineData("inline")>]
+    member _.StageBundlePackerRejectsNonlocalOrChangedSources(kind: string) = task {
+        use fixture = new StageBundleFixture()
+        let input = fixture.LocalInput
+        let producer = at "producer" input
+        match kind with
+        | "base64" -> input.["producer"] <- node (encode (reference fixture.Files.["P.json"]))
+        | "artifact" -> producer.AsObject().Remove("path") |> ignore; producer.["artifactId"] <- num 100L; producer.["entry"] <- str "P.json"
+        | "hash" -> producer.["sha256"] <- str source
+        | "attachment" -> File.WriteAllText(Path.Combine(fixture.Root, "original/http/0000.body"), "changed")
+        | "reparse" ->
+            let path = (at "path" producer).GetValue<string>()
+            File.Move(path, path + ".real")
+            File.CreateSymbolicLink(path, path + ".real") |> ignore
+        | _ -> ()
+        let output = Path.Combine(fixture.Root, "packed")
+        let! code, _ = fixture.Run("pack-stage-bundle", input, output, payload = (kind = "inline"))
+        Assert.NotEqual(0, code)
+        Assert.False(File.Exists(Path.Combine(output, "input.json")))
+    }
+
+    [<Fact>]
+    member _.StageBundleCliPackStageRoundTrip() = task {
+        let retainedRoot = Environment.GetEnvironmentVariable "FUNNYSHARP_STAGE_BUNDLE_FIXTURE" |> Option.ofObj
+        match retainedRoot with
+        | Some root -> Assert.False(Directory.Exists root, "CLI fixture output must be a new directory.")
+        | None -> ()
+        use fixture = new StageBundleFixture(?root = retainedRoot, bodyLength = 33554433)
+        let script = Path.Combine(fixture.Root, "cli.fsx")
+        let assembly = typeof<HttpResponse>.Assembly.Location.Replace("\\", "/")
+        File.WriteAllText(script, sprintf "#r @\"%s\"\nexit (FunnySharp.Harness.ReleaseProvenance.main fsi.CommandLineArgs.[1..])\n" assembly)
+        let localInput = Path.Combine(fixture.Root, "local.json")
+        File.WriteAllText(localInput, fixture.LocalInput.ToJsonString())
+        let run mode input output = task {
+            let start = ProcessStartInfo("dotnet", UseShellExecute = false, RedirectStandardOutput = true, RedirectStandardError = true)
+            for argument in [ "fsi"; "--exec"; script; "-Mode"; mode; "-InputPath"; input; "-OutputDirectory"; output ] do start.ArgumentList.Add argument
+            use child = new Process(StartInfo = start)
+            Assert.True(child.Start())
+            let stdout, stderr = child.StandardOutput.ReadToEndAsync(), child.StandardError.ReadToEndAsync()
+            use timeout = new CancellationTokenSource(TimeSpan.FromMinutes 2.)
+            try
+                do! child.WaitForExitAsync timeout.Token
+            with :? OperationCanceledException as error ->
+                child.Kill(true)
+                raise error
+            let! stdout = stdout
+            let! stderr = stderr
+            File.WriteAllText(Path.Combine(fixture.Root, mode + ".log"), stdout + stderr)
+            Assert.True((child.ExitCode = 0), stdout + stderr)
+        }
+        let packed = Path.Combine(fixture.Root, "packed")
+        let staged = Path.Combine(fixture.Root, "staged")
+        do! run "pack-stage-bundle" localInput packed
+        do! run "stage-attestation" (Path.Combine(packed, "input.json")) staged
+        fixture.AssertStage staged
+        for pair in fixture.Files do Assert.Equal<byte>(pair.Value, File.ReadAllBytes(Path.Combine(fixture.Root, "original", pair.Key)))
+    }
+
+    [<Theory>]
+    [<InlineData("valid")>]
+    [<InlineData("schema")>]
+    [<InlineData("mixed")>]
+    [<InlineData("payload")>]
+    [<InlineData("missing-file")>]
+    [<InlineData("extra-file")>]
+    [<InlineData("duplicate-file")>]
+    [<InlineData("case-alias")>]
+    [<InlineData("file-length")>]
+    [<InlineData("file-hash")>]
+    [<InlineData("file-traversal")>]
+    [<InlineData("missing-part")>]
+    [<InlineData("missing-part-entry")>]
+    [<InlineData("extra-part")>]
+    [<InlineData("duplicate-part")>]
+    [<InlineData("part-length")>]
+    [<InlineData("negative-length")>]
+    [<InlineData("part-hash")>]
+    [<InlineData("malformed-hash")>]
+    [<InlineData("order")>]
+    [<InlineData("part-traversal")>]
+    [<InlineData("part-absolute")>]
+    [<InlineData("part-backslash")>]
+    [<InlineData("part-reparse")>]
+    [<InlineData("input-reparse")>]
+    [<InlineData("part-bytes")>]
+    [<InlineData("actual-length")>]
+    [<InlineData("unbound-body")>]
+    [<InlineData("goal04")>]
+    [<InlineData("goal09")>]
+    member _.StageBundleChecksExactFilesAndOrderedParts(kind: string) = task {
+        use fixture = new StageBundleFixture()
+        let input = fixture.Bundle()
+        let! validCode, validError = fixture.Run("stage-attestation", input, Path.Combine(fixture.Root, "valid"))
+        Assert.True((validCode = 0), validError)
+        fixture.AssertStage(Path.Combine(fixture.Root, "valid"))
+        let bundle = at "bundle" input
+        let files = (at "files" bundle).AsArray()
+        let body = files |> Seq.choose Option.ofObj |> Seq.find (fun file -> (at "path" file).GetValue<string>() = "http/0000.body")
+        let parts = (at "parts" body).AsArray()
+        let part = parts.[0] |> present
+        let partPath = Path.Combine(fixture.Root, (at "path" part).GetValue<string>())
+        match kind with
+        | "schema" -> bundle.["schemaVersion"] <- num 2L
+        | "mixed" -> input.["producer"] <- (at "producer" fixture.LocalInput).DeepClone()
+        | "missing-file" -> files.RemoveAt 0
+        | "extra-file" ->
+            let extra = body.DeepClone()
+            extra.["path"] <- str "http/9999.body"
+            for p in (at "parts" extra).AsArray() |> Seq.choose Option.ofObj do
+                let old = Path.Combine(fixture.Root, (at "path" p).GetValue<string>())
+                let path = (at "path" p).GetValue<string>() + ".extra"
+                File.Copy(old, Path.Combine(fixture.Root, path))
+                p.["path"] <- str path
+            files.Add extra
+        | "duplicate-file" -> files.Add(body.DeepClone())
+        | "case-alias" -> let extra = body.DeepClone() in extra.["path"] <- str "HTTP/0000.body"; files.Add extra
+        | "file-length" -> body.["length"] <- num 8194L
+        | "file-hash" -> body.["sha256"] <- str source
+        | "file-traversal" -> body.["path"] <- str "../escape.body"
+        | "missing-part" -> File.Delete partPath
+        | "missing-part-entry" -> parts.RemoveAt 1
+        | "extra-part" ->
+            File.WriteAllBytes(Path.Combine(fixture.Root, "extra.stage-part"), [||])
+            parts.Add(node (encode (obj [ "path", box "extra.stage-part"; "length", box 0L; "sha256", box (sha256 [||]) ])))
+        | "duplicate-part" -> (parts.[1] |> present).["path"] <- (at "path" part).DeepClone()
+        | "part-length" -> part.["length"] <- num 4095L
+        | "negative-length" -> part.["length"] <- num -1L
+        | "part-hash" -> part.["sha256"] <- str source
+        | "malformed-hash" -> part.["sha256"] <- str "invalid"
+        | "order" -> parts.RemoveAt 0; parts.Add part
+        | "part-traversal" -> part.["path"] <- str "../outside.stage-part"
+        | "part-absolute" -> part.["path"] <- str partPath
+        | "part-backslash" -> part.["path"] <- str "parts\\escape.stage-part"
+        | "part-reparse" ->
+            let parent = Path.GetDirectoryName partPath |> Option.ofObj |> Option.get
+            Directory.Move(parent, parent + "-real")
+            Directory.CreateSymbolicLink(parent, parent + "-real") |> ignore
+        | "input-reparse" ->
+            let path = Path.Combine(fixture.Root, "input.json")
+            File.Move(path, path + ".real")
+            File.CreateSymbolicLink(path, path + ".real") |> ignore
+        | "part-bytes" -> File.WriteAllBytes(partPath, Array.create 4096 0uy)
+        | "actual-length" -> File.AppendAllText(partPath, "x")
+        | "unbound-body" ->
+            File.WriteAllBytes(partPath, Array.create 4096 0uy)
+            part.["sha256"] <- str (sha256 (File.ReadAllBytes partPath))
+            let content = parts |> Seq.choose Option.ofObj |> Seq.collect (fun p -> File.ReadAllBytes(Path.Combine(fixture.Root, (at "path" p).GetValue<string>()))) |> Seq.toArray
+            body.["sha256"] <- str (sha256 content)
+        | "goal04" | "goal09" ->
+            let a = node fixture.Files.["A.json"]
+            (at "replays" a).AsArray().RemoveAt(if kind = "goal04" then 0 else 1)
+            fixture.Files.["A.json"] <- bytes (a.ToJsonString())
+            let replacement = fixture.Bundle() |> at "bundle" |> at "files" |> fun f -> f.AsArray() |> Seq.choose Option.ofObj |> Seq.find (fun file -> (at "path" file).GetValue<string>() = "A.json")
+            let old = files |> Seq.choose Option.ofObj |> Seq.find (fun file -> (at "path" file).GetValue<string>() = "A.json")
+            files.[files.IndexOf old] <- replacement.DeepClone()
+        | _ -> ()
+        let output = Path.Combine(fixture.Root, "stage")
+        let! code, error = fixture.Run("stage-attestation", input, output, payload = (kind = "payload"))
+        if kind = "valid" then
+            Assert.True((code = 0), error)
+            fixture.AssertStage output
+        else
+            Assert.NotEqual(0, code)
+            for name in [ "P.json"; "A.json"; "review.md" ] do Assert.False(File.Exists(Path.Combine(output, name)))
+    }
+
     [<Theory>]
     [<InlineData(false)>]
     [<InlineData(true)>]

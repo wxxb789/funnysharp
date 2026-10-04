@@ -16,3 +16,6 @@
 /eng/evaluation/results/audit-resolution-*/** -text
 /eng/evaluation/studies/audit-resolution-*/** -text
 /docs/audits/goal-24-resolution/** -text
+
+# Immutable release stage transport parts retain every byte on all checkout hosts.
+*.stage-part binary

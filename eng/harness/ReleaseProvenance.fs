@@ -520,6 +520,156 @@ let private validateAttestation (producerBytes: byte array) (attestationBytes: b
         nonempty "command" receipt |> ignore
     embedded (prop "report" attestation)
 
+let private maxPartLength = 32L * 1024L * 1024L
+
+let private localFile path =
+    let full = Path.GetFullPath path
+    let rec check (current: string) =
+        require ((File.GetAttributes current &&& FileAttributes.ReparsePoint) = enum 0) "Bundle input contains a reparse point."
+        match Directory.GetParent current with
+        | null -> ()
+        | parent -> check parent.FullName
+    check full
+    require (File.Exists full) "Bundle input is not a regular file."
+    full
+
+let private relativeFile (path: string) =
+    let segments = path.Split '/'
+    for segment in segments do
+        safeName segment |> ignore
+        require (not (segment.EndsWith ".") && not (Regex.IsMatch(segment, "^(CON|PRN|AUX|NUL|COM[0-9]|LPT[0-9])([.]|$)", RegexOptions.IgnoreCase))) "Invalid bundle path segment."
+    path
+
+let private producerAttachments producer =
+    validateProducer producer
+    let attachments =
+        [ for entry in items "evidence" producer do yield nonempty "path" entry, digest "sha256" entry
+          for entry in items "http" producer do yield nonempty "bodyPath" entry, digest "bodySha256" entry ]
+    let paths = HashSet<string>(StringComparer.OrdinalIgnoreCase)
+    for path, _ in attachments do
+        require (Regex.IsMatch(path, "^(payload/[A-Za-z0-9][A-Za-z0-9._-]{0,127}|http/[0-9]+[.]body)$")) "Invalid P attachment path."
+        relativeFile path |> ignore
+        require (paths.Add path) "Duplicate P attachment path."
+    attachments
+
+// Copy one bounded part while hashing both the part and its logical file. No
+// attachment or outer archive needs a byte array, even when a file exceeds 2 GiB.
+let private copyPart (source: Stream) (target: Stream) length (fileHash: IncrementalHash) =
+    use partHash = IncrementalHash.CreateHash HashAlgorithmName.SHA256
+    let buffer = Array.zeroCreate<byte> 65536
+    let mutable remaining = length
+    while remaining > 0L do
+        let count = source.Read(buffer, 0, int (min remaining (int64 buffer.Length)))
+        require (count > 0) "Bundle part ended before its declared length."
+        target.Write(buffer, 0, count)
+        partHash.AppendData(buffer, 0, count)
+        fileHash.AppendData(buffer, 0, count)
+        remaining <- remaining - int64 count
+    Convert.ToHexString(partHash.GetHashAndReset()).ToLowerInvariant()
+
+let private stageBundle collaborators output inputPath input =
+    exactFields [ "repository"; "bundle" ] input
+    nonempty "repository" input |> ignore
+    let root = Path.GetDirectoryName(localFile inputPath) |> Option.ofObj |> Option.get
+    let bundle = prop "bundle" input
+    exactFields [ "schemaVersion"; "files" ] bundle
+    require (number "schemaVersion" bundle = 1L) "Unknown stage bundle schema."
+    let files = items "files" bundle
+    let paths = HashSet<string>(StringComparer.OrdinalIgnoreCase)
+    let partPaths = HashSet<string>(StringComparer.OrdinalIgnoreCase)
+    let plan =
+        [ for file in files do
+            exactFields [ "path"; "length"; "sha256"; "parts" ] file
+            let path = relativeFile (nonempty "path" file)
+            require (path = "P.json" || path = "A.json" || Regex.IsMatch(path, "^(payload/[A-Za-z0-9][A-Za-z0-9._-]{0,127}|http/[0-9]+[.]body)$")) "Invalid logical bundle file."
+            require (paths.Add path) "Duplicate logical bundle file."
+            let length, hash = number "length" file, digest "sha256" file
+            require (length >= 0L) "Negative bundle file length."
+            let parts = items "parts" file
+            require (not parts.IsEmpty) "Bundle file has no parts."
+            let mutable total = 0L
+            let parts =
+                [ for part in parts do
+                    exactFields [ "path"; "length"; "sha256" ] part
+                    let partPath = relativeFile (nonempty "path" part)
+                    require (partPaths.Add partPath) "Duplicate bundle part path."
+                    let partLength, partDigest = number "length" part, digest "sha256" part
+                    require (partLength >= 0L && partLength <= maxPartLength && (partLength > 0L || (length = 0L && parts.Length = 1))) "Invalid bundle part length."
+                    require (partLength <= length - total) "Extra bundle part bytes."
+                    total <- total + partLength
+                    let full = localFile (Path.Combine(root, partPath))
+                    require (not (String.Equals(full, Path.GetFullPath inputPath, StringComparison.OrdinalIgnoreCase))) "Descriptor cannot be a bundle part."
+                    yield full, partLength, partDigest ]
+            require (total = length) "Missing bundle part bytes."
+            yield path, length, hash, parts ]
+    require (paths.Contains "P.json" && paths.Contains "A.json") "Bundle requires P.json and A.json."
+    let scratch = Path.Combine(output, ".bundle")
+    for path, length, hash, parts in plan do
+        let destination = Path.Combine(scratch, path)
+        Directory.CreateDirectory(Path.GetDirectoryName destination |> Option.ofObj |> Option.get) |> ignore
+        use target = new FileStream(destination, FileMode.CreateNew, FileAccess.Write, FileShare.None)
+        use fileHash = IncrementalHash.CreateHash HashAlgorithmName.SHA256
+        for full, partLength, partDigest in parts do
+            use source = new FileStream(localFile full, FileMode.Open, FileAccess.Read, FileShare.Read)
+            require (source.Length = partLength) "Bundle part length mismatch."
+            require (copyPart source target partLength fileHash = partDigest && source.ReadByte() = -1) "Bundle part SHA256 mismatch or trailing bytes."
+        require (target.Length = length && Convert.ToHexString(fileHash.GetHashAndReset()).ToLowerInvariant() = hash) "Bundle file length or SHA256 mismatch."
+    let producer = File.ReadAllBytes(Path.Combine(scratch, "P.json"))
+    let attestation = File.ReadAllBytes(Path.Combine(scratch, "A.json"))
+    let attachments = producerAttachments (parse producer)
+    sameSet ([ "P.json"; "A.json" ] @ (attachments |> List.map fst)) (plan |> List.map (fun (path, _, _, _) -> path))
+    for path, hash in attachments do
+        require (plan |> List.exists (fun (name, _, actual, _) -> name = path && actual = hash)) "Bundle attachment differs from P."
+    let report = validateAttestation producer attestation
+    require (time "createdAtUtc" (parse attestation) <= collaborators.UtcNow()) "Attestation is from the future."
+    // Only validated bytes enter the final stage; scratch files are never uploaded.
+    for path in (attachments |> List.map fst) @ [ "P.json"; "A.json" ] do
+        let destination = Path.Combine(output, path)
+        Directory.CreateDirectory(Path.GetDirectoryName destination |> Option.ofObj |> Option.get) |> ignore
+        File.Move(Path.Combine(scratch, path), destination)
+    writeNew output "review.md" report
+    Directory.Delete(scratch, true)
+
+let private packStageBundle collaborators output inputPath input =
+    localFile inputPath |> ignore
+    exactFields [ "repository"; "producer"; "attestation" ] input
+    let repository = nonempty "repository" input
+    let read name =
+        let reference = prop name input
+        exactFields [ "path"; "sha256" ] reference
+        let path = localFile (nonempty "path" reference)
+        let bytes = File.ReadAllBytes path
+        require (sha256 bytes = digest "sha256" reference) "Evidence byte hash mismatch."
+        path, bytes
+    let producerPath, producer = read "producer"
+    let attestationPath, attestation = read "attestation"
+    validateAttestation producer attestation |> ignore
+    require (time "createdAtUtc" (parse attestation) <= collaborators.UtcNow()) "Attestation is from the future."
+    let root = Path.GetDirectoryName producerPath |> Option.ofObj |> Option.get
+    let sources =
+        [ "P.json", producerPath, sha256 producer; "A.json", attestationPath, sha256 attestation ]
+        @ [ for path, hash in producerAttachments (parse producer) -> path, localFile (Path.Combine(root, path)), hash ]
+    let files =
+        [ for index, (path, full, hash) in List.indexed sources do
+            use source = new FileStream(localFile full, FileMode.Open, FileAccess.Read, FileShare.Read)
+            use fileHash = IncrementalHash.CreateHash HashAlgorithmName.SHA256
+            let length = source.Length
+            let parts = ResizeArray<obj>()
+            let mutable remaining = length
+            while remaining > 0L || parts.Count = 0 do
+                let partLength = min remaining maxPartLength
+                let partPath = sprintf "parts/%04d/%04d.stage-part" index parts.Count
+                let destination = Path.Combine(output, partPath)
+                Directory.CreateDirectory(Path.GetDirectoryName destination |> Option.ofObj |> Option.get) |> ignore
+                use target = new FileStream(destination, FileMode.CreateNew, FileAccess.Write, FileShare.None)
+                let partHash = copyPart source target partLength fileHash
+                parts.Add(obj [ "path", box partPath; "length", box partLength; "sha256", box partHash ])
+                remaining <- remaining - partLength
+            require (source.ReadByte() = -1 && Convert.ToHexString(fileHash.GetHashAndReset()).ToLowerInvariant() = hash) "Local bundle source changed or differs from P."
+            yield obj [ "path", box path; "length", box length; "sha256", box hash; "parts", box (parts.ToArray()) ] ]
+    // The immutable descriptor is the completion marker, never a partial manifest.
+    writeNew output "input.json" (encode (obj [ "repository", box repository; "bundle", box (obj [ "schemaVersion", box 1; "files", box files ]) ]))
+
 let private stage collaborators output input = task {
     exactFields [ "producer"; "attestation"; "repository" ] input
     let capture = Capture(collaborators, Path.Combine(output, "transport"), nonempty "repository" input)
@@ -608,7 +758,7 @@ let mainWith (stdout: TextWriter) (stderr: TextWriter) collaborators (argv: stri
         arguments argv
         let option name = match options.TryGetValue name with | true, value -> value | _ -> invalidArg name ("Missing " + name)
         let mode = option "-Mode"
-        require (List.contains mode [ "freeze-producer"; "stage-attestation"; "write-index" ]) "Unknown provenance mode."
+        require (List.contains mode [ "freeze-producer"; "stage-attestation"; "pack-stage-bundle"; "write-index" ]) "Unknown provenance mode."
         let inputBytes =
             if mode = "write-index" then Encoding.UTF8.GetBytes "{}" else
             match options.TryGetValue "-InputPath" with
@@ -624,9 +774,11 @@ let mainWith (stdout: TextWriter) (stderr: TextWriter) collaborators (argv: stri
         let output = if mode = "write-index" then Path.GetFullPath(option "-OutputDirectory") else claimDirectory (option "-OutputDirectory")
         match mode with
         | "freeze-producer" -> do! freeze collaborators output input
+        | "pack-stage-bundle" -> packStageBundle collaborators output (option "-InputPath") input
+        | "stage-attestation" when has "bundle" input -> stageBundle collaborators output (option "-InputPath") input
         | "stage-attestation" -> do! stage collaborators output input
         | _ -> do! index collaborators output (option "-ArtifactUrl")
-        stdout.WriteLine("Release provenance passed: " + Path.Combine(output, if mode = "freeze-producer" then "P.json" elif mode = "stage-attestation" then "A.json" else "index.json"))
+        stdout.WriteLine("Release provenance passed: " + Path.Combine(output, if mode = "freeze-producer" then "P.json" elif mode = "stage-attestation" then "A.json" elif mode = "pack-stage-bundle" then "input.json" else "index.json"))
         return 0
       with
       | :? ArgumentException as error -> stderr.WriteLine error.Message; return 2
