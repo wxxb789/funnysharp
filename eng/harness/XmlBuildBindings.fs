@@ -86,7 +86,8 @@ let private reviewedInputs root =
     use document = JsonDocument.Parse(File.ReadAllText anchor)
     let node = document.RootElement
     fields [ "schema"; "scope"; "reviewedPolicy"; "files"; "assemblies"; "reviewBasis"; "historicalExactReviewPreserved" ] node
-    require (text "schema" node = "funnysharp-reviewed-xml-inputs/v2") "unexpected reviewed-input schema."
+    let successor = text "schema" node = "funnysharp-reviewed-xml-inputs/v3"
+    require (successor || text "schema" node = "funnysharp-reviewed-xml-inputs/v2") "unexpected reviewed-input schema."
     let policy = field "reviewedPolicy" node
     fields [ "path"; "sha256" ] policy
     require (text "path" policy = policyPath) "wrong reviewed policy path."
@@ -118,13 +119,14 @@ let private reviewedInputs root =
     let assemblies = rows "assemblies" node
     require (assemblies.Length = names.Length && (assemblies |> List.map (text "name") |> Set.ofList) = Set.ofList names) "reviewed assembly inventory changed."
     for assembly in assemblies do
-        fields [ "name"; "xmlSha256"; "lfXmlSha256" ] assembly
+        fields ([ "name"; "xmlSha256"; "lfXmlSha256" ] @ if successor then [ "historicalXmlSha256" ] else []) assembly
         let name = text "name" assembly
         let primary = text "xmlSha256" assembly
         let representations = [ primary; text "lfXmlSha256" assembly ]
         require (representations |> List.forall (fun value -> Regex.IsMatch(value, "^[0-9a-f]{64}$"))) "invalid reviewed XML SHA256."
         let historical = rows "assemblies" policyDocument.RootElement |> List.filter (fun value -> text "name" value = name)
-        require (historical.Length = 1 && text "xmlSha256" historical.Head = primary) "primary XML review differs from the historical policy."
+        let historicalSha = if successor then text "historicalXmlSha256" assembly else primary
+        require (historical.Length = 1 && text "xmlSha256" historical.Head = historicalSha) "historical XML review differs from the historical policy."
         let path = assemblyPath name ".xml"
         require (List.contains (hash (safeFile root path)) representations) ("bytes changed: " + path)
     hash anchor, text "sha256" policy

@@ -36,6 +36,7 @@
     <Compile Include="ReleaseProvenance.fs" />
     <Compile Include="Loc.fs" />
     <Compile Include="Evaluation.fs" />
+    <Compile Include="FrozenReplay.fs" />
   </ItemGroup>
 
 </Project>

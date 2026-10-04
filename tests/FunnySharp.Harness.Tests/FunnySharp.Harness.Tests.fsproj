@@ -45,6 +45,7 @@
     <Compile Include="ReleaseProvenanceTests.fs" />
     <Compile Include="LocTests.fs" />
     <Compile Include="EvaluationTests.fs" />
+    <Compile Include="FrozenReplayTests.fs" />
   </ItemGroup>
 
 </Project>

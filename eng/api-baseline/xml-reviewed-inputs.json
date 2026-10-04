@@ -1,5 +1,5 @@
 {
-  "schema": "funnysharp-reviewed-xml-inputs/v2",
+  "schema": "funnysharp-reviewed-xml-inputs/v3",
   "scope": "Reviewed shipping compilation inputs and XML/alias policy; current PE/PDB bytes belong in post-build immutable attempt receipt, not Git-self-dependent source.",
   "reviewedPolicy": {
     "path": "eng/api-baseline/xml-contract-bindings.json",
@@ -144,7 +144,7 @@
     },
     {
       "path": "src/FunnySharp/Option.cs",
-      "sha256": "2ab65969adf550465692cfa812ad2e8cc182306e1c2660eb549e1d21d873da36"
+      "sha256": "8ee95f8d0193c71e9515f4c97616a1352ee8b4960d17628ca7b7c3cbe77cd707"
     },
     {
       "path": "src/FunnySharp/OptionExtensions.cs",
@@ -214,19 +214,40 @@
   "assemblies": [
     {
       "name": "FunnySharp",
-      "xmlSha256": "4ef257af8378bd41f653b01215e5b016166a064320e7898e1794c4eb327489cc",
-      "lfXmlSha256": "1152678cd26b6912e38b3866496f4dd9f1274f1d27609bd5361af46bcc79bd3e"
+      "xmlSha256": "d3b702f19dc04d5779e3e80757065ce2a76684cabbbb8dcc126f1c429f08a9f1",
+      "lfXmlSha256": "5eb47c0fad16be5cf159c1101f7dae2758457074ae51aee4ff803178b3e1dcee",
+      "historicalXmlSha256": "4ef257af8378bd41f653b01215e5b016166a064320e7898e1794c4eb327489cc"
     },
     {
       "name": "FunnySharp.AspNetCore",
       "xmlSha256": "27af8c3d2b65daa59a081f0b24674be0c41fe9cd652a19455cce01f2637e66d0",
-      "lfXmlSha256": "542ef12f9aa7e4e7e97e2211f73141305bb7fb24fbc0ba89b8147e9b97696edd"
+      "lfXmlSha256": "542ef12f9aa7e4e7e97e2211f73141305bb7fb24fbc0ba89b8147e9b97696edd",
+      "historicalXmlSha256": "27af8c3d2b65daa59a081f0b24674be0c41fe9cd652a19455cce01f2637e66d0"
     }
   ],
   "reviewBasis": {
-    "changedShippingFilesAllMatchOriginalApprovedFreeze": 30,
-    "unchangedRemainderMatchesOriginalBase": "a8863473fd53eddc7cb47201508426db2e454f84",
-    "xmlRepresentations": "xmlSha256 preserves the exact historical CRLF bytes. lfXmlSha256 is derived only by replacing each CRLF pair with LF in those reviewed UTF-8, BOM-free bytes; inverse LF-to-CRLF translation reproduces the primary bytes exactly. No other formatting or content representation is accepted."
+    "previousReviewedInputs": {
+      "commit": "e7aea9995bac6c87a69db14a8b04c6925cb45d4c",
+      "path": "eng/api-baseline/xml-reviewed-inputs.json",
+      "sha256": "b0411918c0b1ec71605614786453d84afcbdcb8d7c16ccca662585efa5fd47dc"
+    },
+    "shippingSourceDelta": "Only the two invalid-default exception comments on Option equality operators were removed; executable source is identical.",
+    "xmlDelta": [
+      {
+        "xmlId": "M:FunnySharp.Option`1.op_Equality(FunnySharp.Option{`0},FunnySharp.Option{`0})",
+        "removedExceptionCref": "T:System.InvalidOperationException",
+        "oldNodeSha256": "d6498af8bc3ed7f4f858723e3cc3fbde47cd2ef365ff9be2ed66565f2cc40ef4",
+        "newNodeSha256": "3241eb7e7e73271c5378593b9e8b441ea3cb5b18a0d1c04853b73d263d6f2d2e"
+      },
+      {
+        "xmlId": "M:FunnySharp.Option`1.op_Inequality(FunnySharp.Option{`0},FunnySharp.Option{`0})",
+        "removedExceptionCref": "T:System.InvalidOperationException",
+        "oldNodeSha256": "86292ff40ada26cdc7e33f2179dabec35cf84a8b384815e1a7cd8eb14e1c6730",
+        "newNodeSha256": "b1b04004e7e2fa2e747ab1c316b86fc726883be9a7636e9dde77e92394b8c55c"
+      }
+    ],
+    "xmlRepresentations": "xmlSha256 identifies the reviewed current CRLF document. lfXmlSha256 changes CRLF pairs to LF only. historicalXmlSha256 retains the original v1 policy XML digest separately.",
+    "verification": "Existing default-None and equality operator facts passed 2/2, zero failures and skips; the complete generated XML differs only by these two exception elements."
   },
-  "historicalExactReviewPreserved": "Original v1 exact package/semantic path unchanged."
+  "historicalExactReviewPreserved": "Original v1 package/semantic policy bytes and v2 anchor at e7aea999 are unchanged historical evidence; this v3 anchor reviews the current documentation revision."
 }

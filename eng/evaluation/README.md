@@ -82,6 +82,48 @@ outside all results/ subtrees. They run the SAME frozen suite and bind packages/
 record evidenceKind=replay, require no claimed AI identity, and never count toward the 20
 sessions. A GREEN generation record cannot be overwritten or relabeled by a replay.
 
+### Independently replaying the retained v6 suite
+
+The live `build.fsx` entrypoint intentionally requires the current runner/build environment
+to equal the study's frozen environment. Unrelated release-pipeline additions can therefore
+prevent that entrypoint from replaying v6. Use the dedicated replay-only route instead:
+
+The retained checkout currently has 123 of the original 188 manifest files. The 65
+unavailable files are historical `obj/` build-cache entries; every available file
+still matches its frozen SHA256. The route below rejects that incomplete snapshot
+before reserving output or building a consumer. It requires those original bytes
+to be restored; a fresh restore cannot establish their historical identity. The
+parent's actual replay attempt returned exit 1 for this known retention limit, not
+GREEN. No original manifest entry is omitted or regenerated to bypass the check.
+
+```shell
+dotnet fsi eng/evaluation/replay-frozen.fsx -- collections funnysharp eng/evaluation/results/audit-resolution-v6/collections/funnysharp/run-1/solution Q:/tmp/funnysharp-v6-collections-replay-1 83d7d3522ccad4fa04cc56bbf8ed540521147d178d1940cc656d9667e49ac76d
+```
+
+Arguments are task, style, existing C# solution directory, new output directory, and the
+independently retained SHA256 of the original v6 `manifest.json`. Supply an unused output
+path, outside every `results/` subtree. Existing paths, including empty or interrupted
+attempts, are rejected. The source solution and all historical evidence remain read-only.
+
+This entrypoint copies the exact manifest-bound snapshot, plan and environment into
+`<output>/frozen-root/`, including the frozen `build.fsx` bytes needed by `loadStudy`.
+It loads the frozen `Evaluation.fs` directly through FSI, rather than executing either
+version of the full build pipeline. The unchanged runner uses the original frozen packages,
+oracles, templates, locked restore and expected test count. Its receipts and
+`evidenceKind=replay` record live in `<output>/run/rounds/0001/`; no producer receipt,
+model invocation or generation cohort slot is used. Current generation keeps its live
+environment equality guard.
+
+The historical manifest did **not** freeze `Output.fs`, `Proc.fs`, `Repo.fs` or `Loc.fs`.
+These required support modules are copied from the current checkout and bound separately
+in `replay-bindings.json`, with `supportBinding=contemporary-not-historical`. That binding
+also covers retained copies of the replay driver/entrypoint, the generated FSI entrypoint,
+the exact frozen inputs and the copied C# solution. `runner.process.json` and full runner
+logs preserve execution status. This route establishes a frozen-suite replay with explicitly
+bound contemporary support, not a recovered historical support dependency closure. The
+installed FSI/SDK follows frozen `global.json`; SHA256 bindings are alteration checks, not
+signatures or historical provenance for files absent from the original manifest.
+
 Prep freezes a new snapshot once; never rerun it over a snapshot. An interrupted freeze or
 round is retained and disqualifies that attempt until a separately identified revision is
 authorized. Study/source changes invalidate dependent evidence. `plan.json` preregisters

@@ -183,6 +183,29 @@ let DistinctPostBuildBytesWithUnchangedReviewedInputsPassAndLegacyRemainsExact (
     // Both representations are reviewed, but a seal permits only the actual captured bytes.
     for path in paths do File.WriteAllText(path, File.ReadAllText(path).Replace("\n", "\r\n"))
     Assert.Throws<InvalidOperationException>(fun () -> XmlBuildBindings.validate temp.Path lfDirectory commit lfSummary |> ignore) |> ignore
+    let originalAnchor = File.ReadAllText(Path.Combine(temp.Path, XmlBuildBindings.anchorPath))
+    let originalXml = File.ReadAllText(fixture.Path "FunnySharp" ".xml")
+    let successor = parse originalAnchor
+    successor.["schema"] <- JsonValue.Create "funnysharp-reviewed-xml-inputs/v3"
+    File.AppendAllText(fixture.Path "FunnySharp" ".xml", " ")
+    for row in (get successor "assemblies").AsArray() do
+        let row = present row
+        row.["historicalXmlSha256"] <- (get row "xmlSha256").DeepClone()
+        let path = fixture.Path ((get row "name").ToString()) ".xml"
+        row.["xmlSha256"] <- JsonValue.Create(sha path)
+        row.["lfXmlSha256"] <- JsonValue.Create(Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(File.ReadAllText(path).Replace("\r\n", "\n")))).ToLowerInvariant())
+    fixture.Write XmlBuildBindings.anchorPath (successor.ToJsonString())
+    let successorDirectory = Path.Combine(temp.Path, "artifacts", "successor")
+    Directory.CreateDirectory(Path.Combine(successorDirectory, "receipts")) |> ignore
+    File.Copy(Path.Combine(fixture.Directory, "receipts/03-build.json"), Path.Combine(successorDirectory, "receipts/03-build.json"))
+    let successorPointer = XmlBuildBindings.capture temp.Path successorDirectory commit "attempt" "receipts/03-build.json" clock
+    let successorSummary = fixture.SealAt(successorPointer, successorDirectory)
+    Assert.Equal(2, (ReleaseVerifyArtifacts.getReleaseXmlDocumentationInventory temp.Path paths successorDirectory commit successorSummary).Count)
+    let historical = Assert.Throws<ReleaseVerifySource.ReleaseVerifyFailure>(fun () ->
+        ReleaseVerifyArtifacts.getXmlDocumentationInventory temp.Path paths |> ignore)
+    Assert.Contains("reviewed contract binding", historical.Message)
+    File.WriteAllText(fixture.Path "FunnySharp" ".xml", originalXml)
+    fixture.Write XmlBuildBindings.anchorPath originalAnchor
     for kind in [ "alias"; "inheritance" ] do
         if kind = "alias" then
             let alias = parse """{"assembly":"FunnySharp","xmlId":"M:Unused.Read","typeXmlId":"T:Unused","kind":"synthesized-record-method","rationale":"fixture"}"""
@@ -212,6 +235,36 @@ let DistinctPostBuildBytesWithUnchangedReviewedInputsPassAndLegacyRemainsExact (
     Assert.Equal(2, (ReleaseVerifyArtifacts.getReleaseXmlDocumentationInventory temp.Path paths frameworkDirectory commit frameworkSummary).Count)
     let legacyFramework = Assert.Throws<ReleaseVerifySource.ReleaseVerifyFailure>(fun () -> ReleaseVerifyArtifacts.getXmlDocumentationInventory temp.Path paths |> ignore)
     Assert.Contains("framework bytes are absent or stale", legacyFramework.Message)
+
+[<Theory>]
+[<InlineData("reviewed")>]
+[<InlineData("unreviewed")>]
+[<InlineData("historical")>]
+let ReviewedXmlSuccessorKeepsHistoricalPolicyExact (kind: string) =
+    use temp = new TempDirectory()
+    let fixture = Fixture temp.Path
+    let policyPath = Path.Combine(temp.Path, "eng/api-baseline/xml-contract-bindings.json")
+    let originalPolicyHash = sha policyPath
+    let anchor = parse (File.ReadAllText(Path.Combine(temp.Path, XmlBuildBindings.anchorPath)))
+    anchor.["schema"] <- JsonValue.Create "funnysharp-reviewed-xml-inputs/v3"
+    File.AppendAllText(fixture.Path "FunnySharp" ".xml", " ")
+    for row in (get anchor "assemblies").AsArray() do
+        let row = present row
+        row.["historicalXmlSha256"] <- (get row "xmlSha256").DeepClone()
+        let path = fixture.Path ((get row "name").ToString()) ".xml"
+        if kind <> "unreviewed" then
+            row.["xmlSha256"] <- JsonValue.Create(sha path)
+            row.["lfXmlSha256"] <- JsonValue.Create(Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(File.ReadAllText(path).Replace("\r\n", "\n")))).ToLowerInvariant())
+    if kind = "historical" then
+        (present (get anchor "assemblies").[0]).["historicalXmlSha256"] <- JsonValue.Create(String.replicate 64 "0")
+    fixture.Write XmlBuildBindings.anchorPath (anchor.ToJsonString())
+    if kind = "reviewed" then
+        let pointer = fixture.Capture()
+        let hashes = XmlBuildBindings.validate temp.Path fixture.Directory commit (fixture.Seal pointer)
+        Assert.Equal(sha (fixture.Path "FunnySharp" ".xml"), snd hashes.["FunnySharp"])
+    else
+        Assert.Throws<InvalidOperationException>(fun () -> fixture.Capture() |> ignore) |> ignore
+    Assert.Equal(originalPolicyHash, sha policyPath)
 
 [<Theory>]
 [<InlineData("source")>]

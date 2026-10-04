@@ -433,13 +433,11 @@ public readonly struct Option<T> : IEquatable<Option<T>>
     /// <summary>
     /// Determines whether two options are equal.
     /// </summary>
-    /// <exception cref="InvalidOperationException">Either operand is uninitialized.</exception>
     public static bool operator ==(Option<T> left, Option<T> right) => left.Equals(right);
 
     /// <summary>
     /// Determines whether two options are unequal.
     /// </summary>
-    /// <exception cref="InvalidOperationException">Either operand is uninitialized.</exception>
     public static bool operator !=(Option<T> left, Option<T> right) => !left.Equals(right);
 
     /// <inheritdoc />
