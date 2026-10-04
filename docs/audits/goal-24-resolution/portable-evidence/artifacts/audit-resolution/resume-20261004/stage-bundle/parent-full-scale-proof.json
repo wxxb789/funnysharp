@@ -1,0 +1,40 @@
+{
+  "schema": "funnysharp-parent-stage-bundle-full-scale-proof/v1",
+  "worktree": "Q:/repos/funnysharp/.worktrees/goal24-stage-bundle",
+  "baseCandidate": "d8744c934d86833f9817245ecc7c78b1177b8b76",
+  "parentClass": {
+    "tests": 115,
+    "passed": 115,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "pack": {
+    "command": "dotnet fsi build.fsx -- -p release-provenance -Mode pack-stage-bundle -InputPath Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/resume-20261004/stage-bundle/local-real-p-a.json -OutputDirectory Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/resume-20261004/stage-bundle/full-real-packed-01",
+    "exitCode": 0,
+    "logicalFiles": 309,
+    "parts": 349,
+    "bytes": 1474888931,
+    "maxPartBytes": 33554432
+  },
+  "stage": {
+    "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/resume-20261004/stage-bundle/full-real-staged-01",
+    "exitCode": 0,
+    "pSha256": "51d55b6d1d328c3a0caa69f2ec42ba03b7fdd37e3c6475f8dcefaa2435897d72",
+    "aSha256": "6ef82eafbf03e00ef3191f9a5541b9280ec3962ae20bf9953dd8b72d942165a5",
+    "reportSha256": "1ce284acac64c06768a7c6b5dea0bf698581b0dd6404d88d5520e598460326b5",
+    "attachmentsVerified": 307,
+    "attachmentBytes": 1407188687,
+    "mismatches": 0,
+    "outerProducerArchiveDuplicated": false
+  },
+  "sourceScope": [
+    ".gitattributes",
+    "docs/harness.md",
+    "eng/harness/ReleaseProvenance.fs",
+    "tests/FunnySharp.Harness.Tests/ReleaseProvenanceTests.fs"
+  ],
+  "publicationAccepted": false,
+  "formatter": "references incomplete on first run; locked solution restore pending"
+}
+

@@ -1,0 +1,904 @@
+{
+  "status": "complete",
+  "verdict": "Ready with fixes",
+  "scope": {
+    "base": "a8863473fd53eddc7cb47201508426db2e454f84",
+    "branch": "audit/goal24-complete-pr",
+    "head_sha": "e7aea9995bac6c87a69db14a8b04c6925cb45d4c",
+    "pr_url": "https://github.com/wxxb789/funnysharp/pull/33",
+    "files_changed": 6664,
+    "mode": "standalone",
+    "reviewed_worktree": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr",
+    "staged_metadata_paths": [
+      "docs/audits/goal-24-resolution/findings.json",
+      "docs/audits/goal-24-resolution/report.md",
+      "docs/audits/goal-24-resolution/final-evidence-index.md"
+    ],
+    "untracked_excluded": [
+      "Laterportable-evidenceadditionsexcludedfromthisround;parentseparateverification."
+    ]
+  },
+  "intent": "Repair the original Goal 24 contracts and integrate owned meaningful changes into existing PR #33 while preserving all 69 original audit histories and adverse evidence. This read-only CE round reports the supplied e7 source plus three staged accounting files; later portable proof, fix choices, publication and owned-resource cleanup remain with the parent.",
+  "intent_confidence": "explicit",
+  "mode": "agent report-only",
+  "reviewers": [
+    "correctness",
+    "project-standards",
+    "testing",
+    "maintainability",
+    "agent-native",
+    "security",
+    "performance",
+    "api-contract",
+    "reliability",
+    "adversarial"
+  ],
+  "findings": [
+    {
+      "#": 1,
+      "autofix_class": "manual",
+      "confidence": 100,
+      "evidence": [
+        "eng/harness/Evaluation.fs:367 -- let private freezeStudy repositoryRoot study (feed: string) =",
+        "Supplied-base/current-staged-tree comparison: a886347 has 636 lines; reviewed active file has 1109 lines. git diff --numstat and complete text line counts were inspected.",
+        "Review criterion from maintainability-prompt.md: - **File-size regression** \u2014 a touched file crossing **1000 lines** because of this diff, or growing materially without decomposition. Flag at **P1** when the diff pushes a file from under 1k to over 1k; at **P2** when already over 1k and the diff adds substantial surface without splitting."
+      ],
+      "file": "eng/harness/Evaluation.fs",
+      "first_evidence": "eng/harness/Evaluation.fs:367 -- let private freezeStudy repositoryRoot study (feed: string) =",
+      "independent_reviewers": [
+        "maintainability"
+      ],
+      "line": 367,
+      "owner": "downstream-resolver",
+      "pre_existing": false,
+      "requires_verification": true,
+      "reviewers": [
+        "maintainability"
+      ],
+      "severity": "P1",
+      "suggested_fix": "Extract study freezing/loading/binding (including StudyBinding and their private helpers) into an EvaluationStudy.fs module compiled before Evaluation.fs. Keep prep-feed/verify/aggregate entry points and immutable-round behavior intact, and preserve injected process/environment collaborators. Extend future snapshot dependency lists to include the extracted module; retain frozen v1-v6 bytes and recapture affected current proof rather than rewriting historical manifests.",
+      "title": "File-size regression: evaluation runner crosses 1,000 lines",
+      "why_it_matters": "Maintainers now have to change study freezing and producer-input authentication in the same 1,109-line module that owns packing, build/test execution, aggregation, and CLI parsing; the base file had 636 lines. The added study subsystem has a bounded interface through StudyBinding and is separable from those existing responsibilities. Extracting it keeps the active runner below the designated 1,000-line review threshold without treating immutable historical snapshots as code to refactor.",
+      "validation_status": "confirmed",
+      "validation_reason": "At reviewed head e7aea999, counted Evaluation.fs lines and the supplied-base diff establish growth from 636 to 1109, with freezeStudy, loadStudy, bindStudy and bindReplay added beside packing, verification, aggregation and CLI orchestration, so changing study policy now requires navigating the combined module and satisfies the explicit CE maintainability-reviewer.md:14 file-size regression criterion.",
+      "response_type": "design-decision"
+    },
+    {
+      "#": 2,
+      "autofix_class": "manual",
+      "confidence": 100,
+      "evidence": [
+        "eng/harness/Performance.fs:495 -- let private verifyStableMemberCoverage (root: string) : Map<string, string> =",
+        "Supplied-base/current-staged-tree comparison: a886347 has 808 lines; reviewed active file has 1338 lines. git diff --numstat and complete text line counts were inspected.",
+        "Review criterion from maintainability-prompt.md: - **File-size regression** \u2014 a touched file crossing **1000 lines** because of this diff, or growing materially without decomposition. Flag at **P1** when the diff pushes a file from under 1k to over 1k; at **P2** when already over 1k and the diff adds substantial surface without splitting."
+      ],
+      "file": "eng/harness/Performance.fs",
+      "first_evidence": "eng/harness/Performance.fs:495 -- let private verifyStableMemberCoverage (root: string) : Map<string, string> =",
+      "independent_reviewers": [
+        "maintainability"
+      ],
+      "line": 495,
+      "owner": "downstream-resolver",
+      "pre_existing": false,
+      "requires_verification": true,
+      "reviewers": [
+        "maintainability"
+      ],
+      "severity": "P1",
+      "suggested_fix": "Extract the added input-closure, preflight/workload-binding, and stable-member-coverage verification into a dedicated PerformanceEvidence.fs module, with hashing/fingerprint primitives in a lower compile-order module where shared. Leave Performance.run and its existing CLI/error contract as orchestration over the same checks. Include the new implementation files in protocol fingerprints and regenerate affected current source-bound receipts; do not patch frozen observations.",
+      "title": "File-size regression: performance verifier crosses 1,000 lines",
+      "why_it_matters": "Maintainers must now navigate a 1,338-line module to change allocation policy verification, build-input closure, child-workload binding, or stable-member census rules; the base file had 808 lines. This diff adds 530 lines without separating the independent evidence-verification responsibilities, including a 225-line member-census validator. Separating the evidence subsystem from receipt/budget orchestration provides concrete ownership boundaries and removes the designated file-size regression.",
+      "validation_status": "confirmed",
+      "validation_reason": "At reviewed head e7aea999, counted Performance.fs lines and the supplied-base diff establish growth from 808 to 1338, while the new input-closure, workload-binding and member-census validators occupy distinct blocks called by run at lines 802, 837 and 951, making those evidence-policy changes share the receipt/budget module and satisfying the explicit CE maintainability-reviewer.md:14 file-size regression criterion.",
+      "response_type": "design-decision"
+    },
+    {
+      "#": 3,
+      "autofix_class": "manual",
+      "confidence": 100,
+      "evidence": [
+        "eng/harness/ReleaseVerifyArtifacts.fs:519 -- let private xmlDocumentationInventory (currentBuild: Map<string, string * string> option) (repositoryRoot: string) (paths: string list) : JsonArray =",
+        "Supplied-base/current-staged-tree comparison: a886347 has 944 lines; reviewed active file has 1226 lines. git diff --numstat and complete text line counts were inspected.",
+        "Review criterion from maintainability-prompt.md: - **File-size regression** \u2014 a touched file crossing **1000 lines** because of this diff, or growing materially without decomposition. Flag at **P1** when the diff pushes a file from under 1k to over 1k; at **P2** when already over 1k and the diff adds substantial surface without splitting."
+      ],
+      "file": "eng/harness/ReleaseVerifyArtifacts.fs",
+      "first_evidence": "eng/harness/ReleaseVerifyArtifacts.fs:519 -- let private xmlDocumentationInventory (currentBuild: Map<string, string * string> option) (repositoryRoot: string) (paths: string list) : JsonArray =",
+      "independent_reviewers": [
+        "maintainability"
+      ],
+      "line": 519,
+      "owner": "downstream-resolver",
+      "pre_existing": false,
+      "requires_verification": true,
+      "reviewers": [
+        "maintainability"
+      ],
+      "severity": "P1",
+      "suggested_fix": "Move XML identity formatting, framework XML resolution, and XML inventory entry points into a dedicated ReleaseXmlDocumentation.fs module. Put the reflected API inventory that XML depends on in a lower compile-order module, or move it together with the XML subsystem, so neither extraction introduces a circular dependency. Update existing verifier/semantic-proof callers and XML tests to use the same implementation, and recapture any current build-binding proof invalidated by the source move.",
+      "title": "File-size regression: release artifact verifier crosses 1,000 lines",
+      "why_it_matters": "Release maintainers now have to inspect 1,226 lines spanning environment capture, reflected API rendering, exact XML inheritance/alias resolution, package layouts, and compatibility invocation; the base file had 944 lines. The new XML subsystem adds a large independently defined policy to an already broad artifact module, crossing the designated 1,000-line threshold. Moving that complete subsystem gives XML policy changes a focused owner while retaining the existing release gates.",
+      "validation_status": "confirmed",
+      "validation_reason": "At reviewed head e7aea999, counted ReleaseVerifyArtifacts.fs lines and the supplied-base diff establish growth from 944 to 1226, with the XML identity, framework-resolution and inventory subsystem at lines 445-775 coupled to reflected API loading but housed beside environment, package and compatibility orchestration, so XML-policy maintenance encounters the expanded mixed-responsibility module and satisfies the explicit CE maintainability-reviewer.md:14 file-size regression criterion.",
+      "response_type": "design-decision"
+    },
+    {
+      "#": 4,
+      "autofix_class": "manual",
+      "confidence": 100,
+      "evidence": [
+        "src/FunnySharp/SequenceExtensions.cs:1018 --     public static Option<IReadOnlyDictionary<TKey, TResult>> Traverse<TKey, TValue, TResult>(",
+        "Supplied-base/current-staged-tree comparison: a886347 has 971 lines; reviewed active file has 1287 lines. git diff --numstat and complete text line counts were inspected.",
+        "Review criterion from maintainability-prompt.md: - **File-size regression** \u2014 a touched file crossing **1000 lines** because of this diff, or growing materially without decomposition. Flag at **P1** when the diff pushes a file from under 1k to over 1k; at **P2** when already over 1k and the diff adds substantial surface without splitting."
+      ],
+      "file": "src/FunnySharp/SequenceExtensions.cs",
+      "first_evidence": "src/FunnySharp/SequenceExtensions.cs:1018 --     public static Option<IReadOnlyDictionary<TKey, TResult>> Traverse<TKey, TValue, TResult>(",
+      "independent_reviewers": [
+        "maintainability"
+      ],
+      "line": 1018,
+      "owner": "downstream-resolver",
+      "pre_existing": false,
+      "requires_verification": true,
+      "reviewers": [
+        "maintainability"
+      ],
+      "severity": "P1",
+      "suggested_fix": "Make SequenceExtensions partial and move all IReadOnlyDictionary Traverse overloads, their located counterparts, GetKeyComparer, ToReadOnlyDictionary, and KeyedLocation into SequenceExtensions.Keyed.cs. Keep the declaring type, signatures, XML IDs, and enumerable helpers unchanged; verify keyed traversal and public API/XML equality, then refresh current source-bound evidence affected by the file move.",
+      "title": "File-size regression: sequence extensions cross 1,000 lines",
+      "why_it_matters": "Maintainers now have to navigate 1,287 lines combining ordinary, indexed, keyed, and experimental location-aware traversal to change dictionary key-equality policy; the base file had 971 lines. The six explicit-comparer overloads and their documentation expand the keyed family without separating it from list traversal, crossing the designated 1,000-line threshold. A physical split along the keyed boundary preserves the mirrored carrier implementations without inventing a new public abstraction.",
+      "validation_status": "confirmed",
+      "validation_reason": "At reviewed head e7aea999, counted SequenceExtensions.cs lines and the supplied-base diff establish growth from 971 to 1287, with explicit-comparer keyed overloads and dictionary-only helpers extending the same class that owns ordinary and indexed traversal, so changes to key-equality policy require navigating the enlarged combined family and satisfy the explicit CE maintainability-reviewer.md:14 file-size regression criterion without alleging that the mirrored carrier implementations are themselves defects.",
+      "response_type": "design-decision"
+    },
+    {
+      "#": 5,
+      "autofix_class": "gated_auto",
+      "confidence": 100,
+      "evidence": [
+        "eng/evaluation/comparisons/function-grammar/FunctionGrammarComparisons.csproj:7 --     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>",
+        "AGENTS.md:60 -- - Restores are locked: `packages.lock.json` committed everywhere.",
+        "The complete new FunctionGrammarComparisons.csproj declares FunnySharp 0.2.0 and xunit.v3 4.0.0 package references. git ls-files eng/evaluation/comparisons/function-grammar returns exactly Contract.cs, FunctionGrammarComparisons.csproj, FunnySharpWorkflows.cs, IdiomaticWorkflows.cs, SemanticUnits.json and WorkflowEquivalenceTests.cs, with no packages.lock.json.",
+        "git diff --name-status a8863473fd53eddc7cb47201508426db2e454f84 -- eng/evaluation/comparisons/function-grammar reports those six files as additions; this is a new project in the reviewed tree.",
+        "docs/next-stage/call-sites-audit-resolution.md:42-46 identifies this project as outside the solution and package-consuming. eng/harness/ToolingVerify.fs:270 limits its locked restore to FunnySharp.slnx."
+      ],
+      "file": "eng/evaluation/comparisons/function-grammar/FunctionGrammarComparisons.csproj",
+      "first_evidence": "eng/evaluation/comparisons/function-grammar/FunctionGrammarComparisons.csproj:7 --     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>",
+      "independent_reviewers": [
+        "project-standards"
+      ],
+      "line": 7,
+      "owner": "downstream-resolver",
+      "pre_existing": false,
+      "requires_verification": true,
+      "reviewers": [
+        "project-standards"
+      ],
+      "severity": "P2",
+      "suggested_fix": "Commit packages.lock.json beside FunctionGrammarComparisons.csproj using the exact dependency closure from the retained reviewed equivalence attempt, then verify that project against the matching candidate feed with dotnet restore --locked-mode. Keep the historical attempt receipts unchanged.",
+      "title": "Commit the comparison project restore lock",
+      "why_it_matters": "The new package-consuming comparison project requests a restore lock but does not commit packages.lock.json. A fresh checkout therefore lacks the exact reviewed FunnySharp/xunit dependency graph, and the solution-level locked-restore gate does not cover this outside-solution project. Retaining its reviewed project-specific lock makes the function-workflow comparison reproducible without resolving a new graph or changing shared lock files.",
+      "validation_status": "confirmed",
+      "validation_reason": "For a fresh checkout restoring the newly added FunctionGrammarComparisons.csproj, git ls-files shows all six project files but no packages.lock.json despite its lock-file setting and package references at lines 7-12, violating AGENTS.md's committed-lock requirement and leaving the reviewed graph absent outside ToolingVerify.fs:270's solution-only locked restore; a fresh-checkout restore was not executed.",
+      "response_type": "mechanical-fix"
+    },
+    {
+      "#": 6,
+      "autofix_class": "manual",
+      "confidence": 100,
+      "evidence": [
+        "eng/harness/Evaluation.fs:493 --         if hashFile (Path.Combine(repositoryRoot, relative)) <> hashFile (Path.Combine(snapshot, \"environment\", relative)) then",
+        "eng/harness/Evaluation.fs:492 --     for relative in [ \"global.json\"; \"Directory.Build.props\"; \"build.fsx\"; \"eng/harness/Evaluation.fs\" ] do",
+        "eng/harness/Evaluation.fs:494 --             invalidArg \"environment\" \"runner/build configuration changed after freeze\"",
+        "eng/harness/Evaluation.fs:575 --     let root, manifest, snapshot = loadStudy repositoryRoot study",
+        "build.fsx:406 --                         @ flags ctx [ \"--study\" ]",
+        "build.fsx:407 --                         @ switches [ \"--replay\" ]",
+        "Read-only UTF-8 SHA256 comparison: frozen snapshot/environment/build.fsx = d14fead601ab57cd98046f0c9e2f0592cf1d5723e62a06e126329bb943b8c004; current build.fsx = 01cb2acd86756482622e056be99ecbc40a3473c1a145cd9f887af6849640ac16. Frozen/current Evaluation.fs, Directory.Build.props and global.json match.",
+        "git diff --no-index between the frozen and current entrypoints shows only added #load XmlBuildBindings.fs, #load ReleaseProvenance.fs and the release-provenance pipeline. git diff a886347 -- eng/harness/Evaluation.fs confirms the shared loadStudy equality guard and replay route are added in the reviewed scope."
+      ],
+      "file": "eng/harness/Evaluation.fs",
+      "first_evidence": "eng/harness/Evaluation.fs:493 --         if hashFile (Path.Combine(repositoryRoot, relative)) <> hashFile (Path.Combine(snapshot, \"environment\", relative)) then",
+      "independent_reviewers": [
+        "agent-native"
+      ],
+      "line": 493,
+      "owner": "downstream-resolver",
+      "pre_existing": false,
+      "requires_verification": true,
+      "reviewers": [
+        "agent-native"
+      ],
+      "severity": "P2",
+      "suggested_fix": "Provide a dedicated replay entrypoint that materializes the manifest-bound frozen environment in an isolated replay root and invokes its frozen build.fsx/Evaluation.fs, writing only a fresh replay directory outside results/. Keep the live-environment equality gate for new generation and preserve all historical manifests and rounds. Verify a v6 replay remains possible after unrelated root release-pipeline additions, while changed frozen inputs still fail closed.",
+      "title": "Current entrypoint cannot replay the frozen v6 study",
+      "why_it_matters": "Reviewers using the current eval-verify --study audit-resolution-v6 --replay entrypoint cannot reproduce the retained cohort against its frozen suite: verification exits before any consumer build. loadStudy requires the current root build.fsx to equal its frozen copy, but this same reviewed tree adds release-provenance and XmlBuildBindings wiring after the freeze. The original GREEN records remain historical evidence; a separate frozen-environment replay route is needed to make their correctness independently reproducible without rewriting them.",
+      "validation_status": "confirmed",
+      "validation_reason": "A fresh v6 replay through build.fsx:406-407 reaches bindReplay and the unconditional loadStudy comparison at Evaluation.fs:492-494, where read-only SHA256 probes at e7aea999 found current build.fsx 01cb2acd86756482622e056be99ecbc40a3473c1a145cd9f887af6849640ac16 versus manifest-bound frozen d14fead601ab57cd98046f0c9e2f0592cf1d5723e62a06e126329bb943b8c004, proving rejection before consumer build despite README.md:80-83's subsequent frozen-suite replay route; an end-to-end replay was not executed.",
+      "response_type": "manual-implementation"
+    },
+    {
+      "#": 7,
+      "autofix_class": "gated_auto",
+      "confidence": 100,
+      "evidence": [
+        "src/FunnySharp/Option.cs:436 --     /// <exception cref=\"InvalidOperationException\">Either operand is uninitialized.</exception>",
+        "src/FunnySharp/Option.cs:442 --     /// <exception cref=\"InvalidOperationException\">Either operand is uninitialized.</exception>",
+        "src/FunnySharp/Option.cs:118 --     public static Option<T> None => default;",
+        "src/FunnySharp/Option.cs:420-422 -- Equals(Option<T> other) compares IsSome and only invokes EqualityComparer<T>.Default when IsSome is true; two default operands therefore compare equal without any initialization guard.",
+        "src/FunnySharp/Option.cs:437 --     public static bool operator ==(Option<T> left, Option<T> right) => left.Equals(right);",
+        "src/FunnySharp/Option.cs:443 --     public static bool operator !=(Option<T> left, Option<T> right) => !left.Equals(right);",
+        "docs/audits/goal-24-resolution/stable-api-contracts.json#/sourceRows/C:218 -- default legal None; guard field is none. C:219 likewise records no guard and negated tag/payload equality.",
+        "src/FunnySharp/AGENTS.md -- XML docs are spec: behavioral contracts (single enumeration, cancellation) live in <remarks>. The explicit repair plan R9 requires intentional exception contracts and adequate shipped XML.",
+        "Supplied active.diff adds both exception elements in the Option.cs diff; this is a primary changed-line documentation defect, not a pre-existing runtime equality issue.",
+        "src/FunnySharp/Option.cs:420-422 -- public bool Equals(Option<T> other) => IsSome == other.IsSome && (!IsSome || EqualityComparer<T>.Default.Equals(value!, other.value!));",
+        "tests/FunnySharp.Tests/OptionTests.cs:62-73 -- DefaultAndNoneRepresentAbsenceWhileSomePreservesDefaultValues verifies default is None and compares equal to both None factories; EqualityHashingAndOperatorsFollowPayloadEquality at lines 371-386 covers the operators. These tests were inspected, not executed.",
+        "docs/audits/goal-24-resolution/stable-api-contracts.json:2516 -- C:218 explicitly records \"tag then payload comparer, default legal None\".",
+        "docs/plans/2026-10-01-1103-fix-goal-24-audit-resolution-plan.md: Product Contract R9 requires adequate shipped XML for every stable public member; src/FunnySharp/AGENTS.md states \"XML docs are spec: behavioral contracts (single enumeration, cancellation) live in <remarks>.\""
+      ],
+      "file": "src/FunnySharp/Option.cs",
+      "first_evidence": "src/FunnySharp/Option.cs:436 --     /// <exception cref=\"InvalidOperationException\">Either operand is uninitialized.</exception>",
+      "independent_reviewers": [
+        "correctness",
+        "api-contract"
+      ],
+      "line": 436,
+      "owner": "downstream-resolver",
+      "pre_existing": false,
+      "requires_verification": true,
+      "reviewers": [
+        "correctness",
+        "api-contract"
+      ],
+      "severity": "P2",
+      "suggested_fix": "Remove the InvalidOperationException exception elements from both Option<T> equality operators at Option.cs:436 and Option.cs:442. Retain the existing default-as-None runtime behavior and comparer-exception propagation; recheck the shipped XML against stable API crosswalk rows C:218 and C:219, without adding prose-pinning tests.",
+      "title": "Option equality XML falsely declares invalid default state",
+      "why_it_matters": "Consumers reading the shipped equality documentation are told that a default Option operand throws InvalidOperationException, although default Option is the valid None value: default(Option<int>) == Option<int>.None returns true and the corresponding inequality returns false. Both newly added exception elements contradict the implementation and the C:218/C:219 stable API crosswalk, leaving the Goal 24 exception/XML contract repair inaccurate for these public members. Removing the two invalid-state exception claims preserves the accepted default-as-None behavior and keeps user-comparer exceptions distinct from a nonexistent carrier initialization guard.",
+      "validation_status": "confirmed",
+      "validation_reason": "When either equality operand is default Option<T>, Option.cs:118 defines that state as legal None and lines 420-443 compare its false IsSome tag without an initialization guard, so the diff-added InvalidOperationException claims at lines 436 and 442 misdocument shipped operator behavior and contradict R9 and stable crosswalk rows C:218/C:219; the supporting OptionTests were inspected but not executed.",
+      "protected_subject": "public-contract",
+      "response_type": "mechanical-fix"
+    }
+  ],
+  "actionable_findings": [
+    {
+      "#": 1,
+      "autofix_class": "manual",
+      "confidence": 100,
+      "evidence": [
+        "eng/harness/Evaluation.fs:367 -- let private freezeStudy repositoryRoot study (feed: string) =",
+        "Supplied-base/current-staged-tree comparison: a886347 has 636 lines; reviewed active file has 1109 lines. git diff --numstat and complete text line counts were inspected.",
+        "Review criterion from maintainability-prompt.md: - **File-size regression** \u2014 a touched file crossing **1000 lines** because of this diff, or growing materially without decomposition. Flag at **P1** when the diff pushes a file from under 1k to over 1k; at **P2** when already over 1k and the diff adds substantial surface without splitting."
+      ],
+      "file": "eng/harness/Evaluation.fs",
+      "first_evidence": "eng/harness/Evaluation.fs:367 -- let private freezeStudy repositoryRoot study (feed: string) =",
+      "independent_reviewers": [
+        "maintainability"
+      ],
+      "line": 367,
+      "owner": "downstream-resolver",
+      "pre_existing": false,
+      "requires_verification": true,
+      "reviewers": [
+        "maintainability"
+      ],
+      "severity": "P1",
+      "suggested_fix": "Extract study freezing/loading/binding (including StudyBinding and their private helpers) into an EvaluationStudy.fs module compiled before Evaluation.fs. Keep prep-feed/verify/aggregate entry points and immutable-round behavior intact, and preserve injected process/environment collaborators. Extend future snapshot dependency lists to include the extracted module; retain frozen v1-v6 bytes and recapture affected current proof rather than rewriting historical manifests.",
+      "title": "File-size regression: evaluation runner crosses 1,000 lines",
+      "why_it_matters": "Maintainers now have to change study freezing and producer-input authentication in the same 1,109-line module that owns packing, build/test execution, aggregation, and CLI parsing; the base file had 636 lines. The added study subsystem has a bounded interface through StudyBinding and is separable from those existing responsibilities. Extracting it keeps the active runner below the designated 1,000-line review threshold without treating immutable historical snapshots as code to refactor.",
+      "validation_status": "confirmed",
+      "validation_reason": "At reviewed head e7aea999, counted Evaluation.fs lines and the supplied-base diff establish growth from 636 to 1109, with freezeStudy, loadStudy, bindStudy and bindReplay added beside packing, verification, aggregation and CLI orchestration, so changing study policy now requires navigating the combined module and satisfies the explicit CE maintainability-reviewer.md:14 file-size regression criterion.",
+      "response_type": "design-decision"
+    },
+    {
+      "#": 2,
+      "autofix_class": "manual",
+      "confidence": 100,
+      "evidence": [
+        "eng/harness/Performance.fs:495 -- let private verifyStableMemberCoverage (root: string) : Map<string, string> =",
+        "Supplied-base/current-staged-tree comparison: a886347 has 808 lines; reviewed active file has 1338 lines. git diff --numstat and complete text line counts were inspected.",
+        "Review criterion from maintainability-prompt.md: - **File-size regression** \u2014 a touched file crossing **1000 lines** because of this diff, or growing materially without decomposition. Flag at **P1** when the diff pushes a file from under 1k to over 1k; at **P2** when already over 1k and the diff adds substantial surface without splitting."
+      ],
+      "file": "eng/harness/Performance.fs",
+      "first_evidence": "eng/harness/Performance.fs:495 -- let private verifyStableMemberCoverage (root: string) : Map<string, string> =",
+      "independent_reviewers": [
+        "maintainability"
+      ],
+      "line": 495,
+      "owner": "downstream-resolver",
+      "pre_existing": false,
+      "requires_verification": true,
+      "reviewers": [
+        "maintainability"
+      ],
+      "severity": "P1",
+      "suggested_fix": "Extract the added input-closure, preflight/workload-binding, and stable-member-coverage verification into a dedicated PerformanceEvidence.fs module, with hashing/fingerprint primitives in a lower compile-order module where shared. Leave Performance.run and its existing CLI/error contract as orchestration over the same checks. Include the new implementation files in protocol fingerprints and regenerate affected current source-bound receipts; do not patch frozen observations.",
+      "title": "File-size regression: performance verifier crosses 1,000 lines",
+      "why_it_matters": "Maintainers must now navigate a 1,338-line module to change allocation policy verification, build-input closure, child-workload binding, or stable-member census rules; the base file had 808 lines. This diff adds 530 lines without separating the independent evidence-verification responsibilities, including a 225-line member-census validator. Separating the evidence subsystem from receipt/budget orchestration provides concrete ownership boundaries and removes the designated file-size regression.",
+      "validation_status": "confirmed",
+      "validation_reason": "At reviewed head e7aea999, counted Performance.fs lines and the supplied-base diff establish growth from 808 to 1338, while the new input-closure, workload-binding and member-census validators occupy distinct blocks called by run at lines 802, 837 and 951, making those evidence-policy changes share the receipt/budget module and satisfying the explicit CE maintainability-reviewer.md:14 file-size regression criterion.",
+      "response_type": "design-decision"
+    },
+    {
+      "#": 3,
+      "autofix_class": "manual",
+      "confidence": 100,
+      "evidence": [
+        "eng/harness/ReleaseVerifyArtifacts.fs:519 -- let private xmlDocumentationInventory (currentBuild: Map<string, string * string> option) (repositoryRoot: string) (paths: string list) : JsonArray =",
+        "Supplied-base/current-staged-tree comparison: a886347 has 944 lines; reviewed active file has 1226 lines. git diff --numstat and complete text line counts were inspected.",
+        "Review criterion from maintainability-prompt.md: - **File-size regression** \u2014 a touched file crossing **1000 lines** because of this diff, or growing materially without decomposition. Flag at **P1** when the diff pushes a file from under 1k to over 1k; at **P2** when already over 1k and the diff adds substantial surface without splitting."
+      ],
+      "file": "eng/harness/ReleaseVerifyArtifacts.fs",
+      "first_evidence": "eng/harness/ReleaseVerifyArtifacts.fs:519 -- let private xmlDocumentationInventory (currentBuild: Map<string, string * string> option) (repositoryRoot: string) (paths: string list) : JsonArray =",
+      "independent_reviewers": [
+        "maintainability"
+      ],
+      "line": 519,
+      "owner": "downstream-resolver",
+      "pre_existing": false,
+      "requires_verification": true,
+      "reviewers": [
+        "maintainability"
+      ],
+      "severity": "P1",
+      "suggested_fix": "Move XML identity formatting, framework XML resolution, and XML inventory entry points into a dedicated ReleaseXmlDocumentation.fs module. Put the reflected API inventory that XML depends on in a lower compile-order module, or move it together with the XML subsystem, so neither extraction introduces a circular dependency. Update existing verifier/semantic-proof callers and XML tests to use the same implementation, and recapture any current build-binding proof invalidated by the source move.",
+      "title": "File-size regression: release artifact verifier crosses 1,000 lines",
+      "why_it_matters": "Release maintainers now have to inspect 1,226 lines spanning environment capture, reflected API rendering, exact XML inheritance/alias resolution, package layouts, and compatibility invocation; the base file had 944 lines. The new XML subsystem adds a large independently defined policy to an already broad artifact module, crossing the designated 1,000-line threshold. Moving that complete subsystem gives XML policy changes a focused owner while retaining the existing release gates.",
+      "validation_status": "confirmed",
+      "validation_reason": "At reviewed head e7aea999, counted ReleaseVerifyArtifacts.fs lines and the supplied-base diff establish growth from 944 to 1226, with the XML identity, framework-resolution and inventory subsystem at lines 445-775 coupled to reflected API loading but housed beside environment, package and compatibility orchestration, so XML-policy maintenance encounters the expanded mixed-responsibility module and satisfies the explicit CE maintainability-reviewer.md:14 file-size regression criterion.",
+      "response_type": "design-decision"
+    },
+    {
+      "#": 4,
+      "autofix_class": "manual",
+      "confidence": 100,
+      "evidence": [
+        "src/FunnySharp/SequenceExtensions.cs:1018 --     public static Option<IReadOnlyDictionary<TKey, TResult>> Traverse<TKey, TValue, TResult>(",
+        "Supplied-base/current-staged-tree comparison: a886347 has 971 lines; reviewed active file has 1287 lines. git diff --numstat and complete text line counts were inspected.",
+        "Review criterion from maintainability-prompt.md: - **File-size regression** \u2014 a touched file crossing **1000 lines** because of this diff, or growing materially without decomposition. Flag at **P1** when the diff pushes a file from under 1k to over 1k; at **P2** when already over 1k and the diff adds substantial surface without splitting."
+      ],
+      "file": "src/FunnySharp/SequenceExtensions.cs",
+      "first_evidence": "src/FunnySharp/SequenceExtensions.cs:1018 --     public static Option<IReadOnlyDictionary<TKey, TResult>> Traverse<TKey, TValue, TResult>(",
+      "independent_reviewers": [
+        "maintainability"
+      ],
+      "line": 1018,
+      "owner": "downstream-resolver",
+      "pre_existing": false,
+      "requires_verification": true,
+      "reviewers": [
+        "maintainability"
+      ],
+      "severity": "P1",
+      "suggested_fix": "Make SequenceExtensions partial and move all IReadOnlyDictionary Traverse overloads, their located counterparts, GetKeyComparer, ToReadOnlyDictionary, and KeyedLocation into SequenceExtensions.Keyed.cs. Keep the declaring type, signatures, XML IDs, and enumerable helpers unchanged; verify keyed traversal and public API/XML equality, then refresh current source-bound evidence affected by the file move.",
+      "title": "File-size regression: sequence extensions cross 1,000 lines",
+      "why_it_matters": "Maintainers now have to navigate 1,287 lines combining ordinary, indexed, keyed, and experimental location-aware traversal to change dictionary key-equality policy; the base file had 971 lines. The six explicit-comparer overloads and their documentation expand the keyed family without separating it from list traversal, crossing the designated 1,000-line threshold. A physical split along the keyed boundary preserves the mirrored carrier implementations without inventing a new public abstraction.",
+      "validation_status": "confirmed",
+      "validation_reason": "At reviewed head e7aea999, counted SequenceExtensions.cs lines and the supplied-base diff establish growth from 971 to 1287, with explicit-comparer keyed overloads and dictionary-only helpers extending the same class that owns ordinary and indexed traversal, so changes to key-equality policy require navigating the enlarged combined family and satisfy the explicit CE maintainability-reviewer.md:14 file-size regression criterion without alleging that the mirrored carrier implementations are themselves defects.",
+      "response_type": "design-decision"
+    },
+    {
+      "#": 5,
+      "autofix_class": "gated_auto",
+      "confidence": 100,
+      "evidence": [
+        "eng/evaluation/comparisons/function-grammar/FunctionGrammarComparisons.csproj:7 --     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>",
+        "AGENTS.md:60 -- - Restores are locked: `packages.lock.json` committed everywhere.",
+        "The complete new FunctionGrammarComparisons.csproj declares FunnySharp 0.2.0 and xunit.v3 4.0.0 package references. git ls-files eng/evaluation/comparisons/function-grammar returns exactly Contract.cs, FunctionGrammarComparisons.csproj, FunnySharpWorkflows.cs, IdiomaticWorkflows.cs, SemanticUnits.json and WorkflowEquivalenceTests.cs, with no packages.lock.json.",
+        "git diff --name-status a8863473fd53eddc7cb47201508426db2e454f84 -- eng/evaluation/comparisons/function-grammar reports those six files as additions; this is a new project in the reviewed tree.",
+        "docs/next-stage/call-sites-audit-resolution.md:42-46 identifies this project as outside the solution and package-consuming. eng/harness/ToolingVerify.fs:270 limits its locked restore to FunnySharp.slnx."
+      ],
+      "file": "eng/evaluation/comparisons/function-grammar/FunctionGrammarComparisons.csproj",
+      "first_evidence": "eng/evaluation/comparisons/function-grammar/FunctionGrammarComparisons.csproj:7 --     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>",
+      "independent_reviewers": [
+        "project-standards"
+      ],
+      "line": 7,
+      "owner": "downstream-resolver",
+      "pre_existing": false,
+      "requires_verification": true,
+      "reviewers": [
+        "project-standards"
+      ],
+      "severity": "P2",
+      "suggested_fix": "Commit packages.lock.json beside FunctionGrammarComparisons.csproj using the exact dependency closure from the retained reviewed equivalence attempt, then verify that project against the matching candidate feed with dotnet restore --locked-mode. Keep the historical attempt receipts unchanged.",
+      "title": "Commit the comparison project restore lock",
+      "why_it_matters": "The new package-consuming comparison project requests a restore lock but does not commit packages.lock.json. A fresh checkout therefore lacks the exact reviewed FunnySharp/xunit dependency graph, and the solution-level locked-restore gate does not cover this outside-solution project. Retaining its reviewed project-specific lock makes the function-workflow comparison reproducible without resolving a new graph or changing shared lock files.",
+      "validation_status": "confirmed",
+      "validation_reason": "For a fresh checkout restoring the newly added FunctionGrammarComparisons.csproj, git ls-files shows all six project files but no packages.lock.json despite its lock-file setting and package references at lines 7-12, violating AGENTS.md's committed-lock requirement and leaving the reviewed graph absent outside ToolingVerify.fs:270's solution-only locked restore; a fresh-checkout restore was not executed.",
+      "response_type": "mechanical-fix"
+    },
+    {
+      "#": 6,
+      "autofix_class": "manual",
+      "confidence": 100,
+      "evidence": [
+        "eng/harness/Evaluation.fs:493 --         if hashFile (Path.Combine(repositoryRoot, relative)) <> hashFile (Path.Combine(snapshot, \"environment\", relative)) then",
+        "eng/harness/Evaluation.fs:492 --     for relative in [ \"global.json\"; \"Directory.Build.props\"; \"build.fsx\"; \"eng/harness/Evaluation.fs\" ] do",
+        "eng/harness/Evaluation.fs:494 --             invalidArg \"environment\" \"runner/build configuration changed after freeze\"",
+        "eng/harness/Evaluation.fs:575 --     let root, manifest, snapshot = loadStudy repositoryRoot study",
+        "build.fsx:406 --                         @ flags ctx [ \"--study\" ]",
+        "build.fsx:407 --                         @ switches [ \"--replay\" ]",
+        "Read-only UTF-8 SHA256 comparison: frozen snapshot/environment/build.fsx = d14fead601ab57cd98046f0c9e2f0592cf1d5723e62a06e126329bb943b8c004; current build.fsx = 01cb2acd86756482622e056be99ecbc40a3473c1a145cd9f887af6849640ac16. Frozen/current Evaluation.fs, Directory.Build.props and global.json match.",
+        "git diff --no-index between the frozen and current entrypoints shows only added #load XmlBuildBindings.fs, #load ReleaseProvenance.fs and the release-provenance pipeline. git diff a886347 -- eng/harness/Evaluation.fs confirms the shared loadStudy equality guard and replay route are added in the reviewed scope."
+      ],
+      "file": "eng/harness/Evaluation.fs",
+      "first_evidence": "eng/harness/Evaluation.fs:493 --         if hashFile (Path.Combine(repositoryRoot, relative)) <> hashFile (Path.Combine(snapshot, \"environment\", relative)) then",
+      "independent_reviewers": [
+        "agent-native"
+      ],
+      "line": 493,
+      "owner": "downstream-resolver",
+      "pre_existing": false,
+      "requires_verification": true,
+      "reviewers": [
+        "agent-native"
+      ],
+      "severity": "P2",
+      "suggested_fix": "Provide a dedicated replay entrypoint that materializes the manifest-bound frozen environment in an isolated replay root and invokes its frozen build.fsx/Evaluation.fs, writing only a fresh replay directory outside results/. Keep the live-environment equality gate for new generation and preserve all historical manifests and rounds. Verify a v6 replay remains possible after unrelated root release-pipeline additions, while changed frozen inputs still fail closed.",
+      "title": "Current entrypoint cannot replay the frozen v6 study",
+      "why_it_matters": "Reviewers using the current eval-verify --study audit-resolution-v6 --replay entrypoint cannot reproduce the retained cohort against its frozen suite: verification exits before any consumer build. loadStudy requires the current root build.fsx to equal its frozen copy, but this same reviewed tree adds release-provenance and XmlBuildBindings wiring after the freeze. The original GREEN records remain historical evidence; a separate frozen-environment replay route is needed to make their correctness independently reproducible without rewriting them.",
+      "validation_status": "confirmed",
+      "validation_reason": "A fresh v6 replay through build.fsx:406-407 reaches bindReplay and the unconditional loadStudy comparison at Evaluation.fs:492-494, where read-only SHA256 probes at e7aea999 found current build.fsx 01cb2acd86756482622e056be99ecbc40a3473c1a145cd9f887af6849640ac16 versus manifest-bound frozen d14fead601ab57cd98046f0c9e2f0592cf1d5723e62a06e126329bb943b8c004, proving rejection before consumer build despite README.md:80-83's subsequent frozen-suite replay route; an end-to-end replay was not executed.",
+      "response_type": "manual-implementation"
+    },
+    {
+      "#": 7,
+      "autofix_class": "gated_auto",
+      "confidence": 100,
+      "evidence": [
+        "src/FunnySharp/Option.cs:436 --     /// <exception cref=\"InvalidOperationException\">Either operand is uninitialized.</exception>",
+        "src/FunnySharp/Option.cs:442 --     /// <exception cref=\"InvalidOperationException\">Either operand is uninitialized.</exception>",
+        "src/FunnySharp/Option.cs:118 --     public static Option<T> None => default;",
+        "src/FunnySharp/Option.cs:420-422 -- Equals(Option<T> other) compares IsSome and only invokes EqualityComparer<T>.Default when IsSome is true; two default operands therefore compare equal without any initialization guard.",
+        "src/FunnySharp/Option.cs:437 --     public static bool operator ==(Option<T> left, Option<T> right) => left.Equals(right);",
+        "src/FunnySharp/Option.cs:443 --     public static bool operator !=(Option<T> left, Option<T> right) => !left.Equals(right);",
+        "docs/audits/goal-24-resolution/stable-api-contracts.json#/sourceRows/C:218 -- default legal None; guard field is none. C:219 likewise records no guard and negated tag/payload equality.",
+        "src/FunnySharp/AGENTS.md -- XML docs are spec: behavioral contracts (single enumeration, cancellation) live in <remarks>. The explicit repair plan R9 requires intentional exception contracts and adequate shipped XML.",
+        "Supplied active.diff adds both exception elements in the Option.cs diff; this is a primary changed-line documentation defect, not a pre-existing runtime equality issue.",
+        "src/FunnySharp/Option.cs:420-422 -- public bool Equals(Option<T> other) => IsSome == other.IsSome && (!IsSome || EqualityComparer<T>.Default.Equals(value!, other.value!));",
+        "tests/FunnySharp.Tests/OptionTests.cs:62-73 -- DefaultAndNoneRepresentAbsenceWhileSomePreservesDefaultValues verifies default is None and compares equal to both None factories; EqualityHashingAndOperatorsFollowPayloadEquality at lines 371-386 covers the operators. These tests were inspected, not executed.",
+        "docs/audits/goal-24-resolution/stable-api-contracts.json:2516 -- C:218 explicitly records \"tag then payload comparer, default legal None\".",
+        "docs/plans/2026-10-01-1103-fix-goal-24-audit-resolution-plan.md: Product Contract R9 requires adequate shipped XML for every stable public member; src/FunnySharp/AGENTS.md states \"XML docs are spec: behavioral contracts (single enumeration, cancellation) live in <remarks>.\""
+      ],
+      "file": "src/FunnySharp/Option.cs",
+      "first_evidence": "src/FunnySharp/Option.cs:436 --     /// <exception cref=\"InvalidOperationException\">Either operand is uninitialized.</exception>",
+      "independent_reviewers": [
+        "correctness",
+        "api-contract"
+      ],
+      "line": 436,
+      "owner": "downstream-resolver",
+      "pre_existing": false,
+      "requires_verification": true,
+      "reviewers": [
+        "correctness",
+        "api-contract"
+      ],
+      "severity": "P2",
+      "suggested_fix": "Remove the InvalidOperationException exception elements from both Option<T> equality operators at Option.cs:436 and Option.cs:442. Retain the existing default-as-None runtime behavior and comparer-exception propagation; recheck the shipped XML against stable API crosswalk rows C:218 and C:219, without adding prose-pinning tests.",
+      "title": "Option equality XML falsely declares invalid default state",
+      "why_it_matters": "Consumers reading the shipped equality documentation are told that a default Option operand throws InvalidOperationException, although default Option is the valid None value: default(Option<int>) == Option<int>.None returns true and the corresponding inequality returns false. Both newly added exception elements contradict the implementation and the C:218/C:219 stable API crosswalk, leaving the Goal 24 exception/XML contract repair inaccurate for these public members. Removing the two invalid-state exception claims preserves the accepted default-as-None behavior and keeps user-comparer exceptions distinct from a nonexistent carrier initialization guard.",
+      "validation_status": "confirmed",
+      "validation_reason": "When either equality operand is default Option<T>, Option.cs:118 defines that state as legal None and lines 420-443 compare its false IsSome tag without an initialization guard, so the diff-added InvalidOperationException claims at lines 436 and 442 misdocument shipped operator behavior and contradict R9 and stable crosswalk rows C:218/C:219; the supporting OptionTests were inspected but not executed.",
+      "protected_subject": "public-contract",
+      "response_type": "mechanical-fix"
+    }
+  ],
+  "triage_groups": [
+    {
+      "title": "Separate active verification and traversal subsystems",
+      "findings": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "context": "Decision-gate: four active files cross the explicit reviewer structural threshold; no user decision on these refactors has been made, and frozen snapshot copies are not refactor targets.",
+      "preferred_resolution": "Parent chooses and validates the bounded extraction seams before implementation. Proposed splits separate active study, performance evidence, XML inventory and keyed traversal; preserve public members and recapture affected current proof without changing immutable history.",
+      "why": "This gives distinct policies focused implementation boundaries; any current source-bound proof invalidated by a move must be recaptured, never rewritten."
+    },
+    {
+      "title": "Make the retained evaluation reproducible",
+      "findings": [
+        5,
+        6
+      ],
+      "context": "Apply-queue requiring parent judgment: the comparison lock and isolated frozen replay close distinct reproducibility gaps; the later portable bridge is outside this round.",
+      "preferred_resolution": "Retain the exact reviewed comparison dependency closure and provide an isolated manifest-bound frozen-environment replay route without weakening the new-generation environment guard.",
+      "why": "The lock and replay runner close different reproducibility gaps; neither substitutes for the other or reclassifies historical cohorts as fresh samples."
+    }
+  ],
+  "pre_existing_findings": [],
+  "requirements_completeness": {
+    "plan_path": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/docs/plans/2026-10-01-1103-fix-goal-24-audit-resolution-plan.md",
+    "plan_source": "explicit",
+    "basis": "Implementation/diff presence checked against the plan, complete 6,664-path recorded inventory and grounded source/validator evidence. Met means requested work is represented, not fresh execution or exhaustive acceptance of every evidence chain.",
+    "requirements": [
+      {
+        "id": "R1",
+        "text": "Account for every original FAIL/UNVERIFIED ID once in a separate current-resolution ledger, retaining the original audit and archived contracts.",
+        "status": "met",
+        "note": "Current 69-row accounting preserves the 40 FAIL/29 UNVERIFIED originals; earlier whole-goal APPROVE belongs to product d8744."
+      },
+      {
+        "id": "R2",
+        "text": "Preserve existing lazy Recover and Lens.Compose(Optional) APIs while accurately superseding current authority prose and completing stable vocabulary.",
+        "status": "met",
+        "note": "Authority and vocabulary changes preserve accepted Recover and partial-optic semantics."
+      },
+      {
+        "id": "R3",
+        "text": "Valid keyed traversal preserves the accepted key-equality policy and accepts empty-string location keys; arbitrary opaque equality requires an explicit owner-set contract.",
+        "status": "met",
+        "note": "Supported comparers, explicit opaque-source paths and empty-string keys appear; #4 concerns structural growth."
+      },
+      {
+        "id": "R4",
+        "text": "Preserve cancellation before ordered publication; bound FirstSuccess admission, handle every completion once, propagate independent faults and drain all started work, retaining Validation and existing signatures.",
+        "status": "met",
+        "note": "Bounded indexed completion, loser drain/faults and cancellation-before-publication with causal controls appear."
+      },
+      {
+        "id": "R5",
+        "text": "Packaged analyzers diagnose empty invalid initializers, offer only semantically safe discard fixes and keep proven completed/single-consumption ValueTask paths quiet.",
+        "status": "met",
+        "note": "All three analyzer/code-fix repair mechanisms and bounded controls appear."
+      },
+      {
+        "id": "R6",
+        "text": "Actual typed reconciliation 500 appears in the same application OpenAPI; official slice verification restores through a faithful isolated package-source configuration.",
+        "status": "met",
+        "note": "Typed 500/OpenAPI and isolated faithful restore configuration appear; retained HTTP observations were not rerun."
+      },
+      {
+        "id": "R7",
+        "text": "Current performance characteristics, equivalent baselines, source/workload binding and available raw receipts support every claim while preserving allocation ceilings.",
+        "status": "met",
+        "note": "Costs, source/workload binding and successor coverage appear with unchanged ceilings; no new raw measurement or timing superiority is claimed."
+      },
+      {
+        "id": "R8",
+        "text": "Equivalent function studies and fresh independent AI runs retain complete inputs, corrections, outcomes and attributable review; negative results remain negative.",
+        "status": "partially addressed",
+        "note": "Comparison/cohort work appears but the missing comparison lock (#5) and current frozen-replay rejection (#6) remain.",
+        "findings": [
+          5,
+          6
+        ]
+      },
+      {
+        "id": "R9",
+        "text": "Every stable public member has intentional names, nullability, exceptions, sync/async relationships and adequate shipped XML joined to package/source/test evidence.",
+        "status": "partially addressed",
+        "note": "Stable API/XML crosswalk appears but operator exception XML is inaccurate (#7); #3 concerns structure.",
+        "findings": [
+          7
+        ]
+      },
+      {
+        "id": "R10",
+        "text": "Required release contexts enforce merge denial without bypass and exact immutable package/attestation/index evidence is retrievable and candidate-bound.",
+        "status": "met",
+        "note": "Enforcement/P-A-I code and accepted d8744 successors are represented; no new live e7 verification ran."
+      }
+    ],
+    "implementation_units": [
+      {
+        "id": "U1",
+        "title": "Correct the accepted grammar and remediation authority",
+        "status": "met",
+        "requirements": [
+          "R1",
+          "R2"
+        ],
+        "note": "Current authority/grammar and preview changes appear."
+      },
+      {
+        "id": "U2",
+        "title": "Preserve keyed traversal equality explicitly",
+        "status": "met",
+        "requirements": [
+          "R3"
+        ],
+        "note": "Comparer overloads and supported equality-policy retention appear; #4 extraction is undecided."
+      },
+      {
+        "id": "U3",
+        "title": "Accept empty string dictionary locations",
+        "status": "met",
+        "requirements": [
+          "R3"
+        ],
+        "note": "Empty-string locations and located-carrier tests appear."
+      },
+      {
+        "id": "U4",
+        "title": "Prevent ordered publication after cancellation",
+        "status": "met",
+        "requirements": [
+          "R4"
+        ],
+        "note": "Cancellation check precedes ordered Current publication."
+      },
+      {
+        "id": "U5",
+        "title": "Bound FirstSuccess with linear completion accounting",
+        "status": "met",
+        "requirements": [
+          "R4"
+        ],
+        "note": "Indexed bounded FirstSuccess, compatibility cap and explicit bound appear."
+      },
+      {
+        "id": "U6",
+        "title": "Replace timed ordering evidence with causal signals",
+        "status": "met",
+        "requirements": [
+          "R4"
+        ],
+        "note": "Causal ordering fixtures replace timed absence in the inspected tests."
+      },
+      {
+        "id": "U7",
+        "title": "Repair packaged analyzer diagnostics and safe fixes",
+        "status": "met",
+        "requirements": [
+          "R5"
+        ],
+        "note": "All three analyzer/code-fix repair tracks and test controls appear."
+      },
+      {
+        "id": "U8",
+        "title": "Make reconciliation and official consumer verification faithful",
+        "status": "met",
+        "requirements": [
+          "R6"
+        ],
+        "note": "Endpoint 500/OpenAPI and isolated restore configuration appear."
+      },
+      {
+        "id": "U9",
+        "title": "Publish accurate member-specific cost guidance",
+        "status": "met",
+        "requirements": [
+          "R7"
+        ],
+        "note": "Member-specific cost guidance and generated-table verifier appear."
+      },
+      {
+        "id": "U10",
+        "title": "Make benchmark equivalence and binding fail closed",
+        "status": "met",
+        "requirements": [
+          "R7"
+        ],
+        "note": "Benchmark semantic preflight and exact build/workload binding appear."
+      },
+      {
+        "id": "U11",
+        "title": "Execute equivalent function-workflow comparisons",
+        "status": "partially addressed",
+        "requirements": [
+          "R8"
+        ],
+        "note": "Seven-pair comparison implementation appears; #5 project-specific lock remains absent.",
+        "findings": [
+          5
+        ]
+      },
+      {
+        "id": "U12",
+        "title": "Create traceable deterministic AI evidence",
+        "status": "partially addressed",
+        "requirements": [
+          "R8"
+        ],
+        "note": "Traceable freeze/producer/oracle/round evidence appears; #6 current-entrypoint frozen replay remains blocked.",
+        "findings": [
+          6
+        ]
+      },
+      {
+        "id": "U13",
+        "title": "Verify fresh performance receipts and resource coverage",
+        "status": "met",
+        "requirements": [
+          "R7"
+        ],
+        "note": "Stable-member coverage and three paired successor repetitions are represented; external raw numeric measurements were not rerun."
+      },
+      {
+        "id": "U14",
+        "title": "Close stable API semantic and XML crosswalks",
+        "status": "partially addressed",
+        "requirements": [
+          "R9"
+        ],
+        "note": "Stable API/XML crosswalk and package binding appear; #7 operator exception prose remains inaccurate.",
+        "findings": [
+          7
+        ]
+      },
+      {
+        "id": "U15",
+        "title": "Prove authorized release enforcement and P A I provenance",
+        "status": "met",
+        "requirements": [
+          "R10"
+        ],
+        "note": "Release/enforcement/provenance implementations and d8744 successor accounting appear; no new remote exercise ran in this review."
+      },
+      {
+        "id": "U16",
+        "title": "Reconcile all findings and freeze the final verdict",
+        "status": "met",
+        "requirements": [
+          "R1",
+          "R2",
+          "R3",
+          "R4",
+          "R5",
+          "R6",
+          "R7",
+          "R8",
+          "R9",
+          "R10"
+        ],
+        "note": "Three staged accounting files record actual original-row dispositions and earlier whole-goal gate; e7 CE fixes, new portable bridge, publication and cleanup remain parent-owned."
+      }
+    ],
+    "unaddressed_requirements": [],
+    "unaddressed_implementation_units": [],
+    "reverse_check": {
+      "unrequested_behavior_rules": [],
+      "note": "No additional unrequested behavior rule was identified in the inspected current comparer, cancellation, first-success, analyzer, HTTP, evaluation, performance and release mechanisms. The fixed compatibility cap and explicit comparer paths are covered by the plan. Archived repetitions and every transitive proof were not exhaustively inspected."
+    }
+  },
+  "learnings": [],
+  "agent_native_gaps": [],
+  "deployment_notes": [],
+  "residual_risks": [],
+  "testing_gaps": [
+    "Multipart production-shape fidelity: StageBundleCliPackStageRoundTrip at tests/FunnySharp.Harness.Tests/ReleaseProvenanceTests.fs:417 uses StageBundleFixture, whose P.json at lines 269-273 intentionally omits the real producer run/jobs/finalFeedChecks and substitutes textual payloads for a package. StageBundlePreservesLegacyRootArtifactAndInlineInput at lines 325-343 exercises freeze-producer output only through the legacy artifact route, while the existing actual-upload index tests exercise that route separately. Add one integration case carrying Fixture's frozen P and corresponding A through pack-stage-bundle, multipart stage-attestation, and write-index, preserving all attachments and checking the actual uploaded bytes. The existing synthetic CLI test proves streaming and byte transport, as docs/harness.md:113 explicitly says, rather than complete publication acceptance."
+  ],
+  "coverage": {
+    "depth": "full",
+    "cross_model": {
+      "outcome": "in-process-fallback",
+      "coverage": "Cross-modelpassnotrun: nativeOmO/Senpi requestedPI_MODELgpt-6.1-sol hasnoattestableupstreamservingfamily;in-processadversariallensrun;noindependencepromotion.",
+      "independence_verified": false,
+      "confidence_promotion": 0
+    },
+    "validator": {
+      "outcome": "verdicts",
+      "batches": 1,
+      "selected": 7,
+      "confirmed": 7,
+      "rejected": 0,
+      "unresolved": 0,
+      "malformed": 0,
+      "failed": 0,
+      "shortcut_skipped": 0,
+      "skip_evidence_basis": "No finding has an ordinary reviewer plus an adversarial-<provider> artifact with independence_verified:true. The peer outcome is in-process-fallback with no attestable serving family; same-model correctness/api-contract agreement does not qualify. All primary findings require validator consideration.",
+      "bound_exceeded": false,
+      "degraded_blockers": [],
+      "protected_subject_reclassifications": [],
+      "verdicts_path": "Q:/tmp/compound-engineering-lhan/ce-code-review/20261004-goal24-pr33-prepush/validator-verdicts.json",
+      "incidence_limit": "Confirmations are grounded in source and read-only probes. #5 fresh-checkout restore, #6 end-to-end replay and #7 OptionTests were not executed; #1-#4 establish structural growth, not observed runtime failures."
+    },
+    "mechanics": {
+      "input_count": 8,
+      "final_primary_count": 7,
+      "semantic_duplicate_count": 1,
+      "first_evidence_backfilled": 8,
+      "malformed_findings": 0,
+      "malformed_returns": 0,
+      "suppressed_by_confidence": {},
+      "mode_aware_demotion_count": 0,
+      "rejected_count": 0,
+      "quote_gate_demotions": 0,
+      "settled_decision_discards": 0
+    },
+    "standards": {
+      "criteria_paths": [
+        ".github/workflows/AGENTS.md",
+        "AGENTS.md",
+        "benchmarks/AGENTS.md",
+        "docs/AGENTS.md",
+        "docs/goals/AGENTS.md",
+        "docs/next-stage/AGENTS.md",
+        "docs/plans/AGENTS.md",
+        "eng/AGENTS.md",
+        "eng/evaluation/AGENTS.md",
+        "src/FunnySharp.Analyzers/AGENTS.md",
+        "src/FunnySharp.AspNetCore/AGENTS.md",
+        "src/FunnySharp/AGENTS.md",
+        "tests/FunnySharp.Analyzers.Tests/AGENTS.md",
+        "tests/FunnySharp.AspNetCore.Tests/AGENTS.md",
+        "tests/FunnySharp.Compatibility/AGENTS.md",
+        "tests/FunnySharp.Tests/AGENTS.md",
+        "tests/FunnySharp.VerticalSlice/AGENTS.md"
+      ],
+      "mapping_source": "Q:/tmp/compound-engineering-lhan/ce-code-review/20261004-goal24-pr33-prepush/review-context.json#/criteriaMappings",
+      "supplemental_mappings": [
+        {
+          "path": "AGENTS.md",
+          "governing_directory": "",
+          "governs": [
+            "docs/audits/goal-24-resolution/findings.json",
+            "docs/audits/goal-24-resolution/report.md",
+            "docs/audits/goal-24-resolution/final-evidence-index.md"
+          ]
+        },
+        {
+          "path": "docs/AGENTS.md",
+          "governing_directory": "docs",
+          "governs": [
+            "docs/audits/goal-24-resolution/findings.json",
+            "docs/audits/goal-24-resolution/report.md",
+            "docs/audits/goal-24-resolution/final-evidence-index.md"
+          ]
+        }
+      ],
+      "fallback_named": true,
+      "not_run_reason": null,
+      "original_mapped_paths": 6661,
+      "supplemental_staged_paths": 3,
+      "reviewed_paths": 6664
+    },
+    "compound_packs": {
+      "roots": [],
+      "warnings": [],
+      "errors": []
+    },
+    "failed_reviewers": [],
+    "bound_exceeded": [],
+    "reviewer_detail_source": "Q:/tmp/compound-engineering-lhan/ce-code-review/20261004-goal24-pr33-prepush/synthesized-findings.json#/reviewer_coverage",
+    "limitations": [
+      "All 10 reviewers returned, but their bounded semantic reads do not certify every line in the 6,664-path inventory. Frozen cohort repetitions were sampled by risk, manifest and selected inputs.",
+      "Reviewer-reported static secret-pattern scan covered 7,084 tracked text files with zero hits; 12 nupkg and five binlog files and later portable additions were excluded. This is not clearance of arbitrary encoded/private payloads or binary metadata.",
+      "The testing reviewer found the two source hashes in earlier current-integrated-test-2440.json do not match the inspected current files under LF or CRLF. Historical 54/54, 52/52, 2440/2440 and PR-body 2505/2505 receipts are not new passes at e7.",
+      "Performance review recomputed current source/protocol fingerprints and compared unchanged policies with a886347; all 230 committed observation rows stay within original budgets. External raw receipts, PE binaries and TRX were not independently rerun or rehashed by that lens; timing remains directional.",
+      "Agent-native review checked 45 model-visible hashes and all 21 original v6 record.json files and structured request selectors. The retained cohort has 20 final GREEN records/200 cases plus the original RED and correction; 65 generated obj cache paths remain absent from the 188-file freeze, as separately recorded in staged accounting. No complete clean-consumer restoration was verified in this round.",
+      "Two API-contract LSP reference requests timed out; bounded text searches and direct consumer reads were used. External/dynamic callers and all XML/generated-member relationships were not exhaustively inspected.",
+      "The staged resolution report describes whole-goal APPROVE, matching-host suites and actual enforcement/publication observations for product d8744 and distinct transport/data identities. Those are attributed retained accounting, not this CE round executions; the PR body is older and still describes pending proofs.",
+      "No review lane or report leaf ran new builds/tests, model generations, benchmarks, HTTP checks, merge-denial actions, remote publication or resource cleanup. The parent owns later portable additions, current CI, source fixes, scope decisions and post-publication review/cleanup.",
+      "The multipart gap is an untested full production-shape composition, not a confirmed transport failure. Original gates/failed histories and approved D1-D3 choices remain intact.",
+      "Report-stage logging began after protocol/input reads; its duration does not include all preparatory report-leaf work."
+    ],
+    "stage_5c": "Skipped: mode.agent=true and apply_local=false. Confirmed manual/actionable routes do not grant apply authority.",
+    "report_leaf_checks": "Matched each of the seven validator entries exactly once; read cited active-source windows and the full explicit plan; counted 6,664 unique recorded paths; verified required input and all 10 reviewer artifacts exist.",
+    "reviewer_selection_source": "Q:/tmp/compound-engineering-lhan/ce-code-review/20261004-goal24-pr33-prepush/finish-input.json#/roster/selected",
+    "synthesis_coverage_source": "Q:/tmp/compound-engineering-lhan/ce-code-review/20261004-goal24-pr33-prepush/synthesized-findings.json#/coverage",
+    "report_artifact_diagnostics": {"json_parse_and_contract":"passed","lsp":"unavailable","reason":"LSP server 'biome' is NOT INSTALLED; Command not found: biome. No package was installed for this report-only task."}
+  },
+  "follow_up": {
+    "structural_refactor_decision": {
+      "findings": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "status": "pending-parent-user-scope-choice",
+      "note": "The suggested extractions are proposals, not an approved structural plan. Choose and verify the scope before changes; never refactor frozen copies or silently regenerate their history."
+    },
+    "priority": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "parent_owned": [
+      "Source fixes and decisions on the four structural refactors",
+      "Separate review/verification of the new portable-evidence bridge",
+      "PR #33 publication/current CI and post-publication second review",
+      "Removal of only owned temporary resources after review/publication"
+    ]
+  },
+  "artifact_path": "Q:/tmp/compound-engineering-lhan/ce-code-review/20261004-goal24-pr33-prepush",
+  "run_id": "20261004-goal24-pr33-prepush",
+  "verdict_reason": "Seven findings are confirmed: four P1 structural regressions and three P2 reproducibility/XML defects. No P0 or degraded gate remains. Fix the missing lock, provide a valid frozen replay route and correct Option operator XML; the parent must decide the four proposed subsystem splits before implementation. Requested implementation units are represented, with R8/R9 and U11/U12/U14 only partially satisfied because of those existing findings. This verdict neither reverses the earlier original-69 gate nor certifies later portable additions, publication, merge or NuGet release."
+}

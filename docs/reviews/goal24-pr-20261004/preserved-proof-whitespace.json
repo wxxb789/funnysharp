@@ -1,0 +1,117 @@
+{
+  "schema": "funnysharp-pr-preserved-proof-whitespace/v1",
+  "completeStagedDiffCheckExitCode": 2,
+  "diagnostic": "new blank line at EOF",
+  "findings": [
+    {
+      "path": "docs/audits/goal-24-resolution/portable-evidence/artifacts/audit-resolution/resume-20261004/active-freeze.md",
+      "originalSha256": "d6c6d6f782c1dc8643dfe559428bd030e7d877f2bc2b3e0b8c68fd33e08fd65e",
+      "retainedSha256": "d6c6d6f782c1dc8643dfe559428bd030e7d877f2bc2b3e0b8c68fd33e08fd65e",
+      "matchesFrozenPin": true,
+      "byteIdentical": true
+    },
+    {
+      "path": "docs/audits/goal-24-resolution/portable-evidence/artifacts/audit-resolution/resume-20261004/actual-independent-a.md",
+      "originalSha256": "2464ad85cee8dbc6b20a5fbef9ce65fb9f42fb5d4a8888f4bc51684804ac9f13",
+      "retainedSha256": "2464ad85cee8dbc6b20a5fbef9ce65fb9f42fb5d4a8888f4bc51684804ac9f13",
+      "matchesFrozenPin": true,
+      "byteIdentical": true
+    },
+    {
+      "path": "docs/audits/goal-24-resolution/portable-evidence/artifacts/audit-resolution/resume-20261004/actual-producer-p.md",
+      "originalSha256": "95dd2c8a099409ce545b11110519de9127cfeed371d68ad4a26ec035916ff166",
+      "retainedSha256": "95dd2c8a099409ce545b11110519de9127cfeed371d68ad4a26ec035916ff166",
+      "matchesFrozenPin": true,
+      "byteIdentical": true
+    },
+    {
+      "path": "docs/audits/goal-24-resolution/portable-evidence/artifacts/audit-resolution/resume-20261004/frozen-producer-parent-verification.json",
+      "originalSha256": "a7918fc3415803b3e10544a0c059d7af097dac74953ca793e524e6aad551d4e5",
+      "retainedSha256": "a7918fc3415803b3e10544a0c059d7af097dac74953ca793e524e6aad551d4e5",
+      "matchesFrozenPin": true,
+      "byteIdentical": true
+    },
+    {
+      "path": "docs/audits/goal-24-resolution/portable-evidence/artifacts/audit-resolution/resume-20261004/independent-a-parent-verification.json",
+      "originalSha256": "dfc83462eee48cee53bd3d2d42833664dfbb918637c77176e67bf74aff9fedbe",
+      "retainedSha256": "dfc83462eee48cee53bd3d2d42833664dfbb918637c77176e67bf74aff9fedbe",
+      "matchesFrozenPin": true,
+      "byteIdentical": true
+    },
+    {
+      "path": "docs/audits/goal-24-resolution/portable-evidence/artifacts/audit-resolution/resume-20261004/provider-input-binding.json",
+      "originalSha256": "f2580581537b934345378e11a42c0c4ad223c90556cdf4c53799956ab26281af",
+      "retainedSha256": "f2580581537b934345378e11a42c0c4ad223c90556cdf4c53799956ab26281af",
+      "matchesFrozenPin": true,
+      "byteIdentical": true
+    },
+    {
+      "path": "docs/audits/goal-24-resolution/portable-evidence/artifacts/audit-resolution/resume-20261004/provider-integration-qa.md",
+      "originalSha256": "cd55db66b6c385b95a27e4cbea7cec23248bb4cba4e1dc613d3dcd12addc1379",
+      "retainedSha256": "cd55db66b6c385b95a27e4cbea7cec23248bb4cba4e1dc613d3dcd12addc1379",
+      "matchesFrozenPin": true,
+      "byteIdentical": true
+    },
+    {
+      "path": "docs/audits/goal-24-resolution/portable-evidence/artifacts/audit-resolution/resume-20261004/publication-root-descriptor-verification.json",
+      "originalSha256": "bff563c9a3f29b7ae9c368a08661eee1070a921b2160d052882fa75cb1ff2b3b",
+      "retainedSha256": "bff563c9a3f29b7ae9c368a08661eee1070a921b2160d052882fa75cb1ff2b3b",
+      "matchesFrozenPin": true,
+      "byteIdentical": true
+    },
+    {
+      "path": "docs/audits/goal-24-resolution/portable-evidence/artifacts/audit-resolution/resume-20261004/same-product-65-row-reconciliation.json",
+      "originalSha256": "d48b5548b707ac5ffc3ead3eeeea84581c212ed33005d39313c080a7d9ab019d",
+      "retainedSha256": "d48b5548b707ac5ffc3ead3eeeea84581c212ed33005d39313c080a7d9ab019d",
+      "matchesFrozenPin": true,
+      "byteIdentical": true
+    },
+    {
+      "path": "docs/audits/goal-24-resolution/portable-evidence/artifacts/audit-resolution/resume-20261004/same-product-65-row-reconciliation.md",
+      "originalSha256": "a61707404066f300f2872db00306de3c7c14cfe856a5ff0ccb323bddbff5a30a",
+      "retainedSha256": "a61707404066f300f2872db00306de3c7c14cfe856a5ff0ccb323bddbff5a30a",
+      "matchesFrozenPin": true,
+      "byteIdentical": true
+    },
+    {
+      "path": "docs/audits/goal-24-resolution/portable-evidence/artifacts/audit-resolution/resume-20261004/stage-bundle/parent-full-scale-proof.json",
+      "originalSha256": "2d8e490972b019c91507bfd8cb3f11d56a8d29a0f0cab5feb67e4e78f797751a",
+      "retainedSha256": "2d8e490972b019c91507bfd8cb3f11d56a8d29a0f0cab5feb67e4e78f797751a",
+      "matchesFrozenPin": true,
+      "byteIdentical": true
+    },
+    {
+      "path": "docs/audits/goal-24-resolution/portable-evidence/artifacts/audit-resolution/resume-20261004/stage-bundle/parent-scope-and-tests.json",
+      "originalSha256": "b6142508be59acd4d909732e8228b3d2e005a9ff5f9b8a714a874ccd9f9da644",
+      "retainedSha256": "b6142508be59acd4d909732e8228b3d2e005a9ff5f9b8a714a874ccd9f9da644",
+      "matchesFrozenPin": true,
+      "byteIdentical": true
+    },
+    {
+      "path": "docs/audits/goal-24-resolution/portable-evidence/artifacts/audit-resolution/resume-20261004/stage-bundle/parent-verification.md",
+      "originalSha256": "397cad5fe1c3726a3add07060e46771f86d3f4ef4646ab2e0947b215f312a2dc",
+      "retainedSha256": "397cad5fe1c3726a3add07060e46771f86d3f4ef4646ab2e0947b215f312a2dc",
+      "matchesFrozenPin": true,
+      "byteIdentical": true
+    },
+    {
+      "path": "docs/audits/goal-24-resolution/portable-evidence/artifacts/audit-resolution/resume-20261004/stage-bundle/source-commit.json",
+      "originalSha256": "5ee778e010405b201b0c2952148498034378feec7c5c7680791e3878d2686635",
+      "retainedSha256": "5ee778e010405b201b0c2952148498034378feec7c5c7680791e3878d2686635",
+      "matchesFrozenPin": true,
+      "byteIdentical": true
+    },
+    {
+      "path": "docs/audits/goal-24-resolution/portable-evidence/artifacts/audit-resolution/resume-20261004/verify-frozen-p.fsx",
+      "originalSha256": "e560a34f1c1960a51adfaea41bacd44fb8523ae41b6167237957d96e0003ff75",
+      "retainedSha256": "e560a34f1c1960a51adfaea41bacd44fb8523ae41b6167237957d96e0003ff75",
+      "matchesFrozenPin": true,
+      "byteIdentical": true
+    }
+  ],
+  "originalImmutableBytesPreserved": true,
+  "newAuthoredMetadataDiffCheckExitCode": 0,
+  "noWhitespaceRuleSuppressed": true,
+  "noOriginalFileRewritten": true,
+  "reason": "These15 retained historical proof bodies already contain the exact extra terminal blank line. Trimming would invalidate their reviewed byte pins. The warnings remain reported; current authored metadata has no whitespace error."
+}

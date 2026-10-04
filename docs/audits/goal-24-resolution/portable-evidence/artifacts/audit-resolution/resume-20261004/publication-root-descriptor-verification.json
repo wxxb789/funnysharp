@@ -1,0 +1,28 @@
+{
+  "schema": "funnysharp-publication-root-descriptor-verification/v1",
+  "codeCommit": "e7aea9995bac6c87a69db14a8b04c6925cb45d4c",
+  "dataWorktree": "Q:/repos/funnysharp/.worktrees/goal24-attested-publication-data",
+  "rootInputSha256": "5745a01e5a148c88fda2c46756760d3522ae5bdf258f6cc41563036d9d8a416d",
+  "rootInputBytes": 153008,
+  "generatedTextSha256": "433029ca21c03513ada8877af4c0d9efa97a67f8a61a7174cdd12552aa1658fb",
+  "actualFileAndGitIndexMatched": true,
+  "hashCorrection": "The patch added a final blank line. Original generated-text hash was not the actual file hash; observed file and staged blob hashes are 5745a01e. Parsed manifest and P/A/attachment bytes are unchanged.",
+  "logicalFiles": 309,
+  "parts": 349,
+  "totalBytes": 1474888931,
+  "maxPartBytes": 33554432,
+  "partPrefix": "artifacts/provenance-parts/current-01",
+  "logicalHashesUnchanged": true,
+  "actualRelocatedStage": {
+    "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/resume-20261004/stage-bundle/publication-root-staged-01",
+    "exitCode": 0
+  },
+  "binaryAttributes": {
+    "binary": "set",
+    "text": "unset",
+    "diff": "unset",
+    "merge": "unset"
+  },
+  "published": false
+}
+

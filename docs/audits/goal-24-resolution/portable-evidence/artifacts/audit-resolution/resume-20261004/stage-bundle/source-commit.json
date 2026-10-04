@@ -1,0 +1,28 @@
+{
+  "schema": "funnysharp-stage-bundle-verified-source-commit/v1",
+  "commit": "e7aea9995bac6c87a69db14a8b04c6925cb45d4c",
+  "parent": "d8744c934d86833f9817245ecc7c78b1177b8b76",
+  "branch": "audit/goal24-stage-bundle",
+  "files": [
+    ".gitattributes",
+    "docs/harness.md",
+    "eng/harness/ReleaseProvenance.fs",
+    "tests/FunnySharp.Harness.Tests/ReleaseProvenanceTests.fs"
+  ],
+  "clean": true,
+  "formatter": {
+    "exitCode": 0,
+    "lockedRestoreRepairedReferences": true,
+    "fSharpUnsupportedMessagePreserved": true
+  },
+  "parentTests": {
+    "passed": 115,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "fullScaleProof": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/resume-20261004/stage-bundle/parent-full-scale-proof.json",
+  "remoteSourcePush": false,
+  "productCandidateUnchanged": true
+}
+

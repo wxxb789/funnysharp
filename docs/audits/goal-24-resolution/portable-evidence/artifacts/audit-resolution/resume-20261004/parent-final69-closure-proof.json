@@ -1,0 +1,67 @@
+{
+  "schema": "funnysharp-final69-parent-closure/v1",
+  "actualStrictGate": {
+    "command": "dotnet fsi --warnaserror+ artifacts/audit-resolution/resume-20261004/verify-final69.fsx Q:/repos/funnysharp/.worktrees/goal24-final-accounting-d8744/docs/audits/goal-24-resolution/findings.json --require-accepted",
+    "monitor": "mon_C57AXQ532E8RW0GP",
+    "exitCode": 0,
+    "stdout": [
+      "EXACT69_ACCOUNTING rows=69 uniqueIds=69 originalFAIL=40 originalUNVERIFIED=29 accepted=69 openOrUnaccepted=0 originalSha256=2a3cb04787c36c2a05fafd054fa7bc24cddce473b7b65febcdf9fe865ee02d6d",
+      "EXACT69_FINAL_PASS original69identities preserved;zeroOPEN/stale/unaccepted;actualfullgoalAPPROVE;currentproduct/evidencehashes matched."
+    ]
+  },
+  "actualOldLedgerControl": {
+    "exitCode": 1,
+    "accepted": 65,
+    "open": 4,
+    "rejection": "Final closure requires69 accepted and zero OPEN/unaccepted"
+  },
+  "metadata": {
+    "commit": "19b14119ee3eb33dd42378cafe765376dd6d9f13",
+    "parent": "d8744c934d86833f9817245ecc7c78b1177b8b76",
+    "branch": "audit/goal24-final-accounting-d8744",
+    "clean": true,
+    "remoteHead": "19b14119ee3eb33dd42378cafe765376dd6d9f13",
+    "files": [
+      "docs/audits/goal-24-resolution/findings.json",
+      "docs/audits/goal-24-resolution/report.md",
+      "docs/audits/goal-24-resolution/final-evidence-index.md"
+    ],
+    "hashes": {
+      "findings": "5064a7f5c6e9daa11e90691a71cdb9e50167071257339fd0e9348506f77d00c0",
+      "report": "92579c491e236f1875108fb41f0ee2c8ca4ab8d5873acf7093a27f3966e4b046",
+      "index": "602a45162c3dc133c275d6322c0d008fa175b534b5b3d6a40faff388fa8db940"
+    }
+  },
+  "formatter": {
+    "exitCode": 0,
+    "command": "dotnet fsi build.fsx -- -p format",
+    "cwd": "Q:/repos/funnysharp/.worktrees/goal24-stage-bundle",
+    "scope": "Current product C# inputs unchanged by metadata increment; full restored assets. F# unsupported messages retained."
+  },
+  "wholeGoalGate": {
+    "actualReviewer": "omo-native-gate-reviewer",
+    "actualRoute": "ghc/gpt-6-astra/high",
+    "task": "st_01a10794",
+    "recommendation": "APPROVE",
+    "accepted": 69,
+    "open": 0,
+    "blockers": 0,
+    "jsonSha256": "c7351c8cdd571266a3ca3f885aa2a521b7dd21cbb30e1108dd61dd384516e259"
+  },
+  "cleanup": {
+    "reviewerTerminated": true,
+    "reviewTreeAbsent": true,
+    "receipt": "final-review-tree-cleanup.json",
+    "forced": false
+  },
+  "publication": {
+    "product": "d8744",
+    "transport": "e7aea999",
+    "data": "92968c03",
+    "run": "37210014612/1",
+    "externalI": "266fe2363dc2d743d03cc91bb8cba1af0ec463f3d2fc2a9120e8c097594f1489"
+  },
+  "ordinaryMergePerformed": false,
+  "nugetPublicationPerformed": false,
+  "sdkCompletionPending": true
+}

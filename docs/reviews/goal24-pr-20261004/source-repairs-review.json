@@ -1,0 +1,161 @@
+{
+  "schema": "funnysharp-focused-source-repairs-review/v1",
+  "reviewer": {
+    "role": "omo-native-code-reviewer",
+    "taskId": "st_01a10888",
+    "route": "direct native review, no delegation"
+  },
+  "codeQualityStatus": "WATCH",
+  "recommendation": "APPROVE",
+  "approvalScope": "Bounded prepublication source repairs only; not publication readiness, successful actual v6 replay, or renewed Goal 24 acceptance.",
+  "reportPath": "Q:/repos/funnysharp/docs/reviews/goal24-pr-20261004/source-repairs-review.md",
+  "blockers": [],
+  "findingsBySeverity": {
+    "CRITICAL": [],
+    "HIGH": [],
+    "MEDIUM": [],
+    "LOW": []
+  },
+  "checkout": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr",
+  "observedBranch": "audit/goal24-complete-pr",
+  "observedHead": "e7aea9995bac6c87a69db14a8b04c6925cb45d4c",
+  "reviewedState": "Working-tree repairs including untracked additions; tracked repair diff inspected against HEAD.",
+  "filesRead": [
+    "src/FunnySharp/Option.cs",
+    "eng/api-baseline/xml-reviewed-inputs.json",
+    "eng/harness/XmlBuildBindings.fs",
+    "tests/FunnySharp.Harness.Tests/XmlBuildBindingsTests.fs",
+    "eng/evaluation/comparisons/function-grammar/packages.lock.json",
+    "eng/harness/FrozenReplay.fs",
+    "eng/evaluation/replay-frozen.fsx",
+    "eng/evaluation/README.md",
+    "eng/harness/FunnySharp.Harness.fsproj",
+    "tests/FunnySharp.Harness.Tests/FunnySharp.Harness.Tests.fsproj",
+    "tests/FunnySharp.Harness.Tests/FrozenReplayTests.fs",
+    "docs/audits/goal-24-resolution/portable-evidence/verify.fsx",
+    "docs/audits/goal-24-resolution/portable-evidence/README.md"
+  ],
+  "skillPerspective": {
+    "ran": true,
+    "loaded": [
+      "C:/Users/lhan/.omo/binary-runtime/5.1.15/plugin/skills/remove-ai-slops/SKILL.md",
+      "C:/Users/lhan/.omo/binary-runtime/5.1.15/plugin/skills/programming/SKILL.md"
+    ],
+    "languageScope": "Shared criteria applied to C#/F#; programming supplies no C#/F# language-specific reference set.",
+    "removeAiSlopsViolation": false,
+    "programmingViolation": false,
+    "result": "No verified deletion-only, prose/removal-pinning, tautological or pointless constant-mirroring test; no needless production parsing, normalization, abstraction or untyped escape hatch in the repairs.",
+    "explicitScopeOverride": "No cleanup/refactor performed and no deferred structural line-count findings reopened."
+  },
+  "independentChecks": {
+    "testsRun": false,
+    "buildsRun": false,
+    "gatesRun": false,
+    "networkCalls": false,
+    "historicalPolicyAndManifestWorkingTreeDiff": "none against observed HEAD",
+    "comparisonLock": "Retained U11 lock read; git diff --no-index --ignore-space-at-eol --exit-code returned no content differences. New LF representation preserves the retained CRLF dependency graph.",
+    "localHashProbes": [
+      {
+        "path": "src/FunnySharp/Option.cs",
+        "sha256": "8ee95f8d0193c71e9515f4c97616a1352ee8b4960d17628ca7b7c3cbe77cd707",
+        "bytes": 20060
+      },
+      {
+        "path": "eng/api-baseline/xml-reviewed-inputs.json",
+        "sha256": "d5319f334d5220b38861da411f5025cf28e4c187ef5b5258677751690ccc6140",
+        "bytes": 10718
+      },
+      {
+        "path": "eng/api-baseline/xml-contract-bindings.json",
+        "sha256": "696fe5154ee970778ce7b415ea9bc964cedbe6158d34e3f6e545be3843d08601",
+        "bytes": 27620
+      },
+      {
+        "path": "eng/evaluation/studies/audit-resolution-v6/manifest.json",
+        "sha256": "83d7d3522ccad4fa04cc56bbf8ed540521147d178d1940cc656d9667e49ac76d",
+        "bytes": 33627
+      },
+      {
+        "path": "docs/audits/goal-24-resolution/portable-evidence/locations.json",
+        "sha256": "b5e8754c668b6e3640acca0da12ff7af1baf8a69aea9c7830b95e99281889657",
+        "bytes": 426742
+      },
+      {
+        "path": "eng/evaluation/comparisons/function-grammar/packages.lock.json",
+        "sha256": "0c2c02e5d0b37f16839f2f08a6614473971d2fdab30daae94eb1c558bf6f1b38",
+        "bytes": 5461
+      }
+    ],
+    "localGitBlobProbes": [
+      {
+        "blob": "e01be8e7c84172a3771f8471a48acf4785dccc59",
+        "sha256": "2ab65969adf550465692cfa812ad2e8cc182306e1c2660eb549e1d21d873da36",
+        "bytes": 20254,
+        "role": "Exact historical Option source; distinct from current repair."
+      },
+      {
+        "blob": "b2d4fe54f94495127e8b7b6a476d0455d483ac48",
+        "sha256": "b0411918c0b1ec71605614786453d84afcbdcb8d7c16ccca662585efa5fd47dc",
+        "bytes": 9331,
+        "role": "Exact historical v2 anchor; matches v3 previousReviewedInputs pin."
+      }
+    ],
+    "lsp": "F# fsautocomplete unavailable; no installation attempted."
+  },
+  "evidenceDocumentsRead": [
+    "Q:/repos/funnysharp/docs/reviews/goal24-pr-20261004/continuation-pr.md",
+    "Q:/repos/funnysharp/docs/reviews/goal24-pr-20261004/parent-focused-verification.json",
+    "Q:/repos/funnysharp/docs/reviews/goal24-pr-20261004/actual-replay-snapshot-diagnosis.json",
+    "Q:/repos/funnysharp/docs/reviews/goal24-pr-20261004/portable-negative-controls.json",
+    "Q:/repos/funnysharp/docs/reviews/goal24-pr-20261004/prepublication-review.json"
+  ],
+  "parentReportedVerification": {
+    "attribution": "Reported by task/continuation and inspected summary documents; not executed by this reviewer. Raw command receipts for every reported test/build count were not supplied in the reviewed QA JSON.",
+    "xmlBuildBindingsPassed": 37,
+    "optionFactsPassed": 2,
+    "frozenReplayFocusedPassed": 18,
+    "existingEvaluationFocusedPassed": 71,
+    "comparisonLockedRestore": "PASS with retained exact U11 canonical-local mapping",
+    "releaseSolutionBuild": "exit 0 reported",
+    "portable": {
+      "exitCodeReported": 0,
+      "retainedObjects": 62,
+      "originalAccepted": 69,
+      "rowPins": 998,
+      "distinctRowPins": 87,
+      "finalIndexPins": 120,
+      "attachments": 307
+    },
+    "negativeControls": "Four retained control outputs inspected; each reports exit 1 and no PASS marker."
+  },
+  "actualReplay": {
+    "status": "RED",
+    "evidencePath": "Q:/repos/funnysharp/docs/reviews/goal24-pr-20261004/actual-replay-snapshot-diagnosis.json",
+    "expectedFiles": 188,
+    "existingFiles": 123,
+    "missingHistoricalObjFiles": 65,
+    "added": 0,
+    "hashMismatches": 0,
+    "countAttribution": "Inspected parent diagnosis, not a reviewer rerun of snapshot inventory.",
+    "boundary": "Reject incomplete original snapshot before output reservation or consumer build.",
+    "manifestWeakeningRecommended": false,
+    "actualReplaySuccessClaimed": false
+  },
+  "residualRisks": [
+    "Actual v6 replay remains blocked by 65 unavailable historical obj files. Restore only independently recovered original bytes; do not omit, regenerate or weaken manifest entries.",
+    "Exact-checkout formatter outcome remains pending/unobserved in the supplied continuation; earlier main-CWD formatter evidence is invalid for this candidate.",
+    "Clean final-candidate full test gate, current-candidate release/source API/docs gates and post-update CI are incomplete or unverified here. Reported Release build does not replace them.",
+    "Synthetic tests do not execute staged FSI source or a real consumer. Real frozen route after historical recovery remains unverified; support closure is contemporary and explicitly bound, not recovered historical provenance.",
+    "POSIX relocation and complete raw-archive portable verification were not run by this reviewer. Later complete verification requires exact archives and retained immutable Git history."
+  ],
+  "frozenAcceptance": {
+    "product": "d8744c934d86833f9817245ecc7c78b1177b8b76",
+    "accepted": 69,
+    "currentDocumentationSuccessorSeparate": true,
+    "renewedAcceptanceClaimed": false
+  },
+  "writeScope": [
+    "Q:/repos/funnysharp/docs/reviews/goal24-pr-20261004/source-repairs-review.json",
+    "Q:/repos/funnysharp/docs/reviews/goal24-pr-20261004/source-repairs-review.md"
+  ]
+}

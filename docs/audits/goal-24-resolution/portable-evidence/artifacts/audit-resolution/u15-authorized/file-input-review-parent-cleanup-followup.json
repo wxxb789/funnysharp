@@ -1,0 +1,37 @@
+{
+  "schema": "funnysharp-file-input-increment-review-parent-followup/v1",
+  "reviewTask": "st_01a10262",
+  "reviewerRoute": "omo-native-code-reviewer / ghc/gpt-6.1-sol high",
+  "reviewReportPath": "Q:/repos/funnysharp/.omo/evidence/ulw/01a0f65b-bd9d-77f8-bd35-098466eac351/G001-continue-the-interrupted-goal-24-aud/a2/G001-continue-the-interrupted-goal-24-aud-code-review.md",
+  "reviewReportSha256": "26191a7129fd98f0b7ebb770f8af932c8dd084320300566222871ad5dea6c5c4",
+  "reviewVerdict": "APPROVE/WATCH",
+  "reviewBlockers": [],
+  "reviewFinding": {
+    "severity": "LOW",
+    "file": "tests/FunnySharp.Harness.Tests/ReleaseProtocolTests.fs",
+    "originalLines": "460-461",
+    "problem": "Kill requested without awaiting exit; redirected readers unsettled"
+  },
+  "parentFollowup": {
+    "processExitSubscriptionBeforeKill": true,
+    "processExitAwaited": true,
+    "stdoutAndStderrReadersAwaited": true,
+    "originalExceptionPreservedViaTaskFromException": true,
+    "additionalIndependentReviewClaimed": false
+  },
+  "priorParentWholeGate": {
+    "passed": 2568,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0,
+    "scope": "Await-exit version before final reader settlement"
+  },
+  "currentAffectedHarnessGate": {
+    "monitor": "mon_XV96VJF18MWD9DXE",
+    "bashId": "bash_164",
+    "status": "RUNNING"
+  },
+  "formatterAlreadyVerifiedOnceForCommit": true,
+  "commitCreated": false,
+  "remoteProof": false
+}

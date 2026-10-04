@@ -1,0 +1,86 @@
+{
+  "schema": "funnysharp-parent-frozen-producer-verification/v1",
+  "pPath": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/resume-20261004/producer-local-owner-browser-02/P.json",
+  "pSha256": "51d55b6d1d328c3a0caa69f2ec42ba03b7fdd37e3c6475f8dcefaa2435897d72",
+  "pBytes": 67642132,
+  "createdAtUtc": "2026-10-04T09:31:08.0869669+00:00",
+  "inputCommit": "fd771fa473c5c0378b68d36bc6bd97c4a2944b8c",
+  "inputSha256": "d488ddc6bec8802c612ec267c3ad4c463c96f8006f4e6d2b75f202f8cf24e9a7",
+  "candidateCommit": "d8744c934d86833f9817245ecc7c78b1177b8b76",
+  "producerIdentity": "omo-main-session:01a105fc-12f5-716f-ab6e-28d97b2bd38c",
+  "exitCode": 0,
+  "attachmentVerification": {
+    "command": "dotnet fsi --warnaserror+ verify-frozen-p.fsx Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/resume-20261004/producer-local-owner-browser-02",
+    "exitCode": 0,
+    "files": 307,
+    "bytes": 1407188687,
+    "mismatches": 0,
+    "lengthMismatches": 0
+  },
+  "finalFeedChecks": [
+    {
+      "feed": "https://api.nuget.org/v3/index.json",
+      "effectiveServiceUrl": "https://api.nuget.org/v3/index.json",
+      "packageBaseAddress": "https://api.nuget.org/v3-flatcontainer/",
+      "packageId": "FunnySharp",
+      "version": "0.2.0",
+      "status": "absent",
+      "statusCode": 404,
+      "rawBodySha256": "a738aef90a8e7221feb50c9679a22cbcd132a1011dd6bf95f18b3c8d071c3a1c",
+      "normalizedVersionsSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "versions": [],
+      "checkedAtUtc": "2026-10-04T09:31:07.6467985+00:00"
+    },
+    {
+      "feed": "https://api.nuget.org/v3/index.json",
+      "effectiveServiceUrl": "https://api.nuget.org/v3/index.json",
+      "packageBaseAddress": "https://api.nuget.org/v3-flatcontainer/",
+      "packageId": "FunnySharp.AspNetCore",
+      "version": "0.2.0",
+      "status": "absent",
+      "statusCode": 404,
+      "rawBodySha256": "e08b887a17bc409879db4e0b9901b2e43b0b46d84cdf276d66d30d257e4f224d",
+      "normalizedVersionsSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "versions": [],
+      "checkedAtUtc": "2026-10-04T09:31:08.0869458+00:00"
+    }
+  ],
+  "acquisitionJoins": [
+    {
+      "correlationId": "698b7924bf8145429030063ef6639c04",
+      "bodyPath": "http/0046.body",
+      "requestUrl": "https://api.nuget.org/v3/index.json",
+      "statusCode": 200,
+      "rawBodySha256": "cea4d74624be767e0569c891597c0e6f5329f19f6c9b7fcf8b8c9e9f4933a4bb",
+      "fetchStartedAtUtc": "2026-10-04T09:31:06.076Z",
+      "fetchFinishedAtUtc": "2026-10-04T09:31:06.408Z",
+      "pObservedAtUtc": "2026-10-04T09:31:06.4249559+00:00"
+    },
+    {
+      "correlationId": "3f39c57ff319457ea5fc2c743618dbc6",
+      "bodyPath": "http/0047.body",
+      "requestUrl": "https://api.nuget.org/v3-flatcontainer/funnysharp/index.json",
+      "statusCode": 404,
+      "rawBodySha256": "a738aef90a8e7221feb50c9679a22cbcd132a1011dd6bf95f18b3c8d071c3a1c",
+      "fetchStartedAtUtc": "2026-10-04T09:31:06.683Z",
+      "fetchFinishedAtUtc": "2026-10-04T09:31:07.635Z",
+      "pObservedAtUtc": "2026-10-04T09:31:07.6383373+00:00"
+    },
+    {
+      "correlationId": "0b52fca4bd854706887382c85a05413a",
+      "bodyPath": "http/0048.body",
+      "requestUrl": "https://api.nuget.org/v3-flatcontainer/funnysharp.aspnetcore/index.json",
+      "statusCode": 404,
+      "rawBodySha256": "e08b887a17bc409879db4e0b9901b2e43b0b46d84cdf276d66d30d257e4f224d",
+      "fetchStartedAtUtc": "2026-10-04T09:31:07.882Z",
+      "fetchFinishedAtUtc": "2026-10-04T09:31:08.083Z",
+      "pObservedAtUtc": "2026-10-04T09:31:08.0866517+00:00"
+    }
+  ],
+  "providerMetadataDirectory": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\resume-20261004\\producer-local-owner-browser-02.feed-provider",
+  "bridgeClosed": true,
+  "independentAttestation": "st_01a10644 pending",
+  "transportWorkflow": "dag_8d323c4b-90bb-4554-be95-a2aa492f78b7 pending",
+  "aggregateAcceptance": false
+}
+

@@ -1,0 +1,81 @@
+{
+  "schema": "funnysharp-pr-review-receipt-index/v1",
+  "historicalProduct": "d8744c934d86833f9817245ecc7c78b1177b8b76",
+  "verifiedSourceIncrement": "7b30afe7596c9cf379711b06123de26b0eeb2893",
+  "receipts": [
+    {
+      "path": "docs/reviews/goal24-pr-20261004/prepublication-review.json",
+      "logicalName": "prepublication-review.json",
+      "encoding": "utf8",
+      "logicalBytes": 69471,
+      "logicalSha256": "320b0148d6be94ae768aa7974b62d0f5b0193b2a723bb37b28d7cdc106f44c31",
+      "physicalSha256": "320b0148d6be94ae768aa7974b62d0f5b0193b2a723bb37b28d7cdc106f44c31"
+    },
+    {
+      "path": "docs/reviews/goal24-pr-20261004/current-source-repair-verification.json",
+      "logicalName": "current-source-repair-verification.json",
+      "encoding": "utf8",
+      "logicalBytes": 3497,
+      "logicalSha256": "fd7b34fc5b49c1be4673a9a6eaba00184b534644c7713297c8031a9baaadd00d",
+      "physicalSha256": "fd7b34fc5b49c1be4673a9a6eaba00184b534644c7713297c8031a9baaadd00d"
+    },
+    {
+      "path": "docs/reviews/goal24-pr-20261004/source-repairs-review.json",
+      "logicalName": "source-repairs-review.json",
+      "encoding": "utf8",
+      "logicalBytes": 7916,
+      "logicalSha256": "8d0eaf7b325ae46139821c93d3aaaf9c08061ebd134e8c4f760251e31b7e62b3",
+      "physicalSha256": "8d0eaf7b325ae46139821c93d3aaaf9c08061ebd134e8c4f760251e31b7e62b3"
+    },
+    {
+      "path": "docs/reviews/goal24-pr-20261004/source-repairs-review.md",
+      "logicalName": "source-repairs-review.md",
+      "encoding": "utf8",
+      "logicalBytes": 12812,
+      "logicalSha256": "aecd605d063184c0522df1976474a61146d549239308f218c2279f640aba841a",
+      "physicalSha256": "aecd605d063184c0522df1976474a61146d549239308f218c2279f640aba841a"
+    },
+    {
+      "path": "docs/reviews/goal24-pr-20261004/review-dispositions.md",
+      "logicalName": "review-dispositions.md",
+      "encoding": "utf8",
+      "logicalBytes": 2672,
+      "logicalSha256": "27b8097cd2ec136e395f5d2ec4fc162dd44198e532cfde439c63bf5a5810b896",
+      "physicalSha256": "27b8097cd2ec136e395f5d2ec4fc162dd44198e532cfde439c63bf5a5810b896"
+    },
+    {
+      "path": "docs/reviews/goal24-pr-20261004/actual-replay-boundary.md",
+      "logicalName": "actual-replay-boundary.md",
+      "encoding": "utf8",
+      "logicalBytes": 1249,
+      "logicalSha256": "a68441b3f84f2319f5b4588001d5f2d7e40f9538e1c1f18786247f5cd16af7f2",
+      "physicalSha256": "a68441b3f84f2319f5b4588001d5f2d7e40f9538e1c1f18786247f5cd16af7f2"
+    },
+    {
+      "path": "docs/reviews/goal24-pr-20261004/actual-replay-snapshot-diagnosis.json",
+      "logicalName": "actual-replay-snapshot-diagnosis.json",
+      "encoding": "utf8",
+      "logicalBytes": 5289,
+      "logicalSha256": "bad26919b48876a293fb019faab70e1a658eecd3954b91de5dca49584cf51608",
+      "physicalSha256": "bad26919b48876a293fb019faab70e1a658eecd3954b91de5dca49584cf51608"
+    },
+    {
+      "path": "docs/reviews/goal24-pr-20261004/portable-negative-controls.json.source-bytes.base64",
+      "logicalName": "portable-negative-controls.json",
+      "encoding": "base64",
+      "logicalBytes": 2500,
+      "logicalSha256": "336d856e97335e793d7d80e7d43f02d7b53c970cf1a10c5bc0d6015b28d12fdf",
+      "physicalSha256": "c875ef4514324575f782e0d1b14358e4bd1ae9db261720ec08ddcfc9d586a4f9"
+    },
+    {
+      "path": "docs/reviews/goal24-pr-20261004/source-increment-commit.json",
+      "logicalName": "source-increment-commit.json",
+      "encoding": "utf8",
+      "logicalBytes": 1873,
+      "logicalSha256": "a7ac611c843b5e5c838d3ddf751184fbe23005ef3446a026b9b85034a01839d3",
+      "physicalSha256": "a7ac611c843b5e5c838d3ddf751184fbe23005ef3446a026b9b85034a01839d3"
+    }
+  ],
+  "scope": "Retained local review and parent QA; not new-head CI or a second original Goal24 acceptance.",
+  "unpublishedAtCapture": true
+}

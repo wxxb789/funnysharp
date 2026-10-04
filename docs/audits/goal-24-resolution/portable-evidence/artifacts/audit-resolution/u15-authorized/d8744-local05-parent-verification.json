@@ -1,0 +1,68 @@
+{
+  "schema": "funnysharp-d8744-local05-parent-verification/v1",
+  "candidate": "d8744c934d86833f9817245ecc7c78b1177b8b76",
+  "attempt": "authorized-local-05",
+  "commands": 14,
+  "commandsExitZero": true,
+  "checks": 10,
+  "checksPassed": true,
+  "tests": {
+    "passed": 2568,
+    "failed": 0,
+    "skipped": 0
+  },
+  "build": {
+    "warnings": 0,
+    "errors": 0
+  },
+  "source": {
+    "fileCount": 7098,
+    "digest": "c2907982ac61168f447640805350c373f28be3a9f6818d0b2f01b2cd3a35e29a",
+    "wholeBeforeAfterEqual": true
+  },
+  "receiptPointerJoins": [
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/release-candidate/d8744c934d86833f9817245ecc7c78b1177b8b76/authorized-local-05/execution-evidence.json",
+      "sha256": "4ee471fa4b6e4c860ce293747f6d5d69368120c739f084b1284656cb69b12060"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/release-candidate/d8744c934d86833f9817245ecc7c78b1177b8b76/authorized-local-05/release-evidence/release-evidence.json",
+      "sha256": "80348e20c39f6705ae25e0dd6f3a1ff3a3150357d5562236da590f8997e95933"
+    }
+  ],
+  "currentSealedByteJoins": [
+    {
+      "path": "src/FunnySharp/bin/Release/net10.0/FunnySharp.dll",
+      "sha256": "ebbca9d14d62e88840af4b567b089616d368fa78aeda2283be1d35fe958d5350"
+    },
+    {
+      "path": "src/FunnySharp/bin/Release/net10.0/FunnySharp.xml",
+      "sha256": "4ef257af8378bd41f653b01215e5b016166a064320e7898e1794c4eb327489cc"
+    },
+    {
+      "path": "src/FunnySharp/bin/Release/net10.0/FunnySharp.pdb",
+      "sha256": "96423eabe825e42b34e3ce5cf3c433b792e7044cf2b487bc9e132e9e5c4bdd2a"
+    },
+    {
+      "path": "src/FunnySharp.AspNetCore/bin/Release/net10.0/FunnySharp.AspNetCore.dll",
+      "sha256": "4ab8c384f08cef5a134fbadde639e273de317f709bc3c91d232ee159de6a681e"
+    },
+    {
+      "path": "src/FunnySharp.AspNetCore/bin/Release/net10.0/FunnySharp.AspNetCore.xml",
+      "sha256": "27af8c3d2b65daa59a081f0b24674be0c41fe9cd652a19455cce01f2637e66d0"
+    },
+    {
+      "path": "src/FunnySharp.AspNetCore/bin/Release/net10.0/FunnySharp.AspNetCore.pdb",
+      "sha256": "5e61ac757002df841dbf6b54f181746a2f100bbcdddd482abc8d381c38b8a8ab"
+    }
+  ],
+  "reviewedInputs": {
+    "path": "eng/api-baseline/xml-reviewed-inputs.json",
+    "sha256": "b0411918c0b1ec71605614786453d84afcbdcb8d7c16ccca662585efa5fd47dc"
+  },
+  "reviewedPolicy": {
+    "path": "eng/api-baseline/xml-contract-bindings.json",
+    "sha256": "696fe5154ee970778ce7b415ea9bc964cedbe6158d34e3f6e545be3843d08601"
+  },
+  "remoteProof": false
+}

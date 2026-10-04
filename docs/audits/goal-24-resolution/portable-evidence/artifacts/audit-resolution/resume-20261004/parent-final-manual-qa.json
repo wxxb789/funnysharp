@@ -1,0 +1,102 @@
+{
+  "schema": "funnysharp-parent-goal24-final-manual-qa/v1",
+  "product": "d8744c934d86833f9817245ecc7c78b1177b8b76",
+  "executor": "main-session01a105fc",
+  "rows": [
+    {
+      "id": "QA-PUBLISH",
+      "scenario": "Real publication and independently retrieved immutable P/A/I",
+      "command": "release.yml stage-attestation37210014612/1; parent verify-publication-retrieval.fsx",
+      "observed": "Actual success; bothrawZIPdigests/exact310entries/P/A/report/all307attachments/13contracts/I chronology and identity match.",
+      "verdict": "PASS",
+      "artifact": "parent-publication-retrieval-proof.json"
+    },
+    {
+      "id": "QA-BUNDLE",
+      "scenario": "Actual1.47GB file-only pack/stage roundtrip",
+      "command": "pack-stage-bundle thenstage-attestation actualfrozenP/A",
+      "observed": "309logicalfiles/349parts/max32MiB/exactP/A/report/all307bodies matched.",
+      "verdict": "PASS",
+      "artifact": "stage-bundle/parent-full-scale-proof.json"
+    },
+    {
+      "id": "QA-EDGE",
+      "scenario": "Empty/32MiB/32MiB+1,missing/extra/duplicate/order/traversal/reparse/tamper failures",
+      "command": "Parent completeReleaseProvenanceTests class",
+      "observed": "115pass/0fail/0skip/exit0; fullactualCTRF retained.",
+      "verdict": "PASS",
+      "artifact": "stage-bundle/parent-class.ctrf.json"
+    },
+    {
+      "id": "QA-REGRESSION",
+      "scenario": "Legacyfile/base64/rootartifact/index transport compatibility",
+      "command": "Samecompleteparentprovenance class115cases",
+      "observed": "Existingguardcases preserved, no skippedcases.",
+      "verdict": "PASS",
+      "artifact": "stage-bundle/parent-class.trx"
+    },
+    {
+      "id": "QA-RULE",
+      "scenario": "Exact strictfourcontexts/App15368/zero bypass",
+      "command": "ParseactualP http/0021.body andstrictcompare",
+      "observed": "Rule24414858active,targetmain,stricttrue,fourexactcontexts,App15368,bypass[],callernever.",
+      "verdict": "PASS",
+      "artifact": "parent-u15-authorized-provenance-proof.json"
+    },
+    {
+      "id": "QA-DENIAL",
+      "scenario": "Real normal-actor denial for each intentional required-context failure",
+      "command": "Parentexactrun-attempt/jobs/check/UI/actorjoinsfromP",
+      "observed": "Fouractualone-failure/three-success tuples,exactheads/attempts,App15368,normalactorwxxb789,nobypass,UImergedisabled. NoHTTPmerge-refusalclaim.",
+      "verdict": "PASS",
+      "artifact": "parent-u15-authorized-provenance-proof.json"
+    },
+    {
+      "id": "QA-PRODUCT",
+      "scenario": "Same d8744 source/canonical packages/matching hosts",
+      "command": "Consumeactualfour-hostbindingaudit/currentrequiredcheckreceipt",
+      "observed": "Foursuccesschecks,2568/2570/2570source-suitepassed0fail0skip,canonical439f7071/38c033f8 andB3F2/4926sameconsumerbytes;IntelboundedSmoke.",
+      "verdict": "PASS",
+      "artifact": "../u15-authorized/d8744-four-host-binding-audit.json"
+    },
+    {
+      "id": "QA-PE",
+      "scenario": "HistoricalacceptedPE behavior bound tocurrentcanonicalPEs",
+      "command": "Parentstrictverify-package-pe-continuity.fsx",
+      "observed": "All1274+53methodsignatures/body/localSig/regions/flags0diff;all3358+246customattrs onlyexactAssemblyInformationalVersiona886347->d8744.",
+      "verdict": "PASS",
+      "artifact": "parent-current-package-pe-continuity.json"
+    },
+    {
+      "id": "QA-65",
+      "scenario": "Preserve65acceptedoriginalidentities/source/API/XML/proof joins",
+      "command": "Parentexact65identity/wordingjoinplusindependentsourceanalysis",
+      "observed": "65uniqueIDs;216declareddependencyhashes;51reviewedinputs/158semanticfiles/80performanceinputs/45model-visibleinputs/22reviewedsourcesmatch. Historicalmeasurementidentitieskept.",
+      "verdict": "PASS_WITH_EXPLICIT_LIMITS",
+      "artifact": "same-product-65-row-reconciliation.json"
+    },
+    {
+      "id": "QA-FEED",
+      "scenario": "Both0.2.0versions absent oncomplete declared publicfeed",
+      "command": "ActualP finalfeeds andparentURL/status/hash/timejoin",
+      "observed": "ExactNuGetoriginservice200;core/HTTPpackageindices404absent, allfinalPfeedbytesmatched.",
+      "verdict": "PASS",
+      "artifact": "frozen-producer-parent-verification.json"
+    },
+    {
+      "id": "QA-A",
+      "scenario": "Independentattributablepost-P A andGoals04/09 packagedreplays",
+      "command": "ParentA schema/report/evidence/replayjoins",
+      "observed": "13contracts,distinctreadonlyidentity,oneactualCoreSmokeprocessafterP,matchedcanonicalDLL andreceipts. A scopeGoals01-13only.",
+      "verdict": "PASS",
+      "artifact": "independent-a-parent-verification.json"
+    }
+  ],
+  "reuse": "Existingcurrent-productreal-surfaceproofs reused onlywithverifiedsource/API/XML/PEcontinuity; no model/benchmark/HTTP/denial replay.",
+  "limits": [
+    "65ignoredhistoricalobjcachefilesmissing;45model-visibleinputsand22reviewedsourcesmatch. Do notclaimall188retained.",
+    "No newtiming/modelmeasurementofcurrentPEbytesisclaimed.",
+    "Finaloriginal69accountingandfullGoal24gatereviewerremainpending."
+  ],
+  "aggregateApproved": false
+}
