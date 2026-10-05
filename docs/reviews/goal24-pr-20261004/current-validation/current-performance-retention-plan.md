@@ -1,0 +1,9 @@
+# Current performance evidence retention
+
+The completed fresh source measurement is 1fbb50d, not a replacement of original d8744 proofs. Both strict original verifiers and all 12 generated-region verifiers passed. The two formerly failing RealManifest facts now pass: 2 total, zero errors/failed/skipped/not-run, exit 0, monitor mon_KT2JD8G2VZ2BK3C8. Full clean-candidate suite and release checks remain pending.
+
+Retain only the actual hash-bound closure: 367 repository-relative locators, 345 distinct byte objects, 38,666,228 distinct bytes (57,458,020 bytes counting aliases). This includes actual 230 launch logs, raw reports, preflight files, retained workload/loaded assembly bytes and current census/runtime producers/reports. It excludes full NuGet package caches and unbound generated bin/obj.
+
+Permanent location: docs/reviews/goal24-pr-20261004/current-performance-evidence/. Byte objects are reversible base64, named by the original SHA256. A catalog joins original relative locator, size/hash and physical object. Original absolute roots remain labels, never filesystem fallback. Current manifests/coverage and logical source bindings are separately retained. The read-only portable verifier will check actual object bytes, row/policy/source fingerprint joins and runtime/census pins without rewriting the original raw receipts. It will not claim a new benchmark execution or package publication.
+
+The existing strict gates were actually run in the source workspace; their real exits/proposals are retained. The portable proof does not silently pretend that original absolute-path producers can execute unchanged on any checkout. No original proof, foreign main-tree file, worktree or cache is deleted by retention. Cleanup follows only after the published PR and proof preservation are verified.

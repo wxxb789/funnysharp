@@ -1,0 +1,9 @@
+{
+  "schema": "funnysharp-current-portable-verifier-red/v1",
+  "attempt": 1,
+  "monitor": "mon_97V4S4VBAMAA41WG",
+  "exitCode": 1,
+  "error": "FS0524: 'use' bindings are not permitted in modules and are treated as 'let' bindings",
+  "noWarningSuppression": true,
+  "objectOrMeasurementBytesChanged": false
+}

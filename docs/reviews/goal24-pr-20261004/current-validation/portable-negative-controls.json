@@ -1,0 +1,29 @@
+{
+  "schema": "funnysharp-current-performance-negative-controls/v1",
+  "results": [
+    {
+      "name": "missing-object",
+      "exitCode": 1,
+      "expectedMarker": "Could not find",
+      "passSentinelAbsent": true,
+      "stderr": "System.IO.DirectoryNotFoundException: Could not find a part of the path 'Q:\\tmp\\funnysharp-current-performance-negative-20261005-01\\missing-object\\docs\\reviews\\goal24-pr-20261004\\current-performance-evidence\\objects\\8d4829eed9283fde67dd62ddca7254edcf149388950ff229a921673a417a42b6.base64'.\r\n   at Microsoft.Win32.SafeHandles.SafeFileHandle.CreateFile(String fullPath, FileMode mode, FileAccess access, FileShare share, FileOptions options)\r\n   at Microsoft.Win32.SafeHandles.SafeFileHandle.Open(String fullPath, FileMode mode, FileAccess access, FileShare share, FileOptions options, Int64 preallocationSize, Nullable`1 unixCreateMode)\r\n   at System.IO.File.OpenHandle(String path, FileMode mode, FileAccess access, FileShare share, FileOptions options, Int64 preallocationSize)\r\n   at System.IO.File.ReadAllBytes(String path)\r\n   at <StartupCode$FSI_0001>.$FSI_0001.main@() in Q:\\repos\\funnysharp\\.worktrees\\goal24-complete-pr\\docs\\reviews\\goal24-pr-20261004\\current-performance-evidence\\verify-current.fsx:line 37\r\n   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)\r\n   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)\r\nStopped due to error\n"
+    },
+    {
+      "name": "tampered-catalog",
+      "exitCode": 1,
+      "expectedMarker": "Catalog hash mismatch",
+      "passSentinelAbsent": true,
+      "stderr": "System.Exception: Catalog hash mismatch\r\n   at <StartupCode$FSI_0001>.$FSI_0001.main@() in Q:\\repos\\funnysharp\\.worktrees\\goal24-complete-pr\\docs\\reviews\\goal24-pr-20261004\\current-performance-evidence\\verify-current.fsx:line 19\r\n   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)\r\n   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)\r\nStopped due to error\n"
+    },
+    {
+      "name": "tampered-object",
+      "exitCode": 1,
+      "expectedMarker": "Physical object hash mismatch",
+      "passSentinelAbsent": true,
+      "stderr": "System.Exception: Physical object hash mismatch\r\n   at <StartupCode$FSI_0001>.$FSI_0001.main@() in Q:\\repos\\funnysharp\\.worktrees\\goal24-complete-pr\\docs\\reviews\\goal24-pr-20261004\\current-performance-evidence\\verify-current.fsx:line 38\r\n   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)\r\n   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)\r\nStopped due to error\n"
+    }
+  ],
+  "originalBytesChanged": false,
+  "monitor": "mon_VMPXEAZ76CP1MQTQ",
+  "runnerExitCode": 0
+}

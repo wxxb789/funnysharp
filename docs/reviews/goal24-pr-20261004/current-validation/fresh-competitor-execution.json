@@ -1,0 +1,15 @@
+{
+  "schema": "funnysharp-pr-fresh-benchmark-execution/v1",
+  "candidate": "1fbb50df35e6b1a4cd423460eb6d2d149a64517f",
+  "suite": "competitor",
+  "monitor": "mon_R8FSJ2PH8PNNM5BT",
+  "exitCode": 0,
+  "executedBenchmarks": 40,
+  "elapsedSeconds": 819.7,
+  "artifacts": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/pr-validation/1fbb50d-performance-20261004-01/competitor",
+  "serialAfterMain190": true,
+  "preMeasurementAssetsFailurePreserved": "fresh-competitor-assets-red.json",
+  "projectSpecificLockedRestoreExit": 0,
+  "allocationBudgetAcceptance": "not yet verified",
+  "oldD8744ProofsUnchanged": true
+}

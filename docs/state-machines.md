@@ -125,9 +125,9 @@ a raw loop writes plain values into one caller-owned array and materializes noth
 <!-- performance-table:start state-machines -->
 | Scenario | Baseline mean | Candidate mean | Ratio | Baseline allocation | Candidate allocation |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Left-associated Then chain ([Count=256]) | 132.535 ns | 18.155 us | 136.98x | 1048 B | 33880 B |
-| Left-associated Then chain ([Count=64]) | 44.404 ns | 4.799 us | 108.08x | 280 B | 8536 B |
-| Left-associated Then chain ([Count=8]) | 6.846 ns | 601.340 ns | 87.84x | 56 B | 1144 B |
+| Left-associated Then chain ([Count=256]) | 166.218 ns | 20.579 us | 123.81x | 1048 B | 33880 B |
+| Left-associated Then chain ([Count=64]) | 35.528 ns | 5.238 us | 147.43x | 280 B | 8536 B |
+| Left-associated Then chain ([Count=8]) | 6.775 ns | 588.798 ns | 86.91x | 56 B | 1144 B |
 <!-- performance-table:end state-machines -->
 
 ## Deliberate Boundaries
