@@ -1,0 +1,324 @@
+{
+  "schema": "funnysharp-pr-current-c306-release-pass/v1",
+  "candidate": "c306991992b04299a3300235ce3285d4537fe6c2",
+  "attemptId": "r5",
+  "monitor": "mon_8239RFCFBD6AKP7F",
+  "exitCode": 0,
+  "elapsedMilliseconds": 287590,
+  "mode": "benchmarkSkipped",
+  "commands": [
+    {
+      "name": "clean",
+      "exitCode": 0
+    },
+    {
+      "name": "restore",
+      "exitCode": 0
+    },
+    {
+      "name": "build",
+      "exitCode": 0
+    },
+    {
+      "name": "test",
+      "exitCode": 0
+    },
+    {
+      "name": "examples",
+      "exitCode": 0
+    },
+    {
+      "name": "aspnetcore-examples",
+      "exitCode": 0
+    },
+    {
+      "name": "pack",
+      "exitCode": 0
+    },
+    {
+      "name": "format",
+      "exitCode": 0
+    },
+    {
+      "name": "performance-protocol-tests",
+      "exitCode": 0
+    },
+    {
+      "name": "release-protocol-tests",
+      "exitCode": 0
+    },
+    {
+      "name": "benchmark-preflight",
+      "exitCode": 0
+    },
+    {
+      "name": "performance-docs-verify",
+      "exitCode": 0
+    },
+    {
+      "name": "competitor-performance-docs-verify",
+      "exitCode": 0
+    },
+    {
+      "name": "compatibility",
+      "exitCode": 0
+    }
+  ],
+  "checks": [
+    {
+      "name": "Environment capture",
+      "status": "passed"
+    },
+    {
+      "name": "Release execution evidence",
+      "status": "passed"
+    },
+    {
+      "name": "Public API inventory",
+      "status": "passed"
+    },
+    {
+      "name": "XML documentation",
+      "status": "passed"
+    },
+    {
+      "name": "Package archive set",
+      "status": "passed"
+    },
+    {
+      "name": "FunnySharp package layout and dependencies",
+      "status": "passed"
+    },
+    {
+      "name": "FunnySharp.AspNetCore package layout and dependencies",
+      "status": "passed"
+    },
+    {
+      "name": "Documentation snippets",
+      "status": "passed"
+    },
+    {
+      "name": "Compatibility evidence",
+      "status": "passed"
+    },
+    {
+      "name": "Source fingerprint unchanged during verification",
+      "status": "passed"
+    }
+  ],
+  "failures": [],
+  "sourceFingerprintsBeforeAfterEqual": true,
+  "outcome": {
+    "schemaVersion": 1,
+    "succeeded": true,
+    "attemptId": "r5",
+    "candidateCommit": "c306991992b04299a3300235ce3285d4537fe6c2",
+    "executionEvidence": {
+      "path": "execution-evidence.json",
+      "sha256": "b5a17d945c2121d6a4c2fa0d92ae389efed527bb18a43912e907758d82b187eb"
+    },
+    "releaseEvidence": {
+      "path": "release-evidence/release-evidence.json",
+      "sha256": "89b0ca54026f0bda6e46eb91159386f17b6c719bbdc7d501b00e6e5560b77019"
+    },
+    "error": null
+  },
+  "executionSha256": "b5a17d945c2121d6a4c2fa0d92ae389efed527bb18a43912e907758d82b187eb",
+  "releaseEvidenceSha256": "89b0ca54026f0bda6e46eb91159386f17b6c719bbdc7d501b00e6e5560b77019",
+  "compatibility": {
+    "SchemaVersion": 1,
+    "Succeeded": true,
+    "RuntimeIdentifier": "win-x64",
+    "PackageFeed": "https://packagefeedproxy.microsoft.io/nuget/v3/index.json",
+    "CorePackageVersion": "0.2.0",
+    "AspNetCorePackageVersion": "0.2.0",
+    "CorePackageSha256": "09BE5BDD6E51B4996592AB2579264CB73D9260B00608BB6E1FEE48A981AB617D",
+    "AspNetCorePackageSha256": "1BEC1A99BCFAB1BCB6EA552896F264FDFC8677A077698E3AB6F46539E3D4AE3D",
+    "CoreAssemblySha256": "4d39b130dd2fe7dbdea9389385275e693265af32ab1f9c632a8fe31b3753c8dc",
+    "AspNetCoreAssemblySha256": "9882564e2d67f7ffff292a62629b38377841024aae04e969dc3863808f2c7b89",
+    "Scenarios": [
+      {
+        "Scenario": "CoreTrimmed",
+        "Outcome": "Passed",
+        "StartedAtUtc": "2026-10-05T04:41:39.0516630+00:00",
+        "FinishedAtUtc": "2026-10-05T04:41:56.5260465+00:00",
+        "RuntimeIdentifier": "win-x64",
+        "PackageFeed": "https://packagefeedproxy.microsoft.io/nuget/v3/index.json",
+        "Project": "Q:\\repos\\funnysharp\\.worktrees\\goal24-complete-pr\\tests\\FunnySharp.Compatibility\\FunnySharp.Compatibility.Core\\FunnySharp.Compatibility.Core.csproj",
+        "PublishProperties": [
+          "-p:PublishTrimmed=true",
+          "-p:TrimMode=full",
+          "-p:RootShippingAssemblies=true"
+        ],
+        "CorePackageVersion": "0.2.0",
+        "AspNetCorePackageVersion": "0.2.0",
+        "CorePackageSha256": "09BE5BDD6E51B4996592AB2579264CB73D9260B00608BB6E1FEE48A981AB617D",
+        "AspNetCorePackageSha256": "1BEC1A99BCFAB1BCB6EA552896F264FDFC8677A077698E3AB6F46539E3D4AE3D",
+        "CoreAssemblySha256": "4d39b130dd2fe7dbdea9389385275e693265af32ab1f9c632a8fe31b3753c8dc",
+        "AspNetCoreAssemblySha256": "9882564e2d67f7ffff292a62629b38377841024aae04e969dc3863808f2c7b89",
+        "PublishedCoreAssemblySha256": "1ef68e368c914375419c3493b93e3b6eae8457115d97bb3240417fe5a3439b39",
+        "PublishedAspNetCoreAssemblySha256": null,
+        "Error": null
+      },
+      {
+        "Scenario": "CoreNativeAot",
+        "Outcome": "Passed",
+        "StartedAtUtc": "2026-10-05T04:41:56.5261909+00:00",
+        "FinishedAtUtc": "2026-10-05T04:42:13.1246665+00:00",
+        "RuntimeIdentifier": "win-x64",
+        "PackageFeed": "https://packagefeedproxy.microsoft.io/nuget/v3/index.json",
+        "Project": "Q:\\repos\\funnysharp\\.worktrees\\goal24-complete-pr\\tests\\FunnySharp.Compatibility\\FunnySharp.Compatibility.Core\\FunnySharp.Compatibility.Core.csproj",
+        "PublishProperties": [
+          "-p:PublishTrimmed=true",
+          "-p:TrimMode=full",
+          "-p:PublishAot=true",
+          "-p:IsAotCompatible=true",
+          "-p:RootShippingAssemblies=false"
+        ],
+        "CorePackageVersion": "0.2.0",
+        "AspNetCorePackageVersion": "0.2.0",
+        "CorePackageSha256": "09BE5BDD6E51B4996592AB2579264CB73D9260B00608BB6E1FEE48A981AB617D",
+        "AspNetCorePackageSha256": "1BEC1A99BCFAB1BCB6EA552896F264FDFC8677A077698E3AB6F46539E3D4AE3D",
+        "CoreAssemblySha256": "4d39b130dd2fe7dbdea9389385275e693265af32ab1f9c632a8fe31b3753c8dc",
+        "AspNetCoreAssemblySha256": "9882564e2d67f7ffff292a62629b38377841024aae04e969dc3863808f2c7b89",
+        "PublishedCoreAssemblySha256": null,
+        "PublishedAspNetCoreAssemblySha256": null,
+        "Error": null
+      },
+      {
+        "Scenario": "AspNetCoreTrimmed",
+        "Outcome": "Passed",
+        "StartedAtUtc": "2026-10-05T04:42:13.1246799+00:00",
+        "FinishedAtUtc": "2026-10-05T04:42:29.3816299+00:00",
+        "RuntimeIdentifier": "win-x64",
+        "PackageFeed": "https://packagefeedproxy.microsoft.io/nuget/v3/index.json",
+        "Project": "Q:\\repos\\funnysharp\\.worktrees\\goal24-complete-pr\\tests\\FunnySharp.Compatibility\\FunnySharp.Compatibility.AspNetCore\\FunnySharp.Compatibility.AspNetCore.csproj",
+        "PublishProperties": [
+          "-p:PublishTrimmed=true",
+          "-p:TrimMode=full",
+          "-p:RootShippingAssemblies=true"
+        ],
+        "CorePackageVersion": "0.2.0",
+        "AspNetCorePackageVersion": "0.2.0",
+        "CorePackageSha256": "09BE5BDD6E51B4996592AB2579264CB73D9260B00608BB6E1FEE48A981AB617D",
+        "AspNetCorePackageSha256": "1BEC1A99BCFAB1BCB6EA552896F264FDFC8677A077698E3AB6F46539E3D4AE3D",
+        "CoreAssemblySha256": "4d39b130dd2fe7dbdea9389385275e693265af32ab1f9c632a8fe31b3753c8dc",
+        "AspNetCoreAssemblySha256": "9882564e2d67f7ffff292a62629b38377841024aae04e969dc3863808f2c7b89",
+        "PublishedCoreAssemblySha256": "1ef68e368c914375419c3493b93e3b6eae8457115d97bb3240417fe5a3439b39",
+        "PublishedAspNetCoreAssemblySha256": "e37e8f5cc245140ff30ad3cb061ece5b1dca1f82bb769483d59e81dbc9f50f68",
+        "Error": null
+      },
+      {
+        "Scenario": "AspNetCoreNativeAot",
+        "Outcome": "Passed",
+        "StartedAtUtc": "2026-10-05T04:42:29.3816345+00:00",
+        "FinishedAtUtc": "2026-10-05T04:42:52.1337821+00:00",
+        "RuntimeIdentifier": "win-x64",
+        "PackageFeed": "https://packagefeedproxy.microsoft.io/nuget/v3/index.json",
+        "Project": "Q:\\repos\\funnysharp\\.worktrees\\goal24-complete-pr\\tests\\FunnySharp.Compatibility\\FunnySharp.Compatibility.AspNetCore\\FunnySharp.Compatibility.AspNetCore.csproj",
+        "PublishProperties": [
+          "-p:PublishTrimmed=true",
+          "-p:TrimMode=full",
+          "-p:PublishAot=true",
+          "-p:IsAotCompatible=true",
+          "-p:RootShippingAssemblies=false"
+        ],
+        "CorePackageVersion": "0.2.0",
+        "AspNetCorePackageVersion": "0.2.0",
+        "CorePackageSha256": "09BE5BDD6E51B4996592AB2579264CB73D9260B00608BB6E1FEE48A981AB617D",
+        "AspNetCorePackageSha256": "1BEC1A99BCFAB1BCB6EA552896F264FDFC8677A077698E3AB6F46539E3D4AE3D",
+        "CoreAssemblySha256": "4d39b130dd2fe7dbdea9389385275e693265af32ab1f9c632a8fe31b3753c8dc",
+        "AspNetCoreAssemblySha256": "9882564e2d67f7ffff292a62629b38377841024aae04e969dc3863808f2c7b89",
+        "PublishedCoreAssemblySha256": null,
+        "PublishedAspNetCoreAssemblySha256": null,
+        "Error": null
+      }
+    ]
+  },
+  "xmlSeal": {
+    "assemblies": [
+      {
+        "dllPath": "src/FunnySharp/bin/Release/net10.0/FunnySharp.dll",
+        "dllSha256": "4d39b130dd2fe7dbdea9389385275e693265af32ab1f9c632a8fe31b3753c8dc",
+        "name": "FunnySharp",
+        "pdbPath": "src/FunnySharp/bin/Release/net10.0/FunnySharp.pdb",
+        "pdbSha256": "9b0327fe0a4f2b6ce19fd3c5f1018b58213846d2d6703d0a33eaf668519e4563",
+        "xmlPath": "src/FunnySharp/bin/Release/net10.0/FunnySharp.xml",
+        "xmlSha256": "35dd9f2354a0dc45799e32adf90e7649594aa62988f423a42fa12185ae63f5b3"
+      },
+      {
+        "dllPath": "src/FunnySharp.AspNetCore/bin/Release/net10.0/FunnySharp.AspNetCore.dll",
+        "dllSha256": "9882564e2d67f7ffff292a62629b38377841024aae04e969dc3863808f2c7b89",
+        "name": "FunnySharp.AspNetCore",
+        "pdbPath": "src/FunnySharp.AspNetCore/bin/Release/net10.0/FunnySharp.AspNetCore.pdb",
+        "pdbSha256": "7081ae7056437a137bc0f78ba06c817e3f0a642c6420a162057e98341cae2688",
+        "xmlPath": "src/FunnySharp.AspNetCore/bin/Release/net10.0/FunnySharp.AspNetCore.xml",
+        "xmlSha256": "27af8c3d2b65daa59a081f0b24674be0c41fe9cd652a19455cce01f2637e66d0"
+      }
+    ],
+    "attemptId": "r5",
+    "buildCommandReceipt": {
+      "path": "receipts/03-build.json",
+      "sha256": "f56b3c2007eb1de9f859e274f6ca6acba2e70361f7f78dbf63c4c1ae30f682a8"
+    },
+    "candidateCommit": "c306991992b04299a3300235ce3285d4537fe6c2",
+    "capturedAtUtc": "2026-10-05T04:39:07.1949864+00:00",
+    "reviewedInputs": {
+      "path": "eng/api-baseline/xml-reviewed-inputs.json",
+      "sha256": "1b503dc0fc26d27bb44eacead21970c48a67402a21c054973bf785aef7b36da6"
+    },
+    "reviewedPolicy": {
+      "path": "eng/api-baseline/xml-contract-bindings.json",
+      "sha256": "696fe5154ee970778ce7b415ea9bc964cedbe6158d34e3f6e545be3843d08601"
+    },
+    "schema": "funnysharp-xml-build-bindings/v1"
+  },
+  "actualReleaseTestReceipt": {
+    "schemaVersion": 1,
+    "name": "test",
+    "startedAtUtc": "2026-10-05T04:39:07.3096421Z",
+    "completedAtUtc": "2026-10-05T04:39:35.7348683Z",
+    "fileName": "dotnet",
+    "arguments": [
+      "test",
+      "FunnySharp.slnx",
+      "--configuration",
+      "Release",
+      "--no-build",
+      "--no-restore"
+    ],
+    "workingDirectory": "Q:\\repos\\funnysharp\\.worktrees\\goal24-complete-pr",
+    "exitCode": 0,
+    "standardOutputLog": "logs/04-test.stdout.log",
+    "standardErrorLog": "logs/04-test.stderr.log",
+    "standardOutputSha256": "af495f4ff7b486286f6304d5a545ac40bc8df18e5e8c3cc63d6f3216ba59927f",
+    "standardErrorSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "actualReleaseTestSummary": [
+    "Q:\\repos\\funnysharp\\.worktrees\\goal24-complete-pr\\tests\\FunnySharp.AspNetCore.Tests\\bin\\Release\\net10.0\\FunnySharp.AspNetCore.Tests.dll (net10.0|x64) passed (3s 248ms)\r",
+    "Q:\\repos\\funnysharp\\.worktrees\\goal24-complete-pr\\tests\\FunnySharp.Tests\\bin\\Release\\net10.0\\FunnySharp.Tests.dll (net10.0|x64) passed (5s 126ms)\r",
+    "Q:\\repos\\funnysharp\\.worktrees\\goal24-complete-pr\\tests\\FunnySharp.Analyzers.Tests\\bin\\Release\\net10.0\\FunnySharp.Analyzers.Tests.dll (net10.0|x64) passed (7s 490ms)\r",
+    "Q:\\repos\\funnysharp\\.worktrees\\goal24-complete-pr\\tests\\FunnySharp.Harness.Tests\\bin\\Release\\net10.0\\FunnySharp.Harness.Tests.dll (net10.0|x64) passed (26s 473ms)\r",
+    "Test run summary: Passed!\r",
+    "  Q:\\repos\\funnysharp\\.worktrees\\goal24-complete-pr\\tests\\FunnySharp.Harness.Tests\\bin\\Release\\net10.0\\FunnySharp.Harness.Tests.dll (net10.0|x64) passed (26s 473ms)\r",
+    "  Q:\\repos\\funnysharp\\.worktrees\\goal24-complete-pr\\tests\\FunnySharp.Analyzers.Tests\\bin\\Release\\net10.0\\FunnySharp.Analyzers.Tests.dll (net10.0|x64) passed (7s 490ms)\r",
+    "  Q:\\repos\\funnysharp\\.worktrees\\goal24-complete-pr\\tests\\FunnySharp.Tests\\bin\\Release\\net10.0\\FunnySharp.Tests.dll (net10.0|x64) passed (5s 126ms)\r",
+    "  Q:\\repos\\funnysharp\\.worktrees\\goal24-complete-pr\\tests\\FunnySharp.AspNetCore.Tests\\bin\\Release\\net10.0\\FunnySharp.AspNetCore.Tests.dll (net10.0|x64) passed (3s 248ms)\r",
+    "  failed: 0\r",
+    "  succeeded: 2630\r",
+    "  skipped: 0\r"
+  ],
+  "launcherPinsBefore": {
+    "runner": "78fa8b5676325a957192f83224f21b7e3f7a2c86ca629e6fb6f846d0e1f01cd0",
+    "config": "b51bcd6d925f7a0eb6c7df1c11cd9f3e8e676212960cde1ce44f9defeebf7d89"
+  },
+  "launcherPinsAfter": {
+    "runner": "78fa8b5676325a957192f83224f21b7e3f7a2c86ca629e6fb6f846d0e1f01cd0",
+    "config": "b51bcd6d925f7a0eb6c7df1c11cd9f3e8e676212960cde1ce44f9defeebf7d89"
+  },
+  "explicitMirrorFeeds": true,
+  "noDefaultPublicEndpointClaim": true,
+  "noNugetPublicationOrOrdinaryMerge": true,
+  "previousRedsRetained": true,
+  "independentGateAndPublication": "PENDING"
+}
