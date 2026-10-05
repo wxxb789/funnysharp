@@ -1,0 +1,31 @@
+{
+  "schema": "funnysharp-pr-clean-candidate-full-gate-red/v1",
+  "candidate": "79b84990ecfee7abda144008b926283b6bba22de",
+  "cleanBeforeRun": true,
+  "pipeline": "dotnet fsi build.fsx -- -p test",
+  "configuration": "Debug default per repository build.fsx:89-93",
+  "monitor": "mon_CQAE8AWPWJJZ8GR5",
+  "exitCode": 1,
+  "total": 2630,
+  "passed": 2629,
+  "failed": 1,
+  "skipped": 0,
+  "failure": {
+    "method": "FunnySharp.AspNetCore.Tests.HttpResultExtensionsTests.TaskHandlerObservesRequestAbortedWhenTheCallerPassesIt",
+    "message": "System.TimeoutException : The operation has timed out.",
+    "file": "tests/FunnySharp.AspNetCore.Tests/HttpResultExtensionsTests.cs",
+    "lines": [
+      379,
+      380
+    ],
+    "wait": "canceled.Task.WaitAsync(TimeSpan.FromSeconds(10), TestContext.Current.CancellationToken)"
+  },
+  "testAndProductionCodeUnchangedByR9Comments": true,
+  "diagnosis": {
+    "hypothesis": "A disposable observer registration may be removed by operation unwind after the later Task.Delay cancellation callback completes, before that earlier observer callback is dispatched. This concerns the test observer, not evidence of broken production cancellation.",
+    "mechanismProbe": "mon_R4YFNHVH1GNFVTSK",
+    "unchangedTarget": "mon_BPW7FQD9R7J4RP1J",
+    "status": "PENDING_ACTUAL_DIAGNOSIS_RESULTS"
+  },
+  "noPublicationOrTimeoutWaiver": true
+}

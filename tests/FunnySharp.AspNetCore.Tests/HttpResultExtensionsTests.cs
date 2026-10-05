@@ -331,8 +331,15 @@ public sealed class HttpResultExtensionsTests
         var effect = Effect.FromValueTask<Option<Payload>>(async token =>
         {
             effectStarted.TrySetResult(token);
-            using var registration = token.Register(canceled.SetResult);
-            await Task.Delay(Timeout.InfiniteTimeSpan, token);
+            try
+            {
+                await Task.Delay(Timeout.InfiniteTimeSpan, token);
+            }
+            catch (OperationCanceledException) when (token.IsCancellationRequested)
+            {
+                canceled.SetResult();
+                throw;
+            }
             return Option.Some(new Payload("unreachable", 0));
         });
 
@@ -382,8 +389,15 @@ public sealed class HttpResultExtensionsTests
         async Task<Option<Payload>> WaitForCancellationAsync(CancellationToken cancellationToken)
         {
             operationStarted.TrySetResult(cancellationToken);
-            using var registration = cancellationToken.Register(canceled.SetResult);
-            await Task.Delay(Timeout.InfiniteTimeSpan, cancellationToken);
+            try
+            {
+                await Task.Delay(Timeout.InfiniteTimeSpan, cancellationToken);
+            }
+            catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+            {
+                canceled.SetResult();
+                throw;
+            }
             return Option.Some(new Payload("unreachable", 0));
         }
     }

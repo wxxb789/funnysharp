@@ -1,0 +1,7 @@
+# Deterministic HTTP cancellation observation
+
+The first clean79b8499 fullDebug gate reported2630total/2629passed/1failed/0skipped: TaskHandlerObservesRequestAbortedWhenTheCallerPassesIt timed out awaiting its cancellation observer. The unchanged isolated test passed. A deterministic BCL probe shows that a later cancellation callback can remove an earlier pending observer; the test used a disposable observer registration that could be removed during Task.Delay cancellation unwind. The original failing execution has no captured thread-level trace, so the probe establishes the mechanism rather than fabricating that trace.
+
+Three operation bodies in twoASP testfiles now signal only when the actual awaited operation catches cancellation for the requested token, then rethrow. This strengthens observation and keeps every assertion, exacttoken comparison, realTestServer/Kestrel host and10second failure boundary. Production/library/API/protocol/budget/benchmark sources are unchanged. CompleteHTTP project28cases passed with0errors/failures/skips/notrun; its Debugbuild andprecommitCSharpformatter exited0. Current fullsolution/release afterthefixcommit remain separate checks.
+
+Exact originalprobe/unchangedtarget/fixedfullCTRF/TRX sources are retained as reversiblebase64, including no-terminal-LF bytes. validation.json records their decoded andphysical SHA256/lengths. initial-full-gate-red.json preserves the failure rather than treating an isolated pass as a clean fullgate. No original benchmark/model/HTTPstudy/denial proof was replayed.
