@@ -1,0 +1,321 @@
+{
+  "schema": "funnysharp-targeted-pr-feedback-completion/v1",
+  "status": "completed",
+  "mode": "pipeline",
+  "scope": "targeted",
+  "target": "https://github.com/wxxb789/funnysharp/pull/33#discussion_r4172895936",
+  "head": "d26b159fdf6fe32c8afa04be92ee0e335f35dc3c",
+  "verdict": "fixed",
+  "fixedCommit": "d26b159fdf6fe32c8afa04be92ee0e335f35dc3c",
+  "implementedBy": "parent under existing complete PR/fix authority",
+  "source": {
+    "id": "PRRT_kwDOUI7h886om30w",
+    "kind": "thread",
+    "rootCommentId": 4172895936,
+    "rootNodeId": "PRRC_kwDOUI7h8874uVbA",
+    "originalCommit": "401ec94d8310756afdca77d4890250b4a9a71e59",
+    "currentCommit": "d26b159fdf6fe32c8afa04be92ee0e335f35dc3c",
+    "originalCreatedAt": "2026-10-03T11:06:32Z",
+    "originalUpdatedAt": "2026-10-03T11:06:32Z",
+    "path": "build.fsx",
+    "originalLine": 138,
+    "currentLine": 140,
+    "reviewContext": "**<sub><sub>![P2 Badge](https://img.shields.io/badge/P2-yellow?style=flat)</sub></sub>  Invoke the stable-contract gate from CI**\n\nBecause this new pipeline is `runIfOnlySpecified`, and neither `.github/workflows/*.yml` nor `eng/release-protocol.json` invokes it, the committed 468-member proof index is never validated by the required tooling or release workflows. The ordinary test step only exercises synthetic `validateProofIndex` fixtures, so a stale source hash, missing runtime receipt, or broken real index can still pass every release context; add this pipeline to an enforced workflow or release-protocol step.\n\nAGENTS.md reference: [AGENTS.md:L7-L9](https://github.com/wxxb789/funnysharp/blob/401ec94d8310756afdca77d4890250b4a9a71e59/AGENTS.md#L7-L9)\n\nUseful? React with 👍 / 👎."
+  },
+  "publication": {
+    "prHead": "d26b159fdf6fe32c8afa04be92ee0e335f35dc3c",
+    "remoteBranchRef": "d26b159fdf6fe32c8afa04be92ee0e335f35dc3c",
+    "headRef": "audit/goal24-resolution",
+    "headRepository": "wxxb789/funnysharp",
+    "commit": {
+      "sha": "d26b159fdf6fe32c8afa04be92ee0e335f35dc3c",
+      "parent": [
+        "c9acfba0091519510005558993e35d021b0ecd31"
+      ],
+      "tree": "533ea078513c1e5fe0a0c1b32bd49bcb8c60f82c",
+      "message": "fix: enforce portable stable semantic evidence in release CI",
+      "files": [
+        {
+          "filename": ".github/workflows/release.yml",
+          "status": "modified",
+          "changes": 7
+        },
+        {
+          "filename": "build.fsx",
+          "status": "modified",
+          "changes": 4
+        },
+        {
+          "filename": "docs/audits/goal-24-resolution/current-stable-semantic/README.md",
+          "status": "added",
+          "changes": 15
+        },
+        {
+          "filename": "docs/audits/goal-24-resolution/current-stable-semantic/credential-scan.json",
+          "status": "added",
+          "changes": 35
+        },
+        {
+          "filename": "docs/audits/goal-24-resolution/current-stable-semantic/current-proof-index.json",
+          "status": "added",
+          "changes": 298884
+        },
+        {
+          "filename": "docs/audits/goal-24-resolution/current-stable-semantic/input-catalog.json",
+          "status": "added",
+          "changes": 21107
+        },
+        {
+          "filename": "docs/audits/goal-24-resolution/current-stable-semantic/inputs.zip",
+          "status": "added",
+          "changes": 0
+        },
+        {
+          "filename": "docs/audits/goal-24-resolution/current-stable-semantic/preparation.json",
+          "status": "added",
+          "changes": 2769
+        },
+        {
+          "filename": "docs/audits/goal-24-resolution/current-stable-semantic/preparation.md",
+          "status": "added",
+          "changes": 79
+        },
+        {
+          "filename": "eng/harness/StableApiContracts.fs",
+          "status": "modified",
+          "changes": 117
+        },
+        {
+          "filename": "tests/FunnySharp.Harness.Tests/StableApiContractsTests.fs",
+          "status": "modified",
+          "changes": 64
+        }
+      ]
+    },
+    "observedAt": "2026-10-05T06:52:33.627Z",
+    "workflowSha256": "a56babd35f3c1ac0874b5de71f48d5ea283ddb815b9f954e8ddca988c5276915",
+    "workflowMatchesReviewedBytes": true,
+    "originalIndex": {
+      "path": "docs/audits/goal-24-resolution/stable-api-semantic-proofs.json",
+      "d26Blob": "36eb6394d45ca9de0694bcf512e8309cf0a92fac",
+      "c9Blob": "36eb6394d45ca9de0694bcf512e8309cf0a92fac",
+      "size": 15635483,
+      "unchanged": true
+    },
+    "receiptPublicationLabel": "PENDING_NORMAL_PUSH",
+    "labelInterpretation": "The retained local receipt predates publication. Fresh independent GitHub head/ref/immutable-commit proof above establishes current publication; the historical receipt is not rewritten."
+  },
+  "fix": {
+    "summary": "Required Windows canonical release executes the real current stable semantic gate after successful release and before upload, using append-only portable current proof and actual candidate/attempt release evidence.",
+    "workflowPath": ".github/workflows/release.yml",
+    "proofIndex": "docs/audits/goal-24-resolution/current-stable-semantic/current-proof-index.json",
+    "portableEntries": 2340,
+    "portableAliases": 4722,
+    "originalIndexSha256": "ad106d7ee1ed4772e898bc17edb020a3b4e3f836f32678613e13cc95a813da18",
+    "historicalObservations": "Retained runtime/compiler evidence remains explicitly historical. Current Git candidate and actual DLL/PDB/XML are joined to the current successful release seal.",
+    "files_changed_in_published_fix": [
+      ".github/workflows/release.yml",
+      "build.fsx",
+      "docs/audits/goal-24-resolution/current-stable-semantic/README.md",
+      "docs/audits/goal-24-resolution/current-stable-semantic/credential-scan.json",
+      "docs/audits/goal-24-resolution/current-stable-semantic/current-proof-index.json",
+      "docs/audits/goal-24-resolution/current-stable-semantic/input-catalog.json",
+      "docs/audits/goal-24-resolution/current-stable-semantic/inputs.zip",
+      "docs/audits/goal-24-resolution/current-stable-semantic/preparation.json",
+      "docs/audits/goal-24-resolution/current-stable-semantic/preparation.md",
+      "eng/harness/StableApiContracts.fs",
+      "tests/FunnySharp.Harness.Tests/StableApiContractsTests.fs"
+    ],
+    "files_changed_by_completion_worker": [
+      "Q:/repos/funnysharp/docs/reviews/goal24-pr-20261004/postsubmit-feedback-completion-d26.json",
+      "Q:/repos/funnysharp/docs/reviews/goal24-pr-20261004/postsubmit-feedback-completion-d26.md"
+    ],
+    "invariant_key": "stable-semantic-required-ci"
+  },
+  "localValidation": {
+    "source": {
+      "path": "Q:/repos/funnysharp/docs/reviews/goal24-pr-20261004/stable-ci-d26-live-gate-pass.json",
+      "sha256": "ec68b22f3dea033801ea2d45b499df6f49149b62b4e4e2edbceee8feed8154bc"
+    },
+    "candidate": "d26b159fdf6fe32c8afa04be92ee0e335f35dc3c",
+    "canonical": {
+      "attempt": "r6",
+      "exitCode": 0,
+      "commands": 14,
+      "checksPassed": 10,
+      "failures": [],
+      "tests": {
+        "total": 2636,
+        "succeeded": 2636,
+        "failed": 0,
+        "skipped": 0,
+        "assemblies": [
+          "Q:\\repos\\funnysharp\\.worktrees\\goal24-complete-pr\\tests\\FunnySharp.Tests\\bin\\Release\\net10.0\\FunnySharp.Tests.dll",
+          "Q:\\repos\\funnysharp\\.worktrees\\goal24-complete-pr\\tests\\FunnySharp.AspNetCore.Tests\\bin\\Release\\net10.0\\FunnySharp.AspNetCore.Tests.dll"
+        ]
+      },
+      "executionSha256": "2209b2c16f9e0822ec1588079ebf2c101c10b4a5018de3d851e5f58ade709355",
+      "releaseEvidenceSha256": "6da87bb4271d61001545ef0ad1f4acb06f47f352c17c356cadc0be3e72866b14",
+      "cleanBeforeAfter": true
+    },
+    "actualStableCli": {
+      "monitor": "mon_XPT8DXHKPZY9FKSM",
+      "exitCode": 0,
+      "durationMs": 8031,
+      "members": 468,
+      "dimensions": 3744,
+      "usesActualR6Seal": true
+    },
+    "focusedTests": {
+      "monitor": "mon_J07J5VT89KWR02SV",
+      "exitCode": 0,
+      "total": 17,
+      "passed": 17,
+      "failed": 0,
+      "skipped": 0
+    },
+    "fullPortableProof": {
+      "monitor": "mon_Z0R9KXBJ99P58M76",
+      "exitCode": 0,
+      "members": 468,
+      "dimensions": 3744,
+      "sourceUnits": 565,
+      "assertions": 697,
+      "compilerProbes": 2288
+    },
+    "staleReleaseNegative": {
+      "monitor": "mon_JDTSZ8RMY0YVZ30T",
+      "exitCode": 1,
+      "oldCandidate": "c306991992b04299a3300235ce3285d4537fe6c2",
+      "actualMessage": "Stable semantic proof: release evidence belongs to another candidate."
+    },
+    "independentIncrementReview": {
+      "source": {
+        "path": "Q:/repos/funnysharp/docs/reviews/goal24-pr-20261004/stable-ci-increment-review-d26-original.json",
+        "sha256": "c46efc09dda1377489e6fa638051092f86aea29cbd058df018f759d438da692b"
+      },
+      "candidate": "d26b159fdf6fe32c8afa04be92ee0e335f35dc3c",
+      "recommendation": "APPROVE",
+      "blockers": [],
+      "route": {
+        "role": "omo-native-gate-reviewer",
+        "taskId": "st_01a10ac1",
+        "parentSession": "01a105fc-12f5-716f-ab6e-28d97b2bd38c",
+        "runtimeSession": "01a10ac1-1a93-77a5-b43c-11b024c134af",
+        "provider": "ghc",
+        "model": "gpt-6-astra",
+        "routeEvidence": "Direct printf of PI_PROVIDER, PI_MODEL and PI_SESSION_ID returned these values.",
+        "effort": "Not exposed",
+        "delegation": false
+      }
+    },
+    "completionWorkerWorkloadsRerun": false,
+    "attribution": "Read retained actual parent local gate receipts and independent static review; no build/test/proof workload was executed by this completion worker.",
+    "hostedCi": "Not claimed green. Exact-head CI and babysit settlement remain parent-owned."
+  },
+  "reply": {
+    "id": 4181389349,
+    "node_id": "PRRC_kwDOUI7h8875OvAl",
+    "url": "https://github.com/wxxb789/funnysharp/pull/33#discussion_r4181389349",
+    "review_id": 5410896967,
+    "review_state": "COMMENTED",
+    "body": "> add this pipeline to an enforced workflow or release-protocol step.\n\nFixed in published commit `d26b159fdf6fe32c8afa04be92ee0e335f35dc3c`. The required Windows canonical release job now runs `verify-stable-api-contracts` after canonical release succeeds and before the candidate upload. It passes the append-only current proof index and the exact candidate/attempt release-evidence path; a nonzero verifier result fails that required job.\n\nThe fix includes a portable, hash-bound packet with 2,340 entries and 4,722 aliases. The original `ad106d7e...da18` index remains unchanged. The live gate joins the current clean Git candidate and actual DLL/PDB/XML seal to the successor proof, while retaining historical runtime/compiler observations as historical evidence rather than claiming new executions.\n\nRetained local validation for this exact `d26b159` candidate: r6 canonical release passed all 14 commands and 10 checks, with 2,636 Release tests passed, 0 failed and 0 skipped. The actual r6-seal stable CLI exited 0 for 468 members and 3,744 dimensions; 17 focused tests passed, and independent increment review returned APPROVE with no blockers. These are local receipts, not a claim that the newly published hosted CI is green.\n\nThis completes the previously parked implementation gap. The earlier needs-human report remains a historical record; no human answer was fabricated to retire it. Exact-head hosted CI and PR settlement are tracked separately.",
+    "created_at": "2026-10-05T06:51:05Z",
+    "updated_at": "2026-10-05T06:51:05Z",
+    "verifiedAt": "2026-10-05T06:51:23.778Z"
+  },
+  "resolution": {
+    "id": "PRRT_kwDOUI7h886om30w",
+    "mutation": {
+      "id": "PRRT_kwDOUI7h886om30w",
+      "isResolved": true,
+      "resolvedBy": {
+        "login": "wxxb789"
+      },
+      "path": "build.fsx",
+      "line": 140
+    },
+    "readback": {
+      "isResolved": true,
+      "lastComment": "PRRC_kwDOUI7h8875OvAl",
+      "replyVisibleAndSubmitted": true,
+      "pendingReview": null,
+      "observedAt": "2026-10-05T06:52:33.627Z"
+    }
+  },
+  "sourceCompletionIdentity": [
+    "PRRC_kwDOUI7h8875OvAl",
+    "2026-10-05T06:51:05Z"
+  ],
+  "sharedOutcome": {
+    "stateDirectory": "Q:/tmp/compound-engineering-lhan/ce-babysit-pr/github.com-wxxb789-funnysharp-33",
+    "invocationId": "f35e308a7bb84ccf88fc703c8ad0fa3d",
+    "startedAt": "2026-10-05T05:32:23.075023+00:00",
+    "budgetSeconds": 28800,
+    "markReceipt": {
+      "marked": "PRRT_kwDOUI7h886om30w"
+    },
+    "sourceDisposition": "dispatched",
+    "invariant_key": "stable-semantic-required-ci",
+    "invariant_round_heads": [
+      "d26b159fdf6fe32c8afa04be92ee0e335f35dc3c"
+    ],
+    "canonicalDecisions": {
+      "human_decisions": [],
+      "answered_human_decisions": [],
+      "needs_human_residuals": []
+    },
+    "noNewInvocation": true,
+    "noNewWatcher": true,
+    "noAnswerDecision": true,
+    "oldDecisionTransition": "Parent used explicit source --disposition open after fresh published implementation changed the question. No human answer was fabricated.",
+    "sharedStateIdentityNote": "The shared disposition and invariant mark are authoritative. A resolved thread is absent from the helper unresolved-only baseline query, so the completion identity is retained explicitly above rather than mislabeling the old cached shared last_comment_id as the new reply."
+  },
+  "residuals": [],
+  "pendingRemoteActions": [],
+  "protectedHistoricalReports": [
+    {
+      "path": "Q:/repos/funnysharp/docs/reviews/goal24-pr-20261004/postsubmit-feedback-result.json",
+      "sha256": "a76efbd45af36f90625152c53fa91b5c8b59352dbcaf9f051596963f7bc967ed"
+    },
+    {
+      "path": "Q:/repos/funnysharp/docs/reviews/goal24-pr-20261004/postsubmit-feedback-result.md",
+      "sha256": "7001bf59419fd436dd005e5467e17111db767564385bd22cc88c2b873579d760"
+    }
+  ],
+  "evidenceFiles": [
+    {
+      "path": "Q:/repos/funnysharp/docs/reviews/goal24-pr-20261004/stable-ci-d26-live-gate-pass.json",
+      "sha256": "ec68b22f3dea033801ea2d45b499df6f49149b62b4e4e2edbceee8feed8154bc"
+    },
+    {
+      "path": "Q:/repos/funnysharp/docs/reviews/goal24-pr-20261004/stable-ci-increment-review-d26-original.json",
+      "sha256": "c46efc09dda1377489e6fa638051092f86aea29cbd058df018f759d438da692b"
+    },
+    {
+      "path": "Q:/repos/funnysharp/docs/reviews/goal24-pr-20261004/stable-gate-scope-reconciliation.md",
+      "sha256": "a5e8691114073d5f70df19fcb3782209fc980292a8b35527b1b6512019d6379e"
+    }
+  ],
+  "validation": {
+    "allTargetCommentsPaginated": true,
+    "replyBodyExactlyReadBack": true,
+    "replyReviewState": "COMMENTED",
+    "resolutionAuthoritativelyReadBack": true,
+    "publicationFreshBeforeEveryWrite": true,
+    "jsonContract": "Validated by parsing saved report and checking exact reply/head/disposition/canonical decision fields.",
+    "sourceEdits": false,
+    "gitMutation": false,
+    "commits": false,
+    "pushes": false,
+    "builds": false,
+    "tests": false,
+    "proofChanges": false,
+    "hostedCiConclusion": false
+  },
+  "artifacts": [
+    "Q:/repos/funnysharp/docs/reviews/goal24-pr-20261004/postsubmit-feedback-completion-d26.json",
+    "Q:/repos/funnysharp/docs/reviews/goal24-pr-20261004/postsubmit-feedback-completion-d26.md"
+  ],
+  "createdAt": "2026-10-05T06:53:02.292Z"
+}

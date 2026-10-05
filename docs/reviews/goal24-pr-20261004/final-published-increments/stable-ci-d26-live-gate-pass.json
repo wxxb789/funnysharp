@@ -1,0 +1,78 @@
+{
+  "candidate": "d26b159fdf6fe32c8afa04be92ee0e335f35dc3c",
+  "canonical": {
+    "candidate": "d26b159fdf6fe32c8afa04be92ee0e335f35dc3c",
+    "attempt": "r6",
+    "canonicalExitCode": 0,
+    "durationMs": 317276,
+    "executionSha256": "2209b2c16f9e0822ec1588079ebf2c101c10b4a5018de3d851e5f58ade709355",
+    "releaseEvidenceSha256": "6da87bb4271d61001545ef0ad1f4acb06f47f352c17c356cadc0be3e72866b14",
+    "commands": 14,
+    "checksPassed": 10,
+    "failures": [],
+    "build": {
+      "warnings": 0,
+      "errors": 0
+    },
+    "tests": {
+      "total": 2636,
+      "succeeded": 2636,
+      "failed": 0,
+      "skipped": 0,
+      "assemblies": [
+        "Q:\\repos\\funnysharp\\.worktrees\\goal24-complete-pr\\tests\\FunnySharp.Tests\\bin\\Release\\net10.0\\FunnySharp.Tests.dll",
+        "Q:\\repos\\funnysharp\\.worktrees\\goal24-complete-pr\\tests\\FunnySharp.AspNetCore.Tests\\bin\\Release\\net10.0\\FunnySharp.AspNetCore.Tests.dll"
+      ]
+    },
+    "sourceFileCount": 8586,
+    "sourceDigest": "4ee80f84a428ebf5708bd386c82cf152b7dd7826222a8dce6a18df65d763a177",
+    "cleanBeforeAfter": true,
+    "liveStableGate": "RUNNING"
+  },
+  "liveStableGate": {
+    "monitor": "mon_XPT8DXHKPZY9FKSM",
+    "exitCode": 0,
+    "durationMs": 8031,
+    "members": 468,
+    "dimensions": 3744,
+    "usesActualR6Seal": true
+  },
+  "sourceAndPortableChecks": {
+    "focusedTests": {
+      "monitor": "mon_J07J5VT89KWR02SV",
+      "exitCode": 0,
+      "total": 17,
+      "passed": 17,
+      "failed": 0,
+      "skipped": 0
+    },
+    "fullPortableProof": {
+      "monitor": "mon_Z0R9KXBJ99P58M76",
+      "exitCode": 0,
+      "members": 468,
+      "dimensions": 3744,
+      "sourceUnits": 565,
+      "assertions": 697,
+      "compilerProbes": 2288
+    },
+    "staleReleaseNegative": {
+      "monitor": "mon_JDTSZ8RMY0YVZ30T",
+      "exitCode": 1,
+      "oldCandidate": "c306991992b04299a3300235ce3285d4537fe6c2",
+      "actualMessage": "Stable semantic proof: release evidence belongs to another candidate."
+    },
+    "formatter": {
+      "monitor": "mon_EN90QJ3NSQV5C14X",
+      "exitCode": 0,
+      "durationMs": 29697
+    }
+  },
+  "independentReview": {
+    "task": "st_01a10ac1",
+    "recommendation": "APPROVE",
+    "jsonSha256": "c46efc09dda1377489e6fa638051092f86aea29cbd058df018f759d438da692b",
+    "markdownSha256": "90adacd91e5aeda9d715e481a57f9c88d2eaa058e972dba7ad78132b227f115b"
+  },
+  "publication": "PENDING_NORMAL_PUSH",
+  "historicalEvidenceReplayed": false
+}
