@@ -2,6 +2,7 @@ module FunnySharp.Harness.Tests.StableApiContractsTests
 
 open System
 open System.IO
+open System.IO.Compression
 open System.Security.Cryptography
 open System.Text
 open System.Text.Json
@@ -69,7 +70,70 @@ let private check root (index: JsonObject) =
     use document = JsonDocument.Parse(index.ToJsonString())
     validateProofIndex root expected document.RootElement
 
+let private portableFixture root kind =
+    let index = fixture root
+    let entries = JsonArray()
+    let archivePath = Path.Combine(root, "inputs.zip")
+    do
+        use archive = ZipFile.Open(archivePath, ZipArchiveMode.Create)
+        for name in [ "runtime.json"; "compiler.json"; "Proof.xml" ] do
+            let bytes = File.ReadAllBytes(Path.Combine(root, name))
+            let hash = Convert.ToHexString(SHA256.HashData bytes).ToLowerInvariant()
+            let entry = JsonObject()
+            entry.["entry"] <- JsonValue.Create name
+            entry.["sha256"] <- JsonValue.Create(if kind = "wrong-entry-hash" && name = "Proof.xml" then String.replicate 64 "0" else hash)
+            entry.["bytes"] <- JsonValue.Create bytes.LongLength
+            let paths = JsonArray()
+            paths.Add(JsonValue.Create name)
+            if kind = "source-alias" && name = "compiler.json" then
+                paths.Add(JsonValue.Create "src/Proof.cs")
+            entry.["paths"] <- paths
+            entries.Add entry
+            if not (kind = "missing-entry" && name = "Proof.xml") then
+                use output = (archive.CreateEntry name).Open()
+                output.Write bytes
+        if kind = "unindexed-entry" then
+            archive.CreateEntry("extra.txt") |> ignore
+    let catalog = JsonObject()
+    catalog.["schema"] <- JsonValue.Create "funnysharp-stable-semantic-inputs/v1"
+    catalog.["entries"] <- entries
+    let catalogPath = Path.Combine(root, "catalog.json")
+    File.WriteAllText(catalogPath, catalog.ToJsonString(), UTF8Encoding(false))
+    let fileSha path = Convert.ToHexString(SHA256.HashData(File.ReadAllBytes path)).ToLowerInvariant()
+    let portable = JsonObject()
+    portable.["catalogPath"] <- JsonValue.Create "catalog.json"
+    portable.["catalogSha256"] <- JsonValue.Create(fileSha catalogPath)
+    portable.["archivePath"] <- JsonValue.Create "inputs.zip"
+    portable.["archiveSha256"] <- JsonValue.Create(fileSha archivePath)
+    index.["portableInputs"] <- portable
+    if kind = "legacy-absolute-fallback" then
+        (get index "finalCompiler").["path"] <- JsonValue.Create(Path.Combine(root, "compiler.json"))
+    else
+        for name in [ "runtime.json"; "compiler.json"; "Proof.xml" ] do
+            File.Delete(Path.Combine(root, name))
+    index
+
+let private checkPortable root (index: JsonObject) =
+    use document = JsonDocument.Parse(index.ToJsonString())
+    validatePortableProofIndex root expected document.RootElement
+
 type StableApiContractsTests() =
+    [<Fact>]
+    member _.PortableArchiveRetainsSourceAndActualCaseIdValidation() =
+        use temp = new TempDirectory()
+        checkPortable temp.Path (portableFixture temp.Path "valid")
+
+    [<Theory>]
+    [<InlineData("missing-entry")>]
+    [<InlineData("wrong-entry-hash")>]
+    [<InlineData("unindexed-entry")>]
+    [<InlineData("legacy-absolute-fallback")>]
+    [<InlineData("source-alias")>]
+    member _.MissingStaleOrUnboundPortableInputsAreRejected(kind: string) =
+        use temp = new TempDirectory()
+        let index = portableFixture temp.Path kind
+        Assert.Throws<InvalidOperationException>(fun () -> checkPortable temp.Path index) |> ignore
+
     [<Fact>]
     member _.ExactByteBoundReferencesAndActualCaseIdJoinPass() =
         use temp = new TempDirectory()

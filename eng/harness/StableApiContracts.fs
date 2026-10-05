@@ -3,6 +3,7 @@ module FunnySharp.Harness.StableApiContracts
 open System
 open System.Collections.Generic
 open System.IO
+open System.IO.Compression
 open System.Security.Cryptography
 open System.Text
 open System.Text.Json
@@ -26,8 +27,8 @@ let private hashFile path =
 
 /// Validate the exact proof references against authoritative baseline identities.
 /// Source invariants remain source evidence, never an invented runtime execution.
-let validateProofIndex
-    (root: string)
+let private validateProofIndexUsing
+    (resolve: string -> string)
     (expected: Map<string, string * string * string>)
     (index: JsonElement)
     : unit =
@@ -39,7 +40,6 @@ let validateProofIndex
         match node.TryGetProperty name with
         | true, value -> items value
         | _ -> [||]
-    let resolve (path: string) = Path.Combine(root, path)
     let bound path sha =
         let absolute = resolve path
         require (File.Exists absolute && hashFile absolute = sha) ("missing or stale file: " + path)
@@ -187,8 +187,71 @@ let validateProofIndex
                          text alias "typeXmlId"
         require (xmlNodes.ContainsKey(text row "assembly" + "|" + nodeId)) "missing actual XML node or alias target."
 
-/// Run the current index against the exact canonical baseline and installed XML identities.
-let verify (root: string) (proofPath: string) : unit =
+let validateProofIndex root expected index =
+    validateProofIndexUsing (fun path -> Path.Combine(root, path)) expected index
+
+/// Portable inputs are immutable byte sources, not a fallback to the original workstation.
+let withPortableInputs (root: string) (index: JsonElement) (action: (string -> string) -> unit) =
+    let text (node: JsonElement) (name: string) = stringValue (node.GetProperty name)
+    let portable = index.GetProperty "portableInputs"
+    let checkedFile pathKey hashKey =
+        let path = Path.GetFullPath(Path.Combine(root, text portable pathKey))
+        require (path.StartsWith(Path.TrimEndingDirectorySeparator(Path.GetFullPath root) + string Path.DirectorySeparatorChar, StringComparison.Ordinal)) "portable input escapes the repository."
+        require (File.Exists path && hashFile path = text portable hashKey) "portable input bytes changed."
+        path
+    use catalogDocument = JsonDocument.Parse(File.ReadAllText(checkedFile "catalogPath" "catalogSha256"))
+    let catalog = catalogDocument.RootElement
+    require (text catalog "schema" = "funnysharp-stable-semantic-inputs/v1") "unexpected portable input catalog."
+    use archive = ZipFile.OpenRead(checkedFile "archivePath" "archiveSha256")
+    let temporary = Directory.CreateTempSubdirectory("funnysharp-stable-proof-")
+    try
+        let aliases = Dictionary<string, string>(StringComparer.Ordinal)
+        let declaredEntries = HashSet<string>(StringComparer.Ordinal)
+        for item in catalog.GetProperty("entries").EnumerateArray() do
+            let name = text item "entry"
+            let hash = text item "sha256"
+            require (hash.Length = 64 && hash |> Seq.forall Uri.IsHexDigit) "invalid portable content identity."
+            require (declaredEntries.Add name) "duplicate portable archive entry."
+            let entry =
+                match archive.GetEntry name with
+                | null -> invalidOp "Stable semantic proof: portable archive entry is absent."
+                | value -> value
+            require (entry.Length = item.GetProperty("bytes").GetInt64()) "portable archive entry has the wrong length."
+            let target = Path.Combine(temporary.FullName, hash)
+            do
+                use source = entry.Open()
+                use output = File.Create target
+                source.CopyTo output
+            require (hashFile target = hash) "portable archive entry has the wrong hash."
+            let paths = item.GetProperty("paths").EnumerateArray() |> Seq.map stringValue |> Seq.toArray
+            require (paths.Length > 0) "portable archive entry has no logical path."
+            for path in paths do
+                let normalized = path.Replace('\\', '/')
+                require (not (normalized.StartsWith("src/", StringComparison.Ordinal))
+                         && not (normalized.StartsWith("tests/", StringComparison.Ordinal))) "current source cannot come from an archive."
+                require (aliases.TryAdd(normalized, target)) "duplicate portable logical path."
+        let actualEntries = archive.Entries |> Seq.filter (fun entry -> entry.Name <> "") |> Seq.map (fun entry -> entry.FullName) |> Seq.toArray
+        require (actualEntries.Length = declaredEntries.Count && declaredEntries.SetEquals actualEntries) "portable archive contains unindexed or duplicate entries."
+        let resolve (path: string) =
+            let normalized = path.Replace('\\', '/')
+            match aliases.TryGetValue normalized with
+            | true, value -> value
+            | _ ->
+                require (not (Path.IsPathRooted path) && not (normalized.Length > 1 && normalized.[1] = ':')
+                         && not (normalized.StartsWith("artifacts/", StringComparison.Ordinal))
+                         && not (normalized.StartsWith(".omo/", StringComparison.Ordinal))) "historical input has no portable byte binding."
+                let absolute = Path.GetFullPath(Path.Combine(root, path))
+                require (absolute.StartsWith(Path.TrimEndingDirectorySeparator(Path.GetFullPath root) + string Path.DirectorySeparatorChar, StringComparison.Ordinal)) "source input escapes the repository."
+                absolute
+        action resolve
+    finally
+        Directory.Delete(temporary.FullName, true)
+
+let validatePortableProofIndex root expected index =
+    withPortableInputs root index (fun resolve -> validateProofIndexUsing resolve expected index)
+
+/// Run the exact canonical census; historical receipts and live release bytes remain distinct.
+let private verifyCore (root: string) (proofPath: string) (releaseEvidencePath: string option) : unit =
     use document = JsonDocument.Parse(File.ReadAllText proofPath)
     let index = document.RootElement
     let excluded = index.GetProperty("experimentalExclusions").EnumerateArray() |> Seq.map (fun row -> stringValue (row.GetProperty("identity"))) |> Set.ofSeq
@@ -203,8 +266,36 @@ let verify (root: string) (proofPath: string) : unit =
                       if not (excluded.Contains identity) then yield identity, (lines.[0], declaring, line)
                   elif not (String.IsNullOrWhiteSpace line) then declaring <- line ] |> Map.ofList
     require (expected.Count = 468 && excluded.Count = 31) "canonical468 stable/31 experimental census differs."
-    let paths = index.GetProperty("rows").EnumerateArray() |> Seq.map (fun row -> stringValue (row.GetProperty("dimensions").GetProperty("xmlAndAliases").GetProperty("packageXmlPath"))) |> Seq.distinct |> Seq.map (fun path -> Path.Combine(root, path)) |> Seq.toList
-    let inventory = getXmlDocumentationInventory root paths
+    let inventory =
+        match releaseEvidencePath with
+        | None ->
+            let paths = index.GetProperty("rows").EnumerateArray() |> Seq.map (fun row -> stringValue (row.GetProperty("dimensions").GetProperty("xmlAndAliases").GetProperty("packageXmlPath"))) |> Seq.distinct |> Seq.map (fun path -> Path.Combine(root, path)) |> Seq.toList
+            getXmlDocumentationInventory root paths
+        | Some releasePath ->
+            let history = index.GetProperty "historicalIndex"
+            require (hashFile (Path.Combine(root, stringValue (history.GetProperty "path"))) = stringValue (history.GetProperty "sha256")) "original proof index changed."
+            use releaseDocument = JsonDocument.Parse(File.ReadAllText releasePath)
+            let release = releaseDocument.RootElement
+            require (release.GetProperty("succeeded").GetBoolean()) "release evidence is not passing."
+            let git = Proc.runCaptureIn (Some root) "git" [ "rev-parse"; "HEAD" ] |> Async.RunSynchronously
+            require (git.ExitCode = 0) "current candidate Git identity is unavailable."
+            let candidate = git.Stdout.Trim()
+            require (stringValue (release.GetProperty("environment").GetProperty("commit")) = candidate) "release evidence belongs to another candidate."
+            let status = Proc.runCaptureIn (Some root) "git" [ "status"; "--porcelain"; "--untracked-files=all" ] |> Async.RunSynchronously
+            require (status.ExitCode = 0 && String.IsNullOrWhiteSpace status.Stdout) "current candidate worktree is not clean."
+            let executionElement = release.GetProperty "executionEvidence"
+            let execution =
+                match JsonNode.Parse(executionElement.GetRawText()) with
+                | null -> invalidOp "Stable semantic proof: validated execution is empty."
+                | value -> value
+            let directory = stringValue (executionElement.GetProperty "directory")
+            let paths = [ "FunnySharp"; "FunnySharp.AspNetCore" ] |> List.map (fun name -> Path.Combine(root, "src", name, "bin/Release/net10.0", name + ".xml"))
+            for row in index.GetProperty("rows").EnumerateArray() do
+                let xml = row.GetProperty("dimensions").GetProperty("xmlAndAliases")
+                let name = stringValue (row.GetProperty "assembly")
+                let path = Path.Combine(root, "src", name, "bin/Release/net10.0", name + ".xml")
+                require (hashFile path = stringValue (xml.GetProperty "packageXmlSha256")) "current release XML differs from the reviewed successor."
+            getReleaseXmlDocumentationInventory root paths directory candidate execution
     let count = inventory |> Seq.sumBy (fun node ->
         match node with
         | null -> invalidOp "Stable semantic proof: installed inventory is null."
@@ -213,17 +304,21 @@ let verify (root: string) (proofPath: string) : unit =
             | null -> invalidOp "Stable semantic proof: installed member count is missing."
             | members -> members.GetValue<int>())
     require (count = 499) "installed exported census differs."
-    validateProofIndex root expected index
+    match releaseEvidencePath with
+    | None -> validateProofIndex root expected index
+    | Some _ -> validatePortableProofIndex root expected index
+
+let verify root proofPath = verifyCore root proofPath None
 
 let main (args: string[]) : int =
     let root = Directory.GetCurrentDirectory()
     let path = if args.Length = 0 then Path.Combine(root, "docs/audits/goal-24-resolution/stable-api-semantic-proofs.json") else Path.GetFullPath args.[0]
-    if args.Length > 1 then
-        Console.Error.WriteLine("error: expected at most one semantic proof-index path.")
+    if args.Length > 2 then
+        Console.Error.WriteLine("error: expected a semantic proof-index path and optional release-evidence path.")
         2
     else
         try
-            verify root path
+            verifyCore root path (if args.Length = 2 then Some(Path.GetFullPath args.[1]) else None)
             printfn "Verified468 exact stable semantic members and3744 dimensions; source-only evidence is not runtime execution."
             0
         with exceptionValue ->

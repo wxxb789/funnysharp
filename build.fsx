@@ -133,7 +133,9 @@ pipeline "verify-stable-api-contracts" {
     stage "verify-stable-api-contracts" {
         run (fun ctx ->
             let path = ctx.GetCmdArg "--proof-index"
-            gate (StableApiContracts.main (if path = "" then [||] else [| path |])))
+            let release = ctx.GetCmdArg "--release-evidence"
+            let args = if release <> "" then [| path; release |] elif path <> "" then [| path |] else [||]
+            gate (StableApiContracts.main args))
     }
     runIfOnlySpecified
 }

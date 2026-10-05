@@ -1,0 +1,2769 @@
+{
+  "schema": "funnysharp-current-stable-semantic-preparation/v1",
+  "state": "COMPLETE_SOURCE_AND_PORTABLE_INPUT_PREPARATION_PARENT_LIVE_GATE_REQUIRED",
+  "date": "2026-10-05",
+  "route": {
+    "kind": "direct omo senpi-task deep-low child",
+    "task": "st_01a10aa4",
+    "agentsSpawned": 0,
+    "gitMutations": false,
+    "sourceOrPolicyChanges": false,
+    "executionReplays": 0,
+    "method": "Direct complete JSON/source reads, exact unique block matching, native sealed-package ZIP inspection, Python zipfile archive generation, independent readback and byte/alias/source/XML/receipt validation."
+  },
+  "scope": {
+    "currentSource": "Actual unchanged PR33 c9 source and test full-file bytes, exact uniquely located source excerpts, assertion bodies and helper bodies. Source equality is not a new runtime/compiler observation.",
+    "historicalReceipts": "All original runtime/compiler receipts, raw matrices, original claims, thresholds, limitations, private domain records and installed metadata are retained as historical observations; no compiler/runtime/HTTP/benchmark/model/denial/P-A-I replay.",
+    "currentXml": "Actual c306/r5 sealed package XML snapshots bound to current source pins. Snapshot bytes are not a new release or installed-metadata observation.",
+    "liveReleaseRequirement": "The enforced parent verifier must separately join current release DLL/PDB/XML and actual post-build seal/metadata. Historical installed tokens/MVID/receipt hashes cannot be rebound as current metadata.",
+    "portableResolution": "Archive lookup is exact catalog alias (separators normalized to /, case retained) plus declared SHA256 and byte length; no old Q filesystem fallback. Current src/ and tests/ pins resolve only to actual checkout source, never archived historical snapshots.",
+    "historicalSourceSnapshots": "Eight original final-format test snapshots and embedded historical proof excerpts remain only as explicitly historical inputs required by original pins. They cannot satisfy current source checks."
+  },
+  "historicalIndex": {
+    "path": "docs/audits/goal-24-resolution/stable-api-semantic-proofs.json",
+    "sha256": "ad106d7ee1ed4772e898bc17edb020a3b4e3f836f32678613e13cc95a813da18"
+  },
+  "artifacts": [
+    {
+      "path": "docs/audits/goal-24-resolution/current-stable-semantic/current-proof-index.json",
+      "sha256": "ca4f5e9e3f442e418a514e31c64390a41f19da0fa1dbef183430bcaea474c4aa",
+      "bytes": 16906459
+    },
+    {
+      "path": "docs/audits/goal-24-resolution/current-stable-semantic/input-catalog.json",
+      "sha256": "1f93bad25bf321d960ead8bad05fbc9eb0f21806a0dbaddba272387eea6b855a",
+      "bytes": 1178065
+    },
+    {
+      "path": "docs/audits/goal-24-resolution/current-stable-semantic/inputs.zip",
+      "sha256": "b52a61633427531ccf3caf7241d3c7208a0ca3b2efdd1c2eb5d4eb0c9f1496a1",
+      "bytes": 6613339
+    },
+    {
+      "path": "docs/audits/goal-24-resolution/current-stable-semantic/credential-scan.json",
+      "sha256": "781b8649b0cc3b786afa005f02b38c68a18029cda80e7ddaae639ccdd1bfc113",
+      "bytes": 2303
+    }
+  ],
+  "counts": {
+    "stableIdentities": 468,
+    "dimensionRecords": 3744,
+    "sourceUnits": 565,
+    "assertionUnits": 697,
+    "helperSpanOccurrences": 393,
+    "runtimeCases": 1635,
+    "compilerProbes": 2288,
+    "originalFileHashExternalInputs": 55,
+    "additionalStructuredBindingsHistoricalWitnessesAndIndexIncluded": true,
+    "selectedHistoricalBindingOccurrences": 76,
+    "archiveEntries": 2340,
+    "archiveAliases": 4722,
+    "uniqueUncompressedBytes": 67900363,
+    "archiveBytes": 6613339,
+    "currentSourceFilesBound": 103,
+    "changedFullFilePins": 6,
+    "relocatedSourceSpans": 5,
+    "relocatedAssertionSpans": 4,
+    "relocatedHelperSpanOccurrences": 19,
+    "relocatedRuntimeCaseSourceLines": 4,
+    "currentXmlNodes": 431,
+    "xmlNodeTextChanges": 31,
+    "xmlNodeTextOrLineChanges": 264
+  },
+  "currentSourceMigration": {
+    "fileHashes": [
+      {
+        "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+        "old": "28d9549c202603dbe44c6075754f7ef1ef9edfca67bd486e0434742b66e69a17",
+        "new": "5a0ea53ad1e8eedd56cc54e39f629a69e86f9998147f71259cccdc827898941f"
+      },
+      {
+        "path": "src/FunnySharp/Option.cs",
+        "old": "2ab65969adf550465692cfa812ad2e8cc182306e1c2660eb549e1d21d873da36",
+        "new": "8ee95f8d0193c71e9515f4c97616a1352ee8b4960d17628ca7b7c3cbe77cd707"
+      },
+      {
+        "path": "src/FunnySharp/PartitionExtensions.cs",
+        "old": "54414223c3dc4d0ac0b1b93b7abb8076c8720f1d276ad651f3dd19b38f502e7b",
+        "new": "57edfa4d39b0a8f6e9bdd9913d4eb0418a5c0e5fabe82c4e7e35bd7581ad5db7"
+      },
+      {
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "old": "480804a00dfd2a6e0cce1d6cfc8a8a1c427c6a6c254482a1c991b050e53e6b9d",
+        "new": "f9c6ba3c4ae07b532c02bc7cded4bc51fb47b554512b7c5c87a92c128c37eb50"
+      },
+      {
+        "path": "tests/FunnySharp.AspNetCore.Tests/HttpResultExtensionsTests.cs",
+        "old": "7fe9624b31b3fb4438132ed7f3fc65ff68639b5e3dc0a4db71ebed957dd9f188",
+        "new": "8a9da2c461728248a102cf3449c293d475e8141969788071701feecbdd1b1a07"
+      },
+      {
+        "path": "tests/FunnySharp.AspNetCore.Tests/KestrelCancellationTests.cs",
+        "old": "3b892479fdf102a7d3cbc8bfe03ca037a79f92623bed55ea75c1ffa20fce8f8d",
+        "new": "d17eb207ca0db19502754f5e536f1760fc0fe3bf2fa34fcfb636597861eb5cc0"
+      }
+    ],
+    "sourceSpans": [
+      {
+        "old": "src/FunnySharp/Option.cs:449-450",
+        "new": "src/FunnySharp/Option.cs:447-448",
+        "start": 447,
+        "end": 448
+      },
+      {
+        "old": "src/FunnySharp/Option.cs:453-464",
+        "new": "src/FunnySharp/Option.cs:451-462",
+        "start": 451,
+        "end": 462
+      },
+      {
+        "old": "src/FunnySharp/Option.cs:437-437",
+        "new": "src/FunnySharp/Option.cs:436-436",
+        "start": 436,
+        "end": 436
+      },
+      {
+        "old": "src/FunnySharp/Option.cs:443-443",
+        "new": "src/FunnySharp/Option.cs:441-441",
+        "start": 441,
+        "end": 441
+      },
+      {
+        "old": "src/FunnySharp/Option.cs:447-447",
+        "new": "src/FunnySharp/Option.cs:445-445",
+        "start": 445,
+        "end": 445
+      }
+    ],
+    "assertionSpans": [
+      {
+        "id": "tests/FunnySharp.AspNetCore.Tests/HttpResultExtensionsTests.cs#AsyncOverloadsValidateEveryRequiredArgument",
+        "old": {
+          "start": 541,
+          "end": 605
+        },
+        "start": 555,
+        "end": 619
+      },
+      {
+        "id": "tests/FunnySharp.AspNetCore.Tests/HttpResultExtensionsTests.cs#EnvironmentEffectReceivesTheExplicitEnvironment",
+        "old": {
+          "start": 392,
+          "end": 412
+        },
+        "start": 406,
+        "end": 426
+      },
+      {
+        "id": "tests/FunnySharp.AspNetCore.Tests/HttpResultExtensionsTests.cs#RequiredMappersAreValidatedAndProblemsWithoutStatusAreRejected",
+        "old": {
+          "start": 523,
+          "end": 538
+        },
+        "start": 537,
+        "end": 552
+      },
+      {
+        "id": "tests/FunnySharp.AspNetCore.Tests/HttpResultExtensionsTests.cs#ResultAndValidationEffectsMapWithAndWithoutEnvironments",
+        "old": {
+          "start": 415,
+          "end": 491
+        },
+        "start": 429,
+        "end": 505
+      }
+    ],
+    "helperSpans": [
+      {
+        "id": "tests/FunnySharp.AspNetCore.Tests/HttpResultExtensionsTests.cs#AsyncOverloadsValidateEveryRequiredArgument",
+        "n": 0,
+        "old": {
+          "start": 671,
+          "end": 676
+        },
+        "start": 685,
+        "end": 690
+      },
+      {
+        "id": "tests/FunnySharp.AspNetCore.Tests/HttpResultExtensionsTests.cs#AsyncOverloadsValidateEveryRequiredArgument",
+        "n": 1,
+        "old": {
+          "start": 675,
+          "end": 676
+        },
+        "start": 689,
+        "end": 690
+      },
+      {
+        "id": "tests/FunnySharp.AspNetCore.Tests/HttpResultExtensionsTests.cs#AsyncSuccessMappersOverrideTheDefaultJsonResult",
+        "n": 0,
+        "old": {
+          "start": 671,
+          "end": 676
+        },
+        "start": 685,
+        "end": 690
+      },
+      {
+        "id": "tests/FunnySharp.AspNetCore.Tests/HttpResultExtensionsTests.cs#EffectUsesTheExactRequestAbortedToken",
+        "n": 0,
+        "old": {
+          "start": 671,
+          "end": 676
+        },
+        "start": 685,
+        "end": 690
+      },
+      {
+        "id": "tests/FunnySharp.AspNetCore.Tests/HttpResultExtensionsTests.cs#EnvironmentEffectReceivesTheExplicitEnvironment",
+        "n": 0,
+        "old": {
+          "start": 671,
+          "end": 676
+        },
+        "start": 685,
+        "end": 690
+      },
+      {
+        "id": "tests/FunnySharp.AspNetCore.Tests/HttpResultExtensionsTests.cs#EnvironmentEffectReceivesTheExplicitEnvironment",
+        "n": 1,
+        "old": {
+          "start": 675,
+          "end": 676
+        },
+        "start": 689,
+        "end": 690
+      },
+      {
+        "id": "tests/FunnySharp.AspNetCore.Tests/HttpResultExtensionsTests.cs#OptionSomeUsesTheDefaultJsonSuccessResult",
+        "n": 0,
+        "old": {
+          "start": 671,
+          "end": 676
+        },
+        "start": 685,
+        "end": 690
+      },
+      {
+        "id": "tests/FunnySharp.AspNetCore.Tests/HttpResultExtensionsTests.cs#RequiredMappersAreValidatedAndProblemsWithoutStatusAreRejected",
+        "n": 0,
+        "old": {
+          "start": 626,
+          "end": 634
+        },
+        "start": 640,
+        "end": 648
+      },
+      {
+        "id": "tests/FunnySharp.AspNetCore.Tests/HttpResultExtensionsTests.cs#RequiredMappersAreValidatedAndProblemsWithoutStatusAreRejected",
+        "n": 1,
+        "old": {
+          "start": 671,
+          "end": 676
+        },
+        "start": 685,
+        "end": 690
+      },
+      {
+        "id": "tests/FunnySharp.AspNetCore.Tests/HttpResultExtensionsTests.cs#RequiredMappersAreValidatedAndProblemsWithoutStatusAreRejected",
+        "n": 2,
+        "old": {
+          "start": 673,
+          "end": 676
+        },
+        "start": 687,
+        "end": 690
+      },
+      {
+        "id": "tests/FunnySharp.AspNetCore.Tests/HttpResultExtensionsTests.cs#ResultAndValidationEffectsMapWithAndWithoutEnvironments",
+        "n": 0,
+        "old": {
+          "start": 626,
+          "end": 634
+        },
+        "start": 640,
+        "end": 648
+      },
+      {
+        "id": "tests/FunnySharp.AspNetCore.Tests/HttpResultExtensionsTests.cs#ResultAndValidationEffectsMapWithAndWithoutEnvironments",
+        "n": 1,
+        "old": {
+          "start": 671,
+          "end": 676
+        },
+        "start": 685,
+        "end": 690
+      },
+      {
+        "id": "tests/FunnySharp.AspNetCore.Tests/HttpResultExtensionsTests.cs#ResultAndValidationEffectsMapWithAndWithoutEnvironments",
+        "n": 2,
+        "old": {
+          "start": 673,
+          "end": 676
+        },
+        "start": 687,
+        "end": 690
+      },
+      {
+        "id": "tests/FunnySharp.AspNetCore.Tests/HttpResultExtensionsTests.cs#ResultAndValidationEffectsMapWithAndWithoutEnvironments",
+        "n": 3,
+        "old": {
+          "start": 675,
+          "end": 676
+        },
+        "start": 689,
+        "end": 690
+      },
+      {
+        "id": "tests/FunnySharp.AspNetCore.Tests/HttpResultExtensionsTests.cs#ResultFailureUsesTheMappedDomainProblem",
+        "n": 0,
+        "old": {
+          "start": 673,
+          "end": 676
+        },
+        "start": 687,
+        "end": 690
+      },
+      {
+        "id": "tests/FunnySharp.AspNetCore.Tests/HttpResultExtensionsTests.cs#TaskAndValueTaskCarriersUseMatchingAsyncMappers",
+        "n": 0,
+        "old": {
+          "start": 626,
+          "end": 634
+        },
+        "start": 640,
+        "end": 648
+      },
+      {
+        "id": "tests/FunnySharp.AspNetCore.Tests/HttpResultExtensionsTests.cs#TaskAndValueTaskCarriersUseMatchingAsyncMappers",
+        "n": 1,
+        "old": {
+          "start": 671,
+          "end": 676
+        },
+        "start": 685,
+        "end": 690
+      },
+      {
+        "id": "tests/FunnySharp.AspNetCore.Tests/HttpResultExtensionsTests.cs#TaskAndValueTaskCarriersUseMatchingAsyncMappers",
+        "n": 2,
+        "old": {
+          "start": 673,
+          "end": 676
+        },
+        "start": 687,
+        "end": 690
+      },
+      {
+        "id": "tests/FunnySharp.AspNetCore.Tests/HttpResultExtensionsTests.cs#ValueTaskCarrierIsConsumedExactlyOnce",
+        "n": 0,
+        "old": {
+          "start": 671,
+          "end": 676
+        },
+        "start": 685,
+        "end": 690
+      }
+    ],
+    "caseLines": [
+      {
+        "caseRef": "R0011",
+        "oldLine": 540,
+        "newLine": 554
+      },
+      {
+        "caseRef": "R0015",
+        "oldLine": 391,
+        "newLine": 405
+      },
+      {
+        "caseRef": "R0018",
+        "oldLine": 522,
+        "newLine": 536
+      },
+      {
+        "caseRef": "R0019",
+        "oldLine": 414,
+        "newLine": 428
+      }
+    ],
+    "xmlNodes": [
+      {
+        "identity": "FunnySharp|M:FunnySharp.AsyncSequenceExtensions.TraverseAsync``3(System.Collections.Generic.IAsyncEnumerable{``0},System.Func{``0,FunnySharp.Result{``1,``2}},System.Threading.CancellationToken)",
+        "oldSha256": "2061d1b584e180c74e1114c016a0c58db755c950268ff81379cb3a2bb97c614d",
+        "newSha256": "6188468439c3c9c9cecc189ef8dfa04fccabb9da1c92e5eeca051f75009addde",
+        "oldLine": 441,
+        "newLine": 441,
+        "textChanged": true
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.AsyncSequenceExtensions.TraverseValueAsync``3(System.Collections.Generic.IAsyncEnumerable{``0},System.Func{``0,System.Threading.CancellationToken,System.Threading.Tasks.ValueTask{FunnySharp.Result{``1,``2}}},System.Threading.CancellationToken)",
+        "oldSha256": "4b033f62cf6d66a0c5733e6baee786f900e6cd3fb08ea69732badb1154d4bb61",
+        "newSha256": "e3f2b1ccfb2b06209904f5676f59f4e88930ffe145e97aa0b9f2b8d866b6bef4",
+        "oldLine": 487,
+        "newLine": 487,
+        "textChanged": true
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.AsyncSequenceExtensions.TraverseValueAsync``3(System.Collections.Generic.IAsyncEnumerable{``0},System.Func{``0,System.Threading.Tasks.ValueTask{FunnySharp.Result{``1,``2}}},System.Threading.CancellationToken)",
+        "oldSha256": "c59a276c338bbfadd3a53f0db35ecdcd1d7058837b353f43dd16d190e777e1bc",
+        "newSha256": "ab2b5ab985b5b461cb474851b2faf7b8523bafea8862235dde7093ac1523e5a4",
+        "oldLine": 464,
+        "newLine": 464,
+        "textChanged": true
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.AsyncSequenceExtensions.SequenceAsync``2(System.Collections.Generic.IAsyncEnumerable{FunnySharp.Result{``0,``1}},System.Threading.CancellationToken)",
+        "oldSha256": "5f37c3591b275130fd6dcdc0b659ada45839d65a3b5c9172b099ff1cdb47825c",
+        "newSha256": "feddefefe186ef5bd3731f47dfbf9610b6a916114dde2cf0cae88e3328d0fc8a",
+        "oldLine": 423,
+        "newLine": 423,
+        "textChanged": true
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.AsyncSequenceExtensions.SequenceAsync``1(System.Collections.Generic.IAsyncEnumerable{FunnySharp.UnitResult{``0}},System.Threading.CancellationToken)",
+        "oldSha256": "6a39409caa60f0194d23cd8efe7bf251472ae55ea39b3c09a6f097689dd6116f",
+        "newSha256": "f02c1b0d1818847e79bf0d1473846709883a8f891b7aa7e264f9cb84fe5840e2",
+        "oldLine": 510,
+        "newLine": 510,
+        "textChanged": true
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.AsyncSequenceExtensions.TraverseAsync``2(System.Collections.Generic.IAsyncEnumerable{``0},System.Func{``0,FunnySharp.UnitResult{``1}},System.Threading.CancellationToken)",
+        "oldSha256": "f9ad01438297b4d5d7d0c357f7648559eab03026426300100fb668479fa1f206",
+        "newSha256": "42bb22dbb1a4118cac1360897e77d6290b3b811b7c024b6ff510d8f56fd14ddf",
+        "oldLine": 527,
+        "newLine": 527,
+        "textChanged": true
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.AsyncSequenceExtensions.TraverseValueAsync``2(System.Collections.Generic.IAsyncEnumerable{``0},System.Func{``0,System.Threading.CancellationToken,System.Threading.Tasks.ValueTask{FunnySharp.UnitResult{``1}}},System.Threading.CancellationToken)",
+        "oldSha256": "c89a71d0d719887f8f59eb148b90235eeca057eb673dcc33ea7c2868113fc2d0",
+        "newSha256": "7d33917117f2481cb00b5ae2e57826ac3a2dbc493cdbec1a6187dd916e196fe5",
+        "oldLine": 571,
+        "newLine": 571,
+        "textChanged": true
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.AsyncSequenceExtensions.TraverseValueAsync``2(System.Collections.Generic.IAsyncEnumerable{``0},System.Func{``0,System.Threading.Tasks.ValueTask{FunnySharp.UnitResult{``1}}},System.Threading.CancellationToken)",
+        "oldSha256": "058a832e928127bea256444a1bf068f3a11af28c2306d8947be483943629b8ed",
+        "newSha256": "40d61b9e7baa53b89bd4cc026dd30f7cfd3a4af9cc82c00f472f6c07c1232b24",
+        "oldLine": 549,
+        "newLine": 549,
+        "textChanged": true
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.AsyncSequenceExtensions.TraverseAsync``3(System.Collections.Generic.IAsyncEnumerable{``0},System.Func{``0,FunnySharp.Validation{``1,``2}},System.Threading.CancellationToken)",
+        "oldSha256": "2830315d3ec4e470577c11e8a6e8eaae08df7bbbd9e36a8e1b95f2faddd8bed2",
+        "newSha256": "babd8f39fb6966a0696db48b944abe054b30803ca9b18e4a84542b7be6e727a0",
+        "oldLine": 612,
+        "newLine": 612,
+        "textChanged": true
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.AsyncSequenceExtensions.TraverseValueAsync``3(System.Collections.Generic.IAsyncEnumerable{``0},System.Func{``0,System.Threading.CancellationToken,System.Threading.Tasks.ValueTask{FunnySharp.Validation{``1,``2}}},System.Threading.CancellationToken)",
+        "oldSha256": "a23fbffb4d6019033d74139571fb1780e3faf53f41275c619027de8c168aeba5",
+        "newSha256": "0147333913ffb867ddc67fd35f5cc6f460e25f95c9db889b6de50cc140e873cd",
+        "oldLine": 658,
+        "newLine": 658,
+        "textChanged": true
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.AsyncSequenceExtensions.TraverseValueAsync``3(System.Collections.Generic.IAsyncEnumerable{``0},System.Func{``0,System.Threading.Tasks.ValueTask{FunnySharp.Validation{``1,``2}}},System.Threading.CancellationToken)",
+        "oldSha256": "1c5ff5b9c9a2093c6b2d9ceabdb3f0064ae8e92e6d53f9242ab9514d35e515ab",
+        "newSha256": "9b25262193f0175e6a3a92273c612aaef2ec7aaf8f139d7258dd0d7d5475ea55",
+        "oldLine": 635,
+        "newLine": 635,
+        "textChanged": true
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.AsyncSequenceExtensions.SequenceAsync``2(System.Collections.Generic.IAsyncEnumerable{FunnySharp.Validation{``0,``1}},System.Threading.CancellationToken)",
+        "oldSha256": "1d9c6e5d7c83faed7054540535f4f0e3ce03dc719027733311b53a70713bacb5",
+        "newSha256": "7b040c4a6bcdbe9b1b7fc66a96530893d0ab6f83dd3d67c3f5934cf0bbcc7243",
+        "oldLine": 593,
+        "newLine": 593,
+        "textChanged": true
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.OptionExtensions.ToOption``1(System.Nullable{``0})",
+        "oldSha256": "d4cfc1c6fd3747460c23973868aa85675b746ead3e05cb4fd1dfab8e50a95051",
+        "newSha256": "d4cfc1c6fd3747460c23973868aa85675b746ead3e05cb4fd1dfab8e50a95051",
+        "oldLine": 2807,
+        "newLine": 2805,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.OptionExtensions.ToOption``1(``0)",
+        "oldSha256": "4ec3fc662ce4f0c99b88c838f87d805876928404deac4f3e86ecb3af6777f16e",
+        "newSha256": "4ec3fc662ce4f0c99b88c838f87d805876928404deac4f3e86ecb3af6777f16e",
+        "oldLine": 2799,
+        "newLine": 2797,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.OptionExtensions.GetOption``2(System.Collections.Generic.IReadOnlyDictionary{``0,``1},``0)",
+        "oldSha256": "45f5994d8f1028bd7fc54da48fa8e5ba265dec296b1ef477df49476cf075223e",
+        "newSha256": "45f5994d8f1028bd7fc54da48fa8e5ba265dec296b1ef477df49476cf075223e",
+        "oldLine": 2829,
+        "newLine": 2827,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.OptionExtensions.ToNullable``1(FunnySharp.Option{``0})",
+        "oldSha256": "679c95c01e02fdb8a394f7642a72cab449628e96ee2dc31b3e0a362c0a6fc4cf",
+        "newSha256": "679c95c01e02fdb8a394f7642a72cab449628e96ee2dc31b3e0a362c0a6fc4cf",
+        "oldLine": 2815,
+        "newLine": 2813,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.OptionExtensions.ToOptionAsync``1(System.Threading.Tasks.Task{System.Nullable{``0}})",
+        "oldSha256": "2ba24a49b0b3fba19b027d1d86b008250e65a97ab7981c249cedab73241d21cc",
+        "newSha256": "2ba24a49b0b3fba19b027d1d86b008250e65a97ab7981c249cedab73241d21cc",
+        "oldLine": 3010,
+        "newLine": 3008,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.OptionExtensions.ToOptionAsync``1(System.Threading.Tasks.Task{``0})",
+        "oldSha256": "fb12c1ec2381cf78b7646cab2dee48e3e155e2f6f4823036b5864816c39a55ee",
+        "newSha256": "fb12c1ec2381cf78b7646cab2dee48e3e155e2f6f4823036b5864816c39a55ee",
+        "oldLine": 2996,
+        "newLine": 2994,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.OptionExtensions.BindAsync``2(FunnySharp.Option{``0},System.Func{``0,System.Threading.CancellationToken,System.Threading.Tasks.Task{FunnySharp.Option{``1}}},System.Threading.CancellationToken)",
+        "oldSha256": "0253225747f9813fb93624eada7be9299fe6a9d1fa57bca68a0ac058d04e2a13",
+        "newSha256": "0253225747f9813fb93624eada7be9299fe6a9d1fa57bca68a0ac058d04e2a13",
+        "oldLine": 2899,
+        "newLine": 2897,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.OptionExtensions.BindAsync``2(FunnySharp.Option{``0},System.Func{``0,System.Threading.Tasks.Task{FunnySharp.Option{``1}}})",
+        "oldSha256": "b0e72e5b9fb9d537e5ea8f14d04cea3e70325285720e96cfc90610d44e215ceb",
+        "newSha256": "b0e72e5b9fb9d537e5ea8f14d04cea3e70325285720e96cfc90610d44e215ceb",
+        "oldLine": 2880,
+        "newLine": 2878,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.OptionExtensions.MapAsync``2(FunnySharp.Option{``0},System.Func{``0,System.Threading.CancellationToken,System.Threading.Tasks.Task{``1}},System.Threading.CancellationToken)",
+        "oldSha256": "e1d5d95797215bc57e1feff408d37a849861a18cfb3d8f3cbbfb42501431d0c3",
+        "newSha256": "e1d5d95797215bc57e1feff408d37a849861a18cfb3d8f3cbbfb42501431d0c3",
+        "oldLine": 2859,
+        "newLine": 2857,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.OptionExtensions.MapAsync``2(FunnySharp.Option{``0},System.Func{``0,System.Threading.Tasks.Task{``1}})",
+        "oldSha256": "193cb9750f3cdf22685a4168b4519882319ce063c587a842cbabd6272e37f82a",
+        "newSha256": "193cb9750f3cdf22685a4168b4519882319ce063c587a842cbabd6272e37f82a",
+        "oldLine": 2840,
+        "newLine": 2838,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.OptionExtensions.ToOptionAsync``1(System.Threading.Tasks.ValueTask{System.Nullable{``0}})",
+        "oldSha256": "39b8f520dfe8b6f8b0224a44ae881991aa95c9ded5de3d828fb9ca93aa56e1c9",
+        "newSha256": "39b8f520dfe8b6f8b0224a44ae881991aa95c9ded5de3d828fb9ca93aa56e1c9",
+        "oldLine": 3037,
+        "newLine": 3035,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.OptionExtensions.ToOptionAsync``1(System.Threading.Tasks.ValueTask{``0})",
+        "oldSha256": "afc6074d095196e263df7ea4910ceedd4ff567836b7913b41c9e2b6493ad0aa5",
+        "newSha256": "afc6074d095196e263df7ea4910ceedd4ff567836b7913b41c9e2b6493ad0aa5",
+        "oldLine": 3024,
+        "newLine": 3022,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.OptionExtensions.BindValueAsync``2(FunnySharp.Option{``0},System.Func{``0,System.Threading.CancellationToken,System.Threading.Tasks.ValueTask{FunnySharp.Option{``1}}},System.Threading.CancellationToken)",
+        "oldSha256": "0bbea0914fbcb375108179d5161debde18515e247f2cdee284f857cb54940246",
+        "newSha256": "0bbea0914fbcb375108179d5161debde18515e247f2cdee284f857cb54940246",
+        "oldLine": 2976,
+        "newLine": 2974,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.OptionExtensions.BindValueAsync``2(FunnySharp.Option{``0},System.Func{``0,System.Threading.Tasks.ValueTask{FunnySharp.Option{``1}}})",
+        "oldSha256": "b961a476d3894d5ce2349920d7d5cc97a3bf527ac032682c3f95a313ce69a50d",
+        "newSha256": "b961a476d3894d5ce2349920d7d5cc97a3bf527ac032682c3f95a313ce69a50d",
+        "oldLine": 2958,
+        "newLine": 2956,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.OptionExtensions.MapValueAsync``2(FunnySharp.Option{``0},System.Func{``0,System.Threading.CancellationToken,System.Threading.Tasks.ValueTask{``1}},System.Threading.CancellationToken)",
+        "oldSha256": "e0f8f6ad49158a04b039e79e34bba041b258c922d0cdbb4240d942b95da09973",
+        "newSha256": "e0f8f6ad49158a04b039e79e34bba041b258c922d0cdbb4240d942b95da09973",
+        "oldLine": 2938,
+        "newLine": 2936,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.OptionExtensions.MapValueAsync``2(FunnySharp.Option{``0},System.Func{``0,System.Threading.Tasks.ValueTask{``1}})",
+        "oldSha256": "b8d5f4f9bb8cb6c042d96243054112e91230b1a631c6b500ac60c513dd18d8bd",
+        "newSha256": "b8d5f4f9bb8cb6c042d96243054112e91230b1a631c6b500ac60c513dd18d8bd",
+        "oldLine": 2920,
+        "newLine": 2918,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.OptionPartition`1.#ctor(System.Collections.Generic.IReadOnlyList{`0},System.Int32)",
+        "oldSha256": "784a2820ba6014c17969551189d61ed15aefa6d25f5a69eb23f32bcfd84fcedd",
+        "newSha256": "784a2820ba6014c17969551189d61ed15aefa6d25f5a69eb23f32bcfd84fcedd",
+        "oldLine": 3647,
+        "newLine": 3645,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|T:FunnySharp.OptionPartition`1",
+        "oldSha256": "4fae007c941aeba2320a73e730daa72a3d64413980fa85f1cf4421be349fb3f4",
+        "newSha256": "4fae007c941aeba2320a73e730daa72a3d64413980fa85f1cf4421be349fb3f4",
+        "oldLine": 3630,
+        "newLine": 3628,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|P:FunnySharp.OptionPartition`1.Somes",
+        "oldSha256": "81614bf1e12c4f42a18e8706d889191e39ece604940f59f9d0092ad1a38287ba",
+        "newSha256": "81614bf1e12c4f42a18e8706d889191e39ece604940f59f9d0092ad1a38287ba",
+        "oldLine": 3664,
+        "newLine": 3662,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|P:FunnySharp.OptionPartition`1.Nones",
+        "oldSha256": "8b539180ac2f8394c06788d3e0de39fe80d76d367c3c1827fb23dd63ad09c758",
+        "newSha256": "8b539180ac2f8394c06788d3e0de39fe80d76d367c3c1827fb23dd63ad09c758",
+        "oldLine": 3667,
+        "newLine": 3665,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.Option`1.op_Equality(FunnySharp.Option{`0},FunnySharp.Option{`0})",
+        "oldSha256": "d6498af8bc3ed7f4f858723e3cc3fbde47cd2ef365ff9be2ed66565f2cc40ef4",
+        "newSha256": "3241eb7e7e73271c5378593b9e8b441ea3cb5b18a0d1c04853b73d263d6f2d2e",
+        "oldLine": 2778,
+        "newLine": 2778,
+        "textChanged": true
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.Option`1.op_Inequality(FunnySharp.Option{`0},FunnySharp.Option{`0})",
+        "oldSha256": "86292ff40ada26cdc7e33f2179dabec35cf84a8b384815e1a7cd8eb14e1c6730",
+        "newSha256": "b1b04004e7e2fa2e747ab1c316b86fc726883be9a7636e9dde77e92394b8c55c",
+        "oldLine": 2784,
+        "newLine": 2783,
+        "textChanged": true
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.Option`1.ToString",
+        "oldSha256": "eb7bfc2916bb7d5aae1cda9178c208b4a23b5478a81363eed0f4d952dfacbaad",
+        "newSha256": "eb7bfc2916bb7d5aae1cda9178c208b4a23b5478a81363eed0f4d952dfacbaad",
+        "oldLine": 2790,
+        "newLine": 2788,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.ParallelAsyncEnumerableExtensions.SelectParallelCompletionOrderValueAsync``2(System.Collections.Generic.IAsyncEnumerable{``0},System.Int32,System.Func{``0,System.Threading.CancellationToken,System.Threading.Tasks.ValueTask{``1}})",
+        "oldSha256": "ca58153253e1836a7c07944f586b92bf0822773adc9484780a7343562113f5dd",
+        "newSha256": "ca58153253e1836a7c07944f586b92bf0822773adc9484780a7343562113f5dd",
+        "oldLine": 3119,
+        "newLine": 3117,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.ParallelAsyncEnumerableExtensions.SelectParallelCompletionOrderValueAsync``2(System.Collections.Generic.IAsyncEnumerable{``0},System.Int32,System.Func{``0,System.Threading.Tasks.ValueTask{``1}})",
+        "oldSha256": "d7893b5959a9305af4bceb722a515cb72033651c8d939dd4cfbbc29b5bd08da9",
+        "newSha256": "d7893b5959a9305af4bceb722a515cb72033651c8d939dd4cfbbc29b5bd08da9",
+        "oldLine": 3097,
+        "newLine": 3095,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.ParallelAsyncEnumerableExtensions.SelectParallelValueAsync``2(System.Collections.Generic.IAsyncEnumerable{``0},System.Int32,System.Func{``0,System.Threading.CancellationToken,System.Threading.Tasks.ValueTask{``1}})",
+        "oldSha256": "c081b1e25536b49cf0a6b44ba02d3730c9dee131817803ce3a5f639c0415b3e6",
+        "newSha256": "c081b1e25536b49cf0a6b44ba02d3730c9dee131817803ce3a5f639c0415b3e6",
+        "oldLine": 3076,
+        "newLine": 3074,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.ParallelAsyncEnumerableExtensions.SelectParallelValueAsync``2(System.Collections.Generic.IAsyncEnumerable{``0},System.Int32,System.Func{``0,System.Threading.Tasks.ValueTask{``1}})",
+        "oldSha256": "64b9682ca4a31e3996d0ab6781c24288cedfb2bf233ead083a3ecbfbb26e7bdb",
+        "newSha256": "64b9682ca4a31e3996d0ab6781c24288cedfb2bf233ead083a3ecbfbb26e7bdb",
+        "oldLine": 3055,
+        "newLine": 3053,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.ParallelAsyncSequenceExtensions.TraverseParallelValueAsync``2(System.Collections.Generic.IAsyncEnumerable{``0},System.Int32,System.Func{``0,System.Threading.CancellationToken,System.Threading.Tasks.ValueTask{FunnySharp.Option{``1}}},System.Threading.CancellationToken)",
+        "oldSha256": "7db6441213323277faf54b0e4e1955e90ac38613582b1383008e2662c7c3da59",
+        "newSha256": "7db6441213323277faf54b0e4e1955e90ac38613582b1383008e2662c7c3da59",
+        "oldLine": 3165,
+        "newLine": 3163,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.ParallelAsyncSequenceExtensions.TraverseParallelValueAsync``2(System.Collections.Generic.IAsyncEnumerable{``0},System.Int32,System.Func{``0,System.Threading.Tasks.ValueTask{FunnySharp.Option{``1}}},System.Threading.CancellationToken)",
+        "oldSha256": "7306bb00c4e1741d73d93558e07748603967ee754d92043652a0d780508bc070",
+        "newSha256": "7306bb00c4e1741d73d93558e07748603967ee754d92043652a0d780508bc070",
+        "oldLine": 3146,
+        "newLine": 3144,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.ParallelAsyncSequenceExtensions.TraverseParallelValueAsync``3(System.Collections.Generic.IAsyncEnumerable{``0},System.Int32,System.Func{``0,System.Threading.CancellationToken,System.Threading.Tasks.ValueTask{FunnySharp.Result{``1,``2}}},System.Threading.CancellationToken)",
+        "oldSha256": "aaabadbea2d6ba181bf3cae57bd25320b22e9b1a5ae16b7b0b0e47c879c3ea64",
+        "newSha256": "aaabadbea2d6ba181bf3cae57bd25320b22e9b1a5ae16b7b0b0e47c879c3ea64",
+        "oldLine": 3209,
+        "newLine": 3207,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.ParallelAsyncSequenceExtensions.TraverseParallelValueAsync``3(System.Collections.Generic.IAsyncEnumerable{``0},System.Int32,System.Func{``0,System.Threading.Tasks.ValueTask{FunnySharp.Result{``1,``2}}},System.Threading.CancellationToken)",
+        "oldSha256": "3b60ad4369a7e3ef1c5597057e203637f12c05e8520bfb651858f934f92c4f17",
+        "newSha256": "3b60ad4369a7e3ef1c5597057e203637f12c05e8520bfb651858f934f92c4f17",
+        "oldLine": 3184,
+        "newLine": 3182,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.ParallelAsyncSequenceExtensions.TraverseParallelValueAsync``3(System.Collections.Generic.IAsyncEnumerable{``0},System.Int32,System.Func{``0,System.Threading.CancellationToken,System.Threading.Tasks.ValueTask{FunnySharp.Validation{``1,``2}}},System.Threading.CancellationToken)",
+        "oldSha256": "65b4378260852be58f373f7313b6413bd7e7acec3e3b4624cdae3702f5ac7975",
+        "newSha256": "65b4378260852be58f373f7313b6413bd7e7acec3e3b4624cdae3702f5ac7975",
+        "oldLine": 3259,
+        "newLine": 3257,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.ParallelAsyncSequenceExtensions.TraverseParallelValueAsync``3(System.Collections.Generic.IAsyncEnumerable{``0},System.Int32,System.Func{``0,System.Threading.Tasks.ValueTask{FunnySharp.Validation{``1,``2}}},System.Threading.CancellationToken)",
+        "oldSha256": "c23697e8f27456f9b210594155351a9999d0e25f2338bb315ac23b68ed8ed1cc",
+        "newSha256": "c23697e8f27456f9b210594155351a9999d0e25f2338bb315ac23b68ed8ed1cc",
+        "oldLine": 3234,
+        "newLine": 3232,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.ParseExtensions.ParseBoolOrNone(System.String)",
+        "oldSha256": "3910bc889dca105a7b2189a588c0b8044d0d3151ca009ba27fe3cb31a89a952d",
+        "newSha256": "3910bc889dca105a7b2189a588c0b8044d0d3151ca009ba27fe3cb31a89a952d",
+        "oldLine": 3336,
+        "newLine": 3334,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.ParseExtensions.ParseByteOrNone(System.String)",
+        "oldSha256": "2dda7c7c65eca5760972e56bb1a28449d46d4dcdc4f71a773652bf54a7c303b4",
+        "newSha256": "2dda7c7c65eca5760972e56bb1a28449d46d4dcdc4f71a773652bf54a7c303b4",
+        "oldLine": 3352,
+        "newLine": 3350,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.ParseExtensions.ParseDateTimeOrNone(System.String)",
+        "oldSha256": "1a09f081dd343203d50b8f2b5ef44bc296d22d4416e7a9812cee5a6ba48b1878",
+        "newSha256": "1a09f081dd343203d50b8f2b5ef44bc296d22d4416e7a9812cee5a6ba48b1878",
+        "oldLine": 3528,
+        "newLine": 3526,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.ParseExtensions.ParseDateTimeOffsetOrNone(System.String)",
+        "oldSha256": "06c6147ddf1a40b73a2a62fd05af4ef15975511765909ea07831db17af559ad9",
+        "newSha256": "06c6147ddf1a40b73a2a62fd05af4ef15975511765909ea07831db17af559ad9",
+        "oldLine": 3544,
+        "newLine": 3542,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.ParseExtensions.ParseDecimalOrNone(System.String)",
+        "oldSha256": "b330dfdd2a49a76e745293aac567ffebb8a12af5eb9edc630d9308f8c0fa7dc7",
+        "newSha256": "b330dfdd2a49a76e745293aac567ffebb8a12af5eb9edc630d9308f8c0fa7dc7",
+        "oldLine": 3512,
+        "newLine": 3510,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.ParseExtensions.ParseDoubleOrNone(System.String)",
+        "oldSha256": "1f29ae14b2dcc65756b2e36d37d34b1c683e3751e8bacd2505dbf845f6dd11f0",
+        "newSha256": "1f29ae14b2dcc65756b2e36d37d34b1c683e3751e8bacd2505dbf845f6dd11f0",
+        "oldLine": 3496,
+        "newLine": 3494,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.ParseExtensions.ParseGuidOrNone(System.String)",
+        "oldSha256": "d8da111a6e93a9888fc38f10d79edcff02d626f16bb3dfce1b13ca0644a29d64",
+        "newSha256": "d8da111a6e93a9888fc38f10d79edcff02d626f16bb3dfce1b13ca0644a29d64",
+        "oldLine": 3576,
+        "newLine": 3574,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.ParseExtensions.ParseShortOrNone(System.String)",
+        "oldSha256": "8ff7e24e1b7cb9c96a5f1c9429a982831ef9681d265ad4ff4f21434995f433de",
+        "newSha256": "8ff7e24e1b7cb9c96a5f1c9429a982831ef9681d265ad4ff4f21434995f433de",
+        "oldLine": 3384,
+        "newLine": 3382,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.ParseExtensions.ParseIntOrNone(System.String)",
+        "oldSha256": "29cd5c55997b69138aaedd22d55e9fd02845d42d8aa8a5ea6d198597c9198858",
+        "newSha256": "29cd5c55997b69138aaedd22d55e9fd02845d42d8aa8a5ea6d198597c9198858",
+        "oldLine": 3416,
+        "newLine": 3414,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.ParseExtensions.ParseLongOrNone(System.String)",
+        "oldSha256": "12471af9116181e8331677d75b428c0c5c30d2275b5b4416cf1dcddd28ba0b8b",
+        "newSha256": "12471af9116181e8331677d75b428c0c5c30d2275b5b4416cf1dcddd28ba0b8b",
+        "oldLine": 3448,
+        "newLine": 3446,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.ParseExtensions.ParseSByteOrNone(System.String)",
+        "oldSha256": "c0c57258a108fe434197b7b32ac27eb532ac4e4b694a4c4e3dc67cd6483e47fd",
+        "newSha256": "c0c57258a108fe434197b7b32ac27eb532ac4e4b694a4c4e3dc67cd6483e47fd",
+        "oldLine": 3368,
+        "newLine": 3366,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.ParseExtensions.ParseFloatOrNone(System.String)",
+        "oldSha256": "b5045c80527afe00bbc2e746ad48978eb2f14027a51303653188efdb13ba2a5d",
+        "newSha256": "b5045c80527afe00bbc2e746ad48978eb2f14027a51303653188efdb13ba2a5d",
+        "oldLine": 3480,
+        "newLine": 3478,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.ParseExtensions.ParseTimeSpanOrNone(System.String)",
+        "oldSha256": "bc3edca5226e0c0e42dfe35e3856a91442abde9986d1ba36dd0ed0f6189a4a46",
+        "newSha256": "bc3edca5226e0c0e42dfe35e3856a91442abde9986d1ba36dd0ed0f6189a4a46",
+        "oldLine": 3560,
+        "newLine": 3558,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.ParseExtensions.ParseUShortOrNone(System.String)",
+        "oldSha256": "de8c7dcf17099b378086b668e529cab1855426d47a0b2ae335f7ea771fef7a26",
+        "newSha256": "de8c7dcf17099b378086b668e529cab1855426d47a0b2ae335f7ea771fef7a26",
+        "oldLine": 3400,
+        "newLine": 3398,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.ParseExtensions.ParseUIntOrNone(System.String)",
+        "oldSha256": "7207bb33c1b1ba2ad0d91aaf16b438c666e9c288d89cf537c86ced8a53829302",
+        "newSha256": "7207bb33c1b1ba2ad0d91aaf16b438c666e9c288d89cf537c86ced8a53829302",
+        "oldLine": 3432,
+        "newLine": 3430,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.ParseExtensions.ParseULongOrNone(System.String)",
+        "oldSha256": "037cf41c72df9cd7b02051c18b983a04ab8d12d6674044d42675681b03b461da",
+        "newSha256": "037cf41c72df9cd7b02051c18b983a04ab8d12d6674044d42675681b03b461da",
+        "oldLine": 3464,
+        "newLine": 3462,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.ParseExtensions.ParseOrNone``1(System.String)",
+        "oldSha256": "0f0c7473685776247e2d8be3e094965ca054e6e5006a105b991afbb139fc1931",
+        "newSha256": "0f0c7473685776247e2d8be3e094965ca054e6e5006a105b991afbb139fc1931",
+        "oldLine": 3296,
+        "newLine": 3294,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.ParseExtensions.ParseOrNone``1(System.String,System.IFormatProvider)",
+        "oldSha256": "6033bd14a142a70fd74736a79e546c85c48c77b5aa6e7d1818120f3b0c6ca5b0",
+        "newSha256": "6033bd14a142a70fd74736a79e546c85c48c77b5aa6e7d1818120f3b0c6ca5b0",
+        "oldLine": 3315,
+        "newLine": 3313,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.PartitionExtensions.Partition``1(System.Collections.Generic.IEnumerable{FunnySharp.Option{``0}})",
+        "oldSha256": "449ef2244b9174587dbc1559dc666a67418af8799808b8d33ce0a5fd89100624",
+        "newSha256": "449ef2244b9174587dbc1559dc666a67418af8799808b8d33ce0a5fd89100624",
+        "oldLine": 3780,
+        "newLine": 3778,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.PartitionExtensions.Partition``1(System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.Boolean})",
+        "oldSha256": "93a72b6932f950991c92715159fa2c8223c57d9b47a1ad8278d162043fe27d71",
+        "newSha256": "93a72b6932f950991c92715159fa2c8223c57d9b47a1ad8278d162043fe27d71",
+        "oldLine": 3759,
+        "newLine": 3757,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.PartitionExtensions.Partition``2(System.Collections.Generic.IEnumerable{FunnySharp.Result{``0,``1}})",
+        "oldSha256": "fcc0fba71315f20127976890a5b27b590c348987e876c1bc8bf61e0822b4499b",
+        "newSha256": "5861336497466d83bf65bcd29a72ce6f02c7bf03bac6ddfd1494068c01ea6948",
+        "oldLine": 3798,
+        "newLine": 3796,
+        "textChanged": true
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.PartitionExtensions.Partition``1(System.Collections.Generic.IEnumerable{FunnySharp.UnitResult{``0}})",
+        "oldSha256": "4ae30d757563373548d5bf5abe1bca5bed111ec2aa84c47be97c0d5072b7015f",
+        "newSha256": "c33736968255cdbb1a356623da00a22a7b9b6975d50b31c663f9c19231da0f8c",
+        "oldLine": 3822,
+        "newLine": 3820,
+        "textChanged": true
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.PartitionExtensions.PartitionAsync``1(System.Collections.Generic.IAsyncEnumerable{``0},System.Func{``0,System.Boolean},System.Threading.CancellationToken)",
+        "oldSha256": "4e837286f5d0f47627a2748a7d0de0f1ff99724ddf5fcb0f97df34ae4df1fcc8",
+        "newSha256": "4e837286f5d0f47627a2748a7d0de0f1ff99724ddf5fcb0f97df34ae4df1fcc8",
+        "oldLine": 3844,
+        "newLine": 3842,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.PartitionExtensions.PartitionAsync``2(System.Collections.Generic.IAsyncEnumerable{FunnySharp.Result{``0,``1}},System.Threading.CancellationToken)",
+        "oldSha256": "9fa62f2f3c4e4646964c487e41a9af669c8155d6076803b47b12831dfba5145c",
+        "newSha256": "e1ae163f4d829b51b40454af25f8a40c752d45bc5573fccb97ba7003e2ee7ce0",
+        "oldLine": 3871,
+        "newLine": 3869,
+        "textChanged": true
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.Partition`1.#ctor(System.Collections.Generic.IReadOnlyList{`0},System.Collections.Generic.IReadOnlyList{`0})",
+        "oldSha256": "a4ad75912a0131086d3a84dcf6bae11d81d955fdcdad7f2e6d60410db345dd61",
+        "newSha256": "a4ad75912a0131086d3a84dcf6bae11d81d955fdcdad7f2e6d60410db345dd61",
+        "oldLine": 3608,
+        "newLine": 3606,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|T:FunnySharp.Partition`1",
+        "oldSha256": "bc71925a6c9ccd0115bd65bc71a73316ffd0171c143ac3eac7b34d0dfee50b5f",
+        "newSha256": "bc71925a6c9ccd0115bd65bc71a73316ffd0171c143ac3eac7b34d0dfee50b5f",
+        "oldLine": 3592,
+        "newLine": 3590,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|P:FunnySharp.Partition`1.False",
+        "oldSha256": "ac6cd4693f514e89c5cbfddfad0d166e8ed1563266a9c2751c69e907224d383c",
+        "newSha256": "ac6cd4693f514e89c5cbfddfad0d166e8ed1563266a9c2751c69e907224d383c",
+        "oldLine": 3627,
+        "newLine": 3625,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|P:FunnySharp.Partition`1.True",
+        "oldSha256": "f4b4a2ad3ef3019611e87fbb5935ea7920234ae1070a2e4eb7ae18e43607fd9d",
+        "newSha256": "f4b4a2ad3ef3019611e87fbb5935ea7920234ae1070a2e4eb7ae18e43607fd9d",
+        "oldLine": 3624,
+        "newLine": 3622,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.Result.Try``1(System.Func{``0})",
+        "oldSha256": "e74bc2f840560ac85cb4231f6faccec992c4bfa5b4017960128c1f1e8bc657db",
+        "newSha256": "e74bc2f840560ac85cb4231f6faccec992c4bfa5b4017960128c1f1e8bc657db",
+        "oldLine": 3905,
+        "newLine": 3903,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.Result.Try``2(System.Func{``0},System.Func{System.Exception,``1})",
+        "oldSha256": "c0e2d48f1416dd949cafc723a9521b4167b1228f086b34ae653d75bed3a3e1f2",
+        "newSha256": "c0e2d48f1416dd949cafc723a9521b4167b1228f086b34ae653d75bed3a3e1f2",
+        "oldLine": 3915,
+        "newLine": 3913,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.Result.TryAsync``1(System.Func{System.Threading.Tasks.Task{``0}})",
+        "oldSha256": "d4b58e6fc6df76ddcf418d9ebd2f1c438f229e75bba5263c7b69dbd4fc658aaa",
+        "newSha256": "d4b58e6fc6df76ddcf418d9ebd2f1c438f229e75bba5263c7b69dbd4fc658aaa",
+        "oldLine": 3928,
+        "newLine": 3926,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.Result.TryAsync``2(System.Func{System.Threading.Tasks.Task{``0}},System.Func{System.Exception,``1})",
+        "oldSha256": "7e125de9d6b7e66c3eb7fa7c33e96ad7a8542dfe84ef8dcf30aba684a58b3e68",
+        "newSha256": "7e125de9d6b7e66c3eb7fa7c33e96ad7a8542dfe84ef8dcf30aba684a58b3e68",
+        "oldLine": 3945,
+        "newLine": 3943,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.Result.TryValueAsync``1(System.Func{System.Threading.Tasks.ValueTask{``0}})",
+        "oldSha256": "f212a4adb88d3fa4a083c501ab5124d99c9ff107a62df54e1af56e1873cae59f",
+        "newSha256": "f212a4adb88d3fa4a083c501ab5124d99c9ff107a62df54e1af56e1873cae59f",
+        "oldLine": 3965,
+        "newLine": 3963,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.Result.TryValueAsync``2(System.Func{System.Threading.Tasks.ValueTask{``0}},System.Func{System.Exception,``1})",
+        "oldSha256": "b325ee983bc7ff2ada107bc4c17acc0216c391684cf5baa8d4a585684d202219",
+        "newSha256": "b325ee983bc7ff2ada107bc4c17acc0216c391684cf5baa8d4a585684d202219",
+        "oldLine": 3982,
+        "newLine": 3980,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.ResultExtensions.ToOption``2(FunnySharp.Result{``0,``1})",
+        "oldSha256": "b82103db2856d7d55ce0a02ad21d8c622b163c9b307fb1571935807e7fb92606",
+        "newSha256": "b82103db2856d7d55ce0a02ad21d8c622b163c9b307fb1571935807e7fb92606",
+        "oldLine": 4275,
+        "newLine": 4273,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.ResultExtensions.ToResult``2(FunnySharp.Option{``0},System.Func{``1})",
+        "oldSha256": "f952f5e3b13282d93e86493a0f4a2929b216c5249f9da07ed8124bd19531681b",
+        "newSha256": "f952f5e3b13282d93e86493a0f4a2929b216c5249f9da07ed8124bd19531681b",
+        "oldLine": 4264,
+        "newLine": 4262,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.ResultExtensions.ToResult``2(FunnySharp.Option{``0},``1)",
+        "oldSha256": "440b17d54867b880d044331c959e6ed242e46e9eb0842936dbc17075044f60c3",
+        "newSha256": "440b17d54867b880d044331c959e6ed242e46e9eb0842936dbc17075044f60c3",
+        "oldLine": 4254,
+        "newLine": 4252,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.ResultExtensions.BindAsync``3(FunnySharp.Result{``0,``1},System.Func{``0,System.Threading.CancellationToken,System.Threading.Tasks.Task{FunnySharp.Result{``2,``1}}},System.Threading.CancellationToken)",
+        "oldSha256": "314f18b78d3aab8ee718fb1fea8400e6995e4e3368124bb38edd97d670d8faa0",
+        "newSha256": "314f18b78d3aab8ee718fb1fea8400e6995e4e3368124bb38edd97d670d8faa0",
+        "oldLine": 4354,
+        "newLine": 4352,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.ResultExtensions.BindAsync``3(FunnySharp.Result{``0,``1},System.Func{``0,System.Threading.Tasks.Task{FunnySharp.Result{``2,``1}}})",
+        "oldSha256": "318c40b84eb15d4d5052c8742422cb23a71e35350f96b092cb7975d5df8da719",
+        "newSha256": "318c40b84eb15d4d5052c8742422cb23a71e35350f96b092cb7975d5df8da719",
+        "oldLine": 4331,
+        "newLine": 4329,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.ResultExtensions.MapAsync``3(FunnySharp.Result{``0,``1},System.Func{``0,System.Threading.CancellationToken,System.Threading.Tasks.Task{``2}},System.Threading.CancellationToken)",
+        "oldSha256": "7c06907236383485eed302916db89772f41852020b8bd0358da26096d5beb07d",
+        "newSha256": "7c06907236383485eed302916db89772f41852020b8bd0358da26096d5beb07d",
+        "oldLine": 4307,
+        "newLine": 4305,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.ResultExtensions.MapAsync``3(FunnySharp.Result{``0,``1},System.Func{``0,System.Threading.Tasks.Task{``2}})",
+        "oldSha256": "12cb7f4b145c48720ea9d53dab320de16b8b56ced68d1de85604c010554acb1d",
+        "newSha256": "12cb7f4b145c48720ea9d53dab320de16b8b56ced68d1de85604c010554acb1d",
+        "oldLine": 4285,
+        "newLine": 4283,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.ResultExtensions.BindValueAsync``3(FunnySharp.Result{``0,``1},System.Func{``0,System.Threading.CancellationToken,System.Threading.Tasks.ValueTask{FunnySharp.Result{``2,``1}}},System.Threading.CancellationToken)",
+        "oldSha256": "251855300b2a6f8dc722467e09e9a574bdf6c4742fc4d6477447ec77ab093e27",
+        "newSha256": "251855300b2a6f8dc722467e09e9a574bdf6c4742fc4d6477447ec77ab093e27",
+        "oldLine": 4445,
+        "newLine": 4443,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.ResultExtensions.BindValueAsync``3(FunnySharp.Result{``0,``1},System.Func{``0,System.Threading.Tasks.ValueTask{FunnySharp.Result{``2,``1}}})",
+        "oldSha256": "dfbc7fea8cd964639c43b5e1b8d272c9e3075c885f688a0df6f43e5bfadb419a",
+        "newSha256": "dfbc7fea8cd964639c43b5e1b8d272c9e3075c885f688a0df6f43e5bfadb419a",
+        "oldLine": 4423,
+        "newLine": 4421,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.ResultExtensions.MapValueAsync``3(FunnySharp.Result{``0,``1},System.Func{``0,System.Threading.CancellationToken,System.Threading.Tasks.ValueTask{``2}},System.Threading.CancellationToken)",
+        "oldSha256": "76879b185ec4a00633087d4afd1ecb78c435956a46f93a0e531bd455c1da5697",
+        "newSha256": "76879b185ec4a00633087d4afd1ecb78c435956a46f93a0e531bd455c1da5697",
+        "oldLine": 4400,
+        "newLine": 4398,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.ResultExtensions.MapValueAsync``3(FunnySharp.Result{``0,``1},System.Func{``0,System.Threading.Tasks.ValueTask{``2}})",
+        "oldSha256": "e00fca05cc18415c1802bdc1c116686adc1f351b0f48d7a640c56a5dfbfcbd9a",
+        "newSha256": "e00fca05cc18415c1802bdc1c116686adc1f351b0f48d7a640c56a5dfbfcbd9a",
+        "oldLine": 4379,
+        "newLine": 4377,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.ResultPartition`2.#ctor(System.Collections.Generic.IReadOnlyList{`0},System.Collections.Generic.IReadOnlyList{`1})",
+        "oldSha256": "ab0b123a690be1d5593eb1c5444ad7e8b84e8f3d8e792725fdd161f4ad468896",
+        "newSha256": "ab0b123a690be1d5593eb1c5444ad7e8b84e8f3d8e792725fdd161f4ad468896",
+        "oldLine": 3689,
+        "newLine": 3687,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|T:FunnySharp.ResultPartition`2",
+        "oldSha256": "198d313800346ccd1685e28dd6bb3e7e7c7e340e0e2a56405b9869b2c7025613",
+        "newSha256": "198d313800346ccd1685e28dd6bb3e7e7c7e340e0e2a56405b9869b2c7025613",
+        "oldLine": 3670,
+        "newLine": 3668,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|P:FunnySharp.ResultPartition`2.Failed",
+        "oldSha256": "2d90e9a441d61bc4c5b64e8a7b2824537b8f3b2941f57bc4d6da1308150d33f3",
+        "newSha256": "2d90e9a441d61bc4c5b64e8a7b2824537b8f3b2941f57bc4d6da1308150d33f3",
+        "oldLine": 3711,
+        "newLine": 3709,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|P:FunnySharp.ResultPartition`2.Passed",
+        "oldSha256": "18d3c123059f39c53701745de2cb5b457801e6bd278baaa3cfaefc183410fcba",
+        "newSha256": "18d3c123059f39c53701745de2cb5b457801e6bd278baaa3cfaefc183410fcba",
+        "oldLine": 3708,
+        "newLine": 3706,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.Result`2.Zip``1(FunnySharp.Result{``0,`1})",
+        "oldSha256": "aab3b682a41ab0e83d99e0258f910106827da4831c3ca4929684759dc5231745",
+        "newSha256": "aab3b682a41ab0e83d99e0258f910106827da4831c3ca4929684759dc5231745",
+        "oldLine": 4139,
+        "newLine": 4137,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.Result`2.ZipWith``1(System.Func{FunnySharp.Result{``0,`1}})",
+        "oldSha256": "7a416880a40314d4f79c3895721340fea4576839743702dea66d67b2cb2d6aa7",
+        "newSha256": "7a416880a40314d4f79c3895721340fea4576839743702dea66d67b2cb2d6aa7",
+        "oldLine": 4190,
+        "newLine": 4188,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.Result`2.Bind``1(System.Func{`0,FunnySharp.Result{``0,`1}})",
+        "oldSha256": "7dd1285c6a811051b8d0025be1a0dcf799782d0272896a0c8a6bf45e000fff3c",
+        "newSha256": "7dd1285c6a811051b8d0025be1a0dcf799782d0272896a0c8a6bf45e000fff3c",
+        "oldLine": 4081,
+        "newLine": 4079,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.Result`2.SelectMany``2(System.Func{`0,FunnySharp.Result{``0,`1}},System.Func{`0,``0,``1})",
+        "oldSha256": "dff06237b9f1880215b256f4c9c781e826051e1d74408d0b475af2887a755c49",
+        "newSha256": "dff06237b9f1880215b256f4c9c781e826051e1d74408d0b475af2887a755c49",
+        "oldLine": 4209,
+        "newLine": 4207,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.Result`2.Zip``2(FunnySharp.Result{``0,`1},System.Func{`0,``0,``1})",
+        "oldSha256": "6f51dedc7c0543148b551b1891c03a92911cd7084238963b5c62e4a0d67583c3",
+        "newSha256": "6f51dedc7c0543148b551b1891c03a92911cd7084238963b5c62e4a0d67583c3",
+        "oldLine": 4148,
+        "newLine": 4146,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.Result`2.Zip``4(FunnySharp.Result{``0,`1},FunnySharp.Result{``1,`1},FunnySharp.Result{``2,`1},System.Func{`0,``0,``1,``2,``3})",
+        "oldSha256": "e85d6fb60ded830df1b8f57181eb2fa93645a792ffa4b83b902b0b558ad26c7b",
+        "newSha256": "e85d6fb60ded830df1b8f57181eb2fa93645a792ffa4b83b902b0b558ad26c7b",
+        "oldLine": 4174,
+        "newLine": 4172,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.Result`2.Zip``3(FunnySharp.Result{``0,`1},FunnySharp.Result{``1,`1},System.Func{`0,``0,``1,``2})",
+        "oldSha256": "4de235ee7cf5d195e42e84d4cee34269340ad9b7089006559cfec707edca647c",
+        "newSha256": "4de235ee7cf5d195e42e84d4cee34269340ad9b7089006559cfec707edca647c",
+        "oldLine": 4160,
+        "newLine": 4158,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.Result`2.Map``1(System.Func{`0,``0})",
+        "oldSha256": "4afb794ad5ff0faa608c757886872efa332f88371beff0a927db960cb16a826b",
+        "newSha256": "4afb794ad5ff0faa608c757886872efa332f88371beff0a927db960cb16a826b",
+        "oldLine": 4071,
+        "newLine": 4069,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.Result`2.Select``1(System.Func{`0,``0})",
+        "oldSha256": "39b389024b85b4c426cdcc78f1887995090a079e6c0f35a66630b7c7e287a317",
+        "newSha256": "39b389024b85b4c426cdcc78f1887995090a079e6c0f35a66630b7c7e287a317",
+        "oldLine": 4200,
+        "newLine": 4198,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.Result`2.Ensure(System.Func{`0,System.Boolean},System.Func{`0,`1})",
+        "oldSha256": "f193d3a9ae729d01c3c18f467ddaff8cf91f86bf5223b992b75d7eb94af4075c",
+        "newSha256": "f193d3a9ae729d01c3c18f467ddaff8cf91f86bf5223b992b75d7eb94af4075c",
+        "oldLine": 4111,
+        "newLine": 4109,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.Result`2.Ensure(System.Func{`0,System.Boolean},`1)",
+        "oldSha256": "a2546d91cd06023124a993585234422805560ae4496e815f3415f454d97429f5",
+        "newSha256": "a2546d91cd06023124a993585234422805560ae4496e815f3415f454d97429f5",
+        "oldLine": 4101,
+        "newLine": 4099,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.Result`2.Recover(System.Func{`1,`0})",
+        "oldSha256": "f7b46984edb97c0ead526a77be918404f272b3ac71679fb2c8d1e043d22be36d",
+        "newSha256": "f7b46984edb97c0ead526a77be918404f272b3ac71679fb2c8d1e043d22be36d",
+        "oldLine": 4121,
+        "newLine": 4119,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.Result`2.RecoverWith(System.Func{`1,FunnySharp.Result{`0,`1}})",
+        "oldSha256": "6a583f154e64313ef4032bd2b42e3a9b0d4c1871e543c60243c334d22d3db2d6",
+        "newSha256": "6a583f154e64313ef4032bd2b42e3a9b0d4c1871e543c60243c334d22d3db2d6",
+        "oldLine": 4130,
+        "newLine": 4128,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.Result`2.MapError``1(System.Func{`1,``0})",
+        "oldSha256": "5ae70dc19e1e8ded34d7352e3a3bdbebf284b1e84e0ef199d7f96d6cac7428bb",
+        "newSha256": "5ae70dc19e1e8ded34d7352e3a3bdbebf284b1e84e0ef199d7f96d6cac7428bb",
+        "oldLine": 4091,
+        "newLine": 4089,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.Result`2.Failure(`1)",
+        "oldSha256": "a12441c1f029e0cc74f134a64887067a24236d5c55fc0dc3a37f891dd29ae07b",
+        "newSha256": "a12441c1f029e0cc74f134a64887067a24236d5c55fc0dc3a37f891dd29ae07b",
+        "oldLine": 4028,
+        "newLine": 4026,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.Result`2.Success(`0)",
+        "oldSha256": "c7d0b9d27db4a63899f52ca428cc347fa1c4f21f16473d90919bc89480e01d17",
+        "newSha256": "c7d0b9d27db4a63899f52ca428cc347fa1c4f21f16473d90919bc89480e01d17",
+        "oldLine": 4021,
+        "newLine": 4019,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.Result`2.op_Equality(FunnySharp.Result{`0,`1},FunnySharp.Result{`0,`1})",
+        "oldSha256": "94c6a01001c602914adffceccff1bee92740bc842d1e49ca365ae2837d0a42ac",
+        "newSha256": "94c6a01001c602914adffceccff1bee92740bc842d1e49ca365ae2837d0a42ac",
+        "oldLine": 4233,
+        "newLine": 4231,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.Result`2.op_Inequality(FunnySharp.Result{`0,`1},FunnySharp.Result{`0,`1})",
+        "oldSha256": "9ef5a9f50a6fdb8491881a97c325136bc018532431902cd9c57b1eecbb2ce3d9",
+        "newSha256": "9ef5a9f50a6fdb8491881a97c325136bc018532431902cd9c57b1eecbb2ce3d9",
+        "oldLine": 4239,
+        "newLine": 4237,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.Result`2.Equals(FunnySharp.Result{`0,`1})",
+        "oldSha256": "0545ceec42ac64f8d99211f40c9514f0f0c7bfe45a093f05ce85bd18d110a6d1",
+        "newSha256": "0545ceec42ac64f8d99211f40c9514f0f0c7bfe45a093f05ce85bd18d110a6d1",
+        "oldLine": 4221,
+        "newLine": 4219,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.Result`2.Equals(System.Object)",
+        "oldSha256": "a67e4f4bbfc3dbc9936c248cb821913472c4be4e8b168993cc4a07e59862374c",
+        "newSha256": "a67e4f4bbfc3dbc9936c248cb821913472c4be4e8b168993cc4a07e59862374c",
+        "oldLine": 4225,
+        "newLine": 4223,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.Result`2.TryGetError(`1@)",
+        "oldSha256": "1a95c28bc541218811ad1e47fec2778b7be6b5b250ad731f22a84c68d38bcd72",
+        "newSha256": "1a95c28bc541218811ad1e47fec2778b7be6b5b250ad731f22a84c68d38bcd72",
+        "oldLine": 4043,
+        "newLine": 4041,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.Result`2.TryGetValue(`0@)",
+        "oldSha256": "0b5cc18b5c462a95549a0f7868391941afb3c8dbee6c2ce867627f311073b3dc",
+        "newSha256": "0b5cc18b5c462a95549a0f7868391941afb3c8dbee6c2ce867627f311073b3dc",
+        "oldLine": 4035,
+        "newLine": 4033,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.Result`2.GetHashCode",
+        "oldSha256": "00790716353bd97277f07dee227a3fce87dfb67d6fa6ffe785cccab767bfc63f",
+        "newSha256": "00790716353bd97277f07dee227a3fce87dfb67d6fa6ffe785cccab767bfc63f",
+        "oldLine": 4229,
+        "newLine": 4227,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.Result`2.ToString",
+        "oldSha256": "b2662cc357ec35beb4a21a384bc23d3a3e08c0f6ce6ad2dca8f30744514ae27f",
+        "newSha256": "b2662cc357ec35beb4a21a384bc23d3a3e08c0f6ce6ad2dca8f30744514ae27f",
+        "oldLine": 4245,
+        "newLine": 4243,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.Result`2.Match(System.Action{`0},System.Action{`1})",
+        "oldSha256": "0cec1ffa0e7379604547e0d4e5690cebca0145a277da4a41fcf5ecb3b685ec90",
+        "newSha256": "0cec1ffa0e7379604547e0d4e5690cebca0145a277da4a41fcf5ecb3b685ec90",
+        "oldLine": 4062,
+        "newLine": 4060,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.Result`2.Match``1(System.Func{`0,``0},System.Func{`1,``0})",
+        "oldSha256": "a1481a392c894826acf491ba8af3aaf28f8de0a2587d162b11ef8cd8a217cb34",
+        "newSha256": "a1481a392c894826acf491ba8af3aaf28f8de0a2587d162b11ef8cd8a217cb34",
+        "oldLine": 4051,
+        "newLine": 4049,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|P:FunnySharp.Result`2.IsFailure",
+        "oldSha256": "0c7f11cfe339cbb56dd9114c5eb3b73c30c0629249be84d7e43575025d239319",
+        "newSha256": "0c7f11cfe339cbb56dd9114c5eb3b73c30c0629249be84d7e43575025d239319",
+        "oldLine": 4015,
+        "newLine": 4013,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|P:FunnySharp.Result`2.IsSuccess",
+        "oldSha256": "9aad7465038dd9048d8a648c565ee52036e3ae27ad940989527017211b0872e3",
+        "newSha256": "9aad7465038dd9048d8a648c565ee52036e3ae27ad940989527017211b0872e3",
+        "oldLine": 4009,
+        "newLine": 4007,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.SequenceExtensions.Traverse``3(System.Collections.Generic.IReadOnlyDictionary{``0,``1},System.Func{``0,``1,FunnySharp.Option{``2}})",
+        "oldSha256": "dfbfdea1fc4c925838fae46bd7dd3b6cbf1b3e5b871a3044968cef3ffe97db9a",
+        "newSha256": "dfbfdea1fc4c925838fae46bd7dd3b6cbf1b3e5b871a3044968cef3ffe97db9a",
+        "oldLine": 4710,
+        "newLine": 4708,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.SequenceExtensions.Traverse``3(System.Collections.Generic.IReadOnlyDictionary{``0,``1},System.Func{``0,``1,FunnySharp.Option{``2}},System.Collections.Generic.IEqualityComparer{``0})",
+        "oldSha256": "36ebc785d451f76d8cb9fffe2be3e06cd0795b233ec32f11c819cb4da89ccb6e",
+        "newSha256": "36ebc785d451f76d8cb9fffe2be3e06cd0795b233ec32f11c819cb4da89ccb6e",
+        "oldLine": 4738,
+        "newLine": 4736,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.SequenceExtensions.Traverse``2(System.Collections.Generic.IEnumerable{``0},System.Func{System.Int32,``0,FunnySharp.Option{``1}})",
+        "oldSha256": "58bee9f76e232a95403411882c65e23dcc5a40f6b6abb2d2ea74d434d8158300",
+        "newSha256": "58bee9f76e232a95403411882c65e23dcc5a40f6b6abb2d2ea74d434d8158300",
+        "oldLine": 4610,
+        "newLine": 4608,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.SequenceExtensions.Traverse``2(System.Collections.Generic.IEnumerable{``0},System.Func{``0,FunnySharp.Option{``1}})",
+        "oldSha256": "7b47f4d9e1cd7e2e750a43e36ab3b0cbd1cda23f27b75441126685ae69e4f60c",
+        "newSha256": "7b47f4d9e1cd7e2e750a43e36ab3b0cbd1cda23f27b75441126685ae69e4f60c",
+        "oldLine": 4485,
+        "newLine": 4483,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.SequenceExtensions.Sequence``1(System.Collections.Generic.IEnumerable{FunnySharp.Option{``0}})",
+        "oldSha256": "ac9b26d4631b99ac8dfd46844938ee2f858341d6584cbd92e17a34e427516b7d",
+        "newSha256": "ac9b26d4631b99ac8dfd46844938ee2f858341d6584cbd92e17a34e427516b7d",
+        "oldLine": 4474,
+        "newLine": 4472,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.SequenceExtensions.Traverse``4(System.Collections.Generic.IReadOnlyDictionary{``0,``1},System.Func{``0,``1,FunnySharp.Result{``2,``3}})",
+        "oldSha256": "6f67f14108eb3e7aa326fd90a45890f38db82fa486b1ad1031c4380c7f9a98ff",
+        "newSha256": "399ba93b8d3e07038754d45aadc062447ba658594653c432ca8ce06df4450dac",
+        "oldLine": 4760,
+        "newLine": 4758,
+        "textChanged": true
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.SequenceExtensions.Traverse``4(System.Collections.Generic.IReadOnlyDictionary{``0,``1},System.Func{``0,``1,FunnySharp.Result{``2,``3}},System.Collections.Generic.IEqualityComparer{``0})",
+        "oldSha256": "a4a176f703d944144683f9dccdfc9bca4ffff2100853063ca221466d0f9bcfbd",
+        "newSha256": "6722ab4860f49a68d1626fce39461e27366578a6f6e3da660f9895db2ca0101c",
+        "oldLine": 4793,
+        "newLine": 4791,
+        "textChanged": true
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.SequenceExtensions.Traverse``3(System.Collections.Generic.IEnumerable{``0},System.Func{System.Int32,``0,FunnySharp.Result{``1,``2}})",
+        "oldSha256": "4bc3885666ec1ca198f8edd7a999b7f605317668bcfb73087c3cc4ce797c3914",
+        "newSha256": "878ef2d4e70e39e7ee11534bd935718cdce646f191ac7e443c33ef63a3c7c1bc",
+        "oldLine": 4632,
+        "newLine": 4630,
+        "textChanged": true
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.SequenceExtensions.Traverse``3(System.Collections.Generic.IEnumerable{``0},System.Func{``0,FunnySharp.Result{``1,``2}})",
+        "oldSha256": "7020e3b8cb708c4bf37120dfc8a57fd2fab92396bc9b089647e1bd66b627c06d",
+        "newSha256": "8cf329dfcc4c6eca746238266e349fedd66e002cf5529b275585a57e74f107e8",
+        "oldLine": 4518,
+        "newLine": 4516,
+        "textChanged": true
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.SequenceExtensions.Sequence``2(System.Collections.Generic.IEnumerable{FunnySharp.Result{``0,``1}})",
+        "oldSha256": "0ff9013f13e99354106cd2fefda573a7c4d88ecfdb50733266d154aa23092eee",
+        "newSha256": "afa7b26cdabc4654100b5bab20a59e6c65661d62ef10ebb1b90ac97225fb9b7c",
+        "oldLine": 4502,
+        "newLine": 4500,
+        "textChanged": true
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.SequenceExtensions.Sequence``1(System.Collections.Generic.IEnumerable{FunnySharp.UnitResult{``0}})",
+        "oldSha256": "9e1cb60de3b579e37e2cbe32a470e27ffffb4a5a1f0fab158e18147dc9849e25",
+        "newSha256": "248cbe79ce5de9930c43d941bca2bdf12383ccec501f7a32f1c3b38a4c44f969",
+        "oldLine": 4539,
+        "newLine": 4537,
+        "textChanged": true
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.SequenceExtensions.Traverse``2(System.Collections.Generic.IEnumerable{``0},System.Func{System.Int32,``0,FunnySharp.UnitResult{``1}})",
+        "oldSha256": "934c5194f7d7d74b85cc636f9ff2783fdef0ddd83a7a739bc2715374fd95fac0",
+        "newSha256": "1db2f52d87e21d2ec73a7afb7a9b78bdeb47ad6eed02a081fa80c6a5966cf83e",
+        "oldLine": 4659,
+        "newLine": 4657,
+        "textChanged": true
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.SequenceExtensions.Traverse``2(System.Collections.Generic.IEnumerable{``0},System.Func{``0,FunnySharp.UnitResult{``1}})",
+        "oldSha256": "d9185433715eb601ae59d3390f7a46b23dc66cb4e11a1c3dca1c5b8d0ebee9c9",
+        "newSha256": "2ff8d0b085433472fcb42b3a6d2cb1b51f5ab94262c22a447cd9728753fe986d",
+        "oldLine": 4552,
+        "newLine": 4550,
+        "textChanged": true
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.SequenceExtensions.Traverse``3(System.Collections.Generic.IReadOnlyDictionary{``0,``1},System.Func{``0,``1,FunnySharp.UnitResult{``2}})",
+        "oldSha256": "73d0c15a10bfd36bf364433a7f2687247425695b6e1ab2b7d34b6a8cd806ac3c",
+        "newSha256": "ff6b6ffd976f5d14f8d6011f0eae5264486142907085f8a57dc6ce27b224cbce",
+        "oldLine": 4820,
+        "newLine": 4818,
+        "textChanged": true
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.SequenceExtensions.Traverse``4(System.Collections.Generic.IReadOnlyDictionary{``0,``1},System.Func{``0,``1,FunnySharp.Validation{``2,``3}})",
+        "oldSha256": "b8120b5d4ae9d9862fd04947942e647a00c8fcf7cf1e27aa7a29e31079d7536e",
+        "newSha256": "69147bd793a3d1068f60ff8d70d560eca0fb80fa977e90243a4f5c86f520045f",
+        "oldLine": 4841,
+        "newLine": 4839,
+        "textChanged": true
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.SequenceExtensions.Traverse``4(System.Collections.Generic.IReadOnlyDictionary{``0,``1},System.Func{``0,``1,FunnySharp.Validation{``2,``3}},System.Collections.Generic.IEqualityComparer{``0})",
+        "oldSha256": "44004e701ffc2eb8f283d5a26ff73254efd4a3f8caf1273b6891813ee3bef50e",
+        "newSha256": "6713ca170f5057e79a9ee1522cf02d1a873ffd939f4a3af38d41d7fcb0dbe971",
+        "oldLine": 4875,
+        "newLine": 4873,
+        "textChanged": true
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.SequenceExtensions.Traverse``3(System.Collections.Generic.IEnumerable{``0},System.Func{System.Int32,``0,FunnySharp.Validation{``1,``2}})",
+        "oldSha256": "d578ef838f432c5633cae213c50613c3248b2ec87a2c388272e0fc180f8b8eff",
+        "newSha256": "ead3d23bba67487658d2dab4d8ea57299afcc62d72450414bca9c382473ac4c7",
+        "oldLine": 4684,
+        "newLine": 4682,
+        "textChanged": true
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.SequenceExtensions.Traverse``3(System.Collections.Generic.IEnumerable{``0},System.Func{``0,FunnySharp.Validation{``1,``2}})",
+        "oldSha256": "459e97d3ab536d6ea20cc8229cda23d24054e94667cf7595e469cd786af7ffad",
+        "newSha256": "4202aa0609f4c62ae6162e67f50c5b143ca65a359f1b4f9768ceaad50ed402c8",
+        "oldLine": 4588,
+        "newLine": 4586,
+        "textChanged": true
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.SequenceExtensions.Sequence``2(System.Collections.Generic.IEnumerable{FunnySharp.Validation{``0,``1}})",
+        "oldSha256": "bc3ae7c554d5bb1787454ac8e648f58acb024ad4c8351f0c350d08b9f1a995ec",
+        "newSha256": "6a48eb6300d6533e2d0928fcc83830c03f895b16c39f78d90946fba01e8d68c8",
+        "oldLine": 4571,
+        "newLine": 4569,
+        "textChanged": true
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.SpanPipelineExtensions.SelectInPlace``1(System.Memory{``0},System.Func{``0,``0})",
+        "oldSha256": "fa572fe50e15796e2fb3dedbdd73ae49011053d7348b0abac0c5c02fa2a1c97f",
+        "newSha256": "fa572fe50e15796e2fb3dedbdd73ae49011053d7348b0abac0c5c02fa2a1c97f",
+        "oldLine": 5432,
+        "newLine": 5430,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.SpanPipelineExtensions.WhereInPlace``1(System.Memory{``0},System.Func{``0,System.Boolean})",
+        "oldSha256": "ecc307f26dcdaa262a14690e177bf9da10038bbba758e1d4535ea6c4172a3dd0",
+        "newSha256": "ecc307f26dcdaa262a14690e177bf9da10038bbba758e1d4535ea6c4172a3dd0",
+        "oldLine": 5443,
+        "newLine": 5441,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.SpanPipelineExtensions.WhereTo``1(System.Memory{``0},System.Memory{``0},System.Func{``0,System.Boolean})",
+        "oldSha256": "a5df86bdd9ca0ee6d8459875e6cadbe08a6861a6c5699de8887ae9bd78574c8d",
+        "newSha256": "a5df86bdd9ca0ee6d8459875e6cadbe08a6861a6c5699de8887ae9bd78574c8d",
+        "oldLine": 5391,
+        "newLine": 5389,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.SpanPipelineExtensions.WhereTo``1(System.ReadOnlyMemory{``0},System.Memory{``0},System.Func{``0,System.Boolean})",
+        "oldSha256": "0ab7c52050c829ac4429c9491d24845425b3cf2cfb0f752cb5a9010860719377",
+        "newSha256": "0ab7c52050c829ac4429c9491d24845425b3cf2cfb0f752cb5a9010860719377",
+        "oldLine": 5378,
+        "newLine": 5376,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.SpanPipelineExtensions.ChooseTo``2(System.Memory{``0},System.Memory{``1},System.Func{``0,FunnySharp.Option{``1}})",
+        "oldSha256": "a5cf63b68bbe739e6750a95be929e33aa5365d802dd970513bdc683913241f21",
+        "newSha256": "a5cf63b68bbe739e6750a95be929e33aa5365d802dd970513bdc683913241f21",
+        "oldLine": 5418,
+        "newLine": 5416,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.SpanPipelineExtensions.ChooseTo``2(System.ReadOnlyMemory{``0},System.Memory{``1},System.Func{``0,FunnySharp.Option{``1}})",
+        "oldSha256": "a9fec0a004969e665907048ddad58c2bb89f224669821b347e96fe6a73834de2",
+        "newSha256": "a9fec0a004969e665907048ddad58c2bb89f224669821b347e96fe6a73834de2",
+        "oldLine": 5404,
+        "newLine": 5402,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.SpanPipelineExtensions.SelectTo``2(System.Memory{``0},System.Memory{``1},System.Func{``0,``1})",
+        "oldSha256": "2ece52bce2f69a26ec827a63655fdce48690c583f7a5fbeb0ab187e06870e6e5",
+        "newSha256": "2ece52bce2f69a26ec827a63655fdce48690c583f7a5fbeb0ab187e06870e6e5",
+        "oldLine": 5364,
+        "newLine": 5362,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.SpanPipelineExtensions.SelectTo``2(System.ReadOnlyMemory{``0},System.Memory{``1},System.Func{``0,``1})",
+        "oldSha256": "bebe17181707bbd0914d327ff99cca01e4adbb61408244fa1d684dec50740baf",
+        "newSha256": "bebe17181707bbd0914d327ff99cca01e4adbb61408244fa1d684dec50740baf",
+        "oldLine": 5350,
+        "newLine": 5348,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.SpanPipelineExtensions.SelectInPlace``1(System.Span{``0},System.Func{``0,``0})",
+        "oldSha256": "e3c29d518996cf309892f70fa158930a6b6f8782e1a113497bb8b69742a9f8b4",
+        "newSha256": "e3c29d518996cf309892f70fa158930a6b6f8782e1a113497bb8b69742a9f8b4",
+        "oldLine": 5328,
+        "newLine": 5326,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.SpanPipelineExtensions.WhereInPlace``1(System.Span{``0},System.Func{``0,System.Boolean})",
+        "oldSha256": "48540c0ffb7a1de30af14b8a108b3f8b9bd08738dda1e81e2360610b7bcea6e0",
+        "newSha256": "48540c0ffb7a1de30af14b8a108b3f8b9bd08738dda1e81e2360610b7bcea6e0",
+        "oldLine": 5339,
+        "newLine": 5337,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.SpanPipelineExtensions.WhereTo``1(System.ReadOnlySpan{``0},System.Span{``0},System.Func{``0,System.Boolean})",
+        "oldSha256": "9c6a9573eb21cbe1b039617d1ab4cc595a640381ccfb34605f63a2c4676c0f73",
+        "newSha256": "9c6a9573eb21cbe1b039617d1ab4cc595a640381ccfb34605f63a2c4676c0f73",
+        "oldLine": 5274,
+        "newLine": 5272,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.SpanPipelineExtensions.WhereTo``1(System.Span{``0},System.Span{``0},System.Func{``0,System.Boolean})",
+        "oldSha256": "cc9a6d3321ae618c71337f5fbfa353e0f32df9618b71dc1e46997af0f2820a0f",
+        "newSha256": "cc9a6d3321ae618c71337f5fbfa353e0f32df9618b71dc1e46997af0f2820a0f",
+        "oldLine": 5287,
+        "newLine": 5285,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.SpanPipelineExtensions.ChooseTo``2(System.ReadOnlySpan{``0},System.Span{``1},System.Func{``0,FunnySharp.Option{``1}})",
+        "oldSha256": "e627ecd6a12cc7e0d7f85504856377e9ba69f59e6c09ea34e31bea591d524baf",
+        "newSha256": "e627ecd6a12cc7e0d7f85504856377e9ba69f59e6c09ea34e31bea591d524baf",
+        "oldLine": 5300,
+        "newLine": 5298,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.SpanPipelineExtensions.ChooseTo``2(System.Span{``0},System.Span{``1},System.Func{``0,FunnySharp.Option{``1}})",
+        "oldSha256": "d41304f118ccbc3748c38cbf4043e46d58922ea2edfb6b5ac468f65e9bb3d100",
+        "newSha256": "d41304f118ccbc3748c38cbf4043e46d58922ea2edfb6b5ac468f65e9bb3d100",
+        "oldLine": 5314,
+        "newLine": 5312,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.SpanPipelineExtensions.SelectTo``2(System.ReadOnlySpan{``0},System.Span{``1},System.Func{``0,``1})",
+        "oldSha256": "2876945c5d57b4bc7e88c02fb8812d64b0969fd769a53a0a9c737c3871691303",
+        "newSha256": "2876945c5d57b4bc7e88c02fb8812d64b0969fd769a53a0a9c737c3871691303",
+        "oldLine": 5246,
+        "newLine": 5244,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.SpanPipelineExtensions.SelectTo``2(System.Span{``0},System.Span{``1},System.Func{``0,``1})",
+        "oldSha256": "05c37141e8c7ae25ce9ee39ba68729a6fb4ef58776ea00da38221de553af95f2",
+        "newSha256": "05c37141e8c7ae25ce9ee39ba68729a6fb4ef58776ea00da38221de553af95f2",
+        "oldLine": 5260,
+        "newLine": 5258,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.StateChange`2.To(`0,`1[])",
+        "oldSha256": "06cb40e5f2931ef3448bf754bd79da0b349263a79809f600a19e721e3fda8778",
+        "newSha256": "06cb40e5f2931ef3448bf754bd79da0b349263a79809f600a19e721e3fda8778",
+        "oldLine": 5650,
+        "newLine": 5648,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.StateChange`2.Equals(FunnySharp.StateChange{`0,`1})",
+        "oldSha256": "f7f2b0772f3e41eb30c73b3ea16c9a8cf811e523e0eab7a668e25d453d6914e5",
+        "newSha256": "f7f2b0772f3e41eb30c73b3ea16c9a8cf811e523e0eab7a668e25d453d6914e5",
+        "oldLine": 5665,
+        "newLine": 5663,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.StateChange`2.Equals(System.Object)",
+        "oldSha256": "93e756d22ce0eca68ce53eb3cfbc683793dc5d5d255b960e1b8780532680bdb1",
+        "newSha256": "93e756d22ce0eca68ce53eb3cfbc683793dc5d5d255b960e1b8780532680bdb1",
+        "oldLine": 5672,
+        "newLine": 5670,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.StateChange`2.GetHashCode",
+        "oldSha256": "2d33ffbe66565b37fcab2ef508e519fd94a7e868670d6481f8fb8e4cc84f2131",
+        "newSha256": "2d33ffbe66565b37fcab2ef508e519fd94a7e868670d6481f8fb8e4cc84f2131",
+        "oldLine": 5679,
+        "newLine": 5677,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.StateChange`2.ToString",
+        "oldSha256": "e0590a2ba280dd50be2c20e437bed66c488a2c931e44e15001cbd82d46635e2f",
+        "newSha256": "e0590a2ba280dd50be2c20e437bed66c488a2c931e44e15001cbd82d46635e2f",
+        "oldLine": 5685,
+        "newLine": 5683,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|P:FunnySharp.StateChange`2.Outputs",
+        "oldSha256": "0a8aea33e807d624f2a1d657bebc4a5d2d5208264bae2d97774eb7c2fe139265",
+        "newSha256": "0a8aea33e807d624f2a1d657bebc4a5d2d5208264bae2d97774eb7c2fe139265",
+        "oldLine": 5645,
+        "newLine": 5643,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|P:FunnySharp.StateChange`2.State",
+        "oldSha256": "3f128de857ae7ef9b63dd1ff5574bcff34b5433cba4a18e0100a69af55e0b04e",
+        "newSha256": "3f128de857ae7ef9b63dd1ff5574bcff34b5433cba4a18e0100a69af55e0b04e",
+        "oldLine": 5640,
+        "newLine": 5638,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.StateMachineExtensions.OrElse``4(FunnySharp.StateMachine{``0,``1,``2,``3},FunnySharp.StateMachine{``0,``1,``2,``3})",
+        "oldSha256": "0b3012db38cabf160e11a40ec814d1eb0f1a96a6e69a00559ee0b02023063e06",
+        "newSha256": "0b3012db38cabf160e11a40ec814d1eb0f1a96a6e69a00559ee0b02023063e06",
+        "oldLine": 5606,
+        "newLine": 5604,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.StateMachineExtensions.Replay``4(FunnySharp.StateMachine{``0,``1,``2,``3},``0,System.Collections.Generic.IEnumerable{``1})",
+        "oldSha256": "b689ddde3012933b1fc0646f2c45da981959d238e33f0e716b883edc657f0e79",
+        "newSha256": "b689ddde3012933b1fc0646f2c45da981959d238e33f0e716b883edc657f0e79",
+        "oldLine": 5619,
+        "newLine": 5617,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|T:FunnySharp.StateMachine`4",
+        "oldSha256": "cbe21b2968a7a7758b4bcb3386da84c8b38913208b995fcbf68fcdcaae959e47",
+        "newSha256": "cbe21b2968a7a7758b4bcb3386da84c8b38913208b995fcbf68fcdcaae959e47",
+        "oldLine": 5589,
+        "newLine": 5587,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.StateTransitionExtensions.Then``2(FunnySharp.StateTransition{``0,``1},FunnySharp.StateTransition{``0,``1})",
+        "oldSha256": "809aee52f54a024dc1c1b483844d48002a7e4cf8ca6295e33ce7eab652c13ff9",
+        "newSha256": "809aee52f54a024dc1c1b483844d48002a7e4cf8ca6295e33ce7eab652c13ff9",
+        "oldLine": 5705,
+        "newLine": 5703,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|T:FunnySharp.StateTransition`2",
+        "oldSha256": "78898ea982ef5ecb8f6946ae51202e88798dce8a92545981e3fc8edeb9dad451",
+        "newSha256": "78898ea982ef5ecb8f6946ae51202e88798dce8a92545981e3fc8edeb9dad451",
+        "oldLine": 5691,
+        "newLine": 5689,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.TransitionResult`3.Applied(FunnySharp.StateChange{`0,`1})",
+        "oldSha256": "51a771ca859898fdea86b9df3c112120659dc8d7e0d0b816e827a246f8be2d30",
+        "newSha256": "51a771ca859898fdea86b9df3c112120659dc8d7e0d0b816e827a246f8be2d30",
+        "oldLine": 5512,
+        "newLine": 5510,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.TransitionResult`3.Failed(`2)",
+        "oldSha256": "4c1801b78144646b92cd761923fa147388a26af0b5ef3727b7cbb5c131b18840",
+        "newSha256": "4c1801b78144646b92cd761923fa147388a26af0b5ef3727b7cbb5c131b18840",
+        "oldLine": 5527,
+        "newLine": 5525,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.TransitionResult`3.Rejected(`2)",
+        "oldSha256": "599e6efa2f95957af4afd6290bb77bd3b4853b603c80d61a6c4283714137e079",
+        "newSha256": "599e6efa2f95957af4afd6290bb77bd3b4853b603c80d61a6c4283714137e079",
+        "oldLine": 5520,
+        "newLine": 5518,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.TransitionResult`3.Undefined",
+        "oldSha256": "d4c73732756648f8c7555fe114d921247cda3e0d21a3a37ec97347c9e7b0c6c8",
+        "newSha256": "d4c73732756648f8c7555fe114d921247cda3e0d21a3a37ec97347c9e7b0c6c8",
+        "oldLine": 5534,
+        "newLine": 5532,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.TransitionResult`3.op_Equality(FunnySharp.TransitionResult{`0,`1,`2},FunnySharp.TransitionResult{`0,`1,`2})",
+        "oldSha256": "2c233a465d6033e88cb6a4becb4c32c4d8c3b81d702de3279dcbca364f63e238",
+        "newSha256": "2c233a465d6033e88cb6a4becb4c32c4d8c3b81d702de3279dcbca364f63e238",
+        "oldLine": 5575,
+        "newLine": 5573,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.TransitionResult`3.op_Inequality(FunnySharp.TransitionResult{`0,`1,`2},FunnySharp.TransitionResult{`0,`1,`2})",
+        "oldSha256": "c8ba999b93b082b748016bf12ff82d8ff745407b1d94e06dc853fd385f990084",
+        "newSha256": "c8ba999b93b082b748016bf12ff82d8ff745407b1d94e06dc853fd385f990084",
+        "oldLine": 5580,
+        "newLine": 5578,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.TransitionResult`3.Equals(FunnySharp.TransitionResult{`0,`1,`2})",
+        "oldSha256": "d6a22ecfae8af1f890c1cce6d5338a8649aaed81594a1fb9e30c0a3ce780baa5",
+        "newSha256": "d6a22ecfae8af1f890c1cce6d5338a8649aaed81594a1fb9e30c0a3ce780baa5",
+        "oldLine": 5566,
+        "newLine": 5564,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.TransitionResult`3.Equals(System.Object)",
+        "oldSha256": "191fa9ece4e6a9f99dcbb03e09ac5153ce179f8292d97177e5178d1402c5fdc2",
+        "newSha256": "191fa9ece4e6a9f99dcbb03e09ac5153ce179f8292d97177e5178d1402c5fdc2",
+        "oldLine": 5569,
+        "newLine": 5567,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.TransitionResult`3.TryGetChange(FunnySharp.StateChange{`0,`1}@)",
+        "oldSha256": "1bcad890a2cd852c567b6338e6f3d2af1f0b5d470253506315e58b83dba1416a",
+        "newSha256": "1bcad890a2cd852c567b6338e6f3d2af1f0b5d470253506315e58b83dba1416a",
+        "oldLine": 5540,
+        "newLine": 5538,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.TransitionResult`3.TryGetError(`2@)",
+        "oldSha256": "a60dd6836fb6f14fd3df651a2550c8bc5769f3952c18907540f0e7a4ffbb4b19",
+        "newSha256": "a60dd6836fb6f14fd3df651a2550c8bc5769f3952c18907540f0e7a4ffbb4b19",
+        "oldLine": 5547,
+        "newLine": 5545,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.TransitionResult`3.GetHashCode",
+        "oldSha256": "51aee8ab1e73391e5e95a115b46054ede11064822ca5be02c974aea5b9ffeae0",
+        "newSha256": "51aee8ab1e73391e5e95a115b46054ede11064822ca5be02c974aea5b9ffeae0",
+        "oldLine": 5572,
+        "newLine": 5570,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.TransitionResult`3.ToString",
+        "oldSha256": "103b6a3883c4dc5f3322fa01cb8f630ffd26022c6044ea85177625fd67e2c2e9",
+        "newSha256": "103b6a3883c4dc5f3322fa01cb8f630ffd26022c6044ea85177625fd67e2c2e9",
+        "oldLine": 5585,
+        "newLine": 5583,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.TransitionResult`3.Match``1(System.Func{FunnySharp.StateChange{`0,`1},``0},System.Func{`2,``0},System.Func{`2,``0},System.Func{``0})",
+        "oldSha256": "c09b78dca8397ab1789ca38b57feabdedb8e7f28113e1333997b53e6c98b6407",
+        "newSha256": "c09b78dca8397ab1789ca38b57feabdedb8e7f28113e1333997b53e6c98b6407",
+        "oldLine": 5554,
+        "newLine": 5552,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|P:FunnySharp.TransitionResult`3.Status",
+        "oldSha256": "1e354a7528a3dbcc230620ebfa239a01e26d59b959b9f88336a63867c97aa3b0",
+        "newSha256": "1e354a7528a3dbcc230620ebfa239a01e26d59b959b9f88336a63867c97aa3b0",
+        "oldLine": 5487,
+        "newLine": 5485,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|P:FunnySharp.TransitionResult`3.IsApplied",
+        "oldSha256": "b912f0affdbe7f8811f05057c62264a1bd955b7ebfe5d14486d9367f4b7d3cd7",
+        "newSha256": "b912f0affdbe7f8811f05057c62264a1bd955b7ebfe5d14486d9367f4b7d3cd7",
+        "oldLine": 5492,
+        "newLine": 5490,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|P:FunnySharp.TransitionResult`3.IsFailed",
+        "oldSha256": "4071d2d3ae7fbc00c68a2f17e90d6a4965f578a868b301309bd78536956d7560",
+        "newSha256": "4071d2d3ae7fbc00c68a2f17e90d6a4965f578a868b301309bd78536956d7560",
+        "oldLine": 5502,
+        "newLine": 5500,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|P:FunnySharp.TransitionResult`3.IsRejected",
+        "oldSha256": "543cf302b3fb5321f6b38bb03891897792a2a2ad02635796c53726d6a6853427",
+        "newSha256": "543cf302b3fb5321f6b38bb03891897792a2a2ad02635796c53726d6a6853427",
+        "oldLine": 5497,
+        "newLine": 5495,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|P:FunnySharp.TransitionResult`3.IsUndefined",
+        "oldSha256": "d4bbbc38e701d15a913bc29883d11a1b67b6519fb180251492dfb1500887ff56",
+        "newSha256": "d4bbbc38e701d15a913bc29883d11a1b67b6519fb180251492dfb1500887ff56",
+        "oldLine": 5507,
+        "newLine": 5505,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|F:FunnySharp.TransitionStatus.Applied",
+        "oldSha256": "566eeb52d7a80cc527ef42eb9387cfd96f2183c977e931827f12582f67f06409",
+        "newSha256": "566eeb52d7a80cc527ef42eb9387cfd96f2183c977e931827f12582f67f06409",
+        "oldLine": 5464,
+        "newLine": 5462,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|F:FunnySharp.TransitionStatus.Failed",
+        "oldSha256": "32d1e22b4bc02e05931be1ea11e0404ad2288a30b85fd5e3615054f129210c1b",
+        "newSha256": "32d1e22b4bc02e05931be1ea11e0404ad2288a30b85fd5e3615054f129210c1b",
+        "oldLine": 5474,
+        "newLine": 5472,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|F:FunnySharp.TransitionStatus.Rejected",
+        "oldSha256": "a565889bd0b0c811286a83c0905a060033d6db156869865b2a43ba42b2d01757",
+        "newSha256": "a565889bd0b0c811286a83c0905a060033d6db156869865b2a43ba42b2d01757",
+        "oldLine": 5469,
+        "newLine": 5467,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|F:FunnySharp.TransitionStatus.Undefined",
+        "oldSha256": "3f806eabbe99f94cc30093c8743089b1ce076bf92403c53d6f4b887de28f62cb",
+        "newSha256": "3f806eabbe99f94cc30093c8743089b1ce076bf92403c53d6f4b887de28f62cb",
+        "oldLine": 5459,
+        "newLine": 5457,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|T:FunnySharp.TransitionStatus",
+        "oldSha256": "ce56e35b871bb325a84b4a639e3c1cec5fb2f6c53616576759b25bd80facc56c",
+        "newSha256": "ce56e35b871bb325a84b4a639e3c1cec5fb2f6c53616576759b25bd80facc56c",
+        "oldLine": 5454,
+        "newLine": 5452,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.UnitResult.Try(System.Action)",
+        "oldSha256": "24873405699fb7a15628911e6bc398069558bc908f4179bc9f13103a8b3d53d5",
+        "newSha256": "24873405699fb7a15628911e6bc398069558bc908f4179bc9f13103a8b3d53d5",
+        "oldLine": 5775,
+        "newLine": 5773,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.UnitResult.Success``1",
+        "oldSha256": "64f5751d77195b68f9d15f33fc7322e094f7758690528e06cfc9f02564771f0a",
+        "newSha256": "64f5751d77195b68f9d15f33fc7322e094f7758690528e06cfc9f02564771f0a",
+        "oldLine": 5760,
+        "newLine": 5758,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.UnitResult.Failure``1(``0)",
+        "oldSha256": "d2b88dae432103ce65c42d18f5275aae005cfa8f3b09acf82fa45e7d4152544f",
+        "newSha256": "d2b88dae432103ce65c42d18f5275aae005cfa8f3b09acf82fa45e7d4152544f",
+        "oldLine": 5767,
+        "newLine": 5765,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.UnitResult.Try``1(System.Action,System.Func{System.Exception,``0})",
+        "oldSha256": "f6084f881ecae366e72feda82d7058566abe8750d9eb067ba2df0a45a67c7fe6",
+        "newSha256": "f6084f881ecae366e72feda82d7058566abe8750d9eb067ba2df0a45a67c7fe6",
+        "oldLine": 5783,
+        "newLine": 5781,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.UnitResult.TryAsync(System.Func{System.Threading.Tasks.Task})",
+        "oldSha256": "d65129e147439f43400d3243cc074ee71b0efe0f1980002e1ca99c80f8761c4d",
+        "newSha256": "d65129e147439f43400d3243cc074ee71b0efe0f1980002e1ca99c80f8761c4d",
+        "oldLine": 5793,
+        "newLine": 5791,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.UnitResult.TryAsync``1(System.Func{System.Threading.Tasks.Task},System.Func{System.Exception,``0})",
+        "oldSha256": "c1f03c7eda26bf41e7f27d38a1b30e7934601a5554428076097b2fcb3bc0aa29",
+        "newSha256": "c1f03c7eda26bf41e7f27d38a1b30e7934601a5554428076097b2fcb3bc0aa29",
+        "oldLine": 5809,
+        "newLine": 5807,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.UnitResult.TryValueAsync(System.Func{System.Threading.Tasks.ValueTask})",
+        "oldSha256": "95611076b29411d13c3fd8bdb67e782e96c98271b529a42d6b698633c17aae5e",
+        "newSha256": "95611076b29411d13c3fd8bdb67e782e96c98271b529a42d6b698633c17aae5e",
+        "oldLine": 5828,
+        "newLine": 5826,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.UnitResult.TryValueAsync``1(System.Func{System.Threading.Tasks.ValueTask},System.Func{System.Exception,``0})",
+        "oldSha256": "dd649b3fa3f868534f0065b2180bc6e3207b66d0fb6e144044c5187adb0c9d6e",
+        "newSha256": "dd649b3fa3f868534f0065b2180bc6e3207b66d0fb6e144044c5187adb0c9d6e",
+        "oldLine": 5844,
+        "newLine": 5842,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.UnitResultExtensions.ToUnitResult``2(FunnySharp.Option{``0},System.Func{``1})",
+        "oldSha256": "dc334290d52e61a5d6935b357cf6d5028f26438c8f6e3874d993d8c34c1fd809",
+        "newSha256": "dc334290d52e61a5d6935b357cf6d5028f26438c8f6e3874d993d8c34c1fd809",
+        "oldLine": 6104,
+        "newLine": 6102,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.UnitResultExtensions.ToUnitResult``2(FunnySharp.Option{``0},``1)",
+        "oldSha256": "a34d6fdf8943c1838cdce93b96f015ace799cc2555466068076d7258069d880a",
+        "newSha256": "a34d6fdf8943c1838cdce93b96f015ace799cc2555466068076d7258069d880a",
+        "oldLine": 6094,
+        "newLine": 6092,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.UnitResultExtensions.ToUnitResult``2(FunnySharp.Result{``0,``1})",
+        "oldSha256": "351d2d8df60fc845c597c533d4fca0d115fc21ab2e9a7c028ca6a8bbc0849e82",
+        "newSha256": "351d2d8df60fc845c597c533d4fca0d115fc21ab2e9a7c028ca6a8bbc0849e82",
+        "oldLine": 6049,
+        "newLine": 6047,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.UnitResultExtensions.ToResultAsync``2(FunnySharp.UnitResult{``0},System.Func{System.Threading.CancellationToken,System.Threading.Tasks.Task{``1}},System.Threading.CancellationToken)",
+        "oldSha256": "92f612f8e0c233a2981a8f2db31b5e4bb58082d3a6e429a0aa751c0e6024d51a",
+        "newSha256": "92f612f8e0c233a2981a8f2db31b5e4bb58082d3a6e429a0aa751c0e6024d51a",
+        "oldLine": 6136,
+        "newLine": 6134,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.UnitResultExtensions.ToResultAsync``2(FunnySharp.UnitResult{``0},System.Func{System.Threading.Tasks.Task{``1}})",
+        "oldSha256": "1a8644f486b64a26c58ab281e68173a5362a1281dc8aabed8bff532dd49474c1",
+        "newSha256": "1a8644f486b64a26c58ab281e68173a5362a1281dc8aabed8bff532dd49474c1",
+        "oldLine": 6115,
+        "newLine": 6113,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.UnitResultExtensions.BindAsync``1(FunnySharp.UnitResult{``0},System.Func{System.Threading.CancellationToken,System.Threading.Tasks.Task{FunnySharp.UnitResult{``0}}},System.Threading.CancellationToken)",
+        "oldSha256": "f5b61d4a9fb8164296dd1efe1602e9a0d10cc6d5c2ec45aa1a827f592fdbc35b",
+        "newSha256": "f5b61d4a9fb8164296dd1efe1602e9a0d10cc6d5c2ec45aa1a827f592fdbc35b",
+        "oldLine": 6222,
+        "newLine": 6220,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.UnitResultExtensions.BindAsync``1(FunnySharp.UnitResult{``0},System.Func{System.Threading.Tasks.Task{FunnySharp.UnitResult{``0}}})",
+        "oldSha256": "9f537932cf87b6384c9237a75ff4b5483fceb5c4877d8d089b79456ca1a46dee",
+        "newSha256": "9f537932cf87b6384c9237a75ff4b5483fceb5c4877d8d089b79456ca1a46dee",
+        "oldLine": 6201,
+        "newLine": 6199,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.UnitResultExtensions.ToUnitResultAsync``2(System.Threading.Tasks.Task{FunnySharp.Result{``0,``1}})",
+        "oldSha256": "888b8d0e9b81f8e77d935521f31e9a549ebcb3b08fe2a92e9c1f9f65e38cec01",
+        "newSha256": "888b8d0e9b81f8e77d935521f31e9a549ebcb3b08fe2a92e9c1f9f65e38cec01",
+        "oldLine": 6059,
+        "newLine": 6057,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.UnitResultExtensions.ToResultValueAsync``2(FunnySharp.UnitResult{``0},System.Func{System.Threading.CancellationToken,System.Threading.Tasks.ValueTask{``1}},System.Threading.CancellationToken)",
+        "oldSha256": "bf5daac503ad3dbc462b3c55768d1453718cc0061535e6731a835a8496912d8c",
+        "newSha256": "bf5daac503ad3dbc462b3c55768d1453718cc0061535e6731a835a8496912d8c",
+        "oldLine": 6179,
+        "newLine": 6177,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.UnitResultExtensions.ToResultValueAsync``2(FunnySharp.UnitResult{``0},System.Func{System.Threading.Tasks.ValueTask{``1}})",
+        "oldSha256": "703249a336462bdfb053fa435042588d7e40390a6eba93fb5fc716d6c5c32fc0",
+        "newSha256": "703249a336462bdfb053fa435042588d7e40390a6eba93fb5fc716d6c5c32fc0",
+        "oldLine": 6159,
+        "newLine": 6157,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.UnitResultExtensions.BindValueAsync``1(FunnySharp.UnitResult{``0},System.Func{System.Threading.CancellationToken,System.Threading.Tasks.ValueTask{FunnySharp.UnitResult{``0}}},System.Threading.CancellationToken)",
+        "oldSha256": "e70dd8554faf732f3c72ebec8ec18c0b3340ebff34a2f4c5e04ad12ac9a43d87",
+        "newSha256": "e70dd8554faf732f3c72ebec8ec18c0b3340ebff34a2f4c5e04ad12ac9a43d87",
+        "oldLine": 6265,
+        "newLine": 6263,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.UnitResultExtensions.BindValueAsync``1(FunnySharp.UnitResult{``0},System.Func{System.Threading.Tasks.ValueTask{FunnySharp.UnitResult{``0}}})",
+        "oldSha256": "c71161299a7aa0bbd6776c984295c6e94609f48e95822509ee3e0ab9b1d96e04",
+        "newSha256": "c71161299a7aa0bbd6776c984295c6e94609f48e95822509ee3e0ab9b1d96e04",
+        "oldLine": 6245,
+        "newLine": 6243,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.UnitResultExtensions.ToUnitResultAsync``2(System.Threading.Tasks.ValueTask{FunnySharp.Result{``0,``1}})",
+        "oldSha256": "318308812f51aa1f73832afce3f69380eed77bcb479b3f76ea9687e283e901e5",
+        "newSha256": "318308812f51aa1f73832afce3f69380eed77bcb479b3f76ea9687e283e901e5",
+        "oldLine": 6076,
+        "newLine": 6074,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.UnitResultPartition`1.#ctor(System.Int32,System.Collections.Generic.IReadOnlyList{`0})",
+        "oldSha256": "4d140ed2327bdafbe64e72f3a7c7824f6705e83369d0db04630e29f4175e5cf5",
+        "newSha256": "4d140ed2327bdafbe64e72f3a7c7824f6705e83369d0db04630e29f4175e5cf5",
+        "oldLine": 3731,
+        "newLine": 3729,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|T:FunnySharp.UnitResultPartition`1",
+        "oldSha256": "98cd68a90fa35cb3d5e8266a63bd7d5524a674e9ffe816b677ec66a2c0c4d6fc",
+        "newSha256": "98cd68a90fa35cb3d5e8266a63bd7d5524a674e9ffe816b677ec66a2c0c4d6fc",
+        "oldLine": 3714,
+        "newLine": 3712,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|P:FunnySharp.UnitResultPartition`1.Failed",
+        "oldSha256": "fa8a365e8e239f6236c65f2136e1b122bea9318b6e24155e9a1d5d242bb460d7",
+        "newSha256": "fa8a365e8e239f6236c65f2136e1b122bea9318b6e24155e9a1d5d242bb460d7",
+        "oldLine": 3751,
+        "newLine": 3749,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|P:FunnySharp.UnitResultPartition`1.Succeeded",
+        "oldSha256": "79ccb5a2052c10aac51045da96918d5c6609f43088420a7b8695cbb5b467e5b8",
+        "newSha256": "79ccb5a2052c10aac51045da96918d5c6609f43088420a7b8695cbb5b467e5b8",
+        "oldLine": 3748,
+        "newLine": 3746,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.UnitResult`1.ToResult``1(System.Func{``0})",
+        "oldSha256": "ad633196c5c9e248502fbb94b1dfde0b5aa4e2431968d14da26f8c0f03d1ca0e",
+        "newSha256": "ad633196c5c9e248502fbb94b1dfde0b5aa4e2431968d14da26f8c0f03d1ca0e",
+        "oldLine": 5936,
+        "newLine": 5934,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.UnitResult`1.Bind(System.Func{FunnySharp.UnitResult{`0}})",
+        "oldSha256": "6996d44d9de8bfb2f5772d64dc0755e95971e943f3124ccd416cb9fc82ec89b5",
+        "newSha256": "6996d44d9de8bfb2f5772d64dc0755e95971e943f3124ccd416cb9fc82ec89b5",
+        "oldLine": 5946,
+        "newLine": 5944,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.UnitResult`1.Ensure(System.Func{System.Boolean},System.Func{`0})",
+        "oldSha256": "da8d95307ab761d80323784e985cf5e50d3434a67045906f37384524fc9d09b2",
+        "newSha256": "da8d95307ab761d80323784e985cf5e50d3434a67045906f37384524fc9d09b2",
+        "oldLine": 5965,
+        "newLine": 5963,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.UnitResult`1.Ensure(System.Func{System.Boolean},`0)",
+        "oldSha256": "f0bceb339d77af517590f1e32744cfd65ae15546421f2d500b60abecb1f49a27",
+        "newSha256": "f0bceb339d77af517590f1e32744cfd65ae15546421f2d500b60abecb1f49a27",
+        "oldLine": 5955,
+        "newLine": 5953,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.UnitResult`1.RecoverWith(System.Func{`0,FunnySharp.UnitResult{`0}})",
+        "oldSha256": "52f09e64e12c466c6acba8369393baa9a707cf998e7066528c2f7eada2776f82",
+        "newSha256": "52f09e64e12c466c6acba8369393baa9a707cf998e7066528c2f7eada2776f82",
+        "oldLine": 5975,
+        "newLine": 5973,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.UnitResult`1.Zip(FunnySharp.UnitResult{`0})",
+        "oldSha256": "4bef82e314fae86d8c3069202a39b2a35b23799a7812b8cc77eacf39d33792b5",
+        "newSha256": "4bef82e314fae86d8c3069202a39b2a35b23799a7812b8cc77eacf39d33792b5",
+        "oldLine": 5984,
+        "newLine": 5982,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.UnitResult`1.ZipWith(System.Func{FunnySharp.UnitResult{`0}})",
+        "oldSha256": "51230bde1290b834c4ff11ba9ba4be766d1e4c34c2150190f867b561b4aae8ca",
+        "newSha256": "51230bde1290b834c4ff11ba9ba4be766d1e4c34c2150190f867b561b4aae8ca",
+        "oldLine": 5992,
+        "newLine": 5990,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.UnitResult`1.MapError``1(System.Func{`0,``0})",
+        "oldSha256": "f3a6fb36da31decbcfdce42b3a43186782c6a9703be602a508ad15e4fa52bf64",
+        "newSha256": "f3a6fb36da31decbcfdce42b3a43186782c6a9703be602a508ad15e4fa52bf64",
+        "oldLine": 5926,
+        "newLine": 5924,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.UnitResult`1.Failure(`0)",
+        "oldSha256": "becc8cfd9be0ed1942e2b30fb4bb0cc9c75176807d91d532aa4398f145d86ca5",
+        "newSha256": "becc8cfd9be0ed1942e2b30fb4bb0cc9c75176807d91d532aa4398f145d86ca5",
+        "oldLine": 5891,
+        "newLine": 5889,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.UnitResult`1.Success",
+        "oldSha256": "13ce463d2f46b5c21bf4714dc3eea6c319f1c43c3b06f15923a8769ecd81b2cf",
+        "newSha256": "13ce463d2f46b5c21bf4714dc3eea6c319f1c43c3b06f15923a8769ecd81b2cf",
+        "oldLine": 5885,
+        "newLine": 5883,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.UnitResult`1.op_Equality(FunnySharp.UnitResult{`0},FunnySharp.UnitResult{`0})",
+        "oldSha256": "54f32c9cbd80c1fc7f6b7f2d99acf36c9b52d95139f2256842e454e77e69e7cc",
+        "newSha256": "54f32c9cbd80c1fc7f6b7f2d99acf36c9b52d95139f2256842e454e77e69e7cc",
+        "oldLine": 6020,
+        "newLine": 6018,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.UnitResult`1.op_Inequality(FunnySharp.UnitResult{`0},FunnySharp.UnitResult{`0})",
+        "oldSha256": "e53cca90259d62b0d5c1bd60f723cb7f07ad8b801a8985e29976a9d8d52d25d2",
+        "newSha256": "e53cca90259d62b0d5c1bd60f723cb7f07ad8b801a8985e29976a9d8d52d25d2",
+        "oldLine": 6029,
+        "newLine": 6027,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.UnitResult`1.Equals(FunnySharp.UnitResult{`0})",
+        "oldSha256": "ec50e59fd77cb811ac6efdfcf9e0c2619c40d91bf2123e6a07f62f5006d34976",
+        "newSha256": "ec50e59fd77cb811ac6efdfcf9e0c2619c40d91bf2123e6a07f62f5006d34976",
+        "oldLine": 6001,
+        "newLine": 5999,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.UnitResult`1.Equals(System.Object)",
+        "oldSha256": "a80ea31b86586d8e28d8421344b45d609b2d77a1c1f80c83970e956284f8541f",
+        "newSha256": "a80ea31b86586d8e28d8421344b45d609b2d77a1c1f80c83970e956284f8541f",
+        "oldLine": 6005,
+        "newLine": 6003,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.UnitResult`1.TryGetError(`0@)",
+        "oldSha256": "2d829cf6176777cd10d5ae3c8a84a978e3c731ed74707ffedac2f05a9df98ce4",
+        "newSha256": "2d829cf6176777cd10d5ae3c8a84a978e3c731ed74707ffedac2f05a9df98ce4",
+        "oldLine": 5898,
+        "newLine": 5896,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.UnitResult`1.GetHashCode",
+        "oldSha256": "725fd07b05c18a96cf0e02078182e0613895fb59e09ea8b158ce3537d0863659",
+        "newSha256": "725fd07b05c18a96cf0e02078182e0613895fb59e09ea8b158ce3537d0863659",
+        "oldLine": 6016,
+        "newLine": 6014,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.UnitResult`1.ToString",
+        "oldSha256": "78559ff8c5b0ef18d6c99a9dabc39337f2dca23b86aa0a2006146101bae27b71",
+        "newSha256": "78559ff8c5b0ef18d6c99a9dabc39337f2dca23b86aa0a2006146101bae27b71",
+        "oldLine": 6038,
+        "newLine": 6036,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.UnitResult`1.Match(System.Action,System.Action{`0})",
+        "oldSha256": "74113f368faffe665be711c5e1606f2914827c294ad253dbc38a6b22f0fd79f9",
+        "newSha256": "74113f368faffe665be711c5e1606f2914827c294ad253dbc38a6b22f0fd79f9",
+        "oldLine": 5917,
+        "newLine": 5915,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.UnitResult`1.Match``1(System.Func{``0},System.Func{`0,``0})",
+        "oldSha256": "cc9ca46b3b53922dd319a77abb26655baabc579eabf199571028e1a63bc93e53",
+        "newSha256": "cc9ca46b3b53922dd319a77abb26655baabc579eabf199571028e1a63bc93e53",
+        "oldLine": 5906,
+        "newLine": 5904,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|P:FunnySharp.UnitResult`1.IsFailure",
+        "oldSha256": "bdd1a167645cd2c2bd5142936965ca531da93088d45ff63b1129703ae8536c5e",
+        "newSha256": "bdd1a167645cd2c2bd5142936965ca531da93088d45ff63b1129703ae8536c5e",
+        "oldLine": 5879,
+        "newLine": 5877,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|P:FunnySharp.UnitResult`1.IsSuccess",
+        "oldSha256": "af90300a73511e242f662de8c2a2adecf8e51a676f6764b32fa07bdb07c882e8",
+        "newSha256": "af90300a73511e242f662de8c2a2adecf8e51a676f6764b32fa07bdb07c882e8",
+        "oldLine": 5873,
+        "newLine": 5871,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.ValidationExtensions.Apply``3(FunnySharp.Validation{System.Func{``0,``1},``2},FunnySharp.Validation{``0,``2})",
+        "oldSha256": "0ab946541e0a00965f7bd08d4becde9d3140493b020e5a7e4442bc1cb5d8a179",
+        "newSha256": "0ab946541e0a00965f7bd08d4becde9d3140493b020e5a7e4442bc1cb5d8a179",
+        "oldLine": 6475,
+        "newLine": 6473,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.ValidationExtensions.MapAsync``3(FunnySharp.Validation{``0,``2},System.Func{``0,System.Threading.CancellationToken,System.Threading.Tasks.Task{``1}},System.Threading.CancellationToken)",
+        "oldSha256": "21c1afceaee3b1b5e1e99c9afe4e60844e5fdce10b9417ea1c4c883a4d81c9ab",
+        "newSha256": "21c1afceaee3b1b5e1e99c9afe4e60844e5fdce10b9417ea1c4c883a4d81c9ab",
+        "oldLine": 6518,
+        "newLine": 6516,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.ValidationExtensions.MapAsync``3(FunnySharp.Validation{``0,``2},System.Func{``0,System.Threading.Tasks.Task{``1}})",
+        "oldSha256": "9c8177a5052cf8ca0506c882c3ecdcd974c81008faabb60e947ed6b4cfb22207",
+        "newSha256": "9c8177a5052cf8ca0506c882c3ecdcd974c81008faabb60e947ed6b4cfb22207",
+        "oldLine": 6496,
+        "newLine": 6494,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.ValidationExtensions.MapValueAsync``3(FunnySharp.Validation{``0,``2},System.Func{``0,System.Threading.CancellationToken,System.Threading.Tasks.ValueTask{``1}},System.Threading.CancellationToken)",
+        "oldSha256": "1bcd3a996c06549995baa8dcc8538851664d1c53ed895d22883c47ddd99dee41",
+        "newSha256": "1bcd3a996c06549995baa8dcc8538851664d1c53ed895d22883c47ddd99dee41",
+        "oldLine": 6565,
+        "newLine": 6563,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.ValidationExtensions.MapValueAsync``3(FunnySharp.Validation{``0,``2},System.Func{``0,System.Threading.Tasks.ValueTask{``1}})",
+        "oldSha256": "a49c115f395997424b4c9f4a064f277fc113de34ff96ce92e172be02ca5f4846",
+        "newSha256": "a49c115f395997424b4c9f4a064f277fc113de34ff96ce92e172be02ca5f4846",
+        "oldLine": 6543,
+        "newLine": 6541,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.Validation`2.Zip``1(FunnySharp.Validation{``0,`1})",
+        "oldSha256": "ea6b13febe8d9db7791abb96f0eb5769c6f4a08d02a7d43bb88d278255d5bf26",
+        "newSha256": "ea6b13febe8d9db7791abb96f0eb5769c6f4a08d02a7d43bb88d278255d5bf26",
+        "oldLine": 6385,
+        "newLine": 6383,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.Validation`2.Zip``2(FunnySharp.Validation{``0,`1},System.Func{`0,``0,``1})",
+        "oldSha256": "eba4ed49d52da238984aa3f7e0cd6b10dd7ed424bf75d4e9b16ee2e879319236",
+        "newSha256": "eba4ed49d52da238984aa3f7e0cd6b10dd7ed424bf75d4e9b16ee2e879319236",
+        "oldLine": 6397,
+        "newLine": 6395,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.Validation`2.Zip``4(FunnySharp.Validation{``0,`1},FunnySharp.Validation{``1,`1},FunnySharp.Validation{``2,`1},System.Func{`0,``0,``1,``2,``3})",
+        "oldSha256": "30a80c29bd1058e93e9eee7576a1a3a81c356b11678a0816509224c51d85bb9b",
+        "newSha256": "30a80c29bd1058e93e9eee7576a1a3a81c356b11678a0816509224c51d85bb9b",
+        "oldLine": 6425,
+        "newLine": 6423,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.Validation`2.Zip``3(FunnySharp.Validation{``0,`1},FunnySharp.Validation{``1,`1},System.Func{`0,``0,``1,``2})",
+        "oldSha256": "a45a96338e985a7ca2f2a7693e62c61b61037fc0db7232ebac6a2a65a449efaf",
+        "newSha256": "a45a96338e985a7ca2f2a7693e62c61b61037fc0db7232ebac6a2a65a449efaf",
+        "oldLine": 6410,
+        "newLine": 6408,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.Validation`2.Map``1(System.Func{`0,``0})",
+        "oldSha256": "943c5e9012224095fca3925a5fd9ac327d254c3eca30f71e59d71f0164806314",
+        "newSha256": "943c5e9012224095fca3925a5fd9ac327d254c3eca30f71e59d71f0164806314",
+        "oldLine": 6365,
+        "newLine": 6363,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.Validation`2.MapErrors``1(System.Func{`1,``0})",
+        "oldSha256": "9546ae6d60b0d2f0cf0c2c534f5c1d10ff2e464c14943f97b501c27c0744d5cd",
+        "newSha256": "9546ae6d60b0d2f0cf0c2c534f5c1d10ff2e464c14943f97b501c27c0744d5cd",
+        "oldLine": 6375,
+        "newLine": 6373,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.Validation`2.Invalid(`1)",
+        "oldSha256": "b3d0451b6a6f194ece5f49645d73c46e13abda84955615648759761d277de0e9",
+        "newSha256": "b3d0451b6a6f194ece5f49645d73c46e13abda84955615648759761d277de0e9",
+        "oldLine": 6313,
+        "newLine": 6311,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.Validation`2.InvalidMany(System.Collections.Generic.IEnumerable{`1})",
+        "oldSha256": "f1921031a3b56af77100710481d0d54c69062f794f12acebb46db6c0c6e38a5f",
+        "newSha256": "f1921031a3b56af77100710481d0d54c69062f794f12acebb46db6c0c6e38a5f",
+        "oldLine": 6320,
+        "newLine": 6318,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.Validation`2.Valid(`0)",
+        "oldSha256": "615cf00cb76d382d5a877a756326af4e44a0ab5a739e2649ac129d2d4a21bef0",
+        "newSha256": "615cf00cb76d382d5a877a756326af4e44a0ab5a739e2649ac129d2d4a21bef0",
+        "oldLine": 6306,
+        "newLine": 6304,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.Validation`2.op_Equality(FunnySharp.Validation{`0,`1},FunnySharp.Validation{`0,`1})",
+        "oldSha256": "e952c5ae0c2f81aaf1bb5b12d2d182a51c9fa1b1e72582582032c1b1234cca27",
+        "newSha256": "e952c5ae0c2f81aaf1bb5b12d2d182a51c9fa1b1e72582582032c1b1234cca27",
+        "oldLine": 6454,
+        "newLine": 6452,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.Validation`2.op_Inequality(FunnySharp.Validation{`0,`1},FunnySharp.Validation{`0,`1})",
+        "oldSha256": "c3eaac07a878801c1894c786d9270288220ed7c94aaeb933c91a07292386e130",
+        "newSha256": "c3eaac07a878801c1894c786d9270288220ed7c94aaeb933c91a07292386e130",
+        "oldLine": 6460,
+        "newLine": 6458,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.Validation`2.Equals(FunnySharp.Validation{`0,`1})",
+        "oldSha256": "c6a7b5c41f73ffd7326ff8d4b2bd11946f4074ec98beab618cdf09eca76d7e09",
+        "newSha256": "c6a7b5c41f73ffd7326ff8d4b2bd11946f4074ec98beab618cdf09eca76d7e09",
+        "oldLine": 6442,
+        "newLine": 6440,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.Validation`2.Equals(System.Object)",
+        "oldSha256": "005ec6078da30af90ebefc1259218cf7b05cd0b5246c47358b765f2e5b0040a1",
+        "newSha256": "005ec6078da30af90ebefc1259218cf7b05cd0b5246c47358b765f2e5b0040a1",
+        "oldLine": 6446,
+        "newLine": 6444,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.Validation`2.TryGetErrors(System.Collections.Generic.IReadOnlyList{`1}@)",
+        "oldSha256": "ade368e864ffe7433477cb22a9e73f01aa5109c4e57850ded15acd805c0e8f67",
+        "newSha256": "ade368e864ffe7433477cb22a9e73f01aa5109c4e57850ded15acd805c0e8f67",
+        "oldLine": 6337,
+        "newLine": 6335,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.Validation`2.TryGetValue(`0@)",
+        "oldSha256": "67e61cfb672f6972d04de5be21ca680219ca801367cd7c76fc716f1d839f05a8",
+        "newSha256": "67e61cfb672f6972d04de5be21ca680219ca801367cd7c76fc716f1d839f05a8",
+        "oldLine": 6329,
+        "newLine": 6327,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.Validation`2.GetHashCode",
+        "oldSha256": "64414bbcbd30df8dcf2d8d591fdeee7be51fb3c8e3e82d99c0356beb4549e357",
+        "newSha256": "64414bbcbd30df8dcf2d8d591fdeee7be51fb3c8e3e82d99c0356beb4549e357",
+        "oldLine": 6450,
+        "newLine": 6448,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.Validation`2.ToString",
+        "oldSha256": "6e0d5b7a6d92a5f1ef47e55934b8d0cebad98caf0e99617a235be80fdcde3b8c",
+        "newSha256": "6e0d5b7a6d92a5f1ef47e55934b8d0cebad98caf0e99617a235be80fdcde3b8c",
+        "oldLine": 6466,
+        "newLine": 6464,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.Validation`2.Match(System.Action{`0},System.Action{System.Collections.Generic.IReadOnlyList{`1}})",
+        "oldSha256": "7895e619cf76d11011a960ffb3ad4cc28cf6b46bb5b08fbfa152b6f0b8682508",
+        "newSha256": "7895e619cf76d11011a960ffb3ad4cc28cf6b46bb5b08fbfa152b6f0b8682508",
+        "oldLine": 6356,
+        "newLine": 6354,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|M:FunnySharp.Validation`2.Match``1(System.Func{`0,``0},System.Func{System.Collections.Generic.IReadOnlyList{`1},``0})",
+        "oldSha256": "71bb168b361a9e500bc556263ed8911a5135e7e97e64314da5a076e16b8c68da",
+        "newSha256": "71bb168b361a9e500bc556263ed8911a5135e7e97e64314da5a076e16b8c68da",
+        "oldLine": 6345,
+        "newLine": 6343,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|P:FunnySharp.Validation`2.IsInvalid",
+        "oldSha256": "3376d9c7353c34172e5b414eff81773e15bbe4cd35950a9daa55b8551b337222",
+        "newSha256": "3376d9c7353c34172e5b414eff81773e15bbe4cd35950a9daa55b8551b337222",
+        "oldLine": 6300,
+        "newLine": 6298,
+        "textChanged": false
+      },
+      {
+        "identity": "FunnySharp|P:FunnySharp.Validation`2.IsValid",
+        "oldSha256": "258890735b8f596a03ff3d3380bf2760351915dadbff67a2c799c760fcb76e70",
+        "newSha256": "258890735b8f596a03ff3d3380bf2760351915dadbff67a2c799c760fcb76e70",
+        "oldLine": 6294,
+        "newLine": 6292,
+        "textChanged": false
+      }
+    ],
+    "preservation": {
+      "stableIdentities": 468,
+      "dimensions": 3744,
+      "sourceUnits": 565,
+      "assertionUnits": 697,
+      "helperSpanOccurrences": 393,
+      "runtimeCases": 1635,
+      "compilerProbes": 2288,
+      "uniqueBlockMatchingErrors": 0,
+      "missingHistoricalBytes": 0,
+      "allOriginalClaimsRetained": true,
+      "allOriginalCompilerProofObjectsUnchanged": true,
+      "allOriginalRuntimeReceiptBytesUnchanged": true,
+      "allOriginalLimitsAndThresholdsRetained": true,
+      "noAssertionOrCodeBodyRewritten": true
+    },
+    "blockers": []
+  },
+  "currentXmlSnapshots": [
+    {
+      "assembly": "FunnySharp",
+      "path": "current-xml/FunnySharp.xml",
+      "sha256": "35dd9f2354a0dc45799e32adf90e7649594aa62988f423a42fa12185ae63f5b3",
+      "bytes": 474331,
+      "sourcePackage": {
+        "path": "artifacts/release-candidate/c306991992b04299a3300235ce3285d4537fe6c2/r5/packages/FunnySharp.0.2.0.nupkg",
+        "sha256": "09be5bdd6e51b4996592ab2579264cb73d9260b00608bb6e1fee48a981ab617d",
+        "entry": "lib/net10.0/FunnySharp.xml"
+      },
+      "sealedCandidate": "c306991992b04299a3300235ce3285d4537fe6c2",
+      "attempt": "r5",
+      "sourceBindings": [
+        {
+          "path": "src/FunnySharp/AsyncCardinalityExtensions.cs",
+          "sha256": "13a7d3790f2b5323aaa8636dade911614f4bd525011ad1e26c1a7f4c9429e28b"
+        },
+        {
+          "path": "src/FunnySharp/AsyncEnumerablePipelineExtensions.cs",
+          "sha256": "4ffb5f0991d7da729f70299e1c971a7a9406acf8c9166b91494eede31a2e9593"
+        },
+        {
+          "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+          "sha256": "5a0ea53ad1e8eedd56cc54e39f629a69e86f9998147f71259cccdc827898941f"
+        },
+        {
+          "path": "src/FunnySharp/CardinalityExtensions.cs",
+          "sha256": "e311c9f0e93671b61ecbf5eee45155f301f03ed833da0a99b0ad0dd554ab2dfa"
+        },
+        {
+          "path": "src/FunnySharp/ConcurrentEffectExtensions.cs",
+          "sha256": "176bf79c84b87d981e5ce6003f8af3e5539aece10f78c807bb013d45f1598fee"
+        },
+        {
+          "path": "src/FunnySharp/ContainerExtensions.cs",
+          "sha256": "ed0ece308a303887274beb7edb8f4100a38f1f8aa2df005007ab9b96cea6f7af"
+        },
+        {
+          "path": "src/FunnySharp/Effect.cs",
+          "sha256": "8ece89909512180966e1fa38996e0b96d61e41c629ad18952a16645b87f71474"
+        },
+        {
+          "path": "src/FunnySharp/EffectResourceExtensions.cs",
+          "sha256": "c21180895314c9f6cc2e4872e1c90bb2e7522c80db594cf568e7b7af662b0532"
+        },
+        {
+          "path": "src/FunnySharp/EnumerablePipelineExtensions.cs",
+          "sha256": "ce72d0d95dc3714ab9cfee72ab28ff6e3fb6da921ecbb55b7b08c5c878e10731"
+        },
+        {
+          "path": "src/FunnySharp/ExactZipExtensions.cs",
+          "sha256": "91297a630bd3626dd25173d5de4cecdd3c42b54b159f6258983ac4cf2c8a4cc2"
+        },
+        {
+          "path": "src/FunnySharp/FunctionExtensions.cs",
+          "sha256": "9782605bad2a01c89829cab4b86c8642f844a11b3ad4f06fe39bb7b21f16c785"
+        },
+        {
+          "path": "src/FunnySharp/Location.cs",
+          "sha256": "c16263550252403dc2ef43bdce49e85ecb11412abab6d2a004088b968f9361c3"
+        },
+        {
+          "path": "src/FunnySharp/NonEmpty.cs",
+          "sha256": "1364b433e70add597fa34ca896a99118f99657882ce2593e9e4decd1a6220cea"
+        },
+        {
+          "path": "src/FunnySharp/Optics.cs",
+          "sha256": "f62582e397fe6ee4b0eebcf662a8bb44c6e9ee01efb047a0cdc801ec79172606"
+        },
+        {
+          "path": "src/FunnySharp/Option.cs",
+          "sha256": "8ee95f8d0193c71e9515f4c97616a1352ee8b4960d17628ca7b7c3cbe77cd707"
+        },
+        {
+          "path": "src/FunnySharp/OptionExtensions.cs",
+          "sha256": "2c3f4bd0d1657f3fb93abaa101882230b5505184170c70315bc4803db4dea3a2"
+        },
+        {
+          "path": "src/FunnySharp/ParallelAsyncEnumerableExtensions.cs",
+          "sha256": "77e6e45c8594d514545de07036be50c07812f76ae3fa5346cc3df0beb43c9d43"
+        },
+        {
+          "path": "src/FunnySharp/ParallelAsyncSequenceExtensions.cs",
+          "sha256": "daa3b01123dca8f1f721906ed11f9b43d52630cac4480fc4e65a6595451ac47b"
+        },
+        {
+          "path": "src/FunnySharp/ParseExtensions.cs",
+          "sha256": "b2621cf201bb4faee2d8bff24f19eaae6133fe36c2365b8b44588dd84dc021a0"
+        },
+        {
+          "path": "src/FunnySharp/PartitionExtensions.cs",
+          "sha256": "57edfa4d39b0a8f6e9bdd9913d4eb0418a5c0e5fabe82c4e7e35bd7581ad5db7"
+        },
+        {
+          "path": "src/FunnySharp/Result.cs",
+          "sha256": "4e17f5ea36d1d6de9a963bc6f2b9900a5fe15e29fefe7e68ab1fdec45a9762b9"
+        },
+        {
+          "path": "src/FunnySharp/ResultExtensions.cs",
+          "sha256": "3e08b3a64582430309052a61dc34fb68b6fc2a2331a44325dd54c70ed70af61b"
+        },
+        {
+          "path": "src/FunnySharp/SequenceExtensions.cs",
+          "sha256": "f9c6ba3c4ae07b532c02bc7cded4bc51fb47b554512b7c5c87a92c128c37eb50"
+        },
+        {
+          "path": "src/FunnySharp/SpanPipelineExtensions.cs",
+          "sha256": "ffbef218529ce4b50d5897ff44c8fb9104e8decbf30b12bae2935ec750600439"
+        },
+        {
+          "path": "src/FunnySharp/StateMachine.cs",
+          "sha256": "0ee568f29f0c3421041100c5139183364e953396b08bb6cbd5eccd0f304a6aac"
+        },
+        {
+          "path": "src/FunnySharp/StateTransition.cs",
+          "sha256": "67561ccf42c4afc197389ab7ab67cb29ddfd67ab8a4f9fb363bd5e7482010d01"
+        },
+        {
+          "path": "src/FunnySharp/UnitResult.cs",
+          "sha256": "e1967dbda00f1c1ee22e5850b114a84e6a3cd6638335f7262ddc2133770743bd"
+        },
+        {
+          "path": "src/FunnySharp/UnitResultExtensions.cs",
+          "sha256": "18fdd7647fb79a66e53cd71135f74499076cc678a937f0f366c61fffde89ff05"
+        },
+        {
+          "path": "src/FunnySharp/Validation.cs",
+          "sha256": "dd05968085c15247c63cbb321a4fcbfff425570f679c5b7fb163dfa34905c182"
+        },
+        {
+          "path": "src/FunnySharp/ValidationExtensions.cs",
+          "sha256": "a60fa22d6c631154805cf1679c003c9bbaad8ff8b9576964b72e4770002c5c70"
+        }
+      ],
+      "role": "SOURCE_BOUND_SEALED_PACKAGE_XML_SNAPSHOT_NOT_LIVE_RELEASE_METADATA"
+    },
+    {
+      "assembly": "FunnySharp.AspNetCore",
+      "path": "current-xml/FunnySharp.AspNetCore.xml",
+      "sha256": "27af8c3d2b65daa59a081f0b24674be0c41fe9cd652a19455cce01f2637e66d0",
+      "bytes": 32514,
+      "sourcePackage": {
+        "path": "artifacts/release-candidate/c306991992b04299a3300235ce3285d4537fe6c2/r5/packages/FunnySharp.AspNetCore.0.2.0.nupkg",
+        "sha256": "1bec1a99bcfab1bcb6ea552896f264fdfc8677a077698e3ab6f46539e3d4ae3d",
+        "entry": "lib/net10.0/FunnySharp.AspNetCore.xml"
+      },
+      "sealedCandidate": "c306991992b04299a3300235ce3285d4537fe6c2",
+      "attempt": "r5",
+      "sourceBindings": [
+        {
+          "path": "src/FunnySharp.AspNetCore/HttpResultExtensions.cs",
+          "sha256": "8293d4b4adc0225eae28e693c5c53518e4bdf020b122cbe1f8dabe2c649c04bb"
+        }
+      ],
+      "role": "SOURCE_BOUND_SEALED_PACKAGE_XML_SNAPSHOT_NOT_LIVE_RELEASE_METADATA"
+    }
+  ],
+  "archiveProtocol": {
+    "schema": "funnysharp-stable-semantic-inputs/v1",
+    "entryNaming": "sha256/<lowercase SHA256>",
+    "aliasNormalization": "Replace backslash with / only; retain case; no path reinterpretation or filesystem fallback.",
+    "lookup": "Exact alias lookup in input-catalog.json, require matching declared SHA256 and byte length, then read that unique archive entry and recompute SHA256.",
+    "currentSourceLookup": "Actual checkout src/ and tests/ files only. Zero archive aliases begin src/ or tests/. Historical test snapshots retain their artifacts/audit-resolution/final-format/originals/ prefixes and cannot satisfy current pins.",
+    "deduplication": "Only identical SHA256 and byte-length bindings share an entry; independent reopening verified every entry and every original external/probe alias.",
+    "rawInputPreservation": "Raw actual matrix.json is unchanged, including absolute original Source strings. Every raw receipt and domain record is byte-preserved; no normalization or regeneration.",
+    "currentXmlAliases": [
+      "current-xml/FunnySharp.xml",
+      "current-xml/FunnySharp.AspNetCore.xml"
+    ],
+    "originalRoots": "Read-only preparation inputs; original private-history directory and all original artifact roots remain untouched."
+  },
+  "independentVerification": {
+    "errors": [],
+    "zipCrcErrors": 0,
+    "entryNameSafetyErrors": 0,
+    "missingOrDuplicateAliases": 0,
+    "missingBoundHistoricalInputs": 0,
+    "sourceSpanOrHashErrors": 0,
+    "assertionBodyOrLineErrors": 0,
+    "helperBodyOrSpanErrors": 0,
+    "allBlocksUnique": true,
+    "original55ExternalPinsAndAbsoluteAliasesVerified": true,
+    "all2288AbsoluteSourceAliasesAndLogicalAliasesVerified": true,
+    "originalCompilerProofObjectsUnchanged": true,
+    "originalCountsIdentitiesClaimsApplicabilityLimitsAndRequiredClosurePreserved": true,
+    "originalXmlAndInstalledMetadataRetainedHistorically": true,
+    "actualRawRuntimeCaseIdStatusJoins": 1635,
+    "actualRawRuntimeReceiptsJoined": 3,
+    "currentXmlNodesAndDirectAliasesExactlyMatchSnapshots": true,
+    "generatedArtifactsBoundByActualSha256": true,
+    "workloadsExecuted": false,
+    "liveReleaseChecked": false
+  },
+  "credentialScan": {
+    "schema": "funnysharp-current-stable-semantic-credential-scan/v1",
+    "scope": "All 2340 decompressed selected ZIP entries, all direct members of the two archived nupkgs, current proof index and catalog; UTF-8 and UTF-16LE views where NUL bytes exist. No historical-root or full-repository scan.",
+    "rules": {
+      "private-key-header": "-----BEGIN (?:RSA |EC |DSA |OPENSSH |ENCRYPTED )?PRIVATE KEY-----",
+      "github-token": "\\b(?:gh[pousr]_[A-Za-z0-9]{36,255}|github_pat_[A-Za-z0-9_]{60,255})\\b",
+      "aws-access-key-id": "\\b(?:AKIA|ASIA)[A-Z0-9]{16}\\b",
+      "slack-token": "\\bxox[baprs]-[A-Za-z0-9-]{20,255}\\b",
+      "google-api-key": "\\bAIza[A-Za-z0-9_-]{35}\\b",
+      "stripe-live-secret": "\\b(?:sk|rk)_live_[A-Za-z0-9]{16,255}\\b",
+      "openai-secret": "\\bsk-(?:proj-|svcacct-)?[A-Za-z0-9_-]{40,255}\\b",
+      "azure-storage-key": "(?i)AccountKey\\s*=\\s*[A-Za-z0-9+/]{70,100}={0,2}",
+      "azure-sas-signature": "(?i)[?&]sig=[A-Za-z0-9%+/]{30,255}={0,2}",
+      "bearer-literal": "(?i)\\bBearer\\s+[A-Za-z0-9._~+/-]{30,255}",
+      "url-user-password": "(?i)https?://[^\\s/:@<>\"\\']{1,80}:[^\\s/@<>\"\\']{4,120}@",
+      "named-secret-literal": "(?i)\\b(?:password|passwd|client[_-]?secret|api[_-]?key|secret[_-]?key|access[_-]?token)\\b[\"\\']?\\s*[:=]\\s*[\"\\'][^\"\\'\\r\\n]{8,255}[\"\\']"
+    },
+    "archiveEntries": 2340,
+    "archiveSelectedBytes": 67900363,
+    "nestedArchiveMembers": 16,
+    "nestedArchiveBytes": 867867,
+    "scannedPayloads": 2358,
+    "scannedPayloadBytes": 86852754,
+    "candidateFindings": [],
+    "concreteCredentialsFound": 0,
+    "limitations": [
+      "Bounded pattern scan, not an assurance that every possible credential format is absent.",
+      "Compressed nupkg direct members were expanded; no recursive binary container decoding, arbitrary obfuscation, encrypted payload decoding or entropy-based inference.",
+      "No scan of unselected private-history files, original artifact roots, Git history, remote assets, external publication or unrelated user-owned inputs.",
+      "No external credential validation; finding values are never emitted."
+    ],
+    "executionWorkloadsReplayed": false,
+    "currentProofIndexSha256": "ca4f5e9e3f442e418a514e31c64390a41f19da0fa1dbef183430bcaea474c4aa",
+    "catalogSha256": "1f93bad25bf321d960ead8bad05fbc9eb0f21806a0dbaddba272387eea6b855a"
+  },
+  "parentIntegration": {
+    "required": true,
+    "owner": "parent",
+    "actions": [
+      "Integrate the enforced current verifier in eng/harness/StableApiContracts.fs and required CI.",
+      "Resolve archived historical inputs strictly by declared alias and SHA, with no old-Q fallback; check actual checkout source pins independently.",
+      "Join actual post-build live current release DLL/PDB/XML and metadata against the real seal. Do not reuse historical installed tokens, DLL/MVID or runtime/compiler observations as current execution.",
+      "Run the parent-required full gates; this child performed no compiler/runtime/HTTP/benchmark/model/denial/P-A-I replay."
+    ],
+    "blockers": []
+  },
+  "limitations": [
+    "Credential evidence is a bounded selected-input pattern scan, not a whole-repository or entire private-history scan.",
+    "Historical matrix platform/compiler/framework provenance is retained raw; historical platform binaries are not represented as a newly executed portable compiler environment.",
+    "The two current XML snapshots are virtual catalog aliases inside the ZIP, not checkout source files or a claim that current metadata was rebuilt.",
+    "Original historical test-source snapshots and proof-index embedded bodies remain archival evidence only; no archived source alias can satisfy a live source check.",
+    "Preparation proves bytes, identities and exact migrations; final current semantic/release acceptance remains parent-owned."
+  ]
+}
