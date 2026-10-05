@@ -1,0 +1,17 @@
+{
+  "schema": "funnysharp-available-readonly-release-actor/v1",
+  "observedUtc": "2026-10-03T04:36:40.784Z",
+  "command": "gh api user --jq \"{login: .login, id: .id}\"",
+  "actualActor": {
+    "id": 49564443,
+    "login": "wxxb789"
+  },
+  "rawOutput": "{\"id\":49564443,\"login\":\"wxxb789\"}",
+  "scope": "Authenticated CLI actor available for proposed release/proof operations; not proof of task authorization or no-bypass enforcement.",
+  "sourceHumanReviewerIdentityNotRetrospectivelyMapped": true,
+  "releaseMutationsAuthorized": false,
+  "denialAttemptExecuted": false,
+  "publicationExecuted": false,
+  "resolved": 65,
+  "open": 4
+}

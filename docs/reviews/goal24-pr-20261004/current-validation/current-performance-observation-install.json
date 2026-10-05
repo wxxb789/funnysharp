@@ -1,0 +1,30 @@
+{
+  "schema": "funnysharp-current-performance-observation-install/v1",
+  "installState": "INSTALLED_AFTER_FIRST_PATCH_REJECTED_WITH_NO_FILE_ACTIONS",
+  "firstPatchFailure": "JSON child-object span omitted its physical property prefix; both updates rejected before any file action.",
+  "measuredSourceCommit": "1fbb50df35e6b1a4cd423460eb6d2d149a64517f",
+  "main": {
+    "rows": 190,
+    "receipts": 13,
+    "verifierMonitor": "mon_24GJW71HA6VCZE8J",
+    "strictExit": 0,
+    "proposalSha256": "e5a4ab11eb95d24e1ccd86996e8d068663a89b790516f7a2265f572ee73c0024"
+  },
+  "competitor": {
+    "rows": 40,
+    "receipts": 2,
+    "verifierMonitor": "mon_8EXA4KKJVXARVA4T",
+    "strictExit": 0,
+    "proposalSha256": "3326e05e62b5863c974cc78efa7651224ff47d7bdfcfa4ddefa26dc254910072"
+  },
+  "policyBytesUnchanged": true,
+  "protocolSourceUnchanged": true,
+  "oldObservationBodiesPreservedInImmutableGit": true,
+  "currentNumericRepetitions": 1,
+  "oldThreeD8744RepetitionsNotRelabeled": true,
+  "currentCoverageClosureSha256": "a8c0d9e86701cd3441b481e0fe2b9bdcde374d6ff5ad759e9c5ec0de87e6df0e",
+  "currentCensusMetadataAll499Match": true,
+  "parentClosureDistinctPinsChecked": 16,
+  "parentClosureHashFailures": 0,
+  "currentPackageLayoutOrPublicationClaimed": false
+}

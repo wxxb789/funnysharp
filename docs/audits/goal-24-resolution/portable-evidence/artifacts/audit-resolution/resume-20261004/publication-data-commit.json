@@ -1,0 +1,15 @@
+{
+  "product": "d8744c934d86833f9817245ecc7c78b1177b8b76",
+  "source": "e7aea9995bac6c87a69db14a8b04c6925cb45d4c",
+  "data": "92968c03bc89dd139095d3f39611170950223610",
+  "dataInputSha256": "5745a01e5a148c88fda2c46756760d3522ae5bdf258f6cc41563036d9d8a416d",
+  "dataInputBytes": 153008,
+  "files": 350,
+  "parts": 349,
+  "dataClean": true,
+  "sourcePushExitCode": 0,
+  "dataPushPending": "mon_5ZSBDVD8JS2BX5NA/bash38",
+  "publicationNotDispatched": true,
+  "independentClosureMap": "remaining-closure-map.md",
+  "originalLedger": "65 resolved / 4 OPEN"
+}

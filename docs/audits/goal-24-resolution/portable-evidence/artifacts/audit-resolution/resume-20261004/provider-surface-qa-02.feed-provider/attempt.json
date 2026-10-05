@@ -1,0 +1,68 @@
+{
+  "identity": {
+    "schemaVersion": 1,
+    "kind": "local-browser-feed-execution",
+    "attemptId": "10323390-7e7c-4fe8-9ca5-c1278de8c1df",
+    "outputDirectory": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\resume-20261004\\provider-surface-qa-02",
+    "metadataDirectory": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\resume-20261004\\provider-surface-qa-02.feed-provider",
+    "bridgeUrl": "http://127.0.0.1:63568",
+    "startedAtUtc": "2026-10-04T09:03:11.197Z",
+    "executor": {
+      "runtime": "Bun 1.4.2",
+      "pid": 43644,
+      "platform": "win32",
+      "architecture": "x64"
+    },
+    "browser": {
+      "constructor": "owning eval kernel Bun.WebView",
+      "context": "fresh blank per request",
+      "navigation": "none",
+      "credentials": "omit",
+      "redirect": "error",
+      "cache": "no-store"
+    },
+    "inputPath": "Q:\\repos\\funnysharp\\.worktrees\\goal24-producer-input-d8744\\input.json",
+    "inputSha256": "d488ddc6bec8802c612ec267c3ad4c463c96f8006f4e6d2b75f202f8cf24e9a7",
+    "candidateCommit": "d8744c934d86833f9817245ecc7c78b1177b8b76",
+    "producerIdentity": "omo-main-session:01a105fc-12f5-716f-ab6e-28d97b2bd38c",
+    "code": [
+      {
+        "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\resume-20261004\\feed-provider\\feed-bridge.mjs",
+        "byteLength": 9521,
+        "sha256": "94a834712e6fecf511de9bc996453fb7aa2cb19875b94fb985c259e5f54f67cc"
+      },
+      {
+        "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\resume-20261004\\feed-provider\\owner-browser-freeze.fsx",
+        "byteLength": 10709,
+        "sha256": "9ab767b893c0658a18e698f1999c80d107645f64dfad2619f97048b405e4ebd5"
+      },
+      {
+        "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\resume-20261004\\feed-provider\\owner-browser-freeze.ps1",
+        "byteLength": 1136,
+        "sha256": "c8d4b6a62f42c99f6105f721809ff954c0ca40203826d35fb2bd10c14e6f51d8"
+      },
+      {
+        "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\resume-20261004\\feed-provider\\README.md",
+        "byteLength": 9919,
+        "sha256": "b9ff106a27514db4667b1671b801e29f32e6d491356699e8e8bf61772754a231"
+      },
+      {
+        "path": "Q:\\repos\\funnysharp-goal24-resolution\\eng\\harness\\ReleaseProvenance.fs",
+        "byteLength": 45158,
+        "sha256": "8ef45e3ea605fd384e428154c219af169ba7abdccc582e534e2ae165294d85e8"
+      },
+      {
+        "path": "Q:\\repos\\funnysharp-goal24-resolution\\eng\\harness\\bin\\Release\\net10.0\\FunnySharp.Harness.dll",
+        "byteLength": 978944,
+        "sha256": "4a0ccbd0bb7baef02fa4a12b79c0577124454396a1ba771aefc64c90c6fc2000"
+      },
+      {
+        "path": "Q:\\repos\\funnysharp-goal24-resolution\\eng\\harness\\bin\\Release\\net10.0\\FunnySharp.Harness.deps.json",
+        "byteLength": 2497,
+        "sha256": "6305c2daefd17862ad8cd4d2d718f36cbac6a4323283f2386ed1123f16a2b905"
+      }
+    ],
+    "verificationStatus": "UNVERIFIED_UNTIL_PARENT_REAL_SURFACE_FREEZE"
+  },
+  "identitySha256": "9edadad9c56fe81355ac513ba94e1efac0a85207b2d3bb4ea574a43916b80924"
+}

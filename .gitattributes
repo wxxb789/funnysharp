@@ -10,3 +10,12 @@
 *.yml text eol=lf
 *.yaml text eol=lf
 /docs/next-stage/inventory/generated/types-languageext-4.4.9.txt text eol=lf
+
+# Frozen evaluation and audit captures retain their measured bytes, including CRLF.
+/eng/api-baseline/*.public-api.txt -text
+/eng/evaluation/results/audit-resolution-*/** -text
+/eng/evaluation/studies/audit-resolution-*/** -text
+/docs/audits/goal-24-resolution/** -text
+
+# Immutable release stage transport parts retain every byte on all checkout hosts.
+*.stage-part binary

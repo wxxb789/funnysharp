@@ -1,0 +1,24 @@
+{
+  "invocationId": "verifier-call:88a5fc34-1417-40d1-aed3-b41d8e7f7fc2",
+  "argv": [
+    "dotnet",
+    "fsi",
+    "build.fsx",
+    "--",
+    "-p",
+    "eval-verify",
+    "--study",
+    "audit-resolution-v2",
+    "--task",
+    "concurrency",
+    "--style",
+    "funnysharp",
+    "--run-dir",
+    "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v2/concurrency/funnysharp/run-1",
+    "--round",
+    "1"
+  ],
+  "cwd": "Q:/repos/funnysharp-goal24-resolution",
+  "captureUrl": "http://127.0.0.1:61038/",
+  "captureToken": "f023afbb-b157-4625-abbf-ec6d9c5924d0"
+}

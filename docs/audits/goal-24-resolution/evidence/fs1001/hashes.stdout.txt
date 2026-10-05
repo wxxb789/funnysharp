@@ -1,0 +1,7 @@
+SHA256 hash of Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/fs1001/feed/FunnySharp.0.1.0.nupkg:
+53d0e1ebffe623383567d06e54ae8dbb698cbf3368892f5b18df8d9957012a3f
+CertUtil: -hashfile command completed successfully.
+
+SHA256 hash of Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/fs1001/consumers/packages/funnysharp/0.1.0/analyzers/dotnet/cs/FunnySharp.Analyzers.dll:
+c92f6ef62f9eb01cce50d8247884fada05fb496e8ab09b396bfa0486e3ecd5d8
+CertUtil: -hashfile command completed successfully.

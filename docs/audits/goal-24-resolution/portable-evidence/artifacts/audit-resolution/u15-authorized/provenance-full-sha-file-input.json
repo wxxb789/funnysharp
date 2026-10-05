@@ -1,0 +1,66 @@
+{
+  "schema": "funnysharp-provenance-full-sha-file-input/v1",
+  "status": "implemented-and-locally-verified",
+  "workspace": "Q:/repos/funnysharp-goal24-resolution",
+  "baseCommit": "487347a50b6a2de6cc4b3bacad34c4b0064c07e4",
+  "branch": "audit/goal24-resolution",
+  "sdk": "10.0.401",
+  "sourceFiles": [
+    ".github/workflows/release.yml",
+    "tests/FunnySharp.Harness.Tests/ReleaseProtocolTests.fs"
+  ],
+  "measuredGap": {
+    "report": "artifacts/audit-resolution/u15-authorized/487347-local-payload-transport-feasibility.json",
+    "localOnlyReferences": 65,
+    "uniqueBodies": 59,
+    "rawBytes": 50831766,
+    "minimumGzipBase64Characters": 11901776,
+    "workflowDispatchCharacterLimit": 65535
+  },
+  "transport": {
+    "input": "provenance_input_ref",
+    "referencePattern": "^[0-9a-f]{40}$",
+    "repository": "${{ github.repository }}",
+    "checkoutRef": "${{ steps.provenance-input.outputs.ref }}",
+    "checkoutAction": "actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+    "checkoutPath": "artifacts/provenance-input",
+    "inputPath": "artifacts/provenance-input/input.json",
+    "exclusiveInlineOrFile": true,
+    "guardBeforeSecondaryCheckout": true,
+    "inputJsonCopiedIntoEnvironment": false,
+    "existingHarnessApiUnchanged": true,
+    "relativeEvidencePathsRewritten": false
+  },
+  "verification": {
+    "initialCompile": { "exitCode": 1, "diagnostic": "FS0046", "resolved": true },
+    "red": { "workflow": "unchanged-base", "total": 18, "passed": 1, "failed": 17, "skipped": 0, "exitCode": 2 },
+    "combinedAttempt": { "total": 118, "passed": 112, "failed": 6, "skipped": 0, "exitCode": 2, "failures": "New shell tests used unqualified Windows bash resolution; corrected to explicit PATH resolution." },
+    "pathCompile": { "exitCode": 1, "diagnostic": "FS3261", "resolved": true },
+    "green": { "total": 18, "passed": 18, "failed": 0, "skipped": 0, "exitCode": 0, "durationSeconds": 4.404 },
+    "neighboringChecks": { "total": 100, "passed": 100, "failed": 0, "source": "combinedAttempt", "scope": "Existing release protocol model, provenance behavior, and actual workflow ActionPins.checkRepository test" },
+    "combined118RepeatedAfterCorrection": false,
+    "yamlDiagnostics": "No diagnostics found",
+    "fsharpLsp": "Unavailable: fsautocomplete not installed; compilation used instead",
+    "diffCheckExitCode": 0,
+    "requiredReleaseJobsUnchanged": true,
+    "requiredReleaseJobsNormalizedSha256": "7381257e41318ddd5acc2e91f6f7bdb31374a7b08c4df8e8b4d34537d934a5c3",
+    "immutableUploadAndIndexTailUnchanged": true,
+    "oldTestsRetained": true,
+    "ownedSessionsSettled": true
+  },
+  "limits": {
+    "remoteTransportExecuted": false,
+    "originalDenialCaused": false,
+    "producerPublished": false,
+    "attestationPublished": false,
+    "indexPublished": false,
+    "goalComplete": false,
+    "fullSuiteRun": false,
+    "formatterRun": false,
+    "gitMutations": false,
+    "networkRequests": false,
+    "shippingPackageBuilds": false,
+    "benchmarksOrCohort": false,
+    "otherAgents": false
+  }
+}

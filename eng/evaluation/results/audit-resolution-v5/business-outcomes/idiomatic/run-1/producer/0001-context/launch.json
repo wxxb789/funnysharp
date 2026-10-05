@@ -1,0 +1,13 @@
+{
+  "study": "audit-resolution-v5",
+  "slot": "business-outcomes/idiomatic/run-1",
+  "sessionId": "study-session:9e64725d-bead-46f5-b063-b0922e0394ba",
+  "invocationId": "native-call:4181098c-0815-403d-bc7c-f98d11917d2c",
+  "requestedModel": "ghc/gpt-6.1-sol",
+  "route": "native-omo-cli/5.1.9/json-print",
+  "stdin": "closed",
+  "protocolSha256": "a45783f688d0fb0b160c30348a77d765ba0ca4b09841ed4342e99576f2f645d0",
+  "requestSha256": "6400255c991ad58451167291d9e794fb5a30f518cfc3d8969c87c2262aca9138",
+  "status": "PREPARED_NOT_CALLED",
+  "launchCapture": "NativeGitBash documented monitor, raw stdout/stderr; exactregisteredflags,PI_RULES_DISABLED1;cwdcontextrequest only."
+}

@@ -1,0 +1,1371 @@
+{
+  "occurrences": [
+    {
+      "location": "CSC ",
+      "severity": "warning",
+      "id": "CS2002",
+      "message": "Source file \u0027Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-2-ec0ebb270579422bb8ce3538a11a0122\\nuget_packages\\xunit.v3.core.mtp-v2\\4.0.0\\_content\\DefaultRunnerReporters.cs\u0027 specified multiple times [Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-2-ec0ebb270579422bb8ce3538a11a0122\\AspnetcoreKit.csproj]\r"
+    },
+    {
+      "location": "CSC ",
+      "severity": "warning",
+      "id": "CS2002",
+      "message": "Source file \u0027Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-2-ec0ebb270579422bb8ce3538a11a0122\\nuget_packages\\xunit.v3.core.mtp-v2\\4.0.0\\_content\\DefaultResultWriters.cs\u0027 specified multiple times [Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-2-ec0ebb270579422bb8ce3538a11a0122\\AspnetcoreKit.csproj]\r"
+    },
+    {
+      "location": "CSC ",
+      "severity": "warning",
+      "id": "CS2002",
+      "message": "Source file \u0027Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-2-ec0ebb270579422bb8ce3538a11a0122\\nuget_packages\\xunit.v3.core.mtp-v2\\4.0.0\\_content\\DefaultRunnerReporters.cs\u0027 specified multiple times [Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-2-ec0ebb270579422bb8ce3538a11a0122\\AspnetcoreKit.csproj]\r"
+    },
+    {
+      "location": "CSC ",
+      "severity": "warning",
+      "id": "CS2002",
+      "message": "Source file \u0027Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-2-ec0ebb270579422bb8ce3538a11a0122\\nuget_packages\\xunit.v3.core.mtp-v2\\4.0.0\\_content\\DefaultResultWriters.cs\u0027 specified multiple times [Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-2-ec0ebb270579422bb8ce3538a11a0122\\AspnetcoreKit.csproj]\r"
+    }
+  ],
+  "fsDiagnosticIds": [],
+  "assets": [
+    {
+      "path": "bin/Release/net10.0/AspnetcoreKit.deps.json",
+      "sha256": "84c6060c7635f203bb5fbefccb6219f8ab7e612e6d804bcbb424ee71202723a8"
+    },
+    {
+      "path": "bin/Release/net10.0/AspnetcoreKit.dll",
+      "sha256": "362891699823ea48f78e90a8e43cbea17874fa406c2c0f3b68b77174b07170ff"
+    },
+    {
+      "path": "bin/Release/net10.0/AspnetcoreKit.pdb",
+      "sha256": "d5e13d345a1650d234ba558106490f74f8f09fc4d3b35ce4111f8e8b689405c6"
+    },
+    {
+      "path": "bin/Release/net10.0/AspnetcoreKit.runtimeconfig.json",
+      "sha256": "b4aad84277c120c025a443649c4e09ca20b08725acc12ef60940786bfb8c024f"
+    },
+    {
+      "path": "bin/Release/net10.0/Microsoft.ApplicationInsights.dll",
+      "sha256": "bf9a4b88c7f94267e1cc7ed0700c575d3eb3266ff25bcb76e4f40f1b0fba022d"
+    },
+    {
+      "path": "bin/Release/net10.0/Microsoft.AspNetCore.TestHost.dll",
+      "sha256": "084c869d45df2fbb5e3c5ddf43c1118431cab075a592b19e730697fe2f1662e6"
+    },
+    {
+      "path": "bin/Release/net10.0/Microsoft.Bcl.AsyncInterfaces.dll",
+      "sha256": "5705d245072d3eb78400547b32147dbb6e2c8b02ba8bda76729798f5efdeaecb"
+    },
+    {
+      "path": "bin/Release/net10.0/Microsoft.Testing.Extensions.MSBuild.dll",
+      "sha256": "d364d5954dacfc2cf9239e29d1aeee37212019677447ccd1bd746710476bd703"
+    },
+    {
+      "path": "bin/Release/net10.0/Microsoft.Testing.Extensions.Telemetry.dll",
+      "sha256": "4a03c95584ab11527e541fce9d7466fc65779a2cc37b317cdafe2bc5d7169410"
+    },
+    {
+      "path": "bin/Release/net10.0/Microsoft.Testing.Extensions.TrxReport.Abstractions.dll",
+      "sha256": "4065f9179d0f97eff5f23624be508992d7e57e1b331f330051c76e2731fcef79"
+    },
+    {
+      "path": "bin/Release/net10.0/Microsoft.Testing.Platform.dll",
+      "sha256": "92db7b51a0e878e84d17a0ffef92abe22b3033ce5655f8bdbda06a3a93651c2e"
+    },
+    {
+      "path": "bin/Release/net10.0/cs/Microsoft.Testing.Extensions.MSBuild.resources.dll",
+      "sha256": "9991097b4c50410d3be00cdd978cd4f2657da31bc84afb42acaa6d2891f9adc4"
+    },
+    {
+      "path": "bin/Release/net10.0/cs/Microsoft.Testing.Extensions.Telemetry.resources.dll",
+      "sha256": "f8046feb6b76d9bc5813969a07dafbc136299d0a10c3cc206f2a511796ebf9da"
+    },
+    {
+      "path": "bin/Release/net10.0/cs/Microsoft.Testing.Platform.resources.dll",
+      "sha256": "1de18ac307d4bc0bff4108757055d3ac2a11aaf9e0a0f9c4f5370b03de4aa471"
+    },
+    {
+      "path": "bin/Release/net10.0/de/Microsoft.Testing.Extensions.MSBuild.resources.dll",
+      "sha256": "71516f83b7191d86f1fc11e20dbf278626145249a96ff91fd0f474a6d08f2813"
+    },
+    {
+      "path": "bin/Release/net10.0/de/Microsoft.Testing.Extensions.Telemetry.resources.dll",
+      "sha256": "7b25ae5cf8e2635f231d9bc9e2e8dd2970cffa179804e9bb7b0c0c854fc50f24"
+    },
+    {
+      "path": "bin/Release/net10.0/de/Microsoft.Testing.Platform.resources.dll",
+      "sha256": "95ea8bd3ae7a142743ce81add63fd2b8991bfc33771d2b530071ed4265d8084a"
+    },
+    {
+      "path": "bin/Release/net10.0/es/Microsoft.Testing.Extensions.MSBuild.resources.dll",
+      "sha256": "7fd27eb7b02719115360086cf00ce9194673648f6d4675a3e285595bab86fe0c"
+    },
+    {
+      "path": "bin/Release/net10.0/es/Microsoft.Testing.Extensions.Telemetry.resources.dll",
+      "sha256": "7a4fa6b27ac9b761eb6500d93936840bb93af8cc9b0f9f3230bed2bfc83ea093"
+    },
+    {
+      "path": "bin/Release/net10.0/es/Microsoft.Testing.Platform.resources.dll",
+      "sha256": "f55fe3de2fa2baf105be74263589a59f7609d7db75db86fd081b2fe80cd5b7b7"
+    },
+    {
+      "path": "bin/Release/net10.0/fr/Microsoft.Testing.Extensions.MSBuild.resources.dll",
+      "sha256": "b18bc0e223a2e24e19939b31cbbf0caf658038d6eaa6eff8a7cdf7d3c37de42c"
+    },
+    {
+      "path": "bin/Release/net10.0/fr/Microsoft.Testing.Extensions.Telemetry.resources.dll",
+      "sha256": "e3fbf5c567f004e85985c1c4e0ee5cfd35cef061de4cea0efe3eeffba6ebc6b4"
+    },
+    {
+      "path": "bin/Release/net10.0/fr/Microsoft.Testing.Platform.resources.dll",
+      "sha256": "a79c8faee88c0072fd244e205647a6444288499028a0832a71e42efe6413c782"
+    },
+    {
+      "path": "bin/Release/net10.0/it/Microsoft.Testing.Extensions.MSBuild.resources.dll",
+      "sha256": "11a26421d763cbf2a56aa964a31638a1e70d301a6da2a7fb86051d7f91d85b43"
+    },
+    {
+      "path": "bin/Release/net10.0/it/Microsoft.Testing.Extensions.Telemetry.resources.dll",
+      "sha256": "8c9a7768813cc98605da3d4964e904799935113ea5c29762aa1a362cb6230931"
+    },
+    {
+      "path": "bin/Release/net10.0/it/Microsoft.Testing.Platform.resources.dll",
+      "sha256": "a6691d5956cff8164e8461f6c243cbec4bec21802181a739a397997f05e5a540"
+    },
+    {
+      "path": "bin/Release/net10.0/ja/Microsoft.Testing.Extensions.MSBuild.resources.dll",
+      "sha256": "03d34e37c33ad52cd167fdca805b69a49be44bea92fcddc7ff5f9fc3fcf5ba6c"
+    },
+    {
+      "path": "bin/Release/net10.0/ja/Microsoft.Testing.Extensions.Telemetry.resources.dll",
+      "sha256": "1cee6260a2ba499c7e23f1b0d59fe6fdbd21e02ea78c098dcdc2525f5d00f4f0"
+    },
+    {
+      "path": "bin/Release/net10.0/ja/Microsoft.Testing.Platform.resources.dll",
+      "sha256": "6b49a523a5124f142d7ebb71651ff696a60e194e49692ccaaf3bc2e55cdb0628"
+    },
+    {
+      "path": "bin/Release/net10.0/ko/Microsoft.Testing.Extensions.MSBuild.resources.dll",
+      "sha256": "f4b067eeafd674d6ccfdc0292e9051c135e2f09731ce275ce73056d2170af753"
+    },
+    {
+      "path": "bin/Release/net10.0/ko/Microsoft.Testing.Extensions.Telemetry.resources.dll",
+      "sha256": "2dbefbfd2032ba99318677d28db9aebfc073da0973f6cce8bc9f1d0fc037263c"
+    },
+    {
+      "path": "bin/Release/net10.0/ko/Microsoft.Testing.Platform.resources.dll",
+      "sha256": "85b4037ba81ac98e0bcd98506d99e3c754570bdb1340b1a1970502a5ae8a0e34"
+    },
+    {
+      "path": "bin/Release/net10.0/pl/Microsoft.Testing.Extensions.MSBuild.resources.dll",
+      "sha256": "8aeffc550a372c61bf9e8fafe8e29ee246cfd7059ddcdf8ffc27ac88b96c7d36"
+    },
+    {
+      "path": "bin/Release/net10.0/pl/Microsoft.Testing.Extensions.Telemetry.resources.dll",
+      "sha256": "1b2e062fe3435725f82ccab7922b699f3d31028025709b7e9f1c62f7e1d5a72b"
+    },
+    {
+      "path": "bin/Release/net10.0/pl/Microsoft.Testing.Platform.resources.dll",
+      "sha256": "1c39b7cf182f47800ebfe438fecbad585c94d710e7f37a2088ff4b220db552b6"
+    },
+    {
+      "path": "bin/Release/net10.0/pt-BR/Microsoft.Testing.Extensions.MSBuild.resources.dll",
+      "sha256": "977359242e3794ff1f1751c5fbeb9727029042ee78dc47c31a2a4fab208cebee"
+    },
+    {
+      "path": "bin/Release/net10.0/pt-BR/Microsoft.Testing.Extensions.Telemetry.resources.dll",
+      "sha256": "5bca328ae5d3e4580d8842bf8fc73db9665eb5df0722a54450b29abf74fb1058"
+    },
+    {
+      "path": "bin/Release/net10.0/pt-BR/Microsoft.Testing.Platform.resources.dll",
+      "sha256": "49795864b6e468292ff08afe99fb4bfff4ac29bb0d394182fd1269d726a4c8d5"
+    },
+    {
+      "path": "bin/Release/net10.0/ru/Microsoft.Testing.Extensions.MSBuild.resources.dll",
+      "sha256": "6aa18bd389208d6141e39a011d6e89b94c4312aee766a55ca38267393f062eca"
+    },
+    {
+      "path": "bin/Release/net10.0/ru/Microsoft.Testing.Extensions.Telemetry.resources.dll",
+      "sha256": "cf8a970b80e2f3ea814196af0eb633151b8000a4cae92e69013d31177870d0a2"
+    },
+    {
+      "path": "bin/Release/net10.0/ru/Microsoft.Testing.Platform.resources.dll",
+      "sha256": "144fcb44a8ca037ccd3a60fab0ed607f4f012353e927a06c84b84ee9e1519bf3"
+    },
+    {
+      "path": "bin/Release/net10.0/tr/Microsoft.Testing.Extensions.MSBuild.resources.dll",
+      "sha256": "0a3ada624707ea780ce5fc191341b112c40f5b0f11c25c7ed3062591d33432b4"
+    },
+    {
+      "path": "bin/Release/net10.0/tr/Microsoft.Testing.Extensions.Telemetry.resources.dll",
+      "sha256": "e3dd42f8a5d6de4c0b9971aa954fefefc47a33bcebef2db5e33a5d7d052bf6a9"
+    },
+    {
+      "path": "bin/Release/net10.0/tr/Microsoft.Testing.Platform.resources.dll",
+      "sha256": "628aa0bf044d79e8f6ff9cefc8c506cc94a6de7a3e7b96764acfe53c8f8d2668"
+    },
+    {
+      "path": "bin/Release/net10.0/xunit.abstractions.dll",
+      "sha256": "3166dc70323fb30ccf1cedb0fe86f2ad122c46d254542342d90386efc4c9285c"
+    },
+    {
+      "path": "bin/Release/net10.0/xunit.v3.assert.dll",
+      "sha256": "d14ea33253a7e289af5254617203b02f0643ba7ff618670de837d642ef22af11"
+    },
+    {
+      "path": "bin/Release/net10.0/xunit.v3.common.dll",
+      "sha256": "e8e5bf50c6e739812ab5daaaefcc1187b54768a499ccc4b262d4533cc3cab93d"
+    },
+    {
+      "path": "bin/Release/net10.0/xunit.v3.core.dll",
+      "sha256": "0155a245478403afefd0b363ef24b7588ad6dbf59ff3a88c1a8d8995eba873a1"
+    },
+    {
+      "path": "bin/Release/net10.0/xunit.v3.mtp-v2.dll",
+      "sha256": "5396efa072a4c925f58f1a4181b022cdc911c1a359d8dd5db838b79a8c741b50"
+    },
+    {
+      "path": "bin/Release/net10.0/xunit.v3.runner.common.dll",
+      "sha256": "059a41ab6c3cc8a00f9ec87846565cb3d2a29a7e46fa2089f461ffbb462355fa"
+    },
+    {
+      "path": "bin/Release/net10.0/xunit.v3.runner.inproc.console.dll",
+      "sha256": "bde56080928f7f617512d0dbe4043276ac0a15f2e377e71c204f7c12ebea082b"
+    },
+    {
+      "path": "bin/Release/net10.0/xunit.v3.runner.utility.netcore.dll",
+      "sha256": "ee7fc452193192525965540d9c9821f85a70c93b16e9e8c6fd0f168d40b56152"
+    },
+    {
+      "path": "bin/Release/net10.0/zh-Hans/Microsoft.Testing.Extensions.MSBuild.resources.dll",
+      "sha256": "ce576a46cb5f7c3fc5eef626124eb7380be04e1cfbadc6abee6856d7572357c0"
+    },
+    {
+      "path": "bin/Release/net10.0/zh-Hans/Microsoft.Testing.Extensions.Telemetry.resources.dll",
+      "sha256": "820ac6eabb743187234d2b32815b36a5d132624fb2e7ec4979e2c97b40fc4402"
+    },
+    {
+      "path": "bin/Release/net10.0/zh-Hans/Microsoft.Testing.Platform.resources.dll",
+      "sha256": "01f36336ab7c14a4000804eb87dde39747e9edddd215e2d07c832f3abfd1d616"
+    },
+    {
+      "path": "bin/Release/net10.0/zh-Hant/Microsoft.Testing.Extensions.MSBuild.resources.dll",
+      "sha256": "29e12bb919b51400fdf8bb259ca5c877b299955e231cd18ace8e152099856801"
+    },
+    {
+      "path": "bin/Release/net10.0/zh-Hant/Microsoft.Testing.Extensions.Telemetry.resources.dll",
+      "sha256": "ce30e827699d71b140aba5dcfdbb22f239b6b41e2d5c536bd568e292837c39f9"
+    },
+    {
+      "path": "bin/Release/net10.0/zh-Hant/Microsoft.Testing.Platform.resources.dll",
+      "sha256": "293a19884900eadcf3a0a7fbc01c0a2757555883ca682a41839dbc432bc3c853"
+    },
+    {
+      "path": "build.binlog",
+      "sha256": "38f804617cff2cb201d89158b7879537d4a799bf5bc586bab9664307a870ee3b"
+    },
+    {
+      "path": "diagnostics.sarif",
+      "sha256": "6854820ce945d20cededea2d7fd78fbf4fb9da4b51038d4e60e118d91ae53fa6"
+    },
+    {
+      "path": "nuget_packages/microsoft.applicationinsights/2.23.0/lib/net452/Microsoft.ApplicationInsights.dll",
+      "sha256": "842cab46b39c0f2e500385b7f92af1fdd606e6ebd86d459a762adb606aa63841"
+    },
+    {
+      "path": "nuget_packages/microsoft.applicationinsights/2.23.0/lib/net452/Microsoft.ApplicationInsights.pdb",
+      "sha256": "1c2905222f679cd5cf5b27ccfd4d2625d503011105b469c8a2b99a405ed8aabb"
+    },
+    {
+      "path": "nuget_packages/microsoft.applicationinsights/2.23.0/lib/net452/Microsoft.ApplicationInsights.xml",
+      "sha256": "5c2ccfdc480ce8b8bf40f1a62db52d9459f3abf35bc9297e7295f6b320e2f8bc"
+    },
+    {
+      "path": "nuget_packages/microsoft.applicationinsights/2.23.0/lib/net46/Microsoft.ApplicationInsights.dll",
+      "sha256": "06bbfd25f0aedfcdaf6f26d43feea0cd3878eacedbe7207032a80a5567aa3224"
+    },
+    {
+      "path": "nuget_packages/microsoft.applicationinsights/2.23.0/lib/net46/Microsoft.ApplicationInsights.pdb",
+      "sha256": "ef55b79f8e35b6dc19b0468466c304c62fd1281dc39cce6a080283fc574ba35c"
+    },
+    {
+      "path": "nuget_packages/microsoft.applicationinsights/2.23.0/lib/net46/Microsoft.ApplicationInsights.xml",
+      "sha256": "d62ac679d1b95b83449b986bcc6b7c439610734a801ea49f1a5eef1fa2bd44a7"
+    },
+    {
+      "path": "nuget_packages/microsoft.applicationinsights/2.23.0/lib/netstandard2.0/Microsoft.ApplicationInsights.dll",
+      "sha256": "bf9a4b88c7f94267e1cc7ed0700c575d3eb3266ff25bcb76e4f40f1b0fba022d"
+    },
+    {
+      "path": "nuget_packages/microsoft.applicationinsights/2.23.0/lib/netstandard2.0/Microsoft.ApplicationInsights.pdb",
+      "sha256": "d17238a2bdfe4d5b29ea4c93429028103b858a1f069ba46663d63a6963719e45"
+    },
+    {
+      "path": "nuget_packages/microsoft.applicationinsights/2.23.0/lib/netstandard2.0/Microsoft.ApplicationInsights.xml",
+      "sha256": "d62ac679d1b95b83449b986bcc6b7c439610734a801ea49f1a5eef1fa2bd44a7"
+    },
+    {
+      "path": "nuget_packages/microsoft.aspnetcore.testhost/10.0.11/lib/net10.0/Microsoft.AspNetCore.TestHost.dll",
+      "sha256": "084c869d45df2fbb5e3c5ddf43c1118431cab075a592b19e730697fe2f1662e6"
+    },
+    {
+      "path": "nuget_packages/microsoft.aspnetcore.testhost/10.0.11/lib/net10.0/Microsoft.AspNetCore.TestHost.xml",
+      "sha256": "e66aa976507a01cc913c78225ac14e3bdc4f1084e6b16168921d66771af3d789"
+    },
+    {
+      "path": "nuget_packages/microsoft.bcl.asyncinterfaces/6.0.0/lib/net461/Microsoft.Bcl.AsyncInterfaces.dll",
+      "sha256": "295af2142d9214f3fd84eafe4778dca119be7e0229f14b6ba8d5269c2f1e2e78"
+    },
+    {
+      "path": "nuget_packages/microsoft.bcl.asyncinterfaces/6.0.0/lib/net461/Microsoft.Bcl.AsyncInterfaces.xml",
+      "sha256": "ca53d9b1bbea04c30db4186b015b7c57dce7c5ecdf1cfac9e4afe9ffcf6910f0"
+    },
+    {
+      "path": "nuget_packages/microsoft.bcl.asyncinterfaces/6.0.0/lib/netstandard2.0/Microsoft.Bcl.AsyncInterfaces.dll",
+      "sha256": "92d094a2edcb7686f221c815186c384b4b010d4c56c5b2d3825b0e8c549841da"
+    },
+    {
+      "path": "nuget_packages/microsoft.bcl.asyncinterfaces/6.0.0/lib/netstandard2.0/Microsoft.Bcl.AsyncInterfaces.xml",
+      "sha256": "ca53d9b1bbea04c30db4186b015b7c57dce7c5ecdf1cfac9e4afe9ffcf6910f0"
+    },
+    {
+      "path": "nuget_packages/microsoft.bcl.asyncinterfaces/6.0.0/lib/netstandard2.1/Microsoft.Bcl.AsyncInterfaces.dll",
+      "sha256": "5705d245072d3eb78400547b32147dbb6e2c8b02ba8bda76729798f5efdeaecb"
+    },
+    {
+      "path": "nuget_packages/microsoft.bcl.asyncinterfaces/6.0.0/lib/netstandard2.1/Microsoft.Bcl.AsyncInterfaces.xml",
+      "sha256": "c3d4f84e8fc4c5c55d6bad0fa1f798b750854640d27d55d3542f0ac72e1f5bc7"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.extensions.telemetry/2.3.3/lib/net8.0/Microsoft.Testing.Extensions.Telemetry.dll",
+      "sha256": "4bc5fab140ae8d3119937de8cc18fbf582a20a87ec83cb245072bf7fb6e7a8b8"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.extensions.telemetry/2.3.3/lib/net8.0/Microsoft.Testing.Extensions.Telemetry.pdb",
+      "sha256": "de603d86b87c96793c83b498e522bce14511476b09b6c584fa6d180cb429744b"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.extensions.telemetry/2.3.3/lib/net8.0/Microsoft.Testing.Extensions.Telemetry.xml",
+      "sha256": "6961b93f8ca04169e5f3bc27847b91ddda6785265b970f7dfb1b0f4e3e6ca176"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.extensions.telemetry/2.3.3/lib/net8.0/cs/Microsoft.Testing.Extensions.Telemetry.resources.dll",
+      "sha256": "30c9f8546ff03b95824629216cd79303dd6b9e582d25d3ab5c4f5d2e08c2879f"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.extensions.telemetry/2.3.3/lib/net8.0/de/Microsoft.Testing.Extensions.Telemetry.resources.dll",
+      "sha256": "873d2de23e4559227464bd934c9095941b4b8370917bdbb8a899dcea79d2f0d3"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.extensions.telemetry/2.3.3/lib/net8.0/es/Microsoft.Testing.Extensions.Telemetry.resources.dll",
+      "sha256": "d831d0486d1e05e71c4df0dee5efd565c3be6a2f3c27b714081f1163d60a7b6d"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.extensions.telemetry/2.3.3/lib/net8.0/fr/Microsoft.Testing.Extensions.Telemetry.resources.dll",
+      "sha256": "0c15e5c75286ea1ac12852b7bb88390160ec26f2b0200fb22ddb0c13756c1135"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.extensions.telemetry/2.3.3/lib/net8.0/it/Microsoft.Testing.Extensions.Telemetry.resources.dll",
+      "sha256": "2c0109efb7fe52bed6e7139d0acc67c8b431fe3aff7c1f2c58f3f3df9a6a0a48"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.extensions.telemetry/2.3.3/lib/net8.0/ja/Microsoft.Testing.Extensions.Telemetry.resources.dll",
+      "sha256": "fe5f857764ee572ea267cab60942af9021f595289a736a5ee5e71a1665abeec1"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.extensions.telemetry/2.3.3/lib/net8.0/ko/Microsoft.Testing.Extensions.Telemetry.resources.dll",
+      "sha256": "74c0d6db5c58d93ddacac03fd50271bb788823259f20dad85136950828b955aa"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.extensions.telemetry/2.3.3/lib/net8.0/pl/Microsoft.Testing.Extensions.Telemetry.resources.dll",
+      "sha256": "1c0ae059674cc7b55fe8a96fe53e626ee96de8af3e7b45bf3deaa5f98ad4b69e"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.extensions.telemetry/2.3.3/lib/net8.0/pt-BR/Microsoft.Testing.Extensions.Telemetry.resources.dll",
+      "sha256": "51b72e69373028f619d3370f37cab624be10cc55004b278f6900b6bbcfb1a715"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.extensions.telemetry/2.3.3/lib/net8.0/ru/Microsoft.Testing.Extensions.Telemetry.resources.dll",
+      "sha256": "2f9a2ef2c3f2dde03ada820f55c28691d870775d84178dbb05ff966aa2ec2ec6"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.extensions.telemetry/2.3.3/lib/net8.0/tr/Microsoft.Testing.Extensions.Telemetry.resources.dll",
+      "sha256": "8e6e1f0da1fbd1b49ba5c9b3ad2b1647c1510bf3fe8f54199d17412134fab1a6"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.extensions.telemetry/2.3.3/lib/net8.0/zh-Hans/Microsoft.Testing.Extensions.Telemetry.resources.dll",
+      "sha256": "12c255869c7fb99330789e8a03192e459b553bbbd95e1706192da2eda77615e3"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.extensions.telemetry/2.3.3/lib/net8.0/zh-Hant/Microsoft.Testing.Extensions.Telemetry.resources.dll",
+      "sha256": "f14fb670d3ebaf13eceb6e9b0ad8aee9dc404a09e456db5abecc374058133545"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.extensions.telemetry/2.3.3/lib/net9.0/Microsoft.Testing.Extensions.Telemetry.dll",
+      "sha256": "4a03c95584ab11527e541fce9d7466fc65779a2cc37b317cdafe2bc5d7169410"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.extensions.telemetry/2.3.3/lib/net9.0/Microsoft.Testing.Extensions.Telemetry.pdb",
+      "sha256": "7d2cb0e280bebb3ca9c3551a1bd0f8124f3be10d54e5fdc0a051167932be325b"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.extensions.telemetry/2.3.3/lib/net9.0/Microsoft.Testing.Extensions.Telemetry.xml",
+      "sha256": "6961b93f8ca04169e5f3bc27847b91ddda6785265b970f7dfb1b0f4e3e6ca176"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.extensions.telemetry/2.3.3/lib/net9.0/cs/Microsoft.Testing.Extensions.Telemetry.resources.dll",
+      "sha256": "f8046feb6b76d9bc5813969a07dafbc136299d0a10c3cc206f2a511796ebf9da"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.extensions.telemetry/2.3.3/lib/net9.0/de/Microsoft.Testing.Extensions.Telemetry.resources.dll",
+      "sha256": "7b25ae5cf8e2635f231d9bc9e2e8dd2970cffa179804e9bb7b0c0c854fc50f24"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.extensions.telemetry/2.3.3/lib/net9.0/es/Microsoft.Testing.Extensions.Telemetry.resources.dll",
+      "sha256": "7a4fa6b27ac9b761eb6500d93936840bb93af8cc9b0f9f3230bed2bfc83ea093"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.extensions.telemetry/2.3.3/lib/net9.0/fr/Microsoft.Testing.Extensions.Telemetry.resources.dll",
+      "sha256": "e3fbf5c567f004e85985c1c4e0ee5cfd35cef061de4cea0efe3eeffba6ebc6b4"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.extensions.telemetry/2.3.3/lib/net9.0/it/Microsoft.Testing.Extensions.Telemetry.resources.dll",
+      "sha256": "8c9a7768813cc98605da3d4964e904799935113ea5c29762aa1a362cb6230931"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.extensions.telemetry/2.3.3/lib/net9.0/ja/Microsoft.Testing.Extensions.Telemetry.resources.dll",
+      "sha256": "1cee6260a2ba499c7e23f1b0d59fe6fdbd21e02ea78c098dcdc2525f5d00f4f0"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.extensions.telemetry/2.3.3/lib/net9.0/ko/Microsoft.Testing.Extensions.Telemetry.resources.dll",
+      "sha256": "2dbefbfd2032ba99318677d28db9aebfc073da0973f6cce8bc9f1d0fc037263c"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.extensions.telemetry/2.3.3/lib/net9.0/pl/Microsoft.Testing.Extensions.Telemetry.resources.dll",
+      "sha256": "1b2e062fe3435725f82ccab7922b699f3d31028025709b7e9f1c62f7e1d5a72b"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.extensions.telemetry/2.3.3/lib/net9.0/pt-BR/Microsoft.Testing.Extensions.Telemetry.resources.dll",
+      "sha256": "5bca328ae5d3e4580d8842bf8fc73db9665eb5df0722a54450b29abf74fb1058"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.extensions.telemetry/2.3.3/lib/net9.0/ru/Microsoft.Testing.Extensions.Telemetry.resources.dll",
+      "sha256": "cf8a970b80e2f3ea814196af0eb633151b8000a4cae92e69013d31177870d0a2"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.extensions.telemetry/2.3.3/lib/net9.0/tr/Microsoft.Testing.Extensions.Telemetry.resources.dll",
+      "sha256": "e3dd42f8a5d6de4c0b9971aa954fefefc47a33bcebef2db5e33a5d7d052bf6a9"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.extensions.telemetry/2.3.3/lib/net9.0/zh-Hans/Microsoft.Testing.Extensions.Telemetry.resources.dll",
+      "sha256": "820ac6eabb743187234d2b32815b36a5d132624fb2e7ec4979e2c97b40fc4402"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.extensions.telemetry/2.3.3/lib/net9.0/zh-Hant/Microsoft.Testing.Extensions.Telemetry.resources.dll",
+      "sha256": "ce30e827699d71b140aba5dcfdbb22f239b6b41e2d5c536bd568e292837c39f9"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.extensions.telemetry/2.3.3/lib/netstandard2.0/Microsoft.Testing.Extensions.Telemetry.dll",
+      "sha256": "8a092314e58e35bf681d88d6ee4b8adc9a6632fb08b959daa2e7b18de94d1a53"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.extensions.telemetry/2.3.3/lib/netstandard2.0/Microsoft.Testing.Extensions.Telemetry.pdb",
+      "sha256": "ef0d87913e3589f5ddaae1d89ec44c26f29a6cb0b16340f3cb4a34533a5bd8ae"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.extensions.telemetry/2.3.3/lib/netstandard2.0/Microsoft.Testing.Extensions.Telemetry.xml",
+      "sha256": "8b763a98569e0ded750d3a2c1ecf5c2c39115462a81074aa05ee275549b97a3c"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.extensions.telemetry/2.3.3/lib/netstandard2.0/cs/Microsoft.Testing.Extensions.Telemetry.resources.dll",
+      "sha256": "49168496dd0fc5e43064186e0023899ab05f8a3e2a29d4cbbe8f1a65f960b76b"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.extensions.telemetry/2.3.3/lib/netstandard2.0/de/Microsoft.Testing.Extensions.Telemetry.resources.dll",
+      "sha256": "30e4b061880e438396a36b26c7465b42f880c9a8bcc06cdeeef719afb16be3f7"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.extensions.telemetry/2.3.3/lib/netstandard2.0/es/Microsoft.Testing.Extensions.Telemetry.resources.dll",
+      "sha256": "5a03532bd918a893639abe2cde46a01d45c029c270bb7608deb0c3b82130482f"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.extensions.telemetry/2.3.3/lib/netstandard2.0/fr/Microsoft.Testing.Extensions.Telemetry.resources.dll",
+      "sha256": "76d2102d9c8f5e0f0240ec5505d82cf1b62d579537b1b8eb07d989f0dcc23d75"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.extensions.telemetry/2.3.3/lib/netstandard2.0/it/Microsoft.Testing.Extensions.Telemetry.resources.dll",
+      "sha256": "47ee453941bdc35f063e48ab67e350c670a6f20122d4f781ffc8b9775534daa1"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.extensions.telemetry/2.3.3/lib/netstandard2.0/ja/Microsoft.Testing.Extensions.Telemetry.resources.dll",
+      "sha256": "ae6664b5a4634cb1f3d9d491d504058855c64f81e1b3d2adfa3dbae61d29f2c6"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.extensions.telemetry/2.3.3/lib/netstandard2.0/ko/Microsoft.Testing.Extensions.Telemetry.resources.dll",
+      "sha256": "490fdc2d51570bcfd62833734a6f21921b9337f14263f6bcf5e7c0d41a50bd92"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.extensions.telemetry/2.3.3/lib/netstandard2.0/pl/Microsoft.Testing.Extensions.Telemetry.resources.dll",
+      "sha256": "083c18876d7f8887a1725b8042388e774dac9ce764a2b5efbd59006a44975050"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.extensions.telemetry/2.3.3/lib/netstandard2.0/pt-BR/Microsoft.Testing.Extensions.Telemetry.resources.dll",
+      "sha256": "8dfabf7ef33b58a4cc0ce46108d6412d928aac40ee44c6db95c4ba47bf7fb24a"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.extensions.telemetry/2.3.3/lib/netstandard2.0/ru/Microsoft.Testing.Extensions.Telemetry.resources.dll",
+      "sha256": "5a65febbcf5c3f4fba953a959748766938ad19d18a5ae63dd65519df03fc9ddd"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.extensions.telemetry/2.3.3/lib/netstandard2.0/tr/Microsoft.Testing.Extensions.Telemetry.resources.dll",
+      "sha256": "48db425ced7421a35a9ba0fc82ceb0e4d2d9e688ff04c6268ee91967a02a977a"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.extensions.telemetry/2.3.3/lib/netstandard2.0/zh-Hans/Microsoft.Testing.Extensions.Telemetry.resources.dll",
+      "sha256": "3acb9d534d8726d50a40761a3adec16f922d47923d34c0001885f0943e898f5c"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.extensions.telemetry/2.3.3/lib/netstandard2.0/zh-Hant/Microsoft.Testing.Extensions.Telemetry.resources.dll",
+      "sha256": "56af42fdef99f74cd35223916b0aa8a8d82102d1b2589a4700e9e2f163502fd2"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.extensions.trxreport.abstractions/2.3.3/lib/net8.0/Microsoft.Testing.Extensions.TrxReport.Abstractions.dll",
+      "sha256": "dedc73fef1b3e5eb560981fc570e4fc852242f75e3473dce04e57b251894a241"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.extensions.trxreport.abstractions/2.3.3/lib/net8.0/Microsoft.Testing.Extensions.TrxReport.Abstractions.pdb",
+      "sha256": "8a3071df02e571cd5b14298a52a967cfea6bcfac0dd6aedafbf3e9d055e7e05d"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.extensions.trxreport.abstractions/2.3.3/lib/net8.0/Microsoft.Testing.Extensions.TrxReport.Abstractions.xml",
+      "sha256": "65f74874052c51ec1e402328ca555b1a41abfd6851ae1d1e0e07031b122ffa62"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.extensions.trxreport.abstractions/2.3.3/lib/net9.0/Microsoft.Testing.Extensions.TrxReport.Abstractions.dll",
+      "sha256": "4065f9179d0f97eff5f23624be508992d7e57e1b331f330051c76e2731fcef79"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.extensions.trxreport.abstractions/2.3.3/lib/net9.0/Microsoft.Testing.Extensions.TrxReport.Abstractions.pdb",
+      "sha256": "257ec2aefbeb79c8c1c15c3d8eb987e44b373e3ade4aa41acc1b2b9328454f55"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.extensions.trxreport.abstractions/2.3.3/lib/net9.0/Microsoft.Testing.Extensions.TrxReport.Abstractions.xml",
+      "sha256": "65f74874052c51ec1e402328ca555b1a41abfd6851ae1d1e0e07031b122ffa62"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.extensions.trxreport.abstractions/2.3.3/lib/netstandard2.0/Microsoft.Testing.Extensions.TrxReport.Abstractions.dll",
+      "sha256": "cfb6a2276fd73af61125bdb1e8429f676925da1e6e538335aeb449472dfce12c"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.extensions.trxreport.abstractions/2.3.3/lib/netstandard2.0/Microsoft.Testing.Extensions.TrxReport.Abstractions.pdb",
+      "sha256": "138a331a8d832251f5f5c93adb0393626738e450d996e7044a572eaba1e4668f"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.extensions.trxreport.abstractions/2.3.3/lib/netstandard2.0/Microsoft.Testing.Extensions.TrxReport.Abstractions.xml",
+      "sha256": "f97dbbdd38e902ae4655c98c6b52d64a8c9d0d7555683d618b06e5c4695b4794"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/_MSBuildTasks/netstandard2.0/Microsoft.Testing.Platform.MSBuild.dll",
+      "sha256": "b61d7dc5149ab4a6586c2567ba7772bc208ae944a977375fb2768deb2876339f"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/_MSBuildTasks/netstandard2.0/Microsoft.Testing.Platform.MSBuild.pdb",
+      "sha256": "d441329225d156bfc0626da692ad2c5b7c24f4f16d1a902a52596f0dc2343750"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/_MSBuildTasks/netstandard2.0/Microsoft.Testing.Platform.MSBuild.xml",
+      "sha256": "eef7607aa4293597900dc7b8ae86c423b6f73f0aa3915fb59ea0598de171287f"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/_MSBuildTasks/netstandard2.0/Microsoft.Testing.Platform.dll",
+      "sha256": "9f096053e375c997ede82ea0fd29243c79773063ef972a134af8edc3f2951cc0"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/_MSBuildTasks/netstandard2.0/Microsoft.Testing.Platform.pdb",
+      "sha256": "dd144895e2b43cd43aad35cb4f3c6a9ecf2d7bced272f932506aa460161b3cd9"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/_MSBuildTasks/netstandard2.0/Microsoft.Testing.Platform.xml",
+      "sha256": "b0a140dc46d38f02d3e1cc39171487e2a1f8107e3c5593ef9f8756fdc12d78f0"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/_MSBuildTasks/netstandard2.0/Microsoft.Win32.Registry.dll",
+      "sha256": "5738f1e014d65979898848781075db25eede1f14d7e38d68cea6a4c49bc2b2c4"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/_MSBuildTasks/netstandard2.0/System.Security.AccessControl.dll",
+      "sha256": "1d9393d3e44168d99f554c8324e84db65d84048953e1188ab76d84643c032a23"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/_MSBuildTasks/netstandard2.0/System.Security.Principal.Windows.dll",
+      "sha256": "a1f5c7e2d4d22042514ad5f31007c875021a494c7d606a15defa67000c40944e"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/_MSBuildTasks/netstandard2.0/cs/Microsoft.Testing.Platform.MSBuild.resources.dll",
+      "sha256": "8b28be4dc6f9d199b7c09fa9cbf083600db6cd54006b267f5cf82e6a851cb056"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/_MSBuildTasks/netstandard2.0/cs/Microsoft.Testing.Platform.resources.dll",
+      "sha256": "edda26e373e98f506f6d1ba20cc1534fe32b86a6c19d3ce04667cca0c752e4aa"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/_MSBuildTasks/netstandard2.0/de/Microsoft.Testing.Platform.MSBuild.resources.dll",
+      "sha256": "1a2c20828c01c7ec92f86aadbace2bf28f1d4d91b9498ec8ee206ba4bb98a5a1"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/_MSBuildTasks/netstandard2.0/de/Microsoft.Testing.Platform.resources.dll",
+      "sha256": "c8218d84840b668fef4a0073855e1139126fd1284646890e5e8fcc147b9c799d"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/_MSBuildTasks/netstandard2.0/es/Microsoft.Testing.Platform.MSBuild.resources.dll",
+      "sha256": "9004e7f69980dfafe2114c5da63fd943d35a67bc1cf9c9cdca939a354671c231"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/_MSBuildTasks/netstandard2.0/es/Microsoft.Testing.Platform.resources.dll",
+      "sha256": "73f692fa81fc60eaeefac747db87cd01c4dafcb55f9930516e805246dc91dbb0"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/_MSBuildTasks/netstandard2.0/fr/Microsoft.Testing.Platform.MSBuild.resources.dll",
+      "sha256": "feab14f25a70850fae74df8f1d84177f1259d5541b5f57dc42550f9531fd1cce"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/_MSBuildTasks/netstandard2.0/fr/Microsoft.Testing.Platform.resources.dll",
+      "sha256": "75b1127b86eea9de62e63631dc00254b4323ecceaeda0ad3ec8d113998db03e5"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/_MSBuildTasks/netstandard2.0/it/Microsoft.Testing.Platform.MSBuild.resources.dll",
+      "sha256": "36f3fb77ef8437e0a13347d8604d0aec67ff485a6900659ef9b40b335ab1b12a"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/_MSBuildTasks/netstandard2.0/it/Microsoft.Testing.Platform.resources.dll",
+      "sha256": "d904628f10e64e0e6a46a475caacfa5195c9d06da66171aa73704fc9a9d9cd8c"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/_MSBuildTasks/netstandard2.0/ja/Microsoft.Testing.Platform.MSBuild.resources.dll",
+      "sha256": "684eceb88c082c3557df9e07ca342e57ffd5dee063b08e1047909d11819f7066"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/_MSBuildTasks/netstandard2.0/ja/Microsoft.Testing.Platform.resources.dll",
+      "sha256": "5fe6381e80d7ef5f8caeaa697ebfe80cf372206d6e6866386cb0abf3bc27c921"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/_MSBuildTasks/netstandard2.0/ko/Microsoft.Testing.Platform.MSBuild.resources.dll",
+      "sha256": "0ee88fcfbdc0e1b9b9f8a9e0d39cb90993a96f3434284b6a2f45d5e31da93ab7"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/_MSBuildTasks/netstandard2.0/ko/Microsoft.Testing.Platform.resources.dll",
+      "sha256": "9aa2d193a95649e415b73357969203133424fa965760b8ce034a89eda572f87e"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/_MSBuildTasks/netstandard2.0/pl/Microsoft.Testing.Platform.MSBuild.resources.dll",
+      "sha256": "80d051819c3eb14a71bc07faf360f89e38bdb0d59c27fb78f7536ae27ec8978c"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/_MSBuildTasks/netstandard2.0/pl/Microsoft.Testing.Platform.resources.dll",
+      "sha256": "60adb969c6b8f9fd762369c87d2c9a8a83b2ce3ed7175dca71ad6d0083979b74"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/_MSBuildTasks/netstandard2.0/pt-BR/Microsoft.Testing.Platform.MSBuild.resources.dll",
+      "sha256": "88b9d7647a4620a7ef112b3286dc2c62be61bc0e840ec297e54db6b8134164c5"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/_MSBuildTasks/netstandard2.0/pt-BR/Microsoft.Testing.Platform.resources.dll",
+      "sha256": "c16dc7e7dbd1fa420369be3ce2c38e756a5e6dfb1a142a0307ce08d5e331a67c"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/_MSBuildTasks/netstandard2.0/ru/Microsoft.Testing.Platform.MSBuild.resources.dll",
+      "sha256": "46e5df3beee7d27b50dc5c97e3141a32019972f6dbd8644b22cd527a4c7b876d"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/_MSBuildTasks/netstandard2.0/ru/Microsoft.Testing.Platform.resources.dll",
+      "sha256": "c27e2a968608d35f327e0e3642dff6d5a2e042bf70f568d60a2c92c971a7c504"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/_MSBuildTasks/netstandard2.0/tr/Microsoft.Testing.Platform.MSBuild.resources.dll",
+      "sha256": "c446bc873259f8837a7d6dd9a2d4713e3564bdb11c7c63dcb6dbe36250a6bf04"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/_MSBuildTasks/netstandard2.0/tr/Microsoft.Testing.Platform.resources.dll",
+      "sha256": "9d70713cb7e0f89ca27f6d809ce2c72b18916ed5800d17908f63039b3f691001"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/_MSBuildTasks/netstandard2.0/zh-Hans/Microsoft.Testing.Platform.MSBuild.resources.dll",
+      "sha256": "0f167cd9b061770affc340108a40c9870ab6c53df504c81a7d5e59325f57bed0"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/_MSBuildTasks/netstandard2.0/zh-Hans/Microsoft.Testing.Platform.resources.dll",
+      "sha256": "a9f02900a38e29332b9c92e5c46c1a3a492d0f92e4b269787224aabb8b82c384"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/_MSBuildTasks/netstandard2.0/zh-Hant/Microsoft.Testing.Platform.MSBuild.resources.dll",
+      "sha256": "21d31cc5aa64bffa1c16b27bb2e571f5b0a025add2cc3cff5c5acb8c763d5526"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/_MSBuildTasks/netstandard2.0/zh-Hant/Microsoft.Testing.Platform.resources.dll",
+      "sha256": "951a57aef7c66f327da6aead9799e25a48fe8f20bcca54a5a74c35c1185d99d2"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/lib/net8.0/Microsoft.Testing.Extensions.MSBuild.dll",
+      "sha256": "39fd2878780e061745a283a9ee28354ceaf00f8bf133747a441b1ab2a46dc5ee"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/lib/net8.0/Microsoft.Testing.Extensions.MSBuild.pdb",
+      "sha256": "b3fbc30ad04029a621cce6b96c98e12e1bf0cbf62313078b0f16a39c67a8823c"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/lib/net8.0/Microsoft.Testing.Extensions.MSBuild.xml",
+      "sha256": "3a2864713bd126809a2ab48590742a77b4fc829e247a229d9569d69e23ff680d"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/lib/net8.0/cs/Microsoft.Testing.Extensions.MSBuild.resources.dll",
+      "sha256": "0856d7c4845ebcdd4e84d6a12b6a6801ddd2fdb55464c911fc1633fd38a326fc"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/lib/net8.0/de/Microsoft.Testing.Extensions.MSBuild.resources.dll",
+      "sha256": "6195866ced8538518910fcd092724190129e22fa420c4d17003c5877a4a81a49"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/lib/net8.0/es/Microsoft.Testing.Extensions.MSBuild.resources.dll",
+      "sha256": "16c2e23a9b1dc526324e58752d73758c3e5c78f89117c1200fe12bd3b806b0f2"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/lib/net8.0/fr/Microsoft.Testing.Extensions.MSBuild.resources.dll",
+      "sha256": "3e787dd1b337ac93815df6a2396664e03f2a0d16723716a253e975acd45526fd"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/lib/net8.0/it/Microsoft.Testing.Extensions.MSBuild.resources.dll",
+      "sha256": "1a24bcdf0d669e2e2a912ad45883af0ef3de3f1a437d8bda22b7fe163abcb843"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/lib/net8.0/ja/Microsoft.Testing.Extensions.MSBuild.resources.dll",
+      "sha256": "542f6ac619419326493a0c41c3ca193b0bd52253399165da51e27a9df28c3144"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/lib/net8.0/ko/Microsoft.Testing.Extensions.MSBuild.resources.dll",
+      "sha256": "6632fcf68fa891b958af39edf98f02183eed97ea7359d5a194280f83e4914d12"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/lib/net8.0/pl/Microsoft.Testing.Extensions.MSBuild.resources.dll",
+      "sha256": "cd303d4c6083a9838976fe9eb072c28da157607286ccc2cfe45d68063687b019"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/lib/net8.0/pt-BR/Microsoft.Testing.Extensions.MSBuild.resources.dll",
+      "sha256": "60834f6b6fe508c62bd95961de72bb5682cb97ccad219472c2a2e76184e69aa1"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/lib/net8.0/ru/Microsoft.Testing.Extensions.MSBuild.resources.dll",
+      "sha256": "6ed1115c9a53c96c2f491c792929a9f5113303a0428951bd0c597ca664a593ec"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/lib/net8.0/tr/Microsoft.Testing.Extensions.MSBuild.resources.dll",
+      "sha256": "707170a56afd9dcdf7e2d300efc95bf1f515aa241bae0b0de7ec56ec540d35c0"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/lib/net8.0/zh-Hans/Microsoft.Testing.Extensions.MSBuild.resources.dll",
+      "sha256": "9595d34516ea71ac105df51e687742bb971c493cf0112696d57a371bd69e61d0"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/lib/net8.0/zh-Hant/Microsoft.Testing.Extensions.MSBuild.resources.dll",
+      "sha256": "b7a5cc4038fade02dc732af53cb5b749d1931439daf4f2fdbc3130b03694c174"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/lib/net9.0/Microsoft.Testing.Extensions.MSBuild.dll",
+      "sha256": "d364d5954dacfc2cf9239e29d1aeee37212019677447ccd1bd746710476bd703"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/lib/net9.0/Microsoft.Testing.Extensions.MSBuild.pdb",
+      "sha256": "8c674e257d208d8693593a58cb97b65f463c26453f8b9a8f218bcfe50d942822"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/lib/net9.0/Microsoft.Testing.Extensions.MSBuild.xml",
+      "sha256": "3a2864713bd126809a2ab48590742a77b4fc829e247a229d9569d69e23ff680d"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/lib/net9.0/cs/Microsoft.Testing.Extensions.MSBuild.resources.dll",
+      "sha256": "9991097b4c50410d3be00cdd978cd4f2657da31bc84afb42acaa6d2891f9adc4"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/lib/net9.0/de/Microsoft.Testing.Extensions.MSBuild.resources.dll",
+      "sha256": "71516f83b7191d86f1fc11e20dbf278626145249a96ff91fd0f474a6d08f2813"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/lib/net9.0/es/Microsoft.Testing.Extensions.MSBuild.resources.dll",
+      "sha256": "7fd27eb7b02719115360086cf00ce9194673648f6d4675a3e285595bab86fe0c"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/lib/net9.0/fr/Microsoft.Testing.Extensions.MSBuild.resources.dll",
+      "sha256": "b18bc0e223a2e24e19939b31cbbf0caf658038d6eaa6eff8a7cdf7d3c37de42c"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/lib/net9.0/it/Microsoft.Testing.Extensions.MSBuild.resources.dll",
+      "sha256": "11a26421d763cbf2a56aa964a31638a1e70d301a6da2a7fb86051d7f91d85b43"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/lib/net9.0/ja/Microsoft.Testing.Extensions.MSBuild.resources.dll",
+      "sha256": "03d34e37c33ad52cd167fdca805b69a49be44bea92fcddc7ff5f9fc3fcf5ba6c"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/lib/net9.0/ko/Microsoft.Testing.Extensions.MSBuild.resources.dll",
+      "sha256": "f4b067eeafd674d6ccfdc0292e9051c135e2f09731ce275ce73056d2170af753"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/lib/net9.0/pl/Microsoft.Testing.Extensions.MSBuild.resources.dll",
+      "sha256": "8aeffc550a372c61bf9e8fafe8e29ee246cfd7059ddcdf8ffc27ac88b96c7d36"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/lib/net9.0/pt-BR/Microsoft.Testing.Extensions.MSBuild.resources.dll",
+      "sha256": "977359242e3794ff1f1751c5fbeb9727029042ee78dc47c31a2a4fab208cebee"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/lib/net9.0/ru/Microsoft.Testing.Extensions.MSBuild.resources.dll",
+      "sha256": "6aa18bd389208d6141e39a011d6e89b94c4312aee766a55ca38267393f062eca"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/lib/net9.0/tr/Microsoft.Testing.Extensions.MSBuild.resources.dll",
+      "sha256": "0a3ada624707ea780ce5fc191341b112c40f5b0f11c25c7ed3062591d33432b4"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/lib/net9.0/zh-Hans/Microsoft.Testing.Extensions.MSBuild.resources.dll",
+      "sha256": "ce576a46cb5f7c3fc5eef626124eb7380be04e1cfbadc6abee6856d7572357c0"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/lib/net9.0/zh-Hant/Microsoft.Testing.Extensions.MSBuild.resources.dll",
+      "sha256": "29e12bb919b51400fdf8bb259ca5c877b299955e231cd18ace8e152099856801"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/lib/netstandard2.0/Microsoft.Testing.Extensions.MSBuild.dll",
+      "sha256": "9041700c4e2e9b8734b2cb7c2e39bca912051bf40ec272918d730ce97c8aa190"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/lib/netstandard2.0/Microsoft.Testing.Extensions.MSBuild.pdb",
+      "sha256": "5fadb3bdb4cac9991d461b22e380b1461846a62fba48ec31a81366710c572ad4"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/lib/netstandard2.0/Microsoft.Testing.Extensions.MSBuild.xml",
+      "sha256": "c9188ad33b9065c0eefb200dc9847e36fbe8d52ebafa42792d93af4cf33eb974"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/lib/netstandard2.0/cs/Microsoft.Testing.Extensions.MSBuild.resources.dll",
+      "sha256": "1acbaaf4ee8f087d280c435d82d4746f18acceaeaa302b487aad92cb658694ec"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/lib/netstandard2.0/de/Microsoft.Testing.Extensions.MSBuild.resources.dll",
+      "sha256": "9dab0cf7ec20ab06ed1e782140468b2d3e4dafe054bd82da021373aa0271c54e"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/lib/netstandard2.0/es/Microsoft.Testing.Extensions.MSBuild.resources.dll",
+      "sha256": "41ef6997c6f542eb00188b1e5192e2df6aeed4c178142cf413fbd02df783af72"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/lib/netstandard2.0/fr/Microsoft.Testing.Extensions.MSBuild.resources.dll",
+      "sha256": "13de3aa5230349beec122841e051b0fe3f510ddb36dedd2374c8acbf7ee58a0d"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/lib/netstandard2.0/it/Microsoft.Testing.Extensions.MSBuild.resources.dll",
+      "sha256": "701e9e42188e340288bd581ca78539c5cab53f4e8444cad0951135e38d47d9b4"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/lib/netstandard2.0/ja/Microsoft.Testing.Extensions.MSBuild.resources.dll",
+      "sha256": "a8bc585a95ad1f25ddfc765cdb9db10de29ad238df8952ead5e2f5d1e8f8ed87"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/lib/netstandard2.0/ko/Microsoft.Testing.Extensions.MSBuild.resources.dll",
+      "sha256": "f9f12c49d79a8a47a5b48d3da3c9c8ed769c78445f77997a2bc54fe38641f790"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/lib/netstandard2.0/pl/Microsoft.Testing.Extensions.MSBuild.resources.dll",
+      "sha256": "01221b0a36ee9af779a9cee23a04b2c0ab621a3f3827525c07f8244c6a34c895"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/lib/netstandard2.0/pt-BR/Microsoft.Testing.Extensions.MSBuild.resources.dll",
+      "sha256": "e10a9dbee2e55bd17fc2a8020d3a3ad7670e3393c486826ceaa519ee4ebe7e78"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/lib/netstandard2.0/ru/Microsoft.Testing.Extensions.MSBuild.resources.dll",
+      "sha256": "0b6059ba6ab69a360b49f969347fd2101afdf7d82918f0d40160ad5017bf73af"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/lib/netstandard2.0/tr/Microsoft.Testing.Extensions.MSBuild.resources.dll",
+      "sha256": "db1bf8982dec3f853bf9410b77d9b5c85f173f67456b25faa105a1e8adaabd12"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/lib/netstandard2.0/zh-Hans/Microsoft.Testing.Extensions.MSBuild.resources.dll",
+      "sha256": "2109dc33582de21f3a48d7f0e70ff2b75f5786c85e085e67e5baccd0b97e5f9d"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform.msbuild/2.3.3/lib/netstandard2.0/zh-Hant/Microsoft.Testing.Extensions.MSBuild.resources.dll",
+      "sha256": "fd1bd333689db5f8d69183e02e53126c6f082034bb7ed09744244eb6faf629e9"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform/2.3.3/lib/net8.0/Microsoft.Testing.Platform.dll",
+      "sha256": "5f3cb50cadc0d10fc2889a619ed4cd27be3251908de6ad91803d0e2a6afa42d3"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform/2.3.3/lib/net8.0/Microsoft.Testing.Platform.pdb",
+      "sha256": "256859047735416e4893b9a0916b9739dcf91cd4aa5384290d08d1b9772abe38"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform/2.3.3/lib/net8.0/Microsoft.Testing.Platform.xml",
+      "sha256": "9d1c8ec41374d700904c11324dc46363df46aa3521ada750d29cf3cf23855c87"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform/2.3.3/lib/net8.0/cs/Microsoft.Testing.Platform.resources.dll",
+      "sha256": "e8944003f0b89ac3f27da4a01453aaab4e2e10d986c030325b5b4fbbd8c2d016"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform/2.3.3/lib/net8.0/de/Microsoft.Testing.Platform.resources.dll",
+      "sha256": "1a7bbbb9398247c08431dce9d07f8c30a2ede6a2f3d8b98a633f0f8c206042f7"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform/2.3.3/lib/net8.0/es/Microsoft.Testing.Platform.resources.dll",
+      "sha256": "c196bc5fa4e237e5cfa6846ca48a0f21ef18a2234e8598a178f07e29bded151b"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform/2.3.3/lib/net8.0/fr/Microsoft.Testing.Platform.resources.dll",
+      "sha256": "c6d8bc0e75df5111d55fd176fc8c52aba58fa2802d0b16eed556d0e3e1cd3ec9"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform/2.3.3/lib/net8.0/it/Microsoft.Testing.Platform.resources.dll",
+      "sha256": "ccb053b7bda725b18f1a595459bc5840a80eb839444caf9ea3e4be3e801fbe83"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform/2.3.3/lib/net8.0/ja/Microsoft.Testing.Platform.resources.dll",
+      "sha256": "1ee35bda93dc5fe094abdf1d6524ef1c664ce66e73787e358d71864f9cf19659"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform/2.3.3/lib/net8.0/ko/Microsoft.Testing.Platform.resources.dll",
+      "sha256": "b33117af39b705a02c1502e56da00d19be7dbf19d9786073dfc0ee3624e420ab"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform/2.3.3/lib/net8.0/pl/Microsoft.Testing.Platform.resources.dll",
+      "sha256": "9764d96842edb78b24ab650d7b12d74a35ab52c5d0f075bce0f34b9ef1c71d51"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform/2.3.3/lib/net8.0/pt-BR/Microsoft.Testing.Platform.resources.dll",
+      "sha256": "f9fe11f1be245ec6561236e187d27f0450d1381ebc548128e049f41a36a030eb"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform/2.3.3/lib/net8.0/ru/Microsoft.Testing.Platform.resources.dll",
+      "sha256": "f0b65a7d1008d51b085ea1677acaa88918d01d5e69cd9af250dc1317f30663c4"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform/2.3.3/lib/net8.0/tr/Microsoft.Testing.Platform.resources.dll",
+      "sha256": "d367247bb1bc24d44a8c4efa008bf2c68dfbf04b9e636ab53a2974e0b681104b"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform/2.3.3/lib/net8.0/zh-Hans/Microsoft.Testing.Platform.resources.dll",
+      "sha256": "1f1125d71d3a5de0b502e163b44c6541f9f042220425c2051f153ecefeecff5c"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform/2.3.3/lib/net8.0/zh-Hant/Microsoft.Testing.Platform.resources.dll",
+      "sha256": "f4754c4880fc24697cb549e195002b436dda10c5906f33ad8387313208428499"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform/2.3.3/lib/net9.0/Microsoft.Testing.Platform.dll",
+      "sha256": "92db7b51a0e878e84d17a0ffef92abe22b3033ce5655f8bdbda06a3a93651c2e"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform/2.3.3/lib/net9.0/Microsoft.Testing.Platform.pdb",
+      "sha256": "e1fd00d2f48dd50fcbf1b0cd6116edffbf7509837577818141edac6a7ca564eb"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform/2.3.3/lib/net9.0/Microsoft.Testing.Platform.xml",
+      "sha256": "9d1c8ec41374d700904c11324dc46363df46aa3521ada750d29cf3cf23855c87"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform/2.3.3/lib/net9.0/cs/Microsoft.Testing.Platform.resources.dll",
+      "sha256": "1de18ac307d4bc0bff4108757055d3ac2a11aaf9e0a0f9c4f5370b03de4aa471"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform/2.3.3/lib/net9.0/de/Microsoft.Testing.Platform.resources.dll",
+      "sha256": "95ea8bd3ae7a142743ce81add63fd2b8991bfc33771d2b530071ed4265d8084a"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform/2.3.3/lib/net9.0/es/Microsoft.Testing.Platform.resources.dll",
+      "sha256": "f55fe3de2fa2baf105be74263589a59f7609d7db75db86fd081b2fe80cd5b7b7"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform/2.3.3/lib/net9.0/fr/Microsoft.Testing.Platform.resources.dll",
+      "sha256": "a79c8faee88c0072fd244e205647a6444288499028a0832a71e42efe6413c782"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform/2.3.3/lib/net9.0/it/Microsoft.Testing.Platform.resources.dll",
+      "sha256": "a6691d5956cff8164e8461f6c243cbec4bec21802181a739a397997f05e5a540"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform/2.3.3/lib/net9.0/ja/Microsoft.Testing.Platform.resources.dll",
+      "sha256": "6b49a523a5124f142d7ebb71651ff696a60e194e49692ccaaf3bc2e55cdb0628"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform/2.3.3/lib/net9.0/ko/Microsoft.Testing.Platform.resources.dll",
+      "sha256": "85b4037ba81ac98e0bcd98506d99e3c754570bdb1340b1a1970502a5ae8a0e34"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform/2.3.3/lib/net9.0/pl/Microsoft.Testing.Platform.resources.dll",
+      "sha256": "1c39b7cf182f47800ebfe438fecbad585c94d710e7f37a2088ff4b220db552b6"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform/2.3.3/lib/net9.0/pt-BR/Microsoft.Testing.Platform.resources.dll",
+      "sha256": "49795864b6e468292ff08afe99fb4bfff4ac29bb0d394182fd1269d726a4c8d5"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform/2.3.3/lib/net9.0/ru/Microsoft.Testing.Platform.resources.dll",
+      "sha256": "144fcb44a8ca037ccd3a60fab0ed607f4f012353e927a06c84b84ee9e1519bf3"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform/2.3.3/lib/net9.0/tr/Microsoft.Testing.Platform.resources.dll",
+      "sha256": "628aa0bf044d79e8f6ff9cefc8c506cc94a6de7a3e7b96764acfe53c8f8d2668"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform/2.3.3/lib/net9.0/zh-Hans/Microsoft.Testing.Platform.resources.dll",
+      "sha256": "01f36336ab7c14a4000804eb87dde39747e9edddd215e2d07c832f3abfd1d616"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform/2.3.3/lib/net9.0/zh-Hant/Microsoft.Testing.Platform.resources.dll",
+      "sha256": "293a19884900eadcf3a0a7fbc01c0a2757555883ca682a41839dbc432bc3c853"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform/2.3.3/lib/netstandard2.0/Microsoft.Testing.Platform.dll",
+      "sha256": "9f096053e375c997ede82ea0fd29243c79773063ef972a134af8edc3f2951cc0"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform/2.3.3/lib/netstandard2.0/Microsoft.Testing.Platform.pdb",
+      "sha256": "dd144895e2b43cd43aad35cb4f3c6a9ecf2d7bced272f932506aa460161b3cd9"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform/2.3.3/lib/netstandard2.0/Microsoft.Testing.Platform.xml",
+      "sha256": "b0a140dc46d38f02d3e1cc39171487e2a1f8107e3c5593ef9f8756fdc12d78f0"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform/2.3.3/lib/netstandard2.0/cs/Microsoft.Testing.Platform.resources.dll",
+      "sha256": "edda26e373e98f506f6d1ba20cc1534fe32b86a6c19d3ce04667cca0c752e4aa"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform/2.3.3/lib/netstandard2.0/de/Microsoft.Testing.Platform.resources.dll",
+      "sha256": "c8218d84840b668fef4a0073855e1139126fd1284646890e5e8fcc147b9c799d"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform/2.3.3/lib/netstandard2.0/es/Microsoft.Testing.Platform.resources.dll",
+      "sha256": "73f692fa81fc60eaeefac747db87cd01c4dafcb55f9930516e805246dc91dbb0"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform/2.3.3/lib/netstandard2.0/fr/Microsoft.Testing.Platform.resources.dll",
+      "sha256": "75b1127b86eea9de62e63631dc00254b4323ecceaeda0ad3ec8d113998db03e5"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform/2.3.3/lib/netstandard2.0/it/Microsoft.Testing.Platform.resources.dll",
+      "sha256": "d904628f10e64e0e6a46a475caacfa5195c9d06da66171aa73704fc9a9d9cd8c"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform/2.3.3/lib/netstandard2.0/ja/Microsoft.Testing.Platform.resources.dll",
+      "sha256": "5fe6381e80d7ef5f8caeaa697ebfe80cf372206d6e6866386cb0abf3bc27c921"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform/2.3.3/lib/netstandard2.0/ko/Microsoft.Testing.Platform.resources.dll",
+      "sha256": "9aa2d193a95649e415b73357969203133424fa965760b8ce034a89eda572f87e"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform/2.3.3/lib/netstandard2.0/pl/Microsoft.Testing.Platform.resources.dll",
+      "sha256": "60adb969c6b8f9fd762369c87d2c9a8a83b2ce3ed7175dca71ad6d0083979b74"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform/2.3.3/lib/netstandard2.0/pt-BR/Microsoft.Testing.Platform.resources.dll",
+      "sha256": "c16dc7e7dbd1fa420369be3ce2c38e756a5e6dfb1a142a0307ce08d5e331a67c"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform/2.3.3/lib/netstandard2.0/ru/Microsoft.Testing.Platform.resources.dll",
+      "sha256": "c27e2a968608d35f327e0e3642dff6d5a2e042bf70f568d60a2c92c971a7c504"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform/2.3.3/lib/netstandard2.0/tr/Microsoft.Testing.Platform.resources.dll",
+      "sha256": "9d70713cb7e0f89ca27f6d809ce2c72b18916ed5800d17908f63039b3f691001"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform/2.3.3/lib/netstandard2.0/zh-Hans/Microsoft.Testing.Platform.resources.dll",
+      "sha256": "a9f02900a38e29332b9c92e5c46c1a3a492d0f92e4b269787224aabb8b82c384"
+    },
+    {
+      "path": "nuget_packages/microsoft.testing.platform/2.3.3/lib/netstandard2.0/zh-Hant/Microsoft.Testing.Platform.resources.dll",
+      "sha256": "951a57aef7c66f327da6aead9799e25a48fe8f20bcca54a5a74c35c1185d99d2"
+    },
+    {
+      "path": "nuget_packages/microsoft.win32.registry/5.0.0/lib/net461/Microsoft.Win32.Registry.dll",
+      "sha256": "e9a9d281c1a708aaae366f82fd6a1742f65da2918cc4fa5eaaaada0be24277d9"
+    },
+    {
+      "path": "nuget_packages/microsoft.win32.registry/5.0.0/lib/net461/Microsoft.Win32.Registry.xml",
+      "sha256": "ec37b0d38d2279b53cff84aa3e299c8007eda42f82ea4379c97118a7049b1e22"
+    },
+    {
+      "path": "nuget_packages/microsoft.win32.registry/5.0.0/lib/net46/Microsoft.Win32.Registry.dll",
+      "sha256": "d641eb0065bd5cdb541c5bf0d2ff976720d35d62416ab959727651abf0aba2ca"
+    },
+    {
+      "path": "nuget_packages/microsoft.win32.registry/5.0.0/lib/netstandard1.3/Microsoft.Win32.Registry.dll",
+      "sha256": "cdb18922693eb1f454dc2a19a6b3150e3f27b4f4f98d5ec60b6e1fd0d0505ee8"
+    },
+    {
+      "path": "nuget_packages/microsoft.win32.registry/5.0.0/lib/netstandard2.0/Microsoft.Win32.Registry.dll",
+      "sha256": "340933ad6701077ae9b8035e4671803d86074ab32f2de8165acfdb954bd260f6"
+    },
+    {
+      "path": "nuget_packages/microsoft.win32.registry/5.0.0/lib/netstandard2.0/Microsoft.Win32.Registry.xml",
+      "sha256": "ec37b0d38d2279b53cff84aa3e299c8007eda42f82ea4379c97118a7049b1e22"
+    },
+    {
+      "path": "nuget_packages/microsoft.win32.registry/5.0.0/ref/net461/Microsoft.Win32.Registry.dll",
+      "sha256": "53af8a99b0ed4c8b7efbe4f0fded3a2b89d4ac54a52bad24332c016c981c2f61"
+    },
+    {
+      "path": "nuget_packages/microsoft.win32.registry/5.0.0/ref/net461/Microsoft.Win32.Registry.xml",
+      "sha256": "ec37b0d38d2279b53cff84aa3e299c8007eda42f82ea4379c97118a7049b1e22"
+    },
+    {
+      "path": "nuget_packages/microsoft.win32.registry/5.0.0/ref/net46/Microsoft.Win32.Registry.dll",
+      "sha256": "d641eb0065bd5cdb541c5bf0d2ff976720d35d62416ab959727651abf0aba2ca"
+    },
+    {
+      "path": "nuget_packages/microsoft.win32.registry/5.0.0/ref/netstandard1.3/Microsoft.Win32.Registry.dll",
+      "sha256": "ac165da6ece9b73fe7103f2cdc25687aa5d3946d6a85206c32bb1018c66b34dc"
+    },
+    {
+      "path": "nuget_packages/microsoft.win32.registry/5.0.0/ref/netstandard1.3/Microsoft.Win32.Registry.xml",
+      "sha256": "60a9913496f24557f4d3e19c4f87aa680d5f02b97427c957f512883967028c71"
+    },
+    {
+      "path": "nuget_packages/microsoft.win32.registry/5.0.0/ref/netstandard1.3/de/Microsoft.Win32.Registry.xml",
+      "sha256": "ad44a2c7e9a1bfd91cadfb1c5be424c9177ac971e982dd7bf03a77c79434fda0"
+    },
+    {
+      "path": "nuget_packages/microsoft.win32.registry/5.0.0/ref/netstandard1.3/es/Microsoft.Win32.Registry.xml",
+      "sha256": "4efc63a7049be5174f1be85899e97a108fc6afd71ca15d603cf48d0a3b310b88"
+    },
+    {
+      "path": "nuget_packages/microsoft.win32.registry/5.0.0/ref/netstandard1.3/fr/Microsoft.Win32.Registry.xml",
+      "sha256": "08dcdc041ad03ac6d56319e12e0c99ef5d76c3ddf573941ca83ef678b8e27482"
+    },
+    {
+      "path": "nuget_packages/microsoft.win32.registry/5.0.0/ref/netstandard1.3/it/Microsoft.Win32.Registry.xml",
+      "sha256": "e0c6a5749cc455e44f07fdfbf7fa650ed4809c58c7493de85c3d3bb844abb8e0"
+    },
+    {
+      "path": "nuget_packages/microsoft.win32.registry/5.0.0/ref/netstandard1.3/ja/Microsoft.Win32.Registry.xml",
+      "sha256": "dc82fe26df3937474dfcc4efe93a797dfe68f2d0b0ec2a7052ae91a1eaebc56e"
+    },
+    {
+      "path": "nuget_packages/microsoft.win32.registry/5.0.0/ref/netstandard1.3/ko/Microsoft.Win32.Registry.xml",
+      "sha256": "9297851871dc83c5c880746bff6d46870cfd7a20c27108a61c2157fc51e9e6bf"
+    },
+    {
+      "path": "nuget_packages/microsoft.win32.registry/5.0.0/ref/netstandard1.3/ru/Microsoft.Win32.Registry.xml",
+      "sha256": "ee9a708ef657cbbb72014ca7c33f005dda16ddb875c73473a78ef8618a426ff4"
+    },
+    {
+      "path": "nuget_packages/microsoft.win32.registry/5.0.0/ref/netstandard1.3/zh-hans/Microsoft.Win32.Registry.xml",
+      "sha256": "62dab7936b7b9427842fa5f65704f8bc3cae30a89db3f2583a7e74afe11bcfc3"
+    },
+    {
+      "path": "nuget_packages/microsoft.win32.registry/5.0.0/ref/netstandard1.3/zh-hant/Microsoft.Win32.Registry.xml",
+      "sha256": "49941d6a2c4961699f7919eaaa41b74752360ccb34b988ffe7078d97d99c2a69"
+    },
+    {
+      "path": "nuget_packages/microsoft.win32.registry/5.0.0/ref/netstandard2.0/Microsoft.Win32.Registry.dll",
+      "sha256": "2e4f61120ca50e5ebabeb00435441636f31bf2b2d47f0defc64069f859b5284e"
+    },
+    {
+      "path": "nuget_packages/microsoft.win32.registry/5.0.0/ref/netstandard2.0/Microsoft.Win32.Registry.xml",
+      "sha256": "ec37b0d38d2279b53cff84aa3e299c8007eda42f82ea4379c97118a7049b1e22"
+    },
+    {
+      "path": "nuget_packages/microsoft.win32.registry/5.0.0/runtimes/win/lib/net461/Microsoft.Win32.Registry.dll",
+      "sha256": "e9a9d281c1a708aaae366f82fd6a1742f65da2918cc4fa5eaaaada0be24277d9"
+    },
+    {
+      "path": "nuget_packages/microsoft.win32.registry/5.0.0/runtimes/win/lib/net461/Microsoft.Win32.Registry.xml",
+      "sha256": "ec37b0d38d2279b53cff84aa3e299c8007eda42f82ea4379c97118a7049b1e22"
+    },
+    {
+      "path": "nuget_packages/microsoft.win32.registry/5.0.0/runtimes/win/lib/net46/Microsoft.Win32.Registry.dll",
+      "sha256": "d641eb0065bd5cdb541c5bf0d2ff976720d35d62416ab959727651abf0aba2ca"
+    },
+    {
+      "path": "nuget_packages/microsoft.win32.registry/5.0.0/runtimes/win/lib/netstandard1.3/Microsoft.Win32.Registry.dll",
+      "sha256": "aec1b56dd9088473a5511e13b2ca88101c88d90bca5743aa0f73fd2fbc38d92a"
+    },
+    {
+      "path": "nuget_packages/microsoft.win32.registry/5.0.0/runtimes/win/lib/netstandard2.0/Microsoft.Win32.Registry.dll",
+      "sha256": "5738f1e014d65979898848781075db25eede1f14d7e38d68cea6a4c49bc2b2c4"
+    },
+    {
+      "path": "nuget_packages/microsoft.win32.registry/5.0.0/runtimes/win/lib/netstandard2.0/Microsoft.Win32.Registry.xml",
+      "sha256": "ec37b0d38d2279b53cff84aa3e299c8007eda42f82ea4379c97118a7049b1e22"
+    },
+    {
+      "path": "nuget_packages/system.security.accesscontrol/6.0.1/lib/net461/System.Security.AccessControl.dll",
+      "sha256": "8e71e09c1a2706704333d3ad20e286ace441c8b512dd2dbb6dc69540daec54c8"
+    },
+    {
+      "path": "nuget_packages/system.security.accesscontrol/6.0.1/lib/net461/System.Security.AccessControl.xml",
+      "sha256": "5eb979a66f5b1cd35770ee5e62cd7fede529dc5081fe9da3d6020903c92b84ac"
+    },
+    {
+      "path": "nuget_packages/system.security.accesscontrol/6.0.1/lib/net6.0/System.Security.AccessControl.dll",
+      "sha256": "b7d6d6e3696a56150e7cac786d3a7e842dae26bc0cefb6b2dcd3279a4fdb14f3"
+    },
+    {
+      "path": "nuget_packages/system.security.accesscontrol/6.0.1/lib/net6.0/System.Security.AccessControl.xml",
+      "sha256": "94985209a37a55e8a1be97d86fcdb68a56ec229a57aa0e9c5f111e3982c48d65"
+    },
+    {
+      "path": "nuget_packages/system.security.accesscontrol/6.0.1/lib/netstandard2.0/System.Security.AccessControl.dll",
+      "sha256": "a1559038777d4c7b95dbf9a8398a50a6d55b1d79591def5278b7fba5477b1210"
+    },
+    {
+      "path": "nuget_packages/system.security.accesscontrol/6.0.1/lib/netstandard2.0/System.Security.AccessControl.xml",
+      "sha256": "5eb979a66f5b1cd35770ee5e62cd7fede529dc5081fe9da3d6020903c92b84ac"
+    },
+    {
+      "path": "nuget_packages/system.security.accesscontrol/6.0.1/runtimes/win/lib/net461/System.Security.AccessControl.dll",
+      "sha256": "8e71e09c1a2706704333d3ad20e286ace441c8b512dd2dbb6dc69540daec54c8"
+    },
+    {
+      "path": "nuget_packages/system.security.accesscontrol/6.0.1/runtimes/win/lib/net461/System.Security.AccessControl.xml",
+      "sha256": "5eb979a66f5b1cd35770ee5e62cd7fede529dc5081fe9da3d6020903c92b84ac"
+    },
+    {
+      "path": "nuget_packages/system.security.accesscontrol/6.0.1/runtimes/win/lib/net6.0/System.Security.AccessControl.dll",
+      "sha256": "fce589a45aaec7202edc2f0e36f6d1416c30a827e892d28253026afd6fa96621"
+    },
+    {
+      "path": "nuget_packages/system.security.accesscontrol/6.0.1/runtimes/win/lib/net6.0/System.Security.AccessControl.xml",
+      "sha256": "a2481cf6b28bf22d350cd1342052776158e966c93d216dc6a68b010fe4364eb3"
+    },
+    {
+      "path": "nuget_packages/system.security.accesscontrol/6.0.1/runtimes/win/lib/netstandard2.0/System.Security.AccessControl.dll",
+      "sha256": "328b793f41ff7fffa4868befca6bd646181ac5f3e77cb161208ccdbb32ecbd64"
+    },
+    {
+      "path": "nuget_packages/system.security.accesscontrol/6.0.1/runtimes/win/lib/netstandard2.0/System.Security.AccessControl.xml",
+      "sha256": "bcd2e303c5c3ed2fbb08962d67b2313cbaa6226c8ef090c70fce42d3e8870d87"
+    },
+    {
+      "path": "nuget_packages/xunit.analyzers/2.0.0/analyzers/dotnet/cs/xunit.analyzers.dll",
+      "sha256": "9c88cc10f8358c6b87924a11b43859f2b319e1574bacd70e5ac3c1ce4963e711"
+    },
+    {
+      "path": "nuget_packages/xunit.analyzers/2.0.0/analyzers/dotnet/cs/xunit.analyzers.fixes.dll",
+      "sha256": "f9f09435fecc43f7911a5da8265afcbca59e0a5a9fb6ef2a7e340b46102f2d87"
+    },
+    {
+      "path": "nuget_packages/xunit.v3.assert/4.0.0/lib/net8.0/xunit.v3.assert.dll",
+      "sha256": "d14ea33253a7e289af5254617203b02f0643ba7ff618670de837d642ef22af11"
+    },
+    {
+      "path": "nuget_packages/xunit.v3.assert/4.0.0/lib/net8.0/xunit.v3.assert.xml",
+      "sha256": "61bd2bfd735777d59539bb94cf3a9b902f043ffc4fa0fc872cf9bfce80b220ce"
+    },
+    {
+      "path": "nuget_packages/xunit.v3.assert/4.0.0/lib/netstandard2.0/xunit.v3.assert.dll",
+      "sha256": "35632eebd2ca3bb5470f39d9a8cd36cf06dbe306b36f2f8322b8438b32c9b1f0"
+    },
+    {
+      "path": "nuget_packages/xunit.v3.assert/4.0.0/lib/netstandard2.0/xunit.v3.assert.xml",
+      "sha256": "7151a0a42f56de453e0dea829f78e32970f076e8fdbdc83ade9a319f4be7730a"
+    },
+    {
+      "path": "nuget_packages/xunit.v3.common/4.0.0/lib/netstandard2.0/xunit.v3.common.dll",
+      "sha256": "e8e5bf50c6e739812ab5daaaefcc1187b54768a499ccc4b262d4533cc3cab93d"
+    },
+    {
+      "path": "nuget_packages/xunit.v3.common/4.0.0/lib/netstandard2.0/xunit.v3.common.xml",
+      "sha256": "5f1ed88835775aea1200072a72218a201488063ff6f99142026977271f17e3b9"
+    },
+    {
+      "path": "nuget_packages/xunit.v3.core.mtp-v2/4.0.0/_content/runners/netcore/xunit.abstractions.dll",
+      "sha256": "3166dc70323fb30ccf1cedb0fe86f2ad122c46d254542342d90386efc4c9285c"
+    },
+    {
+      "path": "nuget_packages/xunit.v3.core.mtp-v2/4.0.0/_content/runners/netcore/xunit.v3.runner.utility.netcore.dll",
+      "sha256": "ee7fc452193192525965540d9c9821f85a70c93b16e9e8c6fd0f168d40b56152"
+    },
+    {
+      "path": "nuget_packages/xunit.v3.core.mtp-v2/4.0.0/_content/runners/netfx/xunit.abstractions.dll",
+      "sha256": "7c07e3bce3e1794cffc033302fcf13a003fd320b16e1c09e9d9a221f495566a4"
+    },
+    {
+      "path": "nuget_packages/xunit.v3.core.mtp-v2/4.0.0/_content/runners/netfx/xunit.v3.runner.utility.netfx.dll",
+      "sha256": "6e22c03fd38b3a3bfd77a370fe7c8505f4bc23dab284b750725ac1defe9bbc33"
+    },
+    {
+      "path": "nuget_packages/xunit.v3.core.mtp-v2/4.0.0/_content/tasks/netcore/xunit.v3.msbuildtasks.dll",
+      "sha256": "aad3dcbf2da8a3dc911eb5bb9c712cb21321691f031ed04900931b9c37e1529e"
+    },
+    {
+      "path": "nuget_packages/xunit.v3.core.mtp-v2/4.0.0/_content/tasks/netfx/xunit.v3.msbuildtasks.dll",
+      "sha256": "6d64478c4e89a66ca09ba551e6e1c01fcfbea1dab2a96a86e59f9662fc233c40"
+    },
+    {
+      "path": "nuget_packages/xunit.v3.core.mtp-v2/4.0.0/lib/net472/xunit.v3.mtp-v2.dll",
+      "sha256": "b279a8f34200eb29f7c4f69b98ae3219d2bb83ba76f0777a087933388327a134"
+    },
+    {
+      "path": "nuget_packages/xunit.v3.core.mtp-v2/4.0.0/lib/net8.0/xunit.v3.mtp-v2.dll",
+      "sha256": "5396efa072a4c925f58f1a4181b022cdc911c1a359d8dd5db838b79a8c741b50"
+    },
+    {
+      "path": "nuget_packages/xunit.v3.extensibility.core/4.0.0/lib/netstandard2.0/xunit.v3.core.dll",
+      "sha256": "0155a245478403afefd0b363ef24b7588ad6dbf59ff3a88c1a8d8995eba873a1"
+    },
+    {
+      "path": "nuget_packages/xunit.v3.extensibility.core/4.0.0/lib/netstandard2.0/xunit.v3.core.xml",
+      "sha256": "9d6f6bb084cfcee63dc96a20c2886ca3a4ba02311db529f50d6042a9e60c9793"
+    },
+    {
+      "path": "nuget_packages/xunit.v3.runner.common/4.0.0/lib/netstandard2.0/xunit.v3.runner.common.dll",
+      "sha256": "059a41ab6c3cc8a00f9ec87846565cb3d2a29a7e46fa2089f461ffbb462355fa"
+    },
+    {
+      "path": "nuget_packages/xunit.v3.runner.common/4.0.0/lib/netstandard2.0/xunit.v3.runner.common.xml",
+      "sha256": "4cadac5e2a1dcc53fd32235ad2401ec66861ad11e0c9b545bc420c1e902329a1"
+    },
+    {
+      "path": "nuget_packages/xunit.v3.runner.inproc.console/4.0.0/lib/net472/xunit.v3.runner.inproc.console.dll",
+      "sha256": "3d6bd4d0016a68c5c1d1f9b19f8ef7328c398ec334e1b74b6d8dac541c40c7da"
+    },
+    {
+      "path": "nuget_packages/xunit.v3.runner.inproc.console/4.0.0/lib/net472/xunit.v3.runner.inproc.console.xml",
+      "sha256": "4663e423356dcec299c1ecd02b623cf271575c8ad4ff80b1cd42cd97c3488386"
+    },
+    {
+      "path": "nuget_packages/xunit.v3.runner.inproc.console/4.0.0/lib/net8.0/xunit.v3.runner.inproc.console.dll",
+      "sha256": "bde56080928f7f617512d0dbe4043276ac0a15f2e377e71c204f7c12ebea082b"
+    },
+    {
+      "path": "nuget_packages/xunit.v3.runner.inproc.console/4.0.0/lib/net8.0/xunit.v3.runner.inproc.console.xml",
+      "sha256": "0b152df40aeafa38532db8cac2b2c4c416268cd6769dacc8f3525229011ed993"
+    },
+    {
+      "path": "obj/Release/net10.0/AspnetcoreKit.dll",
+      "sha256": "362891699823ea48f78e90a8e43cbea17874fa406c2c0f3b68b77174b07170ff"
+    },
+    {
+      "path": "obj/Release/net10.0/AspnetcoreKit.pdb",
+      "sha256": "d5e13d345a1650d234ba558106490f74f8f09fc4d3b35ce4111f8e8b689405c6"
+    },
+    {
+      "path": "obj/Release/net10.0/ref/AspnetcoreKit.dll",
+      "sha256": "02604562b4a55b1e3c3641e4302a34f577880cc54d66b52bb0c7381acffe8064"
+    },
+    {
+      "path": "obj/Release/net10.0/refint/AspnetcoreKit.dll",
+      "sha256": "02604562b4a55b1e3c3641e4302a34f577880cc54d66b52bb0c7381acffe8064"
+    },
+    {
+      "path": "obj/project.assets.json",
+      "sha256": "0fbe2f3e7a05ce8499219646e374dcf2fe318c584021e01976984a75113226b4"
+    },
+    {
+      "path": "packages.lock.json",
+      "sha256": "c2dc472b1d2255088e3ee6eb375d2fad6b98558ff16be5d65adcbcf8b5a7e85a"
+    }
+  ]
+}

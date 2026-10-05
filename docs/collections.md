@@ -148,6 +148,8 @@ Result<IReadOnlyList<(string First, int Second)>, string> strict = skus.ZipExact
   Reporting exact totals requires finishing the longer side after the shorter one ends, so the
   unequal-length path reads both sequences to their end; the equal path stops when both end
   together. Delegate exceptions propagate unchanged.
+- Both forms buffer the common-prefix pairs, including on mismatch. For input lengths n and m,
+  work is O(n + m) and pair storage is O(min(n, m)); success also creates a read-only wrapper.
 
 ## Container and Parse Bridges
 
@@ -163,6 +165,10 @@ cardinality suffix.
 | `priorityQueue.DequeueOrNone()` / `priorityQueue.PeekOrNone()` | the priority queue is empty |
 | `list.IndexOfOrNone(item)` | the item is not in the list (`IList<T>`, including `List<T>` and `ImmutableList<T>`) |
 | `dictionary.RemoveOrNone(key)` | the key is absent (removes and returns the value when `Some`) |
+
+These bridges retain receiver costs: PriorityQueue peek is O(1), but dequeue performs O(log n)
+heap work, plus comparer cost. `IndexOfOrNone` delegates to `IList<T>.IndexOf` and can scan O(n).
+Dictionary lookup/removal inherits hashing, equality, and collision behavior.
 
 Parse bridges never throw for parse failures; a null input string is still a programming error.
 The generic `IParsable<T>` bridge is canonical, and the named common set delegates to it:
@@ -198,6 +204,14 @@ traversal failures retain **where** they happened instead of losing it:
   `IReadOnlyDictionary<TKey, TValue>` and produces
   `carrier<IReadOnlyDictionary<TKey, TResult>>` on success — the dictionary shape is preserved
   instead of collapsing to a list. Errors accumulate in source enumeration order.
+  Existing keyed overloads retain the publicly exposed equality comparer of `Dictionary`,
+  `FrozenDictionary`, or `ImmutableDictionary`, including for empty successful results.
+  An opaque `IReadOnlyDictionary` or `ReadOnlyDictionary` wrapper does not expose its policy;
+  those legacy calls retain the default-equality compatibility fallback. Use
+  `dictionary.Traverse(selector, comparer)` or the located
+  `dictionary.Traverse(root, selector, comparer)` to preserve a non-default opaque policy.
+  The explicit non-null comparer must distinguish the source's distinct keys. No comparer
+  argument is needed for valueless `UnitResult` traversal because it creates no dictionary.
 - **Located** (experimental, `FS0017`; suppress with `#pragma warning disable FS0017`):
   `source.Traverse(root, (location, item) => ...)` passes each item's composed `Location`. The
   caller names each level once; the traversal threads the per-item context, so a nested
@@ -244,7 +258,8 @@ carriers this round (decision E88).
 | `location.Property(name)` | `.name`, or the bare `name` as the first segment |
 | `outer.Nest(inner)` | the outer path followed by the inner path |
 
-Guards: `At` rejects negative indexes; `Property`/`Key` reject null and empty names/keys.
+Guards: `At` rejects negative indexes; `Property` rejects null or empty names; `Key` rejects
+null but accepts an empty string, rendered as `[""]`, because that is a valid dictionary key.
 Equality is segment-wise, so an index is never equal to a key. Nesting is the composition rule
 for traversal context: the outer level nests the inner level's locations under the outer item's
 location, and each level names only its own segments. The rendered path is cached after the first
@@ -302,28 +317,28 @@ The exact table below is generated from the approved observation in
 contract. `N/A` means timing was below resolution or unavailable.
 
 <!-- performance-table:start collections -->
-| Scenario | Baseline mean | FunnySharp mean | Ratio | Baseline allocation | FunnySharp allocation |
+| Scenario | Baseline mean | Candidate mean | Ratio | Baseline allocation | Candidate allocation |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| IEnumerable exact zip ([Count=1024]) | 6.579 us | 6.538 us | 0.99x | 160 B | 8376 B |
-| IEnumerable exact zip ([Count=16]) | 167.682 ns | 167.743 ns | 1.00x | 160 B | 312 B |
-| IEnumerable first-or-none ([Count=1024]) | 3.222 us | 4.731 us | 1.47x | 0 B | 0 B |
-| IEnumerable first-or-none ([Count=16]) | 62.254 ns | 64.156 ns | 1.03x | 0 B | 0 B |
-| IEnumerable min-or-none ([Count=1024]) | 21.472 us | 758.968 ns | 0.04x | 24656 B | 0 B |
-| IEnumerable min-or-none ([Count=16]) | 312.155 ns | 12.120 ns | 0.04x | 464 B | 0 B |
-| IEnumerable non-empty total ([Count=1024]) | 2.828 us | 5.202 us | 1.84x | 0 B | 4152 B |
-| IEnumerable non-empty total ([Count=16]) | 40.083 ns | 93.639 ns | 2.34x | 0 B | 120 B |
-| IEnumerable partition ([Count=1024]) | 8.628 us | 4.113 us | 0.48x | 4304 B | 8384 B |
-| IEnumerable partition ([Count=16]) | 192.574 ns | 110.479 ns | 0.57x | 272 B | 320 B |
-| IEnumerable single-or-none ([Count=1024]) | 2.838 us | 2.789 us | 0.98x | 168 B | 0 B |
-| IEnumerable single-or-none ([Count=16]) | 104.038 ns | 52.522 ns | 0.50x | 168 B | 0 B |
-| IEnumerable where-not-null ([Count=1024]) | 7.630 us | 7.105 us | 0.93x | 7272 B | 16688 B |
-| IEnumerable where-not-null ([Count=16]) | 184.194 ns | 210.125 ns | 1.14x | 216 B | 416 B |
-| Located traverse validation ([Count=1024]) | 13.285 us | 73.428 us | 5.53x | 22696 B | 221632 B |
-| Located traverse validation ([Count=16]) | 228.548 ns | 1.107 us | 4.84x | 376 B | 3760 B |
-| Parse int ([Count=1024]) | 15.636 ns | 12.229 ns | 0.78x | 0 B | 0 B |
-| Parse int ([Count=16]) | 11.285 ns | 23.626 ns | 2.09x | 0 B | 0 B |
-| Queue dequeue drain ([Count=1024]) | 922.490 ns | 2.029 us | 2.20x | 4120 B | 4160 B |
-| Queue dequeue drain ([Count=16]) | 22.162 ns | 46.779 ns | 2.11x | 88 B | 128 B |
+| IEnumerable exact zip ([Count=1024]) | 6.350 us | 6.092 us | 0.96x | 160 B | 8376 B |
+| IEnumerable exact zip ([Count=16]) | 168.652 ns | 152.640 ns | 0.91x | 160 B | 312 B |
+| IEnumerable first-or-none ([Count=1024]) | 2.965 us | 3.190 us | 1.08x | 0 B | 0 B |
+| IEnumerable first-or-none ([Count=16]) | 56.668 ns | 60.713 ns | 1.07x | 0 B | 0 B |
+| IEnumerable min-or-none ([Count=1024]) | 19.161 us | 670.514 ns | 0.03x | 24656 B | 0 B |
+| IEnumerable min-or-none ([Count=16]) | 299.684 ns | 11.588 ns | 0.04x | 464 B | 0 B |
+| IEnumerable non-empty total ([Count=1024]) | 2.305 us | 4.804 us | 2.08x | 0 B | 4152 B |
+| IEnumerable non-empty total ([Count=16]) | 37.333 ns | 77.526 ns | 2.08x | 0 B | 120 B |
+| IEnumerable partition ([Count=1024]) | 8.165 us | 4.432 us | 0.54x | 4304 B | 8384 B |
+| IEnumerable partition ([Count=16]) | 190.987 ns | 102.213 ns | 0.54x | 272 B | 320 B |
+| IEnumerable single-or-none ([Count=1024]) | 2.343 us | 2.581 us | 1.10x | 168 B | 0 B |
+| IEnumerable single-or-none ([Count=16]) | 86.127 ns | 45.030 ns | 0.52x | 168 B | 0 B |
+| IEnumerable where-not-null ([Count=1024]) | 7.193 us | 6.216 us | 0.86x | 7272 B | 16688 B |
+| IEnumerable where-not-null ([Count=16]) | 149.732 ns | 199.032 ns | 1.33x | 216 B | 416 B |
+| Located traverse validation ([Count=1024]) | 9.142 us | 54.746 us | 5.99x | 22696 B | 221632 B |
+| Located traverse validation ([Count=16]) | 145.287 ns | 890.134 ns | 6.13x | 376 B | 3760 B |
+| Parse int ([Count=1024]) | 10.857 ns | 13.331 ns | 1.23x | 0 B | 0 B |
+| Parse int ([Count=16]) | 11.001 ns | 10.819 ns | 0.98x | 0 B | 0 B |
+| Queue dequeue drain ([Count=1024]) | 1.442 us | 2.159 us | 1.50x | 4120 B | 4160 B |
+| Queue dequeue drain ([Count=16]) | 26.633 ns | 56.911 ns | 2.14x | 88 B | 128 B |
 <!-- performance-table:end collections -->
 
 ShortRun results are directional and should be rerun on deployment hardware before capacity

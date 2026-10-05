@@ -1,0 +1,501 @@
+{
+  "state": "EXACT29_DEFAULT_STATE_XML_CLAUSES_COMPILE_PASS_FINAL_PACKAGE_REBIND_OPEN",
+  "identities": [
+    "C:29",
+    "C:31",
+    "C:32",
+    "C:33",
+    "C:34",
+    "C:36",
+    "C:38",
+    "C:39",
+    "C:41",
+    "C:43",
+    "C:44",
+    "C:45",
+    "C:267",
+    "C:268",
+    "C:270",
+    "C:352",
+    "C:355",
+    "C:357",
+    "C:358",
+    "C:359",
+    "C:360",
+    "C:361",
+    "C:362",
+    "C:364",
+    "C:366",
+    "C:369",
+    "C:371",
+    "C:372",
+    "C:373"
+  ],
+  "xmlIds": [
+    {
+      "identity": "C:29",
+      "xmlId": "M:FunnySharp.AsyncSequenceExtensions.TraverseAsync``3(System.Collections.Generic.IAsyncEnumerable{``0},System.Func{``0,FunnySharp.Result{``1,``2}},System.Threading.CancellationToken)"
+    },
+    {
+      "identity": "C:31",
+      "xmlId": "M:FunnySharp.AsyncSequenceExtensions.TraverseValueAsync``3(System.Collections.Generic.IAsyncEnumerable{``0},System.Func{``0,System.Threading.CancellationToken,System.Threading.Tasks.ValueTask{FunnySharp.Result{``1,``2}}},System.Threading.CancellationToken)"
+    },
+    {
+      "identity": "C:32",
+      "xmlId": "M:FunnySharp.AsyncSequenceExtensions.TraverseValueAsync``3(System.Collections.Generic.IAsyncEnumerable{``0},System.Func{``0,System.Threading.Tasks.ValueTask{FunnySharp.Result{``1,``2}}},System.Threading.CancellationToken)"
+    },
+    {
+      "identity": "C:33",
+      "xmlId": "M:FunnySharp.AsyncSequenceExtensions.SequenceAsync``2(System.Collections.Generic.IAsyncEnumerable{FunnySharp.Result{``0,``1}},System.Threading.CancellationToken)"
+    },
+    {
+      "identity": "C:34",
+      "xmlId": "M:FunnySharp.AsyncSequenceExtensions.SequenceAsync``1(System.Collections.Generic.IAsyncEnumerable{FunnySharp.UnitResult{``0}},System.Threading.CancellationToken)"
+    },
+    {
+      "identity": "C:36",
+      "xmlId": "M:FunnySharp.AsyncSequenceExtensions.TraverseAsync``2(System.Collections.Generic.IAsyncEnumerable{``0},System.Func{``0,FunnySharp.UnitResult{``1}},System.Threading.CancellationToken)"
+    },
+    {
+      "identity": "C:38",
+      "xmlId": "M:FunnySharp.AsyncSequenceExtensions.TraverseValueAsync``2(System.Collections.Generic.IAsyncEnumerable{``0},System.Func{``0,System.Threading.CancellationToken,System.Threading.Tasks.ValueTask{FunnySharp.UnitResult{``1}}},System.Threading.CancellationToken)"
+    },
+    {
+      "identity": "C:39",
+      "xmlId": "M:FunnySharp.AsyncSequenceExtensions.TraverseValueAsync``2(System.Collections.Generic.IAsyncEnumerable{``0},System.Func{``0,System.Threading.Tasks.ValueTask{FunnySharp.UnitResult{``1}}},System.Threading.CancellationToken)"
+    },
+    {
+      "identity": "C:41",
+      "xmlId": "M:FunnySharp.AsyncSequenceExtensions.TraverseAsync``3(System.Collections.Generic.IAsyncEnumerable{``0},System.Func{``0,FunnySharp.Validation{``1,``2}},System.Threading.CancellationToken)"
+    },
+    {
+      "identity": "C:43",
+      "xmlId": "M:FunnySharp.AsyncSequenceExtensions.TraverseValueAsync``3(System.Collections.Generic.IAsyncEnumerable{``0},System.Func{``0,System.Threading.CancellationToken,System.Threading.Tasks.ValueTask{FunnySharp.Validation{``1,``2}}},System.Threading.CancellationToken)"
+    },
+    {
+      "identity": "C:44",
+      "xmlId": "M:FunnySharp.AsyncSequenceExtensions.TraverseValueAsync``3(System.Collections.Generic.IAsyncEnumerable{``0},System.Func{``0,System.Threading.Tasks.ValueTask{FunnySharp.Validation{``1,``2}}},System.Threading.CancellationToken)"
+    },
+    {
+      "identity": "C:45",
+      "xmlId": "M:FunnySharp.AsyncSequenceExtensions.SequenceAsync``2(System.Collections.Generic.IAsyncEnumerable{FunnySharp.Validation{``0,``1}},System.Threading.CancellationToken)"
+    },
+    {
+      "identity": "C:267",
+      "xmlId": "M:FunnySharp.PartitionExtensions.Partition``2(System.Collections.Generic.IEnumerable{FunnySharp.Result{``0,``1}})"
+    },
+    {
+      "identity": "C:268",
+      "xmlId": "M:FunnySharp.PartitionExtensions.Partition``1(System.Collections.Generic.IEnumerable{FunnySharp.UnitResult{``0}})"
+    },
+    {
+      "identity": "C:270",
+      "xmlId": "M:FunnySharp.PartitionExtensions.PartitionAsync``2(System.Collections.Generic.IAsyncEnumerable{FunnySharp.Result{``0,``1}},System.Threading.CancellationToken)"
+    },
+    {
+      "identity": "C:352",
+      "xmlId": "M:FunnySharp.SequenceExtensions.Traverse``4(System.Collections.Generic.IReadOnlyDictionary{``0,``1},System.Func{``0,``1,FunnySharp.Result{``2,``3}})"
+    },
+    {
+      "identity": "C:355",
+      "xmlId": "M:FunnySharp.SequenceExtensions.Traverse``4(System.Collections.Generic.IReadOnlyDictionary{``0,``1},System.Func{``0,``1,FunnySharp.Result{``2,``3}},System.Collections.Generic.IEqualityComparer{``0})"
+    },
+    {
+      "identity": "C:357",
+      "xmlId": "M:FunnySharp.SequenceExtensions.Traverse``3(System.Collections.Generic.IEnumerable{``0},System.Func{System.Int32,``0,FunnySharp.Result{``1,``2}})"
+    },
+    {
+      "identity": "C:358",
+      "xmlId": "M:FunnySharp.SequenceExtensions.Traverse``3(System.Collections.Generic.IEnumerable{``0},System.Func{``0,FunnySharp.Result{``1,``2}})"
+    },
+    {
+      "identity": "C:359",
+      "xmlId": "M:FunnySharp.SequenceExtensions.Sequence``2(System.Collections.Generic.IEnumerable{FunnySharp.Result{``0,``1}})"
+    },
+    {
+      "identity": "C:360",
+      "xmlId": "M:FunnySharp.SequenceExtensions.Sequence``1(System.Collections.Generic.IEnumerable{FunnySharp.UnitResult{``0}})"
+    },
+    {
+      "identity": "C:361",
+      "xmlId": "M:FunnySharp.SequenceExtensions.Traverse``2(System.Collections.Generic.IEnumerable{``0},System.Func{System.Int32,``0,FunnySharp.UnitResult{``1}})"
+    },
+    {
+      "identity": "C:362",
+      "xmlId": "M:FunnySharp.SequenceExtensions.Traverse``2(System.Collections.Generic.IEnumerable{``0},System.Func{``0,FunnySharp.UnitResult{``1}})"
+    },
+    {
+      "identity": "C:364",
+      "xmlId": "M:FunnySharp.SequenceExtensions.Traverse``3(System.Collections.Generic.IReadOnlyDictionary{``0,``1},System.Func{``0,``1,FunnySharp.UnitResult{``2}})"
+    },
+    {
+      "identity": "C:366",
+      "xmlId": "M:FunnySharp.SequenceExtensions.Traverse``4(System.Collections.Generic.IReadOnlyDictionary{``0,``1},System.Func{``0,``1,FunnySharp.Validation{``2,``3}})"
+    },
+    {
+      "identity": "C:369",
+      "xmlId": "M:FunnySharp.SequenceExtensions.Traverse``4(System.Collections.Generic.IReadOnlyDictionary{``0,``1},System.Func{``0,``1,FunnySharp.Validation{``2,``3}},System.Collections.Generic.IEqualityComparer{``0})"
+    },
+    {
+      "identity": "C:371",
+      "xmlId": "M:FunnySharp.SequenceExtensions.Traverse``3(System.Collections.Generic.IEnumerable{``0},System.Func{System.Int32,``0,FunnySharp.Validation{``1,``2}})"
+    },
+    {
+      "identity": "C:372",
+      "xmlId": "M:FunnySharp.SequenceExtensions.Traverse``3(System.Collections.Generic.IEnumerable{``0},System.Func{``0,FunnySharp.Validation{``1,``2}})"
+    },
+    {
+      "identity": "C:373",
+      "xmlId": "M:FunnySharp.SequenceExtensions.Sequence``2(System.Collections.Generic.IEnumerable{FunnySharp.Validation{``0,``1}})"
+    }
+  ],
+  "runtimeWitnesses": [
+    {
+      "identity": "C:29",
+      "witnesses": [
+        {
+          "oneBasedCaseIndex": 551,
+          "name": "FunnySharp.Tests.StableCollectionTraversalMatrixTests.EachTraversalRetainsNullablePayloadsRejectsDefaultStateAndPreservesEmptySuccess(identity: 29, mode: 2)",
+          "assertion": "default Option None; default Result/UnitResult/Validation throws InvalidOperationException",
+          "testFile": "tests/FunnySharp.Tests/StableCollectionTraversalMatrixTests.cs",
+          "methodLine": 295
+        }
+      ]
+    },
+    {
+      "identity": "C:31",
+      "witnesses": [
+        {
+          "oneBasedCaseIndex": 555,
+          "name": "FunnySharp.Tests.StableCollectionTraversalMatrixTests.EachTraversalRetainsNullablePayloadsRejectsDefaultStateAndPreservesEmptySuccess(identity: 31, mode: 2)",
+          "assertion": "default Option None; default Result/UnitResult/Validation throws InvalidOperationException",
+          "testFile": "tests/FunnySharp.Tests/StableCollectionTraversalMatrixTests.cs",
+          "methodLine": 295
+        }
+      ]
+    },
+    {
+      "identity": "C:32",
+      "witnesses": [
+        {
+          "oneBasedCaseIndex": 559,
+          "name": "FunnySharp.Tests.StableCollectionTraversalMatrixTests.EachTraversalRetainsNullablePayloadsRejectsDefaultStateAndPreservesEmptySuccess(identity: 32, mode: 2)",
+          "assertion": "default Option None; default Result/UnitResult/Validation throws InvalidOperationException",
+          "testFile": "tests/FunnySharp.Tests/StableCollectionTraversalMatrixTests.cs",
+          "methodLine": 295
+        }
+      ]
+    },
+    {
+      "identity": "C:33",
+      "witnesses": [
+        {
+          "oneBasedCaseIndex": 563,
+          "name": "FunnySharp.Tests.StableCollectionTraversalMatrixTests.EachTraversalRetainsNullablePayloadsRejectsDefaultStateAndPreservesEmptySuccess(identity: 33, mode: 2)",
+          "assertion": "default Option None; default Result/UnitResult/Validation throws InvalidOperationException",
+          "testFile": "tests/FunnySharp.Tests/StableCollectionTraversalMatrixTests.cs",
+          "methodLine": 295
+        }
+      ]
+    },
+    {
+      "identity": "C:34",
+      "witnesses": [
+        {
+          "oneBasedCaseIndex": 567,
+          "name": "FunnySharp.Tests.StableCollectionTraversalMatrixTests.EachTraversalRetainsNullablePayloadsRejectsDefaultStateAndPreservesEmptySuccess(identity: 34, mode: 2)",
+          "assertion": "default Option None; default Result/UnitResult/Validation throws InvalidOperationException",
+          "testFile": "tests/FunnySharp.Tests/StableCollectionTraversalMatrixTests.cs",
+          "methodLine": 295
+        }
+      ]
+    },
+    {
+      "identity": "C:36",
+      "witnesses": [
+        {
+          "oneBasedCaseIndex": 571,
+          "name": "FunnySharp.Tests.StableCollectionTraversalMatrixTests.EachTraversalRetainsNullablePayloadsRejectsDefaultStateAndPreservesEmptySuccess(identity: 36, mode: 2)",
+          "assertion": "default Option None; default Result/UnitResult/Validation throws InvalidOperationException",
+          "testFile": "tests/FunnySharp.Tests/StableCollectionTraversalMatrixTests.cs",
+          "methodLine": 295
+        }
+      ]
+    },
+    {
+      "identity": "C:38",
+      "witnesses": [
+        {
+          "oneBasedCaseIndex": 575,
+          "name": "FunnySharp.Tests.StableCollectionTraversalMatrixTests.EachTraversalRetainsNullablePayloadsRejectsDefaultStateAndPreservesEmptySuccess(identity: 38, mode: 2)",
+          "assertion": "default Option None; default Result/UnitResult/Validation throws InvalidOperationException",
+          "testFile": "tests/FunnySharp.Tests/StableCollectionTraversalMatrixTests.cs",
+          "methodLine": 295
+        }
+      ]
+    },
+    {
+      "identity": "C:39",
+      "witnesses": [
+        {
+          "oneBasedCaseIndex": 579,
+          "name": "FunnySharp.Tests.StableCollectionTraversalMatrixTests.EachTraversalRetainsNullablePayloadsRejectsDefaultStateAndPreservesEmptySuccess(identity: 39, mode: 2)",
+          "assertion": "default Option None; default Result/UnitResult/Validation throws InvalidOperationException",
+          "testFile": "tests/FunnySharp.Tests/StableCollectionTraversalMatrixTests.cs",
+          "methodLine": 295
+        }
+      ]
+    },
+    {
+      "identity": "C:41",
+      "witnesses": [
+        {
+          "oneBasedCaseIndex": 583,
+          "name": "FunnySharp.Tests.StableCollectionTraversalMatrixTests.EachTraversalRetainsNullablePayloadsRejectsDefaultStateAndPreservesEmptySuccess(identity: 41, mode: 2)",
+          "assertion": "default Option None; default Result/UnitResult/Validation throws InvalidOperationException",
+          "testFile": "tests/FunnySharp.Tests/StableCollectionTraversalMatrixTests.cs",
+          "methodLine": 295
+        }
+      ]
+    },
+    {
+      "identity": "C:43",
+      "witnesses": [
+        {
+          "oneBasedCaseIndex": 587,
+          "name": "FunnySharp.Tests.StableCollectionTraversalMatrixTests.EachTraversalRetainsNullablePayloadsRejectsDefaultStateAndPreservesEmptySuccess(identity: 43, mode: 2)",
+          "assertion": "default Option None; default Result/UnitResult/Validation throws InvalidOperationException",
+          "testFile": "tests/FunnySharp.Tests/StableCollectionTraversalMatrixTests.cs",
+          "methodLine": 295
+        }
+      ]
+    },
+    {
+      "identity": "C:44",
+      "witnesses": [
+        {
+          "oneBasedCaseIndex": 591,
+          "name": "FunnySharp.Tests.StableCollectionTraversalMatrixTests.EachTraversalRetainsNullablePayloadsRejectsDefaultStateAndPreservesEmptySuccess(identity: 44, mode: 2)",
+          "assertion": "default Option None; default Result/UnitResult/Validation throws InvalidOperationException",
+          "testFile": "tests/FunnySharp.Tests/StableCollectionTraversalMatrixTests.cs",
+          "methodLine": 295
+        }
+      ]
+    },
+    {
+      "identity": "C:45",
+      "witnesses": [
+        {
+          "oneBasedCaseIndex": 595,
+          "name": "FunnySharp.Tests.StableCollectionTraversalMatrixTests.EachTraversalRetainsNullablePayloadsRejectsDefaultStateAndPreservesEmptySuccess(identity: 45, mode: 2)",
+          "assertion": "default Option None; default Result/UnitResult/Validation throws InvalidOperationException",
+          "testFile": "tests/FunnySharp.Tests/StableCollectionTraversalMatrixTests.cs",
+          "methodLine": 295
+        }
+      ]
+    },
+    {
+      "identity": "C:267",
+      "witnesses": [
+        {
+          "oneBasedCaseIndex": 347,
+          "name": "FunnySharp.Tests.StableCollectionSyncMatrixTests.SyncPartitionsRetainNullableAndDefaultOptionDataAndKeepCountSourceAndDisposalFaults(identity: 267, mode: 1)",
+          "assertion": "default Result/UnitResult rejection; default Option still None; predicate nullable data",
+          "testFile": "tests/FunnySharp.Tests/StableCollectionSyncMatrixTests.cs",
+          "methodLine": 467
+        }
+      ]
+    },
+    {
+      "identity": "C:268",
+      "witnesses": [
+        {
+          "oneBasedCaseIndex": 354,
+          "name": "FunnySharp.Tests.StableCollectionSyncMatrixTests.SyncPartitionsRetainNullableAndDefaultOptionDataAndKeepCountSourceAndDisposalFaults(identity: 268, mode: 1)",
+          "assertion": "default Result/UnitResult rejection; default Option still None; predicate nullable data",
+          "testFile": "tests/FunnySharp.Tests/StableCollectionSyncMatrixTests.cs",
+          "methodLine": 467
+        }
+      ]
+    },
+    {
+      "identity": "C:270",
+      "witnesses": [
+        {
+          "oneBasedCaseIndex": 175,
+          "name": "FunnySharp.Tests.StableCollectionSyncMatrixTests.AsyncPartitionsKeepNullableDataAndSourceOceStatusAndPendingConsumption(identity: 270, mode: 2)",
+          "assertion": "predicate OCE or default Result exception",
+          "testFile": "tests/FunnySharp.Tests/StableCollectionSyncMatrixTests.cs",
+          "methodLine": 391
+        }
+      ]
+    },
+    {
+      "identity": "C:357",
+      "witnesses": [
+        {
+          "oneBasedCaseIndex": 209,
+          "name": "FunnySharp.Tests.StableCollectionSyncMatrixTests.EachSyncSequenceAndTraversalRetainsNullOrRejectsDefaultAndPreservesFaultPrecedence(identity: 357, mode: 2)",
+          "assertion": "default carrier read rejection except default Option absence",
+          "testFile": "tests/FunnySharp.Tests/StableCollectionSyncMatrixTests.cs",
+          "methodLine": 257
+        }
+      ]
+    },
+    {
+      "identity": "C:358",
+      "witnesses": [
+        {
+          "oneBasedCaseIndex": 217,
+          "name": "FunnySharp.Tests.StableCollectionSyncMatrixTests.EachSyncSequenceAndTraversalRetainsNullOrRejectsDefaultAndPreservesFaultPrecedence(identity: 358, mode: 2)",
+          "assertion": "default carrier read rejection except default Option absence",
+          "testFile": "tests/FunnySharp.Tests/StableCollectionSyncMatrixTests.cs",
+          "methodLine": 257
+        }
+      ]
+    },
+    {
+      "identity": "C:359",
+      "witnesses": [
+        {
+          "oneBasedCaseIndex": 225,
+          "name": "FunnySharp.Tests.StableCollectionSyncMatrixTests.EachSyncSequenceAndTraversalRetainsNullOrRejectsDefaultAndPreservesFaultPrecedence(identity: 359, mode: 2)",
+          "assertion": "default carrier read rejection except default Option absence",
+          "testFile": "tests/FunnySharp.Tests/StableCollectionSyncMatrixTests.cs",
+          "methodLine": 257
+        }
+      ]
+    },
+    {
+      "identity": "C:360",
+      "witnesses": [
+        {
+          "oneBasedCaseIndex": 231,
+          "name": "FunnySharp.Tests.StableCollectionSyncMatrixTests.EachSyncSequenceAndTraversalRetainsNullOrRejectsDefaultAndPreservesFaultPrecedence(identity: 360, mode: 2)",
+          "assertion": "default carrier read rejection except default Option absence",
+          "testFile": "tests/FunnySharp.Tests/StableCollectionSyncMatrixTests.cs",
+          "methodLine": 257
+        }
+      ]
+    },
+    {
+      "identity": "C:361",
+      "witnesses": [
+        {
+          "oneBasedCaseIndex": 236,
+          "name": "FunnySharp.Tests.StableCollectionSyncMatrixTests.EachSyncSequenceAndTraversalRetainsNullOrRejectsDefaultAndPreservesFaultPrecedence(identity: 361, mode: 2)",
+          "assertion": "default carrier read rejection except default Option absence",
+          "testFile": "tests/FunnySharp.Tests/StableCollectionSyncMatrixTests.cs",
+          "methodLine": 257
+        }
+      ]
+    },
+    {
+      "identity": "C:362",
+      "witnesses": [
+        {
+          "oneBasedCaseIndex": 243,
+          "name": "FunnySharp.Tests.StableCollectionSyncMatrixTests.EachSyncSequenceAndTraversalRetainsNullOrRejectsDefaultAndPreservesFaultPrecedence(identity: 362, mode: 2)",
+          "assertion": "default carrier read rejection except default Option absence",
+          "testFile": "tests/FunnySharp.Tests/StableCollectionSyncMatrixTests.cs",
+          "methodLine": 257
+        }
+      ]
+    },
+    {
+      "identity": "C:364",
+      "witnesses": [
+        {
+          "oneBasedCaseIndex": 287,
+          "name": "FunnySharp.Tests.StableCollectionSyncMatrixTests.KeyedUnitTraversalHasNoCountReadAndStopsOnNullErrorOrDefaultOrCallbackFault(mode: 2)",
+          "assertion": "default UnitResult throws at first callback",
+          "testFile": "tests/FunnySharp.Tests/StableCollectionSyncMatrixTests.cs",
+          "methodLine": 310
+        }
+      ]
+    },
+    {
+      "identity": "C:371",
+      "witnesses": [
+        {
+          "oneBasedCaseIndex": 250,
+          "name": "FunnySharp.Tests.StableCollectionSyncMatrixTests.EachSyncSequenceAndTraversalRetainsNullOrRejectsDefaultAndPreservesFaultPrecedence(identity: 371, mode: 2)",
+          "assertion": "default carrier read rejection except default Option absence",
+          "testFile": "tests/FunnySharp.Tests/StableCollectionSyncMatrixTests.cs",
+          "methodLine": 257
+        }
+      ]
+    },
+    {
+      "identity": "C:372",
+      "witnesses": [
+        {
+          "oneBasedCaseIndex": 258,
+          "name": "FunnySharp.Tests.StableCollectionSyncMatrixTests.EachSyncSequenceAndTraversalRetainsNullOrRejectsDefaultAndPreservesFaultPrecedence(identity: 372, mode: 2)",
+          "assertion": "default carrier read rejection except default Option absence",
+          "testFile": "tests/FunnySharp.Tests/StableCollectionSyncMatrixTests.cs",
+          "methodLine": 257
+        }
+      ]
+    },
+    {
+      "identity": "C:373",
+      "witnesses": [
+        {
+          "oneBasedCaseIndex": 266,
+          "name": "FunnySharp.Tests.StableCollectionSyncMatrixTests.EachSyncSequenceAndTraversalRetainsNullOrRejectsDefaultAndPreservesFaultPrecedence(identity: 373, mode: 2)",
+          "assertion": "default carrier read rejection except default Option absence",
+          "testFile": "tests/FunnySharp.Tests/StableCollectionSyncMatrixTests.cs",
+          "methodLine": 257
+        }
+      ]
+    }
+  ],
+  "sourceTransfers": [
+    {
+      "identities": [
+        "C:352",
+        "C:355"
+      ],
+      "source": "src/FunnySharp/SequenceExtensions.cs:521-529,553-578",
+      "target": "C:336",
+      "reason": "C:352 forwards to C:355 after guards/comparer choice. C:355 unconditionally reads each reached selector result with TryGetValue at line 567 before any result dictionary write; no catch converts default into typed failure."
+    },
+    {
+      "identities": [
+        "C:366",
+        "C:369"
+      ],
+      "source": "src/FunnySharp/SequenceExtensions.cs:644-652,677-717",
+      "target": "C:522",
+      "reason": "C:366 forwards to C:369 after guards/comparer choice. C:369 reads each reached validation at line 693; no catch turns its default-state rejection into Invalid."
+    }
+  ],
+  "sourceDelta": [
+    {
+      "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+      "beforeSha256": "1fe38d1b2ea3a1de9d22f43ae59a06848e9d1bd7f60ac9dee3999377b2e0a98f",
+      "afterSha256": "28d9549c202603dbe44c6075754f7ef1ef9edfca67bd486e0434742b66e69a17",
+      "nonXmlSourceExactlyIdentical": true,
+      "members": 12
+    },
+    {
+      "path": "src/FunnySharp/SequenceExtensions.cs",
+      "beforeSha256": "f10244bbb9e6fd5791a665316213294a09f8a3099a6ded5c2a0a9db8f0be1f80",
+      "afterSha256": "480804a00dfd2a6e0cce1d6cfc8a8a1c427c6a6c254482a1c991b050e53e6b9d",
+      "nonXmlSourceExactlyIdentical": true,
+      "members": 14
+    },
+    {
+      "path": "src/FunnySharp/PartitionExtensions.cs",
+      "beforeSha256": "a8cabbe32fbc84f0586a0f2870029639e74059d82f14c49aea255878a53ece93",
+      "afterSha256": "54414223c3dc4d0ac0b1b93b7abb8076c8720f1d276ad651f3dd19b38f502e7b",
+      "nonXmlSourceExactlyIdentical": true,
+      "members": 3
+    }
+  ],
+  "buildExitCode": 0,
+  "actualCompiledXmlMembersChecked": 29,
+  "missingOrDuplicateDefaultExceptionClauses": 0,
+  "remaining": "Exact final package/XML/source join is RG-FINAL; no historical source/receipt hash rewritten."
+}

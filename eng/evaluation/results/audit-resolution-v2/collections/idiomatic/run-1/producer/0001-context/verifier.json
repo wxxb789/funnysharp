@@ -1,0 +1,32 @@
+{
+  "schema": "funnysharp-native-verifier-disposition/v1",
+  "study": "audit-resolution-v2",
+  "slot": "collections/idiomatic/run-1",
+  "round": 1,
+  "status": "NOT_RUN",
+  "command": [
+    "dotnet",
+    "fsi",
+    "build.fsx",
+    "--",
+    "-p",
+    "eval-verify",
+    "--study",
+    "audit-resolution-v2",
+    "--task",
+    "collections",
+    "--style",
+    "idiomatic",
+    "--run-dir",
+    "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v2/collections/idiomatic/run-1",
+    "--round",
+    "1"
+  ],
+  "workingDirectory": "Q:/repos/funnysharp-goal24-resolution",
+  "replay": false,
+  "eligibleCorrection": false,
+  "feedbackCreated": false,
+  "reason": "Invalid output path: solution/FeedCleaner.cs (expected a top-level .cs filename; no path normalization is registered)",
+  "independentInputBoundaryFailure": true,
+  "requiredBehavior": "Reject invalid paths before materializing or compiling model output; do not strip unregistered wrappers."
+}

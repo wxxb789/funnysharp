@@ -29,8 +29,8 @@ The synchronous composition surface is:
 operand before errors from the right operand, in left-to-right operand order for every arity. This
 makes independent field validation deterministic. The combine arity is bounded at 4; wider forms
 nest or use `Traverse`, and unbounded tuple towers are rejected. `Map` and `MapErrors` validate
-their selector at entry, invoke it at most once for the active case, and let selector exceptions
-escape unchanged.
+their selector at entry and let selector exceptions escape unchanged. `Map` invokes its selector
+once for a valid value; invalid `MapErrors` invokes its selector once per stored error.
 
 There is deliberately no `Bind`, `SelectMany`, or `ZipWith`. A later dependent check cannot be
 evaluated independently of an earlier valid value, so it cannot honestly participate in
@@ -40,6 +40,9 @@ workflow.
 `InvalidMany(IEnumerable<TError>)` rejects a null or empty sequence, enumerates the source exactly
 once, and takes an immutable snapshot of its contents. Later mutations of the input collection do
 not alter the validation. `Invalid(TError)` represents exactly one error, including a null error.
+`Invalid` creates a one-element array and read-only wrapper; `InvalidMany` creates an array
+snapshot and wrapper. Invalid `MapErrors` creates a new array and wrapper proportional to the
+error count. A valid value has no error buffer, and invalid `Map` shares the existing errors.
 
 Equality and hashing are structural and include the active case. Invalid errors are compared in
 order. `ToString()` is diagnostic text such as `Valid(value)` or `Invalid([error])`, not a
@@ -66,8 +69,9 @@ abstraction for batch work.
 
 Traversal does not catch source or selector exceptions. They propagate with normal C# behavior,
 and an enumerator is still disposed when one has been acquired. Traversal is eager and materializes
-the returned collection, so it allocates for successful values; invalid Validation traversal also
-allocates to collect errors. Capacity may be pre-sized when a synchronous source reports a count,
+the returned collection. It buffers successful values until the first invalid item, discards
+that prefix, and collects every subsequent error in an ordered list. Invalid storage scales with
+error count, not merely input count. Capacity may be pre-sized when a synchronous source reports a count,
 but this is not a streaming or zero-allocation API.
 
 ## Asynchronous Mapping
@@ -148,14 +152,14 @@ The exact table below is generated from the approved observation in
 contract. `N/A` means timing was below resolution or unavailable.
 
 <!-- performance-table:start validation -->
-| Scenario | Baseline mean | FunnySharp mean | Ratio | Baseline allocation | FunnySharp allocation |
+| Scenario | Baseline mean | Candidate mean | Ratio | Baseline allocation | Candidate allocation |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Option sequence - successful buffering ([Count=1024]) | 1.734 us | 2.104 us | 1.21x | 4176 B | 4176 B |
-| Option sequence - successful buffering ([Count=16]) | 43.555 ns | 55.897 ns | 1.28x | 144 B | 144 B |
-| Result sequence - first failure ([Count=1024]) | 1.817 ns | 3.709 ns | 2.04x | 0 B | 0 B |
-| Result sequence - first failure ([Count=16]) | 1.834 ns | 3.567 ns | 1.95x | 0 B | 0 B |
-| Validation sequence - full accumulation ([Count=1024]) | 5.183 us | 6.596 us | 1.27x | 12632 B | 12632 B |
-| Validation sequence - full accumulation ([Count=16]) | 169.299 ns | 210.647 ns | 1.24x | 392 B | 392 B |
+| Option sequence - successful buffering ([Count=1024]) | 1.434 us | 1.982 us | 1.38x | 4176 B | 4176 B |
+| Option sequence - successful buffering ([Count=16]) | 35.570 ns | 46.835 ns | 1.32x | 144 B | 144 B |
+| Result sequence - first failure ([Count=1024]) | 1.814 ns | 4.166 ns | 2.30x | 0 B | 0 B |
+| Result sequence - first failure ([Count=16]) | 1.467 ns | 4.121 ns | 2.81x | 0 B | 0 B |
+| Validation sequence - full accumulation ([Count=1024]) | 6.010 us | 5.809 us | 0.97x | 12632 B | 12632 B |
+| Validation sequence - full accumulation ([Count=16]) | 171.187 ns | 181.107 ns | 1.06x | 392 B | 392 B |
 
 Excluded measurements:
 - Unmeasured async traversal: Sequential async Result and Validation traversal variants have no numeric release claim.

@@ -1,0 +1,118 @@
+{
+  "schema": "funnysharp-current-four-ordinary-ui-denial-receipts/v1",
+  "candidate": "d8744c934d86833f9817245ecc7c78b1177b8b76",
+  "method": "disabled-merge-control",
+  "proofHeadsArePreservedHistoricalIndependentAe548DerivedHeads": true,
+  "negativeRunsNotRelabeledCurrentCandidate": true,
+  "actor": "wxxb789",
+  "denials": [
+    {
+      "context": "release / win-x64",
+      "runId": 37123754417,
+      "runAttempt": 1,
+      "headSha": "854742e824a42925d478054f1b42a3a3ca71089e",
+      "receiptId": "pr-35-ui-receipt.json",
+      "actorEvidenceId": "pr-35-ui-actor.json",
+      "files": [
+        {
+          "id": "pr-35-ui-observation.json",
+          "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u15-authorized/ui-denials/pr-35-observation.json",
+          "sha256": "91e19b73ec3f067662f973c35124f1260b77647c6fc0bbfed0862a54ea8eee24"
+        },
+        {
+          "id": "pr-35-ui-actor.json",
+          "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u15-authorized/ui-denials/pr-35-actor.json",
+          "sha256": "5a1d6d4a17cc902c0f45571b657fcf091fd44e94a5deff42de6352c325f5c69e"
+        },
+        {
+          "id": "pr-35-ui-receipt.json",
+          "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u15-authorized/ui-denials/pr-35-receipt.json",
+          "sha256": "79182ccfb08bde63ff04e54022e4c6c03f7123ff3e811c158a3eaf91520b09ff"
+        }
+      ]
+    },
+    {
+      "context": "release / osx-arm64",
+      "runId": 37123755188,
+      "runAttempt": 1,
+      "headSha": "a1c95d3ae6dc40214138832d6538fd7ea154ed53",
+      "receiptId": "pr-36-ui-receipt.json",
+      "actorEvidenceId": "pr-36-ui-actor.json",
+      "files": [
+        {
+          "id": "pr-36-ui-observation.json",
+          "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u15-authorized/ui-denials/pr-36-observation.json",
+          "sha256": "0ea19c27469939d34fa878d6d755815dd55ddf16057a2f4c3f87887080e8ffd9"
+        },
+        {
+          "id": "pr-36-ui-actor.json",
+          "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u15-authorized/ui-denials/pr-36-actor.json",
+          "sha256": "6de720fbbc8418ea1f4a72284f6a70dc4361059e68b6b6b9c69e5666c1ae8e3e"
+        },
+        {
+          "id": "pr-36-ui-receipt.json",
+          "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u15-authorized/ui-denials/pr-36-receipt.json",
+          "sha256": "7b908df2791f676e01bee16a911853b7eacbbb11ac11ef5cf5efae476f9e1c53"
+        }
+      ]
+    },
+    {
+      "context": "release / osx-x64-consumer",
+      "runId": 37123755117,
+      "runAttempt": 1,
+      "headSha": "bc00df2ed49bb76f0a10d3b095f68a428908eb0b",
+      "receiptId": "pr-37-ui-receipt.json",
+      "actorEvidenceId": "pr-37-ui-actor.json",
+      "files": [
+        {
+          "id": "pr-37-ui-observation.json",
+          "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u15-authorized/ui-denials/pr-37-observation.json",
+          "sha256": "f4e1cb23ff72605e4cb333721855bf5065acd172e58e0efe24d3bc3eb704a36d"
+        },
+        {
+          "id": "pr-37-ui-actor.json",
+          "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u15-authorized/ui-denials/pr-37-actor.json",
+          "sha256": "bc02a4f4403f67936b72e1ce1060d791f150746cd63dfc238b523b3b903fc235"
+        },
+        {
+          "id": "pr-37-ui-receipt.json",
+          "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u15-authorized/ui-denials/pr-37-receipt.json",
+          "sha256": "660a6975b14b3cd8b12a11bd12e8577807b9b7eb9d1b6b0ec721b5973b29577d"
+        }
+      ]
+    },
+    {
+      "context": "release / linux-x64",
+      "runId": 37123755900,
+      "runAttempt": 1,
+      "headSha": "0072c3ff6c1b747992ee661fcd34309fa407fd9d",
+      "receiptId": "pr-38-ui-receipt.json",
+      "actorEvidenceId": "pr-38-ui-actor.json",
+      "files": [
+        {
+          "id": "pr-38-ui-observation.json",
+          "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u15-authorized/ui-denials/pr-38-observation.json",
+          "sha256": "757c38398d2ebcca183a301ab7d022f4cc008d8055bf406a874ed31842102054"
+        },
+        {
+          "id": "pr-38-ui-actor.json",
+          "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u15-authorized/ui-denials/pr-38-actor.json",
+          "sha256": "8e50cbc32608bbce82b3c9ebd99d074dde905f026b0d273bb5d1ccf912f139b0"
+        },
+        {
+          "id": "pr-38-ui-receipt.json",
+          "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u15-authorized/ui-denials/pr-38-receipt.json",
+          "sha256": "7d44b94d806e9cd6b33a68e7df766723ca579e414a9fc18d053ba22e0e3a6a93"
+        }
+      ]
+    }
+  ],
+  "apiCheckBindings": "current-check-run-bindings.json",
+  "cleanup": {
+    "stdout": "Browser session tab lease released",
+    "exitCode": 0
+  },
+  "noMergeClickOrApiRequest": true,
+  "original69FinalAcceptance": false,
+  "producerFrozen": false
+}

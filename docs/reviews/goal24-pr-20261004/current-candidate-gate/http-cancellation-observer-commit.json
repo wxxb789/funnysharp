@@ -1,0 +1,26 @@
+{
+  "schema": "funnysharp-pr-http-observer-commit/v1",
+  "commit": "c306991992b04299a3300235ce3285d4537fe6c2",
+  "parent": "79b84990ecfee7abda144008b926283b6bba22de",
+  "subject": "test: observe HTTP cancellation without callback races",
+  "namedFiles": 10,
+  "insertions": 983,
+  "deletions": 6,
+  "actualNamesExactlyMatch": true,
+  "cleanAfterCommit": true,
+  "completeHttpSuite": {
+    "passed": 28,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "formatterExit": 0,
+  "productionAndBenchmarkSourceInputsUnchanged": true,
+  "priorFullGateRedPreserved": true,
+  "fullCurrentGate": {
+    "monitor": "mon_0RY6HSRH63RRJT12",
+    "status": "RUNNING_NOT_PASS"
+  },
+  "releaseReviewPublicationStillPending": true,
+  "commitOutput": "[audit/goal24-complete-pr c306991] test: observe HTTP cancellation without callback races\n 10 files changed, 983 insertions(+), 6 deletions(-)\n create mode 100644 docs/reviews/goal24-pr-20261004/http-cancellation-observer/README.md\n create mode 100644 docs/reviews/goal24-pr-20261004/http-cancellation-observer/callback-removal-probe.fsx.base64\n create mode 100644 docs/reviews/goal24-pr-20261004/http-cancellation-observer/fixed-http-full.json.base64\n create mode 100644 docs/reviews/goal24-pr-20261004/http-cancellation-observer/fixed-http-full.trx.base64\n create mode 100644 docs/reviews/goal24-pr-20261004/http-cancellation-observer/initial-full-gate-red.json\n create mode 100644 docs/reviews/goal24-pr-20261004/http-cancellation-observer/unchanged-target.json.base64\n create mode 100644 docs/reviews/goal24-pr-20261004/http-cancellation-observer/unchanged-target.trx.base64\n create mode 100644 docs/reviews/goal24-pr-20261004/http-cancellation-observer/validation.json\n"
+}

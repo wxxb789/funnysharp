@@ -22,6 +22,7 @@ public class ConcurrencyBenchmarks
     [GlobalSetup]
     public void Setup()
     {
+        BenchmarkPreflight.CaptureChild(this);
         source = Enumerable.Range(0, Count).ToAsyncEnumerable();
         selector = MapAsync;
         parallelOptions = new ParallelOptions { MaxDegreeOfParallelism = MaxConcurrency };
@@ -55,8 +56,9 @@ public class ConcurrencyBenchmarks
 
         await Parallel.ForEachAsync(source, parallelOptions, async (value, cancellationToken) =>
         {
+            var result = await selector(value, cancellationToken).ConfigureAwait(false);
             var slot = Interlocked.Increment(ref nextSlot) - 1;
-            results[slot] = await selector(value, cancellationToken).ConfigureAwait(false);
+            results[slot] = result;
         }).ConfigureAwait(false);
 
         return results;
@@ -67,7 +69,85 @@ public class ConcurrencyBenchmarks
     public Task<int[]> FunnySharpSelectParallelCompletionOrderValueAsync() =>
         source.SelectParallelCompletionOrderValueAsync(MaxConcurrency, selector).ToArrayAsync().AsTask();
 
+    internal async Task ValidateCompletionPublicationAsync()
+    {
+        var originalCount = Count;
+        var timeout = TimeSpan.FromSeconds(10);
+        var firstEntered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var exhausted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var first = new TaskCompletionSource<int>(TaskCreationOptions.RunContinuationsAsynchronously);
+        var second = new TaskCompletionSource<int>(TaskCreationOptions.RunContinuationsAsynchronously);
+        Task<int[]>? operation = null;
+
+        async IAsyncEnumerable<int> ControlledSource()
+        {
+            yield return 0;
+            await firstEntered.Task.WaitAsync(timeout).ConfigureAwait(false);
+            yield return 1;
+            // With two workers and the first held, this move follows the second
+            // worker's completed body, including its actual output publication.
+            exhausted.TrySetResult();
+        }
+
+        try
+        {
+            Count = 2;
+            source = ControlledSource();
+            parallelOptions = new ParallelOptions { MaxDegreeOfParallelism = 2 };
+            selector = (value, _) =>
+            {
+                if (value == 0)
+                {
+                    firstEntered.TrySetResult();
+                    return new ValueTask<int>(first.Task);
+                }
+
+                return new ValueTask<int>(second.Task);
+            };
+            operation = BclParallelForEachAsyncCompletionOrder();
+            await firstEntered.Task.WaitAsync(timeout).ConfigureAwait(false);
+            second.SetResult(Map(1));
+            await exhausted.Task.WaitAsync(timeout).ConfigureAwait(false);
+            first.SetResult(Map(0));
+            var actual = await operation.WaitAsync(timeout).ConfigureAwait(false);
+            if (!actual.SequenceEqual(new[] { Map(1), Map(0) }))
+            {
+                throw new InvalidOperationException(
+                    "The completion-order BCL benchmark reserved output slots before completion.");
+            }
+        }
+        finally
+        {
+            firstEntered.TrySetResult();
+            first.TrySetResult(Map(0));
+            second.TrySetResult(Map(1));
+            if (operation is not null)
+            {
+                await operation.WaitAsync(timeout).ConfigureAwait(false);
+            }
+
+            Count = originalCount;
+            Setup();
+        }
+    }
+
     private static int Map(int value) => unchecked((value * 31) + 7);
+
+    internal async Task ValidateFullSemanticsAsync()
+    {
+        await ValidateCompletionPublicationAsync().ConfigureAwait(false);
+        var expected = Enumerable.Range(0, Count).Select(Map).ToArray();
+        BenchmarkPreflight.Require(
+            (await BclParallelForEachAsync().ConfigureAwait(false)).SequenceEqual(expected)
+            && (await FunnySharpSelectParallelValueAsync().ConfigureAwait(false)).SequenceEqual(expected),
+            "Ordered map changed values or order.");
+        BenchmarkPreflight.Require(
+            (await BclParallelForEachAsyncCompletionOrder().ConfigureAwait(false)).Order()
+                .SequenceEqual(expected.Order())
+            && (await FunnySharpSelectParallelCompletionOrderValueAsync().ConfigureAwait(false)).Order()
+                .SequenceEqual(expected.Order()),
+            "Completion-order materialization changed content or multiplicity.");
+    }
 
     private static async ValueTask<int> MapAsync(int value, CancellationToken cancellationToken)
     {
@@ -100,6 +180,7 @@ public class ParallelTraverseConcurrencyBenchmarks
     [GlobalSetup]
     public void Setup()
     {
+        BenchmarkPreflight.CaptureChild(this);
         source = Enumerable.Range(0, Count).ToAsyncEnumerable();
         optionOutcomes = Enumerable.Range(0, Count).Select(Option.Some).ToArray();
         validationOutcomes = Enumerable.Range(0, Count)
@@ -151,6 +232,30 @@ public class ParallelTraverseConcurrencyBenchmarks
         cancellationToken.ThrowIfCancellationRequested();
         await Task.Yield();
         return optionOutcomes[value];
+    }
+
+    internal async Task ValidateFullSemanticsAsync()
+    {
+        var expectedValues = Enumerable.Range(0, Count).ToArray();
+        foreach (var outcome in new[]
+        {
+            await BclParallelOptionTraversal().ConfigureAwait(false),
+            await FunnySharpParallelOptionTraversal().ConfigureAwait(false),
+        })
+        {
+            BenchmarkPreflight.Require(outcome.TryGetValue(out var values)
+                && values.SequenceEqual(expectedValues), "Parallel Option traversal changed its full output.");
+        }
+        var expectedErrors = Enumerable.Repeat(ValidationError, Count / 4).ToArray();
+        foreach (var outcome in new[]
+        {
+            await BclParallelValidationTraversal().ConfigureAwait(false),
+            await FunnySharpParallelValidationTraversal().ConfigureAwait(false),
+        })
+        {
+            BenchmarkPreflight.Require(outcome.TryGetErrors(out var errors)
+                && errors.SequenceEqual(expectedErrors), "Parallel Validation changed its complete error sequence.");
+        }
     }
 
     private async ValueTask<Validation<int, string>> SelectValidationAsync(
@@ -232,6 +337,7 @@ public class FirstSuccessConcurrencyBenchmarks
     [GlobalSetup]
     public void Setup()
     {
+        BenchmarkPreflight.CaptureChild(this);
         operations = new Func<CancellationToken, ValueTask<Result<int, string>>>[CandidateCount];
         var successIndex = CandidateCount / 2;
 
@@ -258,6 +364,21 @@ public class FirstSuccessConcurrencyBenchmarks
         var result = await effects.FirstSuccessAsync().ConfigureAwait(false);
         result.TryGetValue(out var value);
         return value;
+    }
+
+    internal async Task ValidateFullSemanticsAsync()
+    {
+        // These two retained sizes fit inside the compatibility admission bound.
+        // This is not evidence for large-input, failure, tie, or cleanup-fault cases.
+        BenchmarkPreflight.Require(CandidateCount is 4 or 16,
+            "The first-success numeric scenario needs a separately reviewed admission baseline.");
+        var result = await effects.FirstSuccessAsync().ConfigureAwait(false);
+        BenchmarkPreflight.Require(result.TryGetValue(out var value) && value == 42,
+            "First-success did not produce its complete successful Validation outcome.");
+        BenchmarkPreflight.Require(
+            await BclTaskWhenAnyCancelAndDrain().ConfigureAwait(false) == 42
+            && await FunnySharpFirstSuccessAsync().ConfigureAwait(false) == 42,
+            "First-success benchmark outputs changed.");
     }
 
     private static async ValueTask<int> FirstSuccessWithBclAsync(

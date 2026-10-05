@@ -1,0 +1,50 @@
+{
+  "schema": "funnysharp-release-readonly-control-plane/v1",
+  "capturedAtUtc": "2026-10-02T04:55:52.158Z",
+  "state": "CURRENT_REMOTE_PROTECTION_ABSENT_REQUIRED_ENFORCEMENT_NOT_PROVED_NO_MUTATION",
+  "repository": {
+    "command": "gh repo view --json nameWithOwner,defaultBranchRef",
+    "exitCode": 0,
+    "value": {
+      "defaultBranchRef": {
+        "name": "main"
+      },
+      "nameWithOwner": "wxxb789/funnysharp"
+    }
+  },
+  "rulesets": {
+    "endpoint": "repos/wxxb789/funnysharp/rulesets",
+    "exitCode": 0,
+    "value": []
+  },
+  "additionalReads": [
+    {
+      "endpoint": "repos/wxxb789/funnysharp/rulesets?includes_parents=true",
+      "exitCode": 0,
+      "value": [],
+      "stderr": ""
+    },
+    {
+      "endpoint": "repos/wxxb789/funnysharp/branches/main/protection",
+      "exitCode": 1,
+      "value": {
+        "message": "Branch not protected",
+        "documentation_url": "https://docs.github.com/rest/branches/branch-protection#get-branch-protection",
+        "status": "404"
+      },
+      "stderr": "gh: Branch not protected (HTTP 404)\n"
+    }
+  ],
+  "requiredContexts": [
+    "release / win-x64",
+    "release / linux-x64",
+    "release / osx-arm64",
+    "release / osx-x64-consumer"
+  ],
+  "limits": [
+    "Read-only GETs establish current repository/default branch and no listed repository/inherited rulesets; main legacy protection returns404 Branch not protected.",
+    "No trusted expectedIntegrationId or non-bypass merge-denial proof is inferred from this state.",
+    "No settings activation, bypass changes, push, commit, PR, external message or publication was performed.",
+    "U15 owner authorization, same-candidate four-host evidence and P/A/I remain required; these reads are not a release or product PASS."
+  ]
+}

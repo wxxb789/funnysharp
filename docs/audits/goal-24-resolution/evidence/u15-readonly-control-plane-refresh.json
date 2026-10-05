@@ -1,0 +1,54 @@
+{
+  "schema": "funnysharp-release-readonly-control-plane/v1",
+  "capturedAtUtc": "2026-10-02T19:57:51.547Z",
+  "repository": "wxxb789/funnysharp",
+  "defaultBranch": "main",
+  "queries": [
+    {
+      "endpoint": "repos/wxxb789/funnysharp",
+      "method": "GET",
+      "exitCode": 0,
+      "value": {
+        "fullName": "wxxb789/funnysharp",
+        "defaultBranch": "main"
+      },
+      "stderr": ""
+    },
+    {
+      "endpoint": "repos/wxxb789/funnysharp/rulesets",
+      "method": "GET",
+      "exitCode": 0,
+      "value": [],
+      "stderr": ""
+    },
+    {
+      "endpoint": "repos/wxxb789/funnysharp/rulesets?includes_parents=true",
+      "method": "GET",
+      "exitCode": 0,
+      "value": [],
+      "stderr": ""
+    },
+    {
+      "endpoint": "repos/wxxb789/funnysharp/branches/main/protection",
+      "method": "GET",
+      "exitCode": 1,
+      "value": {
+        "message": "Branch not protected",
+        "documentation_url": "https://docs.github.com/rest/branches/branch-protection#get-branch-protection",
+        "status": "404"
+      },
+      "stderr": "gh: Branch not protected (HTTP 404)\n"
+    }
+  ],
+  "observation": "Direct and inherited rulesets remain empty; default main legacy protection GET returns404 Branch not protected.",
+  "mutations": [],
+  "externalMessages": [],
+  "commitsPushesMerges": 0,
+  "enforcementVerified": false,
+  "trustedIntegrationIdProved": false,
+  "nonBypassDenialProved": false,
+  "fourHostCandidateProof": false,
+  "provenancePAIProof": false,
+  "authority": "Read-only inspection; existing credentials do not authorize any mutation. Original four release-dependent findings remain open.",
+  "priorSnapshot": "docs/audits/goal-24-resolution/evidence/u15-readonly-control-plane.json"
+}

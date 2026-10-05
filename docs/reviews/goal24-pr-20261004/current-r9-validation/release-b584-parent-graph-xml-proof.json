@@ -1,0 +1,63 @@
+{
+  "schema": "funnysharp-b584-retention-parent-graph-xml-proof/v1",
+  "parentCandidate": "b584e748699a4f19d8a901695634be5a85ce8b07",
+  "actualWorktreeHead": "b584e748699a4f19d8a901695634be5a85ce8b07",
+  "trackedDeltaFiles": 5,
+  "untrackedFiles": 418,
+  "unexpectedUntracked": 0,
+  "checks": {
+    "inputGraph": {
+      "bytes": 6222062,
+      "sha256": "b2e51fea25eb06c8e8c6ad448b650d051122d219845c474c04aac95b31b94dca",
+      "actualGitReferences": 7570,
+      "edges": 161
+    },
+    "inventory": {
+      "bytes": 153089,
+      "sha256": "cfd95b0b19216f3e85795a8c2be0e414de175b9dc9cddfc6d6d3a6ffb064af2e",
+      "requiredR4Files": 219,
+      "publishOutputs": [
+        {
+          "scenario": "AspNetCoreNativeAot",
+          "status": "Passed",
+          "fileCount": 3,
+          "length": 44338741
+        },
+        {
+          "scenario": "AspNetCoreTrimmed",
+          "status": "Passed",
+          "fileCount": 114,
+          "length": 24309615
+        },
+        {
+          "scenario": "CoreNativeAot",
+          "status": "Passed",
+          "fileCount": 2,
+          "length": 11147264
+        },
+        {
+          "scenario": "CoreTrimmed",
+          "status": "Passed",
+          "fileCount": 36,
+          "length": 20696326
+        }
+      ]
+    },
+    "historicalXml": {
+      "physicalPartBytes": 638429,
+      "physicalSha256": "7b330bb2edd3da0e66f1df8f50bb34b66093ab5dd783e2128e4a6850bc34c347",
+      "decodedBytes": 474862,
+      "sha256": "d3b702f19dc04d5779e3e80757065ce2a76684cabbbb8dcc126f1c429f08a9f1",
+      "strictCanonicalBase64Roundtrip": true,
+      "exactOriginalB584XmlEquality": true,
+      "oldRejectedEvidenceNotRewritten": true
+    },
+    "currentCorrectedXml": {
+      "sha256": "35dd9f2354a0dc45799e32adf90e7649594aa62988f423a42fa12185ae63f5b3",
+      "changedMemberNodes": 29,
+      "separateSuccessorNotOldArtifactRebind": true
+    }
+  },
+  "fullParentObjectGitCredentialRunStillPending": true,
+  "mainMeasurementStillPendingMonitor": "mon_C7HSAJJCAHFQGX2F"
+}

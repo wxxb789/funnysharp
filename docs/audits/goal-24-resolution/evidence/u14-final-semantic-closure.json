@@ -1,0 +1,79 @@
+{
+  "schema": "funnysharp-stable-local-semantic-closure/v1",
+  "state": "U14_R9_EXACT_LOCAL_UNIT_CLOSURE_VERIFIED_NOT_AGGREGATE_PRODUCT_ACCEPTANCE",
+  "currentCrosswalk": {
+    "path": "docs/audits/goal-24-resolution/stable-api-contracts.json",
+    "sha256": "52b253600e7103cfa91ec4fba85d7f7df3ac4fe4de9605e3d14822dd56dc5714",
+    "core": 448,
+    "http": 20,
+    "completeStableProofCount": 468
+  },
+  "proofIndex": {
+    "path": "docs/audits/goal-24-resolution/stable-api-semantic-proofs.json",
+    "sha256": "17677c661609cd6061c1e77497606e3590f563b5585c4082e74f3619ffd66da1",
+    "stableMembers": 468,
+    "dimensions": 3744,
+    "sourceOnlyDimensionsNotRuntimeExecutions": 183,
+    "mechanismNa": {
+      "delegateAbiConstructors": 3,
+      "enumStorage": 1,
+      "negativeDiagnosticAttribution": 19
+    },
+    "historicalReadSnapshot": {
+      "path": "docs/audits/goal-24-resolution/evidence/u14-pre-final-stable-api-contracts.json",
+      "sha256": "b3638cb8ca16cb57ae1b21b62927e24b38c1d0f2676b9458e5c6c50116b7975f"
+    }
+  },
+  "rootGate": {
+    "command": "dotnet fsi build.fsx -- -p verify-stable-api-contracts",
+    "exitCode": 0,
+    "exactStableMembers": 468,
+    "dimensions": 3744
+  },
+  "controls": {
+    "actualPass": 11,
+    "actualFailure": 0,
+    "actualSkip": 0,
+    "green": "artifacts/audit-resolution/u14-package-probes/attempt-04/semantic-controls-na-green.json",
+    "retainedGenuineRed": {
+      "path": "artifacts/audit-resolution/u14-package-probes/attempt-04/semantic-controls-na-red.json",
+      "passed": 10,
+      "failed": 1,
+      "reason": "Unjustified runtime NA was accepted before the exact delegate ABI/enum storage mechanism restriction."
+    },
+    "retainedZeroDiscovery": {
+      "path": "artifacts/audit-resolution/u14-package-probes/attempt-04/semantic-controls-01.json",
+      "countedAsPass": false
+    }
+  },
+  "independentIndexRoute": {
+    "task": "st_01a0fa94",
+    "category": "deep-high",
+    "model": "ghc/gpt-6-astra:high",
+    "readOnlyExceptTwoReports": true,
+    "parentIntegratedAndValidated": true
+  },
+  "parentValidation": {
+    "fileHashes": 127,
+    "sourceUnits": 565,
+    "assertionUnits": 697,
+    "actualCaseIdJoins": 1641,
+    "compilerProbeSources": 2288,
+    "compilerDiagnosticChecks": 2288,
+    "targetingReferenceHashes": 307,
+    "sourceOnlyDimensionsNotRuntimeCases": 183,
+    "helperCorrections": 5
+  },
+  "packageAndRuntimeProof": "docs/audits/goal-24-resolution/evidence/u14-final-installed-pair-local-proofs.json",
+  "documentation": {
+    "snippets": 56,
+    "guides": 11,
+    "byteEqualityExitCode": 0,
+    "sampleProjectBuildExitCode": 0
+  },
+  "limits": [
+    "19negative attribution and4ABI/storage compiler mechanism limits remain explicit, not omitted identities.",
+    "Original69 final-candidate reconciliation and U9/U13 threepaired measurements, U11/U12 studies/owner review, U15 remote authority and P/A/I are still open.",
+    "No commit, remote write, product claim or maintainer acceptance was performed."
+  ]
+}

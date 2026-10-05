@@ -1,0 +1,14 @@
+{
+  "schema": "funnysharp-current-release-compatibility-red/v1",
+  "candidate": "b584e748699a4f19d8a901695634be5a85ce8b07",
+  "attemptId": "pr33-b584e74-20261005-01",
+  "monitor": "mon_12DGRJ121EJHAACT",
+  "exitCode": 1,
+  "failedStep": "14-compatibility",
+  "error": "NU1100: Unable to resolve FunnySharp >=0.2.0; package-source mapping excluded upstream and SDK library-packs.",
+  "sourceUnchanged": true,
+  "actualOutcomeSha256": "ea02171874ba5ebf87fb5a6d921b4343b976c48ce90eceaedb5d15211c18abed",
+  "fullClean2630Passed": true,
+  "diagnosis": "Global RestoreSources from the operational benchmark runner overrides the generated local package feed. Inspect actual config before changing launcher.",
+  "wholeReleaseAccepted": false
+}

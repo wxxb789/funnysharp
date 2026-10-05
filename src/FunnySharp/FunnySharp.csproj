@@ -2,7 +2,7 @@
   <PropertyGroup>
     <IsPackable>true</IsPackable>
     <PackageId>FunnySharp</PackageId>
-    <VersionPrefix>0.1.0</VersionPrefix>
+    <VersionPrefix>0.2.0</VersionPrefix>
     <Authors>FunnySharp contributors</Authors>
     <Description>Pragmatic, BCL-first functional programming for modern C#.</Description>
     <PackageTags>functional-programming;csharp;dotnet</PackageTags>

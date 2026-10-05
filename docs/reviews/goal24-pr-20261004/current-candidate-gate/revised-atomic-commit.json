@@ -1,0 +1,24 @@
+{
+  "schema": "funnysharp-pr-revised-atomic-commit/v1",
+  "commit": "79b84990ecfee7abda144008b926283b6bba22de",
+  "parent": "b584e748699a4f19d8a901695634be5a85ce8b07",
+  "branch": "audit/goal24-complete-pr",
+  "subject": "docs: correct traversal contracts and retain verified evidence",
+  "namedFiles": 1013,
+  "insertions": 1509066,
+  "deletions": 482,
+  "actualCommittedNamesMatchAllPathspecs": true,
+  "cleanAfterCommit": true,
+  "stagedWhitespaceCheckExit": 0,
+  "formatterExit": 0,
+  "relatedQa": "core1762/XML37/actualcurrentruntime24/strict190+40/originalbudgetpolicy/parentportable522objects547locators230launches/official12docs",
+  "stdoutBytes": 160235,
+  "stdoutSha256": "0a0e993cf5e8481011bc472cafd7e31bd5b67cc7962741b3724489c2b3f59f3e",
+  "fullStdoutRetainedPath": "revised-atomic-commit-output.txt",
+  "notificationOverflow": "Detached output spill failed because its generated long filename was unavailable. Complete original160235-byte stdout remained in revisedAtomicCommitResult and is retained here; no commit result is invented or repeated.",
+  "currentCleanFullSuite": {
+    "monitor": "mon_CQAE8AWPWJJZ8GR5",
+    "status": "RUNNING_NOT_PASS"
+  },
+  "releaseIndependentGatePublicationCiCleanup": "PENDING"
+}

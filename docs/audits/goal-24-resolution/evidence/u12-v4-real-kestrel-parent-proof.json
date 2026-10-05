@@ -1,0 +1,1504 @@
+{
+  "schema": "funnysharp-v4-real-kestrel-parent-proof/v1",
+  "actual4OriginalAssemblies": true,
+  "scenarios": 36,
+  "passed": 36,
+  "failed": 0,
+  "skipped": 0,
+  "actualTcpRequests": 72,
+  "allParentHashChecks": [
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\u12-v4-http-runtime\\attempt-01\\comparison-contract.json",
+      "expected": "c35c970c201ab7ad0b2719343ba54dd85c4188c99e4c4dc8c6b4339462984a44",
+      "actual": "c35c970c201ab7ad0b2719343ba54dd85c4188c99e4c4dc8c6b4339462984a44"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\u12-v4-http-runtime\\attempt-01\\execute.ps1",
+      "expected": "9145e35256d5e5f2b2ad12de864a115e7e6374f4b75cac649debb3b48766542a",
+      "actual": "9145e35256d5e5f2b2ad12de864a115e7e6374f4b75cac649debb3b48766542a"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\u12-v4-http-runtime\\attempt-01\\execution-build.json",
+      "expected": "c2ba5fea77f2650d3c72b9aeb96d5d54af6022b307db7847f74d0a9b293c5729",
+      "actual": "c2ba5fea77f2650d3c72b9aeb96d5d54af6022b307db7847f74d0a9b293c5729"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\u12-v4-http-runtime\\attempt-01\\execution-run.json",
+      "expected": "7338091465d4b5a5fe1752aad002f34ffdd9d40a08b9cf6c9e34a461307271c1",
+      "actual": "7338091465d4b5a5fe1752aad002f34ffdd9d40a08b9cf6c9e34a461307271c1"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\u12-v4-http-runtime\\attempt-01\\funnysharp-run-1.stderr.log",
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\u12-v4-http-runtime\\attempt-01\\funnysharp-run-1.stdout.log",
+      "expected": "3b7e04e96953db2e2aa9bbe5cd25caeba664e22dbafde968298f0e38c511d02b",
+      "actual": "3b7e04e96953db2e2aa9bbe5cd25caeba664e22dbafde968298f0e38c511d02b"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\u12-v4-http-runtime\\attempt-01\\funnysharp-run-2.stderr.log",
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\u12-v4-http-runtime\\attempt-01\\funnysharp-run-2.stdout.log",
+      "expected": "b17cb842c046ea210948b185cb4b8af9a04f8cbbe78acf9b3fe15dd59f16edab",
+      "actual": "b17cb842c046ea210948b185cb4b8af9a04f8cbbe78acf9b3fe15dd59f16edab"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\u12-v4-http-runtime\\attempt-01\\idiomatic-run-1.stderr.log",
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\u12-v4-http-runtime\\attempt-01\\idiomatic-run-1.stdout.log",
+      "expected": "510d398e0f5f51078c6a89720be300d143309086a9366397250587a5590d563e",
+      "actual": "510d398e0f5f51078c6a89720be300d143309086a9366397250587a5590d563e"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\u12-v4-http-runtime\\attempt-01\\idiomatic-run-2.stderr.log",
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\u12-v4-http-runtime\\attempt-01\\idiomatic-run-2.stdout.log",
+      "expected": "01c8253f5b9b44e3fd78e4ea9878c584b340a289d271034d22c0dd48efc11762",
+      "actual": "01c8253f5b9b44e3fd78e4ea9878c584b340a289d271034d22c0dd48efc11762"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\u12-v4-http-runtime\\attempt-01\\pre-registration.json",
+      "expected": "f169b5e60420ec1dcaa53972a1b3d80f3c1340858ce8bccfb06adcb0af326908",
+      "actual": "f169b5e60420ec1dcaa53972a1b3d80f3c1340858ce8bccfb06adcb0af326908"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\u12-v4-http-runtime\\attempt-01\\probe-build.binlog",
+      "expected": "c8fa832ce34253599f9d0dad91dba0436d114f2be5f120e224a77655d98d6ebf",
+      "actual": "c8fa832ce34253599f9d0dad91dba0436d114f2be5f120e224a77655d98d6ebf"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\u12-v4-http-runtime\\attempt-01\\probe-build.stderr.log",
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\u12-v4-http-runtime\\attempt-01\\probe-build.stdout.log",
+      "expected": "ec1a51711ad91c397a352ad9b8f4f354a648f7e9eaed3d77f4573dc171f90113",
+      "actual": "ec1a51711ad91c397a352ad9b8f4f354a648f7e9eaed3d77f4573dc171f90113"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\u12-v4-http-runtime\\attempt-01\\runtime-funnysharp-run-1.json",
+      "expected": "d6e11b9fbb9330e8d138ce4ea56ce196d3ff30c4dae1209dc699d1f15415790b",
+      "actual": "d6e11b9fbb9330e8d138ce4ea56ce196d3ff30c4dae1209dc699d1f15415790b"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\u12-v4-http-runtime\\attempt-01\\runtime-funnysharp-run-2.json",
+      "expected": "a2086c09422b1332be08f0a016991f9b236eeecde58c320d43610a334e0086c9",
+      "actual": "a2086c09422b1332be08f0a016991f9b236eeecde58c320d43610a334e0086c9"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\u12-v4-http-runtime\\attempt-01\\runtime-idiomatic-run-1.json",
+      "expected": "3b59fc1312e61813902230356a2e2ce553e7c7eefded183b1f37a2856bde3b91",
+      "actual": "3b59fc1312e61813902230356a2e2ce553e7c7eefded183b1f37a2856bde3b91"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\u12-v4-http-runtime\\attempt-01\\runtime-idiomatic-run-2.json",
+      "expected": "37300601ce54ee881fa815da1cd5d1fb318516e440c499678f881aa2fa7b987e",
+      "actual": "37300601ce54ee881fa815da1cd5d1fb318516e440c499678f881aa2fa7b987e"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\u12-v4-http-runtime\\attempt-01\\verify.mjs",
+      "expected": "bcd396c7cd4960023ea158e4a382973721a1e2f954bdcc0a08d093fcdba80655",
+      "actual": "bcd396c7cd4960023ea158e4a382973721a1e2f954bdcc0a08d093fcdba80655"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\u12-v4-http-runtime\\attempt-01\\host\\Directory.Build.props",
+      "expected": "f2b70ee7c746112d345d279d2b21c149e35124eeb7ea6f88b5fd0ab39810cdbf",
+      "actual": "f2b70ee7c746112d345d279d2b21c149e35124eeb7ea6f88b5fd0ab39810cdbf"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\u12-v4-http-runtime\\attempt-01\\host\\Directory.Build.targets",
+      "expected": "17284cb74605517cbec8a8153505da71a685b28694b67b5ef80608cd79b1c0ea",
+      "actual": "17284cb74605517cbec8a8153505da71a685b28694b67b5ef80608cd79b1c0ea"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\u12-v4-http-runtime\\attempt-01\\host\\HttpRuntimeProbe.csproj",
+      "expected": "12ccbc1c0bcdfc9f2db8b82704322fba00ffda0a0f51c0ba109e47e3879010d1",
+      "actual": "12ccbc1c0bcdfc9f2db8b82704322fba00ffda0a0f51c0ba109e47e3879010d1"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\u12-v4-http-runtime\\attempt-01\\host\\NuGet.config",
+      "expected": "9b63db2bbc363942220a5e1002d4d04de4a194e8204b149732773efdd71ef8c2",
+      "actual": "9b63db2bbc363942220a5e1002d4d04de4a194e8204b149732773efdd71ef8c2"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\u12-v4-http-runtime\\attempt-01\\host\\packages.lock.json",
+      "expected": "a4364d81a6de2707d66fbced18fbbc926c882ab96e1d1aebbb17e871285b9d75",
+      "actual": "a4364d81a6de2707d66fbced18fbbc926c882ab96e1d1aebbb17e871285b9d75"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\u12-v4-http-runtime\\attempt-01\\host\\Program.cs",
+      "expected": "d8fa594611e3ee71070104be60e3a57c86ca450e19318df7d68764fc5d568963",
+      "actual": "d8fa594611e3ee71070104be60e3a57c86ca450e19318df7d68764fc5d568963"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\u12-v4-http-runtime\\attempt-01\\host\\bin\\Release\\net10.0\\HttpRuntimeProbe.deps.json",
+      "expected": "36b866ea745688290f34b26e10f94f4580e800bb2bf00d50c6d3450e3a3eb6ff",
+      "actual": "36b866ea745688290f34b26e10f94f4580e800bb2bf00d50c6d3450e3a3eb6ff"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\u12-v4-http-runtime\\attempt-01\\host\\bin\\Release\\net10.0\\HttpRuntimeProbe.dll",
+      "expected": "a18d5320660540461c1e37a70cf6d73cef32fed45ca43f90af878bb3bc255bd4",
+      "actual": "a18d5320660540461c1e37a70cf6d73cef32fed45ca43f90af878bb3bc255bd4"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\u12-v4-http-runtime\\attempt-01\\host\\bin\\Release\\net10.0\\HttpRuntimeProbe.pdb",
+      "expected": "0b75422b0d4fd4a5838f559b11ca057a74097e329bf0980950d9a92c4f4fc889",
+      "actual": "0b75422b0d4fd4a5838f559b11ca057a74097e329bf0980950d9a92c4f4fc889"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\u12-v4-http-runtime\\attempt-01\\host\\bin\\Release\\net10.0\\HttpRuntimeProbe.runtimeconfig.json",
+      "expected": "b4aad84277c120c025a443649c4e09ca20b08725acc12ef60940786bfb8c024f",
+      "actual": "b4aad84277c120c025a443649c4e09ca20b08725acc12ef60940786bfb8c024f"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-97e5227211e744ea85ed254daa62bbaa/Api.cs",
+      "expected": "b7a0b21a4a9ccb55a5bfc3ea91ce611581d070d9da97e3d2a7d904cf49da46d4",
+      "actual": "b7a0b21a4a9ccb55a5bfc3ea91ce611581d070d9da97e3d2a7d904cf49da46d4"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-97e5227211e744ea85ed254daa62bbaa/Contract.cs",
+      "expected": "0e29dbaa90e69c2233652a6a742c9acef19b98a5ab90f1c9cbef191e138c9fec",
+      "actual": "0e29dbaa90e69c2233652a6a742c9acef19b98a5ab90f1c9cbef191e138c9fec"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-97e5227211e744ea85ed254daa62bbaa/AspnetcoreTests.cs",
+      "expected": "b4343005f670ae9c23f9338e3f56289459f79630b763b7dfe434ae289a8b39c7",
+      "actual": "b4343005f670ae9c23f9338e3f56289459f79630b763b7dfe434ae289a8b39c7"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-97e5227211e744ea85ed254daa62bbaa/AspnetcoreKit.csproj",
+      "expected": "90b68ac8fff1017135ffe6db36f0182b7ffdad3411aa81fa82c8caadc692808d",
+      "actual": "90b68ac8fff1017135ffe6db36f0182b7ffdad3411aa81fa82c8caadc692808d"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-97e5227211e744ea85ed254daa62bbaa/Directory.Build.props",
+      "expected": "e1f773524cbe06e47ce9373a35995982889f95f1f943cde9830a99ba4257e76b",
+      "actual": "e1f773524cbe06e47ce9373a35995982889f95f1f943cde9830a99ba4257e76b"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-97e5227211e744ea85ed254daa62bbaa/NuGet.config",
+      "expected": "4c407dab51c34a97f893f0aca4437b8ca90bb8a8b48ffcd1d09b38927af0156a",
+      "actual": "4c407dab51c34a97f893f0aca4437b8ca90bb8a8b48ffcd1d09b38927af0156a"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-97e5227211e744ea85ed254daa62bbaa/global.json",
+      "expected": "c48726ffb10a31e50395529e134bd0ab4d82d14febbda7863ab49d00a9fddcb4",
+      "actual": "c48726ffb10a31e50395529e134bd0ab4d82d14febbda7863ab49d00a9fddcb4"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-97e5227211e744ea85ed254daa62bbaa/packages.lock.json",
+      "expected": "c2dc472b1d2255088e3ee6eb375d2fad6b98558ff16be5d65adcbcf8b5a7e85a",
+      "actual": "c2dc472b1d2255088e3ee6eb375d2fad6b98558ff16be5d65adcbcf8b5a7e85a"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-97e5227211e744ea85ed254daa62bbaa/bin/Release/net10.0/AspnetcoreKit.deps.json",
+      "expected": "84c6060c7635f203bb5fbefccb6219f8ab7e612e6d804bcbb424ee71202723a8",
+      "actual": "84c6060c7635f203bb5fbefccb6219f8ab7e612e6d804bcbb424ee71202723a8"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-97e5227211e744ea85ed254daa62bbaa/bin/Release/net10.0/AspnetcoreKit.dll",
+      "expected": "547960b867d58fc677989440344bb4fc5f0f0ffea02e381b10d7e7e56bc72adb",
+      "actual": "547960b867d58fc677989440344bb4fc5f0f0ffea02e381b10d7e7e56bc72adb"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-97e5227211e744ea85ed254daa62bbaa/bin/Release/net10.0/AspnetcoreKit.exe",
+      "expected": "88733e86ce54f877b281e503a3507e83997f6798ede623d6f73f407b7d27311b",
+      "actual": "88733e86ce54f877b281e503a3507e83997f6798ede623d6f73f407b7d27311b"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-97e5227211e744ea85ed254daa62bbaa/bin/Release/net10.0/AspnetcoreKit.pdb",
+      "expected": "7e3dbc9c0dc7d4d2f5556952f76f63885843e19cab81ba74163897099809c8b6",
+      "actual": "7e3dbc9c0dc7d4d2f5556952f76f63885843e19cab81ba74163897099809c8b6"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-97e5227211e744ea85ed254daa62bbaa/bin/Release/net10.0/AspnetcoreKit.runtimeconfig.json",
+      "expected": "b4aad84277c120c025a443649c4e09ca20b08725acc12ef60940786bfb8c024f",
+      "actual": "b4aad84277c120c025a443649c4e09ca20b08725acc12ef60940786bfb8c024f"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-97e5227211e744ea85ed254daa62bbaa/bin/Release/net10.0/Microsoft.ApplicationInsights.dll",
+      "expected": "bf9a4b88c7f94267e1cc7ed0700c575d3eb3266ff25bcb76e4f40f1b0fba022d",
+      "actual": "bf9a4b88c7f94267e1cc7ed0700c575d3eb3266ff25bcb76e4f40f1b0fba022d"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-97e5227211e744ea85ed254daa62bbaa/bin/Release/net10.0/Microsoft.AspNetCore.TestHost.dll",
+      "expected": "084c869d45df2fbb5e3c5ddf43c1118431cab075a592b19e730697fe2f1662e6",
+      "actual": "084c869d45df2fbb5e3c5ddf43c1118431cab075a592b19e730697fe2f1662e6"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-97e5227211e744ea85ed254daa62bbaa/bin/Release/net10.0/Microsoft.Bcl.AsyncInterfaces.dll",
+      "expected": "5705d245072d3eb78400547b32147dbb6e2c8b02ba8bda76729798f5efdeaecb",
+      "actual": "5705d245072d3eb78400547b32147dbb6e2c8b02ba8bda76729798f5efdeaecb"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-97e5227211e744ea85ed254daa62bbaa/bin/Release/net10.0/Microsoft.Testing.Extensions.MSBuild.dll",
+      "expected": "d364d5954dacfc2cf9239e29d1aeee37212019677447ccd1bd746710476bd703",
+      "actual": "d364d5954dacfc2cf9239e29d1aeee37212019677447ccd1bd746710476bd703"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-97e5227211e744ea85ed254daa62bbaa/bin/Release/net10.0/Microsoft.Testing.Extensions.Telemetry.dll",
+      "expected": "4a03c95584ab11527e541fce9d7466fc65779a2cc37b317cdafe2bc5d7169410",
+      "actual": "4a03c95584ab11527e541fce9d7466fc65779a2cc37b317cdafe2bc5d7169410"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-97e5227211e744ea85ed254daa62bbaa/bin/Release/net10.0/Microsoft.Testing.Extensions.TrxReport.Abstractions.dll",
+      "expected": "4065f9179d0f97eff5f23624be508992d7e57e1b331f330051c76e2731fcef79",
+      "actual": "4065f9179d0f97eff5f23624be508992d7e57e1b331f330051c76e2731fcef79"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-97e5227211e744ea85ed254daa62bbaa/bin/Release/net10.0/Microsoft.Testing.Platform.dll",
+      "expected": "92db7b51a0e878e84d17a0ffef92abe22b3033ce5655f8bdbda06a3a93651c2e",
+      "actual": "92db7b51a0e878e84d17a0ffef92abe22b3033ce5655f8bdbda06a3a93651c2e"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-97e5227211e744ea85ed254daa62bbaa/bin/Release/net10.0/xunit.abstractions.dll",
+      "expected": "3166dc70323fb30ccf1cedb0fe86f2ad122c46d254542342d90386efc4c9285c",
+      "actual": "3166dc70323fb30ccf1cedb0fe86f2ad122c46d254542342d90386efc4c9285c"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-97e5227211e744ea85ed254daa62bbaa/bin/Release/net10.0/xunit.v3.assert.dll",
+      "expected": "d14ea33253a7e289af5254617203b02f0643ba7ff618670de837d642ef22af11",
+      "actual": "d14ea33253a7e289af5254617203b02f0643ba7ff618670de837d642ef22af11"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-97e5227211e744ea85ed254daa62bbaa/bin/Release/net10.0/xunit.v3.common.dll",
+      "expected": "e8e5bf50c6e739812ab5daaaefcc1187b54768a499ccc4b262d4533cc3cab93d",
+      "actual": "e8e5bf50c6e739812ab5daaaefcc1187b54768a499ccc4b262d4533cc3cab93d"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-97e5227211e744ea85ed254daa62bbaa/bin/Release/net10.0/xunit.v3.core.dll",
+      "expected": "0155a245478403afefd0b363ef24b7588ad6dbf59ff3a88c1a8d8995eba873a1",
+      "actual": "0155a245478403afefd0b363ef24b7588ad6dbf59ff3a88c1a8d8995eba873a1"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-97e5227211e744ea85ed254daa62bbaa/bin/Release/net10.0/xunit.v3.mtp-v2.dll",
+      "expected": "5396efa072a4c925f58f1a4181b022cdc911c1a359d8dd5db838b79a8c741b50",
+      "actual": "5396efa072a4c925f58f1a4181b022cdc911c1a359d8dd5db838b79a8c741b50"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-97e5227211e744ea85ed254daa62bbaa/bin/Release/net10.0/xunit.v3.runner.common.dll",
+      "expected": "059a41ab6c3cc8a00f9ec87846565cb3d2a29a7e46fa2089f461ffbb462355fa",
+      "actual": "059a41ab6c3cc8a00f9ec87846565cb3d2a29a7e46fa2089f461ffbb462355fa"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-97e5227211e744ea85ed254daa62bbaa/bin/Release/net10.0/xunit.v3.runner.inproc.console.dll",
+      "expected": "bde56080928f7f617512d0dbe4043276ac0a15f2e377e71c204f7c12ebea082b",
+      "actual": "bde56080928f7f617512d0dbe4043276ac0a15f2e377e71c204f7c12ebea082b"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-97e5227211e744ea85ed254daa62bbaa/bin/Release/net10.0/xunit.v3.runner.utility.netcore.dll",
+      "expected": "ee7fc452193192525965540d9c9821f85a70c93b16e9e8c6fd0f168d40b56152",
+      "actual": "ee7fc452193192525965540d9c9821f85a70c93b16e9e8c6fd0f168d40b56152"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/aspnetcore/idiomatic/run-1/solution/Api.cs",
+      "expected": "b7a0b21a4a9ccb55a5bfc3ea91ce611581d070d9da97e3d2a7d904cf49da46d4",
+      "actual": "b7a0b21a4a9ccb55a5bfc3ea91ce611581d070d9da97e3d2a7d904cf49da46d4"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/aspnetcore/idiomatic/run-1/rounds/0001/record.json",
+      "expected": "0b6d0a164a82728aa488a24b7970ef377eca08df999bd6bb360c85f2d1ef3e94",
+      "actual": "0b6d0a164a82728aa488a24b7970ef377eca08df999bd6bb360c85f2d1ef3e94"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/aspnetcore/idiomatic/run-1/rounds/0001/build.process.json",
+      "expected": "fc591fbd9c3c27f7fb877411f6cb161f4bdf3bcfc47315863b2af767725f1145",
+      "actual": "fc591fbd9c3c27f7fb877411f6cb161f4bdf3bcfc47315863b2af767725f1145"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/aspnetcore/idiomatic/run-1/rounds/0001/inputs.json",
+      "expected": "8c3bbf1c707ab4333fae4084fc43fa50547db3705a74ff41260b5201a1f537c4",
+      "actual": "8c3bbf1c707ab4333fae4084fc43fa50547db3705a74ff41260b5201a1f537c4"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/aspnetcore/idiomatic/run-1/rounds/0001/test.process.json",
+      "expected": "ca59c98fcddcffb56e201ae3c1d29e4dc7e62c5da4c89d5f182c5a72d33b1423",
+      "actual": "ca59c98fcddcffb56e201ae3c1d29e4dc7e62c5da4c89d5f182c5a72d33b1423"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-97e5227211e744ea85ed254daa62bbaa/nuget_packages/microsoft.applicationinsights\\2.23.0\\microsoft.applicationinsights.2.23.0.nupkg",
+      "expected": "e6c7f76e0ec26598c7b1e2be1777e839c84486655e8a878fc4c655bd2e918dbd",
+      "actual": "e6c7f76e0ec26598c7b1e2be1777e839c84486655e8a878fc4c655bd2e918dbd"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-97e5227211e744ea85ed254daa62bbaa/nuget_packages/microsoft.testing.platform\\2.3.3\\microsoft.testing.platform.2.3.3.nupkg",
+      "expected": "b07d00cab5f49f2d0981592044baef3d720a079e6941601c7790044584b3174a",
+      "actual": "b07d00cab5f49f2d0981592044baef3d720a079e6941601c7790044584b3174a"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-97e5227211e744ea85ed254daa62bbaa/nuget_packages/microsoft.testing.extensions.trxreport.abstractions\\2.3.3\\microsoft.testing.extensions.trxreport.abstractions.2.3.3.nupkg",
+      "expected": "6008074b70742f046f2077abdbce50b92ad808ee45712a405daccbe693470786",
+      "actual": "6008074b70742f046f2077abdbce50b92ad808ee45712a405daccbe693470786"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-97e5227211e744ea85ed254daa62bbaa/nuget_packages/xunit.v3.extensibility.core\\4.0.0\\xunit.v3.extensibility.core.4.0.0.nupkg",
+      "expected": "6e489a237720169f91ba59b0d801495a28cdc956399995afa69f7aaea0992c11",
+      "actual": "6e489a237720169f91ba59b0d801495a28cdc956399995afa69f7aaea0992c11"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-97e5227211e744ea85ed254daa62bbaa/nuget_packages/xunit.analyzers\\2.0.0\\xunit.analyzers.2.0.0.nupkg",
+      "expected": "9d040d284a972ac50dc6b149cbd7f76933f30b03e9214903b1dcd7d117b308af",
+      "actual": "9d040d284a972ac50dc6b149cbd7f76933f30b03e9214903b1dcd7d117b308af"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-97e5227211e744ea85ed254daa62bbaa/nuget_packages/system.security.accesscontrol\\6.0.1\\system.security.accesscontrol.6.0.1.nupkg",
+      "expected": "462e26f796417e8a4350655a85bbd4233b94cbd0f7150c1c5e9acfd88e885141",
+      "actual": "462e26f796417e8a4350655a85bbd4233b94cbd0f7150c1c5e9acfd88e885141"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-97e5227211e744ea85ed254daa62bbaa/nuget_packages/microsoft.testing.extensions.telemetry\\2.3.3\\microsoft.testing.extensions.telemetry.2.3.3.nupkg",
+      "expected": "0e8a35200c270e56eaca0d90ea9f3646e618010ed59099d8e0f9fd30366a08eb",
+      "actual": "0e8a35200c270e56eaca0d90ea9f3646e618010ed59099d8e0f9fd30366a08eb"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-97e5227211e744ea85ed254daa62bbaa/nuget_packages/xunit.v3.runner.common\\4.0.0\\xunit.v3.runner.common.4.0.0.nupkg",
+      "expected": "328c2a49436464bf54c40d5e544922f72252b9bc8dbcd322dfead5e52420bb94",
+      "actual": "328c2a49436464bf54c40d5e544922f72252b9bc8dbcd322dfead5e52420bb94"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-97e5227211e744ea85ed254daa62bbaa/nuget_packages/microsoft.testing.platform.msbuild\\2.3.3\\microsoft.testing.platform.msbuild.2.3.3.nupkg",
+      "expected": "25e537fbc39e6ce0c0da4e8a4a8ae6d8fee98ae41945d4b586124a03075f4890",
+      "actual": "25e537fbc39e6ce0c0da4e8a4a8ae6d8fee98ae41945d4b586124a03075f4890"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-97e5227211e744ea85ed254daa62bbaa/nuget_packages/xunit.v3.core.mtp-v2\\4.0.0\\xunit.v3.core.mtp-v2.4.0.0.nupkg",
+      "expected": "6a3f3397f6b0104e2fb55e0f8bd97d409210525eb3c73d497efd716a29dcc4b2",
+      "actual": "6a3f3397f6b0104e2fb55e0f8bd97d409210525eb3c73d497efd716a29dcc4b2"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-97e5227211e744ea85ed254daa62bbaa/nuget_packages/xunit.v3.assert\\4.0.0\\xunit.v3.assert.4.0.0.nupkg",
+      "expected": "58e041a132ba8092aa78779616fe953ae2e5ec9102e2b480bf6776a9297d51d1",
+      "actual": "58e041a132ba8092aa78779616fe953ae2e5ec9102e2b480bf6776a9297d51d1"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-97e5227211e744ea85ed254daa62bbaa/nuget_packages/microsoft.bcl.asyncinterfaces\\6.0.0\\microsoft.bcl.asyncinterfaces.6.0.0.nupkg",
+      "expected": "e3df87fe2170a7e01f0880af59caa8f6eb380b3c40a4f282dfb43912aaf0f895",
+      "actual": "e3df87fe2170a7e01f0880af59caa8f6eb380b3c40a4f282dfb43912aaf0f895"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-97e5227211e744ea85ed254daa62bbaa/nuget_packages/xunit.v3.runner.inproc.console\\4.0.0\\xunit.v3.runner.inproc.console.4.0.0.nupkg",
+      "expected": "1446b39b1c6f43662993d71a53d51597b6ff5849f4f9369e42a0f5808f7189a5",
+      "actual": "1446b39b1c6f43662993d71a53d51597b6ff5849f4f9369e42a0f5808f7189a5"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-97e5227211e744ea85ed254daa62bbaa/nuget_packages/xunit.v3.mtp-v2\\4.0.0\\xunit.v3.mtp-v2.4.0.0.nupkg",
+      "expected": "b131a89b59141ce5dd1ad89a736e0e2e959a44d5951d596e548d0c7a31825507",
+      "actual": "b131a89b59141ce5dd1ad89a736e0e2e959a44d5951d596e548d0c7a31825507"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-97e5227211e744ea85ed254daa62bbaa/nuget_packages/microsoft.win32.registry\\5.0.0\\microsoft.win32.registry.5.0.0.nupkg",
+      "expected": "f64ca53c67ca65ce7cc85a8d29aefbb2da2672836731e1115e8cd62730dc5080",
+      "actual": "f64ca53c67ca65ce7cc85a8d29aefbb2da2672836731e1115e8cd62730dc5080"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-97e5227211e744ea85ed254daa62bbaa/nuget_packages/xunit.v3\\4.0.0\\xunit.v3.4.0.0.nupkg",
+      "expected": "ccaea145afc512d898a8c5f0acbe619b2ba35a7d3716977de4309f960b10c095",
+      "actual": "ccaea145afc512d898a8c5f0acbe619b2ba35a7d3716977de4309f960b10c095"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-97e5227211e744ea85ed254daa62bbaa/nuget_packages/xunit.v3.common\\4.0.0\\xunit.v3.common.4.0.0.nupkg",
+      "expected": "165a769dce914cf894744c76c641d84ec12687d366a2823bf11021d4c471f25b",
+      "actual": "165a769dce914cf894744c76c641d84ec12687d366a2823bf11021d4c471f25b"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-1-97e5227211e744ea85ed254daa62bbaa/nuget_packages/microsoft.aspnetcore.testhost\\10.0.11\\microsoft.aspnetcore.testhost.10.0.11.nupkg",
+      "expected": "f825d40fd268e1822dbda4a5d25087d940a1ff42a582eba11d8999a423ea5bf4",
+      "actual": "f825d40fd268e1822dbda4a5d25087d940a1ff42a582eba11d8999a423ea5bf4"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-2-d256379b5c4b48b39f70206fa9f09bc5/Api.cs",
+      "expected": "8739d0f92abe088fc591e9231a1a0442278ca85e0c0adc152d36f07af4e4f59f",
+      "actual": "8739d0f92abe088fc591e9231a1a0442278ca85e0c0adc152d36f07af4e4f59f"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-2-d256379b5c4b48b39f70206fa9f09bc5/Contract.cs",
+      "expected": "0e29dbaa90e69c2233652a6a742c9acef19b98a5ab90f1c9cbef191e138c9fec",
+      "actual": "0e29dbaa90e69c2233652a6a742c9acef19b98a5ab90f1c9cbef191e138c9fec"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-2-d256379b5c4b48b39f70206fa9f09bc5/AspnetcoreTests.cs",
+      "expected": "b4343005f670ae9c23f9338e3f56289459f79630b763b7dfe434ae289a8b39c7",
+      "actual": "b4343005f670ae9c23f9338e3f56289459f79630b763b7dfe434ae289a8b39c7"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-2-d256379b5c4b48b39f70206fa9f09bc5/AspnetcoreKit.csproj",
+      "expected": "90b68ac8fff1017135ffe6db36f0182b7ffdad3411aa81fa82c8caadc692808d",
+      "actual": "90b68ac8fff1017135ffe6db36f0182b7ffdad3411aa81fa82c8caadc692808d"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-2-d256379b5c4b48b39f70206fa9f09bc5/Directory.Build.props",
+      "expected": "e1f773524cbe06e47ce9373a35995982889f95f1f943cde9830a99ba4257e76b",
+      "actual": "e1f773524cbe06e47ce9373a35995982889f95f1f943cde9830a99ba4257e76b"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-2-d256379b5c4b48b39f70206fa9f09bc5/NuGet.config",
+      "expected": "4c407dab51c34a97f893f0aca4437b8ca90bb8a8b48ffcd1d09b38927af0156a",
+      "actual": "4c407dab51c34a97f893f0aca4437b8ca90bb8a8b48ffcd1d09b38927af0156a"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-2-d256379b5c4b48b39f70206fa9f09bc5/global.json",
+      "expected": "c48726ffb10a31e50395529e134bd0ab4d82d14febbda7863ab49d00a9fddcb4",
+      "actual": "c48726ffb10a31e50395529e134bd0ab4d82d14febbda7863ab49d00a9fddcb4"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-2-d256379b5c4b48b39f70206fa9f09bc5/packages.lock.json",
+      "expected": "c2dc472b1d2255088e3ee6eb375d2fad6b98558ff16be5d65adcbcf8b5a7e85a",
+      "actual": "c2dc472b1d2255088e3ee6eb375d2fad6b98558ff16be5d65adcbcf8b5a7e85a"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-2-d256379b5c4b48b39f70206fa9f09bc5/bin/Release/net10.0/AspnetcoreKit.deps.json",
+      "expected": "84c6060c7635f203bb5fbefccb6219f8ab7e612e6d804bcbb424ee71202723a8",
+      "actual": "84c6060c7635f203bb5fbefccb6219f8ab7e612e6d804bcbb424ee71202723a8"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-2-d256379b5c4b48b39f70206fa9f09bc5/bin/Release/net10.0/AspnetcoreKit.dll",
+      "expected": "2b1d70f85c686b2a70f0427c6bdabed5f678191f2645bd7750de1a93aab743ff",
+      "actual": "2b1d70f85c686b2a70f0427c6bdabed5f678191f2645bd7750de1a93aab743ff"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-2-d256379b5c4b48b39f70206fa9f09bc5/bin/Release/net10.0/AspnetcoreKit.exe",
+      "expected": "88733e86ce54f877b281e503a3507e83997f6798ede623d6f73f407b7d27311b",
+      "actual": "88733e86ce54f877b281e503a3507e83997f6798ede623d6f73f407b7d27311b"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-2-d256379b5c4b48b39f70206fa9f09bc5/bin/Release/net10.0/AspnetcoreKit.pdb",
+      "expected": "e5be86608e91c6fed92d0358a42775c694ddb9b572bd6dc50f04d1a275f2a4d1",
+      "actual": "e5be86608e91c6fed92d0358a42775c694ddb9b572bd6dc50f04d1a275f2a4d1"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-2-d256379b5c4b48b39f70206fa9f09bc5/bin/Release/net10.0/AspnetcoreKit.runtimeconfig.json",
+      "expected": "b4aad84277c120c025a443649c4e09ca20b08725acc12ef60940786bfb8c024f",
+      "actual": "b4aad84277c120c025a443649c4e09ca20b08725acc12ef60940786bfb8c024f"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-2-d256379b5c4b48b39f70206fa9f09bc5/bin/Release/net10.0/Microsoft.ApplicationInsights.dll",
+      "expected": "bf9a4b88c7f94267e1cc7ed0700c575d3eb3266ff25bcb76e4f40f1b0fba022d",
+      "actual": "bf9a4b88c7f94267e1cc7ed0700c575d3eb3266ff25bcb76e4f40f1b0fba022d"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-2-d256379b5c4b48b39f70206fa9f09bc5/bin/Release/net10.0/Microsoft.AspNetCore.TestHost.dll",
+      "expected": "084c869d45df2fbb5e3c5ddf43c1118431cab075a592b19e730697fe2f1662e6",
+      "actual": "084c869d45df2fbb5e3c5ddf43c1118431cab075a592b19e730697fe2f1662e6"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-2-d256379b5c4b48b39f70206fa9f09bc5/bin/Release/net10.0/Microsoft.Bcl.AsyncInterfaces.dll",
+      "expected": "5705d245072d3eb78400547b32147dbb6e2c8b02ba8bda76729798f5efdeaecb",
+      "actual": "5705d245072d3eb78400547b32147dbb6e2c8b02ba8bda76729798f5efdeaecb"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-2-d256379b5c4b48b39f70206fa9f09bc5/bin/Release/net10.0/Microsoft.Testing.Extensions.MSBuild.dll",
+      "expected": "d364d5954dacfc2cf9239e29d1aeee37212019677447ccd1bd746710476bd703",
+      "actual": "d364d5954dacfc2cf9239e29d1aeee37212019677447ccd1bd746710476bd703"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-2-d256379b5c4b48b39f70206fa9f09bc5/bin/Release/net10.0/Microsoft.Testing.Extensions.Telemetry.dll",
+      "expected": "4a03c95584ab11527e541fce9d7466fc65779a2cc37b317cdafe2bc5d7169410",
+      "actual": "4a03c95584ab11527e541fce9d7466fc65779a2cc37b317cdafe2bc5d7169410"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-2-d256379b5c4b48b39f70206fa9f09bc5/bin/Release/net10.0/Microsoft.Testing.Extensions.TrxReport.Abstractions.dll",
+      "expected": "4065f9179d0f97eff5f23624be508992d7e57e1b331f330051c76e2731fcef79",
+      "actual": "4065f9179d0f97eff5f23624be508992d7e57e1b331f330051c76e2731fcef79"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-2-d256379b5c4b48b39f70206fa9f09bc5/bin/Release/net10.0/Microsoft.Testing.Platform.dll",
+      "expected": "92db7b51a0e878e84d17a0ffef92abe22b3033ce5655f8bdbda06a3a93651c2e",
+      "actual": "92db7b51a0e878e84d17a0ffef92abe22b3033ce5655f8bdbda06a3a93651c2e"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-2-d256379b5c4b48b39f70206fa9f09bc5/bin/Release/net10.0/xunit.abstractions.dll",
+      "expected": "3166dc70323fb30ccf1cedb0fe86f2ad122c46d254542342d90386efc4c9285c",
+      "actual": "3166dc70323fb30ccf1cedb0fe86f2ad122c46d254542342d90386efc4c9285c"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-2-d256379b5c4b48b39f70206fa9f09bc5/bin/Release/net10.0/xunit.v3.assert.dll",
+      "expected": "d14ea33253a7e289af5254617203b02f0643ba7ff618670de837d642ef22af11",
+      "actual": "d14ea33253a7e289af5254617203b02f0643ba7ff618670de837d642ef22af11"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-2-d256379b5c4b48b39f70206fa9f09bc5/bin/Release/net10.0/xunit.v3.common.dll",
+      "expected": "e8e5bf50c6e739812ab5daaaefcc1187b54768a499ccc4b262d4533cc3cab93d",
+      "actual": "e8e5bf50c6e739812ab5daaaefcc1187b54768a499ccc4b262d4533cc3cab93d"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-2-d256379b5c4b48b39f70206fa9f09bc5/bin/Release/net10.0/xunit.v3.core.dll",
+      "expected": "0155a245478403afefd0b363ef24b7588ad6dbf59ff3a88c1a8d8995eba873a1",
+      "actual": "0155a245478403afefd0b363ef24b7588ad6dbf59ff3a88c1a8d8995eba873a1"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-2-d256379b5c4b48b39f70206fa9f09bc5/bin/Release/net10.0/xunit.v3.mtp-v2.dll",
+      "expected": "5396efa072a4c925f58f1a4181b022cdc911c1a359d8dd5db838b79a8c741b50",
+      "actual": "5396efa072a4c925f58f1a4181b022cdc911c1a359d8dd5db838b79a8c741b50"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-2-d256379b5c4b48b39f70206fa9f09bc5/bin/Release/net10.0/xunit.v3.runner.common.dll",
+      "expected": "059a41ab6c3cc8a00f9ec87846565cb3d2a29a7e46fa2089f461ffbb462355fa",
+      "actual": "059a41ab6c3cc8a00f9ec87846565cb3d2a29a7e46fa2089f461ffbb462355fa"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-2-d256379b5c4b48b39f70206fa9f09bc5/bin/Release/net10.0/xunit.v3.runner.inproc.console.dll",
+      "expected": "bde56080928f7f617512d0dbe4043276ac0a15f2e377e71c204f7c12ebea082b",
+      "actual": "bde56080928f7f617512d0dbe4043276ac0a15f2e377e71c204f7c12ebea082b"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-2-d256379b5c4b48b39f70206fa9f09bc5/bin/Release/net10.0/xunit.v3.runner.utility.netcore.dll",
+      "expected": "ee7fc452193192525965540d9c9821f85a70c93b16e9e8c6fd0f168d40b56152",
+      "actual": "ee7fc452193192525965540d9c9821f85a70c93b16e9e8c6fd0f168d40b56152"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/aspnetcore/idiomatic/run-2/solution/Api.cs",
+      "expected": "8739d0f92abe088fc591e9231a1a0442278ca85e0c0adc152d36f07af4e4f59f",
+      "actual": "8739d0f92abe088fc591e9231a1a0442278ca85e0c0adc152d36f07af4e4f59f"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/aspnetcore/idiomatic/run-2/rounds/0001/record.json",
+      "expected": "5af45e726066821db4bde9068d5f1ed066ed25991e5533a53d931f62c2eeecc3",
+      "actual": "5af45e726066821db4bde9068d5f1ed066ed25991e5533a53d931f62c2eeecc3"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/aspnetcore/idiomatic/run-2/rounds/0001/build.process.json",
+      "expected": "e8aefe000653b2a32ca2571b08022e7d88c28dc683896954efff020335c421d1",
+      "actual": "e8aefe000653b2a32ca2571b08022e7d88c28dc683896954efff020335c421d1"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/aspnetcore/idiomatic/run-2/rounds/0001/inputs.json",
+      "expected": "eb59647929e5914d7302ba126bdf490208403149d61bee087f3f58623bd77f7d",
+      "actual": "eb59647929e5914d7302ba126bdf490208403149d61bee087f3f58623bd77f7d"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/aspnetcore/idiomatic/run-2/rounds/0001/test.process.json",
+      "expected": "66edc2b7a1d449a37e017d0ecf3c9b4705f1009588bdddf132743d741c89f283",
+      "actual": "66edc2b7a1d449a37e017d0ecf3c9b4705f1009588bdddf132743d741c89f283"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-2-d256379b5c4b48b39f70206fa9f09bc5/nuget_packages/microsoft.applicationinsights\\2.23.0\\microsoft.applicationinsights.2.23.0.nupkg",
+      "expected": "e6c7f76e0ec26598c7b1e2be1777e839c84486655e8a878fc4c655bd2e918dbd",
+      "actual": "e6c7f76e0ec26598c7b1e2be1777e839c84486655e8a878fc4c655bd2e918dbd"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-2-d256379b5c4b48b39f70206fa9f09bc5/nuget_packages/xunit.v3.common\\4.0.0\\xunit.v3.common.4.0.0.nupkg",
+      "expected": "165a769dce914cf894744c76c641d84ec12687d366a2823bf11021d4c471f25b",
+      "actual": "165a769dce914cf894744c76c641d84ec12687d366a2823bf11021d4c471f25b"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-2-d256379b5c4b48b39f70206fa9f09bc5/nuget_packages/xunit.v3.runner.inproc.console\\4.0.0\\xunit.v3.runner.inproc.console.4.0.0.nupkg",
+      "expected": "1446b39b1c6f43662993d71a53d51597b6ff5849f4f9369e42a0f5808f7189a5",
+      "actual": "1446b39b1c6f43662993d71a53d51597b6ff5849f4f9369e42a0f5808f7189a5"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-2-d256379b5c4b48b39f70206fa9f09bc5/nuget_packages/microsoft.bcl.asyncinterfaces\\6.0.0\\microsoft.bcl.asyncinterfaces.6.0.0.nupkg",
+      "expected": "e3df87fe2170a7e01f0880af59caa8f6eb380b3c40a4f282dfb43912aaf0f895",
+      "actual": "e3df87fe2170a7e01f0880af59caa8f6eb380b3c40a4f282dfb43912aaf0f895"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-2-d256379b5c4b48b39f70206fa9f09bc5/nuget_packages/microsoft.testing.extensions.telemetry\\2.3.3\\microsoft.testing.extensions.telemetry.2.3.3.nupkg",
+      "expected": "0e8a35200c270e56eaca0d90ea9f3646e618010ed59099d8e0f9fd30366a08eb",
+      "actual": "0e8a35200c270e56eaca0d90ea9f3646e618010ed59099d8e0f9fd30366a08eb"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-2-d256379b5c4b48b39f70206fa9f09bc5/nuget_packages/xunit.v3.assert\\4.0.0\\xunit.v3.assert.4.0.0.nupkg",
+      "expected": "58e041a132ba8092aa78779616fe953ae2e5ec9102e2b480bf6776a9297d51d1",
+      "actual": "58e041a132ba8092aa78779616fe953ae2e5ec9102e2b480bf6776a9297d51d1"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-2-d256379b5c4b48b39f70206fa9f09bc5/nuget_packages/xunit.v3.extensibility.core\\4.0.0\\xunit.v3.extensibility.core.4.0.0.nupkg",
+      "expected": "6e489a237720169f91ba59b0d801495a28cdc956399995afa69f7aaea0992c11",
+      "actual": "6e489a237720169f91ba59b0d801495a28cdc956399995afa69f7aaea0992c11"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-2-d256379b5c4b48b39f70206fa9f09bc5/nuget_packages/microsoft.testing.platform\\2.3.3\\microsoft.testing.platform.2.3.3.nupkg",
+      "expected": "b07d00cab5f49f2d0981592044baef3d720a079e6941601c7790044584b3174a",
+      "actual": "b07d00cab5f49f2d0981592044baef3d720a079e6941601c7790044584b3174a"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-2-d256379b5c4b48b39f70206fa9f09bc5/nuget_packages/xunit.analyzers\\2.0.0\\xunit.analyzers.2.0.0.nupkg",
+      "expected": "9d040d284a972ac50dc6b149cbd7f76933f30b03e9214903b1dcd7d117b308af",
+      "actual": "9d040d284a972ac50dc6b149cbd7f76933f30b03e9214903b1dcd7d117b308af"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-2-d256379b5c4b48b39f70206fa9f09bc5/nuget_packages/xunit.v3.core.mtp-v2\\4.0.0\\xunit.v3.core.mtp-v2.4.0.0.nupkg",
+      "expected": "6a3f3397f6b0104e2fb55e0f8bd97d409210525eb3c73d497efd716a29dcc4b2",
+      "actual": "6a3f3397f6b0104e2fb55e0f8bd97d409210525eb3c73d497efd716a29dcc4b2"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-2-d256379b5c4b48b39f70206fa9f09bc5/nuget_packages/microsoft.aspnetcore.testhost\\10.0.11\\microsoft.aspnetcore.testhost.10.0.11.nupkg",
+      "expected": "f825d40fd268e1822dbda4a5d25087d940a1ff42a582eba11d8999a423ea5bf4",
+      "actual": "f825d40fd268e1822dbda4a5d25087d940a1ff42a582eba11d8999a423ea5bf4"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-2-d256379b5c4b48b39f70206fa9f09bc5/nuget_packages/system.security.accesscontrol\\6.0.1\\system.security.accesscontrol.6.0.1.nupkg",
+      "expected": "462e26f796417e8a4350655a85bbd4233b94cbd0f7150c1c5e9acfd88e885141",
+      "actual": "462e26f796417e8a4350655a85bbd4233b94cbd0f7150c1c5e9acfd88e885141"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-2-d256379b5c4b48b39f70206fa9f09bc5/nuget_packages/microsoft.testing.extensions.trxreport.abstractions\\2.3.3\\microsoft.testing.extensions.trxreport.abstractions.2.3.3.nupkg",
+      "expected": "6008074b70742f046f2077abdbce50b92ad808ee45712a405daccbe693470786",
+      "actual": "6008074b70742f046f2077abdbce50b92ad808ee45712a405daccbe693470786"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-2-d256379b5c4b48b39f70206fa9f09bc5/nuget_packages/microsoft.win32.registry\\5.0.0\\microsoft.win32.registry.5.0.0.nupkg",
+      "expected": "f64ca53c67ca65ce7cc85a8d29aefbb2da2672836731e1115e8cd62730dc5080",
+      "actual": "f64ca53c67ca65ce7cc85a8d29aefbb2da2672836731e1115e8cd62730dc5080"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-2-d256379b5c4b48b39f70206fa9f09bc5/nuget_packages/xunit.v3\\4.0.0\\xunit.v3.4.0.0.nupkg",
+      "expected": "ccaea145afc512d898a8c5f0acbe619b2ba35a7d3716977de4309f960b10c095",
+      "actual": "ccaea145afc512d898a8c5f0acbe619b2ba35a7d3716977de4309f960b10c095"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-2-d256379b5c4b48b39f70206fa9f09bc5/nuget_packages/microsoft.testing.platform.msbuild\\2.3.3\\microsoft.testing.platform.msbuild.2.3.3.nupkg",
+      "expected": "25e537fbc39e6ce0c0da4e8a4a8ae6d8fee98ae41945d4b586124a03075f4890",
+      "actual": "25e537fbc39e6ce0c0da4e8a4a8ae6d8fee98ae41945d4b586124a03075f4890"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-2-d256379b5c4b48b39f70206fa9f09bc5/nuget_packages/xunit.v3.mtp-v2\\4.0.0\\xunit.v3.mtp-v2.4.0.0.nupkg",
+      "expected": "b131a89b59141ce5dd1ad89a736e0e2e959a44d5951d596e548d0c7a31825507",
+      "actual": "b131a89b59141ce5dd1ad89a736e0e2e959a44d5951d596e548d0c7a31825507"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-idiomatic-run-2-d256379b5c4b48b39f70206fa9f09bc5/nuget_packages/xunit.v3.runner.common\\4.0.0\\xunit.v3.runner.common.4.0.0.nupkg",
+      "expected": "328c2a49436464bf54c40d5e544922f72252b9bc8dbcd322dfead5e52420bb94",
+      "actual": "328c2a49436464bf54c40d5e544922f72252b9bc8dbcd322dfead5e52420bb94"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-1-b278c0804a8e47bc8c802a058031845a/Api.cs",
+      "expected": "fe332b3ef5e92be95bc4d545c2fe5f3724d4c09c731a2a65e94ec85e2adfa113",
+      "actual": "fe332b3ef5e92be95bc4d545c2fe5f3724d4c09c731a2a65e94ec85e2adfa113"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-1-b278c0804a8e47bc8c802a058031845a/Contract.cs",
+      "expected": "0e29dbaa90e69c2233652a6a742c9acef19b98a5ab90f1c9cbef191e138c9fec",
+      "actual": "0e29dbaa90e69c2233652a6a742c9acef19b98a5ab90f1c9cbef191e138c9fec"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-1-b278c0804a8e47bc8c802a058031845a/AspnetcoreTests.cs",
+      "expected": "b4343005f670ae9c23f9338e3f56289459f79630b763b7dfe434ae289a8b39c7",
+      "actual": "b4343005f670ae9c23f9338e3f56289459f79630b763b7dfe434ae289a8b39c7"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-1-b278c0804a8e47bc8c802a058031845a/AspnetcoreKit.csproj",
+      "expected": "4d6381d51bc657902e59f8fc55d8672ea52c3c30d28010b835f601ebbbaaac01",
+      "actual": "4d6381d51bc657902e59f8fc55d8672ea52c3c30d28010b835f601ebbbaaac01"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-1-b278c0804a8e47bc8c802a058031845a/Directory.Build.props",
+      "expected": "e1f773524cbe06e47ce9373a35995982889f95f1f943cde9830a99ba4257e76b",
+      "actual": "e1f773524cbe06e47ce9373a35995982889f95f1f943cde9830a99ba4257e76b"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-1-b278c0804a8e47bc8c802a058031845a/NuGet.config",
+      "expected": "4c407dab51c34a97f893f0aca4437b8ca90bb8a8b48ffcd1d09b38927af0156a",
+      "actual": "4c407dab51c34a97f893f0aca4437b8ca90bb8a8b48ffcd1d09b38927af0156a"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-1-b278c0804a8e47bc8c802a058031845a/global.json",
+      "expected": "c48726ffb10a31e50395529e134bd0ab4d82d14febbda7863ab49d00a9fddcb4",
+      "actual": "c48726ffb10a31e50395529e134bd0ab4d82d14febbda7863ab49d00a9fddcb4"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-1-b278c0804a8e47bc8c802a058031845a/packages.lock.json",
+      "expected": "e24cad0cb90736dbc86d0b0d1cc408523556b9fb0f73322fb87abfedf829fb7a",
+      "actual": "e24cad0cb90736dbc86d0b0d1cc408523556b9fb0f73322fb87abfedf829fb7a"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-1-b278c0804a8e47bc8c802a058031845a/bin/Release/net10.0/AspnetcoreKit.deps.json",
+      "expected": "5ddb9b65a5342efc96b5fe8178a294dbc02033cdf507f0b3ed420fb33052e591",
+      "actual": "5ddb9b65a5342efc96b5fe8178a294dbc02033cdf507f0b3ed420fb33052e591"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-1-b278c0804a8e47bc8c802a058031845a/bin/Release/net10.0/AspnetcoreKit.dll",
+      "expected": "12581adab3e0543fbb365cd0dea5f61f41f8ec7e49c312a0afd4f71884662967",
+      "actual": "12581adab3e0543fbb365cd0dea5f61f41f8ec7e49c312a0afd4f71884662967"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-1-b278c0804a8e47bc8c802a058031845a/bin/Release/net10.0/AspnetcoreKit.exe",
+      "expected": "88733e86ce54f877b281e503a3507e83997f6798ede623d6f73f407b7d27311b",
+      "actual": "88733e86ce54f877b281e503a3507e83997f6798ede623d6f73f407b7d27311b"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-1-b278c0804a8e47bc8c802a058031845a/bin/Release/net10.0/AspnetcoreKit.pdb",
+      "expected": "a28688e84253c17cbf6bade14f7cfcd18b90480c102332382e9dfb5a5043308c",
+      "actual": "a28688e84253c17cbf6bade14f7cfcd18b90480c102332382e9dfb5a5043308c"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-1-b278c0804a8e47bc8c802a058031845a/bin/Release/net10.0/AspnetcoreKit.runtimeconfig.json",
+      "expected": "b4aad84277c120c025a443649c4e09ca20b08725acc12ef60940786bfb8c024f",
+      "actual": "b4aad84277c120c025a443649c4e09ca20b08725acc12ef60940786bfb8c024f"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-1-b278c0804a8e47bc8c802a058031845a/bin/Release/net10.0/FunnySharp.AspNetCore.dll",
+      "expected": "2daaff9c72db5b730c06d3270c00dfd7046fa27e26d59374e31cf270b8dc30c2",
+      "actual": "2daaff9c72db5b730c06d3270c00dfd7046fa27e26d59374e31cf270b8dc30c2"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-1-b278c0804a8e47bc8c802a058031845a/bin/Release/net10.0/FunnySharp.dll",
+      "expected": "6a903f737356fdf67845c9cd39385e4a5e2b39bcae0ee92ff2882480ecb7e49d",
+      "actual": "6a903f737356fdf67845c9cd39385e4a5e2b39bcae0ee92ff2882480ecb7e49d"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-1-b278c0804a8e47bc8c802a058031845a/bin/Release/net10.0/Microsoft.ApplicationInsights.dll",
+      "expected": "bf9a4b88c7f94267e1cc7ed0700c575d3eb3266ff25bcb76e4f40f1b0fba022d",
+      "actual": "bf9a4b88c7f94267e1cc7ed0700c575d3eb3266ff25bcb76e4f40f1b0fba022d"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-1-b278c0804a8e47bc8c802a058031845a/bin/Release/net10.0/Microsoft.AspNetCore.TestHost.dll",
+      "expected": "084c869d45df2fbb5e3c5ddf43c1118431cab075a592b19e730697fe2f1662e6",
+      "actual": "084c869d45df2fbb5e3c5ddf43c1118431cab075a592b19e730697fe2f1662e6"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-1-b278c0804a8e47bc8c802a058031845a/bin/Release/net10.0/Microsoft.Bcl.AsyncInterfaces.dll",
+      "expected": "5705d245072d3eb78400547b32147dbb6e2c8b02ba8bda76729798f5efdeaecb",
+      "actual": "5705d245072d3eb78400547b32147dbb6e2c8b02ba8bda76729798f5efdeaecb"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-1-b278c0804a8e47bc8c802a058031845a/bin/Release/net10.0/Microsoft.Testing.Extensions.MSBuild.dll",
+      "expected": "d364d5954dacfc2cf9239e29d1aeee37212019677447ccd1bd746710476bd703",
+      "actual": "d364d5954dacfc2cf9239e29d1aeee37212019677447ccd1bd746710476bd703"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-1-b278c0804a8e47bc8c802a058031845a/bin/Release/net10.0/Microsoft.Testing.Extensions.Telemetry.dll",
+      "expected": "4a03c95584ab11527e541fce9d7466fc65779a2cc37b317cdafe2bc5d7169410",
+      "actual": "4a03c95584ab11527e541fce9d7466fc65779a2cc37b317cdafe2bc5d7169410"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-1-b278c0804a8e47bc8c802a058031845a/bin/Release/net10.0/Microsoft.Testing.Extensions.TrxReport.Abstractions.dll",
+      "expected": "4065f9179d0f97eff5f23624be508992d7e57e1b331f330051c76e2731fcef79",
+      "actual": "4065f9179d0f97eff5f23624be508992d7e57e1b331f330051c76e2731fcef79"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-1-b278c0804a8e47bc8c802a058031845a/bin/Release/net10.0/Microsoft.Testing.Platform.dll",
+      "expected": "92db7b51a0e878e84d17a0ffef92abe22b3033ce5655f8bdbda06a3a93651c2e",
+      "actual": "92db7b51a0e878e84d17a0ffef92abe22b3033ce5655f8bdbda06a3a93651c2e"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-1-b278c0804a8e47bc8c802a058031845a/bin/Release/net10.0/xunit.abstractions.dll",
+      "expected": "3166dc70323fb30ccf1cedb0fe86f2ad122c46d254542342d90386efc4c9285c",
+      "actual": "3166dc70323fb30ccf1cedb0fe86f2ad122c46d254542342d90386efc4c9285c"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-1-b278c0804a8e47bc8c802a058031845a/bin/Release/net10.0/xunit.v3.assert.dll",
+      "expected": "d14ea33253a7e289af5254617203b02f0643ba7ff618670de837d642ef22af11",
+      "actual": "d14ea33253a7e289af5254617203b02f0643ba7ff618670de837d642ef22af11"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-1-b278c0804a8e47bc8c802a058031845a/bin/Release/net10.0/xunit.v3.common.dll",
+      "expected": "e8e5bf50c6e739812ab5daaaefcc1187b54768a499ccc4b262d4533cc3cab93d",
+      "actual": "e8e5bf50c6e739812ab5daaaefcc1187b54768a499ccc4b262d4533cc3cab93d"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-1-b278c0804a8e47bc8c802a058031845a/bin/Release/net10.0/xunit.v3.core.dll",
+      "expected": "0155a245478403afefd0b363ef24b7588ad6dbf59ff3a88c1a8d8995eba873a1",
+      "actual": "0155a245478403afefd0b363ef24b7588ad6dbf59ff3a88c1a8d8995eba873a1"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-1-b278c0804a8e47bc8c802a058031845a/bin/Release/net10.0/xunit.v3.mtp-v2.dll",
+      "expected": "5396efa072a4c925f58f1a4181b022cdc911c1a359d8dd5db838b79a8c741b50",
+      "actual": "5396efa072a4c925f58f1a4181b022cdc911c1a359d8dd5db838b79a8c741b50"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-1-b278c0804a8e47bc8c802a058031845a/bin/Release/net10.0/xunit.v3.runner.common.dll",
+      "expected": "059a41ab6c3cc8a00f9ec87846565cb3d2a29a7e46fa2089f461ffbb462355fa",
+      "actual": "059a41ab6c3cc8a00f9ec87846565cb3d2a29a7e46fa2089f461ffbb462355fa"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-1-b278c0804a8e47bc8c802a058031845a/bin/Release/net10.0/xunit.v3.runner.inproc.console.dll",
+      "expected": "bde56080928f7f617512d0dbe4043276ac0a15f2e377e71c204f7c12ebea082b",
+      "actual": "bde56080928f7f617512d0dbe4043276ac0a15f2e377e71c204f7c12ebea082b"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-1-b278c0804a8e47bc8c802a058031845a/bin/Release/net10.0/xunit.v3.runner.utility.netcore.dll",
+      "expected": "ee7fc452193192525965540d9c9821f85a70c93b16e9e8c6fd0f168d40b56152",
+      "actual": "ee7fc452193192525965540d9c9821f85a70c93b16e9e8c6fd0f168d40b56152"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/aspnetcore/funnysharp/run-1/solution/Api.cs",
+      "expected": "fe332b3ef5e92be95bc4d545c2fe5f3724d4c09c731a2a65e94ec85e2adfa113",
+      "actual": "fe332b3ef5e92be95bc4d545c2fe5f3724d4c09c731a2a65e94ec85e2adfa113"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/aspnetcore/funnysharp/run-1/rounds/0001/record.json",
+      "expected": "802457a9d773583ac1dd80d3ad0fcece0399da5d56037c901c0b21f75acde8c2",
+      "actual": "802457a9d773583ac1dd80d3ad0fcece0399da5d56037c901c0b21f75acde8c2"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/aspnetcore/funnysharp/run-1/rounds/0001/build.process.json",
+      "expected": "2874387c55432183ae803b96c4359ea39be73d5f7b33a4667b53823765ab8b75",
+      "actual": "2874387c55432183ae803b96c4359ea39be73d5f7b33a4667b53823765ab8b75"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/aspnetcore/funnysharp/run-1/rounds/0001/inputs.json",
+      "expected": "4dd63b082b84dbbba0d3cd3cd826085e1b38734cfc4c2ccb9fca74288392edf0",
+      "actual": "4dd63b082b84dbbba0d3cd3cd826085e1b38734cfc4c2ccb9fca74288392edf0"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/aspnetcore/funnysharp/run-1/rounds/0001/test.process.json",
+      "expected": "3987cb8ef3bd86957969fe1952a5fa2b0250aceed8c3c33b1ea199a223f4ae7e",
+      "actual": "3987cb8ef3bd86957969fe1952a5fa2b0250aceed8c3c33b1ea199a223f4ae7e"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-1-b278c0804a8e47bc8c802a058031845a/nuget_packages/system.security.accesscontrol\\6.0.1\\system.security.accesscontrol.6.0.1.nupkg",
+      "expected": "462e26f796417e8a4350655a85bbd4233b94cbd0f7150c1c5e9acfd88e885141",
+      "actual": "462e26f796417e8a4350655a85bbd4233b94cbd0f7150c1c5e9acfd88e885141"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-1-b278c0804a8e47bc8c802a058031845a/nuget_packages/funnysharp\\0.2.0\\funnysharp.0.2.0.nupkg",
+      "expected": "496150ff0dbf92d739daf626c7f47590a0ffcdf0a20821a900af7d0b2fdc2834",
+      "actual": "496150ff0dbf92d739daf626c7f47590a0ffcdf0a20821a900af7d0b2fdc2834"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-1-b278c0804a8e47bc8c802a058031845a/nuget_packages/xunit.v3.core.mtp-v2\\4.0.0\\xunit.v3.core.mtp-v2.4.0.0.nupkg",
+      "expected": "6a3f3397f6b0104e2fb55e0f8bd97d409210525eb3c73d497efd716a29dcc4b2",
+      "actual": "6a3f3397f6b0104e2fb55e0f8bd97d409210525eb3c73d497efd716a29dcc4b2"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-1-b278c0804a8e47bc8c802a058031845a/nuget_packages/xunit.v3.runner.common\\4.0.0\\xunit.v3.runner.common.4.0.0.nupkg",
+      "expected": "328c2a49436464bf54c40d5e544922f72252b9bc8dbcd322dfead5e52420bb94",
+      "actual": "328c2a49436464bf54c40d5e544922f72252b9bc8dbcd322dfead5e52420bb94"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-1-b278c0804a8e47bc8c802a058031845a/nuget_packages/xunit.v3.common\\4.0.0\\xunit.v3.common.4.0.0.nupkg",
+      "expected": "165a769dce914cf894744c76c641d84ec12687d366a2823bf11021d4c471f25b",
+      "actual": "165a769dce914cf894744c76c641d84ec12687d366a2823bf11021d4c471f25b"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-1-b278c0804a8e47bc8c802a058031845a/nuget_packages/xunit.v3.mtp-v2\\4.0.0\\xunit.v3.mtp-v2.4.0.0.nupkg",
+      "expected": "b131a89b59141ce5dd1ad89a736e0e2e959a44d5951d596e548d0c7a31825507",
+      "actual": "b131a89b59141ce5dd1ad89a736e0e2e959a44d5951d596e548d0c7a31825507"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-1-b278c0804a8e47bc8c802a058031845a/nuget_packages/xunit.v3.runner.inproc.console\\4.0.0\\xunit.v3.runner.inproc.console.4.0.0.nupkg",
+      "expected": "1446b39b1c6f43662993d71a53d51597b6ff5849f4f9369e42a0f5808f7189a5",
+      "actual": "1446b39b1c6f43662993d71a53d51597b6ff5849f4f9369e42a0f5808f7189a5"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-1-b278c0804a8e47bc8c802a058031845a/nuget_packages/xunit.v3.extensibility.core\\4.0.0\\xunit.v3.extensibility.core.4.0.0.nupkg",
+      "expected": "6e489a237720169f91ba59b0d801495a28cdc956399995afa69f7aaea0992c11",
+      "actual": "6e489a237720169f91ba59b0d801495a28cdc956399995afa69f7aaea0992c11"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-1-b278c0804a8e47bc8c802a058031845a/nuget_packages/xunit.v3\\4.0.0\\xunit.v3.4.0.0.nupkg",
+      "expected": "ccaea145afc512d898a8c5f0acbe619b2ba35a7d3716977de4309f960b10c095",
+      "actual": "ccaea145afc512d898a8c5f0acbe619b2ba35a7d3716977de4309f960b10c095"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-1-b278c0804a8e47bc8c802a058031845a/nuget_packages/xunit.analyzers\\2.0.0\\xunit.analyzers.2.0.0.nupkg",
+      "expected": "9d040d284a972ac50dc6b149cbd7f76933f30b03e9214903b1dcd7d117b308af",
+      "actual": "9d040d284a972ac50dc6b149cbd7f76933f30b03e9214903b1dcd7d117b308af"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-1-b278c0804a8e47bc8c802a058031845a/nuget_packages/xunit.v3.assert\\4.0.0\\xunit.v3.assert.4.0.0.nupkg",
+      "expected": "58e041a132ba8092aa78779616fe953ae2e5ec9102e2b480bf6776a9297d51d1",
+      "actual": "58e041a132ba8092aa78779616fe953ae2e5ec9102e2b480bf6776a9297d51d1"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-1-b278c0804a8e47bc8c802a058031845a/nuget_packages/funnysharp.aspnetcore\\0.2.0\\funnysharp.aspnetcore.0.2.0.nupkg",
+      "expected": "ebc7f054daed0b89f82e128cd7e3294ed7341444cecb849c64e5b4f0596054ef",
+      "actual": "ebc7f054daed0b89f82e128cd7e3294ed7341444cecb849c64e5b4f0596054ef"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-1-b278c0804a8e47bc8c802a058031845a/nuget_packages/microsoft.win32.registry\\5.0.0\\microsoft.win32.registry.5.0.0.nupkg",
+      "expected": "f64ca53c67ca65ce7cc85a8d29aefbb2da2672836731e1115e8cd62730dc5080",
+      "actual": "f64ca53c67ca65ce7cc85a8d29aefbb2da2672836731e1115e8cd62730dc5080"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-1-b278c0804a8e47bc8c802a058031845a/nuget_packages/microsoft.testing.platform.msbuild\\2.3.3\\microsoft.testing.platform.msbuild.2.3.3.nupkg",
+      "expected": "25e537fbc39e6ce0c0da4e8a4a8ae6d8fee98ae41945d4b586124a03075f4890",
+      "actual": "25e537fbc39e6ce0c0da4e8a4a8ae6d8fee98ae41945d4b586124a03075f4890"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-1-b278c0804a8e47bc8c802a058031845a/nuget_packages/microsoft.bcl.asyncinterfaces\\6.0.0\\microsoft.bcl.asyncinterfaces.6.0.0.nupkg",
+      "expected": "e3df87fe2170a7e01f0880af59caa8f6eb380b3c40a4f282dfb43912aaf0f895",
+      "actual": "e3df87fe2170a7e01f0880af59caa8f6eb380b3c40a4f282dfb43912aaf0f895"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-1-b278c0804a8e47bc8c802a058031845a/nuget_packages/microsoft.testing.extensions.telemetry\\2.3.3\\microsoft.testing.extensions.telemetry.2.3.3.nupkg",
+      "expected": "0e8a35200c270e56eaca0d90ea9f3646e618010ed59099d8e0f9fd30366a08eb",
+      "actual": "0e8a35200c270e56eaca0d90ea9f3646e618010ed59099d8e0f9fd30366a08eb"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-1-b278c0804a8e47bc8c802a058031845a/nuget_packages/microsoft.applicationinsights\\2.23.0\\microsoft.applicationinsights.2.23.0.nupkg",
+      "expected": "e6c7f76e0ec26598c7b1e2be1777e839c84486655e8a878fc4c655bd2e918dbd",
+      "actual": "e6c7f76e0ec26598c7b1e2be1777e839c84486655e8a878fc4c655bd2e918dbd"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-1-b278c0804a8e47bc8c802a058031845a/nuget_packages/microsoft.aspnetcore.testhost\\10.0.11\\microsoft.aspnetcore.testhost.10.0.11.nupkg",
+      "expected": "f825d40fd268e1822dbda4a5d25087d940a1ff42a582eba11d8999a423ea5bf4",
+      "actual": "f825d40fd268e1822dbda4a5d25087d940a1ff42a582eba11d8999a423ea5bf4"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-1-b278c0804a8e47bc8c802a058031845a/nuget_packages/microsoft.testing.extensions.trxreport.abstractions\\2.3.3\\microsoft.testing.extensions.trxreport.abstractions.2.3.3.nupkg",
+      "expected": "6008074b70742f046f2077abdbce50b92ad808ee45712a405daccbe693470786",
+      "actual": "6008074b70742f046f2077abdbce50b92ad808ee45712a405daccbe693470786"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-1-b278c0804a8e47bc8c802a058031845a/nuget_packages/microsoft.testing.platform\\2.3.3\\microsoft.testing.platform.2.3.3.nupkg",
+      "expected": "b07d00cab5f49f2d0981592044baef3d720a079e6941601c7790044584b3174a",
+      "actual": "b07d00cab5f49f2d0981592044baef3d720a079e6941601c7790044584b3174a"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-2-6ad6e8fc207a490787a062d222b643ad/Api.cs",
+      "expected": "dfeb73e93fc0d4d91505c80367b333ea5e090a87dd6c2a17901e6fbb8a994eed",
+      "actual": "dfeb73e93fc0d4d91505c80367b333ea5e090a87dd6c2a17901e6fbb8a994eed"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-2-6ad6e8fc207a490787a062d222b643ad/Contract.cs",
+      "expected": "0e29dbaa90e69c2233652a6a742c9acef19b98a5ab90f1c9cbef191e138c9fec",
+      "actual": "0e29dbaa90e69c2233652a6a742c9acef19b98a5ab90f1c9cbef191e138c9fec"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-2-6ad6e8fc207a490787a062d222b643ad/AspnetcoreTests.cs",
+      "expected": "b4343005f670ae9c23f9338e3f56289459f79630b763b7dfe434ae289a8b39c7",
+      "actual": "b4343005f670ae9c23f9338e3f56289459f79630b763b7dfe434ae289a8b39c7"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-2-6ad6e8fc207a490787a062d222b643ad/AspnetcoreKit.csproj",
+      "expected": "4d6381d51bc657902e59f8fc55d8672ea52c3c30d28010b835f601ebbbaaac01",
+      "actual": "4d6381d51bc657902e59f8fc55d8672ea52c3c30d28010b835f601ebbbaaac01"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-2-6ad6e8fc207a490787a062d222b643ad/Directory.Build.props",
+      "expected": "e1f773524cbe06e47ce9373a35995982889f95f1f943cde9830a99ba4257e76b",
+      "actual": "e1f773524cbe06e47ce9373a35995982889f95f1f943cde9830a99ba4257e76b"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-2-6ad6e8fc207a490787a062d222b643ad/NuGet.config",
+      "expected": "4c407dab51c34a97f893f0aca4437b8ca90bb8a8b48ffcd1d09b38927af0156a",
+      "actual": "4c407dab51c34a97f893f0aca4437b8ca90bb8a8b48ffcd1d09b38927af0156a"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-2-6ad6e8fc207a490787a062d222b643ad/global.json",
+      "expected": "c48726ffb10a31e50395529e134bd0ab4d82d14febbda7863ab49d00a9fddcb4",
+      "actual": "c48726ffb10a31e50395529e134bd0ab4d82d14febbda7863ab49d00a9fddcb4"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-2-6ad6e8fc207a490787a062d222b643ad/packages.lock.json",
+      "expected": "e24cad0cb90736dbc86d0b0d1cc408523556b9fb0f73322fb87abfedf829fb7a",
+      "actual": "e24cad0cb90736dbc86d0b0d1cc408523556b9fb0f73322fb87abfedf829fb7a"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-2-6ad6e8fc207a490787a062d222b643ad/bin/Release/net10.0/AspnetcoreKit.deps.json",
+      "expected": "5ddb9b65a5342efc96b5fe8178a294dbc02033cdf507f0b3ed420fb33052e591",
+      "actual": "5ddb9b65a5342efc96b5fe8178a294dbc02033cdf507f0b3ed420fb33052e591"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-2-6ad6e8fc207a490787a062d222b643ad/bin/Release/net10.0/AspnetcoreKit.dll",
+      "expected": "d9b446ad582ff650ae664846c0f26132320d2c20e7d1d01c36799863fce92b59",
+      "actual": "d9b446ad582ff650ae664846c0f26132320d2c20e7d1d01c36799863fce92b59"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-2-6ad6e8fc207a490787a062d222b643ad/bin/Release/net10.0/AspnetcoreKit.exe",
+      "expected": "88733e86ce54f877b281e503a3507e83997f6798ede623d6f73f407b7d27311b",
+      "actual": "88733e86ce54f877b281e503a3507e83997f6798ede623d6f73f407b7d27311b"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-2-6ad6e8fc207a490787a062d222b643ad/bin/Release/net10.0/AspnetcoreKit.pdb",
+      "expected": "51d5f74e72c461f3f4a6645cca3886db8d678c0f82ef8affbc4bd132ac254b6a",
+      "actual": "51d5f74e72c461f3f4a6645cca3886db8d678c0f82ef8affbc4bd132ac254b6a"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-2-6ad6e8fc207a490787a062d222b643ad/bin/Release/net10.0/AspnetcoreKit.runtimeconfig.json",
+      "expected": "b4aad84277c120c025a443649c4e09ca20b08725acc12ef60940786bfb8c024f",
+      "actual": "b4aad84277c120c025a443649c4e09ca20b08725acc12ef60940786bfb8c024f"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-2-6ad6e8fc207a490787a062d222b643ad/bin/Release/net10.0/FunnySharp.AspNetCore.dll",
+      "expected": "2daaff9c72db5b730c06d3270c00dfd7046fa27e26d59374e31cf270b8dc30c2",
+      "actual": "2daaff9c72db5b730c06d3270c00dfd7046fa27e26d59374e31cf270b8dc30c2"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-2-6ad6e8fc207a490787a062d222b643ad/bin/Release/net10.0/FunnySharp.dll",
+      "expected": "6a903f737356fdf67845c9cd39385e4a5e2b39bcae0ee92ff2882480ecb7e49d",
+      "actual": "6a903f737356fdf67845c9cd39385e4a5e2b39bcae0ee92ff2882480ecb7e49d"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-2-6ad6e8fc207a490787a062d222b643ad/bin/Release/net10.0/Microsoft.ApplicationInsights.dll",
+      "expected": "bf9a4b88c7f94267e1cc7ed0700c575d3eb3266ff25bcb76e4f40f1b0fba022d",
+      "actual": "bf9a4b88c7f94267e1cc7ed0700c575d3eb3266ff25bcb76e4f40f1b0fba022d"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-2-6ad6e8fc207a490787a062d222b643ad/bin/Release/net10.0/Microsoft.AspNetCore.TestHost.dll",
+      "expected": "084c869d45df2fbb5e3c5ddf43c1118431cab075a592b19e730697fe2f1662e6",
+      "actual": "084c869d45df2fbb5e3c5ddf43c1118431cab075a592b19e730697fe2f1662e6"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-2-6ad6e8fc207a490787a062d222b643ad/bin/Release/net10.0/Microsoft.Bcl.AsyncInterfaces.dll",
+      "expected": "5705d245072d3eb78400547b32147dbb6e2c8b02ba8bda76729798f5efdeaecb",
+      "actual": "5705d245072d3eb78400547b32147dbb6e2c8b02ba8bda76729798f5efdeaecb"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-2-6ad6e8fc207a490787a062d222b643ad/bin/Release/net10.0/Microsoft.Testing.Extensions.MSBuild.dll",
+      "expected": "d364d5954dacfc2cf9239e29d1aeee37212019677447ccd1bd746710476bd703",
+      "actual": "d364d5954dacfc2cf9239e29d1aeee37212019677447ccd1bd746710476bd703"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-2-6ad6e8fc207a490787a062d222b643ad/bin/Release/net10.0/Microsoft.Testing.Extensions.Telemetry.dll",
+      "expected": "4a03c95584ab11527e541fce9d7466fc65779a2cc37b317cdafe2bc5d7169410",
+      "actual": "4a03c95584ab11527e541fce9d7466fc65779a2cc37b317cdafe2bc5d7169410"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-2-6ad6e8fc207a490787a062d222b643ad/bin/Release/net10.0/Microsoft.Testing.Extensions.TrxReport.Abstractions.dll",
+      "expected": "4065f9179d0f97eff5f23624be508992d7e57e1b331f330051c76e2731fcef79",
+      "actual": "4065f9179d0f97eff5f23624be508992d7e57e1b331f330051c76e2731fcef79"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-2-6ad6e8fc207a490787a062d222b643ad/bin/Release/net10.0/Microsoft.Testing.Platform.dll",
+      "expected": "92db7b51a0e878e84d17a0ffef92abe22b3033ce5655f8bdbda06a3a93651c2e",
+      "actual": "92db7b51a0e878e84d17a0ffef92abe22b3033ce5655f8bdbda06a3a93651c2e"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-2-6ad6e8fc207a490787a062d222b643ad/bin/Release/net10.0/xunit.abstractions.dll",
+      "expected": "3166dc70323fb30ccf1cedb0fe86f2ad122c46d254542342d90386efc4c9285c",
+      "actual": "3166dc70323fb30ccf1cedb0fe86f2ad122c46d254542342d90386efc4c9285c"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-2-6ad6e8fc207a490787a062d222b643ad/bin/Release/net10.0/xunit.v3.assert.dll",
+      "expected": "d14ea33253a7e289af5254617203b02f0643ba7ff618670de837d642ef22af11",
+      "actual": "d14ea33253a7e289af5254617203b02f0643ba7ff618670de837d642ef22af11"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-2-6ad6e8fc207a490787a062d222b643ad/bin/Release/net10.0/xunit.v3.common.dll",
+      "expected": "e8e5bf50c6e739812ab5daaaefcc1187b54768a499ccc4b262d4533cc3cab93d",
+      "actual": "e8e5bf50c6e739812ab5daaaefcc1187b54768a499ccc4b262d4533cc3cab93d"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-2-6ad6e8fc207a490787a062d222b643ad/bin/Release/net10.0/xunit.v3.core.dll",
+      "expected": "0155a245478403afefd0b363ef24b7588ad6dbf59ff3a88c1a8d8995eba873a1",
+      "actual": "0155a245478403afefd0b363ef24b7588ad6dbf59ff3a88c1a8d8995eba873a1"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-2-6ad6e8fc207a490787a062d222b643ad/bin/Release/net10.0/xunit.v3.mtp-v2.dll",
+      "expected": "5396efa072a4c925f58f1a4181b022cdc911c1a359d8dd5db838b79a8c741b50",
+      "actual": "5396efa072a4c925f58f1a4181b022cdc911c1a359d8dd5db838b79a8c741b50"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-2-6ad6e8fc207a490787a062d222b643ad/bin/Release/net10.0/xunit.v3.runner.common.dll",
+      "expected": "059a41ab6c3cc8a00f9ec87846565cb3d2a29a7e46fa2089f461ffbb462355fa",
+      "actual": "059a41ab6c3cc8a00f9ec87846565cb3d2a29a7e46fa2089f461ffbb462355fa"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-2-6ad6e8fc207a490787a062d222b643ad/bin/Release/net10.0/xunit.v3.runner.inproc.console.dll",
+      "expected": "bde56080928f7f617512d0dbe4043276ac0a15f2e377e71c204f7c12ebea082b",
+      "actual": "bde56080928f7f617512d0dbe4043276ac0a15f2e377e71c204f7c12ebea082b"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-2-6ad6e8fc207a490787a062d222b643ad/bin/Release/net10.0/xunit.v3.runner.utility.netcore.dll",
+      "expected": "ee7fc452193192525965540d9c9821f85a70c93b16e9e8c6fd0f168d40b56152",
+      "actual": "ee7fc452193192525965540d9c9821f85a70c93b16e9e8c6fd0f168d40b56152"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/aspnetcore/funnysharp/run-2/solution/Api.cs",
+      "expected": "dfeb73e93fc0d4d91505c80367b333ea5e090a87dd6c2a17901e6fbb8a994eed",
+      "actual": "dfeb73e93fc0d4d91505c80367b333ea5e090a87dd6c2a17901e6fbb8a994eed"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/aspnetcore/funnysharp/run-2/rounds/0001/record.json",
+      "expected": "994a01686badc3a077f48fec1b1ad7d4bf5e9e0b6c6fdaf9e2b9f898ed0b8f08",
+      "actual": "994a01686badc3a077f48fec1b1ad7d4bf5e9e0b6c6fdaf9e2b9f898ed0b8f08"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/aspnetcore/funnysharp/run-2/rounds/0001/build.process.json",
+      "expected": "a84c9d36fe2ccc63478d3e1af0e9763f0a7285ab3be28173a606a9763b64295d",
+      "actual": "a84c9d36fe2ccc63478d3e1af0e9763f0a7285ab3be28173a606a9763b64295d"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/aspnetcore/funnysharp/run-2/rounds/0001/inputs.json",
+      "expected": "9aea34a5df145e527e3eca5c0b38e9f2d49116fa1a3b9899c08d5fa3f983c4d4",
+      "actual": "9aea34a5df145e527e3eca5c0b38e9f2d49116fa1a3b9899c08d5fa3f983c4d4"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/aspnetcore/funnysharp/run-2/rounds/0001/test.process.json",
+      "expected": "455ef3f7dc972cb06338cc850c4b5b83a8dd6ce9e02fb9208767f535f2583b87",
+      "actual": "455ef3f7dc972cb06338cc850c4b5b83a8dd6ce9e02fb9208767f535f2583b87"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-2-6ad6e8fc207a490787a062d222b643ad/nuget_packages/system.security.accesscontrol\\6.0.1\\system.security.accesscontrol.6.0.1.nupkg",
+      "expected": "462e26f796417e8a4350655a85bbd4233b94cbd0f7150c1c5e9acfd88e885141",
+      "actual": "462e26f796417e8a4350655a85bbd4233b94cbd0f7150c1c5e9acfd88e885141"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-2-6ad6e8fc207a490787a062d222b643ad/nuget_packages/funnysharp\\0.2.0\\funnysharp.0.2.0.nupkg",
+      "expected": "496150ff0dbf92d739daf626c7f47590a0ffcdf0a20821a900af7d0b2fdc2834",
+      "actual": "496150ff0dbf92d739daf626c7f47590a0ffcdf0a20821a900af7d0b2fdc2834"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-2-6ad6e8fc207a490787a062d222b643ad/nuget_packages/microsoft.testing.extensions.telemetry\\2.3.3\\microsoft.testing.extensions.telemetry.2.3.3.nupkg",
+      "expected": "0e8a35200c270e56eaca0d90ea9f3646e618010ed59099d8e0f9fd30366a08eb",
+      "actual": "0e8a35200c270e56eaca0d90ea9f3646e618010ed59099d8e0f9fd30366a08eb"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-2-6ad6e8fc207a490787a062d222b643ad/nuget_packages/microsoft.testing.platform\\2.3.3\\microsoft.testing.platform.2.3.3.nupkg",
+      "expected": "b07d00cab5f49f2d0981592044baef3d720a079e6941601c7790044584b3174a",
+      "actual": "b07d00cab5f49f2d0981592044baef3d720a079e6941601c7790044584b3174a"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-2-6ad6e8fc207a490787a062d222b643ad/nuget_packages/microsoft.bcl.asyncinterfaces\\6.0.0\\microsoft.bcl.asyncinterfaces.6.0.0.nupkg",
+      "expected": "e3df87fe2170a7e01f0880af59caa8f6eb380b3c40a4f282dfb43912aaf0f895",
+      "actual": "e3df87fe2170a7e01f0880af59caa8f6eb380b3c40a4f282dfb43912aaf0f895"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-2-6ad6e8fc207a490787a062d222b643ad/nuget_packages/microsoft.testing.platform.msbuild\\2.3.3\\microsoft.testing.platform.msbuild.2.3.3.nupkg",
+      "expected": "25e537fbc39e6ce0c0da4e8a4a8ae6d8fee98ae41945d4b586124a03075f4890",
+      "actual": "25e537fbc39e6ce0c0da4e8a4a8ae6d8fee98ae41945d4b586124a03075f4890"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-2-6ad6e8fc207a490787a062d222b643ad/nuget_packages/xunit.v3.mtp-v2\\4.0.0\\xunit.v3.mtp-v2.4.0.0.nupkg",
+      "expected": "b131a89b59141ce5dd1ad89a736e0e2e959a44d5951d596e548d0c7a31825507",
+      "actual": "b131a89b59141ce5dd1ad89a736e0e2e959a44d5951d596e548d0c7a31825507"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-2-6ad6e8fc207a490787a062d222b643ad/nuget_packages/xunit.v3.runner.inproc.console\\4.0.0\\xunit.v3.runner.inproc.console.4.0.0.nupkg",
+      "expected": "1446b39b1c6f43662993d71a53d51597b6ff5849f4f9369e42a0f5808f7189a5",
+      "actual": "1446b39b1c6f43662993d71a53d51597b6ff5849f4f9369e42a0f5808f7189a5"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-2-6ad6e8fc207a490787a062d222b643ad/nuget_packages/funnysharp.aspnetcore\\0.2.0\\funnysharp.aspnetcore.0.2.0.nupkg",
+      "expected": "ebc7f054daed0b89f82e128cd7e3294ed7341444cecb849c64e5b4f0596054ef",
+      "actual": "ebc7f054daed0b89f82e128cd7e3294ed7341444cecb849c64e5b4f0596054ef"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-2-6ad6e8fc207a490787a062d222b643ad/nuget_packages/xunit.v3.extensibility.core\\4.0.0\\xunit.v3.extensibility.core.4.0.0.nupkg",
+      "expected": "6e489a237720169f91ba59b0d801495a28cdc956399995afa69f7aaea0992c11",
+      "actual": "6e489a237720169f91ba59b0d801495a28cdc956399995afa69f7aaea0992c11"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-2-6ad6e8fc207a490787a062d222b643ad/nuget_packages/xunit.v3.core.mtp-v2\\4.0.0\\xunit.v3.core.mtp-v2.4.0.0.nupkg",
+      "expected": "6a3f3397f6b0104e2fb55e0f8bd97d409210525eb3c73d497efd716a29dcc4b2",
+      "actual": "6a3f3397f6b0104e2fb55e0f8bd97d409210525eb3c73d497efd716a29dcc4b2"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-2-6ad6e8fc207a490787a062d222b643ad/nuget_packages/microsoft.aspnetcore.testhost\\10.0.11\\microsoft.aspnetcore.testhost.10.0.11.nupkg",
+      "expected": "f825d40fd268e1822dbda4a5d25087d940a1ff42a582eba11d8999a423ea5bf4",
+      "actual": "f825d40fd268e1822dbda4a5d25087d940a1ff42a582eba11d8999a423ea5bf4"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-2-6ad6e8fc207a490787a062d222b643ad/nuget_packages/microsoft.testing.extensions.trxreport.abstractions\\2.3.3\\microsoft.testing.extensions.trxreport.abstractions.2.3.3.nupkg",
+      "expected": "6008074b70742f046f2077abdbce50b92ad808ee45712a405daccbe693470786",
+      "actual": "6008074b70742f046f2077abdbce50b92ad808ee45712a405daccbe693470786"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-2-6ad6e8fc207a490787a062d222b643ad/nuget_packages/xunit.v3.common\\4.0.0\\xunit.v3.common.4.0.0.nupkg",
+      "expected": "165a769dce914cf894744c76c641d84ec12687d366a2823bf11021d4c471f25b",
+      "actual": "165a769dce914cf894744c76c641d84ec12687d366a2823bf11021d4c471f25b"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-2-6ad6e8fc207a490787a062d222b643ad/nuget_packages/xunit.v3.assert\\4.0.0\\xunit.v3.assert.4.0.0.nupkg",
+      "expected": "58e041a132ba8092aa78779616fe953ae2e5ec9102e2b480bf6776a9297d51d1",
+      "actual": "58e041a132ba8092aa78779616fe953ae2e5ec9102e2b480bf6776a9297d51d1"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-2-6ad6e8fc207a490787a062d222b643ad/nuget_packages/microsoft.applicationinsights\\2.23.0\\microsoft.applicationinsights.2.23.0.nupkg",
+      "expected": "e6c7f76e0ec26598c7b1e2be1777e839c84486655e8a878fc4c655bd2e918dbd",
+      "actual": "e6c7f76e0ec26598c7b1e2be1777e839c84486655e8a878fc4c655bd2e918dbd"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-2-6ad6e8fc207a490787a062d222b643ad/nuget_packages/xunit.v3.runner.common\\4.0.0\\xunit.v3.runner.common.4.0.0.nupkg",
+      "expected": "328c2a49436464bf54c40d5e544922f72252b9bc8dbcd322dfead5e52420bb94",
+      "actual": "328c2a49436464bf54c40d5e544922f72252b9bc8dbcd322dfead5e52420bb94"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-2-6ad6e8fc207a490787a062d222b643ad/nuget_packages/xunit.analyzers\\2.0.0\\xunit.analyzers.2.0.0.nupkg",
+      "expected": "9d040d284a972ac50dc6b149cbd7f76933f30b03e9214903b1dcd7d117b308af",
+      "actual": "9d040d284a972ac50dc6b149cbd7f76933f30b03e9214903b1dcd7d117b308af"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-2-6ad6e8fc207a490787a062d222b643ad/nuget_packages/microsoft.win32.registry\\5.0.0\\microsoft.win32.registry.5.0.0.nupkg",
+      "expected": "f64ca53c67ca65ce7cc85a8d29aefbb2da2672836731e1115e8cd62730dc5080",
+      "actual": "f64ca53c67ca65ce7cc85a8d29aefbb2da2672836731e1115e8cd62730dc5080"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\aspnetcore-funnysharp-run-2-6ad6e8fc207a490787a062d222b643ad/nuget_packages/xunit.v3\\4.0.0\\xunit.v3.4.0.0.nupkg",
+      "expected": "ccaea145afc512d898a8c5f0acbe619b2ba35a7d3716977de4309f960b10c095",
+      "actual": "ccaea145afc512d898a8c5f0acbe619b2ba35a7d3716977de4309f960b10c095"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/studies/audit-resolution-v4/manifest.json",
+      "expected": "a28f133c7dc53ed83abb446a53ed832af4d3a9a2187f52654fcef02f683241c9",
+      "actual": "a28f133c7dc53ed83abb446a53ed832af4d3a9a2187f52654fcef02f683241c9"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/studies/audit-resolution-v4/snapshot/tasks/aspnetcore/tests/Contract.cs",
+      "expected": "0e29dbaa90e69c2233652a6a742c9acef19b98a5ab90f1c9cbef191e138c9fec",
+      "actual": "0e29dbaa90e69c2233652a6a742c9acef19b98a5ab90f1c9cbef191e138c9fec"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/studies/audit-resolution-v4/snapshot/tasks/aspnetcore/tests/AspnetcoreTests.cs",
+      "expected": "b4343005f670ae9c23f9338e3f56289459f79630b763b7dfe434ae289a8b39c7",
+      "actual": "b4343005f670ae9c23f9338e3f56289459f79630b763b7dfe434ae289a8b39c7"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/studies/audit-resolution-v4/snapshot/feed/FunnySharp.0.2.0.nupkg",
+      "expected": "496150ff0dbf92d739daf626c7f47590a0ffcdf0a20821a900af7d0b2fdc2834",
+      "actual": "496150ff0dbf92d739daf626c7f47590a0ffcdf0a20821a900af7d0b2fdc2834"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/studies/audit-resolution-v4/snapshot/feed/FunnySharp.AspNetCore.0.2.0.nupkg",
+      "expected": "ebc7f054daed0b89f82e128cd7e3294ed7341444cecb849c64e5b4f0596054ef",
+      "actual": "ebc7f054daed0b89f82e128cd7e3294ed7341444cecb849c64e5b4f0596054ef"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/.omo/audit-resolution/research/u12-v4-http-runtime.md",
+      "expected": "7959378456b7734a66501223e433e08e95ba70425b86ddac7dd35134a20306fe",
+      "actual": "7959378456b7734a66501223e433e08e95ba70425b86ddac7dd35134a20306fe"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/.omo/audit-resolution/research/u12-v4-http-runtime.json",
+      "expected": "eebce20585ff15e27e1b2b1a20ed5c6f3f6549510121c4d124cdcbc026e24ec5",
+      "actual": "eebce20585ff15e27e1b2b1a20ed5c6f3f6549510121c4d124cdcbc026e24ec5"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u12-v4-http-runtime/attempt-01/verification.json",
+      "expected": "45b72be2945f798a951d80da63bd38000bb1f27d601613cded1d7e2b8a20ffa4",
+      "actual": "45b72be2945f798a951d80da63bd38000bb1f27d601613cded1d7e2b8a20ffa4"
+    }
+  ],
+  "allClosedListenerParentObservations": [
+    {
+      "url": "http://127.0.0.1:52645/",
+      "rejected": true,
+      "code": "ConnectionRefused",
+      "message": "Unable to connect. Is the computer able to access the url?"
+    },
+    {
+      "url": "http://127.0.0.1:52685/",
+      "rejected": true,
+      "code": "ConnectionRefused",
+      "message": "Unable to connect. Is the computer able to access the url?"
+    },
+    {
+      "url": "http://127.0.0.1:52698/",
+      "rejected": true,
+      "code": "ConnectionRefused",
+      "message": "Unable to connect. Is the computer able to access the url?"
+    },
+    {
+      "url": "http://127.0.0.1:52705/",
+      "rejected": true,
+      "code": "ConnectionRefused",
+      "message": "Unable to connect. Is the computer able to access the url?"
+    },
+    {
+      "url": "http://127.0.0.1:52710/",
+      "rejected": true,
+      "code": "ConnectionRefused",
+      "message": "Unable to connect. Is the computer able to access the url?"
+    },
+    {
+      "url": "http://127.0.0.1:52715/",
+      "rejected": true,
+      "code": "ConnectionRefused",
+      "message": "Unable to connect. Is the computer able to access the url?"
+    },
+    {
+      "url": "http://127.0.0.1:52728/",
+      "rejected": true,
+      "code": "ConnectionRefused",
+      "message": "Unable to connect. Is the computer able to access the url?"
+    },
+    {
+      "url": "http://127.0.0.1:52732/",
+      "rejected": true,
+      "code": "ConnectionRefused",
+      "message": "Unable to connect. Is the computer able to access the url?"
+    },
+    {
+      "url": "http://127.0.0.1:52741/",
+      "rejected": true,
+      "code": "ConnectionRefused",
+      "message": "Unable to connect. Is the computer able to access the url?"
+    },
+    {
+      "url": "http://127.0.0.1:52759/",
+      "rejected": true,
+      "code": "ConnectionRefused",
+      "message": "Unable to connect. Is the computer able to access the url?"
+    },
+    {
+      "url": "http://127.0.0.1:52779/",
+      "rejected": true,
+      "code": "ConnectionRefused",
+      "message": "Unable to connect. Is the computer able to access the url?"
+    },
+    {
+      "url": "http://127.0.0.1:52785/",
+      "rejected": true,
+      "code": "ConnectionRefused",
+      "message": "Unable to connect. Is the computer able to access the url?"
+    },
+    {
+      "url": "http://127.0.0.1:52800/",
+      "rejected": true,
+      "code": "ConnectionRefused",
+      "message": "Unable to connect. Is the computer able to access the url?"
+    },
+    {
+      "url": "http://127.0.0.1:52812/",
+      "rejected": true,
+      "code": "ConnectionRefused",
+      "message": "Unable to connect. Is the computer able to access the url?"
+    },
+    {
+      "url": "http://127.0.0.1:52820/",
+      "rejected": true,
+      "code": "ConnectionRefused",
+      "message": "Unable to connect. Is the computer able to access the url?"
+    },
+    {
+      "url": "http://127.0.0.1:54955/",
+      "rejected": true,
+      "code": "ConnectionRefused",
+      "message": "Unable to connect. Is the computer able to access the url?"
+    },
+    {
+      "url": "http://127.0.0.1:64320/",
+      "rejected": true,
+      "code": "ConnectionRefused",
+      "message": "Unable to connect. Is the computer able to access the url?"
+    },
+    {
+      "url": "http://127.0.0.1:64325/",
+      "rejected": true,
+      "code": "ConnectionRefused",
+      "message": "Unable to connect. Is the computer able to access the url?"
+    },
+    {
+      "url": "http://127.0.0.1:49672/",
+      "rejected": true,
+      "code": "ConnectionRefused",
+      "message": "Unable to connect. Is the computer able to access the url?"
+    },
+    {
+      "url": "http://127.0.0.1:54159/",
+      "rejected": true,
+      "code": "ConnectionRefused",
+      "message": "Unable to connect. Is the computer able to access the url?"
+    },
+    {
+      "url": "http://127.0.0.1:54167/",
+      "rejected": true,
+      "code": "ConnectionRefused",
+      "message": "Unable to connect. Is the computer able to access the url?"
+    },
+    {
+      "url": "http://127.0.0.1:54172/",
+      "rejected": true,
+      "code": "ConnectionRefused",
+      "message": "Unable to connect. Is the computer able to access the url?"
+    },
+    {
+      "url": "http://127.0.0.1:54177/",
+      "rejected": true,
+      "code": "ConnectionRefused",
+      "message": "Unable to connect. Is the computer able to access the url?"
+    },
+    {
+      "url": "http://127.0.0.1:54188/",
+      "rejected": true,
+      "code": "ConnectionRefused",
+      "message": "Unable to connect. Is the computer able to access the url?"
+    },
+    {
+      "url": "http://127.0.0.1:54200/",
+      "rejected": true,
+      "code": "ConnectionRefused",
+      "message": "Unable to connect. Is the computer able to access the url?"
+    },
+    {
+      "url": "http://127.0.0.1:51920/",
+      "rejected": true,
+      "code": "ConnectionRefused",
+      "message": "Unable to connect. Is the computer able to access the url?"
+    },
+    {
+      "url": "http://127.0.0.1:51927/",
+      "rejected": true,
+      "code": "ConnectionRefused",
+      "message": "Unable to connect. Is the computer able to access the url?"
+    },
+    {
+      "url": "http://127.0.0.1:65146/",
+      "rejected": true,
+      "code": "ConnectionRefused",
+      "message": "Unable to connect. Is the computer able to access the url?"
+    },
+    {
+      "url": "http://127.0.0.1:65154/",
+      "rejected": true,
+      "code": "ConnectionRefused",
+      "message": "Unable to connect. Is the computer able to access the url?"
+    },
+    {
+      "url": "http://127.0.0.1:65165/",
+      "rejected": true,
+      "code": "ConnectionRefused",
+      "message": "Unable to connect. Is the computer able to access the url?"
+    },
+    {
+      "url": "http://127.0.0.1:65176/",
+      "rejected": true,
+      "code": "ConnectionRefused",
+      "message": "Unable to connect. Is the computer able to access the url?"
+    },
+    {
+      "url": "http://127.0.0.1:65183/",
+      "rejected": true,
+      "code": "ConnectionRefused",
+      "message": "Unable to connect. Is the computer able to access the url?"
+    },
+    {
+      "url": "http://127.0.0.1:65189/",
+      "rejected": true,
+      "code": "ConnectionRefused",
+      "message": "Unable to connect. Is the computer able to access the url?"
+    },
+    {
+      "url": "http://127.0.0.1:65201/",
+      "rejected": true,
+      "code": "ConnectionRefused",
+      "message": "Unable to connect. Is the computer able to access the url?"
+    },
+    {
+      "url": "http://127.0.0.1:61285/",
+      "rejected": true,
+      "code": "ConnectionRefused",
+      "message": "Unable to connect. Is the computer able to access the url?"
+    },
+    {
+      "url": "http://127.0.0.1:61289/",
+      "rejected": true,
+      "code": "ConnectionRefused",
+      "message": "Unable to connect. Is the computer able to access the url?"
+    }
+  ],
+  "ownedProbePidsAbsent": true,
+  "ownedQuery": "Get-CimInstance Win32_Process | Where-Object { ($_.Name -eq \"dotnet.exe\" -or $_.Name -eq \"Probe.exe\") -and $_.CommandLine -like \"*u12-v4-http-runtime*\" } | Select-Object ProcessId | ConvertTo-Json -Compress",
+  "independentProbeCompileExit0": true,
+  "originalConsumersNotRebuiltOrChanged": true,
+  "canonicalPairs": 6,
+  "applicableFieldsEqual": true,
+  "rawBodiesNotClaimedByteEqual": true,
+  "observedNoncontractTitleDifference": [
+    {
+      "field": "validation ProblemDetails.title",
+      "appliesTo": "three validation responses",
+      "funnysharpRun1": "Order validation failed",
+      "otherConsumers": "One or more validation errors occurred.",
+      "fixedTestsAssertField": false,
+      "canonicalEqualityExcludesField": true,
+      "rawBodiesPreserved": true
+    }
+  ],
+  "missingLsp": "Artifacthost diagnostics timedout; actualcompiler0warnings/errors. No dependency install.",
+  "finalReceiptHash": "5397a9f3b86aea1d9626b940cde4646549c148322c838202430062fdcfad2cd7"
+}

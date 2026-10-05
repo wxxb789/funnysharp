@@ -1,0 +1,108 @@
+{
+  "schema": "funnysharp-http-cancellation-observer-validation/v1",
+  "baseCommit": "79b84990ecfee7abda144008b926283b6bba22de",
+  "originalFullGate": {
+    "total": 2630,
+    "passed": 2629,
+    "failed": 1,
+    "skipped": 0,
+    "exitCode": 1,
+    "monitor": "mon_CQAE8AWPWJJZ8GR5"
+  },
+  "mechanism": {
+    "deterministic": true,
+    "withoutSleepsOrPolling": true,
+    "monitor": "mon_R4YFNHVH1GNFVTSK",
+    "exitCode": 0,
+    "output": "status: completed exit_code: 0\nCANCELLATION_OBSERVER_REMOVAL_PROVED tokenCanceled=true observerFired=false",
+    "limit": "Shows that disposal by a later cancellation callback removes an earlier pending observer. It is not a captured thread trace of the earlier full-suite timeout."
+  },
+  "unchangedTarget": {
+    "total": 1,
+    "passed": 1,
+    "exitCode": 0,
+    "monitor": "mon_BPW7FQD9R7J4RP1J"
+  },
+  "fix": {
+    "files": [
+      "tests/FunnySharp.AspNetCore.Tests/HttpResultExtensionsTests.cs",
+      "tests/FunnySharp.AspNetCore.Tests/KestrelCancellationTests.cs"
+    ],
+    "operations": 3,
+    "productionChanged": false,
+    "assertionsTimeoutsAndRealHostsPreserved": true,
+    "observation": "Signal only from cancellation caught by the real awaited operation, then rethrow."
+  },
+  "build": {
+    "monitor": "mon_VZ6J0C81XF553AF5",
+    "exitCode": 0,
+    "warnings": 0,
+    "errors": 0,
+    "output": "status: completed exit_code: 0\n  FunnySharp.Analyzers -> Q:\\repos\\funnysharp\\.worktrees\\goal24-complete-pr\\src\\FunnySharp.Analyzers\\bin\\Debug\\netstandard2.0\\FunnySharp.Analyzers.dll\n  FunnySharp.Analyzers.CodeFixes -> Q:\\repos\\funnysharp\\.worktrees\\goal24-complete-pr\\src\\FunnySharp.Analyzers.CodeFixes\\bin\\Debug\\netstandard2.0\\FunnySharp.Analyzers.CodeFixes.dll\n  FunnySharp -> Q:\\repos\\funnysharp\\.worktrees\\goal24-complete-pr\\src\\FunnySharp\\bin\\Debug\\net10.0\\FunnySharp.dll\n  FunnySharp.AspNetCore -> Q:\\repos\\funnysharp\\.worktrees\\goal24-complete-pr\\src\\FunnySharp.AspNetCore\\bin\\Debug\\net10.0\\FunnySharp.AspNetCore.dll\n  FunnySharp.AspNetCore.Tests -> Q:\\repos\\funnysharp\\.worktrees\\goal24-complete-pr\\tests\\FunnySharp.AspNetCore.Tests\\bin\\Debug\\net10.0\\FunnySharp.AspNetCore.Tests.dll\n\nBuild succeeded.\n    0 Warning(s)\n    0 Error(s)\n\nTime Elapsed 00:00:02.59"
+  },
+  "completeHttpSuite": {
+    "monitor": "mon_7EZZ8SY8ZN3NVZ1T",
+    "exitCode": 0,
+    "total": 28,
+    "passed": 28,
+    "errors": 0,
+    "failed": 0,
+    "skipped": 0,
+    "notRun": 0
+  },
+  "formatter": {
+    "monitor": "mon_XZ6CSP5FK4SPTNZG",
+    "exitCode": 0,
+    "output": "status: completed exit_code: 0\n   __                                      _   \n  / _|   ___    _ __   _ __ ___     __ _  | |_ \n | |_   / _ \\  | '__| | '_ ` _ \\   / _` | | __|\n |  _| | (_) | | |    | | | | | | | (_| | | |_ \n |_|    \\___/  |_|    |_| |_| |_|  \\__,_|  \\__|\n                                               \nRun PIPELINE format. Total timeout: -1ms.\n\nRun stages\n\n── STAGE #0 format started. timeout: -1ms. step timeout: -1ms. ─────────────────\n\nformat/step-0> started\ndotnet format FunnySharp.slnx --verify-no-changes --no-restore\nCould not format 'Q:\\repos\\funnysharp\\.worktrees\\goal24-complete-pr\\eng\\harness\\FunnySharp.Harness.fsproj'. Format currently supports only C# and Visual Basic projects.\nCould not format 'Q:\\repos\\funnysharp\\.worktrees\\goal24-complete-pr\\tests\\FunnySharp.Harness.Tests\\FunnySharp.Harness.Tests.fsproj'. Format currently supports only C# and Visual Basic projects.\nformat/step-0> finished. 29865ms. \n\n── STAGE #0 format finished. 29889ms. ──────────────────────────────────────────\n\nRun stages finished\n\n\nRun post stages\nRun post stages finished\n\n\nPIPELINE format is finished in 29896 ms",
+    "scope": "CSharp only; FSharp unsupported"
+  },
+  "rawInputs": [
+    {
+      "sourcePath": "artifacts/pr-validation/http-cancellation-observer-20261005-01/callback-removal-probe.fsx",
+      "retainedName": "callback-removal-probe.fsx.base64",
+      "encoding": "base64",
+      "bytes": 523,
+      "sha256": "a8ded2bc16169a26f2027d4bd9045d43244303f73c32578743ab4123a0c341e8",
+      "physicalBytes": 706,
+      "physicalSha256": "314d88770f927f28942e849d98b02af3c6d610239bf000bb5ba6e307c167fdcc"
+    },
+    {
+      "sourcePath": "artifacts/pr-validation/http-cancellation-observer-20261005-01/unchanged-target.json",
+      "retainedName": "unchanged-target.json.base64",
+      "encoding": "base64",
+      "bytes": 2317,
+      "sha256": "b9d7adf51c804fbcf147a5ce2c48c5c1331436ff295a996b1326724f6bfb682d",
+      "physicalBytes": 3118,
+      "physicalSha256": "15055ebbbaaa827174bffbbda63eccc358fb99d2a55ae196f1816d2f51a3fae7"
+    },
+    {
+      "sourcePath": "artifacts/pr-validation/http-cancellation-observer-20261005-01/unchanged-target.trx",
+      "retainedName": "unchanged-target.trx.base64",
+      "encoding": "base64",
+      "bytes": 2415,
+      "sha256": "31c5f50305b50421a8de7ebf179c7d770267c76ded03182f81447c54e58af6f7",
+      "physicalBytes": 3247,
+      "physicalSha256": "78d0c914209efd0f97087ed69562c8a12d540c9c35fccbfd04497d4ceb68f058"
+    },
+    {
+      "sourcePath": "artifacts/pr-validation/http-cancellation-observer-20261005-01/fixed-http-full.json",
+      "retainedName": "fixed-http-full.json.base64",
+      "encoding": "base64",
+      "bytes": 27050,
+      "sha256": "7028881b54a5737cdd930fe0f4ea80df73478aa22115fde6ab4d9c44b37dd130",
+      "physicalBytes": 36369,
+      "physicalSha256": "4cd08e2c30dc4c28872f69c2136a3449b13187037b5c60472b11b352a43ba99e"
+    },
+    {
+      "sourcePath": "artifacts/pr-validation/http-cancellation-observer-20261005-01/fixed-http-full.trx",
+      "retainedName": "fixed-http-full.trx.base64",
+      "encoding": "base64",
+      "bytes": 40433,
+      "sha256": "9606c360977185a0a3f6612312e7d99a97c80d7833ab6f3cc01f38b487dcf122",
+      "physicalBytes": 54362,
+      "physicalSha256": "f79b1d669bb5a0774481dea1d3aa9e35f90fb54977ab2edf176516ab0049bb0a"
+    }
+  ],
+  "currentPerformanceSourceBindingsUnaffected": true,
+  "cleanCommittedFullSuiteAndRelease": "PENDING"
+}

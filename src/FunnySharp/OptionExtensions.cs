@@ -49,6 +49,7 @@ public static class OptionExtensions
     /// <param name="source">The dictionary to search.</param>
     /// <param name="key">The key to locate.</param>
     /// <returns>An option containing a non-null found value; otherwise, <c>None</c>.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="source"/> is null; rejected before dictionary lookup.</exception>
     public static Option<TValue> GetOption<TKey, TValue>(
         this IReadOnlyDictionary<TKey, TValue> source,
         TKey key)
@@ -68,6 +69,14 @@ public static class OptionExtensions
     /// <param name="option">The option to transform.</param>
     /// <param name="selector">The asynchronous transformation to invoke for a present value.</param>
     /// <returns>A task that produces the transformed option, or <c>None</c> when <paramref name="option"/> is absent or the transformed value is null.</returns>
+    /// <remarks>
+    /// The callback is guarded synchronously even when its branch will not invoke it.
+    /// The callback is invoked once only for a present option and its operation is awaited once.
+    /// Synchronous callback exceptions are captured in the returned operation. An OperationCanceledException
+    /// observed by await produces cancellation, including one from a faulted callback operation;
+    /// it never becomes None.
+    /// A selected callback returning a null Task faults with NullReferenceException.
+    /// </remarks>
     /// <exception cref="ArgumentNullException"><paramref name="selector"/> is null.</exception>
     public static Task<Option<TResult>> MapAsync<T, TResult>(
         this Option<T> option,
@@ -89,6 +98,15 @@ public static class OptionExtensions
     /// <param name="selector">The asynchronous transformation to invoke for a present value.</param>
     /// <param name="cancellationToken">The token passed unchanged to <paramref name="selector"/> when the option is present.</param>
     /// <returns>A task that produces the transformed option, or <c>None</c> when <paramref name="option"/> is absent or the transformed value is null.</returns>
+    /// <remarks>
+    /// The callback is guarded synchronously even when its branch will not invoke it.
+    /// The callback is invoked once only for a present option and its operation is awaited once.
+    /// Synchronous callback exceptions are captured in the returned operation. An OperationCanceledException
+    /// observed by await produces cancellation, including one from a faulted callback operation;
+    /// it never becomes None.
+    /// The token is forwarded unchanged to the selected callback, not checked independently.
+    /// A selected callback returning a null Task faults with NullReferenceException.
+    /// </remarks>
     /// <exception cref="ArgumentNullException"><paramref name="selector"/> is null.</exception>
     public static Task<Option<TResult>> MapAsync<T, TResult>(
         this Option<T> option,
@@ -110,6 +128,14 @@ public static class OptionExtensions
     /// <param name="option">The option to bind.</param>
     /// <param name="binder">The asynchronous option-producing function to invoke for a present value.</param>
     /// <returns>A task that produces the bound option, or <c>None</c> when <paramref name="option"/> is absent.</returns>
+    /// <remarks>
+    /// The callback is guarded synchronously even when its branch will not invoke it.
+    /// The callback is invoked once only for a present option and its operation is awaited once.
+    /// Synchronous callback exceptions are captured in the returned operation. An OperationCanceledException
+    /// observed by await produces cancellation, including one from a faulted callback operation;
+    /// it never becomes None.
+    /// A selected callback returning a null Task faults with NullReferenceException.
+    /// </remarks>
     /// <exception cref="ArgumentNullException"><paramref name="binder"/> is null.</exception>
     public static Task<Option<TResult>> BindAsync<T, TResult>(
         this Option<T> option,
@@ -131,6 +157,15 @@ public static class OptionExtensions
     /// <param name="binder">The asynchronous option-producing function to invoke for a present value.</param>
     /// <param name="cancellationToken">The token passed unchanged to <paramref name="binder"/> when the option is present.</param>
     /// <returns>A task that produces the bound option, or <c>None</c> when <paramref name="option"/> is absent.</returns>
+    /// <remarks>
+    /// The callback is guarded synchronously even when its branch will not invoke it.
+    /// The callback is invoked once only for a present option and its operation is awaited once.
+    /// Synchronous callback exceptions are captured in the returned operation. An OperationCanceledException
+    /// observed by await produces cancellation, including one from a faulted callback operation;
+    /// it never becomes None.
+    /// The token is forwarded unchanged to the selected callback, not checked independently.
+    /// A selected callback returning a null Task faults with NullReferenceException.
+    /// </remarks>
     /// <exception cref="ArgumentNullException"><paramref name="binder"/> is null.</exception>
     public static Task<Option<TResult>> BindAsync<T, TResult>(
         this Option<T> option,
@@ -152,6 +187,13 @@ public static class OptionExtensions
     /// <param name="option">The option to transform.</param>
     /// <param name="selector">The asynchronous transformation to invoke for a present value.</param>
     /// <returns>A value task that produces the transformed option, or <c>None</c> when <paramref name="option"/> is absent or the transformed value is null.</returns>
+    /// <remarks>
+    /// The callback is guarded synchronously even when its branch will not invoke it.
+    /// The callback is invoked once only for a present option and its operation is awaited once.
+    /// Synchronous callback exceptions are captured in the returned operation. An OperationCanceledException
+    /// observed by await produces cancellation, including one from a faulted callback operation;
+    /// it never becomes None.
+    /// </remarks>
     /// <exception cref="ArgumentNullException"><paramref name="selector"/> is null.</exception>
     public static ValueTask<Option<TResult>> MapValueAsync<T, TResult>(
         this Option<T> option,
@@ -173,6 +215,14 @@ public static class OptionExtensions
     /// <param name="selector">The asynchronous transformation to invoke for a present value.</param>
     /// <param name="cancellationToken">The token passed unchanged to <paramref name="selector"/> when the option is present.</param>
     /// <returns>A value task that produces the transformed option, or <c>None</c> when <paramref name="option"/> is absent or the transformed value is null.</returns>
+    /// <remarks>
+    /// The callback is guarded synchronously even when its branch will not invoke it.
+    /// The callback is invoked once only for a present option and its operation is awaited once.
+    /// Synchronous callback exceptions are captured in the returned operation. An OperationCanceledException
+    /// observed by await produces cancellation, including one from a faulted callback operation;
+    /// it never becomes None.
+    /// The token is forwarded unchanged to the selected callback, not checked independently.
+    /// </remarks>
     /// <exception cref="ArgumentNullException"><paramref name="selector"/> is null.</exception>
     public static ValueTask<Option<TResult>> MapValueAsync<T, TResult>(
         this Option<T> option,
@@ -194,6 +244,13 @@ public static class OptionExtensions
     /// <param name="option">The option to bind.</param>
     /// <param name="binder">The asynchronous option-producing function to invoke for a present value.</param>
     /// <returns>A value task that produces the bound option, or <c>None</c> when <paramref name="option"/> is absent.</returns>
+    /// <remarks>
+    /// The callback is guarded synchronously even when its branch will not invoke it.
+    /// The callback is invoked once only for a present option and its operation is awaited once.
+    /// Synchronous callback exceptions are captured in the returned operation. An OperationCanceledException
+    /// observed by await produces cancellation, including one from a faulted callback operation;
+    /// it never becomes None.
+    /// </remarks>
     /// <exception cref="ArgumentNullException"><paramref name="binder"/> is null.</exception>
     public static ValueTask<Option<TResult>> BindValueAsync<T, TResult>(
         this Option<T> option,
@@ -215,6 +272,14 @@ public static class OptionExtensions
     /// <param name="binder">The asynchronous option-producing function to invoke for a present value.</param>
     /// <param name="cancellationToken">The token passed unchanged to <paramref name="binder"/> when the option is present.</param>
     /// <returns>A value task that produces the bound option, or <c>None</c> when <paramref name="option"/> is absent.</returns>
+    /// <remarks>
+    /// The callback is guarded synchronously even when its branch will not invoke it.
+    /// The callback is invoked once only for a present option and its operation is awaited once.
+    /// Synchronous callback exceptions are captured in the returned operation. An OperationCanceledException
+    /// observed by await produces cancellation, including one from a faulted callback operation;
+    /// it never becomes None.
+    /// The token is forwarded unchanged to the selected callback, not checked independently.
+    /// </remarks>
     /// <exception cref="ArgumentNullException"><paramref name="binder"/> is null.</exception>
     public static ValueTask<Option<TResult>> BindValueAsync<T, TResult>(
         this Option<T> option,
@@ -234,6 +299,11 @@ public static class OptionExtensions
     /// <typeparam name="T">The reference type.</typeparam>
     /// <param name="task">The task producing the nullable reference.</param>
     /// <returns>A task that produces an option containing the completed value, or <c>None</c> when it is null.</returns>
+    /// <remarks>
+    /// The supplied operation is awaited exactly once. Faults propagate without conversion to a
+    /// carrier failure or absence. Awaiting a faulted or canceled OperationCanceledException produces
+    /// a canceled operation with the observed cancellation token.
+    /// </remarks>
     /// <exception cref="ArgumentNullException"><paramref name="task"/> is null.</exception>
     public static Task<Option<T>> ToOptionAsync<T>(this Task<T?> task)
         where T : class
@@ -248,6 +318,11 @@ public static class OptionExtensions
     /// <typeparam name="T">The underlying value type.</typeparam>
     /// <param name="task">The task producing the nullable value.</param>
     /// <returns>A task that produces an option containing the completed value, or <c>None</c> when it has no value.</returns>
+    /// <remarks>
+    /// The supplied operation is awaited exactly once. Faults propagate without conversion to a
+    /// carrier failure or absence. Awaiting a faulted or canceled OperationCanceledException produces
+    /// a canceled operation with the observed cancellation token.
+    /// </remarks>
     /// <exception cref="ArgumentNullException"><paramref name="task"/> is null.</exception>
     public static Task<Option<T>> ToOptionAsync<T>(this Task<T?> task)
         where T : struct
@@ -262,6 +337,11 @@ public static class OptionExtensions
     /// <typeparam name="T">The reference type.</typeparam>
     /// <param name="task">The value task producing the nullable reference.</param>
     /// <returns>A value task that produces an option containing the completed value, or <c>None</c> when it is null.</returns>
+    /// <remarks>
+    /// The supplied operation is awaited exactly once. Faults propagate without conversion to a
+    /// carrier failure or absence. Awaiting a faulted or canceled OperationCanceledException produces
+    /// a canceled operation with the observed cancellation token.
+    /// </remarks>
     public static ValueTask<Option<T>> ToOptionAsync<T>(this ValueTask<T?> task)
         where T : class =>
         ReferenceValueTaskToOptionAsyncCore(task);
@@ -272,6 +352,11 @@ public static class OptionExtensions
     /// <typeparam name="T">The underlying value type.</typeparam>
     /// <param name="task">The value task producing the nullable value.</param>
     /// <returns>A value task that produces an option containing the completed value, or <c>None</c> when it has no value.</returns>
+    /// <remarks>
+    /// The supplied operation is awaited exactly once. Faults propagate without conversion to a
+    /// carrier failure or absence. Awaiting a faulted or canceled OperationCanceledException produces
+    /// a canceled operation with the observed cancellation token.
+    /// </remarks>
     public static ValueTask<Option<T>> ToOptionAsync<T>(this ValueTask<T?> task)
         where T : struct =>
         NullableValueTaskToOptionAsyncCore(task);

@@ -1,0 +1,11 @@
+{
+  "schema": "funnysharp-current-release-launcher-correction/v1",
+  "candidate": "b584e748699a4f19d8a901695634be5a85ce8b07",
+  "failedAttempt": "pr33-b584e74-20261005-01",
+  "newAttempt": "pr33-b584e74-20261005-02",
+  "rootCause": "Operational RestoreSources overrode consumer local-release-packages configured source; all four NU1100 failures preserved.",
+  "materialChange": "Remove global RestoreSources. Supply root verified-TLS RestoreConfigFile; child --configfile retains local-package mapping priority.",
+  "sourceOrThresholdChanges": 0,
+  "noWarningTlsAuditOrSourceMappingBypass": true,
+  "mirrorFeedLimitationRetained": true
+}

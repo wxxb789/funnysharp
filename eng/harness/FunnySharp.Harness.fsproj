@@ -26,13 +26,17 @@
     <Compile Include="Ruleset.fs" />
     <Compile Include="Compatibility.fs" />
     <Compile Include="ReleaseProtocol.fs" />
+    <Compile Include="XmlBuildBindings.fs" />
     <Compile Include="ReleaseRun.fs" />
     <Compile Include="ReleaseVerifySource.fs" />
     <Compile Include="ReleaseVerifyArtifacts.fs" />
+    <Compile Include="StableApiContracts.fs" />
     <Compile Include="ApiBaseline.fs" />
     <Compile Include="ReleaseVerify.fs" />
+    <Compile Include="ReleaseProvenance.fs" />
     <Compile Include="Loc.fs" />
     <Compile Include="Evaluation.fs" />
+    <Compile Include="FrozenReplay.fs" />
   </ItemGroup>
 
 </Project>

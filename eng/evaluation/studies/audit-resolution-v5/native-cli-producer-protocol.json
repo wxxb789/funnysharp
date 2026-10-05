@@ -1,0 +1,222 @@
+{
+  "schema": "funnysharp-native-cli-producer-protocol/v2",
+  "state": "PREREGISTERED_20_FRESH_FINALGUIDE_CAPTURED_SYSTEM_SLOTS_NO_CALLS",
+  "study": "audit-resolution-v5",
+  "rejectedHistory": {
+    "v2LogicalInvocations": 12,
+    "v3LogicalInvocations": 1,
+    "accepted": 0,
+    "allRawPreserved": true
+  },
+  "route": "native-omo-cli/5.1.9/json-print",
+  "requestedModel": "ghc/gpt-6.1-sol",
+  "thinking": "high",
+  "environment": {
+    "PI_RULES_DISABLED": "1"
+  },
+  "boundaryExtension": {
+    "path": ".omo/audit-resolution/probes/u12-native-producer-boundary.mjs",
+    "sha256": "9f37c24ca79f6839bf9e4483e29ace9d47ae950246ae9a65a116d33dae3f2605",
+    "handler": "Capture getSystemPrompt once in session_start, then use that immutable string for developer input. Record original serialized runtime body before replacing input.",
+    "documentedActualRequestContract": "Installed docs/extensions.md:906-918; non-undefined return replaces payload for subsequent handlers and actual request.",
+    "pureCheck": {
+      "exitCode": 0,
+      "sequence": "session_start->getSystemPrompt changed->before_provider_request",
+      "originalBodyUnmodified": true,
+      "exactRequest": true,
+      "modelCalls": 0
+    },
+    "actualProviderUseVerified": false,
+    "previousV4ActualUseVerified": "All20acceptedv4calls matched exact355character developer plus complete request; v5still requires each actualoutgoing payload checked."
+  },
+  "transportSystem": "The attached request.json contains a JSON object with inputFiles, each with path and content. Those file contents are the complete task inputs. Return only a JSON object with a files array; each entry contains path, a top-level C# filename, and content, the complete file text. Return the complete solution. Do not replace supplied contract or test files.",
+  "transportSystemSha256": "fbda330f8e40178394f701e3e4552726ec33026ba95f94aaa7aab3f03dd00d78",
+  "output": {
+    "format": "Exactly one JSON object with files array. Preserve full original text before decoding.",
+    "paths": "Either top-level Name.cs or exact solution/Name.cs prefix from frozen task prompt. Strip only this single registered directory prefix when storing in solution/; reject every other directory, duplicate, traversal or oracle collision.",
+    "content": "Whole original content string; no markdown fence stripping, syntax edits, hints or orchestrator repair."
+  },
+  "initialInputs": "All14frozen public guides, exactly one matching area/style prompt, same-area fixed tests/Contract and matching style csproj; ordinal sorted, frozen UTF8 hashes exact.",
+  "cohort": [
+    {
+      "slot": "business-outcomes/idiomatic/run-1",
+      "sessionId": "study-session:9e64725d-bead-46f5-b063-b0922e0394ba",
+      "invocationId": "native-call:4181098c-0815-403d-bc7c-f98d11917d2c",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "business-outcomes/idiomatic/run-2",
+      "sessionId": "study-session:8f547bdc-9cff-42cf-b200-75b8e3a283be",
+      "invocationId": "native-call:b8064914-1a37-48f7-8ec8-e5f5bb40ccca",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "business-outcomes/funnysharp/run-1",
+      "sessionId": "study-session:b33970ba-ea1a-4b4b-a3ed-97630cd41451",
+      "invocationId": "native-call:cc03e213-15a8-4f58-b856-7403fb5f7aee",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "business-outcomes/funnysharp/run-2",
+      "sessionId": "study-session:65d30129-f425-4795-90e0-cf197f5ddf5a",
+      "invocationId": "native-call:62606c5e-771c-4cd3-a2e3-236bdf3e2306",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "collections/idiomatic/run-1",
+      "sessionId": "study-session:cd19a313-3821-459c-8752-66440f134cf4",
+      "invocationId": "native-call:7cb3f7fd-a8a8-4975-b9fc-a99d66f678be",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "collections/idiomatic/run-2",
+      "sessionId": "study-session:25f166e7-85ee-41de-b979-63a81975d246",
+      "invocationId": "native-call:877f6279-2d5c-4213-bac9-3a3631b2f329",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "collections/funnysharp/run-1",
+      "sessionId": "study-session:80bf0cb1-605f-4b54-81ea-c58471a1418e",
+      "invocationId": "native-call:47db6cd4-db7f-43db-b7bf-6ac1d7558810",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "collections/funnysharp/run-2",
+      "sessionId": "study-session:e99d3d33-f9c7-42da-839d-af9397bc402d",
+      "invocationId": "native-call:a507026c-5cfc-4a5b-9082-aba980c620ad",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "async-streams/idiomatic/run-1",
+      "sessionId": "study-session:c47538b7-63ed-4329-937b-d757b857af91",
+      "invocationId": "native-call:203c1a17-f952-46d2-89d6-08839c4ec35e",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "async-streams/idiomatic/run-2",
+      "sessionId": "study-session:ca89622b-5c65-486c-9f41-292ea9d75c30",
+      "invocationId": "native-call:40004104-eb4f-48be-8279-79103219d48a",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "async-streams/funnysharp/run-1",
+      "sessionId": "study-session:3140bc17-ea80-4700-9ff0-b037565694d3",
+      "invocationId": "native-call:ceb99956-36ff-4060-ace2-a7ba49699b62",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "async-streams/funnysharp/run-2",
+      "sessionId": "study-session:fde42553-78d4-446f-b4d3-2b33925d08f8",
+      "invocationId": "native-call:f1e6f8ba-cbe5-4443-9f75-9046921bc6c5",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "concurrency/idiomatic/run-1",
+      "sessionId": "study-session:81bbe052-881b-40ab-adc7-b170af73cb70",
+      "invocationId": "native-call:976afa10-676b-4fee-a66e-be49a4db6e3e",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "concurrency/idiomatic/run-2",
+      "sessionId": "study-session:04b53d76-8cb8-4e98-abe6-15df24387c1a",
+      "invocationId": "native-call:af0b7574-57db-41f0-887d-6b4354b0d158",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "concurrency/funnysharp/run-1",
+      "sessionId": "study-session:7de76558-e7b0-49a1-8960-61e73a143776",
+      "invocationId": "native-call:1cd38ec6-bb87-4857-b24f-d8fe99c9803d",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "concurrency/funnysharp/run-2",
+      "sessionId": "study-session:a93c39b3-6d8d-47a2-91cb-1f7002b2bed0",
+      "invocationId": "native-call:7d364264-7350-4bbb-841d-727b6aecd398",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "aspnetcore/idiomatic/run-1",
+      "sessionId": "study-session:f0b1b459-1348-4c67-93e6-c4cea0cc04e5",
+      "invocationId": "native-call:5ed879ae-ac03-4897-9248-9ce196762061",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "aspnetcore/idiomatic/run-2",
+      "sessionId": "study-session:789d92d2-27d5-4836-a7cb-6141a431a4e9",
+      "invocationId": "native-call:91e82b01-525f-48b1-beb5-f7dee97ea1e1",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "aspnetcore/funnysharp/run-1",
+      "sessionId": "study-session:93f92e20-2044-40fe-b83c-3c50d9025931",
+      "invocationId": "native-call:0e50155d-00b4-4b66-af4e-f16c87a8a084",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "aspnetcore/funnysharp/run-2",
+      "sessionId": "study-session:73955137-b494-4cb2-8d69-009e07f5efb9",
+      "invocationId": "native-call:8dcb3dac-5828-4952-9b4f-930d3016071d",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    }
+  ],
+  "corrections": "Initial plus at most2 corrections; only exact immediately preceding feedback.json and complete prior solution plus unchanged initial files. Unique invocation ID each time; stable logical slot ID is not claimed as provider conversation.",
+  "completion": "Actual outgoing provider payload byte equality must be proven for each request, including observed internal retries. The pure check alone cannot establish real cohort acceptance.",
+  "studyManifestSha256": "b1e81657bb82f022da0abfccd18dc87f0895e121a2f9ec894785bb263cd6c235",
+  "actualInvocationForm": "C:/Users/lhan/.omo/binary-runtime/5.1.9/omo.exe --mode json --print --no-session --no-extensions --no-context-files --no-skills --no-prompt-templates --no-tools --offline --provider ghc --model gpt-6.1-sol --thinking high --system-prompt <transportSystem> --extension Q:/repos/funnysharp-goal24-resolution/.omo/audit-resolution/probes/u12-native-producer-boundary.mjs @request.json",
+  "stdin": "closed/ignore; no hidden piped prompt",
+  "contextSchema": {
+    "files": "Exact array of frozen-relative path+sha256 entries; files in payload/. Initial45 allowlist scoped to14guides+onearea/styleprompt+itsfixedtests+matchingcsproj."
+  },
+  "recordFields": [
+    "studySha256",
+    "task",
+    "style",
+    "sessionId",
+    "invocationId",
+    "route",
+    "producerKind",
+    "requestedModel",
+    "providerModel",
+    "contextSha256",
+    "solutionFiles",
+    "invocationSha256",
+    "startedUtc",
+    "finishedUtc",
+    "status",
+    "feedbackSha256"
+  ],
+  "providerModel": {
+    "value": null,
+    "unknownReason": "Native selected model/route is observed. Actual upstream served model is unknown unless independently returned metadata supplies it."
+  },
+  "outgoingInputCheck": "Each actual U12_PROVIDER_PAYLOAD must have exactly two inputs: developer equal registered transportSystem and user equal complete UTF8 request.json bytes; capture pre-boundary payload too. Preserve every request retry/abort/error.",
+  "gradePolicy": "No correction or manual repair outside declared3rounds. Stop GREEN; preserve capped/malformed/protocol failures and all20 outcomes. No replay counted asAI.",
+  "supersedesInputSnapshot": "audit-resolution-v4",
+  "retainedValidHistory": {
+    "study": "audit-resolution-v4",
+    "acceptedLogicalSlots": 20,
+    "fixedCasesPassed": 200,
+    "state": "Historicalguide-inputs; preserve unchanged and never countasnewv5."
+  },
+  "launchCapture": "Use actual documented tool.monitor shell launch with raw stdout/stderr capture, fresh dedicated profile/session/no tools. Do not use directBun.spawn producer mechanism that failed8v4slots. Every attempt/correction preserved; max3total pernewlogicalslot."
+}

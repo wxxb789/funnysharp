@@ -269,7 +269,7 @@ public sealed class AsyncCollectionTraversalTests
         var source = new ProbeAsyncEnumerable<Option<int>>([], moveNextException: cancellation);
 
         var operation = source.SequenceAsync();
-        var actual = await Assert.ThrowsAnyAsync<OperationCanceledException>(async () => await operation);
+        var actual = await Assert.ThrowsAnyAsync<OperationCanceledException>(async () => { _ = await operation; });
 
         Assert.True(operation.IsCanceled);
         Assert.Equal(cancellationSource.Token, actual.CancellationToken);
@@ -334,16 +334,18 @@ public sealed class AsyncCollectionTraversalTests
         Assert.Same(
             optionFailure,
             await Assert.ThrowsAsync<InvalidOperationException>(async () =>
-                await optionSource.TraverseValueAsync(_ => optionValueTask.CreateValueTask())));
+                { _ = await optionSource.TraverseValueAsync(_ => optionValueTask.CreateValueTask()); }));
         Assert.Same(
             resultFailure,
             await Assert.ThrowsAsync<InvalidOperationException>(async () =>
-                await resultSource.TraverseValueAsync<int, int, string>(_ => resultValueTask.CreateValueTask())));
+                { _ = await resultSource.TraverseValueAsync<int, int, string>(_ => resultValueTask.CreateValueTask()); }));
         Assert.Same(
             validationFailure,
             await Assert.ThrowsAsync<InvalidOperationException>(async () =>
-                await validationSource.TraverseValueAsync<int, int, string>(
-                    _ => validationValueTask.CreateValueTask())));
+                {
+                    _ = await validationSource.TraverseValueAsync<int, int, string>(
+                    _ => validationValueTask.CreateValueTask());
+                }));
 
         Assert.Equal(1, optionValueTask.GetResultCount);
         Assert.Equal(1, resultValueTask.GetResultCount);

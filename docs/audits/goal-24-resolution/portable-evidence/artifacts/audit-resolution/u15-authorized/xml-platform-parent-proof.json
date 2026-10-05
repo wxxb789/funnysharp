@@ -1,0 +1,56 @@
+{
+  "schema": "funnysharp-reviewed-xml-platform-representation-proof/v1",
+  "derivations": [
+    {
+      "name": "FunnySharp",
+      "path": "src/FunnySharp/bin/Release/net10.0/FunnySharp.xml",
+      "primary": "4ef257af8378bd41f653b01215e5b016166a064320e7898e1794c4eb327489cc",
+      "lf": "1152678cd26b6912e38b3866496f4dd9f1274f1d27609bd5361af46bcc79bd3e",
+      "rawBytes": 475084,
+      "lfBytes": 468494,
+      "crlf": 6590,
+      "roundTrip": true,
+      "expectedPrimary": "4ef257af8378bd41f653b01215e5b016166a064320e7898e1794c4eb327489cc",
+      "expectedLf": "1152678cd26b6912e38b3866496f4dd9f1274f1d27609bd5361af46bcc79bd3e"
+    },
+    {
+      "name": "FunnySharp.AspNetCore",
+      "path": "src/FunnySharp.AspNetCore/bin/Release/net10.0/FunnySharp.AspNetCore.xml",
+      "primary": "27af8c3d2b65daa59a081f0b24674be0c41fe9cd652a19455cce01f2637e66d0",
+      "lf": "542ef12f9aa7e4e7e97e2211f73141305bb7fb24fbc0ba89b8147e9b97696edd",
+      "rawBytes": 32514,
+      "lfBytes": 32146,
+      "crlf": 368,
+      "roundTrip": true,
+      "expectedPrimary": "27af8c3d2b65daa59a081f0b24674be0c41fe9cd652a19455cce01f2637e66d0",
+      "expectedLf": "542ef12f9aa7e4e7e97e2211f73141305bb7fb24fbc0ba89b8147e9b97696edd"
+    }
+  ],
+  "shippingRawMatched": 51,
+  "policySha": "696fe5154ee970778ce7b415ea9bc964cedbe6158d34e3f6e545be3843d08601",
+  "actualRemoteLfNotYetObserved": true,
+  "focused": {
+    "actualPassed": 124,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0,
+    "monitor": "mon_ZQJG6ZX7DJ0BP3R9",
+    "priorFailures": [
+      {
+        "total": 124,
+        "failed": 101,
+        "passed": 23,
+        "cause": "Parent temp-fixture invoked ResolveLinkTarget on a drive root."
+      },
+      {
+        "total": 124,
+        "failed": 1,
+        "passed": 123,
+        "cause": "Controlled expected/actual file paths differed only in Windows separator spelling."
+      }
+    ]
+  },
+  "productionReparseGuardUnchanged": true,
+  "newFullGatePending": true,
+  "newRemoteMatchingHostAcceptancePending": true
+}

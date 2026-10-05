@@ -1,0 +1,96 @@
+{
+  "schema": "funnysharp-current-validation-receipts/v1",
+  "sourceCandidate": "1fbb50df35e6b1a4cd423460eb6d2d149a64517f",
+  "receipts": [
+    {
+      "path": "docs/reviews/goal24-pr-20261004/current-validation/fresh-main-execution.json",
+      "sha256": "c7f84209c0cb993a1211ab53c48c33ac8a1de13abb0119b48168a7b954431d94",
+      "bytes": 779,
+      "historicalSnapshotFieldsPreserved": true
+    },
+    {
+      "path": "docs/reviews/goal24-pr-20261004/current-validation/fresh-competitor-execution.json",
+      "sha256": "fc4dd269ae1abf4ccb1f78919df2a557abfcfafe5733f8a1e9b0eacc18c2a85d",
+      "bytes": 625,
+      "historicalSnapshotFieldsPreserved": true
+    },
+    {
+      "path": "docs/reviews/goal24-pr-20261004/current-validation/fresh-competitor-assets-red.json",
+      "sha256": "1f0117c30c790cd93396351b72c077a792a09420e5ef091eba94c316ca4eb9c3",
+      "bytes": 545,
+      "historicalSnapshotFieldsPreserved": true
+    },
+    {
+      "path": "docs/reviews/goal24-pr-20261004/current-validation/fresh-performance-verifier-red.json",
+      "sha256": "b3e94ca1793c74963a3cbe9d8f1a3595f1fcd4cb4792537b38614537bbfe1e38",
+      "bytes": 512,
+      "historicalSnapshotFieldsPreserved": true
+    },
+    {
+      "path": "docs/reviews/goal24-pr-20261004/current-validation/current-performance-source-continuity.json",
+      "sha256": "9ccdcaac724e5f2df4cb3c3091a7de7852ac5eed029db5e23ff76df8700ecd22",
+      "bytes": 1632,
+      "historicalSnapshotFieldsPreserved": true
+    },
+    {
+      "path": "docs/reviews/goal24-pr-20261004/current-validation/current-performance-observation-install.json",
+      "sha256": "7b6528b926399a558a8c1f8743a9ef288a7bd94bd47e110daee85ba67559387e",
+      "bytes": 1259,
+      "historicalSnapshotFieldsPreserved": true
+    },
+    {
+      "path": "docs/reviews/goal24-pr-20261004/current-validation/current-performance-regression.json",
+      "sha256": "8e25c9cb904ea12906b70509da7fe98affb85f6051b83f280cbf697801cb8fc8",
+      "bytes": 712,
+      "historicalSnapshotFieldsPreserved": true
+    },
+    {
+      "path": "docs/reviews/goal24-pr-20261004/current-validation/current-policy-and-retention-proof.json",
+      "sha256": "4c015c66f490dd73e06ccde2c6a23ec2d81ba6f56b707de0488e8b993a69a590",
+      "bytes": 1607,
+      "historicalSnapshotFieldsPreserved": true
+    },
+    {
+      "path": "docs/reviews/goal24-pr-20261004/current-validation/current-coverage-lane.md",
+      "sha256": "9824075454fc62d64f489c7b4f72df80329e198138ecb145b66616fa8759185a",
+      "bytes": 12143,
+      "historicalSnapshotFieldsPreserved": true
+    },
+    {
+      "path": "docs/reviews/goal24-pr-20261004/current-validation/current-performance-next.md",
+      "sha256": "30dac0d9c4435cf653a029c295fe1ac7d959a10de74532265378fe0f28c705cc",
+      "bytes": 2652,
+      "historicalSnapshotFieldsPreserved": true
+    },
+    {
+      "path": "docs/reviews/goal24-pr-20261004/current-validation/current-performance-retention-plan.md",
+      "sha256": "88474a9882e9ffda12cb8cccdadb2eef3beb3e64e11c5cbc8cbe4e916264e485",
+      "bytes": 1811,
+      "historicalSnapshotFieldsPreserved": true
+    },
+    {
+      "path": "docs/reviews/goal24-pr-20261004/current-validation/current-portable-verifier-red-01.json",
+      "sha256": "ac08e14edd51455b961cbdcf2b2173a40ab75d7da4f8406de2edaf59ac5959a2",
+      "bytes": 308,
+      "historicalSnapshotFieldsPreserved": true
+    },
+    {
+      "path": "docs/reviews/goal24-pr-20261004/current-validation/current-portable-failed-source-01.base64",
+      "sha256": "9da51a6f0a02346336b1d4ee2659d8dca4386448bd99e6fe13d76494faae6d11",
+      "bytes": 15517,
+      "historicalSnapshotFieldsPreserved": true
+    }
+  ],
+  "portableCurrentProof": {
+    "catalogSha256": "093523fa54b126b9f65dd34718371f7f2d11d4afc729cc85cf4b3e4f6d98d187",
+    "monitor": "mon_6J1RR0FFSD5G2WFJ",
+    "exitCode": 0,
+    "objects": 365,
+    "locators": 387,
+    "rows": 230,
+    "launches": 230,
+    "currentCensus": "499/468/31",
+    "runtimeCases": 24
+  },
+  "fullCleanSuiteAndReleaseStillPending": true
+}

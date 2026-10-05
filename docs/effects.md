@@ -13,8 +13,10 @@ own. Compiling examples are in
 required. Both are `readonly struct` wrappers over a delegate and expose `RunAsync`, which
 returns `ValueTask<T>`.
 
-Creating or composing an effect never invokes its delegate. Execution starts only when a caller
-invokes `RunAsync`:
+Creating or composing an effect never invokes its work delegate. Construction can still create
+library-owned runner closures retaining values, environments, source effects, or callbacks.
+Execution starts only when a caller invokes `RunAsync`; measurements of an already constructed
+effect's execution do not establish allocation-free construction:
 
 <!-- documentation-sample: DocumentationSamples.Effects.CreateAndRun -->
 ```csharp
@@ -124,18 +126,18 @@ The exact table below is generated from the approved observation in
 contract.
 
 <!-- performance-table:start effects -->
-| Scenario | Baseline mean | FunnySharp mean | Ratio | Baseline allocation | FunnySharp allocation |
+| Scenario | Baseline mean | Candidate mean | Ratio | Baseline allocation | Candidate allocation |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Bind ValueTask composition | 31.681 ns | 171.676 ns | 5.42x | 24 B | 208 B |
-| Completed synchronous RunAsync | 2.747 ns | 29.624 ns | 10.79x | 0 B | 0 B |
-| Completed Task composition | 26.296 ns | 82.597 ns | 3.14x | 80 B | 80 B |
-| Completed value RunAsync | 13.420 ns | 25.250 ns | 1.88x | 0 B | 0 B |
-| Completed ValueTask map composition | 21.552 ns | 77.143 ns | 3.58x | 0 B | 0 B |
-| Environment Provide | 2.834 ns | 40.045 ns | 14.13x | 0 B | 0 B |
-| Map composition | 3.762 ns | 84.456 ns | 22.45x | 0 B | 0 B |
-| Using | 15.373 ns | 102.496 ns | 6.67x | 0 B | 0 B |
-| UsingAsync | 15.119 ns | 108.391 ns | 7.17x | 0 B | 0 B |
-| Wrapper construction | 1.278 ns | 15.426 ns | 12.07x | 0 B | 88 B |
+| Bind ValueTask composition | 21.418 ns | 96.567 ns | 4.51x | 24 B | 208 B |
+| Completed synchronous RunAsync | 4.204 ns | 29.018 ns | 6.90x | 0 B | 0 B |
+| Completed Task composition | 25.118 ns | 75.286 ns | 3.00x | 80 B | 80 B |
+| Completed value RunAsync | 14.175 ns | 23.010 ns | 1.62x | 0 B | 0 B |
+| Completed ValueTask map composition | 16.965 ns | 57.327 ns | 3.38x | 0 B | 0 B |
+| Environment Provide | 4.181 ns | 38.923 ns | 9.31x | 0 B | 0 B |
+| Map composition | 5.069 ns | 75.180 ns | 14.83x | 0 B | 0 B |
+| Using | 12.616 ns | 97.778 ns | 7.75x | 0 B | 0 B |
+| UsingAsync | 14.840 ns | 100.987 ns | 6.80x | 0 B | 0 B |
+| Wrapper construction | 0.976 ns | 9.106 ns | 9.33x | 0 B | 88 B |
 
 Excluded measurements:
 - Unmeasured real resource I/O: Real resource I/O is caller-owned and has no synthetic numeric release claim.

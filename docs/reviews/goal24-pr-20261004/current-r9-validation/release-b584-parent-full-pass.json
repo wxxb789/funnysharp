@@ -1,0 +1,86 @@
+{
+  "schema": "funnysharp-b584-retention-parent-full-pass/v1",
+  "monitor": "mon_G96XBTX1Y69MR091",
+  "exitCode": 0,
+  "pythonVersion": "3.14.8",
+  "actualResult": {
+    "status": "PASS",
+    "scope": "Read-only data integrity and bounded strong credential-pattern scan; historical LOCAL PASS subsequently REJECT FG-R9-001",
+    "catalogSha256": "cc074f460185bc3d6d826bcf4e6117c3d806665118a7f5305228d4e3aa2b00ee",
+    "objects": 288,
+    "decodedBytes": 113282860,
+    "physicalParts": 408,
+    "physicalBytes": 152303142,
+    "locators": 380,
+    "requiredR4Files": 219,
+    "packageArchives": 6,
+    "packageEntries": 42,
+    "packageEntryBytes": 1826307,
+    "sourceGitReferences": 7570,
+    "gitBlobsRechecked": 2842,
+    "graphEdges": 161,
+    "releaseCommands": 14,
+    "releaseChecks": 10,
+    "publishOutputs": [
+      {
+        "scenario": "AspNetCoreNativeAot",
+        "status": "Passed",
+        "fileCount": 3,
+        "length": 44338741
+      },
+      {
+        "scenario": "AspNetCoreTrimmed",
+        "status": "Passed",
+        "fileCount": 114,
+        "length": 24309615
+      },
+      {
+        "scenario": "CoreNativeAot",
+        "status": "Passed",
+        "fileCount": 2,
+        "length": 11147264
+      },
+      {
+        "scenario": "CoreTrimmed",
+        "status": "Passed",
+        "fileCount": 36,
+        "length": 20696326
+      }
+    ],
+    "credentialPatternClasses": [
+      "private-key",
+      "github-token",
+      "aws-access-key",
+      "google-api-key",
+      "slack-token",
+      "stripe-live-key",
+      "jwt",
+      "authorization-token",
+      "credential-url",
+      "azure-storage-key",
+      "sas-signature",
+      "literal-secret-assignment",
+      "nuget-api-key"
+    ],
+    "credentialCandidates": 0,
+    "candidateReportLimit": 80,
+    "candidateReport": [],
+    "missingByteLimits": [
+      {
+        "kind": "version-http-response",
+        "sha256": "e64db0fde59206a0cf85c783e644f5e2ffd6a519dbf7d720cc9e5b0ace3d46a4",
+        "length": null,
+        "reason": "Preflight/final receipts retain a 404 response digest but no raw response body. No network replay or synthesized response."
+      },
+      {
+        "kind": "operational-usage-and-output-precondition-raw-streams",
+        "sha256": null,
+        "length": null,
+        "reason": "Actual usage exit 2 and custom-output precondition exit 1 are retained as exact parent JSON records. No attempt directory/raw stdout or stderr file is named by those records, so no standalone raw stream bytes are claimed."
+      }
+    ],
+    "writes": 0,
+    "networkRequests": 0,
+    "workloadExecutions": 0
+  }
+}

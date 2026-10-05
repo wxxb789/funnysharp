@@ -1,0 +1,378 @@
+{
+  "domain": "http",
+  "sourceFiles": [
+    {
+      "path": "src/FunnySharp.AspNetCore/HttpResultExtensions.cs",
+      "sha256": "d4730b4858329cbf54ff99ccdb86038f10a3b94ea6ae88e4714c51c94a991240"
+    }
+  ],
+  "members": [
+    {
+      "identity": "H:3",
+      "source": {
+        "path": "src/FunnySharp.AspNetCore/HttpResultExtensions.cs",
+        "firstLine": 20,
+        "lastLine": 27
+      },
+      "sourceEvidence": [
+        "407-415",
+        "502-536"
+      ],
+      "allocation": "Default success creates Ok result; failure constructs caller ProblemDetails plus ProblemHttpResult. No awaitable/state machine.",
+      "cost": "H:3 sync: one carrier observation and at most one selected mapper invocation. TryGetValue branches to caller some mapper or Results.Ok(value), or invokes none once then validates status and builds Results.Problem. JSON serialization, IResult execution and hosting are deferred to ASP.NET Core, not measured here.",
+      "boxing": "Carrier stays its concrete struct; typed custom mapper avoids mapper-boundary boxing. Default Results.Ok(object?) boxes value-type success payloads; reference/null payloads do not box. Error/error-list stays typed until caller mapper.",
+      "resources": "No awaitable consumption. No resources acquired for disposal, no concurrent admission, no ownership of context/environment/payload/errors. Return IResult execution and request lifetime belong to ASP.NET Core. Mapper-created resource lifetime remains caller-owned.",
+      "benchmarkRows": [
+        "AspNetCoreBenchmarks|HTTP mapping overhead - absence|FunnySharpNotFoundMapping|"
+      ],
+      "exclusionReason": null
+    },
+    {
+      "identity": "H:4",
+      "source": {
+        "path": "src/FunnySharp.AspNetCore/HttpResultExtensions.cs",
+        "firstLine": 73,
+        "lastLine": 80
+      },
+      "sourceEvidence": [
+        "441-451",
+        "502-536"
+      ],
+      "allocation": "Default NoContent uses the framework result factory; failure constructs the caller ProblemDetails plus ProblemHttpResult. No awaitable/state machine.",
+      "cost": "H:4 sync: one carrier observation and at most one selected mapper invocation. TryGetError branches to caller failure(error) and Results.Problem; success uses caller success() or Results.NoContent(). JSON serialization, IResult execution and hosting are deferred to ASP.NET Core, not measured here.",
+      "boxing": "UnitResult is observed as its concrete struct, not converted to object/interface; error mapper is typed. No success payload exists to box.",
+      "resources": "No awaitable consumption. No resources acquired for disposal, no concurrent admission, no ownership of context/environment/payload/errors. Return IResult execution and request lifetime belong to ASP.NET Core. Mapper-created resource lifetime remains caller-owned.",
+      "benchmarkRows": [
+        "AspNetCoreBenchmarks|HTTP mapping overhead - no value|FunnySharpNoContentMapping|"
+      ],
+      "exclusionReason": null
+    },
+    {
+      "identity": "H:5",
+      "source": {
+        "path": "src/FunnySharp.AspNetCore/HttpResultExtensions.cs",
+        "firstLine": 38,
+        "lastLine": 45
+      },
+      "sourceEvidence": [
+        "417-429",
+        "502-536"
+      ],
+      "allocation": "Default success creates Ok result; failure constructs caller ProblemDetails plus ProblemHttpResult. No awaitable/state machine.",
+      "cost": "H:5 sync: one carrier observation and at most one selected mapper invocation. TryGetValue branches to caller success(value) or Results.Ok(value); failure then TryGetError invokes failure(error) once, validates status and builds Results.Problem. JSON serialization, IResult execution and hosting are deferred to ASP.NET Core, not measured here.",
+      "boxing": "Carrier stays its concrete struct; typed custom mapper avoids mapper-boundary boxing. Default Results.Ok(object?) boxes value-type success payloads; reference/null payloads do not box. Error/error-list stays typed until caller mapper.",
+      "resources": "No awaitable consumption. No resources acquired for disposal, no concurrent admission, no ownership of context/environment/payload/errors. Return IResult execution and request lifetime belong to ASP.NET Core. Mapper-created resource lifetime remains caller-owned.",
+      "benchmarkRows": [
+        "AspNetCoreBenchmarks|HTTP mapping overhead - success|FunnySharpSuccessMapping|",
+        "AspNetCoreBenchmarks|HTTP mapping overhead - typed failure|FunnySharpProblemMapping|"
+      ],
+      "exclusionReason": null
+    },
+    {
+      "identity": "H:6",
+      "source": {
+        "path": "src/FunnySharp.AspNetCore/HttpResultExtensions.cs",
+        "firstLine": 56,
+        "lastLine": 63
+      },
+      "sourceEvidence": [
+        "431-440",
+        "502-536"
+      ],
+      "allocation": "Default valid creates Ok result; invalid constructs caller HttpValidationProblemDetails and framework validation-problem result, whose Errors/Extensions conversion cost is framework-owned. No awaitable/state machine.",
+      "cost": "H:6 sync: one carrier observation and at most one selected mapper invocation. TryGetValue branches to caller valid(value) or Results.Ok(value); invalid then TryGetErrors passes the existing error list to invalid, validates status and creates Results.ValidationProblem using its Errors/Extensions. JSON serialization, IResult execution and hosting are deferred to ASP.NET Core, not measured here.",
+      "boxing": "Carrier stays its concrete struct; typed custom mapper avoids mapper-boundary boxing. Default Results.Ok(object?) boxes value-type success payloads; reference/null payloads do not box. Error/error-list stays typed until caller mapper.",
+      "resources": "No awaitable consumption. No resources acquired for disposal, no concurrent admission, no ownership of context/environment/payload/errors. Return IResult execution and request lifetime belong to ASP.NET Core. Mapper-created resource lifetime remains caller-owned.",
+      "benchmarkRows": [],
+      "exclusionReason": "No existing AspNetCoreBenchmarks row invokes this exact sync validation overload. Current HTTP rows measure synchronous Option absence, Result success/failure and UnitResult no-content only; Validation problem dictionary work has no numeric release claim."
+    },
+    {
+      "identity": "H:7",
+      "source": {
+        "path": "src/FunnySharp.AspNetCore/HttpResultExtensions.cs",
+        "firstLine": 90,
+        "lastLine": 98
+      },
+      "sourceEvidence": [
+        "460-464",
+        "502-536"
+      ],
+      "allocation": "Default success creates Ok result; failure constructs caller ProblemDetails plus ProblemHttpResult. Task<IResult> async method owns returned Task/state machine; pending input can require continuation allocation.",
+      "cost": "H:7 task: one carrier observation and at most one selected mapper invocation. TryGetValue branches to caller some mapper or Results.Ok(value), or invokes none once then validates status and builds Results.Problem. JSON serialization, IResult execution and hosting are deferred to ASP.NET Core, not measured here.",
+      "boxing": "Carrier stays its concrete struct; typed custom mapper avoids mapper-boundary boxing. Default Results.Ok(object?) boxes value-type success payloads; reference/null payloads do not box. Error/error-list stays typed until caller mapper.",
+      "resources": "Awaits the supplied Task once with ConfigureAwait(false); caller owns that Task; does not cancel or dispose it. No resources acquired for disposal, no concurrent admission, no ownership of context/environment/payload/errors. Return IResult execution and request lifetime belong to ASP.NET Core. Mapper-created resource lifetime remains caller-owned.",
+      "benchmarkRows": [],
+      "exclusionReason": "No existing AspNetCoreBenchmarks row invokes this exact task option overload. Current HTTP rows measure synchronous Option absence, Result success/failure and UnitResult no-content only; task suspension/context/environment overhead has no numeric release claim."
+    },
+    {
+      "identity": "H:8",
+      "source": {
+        "path": "src/FunnySharp.AspNetCore/HttpResultExtensions.cs",
+        "firstLine": 146,
+        "lastLine": 154
+      },
+      "sourceEvidence": [
+        "454-458",
+        "502-536"
+      ],
+      "allocation": "Default NoContent uses the framework result factory; failure constructs the caller ProblemDetails plus ProblemHttpResult. Task<IResult> async method owns returned Task/state machine; pending input can require continuation allocation.",
+      "cost": "H:8 task: one carrier observation and at most one selected mapper invocation. TryGetError branches to caller failure(error) and Results.Problem; success uses caller success() or Results.NoContent(). JSON serialization, IResult execution and hosting are deferred to ASP.NET Core, not measured here.",
+      "boxing": "UnitResult is observed as its concrete struct, not converted to object/interface; error mapper is typed. No success payload exists to box.",
+      "resources": "Awaits the supplied Task once with ConfigureAwait(false); caller owns that Task; does not cancel or dispose it. No resources acquired for disposal, no concurrent admission, no ownership of context/environment/payload/errors. Return IResult execution and request lifetime belong to ASP.NET Core. Mapper-created resource lifetime remains caller-owned.",
+      "benchmarkRows": [],
+      "exclusionReason": "No existing AspNetCoreBenchmarks row invokes this exact task unit overload. Current HTTP rows measure synchronous Option absence, Result success/failure and UnitResult no-content only; task suspension/context/environment overhead has no numeric release claim."
+    },
+    {
+      "identity": "H:9",
+      "source": {
+        "path": "src/FunnySharp.AspNetCore/HttpResultExtensions.cs",
+        "firstLine": 109,
+        "lastLine": 117
+      },
+      "sourceEvidence": [
+        "466-470",
+        "502-536"
+      ],
+      "allocation": "Default success creates Ok result; failure constructs caller ProblemDetails plus ProblemHttpResult. Task<IResult> async method owns returned Task/state machine; pending input can require continuation allocation.",
+      "cost": "H:9 task: one carrier observation and at most one selected mapper invocation. TryGetValue branches to caller success(value) or Results.Ok(value); failure then TryGetError invokes failure(error) once, validates status and builds Results.Problem. JSON serialization, IResult execution and hosting are deferred to ASP.NET Core, not measured here.",
+      "boxing": "Carrier stays its concrete struct; typed custom mapper avoids mapper-boundary boxing. Default Results.Ok(object?) boxes value-type success payloads; reference/null payloads do not box. Error/error-list stays typed until caller mapper.",
+      "resources": "Awaits the supplied Task once with ConfigureAwait(false); caller owns that Task; does not cancel or dispose it. No resources acquired for disposal, no concurrent admission, no ownership of context/environment/payload/errors. Return IResult execution and request lifetime belong to ASP.NET Core. Mapper-created resource lifetime remains caller-owned.",
+      "benchmarkRows": [],
+      "exclusionReason": "No existing AspNetCoreBenchmarks row invokes this exact task result overload. Current HTTP rows measure synchronous Option absence, Result success/failure and UnitResult no-content only; task suspension/context/environment overhead has no numeric release claim."
+    },
+    {
+      "identity": "H:10",
+      "source": {
+        "path": "src/FunnySharp.AspNetCore/HttpResultExtensions.cs",
+        "firstLine": 128,
+        "lastLine": 136
+      },
+      "sourceEvidence": [
+        "472-476",
+        "502-536"
+      ],
+      "allocation": "Default valid creates Ok result; invalid constructs caller HttpValidationProblemDetails and framework validation-problem result, whose Errors/Extensions conversion cost is framework-owned. Task<IResult> async method owns returned Task/state machine; pending input can require continuation allocation.",
+      "cost": "H:10 task: one carrier observation and at most one selected mapper invocation. TryGetValue branches to caller valid(value) or Results.Ok(value); invalid then TryGetErrors passes the existing error list to invalid, validates status and creates Results.ValidationProblem using its Errors/Extensions. JSON serialization, IResult execution and hosting are deferred to ASP.NET Core, not measured here.",
+      "boxing": "Carrier stays its concrete struct; typed custom mapper avoids mapper-boundary boxing. Default Results.Ok(object?) boxes value-type success payloads; reference/null payloads do not box. Error/error-list stays typed until caller mapper.",
+      "resources": "Awaits the supplied Task once with ConfigureAwait(false); caller owns that Task; does not cancel or dispose it. No resources acquired for disposal, no concurrent admission, no ownership of context/environment/payload/errors. Return IResult execution and request lifetime belong to ASP.NET Core. Mapper-created resource lifetime remains caller-owned.",
+      "benchmarkRows": [],
+      "exclusionReason": "No existing AspNetCoreBenchmarks row invokes this exact task validation overload. Current HTTP rows measure synchronous Option absence, Result success/failure and UnitResult no-content only; Validation problem dictionary work has no numeric release claim."
+    },
+    {
+      "identity": "H:11",
+      "source": {
+        "path": "src/FunnySharp.AspNetCore/HttpResultExtensions.cs",
+        "firstLine": 235,
+        "lastLine": 244
+      },
+      "sourceEvidence": [
+        "484-488",
+        "502-536"
+      ],
+      "allocation": "Default success creates Ok result; failure constructs caller ProblemDetails plus ProblemHttpResult. ValueTask<IResult> completes inline without task allocation when input completes synchronously; pending await can require state-machine backing storage.",
+      "cost": "H:11 effect: one carrier observation and at most one selected mapper invocation. TryGetValue branches to caller some mapper or Results.Ok(value), or invokes none once then validates status and builds Results.Problem. JSON serialization, IResult execution and hosting are deferred to ASP.NET Core, not measured here.",
+      "boxing": "Carrier stays its concrete struct; typed custom mapper avoids mapper-boundary boxing. Default Results.Ok(object?) boxes value-type success payloads; reference/null payloads do not box. Error/error-list stays typed until caller mapper.",
+      "resources": "Runs one Effect with context.RequestAborted then awaits its ValueTask once with ConfigureAwait(false). No resources acquired for disposal, no concurrent admission, no ownership of context/environment/payload/errors. Return IResult execution and request lifetime belong to ASP.NET Core. Mapper-created resource lifetime remains caller-owned.",
+      "benchmarkRows": [],
+      "exclusionReason": "No existing AspNetCoreBenchmarks row invokes this exact effect option overload. Current HTTP rows measure synchronous Option absence, Result success/failure and UnitResult no-content only; effect suspension/context/environment overhead has no numeric release claim."
+    },
+    {
+      "identity": "H:12",
+      "source": {
+        "path": "src/FunnySharp.AspNetCore/HttpResultExtensions.cs",
+        "firstLine": 164,
+        "lastLine": 171
+      },
+      "sourceEvidence": [
+        "484-488",
+        "502-536"
+      ],
+      "allocation": "Default success creates Ok result; failure constructs caller ProblemDetails plus ProblemHttpResult. ValueTask<IResult> completes inline without task allocation when input completes synchronously; pending await can require state-machine backing storage.",
+      "cost": "H:12 valuetask: one carrier observation and at most one selected mapper invocation. TryGetValue branches to caller some mapper or Results.Ok(value), or invokes none once then validates status and builds Results.Problem. JSON serialization, IResult execution and hosting are deferred to ASP.NET Core, not measured here.",
+      "boxing": "Carrier stays its concrete struct; typed custom mapper avoids mapper-boundary boxing. Default Results.Ok(object?) boxes value-type success payloads; reference/null payloads do not box. Error/error-list stays typed until caller mapper.",
+      "resources": "Awaits the supplied ValueTask once with ConfigureAwait(false); caller must not reconsume a single-use source. No resources acquired for disposal, no concurrent admission, no ownership of context/environment/payload/errors. Return IResult execution and request lifetime belong to ASP.NET Core. Mapper-created resource lifetime remains caller-owned.",
+      "benchmarkRows": [],
+      "exclusionReason": "No existing AspNetCoreBenchmarks row invokes this exact valuetask option overload. Current HTTP rows measure synchronous Option absence, Result success/failure and UnitResult no-content only; valuetask suspension/context/environment overhead has no numeric release claim."
+    },
+    {
+      "identity": "H:13",
+      "source": {
+        "path": "src/FunnySharp.AspNetCore/HttpResultExtensions.cs",
+        "firstLine": 319,
+        "lastLine": 329
+      },
+      "sourceEvidence": [
+        "484-488",
+        "502-536"
+      ],
+      "allocation": "Default success creates Ok result; failure constructs caller ProblemDetails plus ProblemHttpResult. ValueTask<IResult> completes inline without task allocation when input completes synchronously; pending await can require state-machine backing storage.",
+      "cost": "H:13 environment-effect: one carrier observation and at most one selected mapper invocation. TryGetValue branches to caller some mapper or Results.Ok(value), or invokes none once then validates status and builds Results.Problem. JSON serialization, IResult execution and hosting are deferred to ASP.NET Core, not measured here.",
+      "boxing": "Carrier stays its concrete struct; typed custom mapper avoids mapper-boundary boxing. Default Results.Ok(object?) boxes value-type success payloads; reference/null payloads do not box. Error/error-list stays typed until caller mapper.",
+      "resources": "Runs one environment-dependent Effect with the supplied environment and context.RequestAborted, then awaits its ValueTask once with ConfigureAwait(false). No resources acquired for disposal, no concurrent admission, no ownership of context/environment/payload/errors. Return IResult execution and request lifetime belong to ASP.NET Core. Mapper-created resource lifetime remains caller-owned.",
+      "benchmarkRows": [],
+      "exclusionReason": "No existing AspNetCoreBenchmarks row invokes this exact environment-effect option overload. Current HTTP rows measure synchronous Option absence, Result success/failure and UnitResult no-content only; environment-effect suspension/context/environment overhead has no numeric release claim."
+    },
+    {
+      "identity": "H:14",
+      "source": {
+        "path": "src/FunnySharp.AspNetCore/HttpResultExtensions.cs",
+        "firstLine": 391,
+        "lastLine": 401
+      },
+      "sourceEvidence": [
+        "478-482",
+        "502-536"
+      ],
+      "allocation": "Default NoContent uses the framework result factory; failure constructs the caller ProblemDetails plus ProblemHttpResult. ValueTask<IResult> completes inline without task allocation when input completes synchronously; pending await can require state-machine backing storage.",
+      "cost": "H:14 environment-effect: one carrier observation and at most one selected mapper invocation. TryGetError branches to caller failure(error) and Results.Problem; success uses caller success() or Results.NoContent(). JSON serialization, IResult execution and hosting are deferred to ASP.NET Core, not measured here.",
+      "boxing": "UnitResult is observed as its concrete struct, not converted to object/interface; error mapper is typed. No success payload exists to box.",
+      "resources": "Runs one environment-dependent Effect with the supplied environment and context.RequestAborted, then awaits its ValueTask once with ConfigureAwait(false). No resources acquired for disposal, no concurrent admission, no ownership of context/environment/payload/errors. Return IResult execution and request lifetime belong to ASP.NET Core. Mapper-created resource lifetime remains caller-owned.",
+      "benchmarkRows": [],
+      "exclusionReason": "No existing AspNetCoreBenchmarks row invokes this exact environment-effect unit overload. Current HTTP rows measure synchronous Option absence, Result success/failure and UnitResult no-content only; environment-effect suspension/context/environment overhead has no numeric release claim."
+    },
+    {
+      "identity": "H:15",
+      "source": {
+        "path": "src/FunnySharp.AspNetCore/HttpResultExtensions.cs",
+        "firstLine": 343,
+        "lastLine": 353
+      },
+      "sourceEvidence": [
+        "490-494",
+        "502-536"
+      ],
+      "allocation": "Default success creates Ok result; failure constructs caller ProblemDetails plus ProblemHttpResult. ValueTask<IResult> completes inline without task allocation when input completes synchronously; pending await can require state-machine backing storage.",
+      "cost": "H:15 environment-effect: one carrier observation and at most one selected mapper invocation. TryGetValue branches to caller success(value) or Results.Ok(value); failure then TryGetError invokes failure(error) once, validates status and builds Results.Problem. JSON serialization, IResult execution and hosting are deferred to ASP.NET Core, not measured here.",
+      "boxing": "Carrier stays its concrete struct; typed custom mapper avoids mapper-boundary boxing. Default Results.Ok(object?) boxes value-type success payloads; reference/null payloads do not box. Error/error-list stays typed until caller mapper.",
+      "resources": "Runs one environment-dependent Effect with the supplied environment and context.RequestAborted, then awaits its ValueTask once with ConfigureAwait(false). No resources acquired for disposal, no concurrent admission, no ownership of context/environment/payload/errors. Return IResult execution and request lifetime belong to ASP.NET Core. Mapper-created resource lifetime remains caller-owned.",
+      "benchmarkRows": [],
+      "exclusionReason": "No existing AspNetCoreBenchmarks row invokes this exact environment-effect result overload. Current HTTP rows measure synchronous Option absence, Result success/failure and UnitResult no-content only; environment-effect suspension/context/environment overhead has no numeric release claim."
+    },
+    {
+      "identity": "H:16",
+      "source": {
+        "path": "src/FunnySharp.AspNetCore/HttpResultExtensions.cs",
+        "firstLine": 367,
+        "lastLine": 377
+      },
+      "sourceEvidence": [
+        "496-500",
+        "502-536"
+      ],
+      "allocation": "Default valid creates Ok result; invalid constructs caller HttpValidationProblemDetails and framework validation-problem result, whose Errors/Extensions conversion cost is framework-owned. ValueTask<IResult> completes inline without task allocation when input completes synchronously; pending await can require state-machine backing storage.",
+      "cost": "H:16 environment-effect: one carrier observation and at most one selected mapper invocation. TryGetValue branches to caller valid(value) or Results.Ok(value); invalid then TryGetErrors passes the existing error list to invalid, validates status and creates Results.ValidationProblem using its Errors/Extensions. JSON serialization, IResult execution and hosting are deferred to ASP.NET Core, not measured here.",
+      "boxing": "Carrier stays its concrete struct; typed custom mapper avoids mapper-boundary boxing. Default Results.Ok(object?) boxes value-type success payloads; reference/null payloads do not box. Error/error-list stays typed until caller mapper.",
+      "resources": "Runs one environment-dependent Effect with the supplied environment and context.RequestAborted, then awaits its ValueTask once with ConfigureAwait(false). No resources acquired for disposal, no concurrent admission, no ownership of context/environment/payload/errors. Return IResult execution and request lifetime belong to ASP.NET Core. Mapper-created resource lifetime remains caller-owned.",
+      "benchmarkRows": [],
+      "exclusionReason": "No existing AspNetCoreBenchmarks row invokes this exact environment-effect validation overload. Current HTTP rows measure synchronous Option absence, Result success/failure and UnitResult no-content only; Validation problem dictionary work has no numeric release claim."
+    },
+    {
+      "identity": "H:17",
+      "source": {
+        "path": "src/FunnySharp.AspNetCore/HttpResultExtensions.cs",
+        "firstLine": 297,
+        "lastLine": 306
+      },
+      "sourceEvidence": [
+        "478-482",
+        "502-536"
+      ],
+      "allocation": "Default NoContent uses the framework result factory; failure constructs the caller ProblemDetails plus ProblemHttpResult. ValueTask<IResult> completes inline without task allocation when input completes synchronously; pending await can require state-machine backing storage.",
+      "cost": "H:17 effect: one carrier observation and at most one selected mapper invocation. TryGetError branches to caller failure(error) and Results.Problem; success uses caller success() or Results.NoContent(). JSON serialization, IResult execution and hosting are deferred to ASP.NET Core, not measured here.",
+      "boxing": "UnitResult is observed as its concrete struct, not converted to object/interface; error mapper is typed. No success payload exists to box.",
+      "resources": "Runs one Effect with context.RequestAborted then awaits its ValueTask once with ConfigureAwait(false). No resources acquired for disposal, no concurrent admission, no ownership of context/environment/payload/errors. Return IResult execution and request lifetime belong to ASP.NET Core. Mapper-created resource lifetime remains caller-owned.",
+      "benchmarkRows": [],
+      "exclusionReason": "No existing AspNetCoreBenchmarks row invokes this exact effect unit overload. Current HTTP rows measure synchronous Option absence, Result success/failure and UnitResult no-content only; effect suspension/context/environment overhead has no numeric release claim."
+    },
+    {
+      "identity": "H:18",
+      "source": {
+        "path": "src/FunnySharp.AspNetCore/HttpResultExtensions.cs",
+        "firstLine": 217,
+        "lastLine": 224
+      },
+      "sourceEvidence": [
+        "478-482",
+        "502-536"
+      ],
+      "allocation": "Default NoContent uses the framework result factory; failure constructs the caller ProblemDetails plus ProblemHttpResult. ValueTask<IResult> completes inline without task allocation when input completes synchronously; pending await can require state-machine backing storage.",
+      "cost": "H:18 valuetask: one carrier observation and at most one selected mapper invocation. TryGetError branches to caller failure(error) and Results.Problem; success uses caller success() or Results.NoContent(). JSON serialization, IResult execution and hosting are deferred to ASP.NET Core, not measured here.",
+      "boxing": "UnitResult is observed as its concrete struct, not converted to object/interface; error mapper is typed. No success payload exists to box.",
+      "resources": "Awaits the supplied ValueTask once with ConfigureAwait(false); caller must not reconsume a single-use source. No resources acquired for disposal, no concurrent admission, no ownership of context/environment/payload/errors. Return IResult execution and request lifetime belong to ASP.NET Core. Mapper-created resource lifetime remains caller-owned.",
+      "benchmarkRows": [],
+      "exclusionReason": "No existing AspNetCoreBenchmarks row invokes this exact valuetask unit overload. Current HTTP rows measure synchronous Option absence, Result success/failure and UnitResult no-content only; valuetask suspension/context/environment overhead has no numeric release claim."
+    },
+    {
+      "identity": "H:19",
+      "source": {
+        "path": "src/FunnySharp.AspNetCore/HttpResultExtensions.cs",
+        "firstLine": 256,
+        "lastLine": 265
+      },
+      "sourceEvidence": [
+        "490-494",
+        "502-536"
+      ],
+      "allocation": "Default success creates Ok result; failure constructs caller ProblemDetails plus ProblemHttpResult. ValueTask<IResult> completes inline without task allocation when input completes synchronously; pending await can require state-machine backing storage.",
+      "cost": "H:19 effect: one carrier observation and at most one selected mapper invocation. TryGetValue branches to caller success(value) or Results.Ok(value); failure then TryGetError invokes failure(error) once, validates status and builds Results.Problem. JSON serialization, IResult execution and hosting are deferred to ASP.NET Core, not measured here.",
+      "boxing": "Carrier stays its concrete struct; typed custom mapper avoids mapper-boundary boxing. Default Results.Ok(object?) boxes value-type success payloads; reference/null payloads do not box. Error/error-list stays typed until caller mapper.",
+      "resources": "Runs one Effect with context.RequestAborted then awaits its ValueTask once with ConfigureAwait(false). No resources acquired for disposal, no concurrent admission, no ownership of context/environment/payload/errors. Return IResult execution and request lifetime belong to ASP.NET Core. Mapper-created resource lifetime remains caller-owned.",
+      "benchmarkRows": [],
+      "exclusionReason": "No existing AspNetCoreBenchmarks row invokes this exact effect result overload. Current HTTP rows measure synchronous Option absence, Result success/failure and UnitResult no-content only; effect suspension/context/environment overhead has no numeric release claim."
+    },
+    {
+      "identity": "H:20",
+      "source": {
+        "path": "src/FunnySharp.AspNetCore/HttpResultExtensions.cs",
+        "firstLine": 277,
+        "lastLine": 286
+      },
+      "sourceEvidence": [
+        "496-500",
+        "502-536"
+      ],
+      "allocation": "Default valid creates Ok result; invalid constructs caller HttpValidationProblemDetails and framework validation-problem result, whose Errors/Extensions conversion cost is framework-owned. ValueTask<IResult> completes inline without task allocation when input completes synchronously; pending await can require state-machine backing storage.",
+      "cost": "H:20 effect: one carrier observation and at most one selected mapper invocation. TryGetValue branches to caller valid(value) or Results.Ok(value); invalid then TryGetErrors passes the existing error list to invalid, validates status and creates Results.ValidationProblem using its Errors/Extensions. JSON serialization, IResult execution and hosting are deferred to ASP.NET Core, not measured here.",
+      "boxing": "Carrier stays its concrete struct; typed custom mapper avoids mapper-boundary boxing. Default Results.Ok(object?) boxes value-type success payloads; reference/null payloads do not box. Error/error-list stays typed until caller mapper.",
+      "resources": "Runs one Effect with context.RequestAborted then awaits its ValueTask once with ConfigureAwait(false). No resources acquired for disposal, no concurrent admission, no ownership of context/environment/payload/errors. Return IResult execution and request lifetime belong to ASP.NET Core. Mapper-created resource lifetime remains caller-owned.",
+      "benchmarkRows": [],
+      "exclusionReason": "No existing AspNetCoreBenchmarks row invokes this exact effect validation overload. Current HTTP rows measure synchronous Option absence, Result success/failure and UnitResult no-content only; Validation problem dictionary work has no numeric release claim."
+    },
+    {
+      "identity": "H:21",
+      "source": {
+        "path": "src/FunnySharp.AspNetCore/HttpResultExtensions.cs",
+        "firstLine": 182,
+        "lastLine": 189
+      },
+      "sourceEvidence": [
+        "490-494",
+        "502-536"
+      ],
+      "allocation": "Default success creates Ok result; failure constructs caller ProblemDetails plus ProblemHttpResult. ValueTask<IResult> completes inline without task allocation when input completes synchronously; pending await can require state-machine backing storage.",
+      "cost": "H:21 valuetask: one carrier observation and at most one selected mapper invocation. TryGetValue branches to caller success(value) or Results.Ok(value); failure then TryGetError invokes failure(error) once, validates status and builds Results.Problem. JSON serialization, IResult execution and hosting are deferred to ASP.NET Core, not measured here.",
+      "boxing": "Carrier stays its concrete struct; typed custom mapper avoids mapper-boundary boxing. Default Results.Ok(object?) boxes value-type success payloads; reference/null payloads do not box. Error/error-list stays typed until caller mapper.",
+      "resources": "Awaits the supplied ValueTask once with ConfigureAwait(false); caller must not reconsume a single-use source. No resources acquired for disposal, no concurrent admission, no ownership of context/environment/payload/errors. Return IResult execution and request lifetime belong to ASP.NET Core. Mapper-created resource lifetime remains caller-owned.",
+      "benchmarkRows": [],
+      "exclusionReason": "No existing AspNetCoreBenchmarks row invokes this exact valuetask result overload. Current HTTP rows measure synchronous Option absence, Result success/failure and UnitResult no-content only; valuetask suspension/context/environment overhead has no numeric release claim."
+    },
+    {
+      "identity": "H:22",
+      "source": {
+        "path": "src/FunnySharp.AspNetCore/HttpResultExtensions.cs",
+        "firstLine": 200,
+        "lastLine": 207
+      },
+      "sourceEvidence": [
+        "496-500",
+        "502-536"
+      ],
+      "allocation": "Default valid creates Ok result; invalid constructs caller HttpValidationProblemDetails and framework validation-problem result, whose Errors/Extensions conversion cost is framework-owned. ValueTask<IResult> completes inline without task allocation when input completes synchronously; pending await can require state-machine backing storage.",
+      "cost": "H:22 valuetask: one carrier observation and at most one selected mapper invocation. TryGetValue branches to caller valid(value) or Results.Ok(value); invalid then TryGetErrors passes the existing error list to invalid, validates status and creates Results.ValidationProblem using its Errors/Extensions. JSON serialization, IResult execution and hosting are deferred to ASP.NET Core, not measured here.",
+      "boxing": "Carrier stays its concrete struct; typed custom mapper avoids mapper-boundary boxing. Default Results.Ok(object?) boxes value-type success payloads; reference/null payloads do not box. Error/error-list stays typed until caller mapper.",
+      "resources": "Awaits the supplied ValueTask once with ConfigureAwait(false); caller must not reconsume a single-use source. No resources acquired for disposal, no concurrent admission, no ownership of context/environment/payload/errors. Return IResult execution and request lifetime belong to ASP.NET Core. Mapper-created resource lifetime remains caller-owned.",
+      "benchmarkRows": [],
+      "exclusionReason": "No existing AspNetCoreBenchmarks row invokes this exact valuetask validation overload. Current HTTP rows measure synchronous Option absence, Result success/failure and UnitResult no-content only; Validation problem dictionary work has no numeric release claim."
+    }
+  ]
+}

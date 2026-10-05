@@ -1,0 +1,28 @@
+{
+  "schema": "funnysharp-pr-revised-docs-and-format-pass/v1",
+  "currentSourceSnapshots": [
+    "snapshot:41f49879678dfc2e7b2484900930e061f4e4badaf3e9699b78a0a145f7c90749",
+    "snapshot:c2d709af56bf711289d0221769eadd0cf9fb3e6ad2e9504b61a8ba1744b7bd58"
+  ],
+  "main": {
+    "monitor": "mon_7VD8525FYSYRZFNG",
+    "exitCode": 0,
+    "regions": 11,
+    "output": "status: completed exit_code: 0\nVerified 11 performance documentation regions."
+  },
+  "competitor": {
+    "monitor": "mon_CB2BCVN5MBM4952S",
+    "exitCode": 0,
+    "regions": 1,
+    "output": "status: completed exit_code: 0\nVerified 1 performance documentation regions."
+  },
+  "formatter": {
+    "monitor": "mon_Y7PKZVZ061MNKYEY",
+    "exitCode": 0,
+    "scope": "Repository format pipeline; CSharp verify-no-changes. FSharp is unsupported by this formatter.",
+    "output": "status: completed exit_code: 0\n   __                                      _   \n  / _|   ___    _ __   _ __ ___     __ _  | |_ \n | |_   / _ \\  | '__| | '_ ` _ \\   / _` | | __|\n |  _| | (_) | | |    | | | | | | | (_| | | |_ \n |_|    \\___/  |_|    |_| |_| |_|  \\__,_|  \\__|\n                                               \nRun PIPELINE format. Total timeout: -1ms.\n\nRun stages\n\n── STAGE #0 format started. timeout: -1ms. step timeout: -1ms. ─────────────────\n\nformat/step-0> started\ndotnet format FunnySharp.slnx --verify-no-changes --no-restore\nCould not format 'Q:\\repos\\funnysharp\\.worktrees\\goal24-complete-pr\\eng\\harness\\FunnySharp.Harness.fsproj'. Format currently supports only C# and Visual Basic projects.\nCould not format 'Q:\\repos\\funnysharp\\.worktrees\\goal24-complete-pr\\tests\\FunnySharp.Harness.Tests\\FunnySharp.Harness.Tests.fsproj'. Format currently supports only C# and Visual Basic projects.\nformat/step-0> finished. 31050ms. \n\n── STAGE #0 format finished. 31074ms. ──────────────────────────────────────────\n\nRun stages finished\n\n\nRun post stages\nRun post stages finished\n\n\nPIPELINE format is finished in 31081 ms"
+  },
+  "outsideAllTwelveRegionsUnchanged": true,
+  "snippetCodeUnchanged": true,
+  "currentFullCleanSolutionAndReleaseStillPending": true
+}

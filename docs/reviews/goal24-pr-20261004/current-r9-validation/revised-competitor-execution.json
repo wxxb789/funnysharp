@@ -1,0 +1,39 @@
+{
+  "schema": "funnysharp-pr-revised-benchmark-execution/v1",
+  "sourceParentCommit": "b584e748699a4f19d8a901695634be5a85ce8b07",
+  "sourceSnapshot": "snapshot:c2d709af56bf711289d0221769eadd0cf9fb3e6ad2e9504b61a8ba1744b7bd58",
+  "suite": "competitor",
+  "monitor": "mon_3RN747A1W9PNG3D7",
+  "exitCode": 0,
+  "executedBenchmarks": 40,
+  "distinctRowIds": 40,
+  "successfulReceipts": 2,
+  "elapsedSeconds": 832.93,
+  "benchmarkInputFingerprint": "0077f4bfafb239c77ead1b660e9f04f5c038750d7acc633769349f990b4e9ba2",
+  "protocolFingerprint": "b3f5f0ed419a004320407f6e8f6c58d795128bb3ae1e536f6b624e2ffa55eddd",
+  "coreDll": {
+    "file": "Q:\\repos\\funnysharp\\.worktrees\\goal24-complete-pr\\artifacts\\performance-preflight\\cccd5dae20be43a5946f3effc73ec1b6\\binaries\\19251bf8e6e1365641a6ce43dce65b5014d36249190b43e3cbdd6a2739118fd5\\FunnySharp.dll",
+    "sha256": "19251bf8e6e1365641a6ce43dce65b5014d36249190b43e3cbdd6a2739118fd5",
+    "mvid": "94c16a9e-6f7d-4e14-97d4-d7beaaf7c648",
+    "identity": "FunnySharp, Version=0.2.0.0, Culture=neutral, PublicKeyToken=null"
+  },
+  "mainCoreByteEquality": true,
+  "artifacts": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/pr-validation/traversal-r9-performance-20261005-01/competitor",
+  "receiptHashes": [
+    {
+      "name": "OptionCarrierBenchmarks-performance-receipt.json",
+      "sha256": "f6085bcfe3901efb80f9f767b16e19d0e8831094c96fd00df7667c26d823a105",
+      "rows": 20
+    },
+    {
+      "name": "ResultCarrierBenchmarks-performance-receipt.json",
+      "sha256": "ad54aa8d47b7b2795b65be5d3575fee970529d68dfa0a860aa25bad5c7bbf9cc",
+      "rows": 20
+    }
+  ],
+  "finalActualOutput": "status: completed exit_code: 0\n  ResultCarrierBenchmarks.DirectConstructionInspectionFailure: ShortRun     -> The method duration is indistinguishable \nfrom the empty method duration\n  ResultCarrierBenchmarks.FunnySharpConstructionInspectionFailure: ShortRun -> The method duration is indistinguishable \nfrom the empty method duration\n  ResultCarrierBenchmarks.FSharpCoreConstructionInspectionFailure: ShortRun -> The method duration is indistinguishable \nfrom the empty method duration\n  ResultCarrierBenchmarks.DirectConstructionInspectionSuccess: ShortRun     -> The method duration is indistinguishable \nfrom the empty method duration\n  ResultCarrierBenchmarks.FunnySharpConstructionInspectionSuccess: ShortRun -> The method duration is indistinguishable \nfrom the empty method duration\n  ResultCarrierBenchmarks.FSharpCoreConstructionInspectionSuccess: ShortRun -> The method duration is indistinguishable \nfrom the empty method duration\n  ResultCarrierBenchmarks.DirectFailFastPipelineFailure: ShortRun           -> The method duration is indistinguishable \nfrom the empty method duration\n  ResultCarrierBenchmarks.DirectFailFastPipelineSuccess: ShortRun           -> The method duration is indistinguishable \nfrom the empty method duration\n\n// * Legends *\n  Categories  : All categories of the corresponded method, class, and assembly\n  Mean        : Arithmetic mean of all measurements\n  Error       : Half of 99.9% confidence interval\n  StdDev      : Standard deviation of all measurements\n  Median      : Value separating the higher half of all measurements (50th percentile)\n  Ratio       : Mean of the ratio distribution ([Current]/[Baseline])\n  RatioSD     : Standard deviation of the ratio distribution ([Current]/[Baseline])\n  Gen0        : GC Generation 0 collects per 1000 operations\n  Allocated   : Allocated memory per single operation (managed only, inclusive, 1KB = 1024B)\n  Alloc Ratio : Allocated memory ratio distribution ([Current]/[Baseline])\n  1 ns        : 1 Nanosecond (0.000000001 sec)\n\n// * Diagnostic Output - MemoryDiagnoser *\n\n\n// ***** BenchmarkRunner: End *****\nRun time: 00:06:42 (402.3 sec), executed benchmarks: 20\n\nGlobal total time: 00:13:52 (832.93 sec), executed benchmarks: 40\n// * Artifacts cleanup *\nArtifacts cleanup is finished",
+  "allocationAcceptance": "PENDING_STRICT_VERIFIER",
+  "serialMainBeforeCompetitor": true,
+  "projectLockedRestoreExit": 0,
+  "oldProofsUnchanged": true
+}

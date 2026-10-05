@@ -1,0 +1,50 @@
+{
+  "schema": "funnysharp-current-performance-source-continuity/v1",
+  "candidate": "1fbb50df35e6b1a4cd423460eb6d2d149a64517f",
+  "historicalCoverageSha256": "f17a9bce80693882ee33e0d62c45ad60cbb3214189276f0c3ac752fda9e97265",
+  "historicalCoveragePreservedInGit": true,
+  "oldOptionSha256": "2ab65969adf550465692cfa812ad2e8cc182306e1c2660eb549e1d21d873da36",
+  "currentOptionSha256": "8ee95f8d0193c71e9515f4c97616a1352ee8b4960d17628ca7b7c3cbe77cd707",
+  "removedLines": [
+    {
+      "line": 436,
+      "text": "    /// <exception cref=\"InvalidOperationException\">Either operand is uninitialized.</exception>"
+    },
+    {
+      "line": 442,
+      "text": "    /// <exception cref=\"InvalidOperationException\">Either operand is uninitialized.</exception>"
+    }
+  ],
+  "all38MemberExecutableExcerptsEqual": true,
+  "shiftedRanges": [
+    {
+      "identity": "C:218",
+      "oldFirst": 437,
+      "oldLast": 437,
+      "currentFirst": 436,
+      "currentLast": 436,
+      "executableExcerptUnchanged": true
+    },
+    {
+      "identity": "C:219",
+      "oldFirst": 443,
+      "oldLast": 443,
+      "currentFirst": 441,
+      "currentLast": 441,
+      "executableExcerptUnchanged": true
+    },
+    {
+      "identity": "C:224",
+      "oldFirst": 447,
+      "oldLast": 447,
+      "currentFirst": 445,
+      "currentLast": 445,
+      "executableExcerptUnchanged": true
+    }
+  ],
+  "otherSourceBindingsChanged": 0,
+  "stableAndExperimentalClassificationsChanged": 0,
+  "benchmarkRowsOrExclusionsChanged": 0,
+  "currentPackageAndRuntimeProofs": "pending independent current-coverage lane",
+  "original69AcceptanceNotRelabeled": true
+}

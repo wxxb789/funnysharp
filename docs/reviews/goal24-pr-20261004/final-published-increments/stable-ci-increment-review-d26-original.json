@@ -1,0 +1,231 @@
+{
+  "schema": "funnysharp-stable-ci-increment-gate-review/v1",
+  "recommendation": "APPROVE",
+  "blockers": [],
+  "date": "2026-10-05",
+  "scope": "Independent static correctness, constraints, security-boundary and metadata audit of the immutable 11-file c9acfba..d26 increment. This is not a passing current release, CLI execution, published CI or whole-goal gate.",
+  "candidate": {
+    "commit": "d26b159fdf6fe32c8afa04be92ee0e335f35dc3c",
+    "parent": "c9acfba0091519510005558993e35d021b0ecd31",
+    "tree": "533ea078513c1e5fe0a0c1b32bd49bcb8c60f82c",
+    "subject": "fix: enforce portable stable semantic evidence in release CI",
+    "worktree": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr",
+    "observedHeadMatches": true,
+    "observedInitialPorcelainEmpty": true,
+    "reviewedWorkingFilesMatchImmutableCandidate": true,
+    "changedPaths": 11,
+    "changedPathKinds": { "modified": 4, "added": 7, "deleted": 0 },
+    "remoteState": "Not queried. Unpushed status is supplied by the brief, not independently asserted here."
+  },
+  "actualRoute": {
+    "role": "omo-native-gate-reviewer",
+    "taskId": "st_01a10ac1",
+    "parentSession": "01a105fc-12f5-716f-ab6e-28d97b2bd38c",
+    "runtimeSession": "01a10ac1-1a93-77a5-b43c-11b024c134af",
+    "provider": "ghc",
+    "model": "gpt-6-astra",
+    "routeEvidence": "Direct printf of PI_PROVIDER, PI_MODEL and PI_SESSION_ID returned these values.",
+    "effort": "Not exposed",
+    "delegation": false
+  },
+  "originalIntent": "Close the valid PR33 feedback gap: required Windows release CI must execute the real stable-semantic gate using portable, byte-bound inputs for the actual clean current candidate, without rewriting original evidence or weakening its criteria.",
+  "desiredOutcome": "A fresh canonical Windows checkout can consume the retained historical evidence solely from the committed packet, verify actual checkout source and assertion bytes, and join current DLL/PDB/XML to the successful current release seal before its canonical artifact is uploaded. Historical observations must remain historical.",
+  "userOutcomeReview": "The inspected increment installs that mandatory workflow path and retains the existing semantic validator through a resolver seam. Current Git identity, clean-worktree enforcement and the existing post-build PE/XML seal form a separate live boundary. The original index remains unchanged, and inspected successor records distinguish historical metadata from current XML snapshots. No demonstrated brief-derived success-criterion failure was found. Approval is for this implementation/data increment; observable current execution acceptance remains a separate parent obligation explicitly reserved by the brief.",
+  "brief": {
+    "path": "Q:/repos/funnysharp/docs/reviews/goal24-pr-20261004/stable-ci-increment-review-brief-d26.md",
+    "sha256": "fb4cc4bce34ae9394fb6ee07463b62ea8599fc681ac415a2ab478805f12b2d29",
+    "readFirst": true
+  },
+  "criteria": [
+    {
+      "id": "D26-C1",
+      "criterion": "Audit only the actual immutable 11-file increment and preserve repository/remote state.",
+      "assessment": "SATISFIED_BY_DIRECT_REVIEW",
+      "evidencePointers": ["git show -s d26b159fdf6fe32c8afa04be92ee0e335f35dc3c", "git diff --name-status c9acfba0091519510005558993e35d021b0ecd31 d26b159fdf6fe32c8afa04be92ee0e335f35dc3c", "git diff --exit-code d26b159fdf6fe32c8afa04be92ee0e335f35dc3c -- <all 11 reviewed paths>"],
+      "observation": "Exact candidate, parent and tree were observed; the initial porcelain was empty. Four source/workflow modifications and seven additions match the brief. No other candidate paths changed. Only the two authorized report destinations were written."
+    },
+    {
+      "id": "D26-C2",
+      "criterion": "Enforce the actual stable-semantic gate in required Windows release CI using portable inputs.",
+      "assessment": "STATIC_PATH_CONFIRMED_EXECUTION_WITHHELD",
+      "evidencePointers": [".github/workflows/release.yml:40-91", "build.fsx:36-43", "build.fsx:131-142", "eng/harness/ReleaseRun.fs:977-984"],
+      "observation": "The new command is in win-x64 after canonical release and before canonical upload, with neither continue-on-error nor an optional step condition. Its candidate/attempt evidence path matches the canonical layout. GetCmdArg forwards both explicit paths; gate propagates a nonzero result as process exit. Dependent platform jobs still require win-x64. Remote rules and job outcomes were not queried."
+    },
+    {
+      "id": "D26-C3",
+      "criterion": "Retain exact portable byte bindings and safe archive lifecycle; do not fall back to the original workstation or archived current src/tests.",
+      "assessment": "STATIC_PATH_AND_OUTER_IDENTITIES_CONFIRMED",
+      "evidencePointers": ["eng/harness/StableApiContracts.fs:194-248", "docs/audits/goal-24-resolution/current-stable-semantic/input-catalog.json:2-20", "docs/audits/goal-24-resolution/current-stable-semantic/current-proof-index.json:296190-296220", ".gitattributes:1-20"],
+      "observation": "Repository-contained catalog/archive paths are hash-bound. Catalog schema, declared entry uniqueness, size, inner SHA256, unique aliases and exact non-directory archive membership are checked. Entry names never become extraction destinations: output uses a validated 64-hex filename under a unique temporary directory, with streams disposed before hashing and finally cleanup. Aliases normalize separators only. Canonical src/ and tests/ aliases are rejected; unknown absolute, drive, artifacts/ and .omo/ paths fail instead of reading old local files. Checkout fallback is root-contained. A complete catalog text search returned no traversal or canonical src/tests aliases. ZIP inner bytes and all aliases were not replay-verified by this reviewer."
+    },
+    {
+      "id": "D26-C4",
+      "criterion": "Preserve strict source, assertion, actual case-ID and compiler-source joins rather than replacing them with counts.",
+      "assessment": "UNCHANGED_VALIDATOR_CONFIRMED",
+      "evidencePointers": ["eng/harness/StableApiContracts.fs:30-188", "eng/harness/StableApiContracts.fs:250-251", "tests/FunnySharp.Harness.Tests/StableApiContractsTests.fs:69-169"],
+      "observation": "The former validator body is unchanged except for receiving the resolver. It still checks full-file hashes, exact excerpts and excerpt hashes, trimmed assertion bodies and helper bodies, assertion lines, actual receipt IDs/names/types/methods/status, compiler source hashes, diagnostic identities/locations/suppression and legal exact bindings. Exact row identities, eight dimension names, reference existence, required runtime applicability and XML/policy bindings remain enforced. Existing negative tests were not removed or weakened. This review does not claim a new exhaustive recomputation of 565/697/1635/2288 records."
+    },
+    {
+      "id": "D26-C5",
+      "criterion": "Bind the current clean Git candidate and successful release to actual current DLL/PDB/XML and loaded PE metadata, without relabeling historical package identity.",
+      "assessment": "STATIC_CALL_CHAIN_CONFIRMED_CURRENT_EXECUTION_WITHHELD",
+      "evidencePointers": ["eng/harness/StableApiContracts.fs:267-307", "eng/harness/ReleaseVerifyArtifacts.fs:564-615", "eng/harness/ReleaseVerifyArtifacts.fs:766-775", "eng/harness/XmlBuildBindings.fs:75-82", "eng/harness/XmlBuildBindings.fs:184-238"],
+      "observation": "The new route requires succeeded=true, release environment.commit equal to git HEAD, and an empty current porcelain. Current built XML must exactly match successor snapshot hashes. getReleaseXmlDocumentationInventory validates the external execution manifest/build receipt and candidate/attempt seal, reviewed shipping inputs/policy, capture order and DLL/PDB/XML hashes. The loaded assembly hash and MVID are compared with the sealed PE before the existing XML alias/inheritance policy is applied. No historical DLL hash is substituted for the current seal. The standalone semantic command consumes a successful release report; it does not independently rerun all release checks. In CI that report is produced by the immediately preceding mandatory canonical release."
+    },
+    {
+      "id": "D26-C6",
+      "criterion": "Preserve the original index, original accounting/proof identities, limitations and thresholds; only migrate current source pins/coordinates and separately label successor XML.",
+      "assessment": "IMMUTABILITY_AND_SAMPLED_SUCCESSOR_BINDINGS_CONFIRMED",
+      "evidencePointers": ["docs/audits/goal-24-resolution/stable-api-semantic-proofs.json:1-115", "docs/audits/goal-24-resolution/current-stable-semantic/current-proof-index.json:1-160", "docs/audits/goal-24-resolution/current-stable-semantic/current-proof-index.json:425-584", "docs/audits/goal-24-resolution/current-stable-semantic/current-proof-index.json:44105-44389", "docs/audits/goal-24-resolution/current-stable-semantic/preparation.json:73-392", "docs/audits/goal-24-resolution/current-stable-semantic/preparation.json:2500-2769"],
+      "observation": "The original index was independently hashed to ad106d7e...da18 and is outside the exact increment; original ledgers/proofs/policies likewise have no changed path. All six refreshed source/test file hashes were independently reproduced and match the successor. The five Option coordinates were checked against the current source excerpt. Sampled row data retains historical tokens, receipts and installed bindings separately from current-xml aliases. The original and successor header counts and stated limitations agree. Full all-record preservation, 2340 inner-entry verification and 4722 unique aliases remain preparation-worker claims, not reviewer-run proof."
+    },
+    {
+      "id": "D26-C7",
+      "criterion": "Keep the old entry point compatible and exercise the new portable behavior without weakening tests or adding false confidence.",
+      "assessment": "STATIC_COMPATIBILITY_AND_TEST_RELEVANCE_CONFIRMED",
+      "evidencePointers": ["eng/harness/StableApiContracts.fs:190-191", "eng/harness/StableApiContracts.fs:267-272", "eng/harness/StableApiContracts.fs:311-326", "tests/FunnySharp.Harness.Tests/StableApiContractsTests.fs:73-136"],
+      "observation": "verify root proofPath and zero/one-argument main keep the historical mode; the second argument opts into the new live-release portable mode. One real ZIP positive and five negative input cases are added. The positive removes original receipt/XML files; the private absolute fallback negative deliberately leaves the local file available, so selection of that fallback cannot pass unnoticed. Missing entry, wrong inner hash, extra entry and current-source alias failures are observable acceptance behavior, not prose/removal pins. No test was executed by this reviewer."
+    },
+    {
+      "id": "D26-C8",
+      "criterion": "Preserve honest evidence/credential scope and withhold pending release, CI, publication and cleanup conclusions.",
+      "assessment": "SATISFIED_BY_REPORT_BOUNDARIES",
+      "evidencePointers": ["docs/audits/goal-24-resolution/current-stable-semantic/credential-scan.json:1-35", "docs/audits/goal-24-resolution/current-stable-semantic/README.md:1-15", "docs/audits/goal-24-resolution/current-stable-semantic/preparation.md:57-79", "stable-ci-increment-review-brief-d26.md:7-13"],
+      "observation": "The credential report describes a bounded pattern scan, explicitly excludes unselected/encrypted/obfuscated material and binds the actual index/catalog hashes. No concrete credential was identified in inspected text. This reviewer did not repeat the scan or inspect every decompressed payload. Historical runtime/compiler observations, c306/r5 XML origins and current release obligations are explicitly distinct. r6 and subsequent published CI remain unverified in this audit."
+    }
+  ],
+  "findings": [],
+  "notes": [
+    {
+      "id": "D26-N1",
+      "severity": "NOTE",
+      "observation": "No standalone d26 code-review report or d26 manual-QA matrix was named in the brief or found among the named review-directory files. The earlier source-repairs and c9 reports explicitly cover the required skill perspectives, but their scope does not establish coverage of this new increment. This reviewer performed the direct pass over the complete four-file code diff and surrounding code.",
+      "evidencePointers": ["Q:/repos/funnysharp/docs/reviews/goal24-pr-20261004/source-repairs-review.md#Skill-perspective-check", "Q:/repos/funnysharp/docs/reviews/goal24-pr-20261004/postsubmit-independent-c9acfba.md#Direct-programming-and-overfit-slop-review", "Q:/repos/funnysharp/docs/reviews/goal24-pr-20261004/corrected-parent-qa-matrix.md:1-30"],
+      "whyNotBlocker": "The bounded brief requests this independent increment review and explicitly reserves canonical execution to the parent; it does not require a separate d26 reviewer artifact as an acceptance criterion."
+    },
+    {
+      "id": "D26-N2",
+      "severity": "NOTE",
+      "observation": "The brief's focused 17-test pass, full portable proof pass, old-candidate CLI rejection and formatter completion are monitor-ID claims without raw completion paths in this input. Two bounded searches did not locate those outputs; their results remain attributed, not independently reproduced.",
+      "evidencePointers": ["stable-ci-increment-review-brief-d26.md:7", "Q:/repos/funnysharp/docs/reviews/goal24-pr-20261004/current-stable-semantic-parent-probe.fsx:1-29"],
+      "whyNotBlocker": "No contradictory result was found, and the brief forbids reviewer workload/proof replay. The report withholds current execution acceptance instead of converting these claims into PASS."
+    }
+  ],
+  "skillPerspective": {
+    "loaded": [
+      "C:/Users/lhan/.omo/binary-runtime/5.1.15/plugin/skills/remove-ai-slops/SKILL.md",
+      "C:/Users/lhan/.omo/binary-runtime/5.1.15/plugin/skills/programming/SKILL.md"
+    ],
+    "application": "Shared correctness, boundaries, resource lifetime, types and test-discipline criteria were applied directly. Programming has no F# language-specific reference set. Cleanup, refactoring, delegation and workload instructions do not override this read-only bounded task.",
+    "directScope": "Complete StableApiContracts.fs, complete StableApiContractsTests.fs, complete four-file code diff, build.fsx gate/dispatch context, required workflow context, release seal and XML inventory call chain, successor metadata and preparation/scan sections.",
+    "overfitSlopCoverage": {
+      "excessiveOrUselessTests": "No finding. Six new cases cover distinct actual archive/resolver outcomes.",
+      "deletionOnlyOrRemovalTests": "No finding. File deletion in the valid fixture makes archive resolution necessary; no assertion merely tests deletion or requested text removal.",
+      "prosePins": "No new prose pin. Assertions target exception type or successful validation of machine-consumed inputs.",
+      "tautologies": "No finding. Expected hashes derive from fixture input bytes; invalid cases change a binding or available archive contents.",
+      "implementationMirrors": "No finding. Tests use actual ZIP/JSON/filesystem operations, not mocked internal calls or exact implementation statements.",
+      "determinism": "No sleep, polling, timing-luck success, retries or shared fixed temporary path added.",
+      "mockFidelity": "New tests do not mock the archive or filesystem boundary.",
+      "unnecessaryProductionExtraction": "Resolver extraction preserves the unchanged validator and the public legacy seam, while enabling the portable mode; it is not speculative layering.",
+      "unnecessaryParsingOrNormalization": "ZIP/JSON parsing is required evidence input handling. Only slash normalization is introduced; receipt/compiler source contents are not rewritten.",
+      "boundaryValidationAndTypes": "JsonElement/null pattern handling is explicit at external-data boundaries. No warning suppression or nullness escape was introduced.",
+      "resourceLifetime": "Archive/catalog disposal, per-entry stream disposal and finally deletion of the unique extraction directory were traced.",
+      "scopeDrift": "No shipping source, dependency, threshold, policy, original index or old test modification is present in this increment.",
+      "structuralSize": "The module now contains both portable resolution and live-release orchestration alongside the retained validator. No unstated module-size or architecture preference is promoted to a success-criterion blocker."
+    },
+    "separateCodeReviewCoverage": "Earlier source-repairs-review.md explicitly covers both skills and deletion/removal/prose pins, tautology, implementation mirroring, abstraction and parsing/normalization. It is not a d26 report. No separate d26 coverage assertion was verified; see D26-N1."
+  },
+  "artifactHashes": {
+    ".github/workflows/release.yml": "a56babd35f3c1ac0874b5de71f48d5ea283ddb815b9f954e8ddca988c5276915",
+    "build.fsx": "0d0eee625e28605bb28c40eed122efb26eab835e1502bc09649effdadb076854",
+    "eng/harness/StableApiContracts.fs": "d20e1491704cdeb6ad9e9a60179ae1d50ac8575ccba33c5efe87335a218e979b",
+    "tests/FunnySharp.Harness.Tests/StableApiContractsTests.fs": "94e14e1ec96bc4cba502af0791a561e352a66e1e493d011edfc8f08ae660b023",
+    "docs/audits/goal-24-resolution/current-stable-semantic/README.md": "6ce00181e4f429cb47a781e4dc9d6171f1f9cf28125dcd760eecde16dc0d608a",
+    "docs/audits/goal-24-resolution/current-stable-semantic/credential-scan.json": "781b8649b0cc3b786afa005f02b38c68a18029cda80e7ddaae639ccdd1bfc113",
+    "docs/audits/goal-24-resolution/current-stable-semantic/current-proof-index.json": "ca4f5e9e3f442e418a514e31c64390a41f19da0fa1dbef183430bcaea474c4aa",
+    "docs/audits/goal-24-resolution/current-stable-semantic/input-catalog.json": "1f93bad25bf321d960ead8bad05fbc9eb0f21806a0dbaddba272387eea6b855a",
+    "docs/audits/goal-24-resolution/current-stable-semantic/inputs.zip": "b52a61633427531ccf3caf7241d3c7208a0ca3b2efdd1c2eb5d4eb0c9f1496a1",
+    "docs/audits/goal-24-resolution/current-stable-semantic/preparation.json": "046f495fae5324453a7157045b6e5125c7c33bde24634dba25f565ef1c00ac58",
+    "docs/audits/goal-24-resolution/current-stable-semantic/preparation.md": "b940861a7a1917cbb9706dab6d171cea3f4747d2a7bdf691060ffe52116330f2",
+    "docs/audits/goal-24-resolution/stable-api-semantic-proofs.json": "ad106d7ee1ed4772e898bc17edb020a3b4e3f836f32678613e13cc95a813da18"
+  },
+  "migrationHashesIndependentlyReproduced": {
+    "src/FunnySharp/AsyncSequenceExtensions.cs": "5a0ea53ad1e8eedd56cc54e39f629a69e86f9998147f71259cccdc827898941f",
+    "src/FunnySharp/Option.cs": "8ee95f8d0193c71e9515f4c97616a1352ee8b4960d17628ca7b7c3cbe77cd707",
+    "src/FunnySharp/PartitionExtensions.cs": "57edfa4d39b0a8f6e9bdd9913d4eb0418a5c0e5fabe82c4e7e35bd7581ad5db7",
+    "src/FunnySharp/SequenceExtensions.cs": "f9c6ba3c4ae07b532c02bc7cded4bc51fb47b554512b7c5c87a92c128c37eb50",
+    "tests/FunnySharp.AspNetCore.Tests/HttpResultExtensionsTests.cs": "8a9da2c461728248a102cf3449c293d475e8141969788071701feecbdd1b1a07",
+    "tests/FunnySharp.AspNetCore.Tests/KestrelCancellationTests.cs": "d17eb207ca0db19502754f5e536f1760fc0fe3bf2fa34fcfb636597861eb5cc0"
+  },
+  "checkedArtifactPaths": [
+    { "path": "Q:/repos/funnysharp/docs/reviews/goal24-pr-20261004/stable-ci-increment-review-brief-d26.md", "coverage": "Complete brief; read first and hashed." },
+    { "path": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/eng/harness/StableApiContracts.fs", "coverage": "Complete file and complete parent-to-d26 diff; SHA256 independently reproduced." },
+    { "path": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/tests/FunnySharp.Harness.Tests/StableApiContractsTests.fs", "coverage": "Complete file and complete diff; SHA256 independently reproduced." },
+    { "path": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/build.fsx", "coverage": "Lines 1-170, including gate and changed dispatch; complete diff; full-file hash." },
+    { "path": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/.github/workflows/release.yml", "coverage": "Lines 1-300 and complete diff; full-file hash. Unchanged provenance transport tail not reread." },
+    { "path": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/docs/audits/goal-24-resolution/current-stable-semantic/README.md", "coverage": "Complete text and full-file hash." },
+    { "path": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/docs/audits/goal-24-resolution/current-stable-semantic/credential-scan.json", "coverage": "Complete report/rules/limitations and full-file hash; scan not rerun." },
+    { "path": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/docs/audits/goal-24-resolution/current-stable-semantic/preparation.md", "coverage": "Complete text and full-file hash." },
+    { "path": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/docs/audits/goal-24-resolution/current-stable-semantic/preparation.json", "coverage": "Header, all six file migrations and source/assertion/helper/case migration records, selected XML changes, preservation/snapshot/archive/verification/scan/integration/limitations sections; full-file hash. Not an exhaustive reread of the 264 XML coordinate records." },
+    { "path": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/docs/audits/goal-24-resolution/current-stable-semantic/current-proof-index.json", "coverage": "Full-file hash; header/protocol/counts/receipt attribution, fileHashes, one full sampled row with historical metadata, current/historical XML samples, historicalIndex/portableInputs, snapshot/migration/preservation sections. Not a full semantic reread or parsed comparison of 298884 lines." },
+    { "path": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/docs/audits/goal-24-resolution/current-stable-semantic/input-catalog.json", "coverage": "Full-file hash; schema and compiler alias samples; both current XML alias records and original index record; complete-file text search for canonical src/tests aliases and traversal. Not an independent recount of 2340 entries/4722 aliases." },
+    { "path": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/docs/audits/goal-24-resolution/current-stable-semantic/inputs.zip", "coverage": "Outer SHA256 only; no extraction, proof replay, recursive scan or inner-byte census." },
+    { "path": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/docs/audits/goal-24-resolution/stable-api-semantic-proofs.json", "coverage": "Header/protocol/counts/receipt sample, full-file SHA256 and unchanged Git identity." },
+    { "path": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/eng/harness/XmlBuildBindings.fs", "coverage": "Complete implementation of reviewed inputs, capture, external manifest/seal/build-receipt validation and loaded PE check." },
+    { "path": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/eng/harness/ReleaseVerifyArtifacts.fs", "coverage": "Lines 495-844: release framework resolution, live/historical metadata/XML inventory, aliases/inheritance and both entry points." },
+    { "path": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/eng/harness/ReleaseRun.fs", "coverage": "Canonical output/evidence path search and lines 1130-1204; not a complete release-runner audit." },
+    { "path": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/tests/FunnySharp.Harness.Tests/XmlBuildBindingsTests.fs", "coverage": "Lines 1-180 for existing real-PE fixture and historical/live entry-point distinction; unchanged, not executed." },
+    { "path": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/.gitattributes", "coverage": "Complete checkout-byte rules." },
+    { "path": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/src/FunnySharp/Option.cs", "coverage": "Lines 425-463 plus full-file hash; migrated five source coordinates checked." },
+    { "path": "Q:/repos/funnysharp/docs/reviews/goal24-pr-20261004/current-stable-semantic-parent-probe.fsx", "coverage": "Complete source; does not establish its execution outcome." },
+    { "path": "Q:/repos/funnysharp/docs/reviews/goal24-pr-20261004/stable-gate-scope-reconciliation.md", "coverage": "Complete continuation/notepad-equivalent scope and ownership note." },
+    { "path": "Q:/repos/funnysharp/docs/reviews/goal24-pr-20261004/postsubmit-feedback-result.md", "coverage": "Complete valid feedback and old-gate failure context; remote actions not repeated." },
+    { "path": "Q:/repos/funnysharp/docs/reviews/goal24-pr-20261004/source-repairs-review.md", "coverage": "Complete earlier review, explicitly including skill perspective and limitations; not reused as d26 approval." },
+    { "path": "Q:/repos/funnysharp/docs/reviews/goal24-pr-20261004/postsubmit-independent-c9acfba.md", "coverage": "Complete earlier published-candidate review and skill/evidence boundaries; remote outcomes not reasserted." },
+    { "path": "Q:/repos/funnysharp/docs/reviews/goal24-pr-20261004/corrected-parent-qa-matrix.md", "coverage": "Complete historical c306 matrix; not current d26 QA." },
+    { "path": "Q:/repos/funnysharp/docs/reviews/goal24-pr-20261004/final-c9acfba-full-test-pass.json", "coverage": "Complete historical pointer, used only to locate the parent artifact directory for a bounded monitor-ID search." }
+  ],
+  "verification": {
+    "reviewerExecuted": [
+      "Read-only Git status, exact commit/tree/parent, complete 11-name diff and complete four-file code diff.",
+      "Working-file comparison against immutable d26 returned no difference.",
+      "git diff --check c9acfba0091519510005558993e35d021b0ecd31 d26b159fdf6fe32c8afa04be92ee0e335f35dc3c returned exit 0.",
+      "SHA256 of all 11 changed files, original index, brief and six source/test migration files.",
+      "Direct static code, tests, schema/metadata and archive-lifecycle review."
+    ],
+    "attributedNotReproduced": [
+      "mon_J07J5VT89KWR02SV: 17 focused tests passed, zero failed/skipped, as reported in brief.",
+      "mon_Z0R9KXBJ99P58M76: actual portable proof pass, as reported in brief.",
+      "mon_JDTSZ8RMY0YVZ30T: actual old c306/r5 CLI rejection exit 1, as reported in brief.",
+      "mon_EN90QJ3NSQV5C14X0: formatter completion, as reported in brief.",
+      "Preparation worker: exhaustive archive aliases/inner hashes/source-body preservation/XML/case joins and bounded credential scan."
+    ],
+    "notRun": "No tests, build, formatter, canonical release, semantic CLI, compiler/runtime/HTTP/benchmark/model workload, proof replay, credential-scan replay, remote operation, wait, installation, delegation or cleanup.",
+    "diagnostics": "F# LSP lookup failed: fsautocomplete is not installed. No typecheck or install was substituted.",
+    "toolLimitations": "No JS eval, todo, agentToolkit.status or apply_patch tool is exposed. The explicit two report destinations govern; write is used as required by the available higher-priority file-operation instructions.",
+    "correctedInvocationIssue": "The first read-only route probe used PowerShell Get-ChildItem in the Bash shell and exited 127 after successful Git outputs. A later labeled printf probe returned exact PI values. No candidate files were affected."
+  },
+  "exactEvidenceGaps": [
+    "No current d26/r6 release result, 14-command receipt set, full-solution counts, current DLL/PDB/XML seal acceptance or actual positive stable CLI result was read or declared passing. These are explicitly parent-owned.",
+    "No exact-d26 published remote head, required check result, feedback-thread resolution or ruleset readback was performed.",
+    "No raw completion artifact path for the four brief monitor IDs was supplied or located in bounded searches. Their success claims remain attributed.",
+    "No separate d26 code-review report or current d26 manual-QA matrix was verified. The prior reports' scope is earlier commits.",
+    "No independent all-record successor-versus-original structural comparison, inner ZIP census, 4722-alias uniqueness recomputation or 1635-case/2288-probe replay occurred. The packet outer hashes and sampled logical bindings were independently checked.",
+    "The 12-rule credential result was inspected and hash-bound, not rerun. No assurance of arbitrary or opaque credential absence is given.",
+    "No F# language-server or compiler diagnostics were available from this read-only audit."
+  ],
+  "withheldConclusions": [
+    "Current r6 release/full-solution PASS",
+    "Exact-d26 positive live stable-semantic CLI PASS",
+    "Published exact-head required CI PASS",
+    "PR feedback completion, babysitting completion or merge readiness",
+    "Whole Goal 24 acceptance or replacement of the original 69/175 accounting",
+    "Fresh runtime/compiler observations for historical receipts",
+    "Universal credential clearance",
+    "Durable retention, owned cleanup, push, merge or release authorization"
+  ],
+  "reportPaths": [
+    "Q:/repos/funnysharp/docs/reviews/goal24-pr-20261004/stable-ci-increment-review-d26.json",
+    "Q:/repos/funnysharp/docs/reviews/goal24-pr-20261004/stable-ci-increment-review-d26.md"
+  ]
+}

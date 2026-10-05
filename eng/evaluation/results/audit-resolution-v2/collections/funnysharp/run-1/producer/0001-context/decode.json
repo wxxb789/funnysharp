@@ -1,0 +1,11 @@
+{
+  "status": "malformed-output",
+  "error": "Invalid output path: solution/FeedCleaner.cs (expected a top-level .cs filename; no path normalization is registered)",
+  "returnedFiles": [
+    {
+      "path": "solution/FeedCleaner.cs",
+      "contentSha256": "563a5dc8ed4da7f577f63557b3a1a0108078b3ccf49e608b9c253f4283c5b327"
+    }
+  ],
+  "normalized": false
+}

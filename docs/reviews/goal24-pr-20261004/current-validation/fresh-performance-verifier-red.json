@@ -1,0 +1,18 @@
+{
+  "schema": "funnysharp-pr-fresh-performance-verifier-red/v1",
+  "candidate": "1fbb50df35e6b1a4cd423460eb6d2d149a64517f",
+  "main": {
+    "rowsExecuted": 190,
+    "exitCode": 1,
+    "monitor": "mon_GZ7P3HZBHFYQXE40"
+  },
+  "competitor": {
+    "rowsExecuted": 40,
+    "exitCode": 1,
+    "monitor": "mon_W21ARYMKWNWRGEME"
+  },
+  "error": "Stable performance coverage: missing or stale hash-bound evidence.",
+  "proposalsAccepted": false,
+  "policyOrThresholdsChanged": false,
+  "measurementsNotReplayed": true
+}

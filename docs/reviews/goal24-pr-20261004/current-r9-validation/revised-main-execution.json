@@ -1,0 +1,87 @@
+{
+  "schema": "funnysharp-pr-revised-benchmark-execution/v1",
+  "sourceParentCommit": "b584e748699a4f19d8a901695634be5a85ce8b07",
+  "sourceSnapshot": "snapshot:41f49879678dfc2e7b2484900930e061f4e4badaf3e9699b78a0a145f7c90749",
+  "suite": "main",
+  "monitor": "mon_C7HSAJJCAHFQGX2F",
+  "exitCode": 0,
+  "executedBenchmarks": 190,
+  "distinctRowIds": 190,
+  "successfulReceipts": 13,
+  "elapsedSeconds": 2058.62,
+  "benchmarkInputFingerprint": "b4c74b46b265d46ed83e28136e5c4f19e1ec7fd144fa97114dc0cfae018bdbe7",
+  "protocolFingerprint": "765702cfa309615ebad721de84cd992a4ef3c883560703541d3a2f9c6eb8b207",
+  "artifacts": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/pr-validation/traversal-r9-performance-20261005-01/main",
+  "receiptHashes": [
+    {
+      "name": "AspNetCoreBenchmarks-performance-receipt.json",
+      "sha256": "d049ffd765c4bb996b62c0de43220e7f277cfec911991fe68169ba405adb86c0",
+      "rows": 8
+    },
+    {
+      "name": "CollectionBenchmarks-performance-receipt.json",
+      "sha256": "0be5348aad51fcd76f0964dd02d4ac61f5e31f7a13e6d306098c5ef81f88a18e",
+      "rows": 40
+    },
+    {
+      "name": "ConcurrencyBenchmarks-performance-receipt.json",
+      "sha256": "81568e39938c3f23b109262e4bde2bdee13ed79f6f2a714711fdd9064d576814",
+      "rows": 8
+    },
+    {
+      "name": "DataPipelineBenchmarks-performance-receipt.json",
+      "sha256": "a7e9b7a0ff77178f8ac667c99444fd651ccec7f4c22a1dd5b7f647d43972c2c5",
+      "rows": 22
+    },
+    {
+      "name": "EffectBenchmarks-performance-receipt.json",
+      "sha256": "955d59ccd49ab7dbb2688b19c758a2956e6ac2767ded4b8169a4bd691560f51f",
+      "rows": 20
+    },
+    {
+      "name": "FirstSuccessConcurrencyBenchmarks-performance-receipt.json",
+      "sha256": "541198ed100aff502fd25d1ef90dff5b23f7179a4aee17ee71024248d486164b",
+      "rows": 4
+    },
+    {
+      "name": "FunctionCompositionBenchmarks-performance-receipt.json",
+      "sha256": "67ba9a77606d0ac91177d62653a44db9fb551a1e76c16c0ca0ed57626719ccd0",
+      "rows": 8
+    },
+    {
+      "name": "ImmutableUpdateBenchmarks-performance-receipt.json",
+      "sha256": "2a54516581dc1f322835f3a5a5d41d368b90d098a257ee26808416174b531ac3",
+      "rows": 10
+    },
+    {
+      "name": "OptionBenchmarks-performance-receipt.json",
+      "sha256": "f1eecc87f4f5f53714ad288c1b3108eaa0980c386ad8766ab1474019a8668a74",
+      "rows": 24
+    },
+    {
+      "name": "ParallelTraverseConcurrencyBenchmarks-performance-receipt.json",
+      "sha256": "ca5e9e544d3e8b7359540b28801d3127753005514d912c28005951b7e1f1aadb",
+      "rows": 8
+    },
+    {
+      "name": "ResultBenchmarks-performance-receipt.json",
+      "sha256": "3d6dca37884751a5b963e902a31ffa7f4a97560a8f10540eeaf6f0e973f6b606",
+      "rows": 20
+    },
+    {
+      "name": "SequenceBenchmarks-performance-receipt.json",
+      "sha256": "2d7181ce6441dcc1d92409ac59c751b3dfd155448739ab1a1d047ce458adb2c3",
+      "rows": 12
+    },
+    {
+      "name": "StateMachineBenchmarks-performance-receipt.json",
+      "sha256": "b68e482384984a44d06d15ef7c449d352f2de33f6e05d6f98b017a0c9365c0ed",
+      "rows": 6
+    }
+  ],
+  "finalActualOutput": "status: completed exit_code: 0\n|                     |       |               |              |             |        |         |        |           |    \n         |\n| DirectLoop          | 64    |     35.500 ns |    14.190 ns |   0.7778 ns |   1.00 |    0.03 | 0.0167 |     280 B |    \n    1.00 |\n| FunnySharpThenChain | 64    |  4,686.308 ns | 2,537.210 ns | 139.0731 ns | 132.05 |    4.20 | 0.5035 |    8536 B |    \n   30.49 |\n|                     |       |               |              |             |        |         |        |           |    \n         |\n| DirectLoop          | 256   |    128.586 ns |    48.357 ns |   2.6506 ns |   1.00 |    0.03 | 0.0625 |    1048 B |    \n    1.00 |\n| FunnySharpThenChain | 256   | 18,472.446 ns | 2,891.381 ns | 158.4864 ns | 143.70 |    2.78 | 2.0142 |   33880 B |    \n   32.33 |\n\n// * Warnings *\nEnvironment\n  Summary -> Benchmark was executed on the virtual machine with Hyper-V hypervisor. Virtualization can affect the measur\nement result.\n\n// * Legends *\n  Count       : Value of the 'Count' parameter\n  Mean        : Arithmetic mean of all measurements\n  Error       : Half of 99.9% confidence interval\n  StdDev      : Standard deviation of all measurements\n  Ratio       : Mean of the ratio distribution ([Current]/[Baseline])\n  RatioSD     : Standard deviation of the ratio distribution ([Current]/[Baseline])\n  Gen0        : GC Generation 0 collects per 1000 operations\n  Allocated   : Allocated memory per single operation (managed only, inclusive, 1KB = 1024B)\n  Alloc Ratio : Allocated memory ratio distribution ([Current]/[Baseline])\n  1 ns        : 1 Nanosecond (0.000000001 sec)\n\n// * Diagnostic Output - MemoryDiagnoser *\n\n\n// ***** BenchmarkRunner: End *****\nRun time: 00:00:41 (41.8 sec), executed benchmarks: 6\n\nGlobal total time: 00:34:18 (2058.62 sec), executed benchmarks: 190\n// * Artifacts cleanup *\nArtifacts cleanup is finished",
+  "originalAllocationBudgetAcceptance": "PENDING_STRICT_VERIFIER",
+  "newObservationInstalled": false,
+  "originalD8744AndB584ProofsUnchanged": true,
+  "competitorLockedRestoreMonitor": "mon_YCJK92H9RWK1J52P"
+}

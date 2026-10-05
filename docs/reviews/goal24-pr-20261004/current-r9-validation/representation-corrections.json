@@ -1,0 +1,51 @@
+{
+  "schema": "funnysharp-pr-owned-representation-corrections/v1",
+  "actualStagedCheck": {
+    "exitCode": 2,
+    "diagnostics": "docs/reviews/goal24-pr-20261004/current-r9-validation/traversal-boundary-probe.fsx:30: new blank line at EOF.\ndocs/reviews/goal24-pr-20261004/final-publication-records/local-worktree-audit.json:15151: new blank line at EOF.\ndocs/reviews/goal24-pr-20261004/final-publication-records/local-worktree-audit.md:93: new blank line at EOF.\ndocs/reviews/goal24-pr-20261004/revised-performance-retention-lane.md:26: new blank line at EOF.\n"
+  },
+  "reason": "Four exact copied historical/evidence captures end with a blank line. Preserve original bytes reversibly instead of changing originals or disabling the whitespace check.",
+  "representations": [
+    {
+      "originalRetainedPath": "docs/reviews/goal24-pr-20261004/current-r9-validation/traversal-boundary-probe.fsx",
+      "retainedPath": "docs/reviews/goal24-pr-20261004/current-r9-validation/traversal-boundary-probe.fsx.base64",
+      "originalBytes": 1367,
+      "originalSha256": "528d3800ac4d37e4a67d0f83dc82e3c709423cbf01378b440c2b5ab6997cb8fe",
+      "physicalBytes": 1840,
+      "physicalSha256": "979a4cccfe0e5b836c41a9879093b9d1a3b3d850a71336a36ad75accbb3e838d"
+    },
+    {
+      "originalRetainedPath": "docs/reviews/goal24-pr-20261004/final-publication-records/local-worktree-audit.json",
+      "retainedPath": "docs/reviews/goal24-pr-20261004/final-publication-records/local-worktree-audit.json.base64",
+      "originalBytes": 1529204,
+      "originalSha256": "73ab8448bf1dddfb2d766bbe414d5433b58542b9d85d052bf61ea584b00db507",
+      "physicalBytes": 2055932,
+      "physicalSha256": "3839da8d08dc9717e873ff65999e7d2502cdd257e164ffab5cac91f18b0c88e5"
+    },
+    {
+      "originalRetainedPath": "docs/reviews/goal24-pr-20261004/final-publication-records/local-worktree-audit.md",
+      "retainedPath": "docs/reviews/goal24-pr-20261004/final-publication-records/local-worktree-audit.md.base64",
+      "originalBytes": 19379,
+      "originalSha256": "167771df6b7eeafc57d1bad80dd53a1041b7e12a5bc25fd1e0c03cb973071c42",
+      "physicalBytes": 26056,
+      "physicalSha256": "ab7a98a9120830834b2934b7b08774efe5ea144e6c5717b14341ec729e72db3d"
+    },
+    {
+      "originalRetainedPath": "docs/reviews/goal24-pr-20261004/revised-performance-retention-lane.md",
+      "retainedPath": "docs/reviews/goal24-pr-20261004/revised-performance-retention-lane.md.base64",
+      "originalBytes": 5311,
+      "originalSha256": "c81b0ca1d3bf5db1c5eea3fbcb908b1e332eb281b597f089cf2525f38e69d9c7",
+      "physicalBytes": 7144,
+      "physicalSha256": "d334f60221f52dc6c89cdad1208616063cb96538db2f4823c59487be43ef71de"
+    }
+  ],
+  "probeBindingCorrection": {
+    "earlierPreparedTextSha256": "0a3ba46017c4d81c9ce1703bfdaa08947d21ea05ac37c712a20a0451f5d9623c",
+    "actualExecutedFileSha256": "528d3800ac4d37e4a67d0f83dc82e3c709423cbf01378b440c2b5ab6997cb8fe",
+    "actualFileDiffersOnlyByOneTerminalLf": true,
+    "executableSourceUnchanged": true,
+    "originalCapturedReceiptNotRewritten": true
+  },
+  "originalSourcesAndProofPacketsUnchanged": true,
+  "whitespaceChecksRemainEnabled": true
+}

@@ -1,0 +1,28 @@
+{
+  "schema": "funnysharp-clean-current-candidate-full-test/v1",
+  "commit": "b584e748699a4f19d8a901695634be5a85ce8b07",
+  "branch": "audit/goal24-complete-pr",
+  "cleanBeforeRun": true,
+  "monitor": "mon_STW4CKBPHM9XPA79",
+  "command": [
+    "dotnet",
+    "test",
+    "FunnySharp.slnx",
+    "--configuration",
+    "Release",
+    "--no-restore"
+  ],
+  "exitCode": 0,
+  "total": 2630,
+  "failed": 0,
+  "skipped": 0,
+  "projects": [
+    "FunnySharp.Tests",
+    "FunnySharp.AspNetCore.Tests",
+    "FunnySharp.Analyzers.Tests",
+    "FunnySharp.Harness.Tests"
+  ],
+  "priorTwoPerformanceFailuresActuallyResolved": true,
+  "fullTestGateGreen": true,
+  "releaseGateAndRemoteCiStillPending": true
+}

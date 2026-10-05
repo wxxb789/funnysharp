@@ -84,20 +84,20 @@ The exact table below is generated from the approved observation in
 contract. `N/A` means timing was below resolution or unavailable.
 
 <!-- performance-table:start option -->
-| Scenario | Baseline mean | FunnySharp mean | Ratio | Baseline allocation | FunnySharp allocation |
+| Scenario | Baseline mean | Candidate mean | Ratio | Baseline allocation | Candidate allocation |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Completed Task mapping | 22.323 ns | 44.428 ns | 1.99x | 144 B | 216 B |
-| Completed ValueTask mapping | 10.022 ns | 24.989 ns | 2.49x | 0 B | 0 B |
-| Dictionary lookup - hit | 5.857 ns | 7.966 ns | 1.36x | 0 B | 0 B |
-| Dictionary lookup - miss | 6.017 ns | 7.496 ns | 1.25x | 0 B | 0 B |
-| GetValueOr - None | N/A | 0.406 ns | N/A | 0 B | 0 B |
-| GetValueOr - Some | N/A | 0.634 ns | N/A | 0 B | 0 B |
-| Map - None | 0.471 ns | 1.175 ns | 2.49x | 0 B | 0 B |
-| Map - Some | N/A | 2.360 ns | N/A | 0 B | 0 B |
-| Nullable conversion - None | N/A | 1.104 ns | N/A | 0 B | 0 B |
-| Nullable conversion - Some | N/A | N/A | N/A | 0 B | 0 B |
-| Try pattern - hit | 10.924 ns | 13.853 ns | 1.27x | 0 B | 0 B |
-| Try pattern - miss | 7.932 ns | 9.653 ns | 1.22x | 0 B | 0 B |
+| Completed Task mapping | 17.119 ns | 35.923 ns | 2.10x | 144 B | 216 B |
+| Completed ValueTask mapping | 10.495 ns | 28.725 ns | 2.74x | 0 B | 0 B |
+| Dictionary lookup - hit | 5.957 ns | 6.726 ns | 1.13x | 0 B | 0 B |
+| Dictionary lookup - miss | 6.016 ns | 7.540 ns | 1.25x | 0 B | 0 B |
+| GetValueOr - None | N/A | N/A | N/A | 0 B | 0 B |
+| GetValueOr - Some | N/A | N/A | N/A | 0 B | 0 B |
+| Map - None | 0.123 ns | 0.687 ns | 5.59x | 0 B | 0 B |
+| Map - Some | N/A | 1.959 ns | N/A | 0 B | 0 B |
+| Nullable conversion - None | N/A | 0.813 ns | N/A | 0 B | 0 B |
+| Nullable conversion - Some | N/A | 0.180 ns | N/A | 0 B | 0 B |
+| Try pattern - hit | 11.848 ns | 14.162 ns | 1.20x | 0 B | 0 B |
+| Try pattern - miss | 7.072 ns | 9.305 ns | 1.32x | 0 B | 0 B |
 
 Excluded measurements:
 - Construction and inspection - large readonly struct: Direct and Option paths do not perform equivalent construction work.

@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "attemptId": "a05df712-c599-4bed-bb23-462c8cfdf726",
+  "identitySha256": "075566293651e615a19f524b22fa26ac485d106f0dc1b5c0384236e3de65997e",
+  "outputDirectory": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\resume-20261004\\producer-local-owner-browser-02",
+  "completedAtUtc": "2026-10-04T09:31:08.510Z",
+  "exitCode": 0,
+  "producerSha256": "51d55b6d1d328c3a0caa69f2ec42ba03b7fdd37e3c6475f8dcefaa2435897d72",
+  "httpJoins": [
+    {
+      "correlationId": "698b7924bf8145429030063ef6639c04",
+      "bodyPath": "http/0046.body",
+      "bodySha256": "cea4d74624be767e0569c891597c0e6f5329f19f6c9b7fcf8b8c9e9f4933a4bb",
+      "identitySha256": "075566293651e615a19f524b22fa26ac485d106f0dc1b5c0384236e3de65997e"
+    },
+    {
+      "correlationId": "3f39c57ff319457ea5fc2c743618dbc6",
+      "bodyPath": "http/0047.body",
+      "bodySha256": "a738aef90a8e7221feb50c9679a22cbcd132a1011dd6bf95f18b3c8d071c3a1c",
+      "identitySha256": "075566293651e615a19f524b22fa26ac485d106f0dc1b5c0384236e3de65997e"
+    },
+    {
+      "correlationId": "0b52fca4bd854706887382c85a05413a",
+      "bodyPath": "http/0048.body",
+      "bodySha256": "e08b887a17bc409879db4e0b9901b2e43b0b46d84cdf276d66d30d257e4f224d",
+      "identitySha256": "075566293651e615a19f524b22fa26ac485d106f0dc1b5c0384236e3de65997e"
+    }
+  ]
+}

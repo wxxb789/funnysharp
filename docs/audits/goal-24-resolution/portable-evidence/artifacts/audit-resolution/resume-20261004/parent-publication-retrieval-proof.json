@@ -1,0 +1,44 @@
+{
+  "schema": "funnysharp-parent-real-publication-retrieval-proof/v1",
+  "runId": 37210014612,
+  "attempt": 1,
+  "publicationCode": "e7aea9995bac6c87a69db14a8b04c6925cb45d4c",
+  "publicationData": "92968c03bc89dd139095d3f39611170950223610",
+  "productCandidate": "d8744c934d86833f9817245ecc7c78b1177b8b76",
+  "runConclusion": "success",
+  "command": "dotnet fsi --warnaserror+ verify-publication-retrieval.fsx -- actual-publication-metadata.json publication-retrieved-01",
+  "exitCode": 0,
+  "indexSha256": "266fe2363dc2d743d03cc91bb8cba1af0ec463f3d2fc2a9120e8c097594f1489",
+  "indexCreatedAtUtc": "2026-10-04T14:41:31.8910696+00:00",
+  "producerSha256": "51d55b6d1d328c3a0caa69f2ec42ba03b7fdd37e3c6475f8dcefaa2435897d72",
+  "attestationSha256": "6ef82eafbf03e00ef3191f9a5541b9280ec3962ae20bf9953dd8b72d942165a5",
+  "reportSha256": "1ce284acac64c06768a7c6b5dea0bf698581b0dd6404d88d5520e598460326b5",
+  "provenanceArtifactUrl": "https://github.com/wxxb789/funnysharp/actions/runs/37210014612/artifacts/11306431210",
+  "indexArtifactUrl": "https://github.com/wxxb789/funnysharp/actions/runs/37210014612/artifacts/11306386365",
+  "rawZipDigests": [
+    {
+      "id": 11306431210,
+      "name": "release-provenance-stage-attestation-37210014612-1",
+      "size": 1321390111,
+      "digest": "1bde4542082cd5d49c2950de9a2517946a4658337fb421bfe7bfbb44b501cc0e",
+      "file": "provenance.zip"
+    },
+    {
+      "id": 11306386365,
+      "name": "release-index-37210014612-1",
+      "size": 2827,
+      "digest": "9298258a7e24ada4419f8ac973851889455fdaa3f6aa1a71fa6dc85bc19df9a1",
+      "file": "index.zip"
+    }
+  ],
+  "inventoryFiles": 310,
+  "payloads": 258,
+  "httpBodies": 49,
+  "attachmentsVerified": 307,
+  "attachmentBytes": 1407188687,
+  "contractJoins": 13,
+  "allHashesAndLengthsMatched": true,
+  "exactInventory": true,
+  "productAndPublicationIdentitiesSeparate": true,
+  "wholeGoal24Accepted": false
+}

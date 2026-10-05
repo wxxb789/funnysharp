@@ -97,12 +97,12 @@ The exact table below is generated from the approved observation in
 contract.
 
 <!-- performance-table:start function-composition -->
-| Scenario | Baseline mean | FunnySharp mean | Ratio | Baseline allocation | FunnySharp allocation |
+| Scenario | Baseline mean | Candidate mean | Ratio | Baseline allocation | Candidate allocation |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Completed Task invocation | 34.120 ns | 39.069 ns | 1.15x | 216 B | 216 B |
-| Completed ValueTask invocation | 15.465 ns | 19.005 ns | 1.23x | 0 B | 0 B |
-| Delegate construction | 10.749 ns | 18.327 ns | 1.70x | 64 B | 96 B |
-| Synchronous invocation | 1.515 ns | 6.116 ns | 4.04x | 0 B | 0 B |
+| Completed Task invocation | 25.039 ns | 27.119 ns | 1.08x | 216 B | 216 B |
+| Completed ValueTask invocation | 13.680 ns | 16.054 ns | 1.17x | 0 B | 0 B |
+| Delegate construction | 7.482 ns | 14.175 ns | 1.89x | 64 B | 96 B |
+| Synchronous invocation | 1.200 ns | 4.693 ns | 3.91x | 0 B | 0 B |
 
 Excluded measurements:
 - Unmeasured helpers: Pipe, Tap, Curry, Uncurry, Partial, and Flip have no numeric release claim.

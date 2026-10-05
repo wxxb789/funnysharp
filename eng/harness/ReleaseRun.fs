@@ -1091,6 +1091,7 @@ let private runRelease
         let mutable versionFinal: VersionStateResult option = None
         let mutable runFailure: string option = None
         let mutable executionEvidenceFrozen = false
+        let mutable xmlBuildBindings: JsonObject option = None
         let now () = collaborators.UtcNow()
 
         let writeExecutionEvidence () =
@@ -1156,6 +1157,9 @@ let private runRelease
                 receiptsArray.Add(receiptJson receipt)
 
             node.["commands"] <- receiptsArray
+            match xmlBuildBindings with
+            | Some pointer -> node.["xmlBuildBindings"] <- pointer.DeepClone()
+            | None -> ()
             writeJsonFile node (Path.Combine(outputDirectory, "execution-evidence.json"))
 
         let writeRunOutcome () =
@@ -1223,6 +1227,9 @@ let private runRelease
 
             writeJsonFile (receiptJson receipt) receiptPath
             receipts.Add receipt
+            if step.Name = "build" && result.ExitCode = 0 && XmlBuildBindings.required repositoryRoot then
+                xmlBuildBindings <-
+                    Some(XmlBuildBindings.capture repositoryRoot outputDirectory candidateCommit attemptId receiptRelative (DateTimeOffset(now())))
             writeExecutionEvidence ()
 
             if result.ExitCode <> 0 then

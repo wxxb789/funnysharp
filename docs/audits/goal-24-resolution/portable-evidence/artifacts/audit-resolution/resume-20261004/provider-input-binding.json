@@ -1,0 +1,99 @@
+{
+  "schema": "funnysharp-owner-browser-feed-input-binding/v1",
+  "sha256": "d488ddc6bec8802c612ec267c3ad4c463c96f8006f4e6d2b75f202f8cf24e9a7",
+  "bytes": 67333656,
+  "candidate": "d8744c934d86833f9817245ecc7c78b1177b8b76",
+  "producerIdentity": "omo-main-session:01a105fc-12f5-716f-ab6e-28d97b2bd38c",
+  "evidenceCount": 258,
+  "localProofCount": 226,
+  "semanticReferences": 272,
+  "missingReferences": [],
+  "preservedFacts": {
+    "originalEvidenceUnchanged": true,
+    "originalProofsUnchanged": true,
+    "otherFieldsUnchanged": true,
+    "addedEntriesExact": true
+  },
+  "code": [
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\resume-20261004\\feed-provider\\feed-bridge.mjs",
+      "byteLength": 9521,
+      "sha256": "94a834712e6fecf511de9bc996453fb7aa2cb19875b94fb985c259e5f54f67cc"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\resume-20261004\\feed-provider\\owner-browser-freeze.fsx",
+      "byteLength": 10709,
+      "sha256": "9ab767b893c0658a18e698f1999c80d107645f64dfad2619f97048b405e4ebd5"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\resume-20261004\\feed-provider\\owner-browser-freeze.ps1",
+      "byteLength": 1136,
+      "sha256": "c8d4b6a62f42c99f6105f721809ff954c0ca40203826d35fb2bd10c14e6f51d8"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\resume-20261004\\feed-provider\\README.md",
+      "byteLength": 9919,
+      "sha256": "b9ff106a27514db4667b1671b801e29f32e6d491356699e8e8bf61772754a231"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\eng\\harness\\ReleaseProvenance.fs",
+      "byteLength": 45158,
+      "sha256": "8ef45e3ea605fd384e428154c219af169ba7abdccc582e534e2ae165294d85e8"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\eng\\harness\\bin\\Release\\net10.0\\FunnySharp.Harness.dll",
+      "byteLength": 978944,
+      "sha256": "4a0ccbd0bb7baef02fa4a12b79c0577124454396a1ba771aefc64c90c6fc2000"
+    },
+    {
+      "path": "Q:\\repos\\funnysharp-goal24-resolution\\eng\\harness\\bin\\Release\\net10.0\\FunnySharp.Harness.deps.json",
+      "byteLength": 2497,
+      "sha256": "6305c2daefd17862ad8cd4d2d718f36cbac6a4323283f2386ed1123f16a2b905"
+    }
+  ],
+  "originalInput": {
+    "sha256": "3636818ddd5c15622d3c5c389915ed0c34ddfbb64c4cb69a395855032671e21e",
+    "bytes": 67331415,
+    "evidenceCount": 251,
+    "evidenceHash": "2fe51936804d54b54f52d74dcac0dccb10dff5ab6dcbce39532de8b8db46e856",
+    "localProofCount": 219,
+    "localProofHash": "f24e7d585430976687ac5ff7f0d3bc32d827e7dbe51801207df4ea3f757cafd8",
+    "otherHash": "f43c7799420a3eca501e4c459d5306ba51a625d70c823e74b804ed30e27f3d24",
+    "producerIdentity": "omo-main-session:01a0f65b-bd9d-77f8-bd35-098466eac351"
+  },
+  "qa": {
+    "results": [
+      {
+        "scenario": "undeclared origin rejected",
+        "status": 400
+      },
+      {
+        "scenario": "fresh original feed GET",
+        "bridgeStatus": 200,
+        "targetStatus": 200,
+        "bytes": 9272,
+        "sha256": "cea4d74624be767e0569c891597c0e6f5329f19f6c9b7fcf8b8c9e9f4933a4bb",
+        "started": "2026-10-04T09:03:11.412Z",
+        "finished": "2026-10-04T09:03:11.952Z",
+        "correlationId": "e8a8c34f41b14dd48249ebffc170dcda"
+      },
+      {
+        "scenario": "wrong attempt rejected",
+        "status": 409
+      }
+    ],
+    "closed": true,
+    "metadataDirectory": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\resume-20261004\\provider-surface-qa-02.feed-provider"
+  },
+  "formatter": {
+    "exitCode": 0,
+    "command": "dotnet fsi build.fsx -- -p format",
+    "fSharpUnsupportedByFormatter": true
+  },
+  "diagnostics": {
+    "jsonLsp": "biome unavailable",
+    "jsLsp": "daemon timeout",
+    "fSharpCompile": "warnaserror+ exit0"
+  }
+}
+

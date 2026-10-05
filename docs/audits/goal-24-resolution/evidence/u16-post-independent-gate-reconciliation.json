@@ -1,0 +1,31 @@
+{
+  "schema": "funnysharp-post-independent-gate-69-reconciliation/v1",
+  "observedUtc": "2026-10-03T01:39:31.285Z",
+  "previousExact69Proof": "docs/audits/goal-24-resolution/evidence/u16-final-local-exact69-reconciliation.json",
+  "previousLedgerSha256": "46013d8615a1297d8eb901b674e666dfa5b0d97e0000421fef9536838139bd2d",
+  "currentLedgerSha256": "f9ef7cf60247cc90e0ef09898c5173c7889a51a6e65b50026e0e0941e03adbb8",
+  "original69IdentityUnchanged": true,
+  "localResolved": 61,
+  "open": 8,
+  "openIds": [
+    "F37",
+    "F38",
+    "F39",
+    "U01",
+    "U02",
+    "U15",
+    "U20",
+    "U29"
+  ],
+  "actualIndependentGate": "REJECT_WHOLE_GOAL_SUPPORT_61_LOCAL_NO_REOPEN_DEFECT",
+  "gateArtifact": "docs/audits/goal-24-resolution/evidence/u16-independent-final-gate-review.json",
+  "C002": "PASS",
+  "C001": "PENDING_EIGHT_OPEN",
+  "C003": "PENDING_REAL_HUMAN_CONTROL_PLANE_P_A_I",
+  "sourceModelPerformanceInputsUnchanged": true,
+  "humanQuestion": {
+    "id": "exact_source_maintainer_review",
+    "status": "PENDING_NO_ANSWER_OR_APPROVAL"
+  },
+  "remoteAuthorityGranted": false
+}

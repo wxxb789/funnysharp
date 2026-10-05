@@ -1,0 +1,16 @@
+{
+  "schema": "funnysharp-current-release-aot-path-red/v1",
+  "candidate": "b584e748699a4f19d8a901695634be5a85ce8b07",
+  "attemptId": "pr33-b584e74-20261005-02",
+  "exitCode": 1,
+  "restoresNowSucceed": true,
+  "threeScenariosPass": true,
+  "failedScenario": "AspNetCoreNativeAot",
+  "error": "LNK1104 cannot open existing SourceLink file",
+  "pathLength": 263,
+  "fileExists": true,
+  "fileBytes": 392984,
+  "fileSha256": "f5a9419e9a8dd3d4913ac76dfdb3f1011c078afb943ae325679dc2bb96047f55",
+  "materialNextChange": "Shorter explicit output directory within repository artifacts; no SourceLink or AOT disable.",
+  "sourceChanges": 0
+}

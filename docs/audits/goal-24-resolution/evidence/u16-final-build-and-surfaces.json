@@ -1,0 +1,32 @@
+{
+  "schema": "funnysharp-final-build-and-surfaces/v1",
+  "state": "FINAL_LOCAL_SOURCE_BUILD_AND_APPLICABLE_REAL_SURFACES_VERIFIED",
+  "candidateFingerprint": "bb058e6a972103c657e0d833f2ec86fab7994f8ba4cce8503432c4b8f74c4a9c",
+  "byteBoundFiles": 346,
+  "byteDrift": [],
+  "build": {
+    "command": "dotnet fsi build.fsx -- -p build",
+    "actualExit": 0,
+    "warnings": 0,
+    "errors": 0,
+    "log": "artifacts/audit-resolution/u13-formatted-repetitions/strict-v6-final-source-build.log",
+    "sha256": "2682bf01db31f4aabbf0951407fee4e592f8c7d668823b7a1505fed6be6e1fbf"
+  },
+  "currentTests": {
+    "total": 2442,
+    "passed": 2442,
+    "failed": 0,
+    "skipped": 0,
+    "actualExit": 0,
+    "proof": "u12-v6-strict-final-freeze-proof.json"
+  },
+  "surfaceProofs": [
+    "u16-compatibility-cancellation-probe-red-green.json",
+    "u16-compatibility-original-tree-cleanup-correction.json",
+    "u12-v6-strict-native-cohort-parent-proof.json",
+    "u12-v6-real-kestrel-parent-proof.json",
+    "u12-v6-real-kestrel-parent-cleanup-correction.json",
+    "u13-formatted-current-performance-index-binding.json"
+  ],
+  "limits": "Local build/surfaces task only; four-host release, maintainer, materiality, P/A/I and final69 remain independent pending acceptance."
+}

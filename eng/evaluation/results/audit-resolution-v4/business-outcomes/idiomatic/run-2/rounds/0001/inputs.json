@@ -1,0 +1,59 @@
+{
+  "studySha256": "a28f133c7dc53ed83abb446a53ed832af4d3a9a2187f52654fcef02f683241c9",
+  "solution": [
+    {
+      "path": "OrderWorkflow.cs",
+      "sha256": "dee58441386fcbbbd5cdef6159c98c2d9280ffc40b56be6bec933407e49e09ef"
+    }
+  ],
+  "buildInputs": [
+    {
+      "path": "BusinessOutcomesKit.csproj",
+      "sha256": "23b2955bdf1d32698eaa08a46748a4f673479a9b76332ec79cb884d4f6f394bd"
+    },
+    {
+      "path": "Contract.cs",
+      "sha256": "ae4e8d0998ebd3332e4eabc0bdc51b1ef50ad2c1e6df8102377ee2bf7ccf79c9"
+    },
+    {
+      "path": "Directory.Build.props",
+      "sha256": "e1f773524cbe06e47ce9373a35995982889f95f1f943cde9830a99ba4257e76b"
+    },
+    {
+      "path": "NuGet.config",
+      "sha256": "4c407dab51c34a97f893f0aca4437b8ca90bb8a8b48ffcd1d09b38927af0156a"
+    },
+    {
+      "path": "OrderWorkflow.cs",
+      "sha256": "dee58441386fcbbbd5cdef6159c98c2d9280ffc40b56be6bec933407e49e09ef"
+    },
+    {
+      "path": "PlaceOrderTests.cs",
+      "sha256": "be36ad4fcc030392fd18ffed49b395b686b4c84ee52c264c4083e69352184ab9"
+    },
+    {
+      "path": "SideEffectsTests.cs",
+      "sha256": "d359f596e622e61e3841fa231b40e1497f0a7f5c962df484221931b41a708df0"
+    },
+    {
+      "path": "global.json",
+      "sha256": "c48726ffb10a31e50395529e134bd0ab4d82d14febbda7863ab49d00a9fddcb4"
+    },
+    {
+      "path": "packages.lock.json",
+      "sha256": "7cc0db884f1e4f29395d3378611ca1fba863ca61e643cee750f2536ad4bcee6b"
+    },
+    {
+      "path": "restore.process.json",
+      "sha256": "2bae440a3349ef0ff97450c4e19af5f78c9f20d025f7637d3293af9f88bd7acd"
+    },
+    {
+      "path": "restore.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "restore.stdout.log",
+      "sha256": "5d2e38129026bb25a772b2ef7a168a24547bad96fc2feebef5b6e2b8a59ac074"
+    }
+  ]
+}

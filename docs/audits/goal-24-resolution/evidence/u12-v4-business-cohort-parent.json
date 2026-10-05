@@ -1,0 +1,616 @@
+{
+  "schema": "funnysharp-v4-business-cohort/v1",
+  "study": "audit-resolution-v4",
+  "slots": [
+    {
+      "slot": "business-outcomes/idiomatic/run-1",
+      "data": {
+        "task": "business-outcomes",
+        "style": "idiomatic",
+        "run": "run-1",
+        "round": 1,
+        "compilation": {
+          "ok": true,
+          "errors": 0,
+          "buildSeconds": 10.8
+        },
+        "semanticCorrectness": {
+          "ok": true,
+          "total": 10,
+          "failed": 0,
+          "succeeded": 10,
+          "skipped": 0
+        },
+        "apiMisuse": {
+          "fsDiagnostics": []
+        },
+        "consumerLoc": 70,
+        "verdict": "GREEN",
+        "evidenceKind": "generation-verification"
+      }
+    },
+    {
+      "slot": "business-outcomes/idiomatic/run-2",
+      "data": {
+        "task": "business-outcomes",
+        "style": "idiomatic",
+        "run": "run-2",
+        "round": 1,
+        "compilation": {
+          "ok": true,
+          "errors": 0,
+          "buildSeconds": 9.6
+        },
+        "semanticCorrectness": {
+          "ok": true,
+          "total": 10,
+          "failed": 0,
+          "succeeded": 10,
+          "skipped": 0
+        },
+        "apiMisuse": {
+          "fsDiagnostics": []
+        },
+        "consumerLoc": 71,
+        "verdict": "GREEN",
+        "evidenceKind": "generation-verification"
+      }
+    },
+    {
+      "slot": "business-outcomes/funnysharp/run-1",
+      "data": {
+        "task": "business-outcomes",
+        "style": "funnysharp",
+        "run": "run-1",
+        "round": 1,
+        "compilation": {
+          "ok": true,
+          "errors": 0,
+          "buildSeconds": 9.8
+        },
+        "semanticCorrectness": {
+          "ok": true,
+          "total": 10,
+          "failed": 0,
+          "succeeded": 10,
+          "skipped": 0
+        },
+        "apiMisuse": {
+          "fsDiagnostics": []
+        },
+        "consumerLoc": 97,
+        "verdict": "GREEN",
+        "evidenceKind": "generation-verification"
+      }
+    },
+    {
+      "slot": "business-outcomes/funnysharp/run-2",
+      "data": {
+        "task": "business-outcomes",
+        "style": "funnysharp",
+        "run": "run-2",
+        "round": 1,
+        "compilation": {
+          "ok": true,
+          "errors": 0,
+          "buildSeconds": 10.2
+        },
+        "semanticCorrectness": {
+          "ok": true,
+          "total": 10,
+          "failed": 0,
+          "succeeded": 10,
+          "skipped": 0
+        },
+        "apiMisuse": {
+          "fsDiagnostics": []
+        },
+        "consumerLoc": 92,
+        "verdict": "GREEN",
+        "evidenceKind": "generation-verification"
+      }
+    }
+  ],
+  "totalCases": 40,
+  "totalSucceeded": 40,
+  "failed": 0,
+  "skipped": 0,
+  "actualProviderRequests": 4,
+  "actualNativeExitCodes": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "realRootGradeExitCodes": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "everyInitialOnly": true,
+  "everyOutgoing355SystemAndFullRequestExact": true,
+  "ids": [
+    {
+      "slot": "business-outcomes/idiomatic/run-1",
+      "sessionId": "study-session:6f17ee77-e3b0-477c-9a37-2ddc6f5b45c2",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "business-outcomes/idiomatic/run-2",
+      "sessionId": "study-session:8fff72cd-47ab-457d-9ab1-f3f1792e383f",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "business-outcomes/funnysharp/run-1",
+      "sessionId": "study-session:001ce189-32f9-46e5-be03-6b31f7457409",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    },
+    {
+      "slot": "business-outcomes/funnysharp/run-2",
+      "sessionId": "study-session:4ff0e735-1e92-4dac-b128-a9924c820034",
+      "maxRounds": 3,
+      "status": "NOT_STARTED"
+    }
+  ],
+  "hashChecks": [
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/idiomatic/run-1/producer/0001-context/payload/guides/README.md",
+      "expected": "cc536213ce3dd198741dd81ae4518fd492f24016400b9cbd02b5e85f2d2be517",
+      "actual": "cc536213ce3dd198741dd81ae4518fd492f24016400b9cbd02b5e85f2d2be517"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/idiomatic/run-1/producer/0001-context/payload/guides/docs/analyzers.md",
+      "expected": "c40255afe05dc9d0c1515f3ba9ab4fb764a2e8b79016fe5944493790f22fd8b1",
+      "actual": "c40255afe05dc9d0c1515f3ba9ab4fb764a2e8b79016fe5944493790f22fd8b1"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/idiomatic/run-1/producer/0001-context/payload/guides/docs/aspnet-core.md",
+      "expected": "71f12c3f333d07f9b7375df751ed6606153c9ceb0093b8057909a81f925c2930",
+      "actual": "71f12c3f333d07f9b7375df751ed6606153c9ceb0093b8057909a81f925c2930"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/idiomatic/run-1/producer/0001-context/payload/guides/docs/collections.md",
+      "expected": "6001aebd200b67edf0c2b135ae0c3e0af3c961e99836b7f762d9bb2d83620558",
+      "actual": "6001aebd200b67edf0c2b135ae0c3e0af3c961e99836b7f762d9bb2d83620558"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/idiomatic/run-1/producer/0001-context/payload/guides/docs/concurrency.md",
+      "expected": "6e4324334f51dd240aa3fcd4e1531ad6dcb017ff21b41ca5b983e81a81f3fad9",
+      "actual": "6e4324334f51dd240aa3fcd4e1531ad6dcb017ff21b41ca5b983e81a81f3fad9"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/idiomatic/run-1/producer/0001-context/payload/guides/docs/data-pipelines.md",
+      "expected": "78f5787bbf0c7fe23bbcf023712a967a8fdef2ad9ca6900ebc7a7512ba51b242",
+      "actual": "78f5787bbf0c7fe23bbcf023712a967a8fdef2ad9ca6900ebc7a7512ba51b242"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/idiomatic/run-1/producer/0001-context/payload/guides/docs/effects.md",
+      "expected": "eba44570793bc8e72f15ed6c6155e925df38a200873c795dab8a34b504600928",
+      "actual": "eba44570793bc8e72f15ed6c6155e925df38a200873c795dab8a34b504600928"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/idiomatic/run-1/producer/0001-context/payload/guides/docs/function-composition.md",
+      "expected": "dd6f4863c89da837b50d5d789e8283a97164357dad599b781711dd22c4d7b66c",
+      "actual": "dd6f4863c89da837b50d5d789e8283a97164357dad599b781711dd22c4d7b66c"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/idiomatic/run-1/producer/0001-context/payload/guides/docs/grammar.md",
+      "expected": "c46cbe739485ff881a8add7166395c210b399dfe5e81f37aa5b64f98439ed48c",
+      "actual": "c46cbe739485ff881a8add7166395c210b399dfe5e81f37aa5b64f98439ed48c"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/idiomatic/run-1/producer/0001-context/payload/guides/docs/option.md",
+      "expected": "c3d468d148cd6c41b60a303839727265b1b4c4b2488e0cd34291e4ce7516b366",
+      "actual": "c3d468d148cd6c41b60a303839727265b1b4c4b2488e0cd34291e4ce7516b366"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/idiomatic/run-1/producer/0001-context/payload/guides/docs/product-contract.md",
+      "expected": "56e49ad95406612774b4d26e3e2763e11e06240c3dfd0de092a4011335fbf952",
+      "actual": "56e49ad95406612774b4d26e3e2763e11e06240c3dfd0de092a4011335fbf952"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/idiomatic/run-1/producer/0001-context/payload/guides/docs/result.md",
+      "expected": "6b78664086ec6f4599aebc220def97c46b5b714499644ccdbe1a1975691803c5",
+      "actual": "6b78664086ec6f4599aebc220def97c46b5b714499644ccdbe1a1975691803c5"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/idiomatic/run-1/producer/0001-context/payload/guides/docs/unit-result.md",
+      "expected": "0c8682d7fdc4a7e1ce6b22d031a06ab1dd7f2db1f24755c947e6e0b440c56cfb",
+      "actual": "0c8682d7fdc4a7e1ce6b22d031a06ab1dd7f2db1f24755c947e6e0b440c56cfb"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/idiomatic/run-1/producer/0001-context/payload/guides/docs/validation.md",
+      "expected": "923151c1e3de02825dfbc2b49393c9a261e939ec1e474addd98bb893915414b9",
+      "actual": "923151c1e3de02825dfbc2b49393c9a261e939ec1e474addd98bb893915414b9"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/idiomatic/run-1/producer/0001-context/payload/tasks/business-outcomes/prompt-idiomatic.md",
+      "expected": "afd6a99571794497520aa500aebd4a5502c4e9dae78637f790b23807035c4f6f",
+      "actual": "afd6a99571794497520aa500aebd4a5502c4e9dae78637f790b23807035c4f6f"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/idiomatic/run-1/producer/0001-context/payload/tasks/business-outcomes/template-idiomatic/BusinessOutcomesKit.csproj",
+      "expected": "23b2955bdf1d32698eaa08a46748a4f673479a9b76332ec79cb884d4f6f394bd",
+      "actual": "23b2955bdf1d32698eaa08a46748a4f673479a9b76332ec79cb884d4f6f394bd"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/idiomatic/run-1/producer/0001-context/payload/tasks/business-outcomes/tests/Contract.cs",
+      "expected": "ae4e8d0998ebd3332e4eabc0bdc51b1ef50ad2c1e6df8102377ee2bf7ccf79c9",
+      "actual": "ae4e8d0998ebd3332e4eabc0bdc51b1ef50ad2c1e6df8102377ee2bf7ccf79c9"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/idiomatic/run-1/producer/0001-context/payload/tasks/business-outcomes/tests/PlaceOrderTests.cs",
+      "expected": "be36ad4fcc030392fd18ffed49b395b686b4c84ee52c264c4083e69352184ab9",
+      "actual": "be36ad4fcc030392fd18ffed49b395b686b4c84ee52c264c4083e69352184ab9"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/idiomatic/run-1/producer/0001-context/payload/tasks/business-outcomes/tests/SideEffectsTests.cs",
+      "expected": "d359f596e622e61e3841fa231b40e1497f0a7f5c962df484221931b41a708df0",
+      "actual": "d359f596e622e61e3841fa231b40e1497f0a7f5c962df484221931b41a708df0"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/idiomatic/run-1/solution/OrderWorkflow.cs",
+      "expected": "3be9071caa1014a1849d22438c7c199bb420027cb91f9f371a45f6435d6dc96d",
+      "actual": "3be9071caa1014a1849d22438c7c199bb420027cb91f9f371a45f6435d6dc96d"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/idiomatic/run-1/producer/0001-context/invocation.json",
+      "expected": "d865d77cf1baa318d771800a0719bdbede167984a5cf11c38aadc12718f0c8d3",
+      "actual": "d865d77cf1baa318d771800a0719bdbede167984a5cf11c38aadc12718f0c8d3"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/idiomatic/run-1/producer/0001-context/context.json",
+      "expected": "44bb845f9f9dd88c7eb9c3e000113f3c3d0a50c12636ad067e342a0307270062",
+      "actual": "44bb845f9f9dd88c7eb9c3e000113f3c3d0a50c12636ad067e342a0307270062"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/idiomatic/run-2/producer/0001-context/payload/guides/README.md",
+      "expected": "cc536213ce3dd198741dd81ae4518fd492f24016400b9cbd02b5e85f2d2be517",
+      "actual": "cc536213ce3dd198741dd81ae4518fd492f24016400b9cbd02b5e85f2d2be517"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/idiomatic/run-2/producer/0001-context/payload/guides/docs/analyzers.md",
+      "expected": "c40255afe05dc9d0c1515f3ba9ab4fb764a2e8b79016fe5944493790f22fd8b1",
+      "actual": "c40255afe05dc9d0c1515f3ba9ab4fb764a2e8b79016fe5944493790f22fd8b1"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/idiomatic/run-2/producer/0001-context/payload/guides/docs/aspnet-core.md",
+      "expected": "71f12c3f333d07f9b7375df751ed6606153c9ceb0093b8057909a81f925c2930",
+      "actual": "71f12c3f333d07f9b7375df751ed6606153c9ceb0093b8057909a81f925c2930"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/idiomatic/run-2/producer/0001-context/payload/guides/docs/collections.md",
+      "expected": "6001aebd200b67edf0c2b135ae0c3e0af3c961e99836b7f762d9bb2d83620558",
+      "actual": "6001aebd200b67edf0c2b135ae0c3e0af3c961e99836b7f762d9bb2d83620558"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/idiomatic/run-2/producer/0001-context/payload/guides/docs/concurrency.md",
+      "expected": "6e4324334f51dd240aa3fcd4e1531ad6dcb017ff21b41ca5b983e81a81f3fad9",
+      "actual": "6e4324334f51dd240aa3fcd4e1531ad6dcb017ff21b41ca5b983e81a81f3fad9"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/idiomatic/run-2/producer/0001-context/payload/guides/docs/data-pipelines.md",
+      "expected": "78f5787bbf0c7fe23bbcf023712a967a8fdef2ad9ca6900ebc7a7512ba51b242",
+      "actual": "78f5787bbf0c7fe23bbcf023712a967a8fdef2ad9ca6900ebc7a7512ba51b242"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/idiomatic/run-2/producer/0001-context/payload/guides/docs/effects.md",
+      "expected": "eba44570793bc8e72f15ed6c6155e925df38a200873c795dab8a34b504600928",
+      "actual": "eba44570793bc8e72f15ed6c6155e925df38a200873c795dab8a34b504600928"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/idiomatic/run-2/producer/0001-context/payload/guides/docs/function-composition.md",
+      "expected": "dd6f4863c89da837b50d5d789e8283a97164357dad599b781711dd22c4d7b66c",
+      "actual": "dd6f4863c89da837b50d5d789e8283a97164357dad599b781711dd22c4d7b66c"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/idiomatic/run-2/producer/0001-context/payload/guides/docs/grammar.md",
+      "expected": "c46cbe739485ff881a8add7166395c210b399dfe5e81f37aa5b64f98439ed48c",
+      "actual": "c46cbe739485ff881a8add7166395c210b399dfe5e81f37aa5b64f98439ed48c"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/idiomatic/run-2/producer/0001-context/payload/guides/docs/option.md",
+      "expected": "c3d468d148cd6c41b60a303839727265b1b4c4b2488e0cd34291e4ce7516b366",
+      "actual": "c3d468d148cd6c41b60a303839727265b1b4c4b2488e0cd34291e4ce7516b366"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/idiomatic/run-2/producer/0001-context/payload/guides/docs/product-contract.md",
+      "expected": "56e49ad95406612774b4d26e3e2763e11e06240c3dfd0de092a4011335fbf952",
+      "actual": "56e49ad95406612774b4d26e3e2763e11e06240c3dfd0de092a4011335fbf952"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/idiomatic/run-2/producer/0001-context/payload/guides/docs/result.md",
+      "expected": "6b78664086ec6f4599aebc220def97c46b5b714499644ccdbe1a1975691803c5",
+      "actual": "6b78664086ec6f4599aebc220def97c46b5b714499644ccdbe1a1975691803c5"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/idiomatic/run-2/producer/0001-context/payload/guides/docs/unit-result.md",
+      "expected": "0c8682d7fdc4a7e1ce6b22d031a06ab1dd7f2db1f24755c947e6e0b440c56cfb",
+      "actual": "0c8682d7fdc4a7e1ce6b22d031a06ab1dd7f2db1f24755c947e6e0b440c56cfb"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/idiomatic/run-2/producer/0001-context/payload/guides/docs/validation.md",
+      "expected": "923151c1e3de02825dfbc2b49393c9a261e939ec1e474addd98bb893915414b9",
+      "actual": "923151c1e3de02825dfbc2b49393c9a261e939ec1e474addd98bb893915414b9"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/idiomatic/run-2/producer/0001-context/payload/tasks/business-outcomes/prompt-idiomatic.md",
+      "expected": "afd6a99571794497520aa500aebd4a5502c4e9dae78637f790b23807035c4f6f",
+      "actual": "afd6a99571794497520aa500aebd4a5502c4e9dae78637f790b23807035c4f6f"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/idiomatic/run-2/producer/0001-context/payload/tasks/business-outcomes/template-idiomatic/BusinessOutcomesKit.csproj",
+      "expected": "23b2955bdf1d32698eaa08a46748a4f673479a9b76332ec79cb884d4f6f394bd",
+      "actual": "23b2955bdf1d32698eaa08a46748a4f673479a9b76332ec79cb884d4f6f394bd"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/idiomatic/run-2/producer/0001-context/payload/tasks/business-outcomes/tests/Contract.cs",
+      "expected": "ae4e8d0998ebd3332e4eabc0bdc51b1ef50ad2c1e6df8102377ee2bf7ccf79c9",
+      "actual": "ae4e8d0998ebd3332e4eabc0bdc51b1ef50ad2c1e6df8102377ee2bf7ccf79c9"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/idiomatic/run-2/producer/0001-context/payload/tasks/business-outcomes/tests/PlaceOrderTests.cs",
+      "expected": "be36ad4fcc030392fd18ffed49b395b686b4c84ee52c264c4083e69352184ab9",
+      "actual": "be36ad4fcc030392fd18ffed49b395b686b4c84ee52c264c4083e69352184ab9"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/idiomatic/run-2/producer/0001-context/payload/tasks/business-outcomes/tests/SideEffectsTests.cs",
+      "expected": "d359f596e622e61e3841fa231b40e1497f0a7f5c962df484221931b41a708df0",
+      "actual": "d359f596e622e61e3841fa231b40e1497f0a7f5c962df484221931b41a708df0"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/idiomatic/run-2/solution/OrderWorkflow.cs",
+      "expected": "dee58441386fcbbbd5cdef6159c98c2d9280ffc40b56be6bec933407e49e09ef",
+      "actual": "dee58441386fcbbbd5cdef6159c98c2d9280ffc40b56be6bec933407e49e09ef"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/idiomatic/run-2/producer/0001-context/invocation.json",
+      "expected": "c0801e95c3a25fe44967ff69eb26b88cd0abefadde68286f1db1a3bc0871ccb8",
+      "actual": "c0801e95c3a25fe44967ff69eb26b88cd0abefadde68286f1db1a3bc0871ccb8"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/idiomatic/run-2/producer/0001-context/context.json",
+      "expected": "44bb845f9f9dd88c7eb9c3e000113f3c3d0a50c12636ad067e342a0307270062",
+      "actual": "44bb845f9f9dd88c7eb9c3e000113f3c3d0a50c12636ad067e342a0307270062"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/funnysharp/run-1/producer/0001-context/payload/guides/README.md",
+      "expected": "cc536213ce3dd198741dd81ae4518fd492f24016400b9cbd02b5e85f2d2be517",
+      "actual": "cc536213ce3dd198741dd81ae4518fd492f24016400b9cbd02b5e85f2d2be517"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/funnysharp/run-1/producer/0001-context/payload/guides/docs/analyzers.md",
+      "expected": "c40255afe05dc9d0c1515f3ba9ab4fb764a2e8b79016fe5944493790f22fd8b1",
+      "actual": "c40255afe05dc9d0c1515f3ba9ab4fb764a2e8b79016fe5944493790f22fd8b1"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/funnysharp/run-1/producer/0001-context/payload/guides/docs/aspnet-core.md",
+      "expected": "71f12c3f333d07f9b7375df751ed6606153c9ceb0093b8057909a81f925c2930",
+      "actual": "71f12c3f333d07f9b7375df751ed6606153c9ceb0093b8057909a81f925c2930"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/funnysharp/run-1/producer/0001-context/payload/guides/docs/collections.md",
+      "expected": "6001aebd200b67edf0c2b135ae0c3e0af3c961e99836b7f762d9bb2d83620558",
+      "actual": "6001aebd200b67edf0c2b135ae0c3e0af3c961e99836b7f762d9bb2d83620558"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/funnysharp/run-1/producer/0001-context/payload/guides/docs/concurrency.md",
+      "expected": "6e4324334f51dd240aa3fcd4e1531ad6dcb017ff21b41ca5b983e81a81f3fad9",
+      "actual": "6e4324334f51dd240aa3fcd4e1531ad6dcb017ff21b41ca5b983e81a81f3fad9"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/funnysharp/run-1/producer/0001-context/payload/guides/docs/data-pipelines.md",
+      "expected": "78f5787bbf0c7fe23bbcf023712a967a8fdef2ad9ca6900ebc7a7512ba51b242",
+      "actual": "78f5787bbf0c7fe23bbcf023712a967a8fdef2ad9ca6900ebc7a7512ba51b242"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/funnysharp/run-1/producer/0001-context/payload/guides/docs/effects.md",
+      "expected": "eba44570793bc8e72f15ed6c6155e925df38a200873c795dab8a34b504600928",
+      "actual": "eba44570793bc8e72f15ed6c6155e925df38a200873c795dab8a34b504600928"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/funnysharp/run-1/producer/0001-context/payload/guides/docs/function-composition.md",
+      "expected": "dd6f4863c89da837b50d5d789e8283a97164357dad599b781711dd22c4d7b66c",
+      "actual": "dd6f4863c89da837b50d5d789e8283a97164357dad599b781711dd22c4d7b66c"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/funnysharp/run-1/producer/0001-context/payload/guides/docs/grammar.md",
+      "expected": "c46cbe739485ff881a8add7166395c210b399dfe5e81f37aa5b64f98439ed48c",
+      "actual": "c46cbe739485ff881a8add7166395c210b399dfe5e81f37aa5b64f98439ed48c"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/funnysharp/run-1/producer/0001-context/payload/guides/docs/option.md",
+      "expected": "c3d468d148cd6c41b60a303839727265b1b4c4b2488e0cd34291e4ce7516b366",
+      "actual": "c3d468d148cd6c41b60a303839727265b1b4c4b2488e0cd34291e4ce7516b366"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/funnysharp/run-1/producer/0001-context/payload/guides/docs/product-contract.md",
+      "expected": "56e49ad95406612774b4d26e3e2763e11e06240c3dfd0de092a4011335fbf952",
+      "actual": "56e49ad95406612774b4d26e3e2763e11e06240c3dfd0de092a4011335fbf952"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/funnysharp/run-1/producer/0001-context/payload/guides/docs/result.md",
+      "expected": "6b78664086ec6f4599aebc220def97c46b5b714499644ccdbe1a1975691803c5",
+      "actual": "6b78664086ec6f4599aebc220def97c46b5b714499644ccdbe1a1975691803c5"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/funnysharp/run-1/producer/0001-context/payload/guides/docs/unit-result.md",
+      "expected": "0c8682d7fdc4a7e1ce6b22d031a06ab1dd7f2db1f24755c947e6e0b440c56cfb",
+      "actual": "0c8682d7fdc4a7e1ce6b22d031a06ab1dd7f2db1f24755c947e6e0b440c56cfb"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/funnysharp/run-1/producer/0001-context/payload/guides/docs/validation.md",
+      "expected": "923151c1e3de02825dfbc2b49393c9a261e939ec1e474addd98bb893915414b9",
+      "actual": "923151c1e3de02825dfbc2b49393c9a261e939ec1e474addd98bb893915414b9"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/funnysharp/run-1/producer/0001-context/payload/tasks/business-outcomes/prompt-funnysharp.md",
+      "expected": "56d667e0a8aee9b30b10d0020367aeb19a369af349c56d8a7868aa8ffb8db49c",
+      "actual": "56d667e0a8aee9b30b10d0020367aeb19a369af349c56d8a7868aa8ffb8db49c"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/funnysharp/run-1/producer/0001-context/payload/tasks/business-outcomes/template-funnysharp/BusinessOutcomesKit.csproj",
+      "expected": "56d4c5e636c9fec400a746dcc0ec225c3bbd8498972ddb479d30aad4e68b749d",
+      "actual": "56d4c5e636c9fec400a746dcc0ec225c3bbd8498972ddb479d30aad4e68b749d"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/funnysharp/run-1/producer/0001-context/payload/tasks/business-outcomes/tests/Contract.cs",
+      "expected": "ae4e8d0998ebd3332e4eabc0bdc51b1ef50ad2c1e6df8102377ee2bf7ccf79c9",
+      "actual": "ae4e8d0998ebd3332e4eabc0bdc51b1ef50ad2c1e6df8102377ee2bf7ccf79c9"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/funnysharp/run-1/producer/0001-context/payload/tasks/business-outcomes/tests/PlaceOrderTests.cs",
+      "expected": "be36ad4fcc030392fd18ffed49b395b686b4c84ee52c264c4083e69352184ab9",
+      "actual": "be36ad4fcc030392fd18ffed49b395b686b4c84ee52c264c4083e69352184ab9"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/funnysharp/run-1/producer/0001-context/payload/tasks/business-outcomes/tests/SideEffectsTests.cs",
+      "expected": "d359f596e622e61e3841fa231b40e1497f0a7f5c962df484221931b41a708df0",
+      "actual": "d359f596e622e61e3841fa231b40e1497f0a7f5c962df484221931b41a708df0"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/funnysharp/run-1/solution/OrderWorkflow.cs",
+      "expected": "7477eda6259cdec905c4b3f1bec461a3c34c90eb4b5234f5b5ce58d2c07829c2",
+      "actual": "7477eda6259cdec905c4b3f1bec461a3c34c90eb4b5234f5b5ce58d2c07829c2"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/funnysharp/run-1/producer/0001-context/invocation.json",
+      "expected": "a9d68cae7a328aa9d4c93fb392b471e43a9fcebbf9c07c4b8fd09d10170f4839",
+      "actual": "a9d68cae7a328aa9d4c93fb392b471e43a9fcebbf9c07c4b8fd09d10170f4839"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/funnysharp/run-1/producer/0001-context/context.json",
+      "expected": "5f0b81cb7426c7717db163b9cf28b3902db91f31aee4c0e684ec5739dde6dffc",
+      "actual": "5f0b81cb7426c7717db163b9cf28b3902db91f31aee4c0e684ec5739dde6dffc"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/funnysharp/run-2/producer/0001-context/payload/guides/README.md",
+      "expected": "cc536213ce3dd198741dd81ae4518fd492f24016400b9cbd02b5e85f2d2be517",
+      "actual": "cc536213ce3dd198741dd81ae4518fd492f24016400b9cbd02b5e85f2d2be517"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/funnysharp/run-2/producer/0001-context/payload/guides/docs/analyzers.md",
+      "expected": "c40255afe05dc9d0c1515f3ba9ab4fb764a2e8b79016fe5944493790f22fd8b1",
+      "actual": "c40255afe05dc9d0c1515f3ba9ab4fb764a2e8b79016fe5944493790f22fd8b1"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/funnysharp/run-2/producer/0001-context/payload/guides/docs/aspnet-core.md",
+      "expected": "71f12c3f333d07f9b7375df751ed6606153c9ceb0093b8057909a81f925c2930",
+      "actual": "71f12c3f333d07f9b7375df751ed6606153c9ceb0093b8057909a81f925c2930"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/funnysharp/run-2/producer/0001-context/payload/guides/docs/collections.md",
+      "expected": "6001aebd200b67edf0c2b135ae0c3e0af3c961e99836b7f762d9bb2d83620558",
+      "actual": "6001aebd200b67edf0c2b135ae0c3e0af3c961e99836b7f762d9bb2d83620558"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/funnysharp/run-2/producer/0001-context/payload/guides/docs/concurrency.md",
+      "expected": "6e4324334f51dd240aa3fcd4e1531ad6dcb017ff21b41ca5b983e81a81f3fad9",
+      "actual": "6e4324334f51dd240aa3fcd4e1531ad6dcb017ff21b41ca5b983e81a81f3fad9"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/funnysharp/run-2/producer/0001-context/payload/guides/docs/data-pipelines.md",
+      "expected": "78f5787bbf0c7fe23bbcf023712a967a8fdef2ad9ca6900ebc7a7512ba51b242",
+      "actual": "78f5787bbf0c7fe23bbcf023712a967a8fdef2ad9ca6900ebc7a7512ba51b242"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/funnysharp/run-2/producer/0001-context/payload/guides/docs/effects.md",
+      "expected": "eba44570793bc8e72f15ed6c6155e925df38a200873c795dab8a34b504600928",
+      "actual": "eba44570793bc8e72f15ed6c6155e925df38a200873c795dab8a34b504600928"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/funnysharp/run-2/producer/0001-context/payload/guides/docs/function-composition.md",
+      "expected": "dd6f4863c89da837b50d5d789e8283a97164357dad599b781711dd22c4d7b66c",
+      "actual": "dd6f4863c89da837b50d5d789e8283a97164357dad599b781711dd22c4d7b66c"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/funnysharp/run-2/producer/0001-context/payload/guides/docs/grammar.md",
+      "expected": "c46cbe739485ff881a8add7166395c210b399dfe5e81f37aa5b64f98439ed48c",
+      "actual": "c46cbe739485ff881a8add7166395c210b399dfe5e81f37aa5b64f98439ed48c"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/funnysharp/run-2/producer/0001-context/payload/guides/docs/option.md",
+      "expected": "c3d468d148cd6c41b60a303839727265b1b4c4b2488e0cd34291e4ce7516b366",
+      "actual": "c3d468d148cd6c41b60a303839727265b1b4c4b2488e0cd34291e4ce7516b366"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/funnysharp/run-2/producer/0001-context/payload/guides/docs/product-contract.md",
+      "expected": "56e49ad95406612774b4d26e3e2763e11e06240c3dfd0de092a4011335fbf952",
+      "actual": "56e49ad95406612774b4d26e3e2763e11e06240c3dfd0de092a4011335fbf952"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/funnysharp/run-2/producer/0001-context/payload/guides/docs/result.md",
+      "expected": "6b78664086ec6f4599aebc220def97c46b5b714499644ccdbe1a1975691803c5",
+      "actual": "6b78664086ec6f4599aebc220def97c46b5b714499644ccdbe1a1975691803c5"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/funnysharp/run-2/producer/0001-context/payload/guides/docs/unit-result.md",
+      "expected": "0c8682d7fdc4a7e1ce6b22d031a06ab1dd7f2db1f24755c947e6e0b440c56cfb",
+      "actual": "0c8682d7fdc4a7e1ce6b22d031a06ab1dd7f2db1f24755c947e6e0b440c56cfb"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/funnysharp/run-2/producer/0001-context/payload/guides/docs/validation.md",
+      "expected": "923151c1e3de02825dfbc2b49393c9a261e939ec1e474addd98bb893915414b9",
+      "actual": "923151c1e3de02825dfbc2b49393c9a261e939ec1e474addd98bb893915414b9"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/funnysharp/run-2/producer/0001-context/payload/tasks/business-outcomes/prompt-funnysharp.md",
+      "expected": "56d667e0a8aee9b30b10d0020367aeb19a369af349c56d8a7868aa8ffb8db49c",
+      "actual": "56d667e0a8aee9b30b10d0020367aeb19a369af349c56d8a7868aa8ffb8db49c"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/funnysharp/run-2/producer/0001-context/payload/tasks/business-outcomes/template-funnysharp/BusinessOutcomesKit.csproj",
+      "expected": "56d4c5e636c9fec400a746dcc0ec225c3bbd8498972ddb479d30aad4e68b749d",
+      "actual": "56d4c5e636c9fec400a746dcc0ec225c3bbd8498972ddb479d30aad4e68b749d"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/funnysharp/run-2/producer/0001-context/payload/tasks/business-outcomes/tests/Contract.cs",
+      "expected": "ae4e8d0998ebd3332e4eabc0bdc51b1ef50ad2c1e6df8102377ee2bf7ccf79c9",
+      "actual": "ae4e8d0998ebd3332e4eabc0bdc51b1ef50ad2c1e6df8102377ee2bf7ccf79c9"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/funnysharp/run-2/producer/0001-context/payload/tasks/business-outcomes/tests/PlaceOrderTests.cs",
+      "expected": "be36ad4fcc030392fd18ffed49b395b686b4c84ee52c264c4083e69352184ab9",
+      "actual": "be36ad4fcc030392fd18ffed49b395b686b4c84ee52c264c4083e69352184ab9"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/funnysharp/run-2/producer/0001-context/payload/tasks/business-outcomes/tests/SideEffectsTests.cs",
+      "expected": "d359f596e622e61e3841fa231b40e1497f0a7f5c962df484221931b41a708df0",
+      "actual": "d359f596e622e61e3841fa231b40e1497f0a7f5c962df484221931b41a708df0"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/funnysharp/run-2/solution/OrderWorkflow.cs",
+      "expected": "a33ff182f04acc7f3fefc71ce97431ebaa4fb5aa1cd4bea3ed19f52469d05e59",
+      "actual": "a33ff182f04acc7f3fefc71ce97431ebaa4fb5aa1cd4bea3ed19f52469d05e59"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/funnysharp/run-2/producer/0001-context/invocation.json",
+      "expected": "17a1780c39b0730a1a09e9ff1117e4c3cbcebdf2d8753c955466d6a39c8ac3a3",
+      "actual": "17a1780c39b0730a1a09e9ff1117e4c3cbcebdf2d8753c955466d6a39c8ac3a3"
+    },
+    {
+      "path": "Q:/repos/funnysharp-goal24-resolution/eng/evaluation/results/audit-resolution-v4/business-outcomes/funnysharp/run-2/producer/0001-context/context.json",
+      "expected": "5f0b81cb7426c7717db163b9cf28b3902db91f31aee4c0e684ec5739dde6dffc",
+      "actual": "5f0b81cb7426c7717db163b9cf28b3902db91f31aee4c0e684ec5739dde6dffc"
+    }
+  ],
+  "cleanup": {
+    "command": "Get-CimInstance Win32_Process | Where-Object { $_.Name -eq \"omo.exe\" -and ($_.CommandLine -replace \"\\\\\",\"/\") -like \"*audit-resolution-v4/business-outcomes*\" } | Select-Object ProcessId | ConvertTo-Json -Compress",
+    "ownedNativePidsAbsent": true
+  },
+  "consumerLoc": {
+    "idiomatic": [
+      70,
+      71
+    ],
+    "funnysharp": [
+      97,
+      92
+    ]
+  },
+  "locNote": "This cohort does not establish a FunnySharp density reduction. No favorable selection/manualfix/correction calls."
+}

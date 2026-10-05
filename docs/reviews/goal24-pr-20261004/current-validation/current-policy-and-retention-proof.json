@@ -1,0 +1,47 @@
+{
+  "schema": "funnysharp-current-observation-policy-protection/v1",
+  "measuredSourceCommit": "1fbb50df35e6b1a4cd423460eb6d2d149a64517f",
+  "manifestPolicyBytesUnchanged": true,
+  "policyFingerprints": [
+    "0f700b3b231a2ae914f526a565d75874680c4036a1c2c50ae90e54ef83ad04b6",
+    "07e26d0baedb09c5562f824004d2f63df935639d4986e61358c622549d71b35a"
+  ],
+  "protocolFingerprints": [
+    "765702cfa309615ebad721de84cd992a4ef3c883560703541d3a2f9c6eb8b207",
+    "b3f5f0ed419a004320407f6e8f6c58d795128bb3ae1e536f6b624e2ffa55eddd"
+  ],
+  "sourceFingerprints": [
+    "671c9af72610d71e7d78f6c3c44e9f9af6056a3310b460f92b8acb676655d80d",
+    "319c86fc27ebcff7791748dd019407f43cb7aa41da1bcc9818bb7c6367811ec6"
+  ],
+  "actualVerifierProposalHashes": [
+    "e5a4ab11eb95d24e1ccd86996e8d068663a89b790516f7a2265f572ee73c0024",
+    "3326e05e62b5863c974cc78efa7651224ff47d7bdfcfa4ddefa26dc254910072"
+  ],
+  "oldObservationBodyHashes": [
+    "ca3472aad8031894ad1eb85a749c2db48d0bdca8ab6a473fa5beee715a9f5c59",
+    "13056898f474df244fe47e657d57ddce3920cb0cbb6203e2c009e3135d4a6bcc"
+  ],
+  "newObservationsInstalled": true,
+  "officialRealRegionVerification": [
+    {
+      "monitor": "mon_33EAH30M86RMSN1X",
+      "regions": 11,
+      "exitCode": 0
+    },
+    {
+      "monitor": "mon_X6PJXVFXJ23R8S6E",
+      "regions": 1,
+      "exitCode": 0
+    }
+  ],
+  "outsideGeneratedRegionsUnchanged": true,
+  "secretIndicatorScan": {
+    "objects": 365,
+    "decodedBytes": 41710931,
+    "utf8AndUtf16": true,
+    "strongIndicators": 0
+  },
+  "allInputObjectHashesVerifiedBeforeRetention": true,
+  "portableVerifierResult": "pending"
+}

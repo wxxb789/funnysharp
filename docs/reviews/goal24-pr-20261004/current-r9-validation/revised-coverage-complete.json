@@ -1,0 +1,57 @@
+{
+  "schema": "funnysharp-pr-revised-current-coverage-complete/v1",
+  "sourceParentCommit": "b584e748699a4f19d8a901695634be5a85ce8b07",
+  "mainSnapshot": "snapshot:41f49879678dfc2e7b2484900930e061f4e4badaf3e9699b78a0a145f7c90749",
+  "competitorSnapshot": "snapshot:c2d709af56bf711289d0221769eadd0cf9fb3e6ad2e9504b61a8ba1744b7bd58",
+  "census": {
+    "path": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/pr-validation/traversal-r9-performance-20261005-01/current-coverage/package-inventory.json",
+    "sha256": "f785d8d2ae7f606de40a622673faaec1d2ee9aaa856bf5fd1f392be671102712",
+    "types": 49,
+    "members": 499,
+    "stable": 468,
+    "experimental": 31,
+    "metadataFieldsAll499Match": true
+  },
+  "currentCore": {
+    "file": "Q:\\repos\\funnysharp\\.worktrees\\goal24-complete-pr\\artifacts\\performance-preflight\\ece555e31faa430a847fe5134433b2e0\\binaries\\19251bf8e6e1365641a6ce43dce65b5014d36249190b43e3cbdd6a2739118fd5\\FunnySharp.dll",
+    "sha256": "19251bf8e6e1365641a6ce43dce65b5014d36249190b43e3cbdd6a2739118fd5",
+    "mvid": "94c16a9e-6f7d-4e14-97d4-d7beaaf7c648",
+    "identity": "FunnySharp, Version=0.2.0.0, Culture=neutral, PublicKeyToken=null"
+  },
+  "currentHttp": {
+    "file": "Q:\\repos\\funnysharp\\.worktrees\\goal24-complete-pr\\artifacts\\performance-preflight\\ece555e31faa430a847fe5134433b2e0\\binaries\\5e3603e2bb5cb4f490b51605a742885d97d3d50d57ae9d9c377d3c3f5c199f45\\FunnySharp.AspNetCore.dll",
+    "sha256": "5e3603e2bb5cb4f490b51605a742885d97d3d50d57ae9d9c377d3c3f5c199f45",
+    "mvid": "3d1c415d-86fe-4850-bea1-21bf2d5444d2",
+    "identity": "FunnySharp.AspNetCore, Version=0.2.0.0, Culture=neutral, PublicKeyToken=null"
+  },
+  "mainCompetitorCoreEquality": true,
+  "runtime": {
+    "total": 24,
+    "passed": 24,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "notRun": 0,
+    "resourceMethods": 7,
+    "delegateAPMMethods": 6,
+    "ctrfSha256": "3d3fd885ec0dc6082b375a7c99c593d9db2d6e147dc8642d1bcb407f572d76d0",
+    "trxSha256": "a748bdbc62a35f70de2aeeac5b8b46f581824e27e09aa50a7d43840fdd8c0c56",
+    "closureSha256": "25f4d3b18a3c87d9b60d3e176c32d9ea9a5c031561126ab9066e7950aa7374eb"
+  },
+  "launchBindings": {
+    "main": 190,
+    "competitor": 40,
+    "checkedLocators": 338,
+    "succeeded": true,
+    "sha256": "267036843d448d056d081e6d8630908d97c59468186018b130019d2ad18bd816"
+  },
+  "coverageUpdate": {
+    "path": "eng/performance/coverage/stable-members.json",
+    "sourcePins": 3,
+    "metadataAndRuntimeBindingLines": 54,
+    "nonoverlappingHunks": 20,
+    "previousOverlappingHunkFailureNoWrites": true,
+    "allMetadataAndOriginalWitnessSourceMechanismsUnchanged": true
+  },
+  "noNewPackageLayoutFeedOrReleaseAcceptanceClaim": true
+}

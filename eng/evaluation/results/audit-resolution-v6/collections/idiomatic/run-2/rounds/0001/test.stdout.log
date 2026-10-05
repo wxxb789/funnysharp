@@ -1,0 +1,9 @@
+Running tests from Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\collections-idiomatic-run-2-a5a1189259bf4f019e08dc8a22dcf719\bin\Release\net10.0\CollectionsKit.dll (net10.0|x64)
+Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\collections-idiomatic-run-2-a5a1189259bf4f019e08dc8a22dcf719\bin\Release\net10.0\CollectionsKit.dll (net10.0|x64) passed (657ms)
+
+Test run summary: Passed!
+  total: 9
+  failed: 0
+  succeeded: 9
+  skipped: 0
+  duration: 1s 258ms

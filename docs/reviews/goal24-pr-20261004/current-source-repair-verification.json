@@ -1,0 +1,108 @@
+{
+  "schema": "funnysharp-pr-source-repair-verification/v1",
+  "historicalProduct": "d8744c934d86833f9817245ecc7c78b1177b8b76",
+  "currentWorkingHead": "e7aea9995bac6c87a69db14a8b04c6925cb45d4c",
+  "currentSourceDirty": true,
+  "option": {
+    "sourceDeltaLinesRemoved": 2,
+    "executableSourceUnchanged": true,
+    "existingFacts": {
+      "passed": 2,
+      "failed": 0,
+      "skipped": 0,
+      "exitCode": 0
+    },
+    "generatedXmlExactChangedNodes": [
+      {
+        "xmlId": "M:FunnySharp.Option`1.op_Equality(FunnySharp.Option{`0},FunnySharp.Option{`0})",
+        "removedExceptionCref": "T:System.InvalidOperationException",
+        "oldNodeSha256": "d6498af8bc3ed7f4f858723e3cc3fbde47cd2ef365ff9be2ed66565f2cc40ef4",
+        "newNodeSha256": "3241eb7e7e73271c5378593b9e8b441ea3cb5b18a0d1c04853b73d263d6f2d2e"
+      },
+      {
+        "xmlId": "M:FunnySharp.Option`1.op_Inequality(FunnySharp.Option{`0},FunnySharp.Option{`0})",
+        "removedExceptionCref": "T:System.InvalidOperationException",
+        "oldNodeSha256": "86292ff40ada26cdc7e33f2179dabec35cf84a8b384815e1a7cd8eb14e1c6730",
+        "newNodeSha256": "b1b04004e7e2fa2e747ab1c316b86fc726883be9a7636e9dde77e92394b8c55c"
+      }
+    ],
+    "newSourceSha256": "8ee95f8d0193c71e9515f4c97616a1352ee8b4960d17628ca7b7c3cbe77cd707",
+    "newXmlSha256": "d3b702f19dc04d5779e3e80757065ce2a76684cabbbb8dcc126f1c429f08a9f1"
+  },
+  "xmlBindings": {
+    "reviewedInputSchema": "funnysharp-reviewed-xml-inputs/v3",
+    "historicalV1PolicyUnchanged": true,
+    "policySha256": "696fe5154ee970778ce7b415ea9bc964cedbe6158d34e3f6e545be3843d08601",
+    "red": {
+      "passed": 2,
+      "failed": 1,
+      "skipped": 0,
+      "exitCode": 2,
+      "reason": "v2-only schema correctly exposed missing v3 support"
+    },
+    "green": {
+      "passed": 37,
+      "failed": 0,
+      "skipped": 0,
+      "exitCode": 0,
+      "monitor": "mon_N12W2N8SJNZABN1K"
+    },
+    "testRecovery": "The added real legacy reflection assertion runs on the existing unique loaded fixture; no assertion was dropped or weakened."
+  },
+  "comparison": {
+    "lockedRestoreExit": 0,
+    "historicalReviewedClosureUnchanged": true
+  },
+  "frozenReplay": {
+    "mechanismImplemented": true,
+    "newDeterministicTestsPassed": 18,
+    "existingEvaluationTestsPassed": 71,
+    "actualParentReplay": {
+      "exitCode": 1,
+      "monitor": "mon_Q7XZGXG7WNM9GJWX",
+      "reservationMade": false,
+      "expectedManifestFiles": 188,
+      "presentMatchingFiles": 123,
+      "missingHistoricalObjFiles": 65,
+      "additionalFiles": 0,
+      "hashMismatches": 0,
+      "verdict": "RED_PREEXISTING_UNAVAILABLE_HISTORICAL_CACHE_BYTES",
+      "successNotClaimed": true
+    }
+  },
+  "fullReleaseBuild": {
+    "exitCode": 0,
+    "monitor": "mon_V3TKSGZ49XC591A8"
+  },
+  "portable": {
+    "exitCode": 0,
+    "monitor": "mon_C6VTBPTK12HXYB49",
+    "counts": {
+      "retained": 62,
+      "rowPins": 998,
+      "distinctRowPins": 87,
+      "indexPins": 120,
+      "original69Accepted": 69,
+      "open": 0,
+      "attachments": 307
+    },
+    "negativeControls": {
+      "exitCode": 0,
+      "controls": 4,
+      "eachExitCode": 1,
+      "noPass": true
+    }
+  },
+  "newSourceSecretScan": {
+    "files": 11,
+    "strongIndicators": []
+  },
+  "pending": [
+    "exact-checkout formatter",
+    "clean final-candidate full test/release checks",
+    "focused native code review st_01a10888",
+    "commit/push/updatePR33",
+    "post-submit coverage/currentCI",
+    "owned cleanup"
+  ]
+}

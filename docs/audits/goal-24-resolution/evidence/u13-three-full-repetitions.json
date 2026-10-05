@@ -1,0 +1,2645 @@
+{
+  "schema": "funnysharp-final-repeated-performance/v1",
+  "state": "THREE_ACTUAL_FULL_SERIAL_PAIRS_VERIFIED",
+  "candidateCoreSha256": "6a903f737356fdf67845c9cd39385e4a5e2b39bcae0ee92ff2882480ecb7e49d",
+  "candidateHttpSha256": "2daaff9c72db5b730c06d3270c00dfd7046fa27e26d59374e31cf270b8dc30c2",
+  "mainSnapshot": "snapshot:f97e16b26f00914a9746c0db3788dde33b6dcf937c0119426e0c3bacd5af8b7f",
+  "competitorSnapshot": "snapshot:93a3168bf86fc5bbcdebd0ab2201f1de282460804378dc27ca61d42ed00762c6",
+  "environmentKey": "dcbdceb2e49a7453811c875821619b8438d7412de54edd327330aa780aa5c267",
+  "repetitions": [
+    {
+      "repetition": 1,
+      "exitCode": 0,
+      "sentinel": "PAIRED_REPEAT_01_VERIFIED",
+      "main": {
+        "rows": 190,
+        "excluded": 11,
+        "elapsedSeconds": 2078.75,
+        "receiptFiles": 13,
+        "rawReportFiles": 39,
+        "runId": "8fe27a3e59744d1c9a3e84d4e8175dd7",
+        "candidateSnapshot": "snapshot:f97e16b26f00914a9746c0db3788dde33b6dcf937c0119426e0c3bacd5af8b7f",
+        "receiptDirectory": "artifacts/audit-resolution/u13-final-repeat-01-main/results"
+      },
+      "competitor": {
+        "rows": 40,
+        "excluded": 0,
+        "elapsedSeconds": 1166.93,
+        "receiptFiles": 2,
+        "rawReportFiles": 6,
+        "runId": "afc2c77d4097429abdb87356e061a717",
+        "candidateSnapshot": "snapshot:93a3168bf86fc5bbcdebd0ab2201f1de282460804378dc27ca61d42ed00762c6",
+        "receiptDirectory": "artifacts/audit-resolution/u13-final-repeat-01-competitor/results"
+      },
+      "parentVerification": {
+        "numericRows": 230,
+        "markers": 230,
+        "retainedPeFiles": 58,
+        "issues": []
+      }
+    },
+    {
+      "repetition": 2,
+      "exitCode": 0,
+      "sentinel": "PAIRED_REPEAT_02_VERIFIED",
+      "main": {
+        "rows": 190,
+        "excluded": 11,
+        "elapsedSeconds": 2083.37,
+        "receiptFiles": 13,
+        "rawReportFiles": 39,
+        "runId": "79a7a7b15dd4454fae6695b9c9d318a8",
+        "candidateSnapshot": "snapshot:f97e16b26f00914a9746c0db3788dde33b6dcf937c0119426e0c3bacd5af8b7f",
+        "receiptDirectory": "artifacts/audit-resolution/u13-final-repeat-02-main/results"
+      },
+      "competitor": {
+        "rows": 40,
+        "excluded": 0,
+        "elapsedSeconds": 853.79,
+        "receiptFiles": 2,
+        "rawReportFiles": 6,
+        "runId": "d0a1b3494c3845efb646d9941c0f9311",
+        "candidateSnapshot": "snapshot:93a3168bf86fc5bbcdebd0ab2201f1de282460804378dc27ca61d42ed00762c6",
+        "receiptDirectory": "artifacts/audit-resolution/u13-final-repeat-02-competitor/results"
+      },
+      "parentVerification": {
+        "numericRows": 230,
+        "markers": 230,
+        "retainedPeFiles": 58,
+        "issues": []
+      }
+    },
+    {
+      "repetition": 3,
+      "exitCode": 0,
+      "sentinel": "PAIRED_REPEAT_03_VERIFIED",
+      "main": {
+        "rows": 190,
+        "excluded": 11,
+        "elapsedSeconds": 2044.2,
+        "receiptFiles": 13,
+        "rawReportFiles": 39,
+        "runId": "8aec8bf3be00472a97eae0ea21f886bf",
+        "candidateSnapshot": "snapshot:f97e16b26f00914a9746c0db3788dde33b6dcf937c0119426e0c3bacd5af8b7f",
+        "receiptDirectory": "artifacts/audit-resolution/u13-final-repeat-03-main/results"
+      },
+      "competitor": {
+        "rows": 40,
+        "excluded": 0,
+        "elapsedSeconds": 880.45,
+        "receiptFiles": 2,
+        "rawReportFiles": 6,
+        "runId": "d3cae835a47b438e8ca7416a5311ff70",
+        "candidateSnapshot": "snapshot:93a3168bf86fc5bbcdebd0ab2201f1de282460804378dc27ca61d42ed00762c6",
+        "receiptDirectory": "artifacts/audit-resolution/u13-final-repeat-03-competitor/results"
+      },
+      "parentVerification": {
+        "numericRows": 230,
+        "markers": 230,
+        "retainedPeFiles": 58,
+        "issues": []
+      }
+    }
+  ],
+  "numericExecutions": 690,
+  "uniquePolicyRows": 230,
+  "allocationVariationRows": 21,
+  "allocationRows": [
+    {
+      "id": "AspNetCoreBenchmarks|HTTP mapping overhead - success|DirectSuccessMapping|",
+      "allocationBudgetBytes": 64,
+      "values": [
+        24,
+        24,
+        24
+      ],
+      "minimum": 24,
+      "maximum": 24
+    },
+    {
+      "id": "AspNetCoreBenchmarks|HTTP mapping overhead - success|FunnySharpSuccessMapping|",
+      "allocationBudgetBytes": 64,
+      "values": [
+        24,
+        24,
+        24
+      ],
+      "minimum": 24,
+      "maximum": 24
+    },
+    {
+      "id": "AspNetCoreBenchmarks|HTTP mapping overhead - typed failure|DirectProblemMapping|",
+      "allocationBudgetBytes": 248,
+      "values": [
+        168,
+        168,
+        168
+      ],
+      "minimum": 168,
+      "maximum": 168
+    },
+    {
+      "id": "AspNetCoreBenchmarks|HTTP mapping overhead - typed failure|FunnySharpProblemMapping|",
+      "allocationBudgetBytes": 248,
+      "values": [
+        168,
+        168,
+        168
+      ],
+      "minimum": 168,
+      "maximum": 168
+    },
+    {
+      "id": "AspNetCoreBenchmarks|HTTP mapping overhead - absence|DirectNotFoundMapping|",
+      "allocationBudgetBytes": 248,
+      "values": [
+        168,
+        168,
+        168
+      ],
+      "minimum": 168,
+      "maximum": 168
+    },
+    {
+      "id": "AspNetCoreBenchmarks|HTTP mapping overhead - absence|FunnySharpNotFoundMapping|",
+      "allocationBudgetBytes": 248,
+      "values": [
+        168,
+        168,
+        168
+      ],
+      "minimum": 168,
+      "maximum": 168
+    },
+    {
+      "id": "AspNetCoreBenchmarks|HTTP mapping overhead - no value|DirectNoContentMapping|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "AspNetCoreBenchmarks|HTTP mapping overhead - no value|FunnySharpNoContentMapping|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "ConcurrencyBenchmarks|Completion-order bounded asynchronous map|BclParallelForEachAsyncCompletionOrder|[Count=1024]",
+      "allocationBudgetBytes": 358424,
+      "values": [
+        287154,
+        279661,
+        279497
+      ],
+      "minimum": 279497,
+      "maximum": 287154
+    },
+    {
+      "id": "ConcurrencyBenchmarks|Completion-order bounded asynchronous map|BclParallelForEachAsyncCompletionOrder|[Count=16]",
+      "allocationBudgetBytes": 6800,
+      "values": [
+        5311,
+        5235,
+        5211
+      ],
+      "minimum": 5211,
+      "maximum": 5311
+    },
+    {
+      "id": "ConcurrencyBenchmarks|Completion-order bounded asynchronous map|FunnySharpSelectParallelCompletionOrderValueAsync|[Count=1024]",
+      "allocationBudgetBytes": 589616,
+      "values": [
+        375712,
+        372344,
+        371296
+      ],
+      "minimum": 371296,
+      "maximum": 375712
+    },
+    {
+      "id": "ConcurrencyBenchmarks|Completion-order bounded asynchronous map|FunnySharpSelectParallelCompletionOrderValueAsync|[Count=16]",
+      "allocationBudgetBytes": 12672,
+      "values": [
+        9640,
+        9495,
+        9460
+      ],
+      "minimum": 9460,
+      "maximum": 9640
+    },
+    {
+      "id": "ConcurrencyBenchmarks|Ordered bounded asynchronous map|BclParallelForEachAsync|[Count=1024]",
+      "allocationBudgetBytes": 387264,
+      "values": [
+        301538,
+        303646,
+        302361
+      ],
+      "minimum": 301538,
+      "maximum": 303646
+    },
+    {
+      "id": "ConcurrencyBenchmarks|Ordered bounded asynchronous map|BclParallelForEachAsync|[Count=16]",
+      "allocationBudgetBytes": 7592,
+      "values": [
+        5317,
+        5715,
+        5506
+      ],
+      "minimum": 5317,
+      "maximum": 5715
+    },
+    {
+      "id": "ConcurrencyBenchmarks|Ordered bounded asynchronous map|FunnySharpSelectParallelValueAsync|[Count=1024]",
+      "allocationBudgetBytes": 1186680,
+      "values": [
+        373203,
+        376161,
+        377396
+      ],
+      "minimum": 373203,
+      "maximum": 377396
+    },
+    {
+      "id": "ConcurrencyBenchmarks|Ordered bounded asynchronous map|FunnySharpSelectParallelValueAsync|[Count=16]",
+      "allocationBudgetBytes": 20528,
+      "values": [
+        9154,
+        9216,
+        9437
+      ],
+      "minimum": 9154,
+      "maximum": 9437
+    },
+    {
+      "id": "DataPipelineBenchmarks|Async stream filter-map|BclAsyncWhereSelect|[Count=1024]",
+      "allocationBudgetBytes": 536,
+      "values": [
+        400,
+        400,
+        400
+      ],
+      "minimum": 400,
+      "maximum": 400
+    },
+    {
+      "id": "DataPipelineBenchmarks|Async stream filter-map|BclAsyncWhereSelect|[Count=16]",
+      "allocationBudgetBytes": 536,
+      "values": [
+        400,
+        400,
+        400
+      ],
+      "minimum": 400,
+      "maximum": 400
+    },
+    {
+      "id": "DataPipelineBenchmarks|Async stream filter-map|DirectAsyncStream|[Count=1024]",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "DataPipelineBenchmarks|Async stream filter-map|DirectAsyncStream|[Count=16]",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "DataPipelineBenchmarks|Async stream filter-map|FunnySharpAsyncChoose|[Count=1024]",
+      "allocationBudgetBytes": 424,
+      "values": [
+        312,
+        312,
+        312
+      ],
+      "minimum": 312,
+      "maximum": 312
+    },
+    {
+      "id": "DataPipelineBenchmarks|Async stream filter-map|FunnySharpAsyncChoose|[Count=16]",
+      "allocationBudgetBytes": 424,
+      "values": [
+        312,
+        312,
+        312
+      ],
+      "minimum": 312,
+      "maximum": 312
+    },
+    {
+      "id": "DataPipelineBenchmarks|Async stream running aggregate|DirectAsyncRunningAggregate|[Count=16]",
+      "allocationBudgetBytes": 264,
+      "values": [
+        184,
+        184,
+        184
+      ],
+      "minimum": 184,
+      "maximum": 184
+    },
+    {
+      "id": "DataPipelineBenchmarks|Async stream running aggregate|DirectAsyncRunningAggregate|[Count=1024]",
+      "allocationBudgetBytes": 264,
+      "values": [
+        184,
+        184,
+        184
+      ],
+      "minimum": 184,
+      "maximum": 184
+    },
+    {
+      "id": "DataPipelineBenchmarks|Async stream running aggregate|FunnySharpAsyncScan|[Count=16]",
+      "allocationBudgetBytes": 424,
+      "values": [
+        312,
+        312,
+        312
+      ],
+      "minimum": 312,
+      "maximum": 312
+    },
+    {
+      "id": "DataPipelineBenchmarks|Async stream running aggregate|FunnySharpAsyncScan|[Count=1024]",
+      "allocationBudgetBytes": 424,
+      "values": [
+        312,
+        312,
+        312
+      ],
+      "minimum": 312,
+      "maximum": 312
+    },
+    {
+      "id": "DataPipelineBenchmarks|IEnumerable filter-map|FunnySharpChoose|[Count=1024]",
+      "allocationBudgetBytes": 176,
+      "values": [
+        112,
+        112,
+        112
+      ],
+      "minimum": 112,
+      "maximum": 112
+    },
+    {
+      "id": "DataPipelineBenchmarks|IEnumerable filter-map|FunnySharpChoose|[Count=16]",
+      "allocationBudgetBytes": 176,
+      "values": [
+        112,
+        112,
+        112
+      ],
+      "minimum": 112,
+      "maximum": 112
+    },
+    {
+      "id": "DataPipelineBenchmarks|IEnumerable filter-map|LinqWhereSelect|[Count=1024]",
+      "allocationBudgetBytes": 232,
+      "values": [
+        160,
+        160,
+        160
+      ],
+      "minimum": 160,
+      "maximum": 160
+    },
+    {
+      "id": "DataPipelineBenchmarks|IEnumerable filter-map|LinqWhereSelect|[Count=16]",
+      "allocationBudgetBytes": 232,
+      "values": [
+        160,
+        160,
+        160
+      ],
+      "minimum": 160,
+      "maximum": 160
+    },
+    {
+      "id": "DataPipelineBenchmarks|IEnumerable running aggregate|DirectRunningAggregate|[Count=16]",
+      "allocationBudgetBytes": 184,
+      "values": [
+        120,
+        120,
+        120
+      ],
+      "minimum": 120,
+      "maximum": 120
+    },
+    {
+      "id": "DataPipelineBenchmarks|IEnumerable running aggregate|DirectRunningAggregate|[Count=1024]",
+      "allocationBudgetBytes": 184,
+      "values": [
+        120,
+        120,
+        120
+      ],
+      "minimum": 120,
+      "maximum": 120
+    },
+    {
+      "id": "DataPipelineBenchmarks|IEnumerable running aggregate|FunnySharpScan|[Count=16]",
+      "allocationBudgetBytes": 184,
+      "values": [
+        120,
+        120,
+        120
+      ],
+      "minimum": 120,
+      "maximum": 120
+    },
+    {
+      "id": "DataPipelineBenchmarks|IEnumerable running aggregate|FunnySharpScan|[Count=1024]",
+      "allocationBudgetBytes": 184,
+      "values": [
+        120,
+        120,
+        120
+      ],
+      "minimum": 120,
+      "maximum": 120
+    },
+    {
+      "id": "DataPipelineBenchmarks|Span filter-map|DirectSpanLoop|[Count=1024]",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "DataPipelineBenchmarks|Span filter-map|DirectSpanLoop|[Count=16]",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "DataPipelineBenchmarks|Span filter-map|FunnySharpSpanChoose|[Count=1024]",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "DataPipelineBenchmarks|Span filter-map|FunnySharpSpanChoose|[Count=16]",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "EffectBenchmarks|Bind ValueTask composition|DirectBindValueTaskComposition|",
+      "allocationBudgetBytes": 64,
+      "values": [
+        24,
+        24,
+        24
+      ],
+      "minimum": 24,
+      "maximum": 24
+    },
+    {
+      "id": "EffectBenchmarks|Bind ValueTask composition|EffectBindValueTaskComposition|",
+      "allocationBudgetBytes": 296,
+      "values": [
+        208,
+        208,
+        208
+      ],
+      "minimum": 208,
+      "maximum": 208
+    },
+    {
+      "id": "EffectBenchmarks|Completed synchronous RunAsync|DirectCompletedSynchronousRunAsync|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "EffectBenchmarks|Completed synchronous RunAsync|EffectCompletedSynchronousRunAsync|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "EffectBenchmarks|Completed Task composition|DirectCompletedTaskComposition|",
+      "allocationBudgetBytes": 136,
+      "values": [
+        80,
+        80,
+        80
+      ],
+      "minimum": 80,
+      "maximum": 80
+    },
+    {
+      "id": "EffectBenchmarks|Completed Task composition|EffectCompletedTaskComposition|",
+      "allocationBudgetBytes": 136,
+      "values": [
+        80,
+        80,
+        80
+      ],
+      "minimum": 80,
+      "maximum": 80
+    },
+    {
+      "id": "EffectBenchmarks|Completed value RunAsync|DirectCompletedValueRunAsync|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "EffectBenchmarks|Completed value RunAsync|EffectCompletedValueRunAsync|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "EffectBenchmarks|Completed ValueTask map composition|DirectCompletedValueTaskComposition|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "EffectBenchmarks|Completed ValueTask map composition|EffectCompletedValueTaskComposition|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "EffectBenchmarks|Environment Provide|DirectEnvironmentProvide|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "EffectBenchmarks|Environment Provide|EffectEnvironmentProvide|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "EffectBenchmarks|Map composition|DirectMapComposition|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "EffectBenchmarks|Map composition|EffectMapComposition|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "EffectBenchmarks|Using|DirectUsing|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "EffectBenchmarks|Using|EffectUsing|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "EffectBenchmarks|UsingAsync|DirectUsingAsync|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "EffectBenchmarks|UsingAsync|EffectUsingAsync|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "EffectBenchmarks|Wrapper construction|DirectSynchronousWrapperConstruction|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "EffectBenchmarks|Wrapper construction|EffectSynchronousWrapperConstruction|",
+      "allocationBudgetBytes": 144,
+      "values": [
+        88,
+        88,
+        88
+      ],
+      "minimum": 88,
+      "maximum": 88
+    },
+    {
+      "id": "FirstSuccessConcurrencyBenchmarks|First successful cold Result operation|BclTaskWhenAnyCancelAndDrain|[CandidateCount=16]",
+      "allocationBudgetBytes": 6912,
+      "values": [
+        5217,
+        5263,
+        5257
+      ],
+      "minimum": 5217,
+      "maximum": 5263
+    },
+    {
+      "id": "FirstSuccessConcurrencyBenchmarks|First successful cold Result operation|BclTaskWhenAnyCancelAndDrain|[CandidateCount=4]",
+      "allocationBudgetBytes": 1880,
+      "values": [
+        1462,
+        1460,
+        1459
+      ],
+      "minimum": 1459,
+      "maximum": 1462
+    },
+    {
+      "id": "FirstSuccessConcurrencyBenchmarks|First successful cold Result operation|FunnySharpFirstSuccessAsync|[CandidateCount=16]",
+      "allocationBudgetBytes": 10800,
+      "values": [
+        6777,
+        6771,
+        6733
+      ],
+      "minimum": 6733,
+      "maximum": 6777
+    },
+    {
+      "id": "FirstSuccessConcurrencyBenchmarks|First successful cold Result operation|FunnySharpFirstSuccessAsync|[CandidateCount=4]",
+      "allocationBudgetBytes": 3896,
+      "values": [
+        3066,
+        3067,
+        3073
+      ],
+      "minimum": 3066,
+      "maximum": 3073
+    },
+    {
+      "id": "FunctionCompositionBenchmarks|Completed Task invocation|ComposeAsyncCompletedTaskInvocation|",
+      "allocationBudgetBytes": 304,
+      "values": [
+        216,
+        216,
+        216
+      ],
+      "minimum": 216,
+      "maximum": 216
+    },
+    {
+      "id": "FunctionCompositionBenchmarks|Completed Task invocation|DirectCompletedTaskInvocation|",
+      "allocationBudgetBytes": 304,
+      "values": [
+        216,
+        216,
+        216
+      ],
+      "minimum": 216,
+      "maximum": 216
+    },
+    {
+      "id": "FunctionCompositionBenchmarks|Completed ValueTask invocation|ComposeValueAsyncCompletedValueTaskInvocation|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "FunctionCompositionBenchmarks|Completed ValueTask invocation|DirectCompletedValueTaskInvocation|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "FunctionCompositionBenchmarks|Delegate construction|ComposeWrapperConstruction|",
+      "allocationBudgetBytes": 152,
+      "values": [
+        96,
+        96,
+        96
+      ],
+      "minimum": 96,
+      "maximum": 96
+    },
+    {
+      "id": "FunctionCompositionBenchmarks|Delegate construction|DirectNoncapturingDelegateConstruction|",
+      "allocationBudgetBytes": 112,
+      "values": [
+        64,
+        64,
+        64
+      ],
+      "minimum": 64,
+      "maximum": 64
+    },
+    {
+      "id": "FunctionCompositionBenchmarks|Synchronous invocation|ComposeSynchronousInvocation|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "FunctionCompositionBenchmarks|Synchronous invocation|DirectSynchronousInvocation|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "ImmutableUpdateBenchmarks|FrozenDictionary lookup|DirectFrozenDictionaryLookup|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "ImmutableUpdateBenchmarks|FrozenDictionary lookup|FunnySharpFrozenDictionaryLookup|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "ImmutableUpdateBenchmarks|Immutable collection batch update|DirectImmutableCollectionBatchUpdate|",
+      "allocationBudgetBytes": 296,
+      "values": [
+        208,
+        208,
+        208
+      ],
+      "minimum": 208,
+      "maximum": 208
+    },
+    {
+      "id": "ImmutableUpdateBenchmarks|Immutable collection batch update|FunnySharpImmutableCollectionBatchUpdate|",
+      "allocationBudgetBytes": 296,
+      "values": [
+        208,
+        208,
+        208
+      ],
+      "minimum": 208,
+      "maximum": 208
+    },
+    {
+      "id": "ImmutableUpdateBenchmarks|ImmutableDictionary existing-key update|DirectExistingKeyUpdate|",
+      "allocationBudgetBytes": 168,
+      "values": [
+        104,
+        104,
+        104
+      ],
+      "minimum": 104,
+      "maximum": 104
+    },
+    {
+      "id": "ImmutableUpdateBenchmarks|ImmutableDictionary existing-key update|FunnySharpExistingKeyUpdate|",
+      "allocationBudgetBytes": 168,
+      "values": [
+        104,
+        104,
+        104
+      ],
+      "minimum": 104,
+      "maximum": 104
+    },
+    {
+      "id": "ImmutableUpdateBenchmarks|Missing optional update|DirectMissingOptionalUpdate|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "ImmutableUpdateBenchmarks|Missing optional update|FunnySharpMissingOptionalUpdate|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "ImmutableUpdateBenchmarks|Nested record replacement|DirectNestedRecordReplacement|",
+      "allocationBudgetBytes": 128,
+      "values": [
+        72,
+        72,
+        72
+      ],
+      "minimum": 72,
+      "maximum": 72
+    },
+    {
+      "id": "ImmutableUpdateBenchmarks|Nested record replacement|FunnySharpNestedRecordReplacement|",
+      "allocationBudgetBytes": 128,
+      "values": [
+        72,
+        72,
+        72
+      ],
+      "minimum": 72,
+      "maximum": 72
+    },
+    {
+      "id": "OptionBenchmarks|Completed Task mapping|DirectCompletedTaskMap|",
+      "allocationBudgetBytes": 216,
+      "values": [
+        144,
+        144,
+        144
+      ],
+      "minimum": 144,
+      "maximum": 144
+    },
+    {
+      "id": "OptionBenchmarks|Completed Task mapping|OptionCompletedTaskMap|",
+      "allocationBudgetBytes": 304,
+      "values": [
+        216,
+        216,
+        216
+      ],
+      "minimum": 216,
+      "maximum": 216
+    },
+    {
+      "id": "OptionBenchmarks|Completed ValueTask mapping|DirectCompletedValueTaskMap|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "OptionBenchmarks|Completed ValueTask mapping|OptionCompletedValueTaskMap|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "OptionBenchmarks|Dictionary lookup - hit|DirectDictionaryHit|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "OptionBenchmarks|Dictionary lookup - hit|OptionDictionaryHit|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "OptionBenchmarks|Dictionary lookup - miss|DirectDictionaryMiss|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "OptionBenchmarks|Dictionary lookup - miss|OptionDictionaryMiss|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "OptionBenchmarks|GetValueOr - None|DirectGetValueOrNone|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "OptionBenchmarks|GetValueOr - None|OptionGetValueOrNone|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "OptionBenchmarks|GetValueOr - Some|DirectGetValueOrSome|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "OptionBenchmarks|GetValueOr - Some|OptionGetValueOrSome|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "OptionBenchmarks|Map - None|DirectMapNone|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "OptionBenchmarks|Map - None|OptionMapNone|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "OptionBenchmarks|Map - Some|DirectMapSome|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "OptionBenchmarks|Map - Some|OptionMapSome|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "OptionBenchmarks|Nullable conversion - None|DirectNullableNone|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "OptionBenchmarks|Nullable conversion - None|OptionNullableNone|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "OptionBenchmarks|Nullable conversion - Some|DirectNullableSome|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "OptionBenchmarks|Nullable conversion - Some|OptionNullableSome|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "OptionBenchmarks|Try pattern - hit|DirectTryParseHit|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "OptionBenchmarks|Try pattern - hit|OptionTryParseHit|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "OptionBenchmarks|Try pattern - miss|DirectTryParseMiss|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "OptionBenchmarks|Try pattern - miss|OptionTryParseMiss|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "ParallelTraverseConcurrencyBenchmarks|Parallel Option traversal|BclParallelOptionTraversal|[Count=1024]",
+      "allocationBudgetBytes": 405744,
+      "values": [
+        332382,
+        323607,
+        322347
+      ],
+      "minimum": 322347,
+      "maximum": 332382
+    },
+    {
+      "id": "ParallelTraverseConcurrencyBenchmarks|Parallel Option traversal|BclParallelOptionTraversal|[Count=16]",
+      "allocationBudgetBytes": 7320,
+      "values": [
+        5975,
+        5872,
+        5999
+      ],
+      "minimum": 5872,
+      "maximum": 5999
+    },
+    {
+      "id": "ParallelTraverseConcurrencyBenchmarks|Parallel Option traversal|FunnySharpParallelOptionTraversal|[Count=1024]",
+      "allocationBudgetBytes": 629544,
+      "values": [
+        163837,
+        163891,
+        164725
+      ],
+      "minimum": 163837,
+      "maximum": 164725
+    },
+    {
+      "id": "ParallelTraverseConcurrencyBenchmarks|Parallel Option traversal|FunnySharpParallelOptionTraversal|[Count=16]",
+      "allocationBudgetBytes": 10715,
+      "values": [
+        3236,
+        3244,
+        3304
+      ],
+      "minimum": 3236,
+      "maximum": 3304
+    },
+    {
+      "id": "ParallelTraverseConcurrencyBenchmarks|Parallel Validation accumulation|BclParallelValidationTraversal|[Count=1024]",
+      "allocationBudgetBytes": 451288,
+      "values": [
+        370983,
+        351566,
+        360204
+      ],
+      "minimum": 351566,
+      "maximum": 370983
+    },
+    {
+      "id": "ParallelTraverseConcurrencyBenchmarks|Parallel Validation accumulation|BclParallelValidationTraversal|[Count=16]",
+      "allocationBudgetBytes": 8032,
+      "values": [
+        6409,
+        6533,
+        6565
+      ],
+      "minimum": 6409,
+      "maximum": 6565
+    },
+    {
+      "id": "ParallelTraverseConcurrencyBenchmarks|Parallel Validation accumulation|FunnySharpParallelValidationTraversal|[Count=1024]",
+      "allocationBudgetBytes": 680880,
+      "values": [
+        207537,
+        207630,
+        208449
+      ],
+      "minimum": 207537,
+      "maximum": 208449
+    },
+    {
+      "id": "ParallelTraverseConcurrencyBenchmarks|Parallel Validation accumulation|FunnySharpParallelValidationTraversal|[Count=16]",
+      "allocationBudgetBytes": 11610,
+      "values": [
+        4305,
+        3993,
+        3978
+      ],
+      "minimum": 3978,
+      "maximum": 4305
+    },
+    {
+      "id": "ResultBenchmarks|Completed Task mapping|DirectCompletedTaskMap|",
+      "allocationBudgetBytes": 216,
+      "values": [
+        144,
+        144,
+        144
+      ],
+      "minimum": 144,
+      "maximum": 144
+    },
+    {
+      "id": "ResultBenchmarks|Completed Task mapping|ResultCompletedTaskMap|",
+      "allocationBudgetBytes": 368,
+      "values": [
+        256,
+        256,
+        256
+      ],
+      "minimum": 256,
+      "maximum": 256
+    },
+    {
+      "id": "ResultBenchmarks|Completed ValueTask mapping|DirectCompletedValueTaskMap|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "ResultBenchmarks|Completed ValueTask mapping|ResultCompletedValueTaskMap|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "ResultBenchmarks|Construction and inspection - failure|DirectFailureConstructionAndInspection|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "ResultBenchmarks|Construction and inspection - failure|ResultFailureConstructionAndInspection|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "ResultBenchmarks|Construction and inspection - success|DirectSuccessConstructionAndInspection|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "ResultBenchmarks|Construction and inspection - success|ResultSuccessConstructionAndInspection|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "ResultBenchmarks|Exception boundary - failure|DirectFailedExceptionBoundary|",
+      "allocationBudgetBytes": 672,
+      "values": [
+        512,
+        512,
+        512
+      ],
+      "minimum": 512,
+      "maximum": 512
+    },
+    {
+      "id": "ResultBenchmarks|Exception boundary - failure|ResultFailedExceptionBoundary|",
+      "allocationBudgetBytes": 888,
+      "values": [
+        680,
+        680,
+        680
+      ],
+      "minimum": 680,
+      "maximum": 680
+    },
+    {
+      "id": "ResultBenchmarks|Exception boundary - success|DirectSuccessfulExceptionBoundary|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "ResultBenchmarks|Exception boundary - success|ResultSuccessfulExceptionBoundary|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "ResultBenchmarks|Fail-fast pipeline - failure|DirectFailedPipeline|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "ResultBenchmarks|Fail-fast pipeline - failure|ResultFailedPipeline|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "ResultBenchmarks|Fail-fast pipeline - success|DirectSuccessfulPipeline|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "ResultBenchmarks|Fail-fast pipeline - success|ResultSuccessfulPipeline|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "ResultBenchmarks|Pending Task mapping|DirectPendingTaskMap|",
+      "allocationBudgetBytes": 512,
+      "values": [
+        296,
+        295,
+        295
+      ],
+      "minimum": 295,
+      "maximum": 296
+    },
+    {
+      "id": "ResultBenchmarks|Pending Task mapping|ResultPendingTaskMap|",
+      "allocationBudgetBytes": 1024,
+      "values": [
+        744,
+        744,
+        744
+      ],
+      "minimum": 744,
+      "maximum": 744
+    },
+    {
+      "id": "ResultBenchmarks|Pending ValueTask mapping|DirectPendingValueTaskMap|",
+      "allocationBudgetBytes": 512,
+      "values": [
+        303,
+        303,
+        303
+      ],
+      "minimum": 303,
+      "maximum": 303
+    },
+    {
+      "id": "ResultBenchmarks|Pending ValueTask mapping|ResultPendingValueTaskMap|",
+      "allocationBudgetBytes": 1024,
+      "values": [
+        840,
+        840,
+        840
+      ],
+      "minimum": 840,
+      "maximum": 840
+    },
+    {
+      "id": "SequenceBenchmarks|Option sequence - successful buffering|DirectOptionSequence|[Count=1024]",
+      "allocationBudgetBytes": 5256,
+      "values": [
+        4176,
+        4176,
+        4176
+      ],
+      "minimum": 4176,
+      "maximum": 4176
+    },
+    {
+      "id": "SequenceBenchmarks|Option sequence - successful buffering|DirectOptionSequence|[Count=16]",
+      "allocationBudgetBytes": 216,
+      "values": [
+        144,
+        144,
+        144
+      ],
+      "minimum": 144,
+      "maximum": 144
+    },
+    {
+      "id": "SequenceBenchmarks|Option sequence - successful buffering|FunnySharpOptionSequence|[Count=1024]",
+      "allocationBudgetBytes": 5256,
+      "values": [
+        4176,
+        4176,
+        4176
+      ],
+      "minimum": 4176,
+      "maximum": 4176
+    },
+    {
+      "id": "SequenceBenchmarks|Option sequence - successful buffering|FunnySharpOptionSequence|[Count=16]",
+      "allocationBudgetBytes": 216,
+      "values": [
+        144,
+        144,
+        144
+      ],
+      "minimum": 144,
+      "maximum": 144
+    },
+    {
+      "id": "SequenceBenchmarks|Result sequence - first failure|DirectResultSequence|[Count=1024]",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "SequenceBenchmarks|Result sequence - first failure|DirectResultSequence|[Count=16]",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "SequenceBenchmarks|Result sequence - first failure|FunnySharpResultSequence|[Count=1024]",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "SequenceBenchmarks|Result sequence - first failure|FunnySharpResultSequence|[Count=16]",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "SequenceBenchmarks|Validation sequence - full accumulation|DirectValidationSequence|[Count=1024]",
+      "allocationBudgetBytes": 15824,
+      "values": [
+        12632,
+        12632,
+        12632
+      ],
+      "minimum": 12632,
+      "maximum": 12632
+    },
+    {
+      "id": "SequenceBenchmarks|Validation sequence - full accumulation|DirectValidationSequence|[Count=16]",
+      "allocationBudgetBytes": 528,
+      "values": [
+        392,
+        392,
+        392
+      ],
+      "minimum": 392,
+      "maximum": 392
+    },
+    {
+      "id": "SequenceBenchmarks|Validation sequence - full accumulation|FunnySharpValidationSequence|[Count=1024]",
+      "allocationBudgetBytes": 15824,
+      "values": [
+        12632,
+        12632,
+        12632
+      ],
+      "minimum": 12632,
+      "maximum": 12632
+    },
+    {
+      "id": "SequenceBenchmarks|Validation sequence - full accumulation|FunnySharpValidationSequence|[Count=16]",
+      "allocationBudgetBytes": 528,
+      "values": [
+        392,
+        392,
+        392
+      ],
+      "minimum": 392,
+      "maximum": 392
+    },
+    {
+      "id": "StateMachineBenchmarks|Left-associated Then chain|DirectLoop|[Count=256]",
+      "allocationBudgetBytes": 1344,
+      "values": [
+        1048,
+        1048,
+        1048
+      ],
+      "minimum": 1048,
+      "maximum": 1048
+    },
+    {
+      "id": "StateMachineBenchmarks|Left-associated Then chain|DirectLoop|[Count=64]",
+      "allocationBudgetBytes": 384,
+      "values": [
+        280,
+        280,
+        280
+      ],
+      "minimum": 280,
+      "maximum": 280
+    },
+    {
+      "id": "StateMachineBenchmarks|Left-associated Then chain|DirectLoop|[Count=8]",
+      "allocationBudgetBytes": 104,
+      "values": [
+        56,
+        56,
+        56
+      ],
+      "minimum": 56,
+      "maximum": 56
+    },
+    {
+      "id": "StateMachineBenchmarks|Left-associated Then chain|FunnySharpThenChain|[Count=256]",
+      "allocationBudgetBytes": 42384,
+      "values": [
+        33880,
+        33880,
+        33880
+      ],
+      "minimum": 33880,
+      "maximum": 33880
+    },
+    {
+      "id": "StateMachineBenchmarks|Left-associated Then chain|FunnySharpThenChain|[Count=64]",
+      "allocationBudgetBytes": 10704,
+      "values": [
+        8536,
+        8536,
+        8536
+      ],
+      "minimum": 8536,
+      "maximum": 8536
+    },
+    {
+      "id": "StateMachineBenchmarks|Left-associated Then chain|FunnySharpThenChain|[Count=8]",
+      "allocationBudgetBytes": 1464,
+      "values": [
+        1144,
+        1144,
+        1144
+      ],
+      "minimum": 1144,
+      "maximum": 1144
+    },
+    {
+      "id": "CollectionBenchmarks|IEnumerable exact zip|FunnySharpZipExact|[Count=1024]",
+      "allocationBudgetBytes": 10504,
+      "values": [
+        8376,
+        8376,
+        8376
+      ],
+      "minimum": 8376,
+      "maximum": 8376
+    },
+    {
+      "id": "CollectionBenchmarks|IEnumerable exact zip|FunnySharpZipExact|[Count=16]",
+      "allocationBudgetBytes": 424,
+      "values": [
+        312,
+        312,
+        312
+      ],
+      "minimum": 312,
+      "maximum": 312
+    },
+    {
+      "id": "CollectionBenchmarks|IEnumerable exact zip|LinqZipWithCountCheck|[Count=1024]",
+      "allocationBudgetBytes": 232,
+      "values": [
+        160,
+        160,
+        160
+      ],
+      "minimum": 160,
+      "maximum": 160
+    },
+    {
+      "id": "CollectionBenchmarks|IEnumerable exact zip|LinqZipWithCountCheck|[Count=16]",
+      "allocationBudgetBytes": 232,
+      "values": [
+        160,
+        160,
+        160
+      ],
+      "minimum": 160,
+      "maximum": 160
+    },
+    {
+      "id": "CollectionBenchmarks|IEnumerable first-or-none|FunnySharpFirstOrNone|[Count=1024]",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "CollectionBenchmarks|IEnumerable first-or-none|FunnySharpFirstOrNone|[Count=16]",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "CollectionBenchmarks|IEnumerable first-or-none|LinqFirstOrDefault|[Count=1024]",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "CollectionBenchmarks|IEnumerable first-or-none|LinqFirstOrDefault|[Count=16]",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "CollectionBenchmarks|IEnumerable min-or-none|FunnySharpMinOrNone|[Count=1024]",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "CollectionBenchmarks|IEnumerable min-or-none|FunnySharpMinOrNone|[Count=16]",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "CollectionBenchmarks|IEnumerable min-or-none|LinqNullableMin|[Count=1024]",
+      "allocationBudgetBytes": 30856,
+      "values": [
+        24656,
+        24656,
+        24656
+      ],
+      "minimum": 24656,
+      "maximum": 24656
+    },
+    {
+      "id": "CollectionBenchmarks|IEnumerable min-or-none|LinqNullableMin|[Count=16]",
+      "allocationBudgetBytes": 616,
+      "values": [
+        464,
+        464,
+        464
+      ],
+      "minimum": 464,
+      "maximum": 464
+    },
+    {
+      "id": "CollectionBenchmarks|IEnumerable non-empty total|FunnySharpNonEmptyAggregate|[Count=1024]",
+      "allocationBudgetBytes": 5224,
+      "values": [
+        4152,
+        4152,
+        4152
+      ],
+      "minimum": 4152,
+      "maximum": 4152
+    },
+    {
+      "id": "CollectionBenchmarks|IEnumerable non-empty total|FunnySharpNonEmptyAggregate|[Count=16]",
+      "allocationBudgetBytes": 184,
+      "values": [
+        120,
+        120,
+        120
+      ],
+      "minimum": 120,
+      "maximum": 120
+    },
+    {
+      "id": "CollectionBenchmarks|IEnumerable non-empty total|LinqAnyThenAggregate|[Count=1024]",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "CollectionBenchmarks|IEnumerable non-empty total|LinqAnyThenAggregate|[Count=16]",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "CollectionBenchmarks|IEnumerable partition|FunnySharpPartition|[Count=1024]",
+      "allocationBudgetBytes": 10512,
+      "values": [
+        8384,
+        8384,
+        8384
+      ],
+      "minimum": 8384,
+      "maximum": 8384
+    },
+    {
+      "id": "CollectionBenchmarks|IEnumerable partition|FunnySharpPartition|[Count=16]",
+      "allocationBudgetBytes": 432,
+      "values": [
+        320,
+        320,
+        320
+      ],
+      "minimum": 320,
+      "maximum": 320
+    },
+    {
+      "id": "CollectionBenchmarks|IEnumerable partition|LinqTwoWherePasses|[Count=1024]",
+      "allocationBudgetBytes": 5416,
+      "values": [
+        4304,
+        4304,
+        4304
+      ],
+      "minimum": 4304,
+      "maximum": 4304
+    },
+    {
+      "id": "CollectionBenchmarks|IEnumerable partition|LinqTwoWherePasses|[Count=16]",
+      "allocationBudgetBytes": 376,
+      "values": [
+        272,
+        272,
+        272
+      ],
+      "minimum": 272,
+      "maximum": 272
+    },
+    {
+      "id": "CollectionBenchmarks|IEnumerable single-or-none|FunnySharpSingleOrNone|[Count=1024]",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "CollectionBenchmarks|IEnumerable single-or-none|FunnySharpSingleOrNone|[Count=16]",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "CollectionBenchmarks|IEnumerable single-or-none|LinqSingleMatchCheck|[Count=1024]",
+      "allocationBudgetBytes": 248,
+      "values": [
+        168,
+        168,
+        168
+      ],
+      "minimum": 168,
+      "maximum": 168
+    },
+    {
+      "id": "CollectionBenchmarks|IEnumerable single-or-none|LinqSingleMatchCheck|[Count=16]",
+      "allocationBudgetBytes": 248,
+      "values": [
+        168,
+        168,
+        168
+      ],
+      "minimum": 168,
+      "maximum": 168
+    },
+    {
+      "id": "CollectionBenchmarks|IEnumerable where-not-null|FunnySharpWhereNotNull|[Count=1024]",
+      "allocationBudgetBytes": 20896,
+      "values": [
+        16688,
+        16688,
+        16688
+      ],
+      "minimum": 16688,
+      "maximum": 16688
+    },
+    {
+      "id": "CollectionBenchmarks|IEnumerable where-not-null|FunnySharpWhereNotNull|[Count=16]",
+      "allocationBudgetBytes": 552,
+      "values": [
+        416,
+        416,
+        416
+      ],
+      "minimum": 416,
+      "maximum": 416
+    },
+    {
+      "id": "CollectionBenchmarks|IEnumerable where-not-null|LinqWhereNotNull|[Count=1024]",
+      "allocationBudgetBytes": 9128,
+      "values": [
+        7272,
+        7272,
+        7272
+      ],
+      "minimum": 7272,
+      "maximum": 7272
+    },
+    {
+      "id": "CollectionBenchmarks|IEnumerable where-not-null|LinqWhereNotNull|[Count=16]",
+      "allocationBudgetBytes": 304,
+      "values": [
+        216,
+        216,
+        216
+      ],
+      "minimum": 216,
+      "maximum": 216
+    },
+    {
+      "id": "CollectionBenchmarks|Located traverse validation|FunnySharpLocatedTraverse|[Count=1024]",
+      "allocationBudgetBytes": 277072,
+      "values": [
+        221632,
+        221632,
+        221632
+      ],
+      "minimum": 221632,
+      "maximum": 221632
+    },
+    {
+      "id": "CollectionBenchmarks|Located traverse validation|FunnySharpLocatedTraverse|[Count=16]",
+      "allocationBudgetBytes": 4736,
+      "values": [
+        3760,
+        3760,
+        3760
+      ],
+      "minimum": 3760,
+      "maximum": 3760
+    },
+    {
+      "id": "CollectionBenchmarks|Located traverse validation|HandWrittenLocationPaths|[Count=1024]",
+      "allocationBudgetBytes": 28408,
+      "values": [
+        22696,
+        22696,
+        22696
+      ],
+      "minimum": 22696,
+      "maximum": 22696
+    },
+    {
+      "id": "CollectionBenchmarks|Located traverse validation|HandWrittenLocationPaths|[Count=16]",
+      "allocationBudgetBytes": 504,
+      "values": [
+        376,
+        376,
+        376
+      ],
+      "minimum": 376,
+      "maximum": 376
+    },
+    {
+      "id": "CollectionBenchmarks|Parse int|BclTryParse|[Count=1024]",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "CollectionBenchmarks|Parse int|BclTryParse|[Count=16]",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "CollectionBenchmarks|Parse int|FunnySharpParseIntOrNone|[Count=1024]",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "CollectionBenchmarks|Parse int|FunnySharpParseIntOrNone|[Count=16]",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "CollectionBenchmarks|Queue dequeue drain|BclQueueDrain|[Count=1024]",
+      "allocationBudgetBytes": 5184,
+      "values": [
+        4120,
+        4120,
+        4120
+      ],
+      "minimum": 4120,
+      "maximum": 4120
+    },
+    {
+      "id": "CollectionBenchmarks|Queue dequeue drain|BclQueueDrain|[Count=16]",
+      "allocationBudgetBytes": 144,
+      "values": [
+        88,
+        88,
+        88
+      ],
+      "minimum": 88,
+      "maximum": 88
+    },
+    {
+      "id": "CollectionBenchmarks|Queue dequeue drain|FunnySharpQueueDrain|[Count=1024]",
+      "allocationBudgetBytes": 5232,
+      "values": [
+        4160,
+        4160,
+        4160
+      ],
+      "minimum": 4160,
+      "maximum": 4160
+    },
+    {
+      "id": "CollectionBenchmarks|Queue dequeue drain|FunnySharpQueueDrain|[Count=16]",
+      "allocationBudgetBytes": 192,
+      "values": [
+        128,
+        128,
+        128
+      ],
+      "minimum": 128,
+      "maximum": 128
+    },
+    {
+      "id": "OptionCarrierBenchmarks|Map - absent|DirectMapAbsent|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "OptionCarrierBenchmarks|Map - absent|FSharpCoreMapAbsent|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "OptionCarrierBenchmarks|Map - absent|FunckyMapAbsent|",
+      "allocationBudgetBytes": 64,
+      "values": [
+        24,
+        24,
+        24
+      ],
+      "minimum": 24,
+      "maximum": 24
+    },
+    {
+      "id": "OptionCarrierBenchmarks|Map - absent|FunnySharpMapAbsent|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "OptionCarrierBenchmarks|Map - absent|LanguageExtMapAbsent|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "OptionCarrierBenchmarks|Map - present|DirectMapPresent|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "OptionCarrierBenchmarks|Map - present|FSharpCoreMapPresent|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "OptionCarrierBenchmarks|Map - present|FunckyMapPresent|",
+      "allocationBudgetBytes": 64,
+      "values": [
+        24,
+        24,
+        24
+      ],
+      "minimum": 24,
+      "maximum": 24
+    },
+    {
+      "id": "OptionCarrierBenchmarks|Map - present|FunnySharpMapPresent|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "OptionCarrierBenchmarks|Map - present|LanguageExtMapPresent|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "OptionCarrierBenchmarks|Value-or-fallback - absent|DirectValueOrFallbackAbsent|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "OptionCarrierBenchmarks|Value-or-fallback - absent|FSharpCoreValueOrFallbackAbsent|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "OptionCarrierBenchmarks|Value-or-fallback - absent|FunckyValueOrFallbackAbsent|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "OptionCarrierBenchmarks|Value-or-fallback - absent|FunnySharpValueOrFallbackAbsent|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "OptionCarrierBenchmarks|Value-or-fallback - absent|LanguageExtValueOrFallbackAbsent|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "OptionCarrierBenchmarks|Value-or-fallback - present|DirectValueOrFallbackPresent|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "OptionCarrierBenchmarks|Value-or-fallback - present|FSharpCoreValueOrFallbackPresent|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "OptionCarrierBenchmarks|Value-or-fallback - present|FunckyValueOrFallbackPresent|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "OptionCarrierBenchmarks|Value-or-fallback - present|FunnySharpValueOrFallbackPresent|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "OptionCarrierBenchmarks|Value-or-fallback - present|LanguageExtValueOrFallbackPresent|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "ResultCarrierBenchmarks|Construction and inspection - failure|CSharpFunctionalExtensionsConstructionInspectionFailure|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "ResultCarrierBenchmarks|Construction and inspection - failure|DirectConstructionInspectionFailure|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "ResultCarrierBenchmarks|Construction and inspection - failure|FSharpCoreConstructionInspectionFailure|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "ResultCarrierBenchmarks|Construction and inspection - failure|FunnySharpConstructionInspectionFailure|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "ResultCarrierBenchmarks|Construction and inspection - failure|LanguageExtConstructionInspectionFailure|",
+      "allocationBudgetBytes": 64,
+      "values": [
+        24,
+        24,
+        24
+      ],
+      "minimum": 24,
+      "maximum": 24
+    },
+    {
+      "id": "ResultCarrierBenchmarks|Construction and inspection - success|CSharpFunctionalExtensionsConstructionInspectionSuccess|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "ResultCarrierBenchmarks|Construction and inspection - success|DirectConstructionInspectionSuccess|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "ResultCarrierBenchmarks|Construction and inspection - success|FSharpCoreConstructionInspectionSuccess|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "ResultCarrierBenchmarks|Construction and inspection - success|FunnySharpConstructionInspectionSuccess|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "ResultCarrierBenchmarks|Construction and inspection - success|LanguageExtConstructionInspectionSuccess|",
+      "allocationBudgetBytes": 64,
+      "values": [
+        24,
+        24,
+        24
+      ],
+      "minimum": 24,
+      "maximum": 24
+    },
+    {
+      "id": "ResultCarrierBenchmarks|Fail-fast pipeline - failure|CSharpFunctionalExtensionsFailFastPipelineFailure|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "ResultCarrierBenchmarks|Fail-fast pipeline - failure|DirectFailFastPipelineFailure|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "ResultCarrierBenchmarks|Fail-fast pipeline - failure|FSharpCoreFailFastPipelineFailure|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "ResultCarrierBenchmarks|Fail-fast pipeline - failure|FunnySharpFailFastPipelineFailure|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "ResultCarrierBenchmarks|Fail-fast pipeline - failure|LanguageExtFailFastPipelineFailure|",
+      "allocationBudgetBytes": 96,
+      "values": [
+        48,
+        48,
+        48
+      ],
+      "minimum": 48,
+      "maximum": 48
+    },
+    {
+      "id": "ResultCarrierBenchmarks|Fail-fast pipeline - success|CSharpFunctionalExtensionsFailFastPipelineSuccess|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "ResultCarrierBenchmarks|Fail-fast pipeline - success|DirectFailFastPipelineSuccess|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "ResultCarrierBenchmarks|Fail-fast pipeline - success|FSharpCoreFailFastPipelineSuccess|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "ResultCarrierBenchmarks|Fail-fast pipeline - success|FunnySharpFailFastPipelineSuccess|",
+      "allocationBudgetBytes": 0,
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "minimum": 0,
+      "maximum": 0
+    },
+    {
+      "id": "ResultCarrierBenchmarks|Fail-fast pipeline - success|LanguageExtFailFastPipelineSuccess|",
+      "allocationBudgetBytes": 96,
+      "values": [
+        48,
+        48,
+        48
+      ],
+      "minimum": 48,
+      "maximum": 48
+    }
+  ],
+  "limits": [
+    "Timing remains directional; no best-run selection or allocation budget change.",
+    "The latest complete repetition will produce approved-observation proposals; all three raw repetitions remain evidence.",
+    "Historical missing receipts and earlier failures remain untouched.",
+    "Full member/resource/docs/evaluation/release and exact final69-ID acceptance remain separate."
+  ]
+}

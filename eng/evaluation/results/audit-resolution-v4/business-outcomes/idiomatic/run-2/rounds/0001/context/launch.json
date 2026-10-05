@@ -1,0 +1,10 @@
+{
+  "study": "audit-resolution-v4",
+  "slot": "business-outcomes/idiomatic/run-2",
+  "sessionId": "study-session:8fff72cd-47ab-457d-9ab1-f3f1792e383f",
+  "invocationId": "native-call:77145fca-e6dd-40ef-b316-73b24dfa1c64",
+  "route": "native-omo-cli/5.1.9/json-print",
+  "requestedModel": "ghc/gpt-6.1-sol",
+  "stdin": "closed",
+  "status": "PREPARED_NOT_CALLED"
+}

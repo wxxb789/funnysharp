@@ -1,0 +1,73 @@
+{
+  "schema": "funnysharp-final-guide-successor-registration-proof/v1",
+  "study": "audit-resolution-v5",
+  "state": "ACTUAL_RED_116_OF117_THEN_GREEN117_WITH_EIGHT_UNCHANGED_DEFINITIONS",
+  "tests": {
+    "red": {
+      "total": 117,
+      "passed": 116,
+      "failed": 1,
+      "skipped": 0,
+      "exitCode": 1,
+      "error": "unknown study",
+      "xml": "artifacts/audit-resolution/u13-formatted-repetitions/v5-registration-red.xml"
+    },
+    "green": {
+      "total": 117,
+      "passed": 117,
+      "failed": 0,
+      "skipped": 0,
+      "exitCode": 0,
+      "xml": "artifacts/audit-resolution/u13-formatted-repetitions/v5-registration-green.xml"
+    }
+  },
+  "definitions": [
+    {
+      "path": "tasks/concurrency/brief.md",
+      "expected": "c1172f269fabe5b996fd4b79c4d018066d02586db7548d61f154fe925b52a33c",
+      "actual": "c1172f269fabe5b996fd4b79c4d018066d02586db7548d61f154fe925b52a33c"
+    },
+    {
+      "path": "tasks/concurrency/tests/ConcurrencyTests.cs",
+      "expected": "221bf77515b0d63b6b82637ee3a0432ae9e6c286c03dfc70a41ff58f30d911cc",
+      "actual": "221bf77515b0d63b6b82637ee3a0432ae9e6c286c03dfc70a41ff58f30d911cc"
+    },
+    {
+      "path": "tasks/concurrency/tests/Contract.cs",
+      "expected": "99f6ab991fdd14ed524fd1f88060472698d920c6b72d29c16db7cbd7b1dd9cf9",
+      "actual": "99f6ab991fdd14ed524fd1f88060472698d920c6b72d29c16db7cbd7b1dd9cf9"
+    },
+    {
+      "path": "tasks/business-outcomes/tests/Contract.cs",
+      "expected": "ae4e8d0998ebd3332e4eabc0bdc51b1ef50ad2c1e6df8102377ee2bf7ccf79c9",
+      "actual": "ae4e8d0998ebd3332e4eabc0bdc51b1ef50ad2c1e6df8102377ee2bf7ccf79c9"
+    },
+    {
+      "path": "tasks/business-outcomes/tests/SideEffectsTests.cs",
+      "expected": "d359f596e622e61e3841fa231b40e1497f0a7f5c962df484221931b41a708df0",
+      "actual": "d359f596e622e61e3841fa231b40e1497f0a7f5c962df484221931b41a708df0"
+    },
+    {
+      "path": "tasks/async-streams/brief.md",
+      "expected": "28f128ac12446e0d1da99d2f00430e1fb7694883d5eb3dbee83ed1eaef4b5c22",
+      "actual": "28f128ac12446e0d1da99d2f00430e1fb7694883d5eb3dbee83ed1eaef4b5c22"
+    },
+    {
+      "path": "tasks/async-streams/tests/AsyncStreamsTests.cs",
+      "expected": "b2e236125974c0ec77b4fb7df33a9a6f502c7093b6f2a670929ab7d068407da6",
+      "actual": "b2e236125974c0ec77b4fb7df33a9a6f502c7093b6f2a670929ab7d068407da6"
+    },
+    {
+      "path": "tasks/async-streams/tests/Contract.cs",
+      "expected": "24a65f66642d4e7e91b84d4f3a04b16ae93ed5abcafecc827b159eaed6bd9307",
+      "actual": "24a65f66642d4e7e91b84d4f3a04b16ae93ed5abcafecc827b159eaed6bd9307"
+    }
+  ],
+  "registration": "eng/evaluation/studies/audit-resolution-v5/registration.json",
+  "twentyFreshLogicalIds": true,
+  "modelInvocations": 0,
+  "previousV4HistoryUnmodified": true,
+  "performanceInputImpact": "Evaluation source/test and newstudy definitions outside both manifests benchmarkInput/protocol file sets. No newbenchmarkrepetition needed.",
+  "diagnostics": "FSharpLSP missingfsautocomplete; CSharpcopied-definition freshLSP timedout. Actual117tests built clean; sameeightdefinitions bytechecked.",
+  "next": "One actualfreeze through existing eval-prep-feed --study audit-resolution-v5; then verify188source/input/environment hashes and10locks before modelinvocation."
+}

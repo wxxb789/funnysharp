@@ -1,0 +1,29 @@
+{
+  "allowed": [
+    ".gitattributes",
+    "docs/harness.md",
+    "eng/harness/ReleaseProvenance.fs",
+    "tests/FunnySharp.Harness.Tests/ReleaseProvenanceTests.fs"
+  ],
+  "actualRead": true,
+  "diffFiles": 4,
+  "insertions": 520,
+  "deletions": 2,
+  "parentTests": {
+    "tests": 115,
+    "passed": 115,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "fullPack": {
+    "logicalFiles": 309,
+    "parts": 349,
+    "maxPartBytes": 33554432,
+    "totalBytes": 1474888931,
+    "pSha256": "51d55b6d1d328c3a0caa69f2ec42ba03b7fdd37e3c6475f8dcefaa2435897d72",
+    "aSha256": "6ef82eafbf03e00ef3191f9a5541b9280ec3962ae20bf9953dd8b72d942165a5"
+  },
+  "fullStagePending": "mon_HPYGP066ZC4P52JB/bash21"
+}
+

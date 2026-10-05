@@ -1,0 +1,9 @@
+Running tests from Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\concurrency-funnysharp-run-1-35327d1b120c40e19a4eb22005026c43\bin\Release\net10.0\ConcurrencyKit.dll (net10.0|x64)
+Q:\repos\funnysharp-goal24-resolution\artifacts\evaluation\builds\concurrency-funnysharp-run-1-35327d1b120c40e19a4eb22005026c43\bin\Release\net10.0\ConcurrencyKit.dll (net10.0|x64) passed (996ms)
+
+Test run summary: Passed!
+  total: 12
+  failed: 0
+  succeeded: 12
+  skipped: 0
+  duration: 1s 739ms

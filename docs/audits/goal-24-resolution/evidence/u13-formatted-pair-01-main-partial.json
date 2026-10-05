@@ -1,0 +1,70 @@
+{
+  "schema": "funnysharp-formatted-pair-main-partial/v1",
+  "repetition": 1,
+  "state": "MAIN_COMPLETE_COMPETITOR_PENDING_NOT_PAIR_ACCEPTANCE",
+  "mainElapsedSeconds": 2100.51,
+  "mainMeasurementExit": 0,
+  "mainStrictVerifierExit": 0,
+  "mainReceiptFiles": 13,
+  "mainRows": 190,
+  "mainSnapshot": "snapshot:df4f7eae26c4795de06ff5b37c8d96a9ac7b5c8b360505ee10216d52c273caf2",
+  "environmentKey": "dcbdceb2e49a7453811c875821619b8438d7412de54edd327330aa780aa5c267",
+  "mainRunId": "df9c5c7f8533461cbaa8b19aec27ebb8",
+  "receipts": [
+    {
+      "path": "artifacts/audit-resolution/u13-formatted-repeat-01-main/results/AspNetCoreBenchmarks-performance-receipt.json",
+      "sha256": "cf686cbf316eb51c97777f5d9075061c0e24ec6989d881b7545410ca4f9b48f4"
+    },
+    {
+      "path": "artifacts/audit-resolution/u13-formatted-repeat-01-main/results/CollectionBenchmarks-performance-receipt.json",
+      "sha256": "c9af3fc86ae6a097f6d73f7e85bb82f54c187f26fbd18622c130bb5a1f8c2f32"
+    },
+    {
+      "path": "artifacts/audit-resolution/u13-formatted-repeat-01-main/results/ConcurrencyBenchmarks-performance-receipt.json",
+      "sha256": "edae3ff013ea62329a50261817ca99921f7e378051da18fb1685f330e582dccc"
+    },
+    {
+      "path": "artifacts/audit-resolution/u13-formatted-repeat-01-main/results/DataPipelineBenchmarks-performance-receipt.json",
+      "sha256": "aacdd1a22fe5bc4ad8045e5c0d9fb8de9a64a6e99345666bc6a4e93b8c61d2ad"
+    },
+    {
+      "path": "artifacts/audit-resolution/u13-formatted-repeat-01-main/results/EffectBenchmarks-performance-receipt.json",
+      "sha256": "9ec92e9531f799005f64dacfa22a48b3cb8819d2b24ee7d21e295e220cf4ff06"
+    },
+    {
+      "path": "artifacts/audit-resolution/u13-formatted-repeat-01-main/results/FirstSuccessConcurrencyBenchmarks-performance-receipt.json",
+      "sha256": "dc0257ba6e66e9f8ffa36e820a3133065cfa7fd885c4f7359094fddb1ea8d12d"
+    },
+    {
+      "path": "artifacts/audit-resolution/u13-formatted-repeat-01-main/results/FunctionCompositionBenchmarks-performance-receipt.json",
+      "sha256": "a12b8000e4f5c76a183eee92c002d0b56ba6e551fcc925a5213213213d768223"
+    },
+    {
+      "path": "artifacts/audit-resolution/u13-formatted-repeat-01-main/results/ImmutableUpdateBenchmarks-performance-receipt.json",
+      "sha256": "758714927a93717fbcd82a1f6f9e084ee13a320e9f89fb95dd8f0b688f27332f"
+    },
+    {
+      "path": "artifacts/audit-resolution/u13-formatted-repeat-01-main/results/OptionBenchmarks-performance-receipt.json",
+      "sha256": "8cf7532ffecbc59c6007f1bc3b857b96a5665110aa77246a7867920b4fe0d318"
+    },
+    {
+      "path": "artifacts/audit-resolution/u13-formatted-repeat-01-main/results/ParallelTraverseConcurrencyBenchmarks-performance-receipt.json",
+      "sha256": "1f7888ecef48a74b518e517b5f69eacf0c7d2dfbb236179df3553af24e3dd4bd"
+    },
+    {
+      "path": "artifacts/audit-resolution/u13-formatted-repeat-01-main/results/ResultBenchmarks-performance-receipt.json",
+      "sha256": "b7d994cb8273b148488568da497f2e04e219a462c77a999fcd308068cdd15291"
+    },
+    {
+      "path": "artifacts/audit-resolution/u13-formatted-repeat-01-main/results/SequenceBenchmarks-performance-receipt.json",
+      "sha256": "8c6674ae066f0b1909ecce766b349d190609bfe01c2236dbf6c40bc877b658fb"
+    },
+    {
+      "path": "artifacts/audit-resolution/u13-formatted-repeat-01-main/results/StateMachineBenchmarks-performance-receipt.json",
+      "sha256": "d0edccb35cc746874e4fa38fa828c085846e2a8b56dcd19fd43b54212b167050"
+    }
+  ],
+  "competitor": "START observed in original monitor;40rows/strict result not yet complete",
+  "ownedMonitor": "mon_MRNTBK8CVFPKSX7H/bash_39",
+  "todo": "Verify formatted candidate serial measurement pair one remains pending."
+}

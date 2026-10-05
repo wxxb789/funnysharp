@@ -1,0 +1,47 @@
+{
+  "executor": "main-session",
+  "finding": "G21-04",
+  "baseCommit": "a8863473fd53eddc7cb47201508426db2e454f84",
+  "baseTree": "88e8a528017b0a5f68710cc1d955fda64486877f",
+  "unitDiffSha256": "58f6250019b4095e53d3623e9349414a577ce145f77c3c4e86bd46a6ae4a2c42",
+  "red": {
+    "exitCode": 2,
+    "total": 109,
+    "failed": 14,
+    "succeeded": 95,
+    "skipped": 0
+  },
+  "green": {
+    "exitCode": 0,
+    "total": 109,
+    "failed": 0,
+    "succeeded": 109,
+    "skipped": 0
+  },
+  "packaged": {
+    "exitCode": 0,
+    "total": 56,
+    "failed": 0,
+    "succeeded": 56,
+    "skipped": 0,
+    "packageSha256": "645ca464d5916fe6918409c27f62105e5932bb38bf33033149eb917acd4b929b",
+    "providerSha256": "a59f91a781fd6966c05f1dd14f0917da4bc2b6b3d49e9117373c345123f5351c",
+    "projectReferences": [],
+    "loadedReferences": [
+      "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\fs1002\\packages\\funnysharp\\0.1.0\\analyzers\\dotnet\\cs\\FunnySharp.Analyzers.CodeFixes.dll",
+      "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\fs1002\\packages\\funnysharp\\0.1.0\\analyzers\\dotnet\\cs\\FunnySharp.Analyzers.dll",
+      "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\fs1002\\packages\\funnysharp.aspnetcore\\0.1.0\\lib\\net10.0\\FunnySharp.AspNetCore.dll",
+      "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\fs1002\\packages\\funnysharp\\0.1.0\\lib\\net10.0\\FunnySharp.dll"
+    ]
+  },
+  "behavior": "No action when underscore binds a local/parameter/member/capture/later declaration; offered candidates bind IDiscardOperation and compile; awaited/comment-bearing expressions and semicolon comments preserved; real BatchFixer fixes only safe sites and leaves the shadowed diagnostic.",
+  "integrationCorrections": [
+    "The proposed tests omitted required xUnit cancellation tokens; linked test cancellation and explicit tokens fixed xUnit1051 before behavioral red proof.",
+    "SyntaxFactory.IdentifierName(\"_\") does not produce a semantically bindable discard candidate here; parsing \"_\" restores safe actions while semantic target checks reject real variables.",
+    "The proposed syntax-equivalence assertion included leading trivia that intentionally moves to the assignment; executable syntax uses AreEquivalent, with exact whole-statement and semicolon comment-copy equality retained."
+  ],
+  "diagnostics": "All three changed C# files return No diagnostics found. Earlier sibling-worktree project-reference LSP limitation also cleared for both FS1001 files.",
+  "cleanup": "All source/project/package test, build/pack and metadata commands exited; no task-owned server/port.",
+  "scope": "Fresh unit-local0.1 package with final-candidate replay required after remaining analyzer changes; historical unsafe-fix probe stays unchanged.",
+  "commit": "Not committed; recorded authority boundary unchanged."
+}

@@ -1,0 +1,103 @@
+{
+  "schema": "funnysharp-current-r9-validation-index/v1",
+  "scope": "Actual corrective source-snapshot work and retained operational failures; not clean final-head release/CI/approval",
+  "records": [
+    {
+      "name": "traversal-r9-repair.json",
+      "bytes": 45476,
+      "sha256": "6bc41ddb90c5c013e57ebc020e8a0667857d9166efd766d20ed647c1299830cc"
+    },
+    {
+      "name": "revised-main-execution.json",
+      "bytes": 5265,
+      "sha256": "c9ac7e6bc6a01a72ffbc8f44fa568070796d887dc9b5e271038eef30905dd51d"
+    },
+    {
+      "name": "revised-competitor-execution.json",
+      "bytes": 4125,
+      "sha256": "66a94e2e6684ff41a9e0bcafef4b3564513163d5502ee61ffd4663628e9bc9ea"
+    },
+    {
+      "name": "revised-coverage-complete.json",
+      "bytes": 2714,
+      "sha256": "cacb3bc7f86930b8e912d42beba01f5481b75fadb7523a4a9a217def6313a95d"
+    },
+    {
+      "name": "revised-strict-directory-red.json",
+      "bytes": 3314,
+      "sha256": "fc7774a3247a6ac1693b4027cb1215069ffe5eeea384f7162de77e2434e81dcb"
+    },
+    {
+      "name": "revised-observation-install.json",
+      "bytes": 1792,
+      "sha256": "d37356e43cab438d2ccbab528427f74d29ab68d57619dd48cd316f1be4300acf"
+    },
+    {
+      "name": "revised-docs-root-red.json",
+      "bytes": 1087,
+      "sha256": "46cf68c4bd2d9ca1c12e2a32f9d8aff8248d69f9e7dc047d15b1e91ef6da4765"
+    },
+    {
+      "name": "revised-doc-regions-installed.json",
+      "bytes": 4364,
+      "sha256": "8c114a019df67b1097f6546b8986f140c3f473e996e5293ab270af5a0a12cdee"
+    },
+    {
+      "name": "revised-doc-verify-format-pass.json",
+      "bytes": 2284,
+      "sha256": "b27d2b1665a8fbbdcc98226c39080efc3f86dc98b15a327da35c0be135f2a415"
+    },
+    {
+      "name": "release-b584-parent-full-pass.json",
+      "bytes": 2612,
+      "sha256": "cd0de73aa00d839cb22594b6f83062a1012a7d8176466d467654aae0007a4685"
+    },
+    {
+      "name": "release-b584-parent-graph-xml-proof.json",
+      "bytes": 2007,
+      "sha256": "0f1d45d886c4094b1f68035bd6fe40842683a21e649923cd3d0fb90a310f4b86"
+    },
+    {
+      "name": "revised-release-input-preparation.json",
+      "bytes": 2041,
+      "sha256": "5061104b5b5f1077f9bcfb43d67c3abb80a19b13472f581c758d097dd0054907"
+    }
+  ],
+  "rawValidation": [
+    {
+      "sourcePath": "artifacts/pr-validation/traversal-r9-current/traversal-boundary-probe.fsx",
+      "retainedName": "traversal-boundary-probe.fsx.base64",
+      "bytes": 1367,
+      "sha256": "528d3800ac4d37e4a67d0f83dc82e3c709423cbf01378b440c2b5ab6997cb8fe",
+      "encoding": "base64",
+      "physicalBytes": 1840,
+      "physicalSha256": "979a4cccfe0e5b836c41a9879093b9d1a3b3d850a71336a36ad75accbb3e838d"
+    },
+    {
+      "sourcePath": "artifacts/pr-validation/traversal-r9-current/xml-binding-tests.json",
+      "retainedName": "xml-binding-tests.json.base64",
+      "bytes": 31735,
+      "sha256": "210564e8092f53270915368808108188f06a66e2ff59af01d46c1f35e67ef015",
+      "encoding": "base64",
+      "physicalBytes": 42669,
+      "physicalSha256": "1aeae6de8c308bb343b577193c4f891009ebfabb7ff9f1bab408417afd57bfcb"
+    },
+    {
+      "sourcePath": "artifacts/pr-validation/traversal-r9-current/xml-binding-tests.trx",
+      "retainedName": "xml-binding-tests.trx.base64",
+      "bytes": 51707,
+      "sha256": "f9b6000c519307ac1081c041724bae1dd2ea02fa34faf3a2406bf33a172676e2",
+      "encoding": "base64",
+      "physicalBytes": 69519,
+      "physicalSha256": "cf1df6e7a04f718907e6e917fa4214900f1ad301ce35d2f18ac3ff0d9b2cebb5"
+    }
+  ],
+  "notes": [
+    "Pending fields in individual captured records remain historical snapshots, not falsely rewritten into final results.",
+    "The parent full b584 release packet verifier passed for historical b584; b584 remained REJECT for FG-R9-001.",
+    "Current main190 and competitor40 strict verifier proposals plus24 actual runtime cases/499 metadata are separate from original d8744 proofs.",
+    "New corrected source was a b584 worktree delta while measured; use source fingerprints/snapshots, not pretend exactb584 Git source.",
+    "Initial authored text copies of the two raw37-case reporters added one terminal LF because apply_patch is text transport. Those owned unpublished views were removed; reversible base64 now retains exact original no-final-LF bytes. Neither original report was modified.",
+    "The originally executed probe has two terminal LFs and is preserved as exact base64. Its actual SHA528d3800 differs from the earlier prepared-text SHA0a3ba460 by one terminal LF only; executable source and the real three-boundary output are unchanged. See representation-corrections.json."
+  ]
+}

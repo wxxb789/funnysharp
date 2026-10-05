@@ -1,0 +1,99 @@
+{
+  "schema": "funnysharp-native-startup-recovery/v1",
+  "study": "audit-resolution-v4",
+  "createdUtc": "2026-10-02T17:06:51.069Z",
+  "reason": "The8 directBun launch failures were reproduced by a no-model RPC call with emptyoutput/exit1. Known-good shellmonitor in identicalcontext exited0 with usage0/history0. Exact OSruntimecause unknown. Replace only the launch/capture mechanism, not inputs/model/condition.",
+  "slots": [
+    {
+      "slot": "concurrency/idiomatic/run-1",
+      "sessionId": "study-session:d7db243c-1628-4d40-8bc4-bd09846d4fec",
+      "retainedOriginalInvocationId": "native-call:dfac28dc-028a-4f46-9a9c-fd14994d77a7",
+      "originalFailedNativeAttempts": 1,
+      "recoveryInvocationId": "native-call:a50f81ae-912c-4eef-9286-bc1b8c01344a",
+      "recoveryStatus": "REGISTERED_NOT_CALLED",
+      "remainingConservativeAttemptBudget": 2,
+      "maxTotalNativeAttemptsIncludingOriginalFailure": 3
+    },
+    {
+      "slot": "concurrency/idiomatic/run-2",
+      "sessionId": "study-session:ef746ead-aafe-4515-ac18-13522fe58bcc",
+      "retainedOriginalInvocationId": "native-call:f796cdee-08a1-422a-92be-fc08a32aea95",
+      "originalFailedNativeAttempts": 1,
+      "recoveryInvocationId": "native-call:38baa389-5770-49c5-b94d-b5db1a5a1cca",
+      "recoveryStatus": "REGISTERED_NOT_CALLED",
+      "remainingConservativeAttemptBudget": 2,
+      "maxTotalNativeAttemptsIncludingOriginalFailure": 3
+    },
+    {
+      "slot": "concurrency/funnysharp/run-1",
+      "sessionId": "study-session:b41091a7-4ee4-4fb1-b0b8-588c480fbf36",
+      "retainedOriginalInvocationId": "native-call:6ba6ba15-6f83-4a2c-9052-12d451a88dd6",
+      "originalFailedNativeAttempts": 1,
+      "recoveryInvocationId": "native-call:ddef7945-43c8-4e11-8889-0a621bfacab5",
+      "recoveryStatus": "REGISTERED_NOT_CALLED",
+      "remainingConservativeAttemptBudget": 2,
+      "maxTotalNativeAttemptsIncludingOriginalFailure": 3
+    },
+    {
+      "slot": "concurrency/funnysharp/run-2",
+      "sessionId": "study-session:a984f2ee-db8f-43e8-b1ba-bf6302490de6",
+      "retainedOriginalInvocationId": "native-call:54af27f6-9509-4d46-9eff-a49ad6645825",
+      "originalFailedNativeAttempts": 1,
+      "recoveryInvocationId": "native-call:0b5b2383-aa3d-486c-a90f-c9b0c1e78114",
+      "recoveryStatus": "REGISTERED_NOT_CALLED",
+      "remainingConservativeAttemptBudget": 2,
+      "maxTotalNativeAttemptsIncludingOriginalFailure": 3
+    },
+    {
+      "slot": "aspnetcore/idiomatic/run-1",
+      "sessionId": "study-session:e127c262-4785-4eed-8c0a-3e197260752c",
+      "retainedOriginalInvocationId": "native-call:3beb9009-6bd1-4847-a8d8-dd0f87cccef5",
+      "originalFailedNativeAttempts": 1,
+      "recoveryInvocationId": "native-call:1d4c0d63-8769-4262-84ce-699a90357d12",
+      "recoveryStatus": "REGISTERED_NOT_CALLED",
+      "remainingConservativeAttemptBudget": 2,
+      "maxTotalNativeAttemptsIncludingOriginalFailure": 3
+    },
+    {
+      "slot": "aspnetcore/idiomatic/run-2",
+      "sessionId": "study-session:27706c06-521f-4ed2-b183-91340576df4f",
+      "retainedOriginalInvocationId": "native-call:54f7c2a7-bbd3-4aff-8bbb-9533bb8da2e8",
+      "originalFailedNativeAttempts": 1,
+      "recoveryInvocationId": "native-call:4395e23d-8b49-4384-b8ef-5695e47fa0ac",
+      "recoveryStatus": "REGISTERED_NOT_CALLED",
+      "remainingConservativeAttemptBudget": 2,
+      "maxTotalNativeAttemptsIncludingOriginalFailure": 3
+    },
+    {
+      "slot": "aspnetcore/funnysharp/run-1",
+      "sessionId": "study-session:d39a7dc3-8b92-4fed-8c46-c0762f0a45f9",
+      "retainedOriginalInvocationId": "native-call:02164d58-938f-4629-aa24-78b773053e97",
+      "originalFailedNativeAttempts": 1,
+      "recoveryInvocationId": "native-call:b9d48fc6-82ac-44a7-96f2-006e15c18f1d",
+      "recoveryStatus": "REGISTERED_NOT_CALLED",
+      "remainingConservativeAttemptBudget": 2,
+      "maxTotalNativeAttemptsIncludingOriginalFailure": 3
+    },
+    {
+      "slot": "aspnetcore/funnysharp/run-2",
+      "sessionId": "study-session:7edf5fa1-c9a4-4cb3-a6e9-5f8471a2cf62",
+      "retainedOriginalInvocationId": "native-call:527136d7-f046-4bf9-840d-7b4b0b38724a",
+      "originalFailedNativeAttempts": 1,
+      "recoveryInvocationId": "native-call:9f21353d-5189-4894-af98-01a802d7a9b4",
+      "recoveryStatus": "REGISTERED_NOT_CALLED",
+      "remainingConservativeAttemptBudget": 2,
+      "maxTotalNativeAttemptsIncludingOriginalFailure": 3
+    }
+  ],
+  "same20PreregisteredLogicalIds": true,
+  "successful12SlotsRemainClosed": true,
+  "snapshotPlanManifestPublicBytesUnchanged": true,
+  "originalFailures": "Retain unmodified raw empty logs/request/context/launch/outcome/gradeprocess/report. Before selecting recovered producer for first actual immutable grade, archive original ungraded producer descriptor and original invocation JSON byte-exact with SHA, explicit preservation map. No archivedround exists in failedslots; no archivedrun overwritten.",
+  "semanticRoundPolicy": "Technical startupfailure has no source/record/feedback or immutable round. Recovered actualmodeloutput is first semanticround; failure is conservatively counted toward3 totalnative attempts. At most one actualfeedback correction remains if semanticround1RED. Never fabricatefeedback/no fourthcall/no favorable selection.",
+  "mechanism": "Native CLI invoked through documented tool.monitor shell command with raw stdout/stderr files. No direct Bun.spawn forproducer.",
+  "sameCLIModelSystem": "ghc/gpt-6.1-sol",
+  "transportSystem": "The attached request.json contains a JSON object with inputFiles, each with path and content. Those file contents are the complete task inputs. Return only a JSON object with a files array; each entry contains path, a top-level C# filename, and content, the complete file text. Return the complete solution. Do not replace supplied contract or test files.",
+  "modelVisibleInputs": "Exact existing request.json bytes, all18frozen filehashes; no metadata/hints/recoveryreport inmodelcontext.",
+  "negativeHistoryRetained": true,
+  "proof": "docs/audits/goal-24-resolution/evidence/u12-empty-native-launch-comparison.json"
+}

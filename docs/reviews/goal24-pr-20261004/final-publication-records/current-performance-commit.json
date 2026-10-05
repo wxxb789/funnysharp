@@ -1,0 +1,50 @@
+{
+  "schema": "funnysharp-current-performance-commit/v1",
+  "commit": "b584e748699a4f19d8a901695634be5a85ce8b07",
+  "parent": "1fbb50df35e6b1a4cd423460eb6d2d149a64517f",
+  "subject": "docs: refresh source-bound performance evidence",
+  "exactNamedFiles": 402,
+  "actualDiffTreeNamesMatch": true,
+  "formatter": {
+    "monitor": "mon_7RNY0263PASD3QEB",
+    "exitCode": 0
+  },
+  "completeStagedDiffCheckExit": 0,
+  "cleanImmediatelyAfterCommit": true,
+  "fullTestMonitor": "mon_STW4CKBPHM9XPA79",
+  "fullTestResult": "pending",
+  "strictPerformance": {
+    "rows": [
+      190,
+      40
+    ],
+    "exclusions": [
+      11,
+      0
+    ],
+    "receipts": [
+      13,
+      2
+    ],
+    "exitCodes": [
+      0,
+      0
+    ]
+  },
+  "portable": {
+    "monitor": "mon_6J1RR0FFSD5G2WFJ",
+    "objects": 365,
+    "locators": 387,
+    "rows": 230,
+    "launches": 230,
+    "exitCode": 0
+  },
+  "negativeControls": {
+    "monitor": "mon_VMPXEAZ76CP1MQTQ",
+    "cases": 3,
+    "eachExit": 1,
+    "runnerExit": 0,
+    "passSentinelAbsent": true
+  },
+  "remotePrStillD8744": true
+}

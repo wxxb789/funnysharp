@@ -1,0 +1,49 @@
+{
+  "schema": "funnysharp-parent-independent-attestation-verification/v1",
+  "attestationPath": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/resume-20261004/independent-attestation/A.json",
+  "attestationSha256": "6ef82eafbf03e00ef3191f9a5541b9280ec3962ae20bf9953dd8b72d942165a5",
+  "producerSha256": "51d55b6d1d328c3a0caa69f2ec42ba03b7fdd37e3c6475f8dcefaa2435897d72",
+  "reportSha256": "1ce284acac64c06768a7c6b5dea0bf698581b0dd6404d88d5520e598460326b5",
+  "machineEvidenceSha256": "fd81c6931918608fc6267471503ebfd795785c00cd2bc3ff7ea4d5f784c6778a",
+  "reviewer": {
+    "name": "senpi-task child st_01a10644",
+    "identity": "omo-senpi-task:st_01a10644:session:01a10644-f1d8-7caa-920f-5ea255f09db3",
+    "readOnly": true
+  },
+  "createdAtUtc": "2026-10-04T09:49:49.596Z",
+  "contractCount": 13,
+  "goalCount": 13,
+  "verdict": "APPROVE",
+  "scope": "Goals01-13; not whole Goal24",
+  "replays": [
+    {
+      "goal": 4,
+      "exitCode": 0,
+      "producerSha256": "51d55b6d1d328c3a0caa69f2ec42ba03b7fdd37e3c6475f8dcefaa2435897d72",
+      "reviewerIdentity": "omo-senpi-task:st_01a10644:session:01a10644-f1d8-7caa-920f-5ea255f09db3",
+      "command": "dotnet fsi build.fsx -- -p compatibility -RepositoryRoot Q:/repos/funnysharp-goal24-resolution -PackageDirectory Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/resume-20261004/producer-local-owner-browser-02/payload -OutputDirectory Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\resume-20261004\\independent-attestation/post-p-core-smoke-01 -RuntimeIdentifier win-x64 -PackageFeed https://packagefeedproxy.microsoft.io/nuget/v3/index.json -Scenario CoreSmoke",
+      "startedAtUtc": "2026-10-04T09:38:42.0058505+00:00",
+      "finishedAtUtc": "2026-10-04T09:39:30.5375365+00:00"
+    },
+    {
+      "goal": 9,
+      "exitCode": 0,
+      "producerSha256": "51d55b6d1d328c3a0caa69f2ec42ba03b7fdd37e3c6475f8dcefaa2435897d72",
+      "reviewerIdentity": "omo-senpi-task:st_01a10644:session:01a10644-f1d8-7caa-920f-5ea255f09db3",
+      "command": "dotnet fsi build.fsx -- -p compatibility -RepositoryRoot Q:/repos/funnysharp-goal24-resolution -PackageDirectory Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/resume-20261004/producer-local-owner-browser-02/payload -OutputDirectory Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\resume-20261004\\independent-attestation/post-p-core-smoke-01 -RuntimeIdentifier win-x64 -PackageFeed https://packagefeedproxy.microsoft.io/nuget/v3/index.json -Scenario CoreSmoke",
+      "startedAtUtc": "2026-10-04T09:38:42.0058505+00:00",
+      "finishedAtUtc": "2026-10-04T09:39:30.5375365+00:00"
+    }
+  ],
+  "oneActualProbeExecution": true,
+  "publishedDllHash": {
+    "sha256": "b3f2d4dd99e09edf4ebaa5d68161aff0d7763f2ba174fc6c784614ef6046d893",
+    "bytes": 262656
+  },
+  "embeddedReportExact": true,
+  "embeddedReplayFilesExact": true,
+  "allContractAndEvidenceIdsJoinP": true,
+  "logAndResultHashesMatched": true,
+  "indexCreated": false
+}
+

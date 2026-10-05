@@ -148,18 +148,18 @@ Hosted timing is directional; allocation ceilings are the blocking contract. `N/
 below resolution or unavailable.
 
 <!-- performance-table:start result -->
-| Scenario | Baseline mean | FunnySharp mean | Ratio | Baseline allocation | FunnySharp allocation |
+| Scenario | Baseline mean | Candidate mean | Ratio | Baseline allocation | Candidate allocation |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Completed Task mapping | 24.069 ns | 49.831 ns | 2.07x | 144 B | 256 B |
-| Completed ValueTask mapping | 11.886 ns | 42.045 ns | 3.54x | 0 B | 0 B |
+| Completed Task mapping | 19.885 ns | 49.734 ns | 2.50x | 144 B | 256 B |
+| Completed ValueTask mapping | 10.556 ns | 40.129 ns | 3.80x | 0 B | 0 B |
 | Construction and inspection - failure | N/A | N/A | N/A | 0 B | 0 B |
 | Construction and inspection - success | N/A | N/A | N/A | 0 B | 0 B |
-| Exception boundary - failure | 2.963 us | 3.474 us | 1.17x | 512 B | 680 B |
-| Exception boundary - success | 11.253 ns | 14.519 ns | 1.29x | 0 B | 0 B |
-| Fail-fast pipeline - failure | N/A | 2.258 ns | N/A | 0 B | 0 B |
-| Fail-fast pipeline - success | N/A | 10.101 ns | N/A | 0 B | 0 B |
-| Pending Task mapping | 2.734 us | 3.306 us | 1.21x | 296 B | 744 B |
-| Pending ValueTask mapping | 3.754 us | 3.441 us | 0.92x | 304 B | 840 B |
+| Exception boundary - failure | 2.634 us | 3.025 us | 1.15x | 512 B | 680 B |
+| Exception boundary - success | 11.470 ns | 13.787 ns | 1.20x | 0 B | 0 B |
+| Fail-fast pipeline - failure | N/A | 1.945 ns | N/A | 0 B | 0 B |
+| Fail-fast pipeline - success | N/A | 8.640 ns | N/A | 0 B | 0 B |
+| Pending Task mapping | 991.709 ns | 1.630 us | 1.64x | 295 B | 743 B |
+| Pending ValueTask mapping | 933.083 ns | 1.569 us | 1.68x | 303 B | 840 B |
 <!-- performance-table:end result -->
 
 The generated table exposes measured costs without interpreting below-resolution ratios. Rerun

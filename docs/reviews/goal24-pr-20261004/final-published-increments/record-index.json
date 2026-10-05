@@ -1,0 +1,68 @@
+{
+  "schema": "funnysharp-final-published-increment-records/v1",
+  "records": [
+    {
+      "name": "postsubmit-independent-c9acfba.json",
+      "bytes": 28666,
+      "sha256": "20d7ddac75526a502db95bc7fbd996b864b50b715a54b87f051c47ad5eb5a51e"
+    },
+    {
+      "name": "postsubmit-independent-c9acfba.md",
+      "bytes": 17846,
+      "sha256": "22de9ca3553a023ef7b57d3fab28c6371eaeb5c69249b1b581b9a2baa09897e9"
+    },
+    {
+      "name": "stable-ci-increment-review-d26-original.json",
+      "bytes": 29030,
+      "sha256": "c46efc09dda1377489e6fa638051092f86aea29cbd058df018f759d438da692b"
+    },
+    {
+      "name": "stable-ci-increment-review-d26.md",
+      "bytes": 15410,
+      "sha256": "90adacd91e5aeda9d715e481a57f9c88d2eaa058e972dba7ad78132b227f115b"
+    },
+    {
+      "name": "stable-ci-d26-live-gate-pass.json",
+      "bytes": 2467,
+      "sha256": "ec68b22f3dea033801ea2d45b499df6f49149b62b4e4e2edbceee8feed8154bc"
+    },
+    {
+      "name": "postsubmit-feedback-completion-d26.json",
+      "bytes": 15213,
+      "sha256": "7434b744c39828f7d4f534bb8dc000403dc0508a4725327b3db71cdb958e7a42"
+    },
+    {
+      "name": "postsubmit-feedback-completion-d26.md",
+      "bytes": 5684,
+      "sha256": "3a0aa46a7e69464ac0afe758a305a0c87b785a4a7b418eaac4543cf14b052e17"
+    },
+    {
+      "name": "pr33-babysit-d26-looks-ready.json",
+      "bytes": 3070,
+      "sha256": "bb9fb102353ed825de9248da101bab344a383efed1356da0c8bf35ba96469d83"
+    }
+  ],
+  "scope": "Exact historical c9 published audit and d26 code-review/live-gate/feedback/babysit receipts. The metadata-only successor must satisfy its own clean test and exact-head CI; these original candidate identities are not rebound.",
+  "reviewRevisionNote": {
+    "originalJson": "stable-ci-increment-review-d26-original.json",
+    "sha256": "c46efc09dda1377489e6fa638051092f86aea29cbd058df018f759d438da692b",
+    "laterLocalRevisionSha256": "792fbfb72ce2a2039092b2b56a2dd99b1cc88d7f2ef9c622380b5741aa272f53",
+    "originalPreserved": true
+  },
+  "durableRetention": {
+    "root": "Q:/repos/funnysharp-goal24-evidence/pr33-20261005",
+    "originalUnitsFiles": 383,
+    "r6Files": 220,
+    "originalZipBytesUnchanged": true,
+    "refsPreserved": true,
+    "mainUserFilesUntouched": true
+  },
+  "cleanup": {
+    "inactiveOwnedWorktreesRemoved": 9,
+    "ordinaryMerge": false,
+    "nugetPublication": false,
+    "forceOrBranchDeletion": false,
+    "activeIntegrationStillPresent": true,
+    "originalAuditResolutionProofHistoryProtected": true
+  }
+}

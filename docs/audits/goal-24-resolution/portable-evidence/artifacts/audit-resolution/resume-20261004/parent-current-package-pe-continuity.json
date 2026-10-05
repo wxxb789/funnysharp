@@ -1,0 +1,37 @@
+{
+  "schema": "funnysharp-parent-current-package-pe-continuity/v1",
+  "productCandidate": "d8744c934d86833f9817245ecc7c78b1177b8b76",
+  "command": "dotnet fsi --warnaserror+ artifacts/audit-resolution/resume-20261004/verify-package-pe-continuity.fsx",
+  "exitCode": 0,
+  "core": {
+    "oldSha256": "6a903f737356fdf67845c9cd39385e4a5e2b39bcae0ee92ff2882480ecb7e49d",
+    "currentSha256": "b3f2d4dd99e09edf4ebaa5d68161aff0d7763f2ba174fc6c784614ef6046d893",
+    "methods": 1274,
+    "methodSignatureBodyFlagsDifferences": 0,
+    "customAttributes": 3358,
+    "customAttributeDifferences": 1
+  },
+  "http": {
+    "oldSha256": "2daaff9c72db5b730c06d3270c00dfd7046fa27e26d59374e31cf270b8dc30c2",
+    "currentSha256": "4926aef5f311f80ee93e07243acb98147cf55fcf3080bc3e96152f3bf90a1b29",
+    "methods": 53,
+    "methodSignatureBodyFlagsDifferences": 0,
+    "customAttributes": 246,
+    "customAttributeDifferences": 1
+  },
+  "onlyAllowedAttribute": {
+    "type": "System.Reflection.AssemblyInformationalVersionAttribute",
+    "parentAssemblyToken": 536870913,
+    "oldValue": "0.2.0+a8863473fd53eddc7cb47201508426db2e454f84",
+    "currentValue": "0.2.0+d8744c934d86833f9817245ecc7c78b1177b8b76",
+    "oldBlobSha256": "c45ddbd1ad8f134faef9542cea99b3fe4c6a3e37e01dafec3c8d03c9ae52efab",
+    "currentBlobSha256": "f0d10c8605324e37d40afaf4ea625f5812b03c2c257d9b2ddec628517d6ea2ca"
+  },
+  "methodScope": "All method definitions: token,name,signature bytes,IL bytes,max stack,local signature token,local initialization,exception regions,method/implementation flags.",
+  "attributeScope": "All custom-attribute rows: parent/constructor token,resolved attribute type,exact value-blob SHA256. Every other row matches.",
+  "limitationsRetained": [
+    "No new runtime/performance/model measurement is claimed.",
+    "65 ignored historical obj cache files remain missing; visible model inputs are separately hash-matched."
+  ],
+  "wholeGoal24Accepted": false
+}

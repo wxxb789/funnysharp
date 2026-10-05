@@ -34,6 +34,7 @@ public class ResultBenchmarks
     [GlobalSetup]
     public void Setup()
     {
+        BenchmarkPreflight.CaptureChild(this);
         successValue = 42;
         fallbackValue = -1;
         hasSuccess = true;
@@ -219,6 +220,8 @@ public class ResultBenchmarks
         source.SetResult(successValue);
         return Validate(GetValueOr(await operation.ConfigureAwait(false), fallbackValue));
     }
+
+    internal Task ValidateFullSemanticsAsync() => ValidatePendingTransformSemanticsAsync();
 
     internal async Task ValidatePendingTransformSemanticsAsync()
     {

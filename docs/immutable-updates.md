@@ -184,13 +184,13 @@ The exact table below is generated from the approved observation in
 contract.
 
 <!-- performance-table:start immutable-updates -->
-| Scenario | Baseline mean | FunnySharp mean | Ratio | Baseline allocation | FunnySharp allocation |
+| Scenario | Baseline mean | Candidate mean | Ratio | Baseline allocation | Candidate allocation |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| FrozenDictionary lookup | 3.910 ns | 4.252 ns | 1.09x | 0 B | 0 B |
-| Immutable collection batch update | 65.743 ns | 68.154 ns | 1.04x | 208 B | 208 B |
-| ImmutableDictionary existing-key update | 68.823 ns | 75.099 ns | 1.09x | 104 B | 104 B |
-| Missing optional update | 8.601 ns | 10.396 ns | 1.21x | 0 B | 0 B |
-| Nested record replacement | 23.176 ns | 31.391 ns | 1.35x | 72 B | 72 B |
+| FrozenDictionary lookup | 4.193 ns | 4.212 ns | 1.00x | 0 B | 0 B |
+| Immutable collection batch update | 49.588 ns | 49.478 ns | 1.00x | 208 B | 208 B |
+| ImmutableDictionary existing-key update | 61.683 ns | 69.847 ns | 1.13x | 104 B | 104 B |
+| Missing optional update | 8.019 ns | 11.508 ns | 1.44x | 0 B | 0 B |
+| Nested record replacement | 17.069 ns | 24.286 ns | 1.42x | 72 B | 72 B |
 
 Excluded measurements:
 - Unmeasured optics construction: Optics construction and frozen rebuild costs have no numeric release claim.

@@ -1,0 +1,11 @@
+{
+  "schema": "funnysharp-pr-fresh-competitor-premeasurement-red/v1",
+  "candidate": "1fbb50df35e6b1a4cd423460eb6d2d149a64517f",
+  "monitor": "mon_7EF1T2JXDQ3E5SX6",
+  "exitCode": 1,
+  "benchmarkExecutionStarted": false,
+  "error": "NETSDK1004: Assets file benchmarks/FunnySharp.CompetitorBenchmarks/obj/project.assets.json not found.",
+  "rootCause": "The solution restore/build did not cover this outside-solution benchmark project. Project-specific locked restore required.",
+  "main190NotReplayed": true,
+  "oldD8744ProofsUnchanged": true
+}

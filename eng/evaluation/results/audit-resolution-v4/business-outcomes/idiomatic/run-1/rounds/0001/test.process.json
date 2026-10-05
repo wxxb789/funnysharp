@@ -1,0 +1,37 @@
+{
+  "command": [
+    "dotnet",
+    "test",
+    "--configuration",
+    "Release",
+    "--no-build"
+  ],
+  "workingDirectory": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\business-outcomes-idiomatic-run-1-00ebf253234349e4acd1076cda2d043c",
+  "environment": [
+    {
+      "Item1": "DOTNET_CLI_TELEMETRY_OPTOUT",
+      "Item2": "1"
+    },
+    {
+      "Item1": "DOTNET_NOLOGO",
+      "Item2": "1"
+    },
+    {
+      "Item1": "DOTNET_CLI_UI_LANGUAGE",
+      "Item2": "en"
+    },
+    {
+      "Item1": "NUGET_PACKAGES",
+      "Item2": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\business-outcomes-idiomatic-run-1-00ebf253234349e4acd1076cda2d043c\\nuget_packages"
+    },
+    {
+      "Item1": "NUGET_HTTP_CACHE_PATH",
+      "Item2": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\evaluation\\builds\\business-outcomes-idiomatic-run-1-00ebf253234349e4acd1076cda2d043c\\nuget_http_cache_path"
+    },
+    {
+      "Item1": "PATH",
+      "Item2": "C:\\Program Files\\Git\\mingw64\\bin;C:\\Program Files\\Git\\usr\\bin;C:\\Users\\lhan\\bin;C:\\Users\\lhan\\.omo\\agent\\bin;Q:\\.tools\\mise\\data\\installs\\oh-my-posh\\31.4.0;Q:\\.tools\\mise\\data\\installs\\atuin\\18.23.0;Q:\\.tools\\mise\\data\\installs\\carapace\\1.8.0;Q:\\.tools\\mise\\data\\installs\\fzf\\0.74.4;Q:\\.tools\\mise\\data\\installs\\zoxide\\0.10.0;C:\\Program Files\\PowerShell\\7;C:\\Program Files\\coreutils\\bin;C:\\Program Files\\Microsoft SDKs\\Azure\\CLI2\\wbin;C:\\Program Files\\SqlCmd\\;C:\\Program Files\\Alacritty\\;C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;C:\\Windows\\System32\\OpenSSH\\;C:\\Program Files\\Azure Dev CLI;C:\\Users\\vmadmin\\AppData\\Local\\Microsoft\\WindowsApps;C:\\Program Files\\Microsoft SQL Server\\170\\Tools\\Binn\\;C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\;C:\\Program Files\\dotnet\\;C:\\Program Files\\Microsoft VS Code\\bin;Q:\\.tools\\dotnet;Q:\\.tools\\QuickBuild;C:\\ProgramData\\chocolatey\\bin;Q:\\.tools\\.npm-global;Q:\\.tools\\QuickBuild;C:\\Windows\\system32\\config\\systemprofile\\AppData\\Local\\Microsoft\\WindowsApps;C:\\Program Files\\Microsoft Dev Box Agent\\Scripts;C:\\Program Files\\gsudo\\Current;C:\\Program Files\\WezTerm;C:\\Users\\lhan\\bin;C:\\Program Files\\Git LFS;C:\\Program Files\\Neovide\\;C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\;C:\\Program Files\\PowerShell\\7\\;C:\\Program Files\\Git\\cmd;C:\\Program Files\\nu\\bin\\;C:\\Program Files\\Docker\\Docker\\resources\\bin;C:\\Users\\lhan\\AppData\\Local\\Nowledge Mem CLI\\bin;Q:\\.tools\\mise\\data\\shims;C:\\Users\\lhan\\AppData\\Local\\jcode\\bin;C:\\Users\\lhan\\AppData\\Roaming\\agency\\CurrentVersion;C:\\Users\\lhan\\.kimi-code\\bin;C:\\Users\\lhan\\AppData\\Local\\Programs\\Herdr\\bin;C:\\Users\\lhan\\AppData\\Local\\pnpm\\bin;C:\\Users\\lhan\\AppData\\Local\\hermes\\bin;C:\\Users\\lhan\\.cargo\\bin;Q:\\.tools\\.npm-global;C:\\Users\\lhan\\.local\\bin;C:\\Users\\lhan\\scoop\\shims;C:\\Users\\lhan\\AppData\\Local\\Microsoft\\WindowsApps;C:\\Users\\lhan\\.dotnet\\tools;C:\\Users\\lhan\\AppData\\Local\\Microsoft\\WinGet\\Links;C:\\Users\\lhan\\AppData\\Local\\Programs\\Microsoft VS Code\\bin;C:\\Users\\lhan\\AppData\\Local\\Programs\\Zed\\bin;C:\\Users\\lhan\\bin;C:\\Users\\lhan\\AppData\\Local\\Alma\\bin;C:\\Users\\lhan\\AppData\\Local\\Programs\\Obsidian;C:\\Users\\lhan\\AppData\\Local\\Programs\\EmEditor;C:\\Users\\lhan\\AppData\\Local\\Microsoft\\WinGet\\Packages\\Microsoft.SqlPackage_Microsoft.Winget.Source_8wekyb3d8bbwe;C:\\Users\\lhan\\AppData\\Local\\Programs\\con-terminal;C:\\Users\\lhan\\.agentsview\\bin;C:\\Users\\lhan\\AppData\\Local\\omp;C:\\Users\\lhan\\AppData\\Local\\Programs\\Cua\\cua-driver\\bin;C:\\Users\\lhan\\AppData\\Local\\Programs\\nu\\bin\\;C:\\Users\\lhan\\AppData\\Local\\Programs\\tty7;C:\\Users\\lhan\\AppData\\Local\\PowerToys\\DSCModules\\;C:\\Users\\lhan\\.omo\\agent\\bundled-bun\\d12ce85de8645016;Q:/.tools/.nuget/packages/fun.build/1.2.0/;Q:/.tools/.nuget/packages/fun.result/2.0.9/;Q:/.tools/.nuget/packages/spectre.console/0.46.0/;;C:\\Users\\lhan\\.dotnet"
+    }
+  ],
+  "exitCode": 0
+}

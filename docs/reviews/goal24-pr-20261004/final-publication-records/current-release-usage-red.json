@@ -1,0 +1,10 @@
+{
+  "schema": "funnysharp-current-release-usage-red/v1",
+  "commit": "b584e748699a4f19d8a901695634be5a85ce8b07",
+  "monitor": "mon_NRFPYJY63FA0XXC3",
+  "exitCode": 2,
+  "error": "Run-Release.ps1: error: the -AttemptId parameter is required.",
+  "releaseExecutionStarted": false,
+  "fullClean2630Passed": true,
+  "sourceUnchanged": true
+}

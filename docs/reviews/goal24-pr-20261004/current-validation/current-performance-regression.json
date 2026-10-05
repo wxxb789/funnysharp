@@ -1,0 +1,33 @@
+{
+  "schema": "funnysharp-current-performance-regression/v1",
+  "measuredSourceCommit": "1fbb50df35e6b1a4cd423460eb6d2d149a64517f",
+  "monitor": "mon_KT2JD8G2VZ2BK3C8",
+  "command": [
+    "dotnet",
+    "tests/FunnySharp.Harness.Tests/bin/Release/net10.0/FunnySharp.Harness.Tests.dll",
+    "-class",
+    "*PerformanceDocsTests+RealManifestTests*",
+    "-failSkips",
+    "-failWarns"
+  ],
+  "exitCode": 0,
+  "total": 2,
+  "errors": 0,
+  "failed": 0,
+  "skipped": 0,
+  "notRun": 0,
+  "priorRealFailuresPreserved": "clean-candidate-test-red.json",
+  "strictRows": [
+    190,
+    40
+  ],
+  "strictReceipts": [
+    13,
+    2
+  ],
+  "officialDocRegions": [
+    11,
+    1
+  ],
+  "fullCleanCandidateSuitePending": true
+}

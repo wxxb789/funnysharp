@@ -1,0 +1,222 @@
+{
+  "schema": "funnysharp-pr-r9-current-xml-crosswalk/v1",
+  "historicalCrosswalk": {
+    "path": "docs/audits/goal-24-resolution/stable-api-contracts.json",
+    "sha256": "558c22df94d08502b70fd8a964a9fd8f399a90e4ee7cf88e0ec730c88631f179",
+    "unchanged": true,
+    "sourceRows": 448
+  },
+  "currentDelta": {
+    "nodeCount": 29,
+    "rows": [
+      {
+        "identity": "C:33",
+        "source": "src/FunnySharp/AsyncSequenceExtensions.cs:136-146",
+        "xmlId": "M:FunnySharp.AsyncSequenceExtensions.SequenceAsync``2(System.Collections.Generic.IAsyncEnumerable{FunnySharp.Result{``0,``1}},System.Threading.CancellationToken)",
+        "inspectedValue": "source carrier",
+        "executableSourceUnchanged": true
+      },
+      {
+        "identity": "C:29",
+        "source": "src/FunnySharp/AsyncSequenceExtensions.cs:169-181",
+        "xmlId": "M:FunnySharp.AsyncSequenceExtensions.TraverseAsync``3(System.Collections.Generic.IAsyncEnumerable{``0},System.Func{``0,FunnySharp.Result{``1,``2}},System.Threading.CancellationToken)",
+        "inspectedValue": "selector result",
+        "executableSourceUnchanged": true
+      },
+      {
+        "identity": "C:32",
+        "source": "src/FunnySharp/AsyncSequenceExtensions.cs:204-216",
+        "xmlId": "M:FunnySharp.AsyncSequenceExtensions.TraverseValueAsync``3(System.Collections.Generic.IAsyncEnumerable{``0},System.Func{``0,System.Threading.Tasks.ValueTask{FunnySharp.Result{``1,``2}}},System.Threading.CancellationToken)",
+        "inspectedValue": "selector result",
+        "executableSourceUnchanged": true
+      },
+      {
+        "identity": "C:31",
+        "source": "src/FunnySharp/AsyncSequenceExtensions.cs:239-248",
+        "xmlId": "M:FunnySharp.AsyncSequenceExtensions.TraverseValueAsync``3(System.Collections.Generic.IAsyncEnumerable{``0},System.Func{``0,System.Threading.CancellationToken,System.Threading.Tasks.ValueTask{FunnySharp.Result{``1,``2}}},System.Threading.CancellationToken)",
+        "inspectedValue": "selector result",
+        "executableSourceUnchanged": true
+      },
+      {
+        "identity": "C:34",
+        "source": "src/FunnySharp/AsyncSequenceExtensions.cs:265-275",
+        "xmlId": "M:FunnySharp.AsyncSequenceExtensions.SequenceAsync``1(System.Collections.Generic.IAsyncEnumerable{FunnySharp.UnitResult{``0}},System.Threading.CancellationToken)",
+        "inspectedValue": "source carrier",
+        "executableSourceUnchanged": true
+      },
+      {
+        "identity": "C:36",
+        "source": "src/FunnySharp/AsyncSequenceExtensions.cs:297-309",
+        "xmlId": "M:FunnySharp.AsyncSequenceExtensions.TraverseAsync``2(System.Collections.Generic.IAsyncEnumerable{``0},System.Func{``0,FunnySharp.UnitResult{``1}},System.Threading.CancellationToken)",
+        "inspectedValue": "selector result",
+        "executableSourceUnchanged": true
+      },
+      {
+        "identity": "C:39",
+        "source": "src/FunnySharp/AsyncSequenceExtensions.cs:331-343",
+        "xmlId": "M:FunnySharp.AsyncSequenceExtensions.TraverseValueAsync``2(System.Collections.Generic.IAsyncEnumerable{``0},System.Func{``0,System.Threading.Tasks.ValueTask{FunnySharp.UnitResult{``1}}},System.Threading.CancellationToken)",
+        "inspectedValue": "selector result",
+        "executableSourceUnchanged": true
+      },
+      {
+        "identity": "C:38",
+        "source": "src/FunnySharp/AsyncSequenceExtensions.cs:365-374",
+        "xmlId": "M:FunnySharp.AsyncSequenceExtensions.TraverseValueAsync``2(System.Collections.Generic.IAsyncEnumerable{``0},System.Func{``0,System.Threading.CancellationToken,System.Threading.Tasks.ValueTask{FunnySharp.UnitResult{``1}}},System.Threading.CancellationToken)",
+        "inspectedValue": "selector result",
+        "executableSourceUnchanged": true
+      },
+      {
+        "identity": "C:45",
+        "source": "src/FunnySharp/AsyncSequenceExtensions.cs:393-403",
+        "xmlId": "M:FunnySharp.AsyncSequenceExtensions.SequenceAsync``2(System.Collections.Generic.IAsyncEnumerable{FunnySharp.Validation{``0,``1}},System.Threading.CancellationToken)",
+        "inspectedValue": "source carrier",
+        "executableSourceUnchanged": true
+      },
+      {
+        "identity": "C:41",
+        "source": "src/FunnySharp/AsyncSequenceExtensions.cs:426-438",
+        "xmlId": "M:FunnySharp.AsyncSequenceExtensions.TraverseAsync``3(System.Collections.Generic.IAsyncEnumerable{``0},System.Func{``0,FunnySharp.Validation{``1,``2}},System.Threading.CancellationToken)",
+        "inspectedValue": "selector result",
+        "executableSourceUnchanged": true
+      },
+      {
+        "identity": "C:44",
+        "source": "src/FunnySharp/AsyncSequenceExtensions.cs:461-473",
+        "xmlId": "M:FunnySharp.AsyncSequenceExtensions.TraverseValueAsync``3(System.Collections.Generic.IAsyncEnumerable{``0},System.Func{``0,System.Threading.Tasks.ValueTask{FunnySharp.Validation{``1,``2}}},System.Threading.CancellationToken)",
+        "inspectedValue": "selector result",
+        "executableSourceUnchanged": true
+      },
+      {
+        "identity": "C:43",
+        "source": "src/FunnySharp/AsyncSequenceExtensions.cs:496-505",
+        "xmlId": "M:FunnySharp.AsyncSequenceExtensions.TraverseValueAsync``3(System.Collections.Generic.IAsyncEnumerable{``0},System.Func{``0,System.Threading.CancellationToken,System.Threading.Tasks.ValueTask{FunnySharp.Validation{``1,``2}}},System.Threading.CancellationToken)",
+        "inspectedValue": "selector result",
+        "executableSourceUnchanged": true
+      },
+      {
+        "identity": "C:267",
+        "source": "src/FunnySharp/PartitionExtensions.cs:186-209",
+        "xmlId": "M:FunnySharp.PartitionExtensions.Partition``2(System.Collections.Generic.IEnumerable{FunnySharp.Result{``0,``1}})",
+        "inspectedValue": "source carrier",
+        "executableSourceUnchanged": true
+      },
+      {
+        "identity": "C:268",
+        "source": "src/FunnySharp/PartitionExtensions.cs:231-252",
+        "xmlId": "M:FunnySharp.PartitionExtensions.Partition``1(System.Collections.Generic.IEnumerable{FunnySharp.UnitResult{``0}})",
+        "inspectedValue": "source carrier",
+        "executableSourceUnchanged": true
+      },
+      {
+        "identity": "C:270",
+        "source": "src/FunnySharp/PartitionExtensions.cs:317-324",
+        "xmlId": "M:FunnySharp.PartitionExtensions.PartitionAsync``2(System.Collections.Generic.IAsyncEnumerable{FunnySharp.Result{``0,``1}},System.Threading.CancellationToken)",
+        "inspectedValue": "source carrier",
+        "executableSourceUnchanged": true
+      },
+      {
+        "identity": "C:359",
+        "source": "src/FunnySharp/SequenceExtensions.cs:75-77",
+        "xmlId": "M:FunnySharp.SequenceExtensions.Sequence``2(System.Collections.Generic.IEnumerable{FunnySharp.Result{``0,``1}})",
+        "inspectedValue": "source carrier",
+        "executableSourceUnchanged": true
+      },
+      {
+        "identity": "C:358",
+        "source": "src/FunnySharp/SequenceExtensions.cs:98-119",
+        "xmlId": "M:FunnySharp.SequenceExtensions.Traverse``3(System.Collections.Generic.IEnumerable{``0},System.Func{``0,FunnySharp.Result{``1,``2}})",
+        "inspectedValue": "selector result",
+        "executableSourceUnchanged": true
+      },
+      {
+        "identity": "C:360",
+        "source": "src/FunnySharp/SequenceExtensions.cs:132-134",
+        "xmlId": "M:FunnySharp.SequenceExtensions.Sequence``1(System.Collections.Generic.IEnumerable{FunnySharp.UnitResult{``0}})",
+        "inspectedValue": "source carrier",
+        "executableSourceUnchanged": true
+      },
+      {
+        "identity": "C:362",
+        "source": "src/FunnySharp/SequenceExtensions.cs:153-171",
+        "xmlId": "M:FunnySharp.SequenceExtensions.Traverse``2(System.Collections.Generic.IEnumerable{``0},System.Func{``0,FunnySharp.UnitResult{``1}})",
+        "inspectedValue": "selector result",
+        "executableSourceUnchanged": true
+      },
+      {
+        "identity": "C:373",
+        "source": "src/FunnySharp/SequenceExtensions.cs:188-190",
+        "xmlId": "M:FunnySharp.SequenceExtensions.Sequence``2(System.Collections.Generic.IEnumerable{FunnySharp.Validation{``0,``1}})",
+        "inspectedValue": "source carrier",
+        "executableSourceUnchanged": true
+      },
+      {
+        "identity": "C:372",
+        "source": "src/FunnySharp/SequenceExtensions.cs:212-248",
+        "xmlId": "M:FunnySharp.SequenceExtensions.Traverse``3(System.Collections.Generic.IEnumerable{``0},System.Func{``0,FunnySharp.Validation{``1,``2}})",
+        "inspectedValue": "selector result",
+        "executableSourceUnchanged": true
+      },
+      {
+        "identity": "C:357",
+        "source": "src/FunnySharp/SequenceExtensions.cs:317-339",
+        "xmlId": "M:FunnySharp.SequenceExtensions.Traverse``3(System.Collections.Generic.IEnumerable{``0},System.Func{System.Int32,``0,FunnySharp.Result{``1,``2}})",
+        "inspectedValue": "selector result",
+        "executableSourceUnchanged": true
+      },
+      {
+        "identity": "C:361",
+        "source": "src/FunnySharp/SequenceExtensions.cs:364-383",
+        "xmlId": "M:FunnySharp.SequenceExtensions.Traverse``2(System.Collections.Generic.IEnumerable{``0},System.Func{System.Int32,``0,FunnySharp.UnitResult{``1}})",
+        "inspectedValue": "selector result",
+        "executableSourceUnchanged": true
+      },
+      {
+        "identity": "C:371",
+        "source": "src/FunnySharp/SequenceExtensions.cs:409-446",
+        "xmlId": "M:FunnySharp.SequenceExtensions.Traverse``3(System.Collections.Generic.IEnumerable{``0},System.Func{System.Int32,``0,FunnySharp.Validation{``1,``2}})",
+        "inspectedValue": "selector result",
+        "executableSourceUnchanged": true
+      },
+      {
+        "identity": "C:352",
+        "source": "src/FunnySharp/SequenceExtensions.cs:561-570",
+        "xmlId": "M:FunnySharp.SequenceExtensions.Traverse``4(System.Collections.Generic.IReadOnlyDictionary{``0,``1},System.Func{``0,``1,FunnySharp.Result{``2,``3}})",
+        "inspectedValue": "selector result",
+        "executableSourceUnchanged": true
+      },
+      {
+        "identity": "C:355",
+        "source": "src/FunnySharp/SequenceExtensions.cs:597-622",
+        "xmlId": "M:FunnySharp.SequenceExtensions.Traverse``4(System.Collections.Generic.IReadOnlyDictionary{``0,``1},System.Func{``0,``1,FunnySharp.Result{``2,``3}},System.Collections.Generic.IEqualityComparer{``0})",
+        "inspectedValue": "selector result",
+        "executableSourceUnchanged": true
+      },
+      {
+        "identity": "C:364",
+        "source": "src/FunnySharp/SequenceExtensions.cs:643-662",
+        "xmlId": "M:FunnySharp.SequenceExtensions.Traverse``3(System.Collections.Generic.IReadOnlyDictionary{``0,``1},System.Func{``0,``1,FunnySharp.UnitResult{``2}})",
+        "inspectedValue": "selector result",
+        "executableSourceUnchanged": true
+      },
+      {
+        "identity": "C:366",
+        "source": "src/FunnySharp/SequenceExtensions.cs:696-705",
+        "xmlId": "M:FunnySharp.SequenceExtensions.Traverse``4(System.Collections.Generic.IReadOnlyDictionary{``0,``1},System.Func{``0,``1,FunnySharp.Validation{``2,``3}})",
+        "inspectedValue": "selector result",
+        "executableSourceUnchanged": true
+      },
+      {
+        "identity": "C:369",
+        "source": "src/FunnySharp/SequenceExtensions.cs:733-773",
+        "xmlId": "M:FunnySharp.SequenceExtensions.Traverse``4(System.Collections.Generic.IReadOnlyDictionary{``0,``1},System.Func{``0,``1,FunnySharp.Validation{``2,``3}},System.Collections.Generic.IEqualityComparer{``0})",
+        "inspectedValue": "selector result",
+        "executableSourceUnchanged": true
+      }
+    ],
+    "sourceLineCountsUnchanged": true,
+    "xmlSha256": "35dd9f2354a0dc45799e32adf90e7649594aa62988f423a42fa12185ae63f5b3"
+  },
+  "falseCommonExceptionSentencePresentInHistoricalCrosswalk": false,
+  "scope": "Current corrected XML IDs joined one-to-one to existing stable source identities. This delta clarifies inspected values without reclassifying historical semantic proof results or rewriting original d8744 acceptance.",
+  "currentReleaseAndIndependentDeltaGate": "PENDING"
+}

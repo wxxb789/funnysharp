@@ -1,0 +1,15 @@
+{
+  "schema": "funnysharp-pr-fresh-benchmark-execution/v1",
+  "candidate": "1fbb50df35e6b1a4cd423460eb6d2d149a64517f",
+  "suite": "main",
+  "monitor": "mon_0R27Q3S5NV503MMK",
+  "exitCode": 0,
+  "executedBenchmarks": 190,
+  "elapsedSeconds": 2062.57,
+  "artifacts": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/pr-validation/1fbb50d-performance-20261004-01/main",
+  "configuration": "Repository class jobs (observed ShortRun) and Default config with KeepBenchmarkFiles; no shortened CLI job",
+  "inputFingerprint": "671c9af72610d71e7d78f6c3c44e9f9af6056a3310b460f92b8acb676655d80d",
+  "protocolFingerprint": "765702cfa309615ebad721de84cd992a4ef3c883560703541d3a2f9c6eb8b207",
+  "allocationBudgetAcceptance": "not yet verified",
+  "oldD8744ProofsUnchanged": true
+}

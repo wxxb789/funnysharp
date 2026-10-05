@@ -1,0 +1,84 @@
+{
+  "schema": "funnysharp-strict-v6-final-local-main-qa/v1",
+  "candidateFreeze": "docs/audits/goal-24-resolution/evidence/u16-strict-v6-final-local-candidate-freeze.json",
+  "candidateFingerprint": "bb058e6a972103c657e0d833f2ec86fab7994f8ba4cce8503432c4b8f74c4a9c",
+  "actualGitTree": false,
+  "mainSessionOwnsIntegration": true,
+  "rows": [
+    {
+      "surface": "Current source whole solution",
+      "verdict": "PASS",
+      "observed": "2442/2442,0failed0skippedexit0",
+      "artifact": "docs/audits/goal-24-resolution/evidence/u12-v6-strict-final-freeze-proof.json"
+    },
+    {
+      "surface": "Canonical stable public API semantic/compiler/runtime/XML crosswalk",
+      "verdict": "PASS_LOCAL",
+      "observed": "49types499exports/468stable3744dimensions/indexad106; source-only183dimensions remainlabelednotruntime",
+      "artifact": "docs/audits/goal-24-resolution/evidence/u16-final-current-local-source-gates.json"
+    },
+    {
+      "surface": "Three serial equivalent full performance repetitions",
+      "verdict": "PASS_LOCAL",
+      "observed": "3x190main+40competitor/690executions/135rawreports/230unchangedceilings/468exactmemberclaim joins/parent1288SHA",
+      "artifact": "docs/audits/goal-24-resolution/evidence/u13-formatted-current-performance-index-binding.json"
+    },
+    {
+      "surface": "Fresh preregistered strict native AI cohort",
+      "verdict": "PASS_FIXED_ORACLES",
+      "observed": "20originalfinalGREEN200cases/21actualrequests/1retainedHTTPREDcorrection/8044SHA/384contextchecks; initial15vs16explicit",
+      "artifact": "docs/audits/goal-24-resolution/evidence/u12-v6-strict-native-cohort-parent-proof.json"
+    },
+    {
+      "surface": "Generated actual original retained HTTP DLLs",
+      "verdict": "PASS",
+      "observed": "36samecases72TCPrequests/36stop-disposeevents/36parentrefusals69terminal+45runtimehashchecks/15exactPIDsabsent0",
+      "artifact": "docs/audits/goal-24-resolution/evidence/u12-v6-real-kestrel-parent-proof.json",
+      "correction": "docs/audits/goal-24-resolution/evidence/u12-v6-real-kestrel-parent-cleanup-correction.json"
+    },
+    {
+      "surface": "Canonical core/HTTP smoke/trim/NativeAOT winx64",
+      "verdict": "PASS",
+      "observed": "6/6actualexit0/12publishedPEbindings; zero-timeoutprobeoldhang/redconfirmed; onlyconsumercontrolledclockfix, oldtreeactuallystopped",
+      "artifact": "docs/audits/goal-24-resolution/evidence/u16-compatibility-cancellation-probe-red-green.json",
+      "corrections": [
+        "docs/audits/goal-24-resolution/evidence/u16-compatibility-original-orphan-cleanup.json",
+        "docs/audits/goal-24-resolution/evidence/u16-compatibility-original-tree-cleanup-correction.json"
+      ]
+    },
+    {
+      "surface": "Changed consumer diagnostics and formatter",
+      "verdict": "PASS",
+      "observed": "CSharpLSP0beforebuild/whitespace--folderverify0after6scenario, nootherfilesformatmutated",
+      "artifact": "artifacts/audit-resolution/u13-formatted-repetitions/compatibility-consumer-format.log"
+    },
+    {
+      "surface": "Wholeconsumer source and actual AI provenance report",
+      "verdict": "PASS_MEASUREMENT_NOT_ACCEPTANCE",
+      "observed": "20canonicalLOCrecounts allmatch1081/957; withoutconcurrency660/698;84CS2002occurrences/21Bunwarnings; no all16fieldclaim; no blanketbehavioralequivalence",
+      "artifact": "docs/audits/goal-24-resolution/evidence/u12-v6-final-metrics-parent-proof.json"
+    },
+    {
+      "surface": "U11 material density and attributable maintainer assessment",
+      "verdict": "PENDING_OWNER_ACCEPTANCE",
+      "observed": "Sevenpairs38packagecases and106/96S+O preserved; materialambition notqualified; unblindedAIadvisorynotattributablemaintainer",
+      "artifact": "docs/next-stage/call-sites-audit-resolution.md"
+    },
+    {
+      "surface": "Authorized release enforcement and four-host P/A/I",
+      "verdict": "PENDING_AUTHORITY_AND_EXTERNAL_PROOF",
+      "observed": "Actual read-onlycontrolplaneunprotected/historicalapp15368notownertrust; no commits/remote/settings/publication authorized",
+      "artifact": ".omo/audit-resolution/research/u16-finalguide-current69-readiness.json"
+    }
+  ],
+  "originalAuditPreservation": {
+    "snapshot": "docs/audits/goal-24-resolution/original-criterion-matrix.csv",
+    "bytes": 124071,
+    "actualGitBlobSha1": "abc5fe16556b00f0ea495a1608c6cd4270faf69d",
+    "expectedGitBlobSha1": "abc5fe16556b00f0ea495a1608c6cd4270faf69d",
+    "sha256": "2a3cb04787c36c2a05fafd054fa7bc24cddce473b7b65febcdf9fe865ee02d6d"
+  },
+  "final69AcceptancePending": true,
+  "independentGateApprovalPending": true,
+  "noHistoricalEvidenceRelabeled": true
+}

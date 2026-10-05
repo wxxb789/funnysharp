@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "unit": "U11",
+  "status": "PACKAGE_EQUIVALENCE_PASS_DENSITY_NEGATIVE_ACCEPTANCE_OPEN",
+  "tests": {
+    "tests": 37,
+    "passed": 37,
+    "failed": 0,
+    "pending": 0,
+    "skipped": 0,
+    "other": 0,
+    "suites": 1,
+    "start": 1790882220882,
+    "stop": 1790882221288
+  },
+  "workflowSourceMetrics": [
+    {
+      "file": "IdiomaticWorkflows.cs",
+      "sha256": "c980d97124df48a12ffc3cea6fabb169e7559c9fa42b1b3ef77972f18d507019",
+      "rawLoc": 122,
+      "wholeSourceFileLoc": 124
+    },
+    {
+      "file": "FunnySharpWorkflows.cs",
+      "sha256": "08c14fd68301bc1acda028187828cf104f5e9166561924e0e24ff6ca3400115d",
+      "rawLoc": 119,
+      "wholeSourceFileLoc": 122
+    }
+  ],
+  "semanticUnits": {
+    "bcl": {
+      "S": 50,
+      "O": 73,
+      "total": 123
+    },
+    "funnySharp": {
+      "S": 48,
+      "O": 96,
+      "total": 144
+    },
+    "countReview": "Independent deep-low gpt-6.1-sol review verified every member; parent reproduced its class-scope LOC correction. This is not maintainer acceptance.",
+    "countReviewFile": ".omo/audit-resolution/research/u11-independent-count-review.md"
+  },
+  "provenance": {
+    "packageSource": "Q:\\repos\\funnysharp-goal24-resolution\\artifacts\\audit-resolution\\slice-harness-resume\\attempt-4\\feed",
+    "packageSha256": "fba1feaa30287ad94f7fcb60f87e170e1d2dd3ac6bb645e9b44a0cdc1029adb5",
+    "packageAndRuntimeDllSha256": "37f4b3be823a254b5510c57f08e4e5127a7f7c0f567abe1144adc1b5a19d7fcc",
+    "initialRestoreExitCode": 0,
+    "lockedRestoreExitCode": 0,
+    "testExitCode": 0
+  },
+  "evidence": {
+    "testReceipt": "artifacts/audit-resolution/u11-attempt-01/equivalence-red.json",
+    "assets": "eng/evaluation/comparisons/function-grammar/obj/project.assets.json",
+    "lock": "artifacts/audit-resolution/u11-attempt-01/packages.lock.json"
+  },
+  "open": [
+    "Independent exact-source maintainer review",
+    "Original material-density claim disposition",
+    "Final frozen-candidate package replay"
+  ]
+}

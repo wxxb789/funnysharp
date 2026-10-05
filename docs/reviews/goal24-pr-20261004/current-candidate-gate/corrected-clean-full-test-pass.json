@@ -1,0 +1,27 @@
+{
+  "schema": "funnysharp-pr-clean-corrected-full-gate-pass/v1",
+  "candidate": "c306991992b04299a3300235ce3285d4537fe6c2",
+  "base": "79b84990ecfee7abda144008b926283b6bba22de",
+  "cleanBeforeRun": true,
+  "cleanAfterRunObserved": true,
+  "gate": "dotnet fsi build.fsx -- -p test",
+  "configuration": "Debug default repository pipeline",
+  "monitor": "mon_0RY6HSRH63RRJT12",
+  "exitCode": 0,
+  "total": 2630,
+  "passed": 2630,
+  "failed": 0,
+  "skipped": 0,
+  "elapsedMilliseconds": 47990,
+  "output": "status: completed exit_code: 0\nRun PIPELINE test. Total timeout: -1ms.\nTest run summary: Passed!\n  failed: 0\n  succeeded: 2630\n  skipped: 0\ntest/step-0> finished. 47960ms. \n── STAGE #0 test finished. 47983ms. ────────────────────────────────────────────\nRun stages finished\nRun post stages finished\nPIPELINE test is finished in 47990 ms",
+  "priorRedRetained": "docs/reviews/goal24-pr-20261004/http-cancellation-observer/initial-full-gate-red.json",
+  "actualObserverFixCommitted": true,
+  "noFailureSuppressionNoTimedRetryNoMeasurementRerun": true,
+  "release": {
+    "monitor": "mon_8239RFCFBD6AKP7F",
+    "attempt": "r5",
+    "status": "RUNNING_NOT_PASS",
+    "root": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/c306991992b04299a3300235ce3285d4537fe6c2/r5"
+  },
+  "independentGatePublicationCiCleanup": "PENDING"
+}

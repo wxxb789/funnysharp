@@ -1,0 +1,117 @@
+{
+  "schema": "funnysharp-b584-retention-byte-check/v1",
+  "date": "2026-10-05",
+  "child": {
+    "taskId": "st_01a109ee",
+    "route": "native category deep-low",
+    "delegation": "none"
+  },
+  "status": "PASS",
+  "catalogSha256": "cc074f460185bc3d6d826bcf4e6117c3d806665118a7f5305228d4e3aa2b00ee",
+  "counts": {
+    "objects": 288,
+    "objectBytes": 113282860,
+    "physicalObjectParts": 408,
+    "physicalObjectBytes": 152303142,
+    "locators": 380,
+    "gitReferences": 7570,
+    "packageEntries": 42
+  },
+  "packageArchives": 6,
+  "packageEntryBytes": 1826307,
+  "requiredR4Files": 219,
+  "graphEdges": 161,
+  "sourceGit": {
+    "paths": 7568,
+    "distinctBlobsChecked": 2840,
+    "bytes": 449433193,
+    "mismatches": 0,
+    "additionalHistoricalReferences": 2,
+    "additionalHistoricalReferencesHashMatched": true
+  },
+  "credentialScan": {
+    "decodedObjects": 288,
+    "decodedBytes": 113282860,
+    "packageEntries": 42,
+    "packageEntryBytes": 1826307,
+    "encodings": [
+      "latin1",
+      "utf-16-le",
+      "utf-16-le-offset1"
+    ],
+    "patternClasses": [
+      "private-key",
+      "github-token",
+      "aws-access-key",
+      "google-api-key",
+      "slack-token",
+      "stripe-live-key",
+      "jwt",
+      "authorization-token",
+      "credential-url",
+      "azure-storage-key",
+      "sas-signature",
+      "literal-secret-assignment",
+      "nuget-api-key"
+    ],
+    "candidateCount": 0,
+    "reportLimit": 80,
+    "findings": [],
+    "scope": "Strong-pattern coverage only. No universal claim about arbitrary secrets or unretained caches/source objects."
+  },
+  "executedChecks": [
+    {
+      "name": "Read-only candidate status",
+      "execution": "Bun.spawn([git, -C, integration-worktree, status, --short, --branch])",
+      "exitCode": 0,
+      "result": "Observed parent-owned Traverse XML/policy repair dirt and two gate reports; no child Git writes."
+    },
+    {
+      "name": "Immutable b584 source byte comparison",
+      "execution": "git -C integration-worktree ls-tree -rl b584e748699a4f19d8a901695634be5a85ce8b07; git cat-file --batch in bounded 128-blob batches; Bun SHA256 and byte-length comparison",
+      "exitCode": 0,
+      "result": "7,568 paths / 2,840 independent blobs / zero mismatches; r4 before/after fingerprints equal."
+    },
+    {
+      "name": "Historical previous input graph",
+      "execution": "git cat-file blob e7aea9995bac6c87a69db14a8b04c6925cb45d4c:path plus git rev-parse commit:path",
+      "exitCode": 0,
+      "result": "Previous reviewed-input anchor and changed Option source match exact SHA256 and length; commit/blob citations retained."
+    },
+    {
+      "name": "Exact original bytes and package entries",
+      "execution": "Bun.file arrayBuffer + Bun.CryptoHasher; ZIP central directory + node:zlib inflateRawSync for bound archive entries",
+      "result": "All required r4 bytes captured; six sealed DLL/PDB/XML aliases recovered without reading integration moving bin/obj. Exact hash-bound System.Runtime.xml and historical policy DLL/XML recovered."
+    },
+    {
+      "name": "Landed portable byte and credential check",
+      "execution": "Python eval: exec(compile(read(verify-b584.py), path, exec), namespace with __name__=retention_verifier); namespace[run](packet)",
+      "result": "Returned status PASS; 408 physical parts, 288 decoded objects, 380 locators, six archives / 42 package entries, 14 receipt-command-log joins, ten release checks, XML seal, 161 graph edges and all 155 published output files. Zero strong credential candidates.",
+      "gitBlobsRecheckedByThisRun": 0
+    }
+  ],
+  "historicalLocalResult": "LOCAL PASS subsequently REJECT FG-R9-001, not current successor acceptance",
+  "missingByteLimits": [
+    {
+      "kind": "version-http-response",
+      "sha256": "e64db0fde59206a0cf85c783e644f5e2ffd6a519dbf7d720cc9e5b0ace3d46a4",
+      "length": null,
+      "reason": "Preflight/final receipts retain a 404 response digest but no raw response body. No network replay or synthesized response."
+    },
+    {
+      "kind": "operational-usage-and-output-precondition-raw-streams",
+      "sha256": null,
+      "length": null,
+      "reason": "Actual usage exit 2 and custom-output precondition exit 1 are retained as exact parent JSON records. No attempt directory/raw stdout or stderr file is named by those records, so no standalone raw stream bytes are claimed."
+    }
+  ],
+  "operationalInputLimit": "Two external runner/config files are exact observed bytes, but were not hash-pinned in r4 at execution time; category operational-input-observed-unpinned does not assert execution-time identity.",
+  "notExecuted": [
+    "Build, test, benchmark or release workload",
+    "Original protocol or experiment rerun",
+    "Git mutation, commit, push, merge or remote message",
+    "Network, NuGet operation, source/lock/protocol/observation edit",
+    "Cleanup, poll or wait"
+  ],
+  "parentOwnsIntegrationAndFinalVerification": true
+}

@@ -1,0 +1,544 @@
+{
+  "schema": "funnysharp-parent-authorized-u15-provenance-proof/v1",
+  "productCandidate": "d8744c934d86833f9817245ecc7c78b1177b8b76",
+  "authority": {
+    "source": "history-authority.md",
+    "userApproval": "approve then continue",
+    "historicalRequestLines": "S:4289/S:4303",
+    "ordinaryMergeAuthorized": false,
+    "nugetPublicationAuthorized": false
+  },
+  "canonicalRelease": {
+    "runId": 37135069130,
+    "attempt": 1,
+    "checks": [
+      {
+        "id": 111238513796,
+        "name": "release / osx-x64-consumer",
+        "head": "d8744c934d86833f9817245ecc7c78b1177b8b76",
+        "app": 15368,
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 111238513729,
+        "name": "release / osx-arm64",
+        "head": "d8744c934d86833f9817245ecc7c78b1177b8b76",
+        "app": 15368,
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 111238513704,
+        "name": "release / linux-x64",
+        "head": "d8744c934d86833f9817245ecc7c78b1177b8b76",
+        "app": 15368,
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 111237839692,
+        "name": "release / win-x64",
+        "head": "d8744c934d86833f9817245ecc7c78b1177b8b76",
+        "app": 15368,
+        "status": "completed",
+        "conclusion": "success"
+      }
+    ],
+    "sourcePackageReceipt": "../u15-authorized/d8744-four-host-binding-audit.json"
+  },
+  "ruleset": {
+    "id": 24414858,
+    "body": {
+      "url": "https://api.github.com/repos/wxxb789/funnysharp/rulesets/24414858",
+      "effectiveUrl": "https://api.github.com/repos/wxxb789/funnysharp/rulesets/24414858",
+      "statusCode": 200,
+      "bodySha256": "21ba66b363a33580ec6e1f0c7d652ea97a78cb3cc9e225f38bd4f69bc5acadb4",
+      "observedAtUtc": "2026-10-04T09:30:54.2531513+00:00",
+      "bodyPath": "http/0021.body"
+    },
+    "source": "wxxb789/funnysharp",
+    "target": "main",
+    "enforcement": "active",
+    "strict": true,
+    "integration": 15368,
+    "contexts": [
+      {
+        "context": "release / win-x64",
+        "integration_id": 15368
+      },
+      {
+        "context": "release / linux-x64",
+        "integration_id": 15368
+      },
+      {
+        "context": "release / osx-arm64",
+        "integration_id": 15368
+      },
+      {
+        "context": "release / osx-x64-consumer",
+        "integration_id": 15368
+      }
+    ],
+    "bypassActors": [],
+    "callerCanBypass": "never"
+  },
+  "ordinaryDenials": [
+    {
+      "context": "release / win-x64",
+      "runId": 37123754417,
+      "headSha": "854742e824a42925d478054f1b42a3a3ca71089e",
+      "attempt": 1,
+      "runResponse": {
+        "url": "https://api.github.com/repos/wxxb789/funnysharp/actions/runs/37123754417/attempts/1",
+        "effectiveUrl": "https://api.github.com/repos/wxxb789/funnysharp/actions/runs/37123754417/attempts/1",
+        "statusCode": 200,
+        "bodySha256": "2279777f8fdbc232a1a3bb888110a09040009e518763ce7ab60b76560e984caf",
+        "observedAtUtc": "2026-10-04T09:30:54.8359537+00:00",
+        "bodyPath": "http/0022.body"
+      },
+      "jobsResponse": {
+        "url": "https://api.github.com/repos/wxxb789/funnysharp/actions/runs/37123754417/attempts/1/jobs?per_page=100",
+        "effectiveUrl": "https://api.github.com/repos/wxxb789/funnysharp/actions/runs/37123754417/attempts/1/jobs?per_page=100",
+        "statusCode": 200,
+        "bodySha256": "ca8f68206813cd538e776462549958d10130ae3fec67d2f99b797e48fb622009",
+        "observedAtUtc": "2026-10-04T09:30:55.6275264+00:00",
+        "bodyPath": "http/0023.body"
+      },
+      "checks": [
+        {
+          "id": 111204836225,
+          "name": "release / win-x64",
+          "head": "854742e824a42925d478054f1b42a3a3ca71089e",
+          "app": 15368,
+          "conclusion": "failure",
+          "response": {
+            "url": "https://api.github.com/repos/wxxb789/funnysharp/check-runs/111204836225",
+            "effectiveUrl": "https://api.github.com/repos/wxxb789/funnysharp/check-runs/111204836225",
+            "statusCode": 200,
+            "bodySha256": "e453c6bfa8b8fd5d8a0f3811b924b9d9b418c81494f9f4dd79135da0728ecda5",
+            "observedAtUtc": "2026-10-04T09:30:55.9525458+00:00",
+            "bodyPath": "http/0024.body"
+          }
+        },
+        {
+          "id": 111205810722,
+          "name": "release / osx-arm64",
+          "head": "854742e824a42925d478054f1b42a3a3ca71089e",
+          "app": 15368,
+          "conclusion": "success",
+          "response": {
+            "url": "https://api.github.com/repos/wxxb789/funnysharp/check-runs/111205810722",
+            "effectiveUrl": "https://api.github.com/repos/wxxb789/funnysharp/check-runs/111205810722",
+            "statusCode": 200,
+            "bodySha256": "a617538a6c782736b0c80257d5332fc2ddccbbdff6548da2d6be1cd787df65eb",
+            "observedAtUtc": "2026-10-04T09:30:56.9995358+00:00",
+            "bodyPath": "http/0026.body"
+          }
+        },
+        {
+          "id": 111205810749,
+          "name": "release / osx-x64-consumer",
+          "head": "854742e824a42925d478054f1b42a3a3ca71089e",
+          "app": 15368,
+          "conclusion": "success",
+          "response": {
+            "url": "https://api.github.com/repos/wxxb789/funnysharp/check-runs/111205810749",
+            "effectiveUrl": "https://api.github.com/repos/wxxb789/funnysharp/check-runs/111205810749",
+            "statusCode": 200,
+            "bodySha256": "f177317adde26c530ba9180315729b2aefcb77e17ebc802d5dfc64fbfc205cc4",
+            "observedAtUtc": "2026-10-04T09:30:57.4406236+00:00",
+            "bodyPath": "http/0027.body"
+          }
+        },
+        {
+          "id": 111205810750,
+          "name": "release / linux-x64",
+          "head": "854742e824a42925d478054f1b42a3a3ca71089e",
+          "app": 15368,
+          "conclusion": "success",
+          "response": {
+            "url": "https://api.github.com/repos/wxxb789/funnysharp/check-runs/111205810750",
+            "effectiveUrl": "https://api.github.com/repos/wxxb789/funnysharp/check-runs/111205810750",
+            "statusCode": 200,
+            "bodySha256": "4e2bdc7fa455b65e5dfecaf54506b6764ede2ff59a2756df80b5090caf33cf91",
+            "observedAtUtc": "2026-10-04T09:30:56.3142434+00:00",
+            "bodyPath": "http/0025.body"
+          }
+        }
+      ],
+      "normalActor": "wxxb789",
+      "noBypass": true,
+      "disabledControl": true,
+      "uiObservation": {
+        "id": "pr-35-ui-observation.json",
+        "path": "payload/pr-35-ui-observation.json",
+        "length": 4517,
+        "sha256": "91e19b73ec3f067662f973c35124f1260b77647c6fc0bbfed0862a54ea8eee24"
+      },
+      "denialMethod": "disabled-merge-control",
+      "mergeEndpointHttpRefusalClaimed": false
+    },
+    {
+      "context": "release / osx-arm64",
+      "runId": 37123755188,
+      "headSha": "a1c95d3ae6dc40214138832d6538fd7ea154ed53",
+      "attempt": 1,
+      "runResponse": {
+        "url": "https://api.github.com/repos/wxxb789/funnysharp/actions/runs/37123755188/attempts/1",
+        "effectiveUrl": "https://api.github.com/repos/wxxb789/funnysharp/actions/runs/37123755188/attempts/1",
+        "statusCode": 200,
+        "bodySha256": "f34c40a72403b97b5fc591805e28276eb3e8e3676df33b8c80c867c9cbe1f4d2",
+        "observedAtUtc": "2026-10-04T09:30:57.9155244+00:00",
+        "bodyPath": "http/0028.body"
+      },
+      "jobsResponse": {
+        "url": "https://api.github.com/repos/wxxb789/funnysharp/actions/runs/37123755188/attempts/1/jobs?per_page=100",
+        "effectiveUrl": "https://api.github.com/repos/wxxb789/funnysharp/actions/runs/37123755188/attempts/1/jobs?per_page=100",
+        "statusCode": 200,
+        "bodySha256": "2d05fabb2edc6752dbbd4c9500c510d174e932e02dadd94524ff11afa448d3d6",
+        "observedAtUtc": "2026-10-04T09:30:58.7178916+00:00",
+        "bodyPath": "http/0029.body"
+      },
+      "checks": [
+        {
+          "id": 111204838629,
+          "name": "release / win-x64",
+          "head": "a1c95d3ae6dc40214138832d6538fd7ea154ed53",
+          "app": 15368,
+          "conclusion": "success",
+          "response": {
+            "url": "https://api.github.com/repos/wxxb789/funnysharp/check-runs/111204838629",
+            "effectiveUrl": "https://api.github.com/repos/wxxb789/funnysharp/check-runs/111204838629",
+            "statusCode": 200,
+            "bodySha256": "4d16ef635932b57cd798fd869156dc9b7114a1786d08b77e0c17858002d07a83",
+            "observedAtUtc": "2026-10-04T09:30:59.0607713+00:00",
+            "bodyPath": "http/0030.body"
+          }
+        },
+        {
+          "id": 111205844142,
+          "name": "release / osx-x64-consumer",
+          "head": "a1c95d3ae6dc40214138832d6538fd7ea154ed53",
+          "app": 15368,
+          "conclusion": "success",
+          "response": {
+            "url": "https://api.github.com/repos/wxxb789/funnysharp/check-runs/111205844142",
+            "effectiveUrl": "https://api.github.com/repos/wxxb789/funnysharp/check-runs/111205844142",
+            "statusCode": 200,
+            "bodySha256": "62bd2ab1c19a1e2c7121ecc39b1b9ab4bbd7b68e434b849942ee0e634ee089ef",
+            "observedAtUtc": "2026-10-04T09:31:00.1861609+00:00",
+            "bodyPath": "http/0033.body"
+          }
+        },
+        {
+          "id": 111205844162,
+          "name": "release / osx-arm64",
+          "head": "a1c95d3ae6dc40214138832d6538fd7ea154ed53",
+          "app": 15368,
+          "conclusion": "failure",
+          "response": {
+            "url": "https://api.github.com/repos/wxxb789/funnysharp/check-runs/111205844162",
+            "effectiveUrl": "https://api.github.com/repos/wxxb789/funnysharp/check-runs/111205844162",
+            "statusCode": 200,
+            "bodySha256": "ee514745046296124099abc6847c9b815f5cf461e41a68f5116c60d9c777f993",
+            "observedAtUtc": "2026-10-04T09:30:59.8129537+00:00",
+            "bodyPath": "http/0032.body"
+          }
+        },
+        {
+          "id": 111205844243,
+          "name": "release / linux-x64",
+          "head": "a1c95d3ae6dc40214138832d6538fd7ea154ed53",
+          "app": 15368,
+          "conclusion": "success",
+          "response": {
+            "url": "https://api.github.com/repos/wxxb789/funnysharp/check-runs/111205844243",
+            "effectiveUrl": "https://api.github.com/repos/wxxb789/funnysharp/check-runs/111205844243",
+            "statusCode": 200,
+            "bodySha256": "b81064b8f6f6abd3ea96d6547e40c9edb70671a9fb8dd924ce552dd3647f13bd",
+            "observedAtUtc": "2026-10-04T09:30:59.4476258+00:00",
+            "bodyPath": "http/0031.body"
+          }
+        }
+      ],
+      "normalActor": "wxxb789",
+      "noBypass": true,
+      "disabledControl": true,
+      "uiObservation": {
+        "id": "pr-36-ui-observation.json",
+        "path": "payload/pr-36-ui-observation.json",
+        "length": 4519,
+        "sha256": "0ea19c27469939d34fa878d6d755815dd55ddf16057a2f4c3f87887080e8ffd9"
+      },
+      "denialMethod": "disabled-merge-control",
+      "mergeEndpointHttpRefusalClaimed": false
+    },
+    {
+      "context": "release / osx-x64-consumer",
+      "runId": 37123755117,
+      "headSha": "bc00df2ed49bb76f0a10d3b095f68a428908eb0b",
+      "attempt": 1,
+      "runResponse": {
+        "url": "https://api.github.com/repos/wxxb789/funnysharp/actions/runs/37123755117/attempts/1",
+        "effectiveUrl": "https://api.github.com/repos/wxxb789/funnysharp/actions/runs/37123755117/attempts/1",
+        "statusCode": 200,
+        "bodySha256": "ca2c4b11de495a07599cc6df9be9e6d26da79fb1bb5165f24c67403d0dda1288",
+        "observedAtUtc": "2026-10-04T09:31:00.5662892+00:00",
+        "bodyPath": "http/0034.body"
+      },
+      "jobsResponse": {
+        "url": "https://api.github.com/repos/wxxb789/funnysharp/actions/runs/37123755117/attempts/1/jobs?per_page=100",
+        "effectiveUrl": "https://api.github.com/repos/wxxb789/funnysharp/actions/runs/37123755117/attempts/1/jobs?per_page=100",
+        "statusCode": 200,
+        "bodySha256": "24929db88e58a64a07e672022bffbc66ffdfc741381579b4a817ceee7a56ba06",
+        "observedAtUtc": "2026-10-04T09:31:01.4050472+00:00",
+        "bodyPath": "http/0035.body"
+      },
+      "checks": [
+        {
+          "id": 111204838240,
+          "name": "release / win-x64",
+          "head": "bc00df2ed49bb76f0a10d3b095f68a428908eb0b",
+          "app": 15368,
+          "conclusion": "success",
+          "response": {
+            "url": "https://api.github.com/repos/wxxb789/funnysharp/check-runs/111204838240",
+            "effectiveUrl": "https://api.github.com/repos/wxxb789/funnysharp/check-runs/111204838240",
+            "statusCode": 200,
+            "bodySha256": "602de2918030b048abd6f4842ea72d14e40e640a2039470b9ba783673e61ae39",
+            "observedAtUtc": "2026-10-04T09:31:01.7376210+00:00",
+            "bodyPath": "http/0036.body"
+          }
+        },
+        {
+          "id": 111205855978,
+          "name": "release / osx-x64-consumer",
+          "head": "bc00df2ed49bb76f0a10d3b095f68a428908eb0b",
+          "app": 15368,
+          "conclusion": "failure",
+          "response": {
+            "url": "https://api.github.com/repos/wxxb789/funnysharp/check-runs/111205855978",
+            "effectiveUrl": "https://api.github.com/repos/wxxb789/funnysharp/check-runs/111205855978",
+            "statusCode": 200,
+            "bodySha256": "87eefaeba532973d1a1f71e023d2ed75a7270edc9c8ca1490406759dd5943b17",
+            "observedAtUtc": "2026-10-04T09:31:02.7919570+00:00",
+            "bodyPath": "http/0039.body"
+          }
+        },
+        {
+          "id": 111205856046,
+          "name": "release / osx-arm64",
+          "head": "bc00df2ed49bb76f0a10d3b095f68a428908eb0b",
+          "app": 15368,
+          "conclusion": "success",
+          "response": {
+            "url": "https://api.github.com/repos/wxxb789/funnysharp/check-runs/111205856046",
+            "effectiveUrl": "https://api.github.com/repos/wxxb789/funnysharp/check-runs/111205856046",
+            "statusCode": 200,
+            "bodySha256": "c81e32854ac1e7612e7365a99804b8ac6bf32493d0101c45838ab461fff9c127",
+            "observedAtUtc": "2026-10-04T09:31:02.4215954+00:00",
+            "bodyPath": "http/0038.body"
+          }
+        },
+        {
+          "id": 111205856052,
+          "name": "release / linux-x64",
+          "head": "bc00df2ed49bb76f0a10d3b095f68a428908eb0b",
+          "app": 15368,
+          "conclusion": "success",
+          "response": {
+            "url": "https://api.github.com/repos/wxxb789/funnysharp/check-runs/111205856052",
+            "effectiveUrl": "https://api.github.com/repos/wxxb789/funnysharp/check-runs/111205856052",
+            "statusCode": 200,
+            "bodySha256": "d2315d579d8578a04686679272983699cdc60a3ce99fedb4d1706f683d325757",
+            "observedAtUtc": "2026-10-04T09:31:02.0988102+00:00",
+            "bodyPath": "http/0037.body"
+          }
+        }
+      ],
+      "normalActor": "wxxb789",
+      "noBypass": true,
+      "disabledControl": true,
+      "uiObservation": {
+        "id": "pr-37-ui-observation.json",
+        "path": "payload/pr-37-ui-observation.json",
+        "length": 4538,
+        "sha256": "f4e1cb23ff72605e4cb333721855bf5065acd172e58e0efe24d3bc3eb704a36d"
+      },
+      "denialMethod": "disabled-merge-control",
+      "mergeEndpointHttpRefusalClaimed": false
+    },
+    {
+      "context": "release / linux-x64",
+      "runId": 37123755900,
+      "headSha": "0072c3ff6c1b747992ee661fcd34309fa407fd9d",
+      "attempt": 1,
+      "runResponse": {
+        "url": "https://api.github.com/repos/wxxb789/funnysharp/actions/runs/37123755900/attempts/1",
+        "effectiveUrl": "https://api.github.com/repos/wxxb789/funnysharp/actions/runs/37123755900/attempts/1",
+        "statusCode": 200,
+        "bodySha256": "ef7202fb9d449a6d53cbfa9ff0d69620feb37d8054cac9d61b67c91bbbffac71",
+        "observedAtUtc": "2026-10-04T09:31:03.3958882+00:00",
+        "bodyPath": "http/0040.body"
+      },
+      "jobsResponse": {
+        "url": "https://api.github.com/repos/wxxb789/funnysharp/actions/runs/37123755900/attempts/1/jobs?per_page=100",
+        "effectiveUrl": "https://api.github.com/repos/wxxb789/funnysharp/actions/runs/37123755900/attempts/1/jobs?per_page=100",
+        "statusCode": 200,
+        "bodySha256": "3dd4d5edc65bf4f5603cc65d9080c9fad0b5526d5f2461ace8d707752b8eb665",
+        "observedAtUtc": "2026-10-04T09:31:04.2342788+00:00",
+        "bodyPath": "http/0041.body"
+      },
+      "checks": [
+        {
+          "id": 111204840688,
+          "name": "release / win-x64",
+          "head": "0072c3ff6c1b747992ee661fcd34309fa407fd9d",
+          "app": 15368,
+          "conclusion": "success",
+          "response": {
+            "url": "https://api.github.com/repos/wxxb789/funnysharp/check-runs/111204840688",
+            "effectiveUrl": "https://api.github.com/repos/wxxb789/funnysharp/check-runs/111204840688",
+            "statusCode": 200,
+            "bodySha256": "0bbd9e3eb18a5a872be4290e1f32358a63acbf4483fb6e69de09b281ddd0742d",
+            "observedAtUtc": "2026-10-04T09:31:04.6118121+00:00",
+            "bodyPath": "http/0042.body"
+          }
+        },
+        {
+          "id": 111205734972,
+          "name": "release / osx-arm64",
+          "head": "0072c3ff6c1b747992ee661fcd34309fa407fd9d",
+          "app": 15368,
+          "conclusion": "success",
+          "response": {
+            "url": "https://api.github.com/repos/wxxb789/funnysharp/check-runs/111205734972",
+            "effectiveUrl": "https://api.github.com/repos/wxxb789/funnysharp/check-runs/111205734972",
+            "statusCode": 200,
+            "bodySha256": "330c08d050ddf296f624d27cbee8f2540bae1c7b9b6933553fa5d5110ac8f548",
+            "observedAtUtc": "2026-10-04T09:31:05.3275039+00:00",
+            "bodyPath": "http/0044.body"
+          }
+        },
+        {
+          "id": 111205734983,
+          "name": "release / osx-x64-consumer",
+          "head": "0072c3ff6c1b747992ee661fcd34309fa407fd9d",
+          "app": 15368,
+          "conclusion": "success",
+          "response": {
+            "url": "https://api.github.com/repos/wxxb789/funnysharp/check-runs/111205734983",
+            "effectiveUrl": "https://api.github.com/repos/wxxb789/funnysharp/check-runs/111205734983",
+            "statusCode": 200,
+            "bodySha256": "86d3421ea643691a8f7adf4cd488cce0781ec6bde8754f88f2dbdd921aa00c7e",
+            "observedAtUtc": "2026-10-04T09:31:05.8356115+00:00",
+            "bodyPath": "http/0045.body"
+          }
+        },
+        {
+          "id": 111205735011,
+          "name": "release / linux-x64",
+          "head": "0072c3ff6c1b747992ee661fcd34309fa407fd9d",
+          "app": 15368,
+          "conclusion": "failure",
+          "response": {
+            "url": "https://api.github.com/repos/wxxb789/funnysharp/check-runs/111205735011",
+            "effectiveUrl": "https://api.github.com/repos/wxxb789/funnysharp/check-runs/111205735011",
+            "statusCode": 200,
+            "bodySha256": "837056f3d98b279c8196f56849b166777072962cc01461f1c296dfbb0064eeaa",
+            "observedAtUtc": "2026-10-04T09:31:04.9814319+00:00",
+            "bodyPath": "http/0043.body"
+          }
+        }
+      ],
+      "normalActor": "wxxb789",
+      "noBypass": true,
+      "disabledControl": true,
+      "uiObservation": {
+        "id": "pr-38-ui-observation.json",
+        "path": "payload/pr-38-ui-observation.json",
+        "length": 4519,
+        "sha256": "757c38398d2ebcca183a301ab7d022f4cc008d8055bf406a874ed31842102054"
+      },
+      "denialMethod": "disabled-merge-control",
+      "mergeEndpointHttpRefusalClaimed": false
+    }
+  ],
+  "finalFeeds": [
+    {
+      "feed": "https://api.nuget.org/v3/index.json",
+      "effectiveServiceUrl": "https://api.nuget.org/v3/index.json",
+      "packageBaseAddress": "https://api.nuget.org/v3-flatcontainer/",
+      "packageId": "FunnySharp",
+      "version": "0.2.0",
+      "status": "absent",
+      "statusCode": 404,
+      "rawBodySha256": "a738aef90a8e7221feb50c9679a22cbcd132a1011dd6bf95f18b3c8d071c3a1c",
+      "normalizedVersionsSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "versions": [],
+      "checkedAtUtc": "2026-10-04T09:31:07.6467985+00:00"
+    },
+    {
+      "feed": "https://api.nuget.org/v3/index.json",
+      "effectiveServiceUrl": "https://api.nuget.org/v3/index.json",
+      "packageBaseAddress": "https://api.nuget.org/v3-flatcontainer/",
+      "packageId": "FunnySharp.AspNetCore",
+      "version": "0.2.0",
+      "status": "absent",
+      "statusCode": 404,
+      "rawBodySha256": "e08b887a17bc409879db4e0b9901b2e43b0b46d84cdf276d66d30d257e4f224d",
+      "normalizedVersionsSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "versions": [],
+      "checkedAtUtc": "2026-10-04T09:31:08.0869458+00:00"
+    }
+  ],
+  "publication": {
+    "schema": "funnysharp-parent-real-publication-retrieval-proof/v1",
+    "runId": 37210014612,
+    "attempt": 1,
+    "publicationCode": "e7aea9995bac6c87a69db14a8b04c6925cb45d4c",
+    "publicationData": "92968c03bc89dd139095d3f39611170950223610",
+    "productCandidate": "d8744c934d86833f9817245ecc7c78b1177b8b76",
+    "runConclusion": "success",
+    "command": "dotnet fsi --warnaserror+ verify-publication-retrieval.fsx -- actual-publication-metadata.json publication-retrieved-01",
+    "exitCode": 0,
+    "indexSha256": "266fe2363dc2d743d03cc91bb8cba1af0ec463f3d2fc2a9120e8c097594f1489",
+    "indexCreatedAtUtc": "2026-10-04T14:41:31.8910696+00:00",
+    "producerSha256": "51d55b6d1d328c3a0caa69f2ec42ba03b7fdd37e3c6475f8dcefaa2435897d72",
+    "attestationSha256": "6ef82eafbf03e00ef3191f9a5541b9280ec3962ae20bf9953dd8b72d942165a5",
+    "reportSha256": "1ce284acac64c06768a7c6b5dea0bf698581b0dd6404d88d5520e598460326b5",
+    "provenanceArtifactUrl": "https://github.com/wxxb789/funnysharp/actions/runs/37210014612/artifacts/11306431210",
+    "indexArtifactUrl": "https://github.com/wxxb789/funnysharp/actions/runs/37210014612/artifacts/11306386365",
+    "rawZipDigests": [
+      {
+        "id": 11306431210,
+        "name": "release-provenance-stage-attestation-37210014612-1",
+        "size": 1321390111,
+        "digest": "1bde4542082cd5d49c2950de9a2517946a4658337fb421bfe7bfbb44b501cc0e",
+        "file": "provenance.zip"
+      },
+      {
+        "id": 11306386365,
+        "name": "release-index-37210014612-1",
+        "size": 2827,
+        "digest": "9298258a7e24ada4419f8ac973851889455fdaa3f6aa1a71fa6dc85bc19df9a1",
+        "file": "index.zip"
+      }
+    ],
+    "inventoryFiles": 310,
+    "payloads": 258,
+    "httpBodies": 49,
+    "attachmentsVerified": 307,
+    "attachmentBytes": 1407188687,
+    "contractJoins": 13,
+    "allHashesAndLengthsMatched": true,
+    "exactInventory": true,
+    "productAndPublicationIdentitiesSeparate": true,
+    "wholeGoal24Accepted": false
+  },
+  "peContinuityReceipt": "parent-current-package-pe-continuity.json",
+  "allRequiredPublicationAndEnforcementJoinsPresent": true,
+  "releaseRequirementsDoNotCloseWholeGoal24": true,
+  "final69LedgerAndIndependentGatePending": true
+}

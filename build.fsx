@@ -16,11 +16,14 @@ open Fun.Build
 #load "eng/harness/Ruleset.fs"
 #load "eng/harness/Compatibility.fs"
 #load "eng/harness/ReleaseProtocol.fs"
+#load "eng/harness/XmlBuildBindings.fs"
 #load "eng/harness/ReleaseRun.fs"
 #load "eng/harness/ReleaseVerifySource.fs"
 #load "eng/harness/ReleaseVerifyArtifacts.fs"
+#load "eng/harness/StableApiContracts.fs"
 #load "eng/harness/ApiBaseline.fs"
 #load "eng/harness/ReleaseVerify.fs"
+#load "eng/harness/ReleaseProvenance.fs"
 #load "eng/harness/Loc.fs"
 #load "eng/harness/Evaluation.fs"
 
@@ -125,6 +128,18 @@ pipeline "verify-api-baseline" {
     runIfOnlySpecified
 }
 
+pipeline "verify-stable-api-contracts" {
+    description "Verify the exact final stable semantic proof index and its actual evidence."
+    stage "verify-stable-api-contracts" {
+        run (fun ctx ->
+            let path = ctx.GetCmdArg "--proof-index"
+            let release = ctx.GetCmdArg "--release-evidence"
+            let args = if release <> "" then [| path; release |] elif path <> "" then [| path |] else [||]
+            gate (StableApiContracts.main args))
+    }
+    runIfOnlySpecified
+}
+
 pipeline "verify-tooling" {
     description "Run the PowerShell-free local pre-check over the release protocol's local steps."
     stage "verify-tooling" {
@@ -175,7 +190,7 @@ pipeline "vertical-slice" {
             gate (
                 VerticalSlice.main (
                     Array.ofList (
-                        flags ctx [ "--output"; "--feed"; "--repository-root" ]
+                        flags ctx [ "--output"; "--feed"; "--package-feed"; "--repository-root" ]
                         @ switches [ "--no-pack"; "--skip-tests"; "--skip-measurements"; "--json" ]
                     )
                 )
@@ -355,9 +370,24 @@ pipeline "release-verify" {
     runIfOnlySpecified
 }
 
+pipeline "release-provenance" {
+    description "Freeze aggregate release evidence, stage independent attestation, or publish its external index."
+    stage "release-provenance" {
+        run (fun ctx ->
+            gate (
+                ReleaseProvenance.main (
+                    Array.ofList (flags ctx [ "-Mode"; "-InputPath"; "-OutputDirectory"; "-ArtifactUrl" ])
+                )
+            ))
+    }
+    runIfOnlySpecified
+}
+
 pipeline "eval-prep-feed" {
     description "Prepare the evaluation feed used by the coding-evaluation harness."
-    stage "eval-prep-feed" { run (fun _ -> gate (Evaluation.main [| "prep-feed" |])) }
+    stage "eval-prep-feed" {
+        run (fun ctx -> gate (Evaluation.main (Array.ofList ([ "prep-feed" ] @ flags ctx [ "--study" ]))))
+    }
     runIfOnlySpecified
 }
 
@@ -375,6 +405,8 @@ pipeline "eval-verify" {
                           ctx.GetCmdArg("--style")
                           ctx.GetCmdArg("--run-dir") ]
                         @ (if round = "" then [] else [ "--round"; round ])
+                        @ flags ctx [ "--study" ]
+                        @ switches [ "--replay" ]
                     )
                 )
             ))
@@ -415,6 +447,7 @@ pipeline "default" {
             printfn "  check-action-pins"
             printfn "  verify-docs-snippets"
             printfn "  verify-api-baseline"
+            printfn "  verify-stable-api-contracts"
             printfn "  verify-tooling"
             printfn "  generate-inventory"
             printfn "  vertical-slice"

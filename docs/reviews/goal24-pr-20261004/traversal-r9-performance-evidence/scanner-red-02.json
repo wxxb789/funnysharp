@@ -1,0 +1,91 @@
+{
+  "schema": "funnysharp-retention-scanner-red/v1",
+  "monitor": "mon_CDKB0SF2PX5X0NTM",
+  "exactRunnerRecord": {
+    "controlRecords": [
+      {
+        "arguments": [
+          "fsi",
+          "--warnaserror+",
+          "Q:\\repos\\funnysharp\\.worktrees\\goal24-complete-pr\\docs/reviews/goal24-pr-20261004/traversal-r9-performance-evidence\\verify-current.fsx",
+          "--",
+          "Q:\\repos\\funnysharp\\.worktrees\\goal24-complete-pr"
+        ],
+        "executable": "dotnet",
+        "exitCode": 0,
+        "name": "landed-positive",
+        "stderr": "",
+        "stdout": "CURRENT_PERFORMANCE_PORTABLE_PASS objects=522 locators=547 rows=230 launches=230 census=499/468/31 runtime=24 writes=0 network=0\r\n"
+      },
+      {
+        "arguments": [
+          "fsi",
+          "--warnaserror+",
+          "Q:\\repos\\funnysharp\\.worktrees\\goal24-complete-pr\\artifacts\\pr-validation\\traversal-r9-performance-20261005-01\\portable-negative-fixtures\\st_01a10a29\\missing-object\\docs/reviews/goal24-pr-20261004/traversal-r9-performance-evidence\\verify-current.fsx",
+          "--",
+          "Q:\\repos\\funnysharp\\.worktrees\\goal24-complete-pr\\artifacts\\pr-validation\\traversal-r9-performance-20261005-01\\portable-negative-fixtures\\st_01a10a29\\missing-object"
+        ],
+        "executable": "dotnet",
+        "exitCode": 1,
+        "name": "missing-object",
+        "stderr": "System.IO.DirectoryNotFoundException: Could not find a part of the path 'Q:\\repos\\funnysharp\\.worktrees\\goal24-complete-pr\\artifacts\\pr-validation\\traversal-r9-performance-20261005-01\\portable-negative-fixtures\\st_01a10a29\\missing-object\\docs\\reviews\\goal24-pr-20261004\\traversal-r9-performance-evidence\\objects\\002ae9fe484517576edc5d4de95c24f4125b680171a1e2461fe884bb8f9f12d3.base64'.\r\n   at Microsoft.Win32.SafeHandles.SafeFileHandle.CreateFile(String fullPath, FileMode mode, FileAccess access, FileShare share, FileOptions options)\r\n   at Microsoft.Win32.SafeHandles.SafeFileHandle.Open(String fullPath, FileMode mode, FileAccess access, FileShare share, FileOptions options, Int64 preallocationSize, Nullable`1 unixCreateMode)\r\n   at System.IO.File.OpenHandle(String path, FileMode mode, FileAccess access, FileShare share, FileOptions options, Int64 preallocationSize)\r\n   at System.IO.File.ReadAllBytes(String path)\r\n   at <StartupCode$FSI_0001>.$FSI_0001.main@() in Q:\\repos\\funnysharp\\.worktrees\\goal24-complete-pr\\artifacts\\pr-validation\\traversal-r9-performance-20261005-01\\portable-negative-fixtures\\st_01a10a29\\missing-object\\docs\\reviews\\goal24-pr-20261004\\traversal-r9-performance-evidence\\verify-current.fsx:line 44\r\n   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)\r\n   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)\r\nStopped due to error\n",
+        "stdout": ""
+      },
+      {
+        "arguments": [
+          "fsi",
+          "--warnaserror+",
+          "Q:\\repos\\funnysharp\\.worktrees\\goal24-complete-pr\\artifacts\\pr-validation\\traversal-r9-performance-20261005-01\\portable-negative-fixtures\\st_01a10a29\\tampered-catalog\\docs/reviews/goal24-pr-20261004/traversal-r9-performance-evidence\\verify-current.fsx",
+          "--",
+          "Q:\\repos\\funnysharp\\.worktrees\\goal24-complete-pr\\artifacts\\pr-validation\\traversal-r9-performance-20261005-01\\portable-negative-fixtures\\st_01a10a29\\tampered-catalog"
+        ],
+        "executable": "dotnet",
+        "exitCode": 1,
+        "name": "tampered-catalog",
+        "stderr": "System.Exception: Catalog hash mismatch\r\n   at <StartupCode$FSI_0001>.$FSI_0001.main@() in Q:\\repos\\funnysharp\\.worktrees\\goal24-complete-pr\\artifacts\\pr-validation\\traversal-r9-performance-20261005-01\\portable-negative-fixtures\\st_01a10a29\\tampered-catalog\\docs\\reviews\\goal24-pr-20261004\\traversal-r9-performance-evidence\\verify-current.fsx:line 19\r\n   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)\r\n   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)\r\nStopped due to error\n",
+        "stdout": ""
+      },
+      {
+        "arguments": [
+          "fsi",
+          "--warnaserror+",
+          "Q:\\repos\\funnysharp\\.worktrees\\goal24-complete-pr\\artifacts\\pr-validation\\traversal-r9-performance-20261005-01\\portable-negative-fixtures\\st_01a10a29\\tampered-physical-object\\docs/reviews/goal24-pr-20261004/traversal-r9-performance-evidence\\verify-current.fsx",
+          "--",
+          "Q:\\repos\\funnysharp\\.worktrees\\goal24-complete-pr\\artifacts\\pr-validation\\traversal-r9-performance-20261005-01\\portable-negative-fixtures\\st_01a10a29\\tampered-physical-object"
+        ],
+        "executable": "dotnet",
+        "exitCode": 1,
+        "name": "tampered-physical-object",
+        "stderr": "System.Exception: Physical object hash mismatch\r\n   at <StartupCode$FSI_0001>.$FSI_0001.main@() in Q:\\repos\\funnysharp\\.worktrees\\goal24-complete-pr\\artifacts\\pr-validation\\traversal-r9-performance-20261005-01\\portable-negative-fixtures\\st_01a10a29\\tampered-physical-object\\docs\\reviews\\goal24-pr-20261004\\traversal-r9-performance-evidence\\verify-current.fsx:line 45\r\n   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)\r\n   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)\r\nStopped due to error\n",
+        "stdout": ""
+      }
+    ],
+    "controlsRerun": false,
+    "correctedScan": {
+      "arguments": [
+        "fsi",
+        "--warnaserror+",
+        "Q:\\repos\\funnysharp\\.worktrees\\goal24-complete-pr\\docs/reviews/goal24-pr-20261004/traversal-r9-performance-evidence\\scan-credentials.fsx",
+        "--",
+        "Q:\\repos\\funnysharp\\.worktrees\\goal24-complete-pr"
+      ],
+      "executable": "dotnet",
+      "exitCode": 1,
+      "name": "credential-pattern-scan",
+      "stderr": "\r\n\nscan-credentials.fsx(29,8): error FS0010: Unexpected infix operator in binding. Expected incomplete structured construct at or before this point or other token.\r\n\r\n",
+      "stdout": ""
+    },
+    "dataVerifierWrites": 0,
+    "network": 0,
+    "priorRunnerRed": "scanner-red-01.json",
+    "runnerExitCode": 1,
+    "schema": "funnysharp-portable-traverse-r9-controls/v1",
+    "verifiedSourceSha256": "8b942a874e29d368824cb3e55a224d2e3bbb167ef8c394be19935d3a789da4b9",
+    "workloadReruns": 0
+  },
+  "source": {
+    "sha256": "a83f42d95ef0d76cb31bca54698a6425675874948598e0d4c50c43478c7cf5f3",
+    "utf8Source": "open System\nopen System.IO\nopen System.IO.Compression\nopen System.Formats.Tar\nopen System.Text\nopen System.Text.Json\nopen System.Collections.Generic\nopen System.Security.Cryptography\nopen System.Text.RegularExpressions\n\nlet root = fsi.CommandLineArgs |> Array.skip 1 |> Array.exactlyOne |> Path.GetFullPath\nlet packet = \"docs/reviews/goal24-pr-20261004/traversal-r9-performance-evidence\"\nlet hash (bytes: byte array) = bytes |> SHA256.HashData |> Convert.ToHexStringLower\nlet document = JsonDocument.Parse(File.ReadAllBytes(Path.Combine(root, packet, \"catalog.json\")))\nlet catalog = document.RootElement\nlet original = catalog.GetProperty(\"originalWorkspace\").GetString().TrimEnd('/')\nlet patterns = [|\n    \"aws-access-id\", @\"\\b(?:AKIA|ASIA)[A-Z0-9]{16}\\b\"\n    \"github-token\", @\"\\b(?:gh[pousr]_[A-Za-z0-9]{30,255}|github_pat_[A-Za-z0-9_]{40,255})\\b\"\n    \"gitlab-token\", @\"\\bglpat-[A-Za-z0-9_-]{20,255}\\b\"\n    \"slack-token\", @\"\\bxox[baprs]-[A-Za-z0-9-]{20,255}\\b\"\n    \"stripe-live-key\", @\"\\b(?:sk|rk)_live_[A-Za-z0-9]{16,255}\\b\"\n    \"google-api-key\", @\"\\bAIza[A-Za-z0-9_-]{35}\\b\"\n    \"private-key-header\", @\"-----BEGIN (?:RSA |EC |OPENSSH |DSA |ENCRYPTED )?PRIVATE KEY-----\"\n    \"jwt\", @\"\\beyJ[A-Za-z0-9_-]{8,}\\.eyJ[A-Za-z0-9_-]{8,}\\.[A-Za-z0-9_-]{16,}\\b\"\n    \"bearer-value\", @\"(?i)\\bbearer[ \\t]+[A-Za-z0-9._~+/-]{24,}={0,2}\"\n    \"credential-assignment\", @\"(?i)\\b(?:password|passwd|client_secret|api_key|access_token|secret_access_key|accountkey)[ \\t]*[=:][ \\t]*[\"\"']?[A-Za-z0-9+/._~-]{16,}={0,2}\"\n    \"azure-sas-signature\", @\"(?i)[?&]sig=[A-Za-z0-9%+/]{32,}={0,2}\"\n    |] |> Array.map (fun (name, pattern) -> name, Regex(pattern, RegexOptions.CultureInvariant, TimeSpan.FromSeconds 5.0))\nlet findings = ResizeArray<obj>()\nlet mutable objects = 0\nlet mutable decodedBytes = 0L\nlet mutable archiveEntries = 0\nlet mutable embeddedPayloads = 0\nlet mutable nestedBytes = 0L\nlet seenEmbedded = HashSet<string>()\nlet rec scan (bytes: byte array) (kind: string) (depth: int) =\n    if depth > 12 then failwith \"Archive nesting exceeds scanner bound\"\n    let objectHash = hash bytes\n    let views = [| \"latin1\", Encoding.Latin1.GetString bytes, 1, 0; \"utf16le-even\", Encoding.Unicode.GetString bytes, 2, 0; \"utf16le-odd\", (if bytes.Length > 1 then Encoding.Unicode.GetString(bytes, 1, bytes.Length - 1) else \"\"), 2, 1 |]\n    for encoding, value, scale, shift in views do\n        for name, regex in patterns do\n            for result in regex.Matches value do\n                findings.Add(box {| sha256 = objectHash; pattern = name; encoding = encoding; byteOffset = result.Index * scale + shift; byteLength = result.Length * scale; containerKind = kind |})\n    let text = Encoding.Latin1.GetString bytes\n    for result in Regex.Matches(text, @\"funnysharp-workload:([^\\r\\n]+)\") do\n        let payload = Convert.FromBase64String result.Groups[1].Value\n        if seenEmbedded.Add(hash payload) then\n            embeddedPayloads <- embeddedPayloads + 1\n            nestedBytes <- nestedBytes + int64 payload.Length\n            scan payload \"decoded-workload-json\" (depth + 1)\n    if bytes.Length >= 4 && bytes[0] = 0x50uy && bytes[1] = 0x4buy && bytes[2] = 0x03uy && bytes[3] = 0x04uy then\n        use stream = new MemoryStream(bytes, false)\n        use archive = new ZipArchive(stream, ZipArchiveMode.Read)\n        for entry in archive.Entries do\n            if not (entry.FullName.EndsWith(\"/\", StringComparison.Ordinal)) then\n                use input = entry.Open()\n                use output = new MemoryStream()\n                input.CopyTo output\n                let content = output.ToArray()\n                archiveEntries <- archiveEntries + 1\n                nestedBytes <- nestedBytes + int64 content.Length\n                scan content \"zip-entry\" (depth + 1)\n    elif bytes.Length > 262 && Encoding.ASCII.GetString(bytes, 257, 5) = \"ustar\" then\n        use stream = new MemoryStream(bytes, false)\n        use archive = new TarReader(stream)\n        let mutable entry = archive.GetNextEntry()\n        while not (isNull entry) do\n            if not (isNull entry.DataStream) then\n                use output = new MemoryStream()\n                entry.DataStream.CopyTo output\n                let content = output.ToArray()\n                archiveEntries <- archiveEntries + 1\n                nestedBytes <- nestedBytes + int64 content.Length\n                scan content \"tar-entry\" (depth + 1)\n            entry <- archive.GetNextEntry()\n    elif bytes.Length >= 2 && bytes[0] = 0x1fuy && bytes[1] = 0x8buy then\n        use stream = new MemoryStream(bytes, false)\n        use archive = new GZipStream(stream, CompressionMode.Decompress)\n        use output = new MemoryStream()\n        archive.CopyTo output\n        let content = output.ToArray()\n        archiveEntries <- archiveEntries + 1\n        nestedBytes <- nestedBytes + int64 content.Length\n        scan content \"gzip-content\" (depth + 1)\nfor item in catalog.GetProperty(\"objects\").EnumerateArray() do\n    let locator = item.GetProperty(\"physicalPath\").GetString()\n    if not (locator.StartsWith(original + \"/\", StringComparison.Ordinal)) then failwith \"Object locator outside packet root\"\n    let encoded = File.ReadAllBytes(Path.Combine(root, locator.Substring(original.Length + 1)))\n    if hash encoded <> item.GetProperty(\"physicalSha256\").GetString() then failwith \"Physical scan input mismatch\"\n    let bytes = Convert.FromBase64String(Encoding.UTF8.GetString encoded)\n    if hash bytes <> item.GetProperty(\"sha256\").GetString() then failwith \"Decoded scan input mismatch\"\n    objects <- objects + 1\n    decodedBytes <- decodedBytes + int64 bytes.Length\n    scan bytes \"decoded-object\" 0\nprintfn \"%s\" (JsonSerializer.Serialize({| schema = \"funnysharp-bounded-credential-pattern-scan/v1\"; objects = objects; decodedBytes = decodedBytes; embeddedPayloads = embeddedPayloads; archiveEntries = archiveEntries; nestedBytes = nestedBytes; patterns = patterns |> Array.map fst; findings = findings.ToArray(); writes = 0; network = 0; limit = \"Pattern scan of retained decoded bytes and recognized ZIP/TAR/GZIP entries plus workload payloads; no universal credential clearance, entropy proof or encrypted archive coverage.\" |}))\n"
+  },
+  "cause": "Indenting only the array closing delimiter did not settle the F# offside binding; retry changes the entire binding to conventional multiline array plus pipeline."
+}

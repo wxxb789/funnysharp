@@ -25,8 +25,15 @@ public sealed class KestrelCancellationTests
         var effect = Effect.FromValueTask<Option<Payload>>(async cancellationToken =>
         {
             effectStarted.TrySetResult(cancellationToken);
-            using var registration = cancellationToken.Register(effectCanceled.SetResult);
-            await Task.Delay(Timeout.InfiniteTimeSpan, cancellationToken);
+            try
+            {
+                await Task.Delay(Timeout.InfiniteTimeSpan, cancellationToken);
+            }
+            catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+            {
+                effectCanceled.SetResult();
+                throw;
+            }
             return Option.Some(new Payload("unreachable"));
         });
 

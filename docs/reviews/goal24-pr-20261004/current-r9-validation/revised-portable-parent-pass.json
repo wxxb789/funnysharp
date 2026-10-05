@@ -1,0 +1,50 @@
+{
+  "schema": "funnysharp-pr-revised-portable-parent-pass/v1",
+  "sourceParentCommit": "b584e748699a4f19d8a901695634be5a85ce8b07",
+  "measuredSourceCommit": null,
+  "sourceSnapshots": [
+    "snapshot:41f49879678dfc2e7b2484900930e061f4e4badaf3e9699b78a0a145f7c90749",
+    "snapshot:c2d709af56bf711289d0221769eadd0cf9fb3e6ad2e9504b61a8ba1744b7bd58"
+  ],
+  "catalogSha256": "6508608e4b1d0ae8ce41d176cb45afbbb240c0004c730a69ab1867cd3a5d1b80",
+  "parentVerifier": {
+    "monitor": "mon_0WVGHM07HCTANDEQ",
+    "exitCode": 0,
+    "output": "status: completed exit_code: 0\nCURRENT_PERFORMANCE_PORTABLE_PASS objects=522 locators=547 rows=230 launches=230 census=499/468/31 runtime=24 writes=0 network=0",
+    "sourceSha256": "8b942a874e29d368824cb3e55a224d2e3bbb167ef8c394be19935d3a789da4b9"
+  },
+  "counts": {
+    "objects": 522,
+    "locators": 547,
+    "rows": 230,
+    "launches": 230,
+    "census": {
+      "exported": 499,
+      "stable": 468,
+      "experimental": 31
+    },
+    "runtime": 24,
+    "writes": 0,
+    "network": 0
+  },
+  "childControls": {
+    "positiveExit": 0,
+    "negativeExits": [
+      1,
+      1,
+      1
+    ],
+    "negativePassMarkers": 0,
+    "runnerExit": 0,
+    "scannerExit": 0,
+    "scannerFindings": 0,
+    "boundedOnly": true
+  },
+  "raw37ReporterRetention": {
+    "originalByteEqualityVerified": true,
+    "encoding": "base64",
+    "reason": "No-final-LF raw reports cannot be transported as text with apply_patch without one extra byte; exact originals retained reversibly."
+  },
+  "currentCandidateFullCleanGateAndRelease": "PENDING",
+  "publicationCIAndCleanup": "PENDING"
+}

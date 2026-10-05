@@ -139,9 +139,16 @@ bounded, cancellation, and ordering behavior is appropriate for the workflow.
 
 `FirstSuccessAsync` coordinates a non-empty `IEnumerable<Effect<Result<TValue, TError>>>`.
 Each effect must be cold: it starts only when `RunAsync` is called and creates fresh work for
-that run. The coordinator snapshots the input once, starts every effect, and returns the first
-successful `Result` observed in completion order. When successes are already observable in the
-same observation turn, input order breaks the tie.
+that run. The finite input is eagerly snapshotted once, requiring O(N) input storage. Existing
+overloads admit at most 32 candidates at a time; a slot stays occupied until that candidate's
+completion has been accounted for. The coordinator selects the lowest-input-index success within
+the observed ready batch, stops new admission, cancels remaining admitted work, and drains it.
+The default 32 is a compatibility policy, not an I/O throughput recommendation. For an explicit
+bound, use the required-argument overload
+`effects.FirstSuccessAsync(timeout, timeProvider, cancellationToken, maxConcurrency)`; pass
+`Timeout.InfiniteTimeSpan` and `TimeProvider.System` when no timeout is needed. These arguments
+preserve old signatures and default-literal/method-group call shapes. Opaque dependencies between
+candidates must not assume unlimited co-starting. Infinite input enumeration is not supported.
 
 <!-- documentation-sample: DocumentationSamples.Concurrency.FirstSuccess -->
 ```csharp
@@ -162,12 +169,21 @@ var firstQuote = await providers.FirstSuccessAsync(
 A successful result cancels and drains its remaining started effects before returning. If every
 effect returns a typed `Result` failure, the method returns an invalid
 `Validation<TValue, TError>` whose errors are in input order. Ordinary exceptions are not
-converted into typed failures: when no success wins, a single fault is rethrown by identity and
-multiple faults use `AggregateException` in input order. When there are faults and canceled source
-operations, faults take precedence; when every non-typed outcome is cancellation, the first source
-cancellation is rethrown with its token. A winning success still drains and observes losing faults
-so that no started work is left unobserved. A failure raised by cancellation callbacks is a cleanup
-failure and propagates instead of being discarded.
+converted into typed failures. Independent faults observed before winner selection and during
+loser cleanup still propagate even when another candidate succeeded; a single fault is rethrown
+by identity and multiple faults are aggregated in input order. All exceptions represented by a
+source Task are retained. The first independent source cancellation retains its token and is not
+hidden by a winner; cancellation artifacts are suppressed only for canceled tasks carrying the
+canceled internal operation token. A faulted OCE is still an independent fault. Cancellation-callback
+failures follow candidate failures in the aggregate. A winner is returned as `Valid` only after
+all admitted candidates, completion observers, and cancellation callbacks finish without an
+independent failure that must propagate.
+
+Coordination processes each admitted candidate once through an indexed completion notification;
+there is no repeated whole-input scan, pending-list compaction, or rebuilt `WhenAny` wait set.
+Total coordination work and input/outcome storage are O(N), while queued unobserved candidate
+notifications are bounded by the chosen degree (plus one cancellation wake-up). A numeric
+benchmark exclusion does not exempt admission, cleanup, or these complexity contracts.
 
 The timeout overload takes `TimeProvider` so callers can test time deterministically. Timeout is
 cooperative: it cancels the internal operation token and waits for started work to drain before
@@ -214,18 +230,18 @@ The exact table below is generated from the approved observation in
 contract.
 
 <!-- performance-table:start concurrency -->
-| Scenario | Baseline mean | FunnySharp mean | Ratio | Baseline allocation | FunnySharp allocation |
+| Scenario | Baseline mean | Candidate mean | Ratio | Baseline allocation | Candidate allocation |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Completion-order bounded asynchronous map ([Count=1024]) | 498.294 us | 1,146.031 us | 2.30x | 311428 B | 474037 B |
-| Completion-order bounded asynchronous map ([Count=16]) | 15.822 us | 28.227 us | 1.78x | 5386 B | 10085 B |
-| Ordered bounded asynchronous map ([Count=1024]) | 481.258 us | 1,009.202 us | 2.10x | 297196 B | 521722 B |
-| Ordered bounded asynchronous map ([Count=16]) | 13.808 us | 26.754 us | 1.94x | 5373 B | 11639 B |
-| First successful cold Result operation ([CandidateCount=16]) | 7.937 us | 6.005 us | 0.76x | 5665 B | 4276 B |
-| First successful cold Result operation ([CandidateCount=4]) | 5.877 us | 7.573 us | 1.29x | 1738 B | 2657 B |
-| Parallel Option traversal ([Count=1024]) | 493.274 us | 678.854 us | 1.38x | 345065 B | 271635 B |
-| Parallel Option traversal ([Count=16]) | 14.169 us | 19.582 us | 1.38x | 5995 B | 6192 B |
-| Parallel Validation accumulation ([Count=1024]) | 666.099 us | 814.550 us | 1.22x | 374729 B | 334158 B |
-| Parallel Validation accumulation ([Count=16]) | 16.393 us | 23.115 us | 1.41x | 6509 B | 7833 B |
+| Completion-order bounded asynchronous map ([Count=1024]) | 965.063 us | 1,088.655 us | 1.13x | 288646 B | 377047 B |
+| Completion-order bounded asynchronous map ([Count=16]) | 26.794 us | 61.542 us | 2.30x | 5746 B | 10014 B |
+| Ordered bounded asynchronous map ([Count=1024]) | 825.938 us | 1,157.695 us | 1.40x | 306267 B | 370596 B |
+| Ordered bounded asynchronous map ([Count=16]) | 28.890 us | 54.632 us | 1.89x | 5367 B | 9362 B |
+| First successful cold Result operation ([CandidateCount=16]) | 10.591 us | 13.869 us | 1.31x | 5251 B | 6765 B |
+| First successful cold Result operation ([CandidateCount=4]) | 2.362 us | 3.858 us | 1.63x | 1462 B | 3068 B |
+| Parallel Option traversal ([Count=1024]) | 919.204 us | 686.506 us | 0.75x | 323888 B | 164835 B |
+| Parallel Option traversal ([Count=16]) | 26.095 us | 11.996 us | 0.46x | 5990 B | 3240 B |
+| Parallel Validation accumulation ([Count=1024]) | 923.838 us | 706.565 us | 0.76x | 351914 B | 208269 B |
+| Parallel Validation accumulation ([Count=16]) | 24.916 us | 13.878 us | 0.56x | 6509 B | 3990 B |
 
 Excluded measurements:
 - Result parallel traversal: The prior supplemental comparison used different input carriers and is not reproducible from tracked sources.

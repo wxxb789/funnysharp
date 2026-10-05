@@ -26,6 +26,7 @@
   <ItemGroup>
     <Compile Include="Support.fs" />
     <Compile Include="ApiBaselineTests.fs" />
+    <Compile Include="StableApiContractsTests.fs" />
     <Compile Include="CheckActionPinsTests.fs" />
     <Compile Include="DocsSnippetsTests.fs" />
     <Compile Include="InventoryTests.fs" />
@@ -40,8 +41,11 @@
     <Compile Include="ReleaseProtocolTests.fs" />
     <Compile Include="ReleaseRunTests.fs" />
     <Compile Include="ReleaseVerifyTests.fs" />
+    <Compile Include="XmlBuildBindingsTests.fs" />
+    <Compile Include="ReleaseProvenanceTests.fs" />
     <Compile Include="LocTests.fs" />
     <Compile Include="EvaluationTests.fs" />
+    <Compile Include="FrozenReplayTests.fs" />
   </ItemGroup>
 
 </Project>

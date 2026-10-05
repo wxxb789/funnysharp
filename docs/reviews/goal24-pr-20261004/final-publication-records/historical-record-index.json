@@ -1,0 +1,144 @@
+{
+  "schema": "funnysharp-pr-historical-publication-record-index/v1",
+  "scope": "Exact owned prepublication audit and b584 historical results; current successor is separately verified",
+  "records": [
+    {
+      "name": "inventory.json",
+      "bytes": 1780018,
+      "sha256": "5d2b64fcbfc1dd69aae22347d009df1a0bc75c894955449e11867cde62011164",
+      "endsLf": true,
+      "cr": false,
+      "strongIndicators": []
+    },
+    {
+      "name": "local-worktree-audit.json",
+      "bytes": 1529204,
+      "sha256": "73ab8448bf1dddfb2d766bbe414d5433b58542b9d85d052bf61ea584b00db507",
+      "endsLf": true,
+      "cr": false,
+      "strongIndicators": [],
+      "retainedName": "local-worktree-audit.json.base64",
+      "encoding": "base64",
+      "physicalBytes": 2055932,
+      "physicalSha256": "3839da8d08dc9717e873ff65999e7d2502cdd257e164ffab5cac91f18b0c88e5"
+    },
+    {
+      "name": "local-worktree-audit.md",
+      "bytes": 19379,
+      "sha256": "167771df6b7eeafc57d1bad80dd53a1041b7e12a5bc25fd1e0c03cb973071c42",
+      "endsLf": true,
+      "cr": false,
+      "strongIndicators": [],
+      "retainedName": "local-worktree-audit.md.base64",
+      "encoding": "base64",
+      "physicalBytes": 26056,
+      "physicalSha256": "ab7a98a9120830834b2934b7b08774efe5ea144e6c5717b14341ec729e72db3d"
+    },
+    {
+      "name": "evidence-portability-inventory.json",
+      "bytes": 1624516,
+      "sha256": "f1fcf9319d4766c95b52b565673ac1295a1261038d86b6c26ca534f3d3e1f605",
+      "endsLf": true,
+      "cr": false,
+      "strongIndicators": []
+    },
+    {
+      "name": "evidence-portability-inventory.md",
+      "bytes": 27314,
+      "sha256": "7d2312aefea5f63a8541d37e841e8aa158c287d9e0d2594f9a269d954b2b4606",
+      "endsLf": true,
+      "cr": false,
+      "strongIndicators": []
+    },
+    {
+      "name": "source-increment-commit.json",
+      "bytes": 1873,
+      "sha256": "a7ac611c843b5e5c838d3ddf751184fbe23005ef3446a026b9b85034a01839d3",
+      "endsLf": true,
+      "cr": false,
+      "strongIndicators": []
+    },
+    {
+      "name": "current-performance-commit.json",
+      "bytes": 1070,
+      "sha256": "7238c229920de2f0fa9f95df60f6d3f0733114245a4e6aeb9d4ffcde32458694",
+      "endsLf": true,
+      "cr": false,
+      "strongIndicators": []
+    },
+    {
+      "name": "clean-current-full-test-pass.json",
+      "bytes": 691,
+      "sha256": "b7e441acb7b54755762d36bb24c8e7f3b0f3b56d6992d4fd210d7c90b322b257",
+      "endsLf": true,
+      "cr": false,
+      "strongIndicators": []
+    },
+    {
+      "name": "current-release-usage-red.json",
+      "bytes": 338,
+      "sha256": "9d67a3d6ad5222f6bd9a33cc8d11eb89afbd58475f4e48a6928d1bb719a855b0",
+      "endsLf": true,
+      "cr": false,
+      "strongIndicators": []
+    },
+    {
+      "name": "current-release-compatibility-red.json",
+      "bytes": 736,
+      "sha256": "037e213acc6a63aa91b91d99eb5fda872781ebc29ace4207b2d324edacd64b40",
+      "endsLf": true,
+      "cr": false,
+      "strongIndicators": []
+    },
+    {
+      "name": "current-release-launcher-correction.json",
+      "bytes": 638,
+      "sha256": "5319c900b6f5f00069f1e30bc402846981bb704878b9680ee783c54cf4213700",
+      "endsLf": true,
+      "cr": false,
+      "strongIndicators": []
+    },
+    {
+      "name": "current-release-aot-path-red.json",
+      "bytes": 634,
+      "sha256": "5befff94f679c165113a2dc7a3b5495bf303186e9f8ab72081c6042eee53ac01",
+      "endsLf": true,
+      "cr": false,
+      "strongIndicators": []
+    },
+    {
+      "name": "current-release-short-attempt.json",
+      "bytes": 665,
+      "sha256": "4ebc58f81f07361ea9c8536df52ed72b53d0e0db07f86fad44ccfcad79148e1e",
+      "endsLf": true,
+      "cr": false,
+      "strongIndicators": []
+    },
+    {
+      "name": "current-release-pass.json",
+      "bytes": 3848855,
+      "sha256": "d4279667185f86cc42374f45092d6869d6eacbf43244f033ab294acaff92b9a1",
+      "endsLf": true,
+      "cr": false,
+      "strongIndicators": []
+    },
+    {
+      "name": "frozen-product-branch-preservation.json",
+      "bytes": 559,
+      "sha256": "93aa61af245d71641d495b7c2ac0ea8053f80a33f70d29229bcbf5b0db84965b",
+      "endsLf": true,
+      "cr": false,
+      "strongIndicators": []
+    },
+    {
+      "name": "owned-cleanup-boundary.md",
+      "bytes": 1975,
+      "sha256": "c18c6e0b0c3bf754aa0078f0cc279549b9c98e89eea4e7816506b559143ccf61",
+      "endsLf": true,
+      "cr": false,
+      "strongIndicators": []
+    }
+  ],
+  "parentSourceProtectionUnchanged": true,
+  "representationNote": "Two immutable historical audit captures end with an intentional blank line. Reversible base64 preserves exact original bytes while authored text keeps the normal whitespace check enabled."
+}

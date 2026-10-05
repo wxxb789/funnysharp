@@ -1,0 +1,60 @@
+{
+  "schema": "funnysharp-pr-current-candidate-gate-archive/v1",
+  "reviewedCandidate": "c306991992b04299a3300235ce3285d4537fe6c2",
+  "candidateTree": "04e5b87963cede7915bad03a1d9e6edcc2a21e04",
+  "independentReview": {
+    "task": "st_01a10a6c",
+    "agent": "omo-native-gate-reviewer",
+    "actualRoute": "ghc/gpt-6-astra/high",
+    "recommendation": "APPROVE",
+    "blockers": 0,
+    "jsonSha256": "18b14880c4ff52c8e9ee84aed79e7492647f15c7674224687dd673a30eb97be5",
+    "markdownSha256": "27f500da3330991537a35df5c40843a662251fd1d6d16a2847a757dee9073e26"
+  },
+  "records": [
+    {
+      "name": "final-local-gate-c306.json",
+      "sha256": "18b14880c4ff52c8e9ee84aed79e7492647f15c7674224687dd673a30eb97be5",
+      "bytes": 38324
+    },
+    {
+      "name": "final-local-gate-c306.md",
+      "sha256": "27f500da3330991537a35df5c40843a662251fd1d6d16a2847a757dee9073e26",
+      "bytes": 24983
+    },
+    {
+      "name": "corrected-release-pass.json",
+      "sha256": "61cd381342df645101d91a4362b213c05d5533e6d9df36c240a3eaa63304c6d2",
+      "bytes": 13697
+    },
+    {
+      "name": "corrected-clean-full-test-pass.json",
+      "sha256": "0f49a816032c895f1e292a02e19332706dcef1dcb5afddf5b59e9493d7a09bc9",
+      "bytes": 1458
+    },
+    {
+      "name": "corrected-r5-surface-probe-pass.json",
+      "sha256": "91410e77ccad8090c7cc81c267b279647d11ee57d9ac49ffc27a5c1d231f955f",
+      "bytes": 4290
+    },
+    {
+      "name": "corrected-r5-surface-probe-red.json",
+      "sha256": "6aa4d67fe063192f310940171f760264003d63304d82ecb198d19f343216e04d",
+      "bytes": 3973
+    },
+    {
+      "name": "revised-atomic-commit.json",
+      "sha256": "959a9472594fc0899af145d4be391b44758e9b04c0bef98a171b50169569b375",
+      "bytes": 1229
+    },
+    {
+      "name": "http-cancellation-observer-commit.json",
+      "sha256": "6bee97f4288dbf35ee58551dc9b7153a5ec016d918461fa0bf27c37fc820c0a3",
+      "bytes": 1730
+    }
+  ],
+  "scope": "Exact immutable c306 prepublication review/current local gate/commit receipts. This final addition only transports captured metadata; it does not claim a new review or release for an as-yet-unknown successor Git SHA.",
+  "shippingSourceTestHarnessProtocolPolicyAndObservationsUnchanged": true,
+  "requiredExactPublishedHeadCiAndPostSubmitReview": "PENDING",
+  "wholeGoalPublicationBabysitCleanup": "PENDING"
+}

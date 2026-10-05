@@ -1,0 +1,13 @@
+{
+  "study": "audit-resolution-v5",
+  "slot": "aspnetcore/funnysharp/run-1",
+  "sessionId": "study-session:93f92e20-2044-40fe-b83c-3c50d9025931",
+  "invocationId": "native-call:0e50155d-00b4-4b66-af4e-f16c87a8a084",
+  "requestedModel": "ghc/gpt-6.1-sol",
+  "route": "native-omo-cli/5.1.9/json-print",
+  "stdin": "closed",
+  "protocolSha256": "a45783f688d0fb0b160c30348a77d765ba0ca4b09841ed4342e99576f2f645d0",
+  "requestSha256": "7f959619e89fb8f9f930a1b7f8be51f18f19c6fb169f1fafeab839dd41ed0aff",
+  "status": "PREPARED_NOT_CALLED",
+  "launchCapture": "NativeGitBash documented monitor; raw stdout and stderr unchanged; exact registered flags and PI_RULES_DISABLED=1; dedicated cwd request only."
+}

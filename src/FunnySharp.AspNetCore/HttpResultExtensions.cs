@@ -17,6 +17,12 @@ public static class HttpResultExtensions
     /// <param name="none">Maps absence to a problem with a status.</param>
     /// <param name="some">Optionally maps a present value; the default produces <see cref="Results.Ok(object?)"/>.</param>
     /// <returns>The mapped HTTP result.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="none"/> is null; required arguments are checked eagerly.</exception>
+    /// <exception cref="InvalidOperationException">A selected mapper returns null, a selected problem lacks a status.</exception>
+    /// <remarks>
+    /// Only the selected outcome mapper runs; a null optional success mapper selects the default HTTP result.
+    /// Mapper exceptions propagate unchanged.
+    /// </remarks>
     public static IResult ToHttpResult<T>(
         this Option<T> option,
         Func<ProblemDetails> none,
@@ -35,6 +41,12 @@ public static class HttpResultExtensions
     /// <param name="failure">Maps failure to a problem with a status.</param>
     /// <param name="success">Optionally maps a successful value; the default produces <see cref="Results.Ok(object?)"/>.</param>
     /// <returns>The mapped HTTP result.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="failure"/> is null; required arguments are checked eagerly.</exception>
+    /// <exception cref="InvalidOperationException">A selected mapper returns null, a selected problem lacks a status, or the outcome is uninitialized.</exception>
+    /// <remarks>
+    /// Only the selected outcome mapper runs; a null optional success mapper selects the default HTTP result.
+    /// Mapper exceptions propagate unchanged.
+    /// </remarks>
     public static IResult ToHttpResult<TValue, TError>(
         this Result<TValue, TError> result,
         Func<TError, ProblemDetails> failure,
@@ -53,6 +65,12 @@ public static class HttpResultExtensions
     /// <param name="invalid">Maps validation errors to a validation problem with a status.</param>
     /// <param name="valid">Optionally maps a valid value; the default produces <see cref="Results.Ok(object?)"/>.</param>
     /// <returns>The mapped HTTP result.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="invalid"/> is null; required arguments are checked eagerly.</exception>
+    /// <exception cref="InvalidOperationException">A selected mapper returns null, a selected problem lacks a status, or the outcome is uninitialized.</exception>
+    /// <remarks>
+    /// Only the selected outcome mapper runs; a null optional success mapper selects the default HTTP result.
+    /// Mapper exceptions propagate unchanged.
+    /// </remarks>
     public static IResult ToHttpResult<TValue, TError>(
         this Validation<TValue, TError> validation,
         Func<IReadOnlyList<TError>, HttpValidationProblemDetails> invalid,
@@ -70,6 +88,12 @@ public static class HttpResultExtensions
     /// <param name="failure">Maps failure to a problem with a status.</param>
     /// <param name="success">Optionally maps success; the default produces <see cref="Results.NoContent()"/>.</param>
     /// <returns>The mapped HTTP result.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="failure"/> is null; required arguments are checked eagerly.</exception>
+    /// <exception cref="InvalidOperationException">A selected mapper returns null, a selected problem lacks a status, or the outcome is uninitialized.</exception>
+    /// <remarks>
+    /// Only the selected outcome mapper runs; a null optional success mapper selects the default HTTP result.
+    /// Mapper exceptions propagate unchanged.
+    /// </remarks>
     public static IResult ToHttpResult<TError>(
         this UnitResult<TError> result,
         Func<TError, ProblemDetails> failure,
@@ -87,6 +111,12 @@ public static class HttpResultExtensions
     /// <param name="none">Maps absence to a problem with a status.</param>
     /// <param name="some">Optionally maps a present value.</param>
     /// <returns>A task that produces the mapped HTTP result.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="option"/> or <paramref name="none"/> is null; required arguments are checked eagerly.</exception>
+    /// <exception cref="InvalidOperationException">A selected mapper returns null, a selected problem lacks a status.</exception>
+    /// <remarks>
+    /// Only the selected outcome mapper runs; a null optional success mapper selects the default HTTP result.
+    /// Mapper exceptions propagate unchanged. The input is awaited once; awaited or mapper cancellation is represented by the returned async result.
+    /// </remarks>
     public static Task<IResult> ToHttpResultAsync<T>(
         this Task<Option<T>> option,
         Func<ProblemDetails> none,
@@ -106,6 +136,12 @@ public static class HttpResultExtensions
     /// <param name="failure">Maps failure to a problem with a status.</param>
     /// <param name="success">Optionally maps a successful value.</param>
     /// <returns>A task that produces the mapped HTTP result.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="result"/> or <paramref name="failure"/> is null; required arguments are checked eagerly.</exception>
+    /// <exception cref="InvalidOperationException">A selected mapper returns null, a selected problem lacks a status, or the outcome is uninitialized.</exception>
+    /// <remarks>
+    /// Only the selected outcome mapper runs; a null optional success mapper selects the default HTTP result.
+    /// Mapper exceptions propagate unchanged. The input is awaited once; awaited or mapper cancellation is represented by the returned async result.
+    /// </remarks>
     public static Task<IResult> ToHttpResultAsync<TValue, TError>(
         this Task<Result<TValue, TError>> result,
         Func<TError, ProblemDetails> failure,
@@ -125,6 +161,12 @@ public static class HttpResultExtensions
     /// <param name="invalid">Maps validation errors to a validation problem with a status.</param>
     /// <param name="valid">Optionally maps a valid value.</param>
     /// <returns>A task that produces the mapped HTTP result.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="validation"/> or <paramref name="invalid"/> is null; required arguments are checked eagerly.</exception>
+    /// <exception cref="InvalidOperationException">A selected mapper returns null, a selected problem lacks a status, or the outcome is uninitialized.</exception>
+    /// <remarks>
+    /// Only the selected outcome mapper runs; a null optional success mapper selects the default HTTP result.
+    /// Mapper exceptions propagate unchanged. The input is awaited once; awaited or mapper cancellation is represented by the returned async result.
+    /// </remarks>
     public static Task<IResult> ToHttpResultAsync<TValue, TError>(
         this Task<Validation<TValue, TError>> validation,
         Func<IReadOnlyList<TError>, HttpValidationProblemDetails> invalid,
@@ -143,6 +185,12 @@ public static class HttpResultExtensions
     /// <param name="failure">Maps failure to a problem with a status.</param>
     /// <param name="success">Optionally maps success.</param>
     /// <returns>A task that produces the mapped HTTP result.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="result"/> or <paramref name="failure"/> is null; required arguments are checked eagerly.</exception>
+    /// <exception cref="InvalidOperationException">A selected mapper returns null, a selected problem lacks a status, or the outcome is uninitialized.</exception>
+    /// <remarks>
+    /// Only the selected outcome mapper runs; a null optional success mapper selects the default HTTP result.
+    /// Mapper exceptions propagate unchanged. The input is awaited once; awaited or mapper cancellation is represented by the returned async result.
+    /// </remarks>
     public static Task<IResult> ToHttpResultAsync<TError>(
         this Task<UnitResult<TError>> result,
         Func<TError, ProblemDetails> failure,
@@ -161,6 +209,12 @@ public static class HttpResultExtensions
     /// <param name="none">Maps absence to a problem with a status.</param>
     /// <param name="some">Optionally maps a present value.</param>
     /// <returns>A value task that produces the mapped HTTP result.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="none"/> is null; required arguments are checked eagerly.</exception>
+    /// <exception cref="InvalidOperationException">A selected mapper returns null, a selected problem lacks a status.</exception>
+    /// <remarks>
+    /// Only the selected outcome mapper runs; a null optional success mapper selects the default HTTP result.
+    /// Mapper exceptions propagate unchanged. The input is awaited once; awaited or mapper cancellation is represented by the returned async result.
+    /// </remarks>
     public static ValueTask<IResult> ToHttpResultAsync<T>(
         this ValueTask<Option<T>> option,
         Func<ProblemDetails> none,
@@ -179,6 +233,12 @@ public static class HttpResultExtensions
     /// <param name="failure">Maps failure to a problem with a status.</param>
     /// <param name="success">Optionally maps a successful value.</param>
     /// <returns>A value task that produces the mapped HTTP result.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="failure"/> is null; required arguments are checked eagerly.</exception>
+    /// <exception cref="InvalidOperationException">A selected mapper returns null, a selected problem lacks a status, or the outcome is uninitialized.</exception>
+    /// <remarks>
+    /// Only the selected outcome mapper runs; a null optional success mapper selects the default HTTP result.
+    /// Mapper exceptions propagate unchanged. The input is awaited once; awaited or mapper cancellation is represented by the returned async result.
+    /// </remarks>
     public static ValueTask<IResult> ToHttpResultAsync<TValue, TError>(
         this ValueTask<Result<TValue, TError>> result,
         Func<TError, ProblemDetails> failure,
@@ -197,6 +257,12 @@ public static class HttpResultExtensions
     /// <param name="invalid">Maps validation errors to a validation problem with a status.</param>
     /// <param name="valid">Optionally maps a valid value.</param>
     /// <returns>A value task that produces the mapped HTTP result.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="invalid"/> is null; required arguments are checked eagerly.</exception>
+    /// <exception cref="InvalidOperationException">A selected mapper returns null, a selected problem lacks a status, or the outcome is uninitialized.</exception>
+    /// <remarks>
+    /// Only the selected outcome mapper runs; a null optional success mapper selects the default HTTP result.
+    /// Mapper exceptions propagate unchanged. The input is awaited once; awaited or mapper cancellation is represented by the returned async result.
+    /// </remarks>
     public static ValueTask<IResult> ToHttpResultAsync<TValue, TError>(
         this ValueTask<Validation<TValue, TError>> validation,
         Func<IReadOnlyList<TError>, HttpValidationProblemDetails> invalid,
@@ -214,6 +280,12 @@ public static class HttpResultExtensions
     /// <param name="failure">Maps failure to a problem with a status.</param>
     /// <param name="success">Optionally maps success.</param>
     /// <returns>A value task that produces the mapped HTTP result.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="failure"/> is null; required arguments are checked eagerly.</exception>
+    /// <exception cref="InvalidOperationException">A selected mapper returns null, a selected problem lacks a status, or the outcome is uninitialized.</exception>
+    /// <remarks>
+    /// Only the selected outcome mapper runs; a null optional success mapper selects the default HTTP result.
+    /// Mapper exceptions propagate unchanged. The input is awaited once; awaited or mapper cancellation is represented by the returned async result.
+    /// </remarks>
     public static ValueTask<IResult> ToHttpResultAsync<TError>(
         this ValueTask<UnitResult<TError>> result,
         Func<TError, ProblemDetails> failure,
@@ -232,6 +304,13 @@ public static class HttpResultExtensions
     /// <param name="none">Maps absence to a problem with a status.</param>
     /// <param name="some">Optionally maps a present value.</param>
     /// <returns>A value task that produces the mapped HTTP result.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="context"/> or <paramref name="none"/> is null; required arguments are checked eagerly.</exception>
+    /// <exception cref="InvalidOperationException">A selected mapper returns null, a selected problem lacks a status.</exception>
+    /// <remarks>
+    /// Only the selected outcome mapper runs; a null optional success mapper selects the default HTTP result.
+    /// Mapper exceptions propagate unchanged. The input is awaited once; awaited or mapper cancellation is represented by the returned async result.
+    /// After guards, the effect starts with context.RequestAborted; its returned value task is awaited once.
+    /// </remarks>
     public static ValueTask<IResult> ToHttpResultAsync<T>(
         this Effect<Option<T>> effect,
         HttpContext context,
@@ -253,6 +332,13 @@ public static class HttpResultExtensions
     /// <param name="failure">Maps failure to a problem with a status.</param>
     /// <param name="success">Optionally maps a successful value.</param>
     /// <returns>A value task that produces the mapped HTTP result.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="context"/> or <paramref name="failure"/> is null; required arguments are checked eagerly.</exception>
+    /// <exception cref="InvalidOperationException">A selected mapper returns null, a selected problem lacks a status, or the outcome is uninitialized.</exception>
+    /// <remarks>
+    /// Only the selected outcome mapper runs; a null optional success mapper selects the default HTTP result.
+    /// Mapper exceptions propagate unchanged. The input is awaited once; awaited or mapper cancellation is represented by the returned async result.
+    /// After guards, the effect starts with context.RequestAborted; its returned value task is awaited once.
+    /// </remarks>
     public static ValueTask<IResult> ToHttpResultAsync<TValue, TError>(
         this Effect<Result<TValue, TError>> effect,
         HttpContext context,
@@ -274,6 +360,13 @@ public static class HttpResultExtensions
     /// <param name="invalid">Maps validation errors to a validation problem with a status.</param>
     /// <param name="valid">Optionally maps a valid value.</param>
     /// <returns>A value task that produces the mapped HTTP result.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="context"/> or <paramref name="invalid"/> is null; required arguments are checked eagerly.</exception>
+    /// <exception cref="InvalidOperationException">A selected mapper returns null, a selected problem lacks a status, or the outcome is uninitialized.</exception>
+    /// <remarks>
+    /// Only the selected outcome mapper runs; a null optional success mapper selects the default HTTP result.
+    /// Mapper exceptions propagate unchanged. The input is awaited once; awaited or mapper cancellation is represented by the returned async result.
+    /// After guards, the effect starts with context.RequestAborted; its returned value task is awaited once.
+    /// </remarks>
     public static ValueTask<IResult> ToHttpResultAsync<TValue, TError>(
         this Effect<Validation<TValue, TError>> effect,
         HttpContext context,
@@ -294,6 +387,13 @@ public static class HttpResultExtensions
     /// <param name="failure">Maps failure to a problem with a status.</param>
     /// <param name="success">Optionally maps success.</param>
     /// <returns>A value task that produces the mapped HTTP result.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="context"/> or <paramref name="failure"/> is null; required arguments are checked eagerly.</exception>
+    /// <exception cref="InvalidOperationException">A selected mapper returns null, a selected problem lacks a status, or the outcome is uninitialized.</exception>
+    /// <remarks>
+    /// Only the selected outcome mapper runs; a null optional success mapper selects the default HTTP result.
+    /// Mapper exceptions propagate unchanged. The input is awaited once; awaited or mapper cancellation is represented by the returned async result.
+    /// After guards, the effect starts with context.RequestAborted; its returned value task is awaited once.
+    /// </remarks>
     public static ValueTask<IResult> ToHttpResultAsync<TError>(
         this Effect<UnitResult<TError>> effect,
         HttpContext context,
@@ -316,6 +416,13 @@ public static class HttpResultExtensions
     /// <param name="none">Maps absence to a problem with a status.</param>
     /// <param name="some">Optionally maps a present value.</param>
     /// <returns>A value task that produces the mapped HTTP result.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="context"/> or <paramref name="none"/> is null; required arguments are checked eagerly.</exception>
+    /// <exception cref="InvalidOperationException">A selected mapper returns null, a selected problem lacks a status.</exception>
+    /// <remarks>
+    /// Only the selected outcome mapper runs; a null optional success mapper selects the default HTTP result.
+    /// Mapper exceptions propagate unchanged. The input is awaited once; awaited or mapper cancellation is represented by the returned async result.
+    /// After guards, the effect starts with context.RequestAborted; its returned value task is awaited once.
+    /// </remarks>
     public static ValueTask<IResult> ToHttpResultAsync<TEnvironment, T>(
         this Effect<TEnvironment, Option<T>> effect,
         TEnvironment environment,
@@ -340,6 +447,13 @@ public static class HttpResultExtensions
     /// <param name="failure">Maps failure to a problem with a status.</param>
     /// <param name="success">Optionally maps a successful value.</param>
     /// <returns>A value task that produces the mapped HTTP result.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="context"/> or <paramref name="failure"/> is null; required arguments are checked eagerly.</exception>
+    /// <exception cref="InvalidOperationException">A selected mapper returns null, a selected problem lacks a status, or the outcome is uninitialized.</exception>
+    /// <remarks>
+    /// Only the selected outcome mapper runs; a null optional success mapper selects the default HTTP result.
+    /// Mapper exceptions propagate unchanged. The input is awaited once; awaited or mapper cancellation is represented by the returned async result.
+    /// After guards, the effect starts with context.RequestAborted; its returned value task is awaited once.
+    /// </remarks>
     public static ValueTask<IResult> ToHttpResultAsync<TEnvironment, TValue, TError>(
         this Effect<TEnvironment, Result<TValue, TError>> effect,
         TEnvironment environment,
@@ -364,6 +478,13 @@ public static class HttpResultExtensions
     /// <param name="invalid">Maps validation errors to a validation problem with a status.</param>
     /// <param name="valid">Optionally maps a valid value.</param>
     /// <returns>A value task that produces the mapped HTTP result.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="context"/> or <paramref name="invalid"/> is null; required arguments are checked eagerly.</exception>
+    /// <exception cref="InvalidOperationException">A selected mapper returns null, a selected problem lacks a status, or the outcome is uninitialized.</exception>
+    /// <remarks>
+    /// Only the selected outcome mapper runs; a null optional success mapper selects the default HTTP result.
+    /// Mapper exceptions propagate unchanged. The input is awaited once; awaited or mapper cancellation is represented by the returned async result.
+    /// After guards, the effect starts with context.RequestAborted; its returned value task is awaited once.
+    /// </remarks>
     public static ValueTask<IResult> ToHttpResultAsync<TEnvironment, TValue, TError>(
         this Effect<TEnvironment, Validation<TValue, TError>> effect,
         TEnvironment environment,
@@ -388,6 +509,13 @@ public static class HttpResultExtensions
     /// <param name="failure">Maps failure to a problem with a status.</param>
     /// <param name="success">Optionally maps success.</param>
     /// <returns>A value task that produces the mapped HTTP result.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="context"/> or <paramref name="failure"/> is null; required arguments are checked eagerly.</exception>
+    /// <exception cref="InvalidOperationException">A selected mapper returns null, a selected problem lacks a status, or the outcome is uninitialized.</exception>
+    /// <remarks>
+    /// Only the selected outcome mapper runs; a null optional success mapper selects the default HTTP result.
+    /// Mapper exceptions propagate unchanged. The input is awaited once; awaited or mapper cancellation is represented by the returned async result.
+    /// After guards, the effect starts with context.RequestAborted; its returned value task is awaited once.
+    /// </remarks>
     public static ValueTask<IResult> ToHttpResultAsync<TEnvironment, TError>(
         this Effect<TEnvironment, UnitResult<TError>> effect,
         TEnvironment environment,

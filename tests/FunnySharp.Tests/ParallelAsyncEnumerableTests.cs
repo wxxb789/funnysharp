@@ -8,8 +8,6 @@ public sealed class ParallelAsyncEnumerableTests
 {
     private static readonly TimeSpan GateTimeout = TimeSpan.FromSeconds(5);
 
-    private static readonly TimeSpan SourceOrderGracePeriod = TimeSpan.FromSeconds(1);
-
     [Theory]
     [InlineData(false)]
     [InlineData(true)]
@@ -114,11 +112,14 @@ public sealed class ParallelAsyncEnumerableTests
         var firstStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         var secondStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         var thirdStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-        Task<bool>? firstPull = null;
+        var acknowledgedDeliveries = 0;
+        var retainedAdmissionHighWater = 0;
         var thirdStartedBeforeFirstDelivery = false;
 
         var pipeline = source.SelectParallelValueAsync(2, value =>
         {
+            var deliveries = Volatile.Read(ref acknowledgedDeliveries);
+            retainedAdmissionHighWater = Math.Max(retainedAdmissionHighWater, source.ItemsYielded - deliveries);
             switch (value)
             {
                 case 1:
@@ -128,7 +129,7 @@ public sealed class ParallelAsyncEnumerableTests
                     secondStarted.TrySetResult();
                     return new ValueTask<int>(second.Task);
                 case 3:
-                    thirdStartedBeforeFirstDelivery = firstPull is { IsCompleted: false };
+                    thirdStartedBeforeFirstDelivery = deliveries == 0;
                     thirdStarted.TrySetResult();
                     return new ValueTask<int>(third.Task);
                 default:
@@ -136,30 +137,54 @@ public sealed class ParallelAsyncEnumerableTests
             }
         });
 
-        await using var enumerator = pipeline.GetAsyncEnumerator();
-        firstPull = enumerator.MoveNextAsync().AsTask();
+        var enumerator = pipeline.GetAsyncEnumerator();
+        Task<bool>? firstPull = null;
+        var initialAdmissions = Task.WhenAll(firstStarted.Task, secondStarted.Task)
+            .WaitAsync(GateTimeout, TestContext.Current.CancellationToken);
+        var thirdAdmission = thirdStarted.Task.WaitAsync(GateTimeout, TestContext.Current.CancellationToken);
+        try
+        {
+            // Already completed on admission: its observer publishes synchronously.
+            second.SetResult(20);
+            firstPull = AcknowledgeDeliveryAsync(
+                enumerator.MoveNextAsync(),
+                () => Interlocked.Increment(ref acknowledgedDeliveries));
+            await initialAdmissions;
 
-        await firstStarted.Task;
-        await secondStarted.Task;
-        Assert.Equal(2, source.ItemsYielded);
-        Assert.False(thirdStarted.Task.IsCompleted);
+            first.SetResult(10);
+            Assert.True(await firstPull.WaitAsync(GateTimeout, TestContext.Current.CancellationToken));
+            Assert.Equal(10, enumerator.Current);
+            await thirdAdmission;
+            Assert.False(thirdStartedBeforeFirstDelivery);
+            Assert.Equal(2, retainedAdmissionHighWater);
+            Assert.Equal(3, source.ItemsYielded);
 
-        second.SetResult(20);
-        Assert.False(firstPull.IsCompleted);
+            Assert.True(await enumerator.MoveNextAsync().AsTask().WaitAsync(GateTimeout, TestContext.Current.CancellationToken));
+            Assert.Equal(20, enumerator.Current);
 
-        first.SetResult(10);
-        Assert.True(await firstPull);
-        Assert.Equal(10, enumerator.Current);
-        await thirdStarted.Task;
-        Assert.False(thirdStartedBeforeFirstDelivery);
-
-        Assert.True(await enumerator.MoveNextAsync());
-        Assert.Equal(20, enumerator.Current);
-
-        third.SetResult(30);
-        Assert.True(await enumerator.MoveNextAsync());
-        Assert.Equal(30, enumerator.Current);
-        Assert.False(await enumerator.MoveNextAsync());
+            third.SetResult(30);
+            Assert.True(await enumerator.MoveNextAsync().AsTask().WaitAsync(GateTimeout, TestContext.Current.CancellationToken));
+            Assert.Equal(30, enumerator.Current);
+            Assert.False(await enumerator.MoveNextAsync().AsTask().WaitAsync(GateTimeout, TestContext.Current.CancellationToken));
+            Assert.Equal(1, source.DisposeCount);
+        }
+        finally
+        {
+            first.TrySetResult(10);
+            second.TrySetResult(20);
+            third.TrySetResult(30);
+            try
+            {
+                if (firstPull is not null)
+                {
+                    _ = await firstPull.WaitAsync(GateTimeout, TestContext.Current.CancellationToken);
+                }
+            }
+            finally
+            {
+                await enumerator.DisposeAsync().AsTask().WaitAsync(GateTimeout, TestContext.Current.CancellationToken);
+            }
+        }
     }
 
     [Theory]
@@ -188,40 +213,72 @@ public sealed class ParallelAsyncEnumerableTests
     [InlineData(true)]
     public async Task ConsumerBreakCancelsStartedSelectorsWaitsForThemAndDisposesSource(bool completionOrder)
     {
-        var source = new ProbeAsyncEnumerable<int>([1, 2]);
-        var first = new TaskCompletionSource<int>(TaskCreationOptions.RunContinuationsAsynchronously);
-        var firstStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-        var secondStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-        var secondCanceled = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-        var secondFinished = new TaskCompletionSource<int>(TaskCreationOptions.RunContinuationsAsynchronously);
-        CancellationToken secondToken = default;
-
-        var pipeline = source.SelectParallel(2, (value, token) =>
+        // Retain successful break cleanup and add a terminal fault dependency in the same case.
+        foreach (var cleanupFault in new[] { false, true })
         {
-            if (value == 1)
+            var source = new ProbeAsyncEnumerable<int>([1, 2]);
+            var first = new TaskCompletionSource<int>(TaskCreationOptions.RunContinuationsAsynchronously);
+            var firstStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+            var secondStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+            var secondCanceled = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+            var secondFinished = new TaskCompletionSource<int>(TaskCreationOptions.RunContinuationsAsynchronously);
+            var expected = new ArgumentException("selector cleanup");
+            CancellationToken secondToken = default;
+
+            var pipeline = source.SelectParallel(2, (value, token) =>
             {
-                firstStarted.TrySetResult();
-                return new ValueTask<int>(first.Task);
+                if (value == 1)
+                {
+                    firstStarted.TrySetResult();
+                    return new ValueTask<int>(first.Task);
+                }
+
+                secondToken = token;
+                secondStarted.TrySetResult();
+                return FinishAfterCancellationAsync(token, secondCanceled, secondFinished.Task);
+            }, completionOrder);
+            var admissions = Task.WhenAll(firstStarted.Task, secondStarted.Task)
+                .WaitAsync(GateTimeout, TestContext.Current.CancellationToken);
+            var cancellationObserved = secondCanceled.Task.WaitAsync(GateTimeout, TestContext.Current.CancellationToken);
+            var consumption = ConsumeOneAsync(pipeline);
+
+            try
+            {
+                await admissions;
+                first.SetResult(1);
+                await cancellationObserved;
+                Assert.True(secondToken.IsCancellationRequested);
+
+                if (cleanupFault)
+                {
+                    var failureObserved = Assert.ThrowsAsync<ArgumentException>(
+                        () => consumption.WaitAsync(GateTimeout, TestContext.Current.CancellationToken));
+                    secondFinished.SetException(expected);
+                    Assert.Same(expected, await failureObserved);
+                }
+                else
+                {
+                    var completionObserved = consumption.WaitAsync(GateTimeout, TestContext.Current.CancellationToken);
+                    secondFinished.SetResult(2);
+                    await completionObserved;
+                }
+
+                Assert.Equal(1, source.DisposeCount);
             }
-
-            secondStarted.TrySetResult();
-            secondToken = token;
-            return FinishAfterCancellationAsync(token, secondCanceled, secondFinished.Task);
-        }, completionOrder);
-        var consumption = ConsumeOneAsync(pipeline);
-
-        await firstStarted.Task;
-        await secondStarted.Task;
-        first.SetResult(1);
-
-        await secondCanceled.Task;
-        Assert.True(secondToken.IsCancellationRequested);
-        Assert.False(consumption.IsCompleted);
-
-        secondFinished.SetResult(2);
-        await consumption;
-
-        Assert.Equal(1, source.DisposeCount);
+            finally
+            {
+                first.TrySetResult(1);
+                secondFinished.TrySetResult(2);
+                try
+                {
+                    await consumption.WaitAsync(GateTimeout, TestContext.Current.CancellationToken);
+                }
+                catch (ArgumentException exception) when (cleanupFault && ReferenceEquals(exception, expected))
+                {
+                    // The asserted terminal cleanup fault is also observed during teardown.
+                }
+            }
+        }
     }
 
     [Theory]
@@ -250,49 +307,262 @@ public sealed class ParallelAsyncEnumerableTests
     }
 
     [Theory]
-    [InlineData(false)]
-    [InlineData(true)]
-    public async Task LaterSelectorFaultCancelsAndDrainsAnEarlierSelectorBeforeFailing(bool completionOrder)
+    [InlineData(false, false, false)]
+    [InlineData(false, false, true)]
+    [InlineData(false, true, false)]
+    [InlineData(false, true, true)]
+    [InlineData(true, false, false)]
+    [InlineData(true, false, true)]
+    [InlineData(true, true, false)]
+    [InlineData(true, true, true)]
+    public async Task ExternalCancellationDoesNotPublishANonCooperatingSelectorAndCleansUpOnce(
+        bool completionOrder,
+        bool tokenAware,
+        bool cleanupFault)
     {
         using var cancellationSource = new CancellationTokenSource();
-        var source = new ProbeAsyncEnumerable<int>([0, 1]);
-        var earlierCanceled = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-        var earlierFinished = new TaskCompletionSource<int>(TaskCreationOptions.RunContinuationsAsynchronously);
-        var laterStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-        var expected = new InvalidOperationException("later selector");
-        var operation = source.SelectParallel(2, (value, token) =>
+        var disposeException = new InvalidOperationException("dispose");
+        var selectorException = new ArgumentException("selector cleanup");
+        var source = new ProbeAsyncEnumerable<int>(
+            [1],
+            disposeException: cleanupFault ? disposeException : null);
+        var selector = new CountingValueTaskSource<int>();
+        var selectorCalls = 0;
+        var selectorReleased = false;
+
+        ValueTask<int> Selector(int value)
         {
-            if (value == 0)
-            {
-                return FinishAfterCancellationAsync(token, earlierCanceled, earlierFinished.Task);
-            }
+            selectorCalls++;
+            return selector.CreateValueTask();
+        }
 
-            laterStarted.TrySetResult();
-            return ValueTask.FromException<int>(expected);
-        }, completionOrder).ToListAsync(cancellationSource.Token).AsTask();
+        var pipeline = tokenAware
+            ? source.SelectParallel(1, (value, _) => Selector(value), completionOrder)
+            : source.SelectParallel(1, Selector, completionOrder);
 
+        await using var enumerator = pipeline.GetAsyncEnumerator(cancellationSource.Token);
+        Task<bool>? firstPull = null;
         try
         {
-            await laterStarted.Task.WaitAsync(GateTimeout);
-            await earlierCanceled.Task.WaitAsync(GateTimeout);
-            Assert.False(operation.IsCompleted);
+            firstPull = enumerator.MoveNextAsync().AsTask();
 
-            earlierFinished.SetResult(0);
-            var actual = await Assert.ThrowsAsync<InvalidOperationException>(() => operation.WaitAsync(GateTimeout));
+            // The synchronous source starts the pending selector before the pull returns.
+            Assert.Equal(1, selectorCalls);
+            Assert.Equal(1, source.ItemsYielded);
+            Assert.Equal(0, selector.GetResultCount);
 
-            Assert.Same(expected, actual);
+            cancellationSource.Cancel();
+            Assert.True(source.ReceivedToken.IsCancellationRequested);
+
+            if (cleanupFault)
+            {
+                var failureObserved = Assert.ThrowsAsync<AggregateException>(
+                    () => firstPull.WaitAsync(GateTimeout, TestContext.Current.CancellationToken));
+                selector.SetException(selectorException);
+                selectorReleased = true;
+                var actual = await failureObserved;
+
+                Assert.Collection(
+                    actual.InnerExceptions,
+                    failure => Assert.Equal(
+                        cancellationSource.Token,
+                        Assert.IsType<OperationCanceledException>(failure).CancellationToken),
+                    failure => Assert.Same(selectorException, failure),
+                    failure => Assert.Same(disposeException, failure));
+            }
+            else
+            {
+                var cancellationObserved = Assert.ThrowsAnyAsync<OperationCanceledException>(
+                    () => firstPull.WaitAsync(GateTimeout, TestContext.Current.CancellationToken));
+                selector.SetResult(10);
+                selectorReleased = true;
+                var actual = await cancellationObserved;
+
+                Assert.Equal(cancellationSource.Token, actual.CancellationToken);
+                Assert.True(firstPull.IsCanceled);
+            }
+
+            Assert.Equal(0, enumerator.Current);
+            Assert.Equal(1, selectorCalls);
+            Assert.Equal(1, selector.GetResultCount);
+            Assert.Equal(1, source.DisposeCount);
+
+            await enumerator.DisposeAsync().AsTask().WaitAsync(GateTimeout, TestContext.Current.CancellationToken);
             Assert.Equal(1, source.DisposeCount);
         }
         finally
         {
-            cancellationSource.Cancel();
-            earlierFinished.TrySetResult(0);
+            if (!selectorReleased)
+            {
+                selector.SetResult(10);
+            }
+
+            if (firstPull is not null)
+            {
+                try
+                {
+                    _ = await firstPull.WaitAsync(GateTimeout, TestContext.Current.CancellationToken);
+                }
+                catch (OperationCanceledException) when (cancellationSource.IsCancellationRequested)
+                {
+                }
+                catch (AggregateException exception) when (
+                    cleanupFault && exception.InnerExceptions.Contains(disposeException))
+                {
+                }
+            }
+        }
+    }
+
+    [Theory]
+    [InlineData(false, false)]
+    [InlineData(false, true)]
+    [InlineData(true, false)]
+    [InlineData(true, true)]
+    public async Task LaterSelectorFaultDoesNotPublishAnEarlierNonCooperatingSelector(
+        bool completionOrder,
+        bool tokenAware)
+    {
+        var source = new ProbeAsyncEnumerable<int>([1, 2]);
+        var first = new CountingValueTaskSource<int>();
+        var second = new TaskCompletionSource<int>(TaskCreationOptions.RunContinuationsAsynchronously);
+        var operationCanceled = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var expected = new InvalidOperationException("later selector");
+        var firstReleased = false;
+
+        ValueTask<int> Selector(int value) => value == 1
+            ? first.CreateValueTask()
+            : new ValueTask<int>(second.Task);
+
+        var pipeline = tokenAware
+            ? source.SelectParallel(3, (value, _) => Selector(value), completionOrder)
+            : source.SelectParallel(3, Selector, completionOrder);
+
+        await using var enumerator = pipeline.GetAsyncEnumerator();
+        Task<bool>? firstPull = null;
+        try
+        {
+            firstPull = enumerator.MoveNextAsync().AsTask();
+            Assert.Equal(2, source.ItemsYielded);
+
+            using var registration = source.ReceivedToken.Register(
+                () => _ = operationCanceled.TrySetResult());
+            var cancellationObserved = operationCanceled.Task.WaitAsync(GateTimeout, TestContext.Current.CancellationToken);
+
+            second.SetException(expected);
+            await cancellationObserved;
+
+            first.SetResult(10);
+            firstReleased = true;
+            var actual = await Assert.ThrowsAsync<InvalidOperationException>(
+                () => firstPull.WaitAsync(GateTimeout, TestContext.Current.CancellationToken));
+
+            Assert.Same(expected, actual);
+            Assert.Equal(0, enumerator.Current);
+            Assert.Equal(1, first.GetResultCount);
+            Assert.Equal(1, source.DisposeCount);
+
+            await enumerator.DisposeAsync().AsTask().WaitAsync(GateTimeout, TestContext.Current.CancellationToken);
+            Assert.Equal(1, source.DisposeCount);
+        }
+        finally
+        {
+            if (!firstReleased)
+            {
+                first.SetResult(10);
+            }
+
+            second.TrySetResult(20);
+            if (firstPull is not null)
+            {
+                try
+                {
+                    _ = await firstPull.WaitAsync(GateTimeout, TestContext.Current.CancellationToken);
+                }
+                catch (InvalidOperationException exception) when (ReferenceEquals(exception, expected))
+                {
+                }
+            }
+        }
+    }
+
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public async Task LaterSelectorFaultCancelsAndDrainsAnEarlierSelectorBeforeFailing(bool completionOrder)
+    {
+        // Keep the original single-fault identity path as well as the drain-fault witness.
+        foreach (var cleanupFault in new[] { false, true })
+        {
+            using var cancellationSource = new CancellationTokenSource();
+            var source = new ProbeAsyncEnumerable<int>([0, 1]);
+            var earlierCanceled = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+            var earlierFinished = new TaskCompletionSource<int>(TaskCreationOptions.RunContinuationsAsynchronously);
+            var laterStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+            var expected = new InvalidOperationException("later selector");
+            var cleanupException = new ArgumentException("earlier selector cleanup");
+            var laterAdmission = laterStarted.Task.WaitAsync(GateTimeout, TestContext.Current.CancellationToken);
+            var cancellationObserved = earlierCanceled.Task.WaitAsync(GateTimeout, TestContext.Current.CancellationToken);
+            var operation = source.SelectParallel(2, (value, token) =>
+            {
+                if (value == 0)
+                {
+                    return FinishAfterCancellationAsync(token, earlierCanceled, earlierFinished.Task);
+                }
+
+                laterStarted.TrySetResult();
+                return ValueTask.FromException<int>(expected);
+            }, completionOrder).ToListAsync(cancellationSource.Token).AsTask();
+
             try
             {
-                await operation.WaitAsync(GateTimeout);
+                await laterAdmission;
+                await cancellationObserved;
+
+                if (cleanupFault)
+                {
+                    var failureObserved = Assert.ThrowsAsync<AggregateException>(
+                        () => operation.WaitAsync(GateTimeout, TestContext.Current.CancellationToken));
+                    earlierFinished.SetException(cleanupException);
+                    var actual = await failureObserved;
+                    Assert.Collection(
+                        actual.InnerExceptions,
+                        failure => Assert.Same(expected, failure),
+                        failure => Assert.Same(cleanupException, failure));
+                }
+                else
+                {
+                    var failureObserved = Assert.ThrowsAsync<InvalidOperationException>(
+                        () => operation.WaitAsync(GateTimeout, TestContext.Current.CancellationToken));
+                    earlierFinished.SetResult(0);
+                    Assert.Same(expected, await failureObserved);
+                }
+
+                Assert.Equal(1, source.DisposeCount);
             }
-            catch (Exception)
+            finally
             {
+                cancellationSource.Cancel();
+                earlierFinished.TrySetResult(0);
+                try
+                {
+                    await operation.WaitAsync(GateTimeout, TestContext.Current.CancellationToken);
+                }
+                catch (InvalidOperationException exception) when (ReferenceEquals(exception, expected))
+                {
+                    // Already asserted above, or reached while releasing the held selector.
+                }
+                catch (AggregateException exception) when (
+                    cleanupFault && exception.InnerExceptions.Count == 2 &&
+                    ReferenceEquals(exception.InnerExceptions[0], expected) &&
+                    ReferenceEquals(exception.InnerExceptions[1], cleanupException))
+                {
+                    // Both exact terminal failures are also observed during teardown.
+                }
+                catch (OperationCanceledException) when (cancellationSource.IsCancellationRequested)
+                {
+                    // Cancellation is requested only to unwind a failed test.
+                }
             }
         }
     }
@@ -524,44 +794,51 @@ public sealed class ParallelAsyncEnumerableTests
     [InlineData(true)]
     public async Task SelectParallelRoutesCompletionOrderTrueToCompletionOrderDelivery(bool tokenAware)
     {
+        var source = new ProbeAsyncEnumerable<int>([1, 2]);
         var first = new TaskCompletionSource<int>(TaskCreationOptions.RunContinuationsAsynchronously);
-        var second = new TaskCompletionSource<int>(TaskCreationOptions.RunContinuationsAsynchronously);
 
-        ValueTask<int> Selector(int value) => value switch
-        {
-            1 => new ValueTask<int>(first.Task),
-            _ => new ValueTask<int>(second.Task),
-        };
+        ValueTask<int> Selector(int value) => value == 1
+            ? new ValueTask<int>(first.Task)
+            : ValueTask.FromResult(20);
 
         // The guard pins both factory overloads: the method-group selector binds the
         // non-token overload, the two-parameter lambda the token-aware one.
         var pipeline = tokenAware
-            ? AsyncValues(1, 2).SelectParallel(
-                2,
+            ? source.SelectParallel(
+                3,
                 (value, _) => Selector(value),
                 completionOrder: true)
-            : AsyncValues(1, 2).SelectParallel(
-                2,
+            : source.SelectParallel(
+                3,
                 Selector,
                 completionOrder: true);
 
         await using var enumerator = pipeline.GetAsyncEnumerator();
+        Task<bool>? firstPull = null;
         try
         {
-            second.SetResult(20);
-            Assert.True(await enumerator.MoveNextAsync().AsTask().WaitAsync(GateTimeout));
-            Assert.Equal(20, enumerator.Current);
-            Assert.False(first.Task.IsCompleted);
+            var sourceExhausted = source.WaitForExhaustionAsync().WaitAsync(GateTimeout, TestContext.Current.CancellationToken);
+            firstPull = enumerator.MoveNextAsync().AsTask();
+            await sourceExhausted;
 
+            // The completed second selector is published before the producer asks
+            // for source exhaustion, so releasing the first cannot change this order.
             first.SetResult(10);
+            Assert.True(await firstPull.WaitAsync(GateTimeout, TestContext.Current.CancellationToken));
+            Assert.Equal(20, enumerator.Current);
+
             Assert.True(await enumerator.MoveNextAsync().AsTask().WaitAsync(GateTimeout));
             Assert.Equal(10, enumerator.Current);
             Assert.False(await enumerator.MoveNextAsync().AsTask().WaitAsync(GateTimeout));
+            Assert.Equal(1, source.DisposeCount);
         }
         finally
         {
-            first.TrySetResult(0);
-            second.TrySetResult(0);
+            first.TrySetResult(10);
+            if (firstPull is not null)
+            {
+                _ = await firstPull.WaitAsync(GateTimeout, TestContext.Current.CancellationToken);
+            }
         }
     }
 
@@ -570,48 +847,35 @@ public sealed class ParallelAsyncEnumerableTests
     [InlineData(true)]
     public async Task SelectParallelRoutesCompletionOrderFalseToSourceOrderDelivery(bool tokenAware)
     {
+        var source = new ProbeAsyncEnumerable<int>([1, 2]);
         var first = new TaskCompletionSource<int>(TaskCreationOptions.RunContinuationsAsynchronously);
-        var second = new TaskCompletionSource<int>(TaskCreationOptions.RunContinuationsAsynchronously);
-        var secondStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
 
-        ValueTask<int> Selector(int value)
-        {
-            if (value == 1)
-            {
-                return new ValueTask<int>(first.Task);
-            }
-
-            secondStarted.TrySetResult();
-            return new ValueTask<int>(second.Task);
-        }
+        ValueTask<int> Selector(int value) => value == 1
+            ? new ValueTask<int>(first.Task)
+            : ValueTask.FromResult(20);
 
         // The guard pins both factory overloads: the method-group selector binds the
         // non-token overload, the two-parameter lambda the token-aware one.
         var pipeline = tokenAware
-            ? AsyncValues(1, 2).SelectParallel(
-                2,
+            ? source.SelectParallel(
+                3,
                 (value, _) => Selector(value),
                 completionOrder: false)
-            : AsyncValues(1, 2).SelectParallel(
-                2,
+            : source.SelectParallel(
+                3,
                 Selector,
                 completionOrder: false);
 
         await using var enumerator = pipeline.GetAsyncEnumerator();
+        Task<bool>? firstPull = null;
         try
         {
-            var firstPull = enumerator.MoveNextAsync().AsTask();
+            var sourceExhausted = source.WaitForExhaustionAsync().WaitAsync(GateTimeout, TestContext.Current.CancellationToken);
+            firstPull = enumerator.MoveNextAsync().AsTask();
+            await sourceExhausted;
 
-            await secondStarted.Task.WaitAsync(GateTimeout);
-            second.SetResult(20);
-            // Under source order the completed item 2 cannot be delivered while item 1
-            // is still pending, so firstPull cannot complete before first.SetResult.
-            // Wait out a grace period: a misrouted completion-order delivery completes
-            // firstPull well inside it (with 20, or 10 when the writes race), so a
-            // single pass pins the route deterministically.
-            await Assert.ThrowsAsync<TimeoutException>(
-                () => firstPull.WaitAsync(SourceOrderGracePeriod));
-
+            // With completion-order routing, 20 is already published at exhaustion.
+            // A wrong route therefore fails on Current, not on elapsed silence.
             first.SetResult(10);
             Assert.True(await firstPull.WaitAsync(GateTimeout));
             Assert.Equal(10, enumerator.Current);
@@ -619,11 +883,15 @@ public sealed class ParallelAsyncEnumerableTests
             Assert.True(await enumerator.MoveNextAsync().AsTask().WaitAsync(GateTimeout));
             Assert.Equal(20, enumerator.Current);
             Assert.False(await enumerator.MoveNextAsync().AsTask().WaitAsync(GateTimeout));
+            Assert.Equal(1, source.DisposeCount);
         }
         finally
         {
-            first.TrySetResult(0);
-            second.TrySetResult(0);
+            first.TrySetResult(10);
+            if (firstPull is not null)
+            {
+                _ = await firstPull.WaitAsync(GateTimeout, TestContext.Current.CancellationToken);
+            }
         }
     }
 
@@ -668,11 +936,14 @@ public sealed class ParallelAsyncEnumerableTests
         var firstStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         var secondStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         var thirdStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-        Task<bool>? firstPull = null;
+        var acknowledgedDeliveries = 0;
+        var retainedAdmissionHighWater = 0;
         var thirdStartedBeforeFirstDelivery = false;
 
         var pipeline = source.SelectParallelCompletionOrderValueAsync(2, value =>
         {
+            var deliveries = Volatile.Read(ref acknowledgedDeliveries);
+            retainedAdmissionHighWater = Math.Max(retainedAdmissionHighWater, source.ItemsYielded - deliveries);
             switch (value)
             {
                 case 1:
@@ -682,7 +953,7 @@ public sealed class ParallelAsyncEnumerableTests
                     secondStarted.TrySetResult();
                     return new ValueTask<int>(second.Task);
                 case 3:
-                    thirdStartedBeforeFirstDelivery = firstPull is { IsCompleted: false };
+                    thirdStartedBeforeFirstDelivery = deliveries == 0;
                     thirdStarted.TrySetResult();
                     return new ValueTask<int>(third.Task);
                 default:
@@ -690,28 +961,54 @@ public sealed class ParallelAsyncEnumerableTests
             }
         });
 
-        await using var enumerator = pipeline.GetAsyncEnumerator();
-        firstPull = enumerator.MoveNextAsync().AsTask();
+        var enumerator = pipeline.GetAsyncEnumerator();
+        Task<bool>? firstPull = null;
+        var initialAdmissions = Task.WhenAll(firstStarted.Task, secondStarted.Task)
+            .WaitAsync(GateTimeout, TestContext.Current.CancellationToken);
+        var thirdAdmission = thirdStarted.Task.WaitAsync(GateTimeout, TestContext.Current.CancellationToken);
+        try
+        {
+            // Already completed on admission: its observer publishes synchronously.
+            second.SetResult(20);
+            firstPull = AcknowledgeDeliveryAsync(
+                enumerator.MoveNextAsync(),
+                () => Interlocked.Increment(ref acknowledgedDeliveries));
+            await initialAdmissions;
 
-        await firstStarted.Task;
-        await secondStarted.Task;
-        Assert.Equal(2, source.ItemsYielded);
-        Assert.False(thirdStarted.Task.IsCompleted);
+            Assert.True(await firstPull.WaitAsync(GateTimeout, TestContext.Current.CancellationToken));
+            Assert.Equal(20, enumerator.Current);
+            await thirdAdmission;
+            Assert.False(thirdStartedBeforeFirstDelivery);
+            Assert.Equal(2, retainedAdmissionHighWater);
+            Assert.Equal(3, source.ItemsYielded);
 
-        second.SetResult(20);
-        Assert.True(await firstPull);
-        Assert.Equal(20, enumerator.Current);
-        await thirdStarted.Task;
-        Assert.False(thirdStartedBeforeFirstDelivery);
+            first.SetResult(10);
+            Assert.True(await enumerator.MoveNextAsync().AsTask().WaitAsync(GateTimeout, TestContext.Current.CancellationToken));
+            Assert.Equal(10, enumerator.Current);
 
-        first.SetResult(10);
-        Assert.True(await enumerator.MoveNextAsync());
-        Assert.Equal(10, enumerator.Current);
-
-        third.SetResult(30);
-        Assert.True(await enumerator.MoveNextAsync());
-        Assert.Equal(30, enumerator.Current);
-        Assert.False(await enumerator.MoveNextAsync());
+            third.SetResult(30);
+            Assert.True(await enumerator.MoveNextAsync().AsTask().WaitAsync(GateTimeout, TestContext.Current.CancellationToken));
+            Assert.Equal(30, enumerator.Current);
+            Assert.False(await enumerator.MoveNextAsync().AsTask().WaitAsync(GateTimeout, TestContext.Current.CancellationToken));
+            Assert.Equal(1, source.DisposeCount);
+        }
+        finally
+        {
+            first.TrySetResult(10);
+            second.TrySetResult(20);
+            third.TrySetResult(30);
+            try
+            {
+                if (firstPull is not null)
+                {
+                    _ = await firstPull.WaitAsync(GateTimeout, TestContext.Current.CancellationToken);
+                }
+            }
+            finally
+            {
+                await enumerator.DisposeAsync().AsTask().WaitAsync(GateTimeout, TestContext.Current.CancellationToken);
+            }
+        }
     }
 
     [Fact]
@@ -720,36 +1017,67 @@ public sealed class ParallelAsyncEnumerableTests
         var source = new ProbeAsyncEnumerable<int>([1, 2]);
         var first = new TaskCompletionSource<int>(TaskCreationOptions.RunContinuationsAsynchronously);
         var second = new TaskCompletionSource<int>(TaskCreationOptions.RunContinuationsAsynchronously);
-        var firstStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-        var secondStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-        var pipeline = source.SelectParallelCompletionOrderValueAsync(2, value =>
+        // The spare slot lets the producer reach actual exhaustion while both selectors are held.
+        var pipeline = source.SelectParallelCompletionOrderValueAsync(3, value => value == 1
+            ? new ValueTask<int>(first.Task)
+            : new ValueTask<int>(second.Task));
+
+        var enumerator = pipeline.GetAsyncEnumerator();
+        Task<bool>? firstPull = null;
+        var sourceExhausted = source.WaitForExhaustionAsync().WaitAsync(GateTimeout, TestContext.Current.CancellationToken);
+        try
         {
-            if (value == 1)
+            firstPull = enumerator.MoveNextAsync().AsTask();
+            await sourceExhausted;
+            Assert.Equal(2, source.ItemsYielded);
+
+            second.SetResult(20);
+            Assert.True(await firstPull.WaitAsync(GateTimeout, TestContext.Current.CancellationToken));
+            Assert.Equal(20, enumerator.Current);
+
+            first.SetResult(10);
+            Assert.True(await enumerator.MoveNextAsync().AsTask().WaitAsync(GateTimeout, TestContext.Current.CancellationToken));
+            Assert.Equal(10, enumerator.Current);
+            Assert.False(await enumerator.MoveNextAsync().AsTask().WaitAsync(GateTimeout, TestContext.Current.CancellationToken));
+            Assert.Equal(1, source.DisposeCount);
+        }
+        finally
+        {
+            first.TrySetResult(10);
+            second.TrySetResult(20);
+            try
             {
-                firstStarted.TrySetResult();
-                return new ValueTask<int>(first.Task);
+                if (firstPull is not null)
+                {
+                    _ = await firstPull.WaitAsync(GateTimeout, TestContext.Current.CancellationToken);
+                }
             }
+            finally
+            {
+                await enumerator.DisposeAsync().AsTask().WaitAsync(GateTimeout, TestContext.Current.CancellationToken);
+            }
+        }
+    }
 
-            secondStarted.TrySetResult();
-            return new ValueTask<int>(second.Task);
-        });
+    private static async Task<bool> AcknowledgeDeliveryAsync(ValueTask<bool> moveNext, Action acknowledge)
+    {
+        var ready = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var awaiter = moveNext.GetAwaiter();
+        if (awaiter.IsCompleted)
+        {
+            ready.SetResult();
+        }
+        else
+        {
+            awaiter.UnsafeOnCompleted(() => _ = ready.TrySetResult());
+        }
 
-        await using var enumerator = pipeline.GetAsyncEnumerator();
-        var firstPull = enumerator.MoveNextAsync().AsTask();
-
-        await firstStarted.Task;
-        await secondStarted.Task;
-        Assert.Equal(2, source.ItemsYielded);
-
-        second.SetResult(20);
-        Assert.True(await firstPull);
-        Assert.Equal(20, enumerator.Current);
-
-        first.SetResult(10);
-        Assert.True(await enumerator.MoveNextAsync());
-        Assert.Equal(10, enumerator.Current);
-        Assert.False(await enumerator.MoveNextAsync());
-        Assert.Equal(1, source.DisposeCount);
+        await ready.Task.WaitAsync(GateTimeout, TestContext.Current.CancellationToken);
+        // A public MoveNext completion is ready, not merely a selector callback entered.
+        // Record readiness before GetResult can release the library's admission slot.
+        // GetResult is still called exactly once; a false/fault result fails the caller.
+        acknowledge();
+        return awaiter.GetResult();
     }
 
     private static async Task ConsumeOneAsync<T>(IAsyncEnumerable<T> source)
@@ -825,6 +1153,8 @@ public sealed class ParallelAsyncEnumerableTests
         Exception? moveNextExceptionAfterValues = null,
         Exception? disposeException = null) : IAsyncEnumerable<T>
     {
+        private readonly TaskCompletionSource exhausted = new(TaskCreationOptions.RunContinuationsAsynchronously);
+
         public int EnumeratorCount { get; private set; }
 
         public int ItemsYielded { get; private set; }
@@ -832,6 +1162,8 @@ public sealed class ParallelAsyncEnumerableTests
         public int DisposeCount { get; private set; }
 
         public CancellationToken ReceivedToken { get; private set; }
+
+        public Task WaitForExhaustionAsync() => exhausted.Task;
 
         public IAsyncEnumerator<T> GetAsyncEnumerator(CancellationToken cancellationToken = default)
         {
@@ -860,6 +1192,7 @@ public sealed class ParallelAsyncEnumerableTests
                     return ValueTask.FromResult(true);
                 }
 
+                owner.exhausted.TrySetResult();
                 return moveNextExceptionAfterValues is null
                     ? ValueTask.FromResult(false)
                     : ValueTask.FromException<bool>(moveNextExceptionAfterValues);

@@ -1,0 +1,109 @@
+{
+  "schema": "funnysharp-pr33-babysit-target-stop/v1",
+  "url": "https://github.com/wxxb789/funnysharp/pull/33",
+  "head": "d26b159fdf6fe32c8afa04be92ee0e335f35dc3c",
+  "posture": "target",
+  "stop": "looks-merge-ready",
+  "quietSeconds": 483,
+  "checksTerminal": true,
+  "allChecksOk": true,
+  "mergeabilityCertain": true,
+  "mergeable": "MERGEABLE",
+  "mergeStateStatus": "CLEAN",
+  "counts": {
+    "threads": 0,
+    "ci": 0,
+    "comments": 0,
+    "needs_human": 0
+  },
+  "openNeedsHuman": 0,
+  "residuals": [],
+  "baseRefBlocker": null,
+  "branchCurrencyBlocker": null,
+  "watchGeneration": "8661e21baf604887860f167f60920bfd",
+  "invocation": {
+    "invocationId": "f35e308a7bb84ccf88fc703c8ad0fa3d",
+    "startedAt": "2026-10-05T05:32:23.075023+00:00",
+    "budgetSeconds": 28800,
+    "watchGeneration": null,
+    "stateDir": "Q:/tmp/compound-engineering-lhan/ce-babysit-pr/github.com-wxxb789-funnysharp-33",
+    "posture": "target",
+    "head": "c9acfba0091519510005558993e35d021b0ecd31"
+  },
+  "releaseRun": {
+    "id": 37273875137,
+    "url": "https://github.com/wxxb789/funnysharp/actions/runs/37273875137",
+    "head": "d26b159fdf6fe32c8afa04be92ee0e335f35dc3c",
+    "conclusion": "success"
+  },
+  "requiredChecks": [
+    {
+      "name": "release / osx-arm64",
+      "id": 111648280547,
+      "head": "d26b159fdf6fe32c8afa04be92ee0e335f35dc3c",
+      "appId": 15368,
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "release / osx-x64-consumer",
+      "id": 111648280501,
+      "head": "d26b159fdf6fe32c8afa04be92ee0e335f35dc3c",
+      "appId": 15368,
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "release / linux-x64",
+      "id": 111648280469,
+      "head": "d26b159fdf6fe32c8afa04be92ee0e335f35dc3c",
+      "appId": 15368,
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "release / win-x64",
+      "id": 111646514057,
+      "head": "d26b159fdf6fe32c8afa04be92ee0e335f35dc3c",
+      "appId": 15368,
+      "status": "completed",
+      "conclusion": "success"
+    }
+  ],
+  "stableHostedStep": {
+    "name": "Verify stable semantic contracts",
+    "status": "completed",
+    "conclusion": "success",
+    "number": 6,
+    "started_at": "2026-10-05T06:49:25Z",
+    "completed_at": "2026-10-05T06:49:49Z"
+  },
+  "reviewStillComing": {
+    "bodyReactions": 0,
+    "topComments": 0,
+    "currentHeadReviews": [
+      {
+        "author": "wxxb789",
+        "state": "COMMENTED",
+        "submittedAt": "2026-10-05T06:51:05Z"
+      }
+    ],
+    "pendingCurrentReviewChecks": 0,
+    "knownBotTriggers": [
+      "opening a PR",
+      "marking draft ready",
+      "explicit @codex review comment"
+    ],
+    "perPushReviewExpected": false
+  },
+  "feedbackCompletion": {
+    "status": "completed",
+    "head": "d26b159fdf6fe32c8afa04be92ee0e335f35dc3c",
+    "source": "PRRT_kwDOUI7h886om30w",
+    "reply": 4181389349,
+    "resolved": true,
+    "noHumanAnswerFabricated": true
+  },
+  "ordinaryMergePerformed": false,
+  "nugetPublicationPerformed": false
+}
