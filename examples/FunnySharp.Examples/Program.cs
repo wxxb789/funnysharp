@@ -29,24 +29,24 @@ Console.WriteLine("FunnySharp examples passed.");
 
 static void VerifySynchronousFunctions()
 {
-    AssertEqual(6, 5.Pipe(value => value + 1));
+    ExampleAssertions.Equal(6, 5.Pipe(value => value + 1));
 
     Func<string, string> trim = value => value.Trim();
     Func<string, string> emphasize = value => $"{value}!";
-    AssertEqual("hello!", trim.Compose(emphasize)("  hello  "));
+    ExampleAssertions.Equal("hello!", trim.Compose(emphasize)("  hello  "));
 
     Func<int, int, int> subtract = (left, right) => left - right;
     var curried = subtract.Curry();
-    AssertEqual(5, curried(9)(4));
-    AssertEqual(5, curried.Uncurry()(9, 4));
-    AssertEqual(5, subtract.Partial(9)(4));
-    AssertEqual(5, subtract.Flip()(4, 9));
+    ExampleAssertions.Equal(5, curried(9)(4));
+    ExampleAssertions.Equal(5, curried.Uncurry()(9, 4));
+    ExampleAssertions.Equal(5, subtract.Partial(9)(4));
+    ExampleAssertions.Equal(5, subtract.Flip()(4, 9));
 
     var original = new object();
     object? observed = null;
     var tapped = original.Tap(value => observed = value);
-    Assert(ReferenceEquals(original, tapped), "Tap must return the original reference.");
-    Assert(ReferenceEquals(original, observed), "Tap must observe the original reference.");
+    ExampleAssertions.True(ReferenceEquals(original, tapped), "Tap must return the original reference.");
+    ExampleAssertions.True(ReferenceEquals(original, observed), "Tap must observe the original reference.");
 
 }
 
@@ -68,7 +68,7 @@ static void VerifyDataPipelines()
         .OrderBy(order => order.OrderId)
         .ToArray();
 
-    AssertSequenceEqual(
+    ExampleAssertions.SequenceEqual(
         [
             new CleanOrder("A-100", "BOOK", 2),
             new CleanOrder("D-400", "NOTEBOOK", 4),
@@ -80,30 +80,30 @@ static void VerifyDataPipelines()
     var normalized = rawQuantities.ChooseTo(
         normalizedStorage,
         static quantity => quantity > 0 ? Option.Some(quantity * 10) : Option.None<int>());
-    AssertSequenceEqual([20, 30, 40], normalized.ToArray());
+    ExampleAssertions.SequenceEqual([20, 30, 40], normalized.ToArray());
 
     var mutableStorage = new[] { 1, 2, 3, 4 }.AsMemory();
     var compacted = mutableStorage
         .SelectInPlace(static quantity => quantity * 10)
         .WhereInPlace(static quantity => quantity >= 30);
-    AssertSequenceEqual([30, 40], compacted.ToArray());
+    ExampleAssertions.SequenceEqual([30, 40], compacted.ToArray());
 }
 
 static void VerifyOptions()
 {
     Option<int> absent = default;
-    Assert(absent.IsNone, "default(Option<T>) must be None.");
+    ExampleAssertions.True(absent.IsNone, "default(Option<T>) must be None.");
 
     var zero = Option.Some(0);
-    Assert(zero.TryGetValue(out var value), "Some(0) must be present.");
-    AssertEqual(0, value);
+    ExampleAssertions.True(zero.TryGetValue(out var value), "Some(0) must be present.");
+    ExampleAssertions.Equal(0, value);
 
     string? configuredPort = "8080";
     int? retryCount = 0;
-    Assert(configuredPort.ToOption().IsSome, "A non-null reference must convert to Some.");
-    Assert(((string?)null).ToOption().IsNone, "A null reference must convert to None.");
-    Assert(retryCount.ToOption().TryGetValue(out var retries), "A nullable value containing 0 must be Some.");
-    AssertEqual(0, retries);
+    ExampleAssertions.True(configuredPort.ToOption().IsSome, "A non-null reference must convert to Some.");
+    ExampleAssertions.True(((string?)null).ToOption().IsNone, "A null reference must convert to None.");
+    ExampleAssertions.True(retryCount.ToOption().TryGetValue(out var retries), "A nullable value containing 0 must be Some.");
+    ExampleAssertions.Equal(0, retries);
 
     IReadOnlyDictionary<int, string> environments = new Dictionary<int, string>
     {
@@ -114,8 +114,8 @@ static void VerifyOptions()
         .ToOption()
         .Bind(text => Option.FromTry<int>((out int port) => int.TryParse(text, out port)))
         .Bind(port => environments.GetOption(port));
-    AssertEqual("development", resolvedEnvironment.GetValueOr("unknown"));
-    Assert(environments.GetOption(404).IsNone, "A missing dictionary key must be None.");
+    ExampleAssertions.Equal("development", resolvedEnvironment.GetValueOr("unknown"));
+    ExampleAssertions.True(environments.GetOption(404).IsNone, "A missing dictionary key must be None.");
 
     var lazyFallbackCalled = false;
     var mapped = Option.Some(20)
@@ -126,8 +126,8 @@ static void VerifyOptions()
             lazyFallbackCalled = true;
             return Option.Some(-1);
         });
-    AssertEqual(42, mapped.GetValueOrDefault());
-    Assert(!lazyFallbackCalled, "OrElseWith must not invoke the fallback for Some.");
+    ExampleAssertions.Equal(42, mapped.GetValueOrDefault());
+    ExampleAssertions.True(!lazyFallbackCalled, "OrElseWith must not invoke the fallback for Some.");
 }
 
 static void VerifyResults()
@@ -142,12 +142,12 @@ static void VerifyResults()
         .Pipe(ParseQuantity)
         .ZipWith(() => prices.GetOption(request.Sku).ToResult(new CheckoutError("unknown-sku")))
         .Map(values => values.First * values.Second);
-    AssertEqual(Result<decimal, CheckoutError>.Success(25.00m), total);
+    ExampleAssertions.Equal(Result<decimal, CheckoutError>.Success(25.00m), total);
 
     var invalidQuantity = new CheckoutRequest("book", "zero").QuantityText
         .Pipe(ParseQuantity)
         .ZipWith(() => prices.GetOption("book").ToResult(new CheckoutError("unknown-sku")));
-    AssertEqual("invalid-quantity", invalidQuantity.Match(_ => "success", error => error.Code));
+    ExampleAssertions.Equal("invalid-quantity", invalidQuantity.Match(_ => "success", error => error.Code));
 
     var invalidDeadline = Result.Try<DateTimeOffset, CheckoutError>(
         () => DateTimeOffset.Parse("not-a-date", CultureInfo.InvariantCulture),
@@ -155,13 +155,13 @@ static void VerifyResults()
     var deadlineError = invalidDeadline.Match(
         _ => throw new InvalidOperationException("Expected deadline parsing to fail."),
         error => error);
-    AssertEqual("invalid-deadline", deadlineError.Code);
-    Assert(deadlineError.Cause is FormatException, "The explicit boundary must retain the original exception.");
+    ExampleAssertions.Equal("invalid-deadline", deadlineError.Code);
+    ExampleAssertions.True(deadlineError.Cause is FormatException, "The explicit boundary must retain the original exception.");
 
     var recovered = Result<decimal, CheckoutError>
         .Failure(new CheckoutError("pricing-unavailable"))
         .Recover(_ => 0m);
-    AssertEqual(Result<decimal, CheckoutError>.Success(0m), recovered);
+    ExampleAssertions.Equal(Result<decimal, CheckoutError>.Success(0m), recovered);
 }
 
 static void VerifyValidations()
@@ -169,8 +169,8 @@ static void VerifyValidations()
     var invalidRequest = new CreateAccountRequest(" ", "not-an-email", 15);
     var invalidAccount = ValidateAccount(invalidRequest);
 
-    Assert(invalidAccount.TryGetErrors(out var errors), "The invalid account must expose errors.");
-    AssertSequenceEqual(
+    ExampleAssertions.True(invalidAccount.TryGetErrors(out var errors), "The invalid account must expose errors.");
+    ExampleAssertions.SequenceEqual(
         [
             new AccountValidationError("displayName", "required"),
             new AccountValidationError("email", "invalid"),
@@ -186,13 +186,13 @@ static void VerifyValidations()
     };
     var batch = requests.Traverse(ValidateAccount);
 
-    Assert(batch.TryGetErrors(out var batchErrors), "Batch validation must retain every account error.");
-    AssertSequenceEqual(errors!, batchErrors!);
+    ExampleAssertions.True(batch.TryGetErrors(out var batchErrors), "Batch validation must retain every account error.");
+    ExampleAssertions.SequenceEqual(errors!, batchErrors!);
 
     var account = ValidateAccount(requests[0]).Match(
         valid => valid,
         _ => throw new InvalidOperationException("Expected the account request to be valid."));
-    AssertEqual(new Account("Ada", "ada@example.com", 36), account);
+    ExampleAssertions.Equal(new Account("Ada", "ada@example.com", 36), account);
 }
 
 static Validation<Account, AccountValidationError> ValidateAccount(CreateAccountRequest request) =>
@@ -252,15 +252,15 @@ static void VerifyImmutableUpdates()
             Address = customer.Contact.Address with { City = "Paris" },
         },
     };
-    AssertEqual(direct, moved);
-    AssertEqual("London", customer.Contact.Address.City);
+    ExampleAssertions.Equal(direct, moved);
+    ExampleAssertions.Equal("London", customer.Contact.Address.City);
 
     var customerLocale = preferences.Compose(locale);
     var localized = customerLocale.Update(customer, value => value.ToUpperInvariant());
-    AssertEqual(Option.Some("EN-GB"), customerLocale.GetOption(localized));
+    ExampleAssertions.Equal(Option.Some("EN-GB"), customerLocale.GetOption(localized));
 
     var withoutLocale = customer with { Preferences = ImmutableDictionary<string, string>.Empty };
-    Assert(
+    ExampleAssertions.True(
         ReferenceEquals(withoutLocale, customerLocale.Set(withoutLocale, "fr-FR")),
         "A missing optional focus must preserve source identity.");
 
@@ -269,9 +269,9 @@ static void VerifyImmutableUpdates()
         (value, next) => value with { Metrics = next });
     var replacementMetrics = new Dictionary<string, int> { ["orders"] = 43 }.ToFrozenDictionary();
     var refreshed = frozenMetrics.Set(customer, replacementMetrics);
-    AssertEqual(Option.Some(42), customer.Metrics.GetOption("orders"));
-    Assert(ReferenceEquals(replacementMetrics, refreshed.Metrics), "Frozen snapshots are replaced explicitly.");
-    Assert(customer.Tags.Contains("active"), "Frozen sets remain direct read-only snapshots.");
+    ExampleAssertions.Equal(Option.Some(42), customer.Metrics.GetOption("orders"));
+    ExampleAssertions.True(ReferenceEquals(replacementMetrics, refreshed.Metrics), "Frozen snapshots are replaced explicitly.");
+    ExampleAssertions.True(customer.Tags.Contains("active"), "Frozen sets remain direct read-only snapshots.");
 }
 
 static Result<int, CheckoutError> ParseQuantity(string text) =>
@@ -289,11 +289,11 @@ static async Task VerifyAsynchronousFunctions()
         await Task.Yield();
         return value * 3;
     });
-    AssertEqual(12, pipedAsyncResult);
+    ExampleAssertions.Equal(12, pipedAsyncResult);
 
     Func<int, Task<int>> incrementAsync = value => Task.FromResult(value + 1);
     Func<int, Task<int>> doubleAsync = value => Task.FromResult(value * 2);
-    AssertEqual(8, await incrementAsync.ComposeAsync(doubleAsync)(3));
+    ExampleAssertions.Equal(8, await incrementAsync.ComposeAsync(doubleAsync)(3));
 
     using var cancellationSource = new CancellationTokenSource();
     cancellationSource.Cancel();
@@ -310,34 +310,34 @@ static async Task VerifyAsynchronousFunctions()
     };
 
     var cancelledTokenResult = await incrementWithToken.ComposeAsync(doubleWithToken)(3, cancellationSource.Token);
-    AssertEqual(8, cancelledTokenResult);
-    Assert(
+    ExampleAssertions.Equal(8, cancelledTokenResult);
+    ExampleAssertions.True(
         observedTokens.Count == 2 && observedTokens.All(token => token == cancellationSource.Token),
         "ComposeAsync must pass the supplied token to both stages without eager cancellation.");
 
     Func<int, ValueTask<int>> incrementValueAsync = value => ValueTask.FromResult(value + 1);
     Func<int, ValueTask<int>> doubleValueAsync = value => ValueTask.FromResult(value * 2);
-    AssertEqual(8, await incrementValueAsync.ComposeValueAsync(doubleValueAsync)(3));
+    ExampleAssertions.Equal(8, await incrementValueAsync.ComposeValueAsync(doubleValueAsync)(3));
 
     var taskTapObserved = 0;
-    AssertEqual(
+    ExampleAssertions.Equal(
         7,
         await 7.TapAsync(value =>
         {
             taskTapObserved = value;
             return Task.CompletedTask;
         }));
-    AssertEqual(7, taskTapObserved);
+    ExampleAssertions.Equal(7, taskTapObserved);
 
     var valueTaskTapObserved = 0;
-    AssertEqual(
+    ExampleAssertions.Equal(
         11,
         await 11.TapValueAsync(value =>
         {
             valueTaskTapObserved = value;
             return ValueTask.CompletedTask;
         }));
-    AssertEqual(11, valueTaskTapObserved);
+    ExampleAssertions.Equal(11, valueTaskTapObserved);
 }
 
 static async Task VerifyAsynchronousDataPipelines()
@@ -354,13 +354,13 @@ static async Task VerifyAsynchronousDataPipelines()
         })
         .ToListAsync(cancellationSource.Token);
 
-    AssertSequenceEqual(
+    ExampleAssertions.SequenceEqual(
         [
             new CleanOrder("A-100", "BOOK", 2),
             new CleanOrder("D-400", "NOTEBOOK", 4),
         ],
         cleanedOrders);
-    Assert(
+    ExampleAssertions.True(
         observedTokens.All(token => token == cancellationSource.Token),
         "ChooseValueAsync must receive the enumeration token for every reached row.");
 }
@@ -371,14 +371,14 @@ static async Task VerifyAsynchronousOptions()
     var taskMapped = await taskOption.MapAsync(text => Task.FromResult(int.Parse(text)));
     var taskBound = await taskMapped.BindAsync(number =>
         Task.FromResult(number > 0 ? Option.Some(number * 2) : Option.None<int>()));
-    AssertEqual(84, taskBound.GetValueOrDefault());
+    ExampleAssertions.Equal(84, taskBound.GetValueOrDefault());
 
     var valueTaskOption = await ValueTask.FromResult<string?>("ready").ToOptionAsync();
     var valueTaskMapped = await valueTaskOption.MapValueAsync(text =>
         ValueTask.FromResult(text.ToUpperInvariant()));
     var valueTaskBound = await valueTaskMapped.BindValueAsync(text =>
         ValueTask.FromResult(text == "READY" ? Option.Some(text.Length) : Option.None<int>()));
-    AssertEqual(5, valueTaskBound.GetValueOrDefault());
+    ExampleAssertions.Equal(5, valueTaskBound.GetValueOrDefault());
 
     using var cancellationSource = new CancellationTokenSource();
     cancellationSource.Cancel();
@@ -390,11 +390,11 @@ static async Task VerifyAsynchronousOptions()
             return Task.FromResult(value);
         },
         cancellationSource.Token);
-    Assert(shortCircuited.IsNone && !callbackRan, "None must short-circuit without eagerly observing cancellation.");
+    ExampleAssertions.True(shortCircuited.IsNone && !callbackRan, "None must short-circuit without eagerly observing cancellation.");
 
     var expectedFailure = new InvalidOperationException("expected failure");
-    await AssertFaultIsPreserved(Task.FromException<string?>(expectedFailure).ToOptionAsync(), expectedFailure);
-    await AssertCancellationIsPreserved(Task.FromCanceled<string?>(cancellationSource.Token).ToOptionAsync());
+    await ExampleAssertions.FaultIsPreserved(Task.FromException<string?>(expectedFailure).ToOptionAsync(), expectedFailure);
+    await ExampleAssertions.CancellationIsPreserved(Task.FromCanceled<string?>(cancellationSource.Token).ToOptionAsync());
 }
 
 static async Task VerifyAsynchronousResults()
@@ -403,7 +403,7 @@ static async Task VerifyAsynchronousResults()
         .Success("book")
         .BindAsync(LookUpPriceAsync);
     var discounted = await price.MapValueAsync(value => ValueTask.FromResult(value * 0.9m));
-    AssertEqual(Result<decimal, CheckoutError>.Success(11.25m), discounted);
+    ExampleAssertions.Equal(Result<decimal, CheckoutError>.Success(11.25m), discounted);
 
     var expectedFailure = new InvalidOperationException("pricing service failed");
     var boundaryFailure = await Result.TryAsync<decimal>(
@@ -411,11 +411,11 @@ static async Task VerifyAsynchronousResults()
     var actualFailure = boundaryFailure.Match(
         _ => throw new InvalidOperationException("Expected the pricing boundary to fail."),
         error => error);
-    Assert(ReferenceEquals(expectedFailure, actualFailure), "The boundary must retain exception identity.");
+    ExampleAssertions.True(ReferenceEquals(expectedFailure, actualFailure), "The boundary must retain exception identity.");
 
     using var cancellationSource = new CancellationTokenSource();
     cancellationSource.Cancel();
-    await AssertCancellationIsPreserved(
+    await ExampleAssertions.CancellationIsPreserved(
         Result.TryAsync(() => Task.FromCanceled<decimal>(cancellationSource.Token)));
 }
 
@@ -427,10 +427,10 @@ static async Task VerifyAsynchronousValidationTraversal()
         return ValidateAccount(request);
     });
 
-    Assert(validation.TryGetValue(out var accounts), "The asynchronous batch must be valid.");
-    AssertEqual(2, accounts!.Count);
-    AssertEqual("Ada", accounts[0].DisplayName);
-    AssertEqual("Grace", accounts[1].DisplayName);
+    ExampleAssertions.True(validation.TryGetValue(out var accounts), "The asynchronous batch must be valid.");
+    ExampleAssertions.Equal(2, accounts!.Count);
+    ExampleAssertions.Equal("Ada", accounts[0].DisplayName);
+    ExampleAssertions.Equal("Grace", accounts[1].DisplayName);
 }
 
 static async Task VerifyEffects()
@@ -452,39 +452,39 @@ static async Task VerifyEffects()
             return value * 3;
         }));
 
-    AssertEqual(0, trace.Count);
-    AssertEqual(9, await composed.RunAsync());
-    AssertSequenceEqual(["source", "map", "bind"], trace);
+    ExampleAssertions.Equal(0, trace.Count);
+    ExampleAssertions.Equal(9, await composed.RunAsync());
+    ExampleAssertions.SequenceEqual(["source", "map", "bind"], trace);
 
     var fromTask = Effect.FromTask(() => Task.FromResult(5));
     var fromValueTask = Effect.FromValueTask(() => ValueTask.FromResult(6));
-    AssertEqual(5, await fromTask.RunAsync());
-    AssertEqual(6, await fromValueTask.RunAsync());
+    ExampleAssertions.Equal(5, await fromTask.RunAsync());
+    ExampleAssertions.Equal(6, await fromValueTask.RunAsync());
 
     var environment = new EffectExampleEnvironment(4);
     var configured = Effect.FromSync<EffectExampleEnvironment, int>(current => current.Offset)
         .Map(value => value * 2)
         .Provide(environment);
-    AssertEqual(8, await configured.RunAsync());
+    ExampleAssertions.Equal(8, await configured.RunAsync());
 
     var currentTime = Effect.FromSync((TimeProvider clock) => clock.GetUtcNow())
         .Provide(TimeProvider.System);
-    AssertEqual(TimeSpan.Zero, (await currentTime.RunAsync()).Offset);
+    ExampleAssertions.Equal(TimeSpan.Zero, (await currentTime.RunAsync()).Offset);
 
     var failure = Result<int, string>.Failure("denied");
-    AssertEqual(failure, await Effect.FromResult(failure).RunAsync());
+    ExampleAssertions.Equal(failure, await Effect.FromResult(failure).RunAsync());
 
     ExampleDisposable? disposable = null;
-    AssertEqual(7, await Effect.FromSync(() => disposable = new ExampleDisposable())
+    ExampleAssertions.Equal(7, await Effect.FromSync(() => disposable = new ExampleDisposable())
         .Using(_ => Effect.FromValue(7))
         .RunAsync());
-    AssertEqual(1, disposable!.DisposeCount);
+    ExampleAssertions.Equal(1, disposable!.DisposeCount);
 
     ExampleAsyncDisposable? asyncDisposable = null;
-    AssertEqual(8, await Effect.FromSync(() => asyncDisposable = new ExampleAsyncDisposable())
+    ExampleAssertions.Equal(8, await Effect.FromSync(() => asyncDisposable = new ExampleAsyncDisposable())
         .UsingAsync(_ => Effect.FromValue(8))
         .RunAsync());
-    AssertEqual(1, asyncDisposable!.DisposeAsyncCount);
+    ExampleAssertions.Equal(1, asyncDisposable!.DisposeAsyncCount);
 }
 
 static async Task VerifyConcurrentOrderWorkflow()
@@ -494,7 +494,7 @@ static async Task VerifyConcurrentOrderWorkflow()
         .SelectParallelValueAsync(2, GetShippingQuoteAsync)
         .ToListAsync(cancellationSource.Token);
 
-    AssertSequenceEqual(
+    ExampleAssertions.SequenceEqual(
         [
             new ShippingQuote("ORD-100", "north", 12.50m),
             new ShippingQuote("ORD-200", "north", 8.75m),
@@ -515,8 +515,8 @@ static async Task VerifyConcurrentOrderWorkflow()
         },
         cancellationSource.Token);
 
-    Assert(capacityValidation.TryGetErrors(out var capacityErrors), "Capacity errors must accumulate.");
-    AssertSequenceEqual(
+    ExampleAssertions.True(capacityValidation.TryGetErrors(out var capacityErrors), "Capacity errors must accumulate.");
+    ExampleAssertions.SequenceEqual(
         [
             new ShippingError("ORD-100", "capacity-exceeded"),
             new ShippingError("ORD-300", "capacity-exceeded"),
@@ -531,8 +531,8 @@ static async Task VerifyConcurrentOrderWorkflow()
             token => ReserveCarrierAsync("south", available: true, token)),
     }.FirstSuccessAsync(TimeSpan.FromSeconds(1), cancellationSource.Token);
 
-    Assert(reservation.TryGetValue(out var confirmed), "One available carrier must confirm the order.");
-    AssertEqual(new CarrierReservation("south", "RSV-900"), confirmed!);
+    ExampleAssertions.True(reservation.TryGetValue(out var confirmed), "One available carrier must confirm the order.");
+    ExampleAssertions.Equal(new CarrierReservation("south", "RSV-900"), confirmed!);
 }
 
 static async Task VerifyCompletionOrderWorkflow()
@@ -553,7 +553,7 @@ static async Task VerifyCompletionOrderWorkflow()
 
         if (quotes.Count == 2)
         {
-            Assert(
+            ExampleAssertions.True(
                 quotes.All(delivered => delivered.OrderId != "ORD-100"),
                 "Completed later orders must be delivered while the first order is still pending.");
 
@@ -562,7 +562,7 @@ static async Task VerifyCompletionOrderWorkflow()
         }
     }
 
-    AssertSequenceEqual(
+    ExampleAssertions.SequenceEqual(
         [
             new ShippingQuote("ORD-200", "north", 8.75m),
             new ShippingQuote("ORD-300", "north", 16.25m),
@@ -586,25 +586,25 @@ static async Task VerifyStateMachines()
         rejection => throw new InvalidOperationException($"Unexpected rejection: {rejection.Code}"),
         failure => throw new InvalidOperationException($"Unexpected failure: {failure.Code}"),
         () => throw new InvalidOperationException("Expected the submission transition to be defined."));
-    AssertEqual(2, commands.Count);
-    Assert(submitted.TryGetChange(out var submittedChange), "A valid submission must produce a state change.");
+    ExampleAssertions.Equal(2, commands.Count);
+    ExampleAssertions.True(submitted.TryGetChange(out var submittedChange), "A valid submission must produce a state change.");
     var submittedState = submittedChange!.State;
-    AssertEqual(AccessRequestStatus.Submitted, submittedState.Status);
+    ExampleAssertions.Equal(AccessRequestStatus.Submitted, submittedState.Status);
 
     var rejected = machine(draft, new ApproveAccessRequest("grace", true));
-    Assert(rejected.IsRejected, "Approving a draft request must be rejected explicitly.");
+    ExampleAssertions.True(rejected.IsRejected, "Approving a draft request must be rejected explicitly.");
 
     var failed = machine(submittedState, new ApproveAccessRequest("grace", false));
-    Assert(failed.IsFailed, "An unavailable approver directory must be a typed transition failure.");
+    ExampleAssertions.True(failed.IsFailed, "An unavailable approver directory must be a typed transition failure.");
 
     var undefined = machine(draft, new ArchiveAccessRequest());
-    Assert(undefined.IsUndefined, "An event with no owning handler must remain detectable.");
+    ExampleAssertions.True(undefined.IsUndefined, "An event with no owning handler must remain detectable.");
 
     var replay = machine.Replay(
         draft,
         [new SubmitAccessRequest(), new ApproveAccessRequest("grace", true)]);
-    Assert(replay.TryGetChange(out var replayChange), "A valid history must replay successfully.");
-    AssertEqual(AccessRequestStatus.Approved, replayChange!.State.Status);
+    ExampleAssertions.True(replay.TryGetChange(out var replayChange), "A valid history must replay successfully.");
+    ExampleAssertions.Equal(AccessRequestStatus.Approved, replayChange!.State.Status);
 
     using var cancellationSource = new CancellationTokenSource();
     foreach (var command in commands)
@@ -760,21 +760,6 @@ static Task<Result<decimal, CheckoutError>> LookUpPriceAsync(string sku) =>
         sku == "book"
             ? Result<decimal, CheckoutError>.Success(12.50m)
             : Result<decimal, CheckoutError>.Failure(new CheckoutError("unknown-sku")));
-
-static Task AssertFaultIsPreserved(Task operation, Exception expected) =>
-    ExampleAssertions.FaultIsPreserved(operation, expected);
-
-static Task AssertCancellationIsPreserved(Task operation) =>
-    ExampleAssertions.CancellationIsPreserved(operation);
-
-static void AssertEqual<T>(T expected, T actual) where T : notnull =>
-    ExampleAssertions.Equal(expected, actual);
-
-static void Assert(bool condition, string message) =>
-    ExampleAssertions.True(condition, message);
-
-static void AssertSequenceEqual<T>(IReadOnlyList<T> expected, IReadOnlyList<T> actual) =>
-    ExampleAssertions.SequenceEqual(expected, actual);
 
 internal sealed record CheckoutRequest(string Sku, string QuantityText);
 
