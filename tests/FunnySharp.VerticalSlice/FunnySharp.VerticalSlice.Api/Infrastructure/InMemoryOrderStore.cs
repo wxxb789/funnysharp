@@ -75,7 +75,6 @@ public sealed class InMemoryOrderStore(VerticalSliceOptions options) : IOrderSto
         {
             cancellationToken.ThrowIfCancellationRequested();
             yield return record;
-            await Task.CompletedTask.ConfigureAwait(false);
         }
     }
 

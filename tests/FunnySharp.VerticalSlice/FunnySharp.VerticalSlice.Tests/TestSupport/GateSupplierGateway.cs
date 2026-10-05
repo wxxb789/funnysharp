@@ -108,13 +108,7 @@ internal sealed class GateSupplierGateway : ISupplierGateway
 
     public void Release(string supplier)
     {
-        TaskCompletionSource? gate;
-        lock (gates)
-        {
-            gates.TryGetValue(supplier, out gate);
-        }
-
-        gate?.TrySetResult();
+        Gate(supplier)?.TrySetResult();
     }
 
     private TaskCompletionSource? Gate(string supplier)
