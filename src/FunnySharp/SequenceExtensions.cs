@@ -69,7 +69,7 @@ public static class SequenceExtensions
     /// </returns>
     /// <exception cref="ArgumentNullException"><paramref name="source"/> is <see langword="null"/>.</exception>
     /// <exception cref="InvalidOperationException">
-    /// A reached source carrier or selector result is uninitialized; reported while enumerating the source.
+    /// A reached source carrier is uninitialized; reported while enumerating the source.
     /// Unreached items are not inspected, and a disposal exception can replace this failure.
     /// </exception>
     public static Result<IReadOnlyList<TValue>, TError> Sequence<TValue, TError>(
@@ -92,7 +92,7 @@ public static class SequenceExtensions
     /// <paramref name="source"/> or <paramref name="selector"/> is <see langword="null"/>.
     /// </exception>
     /// <exception cref="InvalidOperationException">
-    /// A reached source carrier or selector result is uninitialized; reported while enumerating the source.
+    /// A reached selector result is uninitialized; reported while enumerating the source.
     /// Unreached items are not inspected, and a disposal exception can replace this failure.
     /// </exception>
     public static Result<IReadOnlyList<TResult>, TError> Traverse<TSource, TResult, TError>(
@@ -126,7 +126,7 @@ public static class SequenceExtensions
     /// <returns>Success when every source unit result is successful; otherwise, the first failure's error.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="source"/> is <see langword="null"/>.</exception>
     /// <exception cref="InvalidOperationException">
-    /// A reached source carrier or selector result is uninitialized; reported while enumerating the source.
+    /// A reached source carrier is uninitialized; reported while enumerating the source.
     /// Unreached items are not inspected, and a disposal exception can replace this failure.
     /// </exception>
     public static UnitResult<TError> Sequence<TError>(
@@ -147,7 +147,7 @@ public static class SequenceExtensions
     /// <paramref name="source"/> or <paramref name="selector"/> is <see langword="null"/>.
     /// </exception>
     /// <exception cref="InvalidOperationException">
-    /// A reached source carrier or selector result is uninitialized; reported while enumerating the source.
+    /// A reached selector result is uninitialized; reported while enumerating the source.
     /// Unreached items are not inspected, and a disposal exception can replace this failure.
     /// </exception>
     public static UnitResult<TError> Traverse<TSource, TError>(
@@ -182,7 +182,7 @@ public static class SequenceExtensions
     /// </returns>
     /// <exception cref="ArgumentNullException"><paramref name="source"/> is <see langword="null"/>.</exception>
     /// <exception cref="InvalidOperationException">
-    /// A reached source carrier or selector result is uninitialized; reported while enumerating the source.
+    /// A reached source carrier is uninitialized; reported while enumerating the source.
     /// Unreached items are not inspected, and a disposal exception can replace this failure.
     /// </exception>
     public static Validation<IReadOnlyList<TValue>, TError> Sequence<TValue, TError>(
@@ -206,7 +206,7 @@ public static class SequenceExtensions
     /// <paramref name="source"/> or <paramref name="selector"/> is <see langword="null"/>.
     /// </exception>
     /// <exception cref="InvalidOperationException">
-    /// A reached source carrier or selector result is uninitialized; reported while enumerating the source.
+    /// A reached selector result is uninitialized; reported while enumerating the source.
     /// Unreached items are not inspected, and a disposal exception can replace this failure.
     /// </exception>
     public static Validation<IReadOnlyList<TResult>, TError> Traverse<TSource, TResult, TError>(
@@ -311,7 +311,7 @@ public static class SequenceExtensions
     /// <paramref name="source"/> or <paramref name="selector"/> is <see langword="null"/>.
     /// </exception>
     /// <exception cref="InvalidOperationException">
-    /// A reached source carrier or selector result is uninitialized; reported while enumerating the source.
+    /// A reached selector result is uninitialized; reported while enumerating the source.
     /// Unreached items are not inspected, and a disposal exception can replace this failure.
     /// </exception>
     public static Result<IReadOnlyList<TResult>, TError> Traverse<TSource, TResult, TError>(
@@ -358,7 +358,7 @@ public static class SequenceExtensions
     /// <paramref name="source"/> or <paramref name="selector"/> is <see langword="null"/>.
     /// </exception>
     /// <exception cref="InvalidOperationException">
-    /// A reached source carrier or selector result is uninitialized; reported while enumerating the source.
+    /// A reached selector result is uninitialized; reported while enumerating the source.
     /// Unreached items are not inspected, and a disposal exception can replace this failure.
     /// </exception>
     public static UnitResult<TError> Traverse<TSource, TError>(
@@ -403,7 +403,7 @@ public static class SequenceExtensions
     /// <paramref name="source"/> or <paramref name="selector"/> is <see langword="null"/>.
     /// </exception>
     /// <exception cref="InvalidOperationException">
-    /// A reached source carrier or selector result is uninitialized; reported while enumerating the source.
+    /// A reached selector result is uninitialized; reported while enumerating the source.
     /// Unreached items are not inspected, and a disposal exception can replace this failure.
     /// </exception>
     public static Validation<IReadOnlyList<TResult>, TError> Traverse<TSource, TResult, TError>(
@@ -555,7 +555,7 @@ public static class SequenceExtensions
     /// <paramref name="source"/> or <paramref name="selector"/> is <see langword="null"/>.
     /// </exception>
     /// <exception cref="InvalidOperationException">
-    /// A reached source carrier or selector result is uninitialized; reported while enumerating the source.
+    /// A reached selector result is uninitialized; reported while enumerating the source.
     /// Unreached items are not inspected, and a disposal exception can replace this failure.
     /// </exception>
     public static Result<IReadOnlyDictionary<TKey, TResult>, TError> Traverse<TKey, TValue, TResult, TError>(
@@ -591,7 +591,7 @@ public static class SequenceExtensions
     /// is <see langword="null"/>.
     /// </exception>
     /// <exception cref="InvalidOperationException">
-    /// A reached source carrier or selector result is uninitialized; reported while enumerating the source.
+    /// A reached selector result is uninitialized; reported while enumerating the source.
     /// Unreached items are not inspected, and a disposal exception can replace this failure.
     /// </exception>
     public static Result<IReadOnlyDictionary<TKey, TResult>, TError> Traverse<TKey, TValue, TResult, TError>(
@@ -637,7 +637,7 @@ public static class SequenceExtensions
     /// <paramref name="source"/> or <paramref name="selector"/> is <see langword="null"/>.
     /// </exception>
     /// <exception cref="InvalidOperationException">
-    /// A reached source carrier or selector result is uninitialized; reported while enumerating the source.
+    /// A reached selector result is uninitialized; reported while enumerating the source.
     /// Unreached items are not inspected, and a disposal exception can replace this failure.
     /// </exception>
     public static UnitResult<TError> Traverse<TKey, TValue, TError>(
@@ -690,7 +690,7 @@ public static class SequenceExtensions
     /// <paramref name="source"/> or <paramref name="selector"/> is <see langword="null"/>.
     /// </exception>
     /// <exception cref="InvalidOperationException">
-    /// A reached source carrier or selector result is uninitialized; reported while enumerating the source.
+    /// A reached selector result is uninitialized; reported while enumerating the source.
     /// Unreached items are not inspected, and a disposal exception can replace this failure.
     /// </exception>
     public static Validation<IReadOnlyDictionary<TKey, TResult>, TError> Traverse<TKey, TValue, TResult, TError>(
@@ -727,7 +727,7 @@ public static class SequenceExtensions
     /// is <see langword="null"/>.
     /// </exception>
     /// <exception cref="InvalidOperationException">
-    /// A reached source carrier or selector result is uninitialized; reported while enumerating the source.
+    /// A reached selector result is uninitialized; reported while enumerating the source.
     /// Unreached items are not inspected, and a disposal exception can replace this failure.
     /// </exception>
     public static Validation<IReadOnlyDictionary<TKey, TResult>, TError> Traverse<TKey, TValue, TResult, TError>(

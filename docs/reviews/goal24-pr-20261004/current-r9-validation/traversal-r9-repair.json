@@ -1,0 +1,1279 @@
+{
+  "schema": "funnysharp-pr-traversal-r9-repair/v1",
+  "parentCommit": "b584e748699a4f19d8a901695634be5a85ce8b07",
+  "finding": "FG-R9-001",
+  "originalGoalApprovalUnchanged": true,
+  "review": {
+    "agent": "omo-native-gate-reviewer",
+    "route": "ghc/gpt-6-astra/high",
+    "task": "st_01a109c0",
+    "recommendation": "REJECT",
+    "jsonSha256": "1d38a0d6cac0a56e4a4670d3527fd0d3cbd2caeb1980b41108b65cccc8ee712c",
+    "markdownSha256": "ac70413e56c053df7163d270e505c5213c91bc6a569137dc14711ded6117dbde"
+  },
+  "sourceDelta": {
+    "comments": 29,
+    "selectorResultClauses": 20,
+    "sourceCarrierClauses": 9,
+    "files": [
+      {
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "oldSha256": "480804a00dfd2a6e0cce1d6cfc8a8a1c427c6a6c254482a1c991b050e53e6b9d",
+        "newSha256": "f9c6ba3c4ae07b532c02bc7cded4bc51fb47b554512b7c5c87a92c128c37eb50",
+        "changes": 14
+      },
+      {
+        "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+        "oldSha256": "28d9549c202603dbe44c6075754f7ef1ef9edfca67bd486e0434742b66e69a17",
+        "newSha256": "5a0ea53ad1e8eedd56cc54e39f629a69e86f9998147f71259cccdc827898941f",
+        "changes": 12
+      },
+      {
+        "path": "src/FunnySharp/PartitionExtensions.cs",
+        "oldSha256": "54414223c3dc4d0ac0b1b93b7abb8076c8720f1d276ad651f3dd19b38f502e7b",
+        "newSha256": "57edfa4d39b0a8f6e9bdd9913d4eb0418a5c0e5fabe82c4e7e35bd7581ad5db7",
+        "changes": 3
+      }
+    ],
+    "nonXmlSourceLinesIdentical": true,
+    "lineCountsIdentical": true,
+    "currentReviewedImplementationRanges": 165,
+    "currentReviewedMembers": 105,
+    "rangeProof": [
+      {
+        "identity": "C:22",
+        "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+        "firstLine": 538,
+        "lastLine": 553,
+        "sha256": "8c1c1742a736428ac12c4985c241bbfb5d30671f2b7afeface068297f385b5f3"
+      },
+      {
+        "identity": "C:23",
+        "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+        "firstLine": 49,
+        "lastLine": 61,
+        "sha256": "b3211763d5688dcd893845ea6cd38b2395e4f6efabf91ec39bf4a8271ae8e0ef"
+      },
+      {
+        "identity": "C:23",
+        "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+        "firstLine": 897,
+        "lastLine": 915,
+        "sha256": "bd1960028cbf4ac034d4f5fd9c40a91e9412fa1e3b2f31ee07492744082e34e4"
+      },
+      {
+        "identity": "C:24",
+        "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+        "firstLine": 733,
+        "lastLine": 748,
+        "sha256": "9f5551ef89edb7179b918fd93237198bce65c40aceb4020ad8464e1452ac9121"
+      },
+      {
+        "identity": "C:25",
+        "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+        "firstLine": 109,
+        "lastLine": 118,
+        "sha256": "93e02c361d220ed109e24b227bf7b9a3359e14a10fe2d5192f80d08314f52c71"
+      },
+      {
+        "identity": "C:25",
+        "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+        "firstLine": 897,
+        "lastLine": 915,
+        "sha256": "bd1960028cbf4ac034d4f5fd9c40a91e9412fa1e3b2f31ee07492744082e34e4"
+      },
+      {
+        "identity": "C:26",
+        "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+        "firstLine": 79,
+        "lastLine": 91,
+        "sha256": "cae39f2611bb959c823a8c770add25fbcd2812b7d750953a7b349a8fd95cd412"
+      },
+      {
+        "identity": "C:26",
+        "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+        "firstLine": 897,
+        "lastLine": 915,
+        "sha256": "bd1960028cbf4ac034d4f5fd9c40a91e9412fa1e3b2f31ee07492744082e34e4"
+      },
+      {
+        "identity": "C:27",
+        "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+        "firstLine": 21,
+        "lastLine": 31,
+        "sha256": "f151ae9b0499a7f480eef0c61560316557cf5ef049159317667a788e3a6e0699"
+      },
+      {
+        "identity": "C:27",
+        "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+        "firstLine": 897,
+        "lastLine": 915,
+        "sha256": "bd1960028cbf4ac034d4f5fd9c40a91e9412fa1e3b2f31ee07492744082e34e4"
+      },
+      {
+        "identity": "C:28",
+        "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+        "firstLine": 587,
+        "lastLine": 602,
+        "sha256": "e6d817fa1cbceb7a3844f7760f351dce9aafdabbb0b936dd4032930f1e681ae0"
+      },
+      {
+        "identity": "C:29",
+        "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+        "firstLine": 169,
+        "lastLine": 181,
+        "sha256": "420cda303992edb0929d2fa410ca8e5dbadb1ca276d08826bdfd5c4c63eca34b"
+      },
+      {
+        "identity": "C:29",
+        "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+        "firstLine": 917,
+        "lastLine": 937,
+        "sha256": "36d1b0d4cbdd0aaf96d46f460545f0b95bd9dbaf865c46d337418669abcba5f5"
+      },
+      {
+        "identity": "C:30",
+        "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+        "firstLine": 782,
+        "lastLine": 797,
+        "sha256": "762f2cbf1a3b1e851dccfaa6236a8244f7f75d46aed09821fa9bf5792d1cf43c"
+      },
+      {
+        "identity": "C:31",
+        "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+        "firstLine": 239,
+        "lastLine": 248,
+        "sha256": "88ec5eff0f2090185e45795113bdaf457b05624aa6ea6e1c205f6b0494846e05"
+      },
+      {
+        "identity": "C:31",
+        "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+        "firstLine": 917,
+        "lastLine": 937,
+        "sha256": "36d1b0d4cbdd0aaf96d46f460545f0b95bd9dbaf865c46d337418669abcba5f5"
+      },
+      {
+        "identity": "C:32",
+        "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+        "firstLine": 204,
+        "lastLine": 216,
+        "sha256": "cc87a199aa45548509757bf46f5a336247c3fe3967184ded309843887163c529"
+      },
+      {
+        "identity": "C:32",
+        "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+        "firstLine": 917,
+        "lastLine": 937,
+        "sha256": "36d1b0d4cbdd0aaf96d46f460545f0b95bd9dbaf865c46d337418669abcba5f5"
+      },
+      {
+        "identity": "C:33",
+        "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+        "firstLine": 136,
+        "lastLine": 146,
+        "sha256": "0fc987406d000935f943a23eb5cd0330cb035574ec7b9c93ed3f614dd2e9383f"
+      },
+      {
+        "identity": "C:33",
+        "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+        "firstLine": 917,
+        "lastLine": 937,
+        "sha256": "36d1b0d4cbdd0aaf96d46f460545f0b95bd9dbaf865c46d337418669abcba5f5"
+      },
+      {
+        "identity": "C:34",
+        "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+        "firstLine": 265,
+        "lastLine": 275,
+        "sha256": "e4d3fca4e6177b020721ed8b25afd0736749ba3368ebec132b064241093cf56a"
+      },
+      {
+        "identity": "C:34",
+        "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+        "firstLine": 939,
+        "lastLine": 955,
+        "sha256": "57c4fb27621b44a1f5194b00f57959d7fa148dc6cdef1fa1ceabac6194f48b62"
+      },
+      {
+        "identity": "C:35",
+        "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+        "firstLine": 635,
+        "lastLine": 650,
+        "sha256": "7cfffb3929cd801adf78a0a2f5dc2d12423e7e67c42de1b5108c8103ff3da6e2"
+      },
+      {
+        "identity": "C:36",
+        "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+        "firstLine": 297,
+        "lastLine": 309,
+        "sha256": "22c0375ef4b0af78a9e5c2295f802265aed33147d821062caecd36b6a9b9cf5d"
+      },
+      {
+        "identity": "C:36",
+        "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+        "firstLine": 939,
+        "lastLine": 955,
+        "sha256": "57c4fb27621b44a1f5194b00f57959d7fa148dc6cdef1fa1ceabac6194f48b62"
+      },
+      {
+        "identity": "C:37",
+        "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+        "firstLine": 830,
+        "lastLine": 845,
+        "sha256": "af5872e903ad16fe63956bfff78ad46a0f1d65fb1bc872e6f4ea2baee525141a"
+      },
+      {
+        "identity": "C:38",
+        "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+        "firstLine": 365,
+        "lastLine": 374,
+        "sha256": "c7dd957b2d136e9361eaf833258f9d45fbbf41b0965de3b670114561766b14e1"
+      },
+      {
+        "identity": "C:38",
+        "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+        "firstLine": 939,
+        "lastLine": 955,
+        "sha256": "57c4fb27621b44a1f5194b00f57959d7fa148dc6cdef1fa1ceabac6194f48b62"
+      },
+      {
+        "identity": "C:39",
+        "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+        "firstLine": 331,
+        "lastLine": 343,
+        "sha256": "24671f2fc3435e86a194593a5015ab881b08b8d167f329677aeab2fb8cdad2ce"
+      },
+      {
+        "identity": "C:39",
+        "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+        "firstLine": 939,
+        "lastLine": 955,
+        "sha256": "57c4fb27621b44a1f5194b00f57959d7fa148dc6cdef1fa1ceabac6194f48b62"
+      },
+      {
+        "identity": "C:40",
+        "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+        "firstLine": 685,
+        "lastLine": 700,
+        "sha256": "e70ba0b31dc955bd935fe3ecd828f636f8c4150dc67c7c806705e499a30d1b6b"
+      },
+      {
+        "identity": "C:41",
+        "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+        "firstLine": 426,
+        "lastLine": 438,
+        "sha256": "84c30dceab634262a4a04f8516f701be41be763d6e20dbc45e4746746a5dd8c4"
+      },
+      {
+        "identity": "C:41",
+        "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+        "firstLine": 957,
+        "lastLine": 991,
+        "sha256": "c0799507613b3eee2ba5e50e54c16cc02f942c6844b6d47ebc9c389fef9605a8"
+      },
+      {
+        "identity": "C:42",
+        "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+        "firstLine": 880,
+        "lastLine": 895,
+        "sha256": "a1c502e843ed847ea3d6445fb4b8c21bd119847ec30ed3ebf24ab3c9620fb55b"
+      },
+      {
+        "identity": "C:43",
+        "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+        "firstLine": 496,
+        "lastLine": 505,
+        "sha256": "24579057ad63a3dc81b53b2fb66ff1ec920dbde548f10fd2cd4e51cad60b2ca2"
+      },
+      {
+        "identity": "C:43",
+        "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+        "firstLine": 957,
+        "lastLine": 991,
+        "sha256": "c0799507613b3eee2ba5e50e54c16cc02f942c6844b6d47ebc9c389fef9605a8"
+      },
+      {
+        "identity": "C:44",
+        "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+        "firstLine": 461,
+        "lastLine": 473,
+        "sha256": "a57a1a2460b1e0a2c04e0c148c6a81b65c736ee090ca769bcfa2bdbf9b8e4741"
+      },
+      {
+        "identity": "C:44",
+        "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+        "firstLine": 957,
+        "lastLine": 991,
+        "sha256": "c0799507613b3eee2ba5e50e54c16cc02f942c6844b6d47ebc9c389fef9605a8"
+      },
+      {
+        "identity": "C:45",
+        "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+        "firstLine": 393,
+        "lastLine": 403,
+        "sha256": "6d1d823e8bbbaa5240aaa0e1f56532e67c00a4660d710a2e2081b9a5d08f8816"
+      },
+      {
+        "identity": "C:45",
+        "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
+        "firstLine": 957,
+        "lastLine": 991,
+        "sha256": "c0799507613b3eee2ba5e50e54c16cc02f942c6844b6d47ebc9c389fef9605a8"
+      },
+      {
+        "identity": "C:47",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 1260,
+        "lastLine": 1261,
+        "sha256": "bd683d65929ad2771e950c7e9232604562227ebc5586e077d7a8f97ca1d8283f"
+      },
+      {
+        "identity": "C:194",
+        "path": "src/FunnySharp/PartitionExtensions.cs",
+        "firstLine": 34,
+        "lastLine": 34,
+        "sha256": "94eb0f4d121dca05a43043fb9e7360b75813a17d89421e51b5c47dd40f632018"
+      },
+      {
+        "identity": "C:195",
+        "path": "src/FunnySharp/PartitionExtensions.cs",
+        "firstLine": 34,
+        "lastLine": 34,
+        "sha256": "94eb0f4d121dca05a43043fb9e7360b75813a17d89421e51b5c47dd40f632018"
+      },
+      {
+        "identity": "C:196",
+        "path": "src/FunnySharp/PartitionExtensions.cs",
+        "firstLine": 34,
+        "lastLine": 34,
+        "sha256": "94eb0f4d121dca05a43043fb9e7360b75813a17d89421e51b5c47dd40f632018"
+      },
+      {
+        "identity": "C:197",
+        "path": "src/FunnySharp/PartitionExtensions.cs",
+        "firstLine": 34,
+        "lastLine": 34,
+        "sha256": "94eb0f4d121dca05a43043fb9e7360b75813a17d89421e51b5c47dd40f632018"
+      },
+      {
+        "identity": "C:198",
+        "path": "src/FunnySharp/PartitionExtensions.cs",
+        "firstLine": 34,
+        "lastLine": 34,
+        "sha256": "94eb0f4d121dca05a43043fb9e7360b75813a17d89421e51b5c47dd40f632018"
+      },
+      {
+        "identity": "C:199",
+        "path": "src/FunnySharp/PartitionExtensions.cs",
+        "firstLine": 34,
+        "lastLine": 34,
+        "sha256": "94eb0f4d121dca05a43043fb9e7360b75813a17d89421e51b5c47dd40f632018"
+      },
+      {
+        "identity": "C:200",
+        "path": "src/FunnySharp/PartitionExtensions.cs",
+        "firstLine": 34,
+        "lastLine": 34,
+        "sha256": "94eb0f4d121dca05a43043fb9e7360b75813a17d89421e51b5c47dd40f632018"
+      },
+      {
+        "identity": "C:201",
+        "path": "src/FunnySharp/PartitionExtensions.cs",
+        "firstLine": 34,
+        "lastLine": 34,
+        "sha256": "94eb0f4d121dca05a43043fb9e7360b75813a17d89421e51b5c47dd40f632018"
+      },
+      {
+        "identity": "C:202",
+        "path": "src/FunnySharp/PartitionExtensions.cs",
+        "firstLine": 34,
+        "lastLine": 34,
+        "sha256": "94eb0f4d121dca05a43043fb9e7360b75813a17d89421e51b5c47dd40f632018"
+      },
+      {
+        "identity": "C:203",
+        "path": "src/FunnySharp/PartitionExtensions.cs",
+        "firstLine": 34,
+        "lastLine": 34,
+        "sha256": "94eb0f4d121dca05a43043fb9e7360b75813a17d89421e51b5c47dd40f632018"
+      },
+      {
+        "identity": "C:204",
+        "path": "src/FunnySharp/PartitionExtensions.cs",
+        "firstLine": 34,
+        "lastLine": 34,
+        "sha256": "94eb0f4d121dca05a43043fb9e7360b75813a17d89421e51b5c47dd40f632018"
+      },
+      {
+        "identity": "C:265",
+        "path": "src/FunnySharp/PartitionExtensions.cs",
+        "firstLine": 141,
+        "lastLine": 162,
+        "sha256": "5d251ca4c6d70469d915432522533a04e78cb4328f015adcc332f9c3735278d3"
+      },
+      {
+        "identity": "C:265",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 1260,
+        "lastLine": 1261,
+        "sha256": "bd683d65929ad2771e950c7e9232604562227ebc5586e077d7a8f97ca1d8283f"
+      },
+      {
+        "identity": "C:265",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 1263,
+        "lastLine": 1264,
+        "sha256": "4082dcd27b22e2e285bb813ee9326f72230a8f54ae8f7e1ec5368ee428be534b"
+      },
+      {
+        "identity": "C:266",
+        "path": "src/FunnySharp/PartitionExtensions.cs",
+        "firstLine": 98,
+        "lastLine": 123,
+        "sha256": "2ee2ac27ed2b15afe4fbcd3382cd37142eb6b040b543fbe165c9367151ed87e1"
+      },
+      {
+        "identity": "C:266",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 1260,
+        "lastLine": 1261,
+        "sha256": "bd683d65929ad2771e950c7e9232604562227ebc5586e077d7a8f97ca1d8283f"
+      },
+      {
+        "identity": "C:266",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 1263,
+        "lastLine": 1264,
+        "sha256": "4082dcd27b22e2e285bb813ee9326f72230a8f54ae8f7e1ec5368ee428be534b"
+      },
+      {
+        "identity": "C:267",
+        "path": "src/FunnySharp/PartitionExtensions.cs",
+        "firstLine": 186,
+        "lastLine": 209,
+        "sha256": "64175daf71b180d2185f2815383e496b2172e6b3280937de37b0e5d4bae1803d"
+      },
+      {
+        "identity": "C:267",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 1260,
+        "lastLine": 1261,
+        "sha256": "bd683d65929ad2771e950c7e9232604562227ebc5586e077d7a8f97ca1d8283f"
+      },
+      {
+        "identity": "C:267",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 1263,
+        "lastLine": 1264,
+        "sha256": "4082dcd27b22e2e285bb813ee9326f72230a8f54ae8f7e1ec5368ee428be534b"
+      },
+      {
+        "identity": "C:268",
+        "path": "src/FunnySharp/PartitionExtensions.cs",
+        "firstLine": 231,
+        "lastLine": 252,
+        "sha256": "6acbfa917fd7bde835c7f0aa902aa81f9cfb436acda931b95a194cbedb7be13c"
+      },
+      {
+        "identity": "C:268",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 1260,
+        "lastLine": 1261,
+        "sha256": "bd683d65929ad2771e950c7e9232604562227ebc5586e077d7a8f97ca1d8283f"
+      },
+      {
+        "identity": "C:268",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 1263,
+        "lastLine": 1264,
+        "sha256": "4082dcd27b22e2e285bb813ee9326f72230a8f54ae8f7e1ec5368ee428be534b"
+      },
+      {
+        "identity": "C:269",
+        "path": "src/FunnySharp/PartitionExtensions.cs",
+        "firstLine": 279,
+        "lastLine": 288,
+        "sha256": "bc5a76b671bc0706ca777cfa944435293c4169ee9a741d9e98d093ca1482c436"
+      },
+      {
+        "identity": "C:269",
+        "path": "src/FunnySharp/PartitionExtensions.cs",
+        "firstLine": 326,
+        "lastLine": 348,
+        "sha256": "752e600bbb79237cfa68cad12e3ba85beb8779bb6bb017670f5854cc026b5fe5"
+      },
+      {
+        "identity": "C:270",
+        "path": "src/FunnySharp/PartitionExtensions.cs",
+        "firstLine": 317,
+        "lastLine": 324,
+        "sha256": "c18aa1f90e04c8752bb6f163437f7c1c5f3a2e45795bc47507fa98eae6d77c50"
+      },
+      {
+        "identity": "C:270",
+        "path": "src/FunnySharp/PartitionExtensions.cs",
+        "firstLine": 350,
+        "lastLine": 371,
+        "sha256": "a32726a62f741e918273c2a048b771331d7647e96111445ef1480d003b0f84f8"
+      },
+      {
+        "identity": "C:272",
+        "path": "src/FunnySharp/PartitionExtensions.cs",
+        "firstLine": 17,
+        "lastLine": 17,
+        "sha256": "df056f985eaf0cbad428dabe973ab284b0f4deb37cb344c012a17a9b79adb287"
+      },
+      {
+        "identity": "C:273",
+        "path": "src/FunnySharp/PartitionExtensions.cs",
+        "firstLine": 17,
+        "lastLine": 17,
+        "sha256": "df056f985eaf0cbad428dabe973ab284b0f4deb37cb344c012a17a9b79adb287"
+      },
+      {
+        "identity": "C:274",
+        "path": "src/FunnySharp/PartitionExtensions.cs",
+        "firstLine": 17,
+        "lastLine": 17,
+        "sha256": "df056f985eaf0cbad428dabe973ab284b0f4deb37cb344c012a17a9b79adb287"
+      },
+      {
+        "identity": "C:275",
+        "path": "src/FunnySharp/PartitionExtensions.cs",
+        "firstLine": 17,
+        "lastLine": 17,
+        "sha256": "df056f985eaf0cbad428dabe973ab284b0f4deb37cb344c012a17a9b79adb287"
+      },
+      {
+        "identity": "C:276",
+        "path": "src/FunnySharp/PartitionExtensions.cs",
+        "firstLine": 17,
+        "lastLine": 17,
+        "sha256": "df056f985eaf0cbad428dabe973ab284b0f4deb37cb344c012a17a9b79adb287"
+      },
+      {
+        "identity": "C:277",
+        "path": "src/FunnySharp/PartitionExtensions.cs",
+        "firstLine": 17,
+        "lastLine": 17,
+        "sha256": "df056f985eaf0cbad428dabe973ab284b0f4deb37cb344c012a17a9b79adb287"
+      },
+      {
+        "identity": "C:278",
+        "path": "src/FunnySharp/PartitionExtensions.cs",
+        "firstLine": 17,
+        "lastLine": 17,
+        "sha256": "df056f985eaf0cbad428dabe973ab284b0f4deb37cb344c012a17a9b79adb287"
+      },
+      {
+        "identity": "C:279",
+        "path": "src/FunnySharp/PartitionExtensions.cs",
+        "firstLine": 17,
+        "lastLine": 17,
+        "sha256": "df056f985eaf0cbad428dabe973ab284b0f4deb37cb344c012a17a9b79adb287"
+      },
+      {
+        "identity": "C:280",
+        "path": "src/FunnySharp/PartitionExtensions.cs",
+        "firstLine": 17,
+        "lastLine": 17,
+        "sha256": "df056f985eaf0cbad428dabe973ab284b0f4deb37cb344c012a17a9b79adb287"
+      },
+      {
+        "identity": "C:281",
+        "path": "src/FunnySharp/PartitionExtensions.cs",
+        "firstLine": 17,
+        "lastLine": 17,
+        "sha256": "df056f985eaf0cbad428dabe973ab284b0f4deb37cb344c012a17a9b79adb287"
+      },
+      {
+        "identity": "C:282",
+        "path": "src/FunnySharp/PartitionExtensions.cs",
+        "firstLine": 17,
+        "lastLine": 17,
+        "sha256": "df056f985eaf0cbad428dabe973ab284b0f4deb37cb344c012a17a9b79adb287"
+      },
+      {
+        "identity": "C:303",
+        "path": "src/FunnySharp/PartitionExtensions.cs",
+        "firstLine": 53,
+        "lastLine": 55,
+        "sha256": "9bd4a60231660d64bd7ba05e64faf889b42e4ff6728445533e8cb10e49b2be18"
+      },
+      {
+        "identity": "C:304",
+        "path": "src/FunnySharp/PartitionExtensions.cs",
+        "firstLine": 53,
+        "lastLine": 55,
+        "sha256": "9bd4a60231660d64bd7ba05e64faf889b42e4ff6728445533e8cb10e49b2be18"
+      },
+      {
+        "identity": "C:305",
+        "path": "src/FunnySharp/PartitionExtensions.cs",
+        "firstLine": 53,
+        "lastLine": 55,
+        "sha256": "9bd4a60231660d64bd7ba05e64faf889b42e4ff6728445533e8cb10e49b2be18"
+      },
+      {
+        "identity": "C:306",
+        "path": "src/FunnySharp/PartitionExtensions.cs",
+        "firstLine": 53,
+        "lastLine": 55,
+        "sha256": "9bd4a60231660d64bd7ba05e64faf889b42e4ff6728445533e8cb10e49b2be18"
+      },
+      {
+        "identity": "C:307",
+        "path": "src/FunnySharp/PartitionExtensions.cs",
+        "firstLine": 53,
+        "lastLine": 55,
+        "sha256": "9bd4a60231660d64bd7ba05e64faf889b42e4ff6728445533e8cb10e49b2be18"
+      },
+      {
+        "identity": "C:308",
+        "path": "src/FunnySharp/PartitionExtensions.cs",
+        "firstLine": 53,
+        "lastLine": 55,
+        "sha256": "9bd4a60231660d64bd7ba05e64faf889b42e4ff6728445533e8cb10e49b2be18"
+      },
+      {
+        "identity": "C:309",
+        "path": "src/FunnySharp/PartitionExtensions.cs",
+        "firstLine": 53,
+        "lastLine": 55,
+        "sha256": "9bd4a60231660d64bd7ba05e64faf889b42e4ff6728445533e8cb10e49b2be18"
+      },
+      {
+        "identity": "C:310",
+        "path": "src/FunnySharp/PartitionExtensions.cs",
+        "firstLine": 53,
+        "lastLine": 55,
+        "sha256": "9bd4a60231660d64bd7ba05e64faf889b42e4ff6728445533e8cb10e49b2be18"
+      },
+      {
+        "identity": "C:311",
+        "path": "src/FunnySharp/PartitionExtensions.cs",
+        "firstLine": 53,
+        "lastLine": 55,
+        "sha256": "9bd4a60231660d64bd7ba05e64faf889b42e4ff6728445533e8cb10e49b2be18"
+      },
+      {
+        "identity": "C:312",
+        "path": "src/FunnySharp/PartitionExtensions.cs",
+        "firstLine": 53,
+        "lastLine": 55,
+        "sha256": "9bd4a60231660d64bd7ba05e64faf889b42e4ff6728445533e8cb10e49b2be18"
+      },
+      {
+        "identity": "C:313",
+        "path": "src/FunnySharp/PartitionExtensions.cs",
+        "firstLine": 53,
+        "lastLine": 55,
+        "sha256": "9bd4a60231660d64bd7ba05e64faf889b42e4ff6728445533e8cb10e49b2be18"
+      },
+      {
+        "identity": "C:344",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 981,
+        "lastLine": 993,
+        "sha256": "307d482b73ce4cad1bf870cd223b49311a32ab52b0a3b5f50284eb1ade7c60ef"
+      },
+      {
+        "identity": "C:345",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 1018,
+        "lastLine": 1033,
+        "sha256": "e2e706cb620d326c16f329cbb5c05da0ab2330cf0728684c2e427ed415a790bb"
+      },
+      {
+        "identity": "C:346",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 474,
+        "lastLine": 483,
+        "sha256": "bb5b9eb15273ca1e4ae8e71c88a3b402a9d349947fe9e6d3a35efa83f296bbe4"
+      },
+      {
+        "identity": "C:346",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 505,
+        "lastLine": 528,
+        "sha256": "780c0dac7c149dc7fc69f689a70375ccbf81dd1723881215c59fcc8e3ae617c9"
+      },
+      {
+        "identity": "C:346",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 1266,
+        "lastLine": 1275,
+        "sha256": "8dea87b36a35e47a0530220fb6121ee6c02dd6e7c04c038c5e5c25ff5da80340"
+      },
+      {
+        "identity": "C:346",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 1277,
+        "lastLine": 1281,
+        "sha256": "d7475e82915cafa8e5bbd71d235dc7ad1ee39aa33966918012a87145074fcb2b"
+      },
+      {
+        "identity": "C:347",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 505,
+        "lastLine": 528,
+        "sha256": "780c0dac7c149dc7fc69f689a70375ccbf81dd1723881215c59fcc8e3ae617c9"
+      },
+      {
+        "identity": "C:347",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 1277,
+        "lastLine": 1281,
+        "sha256": "d7475e82915cafa8e5bbd71d235dc7ad1ee39aa33966918012a87145074fcb2b"
+      },
+      {
+        "identity": "C:348",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 270,
+        "lastLine": 290,
+        "sha256": "d48ae1af8480a4da42e00592fd9657a74ca9160674e73c3439764e0ec2a40084"
+      },
+      {
+        "identity": "C:348",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 1260,
+        "lastLine": 1261,
+        "sha256": "bd683d65929ad2771e950c7e9232604562227ebc5586e077d7a8f97ca1d8283f"
+      },
+      {
+        "identity": "C:348",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 1263,
+        "lastLine": 1264,
+        "sha256": "4082dcd27b22e2e285bb813ee9326f72230a8f54ae8f7e1ec5368ee428be534b"
+      },
+      {
+        "identity": "C:349",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 40,
+        "lastLine": 59,
+        "sha256": "5aa28a75dcb6d453a58f6f3640bac130f6b67ac092f980027bf85ecadf8035fb"
+      },
+      {
+        "identity": "C:349",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 1260,
+        "lastLine": 1261,
+        "sha256": "bd683d65929ad2771e950c7e9232604562227ebc5586e077d7a8f97ca1d8283f"
+      },
+      {
+        "identity": "C:349",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 1263,
+        "lastLine": 1264,
+        "sha256": "4082dcd27b22e2e285bb813ee9326f72230a8f54ae8f7e1ec5368ee428be534b"
+      },
+      {
+        "identity": "C:350",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 805,
+        "lastLine": 815,
+        "sha256": "f93f431bd1f193c7798532439a206464f1ba6231ebddb83baf0b031ab519f143"
+      },
+      {
+        "identity": "C:351",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 21,
+        "lastLine": 23,
+        "sha256": "ec7b91dad4ac86889078870af5ba73b0172e12e0ebe532b8dc4f9e3ef0dafac7"
+      },
+      {
+        "identity": "C:351",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 40,
+        "lastLine": 59,
+        "sha256": "5aa28a75dcb6d453a58f6f3640bac130f6b67ac092f980027bf85ecadf8035fb"
+      },
+      {
+        "identity": "C:351",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 1260,
+        "lastLine": 1261,
+        "sha256": "bd683d65929ad2771e950c7e9232604562227ebc5586e077d7a8f97ca1d8283f"
+      },
+      {
+        "identity": "C:351",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 1263,
+        "lastLine": 1264,
+        "sha256": "4082dcd27b22e2e285bb813ee9326f72230a8f54ae8f7e1ec5368ee428be534b"
+      },
+      {
+        "identity": "C:352",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 561,
+        "lastLine": 570,
+        "sha256": "c42b4c070b535bd4204c85de81dd7593d8e21294a880f541a1ce948bf61aff72"
+      },
+      {
+        "identity": "C:352",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 597,
+        "lastLine": 622,
+        "sha256": "28c51ddcc14d21913848dde22835f5c1bbc9ac84d42263b99b845bfd59390020"
+      },
+      {
+        "identity": "C:352",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 1266,
+        "lastLine": 1275,
+        "sha256": "8dea87b36a35e47a0530220fb6121ee6c02dd6e7c04c038c5e5c25ff5da80340"
+      },
+      {
+        "identity": "C:352",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 1277,
+        "lastLine": 1281,
+        "sha256": "d7475e82915cafa8e5bbd71d235dc7ad1ee39aa33966918012a87145074fcb2b"
+      },
+      {
+        "identity": "C:353",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 1070,
+        "lastLine": 1082,
+        "sha256": "e9965b2af611ed9b8f54b3fc795c04b9789397796533b77b90cdc8e4bfdec272"
+      },
+      {
+        "identity": "C:354",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 1108,
+        "lastLine": 1123,
+        "sha256": "7e684a37bbce6a9f4383d0b655a16110377dd04a7b4fa04cb4971954951e3e8c"
+      },
+      {
+        "identity": "C:355",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 597,
+        "lastLine": 622,
+        "sha256": "28c51ddcc14d21913848dde22835f5c1bbc9ac84d42263b99b845bfd59390020"
+      },
+      {
+        "identity": "C:355",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 1277,
+        "lastLine": 1281,
+        "sha256": "d7475e82915cafa8e5bbd71d235dc7ad1ee39aa33966918012a87145074fcb2b"
+      },
+      {
+        "identity": "C:356",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 848,
+        "lastLine": 859,
+        "sha256": "7f77056a8ad5ec94a7a9f882576b6ea50b17858e7880e7001f7b1a7dae2bd07f"
+      },
+      {
+        "identity": "C:357",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 317,
+        "lastLine": 339,
+        "sha256": "af688acccf68fda0b95ffa25ac2049f2e778485de9cbd5ae215fa4b29cb61928"
+      },
+      {
+        "identity": "C:357",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 1260,
+        "lastLine": 1261,
+        "sha256": "bd683d65929ad2771e950c7e9232604562227ebc5586e077d7a8f97ca1d8283f"
+      },
+      {
+        "identity": "C:357",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 1263,
+        "lastLine": 1264,
+        "sha256": "4082dcd27b22e2e285bb813ee9326f72230a8f54ae8f7e1ec5368ee428be534b"
+      },
+      {
+        "identity": "C:358",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 98,
+        "lastLine": 119,
+        "sha256": "2625a6ceb7f2aeee554daf7ef41ed6d5f953c2b42d73f5b0ee1cf3abea9f5f59"
+      },
+      {
+        "identity": "C:358",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 1260,
+        "lastLine": 1261,
+        "sha256": "bd683d65929ad2771e950c7e9232604562227ebc5586e077d7a8f97ca1d8283f"
+      },
+      {
+        "identity": "C:358",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 1263,
+        "lastLine": 1264,
+        "sha256": "4082dcd27b22e2e285bb813ee9326f72230a8f54ae8f7e1ec5368ee428be534b"
+      },
+      {
+        "identity": "C:359",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 75,
+        "lastLine": 77,
+        "sha256": "1e5243833ca4fc74175b02a5219019ededef8f7afa54d001ac611e0d838ed5bc"
+      },
+      {
+        "identity": "C:359",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 98,
+        "lastLine": 119,
+        "sha256": "2625a6ceb7f2aeee554daf7ef41ed6d5f953c2b42d73f5b0ee1cf3abea9f5f59"
+      },
+      {
+        "identity": "C:359",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 1260,
+        "lastLine": 1261,
+        "sha256": "bd683d65929ad2771e950c7e9232604562227ebc5586e077d7a8f97ca1d8283f"
+      },
+      {
+        "identity": "C:359",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 1263,
+        "lastLine": 1264,
+        "sha256": "4082dcd27b22e2e285bb813ee9326f72230a8f54ae8f7e1ec5368ee428be534b"
+      },
+      {
+        "identity": "C:360",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 132,
+        "lastLine": 134,
+        "sha256": "e1b168e927195dff40f8868c32903237c8ec46cfc453b58aa50efafff0eb0724"
+      },
+      {
+        "identity": "C:360",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 153,
+        "lastLine": 171,
+        "sha256": "7b538e051d85d2e4a2165cbf3365c817be949a37c33dff5696564bbbbb192432"
+      },
+      {
+        "identity": "C:361",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 364,
+        "lastLine": 383,
+        "sha256": "5cb3562d9275ec8a42dd16441351f03fc5b6120a32fdbae6432d32f7db274580"
+      },
+      {
+        "identity": "C:362",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 153,
+        "lastLine": 171,
+        "sha256": "7b538e051d85d2e4a2165cbf3365c817be949a37c33dff5696564bbbbb192432"
+      },
+      {
+        "identity": "C:363",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 1155,
+        "lastLine": 1167,
+        "sha256": "13f86c91503620cc5caec479fc042665261897c5100515bf0ec17b55102f563a"
+      },
+      {
+        "identity": "C:364",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 643,
+        "lastLine": 662,
+        "sha256": "f4d09cef8107f5f1d8a285b1761fbeebb3db260b659037e34b55c0fbc864520d"
+      },
+      {
+        "identity": "C:365",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 890,
+        "lastLine": 901,
+        "sha256": "db6aeb93a70e195528c67d1805c13760d742cccb6f180aa468cca1989e58edba"
+      },
+      {
+        "identity": "C:366",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 696,
+        "lastLine": 705,
+        "sha256": "b0917fd738174dae6a424e515626a937f10b248b4d8e784c3546199e6d9d83f9"
+      },
+      {
+        "identity": "C:366",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 733,
+        "lastLine": 773,
+        "sha256": "9f85966e8552afd7719940c3b393e61097dbe4031a8c6185934a39e6892145c8"
+      },
+      {
+        "identity": "C:366",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 1266,
+        "lastLine": 1275,
+        "sha256": "8dea87b36a35e47a0530220fb6121ee6c02dd6e7c04c038c5e5c25ff5da80340"
+      },
+      {
+        "identity": "C:366",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 1277,
+        "lastLine": 1281,
+        "sha256": "d7475e82915cafa8e5bbd71d235dc7ad1ee39aa33966918012a87145074fcb2b"
+      },
+      {
+        "identity": "C:367",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 1204,
+        "lastLine": 1216,
+        "sha256": "56feef2afedc35bdbe497b164a16c9067a9498e1d22fc52ad61f80db9f13261c"
+      },
+      {
+        "identity": "C:368",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 1243,
+        "lastLine": 1258,
+        "sha256": "be33889090cbbd8238a7f2e978475dc08420c57c540ef100f2bb19faf49e1d8a"
+      },
+      {
+        "identity": "C:369",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 733,
+        "lastLine": 773,
+        "sha256": "9f85966e8552afd7719940c3b393e61097dbe4031a8c6185934a39e6892145c8"
+      },
+      {
+        "identity": "C:369",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 1277,
+        "lastLine": 1281,
+        "sha256": "d7475e82915cafa8e5bbd71d235dc7ad1ee39aa33966918012a87145074fcb2b"
+      },
+      {
+        "identity": "C:370",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 934,
+        "lastLine": 945,
+        "sha256": "f2766603cc09bccd04b446bb365ddd24402d76927c163fadbf87a1bf5b244cff"
+      },
+      {
+        "identity": "C:371",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 409,
+        "lastLine": 446,
+        "sha256": "e230139a64a4ffe1af58c404b33eb967421692c26687629f70d42827930f50bd"
+      },
+      {
+        "identity": "C:371",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 1260,
+        "lastLine": 1261,
+        "sha256": "bd683d65929ad2771e950c7e9232604562227ebc5586e077d7a8f97ca1d8283f"
+      },
+      {
+        "identity": "C:371",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 1263,
+        "lastLine": 1264,
+        "sha256": "4082dcd27b22e2e285bb813ee9326f72230a8f54ae8f7e1ec5368ee428be534b"
+      },
+      {
+        "identity": "C:372",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 212,
+        "lastLine": 248,
+        "sha256": "e754940bd8372caf79ad399a80d44f7bd423b6fd100e5658169d472a5bfdac3e"
+      },
+      {
+        "identity": "C:372",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 1260,
+        "lastLine": 1261,
+        "sha256": "bd683d65929ad2771e950c7e9232604562227ebc5586e077d7a8f97ca1d8283f"
+      },
+      {
+        "identity": "C:372",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 1263,
+        "lastLine": 1264,
+        "sha256": "4082dcd27b22e2e285bb813ee9326f72230a8f54ae8f7e1ec5368ee428be534b"
+      },
+      {
+        "identity": "C:373",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 188,
+        "lastLine": 190,
+        "sha256": "394fb73772826f60ca7d12c0dcd3519c3f07c38e7f1ac7c66f169606595af9e5"
+      },
+      {
+        "identity": "C:373",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 212,
+        "lastLine": 248,
+        "sha256": "e754940bd8372caf79ad399a80d44f7bd423b6fd100e5658169d472a5bfdac3e"
+      },
+      {
+        "identity": "C:373",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 1260,
+        "lastLine": 1261,
+        "sha256": "bd683d65929ad2771e950c7e9232604562227ebc5586e077d7a8f97ca1d8283f"
+      },
+      {
+        "identity": "C:373",
+        "path": "src/FunnySharp/SequenceExtensions.cs",
+        "firstLine": 1263,
+        "lastLine": 1264,
+        "sha256": "4082dcd27b22e2e285bb813ee9326f72230a8f54ae8f7e1ec5368ee428be534b"
+      },
+      {
+        "identity": "C:468",
+        "path": "src/FunnySharp/PartitionExtensions.cs",
+        "firstLine": 72,
+        "lastLine": 72,
+        "sha256": "80892059cecc57c85bc8129045f65cadf49311242fc02f05eafb2d0f05a3516f"
+      },
+      {
+        "identity": "C:469",
+        "path": "src/FunnySharp/PartitionExtensions.cs",
+        "firstLine": 72,
+        "lastLine": 72,
+        "sha256": "80892059cecc57c85bc8129045f65cadf49311242fc02f05eafb2d0f05a3516f"
+      },
+      {
+        "identity": "C:470",
+        "path": "src/FunnySharp/PartitionExtensions.cs",
+        "firstLine": 72,
+        "lastLine": 72,
+        "sha256": "80892059cecc57c85bc8129045f65cadf49311242fc02f05eafb2d0f05a3516f"
+      },
+      {
+        "identity": "C:471",
+        "path": "src/FunnySharp/PartitionExtensions.cs",
+        "firstLine": 72,
+        "lastLine": 72,
+        "sha256": "80892059cecc57c85bc8129045f65cadf49311242fc02f05eafb2d0f05a3516f"
+      },
+      {
+        "identity": "C:472",
+        "path": "src/FunnySharp/PartitionExtensions.cs",
+        "firstLine": 72,
+        "lastLine": 72,
+        "sha256": "80892059cecc57c85bc8129045f65cadf49311242fc02f05eafb2d0f05a3516f"
+      },
+      {
+        "identity": "C:473",
+        "path": "src/FunnySharp/PartitionExtensions.cs",
+        "firstLine": 72,
+        "lastLine": 72,
+        "sha256": "80892059cecc57c85bc8129045f65cadf49311242fc02f05eafb2d0f05a3516f"
+      },
+      {
+        "identity": "C:474",
+        "path": "src/FunnySharp/PartitionExtensions.cs",
+        "firstLine": 72,
+        "lastLine": 72,
+        "sha256": "80892059cecc57c85bc8129045f65cadf49311242fc02f05eafb2d0f05a3516f"
+      },
+      {
+        "identity": "C:475",
+        "path": "src/FunnySharp/PartitionExtensions.cs",
+        "firstLine": 72,
+        "lastLine": 72,
+        "sha256": "80892059cecc57c85bc8129045f65cadf49311242fc02f05eafb2d0f05a3516f"
+      },
+      {
+        "identity": "C:476",
+        "path": "src/FunnySharp/PartitionExtensions.cs",
+        "firstLine": 72,
+        "lastLine": 72,
+        "sha256": "80892059cecc57c85bc8129045f65cadf49311242fc02f05eafb2d0f05a3516f"
+      },
+      {
+        "identity": "C:477",
+        "path": "src/FunnySharp/PartitionExtensions.cs",
+        "firstLine": 72,
+        "lastLine": 72,
+        "sha256": "80892059cecc57c85bc8129045f65cadf49311242fc02f05eafb2d0f05a3516f"
+      },
+      {
+        "identity": "C:478",
+        "path": "src/FunnySharp/PartitionExtensions.cs",
+        "firstLine": 72,
+        "lastLine": 72,
+        "sha256": "80892059cecc57c85bc8129045f65cadf49311242fc02f05eafb2d0f05a3516f"
+      }
+    ]
+  },
+  "xmlDelta": {
+    "previousSha256": "d3b702f19dc04d5779e3e80757065ce2a76684cabbbb8dcc126f1c429f08a9f1",
+    "currentSha256": "35dd9f2354a0dc45799e32adf90e7649594aa62988f423a42fa12185ae63f5b3",
+    "currentLfSha256": "1aac5d37b1e103114199bc437bd0dc50e11326665efc7f55dbb6a40672a4d78c",
+    "changedMembers": 29,
+    "completeDocumentMatchesPredictedClauseChanges": true,
+    "reviewedInputsSha256": "1b503dc0fc26d27bb44eacead21970c48a67402a21c054973bf785aef7b36da6",
+    "historicalPolicyUnchanged": {
+      "path": "eng/api-baseline/xml-contract-bindings.json",
+      "sha256": "696fe5154ee970778ce7b415ea9bc964cedbe6158d34e3f6e545be3843d08601"
+    }
+  },
+  "qa": {
+    "build": {
+      "exitCode": 0,
+      "warnings": 0,
+      "errors": 0,
+      "monitor": "mon_5HEBMQNZN0T95B5J",
+      "output": "status: completed exit_code: 0\n  FunnySharp.Analyzers -> Q:\\repos\\funnysharp\\.worktrees\\goal24-complete-pr\\src\\FunnySharp.Analyzers\\bin\\Release\\netstandard2.0\\FunnySharp.Analyzers.dll\n  FunnySharp.Analyzers.CodeFixes -> Q:\\repos\\funnysharp\\.worktrees\\goal24-complete-pr\\src\\FunnySharp.Analyzers.CodeFixes\\bin\\Release\\netstandard2.0\\FunnySharp.Analyzers.CodeFixes.dll\n  FunnySharp -> Q:\\repos\\funnysharp\\.worktrees\\goal24-complete-pr\\src\\FunnySharp\\bin\\Release\\net10.0\\FunnySharp.dll\n  FunnySharp.Tests -> Q:\\repos\\funnysharp\\.worktrees\\goal24-complete-pr\\tests\\FunnySharp.Tests\\bin\\Release\\net10.0\\FunnySharp.Tests.dll\n\nBuild succeeded.\n    0 Warning(s)\n    0 Error(s)\n\nTime Elapsed 00:00:07.01"
+    },
+    "coreTests": {
+      "exitCode": 0,
+      "total": 1762,
+      "passed": 1762,
+      "failed": 0,
+      "skipped": 0,
+      "monitor": "mon_DB9PSBTQ7862C34E",
+      "output": "status: completed exit_code: 0\nRunning tests from Q:\\repos\\funnysharp\\.worktrees\\goal24-complete-pr\\tests\\FunnySharp.Tests\\bin\\Release\\net10.0\\FunnySharp.Tests.dll (net10.0|x64)\nQ:\\repos\\funnysharp\\.worktrees\\goal24-complete-pr\\tests\\FunnySharp.Tests\\bin\\Release\\net10.0\\FunnySharp.Tests.dll (net10.0|x64) passed (2s 310ms)\n\nTest run summary: Passed!\n  total: 1762\n  failed: 0\n  succeeded: 1762\n  skipped: 0\n  duration: 3s 610ms"
+    },
+    "xmlModuleTests": {
+      "exitCode": 0,
+      "monitor": "mon_V476HE3TRTSR878H",
+      "actualCtrfSummary": {
+        "tests": 37,
+        "passed": 37,
+        "failed": 0,
+        "pending": 0,
+        "skipped": 0,
+        "other": 0,
+        "suites": 1,
+        "start": 1791167636971,
+        "stop": 1791167643253
+      },
+      "ctrfPath": "artifacts/pr-validation/traversal-r9-current/xml-binding-tests.json",
+      "ctrfSha256": "210564e8092f53270915368808108188f06a66e2ff59af01d46c1f35e67ef015"
+    },
+    "runtimeBoundary": {
+      "exitCode": 0,
+      "monitor": "mon_5HE80E9RGMVYXYG5",
+      "probePath": "artifacts/pr-validation/traversal-r9-current/traversal-boundary-probe.fsx",
+      "probeSha256": "0a3ba46017c4d81c9ce1703bfdaa08947d21ea05ac37c712a20a0451f5d9623c",
+      "output": "status: completed exit_code: 0\nTRAVERSAL_BOUNDARY_PASS defaultSourceIgnored=1 defaultSelectorRejected=1 defaultSequenceSourceRejected=1 value=7"
+    },
+    "preservedOperationalFailure": {
+      "monitor": "mon_ST5CKVQJRTCAD5P7",
+      "exitCode": 3,
+      "output": "status: exited_3 exit_code: 3\nerror: unknown option: --results-directory",
+      "cause": "MTP results-directory parameters supplied to direct xUnit executable; corrected to canonical dotnet test SDK entry"
+    },
+    "diagnosticLimits": [
+      "C# LSP reported nine duplicate attributes on generated obj files; actual build returned zero warnings/errors.",
+      "F# fsautocomplete and JSON biome unavailable; actual FSI/JSON parsing used."
+    ],
+    "noProsePinningTest": true
+  },
+  "remaining": {
+    "freshMain": {
+      "status": "RUNNING_NOT_PASS",
+      "monitor": "mon_C7HSAJJCAHFQGX2F",
+      "root": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/pr-validation/traversal-r9-performance-20261005-01",
+      "actualDiscovered": 190
+    },
+    "freshCompetitor": "NOT_STARTED_MUST_FOLLOW_MAIN_SERIALLY",
+    "newCoverageAndRuntime": "PENDING_ACTUAL_NEW_BENCHMARK_DLL",
+    "newObservationsAndPortablePacket": "PENDING",
+    "cleanFullSuiteAndRelease": "PENDING",
+    "freshIndependentDeltaGate": "PENDING",
+    "publicationExactHeadCiBabysitCleanup": "PENDING"
+  }
+}

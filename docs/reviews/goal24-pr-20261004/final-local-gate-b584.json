@@ -1,0 +1,220 @@
+{
+  "schema": "funnysharp-final-prepublication-gate/v1",
+  "recommendation": "REJECT",
+  "confidence": {
+    "recommendation": "high",
+    "scopeCoverage": "moderate",
+    "reason": "One current shipped XML contract is contradicted by a foreground runtime probe against the current built DLL and by the implementation. Archived evidence received inventory/binding review and representative semantic inspection, not exhaustive line review."
+  },
+  "reviewer": {
+    "role": "omo-native-gate-reviewer",
+    "taskId": "st_01a109c0",
+    "sessionId": "01a109c0-38db-7e1e-b296-c908ffdf8472",
+    "delegation": "none",
+    "date": "2026-10-05"
+  },
+  "originalIntent": "Integrate all worthwhile owned Goal 24 implementation and evidence into existing PR 33 without omissions, secret leakage or loss of original evidence; subsequently verify published coverage and exact-head CI, settle babysitting and clean only owned temporary resources. No ordinary merge or public NuGet publication.",
+  "desiredOutcome": "An honest, source-bound prepublication readiness decision for the complete local candidate, separate from the frozen original Goal 24 approval and from later publication/CI/cleanup work.",
+  "userOutcomeReview": "The complete candidate and substantial current QA are present, but its actual nupkg still documents a nonexistent Traverse source-state guard. A consumer can successfully traverse an uninitialized Result source value when the selector returns a valid Result. The shipped XML says that reached uninitialized source carrier throws. Current prepublication readiness therefore fails R9 even though the current suite and release artifacts record successful runs.",
+  "scope": {
+    "brief": "Q:/repos/funnysharp/docs/reviews/goal24-pr-20261004/final-local-gate-brief.md",
+    "worktree": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr",
+    "branch": "audit/goal24-complete-pr",
+    "base": "a8863473fd53eddc7cb47201508426db2e454f84",
+    "candidate": "b584e748699a4f19d8a901695634be5a85ce8b07",
+    "cleanObserved": true,
+    "changedFiles": 7131,
+    "insertions": 2035174,
+    "deletions": 1779,
+    "currentIncrementFiles": 402,
+    "currentIncrementMatchesAllNamedLiteralPathspecs": true,
+    "originalInventoryPathsReconciled": 6661,
+    "fullDiffSha256": "40a360b2a7627faa97def197840758580864e772a01498636a16cc10e91e1608",
+    "inventoryJsonSha256": "5d2b64fcbfc1dd69aae22347d009df1a0bc75c894955449e11867cde62011164",
+    "semanticCoverage": "Changed shipping executable deltas, relevant XML, concurrency/analyzer mechanisms, current replay/XML/provenance/performance producers and verifiers, selected behavioral tests, complete Git path inventories and selected historical artifacts. Not every archived line or binary semantic payload was read."
+  },
+  "completionBoundary": {
+    "auditDecisionDelivered": true,
+    "currentPrepublicationReady": false,
+    "wholeGoalCompletionClaimed": false,
+    "originalProduct": "d8744c934d86833f9817245ecc7c78b1177b8b76",
+    "originalApproval": "Preserved historical authority; this report does not revoke or reissue it.",
+    "publicationExactHeadCiBabysitCleanup": "Follow-on work; neither completed nor blockers merely because they are future steps.",
+    "packagePublicationAuthorized": false
+  },
+  "blockers": [
+    {
+      "id": "FG-R9-001",
+      "severity": "P2",
+      "violatedCriterion": "R9: every stable public member has intentional exception contracts and adequate shipped XML; original dimensions G23-23.06 and G23-23.09.",
+      "observation": "The newly added Traverse XML says an uninitialized reached source carrier throws InvalidOperationException. Traverse only inspects the selector's returned carrier. Passing an uninitialized Result as TSource and returning Success(7) succeeds without an exception.",
+      "evidencePointer": "src/FunnySharp/SequenceExtensions.cs:95; implementation :98-119; src/FunnySharp/bin/Release/net10.0/FunnySharp.xml:4516-4536; r4/packages/FunnySharp.0.2.0.nupkg::lib/net10.0/FunnySharp.xml::M:FunnySharp.SequenceExtensions.Traverse``3(System.Collections.Generic.IEnumerable{``0},System.Func{``0,FunnySharp.Result{``1,``2}})",
+      "currentPackage": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/packages/FunnySharp.0.2.0.nupkg",
+      "packageSha256FromCompatibilityReceipt": "6af81334e54911a4eeb3ed18189a8a88f302b70af4228af963cdffc7273492fb",
+      "dllSha256FromBuildSeal": "304aa5e354b74c1ee4dab175386d8c292973339c6d38858bf34973b3f4b1836c",
+      "quotedShippedClause": "A reached source carrier or selector result is uninitialized; reported while enumerating the source.",
+      "runtimeProbe": {
+        "command": "dotnet fsi --readline- --quiet, with the F# statements below supplied on stdin; no source file or project was written",
+        "source": "#r @\"Q:/repos/funnysharp/.worktrees/goal24-complete-pr/src/FunnySharp/bin/Release/net10.0/FunnySharp.dll\";;\nopen System;;\nopen System.Collections.Generic;;\nopen FunnySharp;;\nlet source = [Unchecked.defaultof<Result<int,string>>];;\nlet actual = SequenceExtensions.Traverse<Result<int,string>,int,string>(source, Func<Result<int,string>,Result<int,string>>(fun _ -> Result<int,string>.Success(7)));;\nlet mutable values = Unchecked.defaultof<IReadOnlyList<int>>;;\nlet success = actual.TryGetValue(&values);;\nif not success || values.Count <> 1 || values.[0] <> 7 then failwith \"Unexpected traversal outcome\";;\nprintfn \"TRAVERSE_DEFAULT_SOURCE success=%b count=%d value=%d exception=none\" success values.Count values.[0];;\nexit 0;;",
+        "stdout": "TRAVERSE_DEFAULT_SOURCE success=true count=1 value=7 exception=none",
+        "exitCode": 0
+      },
+      "packageInspection": {
+        "method": "Read the exact XML member from the existing r4 nupkg using ZipFile.OpenRead and XDocument over the ZIP entry stream, without extraction.",
+        "exitCode": 0,
+        "observedClause": "A reached source carrier or selector result is uninitialized; reported while enumerating the source. Unreached items are not inspected, and a disposal exception can replace this failure.",
+        "probeWarnings": "Two FS0524 warnings on top-level FSI use bindings, treated as let. These are probe warnings, not shipping build warnings; the process exited 0."
+      },
+      "samePatternLocations": [
+        "src/FunnySharp/SequenceExtensions.cs:149",
+        "src/FunnySharp/SequenceExtensions.cs:208",
+        "src/FunnySharp/SequenceExtensions.cs:313",
+        "src/FunnySharp/SequenceExtensions.cs:360",
+        "src/FunnySharp/SequenceExtensions.cs:405",
+        "src/FunnySharp/SequenceExtensions.cs:557",
+        "src/FunnySharp/SequenceExtensions.cs:593",
+        "src/FunnySharp/SequenceExtensions.cs:639",
+        "src/FunnySharp/SequenceExtensions.cs:692",
+        "src/FunnySharp/SequenceExtensions.cs:729"
+      ],
+      "exactFix": "Correct the current XML at the shared documentation pattern: Sequence inspects source carriers; Traverse inspects returned selector carriers and propagates any exception explicitly thrown by the selector/enumerator. Review the mirrored async/parallel clauses for the same distinction. Do not add a source-state guard or change runtime behavior to match the false prose. Update the current reviewed XML successor and regenerate affected current source-bound evidence; preserve original d8744 policy, ledgers and receipts. No prose-pinning or removal-only test is warranted.",
+      "whyGreenGatesDoNotCloseIt": "The XML gate verifies identity, presence, bindings and explicitly reports completeSemanticAcceptance=false. Existing traversal tests exercise default returned carriers and callback/disposal faults; their success does not prove this asserted source-state guard exists."
+    }
+  ],
+  "goalBreakdown": [
+    { "criterion": "Complete owned content inclusion", "assessment": "No concrete omission found. The 6661-path original inventory matches the immutable e7 Git diff; current full range is 7131 files; all 402 final increment names match the declared literal pathspecs." },
+    { "criterion": "Preserve original and adverse evidence", "assessment": "No changes between d8744 and b584 in evaluation results, study snapshots or archived goals. Frozen replay remains explicitly unavailable for 65 original obj files; 123 available files independently hash-match." },
+    { "criterion": "R3/R4/R5/R6 shipping mechanisms", "assessment": "No additional verified blocker in examined comparer/empty-key, bounded FirstSuccess, cancellation-before-publication, analyzer/discard or typed HTTP metadata changes." },
+    { "criterion": "R7 current performance and resource evidence", "assessment": "Current single-pair catalog and producer code, strict-verifier checkpoints, all 24 raw CTRF outcomes, and source/observation continuity inspected. These are not three new repetitions or a new package-layout/publication proof." },
+    { "criterion": "R8 replay and historical evidence", "assessment": "Isolated route and fail-closed boundary are present; historical reproduction is unavailable, as the brief requires. No cohort/model rerun performed." },
+    { "criterion": "R9 exception and XML accuracy", "assessment": "FAIL: FG-R9-001." },
+    { "criterion": "R10/current local release binding", "assessment": "Actual r4 outcome, canonical build/test/format/compatibility receipts, raw test and compatibility logs, XML seal and mirror-feed final version checks inspected. They support recorded local release success, not remote current-head acceptance." },
+    { "criterion": "Publication/CI/babysit/cleanup", "assessment": "Separate follow-on obligations; not claimed complete and not used as missing-content blockers." }
+  ],
+  "constraintCompliance": {
+    "repositoryReadOnly": true,
+    "onlyAuthorizedReportWrites": true,
+    "noImplementationOrTestChanges": true,
+    "noCommitPushPublicationRefMutationOrCleanup": true,
+    "noAdditionalReviewers": true,
+    "noBenchmarkModelHttpOrDenialRerun": true,
+    "oldAuthorityPreserved": true,
+    "noSourceLinkAotThresholdOrTlsBypassObserved": true,
+    "noSecretsClaim": "No confirmed credential leak found in inspected content. Prior bounded scans are reported as bounded; additional independent background scans have no observed completion in this child and are not promoted to passes.",
+    "portability": "Current catalog resolves original absolute locators as labels only. Original portable proof requires exact raw ZIPs and immutable Git blobs; no old-filesystem fallback, repacking or historical cache fabrication is claimed."
+  },
+  "qaAudit": [
+    { "row": "Exact candidate and scope", "basis": "Reviewer foreground Git commands", "result": "PASS: clean b584, 7131 full-range files, 402 exact final names, 6661 original inventory names reconciled." },
+    { "row": "Current full suite", "basis": "r4/receipts/04-test.json and r4/logs/04-test.stdout.log, read directly", "result": "Recorded PASS: exit 0, total/succeeded 2630, failed/skipped 0. No full suite rerun by this reviewer." },
+    { "row": "Current formatter/build", "basis": "r4/receipts/03-build.json and 08-format.json; XML seal", "result": "Recorded exit 0 for both. Formatter is C# only; F# formatting is unsupported." },
+    { "row": "All four trim/AOT scenarios", "basis": "r4/compatibility-run/compatibility-results.json and raw logs/14-compatibility.stdout.log", "result": "CoreTrimmed, CoreNativeAot, AspNetCoreTrimmed and AspNetCoreNativeAot all record Passed; actual smoke markers and PublishAot=true remain present." },
+    { "row": "Current exact DLL/runtime witnesses", "basis": "current-coverage/attempt-01/contracts-01.json and examined source methods", "result": "Raw CTRF has 24 passed, 0 failed/pending/skipped/other. Direct benchmark-bound DLL scope, not a new nupkg claim." },
+    { "row": "Current performance and docs", "basis": "Catalog, verify-current.fsx, original Performance/BenchmarkPreflight/ReceiptExporterCore producers and current observation checkpoint", "result": "Recorded original strict main 190/11/13 and competitor 40/0/2, docs 11+1 regions; current independent portable execution result unavailable, not counted as reviewer PASS." },
+    { "row": "Current negative controls", "basis": "current-validation/portable-negative-controls.json and verifier rejection sites", "result": "Three recorded exit-1/no-PASS controls, runner exit 0. Not rerun." },
+    { "row": "Original portable P/A/I and 69", "basis": "Full verifier source, catalog contract, retained parent receipts and four negative-control outputs", "result": "Recorded historical positive and four denials preserved. Reviewer background recheck result unavailable; no new original acceptance claimed." },
+    { "row": "Committed QA receipt integrity", "basis": "Reviewer foreground SHA256/length loop over current-validation/receipt-index.json", "result": "PASS: all 13 listed receipts match declared hashes and lengths." },
+    { "row": "Actual frozen replay availability", "basis": "Reviewer foreground manifest/file hash traversal plus actual-replay-boundary.md", "result": "188 declared, 123 available hash-matching, 65 missing, all missing paths contain obj; no hash mismatch. Zero additions is recorded by the parent; a corrected Windows-separator comparison was launched separately but its result is unavailable." },
+    { "row": "Counterexample to shipped exception contract", "basis": "Reviewer foreground FSI runtime probe and package-entry inspection", "result": "FAIL R9: current runtime succeeds for an uninitialized source carrier despite the shipped exception clause." }
+  ],
+  "representativeScenarios": [
+    { "id": "S1", "scenario": "Keyed collection traversal", "trace": "SequenceExtensions.cs:474-773 and :1265-1282 -> TraversalContextTests -> existing r4 core suite; Dictionary/FrozenDictionary/ImmutableDictionary comparers and explicit comparer survive empty/populated success paths; null comparer checks precede enumeration." },
+    { "id": "S2", "scenario": "Bounded race and cancellation", "trace": "ConcurrentEffectExtensions.cs:165-404 and ParallelAsyncEnumerableExtensions.cs:305 -> FirstSuccessTests.cs:617-997 / ParallelAsyncEnumerableTests.cs:318-416 -> raw 24-case current CTRF. Admission, single consumption, post-cancel publication and loser-disposal faults are observable, not timing guesses." },
+    { "id": "S3", "scenario": "Release XML and package boundary", "trace": "ReleaseRun.fs:1230 -> XmlBuildBindings.capture/validate -> ReleaseVerify.fs:372 -> ReleaseVerifyArtifacts.fs:519-779 -> r4 seal/outcome/package. Hash/identity success does not establish exception prose accuracy; FG-R9-001 reaches the actual package." },
+    { "id": "S4", "scenario": "Evidence relocation", "trace": "Current verify-current.fsx source bindings/objects/launches/PE/CTRF and original verify.fsx exact ZIP/attachment/Git-blob joins -> committed catalogs and recorded negative controls. Historical Q-drive labels cannot supply fallback bytes." },
+    { "id": "S5", "scenario": "Safe diagnostics and HTTP metadata", "trace": "UninitializedCarrierAnalyzer empty initializer check; DiscardedOutcomeCodeFixProvider candidate IDiscardOperation check; BlockedValueTaskAnalyzer bounded CFG proof; OrderEndpoints typed 500 and same-host OpenApiTests. Code inspected, no HTTP rerun." }
+  ],
+  "edgeCases": [
+    { "case": "Uninitialized generic traversal source with valid selector result", "result": "Reviewer reproduced successful [7]; exposes FG-R9-001." },
+    { "case": "Empty dictionary with custom key equality", "result": "ToReadOnlyDictionary constructs with supplied comparer even with no buffer; no new default-policy substitution found." },
+    { "case": "Empty string location versus null key/empty property", "result": "Location.Key now guards null only; property rules remain separate. Current change is narrow." },
+    { "case": "Caller cancels while ordered selector ignores cancellation", "result": "Cancellation checked after await and before Current; exact caller token, one consumption and cleanup observed by retained eight-case witness." },
+    { "case": "Winner with independent loser disposal fault", "result": "Actual UsingAsync disposal-gated witness retained; faults are not suppressed by the winner." },
+    { "case": "Shared Task and long fixed-bound candidate population", "result": "Per-candidate identity and channel accounting inspected; 1024 admission and 4096 single-consumption witness variants remain behavioral checks." },
+    { "case": "Underscore variable and unsafe ValueTask fast path", "result": "Code fix requires real discard operation; wrong receiver, alias, escape, repeated consumption and unsupported control flow stay diagnosed by bounded proof and test cases." },
+    { "case": "Missing/tampered catalog or object", "result": "Physical and decoded digest/length guards precede PASS; three current recorded controls and four original controls inspected, not rerun." },
+    { "case": "Missing frozen obj or existing replay output", "result": "Exact snapshot validation occurs before output reservation; tests do not masquerade as real archived replay." },
+    { "case": "Reviewed current XML versus changed historical policy or seal", "result": "v3 binds historicalXmlSha256 to immutable v1 policy, validates current XML representations and rejects seal/source/candidate/build/timestamp drift; behavioral tests examined." }
+  ],
+  "skillPerspective": {
+    "loaded": [
+      "C:/Users/lhan/.omo/binary-runtime/5.1.15/plugin/skills/remove-ai-slops/SKILL.md",
+      "C:/Users/lhan/.omo/binary-runtime/5.1.15/plugin/skills/programming/SKILL.md"
+    ],
+    "application": "Read-only review perspective. No C#/F# language-specific programming references exist. User scope overrides cleanup, refactor and delegation instructions; neither 250-LOC skill preferences nor CE 1000-line persona findings create an unstated current gate criterion.",
+    "directOverfitSlopCheck": {
+      "excessiveOrUselessTests": "No new blocker established in sampled semantic matrices, resource witnesses, analyzer cases, XML and replay tests. Per-overload branches can fail independently. The large compound XML integration Fact is a nonblocking maintenance note.",
+      "deletionOnlyOrRemovalVerificationTests": "Option XML removal added no removal/prose pin. API absence freezes are existing machine-consumed public-surface contracts, not deletion-only evidence.",
+      "tautologicalOrImplementationMirroringTests": "Reviewed fixtures assert input-derived values, exact exception identity, counts, ordering and callback effects. Self-comparison hash assertions alone are weak, but the sampled tests also test null behavior and independent callback failures; no whole test was found to be a pure tautology.",
+      "mockFidelity": "FrozenReplay uses real Evaluation.mainWith with fake process outcomes and explicitly does not prove staged FSI/consumer execution. StageBundleFixture tests byte transport, not complete publication acceptance. These limitations remain visible.",
+      "unnecessaryExtractionParsingNormalization": "No requested-content blocker established. Hash/JSON/XML parsing belongs to evidence trust boundaries. Benchmark tie normalization has separate causal semantic controls. Mirrored carrier families are intentional project structure.",
+      "boilerplateProductionDocumentation": "FG-R9-001: a shared source-or-selector exception sentence was copied onto Traverse members even though they do not inspect generic source state. This creates false consumer expectations and survives count/hash gates.",
+      "determinism": "Inspected concurrency tests use causal gates and bounded failure timeouts. Literal search found cancellation waits with Timeout.InfiniteTimeSpan and an analyzer snippet Task.Delay(0), not newly introduced fixed-delay ordering evidence."
+    },
+    "priorReportCoverage": "source-repairs-review.md explicitly includes the same skill-perspective, removal/prose-pin, tautology, implementation-mirror, abstraction and parsing/normalization checks, but only for its 13-file repair scope. prepublication-review.json has broad role coverage but no equivalent explicit skill checklist for the entire 7131-file successor. This direct gate check does not inherit its approval, and found FG-R9-001 independently."
+  },
+  "nonblockingNotes": [
+    { "id": "N1", "note": "The four CE structural findings remain P1 under that persona and deferred after the unanswered scope question. No repository maximum-line policy exists; this report does not reclassify them or make refactoring a publication blocker.", "evidencePointer": "review-dispositions.md:12-16; prepublication-review.json findings 1-4" },
+    { "id": "N2", "note": "The brief's 15 immutable EOF warnings are the portable-evidence subset, not the complete base-to-b584 diagnostic count. Full raw diff --check exited 2 with 38 EOF warnings and 221830 trailing-whitespace diagnostics; allowing CR-at-EOL reduced trailing diagnostics to 132 while retaining 38 EOF warnings. The final 402-file increment independently exits 0. No proof bytes were changed or warnings suppressed in repository configuration.", "evidencePointer": ".gitattributes:14-18; reviewer foreground git diff --check probes; portable-evidence contains 15 of the 38 EOF warnings" },
+    { "id": "N3", "note": "XmlBuildBindingsTests.DistinctPostBuildBytesWithUnchangedReviewedInputsPassAndLegacyRemainsExact combines many independently meaningful scenarios in one Fact. It increases failure-localization cost, but no stated current content requirement demands splitting it.", "evidencePointer": "tests/FunnySharp.Harness.Tests/XmlBuildBindingsTests.fs:144-254" },
+    { "id": "N4", "note": "The experimental located UnitResult traversal retains prose claiming a dictionary is materialized, although its implementation returns a valueless UnitResult. This is unchanged pre-existing prose and outside R9's stable-member blocker above; it is not silently corrected here.", "evidencePointer": "src/FunnySharp/SequenceExtensions.cs:1138-1170" }
+  ],
+  "exactEvidenceGaps": [
+    "Actual v6 replay cannot be reproduced: 65 manifest-bound historical obj byte objects are unavailable. Isolated plumbing tests do not close this gap.",
+    "No POSIX relocation or current-head remote CI/publication was performed; these are not prepublication content blockers under this brief.",
+    "No exhaustive semantic review of all archived lines, native transcripts or opaque binary payloads is claimed.",
+    "Five extra read-only background verification calls returned handles but this child runtime exposes no bash_output or monitor operation and delivered no completion notification. They are not counted as passing evidence: bash_5 current portable verifier; bash_6 complete r4 source/log/seal hash sweep; bash_11 original portable P/A/I verifier; bash_12 original binary/retention secret scan; bash_18 current-object hash/secret scan and corrected Windows-separator inventory check. Their unknown results cannot remove the foreground-reproduced R9 blocker.",
+    "The fsharp LSP request failed because fsautocomplete is not installed. No installation occurred. No LSP-clean source claim is made.",
+    "No fresh test/build/formatter run was performed by this reviewer. Existing raw r4 output is distinguished from reviewer executions."
+  ],
+  "checkedArtifactPaths": [
+    "Q:/repos/funnysharp/docs/reviews/goal24-pr-20261004/final-local-gate-brief.md",
+    "Q:/repos/funnysharp/docs/reviews/goal24-pr-20261004/final-gate-context.md",
+    "Q:/repos/funnysharp/docs/reviews/goal24-pr-20261004/final-parent-qa-matrix.md",
+    "Q:/repos/funnysharp/docs/reviews/goal24-pr-20261004/current-release-pass.json (header and current-release references; giant duplicated fingerprint inventory not line-reviewed)",
+    "Q:/repos/funnysharp/docs/reviews/goal24-pr-20261004/inventory.json (complete machine inventory reconciliation)",
+    "Q:/repos/funnysharp/docs/reviews/goal24-pr-20261004/prepublication-review.json",
+    "Q:/repos/funnysharp/docs/reviews/goal24-pr-20261004/source-repairs-review.md",
+    "Q:/repos/funnysharp/docs/reviews/goal24-pr-20261004/review-dispositions.md",
+    "Q:/repos/funnysharp/docs/reviews/goal24-pr-20261004/local-worktree-audit.md",
+    "Q:/repos/funnysharp/docs/reviews/goal24-pr-20261004/current-source-repair-verification.json",
+    "Q:/repos/funnysharp/docs/reviews/goal24-pr-20261004/parent-focused-verification.json",
+    "Q:/repos/funnysharp/docs/reviews/goal24-pr-20261004/current-performance-commit.json",
+    "Q:/repos/funnysharp/docs/reviews/goal24-pr-20261004/clean-current-full-test-pass.json",
+    "Q:/repos/funnysharp/docs/reviews/goal24-pr-20261004/current-performance-source-continuity.json",
+    "Q:/repos/funnysharp/docs/reviews/goal24-pr-20261004/current-performance-observation-install.json",
+    "Q:/repos/funnysharp/docs/reviews/goal24-pr-20261004/current-policy-and-retention-proof.json",
+    "Q:/repos/funnysharp/docs/reviews/goal24-pr-20261004/current-coverage-lane.md",
+    "Q:/repos/funnysharp/docs/reviews/goal24-pr-20261004/actual-replay-boundary.md",
+    "Q:/repos/funnysharp/docs/reviews/goal24-pr-20261004/portable-negative-controls.json",
+    "Q:/repos/funnysharp/docs/reviews/goal24-pr-20261004/current-release-launcher-correction.json",
+    "Q:/repos/funnysharp/docs/reviews/goal24-pr-20261004/current-release-aot-path-red.json",
+    "Q:/repos/funnysharp/docs/reviews/goal24-pr-20261004/current-release-short-path-launch.json",
+    "Q:/repos/funnysharp/docs/reviews/goal24-pr-20261004/current-release-short-attempt.json",
+    "Q:/repos/funnysharp/docs/reviews/goal24-pr-20261004/frozen-product-branch-preservation.json",
+    "Q:/tmp/compound-engineering-lhan/ce-code-review/20261004-goal24-pr33-prepush/current-performance-commit-paths.txt",
+    "Q:/tmp/compound-engineering-lhan/ce-code-review/20261004-goal24-pr33-prepush/security.json",
+    "Q:/tmp/compound-engineering-lhan/ce-code-review/20261004-goal24-pr33-prepush/scan-binary-secrets.fsx",
+    "candidate/docs/plans/2026-10-01-1103-fix-goal-24-audit-resolution-plan.md",
+    "candidate/docs/audits/goal-24-resolution/stable-api-contracts.json (selected rows C:352, C:355, C:357-C:360)",
+    "candidate/docs/audits/goal-24-resolution/portable-evidence/README.md and verify.fsx",
+    "candidate/docs/reviews/goal24-pr-20261004/current-performance-evidence/README.md, catalog.json and verify-current.fsx",
+    "candidate/docs/reviews/goal24-pr-20261004/current-validation/receipt-index.json and portable-negative-controls.json",
+    "candidate/eng/evaluation/studies/audit-resolution-v6/manifest.json and actual snapshot inventory",
+    "candidate/artifacts/pr-validation/1fbb50d-performance-20261004-01/current-coverage/attempt-01/contracts-01.json",
+    "candidate/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/release-outcome.json",
+    "candidate/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/execution-evidence.json (schema and aggregate machine fields)",
+    "candidate/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/xml-build-bindings.json",
+    "candidate/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/release-evidence/release-evidence.json and release-evidence.md",
+    "candidate/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/receipts/03-build.json, 04-test.json, 08-format.json and 14-compatibility.json",
+    "candidate/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/logs/04-test.stdout.log and 14-compatibility.stdout.log",
+    "candidate/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/compatibility-results.json",
+    "candidate/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/version-final.json",
+    "candidate/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/packages/FunnySharp.0.2.0.nupkg::lib/net10.0/FunnySharp.xml"
+  ],
+  "runtimeLimitations": {
+    "reportPaths": "The explicit brief's two authorized report paths take precedence over the generic child report fallback.",
+    "ulwStatus": "No JS eval tool is exposed. The SDK status was consulted through Bun; it returned ULW_LOOP_PLAN_MISSING for this child. No plan was created or changed.",
+    "reportWriter": "apply_patch is not exposed; the developer's required write tool was used for the two report artifacts only.",
+    "todoTool": "Not exposed; no repository planning artifact was created."
+  }
+}

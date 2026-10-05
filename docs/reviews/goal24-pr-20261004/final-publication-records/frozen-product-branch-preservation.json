@@ -1,0 +1,13 @@
+{
+  "schema": "funnysharp-frozen-product-branch-preservation/v1",
+  "root": "Q:/repos/funnysharp-goal24-resolution",
+  "product": "d8744c934d86833f9817245ecc7c78b1177b8b76",
+  "archiveBranch": "archive/goal24-product-d8744",
+  "previousBranch": "audit/goal24-resolution",
+  "sourceBytesChanged": false,
+  "cleanTrackedAndUntrackedBeforeAndAfter": true,
+  "remotePrChanged": false,
+  "prHeadLocalBranchNowFreeForLaterNormalFastForward": true,
+  "noResetRebaseForcePushOrBranchDeletion": true,
+  "initialReadOnlyRefProbeExit128WasMissingRefNotMutation": true
+}

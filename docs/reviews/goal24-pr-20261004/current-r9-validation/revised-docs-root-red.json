@@ -1,0 +1,23 @@
+{
+  "schema": "funnysharp-pr-revised-docs-root-red/v1",
+  "first": {
+    "main": {
+      "monitor": "mon_4XAC93CF0ZYZQW45",
+      "exitCode": 1,
+      "output": "status: exited_1 exit_code: 1\nERROR: Fingerprint input was not found inside the repository: 'Directory.Build.props'."
+    },
+    "competitor": {
+      "monitor": "mon_CYP2ZGAWDYBA6MKN",
+      "exitCode": 1,
+      "output": "status: exited_1 exit_code: 1\nERROR: Fingerprint input was not found inside the repository: 'Directory.Build.props'."
+    }
+  },
+  "cause": "Scratch RepositoryRoot has no fingerprint-bound source inputs; actual official generator correctly rejected missing Directory.Build.props before output.",
+  "correction": "Use actual integration RepositoryRoot and scratch-only manifests that change ONLY documentation output paths; source/policy/observation verification stays enabled.",
+  "currentHandles": [
+    "Monitor started with ID: mon_VEKWMAWMAF437C6P",
+    "Monitor started with ID: mon_CH505J4MFS0J0GCS"
+  ],
+  "realGuidesUnchangedBeforeRegionPatch": true,
+  "benchmarkAndVerifierReruns": false
+}

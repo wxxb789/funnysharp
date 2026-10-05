@@ -1,0 +1,2790 @@
+{
+  "schema": "funnysharp-portable-b584-release-inventory/v1",
+  "candidate": "b584e748699a4f19d8a901695634be5a85ce8b07",
+  "attempt": "r4",
+  "immutableRoot": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4",
+  "retainedR4FileCount": 219,
+  "retainedR4Bytes": 110887545,
+  "publishOutputs": [
+    {
+      "scenario": "AspNetCoreNativeAot",
+      "status": "Passed",
+      "fileCount": 3,
+      "length": 44338741
+    },
+    {
+      "scenario": "AspNetCoreTrimmed",
+      "status": "Passed",
+      "fileCount": 114,
+      "length": 24309615
+    },
+    {
+      "scenario": "CoreNativeAot",
+      "status": "Passed",
+      "fileCount": 2,
+      "length": 11147264
+    },
+    {
+      "scenario": "CoreTrimmed",
+      "status": "Passed",
+      "fileCount": 36,
+      "length": 20696326
+    }
+  ],
+  "operationalRedRawRecordCount": 92,
+  "packageEntryCount": 42,
+  "files": [
+    {
+      "originalLocator": "C:/Program Files/dotnet/packs/Microsoft.NETCore.App.Ref/10.0.12/ref/net10.0/System.Runtime.xml",
+      "sha256": "a6708171773d23000bf45673b97cf0daaa8d34566c6581df6833c3a4a14d411a",
+      "length": 7651301,
+      "category": "external-reference-input",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u14-post-xml/attempt-01/feed/FunnySharp.AspNetCore.0.2.0.nupkg",
+      "sha256": "511acad818e52539335bd12ddd179c2ac6f1a3c77a2e05e494bf68e02575eb8a",
+      "length": 16209,
+      "category": "historical-policy-package",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u14-post-xml/attempt-01/feed/FunnySharp.AspNetCore.0.2.0.nupkg::_rels/.rels",
+      "sha256": "80573c324dab0becad10ac14e52f245178688871590e8ae75e752edbe687ad8a",
+      "length": 488,
+      "category": "historical-policy-package-entry",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u14-post-xml/attempt-01/feed/FunnySharp.AspNetCore.0.2.0.nupkg::[Content_Types].xml",
+      "sha256": "53789202a7a62de78987becbf3ade1d56e9cb6e6fd525e8db9d2f1d352cb0425",
+      "length": 590,
+      "category": "historical-policy-package-entry",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u14-post-xml/attempt-01/feed/FunnySharp.AspNetCore.0.2.0.nupkg::FunnySharp.AspNetCore.nuspec",
+      "sha256": "10150db30661b173f3759b74e7c11152811322aafececda69e85ef3b72649200",
+      "length": 1145,
+      "category": "historical-policy-package-entry",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u14-post-xml/attempt-01/feed/FunnySharp.AspNetCore.0.2.0.nupkg::lib/net10.0/FunnySharp.AspNetCore.dll",
+      "sha256": "2daaff9c72db5b730c06d3270c00dfd7046fa27e26d59374e31cf270b8dc30c2",
+      "length": 19456,
+      "category": "historical-policy-package-entry",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u14-post-xml/attempt-01/feed/FunnySharp.AspNetCore.0.2.0.nupkg::lib/net10.0/FunnySharp.AspNetCore.xml",
+      "sha256": "27af8c3d2b65daa59a081f0b24674be0c41fe9cd652a19455cce01f2637e66d0",
+      "length": 32514,
+      "category": "historical-policy-package-entry",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u14-post-xml/attempt-01/feed/FunnySharp.AspNetCore.0.2.0.nupkg::package/services/metadata/core-properties/nuget.psmdcp",
+      "sha256": "43c94ae0de45727ea3f1b05f91d1ec5d9a324f2beb6142feecf77ee95e3823b0",
+      "length": 753,
+      "category": "historical-policy-package-entry",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u14-post-xml/attempt-01/feed/FunnySharp.AspNetCore.0.2.0.nupkg::README.md",
+      "sha256": "cc536213ce3dd198741dd81ae4518fd492f24016400b9cbd02b5e85f2d2be517",
+      "length": 12229,
+      "category": "historical-policy-package-entry",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u14-post-xml/attempt-03/feed/FunnySharp.0.2.0.nupkg",
+      "sha256": "49886c3c6e505d03b1e3565bfe71d43f2476eae3edfd35c4d6afbe761203fc18",
+      "length": 167885,
+      "category": "historical-policy-package",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u14-post-xml/attempt-03/feed/FunnySharp.0.2.0.nupkg::_rels/.rels",
+      "sha256": "5a3ffc666672e52417e20f10b0ab340059e1bf96067e0f0d9b244d5f94e90234",
+      "length": 477,
+      "category": "historical-policy-package-entry",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u14-post-xml/attempt-03/feed/FunnySharp.0.2.0.nupkg::[Content_Types].xml",
+      "sha256": "53789202a7a62de78987becbf3ade1d56e9cb6e6fd525e8db9d2f1d352cb0425",
+      "length": 590,
+      "category": "historical-policy-package-entry",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u14-post-xml/attempt-03/feed/FunnySharp.0.2.0.nupkg::analyzers/dotnet/cs/FunnySharp.Analyzers.CodeFixes.dll",
+      "sha256": "047f25341d202fbed81587126de6d7de1a9903ca6ffe0ca4387ab183066c5acc",
+      "length": 14336,
+      "category": "historical-policy-package-entry",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u14-post-xml/attempt-03/feed/FunnySharp.0.2.0.nupkg::analyzers/dotnet/cs/FunnySharp.Analyzers.dll",
+      "sha256": "cbc82411aa4fa999ec3ae59ca100b0338f64eda212676b5162164a9ffc091104",
+      "length": 33792,
+      "category": "historical-policy-package-entry",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u14-post-xml/attempt-03/feed/FunnySharp.0.2.0.nupkg::FunnySharp.nuspec",
+      "sha256": "ee3b9e20cce9221f85ef618b5411c0d1099be2659241d9f7bdd11b1f452b49f6",
+      "length": 824,
+      "category": "historical-policy-package-entry",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u14-post-xml/attempt-03/feed/FunnySharp.0.2.0.nupkg::lib/net10.0/FunnySharp.dll",
+      "sha256": "6a903f737356fdf67845c9cd39385e4a5e2b39bcae0ee92ff2882480ecb7e49d",
+      "length": 262656,
+      "category": "historical-policy-package-entry",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u14-post-xml/attempt-03/feed/FunnySharp.0.2.0.nupkg::lib/net10.0/FunnySharp.xml",
+      "sha256": "4ef257af8378bd41f653b01215e5b016166a064320e7898e1794c4eb327489cc",
+      "length": 475084,
+      "category": "historical-policy-package-entry",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u14-post-xml/attempt-03/feed/FunnySharp.0.2.0.nupkg::package/services/metadata/core-properties/nuget.psmdcp",
+      "sha256": "24ffb670100261b0de4c68d367866bab381dffc5e4a9bdfcdf9a605c11da4ec8",
+      "length": 704,
+      "category": "historical-policy-package-entry",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp-goal24-resolution/artifacts/audit-resolution/u14-post-xml/attempt-03/feed/FunnySharp.0.2.0.nupkg::README.md",
+      "sha256": "cc536213ce3dd198741dd81ae4518fd492f24016400b9cbd02b5e85f2d2be517",
+      "length": 12229,
+      "category": "historical-policy-package-entry",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp-goal24-resolution/src/FunnySharp.AspNetCore/bin/Release/net10.0/FunnySharp.AspNetCore.xml",
+      "sha256": "27af8c3d2b65daa59a081f0b24674be0c41fe9cd652a19455cce01f2637e66d0",
+      "length": 32514,
+      "category": "historical-policy-input",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp-goal24-resolution/src/FunnySharp/bin/Release/net10.0/FunnySharp.xml",
+      "sha256": "4ef257af8378bd41f653b01215e5b016166a064320e7898e1794c4eb327489cc",
+      "length": 475084,
+      "category": "historical-policy-input",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-01/compatibility-run/compatibility-results.json",
+      "sha256": "78f534af29e968df6e97106a496d4f69f4ee9bdda80c8b41756b8a338335a7ae",
+      "length": 5907,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-01/compatibility-run/NuGet.Config",
+      "sha256": "f2e180a0207b09abc32d788acfdb0e101485d521efcd8416aaa237a0c52cc2b0",
+      "length": 885,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-01/execution-evidence.json",
+      "sha256": "c642929fb8fe2790d141c9dc6c5e38b6f8fafc0f41ab64ac5d8d281939e8defd",
+      "length": 3717556,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-01/logs/01-clean.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "length": 0,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-01/logs/01-clean.stdout.log",
+      "sha256": "7f12bfe4b50bd807a34d405413f091683cd2c43fc6eb187044f44437b2b73656",
+      "length": 23284,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-01/logs/02-restore.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "length": 0,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-01/logs/02-restore.stdout.log",
+      "sha256": "3e4d7019603d95f49e7af61364f164b9738bfac6c37367e27408519754fb53d8",
+      "length": 1807,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-01/logs/03-build.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "length": 0,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-01/logs/03-build.stdout.log",
+      "sha256": "fb18fbd25e19d24692e693b1dc5822498529e1df7e630d37539b352cd6960898",
+      "length": 2125,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-01/logs/04-test.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "length": 0,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-01/logs/04-test.stdout.log",
+      "sha256": "efb6794d17606429d4a1233fea7ccc4ae8da855d137e14579a7d76cb861092b4",
+      "length": 2067,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-01/logs/05-examples.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "length": 0,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-01/logs/05-examples.stdout.log",
+      "sha256": "93d470e447014ae75c2acbcea365b0470e0c08ef835ceb17be4933d5ff30fbae",
+      "length": 29,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-01/logs/06-aspnetcore-examples.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "length": 0,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-01/logs/06-aspnetcore-examples.stdout.log",
+      "sha256": "48ed32ffa073fc2c8f4fcc163667f260c0260350d645098763d4d9a560662c59",
+      "length": 51,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-01/logs/07-pack.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "length": 0,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-01/logs/07-pack.stdout.log",
+      "sha256": "7dabd334cf4fe7e0155b81f3a52378ee37f32324b83009d5f10eabe0642a1816",
+      "length": 868,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-01/logs/08-format.stderr.log",
+      "sha256": "d8f7341d3df9d66df117e77a0ddbbc37788e6c54abc5d0f527f909948609c857",
+      "length": 365,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-01/logs/08-format.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "length": 0,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-01/logs/09-performance-protocol-tests.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "length": 0,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-01/logs/09-performance-protocol-tests.stdout.log",
+      "sha256": "2037c4f320fac643aa1ba2e6da78b01e562ba5a974e0e555154ab8107cb65aac",
+      "length": 435,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-01/logs/10-release-protocol-tests.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "length": 0,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-01/logs/10-release-protocol-tests.stdout.log",
+      "sha256": "8ebcb2e65160d8b2168d53e620a68860e1183003c696fa0d7c7256a253784202",
+      "length": 435,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-01/logs/11-benchmark-preflight.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "length": 0,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-01/logs/11-benchmark-preflight.stdout.log",
+      "sha256": "414a9537ab6cc784d2755bf910d89330fb3410b6ebc05073d8f41c87a470e1fe",
+      "length": 89031,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-01/logs/12-performance-docs-verify.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "length": 0,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-01/logs/12-performance-docs-verify.stdout.log",
+      "sha256": "d6c00a375e02850640f07fbf17c40e21be6330a7edacf91f60dbd1c6a72d9423",
+      "length": 2215,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-01/logs/13-competitor-performance-docs-verify.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "length": 0,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-01/logs/13-competitor-performance-docs-verify.stdout.log",
+      "sha256": "82ad0f612f4d16908090ef4bd2056c84d0cff48a2709bcbfd024df5f17154a6a",
+      "length": 2215,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-01/logs/14-compatibility.stderr.log",
+      "sha256": "32f981a98438e6ecf13f86f7b7af2088e7c597e05cb7c88f73793b855b2e3f34",
+      "length": 208,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-01/logs/14-compatibility.stdout.log",
+      "sha256": "3b69a079fdc5d688ecaa1a2dac0ba3f8b28d3f88ee65490a0b60c9999f3a3800",
+      "length": 10720,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-01/receipts/01-clean.json",
+      "sha256": "36d885973a80a0fd485984872b93dc6a8c3796e369b59fbdaeeaa5fd69da3914",
+      "length": 667,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-01/receipts/02-restore.json",
+      "sha256": "51e66d0767fcc6aa318194e74da13f19f539bfc16d822cd1c80ee6c4ac665131",
+      "length": 759,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-01/receipts/03-build.json",
+      "sha256": "2c1222ac537305e86ed4dc5f10cf729bb3db65cf5b928f1f43cdcbc37918136c",
+      "length": 688,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-01/receipts/04-test.json",
+      "sha256": "de2b46ff500f8655a614e65eae8cf83a236b664e3b9f68d4c34cef3aaa8c085b",
+      "length": 703,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-01/receipts/05-examples.json",
+      "sha256": "8f2701dc0c8ac103c686fbe84f42024eb476d97f8a534f324eab595d4f3619d9",
+      "length": 772,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-01/receipts/06-aspnetcore-examples.json",
+      "sha256": "b015c50a17036a6daf2e3c1a04abf499afbe9bbed89a4512836f77b3f49c55ea",
+      "length": 855,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-01/receipts/07-pack.json",
+      "sha256": "5a3ac3d44d65e682c7beda8b63abe2062edf77474888cb86a2ec9fa162885731",
+      "length": 890,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-01/receipts/08-format.json",
+      "sha256": "3f68740ac9d76c6eae965ffd82d8e3eed2f09e074d0a41fff7f411ef496c586f",
+      "length": 680,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-01/receipts/09-performance-protocol-tests.json",
+      "sha256": "d3b11efacb47aecdcbe149645f9084377d09388b6fe5008e783f46e74c87cfba",
+      "length": 885,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-01/receipts/10-release-protocol-tests.json",
+      "sha256": "6f3d4cf02a6ea61395c5ec5a56b9eed56de34f0f06adb57f8168f87b348ea5f3",
+      "length": 869,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-01/receipts/11-benchmark-preflight.json",
+      "sha256": "d382f55fba597906ab8f4fe111ca8f8814ee44971a46f8592333a363c01f6d6f",
+      "length": 842,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-01/receipts/12-performance-docs-verify.json",
+      "sha256": "bcc38eca223db9d51a04078ed057d582301b498f60ab137749709d044f1dfcc1",
+      "length": 831,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-01/receipts/13-competitor-performance-docs-verify.json",
+      "sha256": "f75e80b4cc826973947e2a3c07be4f9e11142e881bfc1c68e0ea7e5afbb11568",
+      "length": 935,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-01/receipts/14-compatibility.json",
+      "sha256": "79a82bb1218938b3c20c75552ea084fba03e710cb00a9712a32e42aba47cd137",
+      "length": 1303,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-01/release-outcome.json",
+      "sha256": "ea02171874ba5ebf87fb5a6d921b4343b976c48ce90eceaedb5d15211c18abed",
+      "length": 799,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-01/version-preflight.json",
+      "sha256": "ff19a38e6a348f9d523c0944abab884da492f01a4078a1ee27eae2bbe81ca8c8",
+      "length": 1329,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-01/xml-build-bindings.json",
+      "sha256": "003e0f0271f92efa04b30d44e3ed945fec65523c0877d10cc12b57b735602618",
+      "length": 1860,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-02/compatibility-run/compatibility-results.json",
+      "sha256": "7a423d24782b6315259c43c8bc5042f30fb6d6e1203d9e15a40ea5ef225ea06d",
+      "length": 6021,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-02/compatibility-run/NuGet.Config",
+      "sha256": "41796f6327f1d6eabf0cbb7663b82d2b77e09dd8ffb2e94ebafc4b31a1f4983d",
+      "length": 885,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-02/execution-evidence.json",
+      "sha256": "0181aea187d9a19f2c9d76d1c3f6c525a9494c0a78616918a8edfa9c8c704598",
+      "length": 3717559,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-02/logs/01-clean.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "length": 0,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-02/logs/01-clean.stdout.log",
+      "sha256": "63b5d18dfcb2ba67be8ff519bfa61a2b420eed2b91d83965800594b477cdca08",
+      "length": 23303,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-02/logs/02-restore.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "length": 0,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-02/logs/02-restore.stdout.log",
+      "sha256": "e3bedda0256985e1dd96f9d722bf0aac635cd3c3d024741a30cd4a0176240e00",
+      "length": 1807,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-02/logs/03-build.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "length": 0,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-02/logs/03-build.stdout.log",
+      "sha256": "f014b4ba512b774cb8fb97813e434d3dba9fd1a8440e2d1904c2fa97e2980464",
+      "length": 2125,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-02/logs/04-test.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "length": 0,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-02/logs/04-test.stdout.log",
+      "sha256": "9634bdbef8ab10472980235be092b1a6c4dda54a4c6f1a42d7f0b8cd43f2e48b",
+      "length": 2067,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-02/logs/05-examples.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "length": 0,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-02/logs/05-examples.stdout.log",
+      "sha256": "93d470e447014ae75c2acbcea365b0470e0c08ef835ceb17be4933d5ff30fbae",
+      "length": 29,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-02/logs/06-aspnetcore-examples.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "length": 0,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-02/logs/06-aspnetcore-examples.stdout.log",
+      "sha256": "48ed32ffa073fc2c8f4fcc163667f260c0260350d645098763d4d9a560662c59",
+      "length": 51,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-02/logs/07-pack.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "length": 0,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-02/logs/07-pack.stdout.log",
+      "sha256": "166440ccce6d662e0a929fb053ca701a7eaafa50604283f38120cf708b5cc2cd",
+      "length": 868,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-02/logs/08-format.stderr.log",
+      "sha256": "d8f7341d3df9d66df117e77a0ddbbc37788e6c54abc5d0f527f909948609c857",
+      "length": 365,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-02/logs/08-format.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "length": 0,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-02/logs/09-performance-protocol-tests.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "length": 0,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-02/logs/09-performance-protocol-tests.stdout.log",
+      "sha256": "de99b209df164487e982e7f5339fcd16bd93303f537edce33dacfc170c9bdeba",
+      "length": 435,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-02/logs/10-release-protocol-tests.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "length": 0,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-02/logs/10-release-protocol-tests.stdout.log",
+      "sha256": "8ada256b874952f0b27bfeb3afdf2b4b596d21962922a2d8f2ce901cb763cdf9",
+      "length": 435,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-02/logs/11-benchmark-preflight.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "length": 0,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-02/logs/11-benchmark-preflight.stdout.log",
+      "sha256": "c138f438f8d27336eff5e010984b758b39cc66351f2ebcf7237d307e448474df",
+      "length": 89031,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-02/logs/12-performance-docs-verify.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "length": 0,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-02/logs/12-performance-docs-verify.stdout.log",
+      "sha256": "364d103e7403254f4272ace11e34e8590ea21393c8e6b2639b26ca9655b09e16",
+      "length": 2215,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-02/logs/13-competitor-performance-docs-verify.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "length": 0,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-02/logs/13-competitor-performance-docs-verify.stdout.log",
+      "sha256": "37ccbe899a543b7c13c5e1c25503db8ebdc28ae1e648b29b0fe05e81a65c2064",
+      "length": 2215,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-02/logs/14-compatibility.stderr.log",
+      "sha256": "da72b871441a79ca5f59ecd6aee45f437eccc448004425a743238f0ac0ca7d1c",
+      "length": 56,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-02/logs/14-compatibility.stdout.log",
+      "sha256": "42d56516870ca7ee59d3c749ab05d3953fb1f31f8d9d8e7ef8323245e6d05a9b",
+      "length": 15087,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-02/receipts/01-clean.json",
+      "sha256": "3e2b87bcdac5651c40823aaaf54ddbf102bfbbc9804da600feb29155af146779",
+      "length": 667,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-02/receipts/02-restore.json",
+      "sha256": "16992101e1b7b4e608bd9c6983eca150008daf2cba205d26c5e1937875034126",
+      "length": 759,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-02/receipts/03-build.json",
+      "sha256": "4c3c3c8c1b646cc64379a1740d281008f1bacb43c9ab57acfd2303af0c9f0302",
+      "length": 688,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-02/receipts/04-test.json",
+      "sha256": "30ac4570bff3d26ce3d34be8cfad65c814ac546eb26a31570ffc0ab5353af6f9",
+      "length": 703,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-02/receipts/05-examples.json",
+      "sha256": "426ea2e1a8c46c1e2e871bccb53c3e64c81575d22c9549b3bff65b0c4999aa2e",
+      "length": 772,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-02/receipts/06-aspnetcore-examples.json",
+      "sha256": "5ae83724e3a5a1338da4ae1592486a320bee9f1f45c48c121a0c158c4c8a3722",
+      "length": 855,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-02/receipts/07-pack.json",
+      "sha256": "153aa31f4ef016faa3a62bcd8ebc875cabc99f8ea3e2a472c09601a0c21d22b1",
+      "length": 890,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-02/receipts/08-format.json",
+      "sha256": "925e01f640d03bd6790bdeadb851598f3df81a0195d492ccd09633e5dc9251e1",
+      "length": 680,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-02/receipts/09-performance-protocol-tests.json",
+      "sha256": "8417436efd4ab9d822067db03bb27234d405e29b91eddaa36fef9a64c5274c7e",
+      "length": 885,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-02/receipts/10-release-protocol-tests.json",
+      "sha256": "77cccf31680530e45afeb5c3623c332c45f1757263f5733684205fc11bcbdb94",
+      "length": 869,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-02/receipts/11-benchmark-preflight.json",
+      "sha256": "e02326ddb5cdc11444918f74f9c9d7e8eaf433a10d8ff8d2e96cc9595092b4a5",
+      "length": 842,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-02/receipts/12-performance-docs-verify.json",
+      "sha256": "ecb2b19ccd172a832428eb3359dec75a5150a538924ab5518bdc4e79ef930b90",
+      "length": 831,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-02/receipts/13-competitor-performance-docs-verify.json",
+      "sha256": "ccc8268c32f3fa613261d4ce1611671e57307095f0821862489e8380282c6d9d",
+      "length": 935,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-02/receipts/14-compatibility.json",
+      "sha256": "b2d1d54b92f6f90f91180889867023665d609bd3d80fb13d33ce6d56a2c30e32",
+      "length": 1303,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-02/release-outcome.json",
+      "sha256": "012b5c402f44c012b5e0f216ee090c210b43f92f8d3d05124cea6a1eb16395c3",
+      "length": 799,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-02/version-preflight.json",
+      "sha256": "0c9d2de96c295010dc7a54001c58b7b090ef6adbc2a3b24380e7be3ed8cb37e0",
+      "length": 1329,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/pr33-b584e74-20261005-02/xml-build-bindings.json",
+      "sha256": "6e2bfed8913331ed8e476de7746d2b3d98148c3d1f261d9b9fa507d958c20e55",
+      "length": 1860,
+      "category": "operational-red",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreNativeAot/publish/FunnySharp.Compatibility.AspNetCore.exe",
+      "sha256": "f19d76bee4b486f5ab86dec9155cf41b83d709fcb156831988d92db532421ac5",
+      "length": 8134144,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreNativeAot/publish/FunnySharp.Compatibility.AspNetCore.pdb",
+      "sha256": "a40ef246366d309e781549a7b4bc66fdb661b65b05066d7c3edd36dfc3463efd",
+      "length": 36204544,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreNativeAot/publish/FunnySharp.Compatibility.AspNetCore.staticwebassets.endpoints.json",
+      "sha256": "c1686417e8d5c31bba969f12b6f3d2b35e6609adb5ca42f212261a3a02771aac",
+      "length": 53,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/aspnetcorev2_inprocess.dll",
+      "sha256": "3a0131399a65dd63d50f325b62dfdb891ddacc80a1a9180897af159651fcb5a5",
+      "length": 392488,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/clretwrc.dll",
+      "sha256": "7a2186201c87bbc597a1b8b26facd88e68f03be4c4a4211fd65cc6595c72e45b",
+      "length": 317736,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/clrgc.dll",
+      "sha256": "65e2f97d263824bfb9f75f92e66ebd22229aaf3a5faddef9345811d856c8840e",
+      "length": 674088,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/clrgcexp.dll",
+      "sha256": "23a8050ec68542989b6da6cc906a90faf8a14e6416fd2871a260b781b1c374ae",
+      "length": 711464,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/clrjit.dll",
+      "sha256": "0749d8fc8e944d0576e1bb47120f87add8f875e5cd8968995633063fc79256f6",
+      "length": 2092328,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/coreclr.dll",
+      "sha256": "128aee8c62a673d64739e585e3876b61133571cec83a46240a62581d5465639b",
+      "length": 4614992,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/createdump.exe",
+      "sha256": "315307159925d33eb604186a512901d080ecfc4cd8b8198030a7d398c6af2b0b",
+      "length": 71552,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/FunnySharp.AspNetCore.dll",
+      "sha256": "ec962ec0cb8981a34afb7661eaf799cc37a0d75124b9278094ce3211bca5e9e2",
+      "length": 19456,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/FunnySharp.Compatibility.AspNetCore.deps.json",
+      "sha256": "652fdaee087f6d029b8a6018e4c7110710e1d9a18e501a8352679df91ca5b3f5",
+      "length": 18131,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/FunnySharp.Compatibility.AspNetCore.dll",
+      "sha256": "50513cbdb399699822063f8d86c28392d01aa2819d11a437c268e8e93d1b4c3c",
+      "length": 33280,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/FunnySharp.Compatibility.AspNetCore.exe",
+      "sha256": "29a614e833083b454dc174d0217803cb3146dff12bdc26c320976dc8d19dca69",
+      "length": 162816,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/FunnySharp.Compatibility.AspNetCore.pdb",
+      "sha256": "b9833000e7a9a91dda7d885a355c4f7a903944ae67e86ea7c12e748b05c05440",
+      "length": 37384,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/FunnySharp.Compatibility.AspNetCore.runtimeconfig.json",
+      "sha256": "46c9878048360e75ccc02f4e235e70c107e6386feafad9d5254fa832f88a34f5",
+      "length": 2169,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/FunnySharp.Compatibility.AspNetCore.staticwebassets.endpoints.json",
+      "sha256": "c1686417e8d5c31bba969f12b6f3d2b35e6609adb5ca42f212261a3a02771aac",
+      "length": 53,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/FunnySharp.dll",
+      "sha256": "b24d258dc8b27d8ccb6e7f545942db85b4b2adbe601c4f044cb5cc613fe47ad3",
+      "length": 260608,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/hostfxr.dll",
+      "sha256": "838591885c5396fb0588a3aedc2f3e841d3afc67570868b1bce615264005a44c",
+      "length": 379688,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/hostpolicy.dll",
+      "sha256": "e92a2e71eeeaf7c574e905935b3e3724ef29bade44317659dbe06f505e99dbe0",
+      "length": 378664,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/Microsoft.AspNetCore.Authentication.Abstractions.dll",
+      "sha256": "35395e2ae66d5f5427d50db44185139eec2054afba2c3f92dcba09775c461b0a",
+      "length": 10240,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/Microsoft.AspNetCore.Authentication.Core.dll",
+      "sha256": "9f5a04d0f9ef157875db2799f8a1930e600e2fa0b008861f968858ede9c5bd27",
+      "length": 6656,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/Microsoft.AspNetCore.Authentication.dll",
+      "sha256": "8b0fa4c0ac1d3a61a7a29c0e351b1a986f4b207c118488077c8dddfdf6947caa",
+      "length": 12288,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/Microsoft.AspNetCore.Authorization.dll",
+      "sha256": "ff88bc4c3b0470513389fc868f288e50b191fb41e59c48e4dda0fbab031d1d8e",
+      "length": 15872,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/Microsoft.AspNetCore.Authorization.Policy.dll",
+      "sha256": "e79ec0566ab7260f3481aa1a2fd8d5f0f12f66b8c6e479006babb2575c52b99a",
+      "length": 15360,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/Microsoft.AspNetCore.Connections.Abstractions.dll",
+      "sha256": "0e767375d19898d66e18480b677b27ae155c0b5ff8c1470264e778454c4bea1b",
+      "length": 6656,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/Microsoft.AspNetCore.Diagnostics.Abstractions.dll",
+      "sha256": "8d6d3ba0039fd2786adceb3093e37c02bb5a6de8a3d5977084c78c20adca2126",
+      "length": 7168,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/Microsoft.AspNetCore.Diagnostics.dll",
+      "sha256": "c6ecd3a4fe75087c17bf9f13c602e249f3bca9186db316c5c29e413a2e4bbe43",
+      "length": 117248,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/Microsoft.AspNetCore.dll",
+      "sha256": "857a1f53fdc7a7705df6c56c6060a0846bd236de1ab24756220b1f87d35015bc",
+      "length": 33280,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/Microsoft.AspNetCore.HostFiltering.dll",
+      "sha256": "30a76f6e47717c702269ed45ab56fddc77d3ac9dfd7cc8bceea282d7988b0720",
+      "length": 6144,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/Microsoft.AspNetCore.Hosting.Abstractions.dll",
+      "sha256": "c701c727ffb961142a22d71f830d30df5e2dbf73d447697e6b757896210f3f95",
+      "length": 8704,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/Microsoft.AspNetCore.Hosting.dll",
+      "sha256": "8fc800ed122eff88ed1eb4674dcf2db9d769e5864bd908fcd7ff1c61aa0be4f5",
+      "length": 29696,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/Microsoft.AspNetCore.Hosting.Server.Abstractions.dll",
+      "sha256": "d646a591a272801f816bfe3d112755605112fdeff550a469787b22268364d390",
+      "length": 6144,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/Microsoft.AspNetCore.Http.Abstractions.dll",
+      "sha256": "c93bee42e842798639073eb86e8c5fa95c1eb58a2ea9ceaebb329fc9a6826803",
+      "length": 65024,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/Microsoft.AspNetCore.Http.dll",
+      "sha256": "d1f0d8ca447487cec2c48908d24702d70318af764125317485d88f75f7b37d42",
+      "length": 64000,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/Microsoft.AspNetCore.Http.Extensions.dll",
+      "sha256": "1cb131bcee11c922eaf33141de452b02e69ea4abc5fb3c35c1e00b56d296e93f",
+      "length": 18944,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/Microsoft.AspNetCore.Http.Features.dll",
+      "sha256": "35bcba20f233f3c7035283afb37fec5cc219a4a13dae81a73b8ea0a9604ae365",
+      "length": 10752,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/Microsoft.AspNetCore.Http.Results.dll",
+      "sha256": "a4bc259efbf77d4d605564b2f53702b20526899bb9ebde9d3d9b3228b9bce890",
+      "length": 27648,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/Microsoft.AspNetCore.HttpOverrides.dll",
+      "sha256": "87d3aba3642d89c81cdba912d58928320de40ce78c5b1dc0ea8eca74c4937ac9",
+      "length": 7168,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/Microsoft.AspNetCore.Metadata.dll",
+      "sha256": "78858de171660c0a1f03c09f02bb785965a0bda11690c1fe43913ec0ae646a8e",
+      "length": 5632,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/Microsoft.AspNetCore.Routing.Abstractions.dll",
+      "sha256": "b4b3f13e3574dadf211c017d5647e46ef8d17ba5a9402269a3d13baf61ab5b90",
+      "length": 9216,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/Microsoft.AspNetCore.Routing.dll",
+      "sha256": "00e532594167759609e2de72a03ba45332da92117bf4f9363a65f2c0cd347a99",
+      "length": 202752,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/Microsoft.AspNetCore.Server.Kestrel.Core.dll",
+      "sha256": "9121f31746ff64cac51c71b47e73b00b565e124dc56b527d6eda7b39c51c857b",
+      "length": 119296,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/Microsoft.AspNetCore.Server.Kestrel.dll",
+      "sha256": "507e0cc403fa2450f20360f1f838f382a52bfc22edfed7264efa7ba0d81345d0",
+      "length": 9216,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/Microsoft.AspNetCore.Server.Kestrel.Transport.NamedPipes.dll",
+      "sha256": "95218d4d9bfe50c8838e64609947d2b0a971a25fef25b4fc101c3a551b62c36f",
+      "length": 15872,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.dll",
+      "sha256": "072ace4ac049184732fe21913c48fe1c5ac3c8ed07c1c25ea0ab192587e94ba9",
+      "length": 14848,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/Microsoft.AspNetCore.WebUtilities.dll",
+      "sha256": "34f97696a8a404dcf9fdc5b967ed1df0cb783e76cbf2babcf34c7c1c9033676d",
+      "length": 13312,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/Microsoft.DiaSymReader.Native.amd64.dll",
+      "sha256": "70e4b89978ce57ef87b28f4921f3140c383b04aa96e7f3bdb3c4ebb898fd8a72",
+      "length": 2377016,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/Microsoft.Extensions.Configuration.Abstractions.dll",
+      "sha256": "a79ef051509d15364360969f6df1ee3516e5f3d7e9af2d19337593d7efefb232",
+      "length": 10752,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/Microsoft.Extensions.Configuration.Binder.dll",
+      "sha256": "2df4a8138ad42a05bcd7b07e566e0c05d34f0629c1d318b438951eb54e0678a7",
+      "length": 9728,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/Microsoft.Extensions.Configuration.CommandLine.dll",
+      "sha256": "4f7615f43366f026924d3cb60063556e8447b74a9075d0748da6d370a02ecbd0",
+      "length": 11264,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/Microsoft.Extensions.Configuration.dll",
+      "sha256": "cd792d105f7b5e494df3e7967152b3bb47e66672274d08c97edf9c337b0749c3",
+      "length": 29184,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/Microsoft.Extensions.Configuration.EnvironmentVariables.dll",
+      "sha256": "8fab71dc9e6c4aed1bfe82069b774b7124323dfda09a0873e30b95a405d7e3a1",
+      "length": 10752,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/Microsoft.Extensions.Configuration.FileExtensions.dll",
+      "sha256": "58d960ada02cbe585c6c1fa10416fa3cb42016ac89c72e1af5f7501f4c14bd19",
+      "length": 13824,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/Microsoft.Extensions.Configuration.Json.dll",
+      "sha256": "73dcee7b42e2fcfcb6439d33e4afb0a30d3edd6c0959c12502f9972030186580",
+      "length": 13312,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/Microsoft.Extensions.Configuration.UserSecrets.dll",
+      "sha256": "1a87284340af91d78c7e3414489cf4879c8f2fbcd9f1fa31ae07ae48ca4897c3",
+      "length": 12288,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/Microsoft.Extensions.DependencyInjection.Abstractions.dll",
+      "sha256": "0ef2d8c8850f9cdd1ac90c1f73b006af9e1c0c951bacd4c0c7b7bb0c803aab88",
+      "length": 32768,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/Microsoft.Extensions.DependencyInjection.dll",
+      "sha256": "9fffc64fa3cedef4a86acdccb34b63d133dd0cb38a6ee8827472528c9517d526",
+      "length": 74752,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/Microsoft.Extensions.Diagnostics.Abstractions.dll",
+      "sha256": "92429df26618aa634db50006533cac9af8fbdc5aec71aeb4faddda11ac65708f",
+      "length": 9216,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/Microsoft.Extensions.Diagnostics.dll",
+      "sha256": "145cc32efd1719cf4ffb4641f6d0cbfb32e8c3ce9342ebdc623d2aaf249a2652",
+      "length": 16384,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/Microsoft.Extensions.Features.dll",
+      "sha256": "cbec4e4ee695ffd12bb2801d5c3ee454d8f26df05a41d3be9b3a55c844c77996",
+      "length": 14336,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/Microsoft.Extensions.FileProviders.Abstractions.dll",
+      "sha256": "0b6c593f9d16a346b4278747e6f8ee3357cf236a340f12d1b376b818db7bf7d0",
+      "length": 8704,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/Microsoft.Extensions.FileProviders.Physical.dll",
+      "sha256": "0275f8baf3b0e441a65cc22ff8e3bcd7eec21e56f343330825ee9c57e43dc593",
+      "length": 27648,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/Microsoft.Extensions.FileSystemGlobbing.dll",
+      "sha256": "16ba4a279e668f52eeeaf89e460246970737a19c305ffd5100e256c2dc9494ad",
+      "length": 32256,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/Microsoft.Extensions.Hosting.Abstractions.dll",
+      "sha256": "7bc8621a00d50fb2c85a4a99007e81d0488902b15e82ed5ab2203d0b6ed7aa72",
+      "length": 9728,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/Microsoft.Extensions.Hosting.dll",
+      "sha256": "58df9f8bf364b34074552c7f4eba6e2a46e5dd78086b32b5853a8aed76dd0c58",
+      "length": 30208,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/Microsoft.Extensions.Logging.Abstractions.dll",
+      "sha256": "a6b921720040ea28054f62f7fa0a3291340c4d1502f94e17a3cb37cf5d591c78",
+      "length": 42496,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/Microsoft.Extensions.Logging.Configuration.dll",
+      "sha256": "0317e2fd94ce6ebe34aba8a0c081d32d9bea55e1bf0629d40b4374afb2526f69",
+      "length": 13312,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/Microsoft.Extensions.Logging.Console.dll",
+      "sha256": "abf87cbdde4e7f09e28b5af47ee8956588fdc06d7c6887c4fac130cace0ad15f",
+      "length": 50176,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/Microsoft.Extensions.Logging.dll",
+      "sha256": "e866097ccd0ae8a67e94ab0cb764bb4219b0b75db4573369946c34b449105f7e",
+      "length": 29696,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/Microsoft.Extensions.ObjectPool.dll",
+      "sha256": "b32613c8c72e55a2f012843250d465d0957d9cce8341e665b8072eb9a872e5fd",
+      "length": 8704,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/Microsoft.Extensions.Options.ConfigurationExtensions.dll",
+      "sha256": "f0e341cbbddfb681057038ed6e3eac6fcf50f70f18c7041c0ad176770dde4f80",
+      "length": 6144,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/Microsoft.Extensions.Options.dll",
+      "sha256": "7b7b371988c2d9d95e0e7d0319ae42417309acc80dbba567e0b21a37d1b0b42e",
+      "length": 23040,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/Microsoft.Extensions.Primitives.dll",
+      "sha256": "39192f19bf72041897b9150a369bba3c264dd0bbaeac18ea19748773e4ef5175",
+      "length": 27648,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/Microsoft.Net.Http.Headers.dll",
+      "sha256": "6e5be5cabef8ce7e5af89dd6b96626a09fc9370003dc7d077fcf9370c8fd20b9",
+      "length": 41472,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/mscordaccore_amd64_amd64_10.0.1226.42308.dll",
+      "sha256": "86c29a7b945525135de16c3dcb71e3b8517848c459cbb21395b352d4e6bba09c",
+      "length": 1356640,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/mscordaccore.dll",
+      "sha256": "86c29a7b945525135de16c3dcb71e3b8517848c459cbb21395b352d4e6bba09c",
+      "length": 1356640,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/mscordbi.dll",
+      "sha256": "753e92805f3886221f56dcfc07191ad7ee44235bf689db0490bdf777f25e9175",
+      "length": 1237888,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/mscorrc.dll",
+      "sha256": "f0d8c7491d4659a4c5a4c00615255a60e05634f311162c2775a51e03c070c9e0",
+      "length": 133968,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/msquic.dll",
+      "sha256": "b7158d427b01c70483bb3d80c5211e387dd98e9471c8a70e4484d449de9157e8",
+      "length": 536344,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/System.Collections.Concurrent.dll",
+      "sha256": "aa2490bb93afd16c6206e7b44b862cfe7401993d40d2af32cfd126f1066955ad",
+      "length": 32256,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/System.Collections.dll",
+      "sha256": "8e8aad5fde4a1153f54fd80c72d53333e6b8a253c47d88022a8054e8b00eff2f",
+      "length": 17920,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/System.Collections.Immutable.dll",
+      "sha256": "d9aecc1282d4a801577bf3ba805420bea18fa6b07bd269564b1c9f3072f2c1a5",
+      "length": 65536,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/System.ComponentModel.dll",
+      "sha256": "639a0d8edeb64ea20c107a8149af9e83f8ee09ae8482b8accad0659a2990a2e5",
+      "length": 5120,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/System.ComponentModel.Primitives.dll",
+      "sha256": "a5443d85bf19b5fab176029fc889c2e1bdc0e41dd9bf7e6d3a2eb508cdd1c70e",
+      "length": 12288,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/System.ComponentModel.TypeConverter.dll",
+      "sha256": "203baa4e950cfae57899915c68a717f244622e9406420b41bfe491328285c24a",
+      "length": 14336,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/System.Console.dll",
+      "sha256": "fe7c873248ad3fc22b5fc9fc14fa0a156382eb6f3347fef8d671c41ac0440934",
+      "length": 37376,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/System.Diagnostics.DiagnosticSource.dll",
+      "sha256": "908d7fe521d1ba58e44b6d70a32f2d648866f9b7ae5609b8dd9804e9234294f4",
+      "length": 150528,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/System.Diagnostics.StackTrace.dll",
+      "sha256": "340ce828d2279d53435adca686d9f0fdcc2a0a1ed98efb770f036483446f3f25",
+      "length": 9216,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/System.dll",
+      "sha256": "374c801256b2ab5538e5bff8d7dcb253702d5d1dc8ea2e8715bca17f763eaced",
+      "length": 5120,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/System.IO.Compression.dll",
+      "sha256": "9f523c4011a7dfa8ceb3c1e61876bcbfa8d9594b446cf1b898c2ebd170b91fb5",
+      "length": 39424,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/System.IO.Compression.Native.dll",
+      "sha256": "4d174b78aa8b3516c7e3cec0355dfe9ae570894055c377d2e5565d077a9a7a1e",
+      "length": 937256,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/System.IO.FileSystem.Watcher.dll",
+      "sha256": "4c726eb4c0d1715a4e18c2bcd5d83cce50ca82c5b6c163722ee35d8f0aa7d21b",
+      "length": 26112,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/System.IO.MemoryMappedFiles.dll",
+      "sha256": "1f2d324ea9865d75467bf3462e55cb96e0d2893b883e77bce25dce3b8357db90",
+      "length": 25600,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/System.IO.Pipelines.dll",
+      "sha256": "9711ffb5b6f2b627d12f4d273bf62a4cb226f13bf8553678326fbdb02d2004b7",
+      "length": 20992,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/System.IO.Pipes.dll",
+      "sha256": "51661937c9780a8e91065899930f8b2425abe295f9e186cbe64c1b673eeb32eb",
+      "length": 44032,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/System.Linq.dll",
+      "sha256": "49330b2f90ec33dea73496893ab077cc64878e1bfb10fc9b4ee422865bb58677",
+      "length": 73728,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/System.Linq.Expressions.dll",
+      "sha256": "f59647e07b4092e1f37f7471d4bce4175c9ea69bebd0aac34dcd4542f7cda27e",
+      "length": 436736,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/System.Memory.dll",
+      "sha256": "85ba27d9647b29936891447364e88c568b8b40860cc49a801138da3d055055fa",
+      "length": 26112,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/System.Net.Primitives.dll",
+      "sha256": "cdddef123fed8e133ab74128894f43737f5d6eba1b71765b1df74f9cd41d250e",
+      "length": 36352,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/System.Net.Security.dll",
+      "sha256": "1c11f77a66a19549b5c42bc3a127eb1a9ac87aa121f0137ff7e0b5b95b6192e2",
+      "length": 20992,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/System.Net.Sockets.dll",
+      "sha256": "c331d0c985525c7f0e692db05486e30ecd4e61bcce6df5ccc99a317d91163a51",
+      "length": 56320,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/System.ObjectModel.dll",
+      "sha256": "928ada3f2a70e4d91ea60b56ac7fca542c3cd3686e431e0f942e74ea954d945c",
+      "length": 16384,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/System.Private.CoreLib.dll",
+      "sha256": "4a83155002d0584a1e338430972729fee8d0a4ed9d98587b43f627d8e0cb9c58",
+      "length": 2842624,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/System.Private.Uri.dll",
+      "sha256": "a082a38c352c03191b016c9190e727a45c7e412f73e6bf3ab691455716ad757e",
+      "length": 22528,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/System.Reflection.Metadata.dll",
+      "sha256": "2a15505a8863e7c223b1f51d134abc76e51e841831a7cd9c32139cf3c2f655fe",
+      "length": 110592,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/System.Runtime.dll",
+      "sha256": "043ed42d48c29e5c5d5d2d112df2035ddc9e9f2f8317373d77d814a6cffde899",
+      "length": 9728,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/System.Security.AccessControl.dll",
+      "sha256": "799e940629b2ee2273f2b2379ed97179c97060e7767f3c28a1f924d850ba091c",
+      "length": 46080,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/System.Security.Claims.dll",
+      "sha256": "9affbb2414fe82e768ff19d7f8202e78dab1a55348dcd38334bbc3307ea8b587",
+      "length": 15872,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/System.Security.Cryptography.dll",
+      "sha256": "f7d9ecc5ccae45d5d7874d6b1f1051bb7b68d44877323dbac091efa4304a4e59",
+      "length": 69632,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/System.Security.Principal.Windows.dll",
+      "sha256": "307f4d604292fc4c09aee58d768cb2fe16ece633a45147dd3c28c0304898de39",
+      "length": 56320,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/System.Text.Encodings.Web.dll",
+      "sha256": "1bacfeff9d0cbc0da914e628ed29427edc650441135de6f1484e2afdd244fb46",
+      "length": 38912,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/System.Text.Json.dll",
+      "sha256": "f15c0d815ece38ae865d5995a722be937fdaf2f83345cfa9ead35676348152a0",
+      "length": 270848,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/System.Text.RegularExpressions.dll",
+      "sha256": "e380250d1572b833d310f9c496243d0fb1c431e39ddb9c2dc031a178249b5cf4",
+      "length": 24576,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/System.Threading.Channels.dll",
+      "sha256": "bd0229d17678a4fbe42b7f16a57a0b302295b9a25a31a278fb7828df84c15833",
+      "length": 45056,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/System.Threading.dll",
+      "sha256": "591bc3f10cfb84fd38fbfe7f0bb96234ad97f065c9c78754b2ba42ec42978c41",
+      "length": 12288,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/AspNetCoreTrimmed/publish/web.config",
+      "sha256": "57b94a6aefe713ddbecc809e7898eafb4263223b82676bb30421dc87850fd18d",
+      "length": 502,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/compatibility-results.json",
+      "sha256": "a64502d9c60903e79ddf46e777e8e344d237250d54387706113874e1b53d2f4f",
+      "length": 5996,
+      "category": "r4-record",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/CoreNativeAot/publish/FunnySharp.Compatibility.Core.exe",
+      "sha256": "83a38f4f1a059cf47f4eedb5947f20d4c7a5eb915816fc762b57fe83e9f20371",
+      "length": 1787904,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/CoreNativeAot/publish/FunnySharp.Compatibility.Core.pdb",
+      "sha256": "6a558b2c022f7163cb916d5551e5f5479c3f3ffeb2be9493e2d0e2ef07b2c262",
+      "length": 9359360,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/CoreTrimmed/publish/clretwrc.dll",
+      "sha256": "7a2186201c87bbc597a1b8b26facd88e68f03be4c4a4211fd65cc6595c72e45b",
+      "length": 317736,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/CoreTrimmed/publish/clrgc.dll",
+      "sha256": "65e2f97d263824bfb9f75f92e66ebd22229aaf3a5faddef9345811d856c8840e",
+      "length": 674088,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/CoreTrimmed/publish/clrgcexp.dll",
+      "sha256": "23a8050ec68542989b6da6cc906a90faf8a14e6416fd2871a260b781b1c374ae",
+      "length": 711464,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/CoreTrimmed/publish/clrjit.dll",
+      "sha256": "0749d8fc8e944d0576e1bb47120f87add8f875e5cd8968995633063fc79256f6",
+      "length": 2092328,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/CoreTrimmed/publish/coreclr.dll",
+      "sha256": "128aee8c62a673d64739e585e3876b61133571cec83a46240a62581d5465639b",
+      "length": 4614992,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/CoreTrimmed/publish/createdump.exe",
+      "sha256": "315307159925d33eb604186a512901d080ecfc4cd8b8198030a7d398c6af2b0b",
+      "length": 71552,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/CoreTrimmed/publish/FunnySharp.Compatibility.Core.deps.json",
+      "sha256": "9bc5e986b3431a45e50bd85fbd99cf9741b639ad58259ead8d3378c7e0f35cd6",
+      "length": 5177,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/CoreTrimmed/publish/FunnySharp.Compatibility.Core.dll",
+      "sha256": "91d89e18b7adae994c4217a4863cc6f52ef386ecab7b9ef4c24db9c8820a13b6",
+      "length": 18944,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/CoreTrimmed/publish/FunnySharp.Compatibility.Core.exe",
+      "sha256": "2a3b607391336c5d41c4793fdae04578bb821fcf7af2eb19063f34a22b39cd2c",
+      "length": 162816,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/CoreTrimmed/publish/FunnySharp.Compatibility.Core.pdb",
+      "sha256": "74632dcf7ed84139972e3a9990cf2dafe019e7250542a81cd3d122199ff97f7b",
+      "length": 13084,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/CoreTrimmed/publish/FunnySharp.Compatibility.Core.runtimeconfig.json",
+      "sha256": "c05a5ac961882af1416036bd19ad07c6a2839055ed43bf7af1946a8046a268c2",
+      "length": 1769,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/CoreTrimmed/publish/FunnySharp.dll",
+      "sha256": "b24d258dc8b27d8ccb6e7f545942db85b4b2adbe601c4f044cb5cc613fe47ad3",
+      "length": 260608,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/CoreTrimmed/publish/hostfxr.dll",
+      "sha256": "838591885c5396fb0588a3aedc2f3e841d3afc67570868b1bce615264005a44c",
+      "length": 379688,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/CoreTrimmed/publish/hostpolicy.dll",
+      "sha256": "e92a2e71eeeaf7c574e905935b3e3724ef29bade44317659dbe06f505e99dbe0",
+      "length": 378664,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/CoreTrimmed/publish/Microsoft.DiaSymReader.Native.amd64.dll",
+      "sha256": "70e4b89978ce57ef87b28f4921f3140c383b04aa96e7f3bdb3c4ebb898fd8a72",
+      "length": 2377016,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/CoreTrimmed/publish/mscordaccore_amd64_amd64_10.0.1226.42308.dll",
+      "sha256": "86c29a7b945525135de16c3dcb71e3b8517848c459cbb21395b352d4e6bba09c",
+      "length": 1356640,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/CoreTrimmed/publish/mscordaccore.dll",
+      "sha256": "86c29a7b945525135de16c3dcb71e3b8517848c459cbb21395b352d4e6bba09c",
+      "length": 1356640,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/CoreTrimmed/publish/mscordbi.dll",
+      "sha256": "753e92805f3886221f56dcfc07191ad7ee44235bf689db0490bdf777f25e9175",
+      "length": 1237888,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/CoreTrimmed/publish/mscorrc.dll",
+      "sha256": "f0d8c7491d4659a4c5a4c00615255a60e05634f311162c2775a51e03c070c9e0",
+      "length": 133968,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/CoreTrimmed/publish/msquic.dll",
+      "sha256": "b7158d427b01c70483bb3d80c5211e387dd98e9471c8a70e4484d449de9157e8",
+      "length": 536344,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/CoreTrimmed/publish/System.Collections.Concurrent.dll",
+      "sha256": "631c960dde65fe36689cf9e24a549849b7877176febea7d31ccf7eac08aa1ca9",
+      "length": 29184,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/CoreTrimmed/publish/System.Collections.dll",
+      "sha256": "f468c257eeb73176faf1f5e841432aeed09650cbeefcbbec1a6a86234dc562c2",
+      "length": 13312,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/CoreTrimmed/publish/System.Collections.Immutable.dll",
+      "sha256": "3164548c0c9a815d05daf79de9100fd7b2ec2c6cf022a5f0ddda77ed842e0d62",
+      "length": 26112,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/CoreTrimmed/publish/System.Console.dll",
+      "sha256": "83250133204c32cdef5cbbb615d3ca821bc8714207fd628df125d88ed388101d",
+      "length": 33280,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/CoreTrimmed/publish/System.Diagnostics.DiagnosticSource.dll",
+      "sha256": "b37e4943b8aca58b6f5c3b0e2c510d77e01ce1654c59dc4566ad52a57bb9b9df",
+      "length": 109568,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/CoreTrimmed/publish/System.Diagnostics.StackTrace.dll",
+      "sha256": "340ce828d2279d53435adca686d9f0fdcc2a0a1ed98efb770f036483446f3f25",
+      "length": 9216,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/CoreTrimmed/publish/System.IO.Compression.dll",
+      "sha256": "03f9bd6b4e99356c0f4448b2e4b5436fa5503a98179a94509eaca5875186fe5b",
+      "length": 36352,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/CoreTrimmed/publish/System.IO.Compression.Native.dll",
+      "sha256": "4d174b78aa8b3516c7e3cec0355dfe9ae570894055c377d2e5565d077a9a7a1e",
+      "length": 937256,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/CoreTrimmed/publish/System.IO.MemoryMappedFiles.dll",
+      "sha256": "1f2d324ea9865d75467bf3462e55cb96e0d2893b883e77bce25dce3b8357db90",
+      "length": 25600,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/CoreTrimmed/publish/System.Linq.dll",
+      "sha256": "03d16f6a2fc87bb75697434227e4ec379e5b8be0f759f58295d1b5fb126a922e",
+      "length": 22016,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/CoreTrimmed/publish/System.Memory.dll",
+      "sha256": "e61303ebed3d8db6efba56ede74d0d38cbb3c4be174deea2a721897e2b31b4b7",
+      "length": 7680,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/CoreTrimmed/publish/System.Private.CoreLib.dll",
+      "sha256": "5019d489c6fe1029c9e596b745364dae171e46e25e0f819e1fb50b62fac9b3d3",
+      "length": 2568704,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/CoreTrimmed/publish/System.Reflection.Metadata.dll",
+      "sha256": "5178d3d50eea2e81eda3372df982c8eba1ae467e25a6d5a3d259cfc0327f826a",
+      "length": 109568,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/CoreTrimmed/publish/System.Runtime.dll",
+      "sha256": "3e7bbffa6dee886ead4668e8411e10db6aca3ee67101c9814eb5fb127fe7f773",
+      "length": 9728,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/CoreTrimmed/publish/System.Threading.Channels.dll",
+      "sha256": "a6f340c97cce5300444a148eddf86dbe5f6b0e326cdb5c86fad96cfe5f878c30",
+      "length": 45056,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/CoreTrimmed/publish/System.Threading.dll",
+      "sha256": "591bc3f10cfb84fd38fbfe7f0bb96234ad97f065c9c78754b2ba42ec42978c41",
+      "length": 12288,
+      "category": "compatibility-publish",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/compatibility-run/NuGet.Config",
+      "sha256": "78bfdcf6fbf9ffafe0244ccba03f2c5ba51dca5eb89f5edee761f3d7aa63b277",
+      "length": 863,
+      "category": "r4-record",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/execution-evidence.json",
+      "sha256": "0d21f5b49877845f97c034e3cb2f5ee90932e23238e10bb8a16e7fa83ada2aef",
+      "length": 3717504,
+      "category": "r4-record",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/logs/01-clean.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "length": 0,
+      "category": "r4-record",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/logs/01-clean.stdout.log",
+      "sha256": "c38e6d84793d9645cb8264aae257f5b40307a90a050f97910a2b50180cdf7361",
+      "length": 23683,
+      "category": "r4-record",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/logs/02-restore.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "length": 0,
+      "category": "r4-record",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/logs/02-restore.stdout.log",
+      "sha256": "10b50edb47fead23a441ec190aef607356b8aed0c72f0849ba1fa76a04d15ec8",
+      "length": 1807,
+      "category": "r4-record",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/logs/03-build.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "length": 0,
+      "category": "r4-record",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/logs/03-build.stdout.log",
+      "sha256": "1efb86de9b0c5bcd7a2d546da49a922c48817ced771cb7faca32e21829786c94",
+      "length": 2125,
+      "category": "r4-record",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/logs/04-test.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "length": 0,
+      "category": "r4-record",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/logs/04-test.stdout.log",
+      "sha256": "31e3b22adab70b0c1957511da88d114cd484be9129aa8d65318b60f60e046e34",
+      "length": 2067,
+      "category": "r4-record",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/logs/05-examples.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "length": 0,
+      "category": "r4-record",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/logs/05-examples.stdout.log",
+      "sha256": "93d470e447014ae75c2acbcea365b0470e0c08ef835ceb17be4933d5ff30fbae",
+      "length": 29,
+      "category": "r4-record",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/logs/06-aspnetcore-examples.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "length": 0,
+      "category": "r4-record",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/logs/06-aspnetcore-examples.stdout.log",
+      "sha256": "48ed32ffa073fc2c8f4fcc163667f260c0260350d645098763d4d9a560662c59",
+      "length": 51,
+      "category": "r4-record",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/logs/07-pack.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "length": 0,
+      "category": "r4-record",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/logs/07-pack.stdout.log",
+      "sha256": "b105758a89925041e08b993a4a6a8d79edbd62deabd83852a0d586ba9ad278ba",
+      "length": 780,
+      "category": "r4-record",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/logs/08-format.stderr.log",
+      "sha256": "d8f7341d3df9d66df117e77a0ddbbc37788e6c54abc5d0f527f909948609c857",
+      "length": 365,
+      "category": "r4-record",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/logs/08-format.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "length": 0,
+      "category": "r4-record",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/logs/09-performance-protocol-tests.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "length": 0,
+      "category": "r4-record",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/logs/09-performance-protocol-tests.stdout.log",
+      "sha256": "2e690cf04e3f7a4194d8a94900f2bd92afc23dbc59dc410a1fd1eaf530ca145e",
+      "length": 435,
+      "category": "r4-record",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/logs/10-release-protocol-tests.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "length": 0,
+      "category": "r4-record",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/logs/10-release-protocol-tests.stdout.log",
+      "sha256": "57330eecf2a55f1259ff30ed8b6d36a618aa1d7b39280ee31fffeac05aa1cd3b",
+      "length": 435,
+      "category": "r4-record",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/logs/11-benchmark-preflight.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "length": 0,
+      "category": "r4-record",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/logs/11-benchmark-preflight.stdout.log",
+      "sha256": "0fb6e3b6713a51fc689017d7da48d5e17a727f71bf3143c31bc6b016a9be975e",
+      "length": 89031,
+      "category": "r4-record",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/logs/12-performance-docs-verify.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "length": 0,
+      "category": "r4-record",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/logs/12-performance-docs-verify.stdout.log",
+      "sha256": "bb1b8f581299da94a55eb769ccd280e87b8280f5ad05c8332982958c8f01b933",
+      "length": 2215,
+      "category": "r4-record",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/logs/13-competitor-performance-docs-verify.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "length": 0,
+      "category": "r4-record",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/logs/13-competitor-performance-docs-verify.stdout.log",
+      "sha256": "b9a3fb4349001588efa7b470b5d4e803438b0d774b646ef718750943e19a6526",
+      "length": 2215,
+      "category": "r4-record",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/logs/14-compatibility.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "length": 0,
+      "category": "r4-record",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/logs/14-compatibility.stdout.log",
+      "sha256": "c98da43e31055cee2d86d758944270c6f19f735214f618c342a515a4bc839d33",
+      "length": 14663,
+      "category": "r4-record",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/packages/FunnySharp.0.2.0.nupkg",
+      "sha256": "6af81334e54911a4eeb3ed18189a8a88f302b70af4228af963cdffc7273492fb",
+      "length": 167909,
+      "category": "r4-record",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/packages/FunnySharp.0.2.0.nupkg::_rels/.rels",
+      "sha256": "5a3ffc666672e52417e20f10b0ab340059e1bf96067e0f0d9b244d5f94e90234",
+      "length": 477,
+      "category": "package-entry",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/packages/FunnySharp.0.2.0.nupkg::[Content_Types].xml",
+      "sha256": "53789202a7a62de78987becbf3ade1d56e9cb6e6fd525e8db9d2f1d352cb0425",
+      "length": 590,
+      "category": "package-entry",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/packages/FunnySharp.0.2.0.nupkg::analyzers/dotnet/cs/FunnySharp.Analyzers.CodeFixes.dll",
+      "sha256": "47d35ee0875c9a46e599642b9ee138e49a1a4847dbb493c25cd905d699f7dd03",
+      "length": 14336,
+      "category": "package-entry",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/packages/FunnySharp.0.2.0.nupkg::analyzers/dotnet/cs/FunnySharp.Analyzers.dll",
+      "sha256": "f67599e98b026111e1ec2acdea7b2158993881ae8429bb9cfd901437e97feb57",
+      "length": 33792,
+      "category": "package-entry",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/packages/FunnySharp.0.2.0.nupkg::FunnySharp.nuspec",
+      "sha256": "c0055d5f42edabc9e2b695a99925f1f66e40b315eeb8a8634a5e58a3afc7ae8f",
+      "length": 824,
+      "category": "package-entry",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/packages/FunnySharp.0.2.0.nupkg::lib/net10.0/FunnySharp.dll",
+      "sha256": "304aa5e354b74c1ee4dab175386d8c292973339c6d38858bf34973b3f4b1836c",
+      "length": 262656,
+      "category": "package-entry",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/packages/FunnySharp.0.2.0.nupkg::lib/net10.0/FunnySharp.xml",
+      "sha256": "d3b702f19dc04d5779e3e80757065ce2a76684cabbbb8dcc126f1c429f08a9f1",
+      "length": 474862,
+      "category": "package-entry",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/packages/FunnySharp.0.2.0.nupkg::package/services/metadata/core-properties/nuget.psmdcp",
+      "sha256": "24ffb670100261b0de4c68d367866bab381dffc5e4a9bdfcdf9a605c11da4ec8",
+      "length": 704,
+      "category": "package-entry",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/packages/FunnySharp.0.2.0.nupkg::README.md",
+      "sha256": "cc536213ce3dd198741dd81ae4518fd492f24016400b9cbd02b5e85f2d2be517",
+      "length": 12229,
+      "category": "package-entry",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/packages/FunnySharp.0.2.0.snupkg",
+      "sha256": "d814e58eb23223e6d54d95ae37bcfa58f691caa3640e63964cdd6e3c1b8cb94f",
+      "length": 31418,
+      "category": "r4-record",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/packages/FunnySharp.0.2.0.snupkg::_rels/.rels",
+      "sha256": "5a3ffc666672e52417e20f10b0ab340059e1bf96067e0f0d9b244d5f94e90234",
+      "length": 477,
+      "category": "package-entry",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/packages/FunnySharp.0.2.0.snupkg::[Content_Types].xml",
+      "sha256": "7231b19176af994340683e6c8b355dd0ac468f12b9808a76ec69d1e786964e1a",
+      "length": 465,
+      "category": "package-entry",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/packages/FunnySharp.0.2.0.snupkg::FunnySharp.nuspec",
+      "sha256": "2237ec2e810345a8ffa195880f4d7962d11b30e0791858e1221127cda949b024",
+      "length": 723,
+      "category": "package-entry",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/packages/FunnySharp.0.2.0.snupkg::lib/net10.0/FunnySharp.pdb",
+      "sha256": "cfa0dd49e82e6d9648485ef56a8668eefbc8d3ebb3a870d56c68088b2f57d16c",
+      "length": 62252,
+      "category": "package-entry",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/packages/FunnySharp.0.2.0.snupkg::package/services/metadata/core-properties/nuget.psmdcp",
+      "sha256": "24ffb670100261b0de4c68d367866bab381dffc5e4a9bdfcdf9a605c11da4ec8",
+      "length": 704,
+      "category": "package-entry",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/packages/FunnySharp.AspNetCore.0.2.0.nupkg",
+      "sha256": "0aba875d8fa369a1ecd93edca7a19f08ec51a14b2711ba6e54eb4a22cd1721bc",
+      "length": 16210,
+      "category": "r4-record",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/packages/FunnySharp.AspNetCore.0.2.0.nupkg::_rels/.rels",
+      "sha256": "80573c324dab0becad10ac14e52f245178688871590e8ae75e752edbe687ad8a",
+      "length": 488,
+      "category": "package-entry",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/packages/FunnySharp.AspNetCore.0.2.0.nupkg::[Content_Types].xml",
+      "sha256": "53789202a7a62de78987becbf3ade1d56e9cb6e6fd525e8db9d2f1d352cb0425",
+      "length": 590,
+      "category": "package-entry",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/packages/FunnySharp.AspNetCore.0.2.0.nupkg::FunnySharp.AspNetCore.nuspec",
+      "sha256": "4710a8af1c00b55afacc48579fe1cd1f5db82c0ee2e880d976abec10cd47a2e1",
+      "length": 1145,
+      "category": "package-entry",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/packages/FunnySharp.AspNetCore.0.2.0.nupkg::lib/net10.0/FunnySharp.AspNetCore.dll",
+      "sha256": "5e3603e2bb5cb4f490b51605a742885d97d3d50d57ae9d9c377d3c3f5c199f45",
+      "length": 19456,
+      "category": "package-entry",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/packages/FunnySharp.AspNetCore.0.2.0.nupkg::lib/net10.0/FunnySharp.AspNetCore.xml",
+      "sha256": "27af8c3d2b65daa59a081f0b24674be0c41fe9cd652a19455cce01f2637e66d0",
+      "length": 32514,
+      "category": "package-entry",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/packages/FunnySharp.AspNetCore.0.2.0.nupkg::package/services/metadata/core-properties/nuget.psmdcp",
+      "sha256": "43c94ae0de45727ea3f1b05f91d1ec5d9a324f2beb6142feecf77ee95e3823b0",
+      "length": 753,
+      "category": "package-entry",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/packages/FunnySharp.AspNetCore.0.2.0.nupkg::README.md",
+      "sha256": "cc536213ce3dd198741dd81ae4518fd492f24016400b9cbd02b5e85f2d2be517",
+      "length": 12229,
+      "category": "package-entry",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/packages/FunnySharp.AspNetCore.0.2.0.snupkg",
+      "sha256": "d3471f26b861caf7deaf59904105c892e4add06a64d65c1dfd207895384f4335",
+      "length": 14576,
+      "category": "r4-record",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/packages/FunnySharp.AspNetCore.0.2.0.snupkg::_rels/.rels",
+      "sha256": "80573c324dab0becad10ac14e52f245178688871590e8ae75e752edbe687ad8a",
+      "length": 488,
+      "category": "package-entry",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/packages/FunnySharp.AspNetCore.0.2.0.snupkg::[Content_Types].xml",
+      "sha256": "7231b19176af994340683e6c8b355dd0ac468f12b9808a76ec69d1e786964e1a",
+      "length": 465,
+      "category": "package-entry",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/packages/FunnySharp.AspNetCore.0.2.0.snupkg::FunnySharp.AspNetCore.nuspec",
+      "sha256": "ecd8565aa589b1f4272db264c1cb2061ee8a36c3c994f88a57a8589976784288",
+      "length": 1044,
+      "category": "package-entry",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/packages/FunnySharp.AspNetCore.0.2.0.snupkg::lib/net10.0/FunnySharp.AspNetCore.pdb",
+      "sha256": "c20f8c227fdfc0da9b96585a632ac1acee0c770cd9cd1121a4cec124fffb3d76",
+      "length": 23424,
+      "category": "package-entry",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/packages/FunnySharp.AspNetCore.0.2.0.snupkg::package/services/metadata/core-properties/nuget.psmdcp",
+      "sha256": "43c94ae0de45727ea3f1b05f91d1ec5d9a324f2beb6142feecf77ee95e3823b0",
+      "length": 753,
+      "category": "package-entry",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/receipts/01-clean.json",
+      "sha256": "65f08bf2ba55fe0309279d75705c6aae52415b388fe6cbcad33fbca484340fef",
+      "length": 667,
+      "category": "r4-record",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/receipts/02-restore.json",
+      "sha256": "468142c6f2112f253a7aea319ff1b2e780736ec963e7a32e5e9a8579286ac329",
+      "length": 759,
+      "category": "r4-record",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/receipts/03-build.json",
+      "sha256": "b4692a2ecbbc89099985df7e7f2481eb846ac8428bd813a5985d7f2c137dbfac",
+      "length": 688,
+      "category": "r4-record",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/receipts/04-test.json",
+      "sha256": "4c1aa72bde79dc739c57df37ede02e1d65a5c111100d8b7bf1fbee1c5bf46222",
+      "length": 703,
+      "category": "r4-record",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/receipts/05-examples.json",
+      "sha256": "aa372324503185bc23a3fc0d0cae5bca4a26686e059353650c055dcdc8cd5ab5",
+      "length": 772,
+      "category": "r4-record",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/receipts/06-aspnetcore-examples.json",
+      "sha256": "1e9cb5cf08e5006aa9edfe1481ec3e19b1e6e6b155d126e9541feb91d1bc84ed",
+      "length": 855,
+      "category": "r4-record",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/receipts/07-pack.json",
+      "sha256": "59d516a08b9a56a82d260a72d2cc07c309966afe8fbeecdae0b09d1e1ef11983",
+      "length": 868,
+      "category": "r4-record",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/receipts/08-format.json",
+      "sha256": "58e6bbcc477d2adbf5118fb9970d9f253748264874f0e79408662fff97a76fab",
+      "length": 680,
+      "category": "r4-record",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/receipts/09-performance-protocol-tests.json",
+      "sha256": "01c1b99fb528253fb3000275f09ec2e920bf3f8f1bd92e2b6d0de8ff75584194",
+      "length": 885,
+      "category": "r4-record",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/receipts/10-release-protocol-tests.json",
+      "sha256": "21e1913fdd48ed000d92d47b7bf7c9daf571f9dfd110621538ac850ce63f48d7",
+      "length": 869,
+      "category": "r4-record",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/receipts/11-benchmark-preflight.json",
+      "sha256": "0e25f3a009023f44c385b59fbeed8628060a556589f73c6c463065ee9f594d57",
+      "length": 842,
+      "category": "r4-record",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/receipts/12-performance-docs-verify.json",
+      "sha256": "7bed210cf7c461cd7d7831da9154cf49582d6f80370dea83459ba2bd2a446254",
+      "length": 831,
+      "category": "r4-record",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/receipts/13-competitor-performance-docs-verify.json",
+      "sha256": "be92fef79a75a10c070d56b28d7893104f4419c951423d76a03a59eeb2d3c674",
+      "length": 935,
+      "category": "r4-record",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/receipts/14-compatibility.json",
+      "sha256": "c30666f2fcda480be20b7652ac61e1fdbef818ab7a515d80e9858c1955f105b6",
+      "length": 1259,
+      "category": "r4-record",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/release-evidence/compatibility/compatibility-results.json",
+      "sha256": "a64502d9c60903e79ddf46e777e8e344d237250d54387706113874e1b53d2f4f",
+      "length": 5996,
+      "category": "r4-record",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/release-evidence/documentation-snippets.log",
+      "sha256": "4b50931809665653249ce5cfea60c0e1fb99195e37656bbda32967d8a79d8909",
+      "length": 65,
+      "category": "r4-record",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/release-evidence/environment.json",
+      "sha256": "618c146699aae1ca010fa16f87762a891d72e49b81625b5434d0b8fd0508117a",
+      "length": 5048,
+      "category": "r4-record",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/release-evidence/package-inventory.json",
+      "sha256": "4e4b808bf6ef214a218c8ca2bff1a1ac47e46bc78451eb54ae728e3ca11b939f",
+      "length": 5207,
+      "category": "r4-record",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/release-evidence/public-api.json",
+      "sha256": "c9cc2fdfe756eb2901877f3d831d586b535f51f8dcbb6ca7825767de00ead642",
+      "length": 111549,
+      "category": "r4-record",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/release-evidence/public-api.txt",
+      "sha256": "050dc01e0bc95756aabc4f1f10a209c87ca2ac753348e58474cf366042cbbe38",
+      "length": 82836,
+      "category": "r4-record",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/release-evidence/release-evidence.json",
+      "sha256": "1dac4a061785f067f9d794e21005fbd66dedcba3e167660e1b7dcd745ff0deed",
+      "length": 5779961,
+      "category": "r4-record",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/release-evidence/release-evidence.md",
+      "sha256": "3f90fc5b1a14815dd40ae0507c19268fc8ac7bfca600c2c1aeccc2947c6faf2e",
+      "length": 430,
+      "category": "r4-record",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/release-evidence/xml-documentation.json",
+      "sha256": "f2cda433278c4d8e4a558e197a31754e5e911ff72d083cc277eaff709015df62",
+      "length": 293403,
+      "category": "r4-record",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/release-outcome.json",
+      "sha256": "cebc293c618a0248418031bcd90b885a50d895d3123939efd763fd02c6662e51",
+      "length": 476,
+      "category": "r4-record",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/release-verifier.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "length": 0,
+      "category": "r4-record",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/release-verifier.stdout.log",
+      "sha256": "01977a3e0460172df02bbe4d6b313ffe25d9a7d16afb29a56b922ed3bfbcac32",
+      "length": 186,
+      "category": "r4-record",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/version-final.json",
+      "sha256": "462d474639387c0b4c0c4e59a370437b587aeac547905b2e5e3528e440b35924",
+      "length": 1307,
+      "category": "r4-record",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/version-preflight.json",
+      "sha256": "e5a14359426804d876bb79ab6698b92ab96fef6e18380585d9671e3b5383c120",
+      "length": 1307,
+      "category": "r4-record",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/xml-build-bindings.json",
+      "sha256": "7b6e769ff2374c3349e6337b8772f0e6f8f4393594d18fbe2e5a3287afdca0d6",
+      "length": 1838,
+      "category": "r4-record",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/src/FunnySharp.AspNetCore/bin/Release/net10.0/FunnySharp.AspNetCore.dll",
+      "sha256": "5e3603e2bb5cb4f490b51605a742885d97d3d50d57ae9d9c377d3c3f5c199f45",
+      "length": 19456,
+      "category": "sealed-built-alias",
+      "storage": "object",
+      "recoveredFrom": [
+        "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/packages/FunnySharp.AspNetCore.0.2.0.nupkg::lib/net10.0/FunnySharp.AspNetCore.dll"
+      ],
+      "originalMovingLocatorRead": false
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/src/FunnySharp.AspNetCore/bin/Release/net10.0/FunnySharp.AspNetCore.pdb",
+      "sha256": "c20f8c227fdfc0da9b96585a632ac1acee0c770cd9cd1121a4cec124fffb3d76",
+      "length": 23424,
+      "category": "sealed-built-alias",
+      "storage": "object",
+      "recoveredFrom": [
+        "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/packages/FunnySharp.AspNetCore.0.2.0.snupkg::lib/net10.0/FunnySharp.AspNetCore.pdb"
+      ],
+      "originalMovingLocatorRead": false
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/src/FunnySharp.AspNetCore/bin/Release/net10.0/FunnySharp.AspNetCore.xml",
+      "sha256": "27af8c3d2b65daa59a081f0b24674be0c41fe9cd652a19455cce01f2637e66d0",
+      "length": 32514,
+      "category": "sealed-built-alias",
+      "storage": "object",
+      "recoveredFrom": [
+        "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/packages/FunnySharp.AspNetCore.0.2.0.nupkg::lib/net10.0/FunnySharp.AspNetCore.xml"
+      ],
+      "originalMovingLocatorRead": false
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/src/FunnySharp/bin/Release/net10.0/FunnySharp.dll",
+      "sha256": "304aa5e354b74c1ee4dab175386d8c292973339c6d38858bf34973b3f4b1836c",
+      "length": 262656,
+      "category": "sealed-built-alias",
+      "storage": "object",
+      "recoveredFrom": [
+        "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/packages/FunnySharp.0.2.0.nupkg::lib/net10.0/FunnySharp.dll"
+      ],
+      "originalMovingLocatorRead": false
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/src/FunnySharp/bin/Release/net10.0/FunnySharp.pdb",
+      "sha256": "cfa0dd49e82e6d9648485ef56a8668eefbc8d3ebb3a870d56c68088b2f57d16c",
+      "length": 62252,
+      "category": "sealed-built-alias",
+      "storage": "object",
+      "recoveredFrom": [
+        "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/packages/FunnySharp.0.2.0.snupkg::lib/net10.0/FunnySharp.pdb"
+      ],
+      "originalMovingLocatorRead": false
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/src/FunnySharp/bin/Release/net10.0/FunnySharp.xml",
+      "sha256": "d3b702f19dc04d5779e3e80757065ce2a76684cabbbb8dcc126f1c429f08a9f1",
+      "length": 474862,
+      "category": "sealed-built-alias",
+      "storage": "object",
+      "recoveredFrom": [
+        "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4/packages/FunnySharp.0.2.0.nupkg::lib/net10.0/FunnySharp.xml"
+      ],
+      "originalMovingLocatorRead": false
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/docs/reviews/goal24-pr-20261004/current-release-aot-path-red.json",
+      "sha256": "5befff94f679c165113a2dc7a3b5495bf303186e9f8ab72081c6042eee53ac01",
+      "length": 634,
+      "category": "historical-summary",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/docs/reviews/goal24-pr-20261004/current-release-compatibility-red.json",
+      "sha256": "037e213acc6a63aa91b91d99eb5fda872781ebc29ace4207b2d324edacd64b40",
+      "length": 736,
+      "category": "historical-summary",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/docs/reviews/goal24-pr-20261004/current-release-launch.json",
+      "sha256": "31ca878812883f40c5997c75cf41a42db16b48c7d55ff6c38a29ad1fc4d8252b",
+      "length": 499,
+      "category": "historical-summary",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/docs/reviews/goal24-pr-20261004/current-release-launcher-correction.json",
+      "sha256": "5319c900b6f5f00069f1e30bc402846981bb704878b9680ee783c54cf4213700",
+      "length": 638,
+      "category": "historical-summary",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/docs/reviews/goal24-pr-20261004/current-release-pass.json",
+      "sha256": "d4279667185f86cc42374f45092d6869d6eacbf43244f033ab294acaff92b9a1",
+      "length": 3848855,
+      "category": "historical-summary",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/docs/reviews/goal24-pr-20261004/current-release-short-attempt.json",
+      "sha256": "4ebc58f81f07361ea9c8536df52ed72b53d0e0db07f86fad44ccfcad79148e1e",
+      "length": 665,
+      "category": "historical-summary",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/docs/reviews/goal24-pr-20261004/current-release-short-path-launch.json",
+      "sha256": "222289e6c73eb99abeb02e9d4abb08f38ce8a2fa9b4412c54e0d88423355dcb4",
+      "length": 621,
+      "category": "historical-summary",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/docs/reviews/goal24-pr-20261004/current-release-usage-red.json",
+      "sha256": "9d67a3d6ad5222f6bd9a33cc8d11eb89afbd58475f4e48a6928d1bb719a855b0",
+      "length": 338,
+      "category": "historical-summary",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/docs/reviews/goal24-pr-20261004/final-local-gate-b584.json",
+      "sha256": "1d38a0d6cac0a56e4a4670d3527fd0d3cbd2caeb1980b41108b65cccc8ee712c",
+      "length": 28553,
+      "category": "historical-summary",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/repos/funnysharp/docs/reviews/goal24-pr-20261004/final-local-gate-b584.md",
+      "sha256": "ac70413e56c053df7163d270e505c5213c91bc6a569137dc14711ded6117dbde",
+      "length": 19016,
+      "category": "historical-summary",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/tmp/compound-engineering-lhan/ce-code-review/20261004-goal24-pr33-prepush/release-restore.NuGet.Config",
+      "sha256": "b51bcd6d925f7a0eb6c7df1c11cd9f3e8e676212960cde1ce44f9defeebf7d89",
+      "length": 306,
+      "category": "operational-input-observed-unpinned",
+      "storage": "object"
+    },
+    {
+      "originalLocator": "Q:/tmp/compound-engineering-lhan/ce-code-review/20261004-goal24-pr33-prepush/run-candidate-release.js",
+      "sha256": "78fa8b5676325a957192f83224f21b7e3f7a2c86ca629e6fb6f846d0e1f01cd0",
+      "length": 496,
+      "category": "operational-input-observed-unpinned",
+      "storage": "object"
+    }
+  ],
+  "excluded": [
+    {
+      "path": "compatibility-run/AspNetCoreNativeAot/bin",
+      "fileCount": 339,
+      "length": 154938760,
+      "reason": "Unbound compatibility build intermediates/cache; published output retained separately"
+    },
+    {
+      "path": "compatibility-run/AspNetCoreNativeAot/obj",
+      "fileCount": 35,
+      "length": 42247809,
+      "reason": "Unbound compatibility build intermediates/cache; published output retained separately"
+    },
+    {
+      "path": "compatibility-run/AspNetCoreTrimmed/bin",
+      "fileCount": 338,
+      "length": 110762039,
+      "reason": "Unbound compatibility build intermediates/cache; published output retained separately"
+    },
+    {
+      "path": "compatibility-run/AspNetCoreTrimmed/obj",
+      "fileCount": 129,
+      "length": 6952727,
+      "reason": "Unbound compatibility build intermediates/cache; published output retained separately"
+    },
+    {
+      "path": "compatibility-run/CoreNativeAot/bin",
+      "fileCount": 194,
+      "length": 91830085,
+      "reason": "Unbound compatibility build intermediates/cache; published output retained separately"
+    },
+    {
+      "path": "compatibility-run/CoreNativeAot/obj",
+      "fileCount": 27,
+      "length": 7553693,
+      "reason": "Unbound compatibility build intermediates/cache; published output retained separately"
+    },
+    {
+      "path": "compatibility-run/CoreTrimmed/bin",
+      "fileCount": 193,
+      "length": 80845352,
+      "reason": "Unbound compatibility build intermediates/cache; published output retained separately"
+    },
+    {
+      "path": "compatibility-run/CoreTrimmed/obj",
+      "fileCount": 44,
+      "length": 3641909,
+      "reason": "Unbound compatibility build intermediates/cache; published output retained separately"
+    },
+    {
+      "path": "nuget-packages/",
+      "reason": "Unbound restore cache; not retained or recursively hashed. Locked package source graph is cited through immutable Git."
+    }
+  ],
+  "missing": [
+    {
+      "kind": "version-http-response",
+      "sha256": "e64db0fde59206a0cf85c783e644f5e2ffd6a519dbf7d720cc9e5b0ace3d46a4",
+      "length": null,
+      "reason": "Preflight/final receipts retain a 404 response digest but no raw response body. No network replay or synthesized response."
+    },
+    {
+      "kind": "operational-usage-and-output-precondition-raw-streams",
+      "sha256": null,
+      "length": null,
+      "reason": "Actual usage exit 2 and custom-output precondition exit 1 are retained as exact parent JSON records. No attempt directory/raw stdout or stderr file is named by those records, so no standalone raw stream bytes are claimed."
+    }
+  ]
+}

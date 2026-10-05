@@ -1,0 +1,43 @@
+{
+  "schema": "funnysharp-pr-revised-observation-install/v1",
+  "status": "INSTALLED_ACTUAL_STRICT_VERIFIER_PROPOSALS",
+  "main": {
+    "rows": 190,
+    "exclusions": 11,
+    "receipts": 13,
+    "strictMonitor": "mon_H2GSB3ABGBPVAAMV",
+    "strictExit": 0,
+    "proposalSha256": "d76abcac8f3b692958531644d0db3cf476afa35ac0f86c51b3ff5144c6ffa575"
+  },
+  "competitor": {
+    "rows": 40,
+    "exclusions": 0,
+    "receipts": 2,
+    "strictMonitor": "mon_4M6KPXGFZ1456729",
+    "strictExit": 0,
+    "proposalSha256": "11cd29895645980322d46b7fd5e291c9bb356b2913d9dd4155a2fb43b4cf7db8"
+  },
+  "scope": {
+    "policyBytesPreserved": true,
+    "thresholdsPreserved": true,
+    "protocolBytesPreserved": true,
+    "allOutsideObservationBytesPreserved": true,
+    "numericAndStringTokensFromActualProposalPreserved": true,
+    "oldB584ObservationsRemainInGit": true
+  },
+  "failuresPreserved": {
+    "firstStrictWrongParentDirectory": "revised-strict-directory-red.json",
+    "oldResidentBlockPreparationRejectedNoWrites": true,
+    "lastRootPropertyAssumptionRejectedNoWrites": true,
+    "firstObservationPatchPartialFailure": "Main closing-object comma omitted from hunk; competitor applied successfully. Only main was reread and corrected, neither measurement repeated."
+  },
+  "mainSnapshot": "snapshot:41f49879678dfc2e7b2484900930e061f4e4badaf3e9699b78a0a145f7c90749",
+  "competitorSnapshot": "snapshot:c2d709af56bf711289d0221769eadd0cf9fb3e6ad2e9504b61a8ba1744b7bd58",
+  "currentWitnessClosureSha256": "25f4d3b18a3c87d9b60d3e176c32d9ea9a5c031561126ab9066e7950aa7374eb",
+  "documentationGenerators": [
+    "Monitor started with ID: mon_4XAC93CF0ZYZQW45",
+    "Monitor started with ID: mon_CYP2ZGAWDYBA6MKN"
+  ],
+  "documentationStillPending": true,
+  "fullCleanCandidateGatesStillPending": true
+}

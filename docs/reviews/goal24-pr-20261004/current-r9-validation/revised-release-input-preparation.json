@@ -1,0 +1,21 @@
+{
+  "schema": "funnysharp-pr-release-launch-input-preparation/v1",
+  "status": "PREPARED_NOT_EXECUTED",
+  "cwd": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr",
+  "runner": {
+    "path": "Q:/tmp/compound-engineering-lhan/ce-code-review/20261004-goal24-pr33-prepush/run-candidate-release.js",
+    "sha256": "78fa8b5676325a957192f83224f21b7e3f7a2c86ca629e6fb6f846d0e1f01cd0",
+    "source": "const args = process.argv.slice(2);\nif (args.length === 0) throw new Error(\"Expected one argv-form command\");\nconst environment = { ...process.env, RestoreConfigFile: \"Q:/tmp/compound-engineering-lhan/ce-code-review/20261004-goal24-pr33-prepush/release-restore.NuGet.Config\" };\ndelete environment.RestoreSources;\nconst child = Bun.spawn(args, { cwd: \"Q:/repos/funnysharp/.worktrees/goal24-complete-pr\", env: environment, stdout: \"inherit\", stderr: \"inherit\" });\nprocess.exit(await child.exited);\n"
+  },
+  "restoreConfig": {
+    "path": "Q:/tmp/compound-engineering-lhan/ce-code-review/20261004-goal24-pr33-prepush/release-restore.NuGet.Config",
+    "sha256": "b51bcd6d925f7a0eb6c7df1c11cd9f3e8e676212960cde1ce44f9defeebf7d89",
+    "source": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<configuration>\n  <packageSources>\n    <clear />\n    <add key=\"verified-proxy\" value=\"https://packagefeedproxy.microsoft.io/nuget/v3/index.json\" />\n    <add key=\"sdk-library-packs\" value=\"C:/Program Files/dotnet/library-packs\" />\n  </packageSources>\n</configuration>\n"
+  },
+  "environmentContract": {
+    "RestoreConfigFile": "Q:/tmp/compound-engineering-lhan/ce-code-review/20261004-goal24-pr33-prepush/release-restore.NuGet.Config",
+    "RestoreSources": "DELETED_FROM_INHERITED_ENVIRONMENT"
+  },
+  "boundary": "Preparation only. Recheck both hashes immediately before and after the eventual exact committed successor release command; record actual candidate/attempt and stdout/stderr then. Short valid AttemptId and canonical output path retain all AOT/SourceLink/lock/threshold guards.",
+  "noCurrentReleasePassClaim": true
+}

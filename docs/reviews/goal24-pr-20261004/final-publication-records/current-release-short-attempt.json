@@ -1,0 +1,11 @@
+{
+  "schema": "funnysharp-current-release-native-short-attempt/v1",
+  "candidate": "b584e748699a4f19d8a901695634be5a85ce8b07",
+  "priorAttempt03PreconditionExit": 1,
+  "priorError": "OutputDirectory must equal candidate/attempt canonical path; short custom output rejected before release execution.",
+  "materialChange": "Short valid AttemptId r4; use canonical default output, do not relax path contract.",
+  "expectedSourceLinkPathLength": 241,
+  "outputRoot": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/release-candidate/b584e748699a4f19d8a901695634be5a85ce8b07/r4",
+  "sourceContractThresholdChanges": 0,
+  "allPriorFailuresPreserved": true
+}

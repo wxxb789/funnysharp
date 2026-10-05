@@ -1,0 +1,141 @@
+{
+  "controlRecords": [
+    {
+      "arguments": [
+        "fsi",
+        "--warnaserror+",
+        "Q:\\repos\\funnysharp\\.worktrees\\goal24-complete-pr\\docs/reviews/goal24-pr-20261004/traversal-r9-performance-evidence\\verify-current.fsx",
+        "--",
+        "Q:\\repos\\funnysharp\\.worktrees\\goal24-complete-pr"
+      ],
+      "executable": "dotnet",
+      "exitCode": 0,
+      "name": "landed-positive",
+      "stderr": "",
+      "stdout": "CURRENT_PERFORMANCE_PORTABLE_PASS objects=522 locators=547 rows=230 launches=230 census=499/468/31 runtime=24 writes=0 network=0\r\n"
+    },
+    {
+      "arguments": [
+        "fsi",
+        "--warnaserror+",
+        "Q:\\repos\\funnysharp\\.worktrees\\goal24-complete-pr\\artifacts\\pr-validation\\traversal-r9-performance-20261005-01\\portable-negative-fixtures\\st_01a10a29\\missing-object\\docs/reviews/goal24-pr-20261004/traversal-r9-performance-evidence\\verify-current.fsx",
+        "--",
+        "Q:\\repos\\funnysharp\\.worktrees\\goal24-complete-pr\\artifacts\\pr-validation\\traversal-r9-performance-20261005-01\\portable-negative-fixtures\\st_01a10a29\\missing-object"
+      ],
+      "executable": "dotnet",
+      "exitCode": 1,
+      "name": "missing-object",
+      "stderr": "System.IO.DirectoryNotFoundException: Could not find a part of the path 'Q:\\repos\\funnysharp\\.worktrees\\goal24-complete-pr\\artifacts\\pr-validation\\traversal-r9-performance-20261005-01\\portable-negative-fixtures\\st_01a10a29\\missing-object\\docs\\reviews\\goal24-pr-20261004\\traversal-r9-performance-evidence\\objects\\002ae9fe484517576edc5d4de95c24f4125b680171a1e2461fe884bb8f9f12d3.base64'.\r\n   at Microsoft.Win32.SafeHandles.SafeFileHandle.CreateFile(String fullPath, FileMode mode, FileAccess access, FileShare share, FileOptions options)\r\n   at Microsoft.Win32.SafeHandles.SafeFileHandle.Open(String fullPath, FileMode mode, FileAccess access, FileShare share, FileOptions options, Int64 preallocationSize, Nullable`1 unixCreateMode)\r\n   at System.IO.File.OpenHandle(String path, FileMode mode, FileAccess access, FileShare share, FileOptions options, Int64 preallocationSize)\r\n   at System.IO.File.ReadAllBytes(String path)\r\n   at <StartupCode$FSI_0001>.$FSI_0001.main@() in Q:\\repos\\funnysharp\\.worktrees\\goal24-complete-pr\\artifacts\\pr-validation\\traversal-r9-performance-20261005-01\\portable-negative-fixtures\\st_01a10a29\\missing-object\\docs\\reviews\\goal24-pr-20261004\\traversal-r9-performance-evidence\\verify-current.fsx:line 44\r\n   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)\r\n   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)\r\nStopped due to error\n",
+      "stdout": ""
+    },
+    {
+      "arguments": [
+        "fsi",
+        "--warnaserror+",
+        "Q:\\repos\\funnysharp\\.worktrees\\goal24-complete-pr\\artifacts\\pr-validation\\traversal-r9-performance-20261005-01\\portable-negative-fixtures\\st_01a10a29\\tampered-catalog\\docs/reviews/goal24-pr-20261004/traversal-r9-performance-evidence\\verify-current.fsx",
+        "--",
+        "Q:\\repos\\funnysharp\\.worktrees\\goal24-complete-pr\\artifacts\\pr-validation\\traversal-r9-performance-20261005-01\\portable-negative-fixtures\\st_01a10a29\\tampered-catalog"
+      ],
+      "executable": "dotnet",
+      "exitCode": 1,
+      "name": "tampered-catalog",
+      "stderr": "System.Exception: Catalog hash mismatch\r\n   at <StartupCode$FSI_0001>.$FSI_0001.main@() in Q:\\repos\\funnysharp\\.worktrees\\goal24-complete-pr\\artifacts\\pr-validation\\traversal-r9-performance-20261005-01\\portable-negative-fixtures\\st_01a10a29\\tampered-catalog\\docs\\reviews\\goal24-pr-20261004\\traversal-r9-performance-evidence\\verify-current.fsx:line 19\r\n   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)\r\n   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)\r\nStopped due to error\n",
+      "stdout": ""
+    },
+    {
+      "arguments": [
+        "fsi",
+        "--warnaserror+",
+        "Q:\\repos\\funnysharp\\.worktrees\\goal24-complete-pr\\artifacts\\pr-validation\\traversal-r9-performance-20261005-01\\portable-negative-fixtures\\st_01a10a29\\tampered-physical-object\\docs/reviews/goal24-pr-20261004/traversal-r9-performance-evidence\\verify-current.fsx",
+        "--",
+        "Q:\\repos\\funnysharp\\.worktrees\\goal24-complete-pr\\artifacts\\pr-validation\\traversal-r9-performance-20261005-01\\portable-negative-fixtures\\st_01a10a29\\tampered-physical-object"
+      ],
+      "executable": "dotnet",
+      "exitCode": 1,
+      "name": "tampered-physical-object",
+      "stderr": "System.Exception: Physical object hash mismatch\r\n   at <StartupCode$FSI_0001>.$FSI_0001.main@() in Q:\\repos\\funnysharp\\.worktrees\\goal24-complete-pr\\artifacts\\pr-validation\\traversal-r9-performance-20261005-01\\portable-negative-fixtures\\st_01a10a29\\tampered-physical-object\\docs\\reviews\\goal24-pr-20261004\\traversal-r9-performance-evidence\\verify-current.fsx:line 45\r\n   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)\r\n   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)\r\nStopped due to error\n",
+      "stdout": ""
+    }
+  ],
+  "controlsRerun": false,
+  "correctedScan": {
+    "arguments": [
+      "fsi",
+      "--warnaserror+",
+      "Q:\\repos\\funnysharp\\.worktrees\\goal24-complete-pr\\docs/reviews/goal24-pr-20261004/traversal-r9-performance-evidence\\scan-credentials.fsx",
+      "--",
+      "Q:\\repos\\funnysharp\\.worktrees\\goal24-complete-pr"
+    ],
+    "executable": "dotnet",
+    "exitCode": 0,
+    "name": "credential-pattern-scan",
+    "stderr": "",
+    "stdout": "{\"archiveEntries\":0,\"decodedBytes\":48750487,\"embeddedPayloads\":230,\"findings\":[],\"limit\":\"Pattern scan of retained decoded bytes and recognized ZIP/TAR/GZIP entries plus workload payloads; no universal credential clearance, entropy proof or encrypted archive coverage.\",\"nestedBytes\":3263821,\"network\":0,\"objects\":522,\"patterns\":[\"aws-access-id\",\"github-token\",\"gitlab-token\",\"slack-token\",\"stripe-live-key\",\"google-api-key\",\"private-key-header\",\"jwt\",\"bearer-value\",\"credential-assignment\",\"azure-sas-signature\"],\"schema\":\"funnysharp-bounded-credential-pattern-scan/v1\",\"writes\":0}\r\n"
+  },
+  "dataVerifierWrites": 0,
+  "network": 0,
+  "priorRunnerRed": "scanner-red-01.json",
+  "runnerExitCode": 0,
+  "schema": "funnysharp-portable-traverse-r9-controls/v1",
+  "verifiedSourceSha256": "8b942a874e29d368824cb3e55a224d2e3bbb167ef8c394be19935d3a789da4b9",
+  "workloadReruns": 0,
+  "monitor": "mon_WY6CGM2A7FD6B0BP",
+  "actualMonitorExitCode": 0,
+  "catalogSha256": "6508608e4b1d0ae8ce41d176cb45afbbb240c0004c730a69ab1867cd3a5d1b80",
+  "counts": {
+    "logicalLocators": 547,
+    "distinctObjects": 522,
+    "distinctDecodedBytes": 48750487,
+    "aliasDecodedBytes": 67637251,
+    "physicalBase64Bytes": 65001970,
+    "sourceProtocolBindings": 80,
+    "receiptFiles": 15,
+    "successfulRows": 230,
+    "actualLaunchLogs": 230,
+    "rawReports": 45,
+    "benchmarkRunLogs": 2,
+    "retainedPELocators": 60,
+    "witnessCompileSources": 70,
+    "missingBytes": []
+  },
+  "sourceIdentity": {
+    "measuredSourceCommit": null,
+    "measuredParentCommit": "b584e748699a4f19d8a901695634be5a85ce8b07",
+    "mainSnapshot": "snapshot:41f49879678dfc2e7b2484900930e061f4e4badaf3e9699b78a0a145f7c90749",
+    "competitorSnapshot": "snapshot:c2d709af56bf711289d0221769eadd0cf9fb3e6ad2e9504b61a8ba1744b7bd58"
+  },
+  "sourceFiles": [
+    {
+      "path": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/docs/reviews/goal24-pr-20261004/traversal-r9-performance-evidence/verify-current.fsx",
+      "sha256": "8b942a874e29d368824cb3e55a224d2e3bbb167ef8c394be19935d3a789da4b9",
+      "bytes": 12765
+    },
+    {
+      "path": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/docs/reviews/goal24-pr-20261004/traversal-r9-performance-evidence/run-controls.fsx",
+      "sha256": "5bf00b362af3d7c5d4b9341afa94558564fc6face9fbc99014be581471ed05a0",
+      "bytes": 2854
+    },
+    {
+      "path": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/docs/reviews/goal24-pr-20261004/traversal-r9-performance-evidence/complete-controls.fsx",
+      "sha256": "ac843569617c50f3fac015ed05837d1d987a74e54cb128658610a0e442a90d22",
+      "bytes": 3594
+    },
+    {
+      "path": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr/docs/reviews/goal24-pr-20261004/traversal-r9-performance-evidence/scan-credentials.fsx",
+      "sha256": "20447e91864958d83e71a7a0ba662222f1e2e5ddb380e690afc38cb67fce1916",
+      "bytes": 6307
+    }
+  ],
+  "priorScannerReds": [
+    "scanner-red-01.json",
+    "scanner-red-02.json",
+    "scanner-red-03.json",
+    "scanner-red-04.json"
+  ],
+  "limitations": [
+    "F# LSP unavailable: fsautocomplete is not installed. Actual verifier/runner/scanner FSI compilation used --warnaserror+.",
+    "Available parent strict/doc RED records contain already-truncated output strings; no missing full stream was invented.",
+    "Bounded credential patterns and recognized archive formats are not universal clearance."
+  ],
+  "actualRunnerCombinedOutput": "{\"controlRecords\":[{\"arguments\":[\"fsi\",\"--warnaserror\\u002B\",\"Q:\\\\repos\\\\funnysharp\\\\.worktrees\\\\goal24-complete-pr\\\\docs/reviews/goal24-pr-20261004/traversal-r9-performance-evidence\\\\verify-current.fsx\",\"--\",\"Q:\\\\repos\\\\funnysharp\\\\.worktrees\\\\goal24-complete-pr\"],\"executable\":\"dotnet\",\"exitCode\":0,\"name\":\"landed-positive\",\"stderr\":\"\",\"stdout\":\"CURRENT_PERFORMANCE_PORTABLE_PASS objects=522 locators=547 rows=230 launches=230 census=499/468/31 runtime=24 writes=0 network=0\\r\\n\"},{\"arguments\":[\"fsi\",\"--warnaserror\\u002B\",\"Q:\\\\repos\\\\funnysharp\\\\.worktrees\\\\goal24-complete-pr\\\\artifacts\\\\pr-validation\\\\traversal-r9-performance-20261005-01\\\\portable-negative-fixtures\\\\st_01a10a29\\\\missing-object\\\\docs/reviews/goal24-pr-20261004/traversal-r9-performance-evidence\\\\verify-current.fsx\",\"--\",\"Q:\\\\repos\\\\funnysharp\\\\.worktrees\\\\goal24-complete-pr\\\\artifacts\\\\pr-validation\\\\traversal-r9-performance-20261005-01\\\\portable-negative-fixtures\\\\st_01a10a29\\\\missing-object\"],\"executable\":\"dotnet\",\"exitCode\":1,\"name\":\"missing-object\",\"stderr\":\"System.IO.DirectoryNotFoundException: Could not find a part of the path \\u0027Q:\\\\repos\\\\funnysharp\\\\.worktrees\\\\goal24-complete-pr\\\\artifacts\\\\pr-validation\\\\traversal-r9-performance-20261005-01\\\\portable-negative-fixtures\\\\st_01a10a29\\\\missing-object\\\\docs\\\\reviews\\\\goal24-pr-20261004\\\\traversal-r9-performance-evidence\\\\objects\\\\002ae9fe484517576edc5d4de95c24f4125b680171a1e2461fe884bb8f9f12d3.base64\\u0027.\\r\\n   at Microsoft.Win32.SafeHandles.SafeFileHandle.CreateFile(String fullPath, FileMode mode, FileAccess access, FileShare share, FileOptions options)\\r\\n   at Microsoft.Win32.SafeHandles.SafeFileHandle.Open(String fullPath, FileMode mode, FileAccess access, FileShare share, FileOptions options, Int64 preallocationSize, Nullable\\u00601 unixCreateMode)\\r\\n   at System.IO.File.OpenHandle(String path, FileMode mode, FileAccess access, FileShare share, FileOptions options, Int64 preallocationSize)\\r\\n   at System.IO.File.ReadAllBytes(String path)\\r\\n   at \\u003CStartupCode$FSI_0001\\u003E.$FSI_0001.main@() in Q:\\\\repos\\\\funnysharp\\\\.worktrees\\\\goal24-complete-pr\\\\artifacts\\\\pr-validation\\\\traversal-r9-performance-20261005-01\\\\portable-negative-fixtures\\\\st_01a10a29\\\\missing-object\\\\docs\\\\reviews\\\\goal24-pr-20261004\\\\traversal-r9-performance-evidence\\\\verify-current.fsx:line 44\\r\\n   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)\\r\\n   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)\\r\\nStopped due to error\\n\",\"stdout\":\"\"},{\"arguments\":[\"fsi\",\"--warnaserror\\u002B\",\"Q:\\\\repos\\\\funnysharp\\\\.worktrees\\\\goal24-complete-pr\\\\artifacts\\\\pr-validation\\\\traversal-r9-performance-20261005-01\\\\portable-negative-fixtures\\\\st_01a10a29\\\\tampered-catalog\\\\docs/reviews/goal24-pr-20261004/traversal-r9-performance-evidence\\\\verify-current.fsx\",\"--\",\"Q:\\\\repos\\\\funnysharp\\\\.worktrees\\\\goal24-complete-pr\\\\artifacts\\\\pr-validation\\\\traversal-r9-performance-20261005-01\\\\portable-negative-fixtures\\\\st_01a10a29\\\\tampered-catalog\"],\"executable\":\"dotnet\",\"exitCode\":1,\"name\":\"tampered-catalog\",\"stderr\":\"System.Exception: Catalog hash mismatch\\r\\n   at \\u003CStartupCode$FSI_0001\\u003E.$FSI_0001.main@() in Q:\\\\repos\\\\funnysharp\\\\.worktrees\\\\goal24-complete-pr\\\\artifacts\\\\pr-validation\\\\traversal-r9-performance-20261005-01\\\\portable-negative-fixtures\\\\st_01a10a29\\\\tampered-catalog\\\\docs\\\\reviews\\\\goal24-pr-20261004\\\\traversal-r9-performance-evidence\\\\verify-current.fsx:line 19\\r\\n   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)\\r\\n   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)\\r\\nStopped due to error\\n\",\"stdout\":\"\"},{\"arguments\":[\"fsi\",\"--warnaserror\\u002B\",\"Q:\\\\repos\\\\funnysharp\\\\.worktrees\\\\goal24-complete-pr\\\\artifacts\\\\pr-validation\\\\traversal-r9-performance-20261005-01\\\\portable-negative-fixtures\\\\st_01a10a29\\\\tampered-physical-object\\\\docs/reviews/goal24-pr-20261004/traversal-r9-performance-evidence\\\\verify-current.fsx\",\"--\",\"Q:\\\\repos\\\\funnysharp\\\\.worktrees\\\\goal24-complete-pr\\\\artifacts\\\\pr-validation\\\\traversal-r9-performance-20261005-01\\\\portable-negative-fixtures\\\\st_01a10a29\\\\tampered-physical-object\"],\"executable\":\"dotnet\",\"exitCode\":1,\"name\":\"tampered-physical-object\",\"stderr\":\"System.Exception: Physical object hash mismatch\\r\\n   at \\u003CStartupCode$FSI_0001\\u003E.$FSI_0001.main@() in Q:\\\\repos\\\\funnysharp\\\\.worktrees\\\\goal24-complete-pr\\\\artifacts\\\\pr-validation\\\\traversal-r9-performance-20261005-01\\\\portable-negative-fixtures\\\\st_01a10a29\\\\tampered-physical-object\\\\docs\\\\reviews\\\\goal24-pr-20261004\\\\traversal-r9-performance-evidence\\\\verify-current.fsx:line 45\\r\\n   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)\\r\\n   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)\\r\\nStopped due to error\\n\",\"stdout\":\"\"}],\"controlsRerun\":false,\"correctedScan\":{\"arguments\":[\"fsi\",\"--warnaserror\\u002B\",\"Q:\\\\repos\\\\funnysharp\\\\.worktrees\\\\goal24-complete-pr\\\\docs/reviews/goal24-pr-20261004/traversal-r9-performance-evidence\\\\scan-credentials.fsx\",\"--\",\"Q:\\\\repos\\\\funnysharp\\\\.worktrees\\\\goal24-complete-pr\"],\"executable\":\"dotnet\",\"exitCode\":0,\"name\":\"credential-pattern-scan\",\"stderr\":\"\",\"stdout\":\"{\\u0022archiveEntries\\u0022:0,\\u0022decodedBytes\\u0022:48750487,\\u0022embeddedPayloads\\u0022:230,\\u0022findings\\u0022:[],\\u0022limit\\u0022:\\u0022Pattern scan of retained decoded bytes and recognized ZIP/TAR/GZIP entries plus workload payloads; no universal credential clearance, entropy proof or encrypted archive coverage.\\u0022,\\u0022nestedBytes\\u0022:3263821,\\u0022network\\u0022:0,\\u0022objects\\u0022:522,\\u0022patterns\\u0022:[\\u0022aws-access-id\\u0022,\\u0022github-token\\u0022,\\u0022gitlab-token\\u0022,\\u0022slack-token\\u0022,\\u0022stripe-live-key\\u0022,\\u0022google-api-key\\u0022,\\u0022private-key-header\\u0022,\\u0022jwt\\u0022,\\u0022bearer-value\\u0022,\\u0022credential-assignment\\u0022,\\u0022azure-sas-signature\\u0022],\\u0022schema\\u0022:\\u0022funnysharp-bounded-credential-pattern-scan/v1\\u0022,\\u0022writes\\u0022:0}\\r\\n\"},\"dataVerifierWrites\":0,\"network\":0,\"priorRunnerRed\":\"scanner-red-01.json\",\"runnerExitCode\":0,\"schema\":\"funnysharp-portable-traverse-r9-controls/v1\",\"verifiedSourceSha256\":\"8b942a874e29d368824cb3e55a224d2e3bbb167ef8c394be19935d3a789da4b9\",\"workloadReruns\":0}\nRETENTION_CONTROL_RUNNER_EXIT=0"
+}

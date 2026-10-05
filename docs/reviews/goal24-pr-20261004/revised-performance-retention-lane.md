@@ -1,0 +1,27 @@
+# Revised Traverse R9 performance retention lane
+
+## Scope and source identity
+
+The independent retention lane writes only the integration `traversal-r9-performance-evidence/` packet, this report, and temporary negative fixtures beneath the completed evidence root. No measurement, test, release, model, HTTP or denial workload is rerun. No Git mutation, network, NuGet, source, lock, policy, protocol or observation edits occur in this lane.
+
+The measured identity is a source snapshot, not exact b584 Git source: `measuredSourceCommit: null`, parent `b584e748699a4f19d8a901695634be5a85ce8b07`, plus 29 XML-only comment corrections. Main snapshot: `snapshot:41f49879678dfc2e7b2484900930e061f4e4badaf3e9699b78a0a145f7c90749`. Competitor snapshot: `snapshot:c2d709af56bf711289d0221769eadd0cf9fb3e6ad2e9504b61a8ba1744b7bd58`. Main input fingerprint: `b4c74b46b265d46ed83e28136e5c4f19e1ec7fd144fa97114dc0cfae018bdbe7`; competitor: `0077f4bfafb239c77ead1b660e9f04f5c038750d7acc633769349f990b4e9ba2`. Current source/protocol bindings are 80 and contain no guides.
+
+## Retention map
+
+Permanent packet: `docs/reviews/goal24-pr-20261004/traversal-r9-performance-evidence/`. Catalog SHA256: `6508608e4b1d0ae8ce41d176cb45afbbb240c0004c730a69ab1867cd3a5d1b80`. The complete logical and object file lists with hashes/bytes are `catalog.json`; the complete physical landed list is `packet-files.json`. Counts: {"logicalLocators":547,"distinctObjects":522,"distinctDecodedBytes":48750487,"aliasDecodedBytes":67637251,"physicalBase64Bytes":65001970,"sourceProtocolBindings":80,"receiptFiles":15,"successfulRows":230,"actualLaunchLogs":230,"rawReports":45,"benchmarkRunLogs":2,"retainedPELocators":60,"witnessCompileSources":70,"missingBytes":[]}. The core hash is `19251bf8e6e1365641a6ce43dce65b5014d36249190b43e3cbdd6a2739118fd5`, HTTP hash `5e3603e2bb5cb4f490b51605a742885d97d3d50d57ae9d9c377d3c3f5c199f45`, and witness closure `25f4d3b18a3c87d9b60d3e176c32d9ea9a5c031561126ab9066e7950aa7374eb`.
+
+The preflight originals and receipt copies differ by terminal CRLF and are independently retained with their real hashes, not relabeled. The packet retains sources linked by the witness project, locked graphs, producers, all actual 230 launch/PE joins, raw reports and logs, installed manifests/proposals, census and runtime reports, current crosswalks, and actual strict wrong-directory/docs wrong-Root RED step records. Original d8744 and b584 proof bodies are untouched.
+
+## Validation and limits
+
+The landed verifier returned exit 0 with `objects=522 locators=547 rows=230 launches=230 census=499/468/31 runtime=24 writes=0 network=0`. Missing object, tampered catalog and tampered physical object each returned exit 1, their intended error, and no PASS. They ran once. Final control audit/scanner runner `mon_WY6CGM2A7FD6B0BP` returned exit 0 without rerunning the positive or negatives. The corrected scanner returned exit 0, no stderr, and zero findings across all 522 decoded objects (48,750,487 bytes), 230 workload payloads (3,263,821 bytes), 11 pattern families and zero recognized archive entries. Exact stdout/stderr/exits and sources are retained in `verification.json`, `credential-scan.json`, `control-fixture-sources.json` and all four `scanner-red-0N.json` records. These scanner-only failures were corrected without changing evidence bytes or v1 verifier guards. F# LSP remains unavailable (`fsautocomplete` absent); actual FSI compilation ran with `--warnaserror+`.
+
+The portable proof reuses v1 allocation/policy/source/protocol/runtime guards; it does not make measuredSourceCommit metadata a bypass. Absolute Q locators are labels resolved exclusively by the catalog. No bound bytes are missing. Full original strict stdout/stderr streams were not independently available: retained parent records preserve their exact available bodies, including already-truncated output strings. Credential checks are bounded pattern coverage, not universal clearance. Parent owns integrated guide/gate/publication decisions and cleanup.
+
+## Final physical inventory
+
+The packet contains 536 physical files totaling 67,145,305 bytes. `packet-files.json` lists all 535 other packet files with exact SHA256 and byte length, including 522 base64 objects and 13 sources/records. The inventory itself is 199,802 bytes, SHA256 `b960ca00b48503369840c3ea23819882daf01530b32a400993c3277a962dd7ff`; its own hash is recorded here to avoid a self-hash cycle. Catalog is 430,725 bytes, SHA256 `6508608e4b1d0ae8ce41d176cb45afbbb240c0004c730a69ab1867cd3a5d1b80`. Verification SHA256: `a463ba2ad72bfa76feb6dfc3446c06ce3d9a1a409fc18dd32a898182fd735062`. Credential-scan SHA256: `517219cf34df7bb0b952aef2a5fc25f26b255233c303b21fba8e8fa03a1f6872`.
+
+The seven temporary fixture files remain under `Q:/repos/funnysharp/.worktrees/goal24-complete-pr/artifacts/pr-validation/traversal-r9-performance-20261005-01/portable-negative-fixtures/st_01a10a29` and their exact UTF-8 bodies, hashes and lengths are retained in the packet's `control-fixture-sources.json`. No temporary fixture or other content was removed. Main report path is intentionally outside the integration worktree, as assigned; parent owns combined publication/integration. No original bound bytes are missing. No full package cache or unbound generated build tree was added.
+
+The byte-exact original lane report is retained in `revised-performance-retention-lane.md.base64`; this display adds the representation note and uses one terminal LF. Original catalog, verification and source bytes are unchanged.

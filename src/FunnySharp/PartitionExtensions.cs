@@ -180,7 +180,7 @@ public static class PartitionExtensions
     /// its error must carry everything the failure needs.
     /// </remarks>
     /// <exception cref="InvalidOperationException">
-    /// A reached source carrier or selector result is uninitialized; reported while enumerating the source.
+    /// A reached source carrier is uninitialized; reported while enumerating the source.
     /// Unreached items are not inspected, and a disposal exception can replace this failure.
     /// </exception>
     public static ResultPartition<TValue, TError> Partition<TValue, TError>(
@@ -225,7 +225,7 @@ public static class PartitionExtensions
     /// rather than a list.
     /// </remarks>
     /// <exception cref="InvalidOperationException">
-    /// A reached source carrier or selector result is uninitialized; reported while enumerating the source.
+    /// A reached source carrier is uninitialized; reported while enumerating the source.
     /// Unreached items are not inspected, and a disposal exception can replace this failure.
     /// </exception>
     public static UnitResultPartition<TError> Partition<TError>(
@@ -311,7 +311,7 @@ public static class PartitionExtensions
     /// <c>await foreach</c> behavior and are not wrapped.
     /// </remarks>
     /// <exception cref="InvalidOperationException">
-    /// A reached source carrier or selector result is uninitialized; reported by awaiting the returned operation.
+    /// A reached source carrier is uninitialized; reported by awaiting the returned operation.
     /// Unreached items are not inspected, and a disposal exception can replace this failure.
     /// </exception>
     public static ValueTask<ResultPartition<TValue, TError>> PartitionAsync<TValue, TError>(

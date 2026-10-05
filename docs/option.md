@@ -86,18 +86,18 @@ contract. `N/A` means timing was below resolution or unavailable.
 <!-- performance-table:start option -->
 | Scenario | Baseline mean | Candidate mean | Ratio | Baseline allocation | Candidate allocation |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Completed Task mapping | 17.644 ns | 35.187 ns | 1.99x | 144 B | 216 B |
-| Completed ValueTask mapping | 8.369 ns | 25.445 ns | 3.04x | 0 B | 0 B |
-| Dictionary lookup - hit | 5.676 ns | 6.209 ns | 1.09x | 0 B | 0 B |
-| Dictionary lookup - miss | 5.677 ns | 6.335 ns | 1.12x | 0 B | 0 B |
-| GetValueOr - None | 0.122 ns | 0.126 ns | 1.03x | 0 B | 0 B |
+| Completed Task mapping | 17.119 ns | 35.923 ns | 2.10x | 144 B | 216 B |
+| Completed ValueTask mapping | 10.495 ns | 28.725 ns | 2.74x | 0 B | 0 B |
+| Dictionary lookup - hit | 5.957 ns | 6.726 ns | 1.13x | 0 B | 0 B |
+| Dictionary lookup - miss | 6.016 ns | 7.540 ns | 1.25x | 0 B | 0 B |
+| GetValueOr - None | N/A | N/A | N/A | 0 B | 0 B |
 | GetValueOr - Some | N/A | N/A | N/A | 0 B | 0 B |
-| Map - None | N/A | 0.922 ns | N/A | 0 B | 0 B |
-| Map - Some | 0.385 ns | 2.438 ns | 6.33x | 0 B | 0 B |
-| Nullable conversion - None | 0.172 ns | 0.833 ns | 4.85x | 0 B | 0 B |
-| Nullable conversion - Some | N/A | N/A | N/A | 0 B | 0 B |
-| Try pattern - hit | 12.712 ns | 13.151 ns | 1.03x | 0 B | 0 B |
-| Try pattern - miss | 6.668 ns | 8.555 ns | 1.28x | 0 B | 0 B |
+| Map - None | 0.123 ns | 0.687 ns | 5.59x | 0 B | 0 B |
+| Map - Some | N/A | 1.959 ns | N/A | 0 B | 0 B |
+| Nullable conversion - None | N/A | 0.813 ns | N/A | 0 B | 0 B |
+| Nullable conversion - Some | N/A | 0.180 ns | N/A | 0 B | 0 B |
+| Try pattern - hit | 11.848 ns | 14.162 ns | 1.20x | 0 B | 0 B |
+| Try pattern - miss | 7.072 ns | 9.305 ns | 1.32x | 0 B | 0 B |
 
 Excluded measurements:
 - Construction and inspection - large readonly struct: Direct and Option paths do not perform equivalent construction work.

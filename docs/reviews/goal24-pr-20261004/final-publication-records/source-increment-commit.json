@@ -1,0 +1,60 @@
+{
+  "schema": "funnysharp-pr-verified-source-increment/v1",
+  "commit": "7b30afe7596c9cf379711b06123de26b0eeb2893",
+  "parent": "e7aea9995bac6c87a69db14a8b04c6925cb45d4c",
+  "branch": "audit/goal24-complete-pr",
+  "scope": [
+    "src/FunnySharp/Option.cs",
+    "eng/api-baseline/xml-reviewed-inputs.json",
+    "eng/harness/XmlBuildBindings.fs",
+    "tests/FunnySharp.Harness.Tests/XmlBuildBindingsTests.fs",
+    "eng/evaluation/comparisons/function-grammar/packages.lock.json",
+    "eng/harness/FrozenReplay.fs",
+    "eng/evaluation/replay-frozen.fsx",
+    "eng/evaluation/README.md",
+    "eng/harness/FunnySharp.Harness.fsproj",
+    "tests/FunnySharp.Harness.Tests/FunnySharp.Harness.Tests.fsproj",
+    "tests/FunnySharp.Harness.Tests/FrozenReplayTests.fs"
+  ],
+  "review": {
+    "task": "st_01a10888",
+    "route": "omo-native-code-reviewer / ghc/gpt-6.1-sol high",
+    "recommendation": "APPROVE",
+    "blockers": []
+  },
+  "checks": {
+    "solutionReleaseBuild": 0,
+    "optionFacts": {
+      "passed": 2,
+      "failed": 0,
+      "skipped": 0
+    },
+    "xmlBindingModule": {
+      "passed": 37,
+      "failed": 0,
+      "skipped": 0
+    },
+    "replayRegressionFacts": 18,
+    "existingEvaluationFacts": 71,
+    "comparisonLockedRestore": 0,
+    "formatter": {
+      "exitCode": 0,
+      "monitor": "mon_D5ZXNK00ZDH2QEDY",
+      "cwd": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr",
+      "command": [
+        "dotnet",
+        "format",
+        "FunnySharp.slnx",
+        "--verify-no-changes",
+        "--no-restore"
+      ]
+    }
+  },
+  "actualReplay": "RED: 65 unavailable historical obj files; no acceptance or threshold bypass",
+  "excludedSeparatelyStagedMetadata": [
+    "docs/audits/goal-24-resolution/findings.json",
+    "docs/audits/goal-24-resolution/report.md",
+    "docs/audits/goal-24-resolution/final-evidence-index.md"
+  ],
+  "pushed": false
+}

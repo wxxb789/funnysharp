@@ -22,8 +22,8 @@
     }
   },
   "metadataCensus": {
-    "path": "artifacts/pr-validation/1fbb50d-performance-20261004-01/current-coverage/package-inventory.json",
-    "sha256": "891ef1a7ffcba37dcb23f2b3ae607f6a9f56d6fe98de23e0a9be6213e8fc6c45"
+    "path": "artifacts/pr-validation/traversal-r9-performance-20261005-01/current-coverage/package-inventory.json",
+    "sha256": "f785d8d2ae7f606de40a622673faaec1d2ee9aaa856bf5fd1f392be671102712"
   },
   "sourceFiles": [
     {
@@ -52,7 +52,7 @@
     },
     {
       "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
-      "sha256": "28d9549c202603dbe44c6075754f7ef1ef9edfca67bd486e0434742b66e69a17"
+      "sha256": "5a0ea53ad1e8eedd56cc54e39f629a69e86f9998147f71259cccdc827898941f"
     },
     {
       "path": "src/FunnySharp/CardinalityExtensions.cs",
@@ -120,7 +120,7 @@
     },
     {
       "path": "src/FunnySharp/PartitionExtensions.cs",
-      "sha256": "54414223c3dc4d0ac0b1b93b7abb8076c8720f1d276ad651f3dd19b38f502e7b"
+      "sha256": "57edfa4d39b0a8f6e9bdd9913d4eb0418a5c0e5fabe82c4e7e35bd7581ad5db7"
     },
     {
       "path": "src/FunnySharp/Result.cs",
@@ -132,7 +132,7 @@
     },
     {
       "path": "src/FunnySharp/SequenceExtensions.cs",
-      "sha256": "480804a00dfd2a6e0cce1d6cfc8a8a1c427c6a6c254482a1c991b050e53e6b9d"
+      "sha256": "f9c6ba3c4ae07b532c02bc7cded4bc51fb47b554512b7c5c87a92c128c37eb50"
     },
     {
       "path": "src/FunnySharp/SpanPipelineExtensions.cs",
@@ -14010,16 +14010,16 @@
         "experimentalDiagnostic": null
       },
       "runtimeWitness": {
-        "path": "artifacts/pr-validation/1fbb50d-performance-20261004-01/current-coverage/attempt-01/contracts-01.json",
-        "sha256": "a25c969af023687f01860b39b07839a467667bcc5175b9aba7661ea1df3864d9",
+        "path": "artifacts/pr-validation/traversal-r9-performance-20261005-01/current-coverage/attempt-01/contracts-01.json",
+        "sha256": "3d3fd885ec0dc6082b375a7c99c593d9db2d6e147dc8642d1bcb407f572d76d0",
         "member": "ModernRuntimeRejectsGeneratedDelegateAsyncMembersWithoutInvokingTargetsOrCallbacks",
         "source": {
           "path": "tests/FunnySharp.Tests/GeneratedDelegateContractTests.cs",
           "sha256": "6fc5d11b4493cafec7f28c752126a64bd19ef4562b65fb9f73cbc5e50c092c6c"
         },
         "coreDll": {
-          "path": "artifacts/pr-validation/1fbb50d-performance-20261004-01/current-coverage/attempt-01/bin/Release/net10.0/FunnySharp.dll",
-          "sha256": "978447b469a7368c22eec343996bbb586bdb9716ec20cb3bf26154324477adbf"
+          "path": "artifacts/pr-validation/traversal-r9-performance-20261005-01/current-coverage/attempt-01/bin/Release/net10.0/FunnySharp.dll",
+          "sha256": "19251bf8e6e1365641a6ce43dce65b5014d36249190b43e3cbdd6a2739118fd5"
         }
       }
     },
@@ -14087,16 +14087,16 @@
         "experimentalDiagnostic": null
       },
       "runtimeWitness": {
-        "path": "artifacts/pr-validation/1fbb50d-performance-20261004-01/current-coverage/attempt-01/contracts-01.json",
-        "sha256": "a25c969af023687f01860b39b07839a467667bcc5175b9aba7661ea1df3864d9",
+        "path": "artifacts/pr-validation/traversal-r9-performance-20261005-01/current-coverage/attempt-01/contracts-01.json",
+        "sha256": "3d3fd885ec0dc6082b375a7c99c593d9db2d6e147dc8642d1bcb407f572d76d0",
         "member": "ModernRuntimeRejectsGeneratedDelegateAsyncMembersWithoutInvokingTargetsOrCallbacks",
         "source": {
           "path": "tests/FunnySharp.Tests/GeneratedDelegateContractTests.cs",
           "sha256": "6fc5d11b4493cafec7f28c752126a64bd19ef4562b65fb9f73cbc5e50c092c6c"
         },
         "coreDll": {
-          "path": "artifacts/pr-validation/1fbb50d-performance-20261004-01/current-coverage/attempt-01/bin/Release/net10.0/FunnySharp.dll",
-          "sha256": "978447b469a7368c22eec343996bbb586bdb9716ec20cb3bf26154324477adbf"
+          "path": "artifacts/pr-validation/traversal-r9-performance-20261005-01/current-coverage/attempt-01/bin/Release/net10.0/FunnySharp.dll",
+          "sha256": "19251bf8e6e1365641a6ce43dce65b5014d36249190b43e3cbdd6a2739118fd5"
         }
       }
     },
@@ -14200,16 +14200,16 @@
         "experimentalDiagnostic": null
       },
       "runtimeWitness": {
-        "path": "artifacts/pr-validation/1fbb50d-performance-20261004-01/current-coverage/attempt-01/contracts-01.json",
-        "sha256": "a25c969af023687f01860b39b07839a467667bcc5175b9aba7661ea1df3864d9",
+        "path": "artifacts/pr-validation/traversal-r9-performance-20261005-01/current-coverage/attempt-01/contracts-01.json",
+        "sha256": "3d3fd885ec0dc6082b375a7c99c593d9db2d6e147dc8642d1bcb407f572d76d0",
         "member": "ModernRuntimeRejectsGeneratedDelegateAsyncMembersWithoutInvokingTargetsOrCallbacks",
         "source": {
           "path": "tests/FunnySharp.Tests/GeneratedDelegateContractTests.cs",
           "sha256": "6fc5d11b4493cafec7f28c752126a64bd19ef4562b65fb9f73cbc5e50c092c6c"
         },
         "coreDll": {
-          "path": "artifacts/pr-validation/1fbb50d-performance-20261004-01/current-coverage/attempt-01/bin/Release/net10.0/FunnySharp.dll",
-          "sha256": "978447b469a7368c22eec343996bbb586bdb9716ec20cb3bf26154324477adbf"
+          "path": "artifacts/pr-validation/traversal-r9-performance-20261005-01/current-coverage/attempt-01/bin/Release/net10.0/FunnySharp.dll",
+          "sha256": "19251bf8e6e1365641a6ce43dce65b5014d36249190b43e3cbdd6a2739118fd5"
         }
       }
     },
@@ -14281,16 +14281,16 @@
         "experimentalDiagnostic": null
       },
       "runtimeWitness": {
-        "path": "artifacts/pr-validation/1fbb50d-performance-20261004-01/current-coverage/attempt-01/contracts-01.json",
-        "sha256": "a25c969af023687f01860b39b07839a467667bcc5175b9aba7661ea1df3864d9",
+        "path": "artifacts/pr-validation/traversal-r9-performance-20261005-01/current-coverage/attempt-01/contracts-01.json",
+        "sha256": "3d3fd885ec0dc6082b375a7c99c593d9db2d6e147dc8642d1bcb407f572d76d0",
         "member": "ModernRuntimeRejectsGeneratedDelegateAsyncMembersWithoutInvokingTargetsOrCallbacks",
         "source": {
           "path": "tests/FunnySharp.Tests/GeneratedDelegateContractTests.cs",
           "sha256": "6fc5d11b4493cafec7f28c752126a64bd19ef4562b65fb9f73cbc5e50c092c6c"
         },
         "coreDll": {
-          "path": "artifacts/pr-validation/1fbb50d-performance-20261004-01/current-coverage/attempt-01/bin/Release/net10.0/FunnySharp.dll",
-          "sha256": "978447b469a7368c22eec343996bbb586bdb9716ec20cb3bf26154324477adbf"
+          "path": "artifacts/pr-validation/traversal-r9-performance-20261005-01/current-coverage/attempt-01/bin/Release/net10.0/FunnySharp.dll",
+          "sha256": "19251bf8e6e1365641a6ce43dce65b5014d36249190b43e3cbdd6a2739118fd5"
         }
       }
     },
@@ -15098,16 +15098,16 @@
         "experimentalDiagnostic": null
       },
       "runtimeWitness": {
-        "path": "artifacts/pr-validation/1fbb50d-performance-20261004-01/current-coverage/attempt-01/contracts-01.json",
-        "sha256": "a25c969af023687f01860b39b07839a467667bcc5175b9aba7661ea1df3864d9",
+        "path": "artifacts/pr-validation/traversal-r9-performance-20261005-01/current-coverage/attempt-01/contracts-01.json",
+        "sha256": "3d3fd885ec0dc6082b375a7c99c593d9db2d6e147dc8642d1bcb407f572d76d0",
         "member": "ModernRuntimeRejectsGeneratedDelegateAsyncMembersWithoutInvokingTargetsOrCallbacks",
         "source": {
           "path": "tests/FunnySharp.Tests/GeneratedDelegateContractTests.cs",
           "sha256": "6fc5d11b4493cafec7f28c752126a64bd19ef4562b65fb9f73cbc5e50c092c6c"
         },
         "coreDll": {
-          "path": "artifacts/pr-validation/1fbb50d-performance-20261004-01/current-coverage/attempt-01/bin/Release/net10.0/FunnySharp.dll",
-          "sha256": "978447b469a7368c22eec343996bbb586bdb9716ec20cb3bf26154324477adbf"
+          "path": "artifacts/pr-validation/traversal-r9-performance-20261005-01/current-coverage/attempt-01/bin/Release/net10.0/FunnySharp.dll",
+          "sha256": "19251bf8e6e1365641a6ce43dce65b5014d36249190b43e3cbdd6a2739118fd5"
         }
       }
     },
@@ -15182,16 +15182,16 @@
         "experimentalDiagnostic": null
       },
       "runtimeWitness": {
-        "path": "artifacts/pr-validation/1fbb50d-performance-20261004-01/current-coverage/attempt-01/contracts-01.json",
-        "sha256": "a25c969af023687f01860b39b07839a467667bcc5175b9aba7661ea1df3864d9",
+        "path": "artifacts/pr-validation/traversal-r9-performance-20261005-01/current-coverage/attempt-01/contracts-01.json",
+        "sha256": "3d3fd885ec0dc6082b375a7c99c593d9db2d6e147dc8642d1bcb407f572d76d0",
         "member": "ModernRuntimeRejectsGeneratedDelegateAsyncMembersWithoutInvokingTargetsOrCallbacks",
         "source": {
           "path": "tests/FunnySharp.Tests/GeneratedDelegateContractTests.cs",
           "sha256": "6fc5d11b4493cafec7f28c752126a64bd19ef4562b65fb9f73cbc5e50c092c6c"
         },
         "coreDll": {
-          "path": "artifacts/pr-validation/1fbb50d-performance-20261004-01/current-coverage/attempt-01/bin/Release/net10.0/FunnySharp.dll",
-          "sha256": "978447b469a7368c22eec343996bbb586bdb9716ec20cb3bf26154324477adbf"
+          "path": "artifacts/pr-validation/traversal-r9-performance-20261005-01/current-coverage/attempt-01/bin/Release/net10.0/FunnySharp.dll",
+          "sha256": "19251bf8e6e1365641a6ce43dce65b5014d36249190b43e3cbdd6a2739118fd5"
         }
       }
     },
@@ -18545,11 +18545,11 @@
       "firstLine": 875,
       "lastLine": 897,
       "execution": {
-        "path": "artifacts/pr-validation/1fbb50d-performance-20261004-01/current-coverage/attempt-01/contracts-01.trx",
-        "sha256": "82771db93caa5a66c6ff5b98dd4d2f2fee336f2d440d5d4392dad0e77d0164f6",
+        "path": "artifacts/pr-validation/traversal-r9-performance-20261005-01/current-coverage/attempt-01/contracts-01.trx",
+        "sha256": "a748bdbc62a35f70de2aeeac5b8b46f581824e27e09aa50a7d43840fdd8c0c56",
         "coreDll": {
-          "path": "artifacts/pr-validation/1fbb50d-performance-20261004-01/current-coverage/attempt-01/bin/Release/net10.0/FunnySharp.dll",
-          "sha256": "978447b469a7368c22eec343996bbb586bdb9716ec20cb3bf26154324477adbf"
+          "path": "artifacts/pr-validation/traversal-r9-performance-20261005-01/current-coverage/attempt-01/bin/Release/net10.0/FunnySharp.dll",
+          "sha256": "19251bf8e6e1365641a6ce43dce65b5014d36249190b43e3cbdd6a2739118fd5"
         }
       },
       "originalSource": {
@@ -18566,11 +18566,11 @@
       "firstLine": 930,
       "lastLine": 1011,
       "execution": {
-        "path": "artifacts/pr-validation/1fbb50d-performance-20261004-01/current-coverage/attempt-01/contracts-01.trx",
-        "sha256": "82771db93caa5a66c6ff5b98dd4d2f2fee336f2d440d5d4392dad0e77d0164f6",
+        "path": "artifacts/pr-validation/traversal-r9-performance-20261005-01/current-coverage/attempt-01/contracts-01.trx",
+        "sha256": "a748bdbc62a35f70de2aeeac5b8b46f581824e27e09aa50a7d43840fdd8c0c56",
         "coreDll": {
-          "path": "artifacts/pr-validation/1fbb50d-performance-20261004-01/current-coverage/attempt-01/bin/Release/net10.0/FunnySharp.dll",
-          "sha256": "978447b469a7368c22eec343996bbb586bdb9716ec20cb3bf26154324477adbf"
+          "path": "artifacts/pr-validation/traversal-r9-performance-20261005-01/current-coverage/attempt-01/bin/Release/net10.0/FunnySharp.dll",
+          "sha256": "19251bf8e6e1365641a6ce43dce65b5014d36249190b43e3cbdd6a2739118fd5"
         }
       }
     },
@@ -18582,11 +18582,11 @@
       "firstLine": 617,
       "lastLine": 657,
       "execution": {
-        "path": "artifacts/pr-validation/1fbb50d-performance-20261004-01/current-coverage/attempt-01/contracts-01.trx",
-        "sha256": "82771db93caa5a66c6ff5b98dd4d2f2fee336f2d440d5d4392dad0e77d0164f6",
+        "path": "artifacts/pr-validation/traversal-r9-performance-20261005-01/current-coverage/attempt-01/contracts-01.trx",
+        "sha256": "a748bdbc62a35f70de2aeeac5b8b46f581824e27e09aa50a7d43840fdd8c0c56",
         "coreDll": {
-          "path": "artifacts/pr-validation/1fbb50d-performance-20261004-01/current-coverage/attempt-01/bin/Release/net10.0/FunnySharp.dll",
-          "sha256": "978447b469a7368c22eec343996bbb586bdb9716ec20cb3bf26154324477adbf"
+          "path": "artifacts/pr-validation/traversal-r9-performance-20261005-01/current-coverage/attempt-01/bin/Release/net10.0/FunnySharp.dll",
+          "sha256": "19251bf8e6e1365641a6ce43dce65b5014d36249190b43e3cbdd6a2739118fd5"
         }
       },
       "originalSource": {
@@ -18603,11 +18603,11 @@
       "firstLine": 904,
       "lastLine": 939,
       "execution": {
-        "path": "artifacts/pr-validation/1fbb50d-performance-20261004-01/current-coverage/attempt-01/contracts-01.trx",
-        "sha256": "82771db93caa5a66c6ff5b98dd4d2f2fee336f2d440d5d4392dad0e77d0164f6",
+        "path": "artifacts/pr-validation/traversal-r9-performance-20261005-01/current-coverage/attempt-01/contracts-01.trx",
+        "sha256": "a748bdbc62a35f70de2aeeac5b8b46f581824e27e09aa50a7d43840fdd8c0c56",
         "coreDll": {
-          "path": "artifacts/pr-validation/1fbb50d-performance-20261004-01/current-coverage/attempt-01/bin/Release/net10.0/FunnySharp.dll",
-          "sha256": "978447b469a7368c22eec343996bbb586bdb9716ec20cb3bf26154324477adbf"
+          "path": "artifacts/pr-validation/traversal-r9-performance-20261005-01/current-coverage/attempt-01/bin/Release/net10.0/FunnySharp.dll",
+          "sha256": "19251bf8e6e1365641a6ce43dce65b5014d36249190b43e3cbdd6a2739118fd5"
         }
       },
       "originalSource": {
@@ -18624,11 +18624,11 @@
       "firstLine": 318,
       "lastLine": 418,
       "execution": {
-        "path": "artifacts/pr-validation/1fbb50d-performance-20261004-01/current-coverage/attempt-01/contracts-01.trx",
-        "sha256": "82771db93caa5a66c6ff5b98dd4d2f2fee336f2d440d5d4392dad0e77d0164f6",
+        "path": "artifacts/pr-validation/traversal-r9-performance-20261005-01/current-coverage/attempt-01/contracts-01.trx",
+        "sha256": "a748bdbc62a35f70de2aeeac5b8b46f581824e27e09aa50a7d43840fdd8c0c56",
         "coreDll": {
-          "path": "artifacts/pr-validation/1fbb50d-performance-20261004-01/current-coverage/attempt-01/bin/Release/net10.0/FunnySharp.dll",
-          "sha256": "978447b469a7368c22eec343996bbb586bdb9716ec20cb3bf26154324477adbf"
+          "path": "artifacts/pr-validation/traversal-r9-performance-20261005-01/current-coverage/attempt-01/bin/Release/net10.0/FunnySharp.dll",
+          "sha256": "19251bf8e6e1365641a6ce43dce65b5014d36249190b43e3cbdd6a2739118fd5"
         }
       }
     },
@@ -18640,11 +18640,11 @@
       "firstLine": 945,
       "lastLine": 960,
       "execution": {
-        "path": "artifacts/pr-validation/1fbb50d-performance-20261004-01/current-coverage/attempt-01/contracts-01.trx",
-        "sha256": "82771db93caa5a66c6ff5b98dd4d2f2fee336f2d440d5d4392dad0e77d0164f6",
+        "path": "artifacts/pr-validation/traversal-r9-performance-20261005-01/current-coverage/attempt-01/contracts-01.trx",
+        "sha256": "a748bdbc62a35f70de2aeeac5b8b46f581824e27e09aa50a7d43840fdd8c0c56",
         "coreDll": {
-          "path": "artifacts/pr-validation/1fbb50d-performance-20261004-01/current-coverage/attempt-01/bin/Release/net10.0/FunnySharp.dll",
-          "sha256": "978447b469a7368c22eec343996bbb586bdb9716ec20cb3bf26154324477adbf"
+          "path": "artifacts/pr-validation/traversal-r9-performance-20261005-01/current-coverage/attempt-01/bin/Release/net10.0/FunnySharp.dll",
+          "sha256": "19251bf8e6e1365641a6ce43dce65b5014d36249190b43e3cbdd6a2739118fd5"
         }
       },
       "originalSource": {
@@ -18661,11 +18661,11 @@
       "firstLine": 966,
       "lastLine": 996,
       "execution": {
-        "path": "artifacts/pr-validation/1fbb50d-performance-20261004-01/current-coverage/attempt-01/contracts-01.trx",
-        "sha256": "82771db93caa5a66c6ff5b98dd4d2f2fee336f2d440d5d4392dad0e77d0164f6",
+        "path": "artifacts/pr-validation/traversal-r9-performance-20261005-01/current-coverage/attempt-01/contracts-01.trx",
+        "sha256": "a748bdbc62a35f70de2aeeac5b8b46f581824e27e09aa50a7d43840fdd8c0c56",
         "coreDll": {
-          "path": "artifacts/pr-validation/1fbb50d-performance-20261004-01/current-coverage/attempt-01/bin/Release/net10.0/FunnySharp.dll",
-          "sha256": "978447b469a7368c22eec343996bbb586bdb9716ec20cb3bf26154324477adbf"
+          "path": "artifacts/pr-validation/traversal-r9-performance-20261005-01/current-coverage/attempt-01/bin/Release/net10.0/FunnySharp.dll",
+          "sha256": "19251bf8e6e1365641a6ce43dce65b5014d36249190b43e3cbdd6a2739118fd5"
         }
       },
       "originalSource": {

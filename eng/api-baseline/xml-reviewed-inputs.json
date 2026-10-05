@@ -92,7 +92,7 @@
     },
     {
       "path": "src/FunnySharp/AsyncSequenceExtensions.cs",
-      "sha256": "28d9549c202603dbe44c6075754f7ef1ef9edfca67bd486e0434742b66e69a17"
+      "sha256": "5a0ea53ad1e8eedd56cc54e39f629a69e86f9998147f71259cccdc827898941f"
     },
     {
       "path": "src/FunnySharp/CardinalityExtensions.cs",
@@ -164,7 +164,7 @@
     },
     {
       "path": "src/FunnySharp/PartitionExtensions.cs",
-      "sha256": "54414223c3dc4d0ac0b1b93b7abb8076c8720f1d276ad651f3dd19b38f502e7b"
+      "sha256": "57edfa4d39b0a8f6e9bdd9913d4eb0418a5c0e5fabe82c4e7e35bd7581ad5db7"
     },
     {
       "path": "src/FunnySharp/Result.cs",
@@ -176,7 +176,7 @@
     },
     {
       "path": "src/FunnySharp/SequenceExtensions.cs",
-      "sha256": "480804a00dfd2a6e0cce1d6cfc8a8a1c427c6a6c254482a1c991b050e53e6b9d"
+      "sha256": "f9c6ba3c4ae07b532c02bc7cded4bc51fb47b554512b7c5c87a92c128c37eb50"
     },
     {
       "path": "src/FunnySharp/SpanPipelineExtensions.cs",
@@ -214,8 +214,8 @@
   "assemblies": [
     {
       "name": "FunnySharp",
-      "xmlSha256": "d3b702f19dc04d5779e3e80757065ce2a76684cabbbb8dcc126f1c429f08a9f1",
-      "lfXmlSha256": "5eb47c0fad16be5cf159c1101f7dae2758457074ae51aee4ff803178b3e1dcee",
+      "xmlSha256": "35dd9f2354a0dc45799e32adf90e7649594aa62988f423a42fa12185ae63f5b3",
+      "lfXmlSha256": "1aac5d37b1e103114199bc437bd0dc50e11326665efc7f55dbb6a40672a4d78c",
       "historicalXmlSha256": "4ef257af8378bd41f653b01215e5b016166a064320e7898e1794c4eb327489cc"
     },
     {
@@ -227,27 +227,224 @@
   ],
   "reviewBasis": {
     "previousReviewedInputs": {
-      "commit": "e7aea9995bac6c87a69db14a8b04c6925cb45d4c",
+      "commit": "b584e748699a4f19d8a901695634be5a85ce8b07",
       "path": "eng/api-baseline/xml-reviewed-inputs.json",
-      "sha256": "b0411918c0b1ec71605614786453d84afcbdcb8d7c16ccca662585efa5fd47dc"
+      "sha256": "d5319f334d5220b38861da411f5025cf28e4c187ef5b5258677751690ccc6140"
     },
-    "shippingSourceDelta": "Only the two invalid-default exception comments on Option equality operators were removed; executable source is identical.",
+    "finding": {
+      "id": "FG-R9-001",
+      "reportPath": "docs/reviews/goal24-pr-20261004/final-local-gate-b584.json",
+      "reportSha256": "1d38a0d6cac0a56e4a4670d3527fd0d3cbd2caeb1980b41108b65cccc8ee712c",
+      "recommendation": "REJECT"
+    },
+    "shippingSourceDelta": "Only 29 InvalidOperationException clauses changed: 20 Traverse clauses identify the returned selector carrier; six Sequence and three Partition clauses identify the reached source carrier. Every non-XML source line and source line count is identical to b584.",
     "xmlDelta": [
       {
-        "xmlId": "M:FunnySharp.Option`1.op_Equality(FunnySharp.Option{`0},FunnySharp.Option{`0})",
-        "removedExceptionCref": "T:System.InvalidOperationException",
-        "oldNodeSha256": "d6498af8bc3ed7f4f858723e3cc3fbde47cd2ef365ff9be2ed66565f2cc40ef4",
-        "newNodeSha256": "3241eb7e7e73271c5378593b9e8b441ea3cb5b18a0d1c04853b73d263d6f2d2e"
+        "xmlId": "M:FunnySharp.AsyncSequenceExtensions.SequenceAsync``2(System.Collections.Generic.IAsyncEnumerable{FunnySharp.Result{``0,``1}},System.Threading.CancellationToken)",
+        "changedExceptionCref": "T:System.InvalidOperationException",
+        "inspectedValue": "source carrier",
+        "oldNodeSha256": "5f37c3591b275130fd6dcdc0b659ada45839d65a3b5c9172b099ff1cdb47825c",
+        "newNodeSha256": "feddefefe186ef5bd3731f47dfbf9610b6a916114dde2cf0cae88e3328d0fc8a"
       },
       {
-        "xmlId": "M:FunnySharp.Option`1.op_Inequality(FunnySharp.Option{`0},FunnySharp.Option{`0})",
-        "removedExceptionCref": "T:System.InvalidOperationException",
-        "oldNodeSha256": "86292ff40ada26cdc7e33f2179dabec35cf84a8b384815e1a7cd8eb14e1c6730",
-        "newNodeSha256": "b1b04004e7e2fa2e747ab1c316b86fc726883be9a7636e9dde77e92394b8c55c"
+        "xmlId": "M:FunnySharp.AsyncSequenceExtensions.TraverseAsync``3(System.Collections.Generic.IAsyncEnumerable{``0},System.Func{``0,FunnySharp.Result{``1,``2}},System.Threading.CancellationToken)",
+        "changedExceptionCref": "T:System.InvalidOperationException",
+        "inspectedValue": "selector result",
+        "oldNodeSha256": "2061d1b584e180c74e1114c016a0c58db755c950268ff81379cb3a2bb97c614d",
+        "newNodeSha256": "6188468439c3c9c9cecc189ef8dfa04fccabb9da1c92e5eeca051f75009addde"
+      },
+      {
+        "xmlId": "M:FunnySharp.AsyncSequenceExtensions.TraverseValueAsync``3(System.Collections.Generic.IAsyncEnumerable{``0},System.Func{``0,System.Threading.Tasks.ValueTask{FunnySharp.Result{``1,``2}}},System.Threading.CancellationToken)",
+        "changedExceptionCref": "T:System.InvalidOperationException",
+        "inspectedValue": "selector result",
+        "oldNodeSha256": "c59a276c338bbfadd3a53f0db35ecdcd1d7058837b353f43dd16d190e777e1bc",
+        "newNodeSha256": "ab2b5ab985b5b461cb474851b2faf7b8523bafea8862235dde7093ac1523e5a4"
+      },
+      {
+        "xmlId": "M:FunnySharp.AsyncSequenceExtensions.TraverseValueAsync``3(System.Collections.Generic.IAsyncEnumerable{``0},System.Func{``0,System.Threading.CancellationToken,System.Threading.Tasks.ValueTask{FunnySharp.Result{``1,``2}}},System.Threading.CancellationToken)",
+        "changedExceptionCref": "T:System.InvalidOperationException",
+        "inspectedValue": "selector result",
+        "oldNodeSha256": "4b033f62cf6d66a0c5733e6baee786f900e6cd3fb08ea69732badb1154d4bb61",
+        "newNodeSha256": "e3f2b1ccfb2b06209904f5676f59f4e88930ffe145e97aa0b9f2b8d866b6bef4"
+      },
+      {
+        "xmlId": "M:FunnySharp.AsyncSequenceExtensions.SequenceAsync``1(System.Collections.Generic.IAsyncEnumerable{FunnySharp.UnitResult{``0}},System.Threading.CancellationToken)",
+        "changedExceptionCref": "T:System.InvalidOperationException",
+        "inspectedValue": "source carrier",
+        "oldNodeSha256": "6a39409caa60f0194d23cd8efe7bf251472ae55ea39b3c09a6f097689dd6116f",
+        "newNodeSha256": "f02c1b0d1818847e79bf0d1473846709883a8f891b7aa7e264f9cb84fe5840e2"
+      },
+      {
+        "xmlId": "M:FunnySharp.AsyncSequenceExtensions.TraverseAsync``2(System.Collections.Generic.IAsyncEnumerable{``0},System.Func{``0,FunnySharp.UnitResult{``1}},System.Threading.CancellationToken)",
+        "changedExceptionCref": "T:System.InvalidOperationException",
+        "inspectedValue": "selector result",
+        "oldNodeSha256": "f9ad01438297b4d5d7d0c357f7648559eab03026426300100fb668479fa1f206",
+        "newNodeSha256": "42bb22dbb1a4118cac1360897e77d6290b3b811b7c024b6ff510d8f56fd14ddf"
+      },
+      {
+        "xmlId": "M:FunnySharp.AsyncSequenceExtensions.TraverseValueAsync``2(System.Collections.Generic.IAsyncEnumerable{``0},System.Func{``0,System.Threading.Tasks.ValueTask{FunnySharp.UnitResult{``1}}},System.Threading.CancellationToken)",
+        "changedExceptionCref": "T:System.InvalidOperationException",
+        "inspectedValue": "selector result",
+        "oldNodeSha256": "058a832e928127bea256444a1bf068f3a11af28c2306d8947be483943629b8ed",
+        "newNodeSha256": "40d61b9e7baa53b89bd4cc026dd30f7cfd3a4af9cc82c00f472f6c07c1232b24"
+      },
+      {
+        "xmlId": "M:FunnySharp.AsyncSequenceExtensions.TraverseValueAsync``2(System.Collections.Generic.IAsyncEnumerable{``0},System.Func{``0,System.Threading.CancellationToken,System.Threading.Tasks.ValueTask{FunnySharp.UnitResult{``1}}},System.Threading.CancellationToken)",
+        "changedExceptionCref": "T:System.InvalidOperationException",
+        "inspectedValue": "selector result",
+        "oldNodeSha256": "c89a71d0d719887f8f59eb148b90235eeca057eb673dcc33ea7c2868113fc2d0",
+        "newNodeSha256": "7d33917117f2481cb00b5ae2e57826ac3a2dbc493cdbec1a6187dd916e196fe5"
+      },
+      {
+        "xmlId": "M:FunnySharp.AsyncSequenceExtensions.SequenceAsync``2(System.Collections.Generic.IAsyncEnumerable{FunnySharp.Validation{``0,``1}},System.Threading.CancellationToken)",
+        "changedExceptionCref": "T:System.InvalidOperationException",
+        "inspectedValue": "source carrier",
+        "oldNodeSha256": "1d9c6e5d7c83faed7054540535f4f0e3ce03dc719027733311b53a70713bacb5",
+        "newNodeSha256": "7b040c4a6bcdbe9b1b7fc66a96530893d0ab6f83dd3d67c3f5934cf0bbcc7243"
+      },
+      {
+        "xmlId": "M:FunnySharp.AsyncSequenceExtensions.TraverseAsync``3(System.Collections.Generic.IAsyncEnumerable{``0},System.Func{``0,FunnySharp.Validation{``1,``2}},System.Threading.CancellationToken)",
+        "changedExceptionCref": "T:System.InvalidOperationException",
+        "inspectedValue": "selector result",
+        "oldNodeSha256": "2830315d3ec4e470577c11e8a6e8eaae08df7bbbd9e36a8e1b95f2faddd8bed2",
+        "newNodeSha256": "babd8f39fb6966a0696db48b944abe054b30803ca9b18e4a84542b7be6e727a0"
+      },
+      {
+        "xmlId": "M:FunnySharp.AsyncSequenceExtensions.TraverseValueAsync``3(System.Collections.Generic.IAsyncEnumerable{``0},System.Func{``0,System.Threading.Tasks.ValueTask{FunnySharp.Validation{``1,``2}}},System.Threading.CancellationToken)",
+        "changedExceptionCref": "T:System.InvalidOperationException",
+        "inspectedValue": "selector result",
+        "oldNodeSha256": "1c5ff5b9c9a2093c6b2d9ceabdb3f0064ae8e92e6d53f9242ab9514d35e515ab",
+        "newNodeSha256": "9b25262193f0175e6a3a92273c612aaef2ec7aaf8f139d7258dd0d7d5475ea55"
+      },
+      {
+        "xmlId": "M:FunnySharp.AsyncSequenceExtensions.TraverseValueAsync``3(System.Collections.Generic.IAsyncEnumerable{``0},System.Func{``0,System.Threading.CancellationToken,System.Threading.Tasks.ValueTask{FunnySharp.Validation{``1,``2}}},System.Threading.CancellationToken)",
+        "changedExceptionCref": "T:System.InvalidOperationException",
+        "inspectedValue": "selector result",
+        "oldNodeSha256": "a23fbffb4d6019033d74139571fb1780e3faf53f41275c619027de8c168aeba5",
+        "newNodeSha256": "0147333913ffb867ddc67fd35f5cc6f460e25f95c9db889b6de50cc140e873cd"
+      },
+      {
+        "xmlId": "M:FunnySharp.PartitionExtensions.Partition``2(System.Collections.Generic.IEnumerable{FunnySharp.Result{``0,``1}})",
+        "changedExceptionCref": "T:System.InvalidOperationException",
+        "inspectedValue": "source carrier",
+        "oldNodeSha256": "fcc0fba71315f20127976890a5b27b590c348987e876c1bc8bf61e0822b4499b",
+        "newNodeSha256": "5861336497466d83bf65bcd29a72ce6f02c7bf03bac6ddfd1494068c01ea6948"
+      },
+      {
+        "xmlId": "M:FunnySharp.PartitionExtensions.Partition``1(System.Collections.Generic.IEnumerable{FunnySharp.UnitResult{``0}})",
+        "changedExceptionCref": "T:System.InvalidOperationException",
+        "inspectedValue": "source carrier",
+        "oldNodeSha256": "4ae30d757563373548d5bf5abe1bca5bed111ec2aa84c47be97c0d5072b7015f",
+        "newNodeSha256": "c33736968255cdbb1a356623da00a22a7b9b6975d50b31c663f9c19231da0f8c"
+      },
+      {
+        "xmlId": "M:FunnySharp.PartitionExtensions.PartitionAsync``2(System.Collections.Generic.IAsyncEnumerable{FunnySharp.Result{``0,``1}},System.Threading.CancellationToken)",
+        "changedExceptionCref": "T:System.InvalidOperationException",
+        "inspectedValue": "source carrier",
+        "oldNodeSha256": "9fa62f2f3c4e4646964c487e41a9af669c8155d6076803b47b12831dfba5145c",
+        "newNodeSha256": "e1ae163f4d829b51b40454af25f8a40c752d45bc5573fccb97ba7003e2ee7ce0"
+      },
+      {
+        "xmlId": "M:FunnySharp.SequenceExtensions.Sequence``2(System.Collections.Generic.IEnumerable{FunnySharp.Result{``0,``1}})",
+        "changedExceptionCref": "T:System.InvalidOperationException",
+        "inspectedValue": "source carrier",
+        "oldNodeSha256": "0ff9013f13e99354106cd2fefda573a7c4d88ecfdb50733266d154aa23092eee",
+        "newNodeSha256": "afa7b26cdabc4654100b5bab20a59e6c65661d62ef10ebb1b90ac97225fb9b7c"
+      },
+      {
+        "xmlId": "M:FunnySharp.SequenceExtensions.Traverse``3(System.Collections.Generic.IEnumerable{``0},System.Func{``0,FunnySharp.Result{``1,``2}})",
+        "changedExceptionCref": "T:System.InvalidOperationException",
+        "inspectedValue": "selector result",
+        "oldNodeSha256": "7020e3b8cb708c4bf37120dfc8a57fd2fab92396bc9b089647e1bd66b627c06d",
+        "newNodeSha256": "8cf329dfcc4c6eca746238266e349fedd66e002cf5529b275585a57e74f107e8"
+      },
+      {
+        "xmlId": "M:FunnySharp.SequenceExtensions.Sequence``1(System.Collections.Generic.IEnumerable{FunnySharp.UnitResult{``0}})",
+        "changedExceptionCref": "T:System.InvalidOperationException",
+        "inspectedValue": "source carrier",
+        "oldNodeSha256": "9e1cb60de3b579e37e2cbe32a470e27ffffb4a5a1f0fab158e18147dc9849e25",
+        "newNodeSha256": "248cbe79ce5de9930c43d941bca2bdf12383ccec501f7a32f1c3b38a4c44f969"
+      },
+      {
+        "xmlId": "M:FunnySharp.SequenceExtensions.Traverse``2(System.Collections.Generic.IEnumerable{``0},System.Func{``0,FunnySharp.UnitResult{``1}})",
+        "changedExceptionCref": "T:System.InvalidOperationException",
+        "inspectedValue": "selector result",
+        "oldNodeSha256": "d9185433715eb601ae59d3390f7a46b23dc66cb4e11a1c3dca1c5b8d0ebee9c9",
+        "newNodeSha256": "2ff8d0b085433472fcb42b3a6d2cb1b51f5ab94262c22a447cd9728753fe986d"
+      },
+      {
+        "xmlId": "M:FunnySharp.SequenceExtensions.Sequence``2(System.Collections.Generic.IEnumerable{FunnySharp.Validation{``0,``1}})",
+        "changedExceptionCref": "T:System.InvalidOperationException",
+        "inspectedValue": "source carrier",
+        "oldNodeSha256": "bc3ae7c554d5bb1787454ac8e648f58acb024ad4c8351f0c350d08b9f1a995ec",
+        "newNodeSha256": "6a48eb6300d6533e2d0928fcc83830c03f895b16c39f78d90946fba01e8d68c8"
+      },
+      {
+        "xmlId": "M:FunnySharp.SequenceExtensions.Traverse``3(System.Collections.Generic.IEnumerable{``0},System.Func{``0,FunnySharp.Validation{``1,``2}})",
+        "changedExceptionCref": "T:System.InvalidOperationException",
+        "inspectedValue": "selector result",
+        "oldNodeSha256": "459e97d3ab536d6ea20cc8229cda23d24054e94667cf7595e469cd786af7ffad",
+        "newNodeSha256": "4202aa0609f4c62ae6162e67f50c5b143ca65a359f1b4f9768ceaad50ed402c8"
+      },
+      {
+        "xmlId": "M:FunnySharp.SequenceExtensions.Traverse``3(System.Collections.Generic.IEnumerable{``0},System.Func{System.Int32,``0,FunnySharp.Result{``1,``2}})",
+        "changedExceptionCref": "T:System.InvalidOperationException",
+        "inspectedValue": "selector result",
+        "oldNodeSha256": "4bc3885666ec1ca198f8edd7a999b7f605317668bcfb73087c3cc4ce797c3914",
+        "newNodeSha256": "878ef2d4e70e39e7ee11534bd935718cdce646f191ac7e443c33ef63a3c7c1bc"
+      },
+      {
+        "xmlId": "M:FunnySharp.SequenceExtensions.Traverse``2(System.Collections.Generic.IEnumerable{``0},System.Func{System.Int32,``0,FunnySharp.UnitResult{``1}})",
+        "changedExceptionCref": "T:System.InvalidOperationException",
+        "inspectedValue": "selector result",
+        "oldNodeSha256": "934c5194f7d7d74b85cc636f9ff2783fdef0ddd83a7a739bc2715374fd95fac0",
+        "newNodeSha256": "1db2f52d87e21d2ec73a7afb7a9b78bdeb47ad6eed02a081fa80c6a5966cf83e"
+      },
+      {
+        "xmlId": "M:FunnySharp.SequenceExtensions.Traverse``3(System.Collections.Generic.IEnumerable{``0},System.Func{System.Int32,``0,FunnySharp.Validation{``1,``2}})",
+        "changedExceptionCref": "T:System.InvalidOperationException",
+        "inspectedValue": "selector result",
+        "oldNodeSha256": "d578ef838f432c5633cae213c50613c3248b2ec87a2c388272e0fc180f8b8eff",
+        "newNodeSha256": "ead3d23bba67487658d2dab4d8ea57299afcc62d72450414bca9c382473ac4c7"
+      },
+      {
+        "xmlId": "M:FunnySharp.SequenceExtensions.Traverse``4(System.Collections.Generic.IReadOnlyDictionary{``0,``1},System.Func{``0,``1,FunnySharp.Result{``2,``3}})",
+        "changedExceptionCref": "T:System.InvalidOperationException",
+        "inspectedValue": "selector result",
+        "oldNodeSha256": "6f67f14108eb3e7aa326fd90a45890f38db82fa486b1ad1031c4380c7f9a98ff",
+        "newNodeSha256": "399ba93b8d3e07038754d45aadc062447ba658594653c432ca8ce06df4450dac"
+      },
+      {
+        "xmlId": "M:FunnySharp.SequenceExtensions.Traverse``4(System.Collections.Generic.IReadOnlyDictionary{``0,``1},System.Func{``0,``1,FunnySharp.Result{``2,``3}},System.Collections.Generic.IEqualityComparer{``0})",
+        "changedExceptionCref": "T:System.InvalidOperationException",
+        "inspectedValue": "selector result",
+        "oldNodeSha256": "a4a176f703d944144683f9dccdfc9bca4ffff2100853063ca221466d0f9bcfbd",
+        "newNodeSha256": "6722ab4860f49a68d1626fce39461e27366578a6f6e3da660f9895db2ca0101c"
+      },
+      {
+        "xmlId": "M:FunnySharp.SequenceExtensions.Traverse``3(System.Collections.Generic.IReadOnlyDictionary{``0,``1},System.Func{``0,``1,FunnySharp.UnitResult{``2}})",
+        "changedExceptionCref": "T:System.InvalidOperationException",
+        "inspectedValue": "selector result",
+        "oldNodeSha256": "73d0c15a10bfd36bf364433a7f2687247425695b6e1ab2b7d34b6a8cd806ac3c",
+        "newNodeSha256": "ff6b6ffd976f5d14f8d6011f0eae5264486142907085f8a57dc6ce27b224cbce"
+      },
+      {
+        "xmlId": "M:FunnySharp.SequenceExtensions.Traverse``4(System.Collections.Generic.IReadOnlyDictionary{``0,``1},System.Func{``0,``1,FunnySharp.Validation{``2,``3}})",
+        "changedExceptionCref": "T:System.InvalidOperationException",
+        "inspectedValue": "selector result",
+        "oldNodeSha256": "b8120b5d4ae9d9862fd04947942e647a00c8fcf7cf1e27aa7a29e31079d7536e",
+        "newNodeSha256": "69147bd793a3d1068f60ff8d70d560eca0fb80fa977e90243a4f5c86f520045f"
+      },
+      {
+        "xmlId": "M:FunnySharp.SequenceExtensions.Traverse``4(System.Collections.Generic.IReadOnlyDictionary{``0,``1},System.Func{``0,``1,FunnySharp.Validation{``2,``3}},System.Collections.Generic.IEqualityComparer{``0})",
+        "changedExceptionCref": "T:System.InvalidOperationException",
+        "inspectedValue": "selector result",
+        "oldNodeSha256": "44004e701ffc2eb8f283d5a26ff73254efd4a3f8caf1273b6891813ee3bef50e",
+        "newNodeSha256": "6713ca170f5057e79a9ee1522cf02d1a873ffd939f4a3af38d41d7fcb0dbe971"
       }
     ],
     "xmlRepresentations": "xmlSha256 identifies the reviewed current CRLF document. lfXmlSha256 changes CRLF pairs to LF only. historicalXmlSha256 retains the original v1 policy XML digest separately.",
-    "verification": "Existing default-None and equality operator facts passed 2/2, zero failures and skips; the complete generated XML differs only by these two exception elements."
+    "verification": "Actual core/test project build succeeded with zero warnings and zero errors. Complete current generated XML differs from b584 only at the 29 listed exception clauses. Runtime and successor gate evidence are recorded separately; no complete semantic acceptance is claimed."
   },
   "historicalExactReviewPreserved": "Original v1 package/semantic policy bytes and v2 anchor at e7aea999 are unchanged historical evidence; this v3 anchor reviews the current documentation revision."
 }

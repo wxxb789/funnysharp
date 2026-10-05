@@ -1,0 +1,103 @@
+{
+  "schema": "funnysharp-pr-revised-doc-region-install/v1",
+  "generated": {
+    "mainRegions": 11,
+    "competitorRegions": 1,
+    "mainMonitor": "mon_VEKWMAWMAF437C6P",
+    "competitorMonitor": "mon_CH505J4MFS0J0GCS",
+    "exitCodes": [
+      0,
+      0
+    ],
+    "repositoryRoot": "Q:/repos/funnysharp/.worktrees/goal24-complete-pr",
+    "outputScratchRoot": "Q:/tmp/compound-engineering-lhan/ce-code-review/20261004-goal24-pr33-prepush/traversal-r9-performance-docs"
+  },
+  "installedRegions": [
+    {
+      "path": "docs/function-composition.md",
+      "oldRegionSha256": "86da5c238cef637669b7b1384ff3483cfd7763b76c9834c3ab7390a1a163fb09",
+      "newRegionSha256": "2194907d3c18811238115c907fa5b96aa655355d0fccdc31af89aab87769b036",
+      "outsideRegionUnchanged": true
+    },
+    {
+      "path": "docs/option.md",
+      "oldRegionSha256": "4a205f038cdbe9e9bb08df8937296b4ac0a9c51bbd154278e3b489491923cc08",
+      "newRegionSha256": "a0af0cfe98236665d9b8234cca9a5b0355dd30873ab4e9460295d950adcb57b6",
+      "outsideRegionUnchanged": true
+    },
+    {
+      "path": "docs/result.md",
+      "oldRegionSha256": "d153c458ba235cc48d79ae3a6929f4b9c4b7e80bd358b3e2553f423895718e79",
+      "newRegionSha256": "7e20c9724c78cb3029008087abd0cf34b992fdcd25c3257302b750d43ed3e252",
+      "outsideRegionUnchanged": true
+    },
+    {
+      "path": "docs/validation.md",
+      "oldRegionSha256": "2ec7bde104c5d5de222649e8efaf5146b7a114ddd98ae1daeb96d084085a3e66",
+      "newRegionSha256": "b07402e8b54254d16fb223967462f6106ee44993939b658fa1d2eb1b4b5fcdbd",
+      "outsideRegionUnchanged": true
+    },
+    {
+      "path": "docs/data-pipelines.md",
+      "oldRegionSha256": "8ebae415625dd3ed406dfdff660b4a7922ff140fe30007e1ffb7e56425d3e22c",
+      "newRegionSha256": "7e870b95a22e7b9d5c6864e5f6bad26bb3589c6c3cb976de26be6a074608343a",
+      "outsideRegionUnchanged": true
+    },
+    {
+      "path": "docs/collections.md",
+      "oldRegionSha256": "c089bf87a78295f3b1571ab79156eeb96326c006cad2561d1b83dab558503c43",
+      "newRegionSha256": "53333b6531a264e7e8e4f7843c21386c8b0e2d34e78fc486d966adf12d6cbd20",
+      "outsideRegionUnchanged": true
+    },
+    {
+      "path": "docs/effects.md",
+      "oldRegionSha256": "2cd6c63a07dd2ab6c7ab16b923b555b3391fcd67b801b1d2104ced5ec8742c70",
+      "newRegionSha256": "5fc009b38fe2506ac47cd33910151bd218febeb4e70dc04eb72135e3676941a5",
+      "outsideRegionUnchanged": true
+    },
+    {
+      "path": "docs/concurrency.md",
+      "oldRegionSha256": "9bbdbcbd7132a405f4e6b0fe377fa19f98571ac1dcf15eda135e9b3fb542f739",
+      "newRegionSha256": "4cb6fdb42972d6595c73a508ce55d3f426e8c1b8c6ac6bcc32a67e8199e4ce4e",
+      "outsideRegionUnchanged": true
+    },
+    {
+      "path": "docs/immutable-updates.md",
+      "oldRegionSha256": "996415f582d2d341d0ea077d25266a4b32e661b104954e77f831293b09484fc9",
+      "newRegionSha256": "24f515d2964f6fd7c5cf8c84586a99086b958d18735a71005b26a3f0ab63b827",
+      "outsideRegionUnchanged": true
+    },
+    {
+      "path": "docs/state-machines.md",
+      "oldRegionSha256": "9d39580a792815b471e14868c8ef0b1c7959e0005b20d2b3eb8a03f64cd8362f",
+      "newRegionSha256": "81ebd0fc1060888080cef52fcd34352f4b5faab60f9ab5ca278f0eea96294479",
+      "outsideRegionUnchanged": true
+    },
+    {
+      "path": "docs/aspnet-core.md",
+      "oldRegionSha256": "86f21829b1298f8e961ea67a69918abb5652acba6bc057be6c9f89c012baee53",
+      "newRegionSha256": "55dcceda95e9a45d60f1830e18a1d34435032a7d3a2c696834da176fcb27fa3f",
+      "outsideRegionUnchanged": true
+    },
+    {
+      "path": "docs/performance.md",
+      "oldRegionSha256": "160b8f2ebeabef7670812fd69f43ab068431c147ecbabcc6e64a7d298e554477",
+      "newRegionSha256": "3cd5c94dd9f1132d73fbb116a40d1b60f33cbd266d1248d7cd5fe6e38d57525f",
+      "outsideRegionUnchanged": true
+    }
+  ],
+  "allOutsideProseAndSnippetsUnchanged": true,
+  "initialWrongMarkerPreparationRejectedBeforeWrites": true,
+  "initialMissingSourceFingerprintFailure": "revised-docs-root-red.json",
+  "verificationHandles": [
+    "Monitor started with ID: mon_7VD8525FYSYRZFNG",
+    "Monitor started with ID: mon_CB2BCVN5MBM4952S",
+    "Monitor started with ID: mon_Y7PKZVZ061MNKYEY"
+  ],
+  "portablePacketChild": {
+    "task": "st_01a10a29",
+    "name": "goal24-pr-traversal-r9-performance-retention",
+    "status": "RUNNING"
+  },
+  "fullCleanCandidateReleaseAndIndependentGate": "PENDING"
+}

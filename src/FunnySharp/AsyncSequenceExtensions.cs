@@ -130,7 +130,7 @@ public static class AsyncSequenceExtensions
     /// </returns>
     /// <exception cref="ArgumentNullException"><paramref name="source"/> is <see langword="null"/>.</exception>
     /// <exception cref="InvalidOperationException">
-    /// A reached source carrier or selector result is uninitialized; reported by awaiting the returned operation.
+    /// A reached source carrier is uninitialized; reported by awaiting the returned operation.
     /// Unreached items are not inspected, and a disposal exception can replace this failure.
     /// </exception>
     public static ValueTask<Result<IReadOnlyList<TValue>, TError>> SequenceAsync<TValue, TError>(
@@ -163,7 +163,7 @@ public static class AsyncSequenceExtensions
     /// <paramref name="source"/> or <paramref name="selector"/> is <see langword="null"/>.
     /// </exception>
     /// <exception cref="InvalidOperationException">
-    /// A reached source carrier or selector result is uninitialized; reported by awaiting the returned operation.
+    /// A reached selector result is uninitialized; reported by awaiting the returned operation.
     /// Unreached items are not inspected, and a disposal exception can replace this failure.
     /// </exception>
     public static ValueTask<Result<IReadOnlyList<TResult>, TError>> TraverseAsync<TSource, TResult, TError>(
@@ -198,7 +198,7 @@ public static class AsyncSequenceExtensions
     /// <paramref name="source"/> or <paramref name="selector"/> is <see langword="null"/>.
     /// </exception>
     /// <exception cref="InvalidOperationException">
-    /// A reached source carrier or selector result is uninitialized; reported by awaiting the returned operation.
+    /// A reached selector result is uninitialized; reported by awaiting the returned operation.
     /// Unreached items are not inspected, and a disposal exception can replace this failure.
     /// </exception>
     public static ValueTask<Result<IReadOnlyList<TResult>, TError>> TraverseValueAsync<TSource, TResult, TError>(
@@ -233,7 +233,7 @@ public static class AsyncSequenceExtensions
     /// <paramref name="source"/> or <paramref name="selector"/> is <see langword="null"/>.
     /// </exception>
     /// <exception cref="InvalidOperationException">
-    /// A reached source carrier or selector result is uninitialized; reported by awaiting the returned operation.
+    /// A reached selector result is uninitialized; reported by awaiting the returned operation.
     /// Unreached items are not inspected, and a disposal exception can replace this failure.
     /// </exception>
     public static ValueTask<Result<IReadOnlyList<TResult>, TError>> TraverseValueAsync<TSource, TResult, TError>(
@@ -259,7 +259,7 @@ public static class AsyncSequenceExtensions
     /// </returns>
     /// <exception cref="ArgumentNullException"><paramref name="source"/> is <see langword="null"/>.</exception>
     /// <exception cref="InvalidOperationException">
-    /// A reached source carrier or selector result is uninitialized; reported by awaiting the returned operation.
+    /// A reached source carrier is uninitialized; reported by awaiting the returned operation.
     /// Unreached items are not inspected, and a disposal exception can replace this failure.
     /// </exception>
     public static ValueTask<UnitResult<TError>> SequenceAsync<TError>(
@@ -291,7 +291,7 @@ public static class AsyncSequenceExtensions
     /// <paramref name="source"/> or <paramref name="selector"/> is <see langword="null"/>.
     /// </exception>
     /// <exception cref="InvalidOperationException">
-    /// A reached source carrier or selector result is uninitialized; reported by awaiting the returned operation.
+    /// A reached selector result is uninitialized; reported by awaiting the returned operation.
     /// Unreached items are not inspected, and a disposal exception can replace this failure.
     /// </exception>
     public static ValueTask<UnitResult<TError>> TraverseAsync<TSource, TError>(
@@ -325,7 +325,7 @@ public static class AsyncSequenceExtensions
     /// <paramref name="source"/> or <paramref name="selector"/> is <see langword="null"/>.
     /// </exception>
     /// <exception cref="InvalidOperationException">
-    /// A reached source carrier or selector result is uninitialized; reported by awaiting the returned operation.
+    /// A reached selector result is uninitialized; reported by awaiting the returned operation.
     /// Unreached items are not inspected, and a disposal exception can replace this failure.
     /// </exception>
     public static ValueTask<UnitResult<TError>> TraverseValueAsync<TSource, TError>(
@@ -359,7 +359,7 @@ public static class AsyncSequenceExtensions
     /// <paramref name="source"/> or <paramref name="selector"/> is <see langword="null"/>.
     /// </exception>
     /// <exception cref="InvalidOperationException">
-    /// A reached source carrier or selector result is uninitialized; reported by awaiting the returned operation.
+    /// A reached selector result is uninitialized; reported by awaiting the returned operation.
     /// Unreached items are not inspected, and a disposal exception can replace this failure.
     /// </exception>
     public static ValueTask<UnitResult<TError>> TraverseValueAsync<TSource, TError>(
@@ -387,7 +387,7 @@ public static class AsyncSequenceExtensions
     /// </returns>
     /// <exception cref="ArgumentNullException"><paramref name="source"/> is <see langword="null"/>.</exception>
     /// <exception cref="InvalidOperationException">
-    /// A reached source carrier or selector result is uninitialized; reported by awaiting the returned operation.
+    /// A reached source carrier is uninitialized; reported by awaiting the returned operation.
     /// Unreached items are not inspected, and a disposal exception can replace this failure.
     /// </exception>
     public static ValueTask<Validation<IReadOnlyList<TValue>, TError>> SequenceAsync<TValue, TError>(
@@ -420,7 +420,7 @@ public static class AsyncSequenceExtensions
     /// <paramref name="source"/> or <paramref name="selector"/> is <see langword="null"/>.
     /// </exception>
     /// <exception cref="InvalidOperationException">
-    /// A reached source carrier or selector result is uninitialized; reported by awaiting the returned operation.
+    /// A reached selector result is uninitialized; reported by awaiting the returned operation.
     /// Unreached items are not inspected, and a disposal exception can replace this failure.
     /// </exception>
     public static ValueTask<Validation<IReadOnlyList<TResult>, TError>> TraverseAsync<TSource, TResult, TError>(
@@ -455,7 +455,7 @@ public static class AsyncSequenceExtensions
     /// <paramref name="source"/> or <paramref name="selector"/> is <see langword="null"/>.
     /// </exception>
     /// <exception cref="InvalidOperationException">
-    /// A reached source carrier or selector result is uninitialized; reported by awaiting the returned operation.
+    /// A reached selector result is uninitialized; reported by awaiting the returned operation.
     /// Unreached items are not inspected, and a disposal exception can replace this failure.
     /// </exception>
     public static ValueTask<Validation<IReadOnlyList<TResult>, TError>> TraverseValueAsync<TSource, TResult, TError>(
@@ -490,7 +490,7 @@ public static class AsyncSequenceExtensions
     /// <paramref name="source"/> or <paramref name="selector"/> is <see langword="null"/>.
     /// </exception>
     /// <exception cref="InvalidOperationException">
-    /// A reached source carrier or selector result is uninitialized; reported by awaiting the returned operation.
+    /// A reached selector result is uninitialized; reported by awaiting the returned operation.
     /// Unreached items are not inspected, and a disposal exception can replace this failure.
     /// </exception>
     public static ValueTask<Validation<IReadOnlyList<TResult>, TError>> TraverseValueAsync<TSource, TResult, TError>(
