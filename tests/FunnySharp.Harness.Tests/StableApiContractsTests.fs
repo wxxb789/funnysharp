@@ -117,6 +117,28 @@ let private checkPortable root (index: JsonObject) =
     use document = JsonDocument.Parse(index.ToJsonString())
     validatePortableProofIndex root expected document.RootElement
 
+let private currentXmlFixture root =
+    let rows = JsonArray()
+    for name in [ "FunnySharp"; "FunnySharp.AspNetCore" ] do
+        let directory = Path.Combine(root, "src", name, "bin/Release/net10.0")
+        Directory.CreateDirectory directory |> ignore
+        let xml = "<doc><assembly><name>" + name + "</name></assembly><members /></doc>"
+        File.WriteAllText(Path.Combine(directory, name + ".xml"), xml, UTF8Encoding(false))
+        let row = parse """{"assembly":"","dimensions":{"xmlAndAliases":{}}}"""
+        row.["assembly"] <- JsonValue.Create name
+        let dimension = get (get row "dimensions") "xmlAndAliases"
+        dimension.["packageXmlPath"] <- JsonValue.Create("src/" + name + "/bin/Release/net10.0/" + name + ".xml")
+        dimension.["packageXmlSha256"] <- JsonValue.Create(sha xml)
+        rows.Add row
+    rows.Add((at rows 0).DeepClone())
+    let index = JsonObject()
+    index.["rows"] <- rows
+    index
+
+let private checkCurrentXml root (index: JsonObject) =
+    use document = JsonDocument.Parse(index.ToJsonString())
+    validateReleaseXmlReferences root document.RootElement
+
 type StableApiContractsTests() =
     [<Fact>]
     member _.PortableArchiveRetainsSourceAndActualCaseIdValidation() =
@@ -138,6 +160,35 @@ type StableApiContractsTests() =
     member _.ExactByteBoundReferencesAndActualCaseIdJoinPass() =
         use temp = new TempDirectory()
         check temp.Path (fixture temp.Path)
+
+    [<Theory>]
+    [<InlineData(false)>]
+    [<InlineData(true)>]
+    member _.CurrentXmlReferencesCompareEveryExpectedHash(laterRowConflict: bool) =
+        use temp = new TempDirectory()
+        let index = currentXmlFixture temp.Path
+        if laterRowConflict then
+            let xml = get (get (at (get index "rows") 2) "dimensions") "xmlAndAliases"
+            xml.["packageXmlSha256"] <- JsonValue.Create(String.replicate 64 "0")
+            Assert.Throws<InvalidOperationException>(fun () -> checkCurrentXml temp.Path index) |> ignore
+        else
+            checkCurrentXml temp.Path index
+
+    [<Fact>]
+    member _.CurrentXmlReferencesAreRecheckedOnEachInvocation() =
+        use temp = new TempDirectory()
+        let index = currentXmlFixture temp.Path
+        checkCurrentXml temp.Path index
+        let path = Path.Combine(temp.Path, "src/FunnySharp/bin/Release/net10.0/FunnySharp.xml")
+        File.AppendAllText(path, "<changed />", UTF8Encoding(false))
+        Assert.Throws<InvalidOperationException>(fun () -> checkCurrentXml temp.Path index) |> ignore
+
+    [<Fact>]
+    member _.LaterBoundReferenceWithDifferentExpectedHashIsRejected() =
+        use temp = new TempDirectory()
+        let index = fixture temp.Path
+        (get (get index "sourceUnits") "S1").["fileSha256"] <- JsonValue.Create(String.replicate 64 "0")
+        Assert.Throws<InvalidOperationException>(fun () -> check temp.Path index) |> ignore
 
     [<Theory>]
     [<InlineData("member")>]

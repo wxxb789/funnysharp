@@ -40,9 +40,18 @@ let private validateProofIndexUsing
         match node.TryGetProperty name with
         | true, value -> items value
         | _ -> [||]
+    let digests = Dictionary<string, string>(StringComparer.Ordinal)
     let bound path sha =
         let absolute = resolve path
-        require (File.Exists absolute && hashFile absolute = sha) ("missing or stale file: " + path)
+        require (File.Exists absolute) ("missing or stale file: " + path)
+        let actual =
+            match digests.TryGetValue absolute with
+            | true, value -> value
+            | _ ->
+                let value = hashFile absolute
+                digests.Add(absolute, value)
+                value
+        require (actual = sha) ("missing or stale file: " + path)
         absolute
     let boundNode node = bound (text node "path") (text node "sha256")
     let sources = Dictionary<string, string[]>(StringComparer.Ordinal)
@@ -250,6 +259,22 @@ let withPortableInputs (root: string) (index: JsonElement) (action: (string -> s
 let validatePortableProofIndex root expected index =
     withPortableInputs root index (fun resolve -> validateProofIndexUsing resolve expected index)
 
+/// Compare every reviewed row; this cache ends before seal and historical validation.
+let validateReleaseXmlReferences (root: string) (index: JsonElement) : unit =
+    let digests = Dictionary<string, string>(StringComparer.Ordinal)
+    for row in index.GetProperty("rows").EnumerateArray() do
+        let xml = row.GetProperty("dimensions").GetProperty("xmlAndAliases")
+        let name = stringValue (row.GetProperty "assembly")
+        let path = Path.Combine(root, "src", name, "bin/Release/net10.0", name + ".xml")
+        let actual =
+            match digests.TryGetValue path with
+            | true, value -> value
+            | _ ->
+                let value = hashFile path
+                digests.Add(path, value)
+                value
+        require (actual = stringValue (xml.GetProperty "packageXmlSha256")) "current release XML differs from the reviewed successor."
+
 /// Run the exact canonical census; historical receipts and live release bytes remain distinct.
 let private verifyCore (root: string) (proofPath: string) (releaseEvidencePath: string option) : unit =
     use document = JsonDocument.Parse(File.ReadAllText proofPath)
@@ -290,11 +315,7 @@ let private verifyCore (root: string) (proofPath: string) (releaseEvidencePath: 
                 | value -> value
             let directory = stringValue (executionElement.GetProperty "directory")
             let paths = [ "FunnySharp"; "FunnySharp.AspNetCore" ] |> List.map (fun name -> Path.Combine(root, "src", name, "bin/Release/net10.0", name + ".xml"))
-            for row in index.GetProperty("rows").EnumerateArray() do
-                let xml = row.GetProperty("dimensions").GetProperty("xmlAndAliases")
-                let name = stringValue (row.GetProperty "assembly")
-                let path = Path.Combine(root, "src", name, "bin/Release/net10.0", name + ".xml")
-                require (hashFile path = stringValue (xml.GetProperty "packageXmlSha256")) "current release XML differs from the reviewed successor."
+            validateReleaseXmlReferences root index
             getReleaseXmlDocumentationInventory root paths directory candidate execution
     let count = inventory |> Seq.sumBy (fun node ->
         match node with
