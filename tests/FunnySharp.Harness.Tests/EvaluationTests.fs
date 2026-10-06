@@ -3,8 +3,8 @@ module FunnySharp.Harness.Tests.EvaluationTests
 // Tests for the F# port of eng/evaluation/runner.py. The tool tests never run a
 // real dotnet build: an injected child runner returns canned compiler/test output,
 // so the copy/build/test/record/verdict wiring is exercised deterministically
-// (no sleeps, no wall-clock waits). The oracle classes pin the 43 C# facts the
-// runner compiles and runs, without modifying them.
+// (no sleeps, no wall-clock waits). The grouped declaration census checks all
+// 43 C# oracle method identifiers without executing their semantics.
 
 open System
 open System.IO
@@ -558,11 +558,83 @@ type EvaluationToolTests() =
     [<InlineData("tasks/aspnetcore/tests/Contract.cs")>]
     [<InlineData("analyzer-control/control.sarif")>]
     [<InlineData("tasks/aspnetcore/template-idiomatic/packages.lock.json")>]
+    [<InlineData("tasks/aspnetcore/prompt-idiomatic.md")>]
+    [<InlineData("environment/global.json")>]
+    [<InlineData("environment/Directory.Build.props")>]
+    [<InlineData("environment/build.fsx")>]
+    [<InlineData("environment/eng/harness/Evaluation.fs")>]
     member this.ChangedPackageOracleAnalyzerOrLockInvalidatesStudy(relative: string) =
         let runDir, studyRoot, _ = this.StudyFixture("run-1", "fixture-session-1")
         File.AppendAllText(Path.Combine(studyRoot, "snapshot", relative), "changed")
         let code, _, _ = this.Run [ "verify"; "aspnetcore"; "idiomatic"; runDir; "--study"; "audit-resolution-v1" ]
         Assert.Equal(1, code)
+        Assert.Empty fake.Calls
+
+    [<Theory>]
+    [<InlineData("global.json")>]
+    [<InlineData("Directory.Build.props")>]
+    [<InlineData("build.fsx")>]
+    [<InlineData("eng/harness/Evaluation.fs")>]
+    member this.ChangedLiveEnvironmentRejectsBeforeChild(relative: string) =
+        let runDir, _, _ = this.StudyFixture("run-1", "fixture-session-1")
+        File.AppendAllText(Path.Combine(root, relative), "changed")
+        let code, _, err = this.Run [ "verify"; "aspnetcore"; "idiomatic"; runDir; "--study"; "audit-resolution-v1" ]
+        Assert.Equal(1, code)
+        Assert.Contains("runner/build configuration changed after freeze", err)
+        Assert.Empty fake.Calls
+
+    [<Theory>]
+    [<InlineData("add")>]
+    [<InlineData("remove")>]
+    member this.SnapshotMembershipChangeRejectsBeforeChild(change: string) =
+        let runDir, study, _ = this.StudyFixture("run-1", "fixture-session-1")
+        let snapshot = Path.Combine(study, "snapshot")
+        if change = "add" then File.WriteAllText(Path.Combine(snapshot, "extra.txt"), "extra")
+        else File.Delete(Path.Combine(snapshot, "tasks", "aspnetcore", "prompt-idiomatic.md"))
+        let code, _, err = this.Run [ "verify"; "aspnetcore"; "idiomatic"; runDir; "--study"; "audit-resolution-v1" ]
+        Assert.Equal(1, code)
+        Assert.Contains("files changed in", err)
+        Assert.Empty fake.Calls
+
+    [<Theory>]
+    [<InlineData("environment")>]
+    [<InlineData("prompt")>]
+    [<InlineData("add")>]
+    [<InlineData("remove")>]
+    member this.SnapshotMutationDuringChildIsRejected(change: string) =
+        let runDir, study, _ = this.StudyFixture("run-1", "fixture-session-1")
+        let snapshot = Path.Combine(study, "snapshot")
+        childRunner <- fun directory environment command ->
+            let result = fake.Run directory environment command
+            if command.[1] = "build" then
+                match change with
+                | "environment" -> File.AppendAllText(Path.Combine(snapshot, "environment", "global.json"), "changed")
+                | "prompt" -> File.AppendAllText(Path.Combine(snapshot, "tasks", "aspnetcore", "prompt-idiomatic.md"), "changed")
+                | "add" -> File.WriteAllText(Path.Combine(snapshot, "extra.txt"), "extra")
+                | _ -> File.Delete(Path.Combine(snapshot, "tasks", "aspnetcore", "prompt-idiomatic.md"))
+            result
+        let code, _, err = this.Run [ "verify"; "aspnetcore"; "idiomatic"; runDir; "--study"; "audit-resolution-v1" ]
+        Assert.Equal(1, code)
+        Assert.Contains("files changed in", err)
+        Assert.Equal(2, fake.Calls.Length)
+        Assert.False(File.Exists(Path.Combine(runDir, "rounds", "0001", "receipt.json")))
+
+    [<Fact>]
+    member this.PromptMustBeSuppliedEvenWithOtherAllowedBytes() =
+        let runDir, study, producerPath = this.StudyFixture("run-1", "fixture-session-1")
+        let contextDir = Path.Combine(runDir, "producer", "0001-context")
+        let payload = Path.Combine(contextDir, "payload")
+        File.Delete(Path.Combine(payload, "prompt.md"))
+        File.Copy(Path.Combine(study, "snapshot", "tasks", "aspnetcore", "tests", "Contract.cs"), Path.Combine(payload, "contract.cs"))
+        let context = readNode (Path.Combine(contextDir, "context.json"))
+        context.["files"] <- manifestFiles payload
+        File.WriteAllText(Path.Combine(contextDir, "context.json"), context.ToJsonString())
+        let producer = readNode producerPath
+        producer.["contextSha256"] <- JsonValue.Create(hash (Path.Combine(contextDir, "context.json")))
+        File.WriteAllText(producerPath, producer.ToJsonString())
+        let code, _, err = this.Run [ "verify"; "aspnetcore"; "idiomatic"; runDir; "--study"; "audit-resolution-v1" ]
+        Assert.Equal(1, code)
+        Assert.Contains("rendered prompt was not supplied", err)
         Assert.Empty fake.Calls
 
     [<Fact>]
@@ -604,6 +676,9 @@ type EvaluationToolTests() =
     [<InlineData("sessionId")>]
     [<InlineData("invocationId")>]
     [<InlineData("contextSha256")>]
+    [<InlineData("")>]
+    [<InlineData("missing-feedback")>]
+    [<InlineData("changed-feedback")>]
     member this.CorrectionMustBindFeedbackAndContinueOnlyItsOwnSession(field: string) =
         let runDir, _, producerPath = this.StudyFixture("run-1", "fixture-session-1")
         fake.Build <- { ExitCode = 1; Stdout = ": error CS0103: fixture failure\n"; Stderr = "" }
@@ -629,6 +704,8 @@ type EvaluationToolTests() =
         Directory.CreateDirectory payload |> ignore
         File.Copy(Path.Combine(runDir, "producer", "0001-context", "payload", "prompt.md"), Path.Combine(payload, "prompt.md"))
         File.Copy(feedback, Path.Combine(payload, "feedback.json"))
+        if field = "missing-feedback" then File.Delete(Path.Combine(payload, "feedback.json"))
+        elif field = "changed-feedback" then File.AppendAllText(Path.Combine(payload, "feedback.json"), "changed")
         let context = JsonObject()
         context.["files"] <- manifestFiles payload
         let contextPath = Path.Combine(contextDir, "context.json")
@@ -640,11 +717,27 @@ type EvaluationToolTests() =
         producer.["invocationSha256"] <- JsonValue.Create(hash invocationPath)
         producer.["feedbackSha256"] <- JsonValue.Create(hash feedback)
         producer.["invocationId"] <- JsonValue.Create "fixture-correction"
-        producer.[field] <- JsonValue.Create(if field = "invocationId" then "fixture-run-1" else "wrong-binding")
+        if field <> "" && field <> "missing-feedback" && field <> "changed-feedback" then
+            producer.[field] <- JsonValue.Create(if field = "invocationId" then "fixture-run-1" else "wrong-binding")
         File.WriteAllText(Path.Combine(runDir, "producer", "0002.json"), producer.ToJsonString())
-        let code, _, _ = this.Run [ "verify"; "aspnetcore"; "idiomatic"; runDir; "--round"; "2"; "--study"; "audit-resolution-v1" ]
-        Assert.Equal(1, code)
-        Assert.Single fake.Calls |> ignore
+        fake.Build <- { ExitCode = 0; Stdout = "Build succeeded.\n"; Stderr = "" }
+        let code, _, err = this.Run [ "verify"; "aspnetcore"; "idiomatic"; runDir; "--round"; "2"; "--study"; "audit-resolution-v1" ]
+        if field = "" then
+            Assert.Equal(0, code)
+            Assert.Equal(3, fake.Calls.Length)
+            let second = Path.Combine(runDir, "rounds", "0002")
+            let receipt = readNode (Path.Combine(second, "receipt.json"))
+            Assert.Equal(hash (Path.Combine(roundDir, "receipt.json")), nodeText "previousReceiptSha256" receipt)
+            let retained = readNode (Path.Combine(second, "producer-receipt.json"))
+            Assert.Equal(hash feedback, nodeText "feedbackSha256" retained)
+            Assert.Equal("fixture-session-1", nodeText "sessionId" retained)
+            for file in (requiredNode receipt.["files"]).AsArray() |> Seq.map requiredNode do
+                Assert.Equal(nodeText "sha256" file, hash (Path.Combine(second, nodeText "path" file)))
+        else
+            Assert.Equal(1, code)
+            Assert.Single fake.Calls |> ignore
+            if field = "missing-feedback" then Assert.Contains("exact predecessor feedback was not supplied", err)
+            elif field = "changed-feedback" then Assert.Contains("unapproved supplied context", err)
 
     [<Fact>]
     member this.StudyPreparationHonorsExplicitUpstreamFeed() =
@@ -960,195 +1053,82 @@ type CountLocTests() =
         File.WriteAllText(path, "a/**/b\n", utf8NoBom)
         Assert.Equal(1, countLoc path)
 
-// ---- the 43 C# oracle expectations -----------------------------------------
+// ---- the 43 C# oracle declaration obligations ------------------------------
 
 module EvaluationOracle =
 
-    let private expect (area: string) (file: string) (name: string) : unit =
-        let path = Path.Combine(repositoryRoot (), "eng", "evaluation", "tasks", area, "tests", file)
-        let text = File.ReadAllText path
-        // business-outcomes/collections declare `public void`; the async areas
-        // declare `public async Task`.
-        Assert.True(
-            text.Contains("public void " + name + "(") || text.Contains("public async Task " + name + "("),
-            sprintf "%s/%s does not declare the oracle fact %s" area file name
-        )
+    let private declares (text: string) name =
+        text.Contains("public void " + name + "(") || text.Contains("public async Task " + name + "(")
 
-    type BusinessOutcomes() =
-        [<Fact>]
-        member _.ValidOrderWithoutPromoPlacesTheOrder() =
-            expect "business-outcomes" "PlaceOrderTests.cs" "ValidOrderWithoutPromoPlacesTheOrder"
+    type DeclarationTests() =
+        static member Cases : objnull array seq =
+            seq {
+                yield [| box "business-outcomes"; box "PlaceOrderTests.cs"; box [|
+                    "ValidOrderWithoutPromoPlacesTheOrder"
+                    "Save10PromoDiscountsTenPercent"
+                    "FreeshipPromoRemovesShipping"
+                    "ValidationErrorsAccumulateInOrder"
+                    "EmptyOrderReportsEmptyOrder"
+                    "UnknownSkuIsReported"
+                    "DeclinedCardStopsBeforePersistence"
+                    "SaveFailureIsReportedAfterCharging"
+                |] |]
+                yield [| box "collections"; box "CollectionsTests.cs"; box [|
+                    "ValidFeedIsNormalizedAndImportedInOrder"
+                    "BlankRequiredFieldsAreDroppedInLineOrder"
+                    "UnparsablePricesAreDroppedDeterministically"
+                    "UnknownSkusAreDroppedAfterNormalization"
+                    "FirstRowPerSkuIsKeptAndLaterDuplicatesAreDropped"
+                    "LengthMismatchIsReportedAndStopsTheClean"
+                    "EmptyFeedProducesNoProductsAndNoAverage"
+                    "FeedWhereNothingSurvivesLeavesTheAverageAbsent"
+                    "MixedFeedPartitionsEveryRowAndRoundsTheAverage"
+                |] |]
+                yield [| box "async-streams"; box "AsyncStreamsTests.cs"; box [|
+                    "FilterMapKeepsOnlyTemperatureReadingsInCelsius"
+                    "RunningMaximaTrackTheMaximumSoFar"
+                    "AllPlausibleReadingsCollectTheValidBatch"
+                    "ImplausibleReadingsAccumulateEveryFailure"
+                    "NonTemperatureReadingsProduceAnEmptyReport"
+                    "EmptyStreamProducesAnEmptyReport"
+                    "CancelledTokenSurfacesBeforeAnyReferenceCall"
+                    "SourceCancellationSurfacesAsOperationCanceledException"
+                |] |]
+                yield [| box "concurrency"; box "ConcurrencyTests.cs"; box [|
+                    "ResultsComeBackInSourceOrderWhenEarlyItemsFinishLast"
+                    "ChecksOverlapButNeverExceedMaxConcurrency"
+                    "MaxConcurrencyOfOneRunsOneCheckAtATime"
+                    "FirstAcceptingSupplierWinsEvenWhenDeclinesFinishFirst"
+                    "EveryDeclineIsListedInInputOrderWhenAllSuppliersFail"
+                    "CancelledAvailabilityCheckSurfacesOperationCanceledException"
+                    "CancelledReservationSurfacesOperationCanceledException"
+                    "EmptyItemListStartsNoChecksAndReturnsNoResults"
+                    "EmptySupplierListStartsNoProbesAndReservesNothing"
+                |] |]
+                yield [| box "aspnetcore"; box "AspnetcoreTests.cs"; box [|
+                    "PostOrderAccumulatesValidationErrorsInOrder"
+                    "PostOrderReportsUnknownSku"
+                    "PostOrderStoresPricedOrderAndReturnsItsId"
+                    "PostOrderAppliesPromoCodes"
+                    "GetProductReturnsKnownProduct"
+                    "GetProductReportsUnknownProduct"
+                    "DeleteOrderReportsUnknownOrder"
+                    "DeleteOrderKeepsPaidOrderAndRemovesUnpaidOrder"
+                    "PayOrderReportsUnknownOrderDeclinesThenSucceeds"
+                |] |]
+            }
 
-        [<Fact>]
-        member _.Save10PromoDiscountsTenPercent() =
-            expect "business-outcomes" "PlaceOrderTests.cs" "Save10PromoDiscountsTenPercent"
-
-        [<Fact>]
-        member _.FreeshipPromoRemovesShipping() =
-            expect "business-outcomes" "PlaceOrderTests.cs" "FreeshipPromoRemovesShipping"
-
-        [<Fact>]
-        member _.ValidationErrorsAccumulateInOrder() =
-            expect "business-outcomes" "PlaceOrderTests.cs" "ValidationErrorsAccumulateInOrder"
-
-        [<Fact>]
-        member _.EmptyOrderReportsEmptyOrder() =
-            expect "business-outcomes" "PlaceOrderTests.cs" "EmptyOrderReportsEmptyOrder"
-
-        [<Fact>]
-        member _.UnknownSkuIsReported() =
-            expect "business-outcomes" "PlaceOrderTests.cs" "UnknownSkuIsReported"
-
-        [<Fact>]
-        member _.DeclinedCardStopsBeforePersistence() =
-            expect "business-outcomes" "PlaceOrderTests.cs" "DeclinedCardStopsBeforePersistence"
-
-        [<Fact>]
-        member _.SaveFailureIsReportedAfterCharging() =
-            expect "business-outcomes" "PlaceOrderTests.cs" "SaveFailureIsReportedAfterCharging"
-
-    type Collections() =
-        [<Fact>]
-        member _.ValidFeedIsNormalizedAndImportedInOrder() =
-            expect "collections" "CollectionsTests.cs" "ValidFeedIsNormalizedAndImportedInOrder"
-
-        [<Fact>]
-        member _.BlankRequiredFieldsAreDroppedInLineOrder() =
-            expect "collections" "CollectionsTests.cs" "BlankRequiredFieldsAreDroppedInLineOrder"
-
-        [<Fact>]
-        member _.UnparsablePricesAreDroppedDeterministically() =
-            expect "collections" "CollectionsTests.cs" "UnparsablePricesAreDroppedDeterministically"
-
-        [<Fact>]
-        member _.UnknownSkusAreDroppedAfterNormalization() =
-            expect "collections" "CollectionsTests.cs" "UnknownSkusAreDroppedAfterNormalization"
-
-        [<Fact>]
-        member _.FirstRowPerSkuIsKeptAndLaterDuplicatesAreDropped() =
-            expect "collections" "CollectionsTests.cs" "FirstRowPerSkuIsKeptAndLaterDuplicatesAreDropped"
-
-        [<Fact>]
-        member _.LengthMismatchIsReportedAndStopsTheClean() =
-            expect "collections" "CollectionsTests.cs" "LengthMismatchIsReportedAndStopsTheClean"
-
-        [<Fact>]
-        member _.EmptyFeedProducesNoProductsAndNoAverage() =
-            expect "collections" "CollectionsTests.cs" "EmptyFeedProducesNoProductsAndNoAverage"
-
-        [<Fact>]
-        member _.FeedWhereNothingSurvivesLeavesTheAverageAbsent() =
-            expect "collections" "CollectionsTests.cs" "FeedWhereNothingSurvivesLeavesTheAverageAbsent"
-
-        [<Fact>]
-        member _.MixedFeedPartitionsEveryRowAndRoundsTheAverage() =
-            expect "collections" "CollectionsTests.cs" "MixedFeedPartitionsEveryRowAndRoundsTheAverage"
-
-    type AsyncStreams() =
-        [<Fact>]
-        member _.FilterMapKeepsOnlyTemperatureReadingsInCelsius() =
-            expect "async-streams" "AsyncStreamsTests.cs" "FilterMapKeepsOnlyTemperatureReadingsInCelsius"
-
-        [<Fact>]
-        member _.RunningMaximaTrackTheMaximumSoFar() =
-            expect "async-streams" "AsyncStreamsTests.cs" "RunningMaximaTrackTheMaximumSoFar"
-
-        [<Fact>]
-        member _.AllPlausibleReadingsCollectTheValidBatch() =
-            expect "async-streams" "AsyncStreamsTests.cs" "AllPlausibleReadingsCollectTheValidBatch"
-
-        [<Fact>]
-        member _.ImplausibleReadingsAccumulateEveryFailure() =
-            expect "async-streams" "AsyncStreamsTests.cs" "ImplausibleReadingsAccumulateEveryFailure"
-
-        [<Fact>]
-        member _.NonTemperatureReadingsProduceAnEmptyReport() =
-            expect "async-streams" "AsyncStreamsTests.cs" "NonTemperatureReadingsProduceAnEmptyReport"
-
-        [<Fact>]
-        member _.EmptyStreamProducesAnEmptyReport() =
-            expect "async-streams" "AsyncStreamsTests.cs" "EmptyStreamProducesAnEmptyReport"
-
-        [<Fact>]
-        member _.CancelledTokenSurfacesBeforeAnyReferenceCall() =
-            expect "async-streams" "AsyncStreamsTests.cs" "CancelledTokenSurfacesBeforeAnyReferenceCall"
-
-        [<Fact>]
-        member _.SourceCancellationSurfacesAsOperationCanceledException() =
-            expect "async-streams" "AsyncStreamsTests.cs" "SourceCancellationSurfacesAsOperationCanceledException"
-
-    type Concurrency() =
-        [<Fact>]
-        member _.ResultsComeBackInSourceOrderWhenEarlyItemsFinishLast() =
-            expect "concurrency" "ConcurrencyTests.cs" "ResultsComeBackInSourceOrderWhenEarlyItemsFinishLast"
-
-        [<Fact>]
-        member _.ChecksOverlapButNeverExceedMaxConcurrency() =
-            expect "concurrency" "ConcurrencyTests.cs" "ChecksOverlapButNeverExceedMaxConcurrency"
-
-        [<Fact>]
-        member _.MaxConcurrencyOfOneRunsOneCheckAtATime() =
-            expect "concurrency" "ConcurrencyTests.cs" "MaxConcurrencyOfOneRunsOneCheckAtATime"
-
-        [<Fact>]
-        member _.FirstAcceptingSupplierWinsEvenWhenDeclinesFinishFirst() =
-            expect "concurrency" "ConcurrencyTests.cs" "FirstAcceptingSupplierWinsEvenWhenDeclinesFinishFirst"
-
-        [<Fact>]
-        member _.EveryDeclineIsListedInInputOrderWhenAllSuppliersFail() =
-            expect "concurrency" "ConcurrencyTests.cs" "EveryDeclineIsListedInInputOrderWhenAllSuppliersFail"
-
-        [<Fact>]
-        member _.CancelledAvailabilityCheckSurfacesOperationCanceledException() =
-            expect "concurrency" "ConcurrencyTests.cs" "CancelledAvailabilityCheckSurfacesOperationCanceledException"
-
-        [<Fact>]
-        member _.CancelledReservationSurfacesOperationCanceledException() =
-            expect "concurrency" "ConcurrencyTests.cs" "CancelledReservationSurfacesOperationCanceledException"
-
-        [<Fact>]
-        member _.EmptyItemListStartsNoChecksAndReturnsNoResults() =
-            expect "concurrency" "ConcurrencyTests.cs" "EmptyItemListStartsNoChecksAndReturnsNoResults"
-
-        [<Fact>]
-        member _.EmptySupplierListStartsNoProbesAndReservesNothing() =
-            expect "concurrency" "ConcurrencyTests.cs" "EmptySupplierListStartsNoProbesAndReservesNothing"
-
-    type Aspnetcore() =
-        [<Fact>]
-        member _.PostOrderAccumulatesValidationErrorsInOrder() =
-            expect "aspnetcore" "AspnetcoreTests.cs" "PostOrderAccumulatesValidationErrorsInOrder"
-
-        [<Fact>]
-        member _.PostOrderReportsUnknownSku() =
-            expect "aspnetcore" "AspnetcoreTests.cs" "PostOrderReportsUnknownSku"
-
-        [<Fact>]
-        member _.PostOrderStoresPricedOrderAndReturnsItsId() =
-            expect "aspnetcore" "AspnetcoreTests.cs" "PostOrderStoresPricedOrderAndReturnsItsId"
-
-        [<Fact>]
-        member _.PostOrderAppliesPromoCodes() =
-            expect "aspnetcore" "AspnetcoreTests.cs" "PostOrderAppliesPromoCodes"
-
-        [<Fact>]
-        member _.GetProductReturnsKnownProduct() =
-            expect "aspnetcore" "AspnetcoreTests.cs" "GetProductReturnsKnownProduct"
-
-        [<Fact>]
-        member _.GetProductReportsUnknownProduct() =
-            expect "aspnetcore" "AspnetcoreTests.cs" "GetProductReportsUnknownProduct"
-
-        [<Fact>]
-        member _.DeleteOrderReportsUnknownOrder() =
-            expect "aspnetcore" "AspnetcoreTests.cs" "DeleteOrderReportsUnknownOrder"
-
-        [<Fact>]
-        member _.DeleteOrderKeepsPaidOrderAndRemovesUnpaidOrder() =
-            expect "aspnetcore" "AspnetcoreTests.cs" "DeleteOrderKeepsPaidOrderAndRemovesUnpaidOrder"
-
-        [<Fact>]
-        member _.PayOrderReportsUnknownOrderDeclinesThenSucceeds() =
-            expect "aspnetcore" "AspnetcoreTests.cs" "PayOrderReportsUnknownOrderDeclinesThenSucceeds"
+        [<Theory>]
+        [<MemberData(nameof DeclarationTests.Cases)>]
+        member _.EveryOriginalDeclarationIsPresent(area: string, file: string, names: string array) =
+            let path = Path.Combine(repositoryRoot (), "eng", "evaluation", "tasks", area, "tests", file)
+            let text = File.ReadAllText path
+            for name in names do
+                Assert.True(declares text name, sprintf "%s/%s does not declare the oracle fact %s" area file name)
+                // This is declaration detection, not execution of C# semantics.
+                let renamed =
+                    text.Replace("public void " + name + "(", "public void Missing_" + name + "(")
+                        .Replace("public async Task " + name + "(", "public async Task Missing_" + name + "(")
+                Assert.False(declares renamed name, sprintf "renamed declaration %s was still accepted" name)
 
 

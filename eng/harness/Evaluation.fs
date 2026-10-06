@@ -483,6 +483,12 @@ type private StudyBinding =
       ExpectedTests: int
       ProducerPath: string }
 
+// Only use after checkFiles has verified this snapshot in the current pre-child phase.
+let private snapshotHash (manifest: JsonObject) relative =
+    (field manifest "files").AsArray()
+    |> Seq.find (fun file -> textField file "path" = relative)
+    |> fun file -> textField file "sha256"
+
 let private loadStudy repositoryRoot study =
     let root = studyRoot repositoryRoot study
     let manifestPath = Path.Combine(root, "manifest.json")
@@ -490,7 +496,7 @@ let private loadStudy repositoryRoot study =
     let snapshot = Path.Combine(root, "snapshot")
     checkFiles snapshot ((field manifest "files").AsArray())
     for relative in [ "global.json"; "Directory.Build.props"; "build.fsx"; "eng/harness/Evaluation.fs" ] do
-        if hashFile (Path.Combine(repositoryRoot, relative)) <> hashFile (Path.Combine(snapshot, "environment", relative)) then
+        if hashFile (Path.Combine(repositoryRoot, relative)) <> snapshotHash manifest ("environment/" + relative) then
             invalidArg "environment" "runner/build configuration changed after freeze"
     if not (File.Exists(Path.Combine(snapshot, "analyzer-control", "control.sarif"))) then
         invalidArg "analyzer" "frozen negative control is missing"
@@ -529,6 +535,7 @@ let private bindStudy repositoryRoot study task style runDir roundNumber previou
         invalidArg "context" "wrong supplied context binding"
     // Every supplied file must be a frozen public input, the same session's last
     // solution, or its exact last feedback. Arbitrary parent/audit context fails closed.
+    let feedbackHash = if previous = "" then "" else hashFile (Path.Combine(previous, "feedback.json"))
     let allowed =
         [ for file in (field manifest "files").AsArray() do
               let path = textField file "path"
@@ -539,22 +546,21 @@ let private bindStudy repositoryRoot study task style runDir roundNumber previou
                  || path.StartsWith("feed/", StringComparison.Ordinal) then
                   yield textField file "sha256"
           if previous <> "" then
-              yield hashFile (Path.Combine(previous, "feedback.json"))
+              yield feedbackHash
               for file in Directory.GetFiles(Path.Combine(previous, "solution"), "*.cs") do yield hashFile file ] |> Set.ofList
     for file in (field context "files").AsArray() do
         if not (allowed.Contains(textField file "sha256")) then invalidArg "context" "unapproved supplied context"
-    let promptHash = hashFile (Path.Combine(snapshot, "tasks", task, "prompt-" + style + ".md"))
+    let promptHash = snapshotHash manifest ("tasks/" + task + "/prompt-" + style + ".md")
     if not ((field context "files").AsArray() |> Seq.exists (fun file -> textField file "sha256" = promptHash)) then
         invalidArg "context" "rendered prompt was not supplied"
     if previous <> "" then
         if textField (readJson (Path.Combine(previous, "inputs.json"))) "studySha256" <> manifestHash then
             invalidArg "study" "predecessor used a different study"
-        let feedbackHash = hashFile (Path.Combine(previous, "feedback.json"))
         if not ((field context "files").AsArray() |> Seq.exists (fun file -> textField file "sha256" = feedbackHash)) then
             invalidArg "feedback" "exact predecessor feedback was not supplied"
         let prior = readJson (Path.Combine(previous, "producer-receipt.json"))
         if textField prior "sessionId" <> textField producer "sessionId" then invalidArg "producer" "correction changed session"
-        if textField producer "feedbackSha256" <> hashFile (Path.Combine(previous, "feedback.json")) then
+        if textField producer "feedbackSha256" <> feedbackHash then
             invalidArg "feedback" "correction did not bind exact predecessor feedback"
     if Directory.Exists results then
         for path in Directory.GetFiles(results, "producer-receipt.json", SearchOption.AllDirectories) do
