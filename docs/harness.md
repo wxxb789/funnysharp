@@ -1,8 +1,8 @@
 # The F# Build Harness
 
-Every development gate in this repository — build, test, format, docs-snippet parity, action
+Every development gate in this repository, including build, test, format, docs-snippet parity, action
 pins, inventory, vertical slice, performance, reproducible builds, ruleset, compatibility,
-release, and the coding-evaluation harness — runs as one command form:
+release, and the coding-evaluation harness, runs as one command form:
 
 ```bash
 dotnet fsi build.fsx -- -p <pipeline> [args]
@@ -114,31 +114,87 @@ checks remain mandatory; fixture pack/stage success is not publication acceptanc
 
 ## Exit-Code Contract
 
-Migrated gates preserve the scripts' three-way contract:
-
-- `0` — pass.
-- `1` — verification failure (a check ran and reported a problem).
-- `2` — usage or environment failure (bad arguments, missing prerequisite).
-
-Fun.Build reports any failed step as exit code `1`, which would collapse `2` into `1`. The
-`gate` helper in `build.fsx` therefore flushes the verdict just printed and exits the process
-with the exact code the gate returned, so `0`/`1`/`2` survive the pipeline wrapper.
+There is no single exit mapping shared by every gate. Each module keeps its observed contract,
+and the launcher returns the exact child or module code rather than allowing Fun.Build to
+collapse nonzero results. For example, the portable-history verifier uses `0` for pass, `1` for
+verification failure and `2` for usage or environment failure. `ReleaseVerify` uses `0` for
+pass and `1` for audit failure, including its usage failures. Missing documentation samples and
+an invalid release-provenance mode have both been observed to return `1`. A completed
+reproducible-build comparison with byte differences still returns `0` and records
+`byteIdentical: false`; its precondition failures use their own nonzero results. These are
+intentional per-entry contracts, not a normalized promise. The `gate` helper flushes stdout and
+stderr before returning the exact code supplied by a gate. The compiled launcher likewise
+propagates the child exit and never falls back to a previously built harness binary after a
+restore or build failure.
 
 ## Sources
 
-- `build.fsx` (repository root) — pipeline definitions, the `gate` helper, and the CLI flag
-  plumbing; references `Fun.Build` **1.2.0** (`#r "nuget: Fun.Build, 1.2.0"`).
-- `eng/harness/*.fs` — the gate implementations (`Output`, `Proc`, `Repo`, `ActionPins`,
+- `build.fsx` (repository root): an argument-safe launcher for the existing compiled
+  harness. It performs the SDK's locked incremental build and returns the exact child
+  exit; a failed build does not execute an older binary.
+- `eng/harness/Program.fs`: the unchanged pipeline definitions, `gate` helper and CLI
+  adapters. `Fun.Build` **1.2.0** is pinned in the development-only harness project.
+- `eng/harness/*.fs`: the gate implementations (`Output`, `Proc`, `Repo`, `ActionPins`,
   `DocsSnippets`, `Inventory`, `VerticalSlice`, `ToolingVerify`, `Performance`,
   `PerformanceDocs`, `ReproducibleBuilds`, `Ruleset`, `Compatibility`, the `Release*` family,
-  `Loc`, `Evaluation`). `build.fsx` `#load`s them in dependency order.
-- `tests/FunnySharp.Harness.Tests/` — xUnit v3 **4.0.0** tests for the harness, in
+  `Loc`, `Evaluation`, `FrozenReplay`). The existing project compiles these in dependency
+  order. The launcher uses Debug so canonical Release clean/build does not overwrite
+  the running harness on Windows.
+- `tests/FunnySharp.Harness.Tests/`: xUnit v3 **4.0.0** tests for the harness, in
   `FunnySharp.slnx`.
 
 `eng/release-protocol.json` still defines the release step list and modes; the `release` and
 `verify-tooling` pipelines consume it rather than re-defining policy.
 
+## Standalone Offline Verification
+
+These active entrypoints verify retained evidence without running the release or
+promoting historical results to current product acceptance:
+
+```bash
+dotnet fsi --warnaserror+ eng/verification/verify-current-performance.fsx -- /absolute/path/to/source-checkout
+dotnet fsi --warnaserror+ eng/verification/verify-traversal-r9-performance.fsx -- /absolute/path/to/source-checkout
+dotnet fsi --warnaserror+ eng/verification/verify-portable-history.fsx -- \
+  --repository-root /absolute/path/to/source-checkout \
+  --artifact-directory /absolute/path/to/original-raw-archives
+```
+
+The two packet entries share `CurrentPacket.fs`, but retain separate fixed catalog
+trust roots and R9-specific snapshot/MVID checks. R9 checks current producing inputs,
+policy and coverage while reconstructing the approved historical receiver identity
+from the exact fixed packet; its admitted metadata does not change old measurements.
+The older C packet has no such admission and already rejects the
+`refactor/code-simplify` baseline; passing the R9 packet does not relabel C as valid.
+
+Portable history requires the exact original `provenance.zip` and `index.zip` raw
+download bytes. Extracted/repacked archives, catalog-only checks, or printed
+digests do not substitute for its archive, attachment, row, index and gate joins.
+Its original 0/1/2 contract and success markers remain. Original scripts, catalogs,
+controls and frozen studies under `docs/` and `eng/evaluation/studies/` remain
+unchanged historical evidence. Frozen replay still uses its separate
+`eng/evaluation/replay-frozen.fsx` entry and rejects absent historical inputs.
+
+The current ablation disposition, full baseline file ledger, hash decision owners, measured
+same-workload costs, evidence boundaries and still-open final acceptance fields are recorded
+in [`harness-ablation.md`](harness-ablation.md). In particular, a SHA digest binds bytes only
+where a separately held expected value is compared. It does not prove content correctness or
+that a test or process actually ran.
+
 ## Known Boundaries
+
+- **Release log hashing uses one handle and two passes.** `ReleaseVerifySource` opens each
+  captured log once, hashes the raw bytes first, rejects a digest mismatch before allocating
+  decoded text, then seeks the same stream to the start and decodes it with `StreamReader`.
+  The raw-byte integrity predicate, BOM-aware decoding and marker checks all remain. With `k`
+  release commands and `2k` logs, file opens fall from `4k` to `2k`; the two byte passes
+  per accepted log remain.
+- **Performance recording identity is bounded and historical.** Current measurement input
+  closure, policy and all receipt, binary, census, coverage, workload and witness checks remain
+  required. The exact previously approved recording can reconstruct its original receiver
+  protocol identity from versioned metadata and catalog provenance. This does not admit
+  arbitrary old hashes or rewrite observation, receipt, packet or frozen inputs. Option B was
+  selected by the parent as best judgment after the owner question timed out; it was not an
+  explicit owner choice. Final acceptance is still pending.
 
 - **`dotnet format` cannot check F# projects.** The `format` pipeline verifies only the C#
   solution; formatting of `build.fsx` and `eng/harness/*.fs` is not automated. A warning in the
