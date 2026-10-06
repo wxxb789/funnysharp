@@ -4,8 +4,8 @@ module FunnySharp.Harness.ApiBaseline
 // baseline under eng/api-baseline, the committed half of the stability boundary
 // docs/product-contract.md defines (EnablePackageValidation plus a committed API
 // baseline). The surface is rendered only through the release audit's
-// evidence-grade path - ReleaseVerifyArtifacts.getPublicApiInventory followed by
-// renderPublicApiText, one assembly per file - so every committed file is an
+// shared reflection and rendering path - ReleaseVerifyArtifacts.getPublicApiText,
+// one assembly per file, without an unused byte digest - so every committed file is an
 // `ASSEMBLY <identity>` line followed by that assembly's `KIND <TypeName>` and
 // indented member lines, byte-identical to what Verify-Release writes to
 // public-api.txt.
@@ -80,7 +80,7 @@ let private utf8NoBom = UTF8Encoding(false)
 /// A single-element assembly list keeps each rendering self-contained: its own
 /// `ASSEMBLY` line followed by that assembly's types and members.
 let private renderAssembly (repositoryRoot: string) (assemblyPath: string) : string list =
-    getPublicApiInventory [ assemblyPath ] repositoryRoot |> renderPublicApiText
+    getPublicApiText [ assemblyPath ] repositoryRoot
 
 /// Read one committed baseline (BOM-aware, universal newlines) as its lines.
 let private readBaselineLines (path: string) : string list =

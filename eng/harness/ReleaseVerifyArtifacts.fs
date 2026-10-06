@@ -197,8 +197,7 @@ let private formatApiParameter (parameter: ParameterInfo) (context: NullabilityI
 let private sortIgnoreCase (values: string array) : string array =
     Array.sortWith (fun left right -> StringComparer.OrdinalIgnoreCase.Compare(left, right)) values
 
-/// Get-PublicApiInventory.
-let getPublicApiInventory (assemblyPaths: string list) (root: string) : JsonArray =
+let private readPublicApi (includeDigest: bool) (assemblyPaths: string list) (root: string) : JsonArray =
     let context = NullabilityInfoContext()
 
     let searchDirectories =
@@ -381,7 +380,8 @@ let getPublicApiInventory (assemblyPaths: string list) (root: string) : JsonArra
 
             let assemblyNode = JsonObject()
             assemblyNode.["path"] <- jstr assemblyPath
-            assemblyNode.["sha256"] <- jstr (sha256File assemblyPath)
+            if includeDigest then
+                assemblyNode.["sha256"] <- jstr (sha256File assemblyPath)
             assemblyNode.["identity"] <- jstr (Option.ofObj assembly.FullName |> Option.defaultValue "")
             assemblyNode.["isTrimmable"] <- jbool isTrimmable
             assemblyNode.["types"] <- typeInventories
@@ -390,6 +390,10 @@ let getPublicApiInventory (assemblyPaths: string list) (root: string) : JsonArra
         inventories
     finally
         AppDomain.CurrentDomain.remove_AssemblyResolve resolver
+
+/// Get-PublicApiInventory, including the byte digest published as release evidence.
+let getPublicApiInventory (assemblyPaths: string list) (root: string) : JsonArray =
+    readPublicApi true assemblyPaths root
 
 /// An assembly full name with its `Version=` component removed: a patch release
 /// rewrites the version while the documented no-surface-change path holds, so the
@@ -441,6 +445,10 @@ let renderPublicApiText (inventory: JsonArray) : string list =
         | _ -> ()
 
     List.ofSeq lines
+
+/// Render the same reflected surface without computing an unused assembly byte digest.
+let getPublicApiText (assemblyPaths: string list) (root: string) : string list =
+    readPublicApi false assemblyPaths root |> renderPublicApiText
 
 // ---------------------------------------------------------------------------
 // XML documentation inventory
