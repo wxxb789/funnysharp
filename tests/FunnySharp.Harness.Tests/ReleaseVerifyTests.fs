@@ -407,10 +407,25 @@ let ``EquivalentSourceFingerprint_RequiresSchemaAlgorithmCountAndDigest`` () =
     use different = parse (fingerprint "def")
 
     Assert.True(equivalentSourceFingerprint left.RootElement right.RootElement)
+    Assert.True(equivalentSourceFingerprint right.RootElement left.RootElement)
     Assert.False(equivalentSourceFingerprint left.RootElement different.RootElement)
 
+    // Compare one malformed/different field at a time against a valid peer,
+    // in both directions. This is equivalence, not generic fingerprint validation.
+    for field, original, alternatives in
+        [ "schemaVersion", "1", [ "2"; "\"1\""; "null" ]
+          "algorithm", "\"sha256\"", [ "\"sha512\""; "null" ]
+          "fileCount", "2", [ "3"; "\"2\""; "null" ] ] do
+        for alternative in alternatives do
+            use malformed = parse ((fingerprint "abc").Replace("\"" + field + "\":" + original, "\"" + field + "\":" + alternative))
+            Assert.False(equivalentSourceFingerprint left.RootElement malformed.RootElement)
+            Assert.False(equivalentSourceFingerprint malformed.RootElement left.RootElement)
+        use missing = parse ((fingerprint "abc").Replace("\"" + field + "\":" + original + ",", ""))
+        Assert.False(equivalentSourceFingerprint left.RootElement missing.RootElement)
+        Assert.False(equivalentSourceFingerprint missing.RootElement left.RootElement)
+
 [<Fact>]
-let ``GetSourceFingerprint_IsDeterministicAndCaseInsensitiveOverAGitTree`` () =
+let ``GetSourceFingerprint_TracksFileCountAndChangedBytes`` () =
     use temp = new TempDirectory()
     let root = temp.Path
 
@@ -421,21 +436,30 @@ let ``GetSourceFingerprint_IsDeterministicAndCaseInsensitiveOverAGitTree`` () =
             failwithf "git %s failed: %s" (String.Join(" ", arguments)) result.Stderr
 
     git [ "init"; "-q"; "-b"; "main" ]
-    git [ "config"; "user.email"; "fixture@example.com" ]
-    git [ "config"; "user.name"; "Fixture" ]
     File.WriteAllText(Path.Combine(root, "a.txt"), "hello", utf8NoBom)
     File.WriteAllText(Path.Combine(root, "Zeta.txt"), "world", utf8NoBom)
     git [ "add"; "-A" ]
-    git [ "commit"; "-q"; "-m"; "fixture" ]
 
     let first = getSourceFingerprint root
-    let second = getSourceFingerprint root
-
-    Assert.Equal(serializeJson first, serializeJson second)
-
     use document = parse (serializeJson first)
     Assert.Equal(Some 2, propInt "fileCount" document.RootElement)
-    Assert.Equal(64, (propText "digest" document.RootElement).Length)
+
+    // Unchanged input is the negative control for this alteration detector.
+    use unchanged = parse (serializeJson (getSourceFingerprint root))
+    Assert.True(equivalentSourceFingerprint document.RootElement unchanged.RootElement)
+
+    // Same tracked paths/count, changed bytes. The emitted identity must detect
+    // alteration; no independently recomputed digest is needed or claimed.
+    File.WriteAllText(Path.Combine(root, "a.txt"), "HELLO", utf8NoBom)
+    use changed = parse (serializeJson (getSourceFingerprint root))
+    Assert.Equal(Some 2, propInt "fileCount" changed.RootElement)
+    Assert.NotEqual<string>(propText "digest" document.RootElement, propText "digest" changed.RootElement)
+    Assert.False(equivalentSourceFingerprint document.RootElement changed.RootElement)
+
+    File.WriteAllText(Path.Combine(root, "extra.txt"), "additional input", utf8NoBom)
+    git [ "add"; "extra.txt" ]
+    use added = parse (serializeJson (getSourceFingerprint root))
+    Assert.Equal(Some 3, propInt "fileCount" added.RootElement)
 
 // ---------------------------------------------------------------------------
 // End-to-end failure text

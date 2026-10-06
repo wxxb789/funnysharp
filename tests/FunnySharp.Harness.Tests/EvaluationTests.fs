@@ -1043,14 +1043,14 @@ type CountLocTests() =
     member _.StripsAByteOrderMark() =
         use temp = new TempDirectory()
         let path = Path.Combine(temp.Path, "A.cs")
-        File.WriteAllBytes(path, Array.append [| 0xEFuy; 0xBBuy; 0xBFuy |] (Encoding.UTF8.GetBytes "x\n"))
-        Assert.Equal(1, countLoc path)
+        File.WriteAllBytes(path, Array.append [| 0xEFuy; 0xBBuy; 0xBFuy |] (Encoding.UTF8.GetBytes "\n// comment only\n"))
+        Assert.Equal(0, countLoc path)
 
     [<Fact>]
     member _.RemovesAnInlineBlockComment() =
         use temp = new TempDirectory()
         let path = Path.Combine(temp.Path, "A.cs")
-        File.WriteAllText(path, "a/**/b\n", utf8NoBom)
+        File.WriteAllText(path, "/**/\na/**/b\n/**/// comment only\n", utf8NoBom)
         Assert.Equal(1, countLoc path)
 
 // ---- the 43 C# oracle declaration obligations ------------------------------
