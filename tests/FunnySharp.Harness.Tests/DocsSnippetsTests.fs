@@ -208,53 +208,33 @@ let private checkFixture
 
 type FixtureTests() =
 
-    [<Fact>]
-    member _.ValidTree(): unit = checkFixture 0 None None
-
-    [<Fact>]
-    member _.DuplicateRegion(): unit = checkFixture 1 None (Some mutateDuplicateRegion)
-
-    [<Fact>]
-    member _.MissingClosingMarker(): unit = checkFixture 1 None (Some mutateMissingClosingMarker)
-
-    [<Fact>]
-    member _.FenceWithoutMarker(): unit = checkFixture 1 None (Some mutateFenceWithoutMarker)
-
-    [<Fact>]
-    member _.ReusedRegion(): unit = checkFixture 1 None (Some mutateReusedRegion)
-
-    [<Fact>]
-    member _.UnusedRegion(): unit = checkFixture 1 None (Some mutateUnusedRegion)
-
-    [<Fact>]
-    member _.CrlfGuideReadsAsUniversalNewlines(): unit = checkFixture 0 None (Some mutateCrlfGuide)
-
-    [<Fact>]
-    member _.Utf8BomGuide(): unit = checkFixture 0 None (Some mutateBomGuide)
-
-    [<Fact>]
-    member _.GuideWithoutTrailingNewline(): unit =
-        checkFixture 0 None (Some mutateGuideWithoutTrailingNewline)
-
-    [<Fact>]
-    member _.IndentedFenceIsTreatedAsBodyAndFails(): unit =
-        checkFixture 1 (Some emptyRegionName) (Some mutateIndentedFence)
-
-    [<Fact>]
-    member _.EmptyRegionAndFenceDescendingRangeFails(): unit =
-        checkFixture 1 (Some emptyRegionName) (Some mutateEmptyRegionAndFence)
-
-/// Guards that the fixture suite keeps covering every parity case.
-type FixtureCoverageTests() =
-
-    [<Fact>]
-    member _.FixtureSuiteCoversEveryCase(): unit =
-        let facts =
-            typeof<FixtureTests>.GetMethods()
-            |> Array.filter (fun methodInfo ->
-                methodInfo.GetCustomAttributes(typeof<FactAttribute>, false).Length > 0)
-
-        Assert.Equal(11, facts.Length)
+    [<Theory>]
+    [<InlineData("ValidTree")>]
+    [<InlineData("DuplicateRegion")>]
+    [<InlineData("MissingClosingMarker")>]
+    [<InlineData("FenceWithoutMarker")>]
+    [<InlineData("ReusedRegion")>]
+    [<InlineData("UnusedRegion")>]
+    [<InlineData("CrlfGuideReadsAsUniversalNewlines")>]
+    [<InlineData("Utf8BomGuide")>]
+    [<InlineData("GuideWithoutTrailingNewline")>]
+    [<InlineData("IndentedFenceIsTreatedAsBodyAndFails")>]
+    [<InlineData("EmptyRegionAndFenceDescendingRangeFails")>]
+    member _.EveryFixtureObligationIsExecuted(case: string): unit =
+        // Explicit executable cases replace the count-only reflection guard.
+        match case with
+        | "ValidTree" -> checkFixture 0 None None
+        | "DuplicateRegion" -> checkFixture 1 None (Some mutateDuplicateRegion)
+        | "MissingClosingMarker" -> checkFixture 1 None (Some mutateMissingClosingMarker)
+        | "FenceWithoutMarker" -> checkFixture 1 None (Some mutateFenceWithoutMarker)
+        | "ReusedRegion" -> checkFixture 1 None (Some mutateReusedRegion)
+        | "UnusedRegion" -> checkFixture 1 None (Some mutateUnusedRegion)
+        | "CrlfGuideReadsAsUniversalNewlines" -> checkFixture 0 None (Some mutateCrlfGuide)
+        | "Utf8BomGuide" -> checkFixture 0 None (Some mutateBomGuide)
+        | "GuideWithoutTrailingNewline" -> checkFixture 0 None (Some mutateGuideWithoutTrailingNewline)
+        | "IndentedFenceIsTreatedAsBodyAndFails" -> checkFixture 1 (Some emptyRegionName) (Some mutateIndentedFence)
+        | "EmptyRegionAndFenceDescendingRangeFails" -> checkFixture 1 (Some emptyRegionName) (Some mutateEmptyRegionAndFence)
+        | _ -> Assert.Fail("Unknown fixture case: " + case)
 
 type RepositoryTests() =
 

@@ -3,8 +3,8 @@ module FunnySharp.Harness.Tests.ReleaseProtocolTests
 // Port of eng/tests/ReleaseProtocol.Tests.ps1 to xUnit facts, one fact per assertion
 // case. The model assertions exercise eng/harness/ReleaseProtocol.fs; the cross-module
 // assertions call the owning ported module directly in-process - FunnySharp.Harness.
-// Compatibility, Ruleset and ReproducibleBuilds - exactly as the PowerShell suite
-// invoked those functions rather than re-running a subprocess.
+// Compatibility and workflow controls. Ruleset and reproducibility duplicates
+// are owned by their focused suites, which call the same production functions.
 //
 // Two assertions (VerifyRelease_Ast_InvokesAssertBenchmarkReportsExactlyOnce and
 // VerifyRelease_AssertBenchmarkReports_ReturnsVerifiedStatus) pin the release verifier's
@@ -70,10 +70,6 @@ let private messageOf (result: Result<'T, HarnessError>) : string =
     | Ok _ -> ""
     | Error err -> err.Message
 
-let private parseJson (text: string) : JsonElement =
-    use document = JsonDocument.Parse text
-    document.RootElement.Clone()
-
 let private row (benchmarkClass: string) (category: string) (method: string) (parameters: string) : ReleaseProtocol.BenchmarkRow =
     { BenchmarkClass = benchmarkClass
       Category = category
@@ -83,31 +79,6 @@ let private row (benchmarkClass: string) (category: string) (method: string) (pa
 let private stateMachineRows =
     [ row "StateMachineBenchmarks" "Then" "Direct" "[Count=8]"
       row "StateMachineBenchmarks" "Then" "FunnySharp" "[Count=8]" ]
-
-// A local oracle for Remove-AnsiControlSequences (eng/Verify-Release.ps1:306-313), so
-// the normalization contract is pinned without a compile dependency on lane C's
-// eng/harness/ReleaseVerifySource.fs (still in flight).
-let private ansiEscapePattern = Regex("\u001b\\[[0-?]*[ -/]*[@-~]")
-
-// A local oracle for Get-BenchmarkParameterNames (eng/Verify-Release.ps1:471-506).
-let private benchmarkParameterNames (benchmarkClass: string) (policyParameters: string list) : string list =
-    let namePattern = Regex(@"(?:^\[|, )(?<name>[A-Za-z_][A-Za-z0-9_]*)=")
-    let mutable expected: string list option = None
-
-    for parameters in policyParameters |> List.distinct |> List.sort do
-        if parameters <> "" then
-            let names = [ for matched in namePattern.Matches parameters -> matched.Groups.["name"].Value ]
-
-            if names.IsEmpty then
-                failwithf "Benchmark class '%s' has an invalid parameter identity '%s'." benchmarkClass parameters
-
-            match expected with
-            | None -> expected <- Some names
-            | Some previous when previous <> names ->
-                failwithf "Benchmark class '%s' uses inconsistent parameter identities." benchmarkClass
-            | Some _ -> ()
-
-    defaultArg expected []
 
 // ---------------------------------------------------------------------------
 // Protocol model (ReleaseProtocol.psm1 / Run-Release.ps1)
@@ -208,27 +179,6 @@ type ReleaseProtocolModelTests() =
         Assert.Contains("does not match", messageOf result)
 
     [<Fact>]
-    member _.RemoveAnsiControlSequences_StripsCsiSequences() =
-        let escape = string (char 27)
-
-        let colored =
-            escape
-            + "[mC:\\tests\\FunnySharp.Tests.dll (net10.0|x64) "
-            + escape
-            + "[32mpassed"
-            + escape
-            + "[m "
-            + escape
-            + "[90m(1s 598ms)"
-            + escape
-            + "[m"
-
-        Assert.Equal(
-            "C:\\tests\\FunnySharp.Tests.dll (net10.0|x64) passed (1s 598ms)",
-            ansiEscapePattern.Replace(colored, "")
-        )
-
-    [<Fact>]
     member _.CompatibilityNuGetCachePath_IsShortAndOutputIsolated() =
         let ciArtifactsRootLength = "D:\\a\\funnysharp\\funnysharp\\artifacts".Length
         let pathRoot = Path.GetPathRoot(repositoryRoot ()) |> Option.ofObj |> Option.defaultValue "/"
@@ -262,10 +212,6 @@ type ReleaseProtocolModelTests() =
         Assert.NotEqual<string>(cache, otherCache)
 
     [<Fact>]
-    member _.GetBenchmarkParameterNames_NoParameterClass_ReturnsEmpty() =
-        Assert.Empty(benchmarkParameterNames "NoParameterBenchmarks" [ "" ])
-
-    [<Fact>]
     member _.ReleaseWorkflow_HasRequiredContextsAndShaPinnedActions() =
         let workflow =
             File.ReadAllText(Path.Combine(repositoryRoot (), ".github", "workflows", "release.yml"))
@@ -290,27 +236,6 @@ type ReleaseProtocolModelTests() =
             Regex(@"^\s*uses:\s+actions/[^@\s]+@(?![0-9a-f]{40}\s*(?:#|$))", RegexOptions.Multiline).Match workflow
 
         Assert.False(unpinned.Success, sprintf "unpinned action: '%s'." (unpinned.Value.Trim()))
-
-    [<Fact>]
-    member _.StrictRequiredStatusChecksPolicy_Missing_ThrowsUpToDate() =
-        let result = Ruleset.assertStrictRequiredStatusChecksPolicy (parseJson "{}")
-        Assert.True(result.IsError)
-        Assert.Contains("up to date", messageOf result)
-
-    [<Fact>]
-    member _.StrictRequiredStatusChecksPolicy_Disabled_ThrowsUpToDate() =
-        let result =
-            Ruleset.assertStrictRequiredStatusChecksPolicy (parseJson "{\"strict_required_status_checks_policy\":false}")
-
-        Assert.True(result.IsError)
-        Assert.Contains("up to date", messageOf result)
-
-    [<Fact>]
-    member _.StrictRequiredStatusChecksPolicy_Enabled_Passes() =
-        let result =
-            Ruleset.assertStrictRequiredStatusChecksPolicy (parseJson "{\"strict_required_status_checks_policy\":true}")
-
-        Assert.True(result.IsOk, messageOf result)
 
     // ---- Attempt paths ----
 
@@ -560,119 +485,3 @@ type ReleaseWorkflowProvenanceTests() =
         Assert.False(File.Exists(Path.Combine(output, "P.json")))
         Assert.False(File.Exists(Path.Combine(output, "A.json")))
     }
-
-// ---------------------------------------------------------------------------
-// Reproducibility cases (Compare-ReproducibleBuilds.ps1)
-// ---------------------------------------------------------------------------
-
-let private runGit (root: string) (arguments: string list) : Proc.ProcessResult =
-    Proc.runCaptureSync "git" ([ "-C"; root ] @ arguments)
-
-let private git (root: string) (arguments: string list) : unit =
-    let result = runGit root arguments
-
-    if result.ExitCode <> 0 then
-        failwithf "git %s failed in '%s': %s" (String.Join(" ", arguments)) root result.Stderr
-
-let private writeFile (path: string) (text: string) : unit =
-    File.WriteAllText(path, text)
-
-type private ReproducibilityFixture() =
-    let temp = new TempDirectory()
-    let left = Path.Combine(temp.Path, "left")
-    let right = Path.Combine(temp.Path, "right")
-
-    do
-        Directory.CreateDirectory left |> ignore
-        git left [ "init"; "-q"; "-b"; "main" ]
-        git left [ "config"; "user.email"; "fixture@example.com" ]
-        git left [ "config"; "user.name"; "Fixture" ]
-        writeFile (Path.Combine(left, ".gitignore")) "artifacts/\n"
-        writeFile (Path.Combine(left, "FunnySharp.slnx")) "<Solution />"
-        writeFile (Path.Combine(left, "global.json")) "{}"
-        writeFile (Path.Combine(left, "Directory.Build.props")) "<Project />"
-        writeFile (Path.Combine(left, "packages.lock.json")) "{}"
-        git left [ "add"; "-A" ]
-        git left [ "commit"; "-q"; "-m"; "fixture" ]
-
-        let clone = Proc.runCaptureSync "git" [ "clone"; "-q"; left; right ]
-
-        if clone.ExitCode <> 0 then
-            failwithf "git clone failed: %s" clone.Stderr
-
-    member _.TempPath = temp.Path
-    member _.Left = left
-    member _.Right = right
-
-    member _.WriteInput(root: string, cacheDirectory: string) : unit =
-        let commit = (runGit root [ "rev-parse"; "HEAD" ]).Stdout.Trim()
-        Directory.CreateDirectory(Path.Combine(root, "artifacts")) |> ignore
-
-        writeFile
-            (Path.Combine(root, "artifacts", "reproducibility-input.json"))
-            (sprintf
-                "{\"schemaVersion\":1,\"candidateCommit\":\"%s\",\"configuration\":\"Release\",\"isolatedNuGetCache\":true,\"nugetPackagesDirectory\":\"%s\",\"packageDirectory\":\"artifacts/packages\"}\n"
-                commit
-                cacheDirectory)
-
-    member this.WriteCleanInputs() : unit =
-        this.WriteInput(left, "artifacts/.nuget")
-        Directory.CreateDirectory(Path.Combine(left, "artifacts", "packages")) |> ignore
-        Directory.CreateDirectory(Path.Combine(left, "artifacts", ".nuget")) |> ignore
-        Directory.CreateDirectory(Path.Combine(right, "artifacts", "packages")) |> ignore
-
-    interface IDisposable with
-        member _.Dispose() = (temp :> IDisposable).Dispose()
-
-let private runCompare (fixture: ReproducibilityFixture) : int * string * string =
-    use stdout = new StringWriter()
-    use stderr = new StringWriter()
-
-    let exitCode =
-        ReproducibleBuilds.mainWith stdout stderr (fun root arguments -> runGit root arguments) [
-            "-LeftRoot"
-            fixture.Left
-            "-RightRoot"
-            fixture.Right
-            "-OutputPath"
-            Path.Combine(fixture.TempPath, "comparison.json")
-        ]
-
-    exitCode, stdout.ToString(), stderr.ToString()
-
-type ReproducibleBuildsTests() =
-
-    [<Fact>]
-    member _.ReproducibleBuilds_DirtyRoot_ThrowsMustBeClean() =
-        use fixture = new ReproducibilityFixture()
-        fixture.WriteCleanInputs()
-        writeFile (Path.Combine(fixture.Right, "global.json")) "{\"dirty\":true}"
-        let exitCode, _, stderr = runCompare fixture
-        Assert.Equal(1, exitCode)
-        Assert.Contains("must be clean", stderr)
-
-    [<Fact>]
-    member _.ReproducibleBuilds_NonIsolatedNuGetCache_ThrowsNotIsolated() =
-        use fixture = new ReproducibilityFixture()
-        fixture.WriteCleanInputs()
-        fixture.WriteInput(fixture.Right, "../shared-cache")
-        let exitCode, _, stderr = runCompare fixture
-        Assert.Equal(1, exitCode)
-        Assert.Contains("not isolated", stderr)
-
-    [<Fact>]
-    member _.ReproducibleBuilds_MismatchedCommit_ThrowsSameCommitAndSourceTree() =
-        use fixture = new ReproducibilityFixture()
-        fixture.WriteCleanInputs()
-        fixture.WriteInput(fixture.Right, "artifacts/.nuget")
-
-        writeFile (Path.Combine(fixture.Right, "Directory.Build.props")) "<Project><PropertyGroup /></Project>"
-        git fixture.Right [ "config"; "user.email"; "fixture@example.com" ]
-        git fixture.Right [ "config"; "user.name"; "Fixture" ]
-        git fixture.Right [ "add"; "-A" ]
-        git fixture.Right [ "commit"; "-q"; "-m"; "different" ]
-        fixture.WriteInput(fixture.Right, "artifacts/.nuget")
-
-        let exitCode, _, stderr = runCompare fixture
-        Assert.Equal(1, exitCode)
-        Assert.Contains("same commit and source tree", stderr)
