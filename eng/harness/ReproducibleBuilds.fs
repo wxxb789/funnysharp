@@ -67,7 +67,6 @@ type PreparedRoot =
       Tree: string
       InputPath: string
       Input: JsonElement
-      InputSha256: string
       PackageDirectory: string
       SdkPolicy: FileEvidence
       BuildProps: FileEvidence
@@ -362,7 +361,6 @@ let private prepareRoot
                                               Tree = tree
                                               InputPath = inputPath
                                               Input = input
-                                              InputSha256 = sha256File inputPath
                                               PackageDirectory =
                                                 Path.GetFullPath(Path.Combine(resolved, packageRelative))
                                               SdkPolicy = sdk
@@ -689,7 +687,7 @@ let private compare
                       SdkPolicySha256 = left.SdkPolicy.Sha256
                       BuildPropsSha256 = left.BuildProps.Sha256
                       LockFiles = left.Locks
-                      InputEvidenceSha256 = left.InputSha256
+                      InputEvidenceSha256 = sha256File left.InputPath
                       FirstDifference = firstDifferenceName
                       ByteIdentical = byteIdentical
                       Layers = layers }

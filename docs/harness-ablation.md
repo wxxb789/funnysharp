@@ -69,7 +69,7 @@ are relative to the repository root.
 | 10 | `eng/harness/ToolingVerify.fs` | Current module | **Simplify.** Remove the four-source/13-literal marker preflight. Retain real restore/build/test/example/format/docs output parsing, stop-at-first-failure and explicit solution-root check. |
 | 11 | `eng/harness/Compatibility.fs` | Current module | **Retain.** Package/version/source binding, isolated restore, smoke/trim/AOT and failure decisions remain. Package/DLL hashes have downstream identity consumers and path SHA owns short isolated cache addressing. |
 | 12 | `eng/harness/Loc.fs` | Current module | **Simplify.** Preserve the two distinct lexical metrics and output. Cache source lines within one report, reducing 49 reads to 10. |
-| 13 | `eng/harness/ReproducibleBuilds.fs` | Current module | **Retain.** Comparable-root preconditions and three byte-difference diagnostic layers remain. This candidate does not change the independent reproducibility entry or its diagnostic receipt contract. |
+| 13 | `eng/harness/ReproducibleBuilds.fs` | Current module | **Simplify.** Remove the unconsumed right-input SHA; compute the left-input SHA only for the published report. Comparable-root preconditions, parsed controlled-input equality, three byte-difference diagnostic layers and diagnostic receipt contract remain. |
 | 14 | `eng/harness/Ruleset.fs` | Current module | **Retain.** Branch/App/ref, strict status, required contexts and bypass decisions remain. The generic malformed-input findings are reported, not changed under this ablation. |
 | 15 | `eng/harness/Performance.fs` | Current module | **Simplify.** Keep current input closure, policy/budget, receipt/row/raw-report, launch/preflight/workload/MVID, census, coverage, source and witness checks. Same-epoch digests are reused. Approved historical receiver identity is handled by explicit bounded metadata, not by weakening current validation. |
 | 16 | `eng/harness/PerformanceDocs.fs` | Current module | **Simplify.** Keep approved observation freshness, exact descriptors/rows/regions and verify-no-write behavior. Reuse the fingerprint implementation and approved recording identity; do not make this a second runtime evidence verifier. |
@@ -182,7 +182,7 @@ the actual bytes/digest are reused in the same phase.
 | `VerticalSlice.fs:247-250` | Package nupkg bytes, receipt `sha256` | No local equality predicate. The receipt attributes consumed feed bytes for downstream review. Keep the emitted attribution unless a new receipt contract explicitly removes it; it does not make `vertical-slice` PASS correct. |
 | `Compatibility.fs:261-278` | Whole nupkg, published Smoke/trim/AOT DLLs, canonical package DLL entries | Whole package hashes bind canonical package versions/bytes in ReleaseProvenance and ReleaseVerifyArtifacts. Smoke DLL digest compares published bytes to packaged DLL and downstream host evidence. Trim/AOT execution outcomes remain semantic owners; non-Smoke published DLL hashes are diagnostic-only candidates. |
 | `Compatibility.fs:285` | UTF-8 output path | 16-hex prefix chooses isolated short NuGet cache directory; no evidence mismatch predicate. Keep address generation for path length/isolation, do not call it tamper detection. |
-| `ReproducibleBuilds.fs:111-113` | SDK/global policy, lockfiles, input JSON, assemblies, PDB/XML, package archives | SDK/build policy/lock lists decide comparable input; input JSON raw right hash is unused and removable. Artifact hashes set `byteIdentical` and first differing layer, but a completed difference remains exit 0. |
+| `ReproducibleBuilds.fs:111-113` | SDK/global policy, lockfiles, left input JSON attribution, assemblies, PDB/XML, package archives | SDK/build policy/lock lists decide comparable input; the unused right-input SHA is removed, while the left-input SHA remains published as `controlledInputs.inputEvidenceSha256`. Parsed input equality, not either raw input hash, rejects changed controlled inputs. Artifact hashes set `byteIdentical` and first differing layer, but a completed difference remains exit 0. |
 | `ReproducibleBuilds.fs:229-237` | Decompressed archive entry content | Feeds package difference diagnostics and entry rows. Candidate lazy diagnostics may avoid entry parsing for identical outer archive bytes, but any byte difference must still classify packages. |
 | `XmlBuildBindings.fs:43-180` | Reviewed policy/source files; six post-build DLL/XML/PDB files; build receipt; seal and pointer | Rejects unreviewed inputs, changed successful build outputs, altered receipt/pointer and stale expected policy/XML. Capture happens only after successful build; MVID remains independent of on-disk SHA. Reuse bytes only within one validate/capture phase. |
 | `ReleaseRun.fs:140-148,690,705,820,1087,1121,1173,1279,1288` | Source fingerprint epochs, package-index text, protocol, preflight/final version JSON, execution/release records | Before/after source fingerprints veto drift; final distribution observations are a separate epoch. Protocol/preflight/final bytes must match verifier/pointer digests. HTTP 404 digest is emitted over synthetic empty-version JSON, not the lost raw body, so it does not prove response content. Reuse same-epoch preflight bytes; do not cross network/source epochs. |
@@ -336,6 +336,17 @@ mapping. Reproducible byte differences still exit 0 with `byteIdentical:false`.
 Do not infer generic exits from `docs/harness.md` prose.
 
 ### Current status and explicit final acceptance blanks
+
+The first final independent review rejected tree `78f466e` only for its retained
+unconsumed right reproducibility-input SHA (R1). The correction removes the
+`PreparedRoot.InputSha256` field and computes `sha256File left.InputPath` only
+when publishing the report. An accepted comparison therefore hashes input
+evidence once instead of twice; a controlled-input rejection hashes it zero
+times instead of twice. Both input files are still parsed and compared, and the
+published raw digest still belongs to the left file even when the right JSON
+has equivalent whitespace. No artifact comparison or output field is removed.
+R1 proof and the corrected-tree re-review are separate execution-ledger artifacts;
+the rejected review remains immutable and is not relabeled as approval.
 
 Completed: candidate Debug compile and bare help, Windows Release clean/build
 self-lock smoke, candidate five-command matched CLI workload, ToolingVerify
