@@ -89,7 +89,41 @@
       "eng/harness/Performance.fs",
       "eng/harness/PerformanceDocs.fs",
       "tests/FunnySharp.Harness.Tests/PerformanceProtocolTests.fs"
-    ]
+    ],
+    "recordingIdentity": {
+      "schemaVersion": 1,
+      "receiverFiles": [
+        "eng/harness/Performance.fs",
+        "eng/harness/PerformanceDocs.fs",
+        "tests/FunnySharp.Harness.Tests/PerformanceProtocolTests.fs"
+      ],
+      "files": [
+        {
+          "path": "benchmarks/FunnySharp.Benchmarks/AllocationReceiptExporter.cs",
+          "sha256": "3eb35d67b164e4c115c7af581dd993c6621a21b8fc9ed10712d65beffd410c41"
+        },
+        {
+          "path": "benchmarks/FunnySharp.Benchmarks/ReceiptExporterCore.cs",
+          "sha256": "bc4310ca58438f3d9fddd73da56415552dbcca25706d3d187d0b3dfe340cfbd8"
+        },
+        {
+          "path": "eng/harness/Performance.fs",
+          "sha256": "b6938646f9f4626afd0a1483298ca79600661f54ab764c7b535231d1607a5b2a"
+        },
+        {
+          "path": "eng/harness/PerformanceDocs.fs",
+          "sha256": "2036dc2acfc80a7700435e2445328afa38ce02ea4e133775e4758556b4d53c2d"
+        },
+        {
+          "path": "tests/FunnySharp.Harness.Tests/PerformanceProtocolTests.fs",
+          "sha256": "567f8b9f550f90fb029f0abd711398a34c2bcb6bec9950622e47eae88fab7d70"
+        }
+      ],
+      "provenance": {
+        "path": "docs/reviews/goal24-pr-20261004/traversal-r9-performance-evidence/catalog.json",
+        "sha256": "6508608e4b1d0ae8ce41d176cb45afbbb240c0004c730a69ab1867cd3a5d1b80"
+      }
+    }
   },
   "policy": {
     "revision": "2026-09-29-v12",

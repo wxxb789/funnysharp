@@ -10,6 +10,7 @@ module FunnySharp.Harness.Tests.PerformanceTests
 
 open System
 open System.IO
+open System.Security.Cryptography
 open System.Text.Json
 open Xunit
 open FunnySharp.Harness.Output
@@ -364,4 +365,8 @@ type PerformanceVerifierTests() =
                       "rows" ],
                     names
                 )
+                let receipt = document.RootElement.GetProperty("receipts")[0]
+                let expectedHash = Convert.ToHexString(SHA256.HashData(File.ReadAllBytes fixture.ReceiptPath)).ToLowerInvariant()
+                Assert.Equal(expectedHash, receipt.GetProperty("sha256").GetString())
+                Assert.Equal(Path.GetFileName fixture.ReceiptPath, receipt.GetProperty("file").GetString())
             )

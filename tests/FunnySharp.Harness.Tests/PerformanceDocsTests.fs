@@ -235,6 +235,48 @@ let private runDefaultManifest (root: string) (verify: bool) : int * string * st
 type DocumentationFixtureTests() =
 
     [<Fact>]
+    member _.GeneratePerformanceDocumentation_OrdinalFingerprintUsesIndependentNulLfBytes() =
+        use temp = new TempDirectory()
+        let fixture = createFixture temp.Path defaultObservationRows
+        let manifest = (File.ReadAllText fixture.ManifestPath).Replace(
+            "[\"a-input.txt\", \"Z-input.txt\"]", "[\"Z-input.txt\", \"a-input.txt\"]")
+        File.WriteAllText(fixture.ManifestPath, manifest, utf8NoBom)
+        let exitCode, _, stderr = run fixture.Root fixture.ManifestPath false
+        Assert.True((exitCode = 0), stderr)
+        let verifyExit, _, verifyErr = run fixture.Root fixture.ManifestPath true
+        Assert.True((verifyExit = 0), verifyErr)
+
+    [<Theory>]
+    [<InlineData("raw-policy")>]
+    [<InlineData("protocol-bytes")>]
+    [<InlineData("external-path")>]
+    [<InlineData("missing-path")>]
+    [<InlineData("descriptor")>]
+    member _.GeneratePerformanceDocumentation_IndependentBindingsRejectMutation(mutation: string) =
+        use temp = new TempDirectory()
+        let fixture = createFixture temp.Path defaultObservationRows
+        let original = File.ReadAllText fixture.ManifestPath
+        match mutation with
+        | "raw-policy" -> File.WriteAllText(fixture.ManifestPath, original.Replace("\"revision\": \"fixture-v1\",", "\"revision\":  \"fixture-v1\","), utf8NoBom)
+        | "protocol-bytes" -> File.AppendAllText(Path.Combine(fixture.Root, "a-protocol.txt"), "changed", utf8NoBom)
+        | "external-path" -> File.WriteAllText(fixture.ManifestPath, original.Replace("a-input.txt", "../a-input.txt"), utf8NoBom)
+        | "missing-path" -> File.Delete(Path.Combine(fixture.Root, "a-input.txt"))
+        | "descriptor" ->
+            let oldRow = defaultObservationRows[1]
+            File.WriteAllText(fixture.ManifestPath, original.Replace(oldRow, oldRow.Replace("\"method\": \"Funny\"", "\"method\": \"Other\"")), utf8NoBom)
+        | _ -> failwith "Unknown documentation mutation."
+        let exitCode, stdout, stderr = run fixture.Root fixture.ManifestPath false
+        Assert.Equal(1, exitCode)
+        Assert.Equal("", stdout)
+        Assert.Contains(
+            (match mutation with
+             | "external-path" -> "repository-relative"
+             | "missing-path" -> "not found inside the repository"
+             | "descriptor" -> "does not match policy field"
+             | _ -> "policy, input, or protocol"), stderr)
+        Assert.Equal(guideText, File.ReadAllText fixture.GuidePath)
+
+    [<Fact>]
     member _.GeneratePerformanceDocumentation_GeneratesThenVerifies_UnderInvariantCulture() =
         use temp = new TempDirectory()
         let fixture = createFixture temp.Path defaultObservationRows

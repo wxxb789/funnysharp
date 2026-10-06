@@ -12,7 +12,6 @@ open System
 open System.Collections.Generic
 open System.Globalization
 open System.IO
-open System.Security.Cryptography
 open System.Text
 open System.Text.Json
 open FunnySharp.Harness.Output
@@ -104,63 +103,6 @@ let private jsonEquals (left: JsonElement option) (right: JsonElement option) : 
         | JsonValueKind.Null, JsonValueKind.Null -> true
         | _ -> false
     | _ -> false
-
-// ---- Fingerprints ----
-
-let private toHex (bytes: byte array) : string =
-    Convert.ToHexString(bytes).ToLowerInvariant()
-
-let private sha256Hex (bytes: byte array) : string =
-    toHex (SHA256.HashData bytes)
-
-let private textSha256 (text: string) : string =
-    sha256Hex (Encoding.UTF8.GetBytes text)
-
-let private fileSha256 (path: string) : string =
-    use stream = File.OpenRead path
-    toHex (SHA256.HashData stream)
-
-let private policyFingerprint (manifestPath: string) : string =
-    use document = JsonDocument.Parse(File.ReadAllText manifestPath)
-    textSha256 ((requireProp "policy" document.RootElement).GetRawText())
-
-let private fileSetFingerprint (root: string) (files: string list) : Result<string, HarnessError> =
-    let rootPath = (Path.GetFullPath root).TrimEnd('\\', '/')
-
-    let comparison =
-        if OperatingSystem.IsWindows() then
-            StringComparison.OrdinalIgnoreCase
-        else
-            StringComparison.Ordinal
-
-    let sorted = files |> List.sortWith (fun a b -> String.CompareOrdinal(a, b))
-    use stream = new MemoryStream()
-
-    let rec loop (remaining: string list) =
-        match remaining with
-        | [] -> Ok(sha256Hex (stream.ToArray()))
-        | relativePath :: rest ->
-            let segments = relativePath.Split([| '\\'; '/' |])
-
-            if Path.IsPathFullyQualified relativePath || Array.contains ".." segments then
-                Error(Errors.create (sprintf "Fingerprint path must be repository-relative: '%s'." relativePath))
-            else
-                let path = Path.GetFullPath(Path.Combine(rootPath, relativePath))
-                let prefix = rootPath + string Path.DirectorySeparatorChar
-
-                if not (path.StartsWith(prefix, comparison)) || not (File.Exists path) then
-                    Error(
-                        Errors.create(
-                            sprintf "Fingerprint input was not found inside the repository: '%s'." relativePath
-                        )
-                    )
-                else
-                    let line = relativePath.Replace('\\', '/') + string '\000' + fileSha256 path + string '\n'
-                    let bytes = Encoding.UTF8.GetBytes line
-                    stream.Write(bytes, 0, bytes.Length)
-                    loop rest
-
-    loop sorted
 
 // ---- Table formatting (invariant culture, LF only) ----
 
@@ -462,17 +404,28 @@ let private runCore (options: CliOptions) : Result<string, HarnessError> =
         else
             let policy = requireProp "policy" root
             let observation = requireProp "observation" root
-            let computedPolicyFingerprint = policyFingerprint manifestPath
+            let computedPolicyFingerprint = Performance.textSha256 (policy.GetRawText())
 
             let inputFiles =
                 root |> tryProp "benchmarkInput" |> Option.bind (tryProp "files") |> stringList
 
             let protocolFiles = root |> tryProp "protocol" |> Option.bind (tryProp "files") |> stringList
 
-            match fileSetFingerprint repositoryRoot inputFiles, fileSetFingerprint repositoryRoot protocolFiles with
-            | Error err, _ -> Error err
-            | _, Error err -> Error err
-            | Ok inputFingerprint, Ok protocolFingerprint ->
+            let fingerprints =
+                match Performance.fileSetFingerprint repositoryRoot inputFiles with
+                | Error err -> Error err
+                | Ok input ->
+                    match Performance.recordingIdentity repositoryRoot root inputFiles protocolFiles computedPolicyFingerprint input with
+                    | Error err -> Error err
+                    | Ok(Some identity) when identity.IsCurrent -> Ok(input, identity.Protocol)
+                    | Ok(Some _) ->
+                        Error(Errors.create "The approved recording does not match the current performance policy, input, protocol, or snapshot.")
+                    | Ok None ->
+                        Performance.fileSetFingerprint repositoryRoot protocolFiles
+                        |> Result.map (fun protocol -> input, protocol)
+            match fingerprints with
+            | Error err -> Error err
+            | Ok(inputFingerprint, protocolFingerprint) ->
                 let matches (left: string) (right: string) =
                     String.Equals(left, right, StringComparison.OrdinalIgnoreCase)
 
