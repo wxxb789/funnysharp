@@ -22,7 +22,9 @@ public sealed class ReferenceService
     public async ValueTask<bool> IsPlausibleAsync(double celsius, CancellationToken cancellationToken)
     {
         Checks.Add((celsius, cancellationToken));
-        await Task.Delay(1, cancellationToken);
+        cancellationToken.ThrowIfCancellationRequested();
+        await Task.Yield();
+        cancellationToken.ThrowIfCancellationRequested();
         return celsius >= MinCelsius && celsius <= MaxCelsius;
     }
 }
