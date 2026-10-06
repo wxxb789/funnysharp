@@ -26,16 +26,17 @@ The provided contract defines StockItem, ItemAvailability, WarehouseStock, Wareh
 WarehouseGateway, SupplierOffer, SupplierReply, SupplierGateway, and ReservationOutcome; do not
 redefine them. The provided fakes are deterministic:
 
-- WarehouseGateway.CheckAsync(sku, token) records the start, waits the sku's CheckDelayMs with
-  Task.Delay and the token, then answers with the sku's OnHand; an unknown sku waits nothing and
-  answers OnHand 0. The gateway counts StartedChecks, tracks MaxInFlightChecks (the largest
-  number of checks observed in flight at once), and exposes FirstCheckEntered, a task that
-  completes when the first check starts.
-- SupplierGateway.ProbeAsync(supplierId, token) records the start, waits the supplier's
-  ProbeDelayMs with Task.Delay and the token, then answers with that supplier's Accepts flag and
-  ReservationId. The gateway counts StartedProbes, tracks MaxInFlightProbes (the largest number
-  of probes observed in flight at once), and exposes FirstProbeStarted, a task that completes
-  when the first probe starts.
+- WarehouseGateway.CheckAsync(sku, token) records the start and waits for the test suite to
+  release that input, honoring the token throughout the wait. It then answers with the sku's
+  OnHand, or OnHand 0 for an unknown sku. The gateway counts StartedChecks and tracks
+  MaxInFlightChecks, the largest number of checks observed in flight at once. The tests use
+  CheckEntered/CheckCompleted and ReleaseCheck to observe and control completion order without
+  elapsed-time assumptions; the workflow only calls CheckAsync.
+- SupplierGateway.ProbeAsync(supplierId, token) records the start and waits for the test suite
+  to release that input, honoring the token. It then answers with that supplier's Accepts flag
+  and ReservationId. The gateway counts StartedProbes and tracks MaxInFlightProbes. The tests
+  use ProbeEntered/ProbeCompleted and ReleaseProbe to control replies; the workflow only calls
+  ProbeAsync. Delay fields and timer-based scheduling are not part of either fake.
 
 Business rules:
 
