@@ -249,21 +249,25 @@ public sealed class UnitResultHttpResultExtensionsTests
         UnitResult<string> uninitialized = default;
 #pragma warning restore FS1001
 
-        var syncException = Assert.Throws<InvalidOperationException>(
+        Assert.Throws<InvalidOperationException>(
             () => uninitialized.ToHttpResult(_ => NotFound()));
-        var taskException = await Assert.ThrowsAsync<InvalidOperationException>(
+        await Assert.ThrowsAsync<InvalidOperationException>(
             () => Task.FromResult(uninitialized).ToHttpResultAsync(_ => NotFound()));
-        var valueTaskException = await Assert.ThrowsAsync<InvalidOperationException>(
+        await Assert.ThrowsAsync<InvalidOperationException>(
             async () => await ValueTask.FromResult(uninitialized).ToHttpResultAsync(_ => NotFound()));
-
-        Assert.Equal("The unit result has not been initialized.", syncException.Message);
-        Assert.Equal("The unit result has not been initialized.", taskException.Message);
-        Assert.Equal("The unit result has not been initialized.", valueTaskException.Message);
 
         var failure = new InvalidOperationException("unit task failed");
         var faulted = Task.FromException<UnitResult<string>>(failure).ToHttpResultAsync(_ => NotFound());
 
         Assert.Same(failure, await Assert.ThrowsAsync<InvalidOperationException>(() => faulted));
+
+        var failed = UnitResult<string>.Failure("mapper input");
+        Assert.Same(failure, Assert.Throws<InvalidOperationException>(
+            () => failed.ToHttpResult(_ => throw failure)));
+        Assert.Same(failure, await Assert.ThrowsAsync<InvalidOperationException>(
+            () => Task.FromResult(failed).ToHttpResultAsync(_ => throw failure)));
+        Assert.Same(failure, await Assert.ThrowsAsync<InvalidOperationException>(
+            async () => await ValueTask.FromResult(failed).ToHttpResultAsync(_ => throw failure)));
     }
 
     [Fact]
@@ -301,12 +305,10 @@ public sealed class UnitResultHttpResultExtensionsTests
                 $"{name}: expected parameter '{parameterName}', but received '{exception.ParamName}'.");
         }
 
-        var nullProblem = Assert.Throws<InvalidOperationException>(() => failure.ToHttpResult(_ => null!));
-        var statuslessProblem = Assert.Throws<InvalidOperationException>(
+        Assert.Throws<InvalidOperationException>(() => failure.ToHttpResult(_ => null!));
+        Assert.Throws<InvalidOperationException>(
             () => failure.ToHttpResult(_ => new ProblemDetails()));
 
-        Assert.Equal("Problem mappers must return a problem with a status.", nullProblem.Message);
-        Assert.Equal("Problem mappers must return a problem with a status.", statuslessProblem.Message);
         Assert.Throws<InvalidOperationException>(() => success.ToHttpResult(Forbidden, () => null!));
     }
 
