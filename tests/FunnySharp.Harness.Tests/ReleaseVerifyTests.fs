@@ -8,6 +8,7 @@ module FunnySharp.Harness.Tests.ReleaseVerifyTests
 
 open System
 open System.IO
+open System.Security.Cryptography
 open System.Text
 open System.Text.Json
 open Xunit
@@ -159,6 +160,73 @@ let ``AssertCanonicalReleaseCommand_RejectsArgumentDrift`` () =
 
 let private englishBuildLog =
     "  FunnySharp -> /tmp/FunnySharp.dll\nBuild succeeded.\n    0 Warning(s)\n    0 Error(s)\n"
+
+[<Theory>]
+[<InlineData("empty")>]
+[<InlineData("utf8")>]
+[<InlineData("utf8-bom")>]
+[<InlineData("utf16-le")>]
+[<InlineData("utf16-be")>]
+[<InlineData("utf32-le")>]
+[<InlineData("utf32-be")>]
+[<InlineData("malformed-utf8")>]
+let ``ExecutionLogText_BindsRawBytesAndPreservesDecoding`` (encodingName: string) =
+    use temp = new TempDirectory()
+    let artifacts = Path.Combine(temp.Path, "artifacts")
+    let execution = Path.Combine(artifacts, "attempt")
+    Directory.CreateDirectory(Path.Combine(execution, "logs")) |> ignore
+    let relativePath = "logs/01-build.stdout.log"
+    let path = Path.Combine(execution, relativePath)
+    let prefix = "\u001b[32m" + englishBuildLog + "\u001b[0m"
+    // Cross the reader's byte buffer with multibyte text and end in a surrogate pair.
+    let suffix = String.replicate (1023 - prefix.Length) "a" + "\u00e9\u4e2d\U0001F642"
+    let source = prefix + suffix
+    let bytes, decoded, normalized =
+        match encodingName with
+        | "empty" -> [||], "", ""
+        | "malformed-utf8" ->
+            Array.append (Encoding.UTF8.GetBytes source) [| 0xC3uy; 0x28uy; 0xFFuy; 0xE2uy; 0x82uy |],
+            source + "\ufffd(\ufffd\ufffd",
+            englishBuildLog + suffix + "\ufffd(\ufffd\ufffd"
+        | _ ->
+            let encoding: Encoding =
+                match encodingName with
+                | "utf8" -> UTF8Encoding(false)
+                | "utf8-bom" -> UTF8Encoding(true)
+                | "utf16-le" -> UnicodeEncoding(false, true)
+                | "utf16-be" -> UnicodeEncoding(true, true)
+                | "utf32-le" -> UTF32Encoding(false, true)
+                | "utf32-be" -> UTF32Encoding(true, true)
+                | _ -> failwithf "Unknown encoding fixture: %s" encodingName
+            Array.append (encoding.GetPreamble()) (encoding.GetBytes source), source, englishBuildLog + suffix
+
+    File.WriteAllBytes(path, bytes)
+    // Independent byte-array hash, not the production file/hash/text helpers.
+    let expectedSha256 = Convert.ToHexString(SHA256.HashData bytes)
+    Assert.Equal(decoded, File.ReadAllText path)
+    let struct (actualPath, actualSha256, text) =
+        getExecutionLogText execution relativePath expectedSha256 artifacts
+    Assert.Equal(Path.GetFullPath path, actualPath)
+    Assert.Equal(expectedSha256.ToLowerInvariant(), actualSha256)
+    Assert.Equal(normalized, text)
+    if encodingName <> "empty" then
+        assertBuildMarkers text
+
+    // Preserve every success marker but change the same file's raw-byte identity.
+    File.WriteAllBytes(path, Array.append bytes [| 0x0Auy |])
+    expectFailure "log hash does not match receipt" (fun () ->
+        getExecutionLogText execution relativePath expectedSha256 artifacts |> ignore)
+
+[<Theory>]
+[<InlineData("../outside.log")>]
+[<InlineData("logs/../outside.log")>]
+[<InlineData("logs\\..\\outside.log")>]
+let ``ExecutionLogText_RejectsParentTraversal`` (relativePath: string) =
+    use temp = new TempDirectory()
+    let artifacts = Path.Combine(temp.Path, "artifacts")
+    let execution = Path.Combine(artifacts, "attempt")
+    expectFailure "log path must be a relative child path" (fun () ->
+        getExecutionLogText execution relativePath (String.replicate 64 "0") artifacts |> ignore)
 
 [<Fact>]
 let ``BuildMarkers_AcceptEnglishAndRejectLocalized`` () =

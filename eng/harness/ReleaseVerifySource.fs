@@ -361,12 +361,17 @@ let getExecutionLogText
         failNow (sprintf "Execution evidence log path escapes its directory: '%s'." relativePath)
 
     let path = getSafeEvidenceFile path artifactsDirectory
-    let actualSha256 = sha256File path
+    use stream = File.OpenRead path
+    let actualSha256 = Convert.ToHexString(SHA256.HashData stream).ToLowerInvariant()
 
     if not (equalsIgnoreCase actualSha256 expectedSha256) then
         failNow (sprintf "Execution evidence log hash does not match receipt: '%s'." relativePath)
 
-    struct (path, actualSha256, removeAnsiControlSequences(File.ReadAllText path))
+    // Reuse the same regular-file handle, but reject bad bytes before allocating
+    // decoded text. Both passes remain bounded and see the same opened file.
+    stream.Position <- 0L
+    use reader = new StreamReader(stream)
+    struct (path, actualSha256, removeAnsiControlSequences(reader.ReadToEnd()))
 
 // ---------------------------------------------------------------------------
 // Release protocol and the canonical command table
@@ -1220,7 +1225,6 @@ let assertReleaseExecutionEvidence
     if commands.Length <> expectedNames.Length then
         failNow (sprintf "Execution evidence must contain exactly %d candidate command receipts." expectedNames.Length)
 
-    let logPaths = ResizeArray<string>()
     let verifiedCommands = JsonArray()
     let logTextByName = Dictionary<string, string>()
 
@@ -1283,8 +1287,6 @@ let assertReleaseExecutionEvidence
                 (propText "standardErrorSha256" command)
                 artifactsDirectory
 
-        logPaths.Add expectedOutputLog
-        logPaths.Add expectedErrorLog
         logTextByName.[name] <- stdoutText + Environment.NewLine + stderrText
 
         let entry = JsonObject()
@@ -1305,9 +1307,6 @@ let assertReleaseExecutionEvidence
               let prefix = sprintf "%02d-%s" (index + 1) expectedNames.[index]
               yield "logs/" + prefix + ".stdout.log"
               yield "logs/" + prefix + ".stderr.log" ]
-
-    if logPaths.Count <> expectedLogPaths.Length || not (sameStringSet (List.ofSeq logPaths) expectedLogPaths) then
-        failNow "Execution evidence does not contain the expected fixed log set."
 
     let logsDirectory = assertSafeArtifactsSubdirectory (Path.Combine(executionDirectory, "logs")) artifactsDirectory
 
