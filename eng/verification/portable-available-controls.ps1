@@ -10,4 +10,3 @@ Write-Output ('NEW_PORTABLE_EXIT=' + $LASTEXITCODE)
 Write-Output ('NEW_HELP_EXIT=' + $LASTEXITCODE)
 & dotnet fsi --warnaserror+ $new --
 Write-Output ('NEW_USAGE_EXIT=' + $LASTEXITCODE)
-

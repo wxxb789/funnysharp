@@ -329,4 +329,3 @@ let verify (packet: Packet) =
     printfn "CURRENT_PERFORMANCE_PORTABLE_PASS objects=%d locators=%d rows=%d launches=%d census=499/468/31 runtime=24 writes=0 network=0" packet.Stats.objects packet.Stats.locators totalRows totalLaunches
     closureDocument.Dispose()
     censusDocument.Dispose()
-    

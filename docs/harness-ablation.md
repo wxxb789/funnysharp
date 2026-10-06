@@ -304,8 +304,8 @@ path checks, physical log inventory, manifest/receipt joins and semantic marker
 parsing remain. No log timing or allocation speedup was measured.
 
 Other measured savings are source-derived rather than stopwatch claims: LOC
-report reads 49 to 10, saving 39 opens and 438,228 byte visits; docs generated
-buffer tails avoid 12 log rereads; ToolingVerify removes four reads/173,623
+report reads 49 to 10, saving 39 opens and 438,228 byte visits;
+ToolingVerify removes four reads/173,623
 bytes and 13 source searches; API text-only comparison removes two discarded
 DLL hashes while full digest publication remains; stable API XML hashes fall
 from 468 to two while all 468 expected values are checked; packet verification

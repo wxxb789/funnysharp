@@ -166,4 +166,3 @@ printfn "%s" (JsonSerializer.Serialize({| schema = "funnysharp-offline-successor
 printfn "OFFLINE_PACKET_CONTROLS_PASS controls=%d" records.Count
 for doc in [receiptDoc; manifestDoc; workloadDoc; censusDoc; closureDoc; currentManifestDoc] do doc.Dispose()
 (packet :> IDisposable).Dispose()
-

@@ -9,4 +9,3 @@ let root = if arguments.Length = 1 then Path.GetFullPath arguments[0] else Path.
 let packet = new Packet(root, TraversalR9)
 verify packet
 (packet :> System.IDisposable).Dispose()
-

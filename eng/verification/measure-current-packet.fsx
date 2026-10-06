@@ -16,4 +16,3 @@ verify packet
 watch.Stop()
 printfn "NEW_COST %s" (JsonSerializer.Serialize({| stats = packet.Stats; verifierElapsedMs = watch.Elapsed.TotalMilliseconds; cpuMs = (workerProcess.TotalProcessorTime - cpuStart).TotalMilliseconds; peakWorkingSetBytes = workerProcess.PeakWorkingSet64; allocatedBytes = GC.GetTotalAllocatedBytes(true) - allocationStart |}))
 (packet :> IDisposable).Dispose()
-

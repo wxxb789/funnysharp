@@ -39,4 +39,3 @@ foreach ($r in $records) {
 }
 if (-not $valid) { Write-Output 'OFFLINE_PAIRED_COST_FAIL'; exit 1 }
 Write-Output 'OFFLINE_PAIRED_COST_PASS'
-
