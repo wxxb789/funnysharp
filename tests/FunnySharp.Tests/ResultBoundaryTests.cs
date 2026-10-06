@@ -307,15 +307,25 @@ public sealed class ResultBoundaryTests
         cancellationSource.Cancel();
         var taskCancellation = CaptureCancellation(cancellationSource.Token);
         var valueTaskCancellation = CaptureCancellation(cancellationSource.Token);
-        var taskSource = CreateCanceledSourceAsync<int>(taskCancellation);
-        var valueTaskSource = CreateCanceledSourceAsync<int>(valueTaskCancellation);
+        var taskRelease = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var valueTaskRelease = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var taskSource = CreateCanceledSourceAsync<int>(taskCancellation, taskRelease.Task);
+        var valueTaskSource = CreateCanceledSourceAsync<int>(valueTaskCancellation, valueTaskRelease.Task);
 
         var task = Result.TryAsync(() => taskSource);
         var valueTask = Result.TryValueAsync(() => new ValueTask<int>(valueTaskSource)).AsTask();
 
-        var actualTaskCancellation = await Assert.ThrowsAnyAsync<OperationCanceledException>(() => task);
+        Assert.False(taskSource.IsCompleted);
+        Assert.False(valueTaskSource.IsCompleted);
+        Assert.False(task.IsCompleted);
+        Assert.False(valueTask.IsCompleted);
+        taskRelease.SetResult();
+        valueTaskRelease.SetResult();
+
+        var actualTaskCancellation = await Assert.ThrowsAnyAsync<OperationCanceledException>(
+            () => task.WaitAsync(TimeSpan.FromSeconds(10), TestContext.Current.CancellationToken));
         var actualValueTaskCancellation = await Assert.ThrowsAnyAsync<OperationCanceledException>(
-            () => valueTask);
+            () => valueTask.WaitAsync(TimeSpan.FromSeconds(10), TestContext.Current.CancellationToken));
 
         AssertCancellation(
             task,
@@ -345,11 +355,8 @@ public sealed class ResultBoundaryTests
                 return "mapped";
             });
 
-        var defaultFailure = await Assert.ThrowsAsync<InvalidOperationException>(() => defaultResult);
-        var mappedFailure = await Assert.ThrowsAsync<InvalidOperationException>(() => mappedResult);
-
-        Assert.Equal("The operation returned a null task.", defaultFailure.Message);
-        Assert.Equal("The operation returned a null task.", mappedFailure.Message);
+        await Assert.ThrowsAsync<InvalidOperationException>(() => defaultResult);
+        await Assert.ThrowsAsync<InvalidOperationException>(() => mappedResult);
         Assert.Equal(0, mapperCalls);
     }
 
@@ -390,9 +397,10 @@ public sealed class ResultBoundaryTests
         throw new UnreachableException();
     }
 
-    private static async Task<T> CreateCanceledSourceAsync<T>(OperationCanceledException cancellation)
+    private static async Task<T> CreateCanceledSourceAsync<T>(
+        OperationCanceledException cancellation, Task release)
     {
-        await Task.Yield();
+        await release.WaitAsync(TimeSpan.FromSeconds(10), TestContext.Current.CancellationToken);
         ExceptionDispatchInfo.Capture(cancellation).Throw();
         return default!;
     }

@@ -246,22 +246,65 @@ public sealed class StateTransitionTests
     [Fact]
     public async Task ThenCompositionSupportsConcurrentInvocation()
     {
+        var entered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var overlapped = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        using var release = new ManualResetEventSlim();
+        var controlled = false;
+        var entries = 0;
+        var token = TestContext.Current.CancellationToken;
         StateTransition<int, int> transition = state => StateChange<int, int>.To(state + 1, state + 1);
         for (var index = 1; index < 256; index++)
         {
-            transition = transition.Then(state => StateChange<int, int>.To(state + 1, state + 1));
+            var step = index;
+            transition = transition.Then(state =>
+            {
+                if (controlled && step == 1)
+                {
+                    if (Interlocked.Increment(ref entries) == 1)
+                    {
+                        entered.SetResult();
+                        Assert.True(release.Wait(TimeSpan.FromSeconds(10), token));
+                    }
+                    else
+                    {
+                        overlapped.TrySetResult();
+                    }
+                }
+
+                return StateChange<int, int>.To(state + 1, state + 1);
+            });
         }
 
         var expected = transition(0);
-        var results = await Task.WhenAll(
-            Enumerable.Range(0, Environment.ProcessorCount * 2)
-                .Select(_ => Task.Run(() => transition(0))));
+        controlled = true;
+        var held = Task.Factory.StartNew(() => transition(0), token,
+            TaskCreationOptions.LongRunning, TaskScheduler.Default);
+        StateChange<int, int>[] results;
+        try
+        {
+            await entered.Task.WaitAsync(TimeSpan.FromSeconds(10), token);
+            var concurrent = Task.WhenAll(
+                Enumerable.Range(1, Environment.ProcessorCount * 2 - 1)
+                    .Select(_ => Task.Run(() => transition(0), token)));
+            await overlapped.Task.WaitAsync(TimeSpan.FromSeconds(10), token);
+            Assert.False(held.IsCompleted);
+            results = await concurrent.WaitAsync(TimeSpan.FromSeconds(10), token);
+            Assert.False(held.IsCompleted);
+        }
+        finally
+        {
+            release.Set();
+        }
 
+        var heldResult = await held.WaitAsync(TimeSpan.FromSeconds(10), token);
+        Assert.Equal(expected.State, heldResult.State);
+        Assert.Equal(expected.Outputs, heldResult.Outputs);
         Assert.All(results, result =>
         {
             Assert.Equal(expected.State, result.State);
             Assert.Equal(expected.Outputs, result.Outputs);
         });
+        Assert.Equal(Environment.ProcessorCount * 2, entries);
     }
 
     [Fact]

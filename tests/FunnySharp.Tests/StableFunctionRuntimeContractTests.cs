@@ -85,7 +85,8 @@ public sealed class StableFunctionRuntimeContractTests
         if (pendingStage != 2) second.Complete();
         var firstCalls = 0;
         var secondCalls = 0;
-        var token = TestContext.Current.CancellationToken;
+        using var cancellation = new CancellationTokenSource();
+        var token = cancellation.Token;
         Func<string?, ValueTask<string?>> firstFunction = value =>
         {
             Assert.Null(value);
@@ -106,9 +107,6 @@ public sealed class StableFunctionRuntimeContractTests
         var returned = (tokenAware
             ? aware.ComposeValueAsync((value, actual) => { Assert.Equal(token, actual); return secondFunction(value); })(null, token)
             : firstFunction.ComposeValueAsync(secondFunction)(null)).AsTask();
-        var completed = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-        _ = returned.ContinueWith(_ => completed.TrySetResult(), CancellationToken.None,
-            TaskContinuationOptions.ExecuteSynchronously, TaskScheduler.Default);
         if (pendingStage != 0)
         {
             var pending = pendingStage == 1 ? first : second;
@@ -118,8 +116,7 @@ public sealed class StableFunctionRuntimeContractTests
             if (pendingStage == 1) Assert.Equal(0, secondCalls);
             pending.Complete();
         }
-        await completed.Task.WaitAsync(TimeSpan.FromSeconds(10), token);
-        Assert.Null(await returned);
+        Assert.Null(await returned.WaitAsync(TimeSpan.FromSeconds(10), token));
         Assert.Equal(1, firstCalls);
         Assert.Equal(1, secondCalls);
         Assert.Equal(1, first.Reads);
