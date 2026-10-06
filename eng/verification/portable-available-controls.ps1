@@ -3,10 +3,21 @@ $ErrorActionPreference = 'Stop'
 $old = Join-Path $RepositoryRoot 'docs/audits/goal-24-resolution/portable-evidence/verify.fsx'
 $new = Join-Path $PSScriptRoot 'verify-portable-history.fsx'
 & dotnet fsi --warnaserror+ $old -- --repository-root $RepositoryRoot --artifact-directory $ArtifactDirectory
-Write-Output ('OLD_PORTABLE_EXIT=' + $LASTEXITCODE)
+$oldExit = $LASTEXITCODE
+Write-Output ('OLD_PORTABLE_EXIT=' + $oldExit)
 & dotnet fsi --warnaserror+ $new -- --repository-root $RepositoryRoot --artifact-directory $ArtifactDirectory
-Write-Output ('NEW_PORTABLE_EXIT=' + $LASTEXITCODE)
+$newExit = $LASTEXITCODE
+Write-Output ('NEW_PORTABLE_EXIT=' + $newExit)
 & dotnet fsi --warnaserror+ $new -- --help
-Write-Output ('NEW_HELP_EXIT=' + $LASTEXITCODE)
+$helpExit = $LASTEXITCODE
+Write-Output ('NEW_HELP_EXIT=' + $helpExit)
 & dotnet fsi --warnaserror+ $new --
-Write-Output ('NEW_USAGE_EXIT=' + $LASTEXITCODE)
+$usageExit = $LASTEXITCODE
+Write-Output ('NEW_USAGE_EXIT=' + $usageExit)
+
+$expected = @(0, 0, 0, 2)
+$actual = @($oldExit, $newExit, $helpExit, $usageExit)
+if (($actual -join ',') -ne ($expected -join ',')) {
+    Write-Error ('Portable verifier exit tuple mismatch: expected {0}; actual {1}' -f ($expected -join ','), ($actual -join ','))
+    exit 1
+}
