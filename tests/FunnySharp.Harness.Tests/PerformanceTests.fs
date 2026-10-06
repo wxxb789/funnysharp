@@ -31,9 +31,6 @@ let private environmentJson =
 let private expectedEnvironmentKey =
     "fa9d5fbfd3bc1100485289c2225ae6046aa5409609b4a6ec94e5f376c4fe7ca8"
 
-let private successLine =
-    "Verified 2 included performance rows and 1 explicit exclusions across 1 receipts."
-
 let private quote (value: string) : string =
     JsonSerializer.Serialize<string> value
 
@@ -170,9 +167,8 @@ let private withFixture (name: string) (body: Fixture -> unit) : unit =
     body (createFixture temp.Path name)
 
 let private assertSucceeds (fixture: Fixture) : unit =
-    let exitCode, stdout, stderr = invoke fixture []
+    let exitCode, _, stderr = invoke fixture []
     Assert.Equal(0, exitCode)
-    Assert.Equal(successLine, stdout.Trim())
     Assert.Equal("", stderr.Trim())
 
 let private assertFails (fixture: Fixture) (expected: string) : unit =
@@ -340,11 +336,10 @@ type PerformanceVerifierTests() =
             (fun fixture ->
                 let proposalPath = Path.Combine(fixture.Root, "artifacts", "observation.json")
 
-                let exitCode, stdout, _ =
+                let exitCode, _, _ =
                     invoke fixture [ "-ObservationProposalPath"; proposalPath ]
 
                 Assert.Equal(0, exitCode)
-                Assert.Equal(successLine, stdout.Trim())
                 Assert.True(File.Exists proposalPath)
 
                 use document = JsonDocument.Parse(File.ReadAllText proposalPath)

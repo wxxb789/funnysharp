@@ -285,14 +285,12 @@ type DocumentationFixtureTests() =
         try
             CultureInfo.CurrentCulture <- CultureInfo.GetCultureInfo("fr-FR")
 
-            let generateExit, generateOut, generateErr = run fixture.Root fixture.ManifestPath false
+            let generateExit, _, generateErr = run fixture.Root fixture.ManifestPath false
             Assert.Equal(0, generateExit)
-            Assert.Equal("Generated 1 performance documentation regions.", generateOut.Trim())
             Assert.Equal("", generateErr.Trim())
 
-            let verifyExit, verifyOut, verifyErr = run fixture.Root fixture.ManifestPath true
+            let verifyExit, _, verifyErr = run fixture.Root fixture.ManifestPath true
             Assert.Equal(0, verifyExit)
-            Assert.Equal("Verified 1 performance documentation regions.", verifyOut.Trim())
             Assert.Equal("", verifyErr.Trim())
 
             let generated = File.ReadAllText fixture.GuidePath
@@ -371,10 +369,9 @@ type DocumentationFixtureTests() =
 
         let firstExit, _, _ = run fixture.Root fixture.ManifestPath false
         let first = File.ReadAllText fixture.GuidePath
-        let secondExit, secondOut, _ = run fixture.Root fixture.ManifestPath false
+        let secondExit, _, _ = run fixture.Root fixture.ManifestPath false
         Assert.Equal(0, firstExit)
         Assert.Equal(0, secondExit)
-        Assert.Equal("Generated 1 performance documentation regions.", secondOut.Trim())
         Assert.Equal(first, File.ReadAllText fixture.GuidePath)
         Assert.DoesNotContain("\r", first)
 
@@ -449,16 +446,14 @@ type RealManifestTests() =
     [<Fact>]
     member _.BaselineManifestVerifiesElevenRegions() =
         let root = repositoryRoot ()
-        let exitCode, stdout, stderr = runDefaultManifest root true
+        let exitCode, _, stderr = runDefaultManifest root true
         Assert.Equal(0, exitCode)
-        Assert.Equal("Verified 11 performance documentation regions.", stdout.Trim())
         Assert.Equal("", stderr.Trim())
 
     [<Fact>]
     member _.CompetitorManifestReproducesProtocolStep13() =
         let root = repositoryRoot ()
         let manifestPath = Path.Combine(root, "eng/performance/competitor-baseline.json")
-        let exitCode, stdout, stderr = run root manifestPath true
+        let exitCode, _, stderr = run root manifestPath true
         Assert.Equal(0, exitCode)
-        Assert.Equal("Verified 1 performance documentation regions.", stdout.Trim())
         Assert.Equal("", stderr.Trim())

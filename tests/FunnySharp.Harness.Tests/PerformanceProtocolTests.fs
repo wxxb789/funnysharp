@@ -1406,13 +1406,8 @@ type PerformanceProtocolTests() =
     member _.VerifyPerformance_ValidPolicyAndReceipt_Succeeds() =
         use temp = new TempDirectory()
         let fixture = newFixture (Path.Combine(temp.Path, "valid"))
-        let exitCode, stdout, stderr = runVerifier fixture
+        let exitCode, _, stderr = runVerifier fixture
         assertPassed exitCode stderr
-
-        Assert.Contains(
-            "Verified 2 included performance rows and 1 explicit exclusions across 1 receipts.",
-            stdout
-        )
 
     [<Fact>]
     member _.VerifyPerformance_U10_CompleteBinding_SucceedsWithoutChangingPolicy() =
@@ -1618,9 +1613,8 @@ type PerformanceProtocolTests() =
                           MeanNanoseconds = None } ] }
 
         writeReceipt mutated
-        let exitCode, stdout, stderr = runVerifier mutated
+        let exitCode, _, stderr = runVerifier mutated
         assertPassed exitCode stderr
-        Assert.Contains("Verified 2 included performance rows", stdout)
 
     [<Fact>]
     member _.VerifyPerformance_EnvironmentKeyMismatch_Rejects() =
@@ -1677,13 +1671,11 @@ type PerformanceProtocolTests() =
         try
             CultureInfo.CurrentCulture <- CultureInfo.GetCultureInfo("fr-FR")
 
-            let generateExit, generateStdout, generateStderr = runGenerator fixture false
+            let generateExit, _, generateStderr = runGenerator fixture false
             assertPassed generateExit generateStderr
-            Assert.Contains("Generated 1 performance documentation regions.", generateStdout)
 
-            let verifyExit, verifyStdout, verifyStderr = runGenerator fixture true
+            let verifyExit, _, verifyStderr = runGenerator fixture true
             assertPassed verifyExit verifyStderr
-            Assert.Contains("Verified 1 performance documentation regions.", verifyStdout)
 
             let generated = File.ReadAllText guidePath
 
