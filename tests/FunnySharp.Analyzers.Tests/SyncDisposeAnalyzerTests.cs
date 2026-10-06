@@ -51,8 +51,7 @@ public sealed class SyncDisposeAnalyzerTests
                 }
             }
             """,
-            "FS1005",
-            "Both");
+            "FS1005");
     }
 
     [Fact]

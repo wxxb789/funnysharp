@@ -28,8 +28,11 @@ public sealed class CodeFixTests
             """,
             "FS1002",
             new DiscardedOutcomeCodeFixProvider());
-        Assert.Contains("_ = Find();", fixedText, StringComparison.Ordinal);
-        AssertDiscardTargets(fixedText);
+        var assignment = Assert.Single(AssertDiscardTargets(fixedText));
+        var invocation = Assert.IsAssignableFrom<IInvocationOperation>(assignment.Value);
+        Assert.Equal("Find", invocation.TargetMethod.Name);
+        Assert.Equal("C", invocation.TargetMethod.ContainingType.Name);
+        Assert.Empty(invocation.Arguments);
 
         await AnalyzerTestAssert.QuietAsync(fixedText);
     }
@@ -52,8 +55,12 @@ public sealed class CodeFixTests
             """,
             "FS1002",
             new DiscardedOutcomeCodeFixProvider());
-        Assert.Contains("_ = await SaveAsync();", fixedText, StringComparison.Ordinal);
-        AssertDiscardTargets(fixedText);
+        var assignment = Assert.Single(AssertDiscardTargets(fixedText));
+        var awaited = Assert.IsAssignableFrom<IAwaitOperation>(assignment.Value);
+        var invocation = Assert.IsAssignableFrom<IInvocationOperation>(awaited.Operation);
+        Assert.Equal("SaveAsync", invocation.TargetMethod.Name);
+        Assert.Equal("C", invocation.TargetMethod.ContainingType.Name);
+        Assert.Empty(invocation.Arguments);
 
         await AnalyzerTestAssert.QuietAsync(fixedText);
     }
@@ -253,20 +260,22 @@ public sealed class CodeFixTests
             """);
     }
 
-    private static void AssertDiscardTargets(string source, int expectedCount = 1)
+    private static ISimpleAssignmentOperation[] AssertDiscardTargets(string source, int expectedCount = 1)
     {
         var compilation = AnalyzerHarness.CreateCompilation(source);
         AnalyzerHarness.AssertNoCompileErrors(compilation);
         var assignments = compilation.SyntaxTrees
             .SelectMany(tree => tree.GetRoot().DescendantNodes().OfType<AssignmentExpressionSyntax>())
+            .Select(assignment => Assert.IsAssignableFrom<ISimpleAssignmentOperation>(
+                compilation.GetSemanticModel(assignment.SyntaxTree).GetOperation(assignment)))
             .ToArray();
         Assert.Equal(expectedCount, assignments.Length);
         foreach (var assignment in assignments)
         {
-            var operation = Assert.IsAssignableFrom<ISimpleAssignmentOperation>(
-                compilation.GetSemanticModel(assignment.SyntaxTree).GetOperation(assignment));
-            Assert.IsAssignableFrom<IDiscardOperation>(operation.Target);
+            Assert.IsAssignableFrom<IDiscardOperation>(assignment.Target);
         }
+
+        return assignments;
     }
 
     private static string[] CommentTrivia(IEnumerable<SyntaxTrivia> trivia)

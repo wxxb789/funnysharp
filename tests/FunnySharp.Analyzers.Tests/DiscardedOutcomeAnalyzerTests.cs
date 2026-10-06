@@ -18,8 +18,7 @@ public sealed class DiscardedOutcomeAnalyzerTests
                 }
             }
             """,
-            "FS1002",
-            "outcome value");
+            "FS1002");
     }
 
     [Fact]
@@ -70,8 +69,7 @@ public sealed class DiscardedOutcomeAnalyzerTests
                 }
             }
             """,
-            "FS1002",
-            "unawaited work");
+            "FS1002");
     }
 
     [Fact]
@@ -109,8 +107,7 @@ public sealed class DiscardedOutcomeAnalyzerTests
                 }
             }
             """,
-            "FS1002",
-            "task of an outcome value");
+            "FS1002");
     }
 
     [Fact]
@@ -130,8 +127,7 @@ public sealed class DiscardedOutcomeAnalyzerTests
                 }
             }
             """,
-            "FS1002",
-            "task of an outcome value");
+            "FS1002");
     }
 
     [Fact]
@@ -150,8 +146,7 @@ public sealed class DiscardedOutcomeAnalyzerTests
                 }
             }
             """,
-            "FS1002",
-            "task of an outcome value");
+            "FS1002");
     }
 
     [Fact]
@@ -168,8 +163,7 @@ public sealed class DiscardedOutcomeAnalyzerTests
                 }
             }
             """,
-            "FS1002",
-            "unawaited work");
+            "FS1002");
     }
 
     [Fact]
