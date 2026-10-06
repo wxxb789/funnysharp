@@ -121,20 +121,6 @@ let private stringValue (element: JsonElement) : string =
 let private stringOf (name: string) (element: JsonElement) : string =
     element |> tryProp name |> Option.map stringValue |> Option.defaultValue ""
 
-let private stringList (value: JsonElement option) : string list =
-    match value with
-    | Some element when element.ValueKind = JsonValueKind.Array ->
-        element.EnumerateArray() |> Seq.map stringValue |> List.ofSeq
-    | Some element when element.ValueKind = JsonValueKind.String -> [ stringValue element ]
-    | _ -> []
-
-let private intValue (value: JsonElement option) : int option =
-    match value with
-    | Some element when element.ValueKind = JsonValueKind.Number ->
-        let mutable parsed = 0
-        if element.TryGetInt32(&parsed) then Some parsed else None
-    | _ -> None
-
 // ---- SHA-256 helpers ----
 
 let private sha256HexBytes (bytes: byte array) : string =
