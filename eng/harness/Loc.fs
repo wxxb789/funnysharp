@@ -111,11 +111,7 @@ let countLoc (path: string) : int =
 // loc.py — extract a method body by name
 // ---------------------------------------------------------------------------
 
-/// Extract the body lines and the raw (non-blank, non-`//`) lines of the first
-/// declaration-shaped line matching `name`. Returns None when no such line
-/// exists, exactly like loc.py's extract().
-let extract (path: string) (name: string) : (string list * string list) option =
-    let lines = (readUtf8 path).Split('\n')
+let private extractFromLines (lines: string array) (name: string) : (string list * string list) option =
     let pattern = Regex(@"\b" + Regex.Escape name + @"\s*[<(]")
 
     let mutable start = -1
@@ -166,6 +162,12 @@ let extract (path: string) (name: string) : (string list * string list) option =
                 trimmed.Length > 0 && not (trimmed.StartsWith("//")))
 
         Some(body, raw)
+
+/// Extract the body lines and the raw (non-blank, non-`//`) lines of the first
+/// declaration-shaped line matching `name`. Returns None when no such line
+/// exists, exactly like loc.py's extract().
+let extract (path: string) (name: string) : (string list * string list) option =
+    extractFromLines ((readUtf8 path).Split('\n')) name
 
 /// The two console shapes loc.py writes: the indexed body plus the raw count,
 /// or the single `NOT FOUND` line. Returns the lines to write to stdout.
@@ -232,6 +234,7 @@ let targets : (string * string * string list) list =
 /// Render the rawloc fixture for the supplied targets against `baseDir`.
 let reportFor (rowTargets: (string * string * string list) list) (baseDir: string) : string list =
     let lines = ResizeArray<string>()
+    let sources = System.Collections.Generic.Dictionary<string, string array>(StringComparer.Ordinal)
     let mutable total = 0
 
     for label, relativePath, names in rowTargets do
@@ -240,7 +243,14 @@ let reportFor (rowTargets: (string * string * string list) list) (baseDir: strin
         let mutable value = 0
 
         for name in names do
-            match extract fullPath name with
+            let sourceLines =
+                match sources.TryGetValue fullPath with
+                | true, cached -> cached
+                | false, _ ->
+                    let loaded = (readUtf8 fullPath).Split('\n')
+                    sources.Add(fullPath, loaded)
+                    loaded
+            match extractFromLines sourceLines name with
             | Some(_, raw) ->
                 value <- value + raw.Length
                 counts.Add(sprintf "%s=%d" name raw.Length)

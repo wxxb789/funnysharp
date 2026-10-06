@@ -175,14 +175,10 @@ type RawLocTests() =
 
     [<Fact>]
     member _.ReportMatchesCommittedFixture() =
-        Assert.Equal<string list>(expectedReport, reportLines (callSitesCodeDir ()))
-
-    [<Fact>]
-    member _.ReportHasOneLinePerTargetPlusTotal() =
         // The source TARGETS table has 29 rows; with the TOTAL line the report
         // prints 30 lines. (The spec's "30 TARGETS" counts the output lines.)
         Assert.Equal(29, List.length targets)
-        Assert.Equal(List.length targets + 1, List.length (reportLines (callSitesCodeDir ())))
+        Assert.Equal<string list>(expectedReport, reportLines (callSitesCodeDir ()))
 
     [<Fact>]
     member _.NotFoundsAreReportedButCountZero() =
@@ -210,6 +206,64 @@ type RawLocTests() =
         Assert.Contains("M2=4", lines.[0])
         Assert.Contains("raw=  8", lines.[0])
         Assert.Equal("TOTAL raw lines counted: 8", List.last lines)
+
+    [<Theory>]
+    [<InlineData("\n", false)>]
+    [<InlineData("\r\n", false)>]
+    [<InlineData("\n", true)>]
+    [<InlineData("\r\n", true)>]
+    member _.CachedReportMatchesUncachedExtractionAndRefreshesBetweenReports(newline: string, bom: bool) =
+        use temp = new TempDirectory()
+        let text = "public int M1()\n{\n    // ignored\n\n    /* block\n       comment */\n    return 1;\n}\npublic int M2() => 2;\n"
+        let text = text.Replace("\n", newline)
+        let path =
+            if bom then writeBomText temp.Path "alpha.cs" text
+            else writeText temp.Path "alpha.cs" text
+        let rows = [ "L1", "alpha.cs", [ "M1"; "M2"; "Missing" ]; "L2", "alpha.cs", [ "M2"; "M1" ] ]
+        // The old per-method entry still reads the source on every call. This
+        // reference deliberately does not use reportFor's source cache.
+        let uncachedReport () =
+            let mutable total = 0
+            let lines =
+                [ for label, relative, names in rows do
+                      let mutable value = 0
+                      let counts =
+                          [ for name in names do
+                                match extract (Path.Combine(temp.Path, relative)) name with
+                                | Some(_, raw) ->
+                                    value <- value + raw.Length
+                                    yield sprintf "%s=%d" name raw.Length
+                                | None -> yield name + "=NOT_FOUND" ]
+                      total <- total + value
+                      yield sprintf "%s %s raw=%s  (%s)" (label.PadRight 34) (relative.PadRight 28) (value.ToString().PadLeft 3) (String.Join(", ", counts)) ]
+            lines @ [ sprintf "TOTAL raw lines counted: %d" total ]
+        let first = reportFor rows temp.Path
+        Assert.Equal<string list>(uncachedReport (), first)
+        Assert.Contains("M1=6, M2=1, Missing=NOT_FOUND", first.[0])
+        Assert.Equal("TOTAL raw lines counted: 14", List.last first)
+        File.WriteAllText(path, text.Replace("    return 1;", "    int extra = 0;" + newline + "    return 1;"), utf8NoBom)
+        let second = reportFor rows temp.Path
+        Assert.Equal<string list>(uncachedReport (), second)
+        Assert.Contains("M1=7", second.[0])
+        Assert.Equal("TOTAL raw lines counted: 16", List.last second)
+
+    [<Fact>]
+    member _.ReportKeepsLazyEmptyNameRowsAndReadFailures() =
+        use temp = new TempDirectory()
+        let empty = reportFor [ "L", "missing.cs", [] ] temp.Path
+        Assert.Contains("raw=  0  ()", empty.[0])
+        Assert.Equal("TOTAL raw lines counted: 0", List.last empty)
+        Assert.Throws<FileNotFoundException>(fun () -> reportFor [ "L", "missing.cs", [ "M" ] ] temp.Path |> ignore) |> ignore
+        match reportResult temp.Path with
+        | Ok _ -> Assert.Fail "expected the report read failure"
+        | Error err ->
+            Assert.Equal(1, err.ExitCode)
+            Assert.False(String.IsNullOrEmpty err.Message)
+        use stdout = new StringWriter()
+        use stderr = new StringWriter()
+        Assert.Equal(1, mainWith stdout stderr [ Path.Combine(temp.Path, "missing.cs"); "M" ])
+        Assert.Empty(stdout.ToString())
+        Assert.False(String.IsNullOrEmpty(stderr.ToString()))
 
     [<Fact>]
     member _.TargetsRunFromCallSitesCodeDirectory() =
