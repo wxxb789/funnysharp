@@ -12,9 +12,8 @@ module FunnySharp.Harness.Tests.ToolingVerifyTests
 // Deliberate divergences from the Python suite, both recorded in the module header:
 // the uv and pinned-Python prerequisites are gone (the F# tool does not run under
 // uv/Python), so UvIsNoLongerAPrerequisite asserts that the CLI still succeeds with
-// a uv shim on PATH instead of the old environment failures; and the PEP 723 header
-// test is replaced by MarkerGuardFailureOnMutatedVerifier, which mutates a verifier
-// source and asserts the missing-marker report.
+// a uv shim on PATH instead of the old environment failures. Source-marker guards
+// are ablated; same-root green/malformed output controls retain the actual verdicts.
 
 open System
 open System.Collections.Generic
@@ -526,7 +525,7 @@ type PipelineVerdictTests() =
         Assert.Equal(0, code)
 
 // ---------------------------------------------------------------------------
-// Protocol contract and marker guard
+// Protocol contract
 // ---------------------------------------------------------------------------
 
 type ProtocolContractTests() =
@@ -602,38 +601,61 @@ type ProtocolContractTests() =
         let listed = summaryLine.Substring(summaryLine.IndexOf(": ") + 2).Split(", ") |> List.ofArray
         Assert.Equal<string list>(notRunSteps, listed)
 
-    [<Fact>]
-    member this.MarkerContractPresentInRealVerifier() =
-        let paths =
-            VerifierRelativePaths
-            |> List.map (fun relative -> Path.Combine(this.Repo, relative))
+// ---------------------------------------------------------------------------
+// Source-independent verdict controls
+// ---------------------------------------------------------------------------
 
-        Assert.Equal<string list>([], missingMarkerFragments paths)
+type SourceIndependentVerdictTests() =
+    inherit VerifyLocalTestBase()
 
-    [<Fact>]
-    member this.MarkerGuardFailureOnMutatedVerifier() =
-        let fixture = Path.Combine(this.Temp, "mutated-repo")
-        Directory.CreateDirectory(Path.Combine(fixture, "eng", "harness")) |> ignore
+    [<Theory>]
+    [<InlineData("build")>]
+    [<InlineData("test")>]
+    [<InlineData("docs")>]
+    member this.GreenAndMalformedOutputsAreDistinguishedWithoutVerifierSources(step: string) =
+        let fixture = Path.Combine(this.Temp, "source-independent-repo")
+        Directory.CreateDirectory fixture |> ignore
+        File.WriteAllText(Path.Combine(fixture, "FunnySharp.slnx"), "<Solution />\n", utf8NoBom)
+        let argv = [ "--repository-root"; fixture; "--json" ]
+        let valid = FakeRunner fixture
+        let validCode, validStdout, _ =
+            this.RunCli(argv, this.Env, valid.Runner, Some cannedDocsVerifier)
 
-        let source =
-            File.ReadAllText(Path.Combine(this.Repo, "eng", "harness", "ReleaseVerifySource.fs"))
+        Assert.Equal(0, validCode)
+        Assert.Equal<string list>(localSteps, valid.Steps)
+        use validDocument = JsonDocument.Parse validStdout
+        let validReport = validDocument.RootElement
+        Assert.Equal("passed", validReport.GetProperty("status").GetString() |> text)
+        Assert.Equal(0, validReport.GetProperty("exitCode").GetInt32())
+        Assert.Equal(JsonValueKind.Null, validReport.GetProperty("failedStep").ValueKind)
+        Assert.Equal(localSteps.Length, validReport.GetProperty("steps").GetArrayLength())
 
-        let mutated = source.Replace(@"0 Warning\(s\)", "0 Warnings")
-        Assert.NotEqual<string>(source, mutated)
+        let malformed =
+            match step with
+            | "build" -> (greenStdout step fixture).Replace("0 Warning(s)", "1 Warning(s)")
+            | "test" -> (greenStdout step fixture).Replace("skipped: 0", "skipped: 1")
+            | "docs" -> "no verdict\n"
+            | _ -> failwithf "unexpected step %s" step
 
-        File.WriteAllText(
-            Path.Combine(fixture, "eng", "harness", "ReleaseVerifySource.fs"),
-            mutated,
-            utf8NoBom
-        )
+        let invalid = FakeRunner fixture
+        invalid.Override(step, stdout = malformed)
+        let invalidCode, invalidStdout, _ =
+            this.RunCli(argv, this.Env, invalid.Runner, Some cannedDocsVerifier)
 
-        let code, stdout, _ = this.RunCli([ "--repository-root"; fixture; "--json" ])
-        Assert.Equal(1, code)
-        Assert.Empty this.Runner.Calls
-        let document = JsonDocument.Parse stdout
-        let report = document.RootElement
-        Assert.Equal("failed", report.GetProperty("status").GetString() |> text)
-        Assert.Contains("build zero-warning line", report.GetProperty("message").GetString() |> text)
+        Assert.Equal(1, invalidCode)
+        let expectedSteps = localSteps |> List.take (1 + List.findIndex ((=) step) localSteps)
+        Assert.Equal<string list>(expectedSteps, invalid.Steps)
+        use invalidDocument = JsonDocument.Parse invalidStdout
+        let invalidReport = invalidDocument.RootElement
+        Assert.Equal("failed", invalidReport.GetProperty("status").GetString() |> text)
+        Assert.Equal(1, invalidReport.GetProperty("exitCode").GetInt32())
+        Assert.Equal(step, invalidReport.GetProperty("failedStep").GetString() |> text)
+        let results = invalidReport.GetProperty("steps").EnumerateArray() |> Array.ofSeq
+        Assert.Equal(expectedSteps.Length, results.Length)
+        Assert.Equal("failed", results.[results.Length - 1].GetProperty("status").GetString() |> text)
+        // The malformed output came from a zero-exit child; the verdict parser,
+        // rather than process status or source text, must reject it.
+        Assert.Equal(0, results.[results.Length - 1].GetProperty("exitCode").GetInt32())
 
 // ---------------------------------------------------------------------------
 // Environment failures
@@ -680,15 +702,21 @@ type EnvironmentFailureTests() =
         Assert.Contains("--repository-root", stderr.ToString())
         Assert.Empty this.Runner.Calls
 
-    [<Fact>]
-    member this.MissingVerifierIsEnvironmentFailure() =
-        let fixture = Path.Combine(this.Temp, "repo-without-verifier")
-        Directory.CreateDirectory fixture |> ignore
-        let code, _, stderr = this.RunCli([ "--repository-root"; fixture ])
+    [<Theory>]
+    [<InlineData(false)>]
+    [<InlineData(true)>]
+    member this.MissingSolutionIsEnvironmentFailure(directoryExists: bool) =
+        let fixture = Path.Combine(this.Temp, "repo-without-solution")
+        if directoryExists then Directory.CreateDirectory fixture |> ignore
+        let code, stdout, _ = this.RunCli([ "--repository-root"; fixture; "--json" ])
         Assert.Equal(2, code)
-        Assert.Contains("the ported release verifier was not found", stderr)
-        Assert.Contains("ReleaseVerifySource.fs", stderr)
         Assert.Empty this.Runner.Calls
+        use document = JsonDocument.Parse stdout
+        let report = document.RootElement
+        Assert.Equal("environment-failure", report.GetProperty("status").GetString() |> text)
+        Assert.Equal(2, report.GetProperty("exitCode").GetInt32())
+        Assert.Equal(JsonValueKind.Null, report.GetProperty("failedStep").ValueKind)
+        Assert.Equal(0, report.GetProperty("steps").GetArrayLength())
 
     [<Fact>]
     member this.MissingDocsVerifierIsEnvironmentFailure() =
@@ -706,6 +734,19 @@ type EnvironmentFailureTests() =
 
 type ReportingTests() =
     inherit VerifyLocalTestBase()
+
+    [<Fact>]
+    member this.SkipDocsAllowsMissingCollaborator() =
+        let code, stdout, _ =
+            this.RunCli(this.RepoArgv [ "--skip-docs"; "--json" ], this.Env, this.Runner.Runner, None)
+        Assert.Equal(0, code)
+        Assert.Equal<string list>(localSteps |> List.filter ((<>) "docs"), this.Runner.Steps)
+        use document = JsonDocument.Parse stdout
+        let steps = document.RootElement.GetProperty("steps").EnumerateArray() |> Array.ofSeq
+        let docs = steps.[steps.Length - 1]
+        Assert.Equal("docs", docs.GetProperty("name").GetString() |> text)
+        Assert.Equal("skipped", docs.GetProperty("status").GetString() |> text)
+        Assert.Equal(JsonValueKind.Null, docs.GetProperty("exitCode").ValueKind)
 
     [<Fact>]
     member this.JsonSummaryShape() =
