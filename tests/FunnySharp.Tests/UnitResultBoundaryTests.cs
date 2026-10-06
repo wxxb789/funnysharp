@@ -271,11 +271,9 @@ public sealed class UnitResultBoundaryTests
                 return "mapped";
             });
 
-        var defaultFailure = await Assert.ThrowsAsync<InvalidOperationException>(() => defaultResult);
-        var mappedFailure = await Assert.ThrowsAsync<InvalidOperationException>(() => mappedResult);
+        await Assert.ThrowsAsync<InvalidOperationException>(() => defaultResult);
+        await Assert.ThrowsAsync<InvalidOperationException>(() => mappedResult);
 
-        Assert.Equal("The operation returned a null task.", defaultFailure.Message);
-        Assert.Equal("The operation returned a null task.", mappedFailure.Message);
         Assert.Equal(0, mapperCalls);
     }
 

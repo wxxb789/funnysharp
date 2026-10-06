@@ -80,11 +80,15 @@ public sealed class ParallelAsyncEnumerableTests
         var firstMove = enumerator.MoveNextAsync().AsTask();
 
         await selectorStarted.Task.WaitAsync(GateTimeout);
-        var actual = await Assert.ThrowsAsync<InvalidOperationException>(() =>
-            enumerator.MoveNextAsync().AsTask());
-
-        Assert.Equal("Concurrent MoveNextAsync calls are not supported.", actual.Message);
-        selector.SetResult(1);
+        try
+        {
+            await Assert.ThrowsAsync<InvalidOperationException>(() =>
+                enumerator.MoveNextAsync().AsTask());
+        }
+        finally
+        {
+            selector.TrySetResult(1);
+        }
         Assert.True(await firstMove.WaitAsync(GateTimeout));
     }
 

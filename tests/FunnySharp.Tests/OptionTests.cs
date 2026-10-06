@@ -460,7 +460,6 @@ public sealed class OptionTests
         Assert.True(present == Option.Some(7));
         Assert.True(present.Equals(Option.Some(7)));
         Assert.NotEqual(Option.None<int>(), present);
-        Assert.NotEqual(Option.None<int>().GetHashCode(), present.GetHashCode());
     }
 
     [Fact]

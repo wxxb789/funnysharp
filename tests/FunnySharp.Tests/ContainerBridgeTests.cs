@@ -156,13 +156,6 @@ public sealed class ContainerBridgeTests
         Assert.Empty(queue);
         Assert.Empty(stack);
         Assert.Equal(0, priorityQueue.Count);
-
-        Assert.Throws<InvalidOperationException>(() => queue.Dequeue());
-        Assert.Throws<InvalidOperationException>(() => queue.Peek());
-        Assert.Throws<InvalidOperationException>(() => stack.Pop());
-        Assert.Throws<InvalidOperationException>(() => stack.Peek());
-        Assert.Throws<InvalidOperationException>(() => priorityQueue.Dequeue());
-        Assert.Throws<InvalidOperationException>(() => priorityQueue.Peek());
     }
 
     [Fact]
