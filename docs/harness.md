@@ -194,7 +194,9 @@ that a test or process actually ran.
   protocol identity from versioned metadata and catalog provenance. This does not admit
   arbitrary old hashes or rewrite observation, receipt, packet or frozen inputs. Option B was
   selected by the parent as best judgment after the owner question timed out; it was not an
-  explicit owner choice. Final acceptance is still pending.
+  explicit owner choice. Local behavior/cost checks are recorded in the ablation ledger;
+  complete release acceptance still requires a working distribution feed and the
+  separately recorded final review.
 
 - **`dotnet format` cannot check F# projects.** The `format` pipeline verifies only the C#
   solution; formatting of `build.fsx` and `eng/harness/*.fs` is not automated. A warning in the

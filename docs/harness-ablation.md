@@ -31,8 +31,9 @@ the FSI child and is not reported as verifier CPU. An initial Windows PowerShell
 PowerShell 7 run passed. No compatibility dependency was added.
 
 
-This is the self-contained disposition ledger. Final integrated acceptance
-remains pending the exact-tree gates and independent review. The baseline is still commit
+This is the self-contained disposition ledger. Local implementation and the
+behavior/cost gates below are verified; aggregate completion additionally requires
+the separate frozen-tree independent gate report. The baseline is commit
 `72d95c843aaafd9ff9c2e607f132b340b117ec75`, with 75 tracked F# files: 53
 `.fs`, 20 `.fsx`, and two `.fsproj`. The complete inventory below classifies
 each of the 75 paths. `Retain` preserves the independent behavior and its
@@ -342,19 +343,33 @@ self-lock smoke, candidate five-command matched CLI workload, ToolingVerify
 offline packet guard controls, two real PerformanceDocs commands, 162 focused
 recording-identity tests and both real current packet R9 positive runs. Existing
 shipping/analyzer and harness pass counts are as stated above. The candidate
-contains 12 verified implementation commits through `e31d581`; documentation
-and final exact-tree acceptance remain pending. This status does not imply final acceptance.
+contains 13 scoped implementation/documentation commits through `3588b47`.
+The final five-command workload took 30,335.4045 ms versus the baseline
+147,258.3173 ms, preserving exits 0/0/0/1/1. Tooling verification passed restore,
+Release build/full tests, both executable examples, C# format and docs. Independent
+pack created both nupkg/snupkg families, and current PerformanceDocs verified
+11 main and 1 competitor regions.
 
-Required parent-level acceptance remains intentionally blank until actual
-results are supplied:
+Completed parent-level gates and the distinct final review boundary:
 
 | Acceptance item | Result | Evidence reference |
 | --- | --- | --- |
-| Final shared-root portable replay with original raw archives | **BLANK** |  |
-| Matched final-tree CLI and required release gates | **BLANK** |  |
-| Final combined test/build/format results on the exact tree | **BLANK** |  |
-| Final frozen-tree comparison proving every historical path unchanged | **BLANK** |  |
-| Independent review of the final frozen evidence tree | **BLANK** |  |
+| Candidate portable replay with exact original raw archives | PASS: 62 objects, 69 identities, 998/87 row pins, 120 index pins, actual bundle, no writes/network | Real main-session CLI; original archive directory retained in the execution ledger |
+| Matched final-tree CLI | PASS: 0/0/0/1/1, 30,335.4045 ms | `final-cli-receipts.json` |
+| Full release protocol | ENVIRONMENT FAILURE, not release acceptance: default NuGet TLS fails before distribution preflight on both unchanged baseline and candidate | `final-release-environment-and-pack.txt` |
+| Release build/full tests/examples/C# format/docs and independent pack | PASS, plus current performance docs 11/1 regions | `final-tooling-transcript.txt`, `final-release-environment-and-pack.txt` |
+| Historical and producing input comparison | PASS: no changed frozen/producer/coverage paths, all baseline 75 files mapped and 7 new F# files classified | `final-inventory-data-diff.json` |
+| Frozen-tree independent gate | Approval/recommendation is recorded separately; no approval is inferred from the local checks in this document | Final independent report bound to the exact HEAD/tree in the execution ledger |
+
+The required `release -AttemptId harness-ablation-3588b47 -SkipBenchmarks`
+attempt uses the protocol-computed canonical output directory. Both it and the
+untouched baseline reject `https://api.nuget.org/v3/index.json` with
+`The SSL connection could not be established`. No TLS disablement, replacement
+feed, fake distribution response or historical evidence regeneration was used.
+Full release commands after that preflight were not reached. This environment
+limit remains separate from successful local tooling, pack, tests and retained
+runtime validation. Earlier missing-AttemptId and noncanonical-output calls
+correctly rejected with exits 2 and 1 before the actual attempt.
 
 Unrelated findings are left unfixed: docs snippet comparison is
 case-insensitive despite byte-exact prose; standalone ruleset malformed bypass
