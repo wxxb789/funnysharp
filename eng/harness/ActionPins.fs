@@ -57,34 +57,6 @@ let private relativePosix (repositoryRoot: string) (path: string) : string =
     else
         toPosix relative
 
-/// Python's str.splitlines(): breaks on every line boundary and never emits a
-/// trailing empty line for a trailing terminator.
-let private splitLines (text: string) : string array =
-    let lines = ResizeArray<string>()
-
-    let isLineBreak (ch: char) =
-        match int ch with
-        | 10 | 13 | 11 | 12 | 28 | 29 | 30 | 133 | 8232 | 8233 -> true
-        | _ -> false
-
-    let mutable start = 0
-    let mutable index = 0
-
-    while index < text.Length do
-        if isLineBreak text.[index] then
-            lines.Add(text.Substring(start, index - start))
-            if text.[index] = '\r' && index + 1 < text.Length && text.[index + 1] = '\n' then
-                index <- index + 1
-            index <- index + 1
-            start <- index
-        else
-            index <- index + 1
-
-    if start < text.Length then
-        lines.Add(text.Substring start)
-
-    lines.ToArray()
-
 let private readTextReplacing (path: string) : string =
     // Encoding.UTF8 uses replacement fallback, mirroring read_text(errors="replace").
     File.ReadAllText(path, Encoding.UTF8)

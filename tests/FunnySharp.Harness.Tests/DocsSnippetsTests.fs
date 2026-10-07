@@ -9,6 +9,7 @@ module FunnySharp.Harness.Tests.DocsSnippetsTests
 open System
 open System.IO
 open System.Text
+open System.Text.RegularExpressions
 open Xunit
 open FunnySharp.Harness.DocsSnippets
 open FunnySharp.Harness.Tests.Support
@@ -207,6 +208,47 @@ let private checkFixture
     | None -> ()
 
 type FixtureTests() =
+
+    [<Fact>]
+    member _.EqualLengthComparisonReportsOnlyTheFirstDifferingLine() =
+        use temp = new TempDirectory()
+        let tree = stageFixtureTree temp.Path
+        let path = guidePath tree
+        let lines = File.ReadAllLines path
+        let marker = "<!-- documentation-sample: " + emptyRegionName + " -->"
+        let bodyIndex = (lines |> Array.findIndex ((=) marker)) + 2
+        lines.[bodyIndex] <- "first changed line"
+        lines.[bodyIndex + 1] <- "second changed line"
+        File.WriteAllLines(path, lines)
+        let exitCode, _, stderr = runFixture tree
+        Assert.Equal(1, exitCode)
+        let failure = Assert.Single(stderr.Split('\n') |> Array.filter (fun line -> line.Contains emptyRegionName))
+        let location = Regex.Match(failure, @"snippet line (\d+)\.")
+        Assert.True(location.Success, failure)
+        Assert.Equal("1", location.Groups.[1].Value)
+
+    [<Fact>]
+    member _.LongEqualSnippetIsComparedWithoutChangingTheVerdict() =
+        use temp = new TempDirectory()
+        let tree = stageFixtureTree temp.Path
+        let body = [ for index in 1..1024 -> sprintf "var value%d = %d;" index index ]
+        let sample = Path.Combine(tree.Samples, emptyRegionSample)
+        let sourceLines = splitLines (readText sample)
+        let start =
+            sourceLines |> List.findIndex (fun line -> line.Trim() = "// <snippet " + emptyRegionName + ">")
+        let finish = indexAfter "// </snippet>" start (sourceLines |> List.map (fun line -> line.Trim()))
+        writeText sample (String.concat "\n" (
+            sourceLines.[0..start] @ (body |> List.map (fun line -> "        " + line)) @ sourceLines.[finish..]))
+        let path = guidePath tree
+        let guide = splitLines (readText path)
+        let marker = "<!-- documentation-sample: " + emptyRegionName + " -->"
+        let fence = (guide |> List.findIndex ((=) marker)) + 1
+        let endFence = indexAfter "```" fence guide
+        writeText path (String.concat "\n" (guide.[0..fence] @ body @ guide.[endFence..]))
+        let exitCode, stdout, stderr = runFixture tree
+        Assert.Equal(0, exitCode)
+        Assert.Equal("", stderr)
+        Assert.Equal(successLine, stdout.Trim())
 
     [<Theory>]
     [<InlineData("ValidTree")>]

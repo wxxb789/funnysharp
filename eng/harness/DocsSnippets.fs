@@ -250,10 +250,14 @@ let private compareRegion
         else
             let mutable contentIndex = 0
             let mutable stopped = false
+            let mutable remainingSnippet = snippetLines
+            let mutable remainingSource = source.Content
 
-            while not stopped && contentIndex < snippetLines.Length do
-                if linesEqual snippetLines.[contentIndex] source.Content.[contentIndex] then
+            while not stopped && not remainingSnippet.IsEmpty do
+                if linesEqual remainingSnippet.Head remainingSource.Head then
                     contentIndex <- contentIndex + 1
+                    remainingSnippet <- remainingSnippet.Tail
+                    remainingSource <- remainingSource.Tail
                 else
                     failures.Add(
                         sprintf

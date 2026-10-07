@@ -33,36 +33,6 @@ let private styles = [ "idiomatic"; "funnysharp" ]
 
 // ---- Python text helpers ---------------------------------------------------
 
-/// Python's str.splitlines(): breaks on every line boundary (including the extra
-/// unicode ones) and never emits a trailing empty line for a trailing terminator.
-let private splitLines (text: string) : string array =
-    let lines = ResizeArray<string>()
-
-    let isLineBreak (ch: char) =
-        match int ch with
-        | 10 | 13 | 11 | 12 | 28 | 29 | 30 | 133 | 8232 | 8233 -> true
-        | _ -> false
-
-    let mutable start = 0
-    let mutable index = 0
-
-    while index < text.Length do
-        if isLineBreak text.[index] then
-            lines.Add(text.Substring(start, index - start))
-
-            if text.[index] = '\r' && index + 1 < text.Length && text.[index + 1] = '\n' then
-                index <- index + 1
-
-            index <- index + 1
-            start <- index
-        else
-            index <- index + 1
-
-    if start < text.Length then
-        lines.Add(text.Substring start)
-
-    lines.ToArray()
-
 /// The last <paramref name="length"/> characters of a string (Python s[-n:]).
 let private tailChars (length: int) (text: string) : string =
     if text.Length <= length then text else text.Substring(text.Length - length)

@@ -32,6 +32,36 @@ let private extractFrom (name: string) (text: string) : (string list * string li
 let private callSitesCodeDir () : string =
     Path.Combine(repositoryRoot (), "docs", "next-stage", "call-sites-code")
 
+type SplitLinesTests() =
+
+    [<Fact>]
+    member _.EmptyTextContainsNoLines() =
+        Assert.Empty(FunnySharp.Harness.Output.splitLines "")
+
+    [<Theory>]
+    [<InlineData("\n")>]
+    [<InlineData("\r")>]
+    [<InlineData("\r\n")>]
+    [<InlineData("\u000b")>]
+    [<InlineData("\u000c")>]
+    [<InlineData("\u001c")>]
+    [<InlineData("\u001d")>]
+    [<InlineData("\u001e")>]
+    [<InlineData("\u0085")>]
+    [<InlineData("\u2028")>]
+    [<InlineData("\u2029")>]
+    member _.LineBoundariesPreserveInteriorEmptyLinesWithoutAPhantomFinalLine(separator: string) =
+        let text = separator + "first" + separator + separator + "last" + separator
+        Assert.Equal<string array>(
+            [| ""; "first"; ""; "last" |],
+            FunnySharp.Harness.Output.splitLines text)
+
+    [<Fact>]
+    member _.UnterminatedFinalLineIsPreserved() =
+        Assert.Equal<string array>(
+            [| "first"; "last" |],
+            FunnySharp.Harness.Output.splitLines "first\r\nlast")
+
 type ExtractTests() =
 
     [<Fact>]
