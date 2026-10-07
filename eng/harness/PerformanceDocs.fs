@@ -181,7 +181,6 @@ let private generateDocument
         // Group-Object + Sort-Object: first-seen keys, case-insensitive grouping, then a
         // case-insensitive culture-aware name sort (PowerShell Sort-Object's default).
         let nameComparer = StringComparer.InvariantCultureIgnoreCase
-        let groupKeys = ResizeArray<string>()
         let groups = Dictionary<string, ResizeArray<JsonElement>>(nameComparer)
 
         for row in included do
@@ -194,10 +193,9 @@ let private generateDocument
                 let created = ResizeArray<JsonElement>()
                 created.Add row
                 groups.[key] <- created
-                groupKeys.Add key
 
         let orderedKeys =
-            groupKeys
+            groups.Keys
             |> Seq.toList
             |> List.sortWith (fun a b -> nameComparer.Compare(a, b))
 
