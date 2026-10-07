@@ -106,7 +106,7 @@ type ReleaseProtocolModelTests() =
     [<Fact>]
     member _.PerformanceFingerprintInputs_AreForcedToLfAndContainNoCrlf() =
         let root = repositoryRoot ()
-        let manifest = JsonDocument.Parse(File.ReadAllText(Path.Combine(root, "eng/performance/baseline.json")))
+        use manifest = JsonDocument.Parse(File.ReadAllText(Path.Combine(root, "eng/performance/baseline.json")))
         let rootElement = manifest.RootElement
 
         let filesOf (name: string) =

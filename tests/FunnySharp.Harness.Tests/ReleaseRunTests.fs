@@ -57,8 +57,8 @@ let private runMain
     let exitCode = mainWith stdout stderr root collaborators arguments
     exitCode, stdout.ToString(), stderr.ToString()
 
-let private jsonOf (path: string) : JsonElement =
-    (JsonDocument.Parse(File.ReadAllText path)).RootElement
+let private readJson (path: string) : JsonDocument =
+    JsonDocument.Parse(File.ReadAllText path)
 
 let private stringItems (element: JsonElement) : string list =
     element.EnumerateArray()
@@ -194,7 +194,8 @@ let HappyPath_WritesReceiptLogsEvidenceAndOutcome () =
     Assert.True(File.Exists(Path.Combine(outDir, "receipts", "01-hello.json")))
     Assert.True(File.Exists(Path.Combine(outDir, "logs", "01-hello.stdout.log")))
     Assert.True(File.Exists(Path.Combine(outDir, "logs", "01-hello.stderr.log")))
-    let receipt = jsonOf (Path.Combine(outDir, "receipts", "01-hello.json"))
+    use receiptDocument = readJson (Path.Combine(outDir, "receipts", "01-hello.json"))
+    let receipt = receiptDocument.RootElement
     Assert.Equal(1, receipt.GetProperty("schemaVersion").GetInt32())
     Assert.Equal("hello", receipt.GetProperty("name").GetString())
     Assert.Equal(0, receipt.GetProperty("exitCode").GetInt32())
@@ -205,14 +206,16 @@ let HappyPath_WritesReceiptLogsEvidenceAndOutcome () =
     Assert.Equal(Path.Combine(outDir, "nuget-packages"), stepEnvironment.["NUGET_PACKAGES"])
     Assert.Equal(repo.Commit, stepEnvironment.["FUNNYSHARP_CANDIDATE_COMMIT"])
 
-    let evidence = jsonOf (Path.Combine(outDir, "execution-evidence.json"))
+    use evidenceDocument = readJson (Path.Combine(outDir, "execution-evidence.json"))
+    let evidence = evidenceDocument.RootElement
     Assert.Equal(2, evidence.GetProperty("schemaVersion").GetInt32())
     Assert.True(evidence.GetProperty("succeeded").GetBoolean())
     Assert.Equal("full", evidence.GetProperty("mode").GetString())
     Assert.True(evidence.GetProperty("isolatedNuGetCache").GetBoolean())
     Assert.Equal<string list>([ "hello" ], stringItems (evidence.GetProperty "candidateCommands"))
 
-    let outcome = jsonOf (Path.Combine(outDir, "release-outcome.json"))
+    use outcomeDocument = readJson (Path.Combine(outDir, "release-outcome.json"))
+    let outcome = outcomeDocument.RootElement
     Assert.True(outcome.GetProperty("succeeded").GetBoolean())
     Assert.Equal("execution-evidence.json", outcome.GetProperty("executionEvidence").GetProperty("path").GetString())
     Assert.Equal(JsonValueKind.Null, outcome.GetProperty("releaseEvidence").ValueKind)
@@ -233,7 +236,8 @@ let SkipBenchmarks_SelectsModeAndForwardsSwitch () =
     let verifierArguments = ResizeArray<string list>()
     let code, _, _ = runMain repo.Root (collaboratorsWith versionAbsent (stubVerifier 0 verifierArguments)) [ "-RepositoryRoot"; repo.Root; "-AttemptId"; "skip"; "-DistributionFeed"; feedUrl; "-SkipBenchmarks" ]
     Assert.Equal(0, code)
-    let evidence = jsonOf (Path.Combine(repo.Attempt "skip", "execution-evidence.json"))
+    use evidenceDocument = readJson (Path.Combine(repo.Attempt "skip", "execution-evidence.json"))
+    let evidence = evidenceDocument.RootElement
     Assert.Equal("benchmarkSkipped", evidence.GetProperty("mode").GetString())
     Assert.Equal<string list>([ "hello" ], stringItems (evidence.GetProperty "candidateCommands"))
     let capturedArguments = Assert.Single verifierArguments
@@ -249,10 +253,13 @@ let StepFailure_RecordsReceiptAndFailsRun () =
     Assert.Equal("", stdout)
     Assert.StartsWith("Release run failed: Release command 'boom' failed with exit code 128.", stderr)
     let outDir = repo.Attempt "fail"
-    let receipt = jsonOf (Path.Combine(outDir, "receipts", "01-boom.json"))
+    use receiptDocument = readJson (Path.Combine(outDir, "receipts", "01-boom.json"))
+    let receipt = receiptDocument.RootElement
     Assert.Equal(128, receipt.GetProperty("exitCode").GetInt32())
-    Assert.False((jsonOf (Path.Combine(outDir, "execution-evidence.json"))).GetProperty("succeeded").GetBoolean())
-    let outcome = jsonOf (Path.Combine(outDir, "release-outcome.json"))
+    use evidenceDocument = readJson (Path.Combine(outDir, "execution-evidence.json"))
+    Assert.False(evidenceDocument.RootElement.GetProperty("succeeded").GetBoolean())
+    use outcomeDocument = readJson (Path.Combine(outDir, "release-outcome.json"))
+    let outcome = outcomeDocument.RootElement
     Assert.False(outcome.GetProperty("succeeded").GetBoolean())
     Assert.Contains("Release command 'boom' failed with exit code 128.", outcome.GetProperty("error").GetString())
 
@@ -266,7 +273,8 @@ let VersionPreflight_FeedFailure_WritesBlockedStateAndStops () =
     Assert.Equal(1, code)
     Assert.Contains("Distribution feed", stderr)
     let outDir = repo.Attempt "preflight"
-    let preflight = jsonOf (Path.Combine(outDir, "version-preflight.json"))
+    use preflightDocument = readJson (Path.Combine(outDir, "version-preflight.json"))
+    let preflight = preflightDocument.RootElement
     Assert.Equal("blocked-version-state", preflight.GetProperty("status").GetString())
     Assert.Contains("feed unreachable", preflight.GetProperty("error").GetString())
     Assert.Empty(preflight.GetProperty("checks").EnumerateArray() |> Seq.toList)
@@ -292,12 +300,15 @@ let VersionFinal_FeedFailure_WritesBlockedStateAndFailedOutcome () =
     Assert.Equal(1, code)
     Assert.Contains("Release run failed:", stderr)
     let outDir = repo.Attempt "final"
-    let finalState = jsonOf (Path.Combine(outDir, "version-final.json"))
+    use finalDocument = readJson (Path.Combine(outDir, "version-final.json"))
+    let finalState = finalDocument.RootElement
     Assert.Equal("blocked-version-state", finalState.GetProperty("status").GetString())
-    let evidence = jsonOf (Path.Combine(outDir, "execution-evidence.json"))
+    use evidenceDocument = readJson (Path.Combine(outDir, "execution-evidence.json"))
+    let evidence = evidenceDocument.RootElement
     Assert.False(evidence.GetProperty("succeeded").GetBoolean())
     Assert.Equal("version-final.json", evidence.GetProperty("versionFinal").GetString())
-    let outcome = jsonOf (Path.Combine(outDir, "release-outcome.json"))
+    use outcomeDocument = readJson (Path.Combine(outDir, "release-outcome.json"))
+    let outcome = outcomeDocument.RootElement
     Assert.False(outcome.GetProperty("succeeded").GetBoolean())
     Assert.Contains("final feed unreachable", outcome.GetProperty("error").GetString())
 
@@ -317,7 +328,8 @@ let VerifierFailure_FailsRunWithVerifierExitCode () =
     Assert.Contains("Release run failed: Release verifier failed with exit code 1.", stderr)
     let outDir = repo.Attempt "verify-fail"
     Assert.True(File.Exists(Path.Combine(outDir, "release-verifier.stderr.log")))
-    let outcome = jsonOf (Path.Combine(outDir, "release-outcome.json"))
+    use outcomeDocument = readJson (Path.Combine(outDir, "release-outcome.json"))
+    let outcome = outcomeDocument.RootElement
     Assert.False(outcome.GetProperty("succeeded").GetBoolean())
     Assert.Equal("Release verifier failed with exit code 1.", outcome.GetProperty("error").GetString())
     Assert.Equal(JsonValueKind.Null, outcome.GetProperty("releaseEvidence").ValueKind)

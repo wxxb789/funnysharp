@@ -208,7 +208,7 @@ let private readRecord (path: string) : RecordedCall list =
     File.ReadAllLines path
     |> Array.filter (fun line -> line.Trim() <> "")
     |> Array.map (fun line ->
-        let document = JsonDocument.Parse line
+        use document = JsonDocument.Parse line
         let root = document.RootElement
 
         let env =
@@ -317,7 +317,7 @@ type VerifyLocalTestBase() =
         runner.Override(step, ?exitCode = exitCode, ?stdout = stdoutOverride)
         let code, stdout, _ = this.RunCli(this.RepoArgv [ "--json" ])
         Assert.Equal(1, code)
-        let document = JsonDocument.Parse stdout
+        use document = JsonDocument.Parse stdout
         let report = document.RootElement
         Assert.Equal("failed", report.GetProperty("status").GetString() |> text)
         Assert.Equal(step, report.GetProperty("failedStep").GetString() |> text)
@@ -479,7 +479,7 @@ type PipelineVerdictTests() =
         Assert.Contains("diagnostic 30", stderr)
         Assert.Contains("fatal: formatting failed", stderr)
         Assert.DoesNotContain("diagnostic 10", stderr)
-        let document = JsonDocument.Parse stdout
+        use document = JsonDocument.Parse stdout
         let steps = document.RootElement.GetProperty("steps").EnumerateArray() |> Array.ofSeq
         let failed = steps.[steps.Length - 1]
         Assert.Equal("format", failed.GetProperty("name").GetString() |> text)
@@ -505,7 +505,7 @@ type PipelineVerdictTests() =
         Assert.Equal(1, code)
         Assert.Contains("--- docs output (last 20 lines) ---", stderr)
         Assert.Contains("snippet check failed: missing region", stderr)
-        let document = JsonDocument.Parse stdout
+        use document = JsonDocument.Parse stdout
         let steps = document.RootElement.GetProperty("steps").EnumerateArray() |> Array.ofSeq
         let failed = steps.[steps.Length - 1]
         Assert.Equal("docs", failed.GetProperty("name").GetString() |> text)
@@ -752,7 +752,7 @@ type ReportingTests() =
     member this.JsonSummaryShape() =
         let code, stdout, _ = this.RunCli(this.RepoArgv [ "--json" ])
         Assert.Equal(0, code)
-        let document = JsonDocument.Parse stdout
+        use document = JsonDocument.Parse stdout
         let report = document.RootElement
 
         let keys = report.EnumerateObject() |> Seq.map (fun property -> property.Name) |> Set.ofSeq
@@ -806,7 +806,7 @@ type ReportingTests() =
     member this.SkipFlagsMarkStepsSkipped() =
         let code, stdout, _ = this.RunCli(this.RepoArgv [ "--skip-docs"; "--skip-format"; "--json" ])
         Assert.Equal(0, code)
-        let document = JsonDocument.Parse stdout
+        use document = JsonDocument.Parse stdout
         let report = document.RootElement
 
         let skipped =
@@ -896,7 +896,7 @@ type FakeDotnetExecutableTests() =
             this.RunCli(this.RepoArgv [ "--offline"; "--json" ], env, realRunner (Some cannedDocsVerifier), Some cannedDocsVerifier)
 
         Assert.Equal(0, code)
-        let document = JsonDocument.Parse stdout
+        use document = JsonDocument.Parse stdout
 
         let statuses =
             document.RootElement.GetProperty("steps").EnumerateArray()
@@ -921,7 +921,7 @@ type FakeDotnetExecutableTests() =
             this.RunCli(this.RepoArgv [ "--json" ], env, realRunner (Some cannedDocsVerifier), Some cannedDocsVerifier)
 
         Assert.Equal(1, code)
-        let document = JsonDocument.Parse stdout
+        use document = JsonDocument.Parse stdout
         let report = document.RootElement
         Assert.Equal("format", report.GetProperty("failedStep").GetString() |> text)
         Assert.Contains("exit code 1", report.GetProperty("message").GetString() |> text)

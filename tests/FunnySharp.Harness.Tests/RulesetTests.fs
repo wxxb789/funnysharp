@@ -7,6 +7,7 @@ module FunnySharp.Harness.Tests.RulesetTests
 open System
 open System.IO
 open System.Text.Json
+open System.Text.Json.Nodes
 open Xunit
 open FunnySharp.Harness.Proc
 open FunnySharp.Harness.Ruleset
@@ -75,6 +76,32 @@ type StrictPolicyTests() =
         rejectionOf (check json) |> ignore
 
 type RulesetCheckTests() =
+
+    [<Theory>]
+    [<InlineData("conditions")>]
+    [<InlineData("parameters")>]
+    [<InlineData("bypass_actors")>]
+    member _.CheckRuleset_MissingPropertiesKeepTheirDefaultValidation(field: string) =
+        let ruleset = Assert.IsType<JsonObject>(JsonNode.Parse validRuleset)
+        let owner =
+            if field = "parameters" then
+                let rules = Assert.IsType<JsonArray>(ruleset.["rules"])
+                Assert.IsType<JsonObject>(rules.[0])
+            else
+                ruleset
+        Assert.True(owner.Remove field)
+
+        match field, check (ruleset.ToJsonString()) with
+        | "bypass_actors", Ok fields ->
+            Assert.Equal(JsonValueKind.Array, fields.BypassActors.ValueKind)
+            Assert.Equal(0, fields.BypassActors.GetArrayLength())
+        | "conditions", Error err ->
+            Assert.Equal(1, err.ExitCode)
+            Assert.Contains("refs/heads/main", err.Message)
+        | "parameters", Error err ->
+            let expected = rejectionOf (assertStrictRequiredStatusChecksPolicy (parse "{}"))
+            Assert.Equal(expected, err)
+        | _ -> Assert.Fail "Unexpected default validation result."
 
     [<Fact>]
     member _.CheckRuleset_ValidRuleset_Passes() =
