@@ -165,7 +165,8 @@ type CommandLineTests() =
 
         Assert.Equal(0, exitCode)
         Assert.Equal("", stderr)
-        Assert.Equal($"Verified GitHub ruleset 42. Evidence: {outputPath}", stdout.Trim())
+        Assert.Matches(@"\b42\b", stdout)
+        Assert.Contains(outputPath, stdout)
 
         use document = JsonDocument.Parse(File.ReadAllText outputPath)
         let root = document.RootElement

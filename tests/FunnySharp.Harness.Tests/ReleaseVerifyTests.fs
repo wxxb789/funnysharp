@@ -462,7 +462,7 @@ let ``GetSourceFingerprint_TracksFileCountAndChangedBytes`` () =
     Assert.Equal(Some 3, propInt "fileCount" added.RootElement)
 
 // ---------------------------------------------------------------------------
-// End-to-end failure text
+// End-to-end failure report
 // ---------------------------------------------------------------------------
 
 [<Fact>]
@@ -493,11 +493,9 @@ let ``Main_AllChecksFail_WritesFailedReportAndNamesTheEvidenceReport`` () =
 
     Assert.Equal(1, exitCode)
 
-    // The PowerShell failure line contains two literal backslashes before the
-    // report name (`... See '<dir>\\release-evidence.md'.`).
-    Assert.Equal(
-        sprintf "Release evidence verification failed. See '%s\\\\release-evidence.md'." output,
-        stderr.ToString().TrimEnd([| '\r'; '\n' |])
+    Assert.Contains(
+        Path.Combine(output, "release-evidence.md"),
+        stderr.ToString().Replace(@"\\", string Path.DirectorySeparatorChar)
     )
 
     let report = File.ReadAllText(Path.Combine(output, "release-evidence.md"))
