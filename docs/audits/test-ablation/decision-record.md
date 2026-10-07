@@ -12,18 +12,34 @@ recorded separately from archive/publication acceptance.
 `lanes/` contains the original complete assessments, not claims that every
 proposed mutation was executed. `final/` contains the final decisions: **1454
 unique identities**, comprising 1440 source xUnit methods and 14 named executable
-checks. There are **68 affected/simplified identities and 1386 retained**. No whole
+checks. There are **69 affected/simplified identities and 1385 retained**. No whole
 method or input partition is deleted or merged. A fingerprint detector is
 renamed from `GetSourceFingerprint_IsDeterministicAndCaseInsensitiveOverAGitTree`
 to `GetSourceFingerprint_TracksFileCountAndChangedBytes`; baseline identity is
 preserved in the crosswalk column. Two POSIX-only Facts remain source obligations,
 not Windows skips or claimed Windows executions.
 
-The **755 helper/usage rows** include shared helper ownership and cross-file uses;
-they are not 755 independent source files. Final compile closure and runtime
-discovery are independently joined to the final tables. File-level helper census
-is explicitly a lower bound; mixed-file helper reasoning comes from the actual
-lane inspections and helper tables, not file coverage alone.
+The **755 baseline helper/usage rows** include shared helper ownership and
+cross-file uses; they are not 755 independent source files. The final tables
+preserve all 755 baseline crosswalks and add one current `ConcurrencyTests.DrainAsync`
+cleanup owner, for **756 helper/usage rows: 10 simplify and 746 retain**.
+The final Compile receipt binds the source declarations to candidate `03435bb`.
+The independent disposition reconciliation corrects 197 stale test/check line
+values, 28 helper line locators and 27 additional helper locator references.
+Native discovery, strict inventory validation and aggregate gates are parent-owned
+receipts under the session evidence directory, not inferred from these CSVs.
+File-level helper census is explicitly a lower bound; mixed-file helper reasoning
+comes from actual declarations and helper ownership, not file coverage alone.
+
+`VerifyGitHubRuleset_NonActiveRuleset_Rejects` is the additional affected identity:
+its CLI diagnostic assertion changed from an English sentence to the structured
+ruleset identifier while retaining exit 1. `assertSucceeds` is also simplified,
+not unchanged: it retains exit 0 and empty stderr after removal of `successLine`.
+`rejectionOf` replaces `messageOf`; `CreateCanceledSourceAsync` now takes a release
+Task; and `AssertDiscardTargets` returns compiled assignment operations. Current
+helper symbols describe these declarations, with historical names/signatures only
+in the baseline crosswalk. A malformed baseline `ResultBoundaryTests.)` usage row
+is explicitly an alias of current `CaptureCancellation`, not a new declaration.
 
 ## Detector-set reasoning
 
@@ -81,6 +97,29 @@ timeouts. Rejected and incomplete attempts remain described rather than relabele
 All temporary shipping/harness mutants are restored. The final aggregate gate,
 current discovery/join, manual CLI QA and independent review receipts live under
 `.omo/evidence/ulw/01a111dc-d4c4-7a26-bedd-b50ee7f966db/G001-outcome-on-funnysharp-branch-refacto/a1/`.
+
+The experiment references in `final/` identify executed unit/group proofs.
+They do not claim an individual mutation for every affected method: shared-fixture
+changes also affect healthy-control methods outside the selected fault filters.
+Every remaining test/check row is retained, not an unexecuted simplification
+proposal. Baseline lane proposals remain historical assessments only.
+
+## Strict join and crosswalk schema
+
+Final test/check tables use the exact validator fields
+`test_id,source,line,disposition,obligation,fault_class,independent_owner,rationale,experiment`
+followed by `baseline_test_id,baseline_disposition`. Final helper tables use
+`helper_id,source,symbol,disposition,obligation,independent_owner,rationale` followed
+by `baseline_helper_id`. The existing extractor rejects extended headers, so the
+parent must validate an exact-column projection under session evidence with
+`--include-checks --require-helpers`, preserving every current row and field value.
+The original extended tables remain the crosswalk authority. Projection must not
+drop identities, helper aliases, new controls or required fields, and must not
+change the extractor's strict header or completeness rules. Independently require
+one preserved mapping for each of the 1454 baseline test/check identities and 755
+baseline helper/usage rows; the sole new helper has no baseline row. Exact projection
+instructions and the declaration/ownership checks are recorded in
+`a1/final-disposition-join.md` outside the tracked candidate.
 
 ## Burden and retained limits
 
