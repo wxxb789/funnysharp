@@ -67,3 +67,22 @@ The same current control script against clean recorded baseline `0c5416e` passes
 This is preserved as fixed-snapshot control evidence, not relabeled acceptance of
 the changed candidate. Frozen catalogs/recordings, source/performance contracts and
 the guard itself are unchanged; no new performance recording is claimed.
+
+## B1 successor delta
+
+The independent 52cf7ec review identified two remaining ordinary CLI sentence
+pins. Its bounded successor narrows exactly those two Facts without removing any
+method or input partition. Across the two test source files this delta is -1
+physical line and -160 UTF-8 bytes, so the current source total becomes 48641 LOC
+and 2082369 bytes (+291 LOC and +13270 bytes versus baseline). Helper-only lower
+bounds are unchanged. These totals are maintenance observations, not a runtime
+speedup claim; fresh successor inventory independently checks the same closure.
+
+`experiments/final-harness-prose.md` records two successful mode builds and 32
+native case executions. All twelve same behavior faults reject old and new
+oracles. Both legal sentence rewordings fail only the old pins and pass revised
+oracles, preserving transported ID, policy, evidence, exit, report/status and
+joined locator observations. The complete restored harness passes 745/745 with
+zero failed/skipped. Original rejected-review gates and the first failed nullable
+installer build remain separate; successor complete gates and review are not
+inferred from those historical passes.

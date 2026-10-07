@@ -12,7 +12,7 @@ recorded separately from archive/publication acceptance.
 `lanes/` contains the original complete assessments, not claims that every
 proposed mutation was executed. `final/` contains the final decisions: **1454
 unique identities**, comprising 1440 source xUnit methods and 14 named executable
-checks. There are **69 affected/simplified identities and 1385 retained**. No whole
+checks. There are **71 affected/simplified identities and 1383 retained**. No whole
 method or input partition is deleted or merged. A fingerprint detector is
 renamed from `GetSourceFingerprint_IsDeterministicAndCaseInsensitiveOverAGitTree`
 to `GetSourceFingerprint_TracksFileCountAndChangedBytes`; baseline identity is
@@ -90,6 +90,7 @@ generated values, copies, cultures and schemas remain.
 | Harness lexical/rejection/fingerprint detection | `experiments/harness-oracles.md` |
 | Remaining ordinary success prose | `experiments/harness-prose.md` |
 | Portable native exits | `experiments/portable-control.md` |
+| Final ruleset/release output preservation (B1) | `experiments/final-harness-prose.md` |
 
 Every counted fault first compiles successfully; runner failures are distinguished
 from compiler/setup failures, malformed filters, intentional controls and outer
@@ -103,6 +104,14 @@ They do not claim an individual mutation for every affected method: shared-fixtu
 changes also affect healthy-control methods outside the selected fault filters.
 Every remaining test/check row is retained, not an unexecuted simplification
 proposal. Baseline lane proposals remain historical assessments only.
+
+The first final review of `52cf7ec` rejected two remaining complete-sentence pins
+in Ruleset and ReleaseVerify CLI tests. The B1 successor keeps both Facts and all
+input/exit/ID/report/locator/policy/status obligations, with twelve identical
+old/new faults rejected and two legal reword controls accepted only by the revised
+oracles. Its successful mode builds cover 32 native cases; restored full harness
+passes 745/745. The original REJECT and failed nullable installer build are retained,
+not rewritten as approvals. Independent successor review remains required.
 
 ## Strict join and crosswalk schema
 
