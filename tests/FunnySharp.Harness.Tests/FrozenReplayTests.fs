@@ -31,6 +31,9 @@ let private readJson (path: string) =
 let private textField (name: string) (value: JsonNode) =
     (value.[name] |> Option.ofObj |> Option.get).GetValue<string>()
 
+let private compiledEnvironmentInputs =
+    [ "eng/harness/Program.fs"; "eng/harness/FunnySharp.Harness.fsproj"; "eng/harness/packages.lock.json" ]
+
 [<CollectionDefinition("Frozen replay", DisableParallelization = true)>]
 type FrozenReplayCollection() = class end
 
@@ -62,7 +65,10 @@ type FrozenReplayToolTests() =
             [ "global.json", "{}"
               "Directory.Build.props", "<Project />"
               "build.fsx", "// frozen build"
-              "eng/harness/Evaluation.fs", "// frozen runner" ] do
+              "eng/harness/Evaluation.fs", "// frozen runner"
+              "eng/harness/Program.fs", "// compiled runner fixture"
+              "eng/harness/FunnySharp.Harness.fsproj", "<Project />"
+              "eng/harness/packages.lock.json", "{}" ] do
             write (Path.Combine(root, relative)) text
             write (Path.Combine(snapshot, "environment", relative)) text
         for name in [ "Output.fs"; "Proc.fs"; "Repo.fs"; "Loc.fs" ] do
@@ -96,6 +102,11 @@ type FrozenReplayToolTests() =
             [ "dotnet"; "fsi"; "--exec"; Path.Combine(isolatedRoot, "replay.fsx"); "--"
               "verify"; "aspnetcore"; "idiomatic"; Path.Combine(output, "run")
               "--study"; "audit-resolution-v6"; "--replay" ], command)
+        // The current module is the injected stand-in, not the historical FSI source.
+        // Supply its compiled inputs from this synthetic snapshot, never the live checkout.
+        for relative in compiledEnvironmentInputs do
+            let frozen = Path.Combine(isolatedRoot, "eng", "evaluation", "studies", "audit-resolution-v6", "snapshot", "environment", relative)
+            File.Copy(frozen, Path.Combine(isolatedRoot, relative))
         use stdout = new StringWriter()
         use stderr = new StringWriter()
         let code = FunnySharp.Harness.Evaluation.mainWith stdout stderr isolatedRoot (command |> List.skip 5)

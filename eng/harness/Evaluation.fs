@@ -331,6 +331,15 @@ let private upstreamPackageFeed (plan: JsonObject) =
     | null -> None
     | value -> Some(value.GetValue<string>())
 
+let private studyEnvironmentPaths =
+    [ "global.json"
+      "Directory.Build.props"
+      "build.fsx"
+      "eng/harness/Evaluation.fs"
+      "eng/harness/Program.fs"
+      "eng/harness/FunnySharp.Harness.fsproj"
+      "eng/harness/packages.lock.json" ]
+
 // Freeze is an explicit pre-generation action on the existing prep-feed route.
 // Neither historical tasks nor their prompts/results are modified. Only a curated
 // allowlist is copied; the producer is not given the repository or parent context.
@@ -348,7 +357,7 @@ let private freezeStudy repositoryRoot study (feed: string) =
     for guide in (field plan "guides").AsArray() do
         let relative = (requiredNode guide).GetValue<string>()
         copy (Path.Combine(repositoryRoot, relative)) (Path.Combine(snapshot, "guides", relative))
-    for relative in [ "global.json"; "Directory.Build.props"; "build.fsx"; "eng/harness/Evaluation.fs" ] do
+    for relative in studyEnvironmentPaths do
         copy (Path.Combine(repositoryRoot, relative)) (Path.Combine(snapshot, "environment", relative))
     let packages = sortedNupkgs feed
     if packages.Length <> 2 then invalidArg "feed" "freeze requires exactly the two candidate packages"
@@ -465,7 +474,7 @@ let private loadStudy repositoryRoot study =
     let manifest = readJson manifestPath
     let snapshot = Path.Combine(root, "snapshot")
     checkFiles snapshot ((field manifest "files").AsArray())
-    for relative in [ "global.json"; "Directory.Build.props"; "build.fsx"; "eng/harness/Evaluation.fs" ] do
+    for relative in studyEnvironmentPaths do
         if hashFile (Path.Combine(repositoryRoot, relative)) <> snapshotHash manifest ("environment/" + relative) then
             invalidArg "environment" "runner/build configuration changed after freeze"
     if not (File.Exists(Path.Combine(snapshot, "analyzer-control", "control.sarif"))) then

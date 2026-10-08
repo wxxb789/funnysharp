@@ -19,6 +19,15 @@ open FunnySharp.Harness.Evaluation
 
 let private utf8NoBom = UTF8Encoding(false)
 
+let private studyEnvironmentPaths =
+    [ "global.json"
+      "Directory.Build.props"
+      "build.fsx"
+      "eng/harness/Evaluation.fs"
+      "eng/harness/Program.fs"
+      "eng/harness/FunnySharp.Harness.fsproj"
+      "eng/harness/packages.lock.json" ]
+
 let private requiredNode (value: JsonNode | null) : JsonNode =
     match value with
     | null -> failwith "Required fixture JSON node is missing."
@@ -496,7 +505,7 @@ type EvaluationToolTests() =
             let path = Path.Combine(snapshot, relative)
             Directory.CreateDirectory(parentDirectory path) |> ignore
             if not (File.Exists path) then File.WriteAllText(path, content)
-        for relative in [ "global.json"; "Directory.Build.props"; "build.fsx"; "eng/harness/Evaluation.fs" ] do
+        for relative in studyEnvironmentPaths do
             let source = Path.Combine(root, relative)
             Directory.CreateDirectory(parentDirectory source) |> ignore
             if not (File.Exists source) then File.WriteAllText(source, "fixture")
@@ -563,6 +572,9 @@ type EvaluationToolTests() =
     [<InlineData("environment/Directory.Build.props")>]
     [<InlineData("environment/build.fsx")>]
     [<InlineData("environment/eng/harness/Evaluation.fs")>]
+    [<InlineData("environment/eng/harness/Program.fs")>]
+    [<InlineData("environment/eng/harness/FunnySharp.Harness.fsproj")>]
+    [<InlineData("environment/eng/harness/packages.lock.json")>]
     member this.ChangedPackageOracleAnalyzerOrLockInvalidatesStudy(relative: string) =
         let runDir, studyRoot, _ = this.StudyFixture("run-1", "fixture-session-1")
         File.AppendAllText(Path.Combine(studyRoot, "snapshot", relative), "changed")
@@ -575,6 +587,9 @@ type EvaluationToolTests() =
     [<InlineData("Directory.Build.props")>]
     [<InlineData("build.fsx")>]
     [<InlineData("eng/harness/Evaluation.fs")>]
+    [<InlineData("eng/harness/Program.fs")>]
+    [<InlineData("eng/harness/FunnySharp.Harness.fsproj")>]
+    [<InlineData("eng/harness/packages.lock.json")>]
     member this.ChangedLiveEnvironmentRejectsBeforeChild(relative: string) =
         let runDir, _, _ = this.StudyFixture("run-1", "fixture-session-1")
         File.AppendAllText(Path.Combine(root, relative), "changed")
@@ -747,7 +762,7 @@ type EvaluationToolTests() =
         Directory.CreateDirectory feed |> ignore
         for name in [ "FunnySharp.0.2.0.nupkg"; "FunnySharp.AspNetCore.0.2.0.nupkg" ] do
             File.WriteAllText(Path.Combine(feed, name), "fixture package")
-        for relative in [ "global.json"; "Directory.Build.props"; "build.fsx"; "eng/harness/Evaluation.fs" ] do
+        for relative in studyEnvironmentPaths do
             let path = Path.Combine(root, relative)
             Directory.CreateDirectory(parentDirectory path) |> ignore
             File.WriteAllText(path, "fixture environment")
@@ -762,6 +777,13 @@ type EvaluationToolTests() =
         fake.Build <- { ExitCode = 0; Stdout = "fixture FS1001 analyzer signal"; Stderr = "" }
         let code, _, _ = this.Run [ "prep-feed"; "--study"; "audit-resolution-v1" ]
         Assert.Equal(0, code)
+        let manifest = readNode (Path.Combine(study, "manifest.json"))
+        let files = (requiredNode manifest.["files"]).AsArray() |> Seq.map requiredNode
+        for relative in studyEnvironmentPaths do
+            let frozen = Path.Combine(study, "snapshot", "environment", relative)
+            Assert.Equal(hash (Path.Combine(root, relative)), hash frozen)
+            let file = files |> Seq.find (fun file -> nodeText "path" file = "environment/" + relative)
+            Assert.Equal(hash frozen, nodeText "sha256" file)
         for relative in
             [ "tasks/aspnetcore/template-idiomatic/NuGet.config"
               "tasks/aspnetcore/template-funnysharp/NuGet.config"

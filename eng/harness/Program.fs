@@ -2,9 +2,19 @@ module FunnySharp.Harness.Program
 
 open Fun.Build
 open FunnySharp.Harness
+open System
+open System.IO
 
 [<EntryPoint>]
-let main (_: string array) =
+let main (arguments: string array) =
+    let stdout = Console.Out
+    let helpOutput =
+        if arguments |> Array.exists (fun argument -> argument = "-h" || argument = "--help") then
+            Some(new StringWriter())
+        else
+            None
+    helpOutput |> Option.iter (fun output -> Console.SetOut output)
+
     // Fun.Build reports any failed step as exit code 1, which would hide the 0/1/2 contract the
     // migrated gates keep from the scripts they replace (1 = verification failure, 2 = usage or
     // environment failure). A gate that reports a non-zero code ends the process with that exact
@@ -449,5 +459,13 @@ let main (_: string array) =
     }
 
     tryPrintPipelineCommandHelp ()
+
+    // Fun.Build infers an FSI filename even for compiled callers; the public launcher owns this command prefix.
+    match helpOutput with
+    | Some output ->
+        Console.SetOut stdout
+        stdout.Write(output.ToString().Replace("dotnet fsi your_script.fsx", "dotnet fsi build.fsx", StringComparison.Ordinal))
+        output.Dispose()
+    | None -> ()
 
     0
