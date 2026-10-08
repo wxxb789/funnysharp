@@ -340,7 +340,7 @@ let main (args: string[]) : int =
     else
         try
             verifyCore root path (if args.Length = 2 then Some(Path.GetFullPath args.[1]) else None)
-            printfn "Verified468 exact stable semantic members and3744 dimensions; source-only evidence is not runtime execution."
+            printfn "Verified 468 exact stable semantic members and 3744 dimensions; source-only evidence is not runtime execution."
             0
         with exceptionValue ->
             Console.Error.WriteLine("error: " + exceptionValue.Message)
