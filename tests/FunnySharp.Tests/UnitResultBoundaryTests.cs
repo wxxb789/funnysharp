@@ -1,5 +1,3 @@
-using System.Diagnostics;
-using System.Runtime.ExceptionServices;
 
 namespace FunnySharp.Tests;
 
