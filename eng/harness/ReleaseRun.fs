@@ -1040,6 +1040,7 @@ let private runRelease
         writeJsonFile
             (versionStateJson "passed" candidateCommit attemptId coreVersion (List.ofSeq versionChecks) None)
             (Path.Combine(outputDirectory, "version-preflight.json"))
+        let versionPreflightSha256 = sha256HexFile (Path.Combine(outputDirectory, "version-preflight.json"))
 
         let generatedCleanup = removeProjectGeneratedOutputs collaborators.Protocol runner repositoryRoot
 
@@ -1102,9 +1103,7 @@ let private runRelease
             protocolNode.["sha256"] <- jstr protocolSha256
             node.["protocol"] <- protocolNode
             node.["versionPreflight"] <- jstr "version-preflight.json"
-
-            node.["versionPreflightSha256"] <-
-                jstr (sha256HexFile (Path.Combine(outputDirectory, "version-preflight.json")))
+            node.["versionPreflightSha256"] <- jstr versionPreflightSha256
 
             node.["versionFinal"] <-
                 (match versionFinal with

@@ -924,6 +924,7 @@ let assertBenchmarkReports
             if not (equalsIgnoreCase (sha256File declaredPath) (propText "sha256" declaredReport)) then
                 failNow (sprintf "Benchmark report '%s' does not match its receipt." fileName)
 
+        let reportSha256 = sha256File reportPath
         let rows = parseCsvRows (File.ReadAllText reportPath)
 
         let header =
@@ -1020,7 +1021,7 @@ let assertBenchmarkReports
 
         summary.["benchmarkClass"] <- jstr expectedReport.BenchmarkClass
         summary.["report"] <- jstr expectedReport.FileName
-        summary.["sha256"] <- jstr (sha256File reportPath)
+        summary.["sha256"] <- jstr reportSha256
         summary.["receipt"] <- jstr expectedReport.ReceiptName
         summary.["receiptSha256"] <- jstr (sha256File receiptPath)
         summary.["rowCount"] <- jint bodyRows.Length

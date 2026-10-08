@@ -33,6 +33,7 @@ open System.Text
 open System.Text.RegularExpressions
 open FunnySharp.Harness.Proc
 open FunnySharp.Harness.Repo
+open FunnySharp.Harness.Output
 
 // ---------------------------------------------------------------------------
 // Contract constants
@@ -354,38 +355,9 @@ let stepFailure (step: string) (stdout: string) (stderr: string) (repositoryRoot
 
 let outputTailLines = 20
 
-/// Python str.splitlines(): breaks on every line boundary, no phantom trailing line.
-let private splitLines (text: string) : string list =
-    let lines = ResizeArray<string>()
-
-    let isLineBreak (ch: char) =
-        match int ch with
-        | 10 | 13 | 11 | 12 | 28 | 29 | 30 | 133 | 8232 | 8233 -> true
-        | _ -> false
-
-    let mutable start = 0
-    let mutable index = 0
-
-    while index < text.Length do
-        if isLineBreak text.[index] then
-            lines.Add(text.Substring(start, index - start))
-
-            if text.[index] = '\r' && index + 1 < text.Length && text.[index + 1] = '\n' then
-                index <- index + 1
-
-            index <- index + 1
-            start <- index
-        else
-            index <- index + 1
-
-    if start < text.Length then
-        lines.Add(text.Substring start)
-
-    List.ofSeq lines
-
 /// The bounded last-N lines of child output (mirrors inventory._tail's bound).
 let outputTail (text: string) : string list =
-    let lines = splitLines (text.Trim('\n'))
+    let lines = List.ofArray (Output.splitLines (text.Trim('\n')))
     let count = lines.Length
 
     if count <= outputTailLines then
