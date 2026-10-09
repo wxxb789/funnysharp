@@ -13,6 +13,13 @@ open System.Text.RegularExpressions
 open System.Xml.Linq
 
 type PacketKind = Current | TraversalR9
+
+// The fixed expectations of this packet's catalog: one place per constant, so
+// the validators and the success line cannot drift apart.
+let ExpectedCensus = struct (499, 468, 31)
+let ExpectedRows = 230
+let ExpectedLaunches = 230
+let ExpectedRuntime = 24
 let field (node: JsonElement) (name: string) = node.GetProperty name
 let text node name = (field node name).GetString()
 let items node name = (field node name).EnumerateArray() |> Seq.toArray
@@ -259,7 +266,8 @@ let verify (packet: Packet) =
     if packet.Kind = TraversalR9 then validateCurrentCoverage packet
     let censusDocument = json (text catalog "censusPath")
     let census = censusDocument.RootElement
-    require ((field census "members").GetInt32() = 499 && (field census "stableMembers").GetInt32() = 468 && (field census "experimentalMembers").GetInt32() = 31) "Current census drift"
+    let struct (expectedMembers, expectedStable, expectedExperimental) = ExpectedCensus
+    require ((field census "members").GetInt32() = expectedMembers && (field census "stableMembers").GetInt32() = expectedStable && (field census "experimentalMembers").GetInt32() = expectedExperimental) "Current census drift"
     let binaries = Dictionary<string, string>(StringComparer.Ordinal)
     for assembly in items census "assemblies" do
         let path = text assembly "file"
@@ -329,7 +337,7 @@ let verify (packet: Packet) =
     checkBinding packet (field closure "metadataCensus")
     checkBinding packet (field closure "benchmarkBindings")
     for witness in items closure "witnesses" do validateWitness packet binaries witness
-    require (totalRows = 230 && totalLaunches = 230) "Fresh pair row/launch count drift"
-    printfn "CURRENT_PERFORMANCE_PORTABLE_PASS objects=%d locators=%d rows=%d launches=%d census=499/468/31 runtime=24 writes=0 network=0" packet.Stats.objects packet.Stats.locators totalRows totalLaunches
+    require (totalRows = ExpectedRows && totalLaunches = ExpectedLaunches) "Fresh pair row/launch count drift"
+    printfn "CURRENT_PERFORMANCE_PORTABLE_PASS objects=%d locators=%d rows=%d launches=%d census=%d/%d/%d runtime=%d writes=0 network=0" packet.Stats.objects packet.Stats.locators totalRows totalLaunches expectedMembers expectedStable expectedExperimental ExpectedRuntime
     closureDocument.Dispose()
     censusDocument.Dispose()
