@@ -163,7 +163,7 @@ trust roots; R9 additionally retains snapshot and workload MVID/name checks.
 The portable entry retains archive, attachment, row/index/gate and locator
 checks and the 0/1/2 CLI. Supporting, non-production drivers are
 `offline-packet-controls.fsx`, `measure-current-packet.fsx`,
-`measure-offline.ps1`, and `portable-available-controls.ps1`. The separate
+`measure-offline.fsx`, and `portable-available-controls.fsx`. The separate
 evidence directory contains `compiled-entry-self-lock-smoke.fsx` and the paired
 marker control scripts; they are reproducible QA drivers, not new product
 gates. `recording-identity-projection.json` is a migration derivation, not a
