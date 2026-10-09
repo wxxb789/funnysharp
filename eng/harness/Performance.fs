@@ -1257,6 +1257,14 @@ let run
                                     (formatInteger policyRow.AllocationBudget)
                             )
 
+                        if policyRow.AllocationBudget = 0m && allocated <> 0m then
+                            failNow (
+                                sprintf
+                                    "Zero-allocation performance row '%s' regressed to %s B."
+                                    id
+                                    (formatInteger allocated)
+                            )
+
                     | _ ->
                         failNow (
                             sprintf
@@ -1305,6 +1313,14 @@ let run
 
         if not missingRows.IsEmpty then
             failNow (sprintf "Required performance rows are missing: %s." (String.concat ", " missingRows))
+
+        if observedById.Count <> includedRows.Length then
+            failNow (
+                sprintf
+                    "Performance receipt row count %d does not match policy count %d."
+                    observedById.Count
+                    includedRows.Length
+            )
 
         if candidateCommitSet.Count > 1 then
             failNow (

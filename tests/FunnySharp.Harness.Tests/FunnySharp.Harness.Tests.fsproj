@@ -33,6 +33,8 @@
     <Compile Include="DocsSnippetsTests.fs" />
     <Compile Include="InventoryTests.fs" />
     <Compile Include="VerticalSliceTests.fs" />
+    <Compile Include="MarkerContract.fs" />
+    <Compile Include="MarkerContractTests.fs" />
     <Compile Include="ToolingVerifyTests.fs" />
     <Compile Include="PerformanceTests.fs" />
     <Compile Include="PerformanceDocsTests.fs" />
