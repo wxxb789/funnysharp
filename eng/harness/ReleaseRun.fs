@@ -1067,7 +1067,12 @@ let private runRelease
               "benchmarkResults", Path.Combine(benchmarkArtifactsDirectory, "results")
               "performanceObservationProposal", Path.Combine(outputDirectory, "performance-observation-proposal.json")
               "compatibilityOutput", compatibilityOutputDirectory
-              "compatibilityRid", compatibilityRid ]
+              "compatibilityRid", compatibilityRid
+              "harnessDll",
+              Path.Combine(
+                  repositoryRoot,
+                  "eng/harness/bin/Debug/net10.0/FunnySharp.Harness.dll"
+              ) ]
 
         let releaseSteps = collaborators.Protocol.LoadSteps protocolPath mode tokens
         let expectedCandidateCommands = releaseSteps |> List.map (fun step -> step.Name)
