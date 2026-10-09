@@ -1061,39 +1061,51 @@ let run
         if receiptFiles.Length = 0 then
             failNow (sprintf "No performance receipt files were found in '%s'." receiptDirectory)
 
-        // Hash and parse the same acquisition, preserving ReadAllText's BOM-aware
-        // decoding. The whole set chooses one identity; never mix snapshots.
-        let recordedReceipts =
-            (if recording.IsSome then receiptFiles else [||]) |> Array.map (fun file ->
-                let bytes = File.ReadAllBytes file
-                let hash = Convert.ToHexString(SHA256.HashData bytes).ToLowerInvariant()
-                use stream = new MemoryStream(bytes)
-                use reader = new StreamReader(stream, Encoding.UTF8, true)
-                use document = JsonDocument.Parse(reader.ReadToEnd())
-                file, document.RootElement.Clone(), Some hash)
-        let historical =
-            recording |> Option.filter (fun identity ->
-                identity.Receipts.Count = recordedReceipts.Length
-                && recordedReceipts |> Array.forall (fun (file, _, hash) ->
-                    Map.tryFind (fileNameOf file) identity.Receipts = hash))
-        let protocolFingerprint, snapshot =
-            match historical with
-            | Some identity when not identity.IsCurrent ->
-                failNow "The approved recording does not match the current performance policy, input, protocol, or snapshot."
-            | Some identity -> identity.Protocol, Some identity.Snapshot
-            | None ->
-                match currentProtocol with
-                | Some protocol -> protocol, currentSnapshot
-                | None ->
-                    let protocol = unwrap (fileSetFingerprint repositoryRoot protocolFiles)
-                    protocol, (if fresh then Some(snapshotIdentity manifest policyFingerprintValue inputFingerprint protocol) else None)
-        let receipts =
-            if recording.IsSome then recordedReceipts :> seq<_>
-            else
-                // Keep legacy manifests' streaming validation and failure order.
-                receiptFiles |> Seq.map (fun file ->
-                    use document = JsonDocument.Parse(File.ReadAllText file)
-                    file, document.RootElement.Clone(), None)
+        // One admission decision, computed once: an approved historical recording
+        // (its receipts verified against the recorded set), a fresh current-protocol
+        // run, or a legacy manifest. The receipts sequence and the protocol
+        // fingerprint/snapshot pair both derive from this single decision instead
+        // of re-testing recording.IsSome at each use site.
+        let admission =
+            let recordedReceipts =
+                (if recording.IsSome then receiptFiles else [||]) |> Array.map (fun file ->
+                    // Hash and parse the same acquisition, preserving ReadAllText's
+                    // BOM-aware decoding. The whole set chooses one identity; never
+                    // mix snapshots.
+                    let bytes = File.ReadAllBytes file
+                    let hash = Convert.ToHexString(SHA256.HashData bytes).ToLowerInvariant()
+                    use stream = new MemoryStream(bytes)
+                    use reader = new StreamReader(stream, Encoding.UTF8, true)
+                    use document = JsonDocument.Parse(reader.ReadToEnd())
+                    file, document.RootElement.Clone(), Some hash)
+            match recording with
+            | Some identity
+                when identity.Receipts.Count = recordedReceipts.Length
+                     && recordedReceipts |> Array.forall (fun (file, _, hash) ->
+                         Map.tryFind (fileNameOf file) identity.Receipts = hash) ->
+                if not identity.IsCurrent then
+                    failNow "The approved recording does not match the current performance policy, input, protocol, or snapshot."
+                {| Receipts = recordedReceipts :> seq<_>
+                   ProtocolFingerprint = identity.Protocol
+                   Snapshot = Some identity.Snapshot |}
+            | _ ->
+                // Legacy manifests keep their streaming validation and failure order;
+                // recording-admission parses the whole approved set up front so the
+                // recording identity can be compared atomically.
+                let protocol, snapshot =
+                    match currentProtocol with
+                    | Some current -> current, currentSnapshot
+                    | None ->
+                        let legacy = unwrap (fileSetFingerprint repositoryRoot protocolFiles)
+                        legacy, (if fresh then Some(snapshotIdentity manifest policyFingerprintValue inputFingerprint legacy) else None)
+                {| Receipts = receiptFiles |> Seq.map (fun file ->
+                       use document = JsonDocument.Parse(File.ReadAllText file)
+                       file, document.RootElement.Clone(), None)
+                   ProtocolFingerprint = protocol
+                   Snapshot = snapshot |}
+        let receipts = admission.Receipts
+        let protocolFingerprint = admission.ProtocolFingerprint
+        let snapshot = admission.Snapshot
 
         let observedById = Dictionary<string, JsonElement>(StringComparer.OrdinalIgnoreCase)
         let receiptSummaries = ResizeArray<ReceiptSummary>()
