@@ -26,36 +26,54 @@ public sealed class ConcurrencyTests
         var completed = items.ToDictionary(item => item.Sku, item => gateway.CheckCompleted(item.Sku));
         var pending = AvailabilityCoordinator.CheckAvailabilityAsync(items, gateway, 3, CancellationToken.None);
         IReadOnlyList<ItemAvailability> results;
-        string earlier;
-        string later;
         try
         {
             Assert.False(pending.IsCompleted);
             var remaining = new Dictionary<string, Task>(entered);
-            var firstEntered = await Task.WhenAny(remaining.Values).WaitAsync(Deadline, TestContext.Current.CancellationToken);
-            var first = remaining.Single(entry => ReferenceEquals(entry.Value, firstEntered)).Key;
-            remaining.Remove(first);
-            var secondEntered = await Task.WhenAny(remaining.Values).WaitAsync(Deadline, TestContext.Current.CancellationToken);
-            var second = remaining.Single(entry => ReferenceEquals(entry.Value, secondEntered)).Key;
-            remaining.Remove(second);
-            (earlier, later) = Array.FindIndex(items, item => item.Sku == first) < Array.FindIndex(items, item => item.Sku == second)
-                ? (first, second)
-                : (second, first);
-            gateway.ReleaseCheck(later);
-            await completed[later].WaitAsync(Deadline, TestContext.Current.CancellationToken);
-            gateway.ReleaseCheck(earlier);
-            await completed[earlier].WaitAsync(Deadline, TestContext.Current.CancellationToken);
+            var releaseOrder = new List<string>();
+            // Wait for the first two admitted checks, then release them in reverse
+            // admission order so at least one adjacent source pair completes inverted.
+            // Every remaining check is released in admission order afterwards. The
+            // gateway completes a check only on its release, so the completion order
+            // is exactly the release order this test drives; the contract under test
+            // is that results still come back in exact source order.
+            var firstAdmitted =
+                await Task.WhenAny(remaining.Values).WaitAsync(Deadline, TestContext.Current.CancellationToken);
+            var firstSku = remaining.Single(entry => ReferenceEquals(entry.Value, firstAdmitted)).Key;
+            remaining.Remove(firstSku);
+            var secondAdmitted =
+                await Task.WhenAny(remaining.Values).WaitAsync(Deadline, TestContext.Current.CancellationToken);
+            var secondSku = remaining.Single(entry => ReferenceEquals(entry.Value, secondAdmitted)).Key;
+            remaining.Remove(secondSku);
+
+            gateway.ReleaseCheck(secondSku);
+            releaseOrder.Add(secondSku);
+            await completed[secondSku].WaitAsync(Deadline, TestContext.Current.CancellationToken);
+            gateway.ReleaseCheck(firstSku);
+            releaseOrder.Add(firstSku);
+            await completed[firstSku].WaitAsync(Deadline, TestContext.Current.CancellationToken);
 
             while (remaining.Count != 0)
             {
                 var nextEntered = await Task.WhenAny(remaining.Values).WaitAsync(Deadline, TestContext.Current.CancellationToken);
                 var sku = remaining.Single(entry => ReferenceEquals(entry.Value, nextEntered)).Key;
-                gateway.ReleaseCheck(sku);
-                await completed[sku].WaitAsync(Deadline, TestContext.Current.CancellationToken);
                 remaining.Remove(sku);
+                gateway.ReleaseCheck(sku);
+                releaseOrder.Add(sku);
+                await completed[sku].WaitAsync(Deadline, TestContext.Current.CancellationToken);
             }
 
             results = await pending.WaitAsync(Deadline, TestContext.Current.CancellationToken);
+            var completionOrder = gateway.CompletedSkus.ToList();
+            Assert.Equal(releaseOrder, completionOrder);
+            // The first two admitted checks completed in reverse admission order, and
+            // admission starts from the front of the source list, so at least one
+            // adjacent source pair completed inverted: the source-order result
+            // assertion is genuinely exercised.
+            var sourceOrder = items.Select(item => item.Sku).ToList();
+            Assert.Contains(
+                Enumerable.Range(0, items.Length - 1),
+                index => completionOrder.IndexOf(sourceOrder[index]) > completionOrder.IndexOf(sourceOrder[index + 1]));
         }
         finally
         {
@@ -65,12 +83,11 @@ public sealed class ConcurrencyTests
 
         Assert.Equal(items.Select(item => item.Sku).Order(StringComparer.Ordinal), gateway.StartedSkus.Order(StringComparer.Ordinal));
         Assert.Equal(0, gateway.InFlightChecks);
-        var completionOrder = gateway.CompletedSkus.ToList();
-        Assert.True(completionOrder.IndexOf(later) < completionOrder.IndexOf(earlier));
 
         Assert.Equal(["keyboard", "mouse", "monitor", "trackball", "webcam"], results.Select(result => result.Sku));
         Assert.Equal([40, 15, 8, 3, 0], results.Select(result => result.OnHand));
         Assert.Equal([true, true, false, true, false], results.Select(result => result.Sufficient));
+
     }
 
     [Fact]
