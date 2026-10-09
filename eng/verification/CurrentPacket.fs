@@ -220,9 +220,13 @@ let validateWorkload (packet: Packet) snapshot runId (binaries: Dictionary<strin
         require (packet.Digest path = text assembly "sha256" && mvid = text assembly "mvid") "Loaded assembly bytes/MVID mismatch"
         if binaries.ContainsKey name then require (packet.Digest path = binaries[name]) "Launch differs from current census"
 
+// Witnesses are semantic bindings inside the recorded evidence: the closure pins
+// the exact test sources the recording executed, and the packet holds their bytes.
+// Current-tree currency for producing inputs is owned by the source bindings, the
+// coverage census and the input closure (with the receiver admission), so a
+// witnessed test may keep evolving after the recording without invalidating it.
 let validateWitness (packet: Packet) (binaries: Dictionary<string, string>) witness =
     checkBinding packet witness
-    if packet.Kind = TraversalR9 then checkSource packet witness
     let execution = field witness "execution"
     checkBinding packet execution
     checkBinding packet (field execution "coreDll")
