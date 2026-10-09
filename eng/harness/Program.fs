@@ -5,6 +5,32 @@ open FunnySharp.Harness
 open System
 open System.IO
 
+// The single source of truth for the pipeline names the default help prints.
+// Every entry registers one pipeline below, in the same order; adding a
+// pipeline means adding exactly one entry here and one registration block.
+let private pipelineNames =
+    [ "build"
+      "test"
+      "format"
+      "check-action-pins"
+      "verify-docs-snippets"
+      "verify-api-baseline"
+      "verify-stable-api-contracts"
+      "verify-tooling"
+      "generate-inventory"
+      "vertical-slice"
+      "verify-performance"
+      "generate-performance-docs"
+      "compare-reproducible-builds"
+      "verify-ruleset"
+      "compatibility"
+      "release"
+      "release-verify"
+      "eval-prep-feed"
+      "eval-verify"
+      "eval-aggregate"
+      "rawloc"
+      "loc-extract" ]
 [<EntryPoint>]
 let main (arguments: string array) =
     let stdout = Console.Out
@@ -427,28 +453,8 @@ let main (arguments: string array) =
         stage "help" {
             run (fun _ ->
                 printfn "FunnySharp pipelines:"
-                printfn "  build"
-                printfn "  test"
-                printfn "  format"
-                printfn "  check-action-pins"
-                printfn "  verify-docs-snippets"
-                printfn "  verify-api-baseline"
-                printfn "  verify-stable-api-contracts"
-                printfn "  verify-tooling"
-                printfn "  generate-inventory"
-                printfn "  vertical-slice"
-                printfn "  verify-performance"
-                printfn "  generate-performance-docs"
-                printfn "  compare-reproducible-builds"
-                printfn "  verify-ruleset"
-                printfn "  compatibility"
-                printfn "  release"
-                printfn "  release-verify"
-                printfn "  eval-prep-feed"
-                printfn "  eval-verify"
-                printfn "  eval-aggregate"
-                printfn "  rawloc"
-                printfn "  loc-extract"
+                for name in pipelineNames do
+                    printfn "  %s" name
                 printfn ""
                 printfn "Run one with:"
                 printfn "  dotnet fsi build.fsx -- -p <name>")
