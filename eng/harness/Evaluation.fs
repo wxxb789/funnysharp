@@ -475,8 +475,18 @@ let private loadStudy repositoryRoot study =
     let snapshot = Path.Combine(root, "snapshot")
     checkFiles snapshot ((field manifest "files").AsArray())
     for relative in studyEnvironmentPaths do
-        if hashFile (Path.Combine(repositoryRoot, relative)) <> snapshotHash manifest ("environment/" + relative) then
-            invalidArg "environment" "runner/build configuration changed after freeze"
+        // A manifest predating the widened environment allowlist has no entry for a
+        // path this runner now checks; that is the same fail-closed drift as a
+        // changed file, reported with the designed message instead of an unhandled
+        // KeyNotFoundException from Seq.find.
+        let recorded =
+            (field manifest "files").AsArray()
+            |> Seq.tryFind (fun file -> textField file "path" = "environment/" + relative)
+        match recorded with
+        | None -> invalidArg "environment" "runner/build configuration changed after freeze"
+        | Some file ->
+            if hashFile (Path.Combine(repositoryRoot, relative)) <> textField file "sha256" then
+                invalidArg "environment" "runner/build configuration changed after freeze"
     if not (File.Exists(Path.Combine(snapshot, "analyzer-control", "control.sarif"))) then
         invalidArg "analyzer" "frozen negative control is missing"
     if hashFile (Path.Combine(root, "plan.json")) <> textField manifest "planSha256" then
