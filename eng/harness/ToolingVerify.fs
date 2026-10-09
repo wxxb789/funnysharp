@@ -655,9 +655,22 @@ let runChildProcess
 
     let stdout = proc.StandardOutput.ReadToEndAsync()
     let stderr = proc.StandardError.ReadToEndAsync()
-    proc.WaitForExit()
 
-    { ExitCode = proc.ExitCode
+    // A hung child must fail this gate step in bounded time (600s), never hang
+    // it indefinitely: kill the whole process tree and report exit 124.
+    let exitCode =
+        if proc.WaitForExit(600_000) then
+            proc.ExitCode
+        else
+            (try
+                proc.Kill true
+             with _ ->
+                ())
+
+            proc.WaitForExit 5_000 |> ignore
+            124
+
+    { ExitCode = exitCode
       Stdout = stdout.GetAwaiter().GetResult()
       Stderr = stderr.GetAwaiter().GetResult() }
 
