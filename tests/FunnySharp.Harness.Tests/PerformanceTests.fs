@@ -110,7 +110,7 @@ let private createFixture (parent: string) (name: string) : Fixture =
     let manifestText = manifestJson (policyJson "16")
     File.WriteAllText(manifestPath, manifestText)
 
-    let policyFingerprintValue = orFail (policyFingerprint manifestPath)
+    let policyFingerprintValue = textSha256 (JsonDocument.Parse(manifestText).RootElement.GetProperty("policy").GetRawText())
     let inputFingerprint = orFail (fileSetFingerprint root [ "a-input.txt"; "Z-input.txt" ])
     let protocolFingerprint = orFail (fileSetFingerprint root [ "a-protocol.txt"; "Z-protocol.txt" ])
 

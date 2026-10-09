@@ -133,17 +133,6 @@ let private distinctIgnoreCase (values: string list) : string list =
 
 // ---- Fingerprints and the environment key ----
 
-/// SHA-256 of the raw `policy` JSON text, mirroring Get-PolicyFingerprint.
-let policyFingerprint (manifestPath: string) : Result<string, HarnessError> =
-    try
-        use document = JsonDocument.Parse(File.ReadAllText manifestPath)
-
-        match document.RootElement.TryGetProperty "policy" with
-        | true, policy -> Ok(textSha256 (policy.GetRawText()))
-        | _ -> Error(Errors.create "Performance manifest is missing its policy section.")
-    with ex ->
-        Error(Errors.create ex.Message)
-
 /// The ordinal-sorted `relpath/NUL/hexsha/LF` line list hash, mirroring
 /// Get-FileSetFingerprint.
 let fileSetFingerprint (root: string) (files: string list) : Result<string, HarnessError> =
