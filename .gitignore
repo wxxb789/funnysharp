@@ -27,3 +27,4 @@ TestResults/
 # Live verdicts are generated after the candidate freezes; versioned snapshots retain history.
 /docs/audits/goal-24-resolution/findings.json
 /docs/audits/goal-24-resolution/final-local-reconciliation-report.md
+stages.jsonl
