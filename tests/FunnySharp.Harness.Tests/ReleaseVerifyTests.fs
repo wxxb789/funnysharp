@@ -93,11 +93,6 @@ let private benchmarkSkippedNames: string list =
       "aspnetcore-examples"
       "pack"
       "format"
-      "performance-protocol-tests"
-      "release-protocol-tests"
-      "benchmark-preflight"
-      "performance-docs-verify"
-      "competitor-performance-docs-verify"
       "compatibility" ]
 
 [<Fact>]
@@ -106,7 +101,7 @@ let ``ReadReleaseProtocol_RejectsMissingFile`` () =
         readReleaseProtocol "/nonexistent/release-protocol.json" |> ignore)
 
 [<Fact>]
-let ``ExpectedReleaseCommands_BenchmarkSkippedMode_AreTheFourteenInOrder`` () =
+let ``ExpectedReleaseCommands_BenchmarkSkippedMode_AreTheNineInOrder`` () =
     let root = repositoryRoot()
     let output = Path.Combine(root, "artifacts", "release-candidate", "probe", "attempt")
 
@@ -130,7 +125,7 @@ let ``ExpectedReleaseCommands_FullMode_AddsBenchmarkAndPerformanceVerify`` () =
         getExpectedReleaseCommands output "https://api.nuget.org/v3/index.json" root "linux-x64" false
         |> List.map (fun command -> command.Name)
 
-    Assert.Equal(16, names.Length)
+    Assert.Equal(12, names.Length)
     Assert.Contains("benchmark", names)
     Assert.Contains("performance-verify", names)
     Assert.DoesNotContain("benchmark", benchmarkSkippedNames)
