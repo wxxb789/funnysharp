@@ -459,7 +459,8 @@ let getExpectedReleaseCommands
           "benchmarkResults", Path.Combine(benchmarkArtifactsDirectory, "results")
           "performanceObservationProposal", Path.Combine(executionDirectory, "performance-observation-proposal.json")
           "compatibilityOutput", Path.Combine(executionDirectory, "compatibility-run")
-          "compatibilityRid", compatibilityRuntimeIdentifier ]
+          "compatibilityRid", compatibilityRuntimeIdentifier
+          "harnessDll", Path.Combine(root, "eng/harness/bin/Debug/net10.0/FunnySharp.Harness.dll") ]
         |> Map.ofList
 
     let expand (value: string) : string =
