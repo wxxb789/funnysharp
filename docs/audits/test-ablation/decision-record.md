@@ -3,17 +3,27 @@
 ## Outcome and evidence boundaries
 
 The integration baseline is `refactor/code-simplify` at `0c5416e`.
-The unit patches are integrated on `ulw/test-ablation-g001`. Shipping `src/`,
-`eng/harness/` implementations and performance manifests/budgets are unchanged.
-The sole permanent verifier change is the native-exit decision in the portable
-control wrapper; its real false-green and controlled legitimate tuple are
-recorded separately from archive/publication acceptance.
+The unit patches are integrated on `ulw/test-ablation-g001`. Shipping `src/`
+is unchanged. `eng/harness/` implementations did change after the original
+assessment: commit `f5720c6` removed the zero-allocation and receipt-row-count
+checks from `Performance.fs` (both restored on `refactor/code-simplify` after
+review), and commit `b1a602d`/`d8ef667` deleted whole Facts from
+`ReleaseProtocolTests.fs` and `ToolingVerifyTests.fs` — each deletion is now
+recorded in the final/lanes harness CSV rows appended by the review fixes,
+including one detector with no surviving owner
+(`GetBenchmarkParameterNames_NoParameterClass_ReturnsEmpty`) and the
+marker-contract pair restored as shared-fixture contract tests. The sole
+permanent verifier change kept from the ablation is the native-exit decision
+in the portable control wrapper; its real false-green and controlled
+legitimate tuple are recorded separately from archive/publication acceptance.
 
 `lanes/` contains the original complete assessments, not claims that every
 proposed mutation was executed. `final/` contains the final decisions: **1454
 unique identities**, comprising 1440 source xUnit methods and 14 named executable
-checks. There are **71 affected/simplified identities and 1383 retained**. No whole
-method or input partition is deleted or merged. A fingerprint detector is
+checks. There are **71 affected/simplified identities and 1383 retained**. Whole
+method deletions from `b1a602d`/`d8ef667` are recorded as explicit
+delete/delete-relocated/delete-restored rows in the harness CSVs rather than
+denied. A fingerprint detector is
 renamed from `GetSourceFingerprint_IsDeterministicAndCaseInsensitiveOverAGitTree`
 to `GetSourceFingerprint_TracksFileCountAndChangedBytes`; baseline identity is
 preserved in the crosswalk column. Two POSIX-only Facts remain source obligations,
