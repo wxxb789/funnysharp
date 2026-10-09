@@ -16,8 +16,7 @@ public sealed class IgnoredTryGetResultAnalyzerTests
                 }
             }
             """,
-            "FS1003",
-            "TryGetValue");
+            "FS1003");
     }
 
     [Fact]

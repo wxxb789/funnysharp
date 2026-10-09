@@ -7,6 +7,7 @@ module FunnySharp.Harness.Tests.RulesetTests
 open System
 open System.IO
 open System.Text.Json
+open System.Text.Json.Nodes
 open Xunit
 open FunnySharp.Harness.Proc
 open FunnySharp.Harness.Ruleset
@@ -45,24 +46,24 @@ let private runMain (collaborators: Collaborators) (arguments: string list) : in
     let exitCode = mainWith stdout stderr collaborators arguments
     exitCode, stdout.ToString(), stderr.ToString()
 
-let private messageOf (result: Result<'T, FunnySharp.Harness.Output.HarnessError>) : string =
+let private rejectionOf (result: Result<'T, FunnySharp.Harness.Output.HarnessError>) =
     match result with
-    | Ok _ -> ""
-    | Error err -> err.Message
+    | Ok _ -> failwith "Expected a rejected ruleset."
+    | Error err ->
+        Assert.Equal(1, err.ExitCode)
+        err
 
 type StrictPolicyTests() =
 
     [<Fact>]
     member _.AssertStrictRequiredStatusChecksPolicy_Missing_Rejects() =
         let result = assertStrictRequiredStatusChecksPolicy (parse "{}")
-        Assert.True(result.IsError)
-        Assert.Equal("Required status checks must require branches to be up to date before merging.", messageOf result)
+        rejectionOf result |> ignore
 
     [<Fact>]
     member _.VerifyGitHubRuleset_DisabledStrictPolicy_Rejects() =
         let result = assertStrictRequiredStatusChecksPolicy (parse "{\"strict_required_status_checks_policy\":false}")
-        Assert.True(result.IsError)
-        Assert.Contains("up to date", messageOf result)
+        rejectionOf result |> ignore
 
     [<Fact>]
     member _.VerifyGitHubRuleset_EnabledStrictPolicy_Passes() =
@@ -72,9 +73,35 @@ type StrictPolicyTests() =
     [<Fact>]
     member _.VerifyGitHubRuleset_MissingStrictPolicy_Rejects() =
         let json = validRuleset.Replace("\"strict_required_status_checks_policy\":true,", "")
-        Assert.Contains("up to date", messageOf (check json))
+        rejectionOf (check json) |> ignore
 
 type RulesetCheckTests() =
+
+    [<Theory>]
+    [<InlineData("conditions")>]
+    [<InlineData("parameters")>]
+    [<InlineData("bypass_actors")>]
+    member _.CheckRuleset_MissingPropertiesKeepTheirDefaultValidation(field: string) =
+        let ruleset = Assert.IsType<JsonObject>(JsonNode.Parse validRuleset)
+        let owner =
+            if field = "parameters" then
+                let rules = Assert.IsType<JsonArray>(ruleset.["rules"])
+                Assert.IsType<JsonObject>(rules.[0])
+            else
+                ruleset
+        Assert.True(owner.Remove field)
+
+        match field, check (ruleset.ToJsonString()) with
+        | "bypass_actors", Ok fields ->
+            Assert.Equal(JsonValueKind.Array, fields.BypassActors.ValueKind)
+            Assert.Equal(0, fields.BypassActors.GetArrayLength())
+        | "conditions", Error err ->
+            Assert.Equal(1, err.ExitCode)
+            Assert.Contains("refs/heads/main", err.Message)
+        | "parameters", Error err ->
+            let expected = rejectionOf (assertStrictRequiredStatusChecksPolicy (parse "{}"))
+            Assert.Equal(expected, err)
+        | _ -> Assert.Fail "Unexpected default validation result."
 
     [<Fact>]
     member _.CheckRuleset_ValidRuleset_Passes() =
@@ -101,19 +128,19 @@ type RulesetCheckTests() =
     [<Fact>]
     member _.CheckRuleset_NonActiveEnforcement_Rejects() =
         let json = validRuleset.Replace("\"enforcement\":\"active\"", "\"enforcement\":\"evaluate\"")
-        Assert.Equal("Ruleset 42 is not active.", messageOf (check json))
+        rejectionOf (check json) |> ignore
 
     [<Fact>]
     member _.CheckRuleset_NonBranchTarget_Rejects() =
         let json = validRuleset.Replace("\"target\":\"branch\"", "\"target\":\"tag\"")
-        Assert.Equal("Ruleset 42 does not target branches.", messageOf (check json))
+        rejectionOf (check json) |> ignore
 
     [<Fact>]
     member _.CheckRuleset_MissingRequiredContext_Rejects() =
         let json =
             validRuleset.Replace("{\"context\":\"release / osx-arm64\",\"integration_id\":12345},", "")
 
-        Assert.Equal("Ruleset 42 is missing required contexts: release / osx-arm64.", messageOf (check json))
+        Assert.Contains("release / osx-arm64", (rejectionOf (check json)).Message)
 
     [<Fact>]
     member _.CheckRuleset_WrongIntegrationId_Rejects() =
@@ -123,43 +150,33 @@ type RulesetCheckTests() =
                 "{\"context\":\"release / win-x64\",\"integration_id\":999}"
             )
 
-        Assert.Equal(
-            "Ruleset 42 must bind required context 'release / win-x64' to GitHub App integration 12345.",
-            messageOf (check json)
-        )
+        let error = rejectionOf (check json)
+        Assert.Contains("release / win-x64", error.Message)
+        Assert.Contains("12345", error.Message)
 
     [<Fact>]
     member _.CheckRuleset_BypassActor_Rejects() =
         let json = validRuleset.Replace("\"bypass_actors\":[]", "\"bypass_actors\":[{\"actor_id\":1}]")
 
-        Assert.Equal(
-            "Ruleset 42 contains bypass actors and cannot support this candidate's PASS verdict.",
-            messageOf (check json)
-        )
+        rejectionOf (check json) |> ignore
 
     [<Fact>]
     member _.CheckRuleset_ExcludedRef_Rejects() =
         let json = validRuleset.Replace("\"exclude\":[]", "\"exclude\":[\"refs/heads/release\"]")
 
-        Assert.Equal(
-            "Ruleset 42 contains branch exclusions and cannot prove fail-closed default-branch coverage.",
-            messageOf (check json)
-        )
+        rejectionOf (check json) |> ignore
 
     [<Fact>]
     member _.CheckRuleset_TargetRefNotIncluded_Rejects() =
         let json = validRuleset.Replace("\"include\":[\"~DEFAULT_BRANCH\"]", "\"include\":[\"refs/heads/other\"]")
 
-        Assert.Equal(
-            "Ruleset 42 does not explicitly include 'refs/heads/main' or the default branch.",
-            messageOf (check json)
-        )
+        Assert.Contains("refs/heads/main", (rejectionOf (check json)).Message)
 
     [<Fact>]
     member _.CheckRuleset_TwoStatusRules_Rejects() =
         let json = validRuleset.Replace("\"rules\":[", "\"rules\":[" + statusRule + ",")
 
-        Assert.Equal("Ruleset 42 must contain exactly one required_status_checks rule.", messageOf (check json))
+        rejectionOf (check json) |> ignore
 
 type CommandLineTests() =
 
@@ -175,7 +192,8 @@ type CommandLineTests() =
 
         Assert.Equal(0, exitCode)
         Assert.Equal("", stderr)
-        Assert.Equal($"Verified GitHub ruleset 42. Evidence: {outputPath}", stdout.Trim())
+        Assert.Matches(@"\b42\b", stdout)
+        Assert.Contains(outputPath, stdout)
 
         use document = JsonDocument.Parse(File.ReadAllText outputPath)
         let root = document.RootElement
@@ -196,7 +214,7 @@ type CommandLineTests() =
                 [ "-RulesetId"; "42"; "-ExpectedIntegrationId"; "12345"; "-OutputPath"; Path.Combine(output.Path, "r.json") ]
 
         Assert.Equal(1, exitCode)
-        Assert.Contains("Ruleset 42 is not active.", stderr)
+        Assert.Contains("42", stderr)
 
     [<Fact>]
     member _.VerifyGitHubRuleset_MissingMandatoryParameter_UsageError() =

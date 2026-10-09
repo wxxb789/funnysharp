@@ -233,6 +233,28 @@ type RejectionTests() =
 type ComparisonTests() =
 
     [<Fact>]
+    member _.CompareReproducibleBuilds_EquivalentInputFormatting_ReportsLeftEvidenceDigest() =
+        use fixture = new ReproducibilityFixture()
+        fixture.WriteCleanInputs()
+        let leftInput = Path.Combine(fixture.Left, "artifacts", "reproducibility-input.json")
+        let rightInput = Path.Combine(fixture.Right, "artifacts", "reproducibility-input.json")
+        writeFile rightInput (File.ReadAllText(rightInput) + " ")
+        writeBuildOutputs fixture.Left
+        writeBuildOutputs fixture.Right
+        let outputPath = Path.Combine(fixture.TempPath, "comparison.json")
+
+        let exitCode, _, stderr =
+            runMain [ "-LeftRoot"; fixture.Left; "-RightRoot"; fixture.Right; "-OutputPath"; outputPath ]
+
+        Assert.Equal(0, exitCode)
+        Assert.Equal("", stderr)
+        use document = JsonDocument.Parse(File.ReadAllText outputPath)
+        let expected =
+            Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(File.ReadAllBytes leftInput)).ToLowerInvariant()
+        Assert.Equal(expected, document.RootElement.GetProperty("controlledInputs").GetProperty("inputEvidenceSha256").GetString())
+        Assert.True(document.RootElement.GetProperty("byteIdentical").GetBoolean())
+
+    [<Fact>]
     member _.CompareReproducibleBuilds_IdenticalBuilds_ReportsByteIdentical() =
         use fixture = new ReproducibilityFixture()
         fixture.WriteCleanInputs()

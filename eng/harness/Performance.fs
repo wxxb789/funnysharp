@@ -133,17 +133,6 @@ let private distinctIgnoreCase (values: string list) : string list =
 
 // ---- Fingerprints and the environment key ----
 
-/// SHA-256 of the raw `policy` JSON text, mirroring Get-PolicyFingerprint.
-let policyFingerprint (manifestPath: string) : Result<string, HarnessError> =
-    try
-        use document = JsonDocument.Parse(File.ReadAllText manifestPath)
-
-        match document.RootElement.TryGetProperty "policy" with
-        | true, policy -> Ok(textSha256 (policy.GetRawText()))
-        | _ -> Error(Errors.create "Performance manifest is missing its policy section.")
-    with ex ->
-        Error(Errors.create ex.Message)
-
 /// The ordinal-sorted `relpath/NUL/hexsha/LF` line list hash, mirroring
 /// Get-FileSetFingerprint.
 let fileSetFingerprint (root: string) (files: string list) : Result<string, HarnessError> =
@@ -181,7 +170,7 @@ let fileSetFingerprint (root: string) (files: string list) : Result<string, Harn
             let bytes = Encoding.UTF8.GetBytes line
             stream.Write(bytes, 0, bytes.Length)
 
-        Ok(textSha256 (Encoding.UTF8.GetString(stream.ToArray())))
+        Ok(Convert.ToHexString(SHA256.HashData(stream.ToArray())).ToLowerInvariant())
     with
     | PerformanceFailure error -> Error error
     | ex -> Error(Errors.create ex.Message)
@@ -314,6 +303,120 @@ let private snapshotIdentity
         failNow "Fresh performance binding requires a base commit and tree."
     "snapshot:" + textSha256 (String.concat "\000" [ commit; tree; policy; input; protocol ])
 
+/// A projection of one approved recording, not an allowlist of receipt-selected
+/// historical hashes. Provenance is audited at migration; ordinary consumers
+/// reconstruct the identity without opening the catalog or its archived objects.
+type RecordingIdentity =
+    { Protocol: string
+      Snapshot: string
+      Receipts: Map<string, string>
+      IsCurrent: bool }
+
+let recordingIdentity
+    (root: string) (manifest: JsonElement) (inputFiles: string list) (protocolFiles: string list)
+    (policy: string) (input: string) : Result<RecordingIdentity option, HarnessError> =
+    try
+        let protocol = getPropertyOrNull manifest "protocol"
+        let metadata = getPropertyOrNull protocol "recordingIdentity"
+        if metadata.ValueKind = JsonValueKind.Undefined then Ok None
+        else
+            let reject message = failNow ("Performance recording identity: " + message)
+            let fields (element: JsonElement) (expected: string list) =
+                if element.ValueKind <> JsonValueKind.Object then reject "expected an object."
+                let names = element.EnumerateObject() |> Seq.map (fun item -> item.Name) |> Seq.toList
+                if names.Length <> (Set.ofList names).Count
+                   || (not expected.IsEmpty && Set.ofList names <> Set.ofList expected) then
+                    reject "missing, duplicate or unknown metadata field."
+            let text (element: JsonElement) name =
+                let value = getPropertyOrNull element name
+                if value.ValueKind <> JsonValueKind.String || String.IsNullOrWhiteSpace(scalarText value) then
+                    reject ("missing text field '" + name + "'.")
+                scalarText value
+            let path (value: string) =
+                if String.IsNullOrWhiteSpace value || Path.IsPathRooted value
+                   || value |> Seq.exists (fun ch -> Char.IsControl ch || "\\:<>\"|?*".Contains ch)
+                   || value.Split('/') |> Array.exists (fun part ->
+                       part = "" || part = "." || part = ".." || part.EndsWith('.') || part.EndsWith(' ')) then
+                    reject "paths must be canonical repository-relative paths."
+                value
+            let sha (element: JsonElement) name =
+                let value = text element name
+                if value.Length <> 64 || value |> Seq.exists (fun ch -> not ((ch >= '0' && ch <= '9') || (ch >= 'a' && ch <= 'f'))) then
+                    reject "SHA-256 must be 64 lowercase hexadecimal digits."
+                value
+            let items (element: JsonElement) name =
+                let value = getPropertyOrNull element name
+                if value.ValueKind <> JsonValueKind.Array then reject ("missing array '" + name + "'.")
+                arrayItems value
+            let uniquePaths values =
+                let seen = HashSet<string>(StringComparer.OrdinalIgnoreCase)
+                for value in values do
+                    path value |> ignore
+                    if not (seen.Add value) then reject "duplicate path."
+                Set.ofList values
+            fields protocol []
+            fields metadata [ "schemaVersion"; "receiverFiles"; "files"; "provenance" ]
+            if tryJsonInteger (getPropertyOrNull metadata "schemaVersion") <> Some 1m then
+                reject "unsupported schemaVersion."
+            let declared = uniquePaths protocolFiles
+            let inputs = uniquePaths inputFiles
+            let receivers =
+                items metadata "receiverFiles"
+                |> List.map (fun value ->
+                    if value.ValueKind <> JsonValueKind.String then reject "receiver path must be text."
+                    scalarText value)
+                |> uniquePaths
+            if receivers.IsEmpty || not (Set.isSubset receivers declared)
+               || not (Set.intersect receivers inputs).IsEmpty then
+                reject "receiver partition must name only declared, non-input protocol files."
+            let recorded =
+                items metadata "files"
+                |> List.map (fun binding ->
+                    fields binding [ "path"; "sha256" ]
+                    path (text binding "path"), sha binding "sha256")
+            if uniquePaths (List.map fst recorded) <> declared then
+                reject "recorded hashes must cover every protocol file exactly once."
+            let provenance = getPropertyOrNull metadata "provenance"
+            fields provenance [ "path"; "sha256" ]
+            path (text provenance "path") |> ignore
+            sha provenance "sha256" |> ignore
+            let recordedProtocol =
+                recorded
+                |> List.sortWith (fun (a, _) (b, _) -> StringComparer.Ordinal.Compare(a, b))
+                |> List.map (fun (relative, hash) -> relative + "\000" + hash + "\n")
+                |> String.concat ""
+                |> textSha256
+            let observation = getPropertyOrNull manifest "observation"
+            fields observation []
+            if tryJsonInteger (getPropertyOrNull observation "schemaVersion") <> Some 1m
+               || sha observation "protocolFingerprint" <> recordedProtocol then
+                reject "recorded source hashes do not derive the approved protocol fingerprint."
+            let approvedReceipts =
+                items observation "receipts"
+                |> List.map (fun receipt ->
+                    fields receipt []
+                    let name = path (text receipt "file")
+                    if name.Contains('/') || not (name.EndsWith("-performance-receipt.json", StringComparison.Ordinal)) then
+                        reject "approved receipt must have a receipt filename."
+                    name, sha receipt "sha256")
+            uniquePaths (List.map fst approvedReceipts) |> ignore
+            if approvedReceipts.IsEmpty then reject "approved receipt set is empty."
+            requireInputClosure root manifest inputFiles
+            let snapshot = snapshotIdentity manifest policy input recordedProtocol
+            let mutable current =
+                text observation "policyRevision" = text (getPropertyOrNull manifest "policy") "revision"
+                && sha observation "policyFingerprint" = policy
+                && sha observation "benchmarkInputFingerprint" = input
+                && text observation "candidateCommit" = snapshot
+            for relative, recordedHash in recorded do
+                let file = Path.Combine(root, relative)
+                if not (File.Exists file) then reject ("missing protocol file '" + relative + "'.")
+                if not (receivers.Contains relative) && fileSha256 file <> recordedHash then current <- false
+            Ok(Some { Protocol = recordedProtocol; Snapshot = snapshot; Receipts = Map.ofList approvedReceipts; IsCurrent = current })
+    with
+    | PerformanceFailure error -> Error error
+    | ex -> Error(Errors.create ex.Message)
+
 let private evidencePath (directory: string) (evidence: JsonElement) : string =
     let name = scalarText (getPropertyOrNull evidence "file")
     if String.IsNullOrWhiteSpace name || name.Contains('/') || name.Contains('\\') then
@@ -360,7 +463,7 @@ let private verifyRunBinding
     (root: string) (directory: string) (manifest: JsonElement)
     (receipt: JsonElement) (snapshot: string)
     (policyFingerprintValue: string) (inputFingerprint: string) (protocolFingerprint: string)
-    : unit =
+    : Dictionary<string, string> =
     let binding = getPropertyOrNull receipt "binding"
     if binding.ValueKind <> JsonValueKind.Object then
         failNow "Fresh receipt is missing its preflight/workload binding."
@@ -486,6 +589,7 @@ let private verifyRunBinding
         launched.Add(rowId) |> ignore
     if not (launched.SetEquals receiptRows.Keys) then
         failNow "A measured row has no actual child workload binding."
+    hostBinaries
 
 
 // Exact member identity is assembly + declaring type + complete baseline line.
@@ -501,17 +605,46 @@ let private verifyStableMemberCoverage (root: string) : Map<string, string> =
         Path.Combine(root, relative)
     let boundPath (binding: JsonElement) =
         let path = relativePath (scalarText (getPropertyOrNull binding "path"))
-        if not (File.Exists path) || fileSha256 path <> scalarText (getPropertyOrNull binding "sha256") then
+        if not (File.Exists path) then
             reject "missing or stale hash-bound evidence."
-        path
+        let hash = fileSha256 path
+        if hash <> scalarText (getPropertyOrNull binding "sha256") then
+            reject "missing or stale hash-bound evidence."
+        path, hash
+    // Only source excerpts share this operation-local snapshot. Hash and decode
+    // the same bytes; StreamReader preserves ReadAllLines' BOM and line semantics.
+    let sourceLines = Dictionary<string, string * string array>(StringComparer.Ordinal)
+    let boundSourceLines (binding: JsonElement) =
+        let path = relativePath (scalarText (getPropertyOrNull binding "path"))
+        let hash, lines =
+            match sourceLines.TryGetValue path with
+            | true, value -> value
+            | _ ->
+                if not (File.Exists path) then reject "missing or stale hash-bound evidence."
+                let bytes = File.ReadAllBytes path
+                let hash = Convert.ToHexString(SHA256.HashData bytes).ToLowerInvariant()
+                use stream = new MemoryStream(bytes)
+                use reader = new StreamReader(stream, Encoding.UTF8, true)
+                let lines = ResizeArray<string>()
+                let mutable line = reader.ReadLine()
+                while not (isNull line) do
+                    match line with
+                    | null -> ()
+                    | value -> lines.Add value
+                    line <- reader.ReadLine()
+                let value = hash, lines.ToArray()
+                sourceLines.Add(path, value)
+                value
+        if hash <> scalarText (getPropertyOrNull binding "sha256") then
+            reject "missing or stale hash-bound evidence."
+        lines
     let requiredText (element: JsonElement) name =
         let field = getPropertyOrNull element name
         let value = scalarText field
         if field.ValueKind <> JsonValueKind.String || String.IsNullOrWhiteSpace value then
             reject ("missing nonempty field '" + name + "'.")
         value
-    let excerpt (element: JsonElement) (path: string) =
-        let lines = File.ReadAllLines path
+    let excerpt (element: JsonElement) (lines: string array) =
         let first = tryJsonInteger (getPropertyOrNull element "firstLine")
         let last = tryJsonInteger (getPropertyOrNull element "lastLine")
         match first, last with
@@ -535,11 +668,11 @@ let private verifyStableMemberCoverage (root: string) : Map<string, string> =
             let binding = getPropertyOrNull baselines key
             let relative = "eng/api-baseline/" + name + ".public-api.txt"
             if scalarText (getPropertyOrNull binding "path") <> relative then reject "wrong baseline path."
-            let baseline = boundPath binding
+            let baseline, hash = boundPath binding
             let lines = File.ReadAllLines baseline
             if lines.Length = 0 || not (lines[0].StartsWith("ASSEMBLY " + name + ",", StringComparison.Ordinal)) then
                 reject "wrong baseline assembly."
-            baselineHashes.Add(name, fileSha256 baseline)
+            baselineHashes.Add(name, hash)
             let mutable declaring = ""
             for index in 1 .. lines.Length - 1 do
                 let line = lines[index]
@@ -548,11 +681,11 @@ let private verifyStableMemberCoverage (root: string) : Map<string, string> =
                     expected.Add(key + ":" + string (index + 1), (lines[0], declaring, line))
                 elif not (String.IsNullOrWhiteSpace line) then declaring <- line
         if expected.Count = 0 then reject "empty exported surface."
-        let sourceFiles = Dictionary<string, string>(StringComparer.Ordinal)
+        let sourceFiles = Dictionary<string, string array>(StringComparer.Ordinal)
         for source in arrayItems (getPropertyOrNull coverage "sourceFiles") do
             let relative = requiredText source "path"
             if sourceFiles.ContainsKey relative then reject "duplicate source binding."
-            sourceFiles.Add(relative, boundPath source)
+            sourceFiles.Add(relative, boundSourceLines source)
         // Nullability and parameter names are retained in the exact baseline
         // identity above. Only this metadata join removes those source spelling
         // differences; full overload/generic/ByRef shapes remain in the key.
@@ -593,7 +726,7 @@ let private verifyStableMemberCoverage (root: string) : Map<string, string> =
                 normalizeType (value.Substring(0, opening)) + "(" + parameters + ")"
         let metadata = Dictionary<string, JsonElement>(StringComparer.Ordinal)
         let packageBinaries = Dictionary<string, string>(StringComparer.Ordinal)
-        use censusDocument = JsonDocument.Parse(File.ReadAllText(boundPath (getPropertyOrNull coverage "metadataCensus")))
+        use censusDocument = JsonDocument.Parse(File.ReadAllText(fst (boundPath (getPropertyOrNull coverage "metadataCensus"))))
         for assembly in arrayItems (getPropertyOrNull censusDocument.RootElement "assemblies") do
             let name = requiredText assembly "assembly"
             if not (baselineHashes.ContainsKey name) || baselineHashes[name] <> scalarText (getPropertyOrNull assembly "baselineSha256") then
@@ -601,7 +734,9 @@ let private verifyStableMemberCoverage (root: string) : Map<string, string> =
             if canonical then
                 let file = requiredText assembly "file"
                 let binary = relativePath (Path.GetRelativePath(root, file))
-                if not (File.Exists binary) || fileSha256 binary <> requiredText assembly "sha256" then
+                if not (File.Exists binary) then reject "package census DLL bytes are stale."
+                let hash = fileSha256 binary
+                if hash <> requiredText assembly "sha256" then
                     reject "package census DLL bytes are stale."
                 use stream = File.OpenRead binary
                 use pe = new PEReader(stream)
@@ -609,7 +744,7 @@ let private verifyStableMemberCoverage (root: string) : Map<string, string> =
                 if reader.GetGuid(reader.GetModuleDefinition().Mvid).ToString() <> requiredText assembly "mvid"
                    || AssemblyName.GetAssemblyName(binary).Name <> name then
                     reject "package census DLL metadata is stale."
-                packageBinaries.Add(name + ".dll", fileSha256 binary)
+                packageBinaries.Add(name + ".dll", hash)
             for item in arrayItems (getPropertyOrNull assembly "metadata") do
                 let key = name + "|" + declaringKey (requiredText item "declaringType") + "|" + memberKey false (requiredText item "member")
                 if metadata.ContainsKey key then reject "duplicate package census member identity."
@@ -622,10 +757,14 @@ let private verifyStableMemberCoverage (root: string) : Map<string, string> =
             let relative = requiredText binding "path"
             if not (manifestPaths.Add relative) then reject "duplicate benchmark manifest."
             let manifestPath = relativePath relative
-            if not (File.Exists manifestPath) || unwrap (policyFingerprint manifestPath) <> requiredText binding "policySha256" then
-                reject "stale benchmark policy binding."
+            if not (File.Exists manifestPath) then reject "stale benchmark policy binding."
             use manifestDocument = JsonDocument.Parse(File.ReadAllText manifestPath)
-            for row in arrayItems (getPropertyOrNull (getPropertyOrNull manifestDocument.RootElement "policy") "rows") do
+            let policy = getPropertyOrNull manifestDocument.RootElement "policy"
+            if policy.ValueKind = JsonValueKind.Undefined then
+                failNow "Performance manifest is missing its policy section."
+            if textSha256 (policy.GetRawText()) <> requiredText binding "policySha256" then
+                reject "stale benchmark policy binding."
+            for row in arrayItems (getPropertyOrNull policy "rows") do
                 if tryJsonBool (getPropertyOrNull row "included") = Some true then
                     benchmarkRows.Add(requiredText row "id") |> ignore
         if canonical && not (manifestPaths.SetEquals [ "eng/performance/baseline.json"; "eng/performance/competitor-baseline.json" ]) then
@@ -661,9 +800,9 @@ let private verifyStableMemberCoverage (root: string) : Map<string, string> =
                              || memberLine.Contains(" EndInvoke(", StringComparison.Ordinal)) then
                 let witness = getPropertyOrNull row "runtimeWitness"
                 boundPath (getPropertyOrNull witness "source") |> ignore
-                let dll = boundPath (getPropertyOrNull witness "coreDll")
-                if fileSha256 dll <> packageBinaries["FunnySharp.dll"] then reject "APM witness used different package bytes."
-                use proof = JsonDocument.Parse(File.ReadAllText(boundPath witness))
+                let _, hash = boundPath (getPropertyOrNull witness "coreDll")
+                if hash <> packageBinaries["FunnySharp.dll"] then reject "APM witness used different package bytes."
+                use proof = JsonDocument.Parse(File.ReadAllText(fst (boundPath witness)))
                 let results = getPropertyOrNull proof.RootElement "results"
                 let cases = arrayItems (getPropertyOrNull results "tests")
                 let memberName = requiredText witness "member"
@@ -687,11 +826,11 @@ let private verifyStableMemberCoverage (root: string) : Map<string, string> =
             witnessKinds.Add kind |> ignore
             let memberName = requiredText witness "member"
             witnessMembers.Add(kind + "|" + memberName) |> ignore
-            if not ((excerpt witness (boundPath witness)).Contains(memberName, StringComparison.Ordinal)) then
+            if not ((excerpt witness (boundSourceLines witness)).Contains(memberName, StringComparison.Ordinal)) then
                 reject "mandatory witness does not resolve to its bound source."
             if canonical then
                 let execution = getPropertyOrNull witness "execution"
-                let report = XDocument.Load(boundPath execution)
+                let report = XDocument.Load(fst (boundPath execution))
                 let results = report.Descendants() |> Seq.filter (fun node -> node.Name.LocalName = "UnitTestResult") |> Seq.toArray
                 if results.Length = 0 || results |> Array.exists (fun node ->
                     match node.Attribute(XName.Get "outcome") with
@@ -702,8 +841,8 @@ let private verifyStableMemberCoverage (root: string) : Map<string, string> =
                     | null -> false
                     | value -> value.Value.Contains(memberName, StringComparison.Ordinal))) then
                     reject "mandatory resource test was not executed."
-                let dll = boundPath (getPropertyOrNull execution "coreDll")
-                if fileSha256 dll <> packageBinaries["FunnySharp.dll"] then reject "resource witness used different core package bytes."
+                let _, hash = boundPath (getPropertyOrNull execution "coreDll")
+                if hash <> packageBinaries["FunnySharp.dll"] then reject "resource witness used different core package bytes."
         if not (witnessKinds.SetEquals [ "long-input-bound"; "cancel-drain"; "linear-first-success" ]) then
             reject "long-input bound, cancel/drain and linear FirstSuccess witnesses are mandatory."
         if canonical then
@@ -815,7 +954,7 @@ let run
         if String.IsNullOrWhiteSpace policyRevision then
             failNow "Performance policy revision is required."
 
-        let policyFingerprintValue = unwrap (policyFingerprint manifestPath)
+        let policyFingerprintValue = textSha256 (policyElement.GetRawText())
 
         let inputFiles =
             arrayItems (getPropertyOrNull (getPropertyOrNull manifest "benchmarkInput") "files")
@@ -826,16 +965,19 @@ let run
             |> List.map scalarText
 
         let inputFingerprint = unwrap (fileSetFingerprint repositoryRoot inputFiles)
-        let protocolFingerprint = unwrap (fileSetFingerprint repositoryRoot protocolFiles)
+        let recording = unwrap (recordingIdentity repositoryRoot manifest inputFiles protocolFiles policyFingerprintValue inputFingerprint)
+        let currentProtocol =
+            if recording.IsNone then Some(unwrap (fileSetFingerprint repositoryRoot protocolFiles))
+            else None
         // Existing synthetic legacy fixtures remain readable. The real checkout,
         // and any manifest opting into runBinding, require fresh bound evidence.
         let fresh =
             Directory.Exists(Path.Combine(repositoryRoot, "src"))
             || (getPropertyOrNull manifest "runBinding").ValueKind = JsonValueKind.Object
-        let snapshot =
-            if fresh then
+        let currentSnapshot =
+            if fresh && recording.IsNone then
                 requireInputClosure repositoryRoot manifest inputFiles
-                Some(snapshotIdentity manifest policyFingerprintValue inputFingerprint protocolFingerprint)
+                Some(snapshotIdentity manifest policyFingerprintValue inputFingerprint (Option.get currentProtocol))
             else None
 
         let policyRows = ResizeArray<PolicyRow>()
@@ -919,18 +1061,60 @@ let run
         if receiptFiles.Length = 0 then
             failNow (sprintf "No performance receipt files were found in '%s'." receiptDirectory)
 
+        // One admission decision, computed once: an approved historical recording
+        // (its receipts verified against the recorded set), a fresh current-protocol
+        // run, or a legacy manifest. The receipts sequence and the protocol
+        // fingerprint/snapshot pair both derive from this single decision instead
+        // of re-testing recording.IsSome at each use site.
+        let admission =
+            let recordedReceipts =
+                (if recording.IsSome then receiptFiles else [||]) |> Array.map (fun file ->
+                    // Hash and parse the same acquisition, preserving ReadAllText's
+                    // BOM-aware decoding. The whole set chooses one identity; never
+                    // mix snapshots.
+                    let bytes = File.ReadAllBytes file
+                    let hash = Convert.ToHexString(SHA256.HashData bytes).ToLowerInvariant()
+                    use stream = new MemoryStream(bytes)
+                    use reader = new StreamReader(stream, Encoding.UTF8, true)
+                    use document = JsonDocument.Parse(reader.ReadToEnd())
+                    file, document.RootElement.Clone(), Some hash)
+            match recording with
+            | Some identity
+                when identity.Receipts.Count = recordedReceipts.Length
+                     && recordedReceipts |> Array.forall (fun (file, _, hash) ->
+                         Map.tryFind (fileNameOf file) identity.Receipts = hash) ->
+                if not identity.IsCurrent then
+                    failNow "The approved recording does not match the current performance policy, input, protocol, or snapshot."
+                {| Receipts = recordedReceipts :> seq<_>
+                   ProtocolFingerprint = identity.Protocol
+                   Snapshot = Some identity.Snapshot |}
+            | _ ->
+                // Legacy manifests keep their streaming validation and failure order;
+                // recording-admission parses the whole approved set up front so the
+                // recording identity can be compared atomically.
+                let protocol, snapshot =
+                    match currentProtocol with
+                    | Some current -> current, currentSnapshot
+                    | None ->
+                        let legacy = unwrap (fileSetFingerprint repositoryRoot protocolFiles)
+                        legacy, (if fresh then Some(snapshotIdentity manifest policyFingerprintValue inputFingerprint legacy) else None)
+                {| Receipts = receiptFiles |> Seq.map (fun file ->
+                       use document = JsonDocument.Parse(File.ReadAllText file)
+                       file, document.RootElement.Clone(), None)
+                   ProtocolFingerprint = protocol
+                   Snapshot = snapshot |}
+        let receipts = admission.Receipts
+        let protocolFingerprint = admission.ProtocolFingerprint
+        let snapshot = admission.Snapshot
+
         let observedById = Dictionary<string, JsonElement>(StringComparer.OrdinalIgnoreCase)
         let receiptSummaries = ResizeArray<ReceiptSummary>()
         let candidateCommitOrder = ResizeArray<string>()
         let candidateCommitSet = HashSet<string>(StringComparer.Ordinal)
         let environmentKeys = HashSet<string>(StringComparer.Ordinal)
 
-        for receiptFile in receiptFiles do
+        for receiptFile, receipt, receiptHash in receipts do
             let receiptName = fileNameOf receiptFile
-
-            let receipt =
-                use document = JsonDocument.Parse(File.ReadAllText receiptFile)
-                document.RootElement.Clone()
 
             let schemaOk =
                 match tryJsonNumber (getPropertyOrNull receipt "schemaVersion") with
@@ -948,19 +1132,17 @@ let run
                 )
             match snapshot with
             | Some expected ->
-                verifyRunBinding repositoryRoot receiptDirectory manifest receipt expected
-                    policyFingerprintValue inputFingerprint protocolFingerprint
+                let binaries =
+                    verifyRunBinding repositoryRoot receiptDirectory manifest receipt expected
+                        policyFingerprintValue inputFingerprint protocolFingerprint
                 if not coverageBinaries.IsEmpty then
-                    let binding = getPropertyOrNull (getPropertyOrNull receipt "binding") "preflight"
-                    use preflight = JsonDocument.Parse(File.ReadAllText(evidencePath receiptDirectory binding))
-                    let binaries = arrayItems (getPropertyOrNull preflight.RootElement "assemblies")
                     for KeyValue(name, hash) in coverageBinaries do
-                        let matching = binaries |> List.filter (fun binary -> fileNameOf (scalarText (getPropertyOrNull binary "file")) = name)
-                        if name = "FunnySharp.dll" && matching.IsEmpty then
+                        match binaries.TryGetValue name with
+                        | false, _ when name = "FunnySharp.dll" ->
                             failNow "Stable performance coverage: actual workload has no core census binary."
-                        for binary in matching do
-                            if scalarText (getPropertyOrNull binary "sha256") <> hash then
-                                failNow "Stable performance coverage: actual workload differs from packaged metadata census."
+                        | true, actual when actual <> hash ->
+                            failNow "Stable performance coverage: actual workload differs from packaged metadata census."
+                        | _ -> ()
             | None ->
                 if (getPropertyOrNull receipt "binding").ValueKind <> JsonValueKind.Undefined then
                     failNow "A fresh receipt cannot be verified using an unbound legacy manifest."
@@ -1083,6 +1265,7 @@ let run
                                     id
                                     (formatInteger allocated)
                             )
+
                     | _ ->
                         failNow (
                             sprintf
@@ -1117,11 +1300,12 @@ let run
 
                     observedById[id] <- rowElement
 
-            receiptSummaries.Add(
-                { File = receiptName
-                  Sha256 = fileSha256 receiptFile
-                  EnvironmentElement = environmentElement }
-            )
+            if observationProposalPath.IsSome then
+                receiptSummaries.Add(
+                    { File = receiptName
+                      Sha256 = receiptHash |> Option.defaultWith (fun () -> fileSha256 receiptFile)
+                      EnvironmentElement = environmentElement }
+                )
 
         let missingRows =
             includedRows

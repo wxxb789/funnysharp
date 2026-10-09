@@ -797,34 +797,6 @@ let targetArgv (target: Target) (inputs: Inputs) (outDir: string) : string list 
             "--title"
             target.Title ]
 
-let private splitLines (text: string) : string array =
-    let lines = ResizeArray<string>()
-
-    let isLineBreak (ch: char) =
-        match int ch with
-        | 10 | 13 | 11 | 12 | 28 | 29 | 30 | 133 | 8232 | 8233 -> true
-        | _ -> false
-
-    let mutable start = 0
-    let mutable index = 0
-
-    while index < text.Length do
-        if isLineBreak text.[index] then
-            lines.Add(text.Substring(start, index - start))
-
-            if text.[index] = '\r' && index + 1 < text.Length && text.[index + 1] = '\n' then
-                index <- index + 1
-
-            index <- index + 1
-            start <- index
-        else
-            index <- index + 1
-
-    if start < text.Length then
-        lines.Add(text.Substring start)
-
-    lines.ToArray()
-
 /// Python str.splitlines()[-count:], reading with UTF-8 replacement.
 let private tailLines (path: string) (count: int) : string list =
     if not (File.Exists path) then

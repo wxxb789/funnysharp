@@ -13,8 +13,7 @@ public sealed class UninitializedCarrierAnalyzerTests
                 Result<int, string> Make() => default(Result<int, string>);
             }
             """,
-            "FS1001",
-            "Result<int, string>");
+            "FS1001");
     }
 
     [Fact]

@@ -312,27 +312,35 @@ type VerticalSliceToolTests() =
 
     [<Fact>]
     member this.AHungStepFailsTheToolInsteadOfHangingIt() =
-        if OperatingSystem.IsWindows() then
-            // The blocking child below needs a POSIX shell.
-            ()
-        else
-            let fake = runner.Run
+        let fake = runner.Run
 
-            stepRunner <-
-                fun workingDirectory environment timeoutSeconds command ->
-                    if command.Length > 1 && command.[1] = "restore" then
-                        runStepProcess workingDirectory environment 1 [ "/bin/sh"; "-c"; "sleep 60" ]
+        stepRunner <-
+            fun workingDirectory environment timeoutSeconds command ->
+                if command.Length > 2 && command.[1] = "restore" && command.[2].EndsWith("Api.csproj", StringComparison.Ordinal) then
+                    if OperatingSystem.IsWindows() then
+                        runStepProcess
+                            workingDirectory
+                            environment
+                            1
+                            [ "powershell.exe"
+                              "-NoLogo"
+                              "-NoProfile"
+                              "-NonInteractive"
+                              "-Command"
+                              "[System.Threading.Thread]::Sleep([System.Threading.Timeout]::Infinite)" ]
                     else
-                        fake workingDirectory environment timeoutSeconds command
+                        runStepProcess workingDirectory environment 1 [ "/bin/sh"; "-c"; "sleep 60" ]
+                else
+                    fake workingDirectory environment timeoutSeconds command
 
-            let exitCode, _, _ = this.RunCaptured [ "--skip-tests"; "--skip-measurements" ]
-            Assert.Equal(1, exitCode)
-            let receipt = this.Receipt()
-            Assert.Equal("fail", receipt.Status)
+        let exitCode, _, _ = this.RunCaptured [ "--skip-tests"; "--skip-measurements" ]
+        Assert.Equal(1, exitCode)
+        let receipt = this.Receipt()
+        Assert.Equal("fail", receipt.Status)
 
-            let restoreApi = receipt.Steps |> List.find (fun step -> step.Step = "restore-api")
-            Assert.Equal(stepTimeoutReturnCode, restoreApi.ExitCode)
-            Assert.Contains("timed out", restoreApi.StderrTail)
+        let restoreApi = receipt.Steps |> List.find (fun step -> step.Step = "restore-api")
+        Assert.Equal(stepTimeoutReturnCode, restoreApi.ExitCode)
+        Assert.Contains("timed out", restoreApi.StderrTail)
 
     [<Fact>]
     member _.VerifyMarkersMatchTheApplicationConstants() =

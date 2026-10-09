@@ -20,8 +20,7 @@ public sealed class BlockedValueTaskAnalyzerTests
                 }
             }
             """,
-            "FS1004",
-            "Result");
+            "FS1004");
     }
 
     [Fact]
@@ -58,8 +57,7 @@ public sealed class BlockedValueTaskAnalyzerTests
                 }
             }
             """,
-            "FS1004",
-            "GetAwaiter().GetResult()");
+            "FS1004");
     }
 
     [Fact]

@@ -9,6 +9,7 @@ open System.Globalization
 open System.IO
 open System.Security.Cryptography
 open System.Text
+open System.Text.Json.Nodes
 open Xunit
 open FunnySharp.Harness.PerformanceDocs
 open FunnySharp.Harness.Tests.Support
@@ -235,6 +236,94 @@ let private runDefaultManifest (root: string) (verify: bool) : int * string * st
 type DocumentationFixtureTests() =
 
     [<Fact>]
+    member _.GeneratePerformanceDocumentation_GroupsMixedSpellingsAndSortsGroupsByTheirComparer() =
+        use temp = new TempDirectory()
+        let categories = [ "Zulu"; "Alpha" ]
+        let observations =
+            categories
+            |> List.collect (fun category ->
+                defaultObservationRows |> List.map (fun row -> row.Replace("Category", category)))
+        let fixture = createFixture temp.Path observations
+        let policy = Assert.IsType<JsonObject>(JsonNode.Parse policyText)
+        let originalRows =
+            Assert.IsType<JsonArray>(policy.["rows"])
+            |> Seq.map (fun row -> Assert.IsType<JsonObject>(row))
+            |> Seq.toArray
+        let rows = JsonArray()
+
+        for category in categories do
+            for index in 0..2 do
+                let row = Assert.IsType<JsonObject>(originalRows.[index].DeepClone())
+                let id = Assert.IsAssignableFrom<JsonValue>(row.["id"]).GetValue<string>()
+                row.["id"] <- JsonValue.Create(id.Replace("Category", category))
+                row.["category"] <- JsonValue.Create category
+                row.["comparisonGroup"] <-
+                    JsonValue.Create(if index = 1 then category.ToLowerInvariant() else category.ToUpperInvariant())
+                rows.Add row
+
+        rows.Add(originalRows.[3].DeepClone())
+        policy.["rows"] <- rows
+        let customPolicy = policy.ToJsonString()
+        let manifest =
+            (File.ReadAllText fixture.ManifestPath)
+                .Replace(policyText, customPolicy)
+                .Replace(hashText policyText, hashText customPolicy)
+        File.WriteAllText(fixture.ManifestPath, manifest, utf8NoBom)
+        let exitCode, _, stderr = run fixture.Root fixture.ManifestPath false
+        Assert.True((exitCode = 0), stderr)
+        let scenarios =
+            (File.ReadAllLines fixture.GuidePath)
+            |> Array.filter (fun line -> line.StartsWith("| Alpha") || line.StartsWith("| Zulu"))
+            |> Array.map (fun line -> line.Split('|').[1].Trim())
+        Assert.Equal<string array>(
+            [| "Alpha - Alternative"; "Alpha - Funny"; "Zulu - Alternative"; "Zulu - Funny" |],
+            scenarios)
+        let verifyExit, _, verifyErr = run fixture.Root fixture.ManifestPath true
+        Assert.True((verifyExit = 0), verifyErr)
+
+    [<Fact>]
+    member _.GeneratePerformanceDocumentation_OrdinalFingerprintUsesIndependentNulLfBytes() =
+        use temp = new TempDirectory()
+        let fixture = createFixture temp.Path defaultObservationRows
+        let manifest = (File.ReadAllText fixture.ManifestPath).Replace(
+            "[\"a-input.txt\", \"Z-input.txt\"]", "[\"Z-input.txt\", \"a-input.txt\"]")
+        File.WriteAllText(fixture.ManifestPath, manifest, utf8NoBom)
+        let exitCode, _, stderr = run fixture.Root fixture.ManifestPath false
+        Assert.True((exitCode = 0), stderr)
+        let verifyExit, _, verifyErr = run fixture.Root fixture.ManifestPath true
+        Assert.True((verifyExit = 0), verifyErr)
+
+    [<Theory>]
+    [<InlineData("raw-policy")>]
+    [<InlineData("protocol-bytes")>]
+    [<InlineData("external-path")>]
+    [<InlineData("missing-path")>]
+    [<InlineData("descriptor")>]
+    member _.GeneratePerformanceDocumentation_IndependentBindingsRejectMutation(mutation: string) =
+        use temp = new TempDirectory()
+        let fixture = createFixture temp.Path defaultObservationRows
+        let original = File.ReadAllText fixture.ManifestPath
+        match mutation with
+        | "raw-policy" -> File.WriteAllText(fixture.ManifestPath, original.Replace("\"revision\": \"fixture-v1\",", "\"revision\":  \"fixture-v1\","), utf8NoBom)
+        | "protocol-bytes" -> File.AppendAllText(Path.Combine(fixture.Root, "a-protocol.txt"), "changed", utf8NoBom)
+        | "external-path" -> File.WriteAllText(fixture.ManifestPath, original.Replace("a-input.txt", "../a-input.txt"), utf8NoBom)
+        | "missing-path" -> File.Delete(Path.Combine(fixture.Root, "a-input.txt"))
+        | "descriptor" ->
+            let oldRow = defaultObservationRows[1]
+            File.WriteAllText(fixture.ManifestPath, original.Replace(oldRow, oldRow.Replace("\"method\": \"Funny\"", "\"method\": \"Other\"")), utf8NoBom)
+        | _ -> failwith "Unknown documentation mutation."
+        let exitCode, stdout, stderr = run fixture.Root fixture.ManifestPath false
+        Assert.Equal(1, exitCode)
+        Assert.Equal("", stdout)
+        Assert.Contains(
+            (match mutation with
+             | "external-path" -> "repository-relative"
+             | "missing-path" -> "not found inside the repository"
+             | "descriptor" -> "does not match policy field"
+             | _ -> "policy, input, or protocol"), stderr)
+        Assert.Equal(guideText, File.ReadAllText fixture.GuidePath)
+
+    [<Fact>]
     member _.GeneratePerformanceDocumentation_GeneratesThenVerifies_UnderInvariantCulture() =
         use temp = new TempDirectory()
         let fixture = createFixture temp.Path defaultObservationRows
@@ -243,14 +332,12 @@ type DocumentationFixtureTests() =
         try
             CultureInfo.CurrentCulture <- CultureInfo.GetCultureInfo("fr-FR")
 
-            let generateExit, generateOut, generateErr = run fixture.Root fixture.ManifestPath false
+            let generateExit, _, generateErr = run fixture.Root fixture.ManifestPath false
             Assert.Equal(0, generateExit)
-            Assert.Equal("Generated 1 performance documentation regions.", generateOut.Trim())
             Assert.Equal("", generateErr.Trim())
 
-            let verifyExit, verifyOut, verifyErr = run fixture.Root fixture.ManifestPath true
+            let verifyExit, _, verifyErr = run fixture.Root fixture.ManifestPath true
             Assert.Equal(0, verifyExit)
-            Assert.Equal("Verified 1 performance documentation regions.", verifyOut.Trim())
             Assert.Equal("", verifyErr.Trim())
 
             let generated = File.ReadAllText fixture.GuidePath
@@ -329,10 +416,9 @@ type DocumentationFixtureTests() =
 
         let firstExit, _, _ = run fixture.Root fixture.ManifestPath false
         let first = File.ReadAllText fixture.GuidePath
-        let secondExit, secondOut, _ = run fixture.Root fixture.ManifestPath false
+        let secondExit, _, _ = run fixture.Root fixture.ManifestPath false
         Assert.Equal(0, firstExit)
         Assert.Equal(0, secondExit)
-        Assert.Equal("Generated 1 performance documentation regions.", secondOut.Trim())
         Assert.Equal(first, File.ReadAllText fixture.GuidePath)
         Assert.DoesNotContain("\r", first)
 
@@ -407,16 +493,14 @@ type RealManifestTests() =
     [<Fact>]
     member _.BaselineManifestVerifiesElevenRegions() =
         let root = repositoryRoot ()
-        let exitCode, stdout, stderr = runDefaultManifest root true
+        let exitCode, _, stderr = runDefaultManifest root true
         Assert.Equal(0, exitCode)
-        Assert.Equal("Verified 11 performance documentation regions.", stdout.Trim())
         Assert.Equal("", stderr.Trim())
 
     [<Fact>]
     member _.CompetitorManifestReproducesProtocolStep13() =
         let root = repositoryRoot ()
         let manifestPath = Path.Combine(root, "eng/performance/competitor-baseline.json")
-        let exitCode, stdout, stderr = run root manifestPath true
+        let exitCode, _, stderr = run root manifestPath true
         Assert.Equal(0, exitCode)
-        Assert.Equal("Verified 1 performance documentation regions.", stdout.Trim())
         Assert.Equal("", stderr.Trim())

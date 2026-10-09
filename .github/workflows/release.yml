@@ -62,8 +62,9 @@ jobs:
 
 
       # Benchmarks are a developer-machine activity (docs/release-readiness.md):
-      # CI verifies the approved observation via performance-docs-verify instead
-      # of re-measuring on hosted runners.
+      # the release pipeline keeps only integration checks in CI (build, full
+      # test suites, examples, pack, format, compatibility consumers);
+      # byte-hash evidence verifications stay developer-machine activities.
       - name: Run canonical release
         shell: bash
         run: >
@@ -72,13 +73,6 @@ jobs:
           -CompatibilityRuntimeIdentifier win-x64
           -CompatibilityPackageFeed "$COMPATIBILITY_FEED"
           -SkipBenchmarks
-
-      - name: Verify stable semantic contracts
-        shell: bash
-        run: >
-          dotnet fsi build.fsx -- -p verify-stable-api-contracts
-          --proof-index docs/audits/goal-24-resolution/current-stable-semantic/current-proof-index.json
-          --release-evidence "artifacts/release-candidate/$CANDIDATE_SHA/${{ github.run_id }}-${{ github.run_attempt }}-win-x64/release-evidence/release-evidence.json"
 
       - name: Upload canonical candidate
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4

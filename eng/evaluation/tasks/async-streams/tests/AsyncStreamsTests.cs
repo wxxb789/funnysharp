@@ -15,7 +15,7 @@ public sealed class AsyncStreamsTests
     {
         foreach (var reading in readings)
         {
-            await Task.Delay(1);
+            await Task.Yield();
             yield return reading;
         }
     }
@@ -31,7 +31,11 @@ public sealed class AsyncStreamsTests
                 throw new OperationCanceledException(cancellationToken);
             }
 
-            await Task.Delay(1);
+            await Task.Yield();
+            if (cancellationToken.IsCancellationRequested)
+            {
+                throw new OperationCanceledException(cancellationToken);
+            }
             yield return reading;
         }
     }
@@ -39,7 +43,7 @@ public sealed class AsyncStreamsTests
     private static async IAsyncEnumerable<SensorReading> CancellingStream(
         [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
-        await Task.Delay(1);
+        await Task.Yield();
         yield return new SensorReading("temp-1", "temperature", 68);
         throw new OperationCanceledException(cancellationToken);
     }
@@ -58,7 +62,7 @@ public sealed class AsyncStreamsTests
             foreach (var reading in this.readings)
             {
                 this.Yields++;
-                await Task.Delay(1);
+                await Task.Yield();
                 yield return reading;
             }
         }

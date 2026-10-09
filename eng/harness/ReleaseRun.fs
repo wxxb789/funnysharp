@@ -121,20 +121,6 @@ let private stringValue (element: JsonElement) : string =
 let private stringOf (name: string) (element: JsonElement) : string =
     element |> tryProp name |> Option.map stringValue |> Option.defaultValue ""
 
-let private stringList (value: JsonElement option) : string list =
-    match value with
-    | Some element when element.ValueKind = JsonValueKind.Array ->
-        element.EnumerateArray() |> Seq.map stringValue |> List.ofSeq
-    | Some element when element.ValueKind = JsonValueKind.String -> [ stringValue element ]
-    | _ -> []
-
-let private intValue (value: JsonElement option) : int option =
-    match value with
-    | Some element when element.ValueKind = JsonValueKind.Number ->
-        let mutable parsed = 0
-        if element.TryGetInt32(&parsed) then Some parsed else None
-    | _ -> None
-
 // ---- SHA-256 helpers ----
 
 let private sha256HexBytes (bytes: byte array) : string =
@@ -1054,6 +1040,7 @@ let private runRelease
         writeJsonFile
             (versionStateJson "passed" candidateCommit attemptId coreVersion (List.ofSeq versionChecks) None)
             (Path.Combine(outputDirectory, "version-preflight.json"))
+        let versionPreflightSha256 = sha256HexFile (Path.Combine(outputDirectory, "version-preflight.json"))
 
         let generatedCleanup = removeProjectGeneratedOutputs collaborators.Protocol runner repositoryRoot
 
@@ -1080,7 +1067,12 @@ let private runRelease
               "benchmarkResults", Path.Combine(benchmarkArtifactsDirectory, "results")
               "performanceObservationProposal", Path.Combine(outputDirectory, "performance-observation-proposal.json")
               "compatibilityOutput", compatibilityOutputDirectory
-              "compatibilityRid", compatibilityRid ]
+              "compatibilityRid", compatibilityRid
+              "harnessDll",
+              Path.Combine(
+                  repositoryRoot,
+                  "eng/harness/bin/Debug/net10.0/FunnySharp.Harness.dll"
+              ) ]
 
         let releaseSteps = collaborators.Protocol.LoadSteps protocolPath mode tokens
         let expectedCandidateCommands = releaseSteps |> List.map (fun step -> step.Name)
@@ -1116,9 +1108,7 @@ let private runRelease
             protocolNode.["sha256"] <- jstr protocolSha256
             node.["protocol"] <- protocolNode
             node.["versionPreflight"] <- jstr "version-preflight.json"
-
-            node.["versionPreflightSha256"] <-
-                jstr (sha256HexFile (Path.Combine(outputDirectory, "version-preflight.json")))
+            node.["versionPreflightSha256"] <- jstr versionPreflightSha256
 
             node.["versionFinal"] <-
                 (match versionFinal with

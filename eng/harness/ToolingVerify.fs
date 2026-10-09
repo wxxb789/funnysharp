@@ -9,10 +9,8 @@ module FunnySharp.Harness.ToolingVerify
 // header, the environment-failure shape, the report JSON key set and the 0/1/2 exit
 // codes are contract text and must stay byte-exact.
 //
-// Marker contract: MARKER_CONTRACT below asserts thirteen literal fragments are still present
-// in the F# verifier sources (eng/harness/ReleaseVerifySource.fs, ReleaseVerifyArtifacts.fs,
-// ReleaseVerify.fs, DocsSnippets.fs) before any step runs, so the local verdict rules and the
-// verifier that produces those verdicts cannot drift apart.
+// Verdicts are checked against actual step output. Source-literal presence cannot
+// establish equivalent behavior: comments can satisfy it and harmless refactors can fail it.
 //
 // Documentation step: the docs step's verifier is FunnySharp.Harness.DocsSnippets. The single
 // point of substitution is `docsVerifier`; build.fsx sets it to a function that runs that module
@@ -35,6 +33,7 @@ open System.Text
 open System.Text.RegularExpressions
 open FunnySharp.Harness.Proc
 open FunnySharp.Harness.Repo
+open FunnySharp.Harness.Output
 
 // ---------------------------------------------------------------------------
 // Contract constants
@@ -51,28 +50,14 @@ let localSteps: string list =
 let notRunSteps: string list =
     [ "clean"
       "pack"
-      "performance-protocol-tests"
-      "release-protocol-tests"
       "benchmark-preflight"
       "benchmark"
       "performance-verify"
-      "performance-docs-verify"
-      "competitor-performance-docs-verify"
       "compatibility" ]
 
 let testAssemblyRelativePaths: string list =
     [ "tests/FunnySharp.Tests/bin/Release/net10.0/FunnySharp.Tests.dll"
       "tests/FunnySharp.AspNetCore.Tests/bin/Release/net10.0/FunnySharp.AspNetCore.Tests.dll" ]
-
-/// The F# sources that carry the verdict literals this tool parses. Before the migration this
-/// was the single frozen verifier eng/Verify-Release.ps1; the ported release verifier and the
-/// ported documentation verifier now hold the same literals, and the guard below requires each
-/// fragment to appear in at least one of them.
-let VerifierRelativePaths: string list =
-    [ "eng/harness/ReleaseVerifySource.fs"
-      "eng/harness/ReleaseVerifyArtifacts.fs"
-      "eng/harness/ReleaseVerify.fs"
-      "eng/harness/DocsSnippets.fs" ]
 
 [<Literal>]
 let CoreExampleMarker = "FunnySharp examples passed."
@@ -80,11 +65,7 @@ let CoreExampleMarker = "FunnySharp examples passed."
 [<Literal>]
 let AspNetExampleMarker = "FunnySharp ASP.NET Core example endpoints mapped."
 
-// Verdict-rule fragments mirrored from eng/Verify-Release.ps1 (~lines 903-933).
-// They are the contract between this tool's parsing logic and the frozen verifier:
-// MARKER_CONTRACT asserts each is still present in the PowerShell source, and the
-// compiled patterns below are built from the same constants so the guard and the
-// parser cannot drift apart.
+// Verdict-rule fragments used to parse actual build and test output.
 [<Literal>]
 let BuildSucceededFragment = @"Build succeeded\."
 
@@ -144,22 +125,6 @@ let private docsVerdictPattern = Regex(@"^\s*" + DocsVerdictFragment + @"\s*$", 
 // Mirrors eng/Verify-Release.ps1's Remove-AnsiControlSequences: GitHub Actions sets
 // CI=true and the MTP reporter colors result words, so logs are normalized first.
 let private ansiEscapePattern = Regex("\u001b\\[[0-?]*[ -/]*[@-~]")
-
-/// One literal the frozen release verifier must still contain.
-let markerContract: (string * string) list =
-    [ "build success line", BuildSucceededFragment
-      "build zero-warning line", BuildWarningsFragment
-      "build zero-error line", BuildErrorsFragment
-      "test summary prefix", TestSummaryFragment
-      "test total field", TestTotalFragment
-      "test zero-failed field", TestFailedFragment
-      "test succeeded field", TestSucceededFragment
-      "test zero-skipped field", TestSkippedFragment
-      "test assembly result shape", TestAssemblyResultFragment
-      "core example success line", CoreExampleMarker
-      "ASP.NET Core example success line", AspNetExampleMarker
-      "core test assembly path", testAssemblyRelativePaths.[0]
-      "ASP.NET Core test assembly path", testAssemblyRelativePaths.[1] ]
 
 // ---------------------------------------------------------------------------
 // Types
@@ -386,38 +351,9 @@ let stepFailure (step: string) (stdout: string) (stderr: string) (repositoryRoot
 
 let outputTailLines = 20
 
-/// Python str.splitlines(): breaks on every line boundary, no phantom trailing line.
-let private splitLines (text: string) : string list =
-    let lines = ResizeArray<string>()
-
-    let isLineBreak (ch: char) =
-        match int ch with
-        | 10 | 13 | 11 | 12 | 28 | 29 | 30 | 133 | 8232 | 8233 -> true
-        | _ -> false
-
-    let mutable start = 0
-    let mutable index = 0
-
-    while index < text.Length do
-        if isLineBreak text.[index] then
-            lines.Add(text.Substring(start, index - start))
-
-            if text.[index] = '\r' && index + 1 < text.Length && text.[index + 1] = '\n' then
-                index <- index + 1
-
-            index <- index + 1
-            start <- index
-        else
-            index <- index + 1
-
-    if start < text.Length then
-        lines.Add(text.Substring start)
-
-    List.ofSeq lines
-
 /// The bounded last-N lines of child output (mirrors inventory._tail's bound).
 let outputTail (text: string) : string list =
-    let lines = splitLines (text.Trim('\n'))
+    let lines = List.ofArray (Output.splitLines (text.Trim('\n')))
     let count = lines.Length
 
     if count <= outputTailLines then
@@ -489,22 +425,6 @@ let runSteps
         index <- index + 1
 
     List.ofSeq results, failed
-
-// ---------------------------------------------------------------------------
-// Marker contract
-// ---------------------------------------------------------------------------
-
-/// Return the marker-contract descriptions missing from every verifier source.
-let missingMarkerFragments (verifierPaths: string list) : string list =
-    let text =
-        verifierPaths
-        |> List.filter File.Exists
-        |> List.map (fun path -> File.ReadAllText(path, Encoding.UTF8))
-        |> String.concat "\n"
-
-    markerContract
-    |> List.choose (fun (description, fragment) ->
-        if text.Contains fragment then None else Some description)
 
 // ---------------------------------------------------------------------------
 // Reporting
@@ -731,9 +651,22 @@ let runChildProcess
 
     let stdout = proc.StandardOutput.ReadToEndAsync()
     let stderr = proc.StandardError.ReadToEndAsync()
-    proc.WaitForExit()
 
-    { ExitCode = proc.ExitCode
+    // A hung child must fail this gate step in bounded time (600s), never hang
+    // it indefinitely: kill the whole process tree and report exit 124.
+    let exitCode =
+        if proc.WaitForExit(600_000) then
+            proc.ExitCode
+        else
+            (try
+                proc.Kill true
+             with _ ->
+                ())
+
+            proc.WaitForExit 5_000 |> ignore
+            124
+
+    { ExitCode = exitCode
       Stdout = stdout.GetAwaiter().GetResult()
       Stderr = stderr.GetAwaiter().GetResult() }
 
@@ -840,79 +773,58 @@ let mainWith
 
             if not problems.IsEmpty then
                 environmentFailure stdout stderr options root problems
+            elif not (File.Exists(Path.Combine(root, SolutionFileName))) then
+                environmentFailure
+                    stdout
+                    stderr
+                    options
+                    root
+                    [ { Summary = sprintf "the repository root does not contain %s." SolutionFileName
+                        Remediation =
+                          "pass --repository-root pointing at a FunnySharp checkout." } ]
+            elif not (skipped.Contains "docs") && collaborators.DocsVerifier.IsNone then
+                environmentFailure
+                    stdout
+                    stderr
+                    options
+                    root
+                    [ { Summary = "the documentation-snippet verifier was not found."
+                        Remediation =
+                          "wire FunnySharp.Harness.DocsSnippets into the docs verifier, or pass "
+                          + "--skip-docs to run the other local checks." } ]
             else
-                let verifierPaths = VerifierRelativePaths |> List.map (fun relative -> Path.Combine(root, relative))
+                let childEnv =
+                    collaborators.Env
+                    |> Map.add "DOTNET_CLI_UI_LANGUAGE" "en"
+                    |> fun environment ->
+                        if options.Offline then
+                            Map.add "UV_OFFLINE" "1" environment
+                        else
+                            environment
 
-                if not (verifierPaths |> List.exists File.Exists) then
-                    environmentFailure
-                        stdout
-                        stderr
-                        options
-                        root
-                        [ { Summary = sprintf "the ported release verifier was not found (expected one of: %s)." (String.concat ", " verifierPaths)
-                            Remediation =
-                              "restore eng/harness/ReleaseVerifySource.fs or pass --repository-root pointing at a FunnySharp checkout." } ]
-                else
-                    let missing = missingMarkerFragments verifierPaths
+                let results, failedStep =
+                    runSteps root childEnv collaborators.Runner skipped stderr
 
-                    if not missing.IsEmpty then
-                        let report =
-                            { Options = options
-                              RepositoryRoot = root
-                              Status = "failed"
-                              ExitCode = 1
-                              Steps = []
-                              FailedStep = None
-                              Message =
-                                "the release verifier's marker contract changed, so the local verdict "
-                                + "rules can no longer be trusted (missing: "
-                                + String.concat ", " missing
-                                + ")." }
+                let report =
+                    match failedStep with
+                    | None ->
+                        { Options = options
+                          RepositoryRoot = root
+                          Status = "passed"
+                          ExitCode = 0
+                          Steps = results
+                          FailedStep = None
+                          Message = "Local pre-check passed." }
+                    | Some step ->
+                        { Options = options
+                          RepositoryRoot = root
+                          Status = "failed"
+                          ExitCode = 1
+                          Steps = results
+                          FailedStep = Some step
+                          Message = (List.last results).Message }
 
-                        emit stdout stderr options report
-                    elif not (skipped.Contains "docs") && collaborators.DocsVerifier.IsNone then
-                        environmentFailure
-                            stdout
-                            stderr
-                            options
-                            root
-                            [ { Summary = "the documentation-snippet verifier was not found."
-                                Remediation =
-                                  "wire FunnySharp.Harness.DocsSnippets into the docs verifier, or pass "
-                                  + "--skip-docs to run the other local checks." } ]
-                    else
-                        let childEnv =
-                            collaborators.Env
-                            |> Map.add "DOTNET_CLI_UI_LANGUAGE" "en"
-                            |> fun environment ->
-                                if options.Offline then
-                                    Map.add "UV_OFFLINE" "1" environment
-                                else
-                                    environment
-
-                        let results, failedStep =
-                            runSteps root childEnv collaborators.Runner skipped stderr
-
-                        let report =
-                            match failedStep with
-                            | None ->
-                                { Options = options
-                                  RepositoryRoot = root
-                                  Status = "passed"
-                                  ExitCode = 0
-                                  Steps = results
-                                  FailedStep = None
-                                  Message = "Local pre-check passed." }
-                            | Some step ->
-                                { Options = options
-                                  RepositoryRoot = root
-                                  Status = "failed"
-                                  ExitCode = 1
-                                  Steps = results
-                                  FailedStep = Some step
-                                  Message = (List.last results).Message }
-
-                        emit stdout stderr options report
+                emit stdout stderr options report
 
 /// Entry point mirroring verify_local.py's main().
 let main (argv: string array) : int =

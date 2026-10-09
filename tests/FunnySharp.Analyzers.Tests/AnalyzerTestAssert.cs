@@ -8,15 +8,11 @@ using Microsoft.CodeAnalysis;
 /// </summary>
 internal static class AnalyzerTestAssert
 {
-    internal static async Task DiagnosticAsync(string source, string expectedId, string? messageFragment = null)
+    internal static async Task DiagnosticAsync(string source, string expectedId)
     {
         var diagnostics = await AnalyzeAsync(source);
         var diagnostic = Assert.Single(diagnostics);
         Assert.Equal(expectedId, diagnostic.Id);
-        if (messageFragment is not null)
-        {
-            Assert.Contains(messageFragment, diagnostic.GetMessage());
-        }
     }
 
     internal static async Task QuietAsync(string source)

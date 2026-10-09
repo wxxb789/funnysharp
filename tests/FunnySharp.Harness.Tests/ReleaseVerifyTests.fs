@@ -8,6 +8,7 @@ module FunnySharp.Harness.Tests.ReleaseVerifyTests
 
 open System
 open System.IO
+open System.Security.Cryptography
 open System.Text
 open System.Text.Json
 open Xunit
@@ -92,11 +93,6 @@ let private benchmarkSkippedNames: string list =
       "aspnetcore-examples"
       "pack"
       "format"
-      "performance-protocol-tests"
-      "release-protocol-tests"
-      "benchmark-preflight"
-      "performance-docs-verify"
-      "competitor-performance-docs-verify"
       "compatibility" ]
 
 [<Fact>]
@@ -105,7 +101,7 @@ let ``ReadReleaseProtocol_RejectsMissingFile`` () =
         readReleaseProtocol "/nonexistent/release-protocol.json" |> ignore)
 
 [<Fact>]
-let ``ExpectedReleaseCommands_BenchmarkSkippedMode_AreTheFourteenInOrder`` () =
+let ``ExpectedReleaseCommands_BenchmarkSkippedMode_AreTheNineInOrder`` () =
     let root = repositoryRoot()
     let output = Path.Combine(root, "artifacts", "release-candidate", "probe", "attempt")
 
@@ -129,7 +125,7 @@ let ``ExpectedReleaseCommands_FullMode_AddsBenchmarkAndPerformanceVerify`` () =
         getExpectedReleaseCommands output "https://api.nuget.org/v3/index.json" root "linux-x64" false
         |> List.map (fun command -> command.Name)
 
-    Assert.Equal(16, names.Length)
+    Assert.Equal(12, names.Length)
     Assert.Contains("benchmark", names)
     Assert.Contains("performance-verify", names)
     Assert.DoesNotContain("benchmark", benchmarkSkippedNames)
@@ -159,6 +155,73 @@ let ``AssertCanonicalReleaseCommand_RejectsArgumentDrift`` () =
 
 let private englishBuildLog =
     "  FunnySharp -> /tmp/FunnySharp.dll\nBuild succeeded.\n    0 Warning(s)\n    0 Error(s)\n"
+
+[<Theory>]
+[<InlineData("empty")>]
+[<InlineData("utf8")>]
+[<InlineData("utf8-bom")>]
+[<InlineData("utf16-le")>]
+[<InlineData("utf16-be")>]
+[<InlineData("utf32-le")>]
+[<InlineData("utf32-be")>]
+[<InlineData("malformed-utf8")>]
+let ``ExecutionLogText_BindsRawBytesAndPreservesDecoding`` (encodingName: string) =
+    use temp = new TempDirectory()
+    let artifacts = Path.Combine(temp.Path, "artifacts")
+    let execution = Path.Combine(artifacts, "attempt")
+    Directory.CreateDirectory(Path.Combine(execution, "logs")) |> ignore
+    let relativePath = "logs/01-build.stdout.log"
+    let path = Path.Combine(execution, relativePath)
+    let prefix = "\u001b[32m" + englishBuildLog + "\u001b[0m"
+    // Cross the reader's byte buffer with multibyte text and end in a surrogate pair.
+    let suffix = String.replicate (1023 - prefix.Length) "a" + "\u00e9\u4e2d\U0001F642"
+    let source = prefix + suffix
+    let bytes, decoded, normalized =
+        match encodingName with
+        | "empty" -> [||], "", ""
+        | "malformed-utf8" ->
+            Array.append (Encoding.UTF8.GetBytes source) [| 0xC3uy; 0x28uy; 0xFFuy; 0xE2uy; 0x82uy |],
+            source + "\ufffd(\ufffd\ufffd",
+            englishBuildLog + suffix + "\ufffd(\ufffd\ufffd"
+        | _ ->
+            let encoding: Encoding =
+                match encodingName with
+                | "utf8" -> UTF8Encoding(false)
+                | "utf8-bom" -> UTF8Encoding(true)
+                | "utf16-le" -> UnicodeEncoding(false, true)
+                | "utf16-be" -> UnicodeEncoding(true, true)
+                | "utf32-le" -> UTF32Encoding(false, true)
+                | "utf32-be" -> UTF32Encoding(true, true)
+                | _ -> failwithf "Unknown encoding fixture: %s" encodingName
+            Array.append (encoding.GetPreamble()) (encoding.GetBytes source), source, englishBuildLog + suffix
+
+    File.WriteAllBytes(path, bytes)
+    // Independent byte-array hash, not the production file/hash/text helpers.
+    let expectedSha256 = Convert.ToHexString(SHA256.HashData bytes)
+    Assert.Equal(decoded, File.ReadAllText path)
+    let struct (actualPath, actualSha256, text) =
+        getExecutionLogText execution relativePath expectedSha256 artifacts
+    Assert.Equal(Path.GetFullPath path, actualPath)
+    Assert.Equal(expectedSha256.ToLowerInvariant(), actualSha256)
+    Assert.Equal(normalized, text)
+    if encodingName <> "empty" then
+        assertBuildMarkers text
+
+    // Preserve every success marker but change the same file's raw-byte identity.
+    File.WriteAllBytes(path, Array.append bytes [| 0x0Auy |])
+    expectFailure "log hash does not match receipt" (fun () ->
+        getExecutionLogText execution relativePath expectedSha256 artifacts |> ignore)
+
+[<Theory>]
+[<InlineData("../outside.log")>]
+[<InlineData("logs/../outside.log")>]
+[<InlineData("logs\\..\\outside.log")>]
+let ``ExecutionLogText_RejectsParentTraversal`` (relativePath: string) =
+    use temp = new TempDirectory()
+    let artifacts = Path.Combine(temp.Path, "artifacts")
+    let execution = Path.Combine(artifacts, "attempt")
+    expectFailure "log path must be a relative child path" (fun () ->
+        getExecutionLogText execution relativePath (String.replicate 64 "0") artifacts |> ignore)
 
 [<Fact>]
 let ``BuildMarkers_AcceptEnglishAndRejectLocalized`` () =
@@ -339,10 +402,25 @@ let ``EquivalentSourceFingerprint_RequiresSchemaAlgorithmCountAndDigest`` () =
     use different = parse (fingerprint "def")
 
     Assert.True(equivalentSourceFingerprint left.RootElement right.RootElement)
+    Assert.True(equivalentSourceFingerprint right.RootElement left.RootElement)
     Assert.False(equivalentSourceFingerprint left.RootElement different.RootElement)
 
+    // Compare one malformed/different field at a time against a valid peer,
+    // in both directions. This is equivalence, not generic fingerprint validation.
+    for field, original, alternatives in
+        [ "schemaVersion", "1", [ "2"; "\"1\""; "null" ]
+          "algorithm", "\"sha256\"", [ "\"sha512\""; "null" ]
+          "fileCount", "2", [ "3"; "\"2\""; "null" ] ] do
+        for alternative in alternatives do
+            use malformed = parse ((fingerprint "abc").Replace("\"" + field + "\":" + original, "\"" + field + "\":" + alternative))
+            Assert.False(equivalentSourceFingerprint left.RootElement malformed.RootElement)
+            Assert.False(equivalentSourceFingerprint malformed.RootElement left.RootElement)
+        use missing = parse ((fingerprint "abc").Replace("\"" + field + "\":" + original + ",", ""))
+        Assert.False(equivalentSourceFingerprint left.RootElement missing.RootElement)
+        Assert.False(equivalentSourceFingerprint missing.RootElement left.RootElement)
+
 [<Fact>]
-let ``GetSourceFingerprint_IsDeterministicAndCaseInsensitiveOverAGitTree`` () =
+let ``GetSourceFingerprint_TracksFileCountAndChangedBytes`` () =
     use temp = new TempDirectory()
     let root = temp.Path
 
@@ -353,24 +431,33 @@ let ``GetSourceFingerprint_IsDeterministicAndCaseInsensitiveOverAGitTree`` () =
             failwithf "git %s failed: %s" (String.Join(" ", arguments)) result.Stderr
 
     git [ "init"; "-q"; "-b"; "main" ]
-    git [ "config"; "user.email"; "fixture@example.com" ]
-    git [ "config"; "user.name"; "Fixture" ]
     File.WriteAllText(Path.Combine(root, "a.txt"), "hello", utf8NoBom)
     File.WriteAllText(Path.Combine(root, "Zeta.txt"), "world", utf8NoBom)
     git [ "add"; "-A" ]
-    git [ "commit"; "-q"; "-m"; "fixture" ]
 
     let first = getSourceFingerprint root
-    let second = getSourceFingerprint root
-
-    Assert.Equal(serializeJson first, serializeJson second)
-
     use document = parse (serializeJson first)
     Assert.Equal(Some 2, propInt "fileCount" document.RootElement)
-    Assert.Equal(64, (propText "digest" document.RootElement).Length)
+
+    // Unchanged input is the negative control for this alteration detector.
+    use unchanged = parse (serializeJson (getSourceFingerprint root))
+    Assert.True(equivalentSourceFingerprint document.RootElement unchanged.RootElement)
+
+    // Same tracked paths/count, changed bytes. The emitted identity must detect
+    // alteration; no independently recomputed digest is needed or claimed.
+    File.WriteAllText(Path.Combine(root, "a.txt"), "HELLO", utf8NoBom)
+    use changed = parse (serializeJson (getSourceFingerprint root))
+    Assert.Equal(Some 2, propInt "fileCount" changed.RootElement)
+    Assert.NotEqual<string>(propText "digest" document.RootElement, propText "digest" changed.RootElement)
+    Assert.False(equivalentSourceFingerprint document.RootElement changed.RootElement)
+
+    File.WriteAllText(Path.Combine(root, "extra.txt"), "additional input", utf8NoBom)
+    git [ "add"; "extra.txt" ]
+    use added = parse (serializeJson (getSourceFingerprint root))
+    Assert.Equal(Some 3, propInt "fileCount" added.RootElement)
 
 // ---------------------------------------------------------------------------
-// End-to-end failure text
+// End-to-end failure report
 // ---------------------------------------------------------------------------
 
 [<Fact>]
@@ -401,11 +488,9 @@ let ``Main_AllChecksFail_WritesFailedReportAndNamesTheEvidenceReport`` () =
 
     Assert.Equal(1, exitCode)
 
-    // The PowerShell failure line contains two literal backslashes before the
-    // report name (`... See '<dir>\\release-evidence.md'.`).
-    Assert.Equal(
-        sprintf "Release evidence verification failed. See '%s\\\\release-evidence.md'." output,
-        stderr.ToString().TrimEnd([| '\r'; '\n' |])
+    Assert.Contains(
+        Path.Combine(output, "release-evidence.md"),
+        stderr.ToString().Replace(@"\\", string Path.DirectorySeparatorChar)
     )
 
     let report = File.ReadAllText(Path.Combine(output, "release-evidence.md"))

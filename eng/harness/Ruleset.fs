@@ -76,6 +76,10 @@ let private stringArray (element: JsonElement) : string list =
 /// A structural JSON node copied out of a document so it outlives the document.
 let private clone (element: JsonElement) : JsonElement = element.Clone()
 
+let private parseClonedElement (text: string) : JsonElement =
+    use document = JsonDocument.Parse text
+    document.RootElement.Clone()
+
 // ---------------------------------------------------------------------------
 // Core checks
 // ---------------------------------------------------------------------------
@@ -133,7 +137,7 @@ let checkRuleset
             let refConditions =
                 tryMember "conditions" ruleset
                 |> Option.bind (tryMember "ref_name")
-                |> Option.defaultValue (JsonDocument.Parse("{}").RootElement.Clone())
+                |> Option.defaultValue (parseClonedElement "{}")
 
             let includedRefs =
                 tryMember "include" refConditions |> Option.map stringArray |> Option.defaultValue []
@@ -186,7 +190,7 @@ let checkRuleset
 
                     let parameters =
                         tryMember "parameters" statusRule
-                        |> Option.defaultValue (JsonDocument.Parse("{}").RootElement.Clone())
+                        |> Option.defaultValue (parseClonedElement "{}")
 
                     match assertStrictRequiredStatusChecksPolicy parameters with
                     | Error err -> Error err
@@ -247,7 +251,7 @@ let checkRuleset
                             | Ok requiredChecks ->
                                 let bypassActors =
                                     tryMember "bypass_actors" ruleset
-                                    |> Option.defaultValue (JsonDocument.Parse("[]").RootElement.Clone())
+                                    |> Option.defaultValue (parseClonedElement "[]")
 
                                 let bypassCount =
                                     if bypassActors.ValueKind = JsonValueKind.Array then

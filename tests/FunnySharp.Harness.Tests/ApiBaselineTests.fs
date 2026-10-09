@@ -2,7 +2,7 @@ module FunnySharp.Harness.Tests.ApiBaselineTests
 
 // Behaviour tests for FunnySharp.Harness.ApiBaseline. The surface is always
 // produced by the release audit's own reflection path
-// (ReleaseVerifyArtifacts.getPublicApiInventory + renderPublicApiText), so each
+// (ReleaseVerifyArtifacts.getPublicApiText, or the published inventory renderer), so each
 // fact exercises the module's real file-reading and comparison contract against
 // a genuinely reflected assembly - the built harness itself - rather than a fake
 // surface. The scratch repository roots mirror the fixed
@@ -11,7 +11,9 @@ module FunnySharp.Harness.Tests.ApiBaselineTests
 
 open System
 open System.IO
+open System.Security.Cryptography
 open System.Text
+open System.Text.Json.Nodes
 open Xunit
 open FunnySharp.Harness.ApiBaseline
 open FunnySharp.Harness.ReleaseVerifyArtifacts
@@ -145,8 +147,9 @@ type ApiBaselineTests() =
 
     // CLI round trip on a scratch root whose shipping slots hold the built
     // harness: --write creates both baseline files, a clean verify exits 0 with
-    // the single success line, and a drift verify exits 1 while leaving the
-    // committed baseline bytes untouched.
+    // the single success line. Non-API bytes change the published digest but not
+    // the baseline verdict; missing a real reflected method exits 1 while leaving
+    // the committed baseline bytes untouched.
     [<Fact>]
     member _.WriteThenVerify_DoesNotWriteInVerifyMode(): unit =
         use temp = new TempDirectory()
@@ -170,17 +173,54 @@ type ApiBaselineTests() =
         Assert.StartsWith("Verified ", verifyOut.Trim())
         Assert.EndsWith("against eng/api-baseline.", verifyOut.Trim())
 
-        // Drift one committed baseline; verify mode must fail closed and not write.
-        let baselinePath = baselineFileName temp.Path "FunnySharp"
+        let assemblyPaths = shippingAssemblies temp.Path |> List.map snd
+        let originalInventory = getPublicApiInventory assemblyPaths temp.Path
 
-        writeBaseline
-            baselinePath
-            (File.ReadAllLines baselinePath |> Array.toList |> List.append [ "+ injected drift" ])
+        for path in assemblyPaths do
+            use stream = new FileStream(path, FileMode.Append, FileAccess.Write)
+            stream.Write [| 0uy; 1uy; 2uy; 3uy |]
+
+        let appendedInventory = getPublicApiInventory assemblyPaths temp.Path
+        let originalSurface = renderPublicApiText originalInventory
+        Assert.Equal<string list>(originalSurface, renderPublicApiText appendedInventory)
+        Assert.Equal<string list>(originalSurface, getPublicApiText assemblyPaths temp.Path)
+
+        let digest (inventory: JsonArray) (index: int) =
+            match inventory.[index] with
+            | :? JsonObject as assembly ->
+                match assembly.["sha256"] with
+                | :? JsonValue as value -> value.GetValue<string>()
+                | _ -> failwith "Published assembly digest is missing."
+            | _ -> failwith "Published assembly inventory is missing."
+
+        let sortedPaths =
+            assemblyPaths
+            |> List.sortWith (fun left right -> StringComparer.OrdinalIgnoreCase.Compare(left, right))
+
+        for index, path in List.indexed sortedPaths do
+            let independentDigest =
+                Convert.ToHexString(SHA256.HashData(File.ReadAllBytes path)).ToLowerInvariant()
+
+            Assert.Equal(independentDigest, digest appendedInventory index)
+            Assert.NotEqual<string>(digest originalInventory index, digest appendedInventory index)
+
+        let appendExit, appendOut, appendErr = run [ "--repository-root"; temp.Path ]
+        Assert.Equal(verifyExit, appendExit)
+        Assert.Equal(verifyOut, appendOut)
+        Assert.Equal(verifyErr, appendErr)
+
+        // Omit a real method from one baseline; verify must reject the API difference.
+        let baselinePath = baselineFileName temp.Path "FunnySharp"
+        let baselineLines = File.ReadAllLines baselinePath |> Array.toList
+        let omittedMethod =
+            baselineLines |> List.find (fun line -> line.StartsWith("  METHOD ", StringComparison.Ordinal))
+        writeBaseline baselinePath (baselineLines |> List.filter (fun line -> line <> omittedMethod))
 
         let bytesBefore = File.ReadAllBytes baselinePath
         let driftExit, driftOut, driftErr = run [ "--repository-root"; temp.Path ]
         Assert.Equal(1, driftExit)
         Assert.Equal("", driftOut)
         Assert.Contains("differs from the committed baseline", driftErr)
+        Assert.Contains("+ " + omittedMethod, driftErr)
         Assert.Contains("--write", driftErr)
         Assert.Equal<byte list>(List.ofArray bytesBefore, List.ofArray(File.ReadAllBytes baselinePath))

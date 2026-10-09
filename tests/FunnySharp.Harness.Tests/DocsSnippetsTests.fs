@@ -9,6 +9,7 @@ module FunnySharp.Harness.Tests.DocsSnippetsTests
 open System
 open System.IO
 open System.Text
+open System.Text.RegularExpressions
 open Xunit
 open FunnySharp.Harness.DocsSnippets
 open FunnySharp.Harness.Tests.Support
@@ -209,52 +210,73 @@ let private checkFixture
 type FixtureTests() =
 
     [<Fact>]
-    member _.ValidTree(): unit = checkFixture 0 None None
+    member _.EqualLengthComparisonReportsOnlyTheFirstDifferingLine() =
+        use temp = new TempDirectory()
+        let tree = stageFixtureTree temp.Path
+        let path = guidePath tree
+        let lines = File.ReadAllLines path
+        let marker = "<!-- documentation-sample: " + emptyRegionName + " -->"
+        let bodyIndex = (lines |> Array.findIndex ((=) marker)) + 2
+        lines.[bodyIndex] <- "first changed line"
+        lines.[bodyIndex + 1] <- "second changed line"
+        File.WriteAllLines(path, lines)
+        let exitCode, _, stderr = runFixture tree
+        Assert.Equal(1, exitCode)
+        let failure = Assert.Single(stderr.Split('\n') |> Array.filter (fun line -> line.Contains emptyRegionName))
+        let location = Regex.Match(failure, @"snippet line (\d+)\.")
+        Assert.True(location.Success, failure)
+        Assert.Equal("1", location.Groups.[1].Value)
 
     [<Fact>]
-    member _.DuplicateRegion(): unit = checkFixture 1 None (Some mutateDuplicateRegion)
+    member _.LongEqualSnippetIsComparedWithoutChangingTheVerdict() =
+        use temp = new TempDirectory()
+        let tree = stageFixtureTree temp.Path
+        let body = [ for index in 1..1024 -> sprintf "var value%d = %d;" index index ]
+        let sample = Path.Combine(tree.Samples, emptyRegionSample)
+        let sourceLines = splitLines (readText sample)
+        let start =
+            sourceLines |> List.findIndex (fun line -> line.Trim() = "// <snippet " + emptyRegionName + ">")
+        let finish = indexAfter "// </snippet>" start (sourceLines |> List.map (fun line -> line.Trim()))
+        writeText sample (String.concat "\n" (
+            sourceLines.[0..start] @ (body |> List.map (fun line -> "        " + line)) @ sourceLines.[finish..]))
+        let path = guidePath tree
+        let guide = splitLines (readText path)
+        let marker = "<!-- documentation-sample: " + emptyRegionName + " -->"
+        let fence = (guide |> List.findIndex ((=) marker)) + 1
+        let endFence = indexAfter "```" fence guide
+        writeText path (String.concat "\n" (guide.[0..fence] @ body @ guide.[endFence..]))
+        let exitCode, stdout, stderr = runFixture tree
+        Assert.Equal(0, exitCode)
+        Assert.Equal("", stderr)
+        Assert.Equal(successLine, stdout.Trim())
 
-    [<Fact>]
-    member _.MissingClosingMarker(): unit = checkFixture 1 None (Some mutateMissingClosingMarker)
-
-    [<Fact>]
-    member _.FenceWithoutMarker(): unit = checkFixture 1 None (Some mutateFenceWithoutMarker)
-
-    [<Fact>]
-    member _.ReusedRegion(): unit = checkFixture 1 None (Some mutateReusedRegion)
-
-    [<Fact>]
-    member _.UnusedRegion(): unit = checkFixture 1 None (Some mutateUnusedRegion)
-
-    [<Fact>]
-    member _.CrlfGuideReadsAsUniversalNewlines(): unit = checkFixture 0 None (Some mutateCrlfGuide)
-
-    [<Fact>]
-    member _.Utf8BomGuide(): unit = checkFixture 0 None (Some mutateBomGuide)
-
-    [<Fact>]
-    member _.GuideWithoutTrailingNewline(): unit =
-        checkFixture 0 None (Some mutateGuideWithoutTrailingNewline)
-
-    [<Fact>]
-    member _.IndentedFenceIsTreatedAsBodyAndFails(): unit =
-        checkFixture 1 (Some emptyRegionName) (Some mutateIndentedFence)
-
-    [<Fact>]
-    member _.EmptyRegionAndFenceDescendingRangeFails(): unit =
-        checkFixture 1 (Some emptyRegionName) (Some mutateEmptyRegionAndFence)
-
-/// Guards that the fixture suite keeps covering every parity case.
-type FixtureCoverageTests() =
-
-    [<Fact>]
-    member _.FixtureSuiteCoversEveryCase(): unit =
-        let facts =
-            typeof<FixtureTests>.GetMethods()
-            |> Array.filter (fun methodInfo ->
-                methodInfo.GetCustomAttributes(typeof<FactAttribute>, false).Length > 0)
-
-        Assert.Equal(11, facts.Length)
+    [<Theory>]
+    [<InlineData("ValidTree")>]
+    [<InlineData("DuplicateRegion")>]
+    [<InlineData("MissingClosingMarker")>]
+    [<InlineData("FenceWithoutMarker")>]
+    [<InlineData("ReusedRegion")>]
+    [<InlineData("UnusedRegion")>]
+    [<InlineData("CrlfGuideReadsAsUniversalNewlines")>]
+    [<InlineData("Utf8BomGuide")>]
+    [<InlineData("GuideWithoutTrailingNewline")>]
+    [<InlineData("IndentedFenceIsTreatedAsBodyAndFails")>]
+    [<InlineData("EmptyRegionAndFenceDescendingRangeFails")>]
+    member _.EveryFixtureObligationIsExecuted(case: string): unit =
+        // Explicit executable cases replace the count-only reflection guard.
+        match case with
+        | "ValidTree" -> checkFixture 0 None None
+        | "DuplicateRegion" -> checkFixture 1 None (Some mutateDuplicateRegion)
+        | "MissingClosingMarker" -> checkFixture 1 None (Some mutateMissingClosingMarker)
+        | "FenceWithoutMarker" -> checkFixture 1 None (Some mutateFenceWithoutMarker)
+        | "ReusedRegion" -> checkFixture 1 None (Some mutateReusedRegion)
+        | "UnusedRegion" -> checkFixture 1 None (Some mutateUnusedRegion)
+        | "CrlfGuideReadsAsUniversalNewlines" -> checkFixture 0 None (Some mutateCrlfGuide)
+        | "Utf8BomGuide" -> checkFixture 0 None (Some mutateBomGuide)
+        | "GuideWithoutTrailingNewline" -> checkFixture 0 None (Some mutateGuideWithoutTrailingNewline)
+        | "IndentedFenceIsTreatedAsBodyAndFails" -> checkFixture 1 (Some emptyRegionName) (Some mutateIndentedFence)
+        | "EmptyRegionAndFenceDescendingRangeFails" -> checkFixture 1 (Some emptyRegionName) (Some mutateEmptyRegionAndFence)
+        | _ -> Assert.Fail("Unknown fixture case: " + case)
 
 type RepositoryTests() =
 

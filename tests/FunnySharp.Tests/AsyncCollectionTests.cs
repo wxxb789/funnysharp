@@ -637,7 +637,8 @@ public sealed class AsyncCollectionTests
         Assert.True(validation.TryGetErrors(out var errors));
         var error = Assert.Single(errors!);
         Assert.Equal("customers[1].addresses[0].postalCode", error.Location.ToString());
-        Assert.Equal("The postal code must be five digits.", error.Message);
+        Assert.True(ParsePostalCode("").TryGetErrors(out var originalErrors));
+        Assert.Equal(Assert.Single(originalErrors!).Message, error.Message);
 
         var valid = await AsyncValues(
                 new CustomerRow([new AddressRow("12345"), new AddressRow("67890")]))

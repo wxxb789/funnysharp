@@ -33,36 +33,6 @@ let private styles = [ "idiomatic"; "funnysharp" ]
 
 // ---- Python text helpers ---------------------------------------------------
 
-/// Python's str.splitlines(): breaks on every line boundary (including the extra
-/// unicode ones) and never emits a trailing empty line for a trailing terminator.
-let private splitLines (text: string) : string array =
-    let lines = ResizeArray<string>()
-
-    let isLineBreak (ch: char) =
-        match int ch with
-        | 10 | 13 | 11 | 12 | 28 | 29 | 30 | 133 | 8232 | 8233 -> true
-        | _ -> false
-
-    let mutable start = 0
-    let mutable index = 0
-
-    while index < text.Length do
-        if isLineBreak text.[index] then
-            lines.Add(text.Substring(start, index - start))
-
-            if text.[index] = '\r' && index + 1 < text.Length && text.[index + 1] = '\n' then
-                index <- index + 1
-
-            index <- index + 1
-            start <- index
-        else
-            index <- index + 1
-
-    if start < text.Length then
-        lines.Add(text.Substring start)
-
-    lines.ToArray()
-
 /// The last <paramref name="length"/> characters of a string (Python s[-n:]).
 let private tailChars (length: int) (text: string) : string =
     if text.Length <= length then text else text.Substring(text.Length - length)
@@ -361,6 +331,15 @@ let private upstreamPackageFeed (plan: JsonObject) =
     | null -> None
     | value -> Some(value.GetValue<string>())
 
+let private studyEnvironmentPaths =
+    [ "global.json"
+      "Directory.Build.props"
+      "build.fsx"
+      "eng/harness/Evaluation.fs"
+      "eng/harness/Program.fs"
+      "eng/harness/FunnySharp.Harness.fsproj"
+      "eng/harness/packages.lock.json" ]
+
 // Freeze is an explicit pre-generation action on the existing prep-feed route.
 // Neither historical tasks nor their prompts/results are modified. Only a curated
 // allowlist is copied; the producer is not given the repository or parent context.
@@ -378,7 +357,7 @@ let private freezeStudy repositoryRoot study (feed: string) =
     for guide in (field plan "guides").AsArray() do
         let relative = (requiredNode guide).GetValue<string>()
         copy (Path.Combine(repositoryRoot, relative)) (Path.Combine(snapshot, "guides", relative))
-    for relative in [ "global.json"; "Directory.Build.props"; "build.fsx"; "eng/harness/Evaluation.fs" ] do
+    for relative in studyEnvironmentPaths do
         copy (Path.Combine(repositoryRoot, relative)) (Path.Combine(snapshot, "environment", relative))
     let packages = sortedNupkgs feed
     if packages.Length <> 2 then invalidArg "feed" "freeze requires exactly the two candidate packages"
@@ -483,15 +462,31 @@ type private StudyBinding =
       ExpectedTests: int
       ProducerPath: string }
 
+// Only use after checkFiles has verified this snapshot in the current pre-child phase.
+let private snapshotHash (manifest: JsonObject) relative =
+    (field manifest "files").AsArray()
+    |> Seq.find (fun file -> textField file "path" = relative)
+    |> fun file -> textField file "sha256"
+
 let private loadStudy repositoryRoot study =
     let root = studyRoot repositoryRoot study
     let manifestPath = Path.Combine(root, "manifest.json")
     let manifest = readJson manifestPath
     let snapshot = Path.Combine(root, "snapshot")
     checkFiles snapshot ((field manifest "files").AsArray())
-    for relative in [ "global.json"; "Directory.Build.props"; "build.fsx"; "eng/harness/Evaluation.fs" ] do
-        if hashFile (Path.Combine(repositoryRoot, relative)) <> hashFile (Path.Combine(snapshot, "environment", relative)) then
-            invalidArg "environment" "runner/build configuration changed after freeze"
+    for relative in studyEnvironmentPaths do
+        // A manifest predating the widened environment allowlist has no entry for a
+        // path this runner now checks; that is the same fail-closed drift as a
+        // changed file, reported with the designed message instead of an unhandled
+        // KeyNotFoundException from Seq.find.
+        let recorded =
+            (field manifest "files").AsArray()
+            |> Seq.tryFind (fun file -> textField file "path" = "environment/" + relative)
+        match recorded with
+        | None -> invalidArg "environment" "runner/build configuration changed after freeze"
+        | Some file ->
+            if hashFile (Path.Combine(repositoryRoot, relative)) <> textField file "sha256" then
+                invalidArg "environment" "runner/build configuration changed after freeze"
     if not (File.Exists(Path.Combine(snapshot, "analyzer-control", "control.sarif"))) then
         invalidArg "analyzer" "frozen negative control is missing"
     if hashFile (Path.Combine(root, "plan.json")) <> textField manifest "planSha256" then
@@ -529,6 +524,7 @@ let private bindStudy repositoryRoot study task style runDir roundNumber previou
         invalidArg "context" "wrong supplied context binding"
     // Every supplied file must be a frozen public input, the same session's last
     // solution, or its exact last feedback. Arbitrary parent/audit context fails closed.
+    let feedbackHash = if previous = "" then "" else hashFile (Path.Combine(previous, "feedback.json"))
     let allowed =
         [ for file in (field manifest "files").AsArray() do
               let path = textField file "path"
@@ -539,22 +535,21 @@ let private bindStudy repositoryRoot study task style runDir roundNumber previou
                  || path.StartsWith("feed/", StringComparison.Ordinal) then
                   yield textField file "sha256"
           if previous <> "" then
-              yield hashFile (Path.Combine(previous, "feedback.json"))
+              yield feedbackHash
               for file in Directory.GetFiles(Path.Combine(previous, "solution"), "*.cs") do yield hashFile file ] |> Set.ofList
     for file in (field context "files").AsArray() do
         if not (allowed.Contains(textField file "sha256")) then invalidArg "context" "unapproved supplied context"
-    let promptHash = hashFile (Path.Combine(snapshot, "tasks", task, "prompt-" + style + ".md"))
+    let promptHash = snapshotHash manifest ("tasks/" + task + "/prompt-" + style + ".md")
     if not ((field context "files").AsArray() |> Seq.exists (fun file -> textField file "sha256" = promptHash)) then
         invalidArg "context" "rendered prompt was not supplied"
     if previous <> "" then
         if textField (readJson (Path.Combine(previous, "inputs.json"))) "studySha256" <> manifestHash then
             invalidArg "study" "predecessor used a different study"
-        let feedbackHash = hashFile (Path.Combine(previous, "feedback.json"))
         if not ((field context "files").AsArray() |> Seq.exists (fun file -> textField file "sha256" = feedbackHash)) then
             invalidArg "feedback" "exact predecessor feedback was not supplied"
         let prior = readJson (Path.Combine(previous, "producer-receipt.json"))
         if textField prior "sessionId" <> textField producer "sessionId" then invalidArg "producer" "correction changed session"
-        if textField producer "feedbackSha256" <> hashFile (Path.Combine(previous, "feedback.json")) then
+        if textField producer "feedbackSha256" <> feedbackHash then
             invalidArg "feedback" "correction did not bind exact predecessor feedback"
     if Directory.Exists results then
         for path in Directory.GetFiles(results, "producer-receipt.json", SearchOption.AllDirectories) do

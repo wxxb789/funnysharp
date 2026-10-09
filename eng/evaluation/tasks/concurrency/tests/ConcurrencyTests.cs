@@ -1,15 +1,17 @@
 public sealed class ConcurrencyTests
 {
+    private static readonly TimeSpan Deadline = TimeSpan.FromSeconds(10);
+
     [Fact]
     public async Task ResultsComeBackInSourceOrderWhenEarlyItemsFinishLast()
     {
         var gateway = new WarehouseGateway(new Dictionary<string, WarehouseStock>
         {
-            // The first item is the slowest check on purpose; the last sku is unknown.
-            ["keyboard"] = new(40, 60),
-            ["mouse"] = new(15, 45),
-            ["monitor"] = new(8, 30),
-            ["trackball"] = new(3, 15),
+            // The last sku is unknown; two admitted inputs finish in the opposite source order.
+            ["keyboard"] = new(40),
+            ["mouse"] = new(15),
+            ["monitor"] = new(8),
+            ["trackball"] = new(3),
         });
         var items = new StockItem[]
         {
@@ -20,11 +22,72 @@ public sealed class ConcurrencyTests
             new("webcam", 1),
         };
 
-        var results = await AvailabilityCoordinator.CheckAvailabilityAsync(items, gateway, 5, CancellationToken.None);
+        var entered = items.ToDictionary(item => item.Sku, item => gateway.CheckEntered(item.Sku));
+        var completed = items.ToDictionary(item => item.Sku, item => gateway.CheckCompleted(item.Sku));
+        var pending = AvailabilityCoordinator.CheckAvailabilityAsync(items, gateway, 3, CancellationToken.None);
+        IReadOnlyList<ItemAvailability> results;
+        try
+        {
+            Assert.False(pending.IsCompleted);
+            var remaining = new Dictionary<string, Task>(entered);
+            var releaseOrder = new List<string>();
+            // Wait for the first two admitted checks, then release them in reverse
+            // admission order so at least one adjacent source pair completes inverted.
+            // Every remaining check is released in admission order afterwards. The
+            // gateway completes a check only on its release, so the completion order
+            // is exactly the release order this test drives; the contract under test
+            // is that results still come back in exact source order.
+            var firstAdmitted =
+                await Task.WhenAny(remaining.Values).WaitAsync(Deadline, TestContext.Current.CancellationToken);
+            var firstSku = remaining.Single(entry => ReferenceEquals(entry.Value, firstAdmitted)).Key;
+            remaining.Remove(firstSku);
+            var secondAdmitted =
+                await Task.WhenAny(remaining.Values).WaitAsync(Deadline, TestContext.Current.CancellationToken);
+            var secondSku = remaining.Single(entry => ReferenceEquals(entry.Value, secondAdmitted)).Key;
+            remaining.Remove(secondSku);
+
+            gateway.ReleaseCheck(secondSku);
+            releaseOrder.Add(secondSku);
+            await completed[secondSku].WaitAsync(Deadline, TestContext.Current.CancellationToken);
+            gateway.ReleaseCheck(firstSku);
+            releaseOrder.Add(firstSku);
+            await completed[firstSku].WaitAsync(Deadline, TestContext.Current.CancellationToken);
+
+            while (remaining.Count != 0)
+            {
+                var nextEntered = await Task.WhenAny(remaining.Values).WaitAsync(Deadline, TestContext.Current.CancellationToken);
+                var sku = remaining.Single(entry => ReferenceEquals(entry.Value, nextEntered)).Key;
+                remaining.Remove(sku);
+                gateway.ReleaseCheck(sku);
+                releaseOrder.Add(sku);
+                await completed[sku].WaitAsync(Deadline, TestContext.Current.CancellationToken);
+            }
+
+            results = await pending.WaitAsync(Deadline, TestContext.Current.CancellationToken);
+            var completionOrder = gateway.CompletedSkus.ToList();
+            Assert.Equal(releaseOrder, completionOrder);
+            // The first two admitted checks completed in reverse admission order, and
+            // admission starts from the front of the source list, so at least one
+            // adjacent source pair completed inverted: the source-order result
+            // assertion is genuinely exercised.
+            var sourceOrder = items.Select(item => item.Sku).ToList();
+            Assert.Contains(
+                Enumerable.Range(0, items.Length - 1),
+                index => completionOrder.IndexOf(sourceOrder[index]) > completionOrder.IndexOf(sourceOrder[index + 1]));
+        }
+        finally
+        {
+            foreach (var item in items) { gateway.ReleaseCheck(item.Sku); }
+            await DrainAsync(pending);
+        }
+
+        Assert.Equal(items.Select(item => item.Sku).Order(StringComparer.Ordinal), gateway.StartedSkus.Order(StringComparer.Ordinal));
+        Assert.Equal(0, gateway.InFlightChecks);
 
         Assert.Equal(["keyboard", "mouse", "monitor", "trackball", "webcam"], results.Select(result => result.Sku));
         Assert.Equal([40, 15, 8, 3, 0], results.Select(result => result.OnHand));
         Assert.Equal([true, true, false, true, false], results.Select(result => result.Sufficient));
+
     }
 
     [Fact]
@@ -32,12 +95,12 @@ public sealed class ConcurrencyTests
     {
         var gateway = new WarehouseGateway(new Dictionary<string, WarehouseStock>
         {
-            ["keyboard"] = new(40, 40),
-            ["mouse"] = new(15, 40),
-            ["monitor"] = new(8, 40),
-            ["trackball"] = new(3, 40),
-            ["dock"] = new(9, 40),
-            ["hub"] = new(12, 40),
+            ["keyboard"] = new(40),
+            ["mouse"] = new(15),
+            ["monitor"] = new(8),
+            ["trackball"] = new(3),
+            ["dock"] = new(9),
+            ["hub"] = new(12),
         });
         var items = new StockItem[]
         {
@@ -49,7 +112,28 @@ public sealed class ConcurrencyTests
             new("hub", 1),
         };
 
-        var results = await AvailabilityCoordinator.CheckAvailabilityAsync(items, gateway, 3, CancellationToken.None);
+        var entered = items.ToDictionary(item => item.Sku, item => gateway.CheckEntered(item.Sku));
+        var completed = items.ToDictionary(item => item.Sku, item => gateway.CheckCompleted(item.Sku));
+        var pending = AvailabilityCoordinator.CheckAvailabilityAsync(items, gateway, 3, CancellationToken.None);
+        IReadOnlyList<ItemAvailability> results;
+        try
+        {
+            // A serial implementation cannot enter a second check while the first is held.
+            var firstEntered = await Task.WhenAny(entered.Values).WaitAsync(Deadline, TestContext.Current.CancellationToken);
+            await Task.WhenAny(entered.Values.Where(task => !ReferenceEquals(task, firstEntered))).WaitAsync(Deadline, TestContext.Current.CancellationToken);
+            Assert.InRange(gateway.InFlightChecks, 2, 3);
+            foreach (var item in items) { gateway.ReleaseCheck(item.Sku); }
+
+            results = await pending.WaitAsync(Deadline, TestContext.Current.CancellationToken);
+        }
+        finally
+        {
+            foreach (var item in items) { gateway.ReleaseCheck(item.Sku); }
+            await DrainAsync(pending);
+        }
+
+        Assert.Equal(items.Select(item => item.Sku).Order(StringComparer.Ordinal), gateway.StartedSkus.Order(StringComparer.Ordinal));
+        Assert.Equal(0, gateway.InFlightChecks);
 
         Assert.Equal(["keyboard", "mouse", "monitor", "trackball", "dock", "hub"], results.Select(result => result.Sku));
         Assert.True(gateway.MaxInFlightChecks >= 2, $"expected overlapping checks, max in flight was {gateway.MaxInFlightChecks}");
@@ -61,10 +145,10 @@ public sealed class ConcurrencyTests
     {
         var gateway = new WarehouseGateway(new Dictionary<string, WarehouseStock>
         {
-            ["keyboard"] = new(40, 10),
-            ["mouse"] = new(15, 10),
-            ["monitor"] = new(8, 10),
-            ["trackball"] = new(3, 10),
+            ["keyboard"] = new(40),
+            ["mouse"] = new(15),
+            ["monitor"] = new(8),
+            ["trackball"] = new(3),
         });
         var items = new StockItem[]
         {
@@ -74,7 +158,33 @@ public sealed class ConcurrencyTests
             new("trackball", 1),
         };
 
-        var results = await AvailabilityCoordinator.CheckAvailabilityAsync(items, gateway, 1, CancellationToken.None);
+        var entered = items.ToDictionary(item => item.Sku, item => gateway.CheckEntered(item.Sku));
+        var completed = items.ToDictionary(item => item.Sku, item => gateway.CheckCompleted(item.Sku));
+        var pending = AvailabilityCoordinator.CheckAvailabilityAsync(items, gateway, 1, CancellationToken.None);
+        IReadOnlyList<ItemAvailability> results;
+        try
+        {
+            var remaining = new Dictionary<string, Task>(entered);
+            while (remaining.Count != 0)
+            {
+                var nextEntered = await Task.WhenAny(remaining.Values).WaitAsync(Deadline, TestContext.Current.CancellationToken);
+                var sku = remaining.Single(entry => ReferenceEquals(entry.Value, nextEntered)).Key;
+                Assert.Equal(1, gateway.InFlightChecks);
+                gateway.ReleaseCheck(sku);
+                await completed[sku].WaitAsync(Deadline, TestContext.Current.CancellationToken);
+                remaining.Remove(sku);
+            }
+
+            results = await pending.WaitAsync(Deadline, TestContext.Current.CancellationToken);
+        }
+        finally
+        {
+            foreach (var item in items) { gateway.ReleaseCheck(item.Sku); }
+            await DrainAsync(pending);
+        }
+
+        Assert.Equal(items.Select(item => item.Sku).Order(StringComparer.Ordinal), gateway.StartedSkus.Order(StringComparer.Ordinal));
+        Assert.Equal(0, gateway.InFlightChecks);
 
         Assert.Equal(1, gateway.MaxInFlightChecks);
         Assert.Equal(4, gateway.StartedChecks);
@@ -86,12 +196,37 @@ public sealed class ConcurrencyTests
     {
         var gateway = new SupplierGateway(new Dictionary<string, SupplierOffer>
         {
-            ["north"] = new(false, null, 5), // declines first
-            ["south"] = new(false, null, 20), // declines second
-            ["east"] = new(true, "res-3003", 35), // accepts last
+            ["north"] = new(false, null),
+            ["south"] = new(false, null),
+            ["east"] = new(true, "res-3003"),
         });
 
-        var outcome = await AvailabilityCoordinator.ReserveFirstAsync(["north", "south", "east"], gateway, CancellationToken.None);
+        string[] suppliers = ["north", "south", "east"];
+        var entered = suppliers.ToDictionary(supplier => supplier, gateway.ProbeEntered);
+        var completed = suppliers.ToDictionary(supplier => supplier, gateway.ProbeCompleted);
+        var pending = AvailabilityCoordinator.ReserveFirstAsync(suppliers, gateway, CancellationToken.None);
+        ReservationOutcome outcome;
+        try
+        {
+            await Task.WhenAll(entered.Values).WaitAsync(Deadline, TestContext.Current.CancellationToken);
+            Assert.False(pending.IsCompleted);
+            foreach (var supplier in suppliers)
+            {
+                gateway.ReleaseProbe(supplier);
+                await completed[supplier].WaitAsync(Deadline, TestContext.Current.CancellationToken);
+            }
+
+            outcome = await pending.WaitAsync(Deadline, TestContext.Current.CancellationToken);
+        }
+        finally
+        {
+            foreach (var supplier in suppliers) { gateway.ReleaseProbe(supplier); }
+            await DrainAsync(pending);
+        }
+
+        Assert.Equal(suppliers.Order(StringComparer.Ordinal), gateway.StartedSuppliers.Order(StringComparer.Ordinal));
+        Assert.Equal(0, gateway.InFlightProbes);
+        Assert.Equal(suppliers, gateway.CompletedSuppliers);
 
         Assert.True(outcome.Reserved);
         Assert.Equal("east", outcome.SupplierId);
@@ -106,12 +241,37 @@ public sealed class ConcurrencyTests
     {
         var gateway = new SupplierGateway(new Dictionary<string, SupplierOffer>
         {
-            ["north"] = new(false, null, 20), // finishes last
-            ["south"] = new(false, null, 5), // finishes first
-            ["east"] = new(false, null, 10), // finishes second
+            ["north"] = new(false, null),
+            ["south"] = new(false, null),
+            ["east"] = new(false, null),
         });
 
-        var outcome = await AvailabilityCoordinator.ReserveFirstAsync(["north", "south", "east"], gateway, CancellationToken.None);
+        string[] suppliers = ["north", "south", "east"];
+        var entered = suppliers.ToDictionary(supplier => supplier, gateway.ProbeEntered);
+        var completed = suppliers.ToDictionary(supplier => supplier, gateway.ProbeCompleted);
+        var pending = AvailabilityCoordinator.ReserveFirstAsync(suppliers, gateway, CancellationToken.None);
+        ReservationOutcome outcome;
+        try
+        {
+            await Task.WhenAll(entered.Values).WaitAsync(Deadline, TestContext.Current.CancellationToken);
+            Assert.False(pending.IsCompleted);
+            foreach (var supplier in new[] { "south", "east", "north" })
+            {
+                gateway.ReleaseProbe(supplier);
+                await completed[supplier].WaitAsync(Deadline, TestContext.Current.CancellationToken);
+            }
+
+            outcome = await pending.WaitAsync(Deadline, TestContext.Current.CancellationToken);
+        }
+        finally
+        {
+            foreach (var supplier in suppliers) { gateway.ReleaseProbe(supplier); }
+            await DrainAsync(pending);
+        }
+
+        Assert.Equal(suppliers.Order(StringComparer.Ordinal), gateway.StartedSuppliers.Order(StringComparer.Ordinal));
+        Assert.Equal(0, gateway.InFlightProbes);
+        Assert.Equal(new[] { "south", "east", "north" }, gateway.CompletedSuppliers);
 
         Assert.False(outcome.Reserved);
         Assert.Null(outcome.SupplierId);
@@ -124,18 +284,47 @@ public sealed class ConcurrencyTests
     {
         var gateway = new WarehouseGateway(new Dictionary<string, WarehouseStock>
         {
-            ["keyboard"] = new(40, 60),
-            ["mouse"] = new(15, 60),
-            ["monitor"] = new(8, 60),
+            ["keyboard"] = new(40),
+            ["mouse"] = new(15),
+            ["monitor"] = new(8),
         });
         var items = new StockItem[] { new("keyboard", 1), new("mouse", 1), new("monitor", 1) };
         using var cts = new CancellationTokenSource();
 
+        var entered = items.ToDictionary(item => item.Sku, item => gateway.CheckEntered(item.Sku));
+        var completed = items.ToDictionary(item => item.Sku, item => gateway.CheckCompleted(item.Sku));
         var pending = AvailabilityCoordinator.CheckAvailabilityAsync(items, gateway, 2, cts.Token);
-        await gateway.FirstCheckEntered;
-        cts.Cancel();
+        try
+        {
+            var firstEntered = await Task.WhenAny(entered.Values).WaitAsync(Deadline, TestContext.Current.CancellationToken);
+            await Task.WhenAny(entered.Values.Where(task => !ReferenceEquals(task, firstEntered))).WaitAsync(Deadline, TestContext.Current.CancellationToken);
+            Assert.Equal(2, gateway.StartedChecks);
+            Assert.Equal(2, gateway.InFlightChecks);
+            Assert.Empty(gateway.CompletedSkus);
+            Assert.False(pending.IsCompleted);
+            var active = gateway.StartedSkus;
+            cts.Cancel();
 
-        await Assert.ThrowsAnyAsync<OperationCanceledException>(() => pending);
+            await Assert.ThrowsAnyAsync<OperationCanceledException>(() => pending.WaitAsync(Deadline, TestContext.Current.CancellationToken));
+            foreach (var sku in active)
+            {
+                await Assert.ThrowsAnyAsync<OperationCanceledException>(() => completed[sku].WaitAsync(Deadline, TestContext.Current.CancellationToken));
+                Assert.True(completed[sku].IsCanceled);
+            }
+
+            Assert.Empty(gateway.CompletedSkus);
+            var started = gateway.StartedSkus;
+            Assert.InRange(started.Count, 2, items.Length);
+            Assert.Equal(started.Count, started.Distinct(StringComparer.Ordinal).Count());
+            Assert.All(started, sku => Assert.Contains(sku, items.Select(item => item.Sku)));
+            Assert.True(gateway.MaxInFlightChecks <= 2);
+        }
+        finally
+        {
+            foreach (var item in items) { gateway.ReleaseCheck(item.Sku); }
+            await DrainAsync(pending);
+            foreach (var sku in gateway.StartedSkus) { await DrainAsync(completed[sku]); }
+        }
     }
 
     [Fact]
@@ -143,24 +332,48 @@ public sealed class ConcurrencyTests
     {
         var gateway = new SupplierGateway(new Dictionary<string, SupplierOffer>
         {
-            ["north"] = new(false, null, 60),
-            ["south"] = new(true, "res-2", 60),
+            ["north"] = new(false, null),
+            ["south"] = new(true, "res-2"),
         });
         using var cts = new CancellationTokenSource();
 
-        var pending = AvailabilityCoordinator.ReserveFirstAsync(["north", "south"], gateway, cts.Token);
-        await gateway.FirstProbeStarted;
-        cts.Cancel();
+        string[] suppliers = ["north", "south"];
+        var entered = suppliers.ToDictionary(supplier => supplier, gateway.ProbeEntered);
+        var completed = suppliers.ToDictionary(supplier => supplier, gateway.ProbeCompleted);
+        var pending = AvailabilityCoordinator.ReserveFirstAsync(suppliers, gateway, cts.Token);
+        try
+        {
+            await Task.WhenAll(entered.Values).WaitAsync(Deadline, TestContext.Current.CancellationToken);
+            Assert.Equal(suppliers.Order(StringComparer.Ordinal), gateway.StartedSuppliers.Order(StringComparer.Ordinal));
+            Assert.Empty(gateway.CompletedSuppliers);
+            Assert.False(pending.IsCompleted);
+            cts.Cancel();
 
-        await Assert.ThrowsAnyAsync<OperationCanceledException>(() => pending);
+            await Assert.ThrowsAnyAsync<OperationCanceledException>(() => pending.WaitAsync(Deadline, TestContext.Current.CancellationToken));
+            foreach (var supplier in suppliers)
+            {
+                await Assert.ThrowsAnyAsync<OperationCanceledException>(() => completed[supplier].WaitAsync(Deadline, TestContext.Current.CancellationToken));
+                Assert.True(completed[supplier].IsCanceled);
+            }
+
+            Assert.Empty(gateway.CompletedSuppliers);
+            Assert.Equal(suppliers.Order(StringComparer.Ordinal), gateway.StartedSuppliers.Order(StringComparer.Ordinal));
+            Assert.Equal(0, gateway.InFlightProbes);
+        }
+        finally
+        {
+            foreach (var supplier in suppliers) { gateway.ReleaseProbe(supplier); }
+            await DrainAsync(pending);
+            foreach (var supplier in gateway.StartedSuppliers) { await DrainAsync(completed[supplier]); }
+        }
     }
 
     [Fact]
     public async Task EmptyItemListStartsNoChecksAndReturnsNoResults()
     {
-        var gateway = new WarehouseGateway(new Dictionary<string, WarehouseStock> { ["keyboard"] = new(40, 10) });
+        var gateway = new WarehouseGateway(new Dictionary<string, WarehouseStock> { ["keyboard"] = new(40) });
 
-        var results = await AvailabilityCoordinator.CheckAvailabilityAsync([], gateway, 3, CancellationToken.None);
+        var results = await AvailabilityCoordinator.CheckAvailabilityAsync([], gateway, 3, CancellationToken.None).WaitAsync(Deadline, TestContext.Current.CancellationToken);
 
         Assert.Empty(results);
         Assert.Equal(0, gateway.StartedChecks);
@@ -169,14 +382,25 @@ public sealed class ConcurrencyTests
     [Fact]
     public async Task EmptySupplierListStartsNoProbesAndReservesNothing()
     {
-        var gateway = new SupplierGateway(new Dictionary<string, SupplierOffer> { ["north"] = new(true, "res-1", 10) });
+        var gateway = new SupplierGateway(new Dictionary<string, SupplierOffer> { ["north"] = new(true, "res-1") });
 
-        var outcome = await AvailabilityCoordinator.ReserveFirstAsync([], gateway, CancellationToken.None);
+        var outcome = await AvailabilityCoordinator.ReserveFirstAsync([], gateway, CancellationToken.None).WaitAsync(Deadline, TestContext.Current.CancellationToken);
 
         Assert.False(outcome.Reserved);
         Assert.Null(outcome.SupplierId);
         Assert.Null(outcome.ReservationId);
         Assert.Empty(outcome.FailedSuppliers);
         Assert.Equal(0, gateway.StartedProbes);
+    }
+    private static async Task DrainAsync(Task pending)
+    {
+        try
+        {
+            await pending.WaitAsync(Deadline);
+        }
+        catch (OperationCanceledException)
+        {
+            // Expected when cancellation, including a faulty premature winner, drains held calls.
+        }
     }
 }

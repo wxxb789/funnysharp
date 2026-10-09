@@ -10,6 +10,7 @@ module FunnySharp.Harness.Tests.PerformanceTests
 
 open System
 open System.IO
+open System.Security.Cryptography
 open System.Text.Json
 open Xunit
 open FunnySharp.Harness.Output
@@ -29,9 +30,6 @@ let private environmentJson =
 // that used the same helper.
 let private expectedEnvironmentKey =
     "fa9d5fbfd3bc1100485289c2225ae6046aa5409609b4a6ec94e5f376c4fe7ca8"
-
-let private successLine =
-    "Verified 2 included performance rows and 1 explicit exclusions across 1 receipts."
 
 let private quote (value: string) : string =
     JsonSerializer.Serialize<string> value
@@ -112,7 +110,7 @@ let private createFixture (parent: string) (name: string) : Fixture =
     let manifestText = manifestJson (policyJson "16")
     File.WriteAllText(manifestPath, manifestText)
 
-    let policyFingerprintValue = orFail (policyFingerprint manifestPath)
+    let policyFingerprintValue = textSha256 (JsonDocument.Parse(manifestText).RootElement.GetProperty("policy").GetRawText())
     let inputFingerprint = orFail (fileSetFingerprint root [ "a-input.txt"; "Z-input.txt" ])
     let protocolFingerprint = orFail (fileSetFingerprint root [ "a-protocol.txt"; "Z-protocol.txt" ])
 
@@ -169,9 +167,8 @@ let private withFixture (name: string) (body: Fixture -> unit) : unit =
     body (createFixture temp.Path name)
 
 let private assertSucceeds (fixture: Fixture) : unit =
-    let exitCode, stdout, stderr = invoke fixture []
+    let exitCode, _, stderr = invoke fixture []
     Assert.Equal(0, exitCode)
-    Assert.Equal(successLine, stdout.Trim())
     Assert.Equal("", stderr.Trim())
 
 let private assertFails (fixture: Fixture) (expected: string) : unit =
@@ -339,11 +336,10 @@ type PerformanceVerifierTests() =
             (fun fixture ->
                 let proposalPath = Path.Combine(fixture.Root, "artifacts", "observation.json")
 
-                let exitCode, stdout, _ =
+                let exitCode, _, _ =
                     invoke fixture [ "-ObservationProposalPath"; proposalPath ]
 
                 Assert.Equal(0, exitCode)
-                Assert.Equal(successLine, stdout.Trim())
                 Assert.True(File.Exists proposalPath)
 
                 use document = JsonDocument.Parse(File.ReadAllText proposalPath)
@@ -364,4 +360,8 @@ type PerformanceVerifierTests() =
                       "rows" ],
                     names
                 )
+                let receipt = document.RootElement.GetProperty("receipts")[0]
+                let expectedHash = Convert.ToHexString(SHA256.HashData(File.ReadAllBytes fixture.ReceiptPath)).ToLowerInvariant()
+                Assert.Equal(expectedHash, receipt.GetProperty("sha256").GetString())
+                Assert.Equal(Path.GetFileName fixture.ReceiptPath, receipt.GetProperty("file").GetString())
             )

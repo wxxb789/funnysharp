@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
+    <OutputType>Exe</OutputType>
     <IsPackable>false</IsPackable>
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
@@ -37,6 +38,11 @@
     <Compile Include="Loc.fs" />
     <Compile Include="Evaluation.fs" />
     <Compile Include="FrozenReplay.fs" />
+    <Compile Include="Program.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Fun.Build" Version="1.2.0" />
   </ItemGroup>
 
 </Project>
