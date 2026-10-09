@@ -56,7 +56,8 @@ let placeholders: string list =
       "benchmarkResults"
       "performanceObservationProposal"
       "compatibilityOutput"
-      "compatibilityRid" ]
+      "compatibilityRid"
+      "harnessDll" ]
 
 let private unknownTokenPattern = Regex(@"\{[A-Za-z][A-Za-z0-9]*\}")
 
@@ -232,7 +233,17 @@ let createTokenMap (paths: ReleasePaths) : Map<string, string> =
           "performanceObservationProposal",
           Path.Combine(paths.OutputDirectory, "performance-observation-proposal.json")
           "compatibilityOutput", paths.CompatibilityOutputDirectory
-          "compatibilityRid", paths.CompatibilityRuntimeIdentifier ]
+          "compatibilityRid", paths.CompatibilityRuntimeIdentifier
+          "harnessDll",
+          Path.Combine(
+              paths.RepositoryRoot,
+              "eng",
+              "harness",
+              "bin",
+              "Debug",
+              "net10.0",
+              "FunnySharp.Harness.dll"
+          ) ]
 
 /// Substitute every token then reject any unknown `{name}` left behind
 /// (Expand-ProtocolValue, eng/Run-Release.ps1:358-373).
