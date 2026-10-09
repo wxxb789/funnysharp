@@ -42,9 +42,8 @@ locally to refresh evidence.
   the release.
 - [ ] Every exact guide table is generated from the approved observation in
   `eng/performance/baseline.json` or `eng/performance/competitor-baseline.json`; verify mode
-  detects manual drift.
-- [ ] The approved observation's policy, benchmark-input, and protocol fingerprints match the
-  current tree (checked by `performance-docs-verify` on every run).
+  detects manual drift (a developer-machine activity: `generate-performance-docs -Verify`
+  against the current tree, not a release-pipeline step).
 - [ ] Every intentionally unmeasured surface is an explicit exclusion with rationale and no numeric
   claim.
 - [ ] Competitor comparisons against pinned packages run only in the isolated

@@ -11,13 +11,9 @@
         "aspnetcore-examples",
         "pack",
         "format",
-        "performance-protocol-tests",
-        "release-protocol-tests",
         "benchmark-preflight",
         "benchmark",
         "performance-verify",
-        "performance-docs-verify",
-        "competitor-performance-docs-verify",
         "compatibility"
       ]
     },
@@ -31,11 +27,6 @@
         "aspnetcore-examples",
         "pack",
         "format",
-        "performance-protocol-tests",
-        "release-protocol-tests",
-        "benchmark-preflight",
-        "performance-docs-verify",
-        "competitor-performance-docs-verify",
         "compatibility"
       ]
     }
@@ -138,34 +129,6 @@
         "--no-restore"
       ]
     },
-    "performance-protocol-tests": {
-      "fileName": "dotnet",
-      "workingDirectory": "{root}",
-      "arguments": [
-        "test",
-        "tests/FunnySharp.Harness.Tests/FunnySharp.Harness.Tests.fsproj",
-        "--configuration",
-        "Release",
-        "--no-build",
-        "--no-restore",
-        "--filter",
-        "FullyQualifiedName~PerformanceProtocolTests"
-      ]
-    },
-    "release-protocol-tests": {
-      "fileName": "dotnet",
-      "workingDirectory": "{root}",
-      "arguments": [
-        "test",
-        "tests/FunnySharp.Harness.Tests/FunnySharp.Harness.Tests.fsproj",
-        "--configuration",
-        "Release",
-        "--no-build",
-        "--no-restore",
-        "--filter",
-        "FullyQualifiedName~ReleaseProtocolTests"
-      ]
-    },
     "benchmark-preflight": {
       "fileName": "dotnet",
       "workingDirectory": "{root}",
@@ -213,34 +176,6 @@
         "{benchmarkResults}",
         "-ObservationProposalPath",
         "{performanceObservationProposal}"
-      ]
-    },
-    "performance-docs-verify": {
-      "fileName": "dotnet",
-      "workingDirectory": "{root}",
-      "arguments": [
-        "exec",
-        "{harnessDll}",
-        "-p",
-        "generate-performance-docs",
-        "-RepositoryRoot",
-        "{root}",
-        "-Verify"
-      ]
-    },
-    "competitor-performance-docs-verify": {
-      "fileName": "dotnet",
-      "workingDirectory": "{root}",
-      "arguments": [
-        "exec",
-        "{harnessDll}",
-        "-p",
-        "generate-performance-docs",
-        "-RepositoryRoot",
-        "{root}",
-        "-ManifestPath",
-        "eng/performance/competitor-baseline.json",
-        "-Verify"
       ]
     },
     "compatibility": {

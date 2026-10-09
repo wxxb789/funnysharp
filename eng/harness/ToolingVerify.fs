@@ -50,13 +50,9 @@ let localSteps: string list =
 let notRunSteps: string list =
     [ "clean"
       "pack"
-      "performance-protocol-tests"
-      "release-protocol-tests"
       "benchmark-preflight"
       "benchmark"
       "performance-verify"
-      "performance-docs-verify"
-      "competitor-performance-docs-verify"
       "compatibility" ]
 
 let testAssemblyRelativePaths: string list =

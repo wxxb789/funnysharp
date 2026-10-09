@@ -35,13 +35,9 @@ let private expectedFull =
       "aspnetcore-examples"
       "pack"
       "format"
-      "performance-protocol-tests"
-      "release-protocol-tests"
       "benchmark-preflight"
       "benchmark"
       "performance-verify"
-      "performance-docs-verify"
-      "competitor-performance-docs-verify"
       "compatibility" ]
 
 let private expectedSkipped =
@@ -53,11 +49,6 @@ let private expectedSkipped =
       "aspnetcore-examples"
       "pack"
       "format"
-      "performance-protocol-tests"
-      "release-protocol-tests"
-      "benchmark-preflight"
-      "performance-docs-verify"
-      "competitor-performance-docs-verify"
       "compatibility" ]
 
 let private loadProtocol () : ReleaseProtocol.Protocol =

@@ -29,14 +29,13 @@ for argument in fsi.CommandLineArgs |> Array.skip 1 do
     startInfo.ArgumentList.Add argument
 
 // A hung child must fail the gate in bounded time, never hang it indefinitely:
-// kill the whole process tree and report exit 124. The bound (2700s = 45min)
-// matches the longest documented caller, the release workflow's win-x64 job
-// (timeout-minutes: 45 in .github/workflows/release.yml), so a healthy full
-// release run completes inside it while a wedged child still fails the gate.
+// kill the whole process tree and report exit 124. The bound (1800s = 30min) is
+// ~6x the measured full release run (~5min); a healthy run completes well inside
+// it while a wedged child still fails the gate.
 let exitCode =
     use child = Process.Start startInfo
 
-    if child.WaitForExit(2700_000) then
+    if child.WaitForExit(1800_000) then
         child.ExitCode
     else
         (try
