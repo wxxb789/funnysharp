@@ -55,3 +55,12 @@ let runCapture (exe: string) (args: string list) : Async<ProcessResult> =
 
 let runCaptureSync (exe: string) (args: string list) : ProcessResult =
     runCapture exe args |> Async.RunSynchronously
+
+/// Run a command with its output streamed directly to the terminal.
+let runIn (workingDirectory: string) (exe: string) (args: string list) : int =
+    use proc = new Process()
+    proc.StartInfo <- createStartInfo exe args (Some workingDirectory) false
+    if not (proc.Start()) then
+        invalidOp (sprintf "failed to start process '%s'" exe)
+    proc.WaitForExit()
+    proc.ExitCode

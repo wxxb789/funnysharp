@@ -109,10 +109,9 @@ Executable samples: [FunnySharp Core Examples](https://github.com/wxxb789/funnys
 - **Contributor Tooling**: Requires .NET SDK `10.0.400` (`rollForward: latestPatch`). Verification runs through the F# harness:
 
 ```bash
-dotnet fsi build.fsx -- -p build                 # Build solution FunnySharp.slnx
-dotnet fsi build.fsx -- -p test                  # Execute xUnit v3 test suites
-dotnet fsi build.fsx -- -p verify-docs-snippets  # Byte-exact documentation snippet verification
-dotnet fsi build.fsx -- -p verify-tooling        # Contributor pre-check (locked restore, build, test, snippets)
+dotnet fsi build.fsx -- -p build --project src/FunnySharp/FunnySharp.csproj --no-restore
+# Heavy suites/pre-checks/benchmarks are manual only; see docs/harness.md.
+dotnet fsi build.fsx -- -p verify-docs-snippets
 ```
 
 See [release readiness](https://github.com/wxxb789/funnysharp/blob/main/docs/release-readiness.md) for the authoritative full release verification invocation and multi-platform criteria.

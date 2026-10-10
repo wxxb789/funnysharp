@@ -269,10 +269,11 @@ dotnet fsi build.fsx -- -p release \
   -DistributionFeed https://packagefeedproxy.microsoft.io/nuget/v3/index.json
 ```
 
-The runner records and verifies each protocol step, requires a clean unchanged source fingerprint,
-uses an immutable attempt directory and isolated NuGet cache, and binds Release assemblies, XML
-documentation, packages, compatibility consumers, performance receipts, and generated documentation
-to that candidate. GitHub exposes four required contexts: `release / win-x64`,
+The runner executes each protocol step, requires the same Git commit and clean tracked tree
+before and after the attempt, and retains command results and logs in a new attempt directory.
+An isolated NuGet cache prevents stale package consumption. Actual builds, tests, API and snippet
+checks, package consumers and allocation budgets establish correctness; custom file fingerprints
+and independent evidence replay are not release requirements. GitHub exposes four required contexts: `release / win-x64`,
 `release / linux-x64`, `release / osx-arm64`, and `release / osx-x64-consumer`.
 
 The evidence must also show that:

@@ -26,20 +26,19 @@ results are custom JSON receipts bound to the tracked manifests in `eng/performa
   newline) — not BenchmarkDotNet's default markdown/CSV.
 - Each `[Benchmark]` carries exactly ONE `[BenchmarkCategory]` (`.Single()`); each category
   has exactly one `Baseline = true` method.
-- Receipt rows are ordinal-sorted Class → Category → Method → Parameters and bound to the
-  manifest via policy / benchmarkInput / protocol SHA-256 fingerprints + host `environmentKey`.
+- Receipt rows are ordinal-sorted Class → Category → Method → Parameters. Git identifies
+  the source revision; allocation policy and host `environmentKey` describe the comparison.
 - `TimingState`: `observed` / `below-resolution` (mean < 0.1 ns) / `unavailable`;
   allocation (`AllocatedBytesPerOperation`) is the decisive signal, timing is directional.
 - Both csprojs: `Exe`, `IsPackable=false`, BenchmarkDotNet 0.15.8, locked restore
   (`packages.lock.json`), net10.0, in `FunnySharp.slnx`.
-- Benchmarks are a developer-machine activity: CI runs the release with `-SkipBenchmarks`
-  and verifies docs instead (see `.github/workflows/release.yml`).
+- Benchmarks are explicit human-requested developer-machine commands. Agents and CI
+  never start them during normal iterations. Heavy tests/release checks are manual too.
 
 ## ANTI-PATTERNS
 
-- NEVER let `check_action_pins`-style re-checks touch these suites' pins — n/a here, but
-  likewise never bypass the receipt fingerprinting: a receipt without matching fingerprints
-  fails the `verify-performance` pipeline.
+- Use Git for source identity. Do not calculate or verify custom source, binary,
+  policy, log or receipt checksums. Preserve semantic preflight and allocation checks.
 - NEVER commit receipts as results without running them through `verify-performance`
   (or `-ObservationProposalPath` for observation-only proposals; policy is read-only).
 

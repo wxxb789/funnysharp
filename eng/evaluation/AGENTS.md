@@ -46,7 +46,8 @@ Each `tasks/<area>/` contains exactly five pieces:
 
 - Kit csprojs deviate from test-project defaults: `OutputType=Exe` with `IsTestProject=true`,
   xunit.v3 4.0.0 via a global `<Using Include="Xunit" />`, no `Microsoft.NET.Test.Sdk`.
-- Runner is a PEP 723 uv script, like `eng/tools`; run it from the repository root.
+- Runner is `eng/harness/Evaluation.fs`; use the root F# launcher. Source versions belong to Git, not custom file fingerprints.
+- Evaluation cohorts and full oracle runs are explicit manual work, never automatic Agent iteration or CI checks.
 
 ## ANTI-PATTERNS
 

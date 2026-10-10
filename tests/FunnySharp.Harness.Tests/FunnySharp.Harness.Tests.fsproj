@@ -28,7 +28,6 @@
     <Compile Include="ProgramTests.fs" />
     <Compile Include="ConcurrencyOracleTests.fs" />
     <Compile Include="ApiBaselineTests.fs" />
-    <Compile Include="StableApiContractsTests.fs" />
     <Compile Include="CheckActionPinsTests.fs" />
     <Compile Include="DocsSnippetsTests.fs" />
     <Compile Include="InventoryTests.fs" />
@@ -38,18 +37,12 @@
     <Compile Include="ToolingVerifyTests.fs" />
     <Compile Include="PerformanceTests.fs" />
     <Compile Include="PerformanceDocsTests.fs" />
-    <Compile Include="PerformanceProtocolTests.fs" />
-    <Compile Include="ReproducibleBuildsTests.fs" />
     <Compile Include="RulesetTests.fs" />
     <Compile Include="CompatibilityTests.fs" />
     <Compile Include="ReleaseProtocolTests.fs" />
     <Compile Include="ReleaseRunTests.fs" />
-    <Compile Include="ReleaseVerifyTests.fs" />
-    <Compile Include="XmlBuildBindingsTests.fs" />
-    <Compile Include="ReleaseProvenanceTests.fs" />
     <Compile Include="LocTests.fs" />
     <Compile Include="EvaluationTests.fs" />
-    <Compile Include="FrozenReplayTests.fs" />
   </ItemGroup>
 
 </Project>

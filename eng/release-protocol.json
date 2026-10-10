@@ -11,6 +11,8 @@
         "aspnetcore-examples",
         "pack",
         "format",
+        "api-baseline",
+        "docs",
         "benchmark-preflight",
         "benchmark",
         "performance-verify",
@@ -27,6 +29,8 @@
         "aspnetcore-examples",
         "pack",
         "format",
+        "api-baseline",
+        "docs",
         "compatibility"
       ]
     }
@@ -166,8 +170,9 @@
       "fileName": "dotnet",
       "workingDirectory": "{root}",
       "arguments": [
-        "exec",
-        "{harnessDll}",
+        "fsi",
+        "{root}/build.fsx",
+        "--",
         "-p",
         "verify-performance",
         "-RepositoryRoot",
@@ -182,8 +187,9 @@
       "fileName": "dotnet",
       "workingDirectory": "{root}",
       "arguments": [
-        "exec",
-        "{harnessDll}",
+        "fsi",
+        "{root}/build.fsx",
+        "--",
         "-p",
         "compatibility",
         "-RepositoryRoot",
@@ -196,6 +202,32 @@
         "{compatibilityRid}",
         "-PackageFeed",
         "{compatibilityFeed}"
+      ]
+    },
+    "api-baseline": {
+      "fileName": "dotnet",
+      "workingDirectory": "{root}",
+      "arguments": [
+        "fsi",
+        "{root}/build.fsx",
+        "--",
+        "-p",
+        "verify-api-baseline",
+        "--repository-root",
+        "{root}"
+      ]
+    },
+    "docs": {
+      "fileName": "dotnet",
+      "workingDirectory": "{root}",
+      "arguments": [
+        "fsi",
+        "{root}/build.fsx",
+        "--",
+        "-p",
+        "verify-docs-snippets",
+        "--repository-root",
+        "{root}"
       ]
     }
   }
