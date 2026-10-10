@@ -1,217 +1,352 @@
-# FunnySharp
+# FunnySharp: Pragmatic, BCL-First Functional Programming for C# and .NET 10
 
-FunnySharp is a pragmatic, BCL-first functional-programming library targeting .NET 10.
-Feature APIs are added only when a goal defines their behavior and verification evidence.
+[![NuGet FunnySharp](https://img.shields.io/nuget/v/FunnySharp.svg?style=flat-square&label=FunnySharp)](https://www.nuget.org/packages/FunnySharp)
+[![NuGet FunnySharp.AspNetCore](https://img.shields.io/nuget/v/FunnySharp.AspNetCore.svg?style=flat-square&label=FunnySharp.AspNetCore)](https://www.nuget.org/packages/FunnySharp.AspNetCore)
+[![Target Framework](https://img.shields.io/badge/.NET-10.0-512BD4?style=flat-square&logo=dotnet)](https://dotnet.microsoft.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](LICENSE)
+[![Zero Runtime Dependencies](https://img.shields.io/badge/dependencies-0-brightgreen.svg?style=flat-square)](#design-principles)
 
-The authoritative design and dependency boundaries are recorded in the
-[product contract](https://github.com/wxxb789/funnysharp/blob/main/docs/product-contract.md).
-The current fail-closed release gate and its explicit evidence checklist are recorded in
-[release readiness](https://github.com/wxxb789/funnysharp/blob/main/docs/release-readiness.md).
+[English](README.md) | [简体中文](README_zh-cn.md)
 
-## Quick Start
+**FunnySharp** is a modern, high-performance, BCL-first functional programming library engineered specifically for C# 13 and .NET 10. It delivers zero-allocation semantic carriers (`Option<T>`, `Result<TValue, TError>`, `UnitResult<TError>`, and `Validation<TValue, TError>`), Railway-Oriented Programming (ROP), built-in Roslyn analyzers, function composition, data streaming pipelines, state machines, and seamless ASP.NET Core Minimal API integration—without forcing a foreign type hierarchy, custom runtime, or third-party dependencies onto your codebase.
 
+---
+
+## Table of Contents
+
+- [Why FunnySharp?](#why-funnysharp)
+- [Key Features](#key-features)
+- [Packages & Installation](#packages--installation)
+- [Quick Start & Code Examples](#quick-start--code-examples)
+  - [Option: Safe Nullability & Absence Handling](#1-optiont--safe-nullability--absence-handling)
+  - [Result & UnitResult: Railway-Oriented Programming](#2-result-and-unitresult--railway-oriented-programming)
+  - [Validation: Applicative Error Accumulation](#3-validation--applicative-error-accumulation)
+  - [Built-In Roslyn Analyzers: Compile-Time Safety](#4-built-in-roslyn-analyzers-fs1001fs1005)
+  - [Function Composition & Pipelines](#5-function-composition--pipelines)
+  - [Data Pipelines: Fused Operations & Streaming](#6-data-pipelines-choose-scan-partition)
+  - [ASP.NET Core Minimal API Integration](#7-aspnet-core-minimal-api-integration)
+- [Core Semantic Carriers at a Glance](#core-semantic-carriers-at-a-glance)
+- [Predictable Grammar & Verbs](#predictable-grammar--verbs)
+- [Zero-Dependency & Allocation-Conscious Performance](#zero-dependency--allocation-conscious-performance)
+- [Verification & Build](#verification--build)
+- [Documentation & Deep Dives](#documentation--deep-dives)
+- [License](#license)
+
+---
+
+## Why FunnySharp?
+
+In functional C#, developers often have to choose between two extremes: heavy monad frameworks that invent their own runtime and collection universes (leading to steep learning curves and allocation overhead), or ad-hoc custom `Result` classes scattered across projects.
+
+FunnySharp takes a **BCL-first pragmatic approach**:
+
+1. **Native to .NET 10 & C# 13**: Built directly on BCL primitives (`ValueTask`, `IAsyncEnumerable<T>`, `ReadOnlySpan<T>`, `CancellationToken`, standard delegates). No custom task schedulers, no wrapper-over-wrapper monad towers.
+2. **Zero Runtime Dependencies**: The core package references nothing outside the standard .NET runtime.
+3. **Guardrails Built-in**: Ships compile-time Roslyn analyzers directly inside the core NuGet package. Misuses like uninitialized default structs, ignored results, or sync-over-async blocking on `ValueTask` are caught right in your IDE.
+4. **Allocation-Conscious & Predictable**: Critical operations carry strict zero-allocation budgets and benchmark baselines verified against raw handwritten BCL and idiomatic LINQ.
+5. **Orthogonal Grammar**: One verb has exactly one meaning across all carriers (`Map`, `Bind`, `Ensure`, `Match`, `Recover`, `Filter`).
+
+---
+
+## Key Features
+
+- 🛡️ **Four Canonical Carriers**:
+  - `Option<T>`: Strict absence handling without null reference exceptions (`NullReferenceException`).
+  - `Result<TValue, TError>`: Fail-fast outcome for value-producing domain workflows.
+  - `UnitResult<TError>`: Lightweight command/mutation outcome without dummy payloads or void compromises.
+  - `Validation<TValue, TError>`: Applicative multi-error accumulation with deterministic ordering for forms, DTOs, and batch checks.
+- 🚦 **Railway-Oriented Programming (ROP)**: Fluent method chaining (`Map`, `Bind`, `Ensure`, `Recover`, `OrElse`, `Tap`) with full `Task` and `ValueTask` async support.
+- 🔍 **First-Class Roslyn Analyzers (`FS1001`–`FS1005`)**: Enforces correct carrier initialization, prevents discarded outcomes, flags unhandled Try patterns, and warns against blocked `ValueTask`s.
+- ⚡ **High-Performance Streaming**: Fused `Choose` (filter-map in a single pass), `Scan` (running accumulators), and `Partition` for `IEnumerable<T>`, `IAsyncEnumerable<T>`, and `ReadOnlySpan<T>`.
+- 🌐 **ASP.NET Core Minimal API Adapter**: Effortlessly project domain `Result` and `Validation` outcomes directly into typed `IResult` or RFC 7807 / RFC 9457 `ProblemDetails`.
+- ⚙️ **Pure State Machines & Effects**: Deterministic event-driven state transitions with pure output events, separate from side effects (`Effect<T>`, `Effect<TEnvironment, T>`).
+- 🧩 **Optics & Immutable Updates**: Composable `Lens<TSource, TFocus>` and `Optional<TSource, TFocus>` working seamlessly with C# record `with` expressions.
+
+---
+
+## Packages & Installation
+
+Install via the .NET CLI or NuGet Package Manager:
+
+### Core Package (Carriers, Grammar, Analyzers, Pipelines)
 ```shell
-dotnet add package FunnySharp              # carriers, grammar, pipelines, analyzers
-dotnet add package FunnySharp.AspNetCore   # Minimal API result mapping
+dotnet add package FunnySharp
 ```
 
-Both packages target `net10.0`. The
-[quick start](https://github.com/wxxb789/funnysharp/blob/main/docs/quick-start.md) shows the
-canonical usage of each surface in order - Option, Result, UnitResult, Validation, the shared
-grammar, collections and traversal, pipelines and streaming, async concurrency, effects and
-resources, state machines and immutable updates, analyzer feedback, and ASP.NET Core mapping -
-and links the guide that owns each one.
+### ASP.NET Core Integration (Minimal API Result & ProblemDetails Mapping)
+```shell
+dotnet add package FunnySharp.AspNetCore
+```
 
-[Versioning](https://github.com/wxxb789/funnysharp/blob/main/docs/versioning.md) states the
-versioning rules and the committed public-API baseline; [release notes](https://github.com/wxxb789/funnysharp/blob/main/docs/release-notes.md)
-carry the 0.1.0 preview surface and the supported-runtime statement.
+*Requirements: .NET 10.0 SDK (`net10.0` target).*
 
-## Performance
+---
 
-Every performance-relevant stable operation has documented complexity, enumeration, allocation,
-boxing, materialization, buffering, and async-scheduling characteristics, backed by measured
-comparisons against raw BCL, idiomatic LINQ, FSharp.Core, and pinned functional-library
-alternatives. Allocation budgets and complexity regressions block a release; hosted timing stays
-directional until a fixed-hardware runner exists.
+## Quick Start & Code Examples
 
-- [Consolidated performance guidance](https://github.com/wxxb789/funnysharp/blob/main/docs/performance.md)
+### 1. `Option<T>`: Safe Nullability & Absence Handling
 
-## Grammar
+Say goodbye to `null` ambiguity and `NullReferenceException`. `Option<T>` clearly expresses presence (`Some`) or absence (`None`).
 
-One small grammar governs every verb: one primary meaning and a predictable output shape on every
-carrier where that meaning is valid, so evaluation order, short-circuiting, exception,
-cancellation, enumeration, and materialization behavior follow from the signature and contract.
+```csharp
+using FunnySharp;
 
-- [Authoritative grammar table](https://github.com/wxxb789/funnysharp/blob/main/docs/grammar.md)
+// Construction from values or standard Try patterns
+Option<string> name = Option.Some("Alice");
+Option<string> empty = Option.None;
+Option<int> parsed = int.TryParse("128", out var val) ? Option.Some(val) : Option.None;
 
-## Analyzers
+// Transform, filter, and extract safely
+string greeting = name
+    .Map(n => n.ToUpperInvariant())
+    .Filter(n => n.StartsWith("A"))
+    .Match(
+        some: n => $"Hello, {n}!",
+        none: () => "Hello, Guest!"
+    );
 
-Compiler feedback ships inside the core package: every `FunnySharp` reference adds the analyzer
-assemblies under `analyzers/dotnet/cs` with zero extra installs and no runtime dependency. The
-diagnostics reject uninitialized semantic carriers (`FS1001`), silently discarded outcomes
-(`FS1002`), ignored `TryGet*` presence results (`FS1003`), blocked `ValueTask`s (`FS1004`), and
-synchronous disposal of async-disposable resources (`FS1005`); every diagnostic is suppressible and
-documented with its false-positive policy and escape hatches.
+// Fallback operations
+string displayName = empty.GetValueOr("Anonymous");
+string lazyName = empty.GetValueOrElse(() => ComputeFallbackName());
+```
 
-- [Diagnostic documentation](https://github.com/wxxb789/funnysharp/blob/main/docs/analyzers.md)
+### 2. `Result` and `UnitResult`: Railway-Oriented Programming
 
-## Function Composition
+Chain operations safely with automatic early exit on error (fail-fast Railway-Oriented Programming):
 
-FunnySharp provides a small standard-delegate surface for piping, left-to-right composition,
-currying, partial application, argument flipping, and side-effect observation. Matching `Task`
-and `ValueTask` composition and observation (`ComposeAsync`/`ComposeValueAsync`,
-`TapAsync`/`TapValueAsync`) preserve asynchronous execution without sync-over-async.
+```csharp
+using FunnySharp;
 
-- [Semantics and performance evidence](https://github.com/wxxb789/funnysharp/blob/main/docs/function-composition.md)
-- [Compiling examples](https://github.com/wxxb789/funnysharp/blob/main/examples/FunnySharp.Examples/Program.cs)
+public record User(int Id, string Email, bool IsActive);
+public record UserError(string Code, string Message);
 
-## Option
+public Result<User, UserError> ProcessUser(string rawEmail)
+{
+    return ValidateEmail(rawEmail)
+        .Ensure(email => !email.EndsWith("@blocked.com"), new UserError("BlockedDomain", "Domain not permitted."))
+        .Bind(FindUserByEmail)
+        .Tap(user => LogAudit(user.Id));
+}
 
-`Option<T>` represents explicit presence (`Some`) or absence (`None`) with safe inspection,
-synchronous composition, and focused nullable, Try-pattern, dictionary, `Task`, and `ValueTask`
-bridges. Faults and cancellation remain normal asynchronous failures rather than becoming absence.
-LINQ `Select`/`SelectMany` are secondary aliases of `Map`/`Bind` for query syntax; there is no
-`Where`.
+// UnitResult for commands without return values
+public UnitResult<UserError> DeactivateAccount(int userId)
+{
+    return FindUser(userId)
+        .ToUnitResult()
+        .Ensure(() => CheckPermission(userId), new UserError("Forbidden", "Permission denied."))
+        .Bind(() => DeleteSession(userId));
+}
+```
 
-- [Semantics](https://github.com/wxxb789/funnysharp/blob/main/docs/option.md)
-- [Compiling examples](https://github.com/wxxb789/funnysharp/blob/main/examples/FunnySharp.Examples/Program.cs)
+### 3. `Validation`: Applicative Error Accumulation
 
-## Result
+Unlike `Result` which short-circuits on the first error, `Validation<TValue, TError>` collects all validation failures across independent rules—ideal for request models, inputs, and form validation:
 
-`Result<TValue, TError>` represents explicit success or typed failure with fail-fast mapping,
-binding, validation, recovery, combination, LINQ query syntax, Option interop, and matching
-`Task`/`ValueTask` composition. Explicit `Try` boundaries preserve cancellation and retain the
-original exception unless the caller deliberately maps it to a domain error.
+```csharp
+using FunnySharp;
 
-- [Semantics](https://github.com/wxxb789/funnysharp/blob/main/docs/result.md)
-- [Compiling examples](https://github.com/wxxb789/funnysharp/blob/main/examples/FunnySharp.Examples/Program.cs)
+public record RegisterRequest(string Username, string Password, int Age);
 
-## UnitResult
+public Validation<RegisterRequest, string> ValidateRegistration(RegisterRequest req)
+{
+    var validUser = req.Username.Length >= 3
+        ? Validation<string, string>.Valid(req.Username)
+        : Validation<string, string>.Invalid("Username must be at least 3 characters.");
 
-`UnitResult<TError>` represents success or typed failure for commands, deletes, and notifications
-that have no meaningful value to carry, without a dummy payload or a public `Unit` type. It offers
-matching inspection, mapping to `Result`, binding, validation, recovery, error mapping, combination,
-fail-fast sequence traversal, and matching `Task`/`ValueTask` composition.
+    var validPass = req.Password.Length >= 8
+        ? Validation<string, string>.Valid(req.Password)
+        : Validation<string, string>.Invalid("Password must be at least 8 characters.");
 
-- [Semantics](https://github.com/wxxb789/funnysharp/blob/main/docs/unit-result.md)
-- [Compiling examples](https://github.com/wxxb789/funnysharp/blob/main/examples/FunnySharp.Examples/Program.cs)
+    var validAge = req.Age >= 18
+        ? Validation<int, string>.Valid(req.Age)
+        : Validation<int, string>.Invalid("Must be at least 18 years old.");
 
-## Effects
+    // Combine all checks; all failures accumulate in deterministic order
+    return validUser.ZipWith(validPass, validAge, (u, p, a) => new RegisterRequest(u, p, a));
+}
+```
 
-`Effect<T>` and `Effect<TEnvironment, T>` provide a thin, deferred boundary for standard .NET
-work. They compose through `ValueTask`, make dependencies and resource lifetime explicit, and
-preserve normal exception and cancellation behavior without adding an effect runtime or DI
-container.
+### 4. Built-in Roslyn Analyzers (`FS1001`–`FS1005`)
 
-- [Semantics and performance evidence](https://github.com/wxxb789/funnysharp/blob/main/docs/effects.md)
-- [Compiling examples](https://github.com/wxxb789/funnysharp/blob/main/examples/FunnySharp.Examples/Program.cs)
+FunnySharp includes Roslyn analyzers directly in the NuGet package with zero additional setup. Your IDE and CI will catch common functional programming hazards immediately:
 
-## Concurrency
+| Diagnostic ID | Severity | Purpose | Why It Matters |
+|:---:|:---:|---|---|
+| **FS1001** | **Error** | Prohibits creating carriers via `default` or `new()` | Semantic carriers require deliberate state (`Some`/`None`, `Success`/`Failure`). |
+| **FS1002** | **Warning** | Flags unhandled/discarded outcomes | Prevents silently ignoring errors and failures in Railway pipelines. |
+| **FS1003** | **Warning** | Requires checking the Boolean return of `TryGet*` methods | Prevents consuming unverified extracted values. |
+| **FS1004** | **Warning** | Forbids synchronous blocking (`.Result`, `.Wait()`) on FunnySharp `ValueTask`s | Prevents thread-pool starvation and sync-over-async deadlocks. |
+| **FS1005** | **Warning** | Flags synchronous disposal of `IAsyncDisposable` resources | Guarantees proper asynchronous teardown. |
 
-FunnySharp coordinates explicit bounded parallel mapping in source order or completion order and
-traversal over `IAsyncEnumerable<T>`, plus first-success selection over cold
-`Effect<Result<TValue, TError>>` values. These APIs retain standard .NET cancellation, exception,
-`ValueTask`, `Channel`, and `TimeProvider` behavior without adding a concurrency runtime or
-scheduler.
+### 5. Function Composition & Pipelines
 
-- [Semantics and performance evidence](https://github.com/wxxb789/funnysharp/blob/main/docs/concurrency.md)
-- [Compiling examples](https://github.com/wxxb789/funnysharp/blob/main/examples/FunnySharp.Examples/Program.cs)
+Write expressive, readable, and composable functional C# pipelines with native delegate extensions:
 
-## Validation
+```csharp
+using FunnySharp;
 
-`Validation<TValue, TError>` represents a valid value or one or more domain errors. It is for
-independent checks that should all run and report their errors in deterministic order; use
-`Option<T>`, `Result<TValue, TError>`, or `UnitResult<TError>` when fail-fast behavior is the
-intended contract.
+Func<string, string> trim = s => s.Trim();
+Func<string, string> lowercase = s => s.ToLowerInvariant();
+Func<string, string> sanitize = trim.Compose(lowercase);
 
-- [Semantics and shared traversal behavior](https://github.com/wxxb789/funnysharp/blob/main/docs/validation.md)
-- [Compiling examples](https://github.com/wxxb789/funnysharp/blob/main/examples/FunnySharp.Examples/Program.cs)
+// Pipe value forward
+var result = "  Hello FunnySharp  "
+    .Pipe(sanitize)
+    .Pipe(s => $"[Clean: {s}]");
+// Output: "[Clean: hello funnysharp]"
 
-## Data Pipelines
+// Currying and partial application
+Func<int, int, int> add = (a, b) => a + b;
+var addFive = add.Curry()(5);
+int fifteen = addFive(10); // 15
+```
 
-FunnySharp keeps pipelines on standard .NET carriers. Use LINQ and .NET 10 async LINQ for ordinary
-projection, filtering, flattening, ordering, and explicit materialization. `Choose` adds a fused
-Option-aware filter-map and `Scan` adds a running aggregate for synchronous and asynchronous
-streams, while span and memory helpers write to caller-owned storage or transform it in place.
+### 6. Data Pipelines: `Choose`, `Scan`, `Partition`
 
-- [Semantics, lifetime rules, and performance evidence](https://github.com/wxxb789/funnysharp/blob/main/docs/data-pipelines.md)
-- [Compiling data-cleaning examples](https://github.com/wxxb789/funnysharp/blob/main/examples/FunnySharp.Examples/Program.cs)
+Extend standard LINQ with fused functional stream operators for `IEnumerable<T>`, `IAsyncEnumerable<T>`, and spans:
 
-## Collections
+```csharp
+using FunnySharp;
 
-FunnySharp keeps standard .NET collections and sequence types as the ecosystem and adds the
-operations whose absence the BCL leaves ambiguous: `*OrNone` cardinality access
-(`FirstOrNone`, `LastOrNone`, `SingleOrNone`, `ElementAtOrNone`, `MinOrNone`, `MaxOrNone`),
-the `NonEmpty<T>` guarantee with a seedless fold that cannot throw, one-pass `Partition` for
-predicate and Option/Result/UnitResult sequences, exact versus truncating combination
-(`ZipExact`, `ZipExactOrNone`), container and `IParsable` parse bridges, `WhereNotNull`, and
-traversal context — indexed, keyed, and compositional `Location` context — so a traversal failure
-can carry `customers[17].addresses[2].postalCode` without application code assembling it.
+var inputs = new[] { "10", "abc", "25", "40", "invalid" };
 
-- [Semantics, carrier behavior matrix, and deliberate exclusions](https://github.com/wxxb789/funnysharp/blob/main/docs/collections.md)
-- [Compiling data-cleaning and batch-validation examples](https://github.com/wxxb789/funnysharp/blob/main/examples/FunnySharp.Examples/Program.cs)
+// Fused filter-map in a single pass (zero intermediate allocation)
+IEnumerable<int> numbers = inputs.Choose(s => int.TryParse(s, out var n) ? Option.Some(n) : Option.None);
+// Results: 10, 25, 40
 
-## Immutable Updates
+// Single-pass partition into matches and non-matches
+var (adults, minors) = users.Partition(u => u.Age >= 18);
 
-`Lens<TSource, TFocus>` and `Optional<TSource, TFocus>` provide a small, composable surface for
-total and possibly missing nested updates. They work with record `with` expressions and caller
-chosen BCL immutable collection operations without adding a collection hierarchy or hidden copies.
+// Running cumulative aggregation
+IEnumerable<int> runningTotal = numbers.Scan(0, (acc, n) => acc + n);
+// Results: 0, 10, 35, 75
+```
 
-- [Semantics, BCL collection guidance, and performance evidence](https://github.com/wxxb789/funnysharp/blob/main/docs/immutable-updates.md)
-- [Compiling immutable-update examples](https://github.com/wxxb789/funnysharp/blob/main/examples/FunnySharp.Examples/Program.cs)
+### 7. ASP.NET Core Minimal API Integration
 
-## State Machines
+Map domain outcomes to HTTP responses seamlessly with `FunnySharp.AspNetCore`. Convert `Result`, `Validation`, and `Effect` into typed `IResult` and RFC-compliant `ProblemDetails` with clean status codes:
 
-FunnySharp models pure state changes and finite-state workflows with explicit state, emitted output
-commands, invalid events, transition failures, undefined transitions, composition, and replay. The
-transition core remains synchronous and can stay deterministic without executing effects; callers
-choose where and how emitted commands perform asynchronous work.
+```csharp
+using FunnySharp;
+using FunnySharp.AspNetCore;
 
-- [Semantics, replay rules, and async boundary](https://github.com/wxxb789/funnysharp/blob/main/docs/state-machines.md)
-- [Compiling approval-workflow example](https://github.com/wxxb789/funnysharp/blob/main/examples/FunnySharp.Examples/Program.cs)
+var app = WebApplication.Create();
 
-## ASP.NET Core
+app.MapGet("/users/{id:int}", (int id, IUserService service) =>
+{
+    return service.FindUser(id)
+        .ToHttpResult(
+            onSuccess: user => Results.Ok(user),
+            onNone: () => Results.NotFound($"User {id} not found")
+        );
+});
 
-`FunnySharp.AspNetCore` is a separate Minimal API integration package. It maps explicit
-`Option`, `Result`, `UnitResult`, `Validation`, `Task`, `ValueTask`, and `Effect` outcomes to
-caller-selected `IResult` and RFC-compatible `ProblemDetails` without coupling the BCL-only core
-package to ASP.NET Core.
+app.MapPost("/orders", (CreateOrderDto dto, IOrderService service) =>
+{
+    return service.CreateOrder(dto)
+        .ToHttpResult(
+            onSuccess: order => Results.Created($"/orders/{order.Id}", order),
+            onFailure: error => Results.BadRequest(new ProblemDetails
+            {
+                Title = "Order Creation Failed",
+                Detail = error.Message,
+                Status = StatusCodes.Status400BadRequest
+            })
+        );
+});
+```
 
-- [Integration semantics and endpoint examples](https://github.com/wxxb789/funnysharp/blob/main/docs/aspnet-core.md)
-- [Compiling Minimal API example](https://github.com/wxxb789/funnysharp/blob/main/examples/FunnySharp.AspNetCore.Examples/Program.cs)
+---
 
-## Verify
+## Core Semantic Carriers at a Glance
+
+| Carrier Type | Representation | Fail-Fast / Accumulating | Default Value Contract | Primary Use Case |
+|---|---|:---:|:---:|---|
+| **`Option<T>`** | Presence (`Some`) or absence (`None`) | Fail-fast | Valid `None` | Replace `null`, express missing query results, dictionary lookups, parsing. |
+| **`Result<TValue, TError>`** | Typed success or typed failure | Fail-fast | Uninitialized (FS1001 error) | Domain workflows, business logic operations, fallible calculations. |
+| **`UnitResult<TError>`** | Typed command success or failure | Fail-fast | Uninitialized (FS1001 error) | Mutations, updates, deletes, notifications with no return value. |
+| **`Validation<TValue, TError>`** | Valid value or accumulated errors | Accumulating | Uninitialized (FS1001 error) | Form verification, multi-rule business validation, batch data ingestion. |
+| **`Effect<T>` / `Effect<TEnv, T>`** | Deferred computation with environment | Deferred execution | Uninitialized | Cold asynchronous workflows, scoped dependency and resource management. |
+
+---
+
+## Predictable Grammar & Verbs
+
+FunnySharp uses a single orthogonal grammar across all carriers. If you know the verb, you know the behavior:
+
+```
+          ┌──────────────────────────────────────────────────────────────┐
+          │                      FunnySharp Grammar                      │
+          ├───────────────┬──────────────────────────────────────────────┤
+          │ Map           │ Transform value within the carrier           │
+          │ Bind          │ Chain function returning the same carrier    │
+          │ Ensure        │ Validate condition or switch to error        │
+          │ Match         │ Exhaustive terminal extraction               │
+          │ Recover       │ Fallback from failure to a success value     │
+          │ RecoverWith   │ Fallback from failure to another carrier     │
+          │ Filter        │ Keep value if predicate holds, else None     │
+          │ Tap           │ Observe value or error for side-effects      │
+          │ Zip / ZipWith │ Combine multiple independent carriers        │
+          └───────────────┴──────────────────────────────────────────────┘
+```
+
+---
+
+## Zero-Dependency & Allocation-Conscious Performance
+
+FunnySharp is designed from day one with high-throughput cloud services in mind:
+
+- **Strict Allocation Budgets**: Verified by BenchmarkDotNet in continuous integration. Zero-allocation paths are defended with regression tests.
+- **No Sync-Over-Async**: Async pipelines preserve cancellation and exception semantics without blocking or deadlocks.
+- **Trimmable & Native AOT Friendly**: Verified against Native AOT trimming requirements (`<IsTrimmable>true</IsTrimmable>`).
+- **No Reflection**: All pipeline and carrier transformations rely on statically-typed delegates and inlinable structs.
+
+Read our complete [Performance Policy & Measurement Evidence](docs/performance.md).
+
+---
+
+## Verification & Build
+
+FunnySharp employs a fail-closed development harness. All release gates verify cross-platform execution on Windows, Linux, and macOS:
 
 ```bash
-dotnet fsi build.fsx -- -p release \
-  -AttemptId local-full-1 \
-  -CompatibilityRuntimeIdentifier win-x64 \
-  -CompatibilityPackageFeed https://packagefeedproxy.microsoft.io/nuget/v3/index.json \
-  -DistributionFeed https://packagefeedproxy.microsoft.io/nuget/v3/index.json
+# Build solution
+dotnet build FunnySharp.slnx
+
+# Run xUnit test suites
+dotnet test FunnySharp.slnx
+
+# Run harness release verification pipeline
+dotnet fsi build.fsx -- -p release -SkipBenchmarks
+
+# Run full BenchmarkDotNet performance suite
+dotnet run --project benchmarks/FunnySharp.Benchmarks -c Release -- --filter '*'
 ```
 
-The runner rejects a dirty candidate, re-used attempt identity, published or ambiguous package
-version, unsafe generated-output path, or non-isolated restore. It performs locked no-cache restore,
-Release build, xUnit tests, both examples, pack, formatting verification, semantic benchmark
-preflight, the protocol suites, the generated-table verification, the compatibility run, and - in
-full mode - the complete BenchmarkDotNet suite and allocation-policy verification. Compatibility
-results apply only to
-their recorded SDK, runtime patch, OS, RID, and canonical package hashes; see the
-[product contract](https://github.com/wxxb789/funnysharp/blob/main/docs/product-contract.md) for the
-current support and Native AOT limits.
+---
 
-GitHub release validation exposes four stable required contexts: `release / win-x64`,
-`release / linux-x64`, `release / osx-arm64`, and `release / osx-x64-consumer`. Repository ruleset
-readback is separate operational evidence; without it, Goal 13 product acceptance remains failed.
+## Documentation & Deep Dives
 
-For a PowerShell-free local pre-check, see [tooling](https://github.com/wxxb789/funnysharp/blob/main/docs/tooling.md).
+Explore our comprehensive guides, contracts, and examples:
 
-## Benchmark
+- 📖 [Product Contract](docs/product-contract.md) — Authoritative architecture principles & boundaries
+- 📖 [Quick Start Guide](docs/quick-start.md) — End-to-end guided walkthrough
+- 📖 [Authoritative Grammar](docs/grammar.md) — Comprehensive verb-by-carrier reference table
+- 📖 [Option Guide](docs/option.md) — Deep dive into `Option<T>`
+- 📖 [Result Guide](docs/result.md) — Deep dive into `Result<TValue, TError>`
+- 📖 [UnitResult Guide](docs/unit-result.md) — Deep dive into command outcomes
+- 📖 [Validation Guide](docs/validation.md) — Multi-error validation workflows
+- 📖 [Analyzers Guide](docs/analyzers.md) — Roslyn diagnostics FS1001–FS1005 details & configuration
+- 📖 [ASP.NET Core Guide](docs/aspnet-core.md) — Minimal API & ProblemDetails integration
+- 📖 [Collections & Traversal](docs/collections.md) — Sequence extensions, `NonEmpty<T>`, and `Location`
+- 📖 [Data Pipelines](docs/data-pipelines.md) — Stream processing, `Choose`, and `Scan`
+- 📖 [Concurrency Guide](docs/concurrency.md) — Bounded parallel operations & effect coordination
+- 📖 [State Machines](docs/state-machines.md) — Pure state transition workflows
+- 📖 [Immutable Updates](docs/immutable-updates.md) — Lens and Optional optics
+- 📖 [Performance Guidance](docs/performance.md) — Allocation budgets & benchmark methodology
 
-```shell
-dotnet run --project benchmarks/FunnySharp.Benchmarks/FunnySharp.Benchmarks.csproj --configuration Release -- --filter '*'
-```
+---
 
 ## License
 
-FunnySharp is licensed under the [MIT License](LICENSE).
+FunnySharp is open-source software licensed under the [MIT License](LICENSE).
