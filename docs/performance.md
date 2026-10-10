@@ -154,38 +154,38 @@ is attributed to that competitor, not to FunnySharp. Neither column is a library
 <!-- performance-table:start competitor-comparison -->
 | Scenario | Baseline mean | Candidate mean | Ratio | Baseline allocation | Candidate allocation |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Map - absent - FSharpCoreMapAbsent | N/A | 0.179 ns | N/A | 0 B | 0 B |
-| Map - absent - FunckyMapAbsent | N/A | 5.233 ns | N/A | 0 B | 24 B |
-| Map - absent - FunnySharpMapAbsent | N/A | 0.661 ns | N/A | 0 B | 0 B |
-| Map - absent - LanguageExtMapAbsent | N/A | 0.380 ns | N/A | 0 B | 0 B |
-| Map - present - FSharpCoreMapPresent | 0.329 ns | 3.362 ns | 10.21x | 0 B | 0 B |
-| Map - present - FunckyMapPresent | 0.329 ns | 8.756 ns | 26.58x | 0 B | 24 B |
-| Map - present - FunnySharpMapPresent | 0.329 ns | 3.295 ns | 10.00x | 0 B | 0 B |
-| Map - present - LanguageExtMapPresent | 0.329 ns | 2.994 ns | 9.09x | 0 B | 0 B |
+| Map - absent - FSharpCoreMapAbsent | N/A | N/A | N/A | 0 B | 0 B |
+| Map - absent - FunckyMapAbsent | N/A | 4.169 ns | N/A | 0 B | 24 B |
+| Map - absent - FunnySharpMapAbsent | N/A | 0.115 ns | N/A | 0 B | 0 B |
+| Map - absent - LanguageExtMapAbsent | N/A | 0.230 ns | N/A | 0 B | 0 B |
+| Map - present - FSharpCoreMapPresent | 0.377 ns | 2.857 ns | 7.59x | 0 B | 0 B |
+| Map - present - FunckyMapPresent | 0.377 ns | 6.151 ns | 16.33x | 0 B | 24 B |
+| Map - present - FunnySharpMapPresent | 0.377 ns | 2.320 ns | 6.16x | 0 B | 0 B |
+| Map - present - LanguageExtMapPresent | 0.377 ns | 2.040 ns | 5.42x | 0 B | 0 B |
 | Value-or-fallback - absent - FSharpCoreValueOrFallbackAbsent | N/A | N/A | N/A | 0 B | 0 B |
 | Value-or-fallback - absent - FunckyValueOrFallbackAbsent | N/A | N/A | N/A | 0 B | 0 B |
 | Value-or-fallback - absent - FunnySharpValueOrFallbackAbsent | N/A | N/A | N/A | 0 B | 0 B |
-| Value-or-fallback - absent - LanguageExtValueOrFallbackAbsent | N/A | 0.170 ns | N/A | 0 B | 0 B |
+| Value-or-fallback - absent - LanguageExtValueOrFallbackAbsent | N/A | N/A | N/A | 0 B | 0 B |
 | Value-or-fallback - present - FSharpCoreValueOrFallbackPresent | N/A | N/A | N/A | 0 B | 0 B |
-| Value-or-fallback - present - FunckyValueOrFallbackPresent | N/A | 0.359 ns | N/A | 0 B | 0 B |
+| Value-or-fallback - present - FunckyValueOrFallbackPresent | N/A | 0.390 ns | N/A | 0 B | 0 B |
 | Value-or-fallback - present - FunnySharpValueOrFallbackPresent | N/A | N/A | N/A | 0 B | 0 B |
 | Value-or-fallback - present - LanguageExtValueOrFallbackPresent | N/A | N/A | N/A | 0 B | 0 B |
-| Construction and inspection - failure - CSharpFunctionalExtensionsConstructionInspectionFailure | N/A | 0.515 ns | N/A | 0 B | 0 B |
-| Construction and inspection - failure - FSharpCoreConstructionInspectionFailure | N/A | N/A | N/A | 0 B | 0 B |
-| Construction and inspection - failure - FunnySharpConstructionInspectionFailure | N/A | N/A | N/A | 0 B | 0 B |
-| Construction and inspection - failure - LanguageExtConstructionInspectionFailure | N/A | 2.781 ns | N/A | 0 B | 24 B |
-| Construction and inspection - success - CSharpFunctionalExtensionsConstructionInspectionSuccess | N/A | 0.735 ns | N/A | 0 B | 0 B |
+| Construction and inspection - failure - CSharpFunctionalExtensionsConstructionInspectionFailure | 0.307 ns | 1.134 ns | 3.70x | 0 B | 0 B |
+| Construction and inspection - failure - FSharpCoreConstructionInspectionFailure | 0.307 ns | 0.211 ns | 0.69x | 0 B | 0 B |
+| Construction and inspection - failure - FunnySharpConstructionInspectionFailure | 0.307 ns | N/A | N/A | 0 B | 0 B |
+| Construction and inspection - failure - LanguageExtConstructionInspectionFailure | 0.307 ns | 3.128 ns | 10.20x | 0 B | 24 B |
+| Construction and inspection - success - CSharpFunctionalExtensionsConstructionInspectionSuccess | N/A | 1.142 ns | N/A | 0 B | 0 B |
 | Construction and inspection - success - FSharpCoreConstructionInspectionSuccess | N/A | N/A | N/A | 0 B | 0 B |
 | Construction and inspection - success - FunnySharpConstructionInspectionSuccess | N/A | N/A | N/A | 0 B | 0 B |
-| Construction and inspection - success - LanguageExtConstructionInspectionSuccess | N/A | 5.418 ns | N/A | 0 B | 24 B |
-| Fail-fast pipeline - failure - CSharpFunctionalExtensionsFailFastPipelineFailure | N/A | 4.963 ns | N/A | 0 B | 0 B |
-| Fail-fast pipeline - failure - FSharpCoreFailFastPipelineFailure | N/A | 3.494 ns | N/A | 0 B | 0 B |
-| Fail-fast pipeline - failure - FunnySharpFailFastPipelineFailure | N/A | 1.818 ns | N/A | 0 B | 0 B |
-| Fail-fast pipeline - failure - LanguageExtFailFastPipelineFailure | N/A | 44.088 ns | N/A | 0 B | 48 B |
-| Fail-fast pipeline - success - CSharpFunctionalExtensionsFailFastPipelineSuccess | N/A | 15.818 ns | N/A | 0 B | 0 B |
-| Fail-fast pipeline - success - FSharpCoreFailFastPipelineSuccess | N/A | 5.830 ns | N/A | 0 B | 0 B |
-| Fail-fast pipeline - success - FunnySharpFailFastPipelineSuccess | N/A | 11.278 ns | N/A | 0 B | 0 B |
-| Fail-fast pipeline - success - LanguageExtFailFastPipelineSuccess | N/A | 33.383 ns | N/A | 0 B | 48 B |
+| Construction and inspection - success - LanguageExtConstructionInspectionSuccess | N/A | 4.817 ns | N/A | 0 B | 24 B |
+| Fail-fast pipeline - failure - CSharpFunctionalExtensionsFailFastPipelineFailure | 0.282 ns | 4.919 ns | 17.46x | 0 B | 0 B |
+| Fail-fast pipeline - failure - FSharpCoreFailFastPipelineFailure | 0.282 ns | 3.630 ns | 12.88x | 0 B | 0 B |
+| Fail-fast pipeline - failure - FunnySharpFailFastPipelineFailure | 0.282 ns | 1.865 ns | 6.62x | 0 B | 0 B |
+| Fail-fast pipeline - failure - LanguageExtFailFastPipelineFailure | 0.282 ns | 46.833 ns | 166.23x | 0 B | 48 B |
+| Fail-fast pipeline - success - CSharpFunctionalExtensionsFailFastPipelineSuccess | N/A | 13.857 ns | N/A | 0 B | 0 B |
+| Fail-fast pipeline - success - FSharpCoreFailFastPipelineSuccess | N/A | 5.865 ns | N/A | 0 B | 0 B |
+| Fail-fast pipeline - success - FunnySharpFailFastPipelineSuccess | N/A | 9.082 ns | N/A | 0 B | 0 B |
+| Fail-fast pipeline - success - LanguageExtFailFastPipelineSuccess | N/A | 32.496 ns | N/A | 0 B | 48 B |
 <!-- performance-table:end competitor-comparison -->
 
 Absence is represented differently across these libraries (struct carriers for FunnySharp,

@@ -16,6 +16,6 @@ if (args is ["--preflight"])
 
 var config = ManualConfig.Create(DefaultConfig.Instance)
     .WithOptions(ConfigOptions.KeepBenchmarkFiles)
-    .AddJob(Job.Default.WithMsBuildArguments("/p:UseArtifactsOutput=false").AsMutator())
+    .AddJob(Job.Default.WithToolchain(RepositoryProjectToolchain.Create()).WithMsBuildArguments("/p:UseArtifactsOutput=false").AsMutator())
     .AddExporter(new AllocationReceiptExporter());
 BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).Run(args, config);

@@ -12,6 +12,7 @@
   <ItemGroup>
     <Compile Include="../FunnySharp.Benchmarks/ReceiptExporterCore.cs" Link="ReceiptExporterCore.cs" />
     <Compile Include="../FunnySharp.Benchmarks/BenchmarkPreflight.cs" Link="BenchmarkPreflight.cs" />
+    <Compile Include="../FunnySharp.Benchmarks/RepositoryProjectToolchain.cs" Link="RepositoryProjectToolchain.cs" />
   </ItemGroup>
 
   <ItemGroup>
