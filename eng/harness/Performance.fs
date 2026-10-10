@@ -346,6 +346,13 @@ let run
         let git = FunnySharp.Harness.Proc.runCaptureIn (Some repositoryRoot) "git" [ "rev-parse"; "HEAD" ] |> Async.RunSynchronously
         if git.ExitCode <> 0 then failNow "Performance verification requires a Git checkout."
         let commit = git.Stdout.Trim()
+        let status =
+            FunnySharp.Harness.Proc.runCaptureIn (Some repositoryRoot) "git"
+                [ "status"; "--porcelain"; "--untracked-files=no" ]
+            |> Async.RunSynchronously
+        if status.ExitCode <> 0 then failNow "Cannot inspect performance source state."
+        if not (String.IsNullOrWhiteSpace status.Stdout) then
+            failNow "Performance verification requires a clean tracked Git working tree and index."
 
         let manifest =
             use document = JsonDocument.Parse(File.ReadAllText manifestPath)

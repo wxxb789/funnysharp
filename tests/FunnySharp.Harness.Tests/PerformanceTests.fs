@@ -23,7 +23,10 @@ let private withFixture action =
         Assert.Equal(0, result.ExitCode)
         result.Stdout.Trim()
     git [ "init" ] |> ignore
-    git [ "-c"; "user.name=Fixture"; "-c"; "user.email=fixture@example.invalid"; "commit"; "--allow-empty"; "-m"; "fixture" ] |> ignore
+    let sourcePath = Path.Combine(temp.Path, "Source.cs")
+    File.WriteAllText(sourcePath, "// committed benchmark source")
+    git [ "add"; "Source.cs" ] |> ignore
+    git [ "-c"; "user.name=Fixture"; "-c"; "user.email=fixture@example.invalid"; "commit"; "-m"; "fixture" ] |> ignore
     let commit = git [ "rev-parse"; "HEAD" ]
     let rows = parse """[{"id":"Fixture|Category|Direct|","benchmarkClass":"Fixture","category":"Category","method":"Direct","parameters":"","baseline":true,"carrier":"value","completionPath":"synchronous","expectedResult":"42","comparisonGroup":"fixture","included":true,"exclusionReason":null,"allocationBudgetBytes":0},{"id":"Fixture|Category|Funny|","benchmarkClass":"Fixture","category":"Category","method":"Funny","parameters":"","baseline":false,"carrier":"value","completionPath":"synchronous","expectedResult":"42","comparisonGroup":"fixture","included":true,"exclusionReason":null,"allocationBudgetBytes":16}]"""
     let manifest = JsonObject()
@@ -63,14 +66,30 @@ let private withFixture action =
     let run () =
         write ()
         FunnySharp.Harness.Performance.run temp.Path manifestPath temp.Path None
-    action receipt preflight child run
+    let changeSource staged =
+        File.WriteAllText(sourcePath, "// changed benchmark source")
+        if staged then git [ "add"; "Source.cs" ] |> ignore
+    action receipt preflight child run changeSource
 
 [<Fact>]
 let ValidMeasurementWithUnavailableTimingPasses () =
-    withFixture (fun _ _ _ run ->
+    withFixture (fun _ _ _ run _ ->
         match run () with
         | Ok _ -> ()
         | Error error -> failwith error.Message)
+
+[<Theory>]
+[<InlineData(false)>]
+[<InlineData(true)>]
+let TrackedSourceEditFailsWithUnchangedHead staged =
+    withFixture (fun _ _ _ run changeSource ->
+        match run () with
+        | Ok _ -> ()
+        | Error error -> failwith error.Message
+        changeSource staged
+        match run () with
+        | Ok _ -> failwith "Dirty tracked source passed performance verification"
+        | Error error -> Assert.Contains("clean tracked Git", error.Message))
 
 [<Theory>]
 [<InlineData("allocation")>]
@@ -88,7 +107,7 @@ let ValidMeasurementWithUnavailableTimingPasses () =
 [<InlineData("wrong-source")>]
 [<InlineData("environment")>]
 let InvalidMeasurementFails kind =
-    withFixture (fun receipt preflight child run ->
+    withFixture (fun receipt preflight child run _ ->
         match kind with
         | "allocation" -> (present (field receipt "rows").[1]).["allocatedBytesPerOperation"] <- JsonValue.Create 17
         | "fractional" -> (present (field receipt "rows").[1]).["allocatedBytesPerOperation"] <- JsonValue.Create 1.5

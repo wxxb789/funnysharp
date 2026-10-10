@@ -23,13 +23,26 @@ let private writePackage directory id dependencies analyzers =
         add "analyzers/dotnet/cs/FunnySharp.Analyzers.CodeFixes.dll" "fixes"
     path
 
-let private runFixture failure =
+let private writeSymbolsPackage directory id =
+    let path = Path.Combine(directory, id + ".1.0.0.snupkg")
+    use archive = ZipFile.Open(path, ZipArchiveMode.Create)
+    let add name text =
+        let entry = archive.CreateEntry name
+        use writer = new StreamWriter(entry.Open())
+        writer.Write(text: string)
+    add (id + ".nuspec") (sprintf "<package><metadata><id>%s</id><version>1.0.0</version></metadata></package>" id)
+    add (sprintf "lib/net10.0/%s.pdb" id) "symbols"
+
+let private runFixture failure mutatePackages =
     use temp = new TempDirectory()
     File.WriteAllText(Path.Combine(temp.Path, "FunnySharp.slnx"), "")
     let packages = Path.Combine(temp.Path, "packages")
     Directory.CreateDirectory packages |> ignore
     writePackage packages "FunnySharp" "" true |> ignore
     writePackage packages "FunnySharp.AspNetCore" "<dependency id=\"FunnySharp\" version=\"1.0.0\"/>" false |> ignore
+    for id in [ "FunnySharp"; "FunnySharp.AspNetCore" ] do
+        writeSymbolsPackage packages id
+    mutatePackages packages
     let calls = ResizeArray<string list>()
     let previous = processRunner
     let previousSupported = hostOsSupported
@@ -50,7 +63,9 @@ let private runFixture failure =
         use stdout = new StringWriter()
         use stderr = new StringWriter()
         let code = mainWith stdout stderr temp.Path [ "-RepositoryRoot"; temp.Path; "-PackageDirectory"; packages; "-OutputDirectory"; output; "-Scenario"; "CoreSmoke" ]
-        code, calls |> Seq.toList, File.ReadAllText(Path.Combine(output, "compatibility-results.json"))
+        let resultsPath = Path.Combine(output, "compatibility-results.json")
+        let summary = if File.Exists resultsPath then File.ReadAllText resultsPath else stderr.ToString()
+        code, calls |> Seq.toList, summary
     finally
         processRunner <- previous
         hostOsSupported <- previousSupported
@@ -58,7 +73,7 @@ let private runFixture failure =
 type CompatibilityTests() =
     [<Fact>]
     member _.RestoresPublishesAndRunsConsumer() =
-        let code, calls, summary = runFixture ""
+        let code, calls, summary = runFixture "" ignore
         Assert.Equal(0, code)
         Assert.Equal(3, calls.Length)
         Assert.Contains("restore", calls.[0])
@@ -73,11 +88,54 @@ type CompatibilityTests() =
     [<InlineData("publish", 2)>]
     [<InlineData("run", 3)>]
     member _.FailedSdkCommandFailsScenario(command, expectedCalls) =
-        let code, calls, summary = runFixture command
+        let code, calls, summary = runFixture command ignore
         Assert.Equal(1, code)
         Assert.Equal(expectedCalls, calls.Length)
         use document = JsonDocument.Parse summary
         Assert.False(document.RootElement.GetProperty("Succeeded").GetBoolean())
+
+    [<Theory>]
+    [<InlineData("missing-core-package")>]
+    [<InlineData("missing-aspnetcore-package")>]
+    [<InlineData("missing-core-symbols")>]
+    [<InlineData("missing-aspnetcore-symbols")>]
+    [<InlineData("extra-package")>]
+    [<InlineData("extra-symbols")>]
+    [<InlineData("duplicate-core-version")>]
+    [<InlineData("mismatched-package-version")>]
+    [<InlineData("mismatched-core-symbols")>]
+    [<InlineData("mismatched-aspnetcore-symbols")>]
+    member _.InvalidPackageInventoryRejectsBeforeRunningConsumers(case) =
+        let mutate packages =
+            let path name = Path.Combine(packages, name)
+            let remove name = File.Delete(path name)
+            let move name replacement = File.Move(path name, path replacement)
+            match case with
+            | "missing-core-package" -> remove "FunnySharp.1.0.0.nupkg"
+            | "missing-aspnetcore-package" -> remove "FunnySharp.AspNetCore.1.0.0.nupkg"
+            | "missing-core-symbols" -> remove "FunnySharp.1.0.0.snupkg"
+            | "missing-aspnetcore-symbols" -> remove "FunnySharp.AspNetCore.1.0.0.snupkg"
+            | "extra-package" -> File.WriteAllText(path "Other.1.0.0.nupkg", "extra")
+            | "extra-symbols" -> File.WriteAllText(path "Other.1.0.0.snupkg", "extra")
+            | "duplicate-core-version" -> File.Copy(path "FunnySharp.1.0.0.nupkg", path "FunnySharp.2.0.0.nupkg")
+            | "mismatched-package-version" -> move "FunnySharp.AspNetCore.1.0.0.nupkg" "FunnySharp.AspNetCore.2.0.0.nupkg"
+            | "mismatched-core-symbols" -> move "FunnySharp.1.0.0.snupkg" "FunnySharp.2.0.0.snupkg"
+            | "mismatched-aspnetcore-symbols" -> move "FunnySharp.AspNetCore.1.0.0.snupkg" "FunnySharp.AspNetCore.2.0.0.snupkg"
+            | _ -> invalidArg "case" case
+        let code, calls, error = runFixture "" mutate
+        Assert.Equal(2, code)
+        Assert.Empty calls
+        Assert.NotEmpty error
+
+    [<Fact>]
+    member _.InvalidPackageContentsRejectBeforeRunningConsumers() =
+        let mutate packages =
+            File.Delete(Path.Combine(packages, "FunnySharp.1.0.0.nupkg"))
+            writePackage packages "FunnySharp" "<dependency id=\"Other\" version=\"1.0.0\"/>" true |> ignore
+        let code, calls, error = runFixture "" mutate
+        Assert.Equal(2, code)
+        Assert.Empty calls
+        Assert.Contains("no runtime dependencies", error)
 
     [<Theory>]
     [<InlineData("", false)>]

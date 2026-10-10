@@ -27,23 +27,34 @@ internal static class BenchmarkPreflight
         }
     }
 
-    private static async Task<string> SourceCommitAsync(string root)
+    internal static string SourceCommit(string root)
     {
-        var info = new System.Diagnostics.ProcessStartInfo("git")
+        string Git(params string[] arguments)
         {
-            WorkingDirectory = root,
-            RedirectStandardOutput = true,
-            RedirectStandardError = true,
-            UseShellExecute = false,
-        };
-        info.ArgumentList.Add("rev-parse");
-        info.ArgumentList.Add("HEAD");
-        using var process = System.Diagnostics.Process.Start(info)!;
-        var output = await process.StandardOutput.ReadToEndAsync().ConfigureAwait(false);
-        var error = await process.StandardError.ReadToEndAsync().ConfigureAwait(false);
-        await process.WaitForExitAsync().ConfigureAwait(false);
-        Require(process.ExitCode == 0, "Cannot identify benchmark source commit: " + error);
-        return output.Trim();
+            var info = new System.Diagnostics.ProcessStartInfo("git")
+            {
+                WorkingDirectory = root,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                UseShellExecute = false,
+            };
+            foreach (var argument in arguments)
+            {
+                info.ArgumentList.Add(argument);
+            }
+
+            using var process = System.Diagnostics.Process.Start(info)!;
+            var output = process.StandardOutput.ReadToEndAsync();
+            var error = process.StandardError.ReadToEndAsync();
+            process.WaitForExit();
+            Require(process.ExitCode == 0,
+                "Cannot identify benchmark source state: " + error.GetAwaiter().GetResult());
+            return output.GetAwaiter().GetResult().Trim();
+        }
+
+        Require(Git("status", "--porcelain", "--untracked-files=no").Length == 0,
+            "Benchmark source requires a clean tracked Git working tree and index.");
+        return Git("rev-parse", "HEAD");
     }
 
     internal static void CaptureChild(object benchmark)
@@ -92,7 +103,7 @@ internal static class BenchmarkPreflight
         var root = ReceiptExporterCore.FindRepositoryRoot();
         using var document = JsonDocument.Parse(File.ReadAllText(Path.Combine(root, manifestRelative)));
         var manifest = document.RootElement;
-        var commit = await SourceCommitAsync(root).ConfigureAwait(false);
+        var commit = SourceCommit(root);
         var allPolicyRows = manifest.GetProperty("policy").GetProperty("rows").EnumerateArray().ToArray();
         var included = allPolicyRows.Where(row => row.GetProperty("included").GetBoolean())
             .ToDictionary(row => row.GetProperty("id").GetString()!, StringComparer.Ordinal);

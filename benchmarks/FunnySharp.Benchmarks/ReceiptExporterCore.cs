@@ -111,6 +111,8 @@ internal abstract class ReceiptExporterCore : IExporter
             rows,
         };
 
+        BenchmarkPreflight.Require(BenchmarkPreflight.SourceCommit(repositoryRoot) == commit,
+            "Benchmark source commit changed after preflight.");
         File.WriteAllText(
             path,
             JsonSerializer.Serialize(

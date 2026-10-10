@@ -63,5 +63,5 @@ dotnet fsi build.fsx -- -p release -AttemptId local-1 -SkipBenchmarks
 dotnet fsi build.fsx -- -p release -AttemptId local-full-1
 
 # Consume an existing package set
-dotnet fsi build.fsx -- -p compatibility -PackageDirectory <packages> -RuntimeIdentifier <rid>
+dotnet fsi build.fsx -- -p compatibility -PackageDirectory <packages> -OutputDirectory artifacts/compatibility-local -RuntimeIdentifier <rid>
 ```

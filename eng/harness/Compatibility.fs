@@ -297,6 +297,30 @@ let private packageVersion (packageDirectory: string) (packageId: string) : Resu
     else
         Ok(pattern.Match(matching.[0]).Groups.["version"].Value)
 
+let private validatePackageInventory (packageDirectory: string) (version: string) : Result<unit, HarnessError> =
+    let expected =
+        [ for id in [ "FunnySharp"; "FunnySharp.AspNetCore" ] do
+              for extension in [ ".nupkg"; ".snupkg" ] do
+                  yield id + "." + version + extension ]
+        |> Set.ofList
+    let actual =
+        Directory.GetFiles packageDirectory
+        |> Array.filter (fun path ->
+            let extension = Path.GetExtension path
+            String.Equals(extension, ".nupkg", StringComparison.OrdinalIgnoreCase)
+            || String.Equals(extension, ".snupkg", StringComparison.OrdinalIgnoreCase))
+        |> Array.choose (fun path -> Path.GetFileName path |> Option.ofObj)
+        |> Set.ofArray
+    if actual <> expected then
+        usageFail (
+            sprintf
+                "Package inventory must contain exactly the two candidate nupkg files and their matching snupkg files. Missing: [%s]. Unexpected: [%s]."
+                (String.concat ", " (Set.difference expected actual))
+                (String.concat ", " (Set.difference actual expected))
+        )
+    else
+        Ok()
+
 /// The NuGet.Config the runner writes into the output directory. The local feed
 /// comes first and package-source mapping keeps FunnySharp* resolving only there.
 let nuGetConfigText (localSource: string) (upstreamSource: string) : string =
@@ -676,6 +700,11 @@ let private prepare
 
         let! coreVersion = packageVersion packageDirectory "FunnySharp"
         let! aspNetCoreVersion = packageVersion packageDirectory "FunnySharp.AspNetCore"
+        do!
+            if coreVersion <> aspNetCoreVersion then
+                usageFail "Package versions must match."
+            else
+                validatePackageInventory packageDirectory coreVersion
 
         let corePackagePath = Path.Combine(packageDirectory, sprintf "FunnySharp.%s.nupkg" coreVersion)
 
@@ -683,11 +712,8 @@ let private prepare
             Path.Combine(packageDirectory, sprintf "FunnySharp.AspNetCore.%s.nupkg" aspNetCoreVersion)
 
 
-
-
         do!
             try
-                if coreVersion <> aspNetCoreVersion then invalidOp "Package versions must match."
                 validatePackage corePackagePath "FunnySharp" coreVersion coreVersion
                 validatePackage aspNetCorePackagePath "FunnySharp.AspNetCore" aspNetCoreVersion coreVersion
                 Ok ()
