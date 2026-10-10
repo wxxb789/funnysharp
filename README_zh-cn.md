@@ -8,7 +8,7 @@
 
 [English](README.md) | [简体中文](README_zh-cn.md)
 
-**FunnySharp** 是一款专为 C# 13 和 .NET 10 打造的现代、高性能、**BCL 优先（Base Class Library First）**的实用函数式编程库。它提供了零堆内存分配的语义载体（`Option<T>`、`Result<TValue, TError>`、`UnitResult<TError>`、`Validation<TValue, TError>`）、铁路导向编程（Railway-Oriented Programming, ROP）、内置开箱即用的 Roslyn 编译器分析器、高阶函数组合、数据流管道、纯状态机以及无缝的 ASP.NET Core Minimal API 映射——无需引入任何第三方运行时依赖，不重构原生集合，不强加复杂的外部类型体系。
+**FunnySharp** 是一款专为 C# 13 和 .NET 10 打造的现代、高性能、**BCL 优先（Base Class Library First）**的实用函数式编程库。它提供了紧凑、无额外装箱开销的值类型语义载体（`Option<T>`、`Result<TValue, TError>`、`UnitResult<TError>`、`Validation<TValue, TError>`）、铁路导向编程（Railway-Oriented Programming, ROP）、内置开箱即用的 Roslyn 编译器分析器、高阶函数组合、数据流管道、纯状态机以及无缝的 ASP.NET Core Minimal API 映射——无需引入任何第三方运行时依赖，不重构原生集合，不强加复杂的外部类型体系。
 
 ---
 
@@ -57,7 +57,7 @@ FunnySharp 采用 **BCL 优先的实用主义哲学**：
   - `Validation<TValue, TError>`：应用函子多错误并行累积，按确定性顺序收集表单、DTO 和批量输入的所有失败项。
 - 🚦 **铁路导向编程 (Railway-Oriented Programming)**：流畅的链式调用（`Map`、`Bind`、`Ensure`、`Recover`、`OrElse`、`Tap`），完美支持原生 `Task` 与 `ValueTask` 异步组合。
 - 🔍 **开箱即用的 Roslyn 诊断分析器 (`FS1001`–`FS1005`)**：自动排查未正确初始化的载体、静默丢弃的错误结果、未消费的 Try 模式返回值以及错误的 `ValueTask` 阻塞。
-- ⚡ **高性能流式处理**：融合式 `Choose`（单趟完成过滤与投影，避免中间分配）、`Scan`（流式累加聚合）与 `Partition`，全面覆盖 `IEnumerable<T>`、`IAsyncEnumerable<T>` 和 `ReadOnlySpan<T>`。
+- ⚡ **高性能流式处理**：融合式 `Choose`（单趟完成过滤与投影，避免中间分配）、`Scan`（流式累加聚合）与 `Partition`，全面覆盖 `IEnumerable<T>` 与 `IAsyncEnumerable<T>`，并为 `ReadOnlySpan<T>` 提供调用方自持缓冲的 `ChooseTo` 与 `WhereTo`。
 - 🌐 **ASP.NET Core Minimal API 适配包**：优雅地将领域 `Result` 和 `Validation` 结果投影为标准 `IResult` 和符合 RFC 7807 / RFC 9457 规范的 `ProblemDetails`。
 - ⚙️ **纯状态机与副作用隔离**：基于不可变转换与输出事件建模状态流，与异步副作用执行（`Effect<T>`, `Effect<TEnvironment, T>`）清晰解耦。
 - 🧩 **光学元件与不可变更新**：轻量级 `Lens<TSource, TFocus>` 与 `Optional<TSource, TFocus>`，原生协同 C# 记录类型的 `with` 表达式。
@@ -162,7 +162,7 @@ public Validation<RegisterRequest, string> ValidateRegistration(RegisterRequest 
         : Validation<int, string>.Invalid("必须年满 18 周岁。");
 
     // 组合所有校验，错误按顺序收集累加
-    return validUser.ZipWith(validPass, validAge, (u, p, a) => new RegisterRequest(u, p, a));
+    return validUser.Zip(validPass, validAge, (u, p, a) => new RegisterRequest(u, p, a));
 }
 ```
 
@@ -217,9 +217,9 @@ IEnumerable<int> numbers = inputs.Choose(s => int.TryParse(s, out var n) ? Optio
 // 单趟按条件划分 (Partition)
 var (adults, minors) = users.Partition(u => u.Age >= 18);
 
-// 流式累计扫描聚合 (Scan)
+// 流式累计扫描聚合 (Scan，不包含种子本身)
 IEnumerable<int> runningTotal = numbers.Scan(0, (acc, n) => acc + n);
-// 结果: 0, 10, 35, 75
+// 结果: 10, 35, 75
 ```
 
 ### 7. ASP.NET Core Minimal API 无缝集成
@@ -236,8 +236,13 @@ app.MapGet("/users/{id:int}", (int id, IUserService service) =>
 {
     return service.FindUser(id)
         .ToHttpResult(
-            onSuccess: user => Results.Ok(user),
-            onNone: () => Results.NotFound($"用户 {id} 不存在")
+            none: () => new ProblemDetails
+            {
+                Title = "User Not Found",
+                Detail = $"用户 {id} 不存在",
+                Status = StatusCodes.Status404NotFound
+            },
+            some: user => Results.Ok(user)
         );
 });
 
@@ -245,13 +250,13 @@ app.MapPost("/orders", (CreateOrderDto dto, IOrderService service) =>
 {
     return service.CreateOrder(dto)
         .ToHttpResult(
-            onSuccess: order => Results.Created($"/orders/{order.Id}", order),
-            onFailure: error => Results.BadRequest(new ProblemDetails
+            failure: error => new ProblemDetails
             {
                 Title = "创建订单失败",
                 Detail = error.Message,
                 Status = StatusCodes.Status400BadRequest
-            })
+            },
+            success: order => Results.Created($"/orders/{order.Id}", order)
         );
 });
 ```
@@ -286,7 +291,7 @@ FunnySharp 采用正交、一致的语法规范。只要掌握了动词，就能
           │ RecoverWith   │ 遇错恢复：从失败状态回退至另一个载体             │
           │ Filter        │ 满足断言保留，否则转换为 None                   │
           │ Tap           │ 旁路观测值或错误（触发副作用/记录日志）           │
-          │ Zip / ZipWith │ 组合多个独立的载体并聚合计算结果                 │
+          │ Zip           │ 组合多个独立的载体并聚合计算结果                 │
           └───────────────┴──────────────────────────────────────────────┘
 ```
 
@@ -296,7 +301,7 @@ FunnySharp 采用正交、一致的语法规范。只要掌握了动词，就能
 
 FunnySharp 在构思之初便服务于高吞吐、低延迟的现代云原生架构：
 
-- **严苛的内存分配预算**：CI 持续运行 BenchmarkDotNet 进行内存指标核验，零堆分配路径受到强回归防护。
+- **严苛的内存分配预算**：在开发机环境与基准测试套件（BenchmarkDotNet）中对内存指标与分配预算进行严密核验，关键零堆分配路径受到强回归防护。
 - **杜绝 Sync-Over-Async**：异步管道完整传递取消令牌与异常，不发生线程池阻塞死锁。
 - **修剪与 Native AOT 友好**：满足现代化发布要求（配置 `<IsTrimmable>true</IsTrimmable>`）。
 - **零反射设计**：所有载体与管道操作基于静态类型委托与内联 struct 实现，JIT 优化友好。
