@@ -1,89 +1,44 @@
-# eng/ — build engineering, release & performance protocol
+# eng/ — Development Tools
 
-**Earned:** subtree root + distinct domain (release/performance protocol; score >15).
+Shipping code is C#; this F# harness is development-only.
 
-## OVERVIEW
+## Ownership
 
-The F# build harness. A repo-root `build.fsx` (Fun.Build) defines one pipeline per gate and
-`eng/harness/*.fs` implement them: release, release audit, performance budget verification,
-performance-doc generation, reproducible-build comparison, ruleset check, compatibility,
-inventory, vertical slice, docs snippets, action pins, the local pre-check, and the
-coding-evaluation harness. Nothing here ships; everything here gates.
+- `build.fsx` owns FSI orchestration and loads F# source modules directly.
+- `harness/FunnySharp.Harness.fsproj` is a testable library, not an executable.
+- `harness/Cli.fs` owns argument transforms; `release-protocol.json` owns release order.
+- `harness/ReleaseRun.fs` executes commands. Git owns source revision/change identity.
+- `harness/Compatibility.fs` owns package-only consumer checks.
+- `harness/ApiBaseline.fs` owns public API reflection and baseline comparison.
+- `harness/Performance.fs` checks allocation budgets; `PerformanceDocs.fs` renders tables.
+- `harness/Evaluation.fs` runs task oracles; `evaluation/` holds tasks and historical studies.
+- Harness tests live in `../tests/FunnySharp.Harness.Tests/`.
 
-## WHERE TO LOOK
+See `../docs/harness.md` for available pipelines and `../docs/release-readiness.md`
+for release requirements. There is no independent release audit, provenance
+transport, frozen replay, XML identity-binding or offline packet-verification layer.
 
-| Need | Location |
-| --- | --- |
-| Run any gate | root `build.fsx`: `dotnet fsi build.fsx -- -p <pipeline> [args]` |
-| Harness contract (invocation, pipelines, exit codes) | `../docs/harness.md` |
-| Gate implementations | `harness/*.fs` (`Output`, `Proc`, `Repo`, … `Compatibility`, `Release*`, `ApiBaseline`, `Loc`, `Evaluation`) |
-| Committed public-API baseline | `../eng/api-baseline/` compared by `harness/ApiBaseline.fs` (`-p verify-api-baseline`) and by the release audit |
-| Release step definitions | `release-protocol.json` (steps `clean`…`compatibility`; modes `full` / `benchmarkSkipped`) |
-| Release orchestration logic | `harness/ReleaseProtocol.fs`, `harness/ReleaseRun.fs` |
-| Release verification / audit | `harness/ReleaseVerify*.fs` (the heavyweight checks) |
-| Verify performance budgets | `harness/Performance.fs` (receipts vs. manifest; never edits policy) |
-| Regenerate perf doc tables | `harness/PerformanceDocs.fs` |
-| Reproducible-build proof | `harness/ReproducibleBuilds.fs` |
-| GitHub ruleset check | `harness/Ruleset.fs` |
-| Perf budget manifests | `performance/` (see below) |
-| Harness tests | `../tests/FunnySharp.Harness.Tests/` (xUnit v3) |
-| Coding evaluation harness | `harness/Evaluation.fs`, `evaluation/AGENTS.md` (child) |
+## Rules
 
-## performance/ (no own file — data, not code)
+- Use Git for revisions and tracked change detection. Do not calculate or verify
+  SHA file fingerprints, receipt/log hashes, or package/binary checksums.
+- Preserve locked NuGet restore, compiler diagnostics, allocation budgets, semantic
+  tests and package trust-boundary checks. They test behavior, not identity ceremony.
+- Heavy tests, full pre-check/release, platform consumers and benchmarks are manual only; never auto-trigger them in CI or Agent iterations.
+- Run focused checks for changed behavior. Add controlled failing cases where they
+  prove the checker rejects a real failure, not a changed receipt literal.
+- Only `.github/workflows/release.yml` gates release; tooling CI is informational.
+- Benchmarks run locally; CI uses `release -SkipBenchmarks`.
+- Historical evidence and frozen studies are read-only records, not current gates.
+- Performance policy is editorially owned; the verifier never changes budgets.
+- F# warnings fail builds. `dotnet format` covers C# only.
 
-- `baseline.json` — main suite policy + committed observation: 201 rows (190 included),
-  allocation budgets are the blocking gate, timing is directional only.
-- `competitor-baseline.json` — competitor suite: 40 rows (Option/Result carrier) pairing
-  raw/direct baselines with `funcky` / FSharp.Core paths per `comparisonGroup`.
-- Tracked manifests, NOT emitted artifacts. `policy` (budgets, exclusions) is
-  verifier-immutable and editorially owned; `observation` is machine-generated
-  (fingerprints: policy / benchmarkInput / protocol + `environmentKey`).
-- Exclusions are first-class rows (`id` prefixed `excluded|`, `exclusionReason`), never omissions.
-
-## tests/ (no own file — harness test project)
-
-The frozen protocol suites now live in `../tests/FunnySharp.Harness.Tests/` as F# xUnit v3
-tests (`ReleaseProtocolTests.fs`, `PerformanceProtocolTests.fs`, and one file per harness
-module), run by `dotnet test FunnySharp.slnx` and by the `test` pipeline. They own the
-`release.yml` action pins; the `check-action-pins` pipeline deliberately never re-checks them
-(avoid a divergent second owner).
-
-## next-stage-inventory/ (no own file — evidence tooling)
-
-Reflection dumper (`api-inventory.csproj` + `Program.cs`) listing public API surface as
-markdown/JSON; driven by the `generate-inventory` pipeline (`harness/Inventory.fs`) to
-regenerate `docs/next-stage/inventory/generated/`. Not in `FunnySharp.slnx`, not packable, must
-never become a release dependency.
-
-## CONVENTIONS
-
-- Gates run from the repository root as `dotnet fsi build.fsx -- -p <pipeline> [args]`.
-- The `gate` helper in `build.fsx` preserves the 0/1/2 exit contract (0 pass, 1 verification
-  failure, 2 usage/environment) that Fun.Build's single failure code would otherwise flatten.
-- Verify gates fail closed with remediation text; they never mutate what they verify.
-- `dotnet format` cannot check F# projects, so the `format` pipeline covers C# only; the harness
-  F# sources are not format-checked.
-
-## ANTI-PATTERNS
-
-- NEVER treat `tooling.yml` as a release gate — only the `release.yml` contexts gate a
-  release; tooling is informational (KTD8). Never promote `tooling-gate` casually.
-- NEVER run benchmarks in CI — the release pipeline runs with `-SkipBenchmarks` (the
-  `benchmarkSkipped` protocol mode); benchmarks are a developer-machine activity.
-- NEVER hand-edit generated/frozen evidence: `docs/next-stage/inventory/generated/` comes
-  from the `generate-inventory` pipeline, perf observations come from the exporters — regenerate,
-  don't patch. Policy rows (`excluded|`, budgets) are verifier-immutable editorial content.
-- NEVER restore without the lock — the release protocol uses `--locked-mode --no-cache`;
-  skipping it voids reproducibility proofs.
-
-## COMMANDS
+## Commands
 
 ```bash
-dotnet fsi build.fsx -- -p verify-tooling                  # local pre-check (release protocol's local steps)
-dotnet fsi build.fsx -- -p verify-docs-snippets            # 11 primary guides, byte-exact
-dotnet fsi build.fsx -- -p check-action-pins               # full-SHA workflow pins
-dotnet fsi build.fsx -- -p verify-performance -ReceiptDirectory <dir>
-dotnet fsi build.fsx -- -p verify-performance -ManifestPath eng/performance/competitor-baseline.json -ReceiptDirectory <dir>
-dotnet fsi build.fsx -- -p generate-performance-docs
-dotnet fsi build.fsx -- -p release -AttemptId <id> -OutputDirectory artifacts/release-run
+dotnet fsi build.fsx -- -p verify-tooling
+dotnet fsi build.fsx -- -p verify-api-baseline
+dotnet fsi build.fsx -- -p verify-docs-snippets
+dotnet fsi build.fsx -- -p verify-performance -ReceiptDirectory <results>
+dotnet fsi build.fsx -- -p release -AttemptId <id> -SkipBenchmarks
 ```

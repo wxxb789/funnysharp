@@ -17,24 +17,6 @@
           "xunit.v3.mtp-v2": "[4.0.0]"
         }
       },
-      "Fun.Build": {
-        "type": "Transitive",
-        "resolved": "1.2.0",
-        "contentHash": "7A+Whcb50IDsvNvQ9bMr6/pkw0G700xXdvjZnQFAMfXrk1Cey7jdJYZJxb0/QHOsuDTYfqxF5oy+R6fuGlOBAA==",
-        "dependencies": {
-          "FSharp.Core": "6.0.0",
-          "Fun.Result": "2.0.9",
-          "Spectre.Console": "0.46.0"
-        }
-      },
-      "Fun.Result": {
-        "type": "Transitive",
-        "resolved": "2.0.9",
-        "contentHash": "UqkeqskNL+Up5Vv4fPT02nPcwNn+kXV9yXL9y0gSJPM1oTV48ERopCXs0b9pNL/YtinvMj1jzj8lmjRqqM3cCQ==",
-        "dependencies": {
-          "FSharp.Core": "6.0.0"
-        }
-      },
       "Microsoft.ApplicationInsights": {
         "type": "Transitive",
         "resolved": "2.23.0",
@@ -79,11 +61,6 @@
         "type": "Transitive",
         "resolved": "5.0.0",
         "contentHash": "dDoKi0PnDz31yAyETfRntsLArTlVAVzUzCIvvEDsDsucrl33Dl8pIJG06ePTJTI3tGpeyHS9Cq7Foc/s4EeKcg=="
-      },
-      "Spectre.Console": {
-        "type": "Transitive",
-        "resolved": "0.46.0",
-        "contentHash": "qd2OMEGxfQW1KLuQj56KKHkIK6eB/IUF/AET5CRl/efROHGsvBehx9shfkL0HgJEHLCwRiR7foWi4/LkdPk18g=="
       },
       "System.Security.AccessControl": {
         "type": "Transitive",
@@ -161,8 +138,7 @@
       "funnysharp.harness": {
         "type": "Project",
         "dependencies": {
-          "FSharp.Core": "[10.1.401, )",
-          "Fun.Build": "[1.2.0, )"
+          "FSharp.Core": "[10.1.401, )"
         }
       }
     }

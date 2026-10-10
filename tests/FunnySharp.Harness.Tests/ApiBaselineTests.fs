@@ -1,8 +1,7 @@
 module FunnySharp.Harness.Tests.ApiBaselineTests
 
 // Behaviour tests for FunnySharp.Harness.ApiBaseline. The surface is always
-// produced by the release audit's own reflection path
-// (ReleaseVerifyArtifacts.getPublicApiText, or the published inventory renderer), so each
+// produced by ApiBaseline.getPublicApiText, so each
 // fact exercises the module's real file-reading and comparison contract against
 // a genuinely reflected assembly - the built harness itself - rather than a fake
 // surface. The scratch repository roots mirror the fixed
@@ -11,12 +10,9 @@ module FunnySharp.Harness.Tests.ApiBaselineTests
 
 open System
 open System.IO
-open System.Security.Cryptography
 open System.Text
-open System.Text.Json.Nodes
 open Xunit
 open FunnySharp.Harness.ApiBaseline
-open FunnySharp.Harness.ReleaseVerifyArtifacts
 open FunnySharp.Harness.Tests.Support
 
 let private harnessAssemblyPath = Path.Combine(AppContext.BaseDirectory, "FunnySharp.Harness.dll")
@@ -112,7 +108,7 @@ type ApiBaselineTests() =
         Directory.CreateDirectory(baselineDirectory temp.Path) |> ignore
         let baselinePath = baselineFileName temp.Path "FunnySharp.Harness"
 
-        let rendered = getPublicApiInventory [ harnessAssemblyPath ] temp.Path |> renderPublicApiText
+        let rendered = getPublicApiText [ harnessAssemblyPath ] temp.Path
         Assert.False(rendered.IsEmpty)
         writeBaseline baselinePath rendered
 
@@ -147,8 +143,8 @@ type ApiBaselineTests() =
 
     // CLI round trip on a scratch root whose shipping slots hold the built
     // harness: --write creates both baseline files, a clean verify exits 0 with
-    // the single success line. Non-API bytes change the published digest but not
-    // the baseline verdict; missing a real reflected method exits 1 while leaving
+    // the single success line. Non-API bytes do not change the baseline verdict;
+    // missing a real reflected method exits 1 while leaving
     // the committed baseline bytes untouched.
     [<Fact>]
     member _.WriteThenVerify_DoesNotWriteInVerifyMode(): unit =
@@ -174,35 +170,13 @@ type ApiBaselineTests() =
         Assert.EndsWith("against eng/api-baseline.", verifyOut.Trim())
 
         let assemblyPaths = shippingAssemblies temp.Path |> List.map snd
-        let originalInventory = getPublicApiInventory assemblyPaths temp.Path
+        let originalSurface = getPublicApiText assemblyPaths temp.Path
 
         for path in assemblyPaths do
             use stream = new FileStream(path, FileMode.Append, FileAccess.Write)
             stream.Write [| 0uy; 1uy; 2uy; 3uy |]
 
-        let appendedInventory = getPublicApiInventory assemblyPaths temp.Path
-        let originalSurface = renderPublicApiText originalInventory
-        Assert.Equal<string list>(originalSurface, renderPublicApiText appendedInventory)
         Assert.Equal<string list>(originalSurface, getPublicApiText assemblyPaths temp.Path)
-
-        let digest (inventory: JsonArray) (index: int) =
-            match inventory.[index] with
-            | :? JsonObject as assembly ->
-                match assembly.["sha256"] with
-                | :? JsonValue as value -> value.GetValue<string>()
-                | _ -> failwith "Published assembly digest is missing."
-            | _ -> failwith "Published assembly inventory is missing."
-
-        let sortedPaths =
-            assemblyPaths
-            |> List.sortWith (fun left right -> StringComparer.OrdinalIgnoreCase.Compare(left, right))
-
-        for index, path in List.indexed sortedPaths do
-            let independentDigest =
-                Convert.ToHexString(SHA256.HashData(File.ReadAllBytes path)).ToLowerInvariant()
-
-            Assert.Equal(independentDigest, digest appendedInventory index)
-            Assert.NotEqual<string>(digest originalInventory index, digest appendedInventory index)
 
         let appendExit, appendOut, appendErr = run [ "--repository-root"; temp.Path ]
         Assert.Equal(verifyExit, appendExit)

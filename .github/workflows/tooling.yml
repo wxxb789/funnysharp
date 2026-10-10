@@ -46,13 +46,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
 
-      # The uv toolchain step is gone: uv.toml and .python-version are deleted
-      # with it, and the harness is invoked directly with dotnet. The pin
-      # checker's setup-uv rule (tooling.yml must not repeat a `version:` input,
-      # and uv.toml must carry the exact required-version pin) stays in place
-      # even though no setup-uv step remains, so the rule re-activates if the
-      # step ever returns.
-
       - name: Set up .NET
         uses: actions/setup-dotnet@67a3573c9a986a3f9c594539f4ab511d57bb3ce9 # v4
         with:
@@ -61,15 +54,9 @@ jobs:
       - name: Prepare the tooling log directory
         run: mkdir -p "$RUNNER_TEMP/tooling-logs"
 
-      - name: Run the .NET test suites
+      - name: Incremental harness build
         run: |
-          dotnet test FunnySharp.slnx 2>&1 \
-            | tee "$RUNNER_TEMP/tooling-logs/dotnet-tests.log"
-
-      - name: Run the tooling pre-check
-        run: |
-          dotnet fsi build.fsx -- -p verify-tooling 2>&1 \
-            | tee "$RUNNER_TEMP/tooling-logs/verify-tooling.log"
+          dotnet build eng/harness/FunnySharp.Harness.fsproj -p:RestoreLockedMode=true 2>&1 | tee "$RUNNER_TEMP/tooling-logs/build.log"
 
       - name: Verify the documentation snippets
         run: |
