@@ -75,8 +75,9 @@ and checks snippets/action pins; release/platform tests need manual dispatch.
 Locked restore and the harness/test-project build pass with zero warnings/errors.
 The 88 small CLI, fake-runner and protocol behavior checks pass with zero skips.
 No heavy test, full release, evaluation or benchmark was run in this follow-up.
-Remote branch rules requiring former automatic release contexts are not changed
-by the local workflow edit and may require an authorized control-plane update.
+Ordinary PR merge rules now require the automatic `tooling-gate`, separately from
+manual release acceptance. Remote ruleset changes require authorization and
+readback; a local workflow edit alone does not change branch protection.
 
 ## FSI Orchestration
 

@@ -1,12 +1,10 @@
 name: tooling
 
-# Informational matrix that proves the F# harness tooling layer on every supported
-# operating system. The release workflow contexts (`release / win-x64`,
-# `release / linux-x64`, `release / osx-arm64`, `release / osx-x64-consumer`)
-# remain the only release gate; promoting `tooling / tooling-gate` to a required
-# check is a separate decision (KTD8).
+# Lightweight PR merge checks on every supported operating system.
+# The required check is the aggregate `tooling-gate`; manually dispatched
+# release workflow contexts gate release acceptance, not ordinary PR merges.
 #
-# No `paths` filter on purpose: a future required check must always report a
+# No `paths` filter on purpose: the required check must always report a
 # result instead of staying pending on changes outside the filter.
 
 on:
@@ -77,8 +75,7 @@ jobs:
           if-no-files-found: ignore
           retention-days: 7
 
-  # One stable aggregate check name for future promotion, so registering the
-  # tooling workflow as required adds one context instead of three matrix legs.
+  # One required aggregate check instead of three required matrix contexts.
   tooling-gate:
     name: tooling-gate
     needs: tooling

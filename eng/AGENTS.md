@@ -27,7 +27,7 @@ transport, frozen replay, XML identity-binding or offline packet-verification la
 - Heavy tests, full pre-check/release, platform consumers and benchmarks are manual only; never auto-trigger them in CI or Agent iterations.
 - Run focused checks for changed behavior. Add controlled failing cases where they
   prove the checker rejects a real failure, not a changed receipt literal.
-- Only `.github/workflows/release.yml` gates release; tooling CI is informational.
+- `tooling-gate` gates ordinary PR merges; only manual `release.yml` contexts gate release acceptance.
 - Benchmarks run locally; CI uses `release -SkipBenchmarks`.
 - Historical evidence and frozen studies are read-only records, not current gates.
 - Performance policy is editorially owned; the verifier never changes budgets.

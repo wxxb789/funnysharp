@@ -25,5 +25,10 @@ it previously only set a Python/uv variable and did not make .NET offline.
 ## CI
 
 Automatic `tooling.yml` builds the harness and checks snippets and Git action pins.
-`release.yml` runs package/platform tests only when manually dispatched. Benchmarks
-remain developer-machine commands and are not triggered by CI.
+Its aggregate `tooling-gate` is required for ordinary PR merges; it does not prove
+product tests or release acceptance. `verify-ruleset` checks the default-branch
+merge policy, including the GitHub Actions binding, strict checks and zero bypass.
+
+`release.yml` runs package/platform tests only when manually dispatched. Its four
+platform checks gate release acceptance, not ordinary PR merges. Benchmarks remain
+developer-machine commands and are not triggered by CI.

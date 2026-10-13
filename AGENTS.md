@@ -18,7 +18,7 @@ funnysharp/
 ├── docs/                 # product contract, grammar, per-carrier guides; next-stage/ = Goal 14 evidence-set workflow; goals/ frozen contracts
 ├── benchmarks/           # BenchmarkDotNet suites; JSON receipts bound to eng/performance manifests
 ├── examples/             # executable examples + DocumentationSamples (byte-exact docs snippet contract)
-├── .github/workflows/    # release.yml (the only release gate) + tooling.yml (informational 3-OS matrix)
+├── .github/workflows/    # release.yml (manual release gate) + tooling.yml (3-OS PR merge gate)
 └── FunnySharp.slnx       # 13 projects; excludes tests/FunnySharp.Compatibility
 ```
 
@@ -34,7 +34,7 @@ funnysharp/
 | Goal evaluation | `build.fsx` (`-p eval-*`), `eng/evaluation/` | 5 task areas, style-neutral Contract.cs seam |
 | Capability decisions | `docs/next-stage/` | Goal 14 evidence set; later goals append only |
 | Authoritative contracts | `docs/product-contract.md`, `docs/grammar.md` | boundaries + verb vocabulary |
-| CI | `.github/workflows/release.yml` | win-x64 canonical, then linux/osx/consumer jobs |
+| PR merge gate | `.github/workflows/tooling.yml` | required `tooling-gate`; light 3-OS checks |
 
 ## CODE MAP
 

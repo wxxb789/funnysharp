@@ -29,7 +29,17 @@ Timing remains informational until fixed-hardware measurement exists. Compiler,
 SDK and NuGet validation remain enabled; removing custom checksum checks does not
 remove package restore integrity or security checks.
 
-## Required Platform Gates
+## PR Merge Gate
+
+Ordinary PR merges require the automatic `tooling-gate` check, bound to the GitHub
+Actions integration, with strict up-to-date checks and zero bypass actors.
+`verify-ruleset` verifies this merge policy. Manual release contexts are not
+required for ordinary merges, and a passing PR check is not release acceptance.
+
+The tooling matrix builds the harness and checks documentation snippets and action
+pins. It does not run product tests, package consumers, trimming or Native AOT.
+
+## Required Release Platform Gates
 
 The manually dispatched release workflow reports these contexts:
 
@@ -38,12 +48,10 @@ The manually dispatched release workflow reports these contexts:
 - `release / osx-arm64`: source/platform checks and canonical package consumption.
 - `release / osx-x64-consumer`: bounded canonical-package smoke on Intel macOS.
 
-These contexts are no longer triggered by push or pull request. Existing remote
-branch rulesets requiring automatic contexts may need an authorized update.
-A failed manual release check blocks release. An authorized ruleset
-readback must name these contexts and disallow ordinary bypass. `tooling.yml`
-remains informational. Cross-platform consumers use the downloaded canonical
-packages directly; no custom package or loaded-DLL checksum comparison is needed.
+These contexts run only on manual dispatch. All four must pass for release
+acceptance; a failed or missing manual release check blocks release, not an
+ordinary PR merge. Cross-platform consumers use the downloaded canonical packages
+directly; no custom package or loaded-DLL checksum comparison is needed.
 
 ## Results
 

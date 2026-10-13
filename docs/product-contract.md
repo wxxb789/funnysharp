@@ -273,8 +273,10 @@ The runner executes each protocol step, requires the same Git commit and clean t
 before and after the attempt, and retains command results and logs in a new attempt directory.
 An isolated NuGet cache prevents stale package consumption. Actual builds, tests, API and snippet
 checks, package consumers and allocation budgets establish correctness; custom file fingerprints
-and independent evidence replay are not release requirements. GitHub exposes four required contexts: `release / win-x64`,
-`release / linux-x64`, `release / osx-arm64`, and `release / osx-x64-consumer`.
+and independent evidence replay are not release requirements. Manual release acceptance
+requires four passing contexts: `release / win-x64`, `release / linux-x64`,
+`release / osx-arm64`, and `release / osx-x64-consumer`. Ordinary PR merges require
+the automatic `tooling-gate` instead; passing it does not imply release acceptance.
 
 The evidence must also show that:
 

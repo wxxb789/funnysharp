@@ -48,7 +48,8 @@ are removed; one command registry owns dispatch and help.
 Heavy tests, full pre-checks, package/platform/AOT scenarios, evaluation cohorts and
 benchmarks are **manual only**. Do not run them automatically during Agent development.
 `release.yml` is workflow-dispatch only. Automatic tooling CI builds the harness
-and checks snippets/action references; it never runs test suites, the full pre-check
+and checks snippets/action references; its aggregate `tooling-gate` gates ordinary
+PR merges, not release acceptance. It never runs test suites, the full pre-check
 or benchmarks. `--offline` was removed because its old UV flag did not control .NET
 network access. Use native restore options and an already-restored build as needed.
 
@@ -67,7 +68,7 @@ network access. Use native restore options and an already-restored build as need
 | `vertical-slice` | Exercise package-only application consumers and their comparison. |
 | `verify-performance` | Check measured allocations against policy budgets. |
 | `generate-performance-docs` | Generate or check performance tables. |
-| `verify-ruleset` | Check the required GitHub status contexts. |
+| `verify-ruleset` | Check the default-branch PR merge ruleset. |
 | `compatibility` | Restore, build and run package consumers, including trim/AOT scenarios. |
 | `release` | Execute release steps and retain command results and logs. |
 | `eval-prep-feed` | Prepare evaluation packages. |
