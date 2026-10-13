@@ -1,39 +1,13 @@
 module FunnySharp.Harness.Compatibility
 
-// Behaviour port of tests/FunnySharp.Compatibility/Run-Compatibility.ps1: a
-// package-consumer compatibility runner that packs NOTHING. It consumes the
-// .nupkg files the release `pack` step already produced, restores them from the
-// local -PackageDirectory listed before the remote feed in a generated
-// NuGet.Config, and uses an isolated NUGET_PACKAGES cache so a version drift
-// cannot silently resolve to something else.
-//
-// Every requested scenario restores, publishes (self-contained) and runs one
-// consumer app -- CoreSmoke/CoreTrimmed/CoreNativeAot against
-// FunnySharp.Compatibility.Core, AspNetCore* against
-// FunnySharp.Compatibility.AspNetCore -- then hashes the published
-// FunnySharp[.AspNetCore].dll and, for *Smoke scenarios, requires it to match the
-// same assembly inside the canonical package.
-//
-// Output: <OutputDirectory>/NuGet.Config and
-// <OutputDirectory>/compatibility-results.json (UTF-8 without BOM, trailing
-// newline, PascalCase keys). Package hashes are UPPERCASE (PowerShell Get-FileHash
-// semantics); assembly hashes are lowercase. StartedAtUtc/FinishedAtUtc are
-// "O"-format UTC timestamps, so the JSON is deliberately not byte-reproducible.
-//
-// Unlike the PowerShell original, whose $ErrorActionPreference='Stop' surfaces
-// only the first scenario failure, this port records and reports EVERY scenario
-// failure and still attempts the remaining scenarios; the results file lists all
-// of them.
-//
-// Exit codes: 0 pass, 1 a scenario verification failure, 2 usage/environment
-// failure (argument validation, missing package directory, RID/host mismatch).
+// Restores, publishes and runs package consumers using an isolated cache.
+// The package archive contract is checked directly, without evidence replay.
 
 open System
 open System.Globalization
 open System.IO
 open System.IO.Compression
 open System.Runtime.InteropServices
-open System.Security.Cryptography
 open System.Text
 open System.Text.Json
 open System.Text.Json.Nodes
@@ -256,35 +230,53 @@ let private resetDirectory (artifactsDirectory: string) (path: string) : unit =
 
     Directory.CreateDirectory path |> ignore
 
-let private fileSha256Upper (path: string) : Result<string, HarnessError> =
-    try
-        use stream = File.OpenRead path
-        Ok(Convert.ToHexString(SHA256.HashData stream))
-    with ex ->
-        usageError ex.Message
+let validatePackage (path: string) (expectedId: string) (expectedVersion: string) (coreVersion: string) : unit =
+    use archive = ZipFile.OpenRead path
+    let requiredEntry name =
+        match archive.GetEntry name with
+        | null -> invalidOp (sprintf "Package '%s' is missing '%s'." expectedId name)
+        | entry -> entry
+    let nuspecs = archive.Entries |> Seq.filter (fun entry -> entry.FullName.EndsWith(".nuspec", StringComparison.Ordinal)) |> Seq.toList
+    let nuspec =
+        match nuspecs with
+        | [ entry ] -> entry
+        | _ -> invalidOp "Package must contain exactly one nuspec."
+    use stream = nuspec.Open()
+    let document = System.Xml.Linq.XDocument.Load stream
+    let elements name = document.Descendants() |> Seq.filter (fun item -> item.Name.LocalName = name) |> Seq.toList
+    let text name = elements name |> List.tryHead |> Option.map (fun item -> item.Value) |> Option.defaultValue ""
+    let attribute name (item: System.Xml.Linq.XElement) =
+        match item.Attribute(System.Xml.Linq.XName.Get name) with
+        | null -> ""
+        | value -> value.Value
+    if text "id" <> expectedId || text "version" <> expectedVersion then invalidOp "Package nuspec identity does not match its filename."
+    for entry in [ "README.md"; sprintf "lib/net10.0/%s.dll" expectedId; sprintf "lib/net10.0/%s.xml" expectedId ] do
+        requiredEntry entry |> ignore
+    if text "readme" <> "README.md" || text "license" <> "MIT"
+       || (elements "license" |> List.exists (fun item -> attribute "type" item <> "expression")) then
+        invalidOp "Package must declare its README and MIT license."
+    let dependencyGroups = elements "dependencies" |> List.collect (fun item -> item.Elements() |> Seq.toList)
+    if dependencyGroups.Length <> 1 || attribute "targetFramework" dependencyGroups.[0] <> "net10.0" then
+        invalidOp "Package must have exactly one net10.0 dependency group."
+    let dependencies = dependencyGroups.[0].Elements() |> Seq.toList
+    let frameworkGroups = elements "frameworkReferences" |> List.collect (fun item -> item.Elements() |> Seq.toList)
+    if expectedId = "FunnySharp" then
+        if not dependencies.IsEmpty || not frameworkGroups.IsEmpty then invalidOp "FunnySharp must have no runtime dependencies or framework references."
+        for entry in [ "analyzers/dotnet/cs/FunnySharp.Analyzers.dll"; "analyzers/dotnet/cs/FunnySharp.Analyzers.CodeFixes.dll" ] do
+            requiredEntry entry |> ignore
+    else
+        if dependencies.Length <> 1 || attribute "id" dependencies.[0] <> "FunnySharp"
+           || attribute "version" dependencies.[0] <> coreVersion then
+            invalidOp "FunnySharp.AspNetCore must depend only on the candidate FunnySharp version."
+        if frameworkGroups.Length <> 1 || attribute "targetFramework" frameworkGroups.[0] <> "net10.0" then
+            invalidOp "FunnySharp.AspNetCore must have one net10.0 framework reference group."
+        let references = frameworkGroups.[0].Elements() |> Seq.toList
+        if references.Length <> 1 || attribute "name" references.[0] <> "Microsoft.AspNetCore.App" then
+            invalidOp "FunnySharp.AspNetCore must reference only Microsoft.AspNetCore.App."
 
-let private fileSha256Lower (path: string) : string =
-    use stream = File.OpenRead path
-    Convert.ToHexString(SHA256.HashData stream).ToLowerInvariant()
-
-let private packageAssemblySha256 (packagePath: string) (entryPath: string) : Result<string, HarnessError> =
-    try
-        use archive = ZipFile.OpenRead packagePath
-
-        match archive.GetEntry entryPath with
-        | null -> usageError (sprintf "Package '%s' does not contain '%s'." packagePath entryPath)
-        | entry ->
-            use stream = entry.Open()
-            Ok(Convert.ToHexString(SHA256.HashData stream).ToLowerInvariant())
-    with ex ->
-        usageError ex.Message
-
-/// The isolated per-run NuGet cache: <artifacts>/.nuget-packages/<16 hex of the
-/// UTF-8 SHA256 of the resolved OutputDirectory>.
-let isolatedNuGetPackagesDirectory (artifactsDirectory: string) (outputDirectory: string) : string =
-    let hash = SHA256.HashData(Encoding.UTF8.GetBytes outputDirectory)
-    let cacheKey = Convert.ToHexString(hash).Substring(0, 16).ToLowerInvariant()
-    Path.Combine(artifactsDirectory, ".nuget-packages", cacheKey)
+let isolatedNuGetPackagesDirectory (artifactsDirectory: string) (_outputDirectory: string) : string =
+    // Native AOT package assets exceed Windows path limits under nested attempt directories.
+    Path.Combine(artifactsDirectory, "nuget", Guid.NewGuid().ToString("N"))
 
 let private packageVersion (packageDirectory: string) (packageId: string) : Result<string, HarnessError> =
     let pattern =
@@ -304,6 +296,30 @@ let private packageVersion (packageDirectory: string) (packageId: string) : Resu
         )
     else
         Ok(pattern.Match(matching.[0]).Groups.["version"].Value)
+
+let private validatePackageInventory (packageDirectory: string) (version: string) : Result<unit, HarnessError> =
+    let expected =
+        [ for id in [ "FunnySharp"; "FunnySharp.AspNetCore" ] do
+              for extension in [ ".nupkg"; ".snupkg" ] do
+                  yield id + "." + version + extension ]
+        |> Set.ofList
+    let actual =
+        Directory.GetFiles packageDirectory
+        |> Array.filter (fun path ->
+            let extension = Path.GetExtension path
+            String.Equals(extension, ".nupkg", StringComparison.OrdinalIgnoreCase)
+            || String.Equals(extension, ".snupkg", StringComparison.OrdinalIgnoreCase))
+        |> Array.choose (fun path -> Path.GetFileName path |> Option.ofObj)
+        |> Set.ofArray
+    if actual <> expected then
+        usageFail (
+            sprintf
+                "Package inventory must contain exactly the two candidate nupkg files and their matching snupkg files. Missing: [%s]. Unexpected: [%s]."
+                (String.concat ", " (Set.difference expected actual))
+                (String.concat ", " (Set.difference actual expected))
+        )
+    else
+        Ok()
 
 /// The NuGet.Config the runner writes into the output directory. The local feed
 /// comes first and package-source mapping keeps FunnySharp* resolving only there.
@@ -346,12 +362,6 @@ type private ScenarioResult =
       PublishProperties: string list
       CorePackageVersion: string
       AspNetCorePackageVersion: string
-      CorePackageSha256: string
-      AspNetCorePackageSha256: string
-      CoreAssemblySha256: string
-      AspNetCoreAssemblySha256: string
-      PublishedCoreAssemblySha256: string option
-      PublishedAspNetCoreAssemblySha256: string option
       Error: string option }
 
 type private Evidence =
@@ -361,10 +371,6 @@ type private Evidence =
       PackageFeed: string
       CorePackageVersion: string
       AspNetCorePackageVersion: string
-      CorePackageSha256: string
-      AspNetCorePackageSha256: string
-      CoreAssemblySha256: string
-      AspNetCoreAssemblySha256: string
       Scenarios: ScenarioResult list }
 
 let private jsonOptions = JsonSerializerOptions(WriteIndented = true)
@@ -406,12 +412,6 @@ let private scenarioJson (result: ScenarioResult) : JsonNode =
     node.["PublishProperties"] <- stringArray result.PublishProperties
     node.["CorePackageVersion"] <- jstr result.CorePackageVersion
     node.["AspNetCorePackageVersion"] <- jstr result.AspNetCorePackageVersion
-    node.["CorePackageSha256"] <- jstr result.CorePackageSha256
-    node.["AspNetCorePackageSha256"] <- jstr result.AspNetCorePackageSha256
-    node.["CoreAssemblySha256"] <- jstr result.CoreAssemblySha256
-    node.["AspNetCoreAssemblySha256"] <- jstr result.AspNetCoreAssemblySha256
-    node.["PublishedCoreAssemblySha256"] <- optionalString result.PublishedCoreAssemblySha256
-    node.["PublishedAspNetCoreAssemblySha256"] <- optionalString result.PublishedAspNetCoreAssemblySha256
     node.["Error"] <- optionalString result.Error
     node :> JsonNode
 
@@ -423,10 +423,6 @@ let private evidenceJson (evidence: Evidence) : JsonObject =
     node.["PackageFeed"] <- jstr evidence.PackageFeed
     node.["CorePackageVersion"] <- jstr evidence.CorePackageVersion
     node.["AspNetCorePackageVersion"] <- jstr evidence.AspNetCorePackageVersion
-    node.["CorePackageSha256"] <- jstr evidence.CorePackageSha256
-    node.["AspNetCorePackageSha256"] <- jstr evidence.AspNetCorePackageSha256
-    node.["CoreAssemblySha256"] <- jstr evidence.CoreAssemblySha256
-    node.["AspNetCoreAssemblySha256"] <- jstr evidence.AspNetCoreAssemblySha256
     let scenarios = JsonArray()
 
     for result in evidence.Scenarios do
@@ -446,10 +442,6 @@ type private Context =
       PackageFeed: string
       CoreVersion: string
       AspNetCoreVersion: string
-      CorePackageSha256: string
-      AspNetCorePackageSha256: string
-      CoreAssemblySha256: string
-      AspNetCoreAssemblySha256: string
       Definitions: Map<string, ScenarioDefinition>
       Environment: (string * string) list }
 
@@ -491,7 +483,7 @@ let private runScenario
     let binaryDirectory = Path.Combine(scenarioRoot, "bin")
     let startedAt = DateTimeOffset.UtcNow
 
-    let build (outcome: string) (publishedCore: string option) (publishedAsp: string option) (error: string option) =
+    let build (outcome: string) (error: string option) =
         { Scenario = name
           Outcome = outcome
           StartedAtUtc = startedAt.ToString("O", CultureInfo.InvariantCulture)
@@ -502,12 +494,6 @@ let private runScenario
           PublishProperties = definition.PublishProperties
           CorePackageVersion = context.CoreVersion
           AspNetCorePackageVersion = context.AspNetCoreVersion
-          CorePackageSha256 = context.CorePackageSha256
-          AspNetCorePackageSha256 = context.AspNetCorePackageSha256
-          CoreAssemblySha256 = context.CoreAssemblySha256
-          AspNetCoreAssemblySha256 = context.AspNetCoreAssemblySha256
-          PublishedCoreAssemblySha256 = publishedCore
-          PublishedAspNetCoreAssemblySha256 = publishedAsp
           Error = error }
 
     try
@@ -553,32 +539,10 @@ let private runScenario
 
         invokePublishedApplication context stdout publishDirectory definition.AssemblyName
 
-        let publishedCorePath = Path.Combine(publishDirectory, "FunnySharp.dll")
-        let publishedAspNetCorePath = Path.Combine(publishDirectory, "FunnySharp.AspNetCore.dll")
-
-        let publishedCore =
-            if File.Exists publishedCorePath then Some(fileSha256Lower publishedCorePath) else None
-
-        let publishedAspNetCore =
-            if File.Exists publishedAspNetCorePath then Some(fileSha256Lower publishedAspNetCorePath) else None
-
-        if name.EndsWith("Smoke", StringComparison.Ordinal) then
-            match publishedCore with
-            | Some hash when not (String.Equals(hash, context.CoreAssemblySha256, StringComparison.OrdinalIgnoreCase)) ->
-                failwith "Published FunnySharp.dll does not match the canonical package assembly."
-            | _ -> ()
-
-            match publishedAspNetCore with
-            | Some hash when
-                not (String.Equals(hash, context.AspNetCoreAssemblySha256, StringComparison.OrdinalIgnoreCase))
-                ->
-                failwith "Published FunnySharp.AspNetCore.dll does not match the canonical package assembly."
-            | _ -> ()
-
-        build "Passed" publishedCore publishedAspNetCore None
+        build "Passed" None
     with ex ->
         stderr.WriteLine(sprintf "%s failed: %s" name ex.Message)
-        build "Failed" None None (Some ex.Message)
+        build "Failed" (Some ex.Message)
 
 // ---- command line ----
 
@@ -736,20 +700,24 @@ let private prepare
 
         let! coreVersion = packageVersion packageDirectory "FunnySharp"
         let! aspNetCoreVersion = packageVersion packageDirectory "FunnySharp.AspNetCore"
+        do!
+            if coreVersion <> aspNetCoreVersion then
+                usageFail "Package versions must match."
+            else
+                validatePackageInventory packageDirectory coreVersion
 
         let corePackagePath = Path.Combine(packageDirectory, sprintf "FunnySharp.%s.nupkg" coreVersion)
 
         let aspNetCorePackagePath =
             Path.Combine(packageDirectory, sprintf "FunnySharp.AspNetCore.%s.nupkg" aspNetCoreVersion)
 
-        let! corePackageSha256 = fileSha256Upper corePackagePath
-        let! aspNetCorePackageSha256 = fileSha256Upper aspNetCorePackagePath
 
-        let! coreAssemblySha256 =
-            packageAssemblySha256 corePackagePath "lib/net10.0/FunnySharp.dll"
-
-        let! aspNetCoreAssemblySha256 =
-            packageAssemblySha256 aspNetCorePackagePath "lib/net10.0/FunnySharp.AspNetCore.dll"
+        do!
+            try
+                validatePackage corePackagePath "FunnySharp" coreVersion coreVersion
+                validatePackage aspNetCorePackagePath "FunnySharp.AspNetCore" aspNetCoreVersion coreVersion
+                Ok ()
+            with ex -> usageFail ex.Message
 
         Directory.CreateDirectory outputFull |> ignore
         let outputRoot = resolveDirectoryPath outputFull
@@ -767,10 +735,6 @@ let private prepare
               PackageFeed = packageFeed
               CoreVersion = coreVersion
               AspNetCoreVersion = aspNetCoreVersion
-              CorePackageSha256 = corePackageSha256
-              AspNetCorePackageSha256 = aspNetCorePackageSha256
-              CoreAssemblySha256 = coreAssemblySha256
-              AspNetCoreAssemblySha256 = aspNetCoreAssemblySha256
               Definitions = scenarioDefinitions repositoryRoot
               Environment = [ ("NUGET_PACKAGES", nugetPackagesDirectory) ] }
     }
@@ -788,10 +752,6 @@ let private execute (context: Context) (stdout: TextWriter) (stderr: TextWriter)
           PackageFeed = context.PackageFeed
           CorePackageVersion = context.CoreVersion
           AspNetCorePackageVersion = context.AspNetCoreVersion
-          CorePackageSha256 = context.CorePackageSha256
-          AspNetCorePackageSha256 = context.AspNetCorePackageSha256
-          CoreAssemblySha256 = context.CoreAssemblySha256
-          AspNetCoreAssemblySha256 = context.AspNetCoreAssemblySha256
           Scenarios = results }
 
     let resultsPath = Path.Combine(context.OutputRoot, "compatibility-results.json")

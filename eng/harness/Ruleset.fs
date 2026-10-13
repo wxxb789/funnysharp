@@ -1,22 +1,8 @@
 module FunnySharp.Harness.Ruleset
 
-// A behaviour-identical F# port of eng/Verify-GitHubRuleset.ps1: records and
-// verifies the GitHub repository ruleset that the release gate depends on.
-//
-// It resolves the repository and default branch through `gh`, fetches the ruleset
-// through the GitHub API, then fails closed unless: enforcement is active, the
-// ruleset targets branches, the target ref is included with no exclusions, there
-// is exactly one required_status_checks rule whose strict policy is true, each of
-// the four hard-coded release contexts is bound exactly once to
-// -ExpectedIntegrationId, and there are zero bypass actors.
-//
-// The PowerShell original prompts interactively for missing mandatory parameters;
-// this port never prompts. A missing mandatory parameter, an unparsable integer or
-// an out-of-range ExpectedIntegrationId is a typed usage failure (exit 2).
-//
-// Every failure message, the evidence key set and the verdict line are byte-exact
-// with the original with the single exception of the usage messages above, which
-// had no non-interactive form in PowerShell.
+// Records and verifies the default-branch PR merge ruleset: only tooling-gate,
+// bound to GitHub Actions, with active enforcement, strict checks and zero bypass.
+// Manual release acceptance is separate from ordinary PR merge checks.
 
 open System
 open System.Globalization
@@ -84,12 +70,9 @@ let private parseClonedElement (text: string) : JsonElement =
 // Core checks
 // ---------------------------------------------------------------------------
 
-/// The four required release workflow contexts, in the original's fixed order.
+/// The automatic aggregate check required for ordinary PR merges.
 let requiredContexts: string list =
-    [ "release / win-x64"
-      "release / linux-x64"
-      "release / osx-arm64"
-      "release / osx-x64-consumer" ]
+    [ "tooling-gate" ]
 
 /// The strict-up-to-date policy requirement, exposed by name like the
 /// PowerShell Assert-StrictRequiredStatusChecksPolicy function and its tests.
@@ -216,12 +199,23 @@ let checkRuleset
                                     |> List.exists (fun observed ->
                                         String.Equals(observed, required, StringComparison.OrdinalIgnoreCase))))
 
+                        let unexpected =
+                            observedContexts
+                            |> List.filter (fun observed -> not (List.contains observed requiredContexts))
+
                         if not missing.IsEmpty then
                             failError (
                                 sprintf
                                     "Ruleset %d is missing required contexts: %s."
                                     rulesetId
                                     (String.Join(", ", missing))
+                            )
+                        elif not unexpected.IsEmpty then
+                            failError (
+                                sprintf
+                                    "Ruleset %d contains unexpected PR merge contexts: %s."
+                                    rulesetId
+                                    (String.Join(", ", unexpected))
                             )
                         else
                             let bindings =
@@ -378,7 +372,7 @@ let private helpText =
         Environment.NewLine
         [ usageLine
           ""
-          "Records and verifies the GitHub ruleset used by the release gate."
+          "Records and verifies the GitHub ruleset used for ordinary PR merges."
           ""
           "parameters:"
           "  -Repository <owner/name>          (optional) defaults to `gh repo view`."

@@ -14,7 +14,7 @@ open FunnySharp.Harness.Ruleset
 open FunnySharp.Harness.Tests.Support
 
 let private statusRule =
-    "{\"type\":\"required_status_checks\",\"parameters\":{\"strict_required_status_checks_policy\":true,\"required_status_checks\":[{\"context\":\"release / win-x64\",\"integration_id\":12345},{\"context\":\"release / linux-x64\",\"integration_id\":12345},{\"context\":\"release / osx-arm64\",\"integration_id\":12345},{\"context\":\"release / osx-x64-consumer\",\"integration_id\":12345}]}}"
+    "{\"type\":\"required_status_checks\",\"parameters\":{\"strict_required_status_checks_policy\":true,\"required_status_checks\":[{\"context\":\"tooling-gate\",\"integration_id\":12345}]}}"
 
 let private validRuleset =
     "{\"id\":42,\"name\":\"release-gate\",\"target\":\"branch\",\"enforcement\":\"active\",\"updated_at\":\"2026-09-01T00:00:00Z\",\"conditions\":{\"ref_name\":{\"include\":[\"~DEFAULT_BRANCH\"],\"exclude\":[]}},\"rules\":["
@@ -108,20 +108,14 @@ type RulesetCheckTests() =
         match check validRuleset with
         | Error err -> failwith err.Message
         | Ok fields ->
-            Assert.Equal(4, fields.RequiredChecks.Length)
+            Assert.Equal(1, fields.RequiredChecks.Length)
             Assert.Equal<(string * int64) list>(
-                [ "release / win-x64", 12345L
-                  "release / linux-x64", 12345L
-                  "release / osx-arm64", 12345L
-                  "release / osx-x64-consumer", 12345L ],
+                [ "tooling-gate", 12345L ],
                 fields.RequiredChecks
             )
 
             Assert.Equal<string list>(
-                [ "release / linux-x64"
-                  "release / osx-arm64"
-                  "release / osx-x64-consumer"
-                  "release / win-x64" ],
+                [ "tooling-gate" ],
                 fields.RequiredContextsObserved
             )
 
@@ -138,20 +132,34 @@ type RulesetCheckTests() =
     [<Fact>]
     member _.CheckRuleset_MissingRequiredContext_Rejects() =
         let json =
-            validRuleset.Replace("{\"context\":\"release / osx-arm64\",\"integration_id\":12345},", "")
+            validRuleset.Replace("{\"context\":\"tooling-gate\",\"integration_id\":12345}", "")
 
-        Assert.Contains("release / osx-arm64", (rejectionOf (check json)).Message)
+        Assert.Contains("tooling-gate", (rejectionOf (check json)).Message)
+
+    [<Fact>]
+    member _.CheckRuleset_ReleaseOnlyMergeGate_Rejects() =
+        let json = validRuleset.Replace("tooling-gate", "release / win-x64")
+        Assert.Contains("tooling-gate", (rejectionOf (check json)).Message)
+
+    [<Fact>]
+    member _.CheckRuleset_AdditionalReleaseMergeGate_Rejects() =
+        let json =
+            validRuleset.Replace(
+                "\"required_status_checks\":[",
+                "\"required_status_checks\":[{\"context\":\"release / win-x64\",\"integration_id\":12345},"
+            )
+        Assert.Contains("release / win-x64", (rejectionOf (check json)).Message)
 
     [<Fact>]
     member _.CheckRuleset_WrongIntegrationId_Rejects() =
         let json =
             validRuleset.Replace(
-                "{\"context\":\"release / win-x64\",\"integration_id\":12345}",
-                "{\"context\":\"release / win-x64\",\"integration_id\":999}"
+                "{\"context\":\"tooling-gate\",\"integration_id\":12345}",
+                "{\"context\":\"tooling-gate\",\"integration_id\":999}"
             )
 
         let error = rejectionOf (check json)
-        Assert.Contains("release / win-x64", error.Message)
+        Assert.Contains("tooling-gate", error.Message)
         Assert.Contains("12345", error.Message)
 
     [<Fact>]
@@ -199,8 +207,8 @@ type CommandLineTests() =
         let root = document.RootElement
         Assert.True(root.GetProperty("strictRequiredStatusChecksPolicy").GetBoolean())
         Assert.True(root.GetProperty("requiredContextsSatisfied").GetBoolean())
-        Assert.Equal(4, root.GetProperty("requiredContexts").GetArrayLength())
-        Assert.Equal(4, root.GetProperty("requiredChecks").GetArrayLength())
+        Assert.Equal(1, root.GetProperty("requiredContexts").GetArrayLength())
+        Assert.Equal(1, root.GetProperty("requiredChecks").GetArrayLength())
         Assert.Equal(42, root.GetProperty("rulesetId").GetInt32())
 
     [<Fact>]

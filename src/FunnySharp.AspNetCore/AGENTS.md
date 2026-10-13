@@ -14,7 +14,7 @@ Single type `HttpResultExtensions`: ~21 overloads mapping `Option`/`Result`/`Uni
 ## CONVENTIONS
 - `<FrameworkReference Include="Microsoft.AspNetCore.App" />`, not a PackageReference.
 - Packable as its own nupkg (`FunnySharp.AspNetCore`), version-locked to core; README packed from repo root; snupkg + package validation like core.
-- Release gate (`dotnet fsi build.fsx -- -p release-verify`, `eng/harness/ReleaseVerifyArtifacts.fs`) enforces:
+- Package consumer checks (`dotnet fsi build.fsx -- -p compatibility`, `eng/harness/Compatibility.fs`) enforce:
   exactly one net10.0 dependency group, FunnySharp as the only package dependency at the matching version, AspNetCore.App as the only framework reference.
 - ILLink.Tasks pinned with `PrivateAssets=all` so locked restores evaluate identically on every SDK patch.
 - `ToHttpResult` / `ToHttpResultAsync` naming; `Task<IResult>` and `ValueTask<IResult>` variants both exist — keep them paired.

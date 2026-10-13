@@ -5,8 +5,7 @@ module FunnySharp.Harness.PerformanceDocs
 // performance manifest names, in both modes. Verdict lines:
 //   Generated <n> performance documentation regions.
 //   Verified <n> performance documentation regions.
-// The generated region is LF-only and byte-compared, so identical manifest inputs
-// yield a byte-identical region and -Verify never writes.
+// Generated regions use LF; verification ignores checkout line endings and never writes.
 
 open System
 open System.Collections.Generic
@@ -324,7 +323,7 @@ let private generateDocument
                     startMarker + "\n" + String.concat "\n" (List.ofSeq generated) + "\n" + endMarker
 
                 if verify then
-                    let existing = content.Substring(startIndex, endIndex + endMarker.Length - startIndex)
+                    let existing = content.Substring(startIndex, endIndex + endMarker.Length - startIndex).Replace("\r\n", "\n")
 
                     if String.Equals(existing, replacement, StringComparison.Ordinal) then
                         Ok()
@@ -402,132 +401,98 @@ let private runCore (options: CliOptions) : Result<string, HarnessError> =
         else
             let policy = requireProp "policy" root
             let observation = requireProp "observation" root
-            let computedPolicyFingerprint = Performance.textSha256 (policy.GetRawText())
+            let policyRevision = stringOf "revision" policy
+            if stringOf "policyRevision" observation <> policyRevision then
+                Error(Errors.create "The approved observation does not match the current performance policy revision.")
+            else
+                let policyRows = policy |> tryProp "rows" |> elements
+                let includedPolicyRows = policyRows |> List.filter (boolOf "included")
+                let policyById = Dictionary<string, JsonElement>(StringComparer.OrdinalIgnoreCase)
 
-            let inputFiles =
-                root |> tryProp "benchmarkInput" |> Option.bind (tryProp "files") |> stringList
+                for row in includedPolicyRows do
+                    policyById.[stringOf "id" row] <- row
 
-            let protocolFiles = root |> tryProp "protocol" |> Option.bind (tryProp "files") |> stringList
+                let observationRows = observation |> tryProp "rows" |> elements
+                let observationById = Dictionary<string, JsonElement>(StringComparer.OrdinalIgnoreCase)
 
-            let fingerprints =
-                match Performance.fileSetFingerprint repositoryRoot inputFiles with
-                | Error err -> Error err
-                | Ok input ->
-                    match Performance.recordingIdentity repositoryRoot root inputFiles protocolFiles computedPolicyFingerprint input with
-                    | Error err -> Error err
-                    | Ok(Some identity) when identity.IsCurrent -> Ok(input, identity.Protocol)
-                    | Ok(Some _) ->
-                        Error(Errors.create "The approved recording does not match the current performance policy, input, protocol, or snapshot.")
-                    | Ok None ->
-                        Performance.fileSetFingerprint repositoryRoot protocolFiles
-                        |> Result.map (fun protocol -> input, protocol)
-            match fingerprints with
-            | Error err -> Error err
-            | Ok(inputFingerprint, protocolFingerprint) ->
-                let matches (left: string) (right: string) =
-                    String.Equals(left, right, StringComparison.OrdinalIgnoreCase)
+                let mismatchedFields =
+                    [ "benchmarkClass"; "category"; "method"; "parameters"; "baseline" ]
 
-                let policyRevision = stringOf "revision" policy
+                let rec registerRows (remaining: JsonElement list) : Result<unit, HarnessError> =
+                    match remaining with
+                    | [] -> Ok()
+                    | row :: rest ->
+                        let id = stringOf "id" row
 
-                if
-                    not (matches (stringOf "policyRevision" observation) policyRevision)
-                    || not (matches (stringOf "policyFingerprint" observation) computedPolicyFingerprint)
-                    || not (matches (stringOf "benchmarkInputFingerprint" observation) inputFingerprint)
-                    || not (matches (stringOf "protocolFingerprint" observation) protocolFingerprint)
-                then
-                    Error(
-                        Errors.create
-                            "The approved observation does not match the current performance policy, input, or protocol."
-                    )
-                else
-                    let policyRows = policy |> tryProp "rows" |> elements
-                    let includedPolicyRows = policyRows |> List.filter (boolOf "included")
-                    let policyById = Dictionary<string, JsonElement>(StringComparer.OrdinalIgnoreCase)
-
-                    for row in includedPolicyRows do
-                        policyById.[stringOf "id" row] <- row
-
-                    let observationRows = observation |> tryProp "rows" |> elements
-                    let observationById = Dictionary<string, JsonElement>(StringComparer.OrdinalIgnoreCase)
-
-                    let mismatchedFields =
-                        [ "benchmarkClass"; "category"; "method"; "parameters"; "baseline" ]
-
-                    let rec registerRows (remaining: JsonElement list) : Result<unit, HarnessError> =
-                        match remaining with
-                        | [] -> Ok()
-                        | row :: rest ->
-                            let id = stringOf "id" row
-
-                            if
-                                String.IsNullOrWhiteSpace id
-                                || observationById.ContainsKey id
-                                || not (policyById.ContainsKey id)
-                            then
-                                Error(
-                                    Errors.create(
-                                        sprintf
-                                            "The approved observation contains a missing, duplicate, or unregistered row '%s'."
-                                            id
-                                    )
-                                )
-                            else
-                                let policyRow = policyById.[id]
-
-                                match
-                                    mismatchedFields
-                                    |> List.tryFind (fun name ->
-                                        not (jsonEquals (tryProp name row) (tryProp name policyRow)))
-                                with
-                                | Some name ->
-                                    Error(
-                                        Errors.create(
-                                            sprintf
-                                                "The approved observation row '%s' does not match policy field '%s'."
-                                                id
-                                                name
-                                        )
-                                    )
-                                | None ->
-                                    observationById.[id] <- row
-                                    registerRows rest
-
-                    match registerRows observationRows with
-                    | Error err -> Error err
-                    | Ok() ->
-                        if observationById.Count <> includedPolicyRows.Length then
+                        if
+                            String.IsNullOrWhiteSpace id
+                            || observationById.ContainsKey id
+                            || not (policyById.ContainsKey id)
+                        then
                             Error(
                                 Errors.create(
                                     sprintf
-                                        "The approved observation row count %d does not match policy count %d."
-                                        observationById.Count
-                                        includedPolicyRows.Length
+                                        "The approved observation contains a missing, duplicate, or unregistered row '%s'."
+                                        id
                                 )
                             )
                         else
-                            let documentation = root |> tryProp "documentation" |> elements
+                            let policyRow = policyById.[id]
 
-                            let rec generateDocuments (remaining: JsonElement list) : Result<unit, HarnessError> =
-                                match remaining with
-                                | [] -> Ok()
-                                | documentElement :: rest ->
-                                    match
-                                        generateDocument
-                                            options.Verify
-                                            repositoryRoot
-                                            policyRows
-                                            observationById
-                                            documentElement
-                                    with
-                                    | Error err -> Error err
-                                    | Ok() -> generateDocuments rest
+                            match
+                                mismatchedFields
+                                |> List.tryFind (fun name ->
+                                    not (jsonEquals (tryProp name row) (tryProp name policyRow)))
+                            with
+                            | Some name ->
+                                Error(
+                                    Errors.create(
+                                        sprintf
+                                            "The approved observation row '%s' does not match policy field '%s'."
+                                            id
+                                            name
+                                    )
+                                )
+                            | None ->
+                                observationById.[id] <- row
+                                registerRows rest
 
-                            match generateDocuments documentation with
-                            | Error err -> Error err
-                            | Ok() ->
-                                let verb = if options.Verify then "Verified" else "Generated"
+                match registerRows observationRows with
+                | Error err -> Error err
+                | Ok() ->
+                    if observationById.Count <> includedPolicyRows.Length then
+                        Error(
+                            Errors.create(
+                                sprintf
+                                    "The approved observation row count %d does not match policy count %d."
+                                    observationById.Count
+                                    includedPolicyRows.Length
+                            )
+                        )
+                    else
+                        let documentation = root |> tryProp "documentation" |> elements
 
-                                Ok(sprintf "%s %d performance documentation regions." verb documentation.Length)
+                        let rec generateDocuments (remaining: JsonElement list) : Result<unit, HarnessError> =
+                            match remaining with
+                            | [] -> Ok()
+                            | documentElement :: rest ->
+                                match
+                                    generateDocument
+                                        options.Verify
+                                        repositoryRoot
+                                        policyRows
+                                        observationById
+                                        documentElement
+                                with
+                                | Error err -> Error err
+                                | Ok() -> generateDocuments rest
+
+                        match generateDocuments documentation with
+                        | Error err -> Error err
+                        | Ok() ->
+                            let verb = if options.Verify then "Verified" else "Generated"
+
+                            Ok(sprintf "%s %d performance documentation regions." verb documentation.Length)
 
 /// Run the generator/verifier writing to the supplied writers. Returns the legacy
 /// mapping: 0 pass, 1 verification failure, 2 usage failure.

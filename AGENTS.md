@@ -18,7 +18,7 @@ funnysharp/
 ├── docs/                 # product contract, grammar, per-carrier guides; next-stage/ = Goal 14 evidence-set workflow; goals/ frozen contracts
 ├── benchmarks/           # BenchmarkDotNet suites; JSON receipts bound to eng/performance manifests
 ├── examples/             # executable examples + DocumentationSamples (byte-exact docs snippet contract)
-├── .github/workflows/    # release.yml (the only release gate) + tooling.yml (informational 3-OS matrix)
+├── .github/workflows/    # release.yml (manual release gate) + tooling.yml (3-OS PR merge gate)
 └── FunnySharp.slnx       # 13 projects; excludes tests/FunnySharp.Compatibility
 ```
 
@@ -34,7 +34,7 @@ funnysharp/
 | Goal evaluation | `build.fsx` (`-p eval-*`), `eng/evaluation/` | 5 task areas, style-neutral Contract.cs seam |
 | Capability decisions | `docs/next-stage/` | Goal 14 evidence set; later goals append only |
 | Authoritative contracts | `docs/product-contract.md`, `docs/grammar.md` | boundaries + verb vocabulary |
-| CI | `.github/workflows/release.yml` | win-x64 canonical, then linux/osx/consumer jobs |
+| PR merge gate | `.github/workflows/tooling.yml` | required `tooling-gate`; light 3-OS checks |
 
 ## CODE MAP
 
@@ -75,7 +75,7 @@ funnysharp/
 
 - Analyzers ship inside the core nupkg - consumers get diagnostics with an empty dependency group, no extra install.
 - Evaluation harness is model-agnostic: prompt/template/tests anatomy + style-neutral `Contract.cs` seam, results recorded under `eng/evaluation/results/`.
-- `docs/next-stage/` pins provenance via SHA256 pin paragraphs, not YAML front matter.
+- Use Git for source revision and change identity. Do not compute or verify custom SHA file, package, binary, log, receipt, or snapshot fingerprints. Frozen historical provenance remains read-only.
 - Decision vocabulary: adopt/adapt/defer/reject (candidates), keep/redesign/experimental/remove (existing).
 
 ## COMMANDS
@@ -104,5 +104,6 @@ dotnet fsi build.fsx -- -p eval-verify --task <area> --style <style> --run-dir <
 - Child knowledge bases: `tests/FunnySharp.VerticalSlice/AGENTS.md` (Goal 22 package-consumer vertical slice + its idiomatic-C# comparison + measurement harness),
   `src/FunnySharp/AGENTS.md`, `src/FunnySharp.Analyzers/AGENTS.md`, `src/FunnySharp.AspNetCore/AGENTS.md`, `tests/FunnySharp.Tests/AGENTS.md`, `tests/FunnySharp.Analyzers.Tests/AGENTS.md`, `tests/FunnySharp.AspNetCore.Tests/AGENTS.md`, `tests/FunnySharp.Compatibility/AGENTS.md`, `eng/AGENTS.md`, `eng/tools/AGENTS.md`, `eng/evaluation/AGENTS.md`, `benchmarks/AGENTS.md`, `examples/AGENTS.md`, `examples/FunnySharp.Examples/AGENTS.md`, `examples/FunnySharp.DocumentationSamples/AGENTS.md`, `docs/AGENTS.md`, `docs/goals/AGENTS.md`, `docs/plans/AGENTS.md`, `docs/next-stage/AGENTS.md` (+ analysis/, inventory/, inventory/generated/, call-sites-code/), `.github/workflows/AGENTS.md`.
 - `docs/next-stage/decision-record.md` is a pinned Goal 14 baseline - later goals append, never modify.
-- Timing is informational until a fixed-hardware runner exists; allocation budgets are the blocking gate.
+- Heavy tests, full pre-check/release, package/platform/AOT checks, evaluation cohorts and benchmarks run only on explicit human request. Do not auto-run them in CI or Agent iterations. Daily checks use incremental project builds and small relevant tests.
+- Timing is informational until a fixed-hardware runner exists; allocation budgets apply to manually requested measurements.
 - No .NET 11 preview support; `net11.0` targeting waits for GA (TODO.md).

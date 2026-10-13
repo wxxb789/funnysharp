@@ -7,7 +7,6 @@ module FunnySharp.Harness.Tests.PerformanceDocsTests
 open System
 open System.Globalization
 open System.IO
-open System.Security.Cryptography
 open System.Text
 open System.Text.Json.Nodes
 open Xunit
@@ -15,31 +14,6 @@ open FunnySharp.Harness.PerformanceDocs
 open FunnySharp.Harness.Tests.Support
 
 let private utf8NoBom = UTF8Encoding(false)
-
-// ---- Independent fingerprint helpers (as in the PowerShell fixture suite) ----
-
-let private hex (bytes: byte array) : string =
-    Convert.ToHexString(bytes).ToLowerInvariant()
-
-let private hashBytes (bytes: byte array) : string =
-    hex (SHA256.HashData bytes)
-
-let private hashText (text: string) : string =
-    hashBytes (Encoding.UTF8.GetBytes text)
-
-let private hashFile (path: string) : string =
-    use stream = File.OpenRead path
-    hex (SHA256.HashData stream)
-
-let private fileSetFingerprint (root: string) (files: string list) : string =
-    use buffer = new MemoryStream()
-
-    for file in List.sortWith (fun a b -> String.CompareOrdinal(a, b)) files do
-        let line = file.Replace('\\', '/') + "\000" + hashFile (Path.Combine(root, file)) + "\n"
-        let bytes = Encoding.UTF8.GetBytes line
-        buffer.Write(bytes, 0, bytes.Length)
-
-    hex (SHA256.HashData(buffer.ToArray()))
 
 // ---- Fixture ----
 
@@ -151,9 +125,6 @@ let private defaultObservationRows =
           8 ]
 
 let private manifestText
-    (policyFingerprint: string)
-    (inputFingerprint: string)
-    (protocolFingerprint: string)
     (observationRows: string list)
     : string =
     "{\n"
@@ -166,16 +137,6 @@ let private manifestText
     + "  \"observation\": {\n"
     + "    \"schemaVersion\": 1,\n"
     + "    \"policyRevision\": \"fixture-v1\",\n"
-    + "    \"policyFingerprint\": \""
-    + policyFingerprint
-    + "\",\n"
-    + "    \"benchmarkInputFingerprint\": \""
-    + inputFingerprint
-    + "\",\n"
-    + "    \"protocolFingerprint\": \""
-    + protocolFingerprint
-    + "\",\n"
-    + "    \"environmentKey\": \"fixture-environment\",\n"
     + "    \"rows\": [\n      "
     + String.concat ",\n      " observationRows
     + "\n    ]\n"
@@ -197,14 +158,11 @@ let private createFixture (root: string) (observationRows: string list) : DocFix
     let guidePath = Path.Combine(root, "guide.md")
     File.WriteAllText(guidePath, guideText, utf8NoBom)
 
-    let policyFingerprint = hashText policyText
-    let inputFingerprint = fileSetFingerprint root [ "a-input.txt"; "Z-input.txt" ]
-    let protocolFingerprint = fileSetFingerprint root [ "a-protocol.txt"; "Z-protocol.txt" ]
     let manifestPath = Path.Combine(root, "baseline.json")
 
     File.WriteAllText(
         manifestPath,
-        manifestText policyFingerprint inputFingerprint protocolFingerprint observationRows,
+        manifestText observationRows,
         utf8NoBom
     )
 
@@ -267,7 +225,6 @@ type DocumentationFixtureTests() =
         let manifest =
             (File.ReadAllText fixture.ManifestPath)
                 .Replace(policyText, customPolicy)
-                .Replace(hashText policyText, hashText customPolicy)
         File.WriteAllText(fixture.ManifestPath, manifest, utf8NoBom)
         let exitCode, _, stderr = run fixture.Root fixture.ManifestPath false
         Assert.True((exitCode = 0), stderr)
@@ -282,45 +239,15 @@ type DocumentationFixtureTests() =
         Assert.True((verifyExit = 0), verifyErr)
 
     [<Fact>]
-    member _.GeneratePerformanceDocumentation_OrdinalFingerprintUsesIndependentNulLfBytes() =
-        use temp = new TempDirectory()
-        let fixture = createFixture temp.Path defaultObservationRows
-        let manifest = (File.ReadAllText fixture.ManifestPath).Replace(
-            "[\"a-input.txt\", \"Z-input.txt\"]", "[\"Z-input.txt\", \"a-input.txt\"]")
-        File.WriteAllText(fixture.ManifestPath, manifest, utf8NoBom)
-        let exitCode, _, stderr = run fixture.Root fixture.ManifestPath false
-        Assert.True((exitCode = 0), stderr)
-        let verifyExit, _, verifyErr = run fixture.Root fixture.ManifestPath true
-        Assert.True((verifyExit = 0), verifyErr)
-
-    [<Theory>]
-    [<InlineData("raw-policy")>]
-    [<InlineData("protocol-bytes")>]
-    [<InlineData("external-path")>]
-    [<InlineData("missing-path")>]
-    [<InlineData("descriptor")>]
-    member _.GeneratePerformanceDocumentation_IndependentBindingsRejectMutation(mutation: string) =
+    member _.GeneratePerformanceDocumentation_RejectsObservationDescriptorMutation() =
         use temp = new TempDirectory()
         let fixture = createFixture temp.Path defaultObservationRows
         let original = File.ReadAllText fixture.ManifestPath
-        match mutation with
-        | "raw-policy" -> File.WriteAllText(fixture.ManifestPath, original.Replace("\"revision\": \"fixture-v1\",", "\"revision\":  \"fixture-v1\","), utf8NoBom)
-        | "protocol-bytes" -> File.AppendAllText(Path.Combine(fixture.Root, "a-protocol.txt"), "changed", utf8NoBom)
-        | "external-path" -> File.WriteAllText(fixture.ManifestPath, original.Replace("a-input.txt", "../a-input.txt"), utf8NoBom)
-        | "missing-path" -> File.Delete(Path.Combine(fixture.Root, "a-input.txt"))
-        | "descriptor" ->
-            let oldRow = defaultObservationRows[1]
-            File.WriteAllText(fixture.ManifestPath, original.Replace(oldRow, oldRow.Replace("\"method\": \"Funny\"", "\"method\": \"Other\"")), utf8NoBom)
-        | _ -> failwith "Unknown documentation mutation."
-        let exitCode, stdout, stderr = run fixture.Root fixture.ManifestPath false
+        let row = defaultObservationRows[1]
+        File.WriteAllText(fixture.ManifestPath, original.Replace(row, row.Replace("\"method\": \"Funny\"", "\"method\": \"Other\"")), utf8NoBom)
+        let exitCode, _, stderr = run fixture.Root fixture.ManifestPath false
         Assert.Equal(1, exitCode)
-        Assert.Equal("", stdout)
-        Assert.Contains(
-            (match mutation with
-             | "external-path" -> "repository-relative"
-             | "missing-path" -> "not found inside the repository"
-             | "descriptor" -> "does not match policy field"
-             | _ -> "policy, input, or protocol"), stderr)
+        Assert.Contains("does not match policy field", stderr)
         Assert.Equal(guideText, File.ReadAllText fixture.GuidePath)
 
     [<Fact>]
@@ -354,17 +281,6 @@ type DocumentationFixtureTests() =
             Assert.Contains("trailing prose", generated)
         finally
             CultureInfo.CurrentCulture <- previous
-
-    [<Fact>]
-    member _.GeneratePerformanceDocumentation_Verify_RejectsFingerprintDrift() =
-        use temp = new TempDirectory()
-        let fixture = createFixture temp.Path defaultObservationRows
-        File.WriteAllText(Path.Combine(fixture.Root, "a-input.txt"), "changed", utf8NoBom)
-
-        let exitCode, stdout, stderr = run fixture.Root fixture.ManifestPath true
-        Assert.Equal(1, exitCode)
-        Assert.Equal("", stdout.Trim())
-        Assert.Contains("policy, input, or protocol", stderr)
 
     [<Fact>]
     member _.GeneratePerformanceDocumentation_Verify_RejectsObservationRowCountMismatch() =
@@ -404,7 +320,8 @@ type DocumentationFixtureTests() =
         let generateExit, _, _ = run fixture.Root fixture.ManifestPath false
         Assert.Equal(0, generateExit)
 
-        let generated = File.ReadAllText fixture.GuidePath
+        let generated = File.ReadAllText(fixture.GuidePath).Replace("\r\n", "\n").Replace("\n", "\r\n")
+        File.WriteAllText(fixture.GuidePath, generated)
         let verifyExit, _, _ = run fixture.Root fixture.ManifestPath true
         Assert.Equal(0, verifyExit)
         Assert.Equal(generated, File.ReadAllText fixture.GuidePath)

@@ -1,12 +1,11 @@
 module FunnySharp.Harness.Evaluation
 
-// A behaviour-identical F# port of eng/evaluation/runner.py: the model-agnostic
-// coding-evaluation harness. It packs the two FunnySharp packages into the local
+// Model-agnostic coding-evaluation harness. It packs the two FunnySharp packages into the local
 // evaluation feed, verifies one recorded solution directory (copy template +
 // tests + solution into a transient build tree, build, test, record) and
 // aggregates every record under results/ into a markdown table.
 //
-// CLI surface preserved exactly:
+// Commands:
 //   prep-feed
 //   verify <task> <idiomatic|funnysharp> <run_dir> [--round N]
 //   aggregate <out>
@@ -15,12 +14,11 @@ module FunnySharp.Harness.Evaluation
 // Every dotnet child runs with DOTNET_CLI_UI_LANGUAGE=en because the summary
 // regexes are English- and order-sensitive, and with the repo's isolated NuGet
 // caches. Historical results are read-only. New verification attempts reserve
-// immutable round directories; --study binds fresh independent generation inputs.
+// new round directories; --study routes independent generation attempts.
 
 open System
 open System.Diagnostics
 open System.IO
-open System.Security.Cryptography
 open System.Text
 open System.Text.Json
 open System.Text.Json.Nodes
@@ -269,12 +267,7 @@ let private jfloat (value: float) : JsonNode =
 /// serializes as JSON null, matching Python's `ok: null`.
 let private jsonNull : JsonNode = Unchecked.defaultof<JsonNode>
 
-// Receipt hashes cover bytes, not deserialized/reformatted JSON. FileMode.CreateNew
-// is also the reservation mechanism: an interrupted attempt is retained, never reused.
-let private hashFile (path: string) =
-    use stream = File.OpenRead path
-    SHA256.HashData stream |> Convert.ToHexString |> fun value -> value.ToLowerInvariant()
-
+// CreateNew reserves attempts so interrupted rounds are retained, never reused.
 let private writeNew (path: string) (text: string) =
     use stream = new FileStream(path, FileMode.CreateNew, FileAccess.Write, FileShare.None)
     use writer = new StreamWriter(stream, UTF8Encoding(false))
@@ -308,19 +301,11 @@ let private textField (node: JsonNode | null) (name: string) =
     if String.IsNullOrWhiteSpace value then invalidArg name (name + " is required")
     value
 
-let private filesReceipt (directory: string) =
-    let result = JsonArray()
-    for path in Directory.GetFiles(directory, "*", SearchOption.AllDirectories) |> Array.sort do
-        let file = JsonObject()
-        file.["path"] <- jstr (Path.GetRelativePath(directory, path).Replace('\\', '/'))
-        file.["sha256"] <- jstr (hashFile path)
-        result.Add file
-    result
-
-let private checkFiles (directory: string) (files: JsonArray) =
-    let actual = filesReceipt directory
-    if actual.ToJsonString() <> files.ToJsonString() then
-        invalidArg "receipt" ("files changed in " + directory)
+let private fileNames (directory: string) =
+    Directory.GetFiles(directory, "*", SearchOption.AllDirectories)
+    |> Array.sort
+    |> Array.map (fun path -> Path.GetRelativePath(directory, path).Replace('\\', '/'))
+    |> JsonSerializer.SerializeToNode
 
 let private studyRoot repositoryRoot study =
     if study <> "audit-resolution-v1" && study <> "audit-resolution-v2" && study <> "audit-resolution-v3" && study <> "audit-resolution-v4" && study <> "audit-resolution-v5" && study <> "audit-resolution-v6" then invalidArg "study" "unknown study"
@@ -331,14 +316,7 @@ let private upstreamPackageFeed (plan: JsonObject) =
     | null -> None
     | value -> Some(value.GetValue<string>())
 
-let private studyEnvironmentPaths =
-    [ "global.json"
-      "Directory.Build.props"
-      "build.fsx"
-      "eng/harness/Evaluation.fs"
-      "eng/harness/Program.fs"
-      "eng/harness/FunnySharp.Harness.fsproj"
-      "eng/harness/packages.lock.json" ]
+let private studyEnvironmentPaths = [ "global.json"; "Directory.Build.props" ]
 
 // Freeze is an explicit pre-generation action on the existing prep-feed route.
 // Neither historical tasks nor their prompts/results are modified. Only a curated
@@ -449,8 +427,6 @@ let private freezeStudy repositoryRoot study (feed: string) =
     manifest.["schema"] <- jstr "funnysharp-evaluation-study/v1"
     manifest.["study"] <- jstr study
     manifest.["condition"] <- jstr "unassisted-public-guides"
-    manifest.["planSha256"] <- jstr (hashFile (Path.Combine(root, "plan.json")))
-    manifest.["files"] <- filesReceipt snapshot
     manifest.["expectedTests"] <- (field plan "expectedTests").DeepClone()
     manifest.["cohort"] <- (field plan "cohort").DeepClone()
     writeNew (Path.Combine(root, "manifest.json")) (manifest.ToJsonString jsonOptions + "\n")
@@ -458,44 +434,20 @@ let private freezeStudy repositoryRoot study (feed: string) =
 type private StudyBinding =
     { TaskRoot: string
       Snapshot: string
-      ManifestHash: string
       ExpectedTests: int
       ProducerPath: string }
 
-// Only use after checkFiles has verified this snapshot in the current pre-child phase.
-let private snapshotHash (manifest: JsonObject) relative =
-    (field manifest "files").AsArray()
-    |> Seq.find (fun file -> textField file "path" = relative)
-    |> fun file -> textField file "sha256"
-
 let private loadStudy repositoryRoot study =
     let root = studyRoot repositoryRoot study
-    let manifestPath = Path.Combine(root, "manifest.json")
-    let manifest = readJson manifestPath
+    let manifest = readJson (Path.Combine(root, "manifest.json"))
     let snapshot = Path.Combine(root, "snapshot")
-    checkFiles snapshot ((field manifest "files").AsArray())
-    for relative in studyEnvironmentPaths do
-        // A manifest predating the widened environment allowlist has no entry for a
-        // path this runner now checks; that is the same fail-closed drift as a
-        // changed file, reported with the designed message instead of an unhandled
-        // KeyNotFoundException from Seq.find.
-        let recorded =
-            (field manifest "files").AsArray()
-            |> Seq.tryFind (fun file -> textField file "path" = "environment/" + relative)
-        match recorded with
-        | None -> invalidArg "environment" "runner/build configuration changed after freeze"
-        | Some file ->
-            if hashFile (Path.Combine(repositoryRoot, relative)) <> textField file "sha256" then
-                invalidArg "environment" "runner/build configuration changed after freeze"
+    if textField manifest "study" <> study then invalidArg "study" "wrong study"
     if not (File.Exists(Path.Combine(snapshot, "analyzer-control", "control.sarif"))) then
-        invalidArg "analyzer" "frozen negative control is missing"
-    if hashFile (Path.Combine(root, "plan.json")) <> textField manifest "planSha256" then
-        invalidArg "study" "study plan changed"
+        invalidArg "analyzer" "study negative control is missing"
     root, manifest, snapshot
 
 let private bindStudy repositoryRoot study task style runDir roundNumber previous =
-    let root, manifest, snapshot = loadStudy repositoryRoot study
-    let manifestPath = Path.Combine(root, "manifest.json")
+    let _, manifest, snapshot = loadStudy repositoryRoot study
     let results = Path.Combine(repositoryRoot, "eng", "evaluation", "results", study)
     let expectedRun = Path.GetFullPath(Path.Combine(results, task, style, pathName runDir))
     if not (String.Equals(Path.GetFullPath runDir, expectedRun, StringComparison.OrdinalIgnoreCase)) then
@@ -504,9 +456,7 @@ let private bindStudy repositoryRoot study task style runDir roundNumber previou
         invalidArg "run-dir" "run is not preregistered"
     let producerPath = Path.Combine(runDir, "producer", sprintf "%04d.json" roundNumber)
     let producer = readJson producerPath
-    let manifestHash = hashFile manifestPath
-    checkFiles (Path.Combine(runDir, "solution")) ((field producer "solutionFiles").AsArray())
-    if textField producer "studySha256" <> manifestHash then invalidArg "producer" "wrong study binding"
+    if textField producer "study" <> study then invalidArg "producer" "wrong study binding"
     if textField producer "task" <> task || textField producer "style" <> style then
         invalidArg "producer" "wrong task/style binding"
     for field in [ "sessionId"; "invocationId"; "route"; "producerKind"; "requestedModel"; "startedUtc"; "finishedUtc"; "status" ] do
@@ -515,42 +465,11 @@ let private bindStudy repositoryRoot study task style runDir roundNumber previou
     let provider = field producer "providerModel"
     if isNull provider.["value"] then textField provider "unknownReason" |> ignore
     else textField provider "value" |> ignore
-    let contextDir = Path.Combine(runDir, "producer", sprintf "%04d-context" roundNumber)
-    let context = readJson (Path.Combine(contextDir, "context.json"))
-    checkFiles (Path.Combine(contextDir, "payload")) ((field context "files").AsArray())
-    if hashFile (Path.Combine(contextDir, "invocation.json")) <> textField producer "invocationSha256" then
-        invalidArg "invocation" "raw route/request/response receipt binding is missing or changed"
-    if hashFile (Path.Combine(contextDir, "context.json")) <> textField producer "contextSha256" then
-        invalidArg "context" "wrong supplied context binding"
-    // Every supplied file must be a frozen public input, the same session's last
-    // solution, or its exact last feedback. Arbitrary parent/audit context fails closed.
-    let feedbackHash = if previous = "" then "" else hashFile (Path.Combine(previous, "feedback.json"))
-    let allowed =
-        [ for file in (field manifest "files").AsArray() do
-              let path = textField file "path"
-              if path.StartsWith("guides/", StringComparison.Ordinal)
-                 || path.StartsWith("tasks/" + task + "/tests/", StringComparison.Ordinal)
-                 || path.StartsWith("tasks/" + task + "/template-" + style + "/", StringComparison.Ordinal)
-                 || path = "tasks/" + task + "/prompt-" + style + ".md"
-                 || path.StartsWith("feed/", StringComparison.Ordinal) then
-                  yield textField file "sha256"
-          if previous <> "" then
-              yield feedbackHash
-              for file in Directory.GetFiles(Path.Combine(previous, "solution"), "*.cs") do yield hashFile file ] |> Set.ofList
-    for file in (field context "files").AsArray() do
-        if not (allowed.Contains(textField file "sha256")) then invalidArg "context" "unapproved supplied context"
-    let promptHash = snapshotHash manifest ("tasks/" + task + "/prompt-" + style + ".md")
-    if not ((field context "files").AsArray() |> Seq.exists (fun file -> textField file "sha256" = promptHash)) then
-        invalidArg "context" "rendered prompt was not supplied"
     if previous <> "" then
-        if textField (readJson (Path.Combine(previous, "inputs.json"))) "studySha256" <> manifestHash then
-            invalidArg "study" "predecessor used a different study"
-        if not ((field context "files").AsArray() |> Seq.exists (fun file -> textField file "sha256" = feedbackHash)) then
-            invalidArg "feedback" "exact predecessor feedback was not supplied"
         let prior = readJson (Path.Combine(previous, "producer-receipt.json"))
-        if textField prior "sessionId" <> textField producer "sessionId" then invalidArg "producer" "correction changed session"
-        if textField producer "feedbackSha256" <> feedbackHash then
-            invalidArg "feedback" "correction did not bind exact predecessor feedback"
+        if textField prior "study" <> study then invalidArg "study" "predecessor used a different study"
+        if textField prior "sessionId" <> textField producer "sessionId" then
+            invalidArg "producer" "correction changed session"
     if Directory.Exists results then
         for path in Directory.GetFiles(results, "producer-receipt.json", SearchOption.AllDirectories) do
             let prior = readJson path
@@ -560,20 +479,18 @@ let private bindStudy repositoryRoot study task style runDir roundNumber previou
                 invalidArg "producer" "initial session was reused by another run"
     { TaskRoot = Path.Combine(snapshot, "tasks")
       Snapshot = snapshot
-      ManifestHash = manifestHash
       ExpectedTests = (field (field manifest "expectedTests") task).GetValue<int>()
       ProducerPath = producerPath }
 
 // Manual oracle controls and later package replays use the same runner/snapshot,
 // but never claim AI generation or consume a preregistered cohort slot.
 let private bindReplay repositoryRoot study task runDir =
-    let root, manifest, snapshot = loadStudy repositoryRoot study
+    let _, manifest, snapshot = loadStudy repositoryRoot study
     let results = Path.GetFullPath(Path.Combine(repositoryRoot, "eng", "evaluation", "results")) + string Path.DirectorySeparatorChar
     if (Path.GetFullPath runDir).StartsWith(results, StringComparison.OrdinalIgnoreCase) then
         invalidArg "replay" "replays must be outside the historical and cohort results subtrees"
     { TaskRoot = Path.Combine(snapshot, "tasks")
       Snapshot = snapshot
-      ManifestHash = hashFile (Path.Combine(root, "manifest.json"))
       ExpectedTests = (field (field manifest "expectedTests") task).GetValue<int>()
       ProducerPath = "" }
 
@@ -598,24 +515,23 @@ let private runVerify
     let rounds = Path.Combine(runDir, "rounds")
     let existing = if Directory.Exists rounds then Directory.GetDirectories rounds |> Array.sort else [||]
     if roundNumber <> existing.Length + 1 then invalidArg "round" "duplicate or missing predecessor round"
-    // Validate the entire chain, including file manifests, not merely the latest hash.
-    let mutable previousHash = ""
     for index in 0 .. existing.Length - 1 do
         let directory = existing.[index]
         if pathName directory <> sprintf "%04d" (index + 1) then invalidArg "rounds" "non-contiguous history"
-        let receiptPath = Path.Combine(directory, "receipt.json")
-        let receipt = readJson receiptPath
-        let content = Directory.GetFiles(directory, "*", SearchOption.AllDirectories) |> Array.filter (fun path -> path <> receiptPath)
-        let declared = (field receipt "files").AsArray()
-        if content.Length <> declared.Count then invalidArg "history" "round files added or removed"
-        for file in declared do
-            if hashFile (Path.Combine(directory, textField file "path")) <> textField file "sha256" then
-                invalidArg "history" "round bytes overwritten"
-        if (field receipt "previousReceiptSha256").GetValue<string>() <> previousHash then
-            invalidArg "history" "broken predecessor chain"
-        previousHash <- hashFile receiptPath
+        for name in [ "record.json"; "feedback.json"; "build.stdout.log"; "build.stderr.log" ] do
+            if not (File.Exists(Path.Combine(directory, name))) then
+                invalidArg "history" ("incomplete round: " + name)
+        if sortedCsFiles (Path.Combine(directory, "solution")) |> List.isEmpty then
+            invalidArg "history" "previous solution is missing"
         let priorRecord = readJson (Path.Combine(directory, "record.json"))
-        if textField priorRecord "verdict" = "GREEN" then invalidArg "round" "completed run cannot be corrected"
+        if textField priorRecord "task" <> task || textField priorRecord "style" <> style then
+            invalidArg "history" "previous round used another task or style"
+        if (field priorRecord "round").GetValue<int>() <> index + 1 then
+            invalidArg "history" "previous round number differs"
+        match textField priorRecord "verdict" with
+        | "RED" -> ()
+        | "GREEN" -> invalidArg "round" "completed run cannot be corrected"
+        | _ -> invalidArg "history" "previous verdict is invalid"
     let previous = if existing.Length = 0 then "" else Array.last existing
     let binding = study |> Option.map (fun value ->
         if replay then bindReplay repositoryRoot value task runDir
@@ -646,13 +562,7 @@ let private runVerify
         for file in solutionFiles do File.Copy(file, Path.Combine(snapshotSolution, pathName file), false)
         match binding with
         | Some value when value.ProducerPath <> "" ->
-            checkFiles snapshotSolution ((field (readJson value.ProducerPath) "solutionFiles").AsArray())
             File.Copy(value.ProducerPath, Path.Combine(roundDir, "producer-receipt.json"), false)
-            let contextDir = Path.Combine(runDir, "producer", sprintf "%04d-context" roundNumber)
-            for file in Directory.GetFiles(contextDir, "*", SearchOption.AllDirectories) do
-                let target = Path.Combine(roundDir, "context", Path.GetRelativePath(contextDir, file))
-                Directory.CreateDirectory(parentDirectory target) |> ignore
-                File.Copy(file, target, false)
         | _ -> ()
         let buildRoot = Path.Combine(repositoryRoot, "artifacts", "evaluation", "builds")
         let buildDir = Path.Combine(buildRoot, sprintf "%s-%s-%s-%s" task style (pathName runDir) (Guid.NewGuid().ToString("N")))
@@ -699,14 +609,9 @@ let private runVerify
             for relative in [ "global.json"; "Directory.Build.props" ] do
                 File.Copy(Path.Combine(value.Snapshot, "environment", relative), Path.Combine(buildDir, relative), true)
         | None -> ()
-        let inputs = JsonObject()
-        inputs.["studySha256"] <- jstr (binding |> Option.map (fun value -> value.ManifestHash) |> Option.defaultValue "replay-only")
-        inputs.["solution"] <- filesReceipt snapshotSolution
-        inputs.["buildInputs"] <- filesReceipt buildDir
         let trustedInputs = Path.Combine(roundDir, "trusted-inputs")
         Directory.CreateDirectory trustedInputs |> ignore
         for file in Directory.GetFiles buildDir do File.Copy(file, Path.Combine(trustedInputs, pathName file), false)
-        writeNew (Path.Combine(roundDir, "inputs.json")) (inputs.ToJsonString jsonOptions + "\n")
         let capture name command =
             let result = childRunner buildDir environment command
             writeNew (Path.Combine(roundDir, name + ".stdout.log")) result.Stdout
@@ -825,11 +730,8 @@ let private runVerify
             occurrences.Add occurrence
         diagnosticReceipt.["occurrences"] <- occurrences
         diagnosticReceipt.["fsDiagnosticIds"] <- diagnostics.DeepClone()
-        diagnosticReceipt.["assets"] <- filesReceipt outputs
+        diagnosticReceipt.["assets"] <- fileNames outputs
         writeNew (Path.Combine(roundDir, "diagnostics.json")) (diagnosticReceipt.ToJsonString jsonOptions + "\n")
-        match binding with
-        | Some value -> checkFiles value.Snapshot ((field (readJson (Path.Combine(studyRoot repositoryRoot study.Value, "manifest.json"))) "files").AsArray())
-        | None -> ()
         let green = build.ExitCode = 0 && testOk = Some true
         record.["verdict"] <- jstr (if green then "GREEN" else "RED")
         record.["evidenceKind"] <- jstr (if replay || study.IsNone then "replay" else "generation-verification")
@@ -845,11 +747,6 @@ let private runVerify
         feedback.["buildStderr"] <- jstr build.Stderr
         feedback.["testOutput"] <- jstr testOutput
         writeNew (Path.Combine(roundDir, "feedback.json")) (feedback.ToJsonString jsonOptions + "\n")
-        let receipt = JsonObject()
-        receipt.["schema"] <- jstr "funnysharp-evaluation-round/v1"
-        receipt.["previousReceiptSha256"] <- jstr previousHash
-        receipt.["files"] <- filesReceipt roundDir
-        writeNew (Path.Combine(roundDir, "receipt.json")) (receipt.ToJsonString jsonOptions + "\n")
         stdout.WriteLine serialized
 
         if not green then

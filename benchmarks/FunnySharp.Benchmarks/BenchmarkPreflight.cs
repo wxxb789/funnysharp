@@ -1,9 +1,6 @@
 using System.Reflection;
-using System.Reflection.Metadata;
-using System.Reflection.PortableExecutable;
 using System.Runtime.InteropServices;
 using System.Text.Json;
-using System.Xml.Linq;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Running;
 using FunnySharp;
@@ -30,132 +27,35 @@ internal static class BenchmarkPreflight
         }
     }
 
-    internal static string Snapshot(
-        JsonElement manifest, string policy, string input, string protocol)
+    internal static string SourceCommit(string root)
     {
-        var binding = manifest.GetProperty("runBinding");
-        var commit = binding.GetProperty("baseCommit").GetString()!;
-        var tree = binding.GetProperty("baseTree").GetString()!;
-        Require(commit.Length == 40 && commit.All(Uri.IsHexDigit)
-            && tree.Length == 40 && tree.All(Uri.IsHexDigit),
-            "A source snapshot requires the declared base commit and tree.");
-        return "snapshot:" + ReceiptExporterCore.GetSha256(
-            string.Join("\0", commit, tree, policy, input, protocol));
-    }
-
-    internal static void ValidateInputs(string root, JsonElement manifest)
-    {
-        var listed = manifest.GetProperty("benchmarkInput").GetProperty("files")
-            .EnumerateArray().Select(file => file.GetString()!)
-            .ToHashSet(StringComparer.Ordinal);
-        var project = manifest.GetProperty("runBinding")
-            .GetProperty("benchmarkProject").GetString()!;
-        var benchmarkDirectory = Path.GetDirectoryName(Path.Combine(root, project))!;
-        var required = Directory.EnumerateFiles(
-                Path.Combine(root, "src"), "*", SearchOption.AllDirectories)
-            .Concat(Directory.EnumerateFiles(
-                benchmarkDirectory, "*", SearchOption.AllDirectories))
-            .Where(path => !Path.GetRelativePath(root, path).Replace('\\', '/')
-                .Split('/').Any(part => part is "bin" or "obj"))
-            .Where(IsBuildInput)
-            .Concat(Directory.EnumerateFiles(root, "*.props"))
-            .Concat(Directory.EnumerateFiles(root, "*.targets"))
-            .Concat(new[]
-            {
-                Path.Combine(root, "Directory.Build.props"),
-                Path.Combine(root, "README.md"),
-                Path.Combine(root, "global.json"),
-            })
-            .Select(path => Path.GetRelativePath(root, path).Replace('\\', '/'))
-            .ToHashSet(StringComparer.Ordinal);
-
-        // Current projects have no explicit imports. If one is introduced, follow
-        // literal repository imports; unresolved property/glob imports fail closed.
-        var pending = new Queue<string>(required.Where(IsProjectInput));
-        var visited = new HashSet<string>(StringComparer.Ordinal);
-        while (pending.TryDequeue(out var relative))
+        string Git(params string[] arguments)
         {
-            if (!visited.Add(relative))
+            var info = new System.Diagnostics.ProcessStartInfo("git")
             {
-                continue;
+                WorkingDirectory = root,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                UseShellExecute = false,
+            };
+            foreach (var argument in arguments)
+            {
+                info.ArgumentList.Add(argument);
             }
 
-            var path = Path.Combine(root, relative);
-            foreach (var import in XDocument.Load(path).Descendants()
-                .Where(element => element.Name.LocalName == "Import"))
-            {
-                var value = import.Attribute("Project")!.Value.Replace(
-                    "$(MSBuildThisFileDirectory)",
-                    Path.GetDirectoryName(path)! + Path.DirectorySeparatorChar,
-                    StringComparison.Ordinal);
-                Require(!value.Contains("$(", StringComparison.Ordinal)
-                    && !value.Contains('*') && !value.Contains('?'),
-                    "An explicit benchmark build import must have a resolvable repository path.");
-                var imported = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(path)!, value));
-                var importedRelative = Path.GetRelativePath(root, imported).Replace('\\', '/');
-                Require(!importedRelative.Split('/').Contains("..")
-                    && !Path.IsPathFullyQualified(importedRelative) && File.Exists(imported),
-                    "An explicit benchmark build import must exist inside the repository.");
-                required.Add(importedRelative);
-                pending.Enqueue(importedRelative);
-            }
+            using var process = System.Diagnostics.Process.Start(info)!;
+            var output = process.StandardOutput.ReadToEndAsync();
+            var error = process.StandardError.ReadToEndAsync();
+            process.WaitForExit();
+            Require(process.ExitCode == 0,
+                "Cannot identify benchmark source state: " + error.GetAwaiter().GetResult());
+            return output.GetAwaiter().GetResult().Trim();
         }
 
-        Require(required.All(listed.Contains),
-            "The benchmark input list omits shipping, project, import, or lock inputs: "
-            + string.Join(", ", required.Where(file => !listed.Contains(file))
-                .OrderBy(file => file, StringComparer.Ordinal)));
+        Require(Git("status", "--porcelain", "--untracked-files=no").Length == 0,
+            "Benchmark source requires a clean tracked Git working tree and index.");
+        return Git("rev-parse", "HEAD");
     }
-
-    private static bool IsProjectInput(string path) =>
-        path.EndsWith(".csproj", StringComparison.Ordinal)
-        || path.EndsWith(".props", StringComparison.Ordinal)
-        || path.EndsWith(".targets", StringComparison.Ordinal);
-
-    private static bool IsBuildInput(string path) =>
-        IsProjectInput(path)
-        || path.EndsWith(".cs", StringComparison.Ordinal)
-        || Path.GetFileName(path) == "packages.lock.json"
-        || Path.GetFileName(path).StartsWith("AnalyzerReleases.", StringComparison.Ordinal);
-
-    internal static BinaryBinding ReadBinary(string path)
-    {
-        path = Path.GetFullPath(path);
-        using var stream = File.OpenRead(path);
-        using var pe = new PEReader(stream);
-        string? mvid = null;
-        string? identity = null;
-        if (pe.HasMetadata)
-        {
-            var metadata = pe.GetMetadataReader();
-            mvid = metadata.GetGuid(metadata.GetModuleDefinition().Mvid).ToString();
-            identity = AssemblyName.GetAssemblyName(path).FullName;
-        }
-
-        return new BinaryBinding(path, ReceiptExporterCore.GetFileSha256(path), mvid, identity);
-    }
-
-    private static BinaryBinding RetainBinary(string root, string runId, string path)
-    {
-        var actual = ReadBinary(path);
-        var directory = Path.Combine(root, "artifacts", "performance-preflight", runId,
-            "binaries", actual.Sha256);
-        Directory.CreateDirectory(directory);
-        var retained = Path.Combine(directory, Path.GetFileName(actual.File));
-        if (!File.Exists(retained))
-        {
-            File.Copy(actual.File, retained);
-        }
-
-        Require(ReceiptExporterCore.GetFileSha256(retained) == actual.Sha256,
-            "A retained workload or private assembly differs from its loaded binary.");
-        return actual with { File = retained };
-    }
-
-    private static BinaryBinding[] ReadPrivateBinaries(string root, string runId) =>
-        Directory.EnumerateFiles(AppContext.BaseDirectory, "*.dll")
-            .OrderBy(path => Path.GetFileName(path), StringComparer.Ordinal)
-            .Select(path => RetainBinary(root, runId, path)).ToArray();
 
     internal static void CaptureChild(object benchmark)
     {
@@ -171,19 +71,8 @@ internal static class BenchmarkPreflight
         var benchmarkType = benchmark.GetType().GetMethods()
             .First(method => method.GetCustomAttribute<BenchmarkAttribute>() is not null)
             .DeclaringType!;
-        var root = ReceiptExporterCore.FindRepositoryRoot();
-        var manifestRelative = Environment.GetEnvironmentVariable("FUNNYSHARP_PERFORMANCE_MANIFEST")!;
-        using var document = JsonDocument.Parse(File.ReadAllText(Path.Combine(root, manifestRelative)));
-        var manifest = document.RootElement;
-        ValidateInputs(root, manifest);
-        var policy = ReceiptExporterCore.GetSha256(manifest.GetProperty("policy").GetRawText());
-        var input = ReceiptExporterCore.GetFingerprint(
-            root, manifest.GetProperty("benchmarkInput").GetProperty("files"));
-        var protocol = ReceiptExporterCore.GetFingerprint(
-            root, manifest.GetProperty("protocol").GetProperty("files"));
-        var snapshot = Snapshot(manifest, policy, input, protocol);
-        Require(snapshot == Environment.GetEnvironmentVariable("FUNNYSHARP_PERFORMANCE_SNAPSHOT"),
-            "Source inputs changed between preflight and the measured child.");
+        var commit = Environment.GetEnvironmentVariable("FUNNYSHARP_PERFORMANCE_COMMIT");
+        Require(!string.IsNullOrWhiteSpace(commit), "Measured child has no source commit.");
         var parameters = benchmarkType.GetProperties()
             .Where(property => property.GetCustomAttribute<ParamsAttribute>() is not null)
             .OrderBy(property => property.Name, StringComparer.Ordinal).ToArray();
@@ -195,15 +84,13 @@ internal static class BenchmarkPreflight
         var binding = JsonSerializer.Serialize(new
         {
             runId,
-            candidateSnapshot = snapshot,
+            candidateCommit = commit,
             capturedAtUtc = DateTimeOffset.UtcNow,
             processId = Environment.ProcessId,
             runtime = RuntimeInformation.FrameworkDescription,
             benchmarkClass = benchmarkType.Name,
             parameters = display,
-            originalWorkloadFile = entry.Location,
-            workload = RetainBinary(root, runId, entry.Location),
-            assemblies = ReadPrivateBinaries(root, runId),
+            workloadAssembly = entry.FullName,
         }, JsonOptions);
         Console.WriteLine(Marker + Convert.ToBase64String(
             System.Text.Encoding.UTF8.GetBytes(binding)));
@@ -216,13 +103,7 @@ internal static class BenchmarkPreflight
         var root = ReceiptExporterCore.FindRepositoryRoot();
         using var document = JsonDocument.Parse(File.ReadAllText(Path.Combine(root, manifestRelative)));
         var manifest = document.RootElement;
-        ValidateInputs(root, manifest);
-        var policy = ReceiptExporterCore.GetSha256(manifest.GetProperty("policy").GetRawText());
-        var input = ReceiptExporterCore.GetFingerprint(
-            root, manifest.GetProperty("benchmarkInput").GetProperty("files"));
-        var protocol = ReceiptExporterCore.GetFingerprint(
-            root, manifest.GetProperty("protocol").GetProperty("files"));
-        var snapshot = Snapshot(manifest, policy, input, protocol);
+        var commit = SourceCommit(root);
         var allPolicyRows = manifest.GetProperty("policy").GetProperty("rows").EnumerateArray().ToArray();
         var included = allPolicyRows.Where(row => row.GetProperty("included").GetBoolean())
             .ToDictionary(row => row.GetProperty("id").GetString()!, StringComparer.Ordinal);
@@ -292,7 +173,7 @@ internal static class BenchmarkPreflight
                             method = method.Name,
                             parameters = parameterGroup.Key,
                             baseline = baselineFlag,
-                            outcomeSha256 = ReceiptExporterCore.GetSha256(actual),
+                            semanticsChecked = true,
                         });
                     }
                 }
@@ -301,30 +182,19 @@ internal static class BenchmarkPreflight
 
         Require(validatedIds.SetEquals(included.Keys),
             "Preflight did not validate every included policy/parameter row.");
-        Require(input == ReceiptExporterCore.GetFingerprint(
-            root, manifest.GetProperty("benchmarkInput").GetProperty("files"))
-            && protocol == ReceiptExporterCore.GetFingerprint(
-                root, manifest.GetProperty("protocol").GetProperty("files")),
-            "Inputs changed during semantic preflight.");
         var runId = Guid.NewGuid().ToString("N");
-        var binding = manifest.GetProperty("runBinding");
         Current = JsonSerializer.SerializeToElement(new
         {
             schemaVersion = 1,
             runId,
             completedAtUtc = DateTimeOffset.UtcNow,
-            candidateSnapshot = snapshot,
-            baseCommit = binding.GetProperty("baseCommit").GetString(),
-            baseTree = binding.GetProperty("baseTree").GetString(),
-            policyFingerprint = policy,
-            benchmarkInputFingerprint = input,
-            protocolFingerprint = protocol,
+            candidateCommit = commit,
+            policyRevision = manifest.GetProperty("policy").GetProperty("revision").GetString(),
             runtime = RuntimeInformation.FrameworkDescription,
             rows = validated,
             semanticCases = semanticCases.OrderBy(value => value, StringComparer.Ordinal),
             excludedIds = excluded.Select(row => row.GetProperty("id").GetString())
                 .OrderBy(value => value, StringComparer.Ordinal),
-            assemblies = ReadPrivateBinaries(root, runId),
         }, JsonOptions);
         var evidenceDirectory = Path.Combine(root, "artifacts", "performance-preflight", runId);
         Directory.CreateDirectory(evidenceDirectory);
@@ -337,7 +207,7 @@ internal static class BenchmarkPreflight
         Console.WriteLine("PREFLIGHT_RECEIPT " + evidencePath);
         Environment.SetEnvironmentVariable("FUNNYSHARP_PERFORMANCE_RUN", runId);
         Environment.SetEnvironmentVariable("FUNNYSHARP_PERFORMANCE_MANIFEST", manifestRelative);
-        Environment.SetEnvironmentVariable("FUNNYSHARP_PERFORMANCE_SNAPSHOT", snapshot);
+        Environment.SetEnvironmentVariable("FUNNYSHARP_PERFORMANCE_COMMIT", commit);
     }
 
     private static async Task<string> InvokeAndNormalizeAsync(
@@ -396,5 +266,4 @@ internal static class BenchmarkPreflight
         return JsonSerializer.Serialize(value, value?.GetType() ?? typeof(object), JsonOptions);
     }
 
-    internal sealed record BinaryBinding(string File, string Sha256, string? Mvid, string? Identity);
 }

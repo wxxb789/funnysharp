@@ -1,7 +1,4 @@
-// The local ToolingVerify parser and the ReleaseVerifySource verdict functions
-// parse the same canonical build/test log shapes. These fixtures are the exact
-// bytes both rule sets must keep recognizing; a divergence between them is a
-// silent green/red split between the local pre-check and the release gate.
+// Canonical process output used by local check failure controls.
 module FunnySharp.Harness.Tests.MarkerContract
 
 /// Canonical `dotnet build` success output.

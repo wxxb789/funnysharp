@@ -1,46 +1,17 @@
 module FunnySharp.Harness.ToolingVerify
 
-// A behaviour-identical F# port of eng/tools/verify_local.py: the PowerShell-free
-// contributor pre-check over the local subset of eng/release-protocol.json steps.
-// It runs restore, Release build, tests, both examples, the formatter check and the
-// documentation-snippet verifier in protocol order, reproducing the release
-// verifier's verdicts for those steps, and reports everything else as
-// not run. First and last human lines, step lines, the failed-step output-tail
-// header, the environment-failure shape, the report JSON key set and the 0/1/2 exit
-// codes are contract text and must stay byte-exact.
-//
-// Verdicts are checked against actual step output. Source-literal presence cannot
-// establish equivalent behavior: comments can satisfy it and harmless refactors can fail it.
-//
-// Documentation step: the docs step's verifier is FunnySharp.Harness.DocsSnippets. The single
-// point of substitution is `docsVerifier`; build.fsx sets it to a function that runs that module
-// in process and captures its stdout/stderr/exit code. Until it is wired, `main` reports the
-// docs step as an unavailable prerequisite (exit 2) unless --skip-docs is passed.
-//
-// Deviations from verify_local.py, recorded rather than silent:
-//  * The F# tool no longer runs under uv/Python, so the uv and pinned-interpreter
-//    prerequisites are gone; only `dotnet` on PATH is checked.
-//  * The repository root defaults to the nearest FunnySharp.slnx ancestor instead
-//    of the script's parents[2].
-//  * Proc.runCaptureIn exposes no environment parameter, so the child runner here
-//    builds ProcessStartInfo directly to forward the per-child environment
-//    (DOTNET_CLI_UI_LANGUAGE=en, and UV_OFFLINE=1 under --offline) without mutating
-//    this process' environment.
+// Comprehensive local checks. Release-only steps remain outside this pre-check.
 
 open System
 open System.IO
-open System.Text
+open System.Text.Json
 open System.Text.RegularExpressions
 open FunnySharp.Harness.Proc
 open FunnySharp.Harness.Repo
 open FunnySharp.Harness.Output
 
-// ---------------------------------------------------------------------------
-// Contract constants
-// ---------------------------------------------------------------------------
-
 [<Literal>]
-let ToolName = "verify_local.py"
+let ToolName = "verify-tooling"
 
 /// The release-protocol steps this pre-check runs locally, in protocol order.
 let localSteps: string list =
@@ -50,6 +21,7 @@ let localSteps: string list =
 let notRunSteps: string list =
     [ "clean"
       "pack"
+      "api-baseline"
       "benchmark-preflight"
       "benchmark"
       "performance-verify"
@@ -65,70 +37,21 @@ let CoreExampleMarker = "FunnySharp examples passed."
 [<Literal>]
 let AspNetExampleMarker = "FunnySharp ASP.NET Core example endpoints mapped."
 
-// Verdict-rule fragments used to parse actual build and test output.
-[<Literal>]
-let BuildSucceededFragment = @"Build succeeded\."
-
-[<Literal>]
-let BuildWarningsFragment = @"0 Warning\(s\)"
-
-[<Literal>]
-let BuildErrorsFragment = @"0 Error\(s\)"
-
-[<Literal>]
-let TestSummaryFragment = @"Test run summary:\s*Passed!"
-
-[<Literal>]
-let TestTotalFragment = @"\btotal:\s*(?<total>\d+)"
-
-[<Literal>]
-let TestFailedFragment = @"\bfailed:\s*0"
-
-[<Literal>]
-let TestSucceededFragment = @"\bsucceeded:\s*(?<succeeded>\d+)"
-
-[<Literal>]
-let TestSkippedFragment = @"\bskipped:\s*0"
-
-[<Literal>]
-let TestAssemblyResultFragment = @"\(net10\.0\|[^)]*\)\s+passed\s+\([^)]*\)\s*$"
-
-/// The PowerShell-free docs verifier's success line; exit status alone is not enough.
-[<Literal>]
-let DocsVerdictFragment = @"Verified \d+ C# documentation snippets across \d+ primary guides\."
-
-let private buildSucceededPattern =
-    Regex(@"^\s*" + BuildSucceededFragment + @"\s*$", RegexOptions.IgnoreCase ||| RegexOptions.Multiline)
-
-let private buildWarningsPattern =
-    Regex(@"^\s*" + BuildWarningsFragment + @"\s*$", RegexOptions.IgnoreCase ||| RegexOptions.Multiline)
-
-let private buildErrorsPattern =
-    Regex(@"^\s*" + BuildErrorsFragment + @"\s*$", RegexOptions.IgnoreCase ||| RegexOptions.Multiline)
+let private buildSucceededPattern = Regex(@"^\s*Build succeeded\.\s*$", RegexOptions.IgnoreCase ||| RegexOptions.Multiline)
+let private buildWarningsPattern = Regex(@"^\s*0 Warning\(s\)\s*$", RegexOptions.IgnoreCase ||| RegexOptions.Multiline)
+let private buildErrorsPattern = Regex(@"^\s*0 Error\(s\)\s*$", RegexOptions.IgnoreCase ||| RegexOptions.Multiline)
 
 let private testSummaryPattern =
     Regex(
-        TestSummaryFragment
-        + @".*?"
-        + TestTotalFragment
-        + @".*?"
-        + TestFailedFragment
-        + @".*?"
-        + TestSucceededFragment
-        + @".*?"
-        + TestSkippedFragment,
+        @"Test run summary:\s*Passed!.*?\btotal:\s*(?<total>\d+).*?\bfailed:\s*0\b.*?\bsucceeded:\s*(?<succeeded>\d+).*?\bskipped:\s*0\b",
         RegexOptions.IgnoreCase ||| RegexOptions.Singleline
     )
 
-let private docsVerdictPattern = Regex(@"^\s*" + DocsVerdictFragment + @"\s*$", RegexOptions.Multiline)
+let private docsVerdictPattern =
+    Regex(@"^\s*Verified \d+ C# documentation snippets across \d+ primary guides\.\s*$", RegexOptions.Multiline)
 
-// Mirrors eng/Verify-Release.ps1's Remove-AnsiControlSequences: GitHub Actions sets
-// CI=true and the MTP reporter colors result words, so logs are normalized first.
+// MTP colors result words in CI logs.
 let private ansiEscapePattern = Regex("\u001b\\[[0-?]*[ -/]*[@-~]")
-
-// ---------------------------------------------------------------------------
-// Types
-// ---------------------------------------------------------------------------
 
 /// A missing prerequisite or unusable environment with remediation.
 type EnvironmentProblem =
@@ -152,7 +75,6 @@ type StepResult =
 
 type CliOptions =
     { RepositoryRoot: string option
-      Offline: bool
       Json: bool
       SkipDocs: bool
       SkipFormat: bool
@@ -165,15 +87,10 @@ type Collaborators =
       /// The docs verifier's in-process entry, or None when it is not wired in.
       DocsVerifier: (string -> ProcessResult) option }
 
-/// The documentation-snippet step's verifier. Integration points this at lane A's
-/// FunnySharp.Harness.DocsSnippets; tests inject Collaborators.DocsVerifier instead.
+/// Wired to DocsSnippets by Program; tests inject Collaborators.DocsVerifier.
 let mutable docsVerifier: (string -> ProcessResult) option = None
 
-// ---------------------------------------------------------------------------
-// Repository and environment resolution
-// ---------------------------------------------------------------------------
-
-/// shutil.which: resolve a command name on PATH (executable bit honoured on POSIX).
+/// Resolve a command on PATH; honour executable bits on POSIX.
 let findExecutable (name: string) (env: Map<string, string>) : string option =
     let path =
         match Map.tryFind "PATH" env with
@@ -225,10 +142,6 @@ let environmentProblems (env: Map<string, string>) : EnvironmentProblem list =
               "install the .NET SDK pinned by global.json "
               + "and make sure `dotnet --version` works." } ]
 
-// ---------------------------------------------------------------------------
-// Commands and verdicts
-// ---------------------------------------------------------------------------
-
 /// Mirror the release protocol's command forms, minus release isolation flags.
 let commandForStep (step: string) (repositoryRoot: string) : StepCommand =
     match step with
@@ -277,7 +190,7 @@ let private stripAnsi (text: string) : string =
 
 let private testAssemblyPattern (assembly: string) : Regex =
     Regex(
-        @"^\s*" + Regex.Escape assembly + @"\s+" + TestAssemblyResultFragment,
+        @"^\s*" + Regex.Escape assembly + @"\s+\(net10\.0\|[^)]*\)\s+passed\s+\([^)]*\)\s*$",
         RegexOptions.IgnoreCase ||| RegexOptions.Multiline
     )
 
@@ -303,8 +216,7 @@ let private testFailure (text: string) (repositoryRoot: string) : string option 
         else
             testAssemblyRelativePaths
             |> List.tryPick (fun relative ->
-                // The real test log prints the resolved path, so the pattern must use the same spelling
-                // the release verifier uses (ReleaseVerifySource.assertTestMarkers).
+                // The real test log prints the resolved assembly path.
                 let assembly = Path.GetFullPath(Path.Combine(repositoryRoot, relative))
 
                 if (testAssemblyPattern assembly).IsMatch text then
@@ -317,7 +229,7 @@ let private testFailure (text: string) (repositoryRoot: string) : string option 
 let stepFailure (step: string) (stdout: string) (stderr: string) (repositoryRoot: string) : string option =
     let combined =
         match step with
-        | "build" | "test" | "examples" | "aspnetcore-examples" -> stdout + "\n" + stderr
+        | "build" | "test" | "examples" | "aspnetcore-examples" -> stripAnsi (stdout + "\n" + stderr)
         | _ -> ""
 
     match step with
@@ -337,7 +249,6 @@ let stepFailure (step: string) (stdout: string) (stderr: string) (repositoryRoot
             None
     | "test" -> testFailure combined repositoryRoot
     | "examples" ->
-        // The frozen verifier uses PowerShell -notmatch, which is case-insensitive.
         if combined.ToLowerInvariant().Contains(CoreExampleMarker.ToLowerInvariant()) then
             None
         else
@@ -351,7 +262,7 @@ let stepFailure (step: string) (stdout: string) (stderr: string) (repositoryRoot
 
 let outputTailLines = 20
 
-/// The bounded last-N lines of child output (mirrors inventory._tail's bound).
+/// Keep a bounded tail for diagnostics.
 let outputTail (text: string) : string list =
     let lines = List.ofArray (Output.splitLines (text.Trim('\n')))
     let count = lines.Length
@@ -360,10 +271,6 @@ let outputTail (text: string) : string list =
         lines
     else
         lines |> List.skip (count - outputTailLines)
-
-// ---------------------------------------------------------------------------
-// Step execution
-// ---------------------------------------------------------------------------
 
 /// Run the local steps in order and stop at the first failed check.
 let runSteps
@@ -388,7 +295,18 @@ let runSteps
                   Message = sprintf "requested by --skip-%s" step
                   OutputTail = [] }
         else
-            let completed = runner (commandForStep step repositoryRoot) env repositoryRoot
+            let completed =
+                try
+                    runner (commandForStep step repositoryRoot) env repositoryRoot
+                with
+                | :? System.ComponentModel.Win32Exception as error ->
+                    { ExitCode = 1; Stdout = ""; Stderr = "Could not start check: " + error.Message }
+                | :? IOException as error ->
+                    { ExitCode = 1; Stdout = ""; Stderr = "Could not run check: " + error.Message }
+                | :? UnauthorizedAccessException as error ->
+                    { ExitCode = 1; Stdout = ""; Stderr = "Could not run check: " + error.Message }
+                | :? InvalidOperationException as error ->
+                    { ExitCode = 1; Stdout = ""; Stderr = "Could not run check: " + error.Message }
             let stdout = stripAnsi completed.Stdout
             let stderrText = stripAnsi completed.Stderr
 
@@ -426,10 +344,6 @@ let runSteps
 
     List.ofSeq results, failed
 
-// ---------------------------------------------------------------------------
-// Reporting
-// ---------------------------------------------------------------------------
-
 type Report =
     { Options: CliOptions
       RepositoryRoot: string
@@ -439,108 +353,42 @@ type Report =
       FailedStep: string option
       Message: string }
 
-// The report JSON is rendered by hand to match Python's json.dumps(report, indent=2)
-// key order and value forms (including a JSON null failedStep) exactly, without
-// depending on JsonNode APIs that the nullable-reference-type checker rejects.
-let private pad (level: int) : string = String.replicate (level * 2) " "
-
-let private jsonEscape (value: string) : string =
-    let builder = StringBuilder()
-
-    for ch in value do
-        match ch with
-        | '"' -> builder.Append "\\\"" |> ignore
-        | '\\' -> builder.Append "\\\\" |> ignore
-        | '\n' -> builder.Append "\\n" |> ignore
-        | '\r' -> builder.Append "\\r" |> ignore
-        | '\t' -> builder.Append "\\t" |> ignore
-        | c when int c < 0x20 -> builder.Append(sprintf "\\u%04x" (int c)) |> ignore
-        | c -> builder.Append c |> ignore
-
-    builder.ToString()
-
-let private jsonString (value: string) : string = "\"" + jsonEscape value + "\""
-
 let private skippedSteps (options: CliOptions) : Set<string> =
-    let mutable skipped = Set.empty
-    if options.SkipDocs then skipped <- skipped.Add "docs"
-    if options.SkipFormat then skipped <- skipped.Add "format"
-    skipped
-
-/// Render an array whose elements are already-escaped values at `level` elements deep.
-let private appendArray (builder: StringBuilder) (level: int) (elements: string list) =
-    if elements.IsEmpty then
-        builder.Append "[]" |> ignore
-    else
-        builder.Append "[\n" |> ignore
-
-        elements
-        |> List.iteri (fun index element ->
-            builder.Append(pad (level + 1)).Append(element).Append(if index = elements.Length - 1 then "\n" else ",\n")
-            |> ignore)
-
-        builder.Append(pad level).Append "]" |> ignore
+    [ if options.SkipDocs then "docs"
+      if options.SkipFormat then "format" ]
+    |> Set.ofList
 
 let reportJson (report: Report) : string =
-    let builder = StringBuilder()
-    let line (level: int) (text: string) = builder.Append(pad level).Append(text).Append('\n') |> ignore
-    let key (level: int) (name: string) = builder.Append(pad level).Append(jsonString name).Append ": " |> ignore
-
-    let boolText value = if value then "true" else "false"
-    builder.Append "{\n" |> ignore
-    line 1 (jsonString "tool" + ": " + jsonString ToolName + ",")
-    line 1 (jsonString "status" + ": " + jsonString report.Status + ",")
-    line 1 (jsonString "exitCode" + ": " + string report.ExitCode + ",")
-    line 1 (jsonString "releaseEvidence" + ": false,")
-    line 1 (jsonString "preCheck" + ": true,")
-    line 1 (jsonString "repositoryRoot" + ": " + jsonString report.RepositoryRoot + ",")
-    line 1 (jsonString "offline" + ": " + boolText report.Options.Offline + ",")
-
-    let skipSet = skippedSteps report.Options
-    let skipped = localSteps |> List.filter skipSet.Contains
-
-    key 1 "skipped"
-    appendArray builder 1 (skipped |> List.map jsonString)
-    builder.Append ",\n" |> ignore
-
-    key 1 "steps"
-
-    if report.Steps.IsEmpty then
-        builder.Append "[],\n" |> ignore
-    else
-        builder.Append "[\n" |> ignore
-
+    let optional value = value |> Option.map box |> Option.defaultValue Unchecked.defaultof<obj>
+    let steps =
         report.Steps
-        |> List.iteri (fun index step ->
-            builder.Append(pad 2).Append "{\n" |> ignore
-            line 3 (jsonString "name" + ": " + jsonString step.Name + ",")
-            line 3 (jsonString "status" + ": " + jsonString step.Status + ",")
-            line 3 (jsonString "exitCode" + ": " + (match step.ExitCode with Some code -> string code | None -> "null") + ",")
-            line 3 (jsonString "message" + ": " + jsonString step.Message + (if step.OutputTail.IsEmpty then "" else ","))
+        |> List.map (fun step ->
+            dict [ "name", box step.Name
+                   "status", box step.Status
+                   "exitCode", optional step.ExitCode
+                   "message", box step.Message
+                   "outputTail", box (List.toArray step.OutputTail) ])
+        |> List.toArray
 
-            if not step.OutputTail.IsEmpty then
-                builder.Append(pad 3).Append(jsonString "outputTail").Append ": " |> ignore
-                appendArray builder 3 (step.OutputTail |> List.map jsonString)
-                builder.Append "\n" |> ignore
+    let payload =
+        dict [ "tool", box ToolName
+               "status", box report.Status
+               "exitCode", box report.ExitCode
+               "releaseEvidence", box false
+               "preCheck", box true
+               "repositoryRoot", box report.RepositoryRoot
+               "skipped", box (localSteps |> List.filter (skippedSteps report.Options).Contains |> List.toArray)
+               "steps", box steps
+               "failedStep", optional report.FailedStep
+               "notRun", box (List.toArray notRunSteps)
+               "message", box report.Message ]
 
-            builder.Append(pad 2).Append(if index = report.Steps.Length - 1 then "}\n" else "},\n") |> ignore)
-
-        builder.Append(pad 1).Append "]" |> ignore
-        builder.Append ",\n" |> ignore
-
-    line 1 (jsonString "failedStep" + ": " + (match report.FailedStep with Some step -> jsonString step | None -> "null") + ",")
-    key 1 "notRun"
-    appendArray builder 1 (notRunSteps |> List.map jsonString)
-    builder.Append ",\n" |> ignore
-    line 1 (jsonString "message" + ": " + jsonString report.Message)
-    builder.Append "}" |> ignore
-    builder.ToString()
+    JsonSerializer.Serialize(payload, JsonSerializerOptions(WriteIndented = true))
 
 let humanSummary (report: Report) : string =
     let lines = ResizeArray<string>()
     lines.Add "FunnySharp local pre-check (not release evidence)."
     lines.Add(sprintf "Repository: %s" report.RepositoryRoot)
-    lines.Add(sprintf "Offline: %s" (if report.Options.Offline then "yes" else "no"))
     lines.Add ""
 
     for step in report.Steps do
@@ -563,7 +411,7 @@ let humanSummary (report: Report) : string =
     lines.Add("NOT RUN (release protocol steps outside local scope): " + String.concat ", " notRunSteps)
 
     lines.Add
-        "This is a local pre-check, not release evidence; run the PowerShell release protocol for the release gate."
+        "This is a local pre-check, not release evidence; run `dotnet fsi build.fsx -- -p release` for the release gate."
 
     String.concat "\n" lines
 
@@ -600,20 +448,8 @@ let private environmentFailure
           FailedStep = None
           Message = message }
 
-    if options.Json then
-        stdout.WriteLine(reportJson report)
-        2
-    else
-        stdout.WriteLine(humanSummary report)
-        2
+    emit stdout stderr options report
 
-// ---------------------------------------------------------------------------
-// Child processes
-// ---------------------------------------------------------------------------
-
-/// Capturing run with an explicit child environment; never through a shell. The
-/// per-child env (DOTNET_CLI_UI_LANGUAGE / UV_OFFLINE) is a contract, and
-/// Proc.runCaptureIn has no environment parameter, so this builds the start info.
 let runChildProcess
     (exe: string)
     (args: string list)
@@ -622,9 +458,7 @@ let runChildProcess
     : ProcessResult =
     use proc = new System.Diagnostics.Process()
 
-    // Resolve the executable with the *child* environment's PATH (as Python's
-    // subprocess does), not this process' PATH; otherwise an injected PATH cannot
-    // select a stub executable.
+    // Resolve against the child PATH, not the parent environment.
     let resolvedExe =
         match findExecutable exe env with
         | Some path -> path
@@ -647,7 +481,7 @@ let runChildProcess
     proc.StartInfo <- info
 
     if not (proc.Start()) then
-        failwithf "failed to start process '%s'" exe
+        invalidOp (sprintf "failed to start process '%s'" exe)
 
     let stdout = proc.StandardOutput.ReadToEndAsync()
     let stderr = proc.StandardError.ReadToEndAsync()
@@ -676,34 +510,27 @@ let private environmentMap () : Map<string, string> =
     |> Seq.map (fun entry -> string entry.Key, string entry.Value)
     |> Map.ofSeq
 
-// ---------------------------------------------------------------------------
-// CLI
-// ---------------------------------------------------------------------------
-
 let private usageLine =
-    "usage: verify_local.py [-h] [--repository-root PATH] [--offline] [--json] [--skip-docs] [--skip-format]"
+    "usage: verify-tooling [-h] [--repository-root PATH] [--json] [--skip-docs] [--skip-format]"
 
 let private helpText =
     String.concat
         "\n"
         [ usageLine
           ""
-          "Run the core FunnySharp local checks with release-equivalent verdicts. This is a local pre-check, not release evidence."
+          "Run comprehensive FunnySharp local checks. This is a local pre-check, not release evidence."
           ""
           "options:"
           "  -h, --help            show this help message and exit"
           "  --repository-root PATH"
           "                        repository root (default: resolved from the current directory;"
           "                        that location must be inside a FunnySharp checkout)."
-          "  --offline             export UV_OFFLINE=1 to child processes and never attempt"
-          "                        network-dependent setup."
           "  --json                print a machine-readable summary on stdout."
           "  --skip-docs           skip the documentation-snippet step."
           "  --skip-format         skip the formatter step." ]
 
 let private defaultOptions =
     { RepositoryRoot = None
-      Offline = false
       Json = false
       SkipDocs = false
       SkipFormat = false
@@ -714,7 +541,7 @@ let private parseArgs (argv: string list) : Result<CliOptions, string> =
         match remaining with
         | [] -> Ok options
         | "-h" :: _ | "--help" :: _ -> Ok { options with Help = true }
-        | "--offline" :: rest -> loop { options with Offline = true } rest
+        | "--offline" :: _ -> Error "--offline is not supported; NuGet restore may require network access"
         | "--json" :: rest -> loop { options with Json = true } rest
         | "--skip-docs" :: rest -> loop { options with SkipDocs = true } rest
         | "--skip-format" :: rest -> loop { options with SkipFormat = true } rest
@@ -737,7 +564,7 @@ let mainWith
     match parseArgs argv with
     | Error message ->
         stderr.WriteLine usageLine
-        stderr.WriteLine("verify_local.py: error: " + message)
+        stderr.WriteLine(ToolName + ": error: " + message)
         2
     | Ok options when options.Help ->
         stdout.WriteLine helpText
@@ -754,7 +581,7 @@ let mainWith
                 | None ->
                     Error(
                         sprintf
-                            "'%s' is not inside a git repository, so the repository root cannot be derived from the script location."
+                            "'%s' is not inside a FunnySharp checkout; the repository root could not be found."
                             startDirectory
                     )
 
@@ -793,14 +620,7 @@ let mainWith
                           "wire FunnySharp.Harness.DocsSnippets into the docs verifier, or pass "
                           + "--skip-docs to run the other local checks." } ]
             else
-                let childEnv =
-                    collaborators.Env
-                    |> Map.add "DOTNET_CLI_UI_LANGUAGE" "en"
-                    |> fun environment ->
-                        if options.Offline then
-                            Map.add "UV_OFFLINE" "1" environment
-                        else
-                            environment
+                let childEnv = collaborators.Env |> Map.add "DOTNET_CLI_UI_LANGUAGE" "en"
 
                 let results, failedStep =
                     runSteps root childEnv collaborators.Runner skipped stderr
@@ -826,7 +646,7 @@ let mainWith
 
                 emit stdout stderr options report
 
-/// Entry point mirroring verify_local.py's main().
+/// CLI entry point.
 let main (argv: string array) : int =
     let collaborators =
         { Env = environmentMap ()

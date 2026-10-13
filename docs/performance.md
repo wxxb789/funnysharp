@@ -241,5 +241,5 @@ dotnet run --project benchmarks/FunnySharp.CompetitorBenchmarks/FunnySharp.Compe
 dotnet fsi build.fsx -- -p verify-performance -ManifestPath eng/performance/competitor-baseline.json -ReceiptDirectory <competitor-results-path>
 ```
 
-Both verifiers check every row against the current policy fingerprint, the recorded environment,
-and the committed budgets before an observation can be approved.
+Both verifiers check measured row completeness, the recorded environment and committed
+allocation budgets. Git identifies the source revision; no custom file fingerprints are used.

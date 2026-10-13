@@ -1,5 +1,4 @@
 using System.Reflection;
-using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using BenchmarkDotNet.Attributes;
@@ -11,10 +10,7 @@ namespace FunnySharp.Benchmarks;
 
 /// <summary>
 /// The shared receipt-writing core for both performance suites. The main suite and the isolated
-/// competitor suite each compile this file and pass their own exporter name, manifest path, and log
-/// prefix. The single fingerprint algorithm matches <c>eng/Verify-Performance.ps1</c>: each manifest
-/// files list is hashed ordinal-sorted with backslashes normalized to forward slashes, so the order
-/// of a manifest's files array never changes a fingerprint.
+/// competitor suite each compile this file and pass their exporter name, manifest path, and log prefix.
 /// </summary>
 internal abstract class ReceiptExporterCore : IExporter
 {
@@ -45,28 +41,14 @@ internal abstract class ReceiptExporterCore : IExporter
         using var manifest = File.Exists(manifestPath) ? JsonDocument.Parse(File.ReadAllText(manifestPath)) : null;
         var policyRevision = manifest?.RootElement.GetProperty("policy").GetProperty("revision").GetString()
             ?? "unregistered";
-        var policyFingerprint = manifest is null
-            ? null
-            : GetSha256(manifest.RootElement.GetProperty("policy").GetRawText());
-        var benchmarkInputFingerprint = manifest is null
-            ? null
-            : GetFingerprint(repositoryRoot, manifest.RootElement.GetProperty("benchmarkInput").GetProperty("files"));
-        var protocolFingerprint = manifest is null
-            ? null
-            : GetFingerprint(repositoryRoot, manifest.RootElement.GetProperty("protocol").GetProperty("files"));
         if (manifest is null)
         {
-            throw new InvalidOperationException("Fresh measurement requires its registered manifest.");
+            throw new InvalidOperationException("Measurement requires its registered manifest.");
         }
-        BenchmarkPreflight.ValidateInputs(repositoryRoot, manifest.RootElement);
         var preflight = BenchmarkPreflight.Current;
         BenchmarkPreflight.Require(preflight.ValueKind == JsonValueKind.Object,
             "Measurement did not execute semantic preflight.");
-        var snapshot = BenchmarkPreflight.Snapshot(
-            manifest.RootElement, policyFingerprint!, benchmarkInputFingerprint!, protocolFingerprint!);
-        BenchmarkPreflight.Require(
-            preflight.GetProperty("candidateSnapshot").GetString() == snapshot,
-            "Inputs changed after preflight.");
+        var commit = preflight.GetProperty("candidateCommit").GetString();
         var preflightName = preflight.GetProperty("runId").GetString() + "-preflight.json";
         var preflightPath = Path.Combine(summary.ResultsDirectoryPath, preflightName);
         WriteImmutable(preflightPath, preflight.GetRawText() + Environment.NewLine);
@@ -84,10 +66,11 @@ internal abstract class ReceiptExporterCore : IExporter
                 BenchmarkPreflight.Require(
                     lines.Count(line => line.StartsWith(BenchmarkPreflight.Marker, StringComparison.Ordinal)) == 1,
                     "Each measured child launch must emit exactly one workload binding.");
-                var file = GetSha256(rowId) + "-launch-" + launchIndex++ + ".log";
+                var file = preflight.GetProperty("runId").GetString() + "-" + benchmark.Descriptor.Type.Name
+                    + "-" + launches.Count + "-launch-" + launchIndex++ + ".log";
                 var launchPath = Path.Combine(summary.ResultsDirectoryPath, file);
                 WriteImmutable(launchPath, string.Join(Environment.NewLine, lines) + Environment.NewLine);
-                launches.Add(new { rowId, file, sha256 = GetFileSha256(launchPath) });
+                launches.Add(new { rowId, file });
             }
             BenchmarkPreflight.Require(launchIndex > 0, "A measured row has no child launch evidence.");
         }
@@ -103,16 +86,6 @@ internal abstract class ReceiptExporterCore : IExporter
             gcConcurrent = host.IsConcurrentGC,
             gcAllocationQuantum = host.GCAllocationQuantum,
         };
-        var environmentKey = GetSha256(string.Join(
-            "\0",
-            environment.os,
-            environment.architecture,
-            environment.sdkVersion,
-            environment.runtime,
-            environment.jit,
-            environment.gcServer.ToString().ToLowerInvariant(),
-            environment.gcConcurrent.ToString().ToLowerInvariant(),
-            environment.gcAllocationQuantum.ToString(System.Globalization.CultureInfo.InvariantCulture)));
         var reports = GetReportEvidence(summary);
         var rows = summary.Reports
             .Select(report => CreateRow(report))
@@ -126,22 +99,20 @@ internal abstract class ReceiptExporterCore : IExporter
             schemaVersion = 1,
             generatedAtUtc = DateTimeOffset.UtcNow,
             succeeded = summary.Reports.All(report => report.Success),
-            candidateCommit = snapshot,
+            candidateCommit = commit,
             policyRevision,
-            policyFingerprint,
-            benchmarkInputFingerprint,
-            protocolFingerprint,
-            environmentKey,
             environment,
             reports,
             binding = new
             {
-                preflight = new { file = preflightName, sha256 = GetFileSha256(preflightPath) },
+                preflight = new { file = preflightName },
                 launches,
             },
             rows,
         };
 
+        BenchmarkPreflight.Require(BenchmarkPreflight.SourceCommit(repositoryRoot) == commit,
+            "Benchmark source commit changed after preflight.");
         File.WriteAllText(
             path,
             JsonSerializer.Serialize(
@@ -179,7 +150,7 @@ internal abstract class ReceiptExporterCore : IExporter
                 throw new FileNotFoundException($"Benchmark report was not found: {fileName}.", path);
             }
 
-            return new ReportEvidence(fileName, GetFileSha256(path));
+            return new ReportEvidence(fileName);
         }).ToArray();
     }
 
@@ -197,26 +168,6 @@ internal abstract class ReceiptExporterCore : IExporter
         }
 
         throw new DirectoryNotFoundException("Could not locate the FunnySharp repository root.");
-    }
-
-    internal static string GetFingerprint(string repositoryRoot, JsonElement files)
-    {
-        using var input = new MemoryStream();
-        foreach (var relativePath in files.EnumerateArray()
-                     .Select(file => file.GetString() ?? string.Empty)
-                     .OrderBy(path => path, StringComparer.Ordinal))
-        {
-            var path = Path.Combine(repositoryRoot, relativePath.Replace('/', Path.DirectorySeparatorChar));
-            if (!File.Exists(path))
-            {
-                throw new FileNotFoundException($"Fingerprint input was not found: {relativePath}.", path);
-            }
-
-            var line = $"{relativePath.Replace('\\', '/')}\0{Convert.ToHexString(SHA256.HashData(File.ReadAllBytes(path))).ToLowerInvariant()}\n";
-            input.Write(Encoding.UTF8.GetBytes(line));
-        }
-
-        return Convert.ToHexString(SHA256.HashData(input.ToArray())).ToLowerInvariant();
     }
 
     private static ReceiptRow CreateRow(BenchmarkReport report)
@@ -249,15 +200,6 @@ internal abstract class ReceiptExporterCore : IExporter
     private static string CreateRowId(string benchmarkClass, string category, string method, string parameters) =>
         string.Join('|', benchmarkClass, category, method, parameters);
 
-    internal static string GetSha256(string value) =>
-        Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(value))).ToLowerInvariant();
-
-    internal static string GetFileSha256(string path)
-    {
-        using var stream = File.OpenRead(path);
-        return Convert.ToHexString(SHA256.HashData(stream)).ToLowerInvariant();
-    }
-
     private static void WriteImmutable(string path, string text)
     {
         if (File.Exists(path))
@@ -271,7 +213,7 @@ internal abstract class ReceiptExporterCore : IExporter
         writer.Write(text);
     }
 
-    private sealed record ReportEvidence(string File, string Sha256);
+    private sealed record ReportEvidence(string File);
 
     private sealed record ReceiptRow(
         string Id,

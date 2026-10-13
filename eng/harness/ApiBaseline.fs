@@ -1,30 +1,316 @@
 module FunnySharp.Harness.ApiBaseline
 
-// Verifies the shipping assemblies' public API surface against the committed
-// baseline under eng/api-baseline, the committed half of the stability boundary
-// docs/product-contract.md defines (EnablePackageValidation plus a committed API
-// baseline). The surface is rendered only through the release audit's
-// shared reflection and rendering path - ReleaseVerifyArtifacts.getPublicApiText,
-// one assembly per file, without an unused byte digest - so every committed file is an
-// `ASSEMBLY <identity>` line followed by that assembly's `KIND <TypeName>` and
-// indented member lines, byte-identical to what Verify-Release writes to
-// public-api.txt.
-//
-// Verify mode reads and compares only; --write is the single writer, and it
-// refreshes the committed files from the built assemblies. The process contract:
-//   0 - every shipping assembly matches its committed baseline (or was written)
-//   1 - verification failure: drift from the baseline, or a missing baseline file
-//   2 - usage failure (unknown flag) or environment failure (an assembly that has
-//       not been built)
-// Failure lines go to stderr prefixed 'error: '; the drift remediation names the
-// command that may refresh the baseline only for an accepted goal.
+// Compares the shipping assemblies' reflected public surface with eng/api-baseline.
+// Verify mode reads only; --write refreshes baselines for an accepted API change.
+// Exit codes: 0 verified/written, 1 drift or missing baseline, 2 usage/unbuilt assembly.
 
 open System
 open System.Collections.Generic
+open System.Globalization
 open System.IO
+open System.Reflection
 open System.Text
+open System.Text.RegularExpressions
 open FunnySharp.Harness.Repo
-open FunnySharp.Harness.ReleaseVerifyArtifacts
+
+/// A value the runtime may leave null even though the API is annotated non-null
+/// (NullabilityInfo.ElementType, NullabilityInfoContext.Create results).
+let private someOrNull (value: 'T | null) : 'T option =
+    match value with
+    | null -> None
+    | present -> Some present
+
+/// Get-SharedFrameworkDirectory: the highest 10.x shared framework of a name.
+let private getSharedFrameworkDirectory (frameworkName: string) (root: string) : string =
+    let result =
+        Proc.runCaptureIn (Some root) "dotnet" [ "--list-runtimes" ] |> Async.RunSynchronously
+
+    if result.ExitCode <> 0 then
+        raise (InvalidOperationException(sprintf "dotnet --list-runtimes failed with exit code %d." result.ExitCode))
+
+    let pattern = Regex("^" + Regex.Escape frameworkName + @" (?<version>10\.[^ ]+) \[(?<path>.+)\]$")
+
+    let candidates =
+        result.Stdout.Split('\n')
+        |> Array.choose (fun rawLine ->
+            let line = rawLine.TrimEnd('\r')
+            let matched = pattern.Match line
+
+            if matched.Success then
+                let version = matched.Groups.["version"].Value
+                let parsed = Version.Parse((version.Split('-').[0]))
+                Some(struct (version, parsed, matched.Groups.["path"].Value))
+            else
+                None)
+        |> Array.sortByDescending (fun (struct (_, parsed, _)) -> parsed)
+
+    if candidates.Length = 0 then
+        raise (InvalidOperationException(sprintf "No .NET 10 '%s' shared framework was found." frameworkName))
+
+    let struct (version, _, path) = candidates.[0]
+    Path.Combine(path, version)
+
+let private getNullabilityInfo (provider: obj | null) (context: NullabilityInfoContext) : NullabilityInfo option =
+    try
+        match provider with
+        | :? ParameterInfo as value -> someOrNull (context.Create value)
+        | :? PropertyInfo as value -> someOrNull (context.Create value)
+        | :? FieldInfo as value -> someOrNull (context.Create value)
+        | :? EventInfo as value -> someOrNull (context.Create value)
+        | _ -> None
+    with _ ->
+        None
+
+/// Format-ApiType with nullable annotations.
+let rec formatApiType (apiType: Type) (nullability: NullabilityInfo option) : string =
+    let suffix =
+        match nullability with
+        | Some info when info.ReadState = NullabilityState.Nullable -> "?"
+        | _ -> ""
+
+    let elementNullability =
+        match nullability with
+        | Some info -> someOrNull info.ElementType
+        | None -> None
+
+    if apiType.IsByRef then
+        match apiType.GetElementType() with
+        | null -> apiType.Name
+        | element -> formatApiType element elementNullability + "&"
+    elif apiType.IsPointer then
+        match apiType.GetElementType() with
+        | null -> apiType.Name
+        | element -> formatApiType element elementNullability + "*"
+    elif apiType.IsArray then
+        let rank = apiType.GetArrayRank()
+        let arraySuffix = if rank = 1 then "[]" else "[" + String(',', rank - 1) + "]"
+
+        match apiType.GetElementType() with
+        | null -> apiType.Name
+        | element -> formatApiType element elementNullability + arraySuffix + suffix
+    elif apiType.IsGenericParameter then
+        apiType.Name + suffix
+    elif apiType.IsGenericType then
+        let genericName =
+            Regex.Replace(
+                (Option.ofObj (apiType.GetGenericTypeDefinition().FullName) |> Option.defaultValue apiType.Name),
+                "`[0-9]+$",
+                ""
+            )
+
+        let typeArguments = apiType.GetGenericArguments()
+
+        let nullabilityArguments =
+            match nullability with
+            | Some info -> info.GenericTypeArguments
+            | None -> [||]
+
+        let arguments =
+            [ for index in 0 .. typeArguments.Length - 1 ->
+                let argumentNullability =
+                    if index < nullabilityArguments.Length then
+                        someOrNull nullabilityArguments.[index]
+                    else
+                        None
+
+                formatApiType typeArguments.[index] argumentNullability ]
+
+        genericName + "<" + String.concat ", " arguments + ">" + suffix
+    else
+        (Option.ofObj apiType.FullName |> Option.defaultValue apiType.Name) + suffix
+
+let private formatApiParameter (parameter: ParameterInfo) (context: NullabilityInfoContext) : string =
+    let modifier =
+        if parameter.IsOut then "out "
+        elif parameter.ParameterType.IsByRef then "ref "
+        else ""
+
+    let typeName = formatApiType parameter.ParameterType (getNullabilityInfo (box parameter) context)
+    modifier + typeName + " " + parameter.Name
+
+let private sortIgnoreCase (values: string array) : string array =
+    Array.sortWith (fun left right -> StringComparer.OrdinalIgnoreCase.Compare(left, right)) values
+
+/// An assembly full name with its `Version=` component removed: a patch release
+/// rewrites the version while the documented no-surface-change path holds, so the
+/// version is not part of the surface the baseline records. Name, culture and
+/// public key token stay - those are compatibility-relevant.
+let private withoutAssemblyVersion (identity: string) : string =
+    identity.Split(", ")
+    |> Array.filter (fun part -> not (part.StartsWith("Version=", StringComparison.Ordinal)))
+    |> String.concat ", "
+
+/// Reflect the public API as baseline lines, without inspecting non-API assembly bytes.
+let getPublicApiText (assemblyPaths: string list) (root: string) : string list =
+    let context = NullabilityInfoContext()
+
+    let searchDirectories =
+        (assemblyPaths
+         |> List.map (fun path ->
+             match Path.GetDirectoryName path with
+             | null -> ""
+             | directory -> directory))
+        @ [ getSharedFrameworkDirectory "Microsoft.AspNetCore.App" root ]
+        |> List.distinct
+
+    let resolver =
+        ResolveEventHandler(fun _ eventArgs ->
+            let requested = eventArgs.Name
+
+            if String.IsNullOrEmpty requested then
+                Unchecked.defaultof<Assembly>
+            else
+                let simpleName =
+                    match AssemblyName(requested).Name with
+                    | null -> ""
+                    | name -> name
+
+                let rec tryDirectories directories =
+                    match directories with
+                    | [] -> Unchecked.defaultof<Assembly>
+                    | directory :: rest ->
+                        let candidate = Path.Combine(directory, simpleName + ".dll")
+
+                        if simpleName <> "" && File.Exists candidate then
+                            Assembly.LoadFrom candidate
+                        else
+                            tryDirectories rest
+
+                tryDirectories searchDirectories)
+
+    AppDomain.CurrentDomain.add_AssemblyResolve resolver
+
+    try
+        let lines = ResizeArray<string>()
+
+        for assemblyPath in
+            List.sortWith (fun left right -> StringComparer.OrdinalIgnoreCase.Compare(left, right)) assemblyPaths do
+            let assembly = Assembly.LoadFrom assemblyPath
+
+            let types =
+                assembly.GetExportedTypes()
+                |> Array.sortWith (fun left right ->
+                    StringComparer.OrdinalIgnoreCase.Compare(
+                        (Option.ofObj left.FullName |> Option.defaultValue ""),
+                        (Option.ofObj right.FullName |> Option.defaultValue "")
+                    ))
+
+            let identity = Option.ofObj assembly.FullName |> Option.defaultValue ""
+            lines.Add("ASSEMBLY " + withoutAssemblyVersion identity)
+
+            let flags =
+                BindingFlags.Public ||| BindingFlags.Instance ||| BindingFlags.Static ||| BindingFlags.DeclaredOnly
+
+            for apiType in types do
+                let constructors =
+                    apiType.GetConstructors flags
+                    |> Array.map (fun constructor ->
+                        let parameters =
+                            constructor.GetParameters()
+                            |> Array.map (fun parameter -> formatApiParameter parameter context)
+                            |> String.concat ", "
+
+                        "ctor(" + parameters + ")")
+                    |> sortIgnoreCase
+
+                let methods =
+                    apiType.GetMethods flags
+                    |> Array.filter (fun method ->
+                        not method.IsSpecialName || method.Name.StartsWith("op_", StringComparison.Ordinal))
+                    |> Array.map (fun method ->
+                        let parameters =
+                            method.GetParameters()
+                            |> Array.map (fun parameter -> formatApiParameter parameter context)
+                            |> String.concat ", "
+
+                        let genericParameters = method.GetGenericArguments() |> Array.map (fun argument -> argument.Name)
+
+                        let genericSuffix =
+                            if genericParameters.Length = 0 then
+                                ""
+                            else
+                                "<" + String.concat ", " genericParameters + ">"
+
+                        let returnType =
+                            formatApiType method.ReturnType (getNullabilityInfo (box method.ReturnParameter) context)
+
+                        let staticPrefix = if method.IsStatic then "static " else ""
+                        staticPrefix + returnType + " " + method.Name + genericSuffix + "(" + parameters + ")")
+                    |> sortIgnoreCase
+
+                let properties =
+                    apiType.GetProperties flags
+                    |> Array.filter (fun property -> not (isNull property.GetMethod) || not (isNull property.SetMethod))
+                    |> Array.map (fun property ->
+                        let indexParameters =
+                            property.GetIndexParameters()
+                            |> Array.map (fun parameter -> formatApiParameter parameter context)
+                            |> String.concat ", "
+
+                        let name =
+                            if indexParameters.Length = 0 then
+                                property.Name
+                            else
+                                property.Name + "[" + indexParameters + "]"
+
+                        formatApiType property.PropertyType (getNullabilityInfo (box property) context) + " " + name)
+                    |> sortIgnoreCase
+
+                let fields =
+                    apiType.GetFields flags
+                    |> Array.map (fun field ->
+                        let staticPrefix = if field.IsStatic then "static " else ""
+
+                        // A literal's value is part of the surface: a caller that persists or
+                        // serializes the constant observes a change the name and type alone hide.
+                        let constantSuffix =
+                            if field.IsLiteral then
+                                " = " + Convert.ToString(field.GetRawConstantValue(), CultureInfo.InvariantCulture)
+                            else
+                                ""
+
+                        staticPrefix
+                        + formatApiType field.FieldType (getNullabilityInfo (box field) context)
+                        + " "
+                        + field.Name
+                        + constantSuffix)
+                    |> sortIgnoreCase
+
+                let events =
+                    apiType.GetEvents flags
+                    |> Array.map (fun eventInfo ->
+                        match eventInfo.EventHandlerType with
+                        | null -> ""
+                        | handlerType ->
+                            formatApiType handlerType (getNullabilityInfo (box eventInfo) context)
+                            + " "
+                            + eventInfo.Name)
+                    |> sortIgnoreCase
+
+                let kind =
+                    if apiType.IsInterface then "interface"
+                    elif apiType.IsEnum then "enum"
+                    elif apiType.IsValueType then "struct"
+                    elif (match apiType.BaseType with
+                          | null -> false
+                          | baseType -> baseType = typeof<MulticastDelegate>) then
+                        "delegate"
+                    else "class"
+
+                lines.Add(kind.ToUpperInvariant() + " " + formatApiType apiType None)
+
+                for memberKind, members in
+                    [ "CONSTRUCTOR", constructors
+                      "METHOD", methods
+                      "PROPERTIE", properties // Preserve the committed renderer's TrimEnd('s') label.
+                      "FIELD", fields
+                      "EVENT", events ] do
+                    for memberText in members do
+                        lines.Add("  " + memberKind + " " + memberText)
+
+        List.ofSeq lines
+    finally
+        AppDomain.CurrentDomain.remove_AssemblyResolve resolver
 
 /// The directory, relative to the repository root, that holds the committed baselines.
 [<Literal>]
@@ -42,9 +328,6 @@ let baselineFileName (repositoryRoot: string) (assemblySimpleName: string) : str
 /// FunnySharp.AspNetCore at src/<name>/bin/Release/net10.0/<name>.dll, in that
 /// fixed order.
 let shippingAssemblies (repositoryRoot: string) : (string * string) list =
-    // The relative part stays one forward-slash segment: the release audit records
-    // these path strings verbatim in public-api.json, so the spelling is part of
-    // that evidence on every host.
     let assemblyPath (name: string) : string =
         Path.Combine(repositoryRoot, sprintf "src/%s/bin/Release/net10.0/%s.dll" name name)
 
@@ -76,7 +359,7 @@ let diffLines (expected: string list) (actual: string list) : string list =
 
 let private utf8NoBom = UTF8Encoding(false)
 
-/// Render one assembly's public API through the release audit's rendering path.
+/// Render one assembly's public API.
 /// A single-element assembly list keeps each rendering self-contained: its own
 /// `ASSEMBLY` line followed by that assembly's types and members.
 let private renderAssembly (repositoryRoot: string) (assemblyPath: string) : string list =
@@ -87,7 +370,7 @@ let private readBaselineLines (path: string) : string list =
     File.ReadAllLines(path, utf8NoBom) |> List.ofArray
 
 /// (type count, member count) over one assembly's rendered lines, counted from the
-/// very lines that get compared: renderPublicApiText writes one 'ASSEMBLY' line per
+/// very lines that get compared: getPublicApiText writes one 'ASSEMBLY' line per
 /// assembly, one unindented 'KIND <name>' line per type, and one two-space-indented
 /// line per member - so the counts cannot describe a different surface than the
 /// comparison does, and a new member kind is counted without a second list to keep
@@ -132,8 +415,7 @@ let private baselineMismatch
             )
 
 /// Every baseline mismatch, one message per assembly in the given order. Empty when every
-/// assembly matches its committed baseline in eng/api-baseline/. The release audit's entry
-/// point.
+/// assembly matches its committed baseline in eng/api-baseline/.
 let outdatedBaselineMessages (repositoryRoot: string) (assemblies: (string * string) list) : string list =
     assemblies
     |> List.choose (fun (simpleName, assemblyPath) ->

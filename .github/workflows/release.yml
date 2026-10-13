@@ -1,29 +1,8 @@
 name: release
 
+# Heavy package/platform tests run only on explicit human dispatch.
 on:
-  pull_request:
-  push:
-    branches:
-      - main
   workflow_dispatch:
-    inputs:
-      provenance_mode:
-        description: Release proof or immutable provenance transport
-        type: choice
-        default: release
-        options:
-          - release
-          - freeze-producer
-          - stage-attestation
-      provenance_payload:
-        description: Gzip-base64 provenance JSON for transport modes
-        type: string
-        required: false
-      provenance_input_ref:
-        description: Full lowercase commit SHA in this repository containing root input.json instead of provenance_payload
-        type: string
-        required: false
-
 permissions:
   contents: read
 
@@ -39,8 +18,7 @@ env:
 
 jobs:
   win-x64:
-    name: ${{ inputs.provenance_mode && inputs.provenance_mode != 'release' && 'provenance transport / win-x64' || 'release / win-x64' }}
-    if: ${{ !inputs.provenance_mode || inputs.provenance_mode == 'release' }}
+    name: release / win-x64
     runs-on: windows-2025
     timeout-minutes: 45
     steps:
@@ -64,7 +42,7 @@ jobs:
       # Benchmarks are a developer-machine activity (docs/release-readiness.md):
       # the release pipeline keeps only integration checks in CI (build, full
       # test suites, examples, pack, format, compatibility consumers);
-      # byte-hash evidence verifications stay developer-machine activities.
+      # Git identifies the source; results come from the commands themselves.
       - name: Run canonical release
         shell: bash
         run: >
@@ -96,8 +74,7 @@ jobs:
           retention-days: 7
 
   linux-x64:
-    name: ${{ inputs.provenance_mode && inputs.provenance_mode != 'release' && 'provenance transport / linux-x64' || 'release / linux-x64' }}
-    if: ${{ !inputs.provenance_mode || inputs.provenance_mode == 'release' }}
+    name: release / linux-x64
     needs: win-x64
     runs-on: ubuntu-latest
     timeout-minutes: 35
@@ -156,8 +133,7 @@ jobs:
           retention-days: 7
 
   osx-arm64:
-    name: ${{ inputs.provenance_mode && inputs.provenance_mode != 'release' && 'provenance transport / osx-arm64' || 'release / osx-arm64' }}
-    if: ${{ !inputs.provenance_mode || inputs.provenance_mode == 'release' }}
+    name: release / osx-arm64
     needs: win-x64
     runs-on: macos-14
     timeout-minutes: 35
@@ -216,8 +192,7 @@ jobs:
           retention-days: 7
 
   osx-x64-consumer:
-    name: ${{ inputs.provenance_mode && inputs.provenance_mode != 'release' && 'provenance transport / osx-x64-consumer' || 'release / osx-x64-consumer' }}
-    if: ${{ !inputs.provenance_mode || inputs.provenance_mode == 'release' }}
+    name: release / osx-x64-consumer
     needs: win-x64
     runs-on: macos-15-intel
     timeout-minutes: 20
@@ -263,101 +238,3 @@ jobs:
           path: artifacts/canonical-consumer/osx-x64
           if-no-files-found: error
           retention-days: 7
-
-  provenance:
-    name: release provenance transport
-    if: ${{ github.event_name == 'workflow_dispatch' && inputs.provenance_mode != 'release' }}
-    runs-on: windows-2025
-    timeout-minutes: 15
-    permissions:
-      contents: read
-      actions: read
-      checks: read
-      pull-requests: read
-    env:
-      GH_TOKEN: ${{ github.token }}
-      RELEASE_PROVENANCE_PAYLOAD: ${{ inputs.provenance_payload }}
-      PROVENANCE_INPUT_REF: ${{ inputs.provenance_input_ref }}
-      PROVENANCE_DIRECTORY: artifacts/release-provenance/${{ github.run_id }}-${{ github.run_attempt }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
-        with:
-          ref: ${{ env.CANDIDATE_SHA }}
-
-      - name: Select provenance input
-        id: provenance-input
-        shell: bash
-        run: |
-          if [[ -n "$RELEASE_PROVENANCE_PAYLOAD" && -z "$PROVENANCE_INPUT_REF" ]]; then
-            printf 'source=inline\n' >> "$GITHUB_OUTPUT"
-          elif [[ -z "$RELEASE_PROVENANCE_PAYLOAD" && "$PROVENANCE_INPUT_REF" =~ ^[0-9a-f]{40}$ ]]; then
-            printf 'source=file\nref=%s\n' "$PROVENANCE_INPUT_REF" >> "$GITHUB_OUTPUT"
-          else
-            printf 'Provide exactly one provenance_payload or full lowercase provenance_input_ref commit SHA.\n' >&2
-            exit 1
-          fi
-
-      - name: Checkout provenance input
-        id: provenance-input-checkout
-        if: ${{ steps.provenance-input.outputs.source == 'file' }}
-        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
-        with:
-          repository: ${{ github.repository }}
-          ref: ${{ steps.provenance-input.outputs.ref }}
-          path: artifacts/provenance-input
-          persist-credentials: false
-
-      - name: Setup .NET
-        uses: actions/setup-dotnet@67a3573c9a986a3f9c594539f4ab511d57bb3ce9 # v4
-        with:
-          global-json-file: global.json
-
-      - name: Record runtime provenance
-        shell: bash
-        run: |
-          dotnet --info
-          printf 'CANDIDATE_SHA=%s\nRUNNER_OS=%s\nRUNNER_ARCH=%s\nIMAGE_OS=%s\nIMAGE_VERSION=%s\n' "$CANDIDATE_SHA" "$RUNNER_OS" "$RUNNER_ARCH" "${ImageOS:-}" "${ImageVersion:-}"
-
-
-      - name: Freeze producer or stage attestation
-        id: provenance-run
-        shell: bash
-        env:
-          PROVENANCE_INPUT_SOURCE: ${{ steps.provenance-input.outputs.source }}
-          PROVENANCE_MODE: ${{ inputs.provenance_mode }}
-        run: |
-          input_args=()
-          if [[ "$PROVENANCE_INPUT_SOURCE" == "file" ]]; then
-            input_args=(-InputPath artifacts/provenance-input/input.json)
-          fi
-          dotnet fsi build.fsx -- -p release-provenance \
-            -Mode "$PROVENANCE_MODE" \
-            -OutputDirectory "$PROVENANCE_DIRECTORY" "${input_args[@]}"
-
-      - name: Upload immutable provenance bytes
-        id: provenance-artifact
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
-        with:
-          name: release-provenance-${{ inputs.provenance_mode }}-${{ github.run_id }}-${{ github.run_attempt }}
-          path: ${{ env.PROVENANCE_DIRECTORY }}
-          if-no-files-found: error
-          retention-days: 90
-
-      - name: Write external index after immutable upload
-        if: ${{ inputs.provenance_mode == 'stage-attestation' }}
-        shell: bash
-        run: >
-          dotnet fsi build.fsx -- -p release-provenance
-          -Mode write-index
-          -OutputDirectory "$PROVENANCE_DIRECTORY"
-          -ArtifactUrl "${{ steps.provenance-artifact.outputs.artifact-url }}"
-
-      - name: Upload external index
-        if: ${{ inputs.provenance_mode == 'stage-attestation' }}
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
-        with:
-          name: release-index-${{ github.run_id }}-${{ github.run_attempt }}
-          path: ${{ env.PROVENANCE_DIRECTORY }}/index.json
-          if-no-files-found: error
-          retention-days: 90

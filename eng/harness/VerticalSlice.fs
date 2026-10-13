@@ -15,7 +15,6 @@ module FunnySharp.Harness.VerticalSlice
 open System
 open System.Diagnostics
 open System.IO
-open System.Security.Cryptography
 open System.Text
 open System.Text.Json
 open System.Text.Json.Nodes
@@ -240,14 +239,6 @@ let packageVersions (feed: string) : Result<Map<string, string>, HarnessError> =
     match failure with
     | Some err -> Error err
     | None -> Ok(Map.ofSeq versions)
-
-/// The sorted {file, sha256} fingerprint of every package in the feed.
-let fingerprint (feed: string) : (string * string) list =
-    [ for name in sortedPackages feed ->
-          use stream = File.OpenRead(Path.Combine(feed, name))
-          use sha = SHA256.Create()
-          let digest = sha.ComputeHash stream |> Array.map (fun b -> b.ToString "x2") |> String.concat ""
-          name, digest ]
 
 // ---- test summary parsing ----
 
@@ -507,11 +498,8 @@ let mainWith (stdout: TextWriter) (stderr: TextWriter) (argv: string list) : int
                 | Ok versions ->
                     let packagesJson = JsonArray()
 
-                    for name, digest in fingerprint feedDirectory do
-                        let row = JsonObject()
-                        row.["file"] <- jstr name
-                        row.["sha256"] <- jstr digest
-                        packagesJson.Add(row :> JsonNode)
+                    for name in sortedPackages feedDirectory do
+                        packagesJson.Add(jstr name)
 
                     receipt.["packages"] <- packagesJson
                     let versionsJson = JsonObject()

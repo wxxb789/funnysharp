@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <IsPackable>false</IsPackable>
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
@@ -23,26 +23,14 @@
     <Compile Include="ToolingVerify.fs" />
     <Compile Include="Performance.fs" />
     <Compile Include="PerformanceDocs.fs" />
-    <Compile Include="ReproducibleBuilds.fs" />
     <Compile Include="Ruleset.fs" />
     <Compile Include="Compatibility.fs" />
     <Compile Include="ReleaseProtocol.fs" />
-    <Compile Include="XmlBuildBindings.fs" />
     <Compile Include="ReleaseRun.fs" />
-    <Compile Include="ReleaseVerifySource.fs" />
-    <Compile Include="ReleaseVerifyArtifacts.fs" />
-    <Compile Include="StableApiContracts.fs" />
     <Compile Include="ApiBaseline.fs" />
-    <Compile Include="ReleaseVerify.fs" />
-    <Compile Include="ReleaseProvenance.fs" />
     <Compile Include="Loc.fs" />
     <Compile Include="Evaluation.fs" />
-    <Compile Include="FrozenReplay.fs" />
-    <Compile Include="Program.fs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Fun.Build" Version="1.2.0" />
+    <Compile Include="Cli.fs" />
   </ItemGroup>
 
 </Project>

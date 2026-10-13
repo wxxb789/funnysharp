@@ -1,15 +1,6 @@
 module FunnySharp.Harness.ReleaseProtocol
 
-// A behaviour-identical F# port of the pure helper surface the release protocol needs:
-// eng/ReleaseProtocol.psm1 (the parsed protocol model, attempt paths, project outputs,
-// package-version and benchmark-row assertions), the token expansion and step
-// materialisation from eng/Run-Release.ps1 (:358-393), the receipt/log naming (:576-580),
-// and the clean-tracked-tree precondition with its refusal text (:408-411).
-//
-// This module owns the release model, not the run: eng/harness/ReleaseRun.fs drives it.
-// eng/ReleaseProtocol.psm1 has no CLI surface, so this module has no `main`; the frozen
-// eng/tests/ReleaseProtocol.Tests.ps1 suite is ported to xUnit facts in
-// tests/FunnySharp.Harness.Tests/ReleaseProtocolTests.fs.
+// Release step parsing, token expansion, attempt paths and package version checks.
 
 open System
 open System.IO
@@ -36,10 +27,6 @@ let BenchmarkSkippedMode = "benchmarkSkipped"
 [<Literal>]
 let ReleaseCandidateDirectoryName = "release-candidate"
 
-/// The exact leading text of the clean-tracked-tree refusal (eng/Run-Release.ps1:410).
-[<Literal>]
-let CleanTrackedTreeRefusalPrefix = "Authoritative release requires a clean tracked tree. Dirty paths:"
-
 /// The attempt id constraint from eng/ReleaseProtocol.psm1:64-66.
 [<Literal>]
 let AttemptIdPattern = "^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
@@ -56,8 +43,7 @@ let placeholders: string list =
       "benchmarkResults"
       "performanceObservationProposal"
       "compatibilityOutput"
-      "compatibilityRid"
-      "harnessDll" ]
+      "compatibilityRid" ]
 
 let private unknownTokenPattern = Regex(@"\{[A-Za-z][A-Za-z0-9]*\}")
 
@@ -84,23 +70,6 @@ type ReleaseStep =
       FileName: string
       WorkingDirectory: string
       Arguments: string list }
-
-/// The repository-relative paths the runner binds to the placeholders.
-type ReleasePaths =
-    { RepositoryRoot: string
-      OutputDirectory: string
-      PackagesDirectory: string
-      BenchmarkArtifactsDirectory: string
-      CompatibilityOutputDirectory: string
-      CompatibilityPackageFeed: string
-      CompatibilityRuntimeIdentifier: string }
-
-/// One registered benchmark report row (`benchmarkClass`/`category`/`method`/`parameters`).
-type BenchmarkRow =
-    { BenchmarkClass: string
-      Category: string
-      Method: string
-      Parameters: string }
 
 // ---------------------------------------------------------------------------
 // JSON helpers (null-safe under <Nullable>enable)
@@ -220,30 +189,6 @@ let readProtocolFromRoot (repositoryRoot: string) : Result<Protocol, HarnessErro
 // ---------------------------------------------------------------------------
 // Token expansion and step materialisation
 // ---------------------------------------------------------------------------
-
-/// The token map the runner binds for one attempt (eng/Run-Release.ps1:486-496).
-let createTokenMap (paths: ReleasePaths) : Map<string, string> =
-    Map.ofList
-        [ "root", paths.RepositoryRoot
-          "compatibilityFeed", paths.CompatibilityPackageFeed
-          "packages", paths.PackagesDirectory
-          "benchmarkRoot", Path.Combine(paths.RepositoryRoot, "benchmarks", "FunnySharp.Benchmarks")
-          "benchmarkArtifacts", paths.BenchmarkArtifactsDirectory
-          "benchmarkResults", Path.Combine(paths.BenchmarkArtifactsDirectory, "results")
-          "performanceObservationProposal",
-          Path.Combine(paths.OutputDirectory, "performance-observation-proposal.json")
-          "compatibilityOutput", paths.CompatibilityOutputDirectory
-          "compatibilityRid", paths.CompatibilityRuntimeIdentifier
-          "harnessDll",
-          Path.Combine(
-              paths.RepositoryRoot,
-              "eng",
-              "harness",
-              "bin",
-              "Debug",
-              "net10.0",
-              "FunnySharp.Harness.dll"
-          ) ]
 
 /// Substitute every token then reject any unknown `{name}` left behind
 /// (Expand-ProtocolValue, eng/Run-Release.ps1:358-373).
@@ -383,55 +328,7 @@ let assertNewReleaseAttemptPath
                 | None -> ok actual)
 
 // ---------------------------------------------------------------------------
-// Project output directories
-// ---------------------------------------------------------------------------
-
-/// Validate tracked project paths and return their `bin`/`obj` direct children, in
-/// (sorted, unique) project order. Mirrors Get-ValidatedProjectOutputDirectories.
-let validatedProjectOutputDirectories
-    (repositoryRoot: string)
-    (projectFiles: string list)
-    : Result<string list, HarnessError> =
-    let root = trimSeparators (Path.GetFullPath repositoryRoot)
-    let ordered = projectFiles |> List.sort |> List.distinct
-
-    ordered
-    |> traverseResults (fun projectFile ->
-        if
-            Path.IsPathFullyQualified projectFile
-            || (projectFile.Split([| '\\'; '/' |]) |> Array.contains "..")
-        then
-            failError (sprintf "Project path must be repository-relative: '%s'." projectFile)
-        else
-            let projectPath = Path.GetFullPath(Path.Combine(root, projectFile))
-
-            if not (pathAtOrWithin projectPath root) || not (File.Exists projectPath) then
-                failError (sprintf "Tracked project was not found inside the repository: '%s'." projectFile)
-            else
-                let projectDirectory = Path.GetDirectoryName projectPath |> Option.ofObj |> Option.defaultValue root
-
-                [ "bin"; "obj" ]
-                |> traverseResults (fun name ->
-                    let output = Path.GetFullPath(Path.Combine(projectDirectory, name))
-
-                    if
-                        not (pathAtOrWithin output projectDirectory)
-                        || output.Equals(projectDirectory, pathComparison())
-                    then
-                        failError (
-                            sprintf
-                                "Generated output path is not a direct child of '%s': '%s'."
-                                projectDirectory
-                                output
-                        )
-                    elif Directory.Exists output && (DirectoryInfo output).Attributes.HasFlag FileAttributes.ReparsePoint then
-                        failError (sprintf "Generated output path cannot be a reparse point: '%s'." output)
-                    else
-                        ok output))
-    |> Result.map List.concat
-
-// ---------------------------------------------------------------------------
-// Version and benchmark-row assertions
+// Package version validation
 // ---------------------------------------------------------------------------
 
 /// Assert-PackageVersionAbsent (eng/ReleaseProtocol.psm1:155-167). `versions` is None
@@ -450,65 +347,6 @@ let assertPackageVersionAbsent
         failError (sprintf "Package '%s' already contains version '%s'." packageId version)
     | Some _ -> ok ()
 
-let private benchmarkKey (row: BenchmarkRow) : string =
-    row.BenchmarkClass
-    + string (char 0)
-    + row.Category
-    + string (char 0)
-    + row.Method
-    + string (char 0)
-    + row.Parameters
-
-/// Assert-BenchmarkReportRows (eng/ReleaseProtocol.psm1:170-209): multiset equality
-/// keyed by `benchmarkClass\0category\0method\0parameters`.
-let assertBenchmarkReportRows
-    (description: string)
-    (expected: BenchmarkRow list)
-    (actual: BenchmarkRow list)
-    : Result<unit, HarnessError> =
-    let missingIdentity (row: BenchmarkRow) =
-        String.IsNullOrWhiteSpace row.BenchmarkClass
-        || String.IsNullOrWhiteSpace row.Category
-        || String.IsNullOrWhiteSpace row.Method
-
-    if expected |> List.exists missingIdentity || actual |> List.exists missingIdentity then
-        failError (sprintf "%s contains a row with missing benchmark identity." description)
-    else
-        let counts (rows: BenchmarkRow list) = rows |> List.countBy benchmarkKey |> Map.ofList
-
-        if counts expected = counts actual then
-            ok ()
-        else
-            failError (sprintf "%s does not match the registered benchmark rows." description)
-
-// ---------------------------------------------------------------------------
-// Receipt and log naming (eng/Run-Release.ps1:576-580)
-// ---------------------------------------------------------------------------
-
 /// The `{NN}-{name}` ordinal prefix, two digits and numbered from 01.
 let stepPrefix (ordinal: int) (name: string) : string =
     sprintf "%02d-%s" ordinal name
-
-let receiptRelativePath (ordinal: int) (name: string) : string =
-    "receipts/" + stepPrefix ordinal name + ".json"
-
-let standardOutputLogRelativePath (ordinal: int) (name: string) : string =
-    "logs/" + stepPrefix ordinal name + ".stdout.log"
-
-let standardErrorLogRelativePath (ordinal: int) (name: string) : string =
-    "logs/" + stepPrefix ordinal name + ".stderr.log"
-
-// ---------------------------------------------------------------------------
-// Clean tracked tree precondition (eng/Run-Release.ps1:408-411)
-// ---------------------------------------------------------------------------
-
-/// The exact refusal text for a dirty tracked tree.
-let cleanTrackedTreeRefusal (status: string) : string =
-    CleanTrackedTreeRefusalPrefix + Environment.NewLine + status
-
-/// Fail when `git status --porcelain=v1 --untracked-files=all` reported anything.
-let assertCleanTrackedTree (status: string) : Result<unit, HarnessError> =
-    if String.IsNullOrWhiteSpace status then
-        ok ()
-    else
-        failError (cleanTrackedTreeRefusal status)
