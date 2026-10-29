@@ -4,6 +4,8 @@ These goals capture the maintainer-accepted direction discussed in October 2026:
 
 Each numbered file is an independently addressable outcome contract, written using the attached Define Goal skill and the existing `/goal` plus single-paragraph format. This index is navigation and provenance; the entire paragraph in the linked file is the completion authority. Creating or merging these documents does not activate or complete any goal.
 
+Read [Core Design](../core-design.md) for the shared design intent when pursuing a goal. It guides abstraction and engineering choices across the series; each goal retains its own completion contract, and prospective capabilities remain distinct from shipped behavior.
+
 | Goal | Outcome | Kind |
 | --- | --- | --- |
 | [0026](0026-goal.md) | Composable decoding into trusted domain values | Product outcome |

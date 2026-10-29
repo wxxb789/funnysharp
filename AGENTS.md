@@ -8,6 +8,8 @@
 
 FunnySharp: pragmatic, BCL-first functional-programming library whose shipping code is C# 13 / .NET 10 (`net10.0`). F# appears only in the development harness (root `build.fsx`, `eng/harness/*.fs`, `tests/FunnySharp.Harness.Tests/`) - it never ships. Feature APIs land only when a goal defines behavior plus verification evidence.
 
+Read [Core Design](docs/core-design.md) when shaping a goal or choosing an abstraction. It supplies the shared design intent and trade-off judgment; the product contract, grammar, and selected goal retain their existing authority over shipped behavior and completion.
+
 ## STRUCTURE
 
 ```
@@ -33,6 +35,7 @@ funnysharp/
 | Performance verification | `build.fsx` (`-p verify-performance`), `eng/performance/` | allocation budgets block; timing directional |
 | Goal evaluation | `build.fsx` (`-p eval-*`), `eng/evaluation/` | 5 task areas, style-neutral Contract.cs seam |
 | Capability decisions | `docs/next-stage/` | Goal 14 evidence set; later goals append only |
+| Design intent and abstraction judgment | `docs/core-design.md` | enduring direction for goal-driven work |
 | Authoritative contracts | `docs/product-contract.md`, `docs/grammar.md` | boundaries + verb vocabulary |
 | PR merge gate | `.github/workflows/tooling.yml` | required `tooling-gate`; light 3-OS checks |
 

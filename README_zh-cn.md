@@ -87,6 +87,8 @@ registration.Match(
 
 ## 深入文档与工程示例
 
+项目的长期设计方向与取舍依据见 [核心设计 (Core Design)](docs/core-design.md)。
+
 | 架构设计与权威契约 | 核心载体与语法指南 | 系统能力与生态集成 |
 |---|---|---|
 | [产品契约 (Product Contract)](https://github.com/wxxb789/funnysharp/blob/main/docs/product-contract.md) | [Option 指南 (Option Guide)](https://github.com/wxxb789/funnysharp/blob/main/docs/option.md) | [数据流管道 (Data Pipelines)](https://github.com/wxxb789/funnysharp/blob/main/docs/data-pipelines.md) |
