@@ -21,6 +21,7 @@ docs/
 
 | Task | Location |
 |------|----------|
+| Design intent and abstraction judgment | `core-design.md` (blueprint; current behavior remains in the product contract and grammar) |
 | Feature usage: Option / Result / UnitResult / Validation | `option.md`, `result.md`, `unit-result.md`, `validation.md` |
 | Feature usage: collections / concurrency / effects / pipelines | `collections.md`, `concurrency.md`, `effects.md`, `data-pipelines.md` |
 | Function grammar, state machines, immutable updates | `function-composition.md`, `state-machines.md`, `immutable-updates.md` |

@@ -89,6 +89,8 @@ registration.Match(
 
 ## Documentation & Examples
 
+Start with [Core Design](docs/core-design.md) for the project's design direction and trade-offs.
+
 | Architecture & Specifications | Carrier & Language Guides | Systems & Integration |
 |---|---|---|
 | [Product Contract](https://github.com/wxxb789/funnysharp/blob/main/docs/product-contract.md) | [Option Guide](https://github.com/wxxb789/funnysharp/blob/main/docs/option.md) | [Data Pipelines](https://github.com/wxxb789/funnysharp/blob/main/docs/data-pipelines.md) |
