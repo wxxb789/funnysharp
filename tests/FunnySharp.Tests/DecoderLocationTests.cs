@@ -48,6 +48,58 @@ public sealed class DecoderLocationTests
     }
 
     [Fact]
+    public void PropertyNamesContainingDotsRenderAsQuotedKeysSoDottedAndNestedFieldsStayDistinct()
+    {
+        var dotted = Assert.Single(
+            DecoderTestData.Errors(
+                DecoderTestData.Decode(
+                    Decoder.Field("a.b", Decoder.Int32),
+                    """{"a.b":null}""")));
+        var nested = Assert.Single(
+            DecoderTestData.Errors(
+                DecoderTestData.Decode(
+                    Decoder.Field("a", Decoder.Field("b", Decoder.Int32)),
+                    """{"a":{"b":null}}""")));
+
+        Assert.Equal("[\"a.b\"]", dotted.Path);
+        Assert.Equal("a.b", nested.Path);
+        Assert.NotEqual(dotted.Path, nested.Path);
+        Assert.NotEqual(dotted.Location, nested.Location);
+    }
+
+    [Fact]
+    public void PropertyNamesContainingBracketsRenderAsQuotedKeysSoNamedAndIndexedSegmentsStayDistinct()
+    {
+        var named = Assert.Single(
+            DecoderTestData.Errors(
+                DecoderTestData.Decode(
+                    Decoder.Field("a[0]", Decoder.Int32),
+                    """{"a[0]":null}""")));
+        var indexed = Assert.Single(
+            DecoderTestData.Errors(
+                DecoderTestData.Decode(
+                    Decoder.Field("a", Decoder.List(Decoder.Int32)),
+                    """{"a":[null]}""")));
+
+        Assert.Equal("[\"a[0]\"]", named.Path);
+        Assert.Equal("a[0]", indexed.Path);
+        Assert.NotEqual(named.Path, indexed.Path);
+    }
+
+    [Fact]
+    public void PropertyNamesWithoutPathSeparatorsKeepThePlainRendering()
+    {
+        var error = Assert.Single(
+            DecoderTestData.Errors(
+                DecoderTestData.Decode(
+                    Decoder.Field("postalCode", Decoder.Int32),
+                    """{"postalCode":null}""")));
+
+        Assert.Equal("postalCode", error.Path);
+        Assert.Equal("postalCode", error.Location.ToString());
+    }
+
+    [Fact]
     public void DecodeErrorCreateReturnsTheRootLocationAsARelativeError()
     {
         var error = DecodeError.Create(DecodeErrorKind.Missing);

@@ -10,7 +10,6 @@ Active and archived goal contracts — the authoritative completion criteria eve
 
 - Completed and archived: `archive/0001-goal.md` .. `archive/0026-goal.md` — immutable completion contracts; `archive/0013-goal.md` additionally carries audit status / product acceptance rules.
 - Next-stage: `0027-goal.md` .. `0042-goal.md` — product outcomes and bounded research outcomes; see [README.md](README.md) for the index and provenance. Presence here does not imply activation or completion.
-- `archive/`: `0001-goal.md` .. `0026-goal.md` — completed goals kept as immutable reference; `0013-goal.md` additionally carries audit status / product acceptance rules.
 
 ## FORMAT (frozen)
 

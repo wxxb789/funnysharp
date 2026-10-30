@@ -199,11 +199,13 @@ The measurement harness is run by the command above; it also executes the three-
 check before printing its tables. The decoder rows were refreshed after the simplification pass;
 the ordinary and Validation rows remain within the previously stated variation.
 
-The full solution test run has one pre-existing, unrelated failure:
-`ReleaseProtocolTests.ReleaseWorkflow_HasRequiredContextsAndShaPinnedActions` expects a
-`tooling-gate` context in `release.yml`, which the unchanged workflow does not contain. This goal
-did not modify `.github/workflows/`; the core, analyzer, and ASP.NET Core test projects all passed
-in the same run.
+The full solution test run used to report one pre-existing failure:
+`ReleaseProtocolTests.ReleaseWorkflow_HasRequiredContextsAndShaPinnedActions` asserted the
+`tooling-gate` PR merge context against `release.yml`, which never defines it - the required context
+is the `tooling-gate` job in `tooling.yml`. The review-fix round split the check:
+`ReleaseWorkflow_HasNoPrivilegedExecutionAndShaPinnedActions` keeps the release-workflow guards, and
+`ToolingWorkflow_DefinesEveryRequiredMergeContext` asserts the required merge context against
+`tooling.yml`, where the gate job lives. The solution test run is green.
 
 ## Residual Items
 

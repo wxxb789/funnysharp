@@ -72,6 +72,8 @@ CLASS FunnySharp.ContainerExtensions
   METHOD static FunnySharp.Option<TValue?> RemoveOrNone<TKey, TValue>(System.Collections.Generic.Dictionary<TKey, TValue?> source, TKey key)
 CLASS FunnySharp.DecodeError
   METHOD static FunnySharp.DecodeError Create(FunnySharp.DecodeErrorKind kind, System.String? expected, System.String? detail)
+  METHOD static System.Boolean op_Equality(FunnySharp.DecodeError? left, FunnySharp.DecodeError? right)
+  METHOD static System.Boolean op_Inequality(FunnySharp.DecodeError? left, FunnySharp.DecodeError? right)
   METHOD System.Boolean Equals(FunnySharp.DecodeError? other)
   METHOD System.Boolean Equals(System.Object? obj)
   METHOD System.Int32 GetHashCode()

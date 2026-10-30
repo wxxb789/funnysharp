@@ -38,10 +38,31 @@ public sealed class DecoderErrorTests
         }
 
         Assert.NotEqual(first[0], first[1]);
+        Assert.True(first[0] == second[0]);
+        Assert.False(first[0] != second[0]);
+        Assert.False(first[0] == first[1]);
+        Assert.True(first[0] != first[1]);
 
         var set = new HashSet<DecodeError> { first[0] };
         Assert.Contains(second[0], set);
         Assert.False(set.Add(second[0]));
+    }
+
+    [Fact]
+    public void DecodeErrorCreateEqualityDistinguishesExpectedAndDetailIndependently()
+    {
+        var baseline = DecodeError.Create(DecodeErrorKind.InvalidValue, "expected", "detail");
+        var differentExpected =
+            DecodeError.Create(DecodeErrorKind.InvalidValue, "other expected", "detail");
+        var differentDetail =
+            DecodeError.Create(DecodeErrorKind.InvalidValue, "expected", "other detail");
+
+        Assert.NotEqual(baseline, differentExpected);
+        Assert.NotEqual(baseline, differentDetail);
+        Assert.True(baseline != differentExpected);
+        Assert.True(baseline != differentDetail);
+        Assert.True(
+            baseline == DecodeError.Create(DecodeErrorKind.InvalidValue, "expected", "detail"));
     }
 
     [Fact]

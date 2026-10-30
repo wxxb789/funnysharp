@@ -76,6 +76,28 @@ The factories are:
   `NonEmptyList`, and `Object` arities 2-4.
 - Composition: `Map`, `Bind`, `Ensure`, `Validate`.
 
+A custom leaf builds its failures with `DecodeError.Create`, the only public error factory:
+
+```csharp
+var skuDecoder = Decoder.From<string>(element =>
+{
+    if (element.ValueKind == JsonValueKind.String
+        && element.GetString() is { Length: > 0 } sku)
+    {
+        return Validation<string, DecodeError>.Valid(sku);
+    }
+
+    return Validation<string, DecodeError>.Invalid(
+        DecodeError.Create(
+            DecodeErrorKind.InvalidValue,
+            detail: "expected a non-empty SKU string"));
+});
+```
+
+The created error is located at the root of the leaf input; the enclosing `Field`, `OptionalField`,
+`NullableField`, `List`, and `NonEmptyList` combinators add their own prefix, so the leaf never
+assembles a path. An undefined `DecodeErrorKind` value throws `ArgumentOutOfRangeException`.
+
 ## Input Boundary
 
 The input is a `System.Text.Json.JsonElement`, which is a BCL view over a caller-owned
@@ -85,7 +107,8 @@ return values independent of the document. `Decoder.Element` is the exception: i
 that must not outlive the document.
 
 Object property names are case-sensitive. If a document repeats a name, `Decoder` resolves the first
-matching property in document order. It does not normalize names, perform case-insensitive matching,
+matching property in document order; this deliberately differs from `JsonElement.TryGetProperty`,
+which returns the last match. `Decoder` does not normalize names, perform case-insensitive matching,
 or merge duplicate properties.
 
 Malformed JSON text fails in `JsonDocument.Parse` before a decoder is called. That parse failure is
@@ -107,8 +130,9 @@ JSON tree.
 
 `DecodeError.Path` is the stable rendered location, such as
 `customer.addresses[1].postalCode` or `lines[1].quantity`. The root path is the empty string;
-`ToString` displays it as `input`. `Expected` and `Detail` carry the expected shape and optional
-diagnostic context.
+`ToString` displays it as `input`. A property name containing `.`, `[`, or `]` renders in the
+quoted keyed form, such as `["a.b"]`, so it stays distinct from composed segments. `Expected` and
+`Detail` carry the expected shape and optional diagnostic context.
 
 `DecodeError.Location` is the same path as the experimental `Location` type
 (`FS0017`). It is marked `[Experimental]` and carries no compatibility promise; `Path` is the

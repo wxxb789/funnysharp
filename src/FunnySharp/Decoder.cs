@@ -101,7 +101,7 @@ public static class Decoder
     {
         ArgumentNullException.ThrowIfNull(decode);
 
-        return new Decoder<T>(context => decode(context.Input));
+        return new Decoder<T>(decode);
     }
 
     /// <summary>
@@ -114,7 +114,8 @@ public static class Decoder
     /// <remarks>
     /// A present property delegates to <paramref name="decoder"/>; an explicit null therefore
     /// reaches that decoder and normally becomes <see cref="DecodeErrorKind.Null"/>. Duplicate
-    /// property names resolve to the first matching property in document order. The property
+    /// property names resolve to the first matching property in document order; this deliberately
+    /// differs from <c>JsonElement.TryGetProperty</c>, which returns the last match. The property
     /// value's errors receive a <c>name</c> prefix only when decoding fails.
     /// </remarks>
     /// <exception cref="ArgumentNullException"><paramref name="decoder"/> is <see langword="null"/>.</exception>
@@ -124,15 +125,15 @@ public static class Decoder
         ArgumentException.ThrowIfNullOrEmpty(name);
         ArgumentNullException.ThrowIfNull(decoder);
 
-        return new Decoder<T>(context =>
+        return new Decoder<T>(input =>
         {
-            var objectError = FieldObjectError(context);
+            var objectError = ObjectKindError(input);
             if (objectError is not null)
             {
                 return Validation<T, DecodeError>.Invalid(objectError);
             }
 
-            if (!TryGetFirstProperty(context.Input, name, out var value))
+            if (!TryGetFirstProperty(input, name, out var value))
             {
                 return Validation<T, DecodeError>.Invalid(
                     DecodeError.At(
@@ -140,13 +141,7 @@ public static class Decoder
                         DecodeErrorKind.Missing));
             }
 
-            var decoded = decoder.Decode(value);
-            if (!decoded.TryGetErrors(out var errors))
-            {
-                return decoded;
-            }
-
-            return PrefixErrors<T>(errors!, Location.Root.Property(name));
+            return DecodeAt(decoder, value, name);
         });
     }
 
@@ -165,7 +160,8 @@ public static class Decoder
     /// <paramref name="decoder"/> and normally becomes <see cref="DecodeErrorKind.Null"/>. Use
     /// <see cref="NullableField{T}(string, Decoder{T})"/> when both missing and null deliberately
     /// mean absence. A present null is never silently folded into <c>None</c> here.
-    /// Duplicate property names resolve to the first matching property in document order.
+    /// Duplicate property names resolve to the first matching property in document order; this
+    /// deliberately differs from <c>JsonElement.TryGetProperty</c>, which returns the last match.
     /// </remarks>
     /// <exception cref="ArgumentNullException"><paramref name="decoder"/> is <see langword="null"/>.</exception>
     /// <exception cref="ArgumentException"><paramref name="name"/> is empty.</exception>
@@ -186,7 +182,8 @@ public static class Decoder
     /// This combinator deliberately collapses missing and explicit null into absence; the name
     /// states that policy. Use <see cref="OptionalField{T}(string, Decoder{T})"/> when explicit
     /// null must remain a distinguishable error. The inner decoder is not invoked for a null
-    /// property. Duplicate property names resolve to the first matching property in document order.
+    /// property. Duplicate property names resolve to the first matching property in document order;
+    /// this deliberately differs from <c>JsonElement.TryGetProperty</c>, which returns the last match.
     /// </remarks>
     /// <exception cref="ArgumentNullException"><paramref name="decoder"/> is <see langword="null"/>.</exception>
     /// <exception cref="ArgumentException"><paramref name="name"/> is empty.</exception>
@@ -212,10 +209,10 @@ public static class Decoder
     {
         ArgumentNullException.ThrowIfNull(decoder);
 
-        return new Decoder<Option<T>>(context =>
-            context.Input.ValueKind == JsonValueKind.Null
+        return new Decoder<Option<T>>(input =>
+            input.ValueKind == JsonValueKind.Null
                 ? Validation<Option<T>, DecodeError>.Valid(Option<T>.None)
-                : decoder.Decode(context).Map(static item => Option<T>.Some(item!)));
+                : decoder.Decode(input).Map(static item => Option<T>.Some(item!)));
     }
 
     /// <summary>
@@ -240,9 +237,8 @@ public static class Decoder
         ArgumentNullException.ThrowIfNull(decoder);
         var decodeArray = CreateArrayElementDecoder(decoder);
 
-        return new Decoder<IReadOnlyList<T>>(context =>
+        return new Decoder<IReadOnlyList<T>>(input =>
         {
-            var input = context.Input;
             if (input.ValueKind != JsonValueKind.Array)
             {
                 return NullOrWrongKind<IReadOnlyList<T>>(input, "an array");
@@ -273,9 +269,8 @@ public static class Decoder
         ArgumentNullException.ThrowIfNull(decoder);
         var decodeArray = CreateArrayElementDecoder(decoder);
 
-        return new Decoder<IReadOnlyList<T>>(context =>
+        return new Decoder<IReadOnlyList<T>>(input =>
         {
-            var input = context.Input;
             if (input.ValueKind != JsonValueKind.Array)
             {
                 return NullOrWrongKind<IReadOnlyList<T>>(input, "a non-empty array");
@@ -298,16 +293,7 @@ public static class Decoder
         CreateArrayElementDecoder<T>(Decoder<T> decoder)
     {
         var selector = new Func<int, JsonElement, Validation<T, DecodeError>>(
-            (index, element) =>
-            {
-                var decoded = decoder.Decode(element);
-                if (!decoded.TryGetErrors(out var errors))
-                {
-                    return decoded;
-                }
-
-                return PrefixErrors<T>(errors!, Location.Root.At(index));
-            });
+            (index, element) => DecodeAt(decoder, element, index: index));
 
         return input => input.EnumerateArray().Traverse(selector);
     }
@@ -326,7 +312,7 @@ public static class Decoder
     /// invokes <paramref name="combine"/> only on success.
     /// </returns>
     /// <remarks>
-    /// The input object kind is checked once before any field decoder runs. Field decoders are
+    /// The input object kind is checked before any field decoder runs. Field decoders are
     /// expected to be built with <see cref="Field{T}(string, Decoder{T})"/> or its optional
     /// variants; an arbitrary decoder receives the same object input. Independent field errors
     /// accumulate in argument order. The combine function is not invoked after a field failure.
@@ -341,16 +327,15 @@ public static class Decoder
         ArgumentNullException.ThrowIfNull(second);
         ArgumentNullException.ThrowIfNull(combine);
 
-        return new Decoder<TResult>(context =>
+        return new Decoder<TResult>(input =>
         {
-            var objectError = ObjectKindError(context.Input);
+            var objectError = ObjectKindError(input);
             if (objectError is not null)
             {
                 return Validation<TResult, DecodeError>.Invalid(objectError);
             }
 
-            var objectContext = new DecodeContext(context.Input, objectShapeVerified: true);
-            return first.Decode(objectContext).Zip(second.Decode(objectContext), combine);
+            return first.Decode(input).Zip(second.Decode(input), combine);
         });
     }
 
@@ -386,17 +371,16 @@ public static class Decoder
         ArgumentNullException.ThrowIfNull(third);
         ArgumentNullException.ThrowIfNull(combine);
 
-        return new Decoder<TResult>(context =>
+        return new Decoder<TResult>(input =>
         {
-            var objectError = ObjectKindError(context.Input);
+            var objectError = ObjectKindError(input);
             if (objectError is not null)
             {
                 return Validation<TResult, DecodeError>.Invalid(objectError);
             }
 
-            var objectContext = new DecodeContext(context.Input, objectShapeVerified: true);
-            return first.Decode(objectContext)
-                .Zip(second.Decode(objectContext), third.Decode(objectContext), combine);
+            return first.Decode(input)
+                .Zip(second.Decode(input), third.Decode(input), combine);
         });
     }
 
@@ -436,27 +420,25 @@ public static class Decoder
         ArgumentNullException.ThrowIfNull(fourth);
         ArgumentNullException.ThrowIfNull(combine);
 
-        return new Decoder<TResult>(context =>
+        return new Decoder<TResult>(input =>
         {
-            var objectError = ObjectKindError(context.Input);
+            var objectError = ObjectKindError(input);
             if (objectError is not null)
             {
                 return Validation<TResult, DecodeError>.Invalid(objectError);
             }
 
-            var objectContext = new DecodeContext(context.Input, objectShapeVerified: true);
-            return first.Decode(objectContext)
+            return first.Decode(input)
                 .Zip(
-                    second.Decode(objectContext),
-                    third.Decode(objectContext),
-                    fourth.Decode(objectContext),
+                    second.Decode(input),
+                    third.Decode(input),
+                    fourth.Decode(input),
                     combine);
         });
     }
 
-    private static Validation<string, DecodeError> DecodeString(DecodeContext context)
+    private static Validation<string, DecodeError> DecodeString(JsonElement input)
     {
-        var input = context.Input;
         if (input.ValueKind == JsonValueKind.String)
         {
             return Validation<string, DecodeError>.Valid(input.GetString()!);
@@ -465,9 +447,8 @@ public static class Decoder
         return NullOrWrongKind<string>(input, "a string");
     }
 
-    private static Validation<string, DecodeError> DecodeNonEmptyString(DecodeContext context)
+    private static Validation<string, DecodeError> DecodeNonEmptyString(JsonElement input)
     {
-        var input = context.Input;
         if (input.ValueKind == JsonValueKind.String)
         {
             var value = input.GetString()!;
@@ -483,9 +464,8 @@ public static class Decoder
         return NullOrWrongKind<string>(input, "a non-empty string");
     }
 
-    private static Validation<bool, DecodeError> DecodeBoolean(DecodeContext context)
+    private static Validation<bool, DecodeError> DecodeBoolean(JsonElement input)
     {
-        var input = context.Input;
         if (input.ValueKind is JsonValueKind.True or JsonValueKind.False)
         {
             return Validation<bool, DecodeError>.Valid(input.GetBoolean());
@@ -494,106 +474,96 @@ public static class Decoder
         return NullOrWrongKind<bool>(input, "a boolean");
     }
 
-    private static Validation<int, DecodeError> DecodeInt32(DecodeContext context)
+    private static Validation<int, DecodeError> DecodeInt32(JsonElement input)
     {
-        var input = context.Input;
         if (input.ValueKind == JsonValueKind.Number)
         {
             return input.TryGetInt32(out var value)
                 ? Validation<int, DecodeError>.Valid(value)
-                : Validation<int, DecodeError>.Invalid(Malformed(input, "a 32-bit integer"));
+                : Validation<int, DecodeError>.Invalid(Malformed("a 32-bit integer"));
         }
 
         return NullOrWrongKind<int>(input, "a 32-bit integer");
     }
 
-    private static Validation<long, DecodeError> DecodeInt64(DecodeContext context)
+    private static Validation<long, DecodeError> DecodeInt64(JsonElement input)
     {
-        var input = context.Input;
         if (input.ValueKind == JsonValueKind.Number)
         {
             return input.TryGetInt64(out var value)
                 ? Validation<long, DecodeError>.Valid(value)
-                : Validation<long, DecodeError>.Invalid(Malformed(input, "a 64-bit integer"));
+                : Validation<long, DecodeError>.Invalid(Malformed("a 64-bit integer"));
         }
 
         return NullOrWrongKind<long>(input, "a 64-bit integer");
     }
 
-    private static Validation<decimal, DecodeError> DecodeDecimal(DecodeContext context)
+    private static Validation<decimal, DecodeError> DecodeDecimal(JsonElement input)
     {
-        var input = context.Input;
         if (input.ValueKind == JsonValueKind.Number)
         {
             return input.TryGetDecimal(out var value)
                 ? Validation<decimal, DecodeError>.Valid(value)
-                : Validation<decimal, DecodeError>.Invalid(Malformed(input, "a decimal number"));
+                : Validation<decimal, DecodeError>.Invalid(Malformed("a decimal number"));
         }
 
         return NullOrWrongKind<decimal>(input, "a decimal number");
     }
 
-    private static Validation<double, DecodeError> DecodeDouble(DecodeContext context)
+    private static Validation<double, DecodeError> DecodeDouble(JsonElement input)
     {
-        var input = context.Input;
         if (input.ValueKind == JsonValueKind.Number)
         {
             return input.TryGetDouble(out var value) && double.IsFinite(value)
                 ? Validation<double, DecodeError>.Valid(value)
-                : Validation<double, DecodeError>.Invalid(Malformed(input, "a floating-point number"));
+                : Validation<double, DecodeError>.Invalid(Malformed("a floating-point number"));
         }
 
         return NullOrWrongKind<double>(input, "a floating-point number");
     }
 
-    private static Validation<BclGuid, DecodeError> DecodeGuid(DecodeContext context)
+    private static Validation<BclGuid, DecodeError> DecodeGuid(JsonElement input)
     {
-        var input = context.Input;
         if (input.ValueKind == JsonValueKind.String)
         {
             return input.TryGetGuid(out var value)
                 ? Validation<BclGuid, DecodeError>.Valid(value)
-                : Validation<BclGuid, DecodeError>.Invalid(Malformed(input, "a GUID string"));
+                : Validation<BclGuid, DecodeError>.Invalid(Malformed("a GUID string"));
         }
 
         return NullOrWrongKind<BclGuid>(input, "a GUID string");
     }
 
-    private static Validation<BclDateTime, DecodeError> DecodeDateTime(DecodeContext context)
+    private static Validation<BclDateTime, DecodeError> DecodeDateTime(JsonElement input)
     {
-        var input = context.Input;
         if (input.ValueKind == JsonValueKind.String)
         {
             return input.TryGetDateTime(out var value)
                 ? Validation<BclDateTime, DecodeError>.Valid(value)
                 : Validation<BclDateTime, DecodeError>.Invalid(
-                    Malformed(input, "an ISO 8601 date-time string"));
+                    Malformed("an ISO 8601 date-time string"));
         }
 
         return NullOrWrongKind<BclDateTime>(input, "an ISO 8601 date-time string");
     }
 
-    private static Validation<BclDateTimeOffset, DecodeError> DecodeDateTimeOffset(DecodeContext context)
+    private static Validation<BclDateTimeOffset, DecodeError> DecodeDateTimeOffset(JsonElement input)
     {
-        var input = context.Input;
         if (input.ValueKind == JsonValueKind.String)
         {
             return input.TryGetDateTimeOffset(out var value)
                 ? Validation<BclDateTimeOffset, DecodeError>.Valid(value)
                 : Validation<BclDateTimeOffset, DecodeError>.Invalid(
-                    Malformed(input, "an ISO 8601 date-time-offset string"));
+                    Malformed("an ISO 8601 date-time-offset string"));
         }
 
         return NullOrWrongKind<BclDateTimeOffset>(input, "an ISO 8601 date-time-offset string");
     }
 
-    private static Validation<JsonElement, DecodeError> DecodeElement(DecodeContext context) =>
-        context.Input.ValueKind == JsonValueKind.Undefined
-            ? Validation<JsonElement, DecodeError>.Invalid(WrongKind(context.Input, "a JSON value"))
-            : Validation<JsonElement, DecodeError>.Valid(context.Input);
-
-    private static DecodeError? FieldObjectError(DecodeContext context) =>
-        context.ObjectShapeVerified ? null : ObjectKindError(context.Input);
+    private static Validation<JsonElement, DecodeError> DecodeElement(JsonElement input) =>
+        input.ValueKind == JsonValueKind.Undefined
+            ? Validation<JsonElement, DecodeError>.Invalid(WrongKind(input, "a JSON value"))
+            : Validation<JsonElement, DecodeError>.Valid(input);
 
     private static Decoder<Option<T>> OptionalFieldCore<T>(
         string name,
@@ -603,28 +573,21 @@ public static class Decoder
         ArgumentException.ThrowIfNullOrEmpty(name);
         ArgumentNullException.ThrowIfNull(decoder);
 
-        return new Decoder<Option<T>>(context =>
+        return new Decoder<Option<T>>(input =>
         {
-            var objectError = FieldObjectError(context);
+            var objectError = ObjectKindError(input);
             if (objectError is not null)
             {
                 return Validation<Option<T>, DecodeError>.Invalid(objectError);
             }
 
-            if (!TryGetFirstProperty(context.Input, name, out var value)
+            if (!TryGetFirstProperty(input, name, out var value)
                 || (nullIsAbsence && value.ValueKind == JsonValueKind.Null))
             {
                 return Validation<Option<T>, DecodeError>.Valid(Option<T>.None);
             }
 
-            var decoded = decoder.Decode(value);
-            if (!decoded.TryGetErrors(out var errors))
-            {
-                return decoded.Map(static item => Option<T>.Some(item!));
-            }
-
-            return PrefixErrors<T>(errors!, Location.Root.Property(name))
-                .Map(static item => Option<T>.Some(item!));
+            return DecodeAt(decoder, value, name).Map(static item => Option<T>.Some(item!));
         });
     }
 
@@ -668,7 +631,7 @@ public static class Decoder
                 DecodeError.At(Location.Root, DecodeErrorKind.Null, expected))
             : Validation<T, DecodeError>.Invalid(WrongKind(input, expected));
 
-    private static DecodeError Malformed(JsonElement input, string expected) =>
+    private static DecodeError Malformed(string expected) =>
         DecodeError.At(
             Location.Root,
             DecodeErrorKind.Malformed,
@@ -688,6 +651,24 @@ public static class Decoder
 
         value = default;
         return false;
+    }
+
+    private static Validation<T, DecodeError> DecodeAt<T>(
+        Decoder<T> decoder,
+        JsonElement value,
+        string? propertyName = null,
+        int? index = null)
+    {
+        var decoded = decoder.Decode(value);
+        if (!decoded.TryGetErrors(out var errors))
+        {
+            return decoded;
+        }
+
+        var prefix = propertyName is null
+            ? Location.Root.At(index!.Value)
+            : Location.Root.Property(propertyName);
+        return PrefixErrors<T>(errors!, prefix);
     }
 
     private static Validation<T, DecodeError> PrefixErrors<T>(
@@ -717,9 +698,9 @@ public static class Decoder
 /// </remarks>
 public sealed class Decoder<T>
 {
-    private readonly Func<DecodeContext, Validation<T, DecodeError>> decode;
+    private readonly Func<JsonElement, Validation<T, DecodeError>> decode;
 
-    internal Decoder(Func<DecodeContext, Validation<T, DecodeError>> decode)
+    internal Decoder(Func<JsonElement, Validation<T, DecodeError>> decode)
     {
         this.decode = decode;
     }
@@ -739,8 +720,7 @@ public sealed class Decoder<T>
     /// a throwing caller callback, or an invalid <see cref="JsonElement"/> state propagates its
     /// exception unchanged; it is never converted into a <see cref="DecodeError"/>.
     /// </remarks>
-    public Validation<T, DecodeError> Decode(JsonElement input) =>
-        decode(new DecodeContext(input, objectShapeVerified: false));
+    public Validation<T, DecodeError> Decode(JsonElement input) => decode(input);
 
     /// <summary>
     /// Decodes <paramref name="input"/> and, when decoding succeeds, awaits one asynchronous
@@ -830,7 +810,7 @@ public sealed class Decoder<T>
     {
         ArgumentNullException.ThrowIfNull(selector);
 
-        return new Decoder<TResult>(context => decode(context).Map(selector));
+        return new Decoder<TResult>(input => decode(input).Map(selector));
     }
 
     /// <summary>
@@ -852,9 +832,9 @@ public sealed class Decoder<T>
     {
         ArgumentNullException.ThrowIfNull(binder);
 
-        return new Decoder<TResult>(context =>
+        return new Decoder<TResult>(input =>
         {
-            var decoded = decode(context);
+            var decoded = decode(input);
             if (!decoded.TryGetValue(out var value))
             {
                 decoded.TryGetErrors(out var errors);
@@ -867,7 +847,7 @@ public sealed class Decoder<T>
                 throw new InvalidOperationException("The decoder binder returned null.");
             }
 
-            return next.Decode(context);
+            return next.Decode(input);
         });
     }
 
@@ -891,9 +871,9 @@ public sealed class Decoder<T>
         ArgumentNullException.ThrowIfNull(predicate);
         ArgumentException.ThrowIfNullOrEmpty(detail);
 
-        return new Decoder<T>(context =>
+        return new Decoder<T>(input =>
         {
-            var decoded = decode(context);
+            var decoded = decode(input);
             if (!decoded.TryGetValue(out var value) || predicate(value))
             {
                 return decoded;
@@ -922,9 +902,9 @@ public sealed class Decoder<T>
     {
         ArgumentNullException.ThrowIfNull(validate);
 
-        return new Decoder<T>(context =>
+        return new Decoder<T>(input =>
         {
-            var decoded = decode(context);
+            var decoded = decode(input);
             if (!decoded.TryGetValue(out var value))
             {
                 return decoded;
@@ -933,8 +913,6 @@ public sealed class Decoder<T>
             return validate(value).MapErrors(static detail => InvalidValue(detail));
         });
     }
-
-    internal Validation<T, DecodeError> Decode(DecodeContext context) => decode(context);
 
     private static DecodeError InvalidValue(string detail) =>
         DecodeError.At(Location.Root, DecodeErrorKind.InvalidValue, detail: detail);
@@ -962,17 +940,4 @@ public sealed class Decoder<T>
         var validation = await validate(value, cancellationToken).ConfigureAwait(false);
         return validation.MapErrors(static detail => InvalidValue(detail));
     }
-}
-
-internal readonly struct DecodeContext
-{
-    public DecodeContext(JsonElement input, bool objectShapeVerified)
-    {
-        Input = input;
-        ObjectShapeVerified = objectShapeVerified;
-    }
-
-    public JsonElement Input { get; }
-
-    public bool ObjectShapeVerified { get; }
 }

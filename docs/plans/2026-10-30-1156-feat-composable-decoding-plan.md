@@ -66,7 +66,7 @@ execution: code
 
 ### Key Technical Decisions
 
-- **KTD1 (governs R1-R5):** A decoder is an immutable `sealed class Decoder<T>` holding `Func<DecodeContext, Validation<T, DecodeError>>`; `DecodeContext` carries the current input and an internal object-kind-verified flag. The public surface is a function plus combinators, not an inspectable schema.
+- **KTD1 (governs R1-R5):** A decoder is an immutable `sealed class Decoder<T>` holding `Func<JsonElement, Validation<T, DecodeError>>`. The public surface is a function plus combinators, not an inspectable schema.
 - **KTD2 (governs R2, R9, R10):** Errors start relative to the current input. `Field` and `List` compose prefixes with the existing `Location` (`Property`, `At`, and `Nest` semantics) only after an inner decode reports errors, so a successful decode allocates no `Location` nodes. `DecodeError.Path` renders the final location; `DecodeError.Location` is `[Experimental("FS0017")]`. A path of depth N still allocates one `Location` per composition step and copies the previous segment array on the error path, so costs are measured and disclosed rather than claimed allocation-free.
 - **KTD3 (governs R3, R4):** `Object` and `List` use existing `Validation` applicative composition (`Zip`, located `Traverse`), so independent errors accumulate. `Bind`, `Ensure`, and `Validate` inspect first and skip their callback on failure.
 - **KTD4 (governs R5):** Required `Field` reports `Missing`; explicit null reaches the inner decoder, where primitives and structural decoders report `Null`. `OptionalField` maps only missing to `None`; `NullableField` deliberately maps both; `OptionalValue` maps null to `None`. Empty policies are named primitives (`NonEmptyString`, `NonEmptyList`).
@@ -74,6 +74,7 @@ execution: code
 - **KTD6 (governs R8):** `DecodeAsync`/`DecodeValueAsync` are decode-then-validate boundaries, not asynchronous input models. They accept a validation callback returning `Validation<T, string>`, map messages to `InvalidValue` at the root, await once, and forward cancellation.
 - **KTD7 (governs R10, R11):** The comparison maps `DecodeError` to a caller-defined `OrderError` through `Validation.MapErrors`; ordinary C# and direct Validation build the same `OrderError` lists manually. The measurement harness counts the complete mapped operation, not only the happy path.
 - **KTD8 (governs R12):** Stable surface: `Decoder`, `Decoder<T>`, `DecodeError`, `DecodeErrorKind`. Experimental surface: only `DecodeError.Location` (`FS0017`). `Decoder<T>` is not a semantic outcome carrier and does not change the four-carrier vocabulary.
+- **KTD9 (governs R1, R2):** Duplicate property names resolve to the first occurrence in document order. That is the intended policy for the `JsonElement` input boundary, and it deliberately differs from `JsonElement.TryGetProperty`, which resolves the last duplicate. The decoder does not merge, reject, or prefer last-match duplicates; `docs/decoding.md` records the difference so consumers are not surprised.
 
 ### Acceptance Examples
 
@@ -88,7 +89,7 @@ execution: code
 
 ## Implementation Units
 
-### U1. DecodeError and Location-backed diagnostics
+### U1. Add DecodeError and Location-backed diagnostics
 
 - **Goal:** Add `DecodeErrorKind`, `DecodeError`, the stable `Path`, and the experimental `Location` accessor.
 - **Requirements:** R2, R5, R9, R10.
@@ -100,19 +101,19 @@ execution: code
 - **Test scenarios:** Path rendering, equality/hash, relative vs absolute creation, root subject, enum rejection, experimental attribute discovery. `(happy path)`, `(edge)`, `(error path)`.
 - **Verification:** `dotnet build FunnySharp.slnx`; decoder unit tests.
 
-### U2. Core decoder and combinators
+### U2. Compose the core decoder and combinators
 
 - **Goal:** Add `Decoder<T>` and `Decoder` with primitives, `From`, `Map`, `Bind`, `Ensure`, `Validate`, `Field`, optional policies, `Object`, `List`, and `NonEmptyList`.
 - **Requirements:** R1-R7, R9.
 - **Dependencies:** U1.
 - **Files:** `src/FunnySharp/Decoder.cs`, `src/FunnySharp/Decoder` primitives as one file family or partial files named by primary type.
-- **Approach:** Internal `DecodeContext` carries input and object-kind verification. `Object` checks the object kind once and uses `Validation.Zip` arities 2-4. `List` uses `Validation.Traverse`; `Field`/`List` prefix inner errors with `Location` only after failure, preserving located-traversal composition without happy-path location allocations. `Bind`/`Ensure`/`Validate` skip callbacks on failure. No catch blocks.
+- **Approach:** `Object` checks the object kind once and returns one object-kind error before running any field decoder; `Field` and the optional variants check the kind themselves when they are the entry point. `Object` uses `Validation.Zip` arities 2-4. `List` uses `Validation.Traverse`; `Field`/`List` prefix inner errors with `Location` only after failure, preserving located-traversal composition without happy-path location allocations. `Bind`/`Ensure`/`Validate` skip callbacks on failure. No catch blocks.
 - **Execution note:** Keep the one-type-family-per-file convention; if the file becomes unwieldy, split `DecoderPrimitives.cs` only for named primitive properties, not for public types.
 - **Patterns to follow:** `Result`/`Validation` XML docs; `ArgumentNullException` at entry; selector exceptions propagate; `Option.Some` rejects runtime null.
 - **Test scenarios:** Object field accumulation/order, list element accumulation/order, nested paths, missing/null/wrong-kind/malformed/empty, optional policies, dependent-step skip counts, reuse/concurrency, exception propagation. `(happy path)`, `(edge)`, `(error path)`, `(integration)`.
 - **Verification:** targeted `dotnet test` for decoder tests; full `dotnet build`.
 
-### U3. Async validation boundary
+### U3. Add the async validation boundary
 
 - **Goal:** Add `DecodeAsync` and `DecodeValueAsync` for one actual asynchronous domain-validation callback.
 - **Requirements:** R7, R8.
@@ -124,7 +125,7 @@ execution: code
 - **Test scenarios:** valid async validation, multi-error async validation, invalid decode skips callback, exact token forwarding, cancellation propagates, fault propagates, callback invoked once. `(happy path)`, `(edge)`, `(error path)`.
 - **Verification:** async decoder tests; `dotnet build` with analyzer warnings as errors.
 
-### U4. Decoder test suite
+### U4. Pin decoder behavior with a test suite
 
 - **Goal:** Pin every boundary and composition law with xUnit v3 tests.
 - **Requirements:** R1-R10.
@@ -136,19 +137,19 @@ execution: code
 - **Test scenarios:** AE1-AE6; error order; path segments; reuse; concurrent decode; disposed document; throwing map/bind/ensure/validate; optional matrix. `(happy path)`, `(edge)`, `(error path)`, `(integration)`.
 - **Verification:** `dotnet test tests/FunnySharp.Tests/FunnySharp.Tests.csproj`; no skipped tests.
 
-### U5. Consumer comparison and measurements
+### U5. Build the consumer comparison and publish measurements
 
 - **Goal:** Build the nested order consumer three ways, prove equivalence, and publish allocation/execution evidence.
 - **Requirements:** R11, R10.
 - **Dependencies:** U1-U4.
-- **Files:** `tests/Shared/DecoderComparison/*.cs`, linked into `examples/FunnySharp.Examples` and `tests/FunnySharp.Tests`; `examples/FunnySharp.Examples/Program.cs`; `docs/decoder-evidence.md`.
-- **Approach:** Shared domain records (`Order`, `OrderId`, `Customer`, `EmailAddress`, `Address`, `OrderLine`, `OrderError`), fixtures, decoder consumer, ordinary-C# consumer, direct-Validation consumer, equivalence checks, and a `--decoder-measurements` mode. Measure complete mapped operations and `Location` depths with `GC.GetAllocatedBytesForCurrentThread`; report directional `Stopwatch` timing separately.
-- **Execution note:** Measurements are explicit-request evidence, not a CI gate. The default examples run verifies equivalence and must keep the exact `FunnySharp examples passed.` marker.
-- **Patterns to follow:** `tests/Shared/` Compile-include convention; `ExampleAssertions`; no sleeps and no timing assertions.
+- **Files:** `tests/Shared/DecoderComparison/*.cs`, Compile-included by `tests/FunnySharp.Tests` and `tests/FunnySharp.DecoderMeasurements`; `tests/FunnySharp.DecoderMeasurements/Program.cs`; `docs/decoder-evidence.md`.
+- **Approach:** Shared domain records (`Order`, `OrderId`, `Customer`, `EmailAddress`, `Address`, `OrderLine`, `OrderError`), fixtures, decoder consumer, ordinary-C# consumer, direct-Validation consumer, and equivalence checks. The shared consumers are Compile-included only by `tests/FunnySharp.Tests` and `tests/FunnySharp.DecoderMeasurements`; the measurement project is a normal, non-packable solution member, so the build gate compiles it and the format gate checks it. Measure complete mapped operations and `Location` depths with `GC.GetAllocatedBytesForCurrentThread`; report directional `Stopwatch` timing separately.
+- **Execution note:** Measurements are explicit-request evidence, not a CI gate. The measurement executable runs the three-way equivalence check first, then reports allocation, copying, and directional timing. The default examples run covers decoder usage and must keep the exact `FunnySharp examples passed.` marker.
+- **Patterns to follow:** `tests/Shared/` Compile-include convention; direct fixture assertions; no sleeps and no timing assertions.
 - **Test scenarios:** AE1-AE3, AE7, AE8; valid/invalid/missing/null/malformed/empty fixtures; all three versions agree; measurement output captured in the evidence doc. `(happy path)`, `(edge)`, `(error path)`, `(integration)`.
-- **Verification:** `dotnet run --project examples/FunnySharp.Examples -c Release`; `dotnet run ... -- --decoder-measurements`; equivalence tests.
+- **Verification:** `dotnet run --project examples/FunnySharp.Examples -c Release`; `dotnet run --project tests/FunnySharp.DecoderMeasurements/FunnySharp.DecoderMeasurements.csproj -c Release`; equivalence tests.
 
-### U6. Contract, guide, and baseline reconciliation
+### U6. Reconcile the contract, guide, and baseline
 
 - **Goal:** Ship the capability with authoritative docs and a committed API baseline.
 - **Requirements:** R10-R12.
@@ -167,13 +168,26 @@ execution: code
 | Build | `dotnet build FunnySharp.slnx` | U1-U6 | exit 0, zero warnings/errors |
 | Decoder tests | `dotnet test tests/FunnySharp.Tests/FunnySharp.Tests.csproj` | U1-U5 | all passed, zero skipped |
 | Example consumer | `dotnet run --project examples/FunnySharp.Examples -c Release` | U5 | exact `FunnySharp examples passed.` |
-| Measurements | `dotnet run --project examples/FunnySharp.Examples -c Release -- --decoder-measurements` | U5, U6 | captured table with allocation/copying/timing |
+| Measurements | `dotnet run --project tests/FunnySharp.DecoderMeasurements/FunnySharp.DecoderMeasurements.csproj -c Release` | U5, U6 | captured table with allocation/copying/timing |
 | API baseline | `dotnet fsi build.fsx -- -p verify-api-baseline` | U6 | exit 0 after `--write` |
 | Docs snippets | `dotnet fsi build.fsx -- -p verify-docs-snippets` | U6 | exit 0 |
 | Format | `dotnet fsi build.fsx -- -p format` | U1-U6 | exit 0 |
 | Contract audit | Read goal 0026 against evidence | U1-U6 | every clause mapped to an artifact; maintainer judgment recorded |
 
 ## Definition of Done
+
+### Per-Unit Completion
+
+| Unit | Done when |
+| --- | --- |
+| U1 | Path rendering, equality and hashing, relative and absolute creation, the root subject, enum rejection, and experimental-attribute discovery pass, and the solution build is warning-free. |
+| U2 | Field and element accumulation order, nested paths, missing/null/wrong-kind/malformed/empty, optional policies, dependent-step skip counts, reuse and concurrency, and exception propagation pass against the core decoder. |
+| U3 | Valid, multi-error, skipped-callback, exact-token, cancellation, and fault paths pass for both `DecodeAsync` and `DecodeValueAsync`, with the callback invoked at most once. |
+| U4 | AE1-AE6 pass in `tests/FunnySharp.Tests` with zero skipped tests, including error order, path segments, reuse, concurrent decode, disposed documents, throwing callbacks, and the optional matrix. |
+| U5 | The three consumer versions agree on every discriminating fixture (AE7), and the measurement project reports allocation, copying, and directional timing for all three versions and for `Location` depths (AE8). |
+| U6 | The API baseline, docs snippets, guide, and contract audit pass, and every goal clause maps to an artifact with the maintainer judgment recorded. |
+
+### Global Completion
 
 - All R1-R12 have a named implementation artifact and an executed verification result.
 - AE1-AE8 pass in the test suite or the evidence run; the three consumer versions agree on every fixture.

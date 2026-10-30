@@ -109,15 +109,9 @@ type ReleaseProtocolModelTests() =
         Assert.NotEqual<string>(cache, otherCache)
 
     [<Fact>]
-    member _.ReleaseWorkflow_HasRequiredContextsAndShaPinnedActions() =
+    member _.ReleaseWorkflow_HasNoPrivilegedExecutionAndShaPinnedActions() =
         let workflow =
             File.ReadAllText(Path.Combine(repositoryRoot (), ".github", "workflows", "release.yml"))
-
-        for context in Ruleset.requiredContexts do
-            Assert.Matches(
-                Regex(@"^\s+name:\s*" + Regex.Escape context + @"\s*$", RegexOptions.Multiline),
-                workflow
-            )
 
         Assert.False(
             Regex.IsMatch(workflow, @"pull_request_target|continue-on-error:\s*true"),
@@ -128,6 +122,17 @@ type ReleaseProtocolModelTests() =
             Regex(@"^\s*uses:\s+actions/[^@\s]+@(?![0-9a-f]{40}\s*(?:#|$))", RegexOptions.Multiline).Match workflow
 
         Assert.False(unpinned.Success, sprintf "unpinned action: '%s'." (unpinned.Value.Trim()))
+
+    [<Fact>]
+    member _.ToolingWorkflow_DefinesEveryRequiredMergeContext() =
+        let workflow =
+            File.ReadAllText(Path.Combine(repositoryRoot (), ".github", "workflows", "tooling.yml"))
+
+        for context in Ruleset.requiredContexts do
+            Assert.Matches(
+                Regex(@"^\s+name:\s*" + Regex.Escape context + @"\s*$", RegexOptions.Multiline),
+                workflow
+            )
 
     // ---- Attempt paths ----
 

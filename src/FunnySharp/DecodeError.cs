@@ -114,6 +114,31 @@ public sealed class DecodeError : IEquatable<DecodeError>
     public override int GetHashCode() => HashCode.Combine(location, Kind, Expected, Detail);
 
     /// <summary>
+    /// Returns a value indicating whether two errors have the same location, kind, expected text,
+    /// and detail.
+    /// </summary>
+    /// <param name="left">The first error, or <see langword="null"/>.</param>
+    /// <param name="right">The second error, or <see langword="null"/>.</param>
+    /// <returns><see langword="true"/> when the errors are structurally equal; otherwise, <see langword="false"/>.</returns>
+    public static bool operator ==(DecodeError? left, DecodeError? right)
+    {
+        if (right is null)
+        {
+            return left is null;
+        }
+
+        return right.Equals(left);
+    }
+
+    /// <summary>
+    /// Returns a value indicating whether two errors differ in location, kind, expected text, or detail.
+    /// </summary>
+    /// <param name="left">The first error, or <see langword="null"/>.</param>
+    /// <param name="right">The second error, or <see langword="null"/>.</param>
+    /// <returns><see langword="true"/> when the errors are unequal; otherwise, <see langword="false"/>.</returns>
+    public static bool operator !=(DecodeError? left, DecodeError? right) => !(left == right);
+
+    /// <summary>
     /// Returns deterministic diagnostic text with the error's path, such as
     /// <c>customer.addresses[1].postalCode: value must not be null</c>.
     /// </summary>

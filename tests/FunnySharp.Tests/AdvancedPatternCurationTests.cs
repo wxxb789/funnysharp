@@ -355,16 +355,18 @@ public sealed class AdvancedPatternCurationTests
         Assert.Equal(experimentalDiagnostics, trackedDiagnostics);
         Assert.Contains("FS0017", trackedDiagnostics);
 
-        // The inventory header promises every experimental member "an entry in this
-        // inventory": every tracked member needs a row that mentions its type and, for
-        // member-level entries, its member name. Mentions rather than exact row counts,
-        // because the located list and dictionary overloads occupy separate rows while
-        // the async overloads share one.
+        // Anchoring on the leading type cell keeps the `DecodeError`.`Location` row from
+        // standing in for `Location`. Rows are mentions, not counts: the async overloads share
+        // one row.
         var missingEntries = TrackedExperimentalMembers
             .Where(entry => !experimentalRows.Any(cells =>
-                cells[1].Contains("`" + LeafName(entry.TypeName), StringComparison.Ordinal) &&
+                cells[1].StartsWith(
+                    "`" + LeafName(entry.TypeName) + "`",
+                    StringComparison.Ordinal) &&
                 (entry.MemberName == "*" ||
-                    cells[1].Contains(entry.MemberName, StringComparison.Ordinal))))
+                    cells[1].Contains(
+                        "`" + entry.MemberName + "`",
+                        StringComparison.Ordinal))))
             .Select(entry => entry.TypeName + "." + entry.MemberName)
             .Order(StringComparer.Ordinal)
             .ToArray();
