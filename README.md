@@ -100,6 +100,7 @@ Start with [Core Design](docs/core-design.md) for the project's design direction
 | [Versioning Policy](https://github.com/wxxb789/funnysharp/blob/main/docs/versioning.md) | [Function Composition](https://github.com/wxxb789/funnysharp/blob/main/docs/function-composition.md) | [Immutable Updates](https://github.com/wxxb789/funnysharp/blob/main/docs/immutable-updates.md) |
 | [Quick Start](https://github.com/wxxb789/funnysharp/blob/main/docs/quick-start.md) | [Roslyn Analyzers](https://github.com/wxxb789/funnysharp/blob/main/docs/analyzers.md) | [ASP.NET Core](https://github.com/wxxb789/funnysharp/blob/main/docs/aspnet-core.md) |
 | [Release Notes](https://github.com/wxxb789/funnysharp/blob/main/docs/release-notes.md) | [Collections & Traversal](https://github.com/wxxb789/funnysharp/blob/main/docs/collections.md) | [Contributor Harness](https://github.com/wxxb789/funnysharp/blob/main/docs/harness.md) |
+| [Decoding Untrusted Input](https://github.com/wxxb789/funnysharp/blob/main/docs/decoding.md) | [Decoder Evidence](https://github.com/wxxb789/funnysharp/blob/main/docs/decoder-evidence.md) | |
 
 Executable samples: [FunnySharp Core Examples](https://github.com/wxxb789/funnysharp/blob/main/examples/FunnySharp.Examples/Program.cs) and [ASP.NET Core Examples](https://github.com/wxxb789/funnysharp/blob/main/examples/FunnySharp.AspNetCore.Examples/Program.cs).
 

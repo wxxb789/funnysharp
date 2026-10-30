@@ -1,6 +1,6 @@
 # docs/ — FunnySharp documentation tree
 
-Earned: score ~22 — 25 hand-written guides/contracts plus 4 doc-workflow subtrees. Everything here is hand-written prose except `next-stage/inventory/generated/` (machine dumps).
+Earned: score ~22 — 27 hand-written guides/contracts plus 4 doc-workflow subtrees. Everything here is hand-written prose except `next-stage/inventory/generated/` (machine dumps).
 
 ## OVERVIEW
 
@@ -11,7 +11,7 @@ Hand-written guides and contracts for the FunnySharp public surface — usage, g
 ```
 docs/
 ├── *.md                 # hand-written guides + contracts (lowercase-hyphen, one topic per file)
-├── goals/               # active goal contracts (0023-0024) + immutable archive (0001-0022)
+├── goals/               # goal contracts (0027-0042) + immutable archive (0001-0026)
 ├── next-stage/          # Goal 14 capability-decision evidence set (own AGENTS.md)
 ├── plans/               # ce-unified-plan/v1 design-time plans (own AGENTS.md)
 └── release-evidence/    # historical release-run records — never edited
@@ -23,6 +23,7 @@ docs/
 |------|----------|
 | Design intent and abstraction judgment | `core-design.md` (blueprint; current behavior remains in the product contract and grammar) |
 | Feature usage: Option / Result / UnitResult / Validation | `option.md`, `result.md`, `unit-result.md`, `validation.md` |
+| Feature usage: decoding untrusted JSON | `decoding.md` |
 | Feature usage: collections / concurrency / effects / pipelines | `collections.md`, `concurrency.md`, `effects.md`, `data-pipelines.md` |
 | Function grammar, state machines, immutable updates | `function-composition.md`, `state-machines.md`, `immutable-updates.md` |
 | Canonical vocabulary and naming rules | `grammar.md` |
@@ -30,6 +31,7 @@ docs/
 | Analyzer diagnostics FS1001-FS1005 | `analyzers.md` |
 | ASP.NET Core integration | `aspnet-core.md` |
 | Goal 22 slice comparison and evidence | `vertical-slice-call-sites.md`, `vertical-slice-evidence.md` |
+| Decoder consumer comparison and measurements | `decoder-evidence.md` |
 | Performance policy + evidence | `performance.md` |
 | Experimental-member registry | `stability-inventory.md` |
 | Versioning rules and the committed API baseline | `versioning.md` |

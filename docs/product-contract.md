@@ -17,14 +17,18 @@ analysis, and compile-verified call sites are in [`next-stage/`](next-stage/).
   - `Validation<TValue, TError>` — independent checks whose errors accumulate deterministically.
 - `Effect<T>` and `Effect<TEnvironment, T>` are the deferred-work boundary, not a fifth outcome
   carrier. `StateChange`/`StateTransition`/`StateMachine`/`TransitionResult` are the state
-  surface, and `Lens`/`Optional` are the optics surface.
+  surface, and `Lens`/`Optional` are the optics surface. `Decoder<T>` is a callable input-to-
+  `Validation` boundary, not another outcome carrier; `DecodeError` is its diagnostic value, and
+  the four carriers above remain the complete outcome vocabulary.
 - No second carrier for any of these meanings may be added. `Maybe`, `Either`, `Fin`, `Try`,
   `IO`, `Reader`, `State`, `OptionAsync`, and async outcome wrappers remain out of scope.
 - One verb has one meaning. `Map`, `Bind`, `MapError`/`MapErrors`, `Filter`, `Ensure`, `Recover`/
   `RecoverWith`, `OrElse`/`OrElseWith`, `Zip`, `ZipWith`, `Apply`, `Match`, `TryGet*`, and
   `GetValueOr*` keep exactly the meanings recorded in the decision record. `Where` is never added
   to a carrier: a bare predicate cannot produce absence or an error. The verb-by-carrier table in
-  [`grammar.md`](grammar.md) is the authoritative verb reference.
+  [`grammar.md`](grammar.md) is the authoritative verb reference. `Decode` interprets a parsed BCL
+  input as a typed value and `Validate` applies an accumulating domain check; both keep the
+  meanings recorded in [`decoding.md`](decoding.md) and [`grammar.md`](grammar.md).
 - Async naming: `...ValueAsync` marks a callback returning `ValueTask`; `...Async` marks an
   awaitable operation that takes no callback or a `Task`-returning callback. The renamed
   `ComposeValueAsync` removes the only exception. A `CancellationToken` is always an explicit
@@ -36,7 +40,7 @@ analysis, and compile-verified call sites are in [`next-stage/`](next-stage/).
   (`...With`/`...Else`). Recovery callbacks are lazy: `Recover` produces a successful value,
   while `RecoverWith` produces another value of the same carrier. `GetValueOrDefault` is the
   only absence getter with an implicit `default(T)` fallback. This vocabulary correction is
-  recorded in [Goal 25](goals/0025-goal.md); the historical decisions remain unchanged.
+  recorded in [Goal 25](goals/archive/0025-goal.md); the historical decisions remain unchanged.
 - No naming concession, alias, or carrier conversion for any competitor is allowed.
 - **Scope rejections that remain in force** (product-scope rejections, not deferrals): no custom
   runtime or scheduler, no replacement collection universe, no pervasive immutability, no
@@ -111,6 +115,13 @@ analysis, and compile-verified call sites are in [`next-stage/`](next-stage/).
 - Collection traversal failures must be able to retain compositional location context (index,
   key, item name, property path) for failures such as `customers[17].addresses[2].postalCode`.
   The location carrier is small, value-based, and must not become a collection or error hierarchy.
+- Decoding is a caller-defined boundary over a parsed BCL `JsonElement`. `Decoder<T>` yields
+  `Validation<T, DecodeError>`, accumulates independent field and element errors with deterministic
+  locations, distinguishes missing, explicit null, wrong kind, malformed, and empty input, and does
+  not convert cancellation or programming exceptions into domain errors. Callers retain their
+  domain and final error types by mapping `DecodeError`; there is no serializer, schema
+  introspection, reflection binder, or async input model. Structured contract derivation is a
+  separate outcome ([Goal 0027](goals/0027-goal.md)).
 - Default and uninitialized values are explicit contracts:
   - `Option<T>` default is a valid `None`.
   - `Result<TValue, TError>`, `UnitResult<TError>`, and `Validation<TValue, TError>` defaults
@@ -154,7 +165,9 @@ analysis, and compile-verified call sites are in [`next-stage/`](next-stage/).
   tests `.Produces*` usage instead.
 - Serialization of carriers is caller policy today. No `System.Text.Json` converter ships until a
   goal fixes the wire contract and verifies trimming and Native AOT behavior; callers use DTOs,
-  and `JsonSerializerOptions.Strict` is the recommended executable form of a DTO-only policy.
+  and `JsonSerializerOptions.Strict` is the recommended executable form of a DTO-only policy. The
+  decoder accepts a parsed `JsonElement` as an input view but does not serialize, convert, or own
+  that document.
 
 ## Analyzers And Compiler Feedback
 
@@ -216,7 +229,8 @@ analysis, and compile-verified call sites are in [`next-stage/`](next-stage/).
   layer or general union API is added.
 - Deferred capabilities stay absent from the stable surface: a general retry/backoff layer,
   `Memoize`/async-buffer carriers, k-way async merge, completion-order operators beyond the
-  recorded constrained form, typed-results/OpenAPI APIs, System.Text.Json converters,
+  recorded constrained form, typed-results/OpenAPI APIs, System.Text.Json converters, decoder
+  schema/introspection,
   `Either` as a non-error carrier, Option comparers/ordering, awaitable
   `Option<Task<T>>` sugar, and `net11.0` targeting. The non-empty guarantee
   (`NonEmpty<T>`) and exact-versus-truncating zip (`ZipExact`/`ZipExactOrNone`) left this

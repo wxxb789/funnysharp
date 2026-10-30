@@ -70,6 +70,55 @@ CLASS FunnySharp.ContainerExtensions
   METHOD static FunnySharp.Option<TElement> DequeueOrNone<TElement, TPriority>(System.Collections.Generic.PriorityQueue<TElement, TPriority> source)
   METHOD static FunnySharp.Option<TElement> PeekOrNone<TElement, TPriority>(System.Collections.Generic.PriorityQueue<TElement, TPriority> source)
   METHOD static FunnySharp.Option<TValue?> RemoveOrNone<TKey, TValue>(System.Collections.Generic.Dictionary<TKey, TValue?> source, TKey key)
+CLASS FunnySharp.DecodeError
+  METHOD static FunnySharp.DecodeError Create(FunnySharp.DecodeErrorKind kind, System.String? expected, System.String? detail)
+  METHOD System.Boolean Equals(FunnySharp.DecodeError? other)
+  METHOD System.Boolean Equals(System.Object? obj)
+  METHOD System.Int32 GetHashCode()
+  METHOD System.String ToString()
+  PROPERTIE FunnySharp.DecodeErrorKind Kind
+  PROPERTIE FunnySharp.Location Location
+  PROPERTIE System.String Path
+  PROPERTIE System.String? Detail
+  PROPERTIE System.String? Expected
+ENUM FunnySharp.DecodeErrorKind
+  FIELD static FunnySharp.DecodeErrorKind Empty = 4
+  FIELD static FunnySharp.DecodeErrorKind InvalidValue = 5
+  FIELD static FunnySharp.DecodeErrorKind Malformed = 3
+  FIELD static FunnySharp.DecodeErrorKind Missing = 0
+  FIELD static FunnySharp.DecodeErrorKind Null = 1
+  FIELD static FunnySharp.DecodeErrorKind WrongKind = 2
+  FIELD System.Int32 value__
+CLASS FunnySharp.Decoder
+  METHOD static FunnySharp.Decoder<FunnySharp.Option<T?>> NullableField<T>(System.String name, FunnySharp.Decoder<T?> decoder)
+  METHOD static FunnySharp.Decoder<FunnySharp.Option<T?>> OptionalField<T>(System.String name, FunnySharp.Decoder<T?> decoder)
+  METHOD static FunnySharp.Decoder<FunnySharp.Option<T?>> OptionalValue<T>(FunnySharp.Decoder<T?> decoder)
+  METHOD static FunnySharp.Decoder<System.Collections.Generic.IReadOnlyList<T?>> List<T>(FunnySharp.Decoder<T?> decoder)
+  METHOD static FunnySharp.Decoder<System.Collections.Generic.IReadOnlyList<T?>> NonEmptyList<T>(FunnySharp.Decoder<T?> decoder)
+  METHOD static FunnySharp.Decoder<T?> Field<T>(System.String name, FunnySharp.Decoder<T?> decoder)
+  METHOD static FunnySharp.Decoder<T?> From<T>(System.Func<System.Text.Json.JsonElement, FunnySharp.Validation<T?, FunnySharp.DecodeError>> decode)
+  METHOD static FunnySharp.Decoder<TResult?> Object<TFirst, TSecond, TResult>(FunnySharp.Decoder<TFirst?> first, FunnySharp.Decoder<TSecond?> second, System.Func<TFirst?, TSecond?, TResult?> combine)
+  METHOD static FunnySharp.Decoder<TResult?> Object<TFirst, TSecond, TThird, TFourth, TResult>(FunnySharp.Decoder<TFirst?> first, FunnySharp.Decoder<TSecond?> second, FunnySharp.Decoder<TThird?> third, FunnySharp.Decoder<TFourth?> fourth, System.Func<TFirst?, TSecond?, TThird?, TFourth?, TResult?> combine)
+  METHOD static FunnySharp.Decoder<TResult?> Object<TFirst, TSecond, TThird, TResult>(FunnySharp.Decoder<TFirst?> first, FunnySharp.Decoder<TSecond?> second, FunnySharp.Decoder<TThird?> third, System.Func<TFirst?, TSecond?, TThird?, TResult?> combine)
+  PROPERTIE FunnySharp.Decoder<System.Boolean> Boolean
+  PROPERTIE FunnySharp.Decoder<System.DateTime> DateTime
+  PROPERTIE FunnySharp.Decoder<System.DateTimeOffset> DateTimeOffset
+  PROPERTIE FunnySharp.Decoder<System.Decimal> Decimal
+  PROPERTIE FunnySharp.Decoder<System.Double> Double
+  PROPERTIE FunnySharp.Decoder<System.Guid> Guid
+  PROPERTIE FunnySharp.Decoder<System.Int32> Int32
+  PROPERTIE FunnySharp.Decoder<System.Int64> Int64
+  PROPERTIE FunnySharp.Decoder<System.String> NonEmptyString
+  PROPERTIE FunnySharp.Decoder<System.String> String
+  PROPERTIE FunnySharp.Decoder<System.Text.Json.JsonElement> Element
+CLASS FunnySharp.Decoder<T>
+  METHOD FunnySharp.Decoder<T?> Ensure(System.Func<T?, System.Boolean> predicate, System.String detail)
+  METHOD FunnySharp.Decoder<T?> Validate(System.Func<T?, FunnySharp.Validation<T?, System.String>> validate)
+  METHOD FunnySharp.Decoder<TResult?> Bind<TResult>(System.Func<T?, FunnySharp.Decoder<TResult?>> binder)
+  METHOD FunnySharp.Decoder<TResult?> Map<TResult>(System.Func<T?, TResult?> selector)
+  METHOD FunnySharp.Validation<T?, FunnySharp.DecodeError> Decode(System.Text.Json.JsonElement input)
+  METHOD System.Threading.Tasks.Task<FunnySharp.Validation<T?, FunnySharp.DecodeError>> DecodeAsync(System.Text.Json.JsonElement input, System.Func<T?, System.Threading.CancellationToken, System.Threading.Tasks.Task<FunnySharp.Validation<T?, System.String>>> validate, System.Threading.CancellationToken cancellationToken)
+  METHOD System.Threading.Tasks.ValueTask<FunnySharp.Validation<T?, FunnySharp.DecodeError>> DecodeValueAsync(System.Text.Json.JsonElement input, System.Func<T?, System.Threading.CancellationToken, System.Threading.Tasks.ValueTask<FunnySharp.Validation<T?, System.String>>> validate, System.Threading.CancellationToken cancellationToken)
 CLASS FunnySharp.Effect
   METHOD static FunnySharp.Effect<FunnySharp.Result<TValue?, TError?>> FromResult<TValue, TError>(FunnySharp.Result<TValue?, TError?> result)
   METHOD static FunnySharp.Effect<T?> FromSync<T>(System.Func<System.Threading.CancellationToken, T?> operation)

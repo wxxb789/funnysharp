@@ -11,10 +11,11 @@ asserts its own behavior, and prints one success marker.
 
 | File | Role |
 | --- | --- |
-| `Program.cs` (866 LOC) | Top-level runner; prints `FunnySharp examples passed.` |
+| `Program.cs` (852 LOC) | Top-level runner; prints `FunnySharp examples passed.` |
 | `UnitResultExamples.cs` | `Verify()` / `VerifyAsync()` — UnitResult surface incl. `ExampleAssertions.UninitializedThrows` pinning `The unit result has not been initialized.` |
 | `CollectionExamples.cs` | Collection/sequence examples (`Verify`/`VerifyAsync`) |
 | `FunctionGrammarSamples.cs` | Function-composition grammar samples |
+| `DecoderExamples.cs` | Decoder scalars, `Object`/`Field`/`List`/`Ensure`, automatic paths, and accumulated errors |
 | `ExampleAssertions.cs` | Shared asserts: `Equal`, `True`, `SequenceEqual`, `FaultIsPreserved`, `CancellationIsPreserved`, `UninitializedThrows` |
 
 ## CONVENTIONS

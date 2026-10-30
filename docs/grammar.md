@@ -7,7 +7,7 @@ signature and its contract.
 
 This file is the authoritative verb reference. The per-feature guides
 ([option.md](option.md), [result.md](result.md), [unit-result.md](unit-result.md),
-[validation.md](validation.md), [function-composition.md](function-composition.md),
+[validation.md](validation.md), [decoding.md](decoding.md), [function-composition.md](function-composition.md),
 [data-pipelines.md](data-pipelines.md), [effects.md](effects.md),
 [concurrency.md](concurrency.md), [immutable-updates.md](immutable-updates.md),
 [state-machines.md](state-machines.md), and [aspnet-core.md](aspnet-core.md)) carry the detailed
@@ -30,7 +30,9 @@ guarantee over BCL lists — not an outcome carrier and not a collection — and
 experimental traversal-context carrier (`FS0017`, [stability inventory](stability-inventory.md)).
 No second carrier for any of the
 meanings above is added: `Maybe`, `Either`, `Fin`, `Try`, `IO`, `Reader`, `OptionAsync`, and async
-outcome wrappers remain out of scope ([product contract](product-contract.md)).
+outcome wrappers remain out of scope ([product contract](product-contract.md)). `Decoder<T>` is not a
+semantic outcome carrier: it is a callable input-to-`Validation` boundary, and `DecodeError` is its
+diagnostic value.
 
 ## Naming Rules
 
@@ -68,6 +70,10 @@ The table covers workflow operations. Constructors, state/payload properties, eq
 diagnostic formatting, and compiler-generated record/delegate members follow their documented
 .NET/C# contracts; they are not alternative pipeline vocabulary. Experimental location operations
 remain outside the stable table and are identified in the [stability inventory](stability-inventory.md).
+Decoder construction (`Field`, `OptionalField`, `NullableField`, `OptionalValue`, `List`,
+`NonEmptyList`, `Object`, `From`, and the scalar factories) is documented in
+[decoding.md](decoding.md); those names are constructors, not workflow verbs, and their
+missing/null/empty policies are part of the contract.
 
 ### Construction And Exception Boundaries
 
@@ -82,6 +88,7 @@ remain outside the stable table and are identified in the [stability inventory](
 | `Try` | Executes an explicit non-cancellation exception boundary. | value-producing or valueless work | `Result<TValue, TError>` / `UnitResult<TError>` | `TryAsync`, `TryValueAsync` | Ordinary operation exceptions are preserved or mapped by the supplied mapper; cancellation and mapper exceptions propagate. |
 | `TryAsync` | Executes the boundary over a Task-returning operation. | tokenless `Func<Task<T>>` / `Func<Task>` | `Task<Result<...>>` / `Task<UnitResult<...>>` | — | The callback owns any captured token; canceled tasks and faulted OCE tasks retain their states, and a null returned Task faults rather than reaching the mapper. |
 | `TryValueAsync` | Executes the boundary over a ValueTask-returning operation. | tokenless `Func<ValueTask<T>>` / `Func<ValueTask>` | `ValueTask<Result<...>>` / `ValueTask<UnitResult<...>>` | — | Each ValueTask is consumed once; cancellation and faulted OCE are not domain failures. |
+| `Decode` | Interprets a parsed BCL `JsonElement` as a typed value and accumulates structural and domain errors. | `Decoder<T>` | `Validation<T, DecodeError>` | `DecodeAsync`, `DecodeValueAsync` (asynchronous validation only) | Single call; input is not retained; missing/null/wrong-kind/malformed/empty are distinct; callback, parse, cancellation, and programming exceptions propagate unchanged. |
 
 ### Function Grammar
 
@@ -103,16 +110,17 @@ remain outside the stable table and are identified in the [stability inventory](
 
 | Verb | Meaning | Present on | Output shape | Async forms | Key contract |
 | --- | --- | --- | --- | --- | --- |
-| `Map` | Transforms the contained value, keeping the carrier. | `Option`, `Result`, `Validation`, `Effect` | Same carrier | `MapAsync`, `MapValueAsync` | Delegate validated at entry even when short-circuited; invoked at most once for the active case; `Option` normalizes a runtime-null result to `None`. |
+| `Map` | Transforms the contained value, keeping the carrier. | `Option`, `Result`, `Validation`, `Effect`, `Decoder<T>` | Same carrier; `Decoder<T>` for decoder composition | `MapAsync`, `MapValueAsync` | Delegate validated at entry even when short-circuited; invoked at most once for the active case; `Option` normalizes a runtime-null result to `None`; a `Decoder` selector runs only after a successful decode and its exceptions propagate. |
 | `MapAsync` | `Map` with a `Task`-returning selector. | `Option`, `Result`, `Validation` | `Task<carrier>` (± token) | — | An inactive case returns an already-completed carrier without invoking the selector or inspecting the token. |
 | `MapValueAsync` | `Map` with a `ValueTask`-returning selector. | `Option`, `Result`, `Validation` | `ValueTask<carrier>` (± token) | — | Same short-circuit contract; each `ValueTask` is awaited once. |
-| `Bind` | Sequences a carrier-returning function and stops at the first absence or failure. | `Option`, `Result`, `UnitResult`, `Effect` | Same carrier | `BindAsync`, `BindValueAsync` | Callback skipped after failure and never invoked for the inactive case; callback exceptions propagate unchanged. |
+| `Bind` | Sequences a carrier-returning function and stops at the first absence or failure. | `Option`, `Result`, `UnitResult`, `Effect`, `Decoder<T>` | Same carrier; `Decoder<T>` for decoder composition | `BindAsync`, `BindValueAsync` | Callback skipped after failure and never invoked for the inactive case; callback exceptions propagate unchanged; a `Decoder` binder returns the next decoder, which decodes the same input, and a null decoder is a programming error. |
 | `BindAsync` | `Bind` with a `Task`-returning binder. | `Option`, `Result`, `UnitResult` | `Task<carrier>` (± token) | — | Same short-circuit and exact-token-forwarding contract. |
 | `BindValueAsync` | `Bind` with a `ValueTask`-returning binder. | `Option`, `Result`, `UnitResult` | `ValueTask<carrier>` (± token) | — | Same short-circuit contract; each `ValueTask` is awaited once. |
 | `MapError` | Transforms the failure while preserving success. | `Result`, `UnitResult` | Same carrier | — | Selector skipped after success; invoked at most once. |
 | `MapErrors` | Transforms every accumulated error while preserving a valid value. | `Validation` | Same carrier | — | Selector invoked once per error in order; skipped for a valid value. |
 | `Filter` | Keeps a present value only when a predicate accepts it. | `Option` | `Option<T>` | — | Predicate skipped for `None`; a `Some` whose predicate fails becomes `None`. |
-| `Ensure` | Keeps a success only when a predicate accepts it, otherwise returns the supplied failure. | `Result`, `UnitResult` | Same carrier | — | Predicate skipped after failure; an overload takes a lazy error factory. |
+| `Ensure` | Keeps a success only when a predicate accepts it, otherwise returns the supplied failure. | `Result`, `UnitResult`, `Decoder<T>` | Same carrier; `Decoder<T>` | — | Predicate skipped after failure; an overload takes a lazy error factory; a `Decoder` rejection is one `InvalidValue` error at the decoder's location. |
+| `Validate` | Applies an accumulating domain validation to a successfully decoded value. | `Decoder<T>` | `Decoder<T>` | — | Callback skipped after failure; every returned message becomes an ordered `InvalidValue` error at the decoder's location; callback exceptions propagate. |
 
 ### Fallback And Recovery
 
@@ -272,6 +280,8 @@ path), where BCL `Enumerable.Aggregate` throws `InvalidOperationException` on an
 | Operator overloads beyond `==`/`!=` | Other operators are tricks that hide control flow or cost. |
 | `Curry`/`Partial`/`Flip` beyond binary arity | A larger overload family adds no discoverability; an ordinary lambda covers uncommon shapes. |
 | `Zip` combine beyond arity 4 | Unbounded tuple towers are rejected; wider forms nest or use `Traverse`. |
+| Decoder schema/introspection | `Decoder<T>` is a callable function; structured contract derivation is a separate outcome (Goal 0027). |
+| Async input decoder | The in-memory `JsonElement` input is synchronous; async is only an actual validation callback (`DecodeAsync`/`DecodeValueAsync`). |
 | `TraverseParallelValueAsync` over `UnitResult<TError>` | Deferred to the concurrency goal absent a concrete consumer. |
 | Ordering parameters on `SelectParallel*` | The delivery order is the method name (decision E82); a boolean or enum parameter would make one verb carry two hidden contracts. |
 | Task-carrier operator universe (including `PipeAsync`) | "Mixed sync/async chains use ordinary `await` plus the synchronous vocabulary" (product contract); there is no `MapAsync`-returning-carrier chaining universe. |

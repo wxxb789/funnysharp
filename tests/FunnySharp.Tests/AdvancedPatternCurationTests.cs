@@ -189,13 +189,15 @@ public sealed class AdvancedPatternCurationTests
 
     /// <summary>
     /// The complete experimental surface, tracked in <c>docs/stability-inventory.md</c> as the
-    /// FS0017 location-context family delivered by Goal 17 (decision G6: adopt experimental
-    /// first). Every entry must carry <c>[Experimental("FS0017")]</c>, and no other member may
-    /// be experimental, so experimental status stays unmistakable and tracked.
+    /// FS0017 location-context family delivered by Goal 17 and the structured decoder diagnostic
+    /// delivered by Goal 26 (decision G6: adopt experimental first). Every entry must carry
+    /// <c>[Experimental("FS0017")]</c>, and no other member may be experimental, so experimental
+    /// status stays unmistakable and tracked.
     /// </summary>
     private static readonly (string TypeName, string MemberName, int OverloadCount)[] TrackedExperimentalMembers =
     [
         ("FunnySharp.Location", "*", 1),
+        ("FunnySharp.DecodeError", "Location", 1),
         ("FunnySharp.SequenceExtensions", "Traverse", 11),
         ("FunnySharp.AsyncSequenceExtensions", "TraverseAsync", 4),
         ("FunnySharp.AsyncSequenceExtensions", "TraverseValueAsync", 4),

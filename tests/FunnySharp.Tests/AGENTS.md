@@ -1,6 +1,6 @@
 # FunnySharp.Tests
 
-**Why this file:** score 31 — primary xUnit v3 suite (50 test files, ~17.7k LOC) for the core library.
+**Why this file:** score 31 — primary xUnit v3 suite (77 test/helper files, ~26k LOC) for the core library.
 
 ## OVERVIEW
 C# xUnit v3 behavioral tests for the FunnySharp core assembly. Attribute-driven only: `[Fact]` / `[Theory]` + `[InlineData]`; no collections, traits, or member/class data.
@@ -9,6 +9,7 @@ C# xUnit v3 behavioral tests for the FunnySharp core assembly. Attribute-driven 
 | Task | Location |
 |------|----------|
 | Enumeration laziness asserts | `ProbeEnumerable.cs` (internal counting `IEnumerable<T>`) |
+| Decoder behavior and three-way consumer comparison | `DecoderTests.cs`, `DecoderBoundaryTests.cs`, `DecoderAsyncTests.cs`, `DecoderExceptionTests.cs`, `DecoderErrorTests.cs`, `DecoderLocationTests.cs`, `DecoderConsumerComparisonTests.cs`; shared consumers in `../Shared/DecoderComparison/` |
 | ValueTask consumption asserts | `CountingValueTaskSource.cs` (also linked into AspNetCore.Tests) |
 | Public-surface freeze | `AdvancedPatternCurationTests.cs` (exact member lists, forbidden names) |
 | Package boundary | `PackageBoundaryTests.cs` (reflection: platform-only references) |

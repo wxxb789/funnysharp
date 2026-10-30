@@ -9,6 +9,7 @@ CollectionExamples.Verify();
 VerifyOptions();
 VerifyResults();
 VerifyValidations();
+DecoderExamples.Verify();
 UnitResultExamples.Verify();
 FunctionGrammarSamples.Verify();
 VerifyImmutableUpdates();

@@ -1,10 +1,10 @@
 # docs/plans/ — ce-unified-plan/v1 design-time plans
 
-Earned: score ~9 (distinct domain) — 4 plans, ~1,760 lines, all carrying the rigid `ce-unified-plan/v1` artifact contract.
+Earned: score ~9 (distinct domain) — 5 plans, ~1,950 lines, all carrying the rigid `ce-unified-plan/v1` artifact contract.
 
 ## OVERVIEW
 
-Design-time plans for the Option abstraction, release-acceptance restoration, uv tooling, and the Goal 17 collection surface — how shipped features were planned and verified.
+Design-time plans for the Option abstraction, release-acceptance restoration, uv tooling, the Goal 17 collection surface, and Goal 26 decoding — how shipped features were planned and verified.
 
 ## WHERE TO LOOK
 
@@ -14,6 +14,7 @@ Design-time plans for the Option abstraction, release-acceptance restoration, uv
 | `2026-09-03-2223-fix-release-acceptance-plan.md` | cancellation-defect, performance-evidence, and release-gate restoration |
 | `2026-09-18-1508-feat-cross-platform-uv-tooling-plan.md` | Python+uv tooling layer beside the frozen PowerShell release protocol |
 | `2026-09-20-1540-feat-collection-safety-plan.md` | Goal 17 collection surface: `*OrNone` family, `NonEmpty<T>`, `Partition`, `ZipExact` |
+| `2026-10-30-1156-feat-composable-decoding-plan.md` | Goal 26 decoder surface, error model, three-way consumer comparison, and measurements |
 
 ## CONVENTIONS (ce-unified-plan/v1 — every new plan follows it)
 
