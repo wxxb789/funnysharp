@@ -113,17 +113,18 @@ directional on this shared 2-core host.
 
 | Implementation | Case | Allocated B/op | Time ns/op |
 | --- | --- | ---: | ---: |
-| decoder | valid | 1144.0 | 5683.1 |
-| decoder | invalid | 7288.0 | 14947.0 |
-| ordinary | valid | 1704.0 | 6794.8 |
-| ordinary | invalid | 2656.0 | 3985.3 |
-| validation | valid | 2152.9 | 7586.8 |
-| validation | invalid | 3840.0 | 9941.2 |
+| decoder | valid | 984.0 | 3380.9 |
+| decoder | invalid | 7072.0 | 16571.0 |
+| ordinary | valid | 1704.0 | 5667.6 |
+| ordinary | invalid | 2656.0 | 3715.7 |
+| validation | valid | 2104.0 | 2734.0 |
+| validation | invalid | 3800.0 | 6457.9 |
 
-Allocation rows were stable across repeated runs, apart from roughly 100 B of variation on the
-Validation rows. Timing was not stable: across two runs ordinary valid measured 3.8-6.8 us,
-validation valid 3.7-7.6 us, and decoder valid 5.6-5.7 us; decoder invalid measured 9.5-14.9 us.
-The allocation comparison is the decisive evidence here; no timing winner is claimed.
+Allocation rows for the two baseline implementations were stable across repeated runs, apart from
+roughly 100 B of variation on the Validation rows; the decoder rows changed with the simplification
+pass and were re-measured. Timing was not stable across runs: ordinary valid measured 3.8-6.8 us,
+validation valid 2.7-7.6 us, decoder valid 3.4-5.7 us, and decoder invalid 9.5-16.6 us. The
+allocation comparison is the decisive evidence here; no timing winner is claimed.
 
 Observed trade-off:
 
@@ -145,11 +146,11 @@ superlinearly with path depth, which is the copying behavior the design must not
 
 | Path depth | Construction B/op | Construction ns/op | Render-inclusive B/op | Render-inclusive ns/op |
 | --- | ---: | ---: | ---: | ---: |
-| 1 | 80.0 | 138.6 | 208.0 | 128.6 |
-| 2 | 184.0 | 235.6 | 320.0 | 364.7 |
-| 4 | 464.0 | 677.5 | 608.0 | 774.0 |
-| 8 | 1312.0 | 976.6 | 1584.0 | 1173.4 |
-| 16 | 4160.0 | 2896.8 | 4616.0 | 1819.0 |
+| 1 | 80.0 | 206.0 | 208.0 | 135.1 |
+| 2 | 184.0 | 350.3 | 320.0 | 242.2 |
+| 4 | 464.0 | 662.1 | 608.0 | 414.0 |
+| 8 | 1312.0 | 1281.4 | 1584.0 | 721.9 |
+| 16 | 4160.0 | 1484.4 | 4616.0 | 1591.9 |
 
 The construction bytes grow faster than doubling as depth doubles (80, 184, 464, 1312, 4160),
 which is consistent with repeated segment-array copying rather than a constant-size append.
@@ -178,19 +179,25 @@ serializer integration.
 | Gate | Result |
 | --- | --- |
 | Full solution build (`dotnet build FunnySharp.slnx`) | 0 warnings, 0 errors |
-| Core xUnit suite (`dotnet test tests/FunnySharp.Tests`) | 1812 passed, 0 failed, 0 skipped |
-| Full solution tests (`dotnet fsi build.fsx -- -p test`) | 2346 passed, 1 pre-existing harness failure at the goal-completion head; the review-fix tests are covered by the current core and decoder rows below |
+| Core xUnit suite (`dotnet test tests/FunnySharp.Tests`) | 1811 passed, 0 failed, 0 skipped |
+| Full solution tests (`dotnet fsi build.fsx -- -p test`), pre-simplification | 2346 passed, 1 pre-existing harness failure at the goal-completion head; the review-fix tests are covered by the current core and decoder rows below |
 | PR gate harness build (`dotnet build eng/harness/FunnySharp.Harness.fsproj -p:RestoreLockedMode=true`) | 0 warnings, 0 errors |
 | PR gate docs snippets (`verify-docs-snippets`) | 56 snippets across 11 primary guides |
 | PR gate action pins (`check-action-pins`) | 2 workflows checked; all actions SHA-pinned |
-| Decoder test slice (`FullyQualifiedName~Decoder`) | 50 passed, 0 failed, 0 skipped |
+| Decoder test slice (`FullyQualifiedName~Decoder`) | 49 passed, 0 failed, 0 skipped |
+| Decoder + curation slice (`Decoder*` + `AdvancedPatternCurationTests`) | 54 passed, 0 failed, 0 skipped |
 | Example consumer (`dotnet run --project examples/FunnySharp.Examples -c Release`) | `FunnySharp examples passed.` |
 | Docs snippets (`verify-docs-snippets`) | 56 snippets across 11 primary guides |
 | Public API baseline (`verify-api-baseline`) | 53 types and 544 members across 2 assemblies |
 | Format (`-p format`) | exit 0; F# projects are not C# formatter targets |
 
+The simplification pass reran the build, core suite, decoder slices, example, API baseline, format,
+and measurements. The PR-gate harness build, docs-snippet, and action-pin rows remain the Goal 0026
+verification runs; the full-solution row is labeled pre-simplification.
+
 The measurement harness is run by the command above; it also executes the three-way equivalence
-check before printing its tables.
+check before printing its tables. The decoder rows were refreshed after the simplification pass;
+the ordinary and Validation rows remain within the previously stated variation.
 
 The full solution test run has one pre-existing, unrelated failure:
 `ReleaseProtocolTests.ReleaseWorkflow_HasRequiredContextsAndShaPinnedActions` expects a
@@ -202,9 +209,10 @@ in the same run.
 
 - The new shipping source files were added to both performance manifests' `benchmarkInput.files`
   because the manifest coverage test requires every shipping source. That changes the committed
-  benchmark input fingerprint. The committed performance observation is therefore stale until a
-  full benchmark re-record is explicitly authorized; this goal did not start the heavy benchmark
-  suite. `verify-performance` and the release gate remain open until that re-record lands.
+  benchmark input fingerprint. The simplification pass also edits a shipping source file, so the
+  committed performance observation remains stale until a full benchmark re-record is explicitly
+  authorized; this goal did not start the heavy benchmark suite. `verify-performance` and the
+  release gate remain open until that re-record lands.
 - The public API baseline now includes the stable decoder surface and the experimental
   `DecodeError.Location`; `verify-api-baseline` passes.
 - The maintainer's completion directive is recorded in the decision section below.

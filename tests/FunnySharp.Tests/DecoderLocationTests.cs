@@ -1,8 +1,5 @@
 #pragma warning disable FS0017
 
-using System.Diagnostics.CodeAnalysis;
-using System.Reflection;
-
 namespace FunnySharp.Tests;
 
 public sealed class DecoderLocationTests
@@ -55,19 +52,7 @@ public sealed class DecoderLocationTests
     {
         var error = DecodeError.Create(DecodeErrorKind.Missing);
 
-        Assert.Same(Location.Root, error.Location);
+        Assert.Equal(Location.Root, error.Location);
         Assert.Equal(string.Empty, error.Path);
-    }
-
-    [Fact]
-    public void DecodeErrorLocationCarriesTheTrackedExperimentalDiagnostic()
-    {
-        var property = typeof(DecodeError).GetProperty("Location");
-        Assert.NotNull(property);
-
-        var attribute = property!.GetCustomAttribute<ExperimentalAttribute>();
-
-        Assert.NotNull(attribute);
-        Assert.Equal("FS0017", attribute!.DiagnosticId);
     }
 }

@@ -4,7 +4,7 @@ namespace FunnySharp.TestSupport.Decoding;
 
 internal static class OrderComparison
 {
-    private static readonly (string Name, Func<JsonElement, OrderDecodeResult> Decode)[] Consumers =
+    internal static readonly (string Name, Func<JsonElement, OrderDecodeResult> Decode)[] Consumers =
     [
         ("decoder", DecoderOrderConsumer.Decode),
         ("ordinary", OrdinaryOrderConsumer.Decode),

@@ -62,9 +62,13 @@ internal static class DecoderOrderConsumer
         }
 
         validation.TryGetErrors(out var errors);
-        return new OrderDecodeResult(
-            null,
-            errors!.Select(static error => MapError(error)).ToArray());
+        var mapped = new OrderError[errors!.Count];
+        for (var index = 0; index < mapped.Length; index++)
+        {
+            mapped[index] = MapError(errors[index]);
+        }
+
+        return new OrderDecodeResult(null, mapped);
     }
 
     private static OrderError MapError(DecodeError error) =>

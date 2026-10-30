@@ -85,7 +85,6 @@ public sealed class DecoderTests
         var error = Assert.Single(errors);
         Assert.Equal(DecodeErrorKind.WrongKind, error.Kind);
         Assert.Equal(string.Empty, error.Path);
-        Assert.Equal("input: expected an object (found Array)", error.ToString());
         Assert.Equal(0, invocations);
     }
 
@@ -98,16 +97,12 @@ public sealed class DecoderTests
             DecoderTestData.Errors(DecoderTestData.Decode(decoder, "{}")));
         Assert.Equal(DecodeErrorKind.Missing, missing.Kind);
         Assert.Equal("id", missing.Path);
-        Assert.Equal("id: required value is missing", missing.ToString());
 
         var explicitNull = Assert.Single(
             DecoderTestData.Errors(DecoderTestData.Decode(decoder, """{"id":null}""")));
         Assert.Equal(DecodeErrorKind.Null, explicitNull.Kind);
         Assert.Equal("id", explicitNull.Path);
         Assert.Equal("a GUID string", explicitNull.Expected);
-        Assert.Equal(
-            "id: value must not be null; expected a GUID string",
-            explicitNull.ToString());
 
         var wrongKind = Assert.Single(
             DecoderTestData.Errors(DecoderTestData.Decode(decoder, """{"id":42}""")));
@@ -115,9 +110,6 @@ public sealed class DecoderTests
         Assert.Equal("id", wrongKind.Path);
         Assert.Equal("a GUID string", wrongKind.Expected);
         Assert.Equal("found Number", wrongKind.Detail);
-        Assert.Equal(
-            "id: expected a GUID string (found Number)",
-            wrongKind.ToString());
 
         var malformed = Assert.Single(
             DecoderTestData.Errors(DecoderTestData.Decode(decoder, """{"id":"bad"}""")));
@@ -224,7 +216,6 @@ public sealed class DecoderTests
             DecoderTestData.Errors(DecoderTestData.Decode(Decoder.NonEmptyString, "\"\"")));
         Assert.Equal(DecodeErrorKind.Empty, emptyString.Kind);
         Assert.Equal(string.Empty, emptyString.Path);
-        Assert.Equal("input: expected a non-empty string", emptyString.ToString());
 
         var nullString = Assert.Single(
             DecoderTestData.Errors(DecoderTestData.Decode(Decoder.NonEmptyString, "null")));

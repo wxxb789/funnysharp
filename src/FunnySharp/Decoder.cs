@@ -126,13 +126,10 @@ public static class Decoder
 
         return new Decoder<T>(context =>
         {
-            if (!context.ObjectShapeVerified)
+            var objectError = FieldObjectError(context);
+            if (objectError is not null)
             {
-                var objectError = ObjectKindError(context.Input);
-                if (objectError is not null)
-                {
-                    return Validation<T, DecodeError>.Invalid(objectError);
-                }
+                return Validation<T, DecodeError>.Invalid(objectError);
             }
 
             if (!TryGetFirstProperty(context.Input, name, out var value))
@@ -143,13 +140,13 @@ public static class Decoder
                         DecodeErrorKind.Missing));
             }
 
-            var decoded = decoder.Decode(new DecodeContext(value, objectShapeVerified: false));
+            var decoded = decoder.Decode(value);
             if (!decoded.TryGetErrors(out var errors))
             {
                 return decoded;
             }
 
-            return PrefixErrors(decoded, errors!, Location.Root.Property(name));
+            return PrefixErrors<T>(errors!, Location.Root.Property(name));
         });
     }
 
@@ -172,37 +169,8 @@ public static class Decoder
     /// </remarks>
     /// <exception cref="ArgumentNullException"><paramref name="decoder"/> is <see langword="null"/>.</exception>
     /// <exception cref="ArgumentException"><paramref name="name"/> is empty.</exception>
-    public static Decoder<Option<T>> OptionalField<T>(string name, Decoder<T> decoder)
-    {
-        ArgumentException.ThrowIfNullOrEmpty(name);
-        ArgumentNullException.ThrowIfNull(decoder);
-
-        return new Decoder<Option<T>>(context =>
-        {
-            if (!context.ObjectShapeVerified)
-            {
-                var objectError = ObjectKindError(context.Input);
-                if (objectError is not null)
-                {
-                    return Validation<Option<T>, DecodeError>.Invalid(objectError);
-                }
-            }
-
-            if (!TryGetFirstProperty(context.Input, name, out var value))
-            {
-                return Validation<Option<T>, DecodeError>.Valid(Option<T>.None);
-            }
-
-            var decoded = decoder.Decode(new DecodeContext(value, objectShapeVerified: false));
-            if (!decoded.TryGetErrors(out var errors))
-            {
-                return decoded.Map(static item => Option<T>.Some(item!));
-            }
-
-            return PrefixErrors(decoded, errors!, Location.Root.Property(name))
-                .Map(static item => Option<T>.Some(item!));
-        });
-    }
+    public static Decoder<Option<T>> OptionalField<T>(string name, Decoder<T> decoder) =>
+        OptionalFieldCore(name, decoder, nullIsAbsence: false);
 
     /// <summary>
     /// Creates a decoder for an object property where both absence and explicit null mean absence.
@@ -222,38 +190,8 @@ public static class Decoder
     /// </remarks>
     /// <exception cref="ArgumentNullException"><paramref name="decoder"/> is <see langword="null"/>.</exception>
     /// <exception cref="ArgumentException"><paramref name="name"/> is empty.</exception>
-    public static Decoder<Option<T>> NullableField<T>(string name, Decoder<T> decoder)
-    {
-        ArgumentException.ThrowIfNullOrEmpty(name);
-        ArgumentNullException.ThrowIfNull(decoder);
-
-        return new Decoder<Option<T>>(context =>
-        {
-            if (!context.ObjectShapeVerified)
-            {
-                var objectError = ObjectKindError(context.Input);
-                if (objectError is not null)
-                {
-                    return Validation<Option<T>, DecodeError>.Invalid(objectError);
-                }
-            }
-
-            if (!TryGetFirstProperty(context.Input, name, out var value)
-                || value.ValueKind == JsonValueKind.Null)
-            {
-                return Validation<Option<T>, DecodeError>.Valid(Option<T>.None);
-            }
-
-            var decoded = decoder.Decode(new DecodeContext(value, objectShapeVerified: false));
-            if (!decoded.TryGetErrors(out var errors))
-            {
-                return decoded.Map(static item => Option<T>.Some(item!));
-            }
-
-            return PrefixErrors(decoded, errors!, Location.Root.Property(name))
-                .Map(static item => Option<T>.Some(item!));
-        });
-    }
+    public static Decoder<Option<T>> NullableField<T>(string name, Decoder<T> decoder) =>
+        OptionalFieldCore(name, decoder, nullIsAbsence: true);
 
     /// <summary>
     /// Creates a decoder that treats an explicit null value as absence.
@@ -300,36 +238,17 @@ public static class Decoder
     public static Decoder<IReadOnlyList<T>> List<T>(Decoder<T> decoder)
     {
         ArgumentNullException.ThrowIfNull(decoder);
+        var decodeArray = CreateArrayElementDecoder(decoder);
 
         return new Decoder<IReadOnlyList<T>>(context =>
         {
             var input = context.Input;
-            if (input.ValueKind == JsonValueKind.Null)
-            {
-                return Validation<IReadOnlyList<T>, DecodeError>.Invalid(
-                    DecodeError.At(Location.Root, DecodeErrorKind.Null, "an array"));
-            }
-
             if (input.ValueKind != JsonValueKind.Array)
             {
-                return Validation<IReadOnlyList<T>, DecodeError>.Invalid(
-                    DecodeError.At(
-                        Location.Root,
-                        DecodeErrorKind.WrongKind,
-                        "an array",
-                        "found " + input.ValueKind));
+                return NullOrWrongKind<IReadOnlyList<T>>(input, "an array");
             }
 
-            return input.EnumerateArray().Traverse((index, element) =>
-            {
-                var decoded = decoder.Decode(new DecodeContext(element, objectShapeVerified: false));
-                if (!decoded.TryGetErrors(out var errors))
-                {
-                    return decoded;
-                }
-
-                return PrefixErrors(decoded, errors!, Location.Root.At(index));
-            });
+            return decodeArray(input);
         });
     }
 
@@ -352,24 +271,14 @@ public static class Decoder
     public static Decoder<IReadOnlyList<T>> NonEmptyList<T>(Decoder<T> decoder)
     {
         ArgumentNullException.ThrowIfNull(decoder);
+        var decodeArray = CreateArrayElementDecoder(decoder);
 
         return new Decoder<IReadOnlyList<T>>(context =>
         {
             var input = context.Input;
-            if (input.ValueKind == JsonValueKind.Null)
-            {
-                return Validation<IReadOnlyList<T>, DecodeError>.Invalid(
-                    DecodeError.At(Location.Root, DecodeErrorKind.Null, "a non-empty array"));
-            }
-
             if (input.ValueKind != JsonValueKind.Array)
             {
-                return Validation<IReadOnlyList<T>, DecodeError>.Invalid(
-                    DecodeError.At(
-                        Location.Root,
-                        DecodeErrorKind.WrongKind,
-                        "a non-empty array",
-                        "found " + input.ValueKind));
+                return NullOrWrongKind<IReadOnlyList<T>>(input, "a non-empty array");
             }
 
             if (input.GetArrayLength() == 0)
@@ -381,8 +290,26 @@ public static class Decoder
                         "a non-empty array"));
             }
 
-            return List(decoder).Decode(context);
+            return decodeArray(input);
         });
+    }
+
+    private static Func<JsonElement, Validation<IReadOnlyList<T>, DecodeError>>
+        CreateArrayElementDecoder<T>(Decoder<T> decoder)
+    {
+        var selector = new Func<int, JsonElement, Validation<T, DecodeError>>(
+            (index, element) =>
+            {
+                var decoded = decoder.Decode(element);
+                if (!decoded.TryGetErrors(out var errors))
+                {
+                    return decoded;
+                }
+
+                return PrefixErrors<T>(errors!, Location.Root.At(index));
+            });
+
+        return input => input.EnumerateArray().Traverse(selector);
     }
 
     /// <summary>
@@ -535,10 +462,7 @@ public static class Decoder
             return Validation<string, DecodeError>.Valid(input.GetString()!);
         }
 
-        return input.ValueKind == JsonValueKind.Null
-            ? Validation<string, DecodeError>.Invalid(
-                DecodeError.At(Location.Root, DecodeErrorKind.Null, "a string"))
-            : Validation<string, DecodeError>.Invalid(WrongKind(input, "a string"));
+        return NullOrWrongKind<string>(input, "a string");
     }
 
     private static Validation<string, DecodeError> DecodeNonEmptyString(DecodeContext context)
@@ -556,10 +480,7 @@ public static class Decoder
                 : Validation<string, DecodeError>.Valid(value);
         }
 
-        return input.ValueKind == JsonValueKind.Null
-            ? Validation<string, DecodeError>.Invalid(
-                DecodeError.At(Location.Root, DecodeErrorKind.Null, "a non-empty string"))
-            : Validation<string, DecodeError>.Invalid(WrongKind(input, "a non-empty string"));
+        return NullOrWrongKind<string>(input, "a non-empty string");
     }
 
     private static Validation<bool, DecodeError> DecodeBoolean(DecodeContext context)
@@ -570,10 +491,7 @@ public static class Decoder
             return Validation<bool, DecodeError>.Valid(input.GetBoolean());
         }
 
-        return input.ValueKind == JsonValueKind.Null
-            ? Validation<bool, DecodeError>.Invalid(
-                DecodeError.At(Location.Root, DecodeErrorKind.Null, "a boolean"))
-            : Validation<bool, DecodeError>.Invalid(WrongKind(input, "a boolean"));
+        return NullOrWrongKind<bool>(input, "a boolean");
     }
 
     private static Validation<int, DecodeError> DecodeInt32(DecodeContext context)
@@ -586,10 +504,7 @@ public static class Decoder
                 : Validation<int, DecodeError>.Invalid(Malformed(input, "a 32-bit integer"));
         }
 
-        return input.ValueKind == JsonValueKind.Null
-            ? Validation<int, DecodeError>.Invalid(
-                DecodeError.At(Location.Root, DecodeErrorKind.Null, "a 32-bit integer"))
-            : Validation<int, DecodeError>.Invalid(WrongKind(input, "a 32-bit integer"));
+        return NullOrWrongKind<int>(input, "a 32-bit integer");
     }
 
     private static Validation<long, DecodeError> DecodeInt64(DecodeContext context)
@@ -602,10 +517,7 @@ public static class Decoder
                 : Validation<long, DecodeError>.Invalid(Malformed(input, "a 64-bit integer"));
         }
 
-        return input.ValueKind == JsonValueKind.Null
-            ? Validation<long, DecodeError>.Invalid(
-                DecodeError.At(Location.Root, DecodeErrorKind.Null, "a 64-bit integer"))
-            : Validation<long, DecodeError>.Invalid(WrongKind(input, "a 64-bit integer"));
+        return NullOrWrongKind<long>(input, "a 64-bit integer");
     }
 
     private static Validation<decimal, DecodeError> DecodeDecimal(DecodeContext context)
@@ -618,10 +530,7 @@ public static class Decoder
                 : Validation<decimal, DecodeError>.Invalid(Malformed(input, "a decimal number"));
         }
 
-        return input.ValueKind == JsonValueKind.Null
-            ? Validation<decimal, DecodeError>.Invalid(
-                DecodeError.At(Location.Root, DecodeErrorKind.Null, "a decimal number"))
-            : Validation<decimal, DecodeError>.Invalid(WrongKind(input, "a decimal number"));
+        return NullOrWrongKind<decimal>(input, "a decimal number");
     }
 
     private static Validation<double, DecodeError> DecodeDouble(DecodeContext context)
@@ -634,10 +543,7 @@ public static class Decoder
                 : Validation<double, DecodeError>.Invalid(Malformed(input, "a floating-point number"));
         }
 
-        return input.ValueKind == JsonValueKind.Null
-            ? Validation<double, DecodeError>.Invalid(
-                DecodeError.At(Location.Root, DecodeErrorKind.Null, "a floating-point number"))
-            : Validation<double, DecodeError>.Invalid(WrongKind(input, "a floating-point number"));
+        return NullOrWrongKind<double>(input, "a floating-point number");
     }
 
     private static Validation<BclGuid, DecodeError> DecodeGuid(DecodeContext context)
@@ -650,10 +556,7 @@ public static class Decoder
                 : Validation<BclGuid, DecodeError>.Invalid(Malformed(input, "a GUID string"));
         }
 
-        return input.ValueKind == JsonValueKind.Null
-            ? Validation<BclGuid, DecodeError>.Invalid(
-                DecodeError.At(Location.Root, DecodeErrorKind.Null, "a GUID string"))
-            : Validation<BclGuid, DecodeError>.Invalid(WrongKind(input, "a GUID string"));
+        return NullOrWrongKind<BclGuid>(input, "a GUID string");
     }
 
     private static Validation<BclDateTime, DecodeError> DecodeDateTime(DecodeContext context)
@@ -667,11 +570,7 @@ public static class Decoder
                     Malformed(input, "an ISO 8601 date-time string"));
         }
 
-        return input.ValueKind == JsonValueKind.Null
-            ? Validation<BclDateTime, DecodeError>.Invalid(
-                DecodeError.At(Location.Root, DecodeErrorKind.Null, "an ISO 8601 date-time string"))
-            : Validation<BclDateTime, DecodeError>.Invalid(
-                WrongKind(input, "an ISO 8601 date-time string"));
+        return NullOrWrongKind<BclDateTime>(input, "an ISO 8601 date-time string");
     }
 
     private static Validation<BclDateTimeOffset, DecodeError> DecodeDateTimeOffset(DecodeContext context)
@@ -685,25 +584,49 @@ public static class Decoder
                     Malformed(input, "an ISO 8601 date-time-offset string"));
         }
 
-        return input.ValueKind == JsonValueKind.Null
-            ? Validation<BclDateTimeOffset, DecodeError>.Invalid(
-                DecodeError.At(
-                    Location.Root,
-                    DecodeErrorKind.Null,
-                    "an ISO 8601 date-time-offset string"))
-            : Validation<BclDateTimeOffset, DecodeError>.Invalid(
-                WrongKind(input, "an ISO 8601 date-time-offset string"));
+        return NullOrWrongKind<BclDateTimeOffset>(input, "an ISO 8601 date-time-offset string");
     }
 
     private static Validation<JsonElement, DecodeError> DecodeElement(DecodeContext context) =>
         context.Input.ValueKind == JsonValueKind.Undefined
-            ? Validation<JsonElement, DecodeError>.Invalid(
-                DecodeError.At(
-                    Location.Root,
-                    DecodeErrorKind.WrongKind,
-                    "a JSON value",
-                    "found Undefined"))
+            ? Validation<JsonElement, DecodeError>.Invalid(WrongKind(context.Input, "a JSON value"))
             : Validation<JsonElement, DecodeError>.Valid(context.Input);
+
+    private static DecodeError? FieldObjectError(DecodeContext context) =>
+        context.ObjectShapeVerified ? null : ObjectKindError(context.Input);
+
+    private static Decoder<Option<T>> OptionalFieldCore<T>(
+        string name,
+        Decoder<T> decoder,
+        bool nullIsAbsence)
+    {
+        ArgumentException.ThrowIfNullOrEmpty(name);
+        ArgumentNullException.ThrowIfNull(decoder);
+
+        return new Decoder<Option<T>>(context =>
+        {
+            var objectError = FieldObjectError(context);
+            if (objectError is not null)
+            {
+                return Validation<Option<T>, DecodeError>.Invalid(objectError);
+            }
+
+            if (!TryGetFirstProperty(context.Input, name, out var value)
+                || (nullIsAbsence && value.ValueKind == JsonValueKind.Null))
+            {
+                return Validation<Option<T>, DecodeError>.Valid(Option<T>.None);
+            }
+
+            var decoded = decoder.Decode(value);
+            if (!decoded.TryGetErrors(out var errors))
+            {
+                return decoded.Map(static item => Option<T>.Some(item!));
+            }
+
+            return PrefixErrors<T>(errors!, Location.Root.Property(name))
+                .Map(static item => Option<T>.Some(item!));
+        });
+    }
 
     private static DecodeError? ObjectKindError(JsonElement input) =>
         input.ValueKind switch
@@ -713,11 +636,7 @@ public static class Decoder
                 Location.Root,
                 DecodeErrorKind.Null,
                 "an object"),
-            _ => DecodeError.At(
-                Location.Root,
-                DecodeErrorKind.WrongKind,
-                "an object",
-                "found " + input.ValueKind),
+            _ => WrongKind(input, "an object"),
         };
 
     private static DecodeError WrongKind(JsonElement input, string expected) =>
@@ -725,7 +644,29 @@ public static class Decoder
             Location.Root,
             DecodeErrorKind.WrongKind,
             expected,
-            "found " + input.ValueKind);
+            Found(input.ValueKind));
+
+    private static string Found(JsonValueKind kind) =>
+        kind switch
+        {
+            JsonValueKind.Object => "found Object",
+            JsonValueKind.Array => "found Array",
+            JsonValueKind.String => "found String",
+            JsonValueKind.Number => "found Number",
+            JsonValueKind.True => "found True",
+            JsonValueKind.False => "found False",
+            JsonValueKind.Null => "found Null",
+            JsonValueKind.Undefined => "found Undefined",
+            _ => "found " + kind,
+        };
+
+    private static Validation<T, DecodeError> NullOrWrongKind<T>(
+        JsonElement input,
+        string expected) =>
+        input.ValueKind == JsonValueKind.Null
+            ? Validation<T, DecodeError>.Invalid(
+                DecodeError.At(Location.Root, DecodeErrorKind.Null, expected))
+            : Validation<T, DecodeError>.Invalid(WrongKind(input, expected));
 
     private static DecodeError Malformed(JsonElement input, string expected) =>
         DecodeError.At(
@@ -750,15 +691,9 @@ public static class Decoder
     }
 
     private static Validation<T, DecodeError> PrefixErrors<T>(
-        Validation<T, DecodeError> validation,
         IReadOnlyList<DecodeError> errors,
         Location prefix)
     {
-        if (prefix == Location.Root)
-        {
-            return validation;
-        }
-
         var prefixed = new DecodeError[errors.Count];
         for (var index = 0; index < prefixed.Length; index++)
         {
@@ -918,18 +853,22 @@ public sealed class Decoder<T>
         ArgumentNullException.ThrowIfNull(binder);
 
         return new Decoder<TResult>(context =>
-            decode(context).Match(
-                value =>
-                {
-                    var next = binder(value);
-                    if (next is null)
-                    {
-                        throw new InvalidOperationException("The decoder binder returned null.");
-                    }
+        {
+            var decoded = decode(context);
+            if (!decoded.TryGetValue(out var value))
+            {
+                decoded.TryGetErrors(out var errors);
+                return Validation<TResult, DecodeError>.InvalidFromOwnedErrors(errors!);
+            }
 
-                    return next.Decode(context);
-                },
-                errors => Validation<TResult, DecodeError>.InvalidFromOwnedErrors(errors)));
+            var next = binder(value);
+            if (next is null)
+            {
+                throw new InvalidOperationException("The decoder binder returned null.");
+            }
+
+            return next.Decode(context);
+        });
     }
 
     /// <summary>
@@ -960,11 +899,7 @@ public sealed class Decoder<T>
                 return decoded;
             }
 
-            return Validation<T, DecodeError>.Invalid(
-                DecodeError.At(
-                    Location.Root,
-                    DecodeErrorKind.InvalidValue,
-                    detail: detail));
+            return Validation<T, DecodeError>.Invalid(InvalidValue(detail));
         });
     }
 
@@ -995,15 +930,14 @@ public sealed class Decoder<T>
                 return decoded;
             }
 
-            return validate(value).MapErrors(detail =>
-                DecodeError.At(
-                    Location.Root,
-                    DecodeErrorKind.InvalidValue,
-                    detail: detail));
+            return validate(value).MapErrors(static detail => InvalidValue(detail));
         });
     }
 
     internal Validation<T, DecodeError> Decode(DecodeContext context) => decode(context);
+
+    private static DecodeError InvalidValue(string detail) =>
+        DecodeError.At(Location.Root, DecodeErrorKind.InvalidValue, detail: detail);
 
     private static async Task<Validation<T, DecodeError>> ValidateAsync(
         T value,
@@ -1017,11 +951,7 @@ public sealed class Decoder<T>
         }
 
         var validation = await pending.ConfigureAwait(false);
-        return validation.MapErrors(detail =>
-            DecodeError.At(
-                Location.Root,
-                DecodeErrorKind.InvalidValue,
-                detail: detail));
+        return validation.MapErrors(static detail => InvalidValue(detail));
     }
 
     private static async ValueTask<Validation<T, DecodeError>> ValidateValueAsync(
@@ -1030,11 +960,7 @@ public sealed class Decoder<T>
         CancellationToken cancellationToken)
     {
         var validation = await validate(value, cancellationToken).ConfigureAwait(false);
-        return validation.MapErrors(detail =>
-            DecodeError.At(
-                Location.Root,
-                DecodeErrorKind.InvalidValue,
-                detail: detail));
+        return validation.MapErrors(static detail => InvalidValue(detail));
     }
 }
 

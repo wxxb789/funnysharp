@@ -90,7 +90,7 @@ public sealed class DecoderErrorTests
     }
 
     [Fact]
-    public void DecodeErrorPathIsTheStableCachedRenderingOfItsLocation()
+    public void DecodeErrorPathIsTheStableRenderingOfItsLocation()
     {
         var error = Assert.Single(
             DecoderTestData.Errors(
@@ -99,7 +99,6 @@ public sealed class DecoderErrorTests
                     """{"sku":"","quantity":1}""")));
 
         Assert.Equal("sku", error.Path);
-        Assert.Same(error.Path, error.Path);
         Assert.Equal("sku: expected a non-empty string", error.ToString());
     }
 }

@@ -28,16 +28,9 @@ internal static class DecoderMeasurements
         var validRoot = validDocument.RootElement;
         var invalidRoot = invalidDocument.RootElement;
 
-        (string Name, Func<JsonElement, OrderDecodeResult> Decode)[] consumers =
-        [
-            ("decoder", DecoderOrderConsumer.Decode),
-            ("ordinary", OrdinaryOrderConsumer.Decode),
-            ("validation", ValidationOrderConsumer.Decode),
-        ];
-
         Console.WriteLine("| Implementation | Case | Allocated B/op | Time ns/op |");
         Console.WriteLine("| --- | --- | ---: | ---: |");
-        foreach (var (name, decode) in consumers)
+        foreach (var (name, decode) in OrderComparison.Consumers)
         {
             var valid = Measure(() => decode(validRoot), ValidIterations);
             Console.WriteLine(
@@ -71,7 +64,25 @@ internal static class DecoderMeasurements
             "Allocations are per complete mapped operation. Timing is directional on this host.");
     }
 
-    private static Measurement Measure(Func<OrderDecodeResult> operation, int iterations)
+    private static Measurement Measure(Func<OrderDecodeResult> operation, int iterations) =>
+        MeasureOperation(
+            () =>
+            {
+                var result = operation();
+                return result.IsSuccess ? 1 : result.Errors.Count;
+            },
+            iterations);
+
+    private static Measurement MeasurePath(int depth, bool render) =>
+        MeasureOperation(
+            () =>
+            {
+                var location = BuildPath(depth);
+                return render ? location.ToString().Length : location.GetHashCode();
+            },
+            PathIterations);
+
+    private static Measurement MeasureOperation(Func<int> operation, int iterations)
     {
         for (var index = 0; index < WarmupIterations; index++)
         {
@@ -92,8 +103,7 @@ internal static class DecoderMeasurements
             var stopwatch = Stopwatch.StartNew();
             for (var index = 0; index < iterations; index++)
             {
-                var result = operation();
-                checksum += result.IsSuccess ? 1 : result.Errors.Count;
+                checksum += operation();
             }
 
             stopwatch.Stop();
@@ -106,47 +116,6 @@ internal static class DecoderMeasurements
             nanosecondsPerOperation = Math.Min(
                 nanosecondsPerOperation,
                 stopwatch.Elapsed.TotalMilliseconds * 1_000_000d / iterations);
-        }
-
-        return new Measurement(bytesPerOperation, nanosecondsPerOperation);
-    }
-
-    private static Measurement MeasurePath(int depth, bool render)
-    {
-        for (var index = 0; index < WarmupIterations; index++)
-        {
-            var location = BuildPath(depth);
-            GC.KeepAlive(render ? location.ToString() : location.GetHashCode());
-        }
-
-        var bytesPerOperation = double.MaxValue;
-        var nanosecondsPerOperation = double.MaxValue;
-
-        for (var round = 0; round < Rounds; round++)
-        {
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
-            GC.Collect();
-
-            var bytesBefore = GC.GetAllocatedBytesForCurrentThread();
-            var checksum = 0;
-            var stopwatch = Stopwatch.StartNew();
-            for (var index = 0; index < PathIterations; index++)
-            {
-                var location = BuildPath(depth);
-                checksum += render ? location.ToString().Length : location.GetHashCode();
-            }
-
-            stopwatch.Stop();
-            var allocated = GC.GetAllocatedBytesForCurrentThread() - bytesBefore;
-            GC.KeepAlive(checksum);
-
-            bytesPerOperation = Math.Min(
-                bytesPerOperation,
-                allocated / (double)PathIterations);
-            nanosecondsPerOperation = Math.Min(
-                nanosecondsPerOperation,
-                stopwatch.Elapsed.TotalMilliseconds * 1_000_000d / PathIterations);
         }
 
         return new Measurement(bytesPerOperation, nanosecondsPerOperation);
