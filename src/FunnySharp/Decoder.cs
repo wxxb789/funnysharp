@@ -135,7 +135,7 @@ public static class Decoder
                 }
             }
 
-            if (!context.Input.TryGetProperty(name, out var value))
+            if (!TryGetFirstProperty(context.Input, name, out var value))
             {
                 return Validation<T, DecodeError>.Invalid(
                     DecodeError.At(
@@ -168,6 +168,7 @@ public static class Decoder
     /// <paramref name="decoder"/> and normally becomes <see cref="DecodeErrorKind.Null"/>. Use
     /// <see cref="NullableField{T}(string, Decoder{T})"/> when both missing and null deliberately
     /// mean absence. A present null is never silently folded into <c>None</c> here.
+    /// Duplicate property names resolve to the first matching property in document order.
     /// </remarks>
     /// <exception cref="ArgumentNullException"><paramref name="decoder"/> is <see langword="null"/>.</exception>
     /// <exception cref="ArgumentException"><paramref name="name"/> is empty.</exception>
@@ -187,7 +188,7 @@ public static class Decoder
                 }
             }
 
-            if (!context.Input.TryGetProperty(name, out var value))
+            if (!TryGetFirstProperty(context.Input, name, out var value))
             {
                 return Validation<Option<T>, DecodeError>.Valid(Option<T>.None);
             }
@@ -217,7 +218,7 @@ public static class Decoder
     /// This combinator deliberately collapses missing and explicit null into absence; the name
     /// states that policy. Use <see cref="OptionalField{T}(string, Decoder{T})"/> when explicit
     /// null must remain a distinguishable error. The inner decoder is not invoked for a null
-    /// property.
+    /// property. Duplicate property names resolve to the first matching property in document order.
     /// </remarks>
     /// <exception cref="ArgumentNullException"><paramref name="decoder"/> is <see langword="null"/>.</exception>
     /// <exception cref="ArgumentException"><paramref name="name"/> is empty.</exception>
@@ -237,7 +238,7 @@ public static class Decoder
                 }
             }
 
-            if (!context.Input.TryGetProperty(name, out var value)
+            if (!TryGetFirstProperty(context.Input, name, out var value)
                 || value.ValueKind == JsonValueKind.Null)
             {
                 return Validation<Option<T>, DecodeError>.Valid(Option<T>.None);
@@ -628,7 +629,7 @@ public static class Decoder
         var input = context.Input;
         if (input.ValueKind == JsonValueKind.Number)
         {
-            return input.TryGetDouble(out var value)
+            return input.TryGetDouble(out var value) && double.IsFinite(value)
                 ? Validation<double, DecodeError>.Valid(value)
                 : Validation<double, DecodeError>.Invalid(Malformed(input, "a floating-point number"));
         }
@@ -732,6 +733,21 @@ public static class Decoder
             DecodeErrorKind.Malformed,
             expected,
             "the value cannot be parsed as " + expected);
+
+    private static bool TryGetFirstProperty(JsonElement input, string name, out JsonElement value)
+    {
+        foreach (var property in input.EnumerateObject())
+        {
+            if (property.NameEquals(name))
+            {
+                value = property.Value;
+                return true;
+            }
+        }
+
+        value = default;
+        return false;
+    }
 
     private static Validation<T, DecodeError> PrefixErrors<T>(
         Validation<T, DecodeError> validation,

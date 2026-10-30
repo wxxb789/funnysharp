@@ -82,6 +82,9 @@ Boundary behavior is pinned separately in the decoder tests:
   `DecodeErrorKind` values.
 - `Field`, `OptionalField`, `NullableField`, and `OptionalValue` implement the documented missing
   and null matrix.
+- Duplicate property names resolve to the first matching property in document order across the
+  field combinators; repeated nested segments such as `a.a` and `[0][0]` are preserved.
+- `Double` rejects JSON numbers that parse to a non-finite value, such as `1e400` and `-1e400`.
 - Empty addresses are valid under `List`; empty lines are `Empty` under `NonEmptyList`.
 - `Object` checks the object kind once and skips field decoders for a non-object input.
 - Independent field and element errors accumulate; `Object` combine, `Bind`, `Ensure`, and
@@ -175,12 +178,12 @@ serializer integration.
 | Gate | Result |
 | --- | --- |
 | Full solution build (`dotnet build FunnySharp.slnx`) | 0 warnings, 0 errors |
-| Core xUnit suite (`dotnet test tests/FunnySharp.Tests`) | 1809 passed, 0 failed, 0 skipped |
-| Full solution tests (`dotnet fsi build.fsx -- -p test`) | 2346 passed, 1 pre-existing harness failure; see below |
+| Core xUnit suite (`dotnet test tests/FunnySharp.Tests`) | 1812 passed, 0 failed, 0 skipped |
+| Full solution tests (`dotnet fsi build.fsx -- -p test`) | 2346 passed, 1 pre-existing harness failure at the goal-completion head; the review-fix tests are covered by the current core and decoder rows below |
 | PR gate harness build (`dotnet build eng/harness/FunnySharp.Harness.fsproj -p:RestoreLockedMode=true`) | 0 warnings, 0 errors |
 | PR gate docs snippets (`verify-docs-snippets`) | 56 snippets across 11 primary guides |
 | PR gate action pins (`check-action-pins`) | 2 workflows checked; all actions SHA-pinned |
-| Decoder test slice (`FullyQualifiedName~Decoder`) | 47 passed, 0 failed, 0 skipped |
+| Decoder test slice (`FullyQualifiedName~Decoder`) | 50 passed, 0 failed, 0 skipped |
 | Example consumer (`dotnet run --project examples/FunnySharp.Examples -c Release`) | `FunnySharp examples passed.` |
 | Docs snippets (`verify-docs-snippets`) | 56 snippets across 11 primary guides |
 | Public API baseline (`verify-api-baseline`) | 53 types and 544 members across 2 assemblies |

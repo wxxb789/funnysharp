@@ -162,7 +162,7 @@ public sealed class DecodeError : IEquatable<DecodeError>
 
     internal DecodeError WithLocation(DiagnosticLocation prefix)
     {
-        if (prefix == DiagnosticLocation.Root || location == prefix)
+        if (prefix == DiagnosticLocation.Root)
         {
             return this;
         }

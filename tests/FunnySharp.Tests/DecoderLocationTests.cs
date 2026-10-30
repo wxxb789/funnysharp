@@ -26,6 +26,31 @@ public sealed class DecoderLocationTests
     }
 
     [Fact]
+    public void NestedFieldsWithTheSameNameKeepEverySegment()
+    {
+        var decoder = Decoder.Field("a", Decoder.Field("a", Decoder.Int32));
+
+        var error = Assert.Single(
+            DecoderTestData.Errors(
+                DecoderTestData.Decode(decoder, """{"a":{"a":null}}""")));
+
+        Assert.Equal("a.a", error.Path);
+        Assert.Equal(DecodeErrorKind.Null, error.Kind);
+    }
+
+    [Fact]
+    public void NestedListsWithTheSameIndexKeepEverySegment()
+    {
+        var decoder = Decoder.List(Decoder.List(Decoder.Int32));
+
+        var error = Assert.Single(
+            DecoderTestData.Errors(DecoderTestData.Decode(decoder, "[[null]]")));
+
+        Assert.Equal("[0][0]", error.Path);
+        Assert.Equal(DecodeErrorKind.Null, error.Kind);
+    }
+
+    [Fact]
     public void DecodeErrorCreateReturnsTheRootLocationAsARelativeError()
     {
         var error = DecodeError.Create(DecodeErrorKind.Missing);

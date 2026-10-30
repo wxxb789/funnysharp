@@ -84,9 +84,9 @@ lifetime. Decoding reads the element during the call; built-in scalar and struct
 return values independent of the document. `Decoder.Element` is the exception: it returns a view
 that must not outlive the document.
 
-Object property names are case-sensitive. If a document repeats a name, `JsonElement.TryGetProperty`
-resolves the first matching property in document order. `Decoder` does not normalize names,
-perform case-insensitive matching, or merge duplicate properties.
+Object property names are case-sensitive. If a document repeats a name, `Decoder` resolves the first
+matching property in document order. It does not normalize names, perform case-insensitive matching,
+or merge duplicate properties.
 
 Malformed JSON text fails in `JsonDocument.Parse` before a decoder is called. That parse failure is
 an input-boundary exception, not a `DecodeError`. The decoder's error model starts from a valid

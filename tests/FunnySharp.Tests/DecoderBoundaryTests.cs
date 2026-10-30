@@ -42,6 +42,13 @@ public sealed class DecoderBoundaryTests
             DecodeErrorKind.WrongKind,
             SingleError(Decoder.Double, "\"1.5\"").Kind);
 
+        var overflow = SingleError(Decoder.Double, "1e400");
+        Assert.Equal(DecodeErrorKind.Malformed, overflow.Kind);
+        Assert.Equal("a floating-point number", overflow.Expected);
+        Assert.Equal(
+            DecodeErrorKind.Malformed,
+            SingleError(Decoder.Double, "-1e400").Kind);
+
         Assert.True(DecoderTestData.Value(DecoderTestData.Decode(Decoder.Boolean, "true")));
         Assert.Equal(
             DecodeErrorKind.WrongKind,

@@ -172,6 +172,26 @@ public sealed class DecoderTests
     }
 
     [Fact]
+    public void FieldCombinatorsSelectTheFirstDuplicateProperty()
+    {
+        const string json = """{"note":1,"note":null}""";
+
+        var required = DecoderTestData.Value(
+            DecoderTestData.Decode(Decoder.Field("note", Decoder.Int32), json));
+        Assert.Equal(1, required);
+
+        var optional = DecoderTestData.Value(
+            DecoderTestData.Decode(Decoder.OptionalField("note", Decoder.Int32), json));
+        Assert.True(optional.TryGetValue(out var optionalValue));
+        Assert.Equal(1, optionalValue);
+
+        var nullable = DecoderTestData.Value(
+            DecoderTestData.Decode(Decoder.NullableField("note", Decoder.Int32), json));
+        Assert.True(nullable.TryGetValue(out var nullableValue));
+        Assert.Equal(1, nullableValue);
+    }
+
+    [Fact]
     public void OptionalValueMapsOnlyExplicitNullToAbsence()
     {
         var invocations = 0;
