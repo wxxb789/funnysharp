@@ -198,3 +198,8 @@ Excluded measurements:
 
 The generated rows keep update and lookup costs explicit without claiming unmeasured construction
 or rebuild behavior. Rerun timing on representative hardware before capacity decisions.
+
+Partial updates are built from these lenses: [partial-updates.md](partial-updates.md) binds each
+allowed JSON field to a `Lens` and a contract, then applies selected changes through the same
+setter delegates. Patch application copies once per changed field; an unselected lens is never
+invoked.

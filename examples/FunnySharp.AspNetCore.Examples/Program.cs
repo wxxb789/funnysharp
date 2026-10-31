@@ -1,3 +1,4 @@
+using System.Text.Json;
 using FunnySharp;
 using FunnySharp.AspNetCore;
 using Microsoft.AspNetCore.Builder;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 var catalog = new ProductCatalog();
+var schedules = new ScheduleStore();
 
 app.MapGet("/products/{id:int}", (int id) =>
     FindProduct(id).ToHttpResult(
@@ -34,8 +36,34 @@ app.MapGet("/catalog/{id:int}/refresh", (HttpContext context, int id) =>
         context,
         () => NotFound($"Product {id} was not found.")));
 
+app.MapMethods("/schedules/{id}", ["PATCH"], (string id, JsonElement body) =>
+{
+    if (!schedules.Find(id).TryGetValue(out var schedule) || schedule is null)
+    {
+        return Results.NotFound();
+    }
+
+    var decoded = SchedulePatch.Schema.Decode(body);
+    if (!decoded.TryGetValue(out var patch))
+    {
+        _ = decoded.TryGetErrors(out var decodeErrors);
+        return ToValidationProblem("Schedule change is invalid.", decodeErrors!);
+    }
+
+    var validated = SchedulePatch.Schema.Validate(patch, schedule);
+    if (!validated.TryGetValue(out var application))
+    {
+        _ = validated.TryGetErrors(out var validationErrors);
+        return ToValidationProblem("Schedule candidate is invalid.", validationErrors!);
+    }
+
+    schedules.Save(id, application.Candidate);
+    return Results.Ok(application.Candidate);
+});
+
 if (args is ["--verify"])
 {
+    _ = SchedulePatch.Schema.Explain();
     Console.WriteLine("FunnySharp ASP.NET Core example endpoints mapped.");
     return;
 }
@@ -142,6 +170,30 @@ static ProblemDetails MapDeliveryFailure(DeliveryFailure failure) =>
         Detail = $"SKU '{failure.Sku}' cannot be delivered.",
     };
 
+static IResult ToValidationProblem(string title, IReadOnlyList<DecodeError> errors)
+{
+    var grouped = new Dictionary<string, List<string>>(StringComparer.Ordinal);
+    foreach (var error in errors)
+    {
+        var field = error.Path.Length == 0 ? "request" : error.Path;
+        if (!grouped.TryGetValue(field, out var messages))
+        {
+            messages = [];
+            grouped.Add(field, messages);
+        }
+
+        messages.Add(error.ToString());
+    }
+
+    return Results.ValidationProblem(
+        grouped.ToDictionary(
+            static pair => pair.Key,
+            static pair => pair.Value.ToArray(),
+            StringComparer.Ordinal),
+        statusCode: StatusCodes.Status400BadRequest,
+        title: title);
+}
+
 static HttpValidationProblemDetails MapValidationErrors(IReadOnlyList<InputError> errors)
 {
     var grouped = new Dictionary<string, List<string>>(StringComparer.Ordinal);
@@ -203,3 +255,87 @@ internal sealed record InventoryFailure(string Code, string Sku);
 internal sealed record Delivery(string Sku, string Status);
 
 internal sealed record DeliveryFailure(string Code, string Sku);
+
+internal sealed class ScheduleStore
+{
+    private readonly Dictionary<string, DeliverySchedule> schedules =
+        new(StringComparer.Ordinal)
+        {
+            ["daily"] = new DeliverySchedule(
+                "Europe/Paris",
+                9 * 60,
+                17 * 60,
+                Option.Some("front desk")),
+        };
+
+    internal Option<DeliverySchedule> Find(string id) =>
+        schedules.TryGetValue(id, out var schedule)
+            ? Option.Some(schedule)
+            : Option.None<DeliverySchedule>();
+
+    internal void Save(string id, DeliverySchedule schedule) => schedules[id] = schedule;
+}
+
+internal sealed record DeliverySchedule(
+    string TimeZone,
+    int StartsAt,
+    int EndsAt,
+    Option<string> Note);
+
+internal static class SchedulePatch
+{
+    private static readonly Contract<DeliverySchedule> ScheduleContract = BuildContract();
+
+    private static readonly Lens<DeliverySchedule, int> StartsAtLens =
+        Lens.Create<DeliverySchedule, int>(
+            static value => value.StartsAt,
+            static (value, next) => value with { StartsAt = next });
+
+    private static readonly Lens<DeliverySchedule, int> EndsAtLens =
+        Lens.Create<DeliverySchedule, int>(
+            static value => value.EndsAt,
+            static (value, next) => value with { EndsAt = next });
+
+    private static readonly Lens<DeliverySchedule, Option<string>> NoteLens =
+        Lens.Create<DeliverySchedule, Option<string>>(
+            static value => value.Note,
+            static (value, next) => value with { Note = next });
+
+    internal static PatchSchema<DeliverySchedule> Schema { get; } = CreateSchema();
+
+    private static PatchSchema<DeliverySchedule> CreateSchema()
+    {
+        var created = PatchSchema<DeliverySchedule>.Create(
+            ScheduleContract,
+            Patch.Field("startsAt", Contract.Int32Range(0, 1440), StartsAtLens),
+            Patch.Field("endsAt", Contract.Int32Range(0, 1440), EndsAtLens),
+            Patch.ClearableField(
+                "note",
+                Contract.Optional(Contract.NonEmptyString),
+                NoteLens,
+                static value => value with { Note = Option<string>.None }));
+
+        if (created.TryGetError(out var limitation))
+        {
+            throw new InvalidOperationException(limitation.ToString());
+        }
+
+        _ = created.TryGetValue(out var schema);
+        return schema!;
+    }
+
+    private static Contract<DeliverySchedule> BuildContract()
+    {
+        var fields = Contract.For<DeliverySchedule>();
+        return Contract.Object(
+                fields.Field("timeZone", Contract.NonEmptyString, static value => value.TimeZone),
+                fields.Field("startsAt", Contract.Int32Range(0, 1440), static value => value.StartsAt),
+                fields.Field("endsAt", Contract.Int32Range(0, 1440), static value => value.EndsAt),
+                fields.OptionalField("note", Contract.NonEmptyString, static value => value.Note),
+                static (timeZone, startsAt, endsAt, note) =>
+                    new DeliverySchedule(timeZone, startsAt, endsAt, note))
+            .Ensure(
+                static value => value.StartsAt < value.EndsAt,
+                "startsAt must be before endsAt");
+    }
+}

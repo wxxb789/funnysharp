@@ -6,7 +6,8 @@ namespace FunnySharp;
 /// <remarks>
 /// The kinds are deliberately distinct so a consumer can react to absence, an explicit null, a
 /// wrong JSON shape, an unparseable value, an empty required value, and a rejected domain value
-/// without inspecting diagnostic text.
+/// without inspecting diagnostic text. <see cref="UnsupportedField"/> and
+/// <see cref="DuplicateField"/> describe the allowed-field boundary of a partial change.
 /// </remarks>
 public enum DecodeErrorKind
 {
@@ -27,4 +28,10 @@ public enum DecodeErrorKind
 
     /// <summary>A caller-supplied domain check rejected the decoded value.</summary>
     InvalidValue = 5,
+
+    /// <summary>An input object contains a property that is not part of the allowed change.</summary>
+    UnsupportedField = 6,
+
+    /// <summary>An input object supplies the same property name more than once.</summary>
+    DuplicateField = 7,
 }

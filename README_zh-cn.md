@@ -10,6 +10,7 @@ FunnySharp 是面向 C# 13 与 .NET 10 的实用主义、BCL 优先 C# 函数式
 其 Option/Result 模式支持强类型错误处理与铁路导向编程（Railway-Oriented Programming，ROP），
 基于标准 .NET 值、委托、`Task`、`ValueTask` 与 `IAsyncEnumerable<T>`。核心包没有运行时依赖，
 并随包附带 Roslyn 静态分析器；独立的 `FunnySharp.AspNetCore` 包提供可选的 ASP.NET Core Minimal API 结果映射。
+强类型 `Patch<T>` 变更可解码允许字段、校验完整候选状态，并通过不可变更新应用变更，不会混淆“未提供”“显式清除”与“替换值”。
 
 ## 安装指南
 
@@ -83,6 +84,7 @@ registration.Match(
 - **数据流与切片管道**：为 `IEnumerable<T>` 与 `IAsyncEnumerable<T>` 提供单趟融合 `Choose` 与流式 `Scan`，为 `Span<T>` 提供调用方自持缓冲的 `ChooseTo`/`WhereTo`。
 - **有界并发控制**：按源顺序（`SelectParallelValueAsync`）或完成顺序（`SelectParallelCompletionOrderValueAsync`）交付结果并行映射，以及针对冷 Effect 的 `FirstSuccessAsync` 竞争调度。
 - **纯状态机与光学元件**：基于纯 `StateTransition` 驱动强类型命令输出，并通过轻量级 `Lens`/`Optional` 完成嵌套不可变更新。
+- **强类型部分更新**：`Patch<T>`/`PatchChange<T>`/`PatchSchema<T>` 区分未提供、显式清除与替换字段，复用 `Contract<T>` 校验完整候选状态，报告合并冲突，并通过调用方提供的 Lens 应用变更。
 - **ASP.NET Core Minimal API 映射**：通过 `FunnySharp.AspNetCore` 将载体和 Effect 映射为调用方指定的 `IResult` 和 RFC 7807/9457 `ProblemDetails`。
 
 ## 深入文档与工程示例
@@ -100,6 +102,7 @@ registration.Match(
 | [发布说明](https://github.com/wxxb789/funnysharp/blob/main/docs/release-notes.md) | [集合与遍历](https://github.com/wxxb789/funnysharp/blob/main/docs/collections.md) | [开发者 Harness](https://github.com/wxxb789/funnysharp/blob/main/docs/harness.md) |
 | [不可信输入解码 (Decoding)](https://github.com/wxxb789/funnysharp/blob/main/docs/decoding.md) | [解码器证据 (Decoder Evidence)](https://github.com/wxxb789/funnysharp/blob/main/docs/decoder-evidence.md) | |
 | [可检视契约 (Inspectable Contracts)](https://github.com/wxxb789/funnysharp/blob/main/docs/contracts.md) | [契约证据 (Contract Evidence)](https://github.com/wxxb789/funnysharp/blob/main/docs/contract-evidence.md) | |
+| [部分更新 (Partial Updates)](https://github.com/wxxb789/funnysharp/blob/main/docs/partial-updates.md) | [部分更新证据 (Partial Update Evidence)](https://github.com/wxxb789/funnysharp/blob/main/docs/partial-update-evidence.md) | |
 
 可运行示例源码：[FunnySharp 核心示例](https://github.com/wxxb789/funnysharp/blob/main/examples/FunnySharp.Examples/Program.cs) 与 [ASP.NET Core 示例](https://github.com/wxxb789/funnysharp/blob/main/examples/FunnySharp.AspNetCore.Examples/Program.cs)。
 

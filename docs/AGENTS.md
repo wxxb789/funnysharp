@@ -25,6 +25,7 @@ docs/
 | Feature usage: Option / Result / UnitResult / Validation | `option.md`, `result.md`, `unit-result.md`, `validation.md` |
 | Feature usage: decoding untrusted JSON | `decoding.md` |
 | Feature usage: inspectable constraints, schema, generated inputs, shrinking | `contracts.md` |
+| Feature usage: typed, validated partial updates | `partial-updates.md`, `partial-update-evidence.md` |
 | Feature usage: collections / concurrency / effects / pipelines | `collections.md`, `concurrency.md`, `effects.md`, `data-pipelines.md` |
 | Function grammar, state machines, immutable updates | `function-composition.md`, `state-machines.md`, `immutable-updates.md` |
 | Canonical vocabulary and naming rules | `grammar.md` |

@@ -167,10 +167,15 @@ public sealed class DecodeError : IEquatable<DecodeError>
                 ? "value must not be empty"
                 : $"expected {Expected}",
             DecodeErrorKind.InvalidValue => Detail ?? "invalid value",
+            DecodeErrorKind.UnsupportedField => Detail ?? "field is not part of the allowed change",
+            DecodeErrorKind.DuplicateField => Detail ?? "field is supplied more than once",
             _ => "invalid value",
         };
 
-        if (Detail is not null && Kind is not DecodeErrorKind.InvalidValue)
+        if (Detail is not null
+            && Kind is not DecodeErrorKind.InvalidValue
+            && Kind is not DecodeErrorKind.UnsupportedField
+            && Kind is not DecodeErrorKind.DuplicateField)
         {
             message += $" ({Detail})";
         }

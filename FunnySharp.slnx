@@ -13,5 +13,6 @@
   <Project Path="tests/FunnySharp.ContractMeasurements/FunnySharp.ContractMeasurements.csproj" />
   <Project Path="tests/FunnySharp.DecoderMeasurements/FunnySharp.DecoderMeasurements.csproj" />
   <Project Path="tests/FunnySharp.Harness.Tests/FunnySharp.Harness.Tests.fsproj" />
+  <Project Path="tests/FunnySharp.PatchMeasurements/FunnySharp.PatchMeasurements.csproj" />
   <Project Path="tests/FunnySharp.Tests/FunnySharp.Tests.csproj" />
 </Solution>

@@ -127,6 +127,12 @@ JSON tree.
 | `Malformed` | The kind is accepted but the text or number cannot be parsed as the target type. |
 | `Empty` | An empty string or array was found where a non-empty value is required. |
 | `InvalidValue` | A caller-supplied domain check rejected the value. |
+| `UnsupportedField` | A patch input carries a field that is not part of the allowed change. |
+| `DuplicateField` | A patch input supplies the same field more than once. |
+
+The built-in `Decoder<T>` combinators produce the first six kinds. `UnsupportedField` and
+`DuplicateField` are produced by [`PatchSchema<T>.Decode`](partial-updates.md), which applies the
+allowed-field policy; custom decoders may also use them when they interpret a patch-shaped object.
 
 `DecodeError.Path` is the stable rendered location, such as
 `customer.addresses[1].postalCode` or `lines[1].quantity`. The root path is the empty string;

@@ -94,12 +94,19 @@ do not acquire a universal zero-allocation or constant-time guarantee from these
 | State machines | `OrElse` | O(1) | — | Zero | None | — |
 | State machines | `Replay` | O(events) | History enumerated once | One output list | One final outputs array | — |
 | Optics | `Lens`, `Optional` `Get`/`Set` | O(1) + caller delegate | — | Zero beyond the caller's delegates | None | — |
+| Partial updates | `Patch<T>.With` construction | O(f) copy for f recorded fields; building an f-field patch copies the growing entry array, O(f²) total | — | One entry object plus a copied entry array per `With` | Retains ordered field bindings and replacement values | — |
+| Partial updates | `PatchSchema<T>.Decode` | O(p + f) properties/fields plus field decoder work; a field decoder may itself allocate | Object properties visited once | Typed patch entries, field-validation state, and diagnostics on failure; no error list on a clean decode | No changes materialized beyond the patch | — |
+| Partial updates | `Patch<T>.ApplyTo` / `PatchSchema<T>.Validate` | O(f) setter calls and candidate copies; validation adds the candidate contract cost | — | One candidate record/object per changed field; `Changes` is materialized only when read; no application allocation when empty | Validates the complete candidate; no mutation or rollback | — |
+| Partial updates | `Patch<T>.Combine` | O(f) field inspection and one merged array when disjoint | — | Merged entry array; conflict entries/inspection values on failure | No partial merged patch on conflict | — |
 | HTTP | `FunnySharp.AspNetCore` mapping | O(1) mapping | — | Measured per outcome shape (0-168 B per call; see [`aspnet-core.md`](aspnet-core.md)) | None | Runs on the ASP.NET Core request pipeline |
 
 The zero and nonzero statements above are enforced where measured by the committed observation
 rows and their budgets; families marked as excluded (unmeasured variants such as
 `Pipe`/`Tap`/`Curry`, optics construction, and real resource I/O) carry no numeric claim
-until a benchmark exists.
+until a benchmark exists. Partial-update allocation and copying are disclosed in
+[partial-update-evidence.md](partial-update-evidence.md); they are excluded from the release
+benchmark table because candidate size is the caller's record/setter cost rather than a
+library-only operation.
 
 ## Regression policy
 

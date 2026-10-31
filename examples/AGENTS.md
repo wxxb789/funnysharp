@@ -18,10 +18,11 @@ and a minimal-API app for the ASP.NET Core bridges. All are in `FunnySharp.slnx`
 
 ## FunnySharp.AspNetCore.Examples (inline)
 
-- `Program.cs` (205 LOC) maps 7 minimal-API endpoints exercising every
+- `Program.cs` maps 8 minimal-API endpoints exercising every
   `FunnySharp.AspNetCore` bridge: `Option.ToHttpResult`, `Result`/`UnitResult.ToHttpResult`,
   `Validation.ToHttpResult` (→ `HttpValidationProblemDetails`), `ToHttpResultAsync`,
-  `Effect.ToHttpResultAsync`. Failures map to `ProblemDetails` (404/409/400).
+  `Effect.ToHttpResultAsync`, and a `PATCH` endpoint binding `JsonElement` to a
+  `PatchSchema<T>`. Failures map to `ProblemDetails` (404/409/400).
 - `--verify` prints `FunnySharp ASP.NET Core example endpoints mapped.` and exits without
   running the host — that is the release-protocol step `aspnetcore-examples`.
 - Deviates from ASP.NET defaults: plain `Microsoft.NET.Sdk` + `FrameworkReference
