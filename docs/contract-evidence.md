@@ -47,7 +47,7 @@ The ordinary baseline is deliberately complete, not a strawman: it mirrors the c
 missing/null/wrong-kind/malformed/empty policies, accumulates the same ordered errors, respects the
 same ranges and cardinality, generates valid orders, shrinks only valid candidates, and describes the
 same structural facts. The contract library implementation itself is a one-time library cost
-(`src/FunnySharp/Contract*.cs`, about 4,100 lines including XML documentation); it is not charged to
+(`src/FunnySharp/Contract*.cs`, about 4,200 lines including XML documentation); it is not charged to
 each consumer.
 
 ## Equivalence
@@ -149,23 +149,23 @@ the minimum of three rounds and is directional on this shared 2-core host.
 
 | Operation | Implementation | Allocated B/op | Time ns/op |
 | --- | --- | ---: | ---: |
-| decode valid | contract | 752.0 | 15159.4 |
-| decode valid | ordinary | 1112.0 | 9768.0 |
-| decode invalid | contract | 4400.0 | 13151.1 |
-| decode invalid | ordinary | 1184.0 | 2340.5 |
-| validate valid | contract | 72.0 | 946.9 |
-| validate valid | ordinary | 112.0 | 1472.3 |
-| validate invalid | contract | 7064.0 | 7787.9 |
-| validate invalid | ordinary | 896.0 | 1621.4 |
-| generate one | contract | 792.0 | 3413.0 |
-| generate one | ordinary | 688.0 | 3617.3 |
-| generate ten | contract | 5792.0 | 71860.8 |
-| generate ten | ordinary | 8506.8 | 47666.8 |
-| shrink one | contract | 9920.0 | 39026.2 |
-| shrink one | ordinary | 2888.0 | 8573.2 |
-| schema facts | contract | 4440.1 | 7488.0 |
-| schema facts | ordinary | 232.0 | 342.6 |
-| explain | contract | 0.0 | 15.7 |
+| decode valid | contract | 752.0 | 15645.2 |
+| decode valid | ordinary | 1112.0 | 3275.1 |
+| decode invalid | contract | 4512.0 | 12819.8 |
+| decode invalid | ordinary | 1184.0 | 34566.0 |
+| validate valid | contract | 72.0 | 1144.2 |
+| validate valid | ordinary | 112.0 | 1227.6 |
+| validate invalid | contract | 7064.0 | 8800.7 |
+| validate invalid | ordinary | 896.0 | 986.5 |
+| generate one | contract | 792.0 | 3212.2 |
+| generate one | ordinary | 688.0 | 2001.8 |
+| generate ten | contract | 5792.0 | 30251.4 |
+| generate ten | ordinary | 8480.0 | 35310.3 |
+| shrink one | contract | 10054.6 | 36280.5 |
+| shrink one | ordinary | 2888.0 | 9506.9 |
+| schema facts | contract | 4440.1 | 5162.1 |
+| schema facts | ordinary | 232.0 | 149.4 |
+| explain | contract | 0.0 | 12.7 |
 
 Observed trade-offs:
 
@@ -173,17 +173,17 @@ Observed trade-offs:
   (752 vs 1112). Description and capability trees are cached and are not built on the decode path;
   decoded values are rechecked against their field contract, and that check allocates nothing on a
   valid object.
-- On an invalid decode the contract allocated about 3.7 times the ordinary implementation. The
+- On an invalid decode the contract allocated about 3.8 times the ordinary implementation. The
   difference is the structured `DecodeError` values, `Location` path composition, and the ordered
   error list. This is the measured cost of automatic structured diagnosis.
 - Successful validation costs 72 B vs 112 B; invalid validation costs 7064 B vs 896 B for the same
   diagnostic content. The contract constructs `DecodeError` and path objects rather than application
   codes and strings.
-- One generated order costs 792 B vs 688 B. Ten generated orders cost 5792 B vs 8506.8 B because the
+- One generated order costs 792 B vs 688 B. Ten generated orders cost 5792 B vs 8480 B because the
   contract's cached description/capability state is amortized across the samples; every generated
   value is checked against the full contract before it is returned.
-- One shrink step costs 9920 B vs 2888 B while producing 19 vs 8 candidates. Per candidate the
-  cost is roughly 522 B vs 361 B; the contract explores every field and nested value and validates
+- One shrink step costs 10055 B vs 2888 B while producing 19 vs 8 candidates. Per candidate the
+  cost is roughly 529 B vs 361 B; the contract explores every field and nested value and validates
   every candidate. This is useful for finding a smaller counterexample, not a promise of a cheaper
   fixed candidate set.
 - Schema facts cost 4440 B vs 232 B because the contract consumer traverses the cached description
@@ -211,8 +211,8 @@ existing `Validation.ToHttpResult` boundary.
 | Gate | Result |
 | --- | --- |
 | Full solution build (`dotnet build FunnySharp.slnx`) | 0 errors, 0 warnings. |
-| Core xUnit suite (`dotnet test tests/FunnySharp.Tests`) | 1849 passed, 0 failed, 0 skipped. |
-| Contract test slice (`Contract*`) | 30 passed across the four contract test classes. |
+| Core xUnit suite (`dotnet test tests/FunnySharp.Tests`) | 1852 passed, 0 failed, 0 skipped. |
+| Contract test slice (`Contract*`) | 33 passed across the four contract test classes. |
 | ASP.NET Core suite (`dotnet test tests/FunnySharp.AspNetCore.Tests`) | 29 passed, 0 failed, 0 skipped; includes `ContractHttpResultTests`. |
 | Example consumer (`dotnet run --project examples/FunnySharp.Examples -c Release`) | `FunnySharp examples passed.` |
 | Contract measurement harness (Release) | Equivalence, generation, shrinking, schema, and capability checks passed; tables above. |
