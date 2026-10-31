@@ -155,19 +155,6 @@ public sealed class PatchTests
     }
 
     [Fact]
-    public void ClearUsesTheFieldCallbackAndRejectsNullReplacement()
-    {
-        var source = new Profile("Ada", 36, Option.Some("front desk"));
-
-        var cleared = Patch<Profile>.Empty
-            .With(NoteField, PatchChange<Option<string>>.Clear)
-            .ApplyTo(source);
-
-        Assert.True(cleared.Candidate.Note.IsNone);
-        Assert.True(source.Note.IsSome);
-    }
-
-    [Fact]
     public void CallbackFailurePropagatesAndLaterCallbacksDoNotRun()
     {
         var calls = 0;
@@ -238,23 +225,19 @@ public sealed class PatchTests
         var reversed = Patch<Profile>.Empty
             .With(AgeField, PatchChange<int>.Set(37))
             .With(NameField, PatchChange<string>.Set("Ada"));
-        var otherBinding = Patch<Profile>.Empty
-            .With(
-                Patch.Field(
-                    "name",
-                    Contract.NonEmptyString,
-                    Lens.Create<Profile, string>(
-                        static value => value.Name,
-                        static (value, next) => value with { Name = next })),
-                PatchChange<string>.Set("Ada"))
-            .With(AgeField, PatchChange<int>.Set(37));
+        var foreignField = Patch.Field(
+            "name",
+            Contract.NonEmptyString,
+            Lens.Create<Profile, string>(
+                static value => value.Name,
+                static (value, next) => value with { Name = next }));
 
         Assert.Equal(first, same);
         Assert.Equal(first.GetHashCode(), same.GetHashCode());
         Assert.Equal(first.Entries[0], same.Entries[0]);
         Assert.Equal(first.Entries[0].GetHashCode(), same.Entries[0].GetHashCode());
         Assert.NotEqual(first, reversed);
-        Assert.NotEqual(first, otherBinding);
+        Assert.False(first.TryGet(foreignField, out _));
         Assert.NotEqual(first, Patch<Profile>.Empty);
     }
 

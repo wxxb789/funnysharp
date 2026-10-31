@@ -62,10 +62,7 @@ public readonly struct PatchChange<T> : IEquatable<PatchChange<T>>
     /// <exception cref="ArgumentNullException"><paramref name="value"/> is <see langword="null"/>.</exception>
     public static PatchChange<T> Set([DisallowNull] T value)
     {
-        if (value is null)
-        {
-            throw new ArgumentNullException(nameof(value));
-        }
+        ArgumentNullException.ThrowIfNull(value);
 
         return new PatchChange<T>(PatchChangeKind.Set, value);
     }

@@ -3,14 +3,6 @@ namespace FunnySharp;
 /// <summary>
 /// Describes one recorded field change for inspection.
 /// </summary>
-/// <remarks>
-/// Entries are produced by <see cref="Patch{T}.Entries"/> and <see cref="PatchApplication{T}.Changes"/>.
-/// They expose a boxed replacement value so a heterogeneous patch can be inspected without
-/// reflection. Value-type replacements are boxed when <see cref="Value"/> is read; use
-/// <see cref="Patch{T}.TryGet{TValue}"/> when typed access without boxing is required. Equality
-/// uses the boxed value's <see cref="object.Equals(object, object)"/> implementation, so mutable
-/// collections compare by reference unless their type supplies value equality.
-/// </remarks>
 public readonly struct PatchEntry : IEquatable<PatchEntry>
 {
     private readonly string? name;

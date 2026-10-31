@@ -10,13 +10,6 @@ using DiagnosticLocation = Location;
 /// Binds one allowed patch field to a wire name, a value contract, and an immutable update.
 /// </summary>
 /// <typeparam name="T">The type of the value being changed.</typeparam>
-/// <remarks>
-/// A field is created through <see cref="Patch.Field{T, TValue}"/>,
-/// <see cref="Patch.ClearableField{T, TValue}"/>, or the matching members on
-/// <see cref="PatchFieldSet{T}"/>. The field stores the name, value contract, lens, and optional
-/// clear callback exactly once; a <see cref="PatchSchema{T}"/> reuses them for decoding,
-/// validation, explanation, and application.
-/// </remarks>
 public abstract class PatchField<T>
 {
     internal PatchField(string name, ContractDescription valueDescription, bool allowsClear)
@@ -39,10 +32,10 @@ public abstract class PatchField<T>
     public bool AllowsClear { get; }
 
     internal abstract Result<
-        Func<Patch<T>, JsonElement, Validation<Patch<T>, DecodeError>>,
+        Func<JsonElement, Validation<Patch<T>.IEntry, DecodeError>>,
         ContractLimitation> CreateDecoder();
 
-    internal abstract Patch<T> WithClear(Patch<T> patch);
+    internal abstract Patch<T>.IEntry CreateClearEntry();
 
     internal PatchFieldDescription Describe() =>
         new(Name, ValueDescription, AllowsClear);
@@ -53,11 +46,6 @@ public abstract class PatchField<T>
 /// </summary>
 /// <typeparam name="T">The type of the value being changed.</typeparam>
 /// <typeparam name="TValue">The replacement value type.</typeparam>
-/// <remarks>
-/// A replacement invokes <see cref="Lens{TSource,TFocus}.Set"/> on the current candidate. A
-/// clearing instruction invokes the optional clear callback instead. The field does not read or
-/// clone the source, check a version, or persist anything.
-/// </remarks>
 public sealed class PatchField<T, TValue> : PatchField<T>
 {
     private readonly Contract<TValue> contract;
@@ -79,23 +67,41 @@ public sealed class PatchField<T, TValue> : PatchField<T>
     }
 
     internal override Result<
-        Func<Patch<T>, JsonElement, Validation<Patch<T>, DecodeError>>,
+        Func<JsonElement, Validation<Patch<T>.IEntry, DecodeError>>,
         ContractLimitation> CreateDecoder() =>
         contract.CreateDecoder().Map(
-            decoder => (Func<Patch<T>, JsonElement, Validation<Patch<T>, DecodeError>>)(
-                (patch, input) => decoder
-                    .Decode(input)
-                    .MapErrors(error => error.WithLocation(DiagnosticLocation.Root.Property(Name)))
-                    .Map(value => patch.With(this, PatchChange<TValue>.Set(value!)))));
+            decoder => (Func<JsonElement, Validation<Patch<T>.IEntry, DecodeError>>)(
+                input => DecodeInto(decoder, input)));
 
-    internal override Patch<T> WithClear(Patch<T> patch)
+    internal override Patch<T>.IEntry CreateClearEntry()
     {
         if (clear is null)
         {
             throw new InvalidOperationException($"The patch field '{Name}' does not allow clearing.");
         }
 
-        return patch.With(this, PatchChange<TValue>.Clear);
+        return Patch<T>.CreateEntry(this, PatchChange<TValue>.Clear);
+    }
+
+    private Validation<Patch<T>.IEntry, DecodeError> DecodeInto(
+        Decoder<TValue> decoder,
+        JsonElement input)
+    {
+        var decoded = decoder.Decode(input);
+        if (decoded.TryGetValue(out var value))
+        {
+            return Validation<Patch<T>.IEntry, DecodeError>.Valid(
+                Patch<T>.CreateEntry(this, PatchChange<TValue>.Set(value!)));
+        }
+
+        decoded.TryGetErrors(out var errors);
+        var located = new DecodeError[errors!.Count];
+        for (var index = 0; index < located.Length; index++)
+        {
+            located[index] = errors[index].WithLocation(DiagnosticLocation.Root.Property(Name));
+        }
+
+        return Validation<Patch<T>.IEntry, DecodeError>.InvalidMany(located);
     }
 
     internal T ApplySet(T source, TValue value) => lens.Set(source, value);
@@ -107,10 +113,6 @@ public sealed class PatchField<T, TValue> : PatchField<T>
 /// Provides parent-typed patch field factories for inference-friendly construction.
 /// </summary>
 /// <typeparam name="T">The type of the value being changed.</typeparam>
-/// <remarks>
-/// The field set is stateless. Each method fixes the parent type so accessor and setter types are
-/// inferred from the lens and contract.
-/// </remarks>
 public sealed class PatchFieldSet<T>
 {
     internal PatchFieldSet()

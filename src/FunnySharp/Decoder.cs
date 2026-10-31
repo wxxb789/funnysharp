@@ -591,7 +591,7 @@ public static class Decoder
         });
     }
 
-    private static DecodeError? ObjectKindError(JsonElement input) =>
+    internal static DecodeError? ObjectKindError(JsonElement input) =>
         input.ValueKind switch
         {
             JsonValueKind.Object => null,

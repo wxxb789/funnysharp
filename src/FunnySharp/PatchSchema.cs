@@ -11,35 +11,20 @@ using DiagnosticLocation = Location;
 /// validation, explanation, and application.
 /// </summary>
 /// <typeparam name="T">The type of the value being changed.</typeparam>
-/// <remarks>
-/// <para>
-/// A schema is immutable and reusable. <see cref="Decode"/> turns a JSON object into a
-/// <see cref="Patch{T}"/>: an absent property is unchanged, an explicit <c>null</c> clears a
-/// clearable field, a replacement value is decoded through that field's contract, and any other
-/// property is rejected. <see cref="Validate"/> applies the patch to a caller-supplied current
-/// value and checks the complete candidate against <see cref="CandidateContract"/>, so unchanged
-/// fields and cross-field rules participate in validation.
-/// </para>
-/// <para>
-/// The schema never reads storage, checks a version, persists a candidate, or executes rollback.
-/// Decoding and validation do not catch callback exceptions. A field whose contract cannot
-/// derive a decoder is reported by <see cref="Create"/> as a
-/// <see cref="ContractLimitation"/> with the field name as its path.
-/// </para>
-/// </remarks>
 public sealed class PatchSchema<T>
 {
     private readonly Contract<T> candidateContract;
     private readonly PatchField<T>[] fields;
     private readonly Dictionary<string, int> fieldIndex;
-    private readonly Func<Patch<T>, JsonElement, Validation<Patch<T>, DecodeError>>[] decoders;
+    private readonly Func<JsonElement, Validation<Patch<T>.IEntry, DecodeError>>[] decoders;
     private readonly PatchFieldDescription[] descriptions;
+    private readonly IReadOnlyList<PatchFieldDescription> fieldsView;
 
     private PatchSchema(
         Contract<T> candidateContract,
         PatchField<T>[] fields,
         Dictionary<string, int> fieldIndex,
-        Func<Patch<T>, JsonElement, Validation<Patch<T>, DecodeError>>[] decoders,
+        Func<JsonElement, Validation<Patch<T>.IEntry, DecodeError>>[] decoders,
         PatchFieldDescription[] descriptions)
     {
         this.candidateContract = candidateContract;
@@ -47,13 +32,14 @@ public sealed class PatchSchema<T>
         this.fieldIndex = fieldIndex;
         this.decoders = decoders;
         this.descriptions = descriptions;
+        fieldsView = Array.AsReadOnly(descriptions);
     }
 
     /// <summary>Gets the contract applied to the complete candidate state.</summary>
     public Contract<T> CandidateContract => candidateContract;
 
     /// <summary>Gets the allowed fields in declaration order.</summary>
-    public IReadOnlyList<PatchFieldDescription> Fields => Array.AsReadOnly(descriptions);
+    public IReadOnlyList<PatchFieldDescription> Fields => fieldsView;
 
     /// <summary>
     /// Creates a schema from a complete candidate contract and the allowed field bindings.
@@ -80,7 +66,7 @@ public sealed class PatchSchema<T>
 
         var copies = new PatchField<T>[fields.Length];
         var descriptions = new PatchFieldDescription[fields.Length];
-        var decoders = new Func<Patch<T>, JsonElement, Validation<Patch<T>, DecodeError>>[fields.Length];
+        var decoders = new Func<JsonElement, Validation<Patch<T>.IEntry, DecodeError>>[fields.Length];
         var fieldIndex = new Dictionary<string, int>(fields.Length, StringComparer.Ordinal);
 
         for (var index = 0; index < fields.Length; index++)
@@ -129,26 +115,20 @@ public sealed class PatchSchema<T>
     /// </remarks>
     public Validation<Patch<T>, DecodeError> Decode(JsonElement input)
     {
-        if (input.ValueKind == JsonValueKind.Null)
+        var objectError = Decoder.ObjectKindError(input);
+        if (objectError is not null)
         {
-            return Validation<Patch<T>, DecodeError>.Invalid(
-                DecodeError.At(
-                    DiagnosticLocation.Root,
-                    DecodeErrorKind.Null,
-                    "an object"));
+            return Validation<Patch<T>, DecodeError>.Invalid(objectError);
         }
 
-        if (input.ValueKind != JsonValueKind.Object)
+        var propertyCount = 0;
+        foreach (var _ in input.EnumerateObject())
         {
-            return Validation<Patch<T>, DecodeError>.Invalid(
-                DecodeError.At(
-                    DiagnosticLocation.Root,
-                    DecodeErrorKind.WrongKind,
-                    "an object",
-                    $"found {input.ValueKind}"));
+            propertyCount++;
         }
 
-        var patch = Patch<T>.Empty;
+        var entries = new Patch<T>.IEntry[propertyCount];
+        var entryCount = 0;
         List<DecodeError>? errors = null;
         ulong seen = 0;
         HashSet<string>? seenNames = null;
@@ -166,35 +146,15 @@ public sealed class PatchSchema<T>
                 continue;
             }
 
-            if (index < 64)
+            if (MarksDuplicate(index, property.Name, ref seen, ref seenNames))
             {
-                var bit = 1UL << index;
-                if ((seen & bit) != 0)
-                {
-                    AddError(
-                        ref errors,
-                        DecodeError.At(
-                            FieldLocation(property.Name),
-                            DecodeErrorKind.DuplicateField,
-                            detail: "the field is supplied more than once"));
-                    continue;
-                }
-
-                seen |= bit;
-            }
-            else
-            {
-                seenNames ??= new HashSet<string>(StringComparer.Ordinal);
-                if (!seenNames.Add(property.Name))
-                {
-                    AddError(
-                        ref errors,
-                        DecodeError.At(
-                            FieldLocation(property.Name),
-                            DecodeErrorKind.DuplicateField,
-                            detail: "the field is supplied more than once"));
-                    continue;
-                }
+                AddError(
+                    ref errors,
+                    DecodeError.At(
+                        FieldLocation(property.Name),
+                        DecodeErrorKind.DuplicateField,
+                        detail: "the field is supplied more than once"));
+                continue;
             }
 
             var field = fields[index];
@@ -202,14 +162,14 @@ public sealed class PatchSchema<T>
             {
                 if (field.AllowsClear)
                 {
-                    patch = field.WithClear(patch);
+                    entries[entryCount++] = field.CreateClearEntry();
                 }
                 else
                 {
                     AddError(
                         ref errors,
                         DecodeError.At(
-                            DiagnosticLocation.Root.Property(property.Name),
+                            FieldLocation(property.Name),
                             DecodeErrorKind.Null,
                             "a replacement value; clearing is not allowed"));
                 }
@@ -217,10 +177,10 @@ public sealed class PatchSchema<T>
                 continue;
             }
 
-            var decoded = decoders[index](patch, property.Value);
-            if (decoded.TryGetValue(out var updated))
+            var decoded = decoders[index](property.Value);
+            if (decoded.TryGetValue(out var entry))
             {
-                patch = updated;
+                entries[entryCount++] = entry;
             }
             else
             {
@@ -230,7 +190,7 @@ public sealed class PatchSchema<T>
         }
 
         return errors is null
-            ? Validation<Patch<T>, DecodeError>.Valid(patch)
+            ? Validation<Patch<T>, DecodeError>.Valid(Patch<T>.FromEntries(entries))
             : Validation<Patch<T>, DecodeError>.InvalidMany(errors);
     }
 
@@ -276,6 +236,27 @@ public sealed class PatchSchema<T>
         + Environment.NewLine
         + "candidate: "
         + candidateContract.Explain();
+
+    private static bool MarksDuplicate(
+        int index,
+        string name,
+        ref ulong seen,
+        ref HashSet<string>? seenNames)
+    {
+        if (index < 64)
+        {
+            var bit = 1UL << index;
+            if ((seen & bit) != 0)
+            {
+                return true;
+            }
+
+            seen |= bit;
+            return false;
+        }
+
+        return !(seenNames ??= new HashSet<string>(StringComparer.Ordinal)).Add(name);
+    }
 
     private static void AddError(ref List<DecodeError>? errors, DecodeError error) =>
         (errors ??= []).Add(error);

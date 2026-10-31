@@ -3,12 +3,6 @@ namespace FunnySharp;
 /// <summary>
 /// Describes one allowed field of a <see cref="PatchSchema{T}"/>.
 /// </summary>
-/// <remarks>
-/// The description carries the wire name, the value contract used for replacement decoding and
-/// candidate validation, and whether an explicit JSON null is an allowed clearing instruction.
-/// It is metadata for inspection and explanation; the field's setter and clear callback are not
-/// exposed.
-/// </remarks>
 public sealed class PatchFieldDescription
 {
     internal PatchFieldDescription(string name, ContractDescription value, bool allowsClear)

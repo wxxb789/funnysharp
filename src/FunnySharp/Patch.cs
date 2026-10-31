@@ -5,11 +5,6 @@ namespace FunnySharp;
 /// <summary>
 /// Provides factories for partial-update fields and schemas.
 /// </summary>
-/// <remarks>
-/// A patch is an immutable, ordered set of typed field changes. The static methods here bind
-/// allowed fields; <see cref="PatchSchema{T}"/> decodes and validates them, and
-/// <see cref="Patch{T}"/> records programmatic changes and detects conflicting writes.
-/// </remarks>
 public static class Patch
 {
     /// <summary>Creates a parent-typed field set for concise field binding.</summary>
@@ -93,6 +88,14 @@ public readonly struct Patch<T> : IEquatable<Patch<T>>
     /// <summary>Gets the empty patch; this is also the default value.</summary>
     public static Patch<T> Empty => default;
 
+    internal static IEntry CreateEntry<TValue>(
+        PatchField<T, TValue> field,
+        PatchChange<TValue> change) =>
+        new Entry<TValue>(field, change);
+
+    internal static Patch<T> FromEntries(IEntry[] entries) =>
+        entries.Length == 0 ? default : new Patch<T>(entries);
+
     /// <summary>Gets the number of recorded field changes.</summary>
     public int Count => entries?.Length ?? 0;
 
@@ -160,7 +163,7 @@ public readonly struct Patch<T> : IEquatable<Patch<T>>
                 nameof(change));
         }
 
-        if (Contains(field.Name))
+        if (TryGetEntry(field.Name, out _))
         {
             throw new ArgumentException(
                 $"The patch already writes the field '{field.Name}'.",
@@ -252,16 +255,16 @@ public readonly struct Patch<T> : IEquatable<Patch<T>>
             return Validation<Patch<T>, PatchConflict>.Valid(this);
         }
 
-        var conflicts = new List<PatchConflict>();
+        List<PatchConflict>? conflicts = null;
         foreach (var entry in entries!)
         {
             if (other.TryGetEntry(entry.Name, out var right))
             {
-                conflicts.Add(new PatchConflict(entry.Describe(), right.Describe()));
+                (conflicts ??= []).Add(new PatchConflict(entry.Describe(), right.Describe()));
             }
         }
 
-        if (conflicts.Count != 0)
+        if (conflicts is not null)
         {
             return Validation<Patch<T>, PatchConflict>.InvalidMany(conflicts);
         }
@@ -339,24 +342,6 @@ public readonly struct Patch<T> : IEquatable<Patch<T>>
     /// <returns><see langword="true"/> when the patches differ.</returns>
     public static bool operator !=(Patch<T> left, Patch<T> right) => !left.Equals(right);
 
-    private bool Contains(string name)
-    {
-        if (entries is null)
-        {
-            return false;
-        }
-
-        foreach (var entry in entries)
-        {
-            if (string.Equals(entry.Name, name, StringComparison.Ordinal))
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
     private bool TryGetEntry(string name, out IEntry entry)
     {
         if (entries is not null)
@@ -403,15 +388,11 @@ public readonly struct Patch<T> : IEquatable<Patch<T>>
         return null;
     }
 
-    private interface IEntry
+    internal interface IEntry
     {
         string Name { get; }
 
         PatchField<T> Binding { get; }
-
-        PatchChangeKind Kind { get; }
-
-        object? Value { get; }
 
         PatchEntry Describe();
 
@@ -439,9 +420,7 @@ public readonly struct Patch<T> : IEquatable<Patch<T>>
 
         public PatchField<T> Binding => binding;
 
-        public PatchChangeKind Kind => change.Kind;
-
-        public object? Value =>
+        private object? Value =>
             change.TryGetValue(out var value) ? value : null;
 
         public PatchEntry Describe() => new(binding.Name, change.Kind, Value);

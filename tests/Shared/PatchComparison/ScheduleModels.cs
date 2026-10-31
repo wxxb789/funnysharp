@@ -63,15 +63,15 @@ internal static class ScheduleRules
         });
 
     internal static Contract<TimeOnly> TimeOfDay { get; } =
-        global::FunnySharp.Contract.From<TimeOnly>(
-                "time of day",
-                static value => Validation<TimeOnly, string>.Valid(value))
+        Contract.From<TimeOnly>(
+            "time of day",
+            static value => Validation<TimeOnly, string>.Valid(value))
             .WithDecoder(TimeOfDayDecoder);
 
-    internal static Contract<string> TimeZone { get; } = global::FunnySharp.Contract.NonEmptyString;
+    internal static Contract<string> TimeZone { get; } = Contract.NonEmptyString;
 
     internal static Contract<Option<string>> Note { get; } =
-        global::FunnySharp.Contract.Optional(global::FunnySharp.Contract.NonEmptyString);
+        Contract.Optional(Contract.NonEmptyString);
 
     private static readonly Lens<Schedule, string> TimeZoneLens = Lens.Create<Schedule, string>(
         static value => value.TimeZone,
@@ -106,7 +106,7 @@ internal static class ScheduleRules
             NoteLens,
             static value => value with { Note = Option<string>.None });
 
-    internal static Contract<Schedule> Contract { get; } = BuildContract();
+    internal static Contract<Schedule> ScheduleContract { get; } = BuildContract();
 
     internal static PatchSchema<Schedule> Schema { get; } = BuildSchema();
 
@@ -124,12 +124,12 @@ internal static class ScheduleRules
 
     private static Contract<Schedule> BuildContract()
     {
-        var fields = global::FunnySharp.Contract.For<Schedule>();
-        return global::FunnySharp.Contract.Object(
+        var fields = Contract.For<Schedule>();
+        return Contract.Object(
                 fields.Field("timeZone", TimeZone, static value => value.TimeZone),
                 fields.Field("opensAt", TimeOfDay, static value => value.OpensAt),
                 fields.Field("closesAt", TimeOfDay, static value => value.ClosesAt),
-                fields.OptionalField("note", global::FunnySharp.Contract.NonEmptyString, static value => value.Note),
+                fields.OptionalField("note", Contract.NonEmptyString, static value => value.Note),
                 static (timeZone, opensAt, closesAt, note) =>
                     new Schedule(timeZone, opensAt, closesAt, note))
             .Ensure(
@@ -140,7 +140,7 @@ internal static class ScheduleRules
     private static PatchSchema<Schedule> BuildSchema()
     {
         var created = PatchSchema<Schedule>.Create(
-            Contract,
+            ScheduleContract,
             TimeZoneField,
             OpensAtField,
             ClosesAtField,

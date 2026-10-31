@@ -1,7 +1,6 @@
 using System.Runtime.InteropServices;
 using System.Text.Json;
 using FunnySharp;
-using FunnySharp.TestSupport.Patching;
 using static FunnySharp.TestSupport.MeasurementHarness;
 
 namespace FunnySharp.TestSupport.Patching;

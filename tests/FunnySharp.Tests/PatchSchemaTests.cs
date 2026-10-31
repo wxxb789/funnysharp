@@ -180,7 +180,7 @@ public sealed class PatchSchemaTests
     {
         var schema = ScheduleRules.Schema;
 
-        Assert.Same(ScheduleRules.Contract, schema.CandidateContract);
+        Assert.Same(ScheduleRules.ScheduleContract, schema.CandidateContract);
         Assert.Equal(
             new[] { "timeZone", "opensAt", "closesAt", "note" },
             schema.Fields.Select(static field => field.Name).ToArray());
@@ -194,12 +194,12 @@ public sealed class PatchSchemaTests
     public void SchemaCreationRejectsInvalidFieldSetsAndReportsMissingDecoders()
     {
         Assert.Throws<ArgumentException>(
-            () => PatchSchema<Schedule>.Create(ScheduleRules.Contract));
+            () => PatchSchema<Schedule>.Create(ScheduleRules.ScheduleContract));
         Assert.Throws<ArgumentNullException>(
-            () => PatchSchema<Schedule>.Create(ScheduleRules.Contract, null!));
+            () => PatchSchema<Schedule>.Create(ScheduleRules.ScheduleContract, null!));
         Assert.Throws<ArgumentException>(
             () => PatchSchema<Schedule>.Create(
-                ScheduleRules.Contract,
+                ScheduleRules.ScheduleContract,
                 ScheduleRules.TimeZoneField,
                 ScheduleRules.TimeZoneField));
 
@@ -213,7 +213,7 @@ public sealed class PatchSchemaTests
                 static _ => 0,
                 static (value, _) => value));
 
-        var created = PatchSchema<Schedule>.Create(ScheduleRules.Contract, field);
+        var created = PatchSchema<Schedule>.Create(ScheduleRules.ScheduleContract, field);
 
         Assert.True(created.TryGetError(out var limitation));
         Assert.Equal(ContractDerivation.Decoding, limitation.Derivation);
