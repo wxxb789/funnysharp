@@ -197,6 +197,9 @@ reference explicitly.
   mapping; no HTTP knowledge enters the core.
 - The core package has no new runtime dependency. Generation uses `System.Random`, which is part of
   the platform; no test framework, reflection binder, or compiler package is required.
+- [Partial updates](partial-updates.md) reuse a field contract for replacement decoding and the
+  complete object contract for candidate validation. A contract remains a description of one value
+  type; it does not become a patch, DTO, or persistence schema.
 
 ## Deliberate Boundaries
 

@@ -22,6 +22,9 @@ analysis, and compile-verified call sites are in [`next-stage/`](next-stage/).
   the four carriers above remain the complete outcome vocabulary. `Contract<T>` is an
   inspectable constraint description, not another outcome carrier; it derives validation,
   decoding, explanation, schema metadata, generated inputs, and shrinking for one value type.
+  `Patch<T>`/`PatchChange<T>`/`PatchSchema<T>` are typed partial-update descriptions over a
+  caller's value type, not another outcome carrier; they compose with decoding, contracts, and
+  optics without owning persistence or execution.
 - No second carrier for any of these meanings may be added. `Maybe`, `Either`, `Fin`, `Try`,
   `IO`, `Reader`, `State`, `OptionAsync`, and async outcome wrappers remain out of scope.
 - One verb has one meaning. `Map`, `Bind`, `MapError`/`MapErrors`, `Filter`, `Ensure`, `Recover`/
@@ -129,8 +132,22 @@ analysis, and compile-verified call sites are in [`next-stage/`](next-stage/).
   limitations with caller-supplied extensions; generation and shrinking never invent an inverse or
   silently reject-and-retry. Contracts describe one value type and do not establish a universal
   application schema, serializer, or wire-format change.
+- Partial updates are immutable, typed, and inspectable. `PatchChange<T>` distinguishes
+  unchanged, replacement, and explicit clearing without turning a null replacement into
+  `Option.Some(null)`. `PatchSchema<T>` decodes one JSON object with explicit wire semantics
+  (absent means unchanged, null clears only a clearable field, unknown and repeated fields are
+  errors), validates the complete candidate against a caller-supplied `Contract<T>`, and exposes
+  the candidate through `PatchApplication<T>`. Applying a patch invokes caller lens setters or
+  clear callbacks, creates a candidate, and never mutates or clones the source itself; each
+  changed field copies once. Setter and predicate exceptions propagate unchanged with no rollback.
+  Validation applies to the exact supplied source and provides no version or optimistic-concurrency
+  check. Combining patches reports every repeated field as a conflict and chooses no merge policy.
+  No inverse patch, rollback, persistence, transaction, or universal merge promise is added.
+  System.Text.Json and ASP.NET Core integration remain optional and use an explicit `JsonElement`
+  boundary plus the existing caller-selected result mapping.
 - Default and uninitialized values are explicit contracts:
   - `Option<T>` default is a valid `None`.
+  - `Patch<T>` default is the empty patch and `PatchChange<T>` default is `Unchanged`.
   - `Result<TValue, TError>`, `UnitResult<TError>`, and `Validation<TValue, TError>` defaults
     must not masquerade as legitimate domain outcomes; uninitialized access is a programming
     error with an explicit diagnostic, and Goal 15 owns the mechanism.
@@ -173,8 +190,8 @@ analysis, and compile-verified call sites are in [`next-stage/`](next-stage/).
 - Serialization of carriers is caller policy today. No `System.Text.Json` converter ships until a
   goal fixes the wire contract and verifies trimming and Native AOT behavior; callers use DTOs,
   and `JsonSerializerOptions.Strict` is the recommended executable form of a DTO-only policy. The
-  decoder accepts a parsed `JsonElement` as an input view but does not serialize, convert, or own
-  that document.
+  decoder and patch schema accept a parsed `JsonElement` as an input view but do not serialize,
+  convert, or own that document.
 
 ## Analyzers And Compiler Feedback
 

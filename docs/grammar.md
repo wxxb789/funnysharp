@@ -80,6 +80,9 @@ missing/null/empty policies are part of the contract. Contract construction (`Fo
 `DiscriminatedOneOf`, `Defer`, `From`, and the scalar/range factories) and derivation
 (`CreateDecoder`, `Generate`, `GenerateSamples`, `Shrink`, `Description`, `Explain`, `Ensure`,
 `ValidateWith`, and the `With*` extension methods) are documented in [contracts.md](contracts.md).
+Patch construction (`For`, `Field`, `ClearableField`, `PatchSchema.Create`, and the
+`PatchChange` factories) is documented in [partial-updates.md](partial-updates.md); its workflow
+verbs are listed below.
 
 ### Construction And Exception Boundaries
 
@@ -94,7 +97,7 @@ missing/null/empty policies are part of the contract. Contract construction (`Fo
 | `Try` | Executes an explicit non-cancellation exception boundary. | value-producing or valueless work | `Result<TValue, TError>` / `UnitResult<TError>` | `TryAsync`, `TryValueAsync` | Ordinary operation exceptions are preserved or mapped by the supplied mapper; cancellation and mapper exceptions propagate. |
 | `TryAsync` | Executes the boundary over a Task-returning operation. | tokenless `Func<Task<T>>` / `Func<Task>` | `Task<Result<...>>` / `Task<UnitResult<...>>` | — | The callback owns any captured token; canceled tasks and faulted OCE tasks retain their states, and a null returned Task faults rather than reaching the mapper. |
 | `TryValueAsync` | Executes the boundary over a ValueTask-returning operation. | tokenless `Func<ValueTask<T>>` / `Func<ValueTask>` | `ValueTask<Result<...>>` / `ValueTask<UnitResult<...>>` | — | Each ValueTask is consumed once; cancellation and faulted OCE are not domain failures. |
-| `Decode` | Interprets a parsed BCL `JsonElement` as a typed value and accumulates structural and domain errors. | `Decoder<T>` | `Validation<T, DecodeError>` | `DecodeAsync`, `DecodeValueAsync` (asynchronous validation only) | Single call; input is not retained; missing/null/wrong-kind/malformed/empty are distinct; callback, parse, cancellation, and programming exceptions propagate unchanged. |
+| `Decode` | Interprets a parsed BCL `JsonElement` as a typed value or allowed change and accumulates structural and domain errors. | `Decoder<T>`, `PatchSchema<T>` | `Validation<T, DecodeError>`, `Validation<Patch<T>, DecodeError>` | `DecodeAsync`, `DecodeValueAsync` (decoder asynchronous validation only) | Single call; input is not retained; missing/null/wrong-kind/malformed/empty are distinct; a patch additionally distinguishes unchanged, explicit clear, replacement, unsupported field, and duplicate field; callback, parse, cancellation, and programming exceptions propagate unchanged. |
 | `CreateDecoder` | Derives a decoder from a contract's declared structure or a caller-supplied decoder. | `Contract<T>` | `Result<Decoder<T>, ContractLimitation>` | — | An unavailable structure is a typed limitation; a decoded value is still checked against the contract. |
 | `Generate` | Generates one deterministic value within the caller's explicit budget. | `Contract<T>` | `Result<T, ContractLimitation>` | — | Every value is checked; missing derivations, exhausted budgets, unsatisfiable declared constraints, and caller-generator violations fail explicitly; never rejection sampling. |
 | `GenerateSamples` | Generates several values from one deterministic sequence. | `Contract<T>` | `Result<IReadOnlyList<T>, ContractLimitation>` | — | The node budget is shared across the call; every value is checked. |
@@ -130,7 +133,7 @@ missing/null/empty policies are part of the contract. Contract construction (`Fo
 | `MapErrors` | Transforms every accumulated error while preserving a valid value. | `Validation` | Same carrier | — | Selector invoked once per error in order; skipped for a valid value. |
 | `Filter` | Keeps a present value only when a predicate accepts it. | `Option` | `Option<T>` | — | Predicate skipped for `None`; a `Some` whose predicate fails becomes `None`. |
 | `Ensure` | Keeps a success only when a predicate accepts it, otherwise returns the supplied failure. | `Result`, `UnitResult`, `Decoder<T>`, `Contract<T>` | Same carrier/contract; `Decoder<T>` | — | Predicate skipped after failure; an overload takes a lazy error factory; a `Decoder` rejection is one `InvalidValue` error at the decoder's location; a `Contract` rejection adds one `InvalidValue` error and makes generation unavailable until a generator is supplied. |
-| `Validate` | Applies an accumulating domain validation to a successfully decoded value, or checks an existing value against a contract. | `Decoder<T>`, `Contract<T>` | `Decoder<T>` for decoder composition; `Validation<T, DecodeError>` for a contract check | — | On a decoder: callback skipped after failure; every returned message becomes an ordered `InvalidValue` error at the decoder's location; callback exceptions propagate. On a contract: a runtime-null reference value is a `Null` error; object fields and collection elements accumulate in declaration/source order; refinement callbacks contribute messages only. |
+| `Validate` | Applies an accumulating domain validation to a successfully decoded value, checks an existing value against a contract, or checks a complete patch candidate against a contract. | `Decoder<T>`, `Contract<T>`, `PatchSchema<T>` | `Decoder<T>` for decoder composition; `Validation<T, DecodeError>` for a contract check; `Validation<PatchApplication<T>, DecodeError>` for a patch | — | On a decoder: callback skipped after failure; every returned message becomes an ordered `InvalidValue` error at the decoder's location; callback exceptions propagate. On a contract: a runtime-null reference value is a `Null` error; object fields and collection elements accumulate in declaration/source order; refinement callbacks contribute messages only. A patch schema validates the applied candidate, so unchanged fields and cross-field rules participate. |
 
 ### Fallback And Recovery
 
@@ -157,7 +160,7 @@ missing/null/empty policies are part of the contract. Contract construction (`Fo
 
 | Verb | Meaning | Present on | Output shape | Async forms | Key contract |
 | --- | --- | --- | --- | --- | --- |
-| `TryGet*` | Non-throwing case access (`TryGetValue`, `TryGetError`, `TryGetErrors`, `TryGetChange`). | `Option`, `Result`, `UnitResult`, `Validation`, `TransitionResult` | `bool` + `out` payload | — | Returns `false` for the inactive case with a `default` payload; never throws for a constructed carrier. |
+| `TryGet*` | Non-throwing case access (`TryGetValue`, `TryGetError`, `TryGetErrors`, `TryGetChange`, `TryGet`). | `Option`, `Result`, `UnitResult`, `Validation`, `TransitionResult`, `Patch<T>` | `bool` + `out` payload | — | Returns `false` for the inactive case with a `default` payload; never throws for a constructed carrier. A patch lookup returns only the change recorded for that exact field binding. |
 | `Match` | Executes exactly one branch for the active case. | `Option`, `Result`, `UnitResult`, `Validation`, `TransitionResult` | Caller-chosen result | — | Branches validated at entry; the selected branch may return runtime null because it leaves the abstraction. |
 
 ### Traversal And Sequences
@@ -224,9 +227,19 @@ missing/null/empty policies are part of the contract. Contract construction (`Fo
 | `Identity` | Creates a total focus on the entire source. | `Lens` | `Lens<T, T>` | — | `Get` returns the source; `Set` returns the supplied replacement focus. |
 | `Get` | Reads the focus of a total lens. | `Lens` | `TFocus` | — | Invokes the caller getter. |
 | `GetOption` | Reads a possibly absent focus (also the keyed-lookup bridge). | `Optional`, keyed containers | `Option<TFocus>` | — | An absent focus is `None`; a missing key is distinct from a present default value. |
-| `Set` | Writes the focus, returning an updated source. | `Lens`, `Optional` | `TSource` | — | An absent optional focus returns the exact original source without invoking the setter. |
+| `Set` | Writes the focus or marks a patch field for replacement. | `Lens`, `Optional`, `PatchChange<T>` | `TSource` for optics; `PatchChange<T>` for a patch state | — | An absent optional focus returns the exact original source without invoking the setter. `PatchChange.Set` rejects a null replacement; the change is applied only when a patch is applied. |
 | `Update` | Applies a function to the focus, returning an updated source. | `Lens`, `Optional` | `TSource` | — | An absent optional focus skips both setter and updater. |
 | `Compose` | Left-to-right optic composition. | `Lens`, `Optional` | `Lens` for total lens plus total lens; otherwise `Optional` | — | Any partial focus keeps the composed path partial; written and evaluated left to right. |
+
+### Partial Changes
+
+| Verb | Meaning | Present on | Output shape | Async forms | Key contract |
+| --- | --- | --- | --- | --- | --- |
+| `Clear` | Explicitly constructs a clearing instruction for a clearable patch field. | `PatchChange<T>` | `PatchChange<T>` | — | Distinct from `Unchanged` and from a null replacement; a replacement-only field rejects the instruction during decoding. |
+| `With` | Records one field change in a patch. | `Patch<T>` | `Patch<T>` | — | Rejects an `Unchanged` change and a repeated field name; the returned patch is independent of the source patch. |
+| `ApplyTo` | Applies recorded changes to a source, invoking each field setter or clear callback once in order. | `Patch<T>` | `PatchApplication<T>` | — | Creates a candidate, never mutates or clones the source itself; an empty patch preserves source identity; callback exceptions propagate with no rollback; no version check. |
+| `Combine` | Combines two patches written for the same value type. | `Patch<T>` | `Validation<Patch<T>, PatchConflict>` | — | Any field name present in both operands is a conflict, even for equal values; a conflicted combine returns no partial merged patch and chooses no merge policy; no inverse is derived. |
+| `Explain` | Renders allowed patch fields and candidate rules deterministically. | `PatchSchema<T>` | `string` | — | Field names, value descriptions, clearing policy, and the candidate contract explanation; no values or callbacks are rendered. |
 
 ### State
 

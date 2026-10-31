@@ -12,6 +12,7 @@ VerifyValidations();
 DecoderExamples.Verify();
 ContractExamples.Verify();
 UnitResultExamples.Verify();
+PatchExamples.Verify();
 FunctionGrammarSamples.Verify();
 VerifyImmutableUpdates();
 await VerifyAsynchronousFunctions();

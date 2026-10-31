@@ -9,8 +9,9 @@ using Microsoft.CodeAnalysis.Operations;
 /// Reports FunnySharp <c>TryGet*</c> calls whose Boolean presence result is ignored.
 /// </summary>
 /// <remarks>
-/// <c>TryGetValue</c>, <c>TryGetError</c>, <c>TryGetErrors</c>, and <c>TryGetChange</c> follow the
-/// Try pattern: the Boolean result reports presence, success, failure, or a produced change, and the
+/// <c>TryGetValue</c>, <c>TryGetError</c>, <c>TryGetErrors</c>, <c>TryGetChange</c>, and
+/// <c>TryGet</c> follow the Try pattern: the Boolean result reports presence, success, failure, or
+/// a produced change, and the
 /// out value is <c>default</c> otherwise. A bare statement call loses that information and hands
 /// the caller a default value. Declaring the out argument as a discard (<c>out _</c>) keeps the
 /// statement legal, as does an explicit discard of the whole call (<c>_ = ...;</c>) or a
@@ -83,6 +84,10 @@ public sealed class IgnoredTryGetResultAnalyzer : DiagnosticAnalyzer
 
     private static bool IsTryGetMemberName(string name)
     {
-        return name == "TryGetValue" || name == "TryGetError" || name == "TryGetErrors" || name == "TryGetChange";
+        return name == "TryGetValue"
+            || name == "TryGetError"
+            || name == "TryGetErrors"
+            || name == "TryGetChange"
+            || name == "TryGet";
     }
 }

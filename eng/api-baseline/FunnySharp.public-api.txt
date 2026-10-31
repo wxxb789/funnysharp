@@ -219,11 +219,13 @@ CLASS FunnySharp.DecodeError
   PROPERTIE System.String? Detail
   PROPERTIE System.String? Expected
 ENUM FunnySharp.DecodeErrorKind
+  FIELD static FunnySharp.DecodeErrorKind DuplicateField = 7
   FIELD static FunnySharp.DecodeErrorKind Empty = 4
   FIELD static FunnySharp.DecodeErrorKind InvalidValue = 5
   FIELD static FunnySharp.DecodeErrorKind Malformed = 3
   FIELD static FunnySharp.DecodeErrorKind Missing = 0
   FIELD static FunnySharp.DecodeErrorKind Null = 1
+  FIELD static FunnySharp.DecodeErrorKind UnsupportedField = 6
   FIELD static FunnySharp.DecodeErrorKind WrongKind = 2
   FIELD System.Int32 value__
 CLASS FunnySharp.Decoder
@@ -466,6 +468,90 @@ CLASS FunnySharp.Partition<T>
   METHOD System.Void Deconstruct(out System.Collections.Generic.IReadOnlyList<T>& True, out System.Collections.Generic.IReadOnlyList<T>& False)
   PROPERTIE System.Collections.Generic.IReadOnlyList<T?> False
   PROPERTIE System.Collections.Generic.IReadOnlyList<T?> True
+CLASS FunnySharp.Patch
+  METHOD static FunnySharp.PatchField<T?, TValue?> ClearableField<T, TValue>(System.String name, FunnySharp.Contract<TValue?> contract, FunnySharp.Lens<T?, TValue?> lens, System.Func<T?, T?> clear)
+  METHOD static FunnySharp.PatchField<T?, TValue?> Field<T, TValue>(System.String name, FunnySharp.Contract<TValue?> contract, FunnySharp.Lens<T?, TValue?> lens)
+  METHOD static FunnySharp.PatchFieldSet<T?> For<T>()
+STRUCT FunnySharp.PatchApplication<T>
+  PROPERTIE System.Boolean IsIdentity
+  PROPERTIE System.Collections.Generic.IReadOnlyList<FunnySharp.PatchEntry> Changes
+  PROPERTIE T? Candidate
+  PROPERTIE T? Source
+ENUM FunnySharp.PatchChangeKind
+  FIELD static FunnySharp.PatchChangeKind Clear = 2
+  FIELD static FunnySharp.PatchChangeKind Set = 1
+  FIELD static FunnySharp.PatchChangeKind Unchanged = 0
+  FIELD System.Int32 value__
+STRUCT FunnySharp.PatchChange<T>
+  METHOD static FunnySharp.PatchChange<T?> Set(T? value)
+  METHOD static System.Boolean op_Equality(FunnySharp.PatchChange<T?> left, FunnySharp.PatchChange<T?> right)
+  METHOD static System.Boolean op_Inequality(FunnySharp.PatchChange<T?> left, FunnySharp.PatchChange<T?> right)
+  METHOD System.Boolean Equals(FunnySharp.PatchChange<T?> other)
+  METHOD System.Boolean Equals(System.Object? obj)
+  METHOD System.Boolean TryGetValue(out T& value)
+  METHOD System.Int32 GetHashCode()
+  METHOD System.String ToString()
+  METHOD TResult? Match<TResult>(System.Func<T?, TResult?> set, System.Func<TResult?> clear, System.Func<TResult?> unchanged)
+  PROPERTIE FunnySharp.Option<T?> Value
+  PROPERTIE FunnySharp.PatchChange<T?> Clear
+  PROPERTIE FunnySharp.PatchChange<T?> Unchanged
+  PROPERTIE FunnySharp.PatchChangeKind Kind
+  PROPERTIE System.Boolean IsClear
+  PROPERTIE System.Boolean IsSet
+  PROPERTIE System.Boolean IsUnchanged
+CLASS FunnySharp.PatchConflict
+  METHOD System.Boolean Equals(FunnySharp.PatchConflict? other)
+  METHOD System.Boolean Equals(System.Object? obj)
+  METHOD System.Int32 GetHashCode()
+  METHOD System.String ToString()
+  PROPERTIE FunnySharp.PatchEntry First
+  PROPERTIE FunnySharp.PatchEntry Second
+  PROPERTIE System.String Field
+STRUCT FunnySharp.PatchEntry
+  METHOD static System.Boolean op_Equality(FunnySharp.PatchEntry left, FunnySharp.PatchEntry right)
+  METHOD static System.Boolean op_Inequality(FunnySharp.PatchEntry left, FunnySharp.PatchEntry right)
+  METHOD System.Boolean Equals(FunnySharp.PatchEntry other)
+  METHOD System.Boolean Equals(System.Object? obj)
+  METHOD System.Int32 GetHashCode()
+  METHOD System.String ToString()
+  PROPERTIE FunnySharp.PatchChangeKind Kind
+  PROPERTIE System.Object? Value
+  PROPERTIE System.String Name
+CLASS FunnySharp.PatchFieldDescription
+  METHOD System.String ToString()
+  PROPERTIE FunnySharp.ContractDescription Value
+  PROPERTIE System.Boolean AllowsClear
+  PROPERTIE System.String Name
+CLASS FunnySharp.PatchFieldSet<T>
+  METHOD FunnySharp.PatchField<T?, TValue?> ClearableField<TValue>(System.String name, FunnySharp.Contract<TValue?> contract, FunnySharp.Lens<T?, TValue?> lens, System.Func<T?, T?> clear)
+  METHOD FunnySharp.PatchField<T?, TValue?> Field<TValue>(System.String name, FunnySharp.Contract<TValue?> contract, FunnySharp.Lens<T?, TValue?> lens)
+CLASS FunnySharp.PatchField<T>
+  PROPERTIE FunnySharp.ContractDescription ValueDescription
+  PROPERTIE System.Boolean AllowsClear
+  PROPERTIE System.String Name
+CLASS FunnySharp.PatchField<T, TValue>
+CLASS FunnySharp.PatchSchema<T>
+  METHOD FunnySharp.Validation<FunnySharp.Patch<T?>, FunnySharp.DecodeError> Decode(System.Text.Json.JsonElement input)
+  METHOD FunnySharp.Validation<FunnySharp.PatchApplication<T?>, FunnySharp.DecodeError> Validate(FunnySharp.Patch<T?> patch, T? source)
+  METHOD static FunnySharp.Result<FunnySharp.PatchSchema<T?>, FunnySharp.ContractLimitation> Create(FunnySharp.Contract<T?> candidateContract, FunnySharp.PatchField<T?>[] fields)
+  METHOD System.String Explain()
+  PROPERTIE FunnySharp.Contract<T?> CandidateContract
+  PROPERTIE System.Collections.Generic.IReadOnlyList<FunnySharp.PatchFieldDescription> Fields
+STRUCT FunnySharp.Patch<T>
+  METHOD FunnySharp.Patch<T?> With<TValue>(FunnySharp.PatchField<T?, TValue?> field, FunnySharp.PatchChange<TValue?> change)
+  METHOD FunnySharp.PatchApplication<T?> ApplyTo(T? source)
+  METHOD FunnySharp.Validation<FunnySharp.Patch<T?>, FunnySharp.PatchConflict> Combine(FunnySharp.Patch<T?> other)
+  METHOD static System.Boolean op_Equality(FunnySharp.Patch<T?> left, FunnySharp.Patch<T?> right)
+  METHOD static System.Boolean op_Inequality(FunnySharp.Patch<T?> left, FunnySharp.Patch<T?> right)
+  METHOD System.Boolean Equals(FunnySharp.Patch<T?> other)
+  METHOD System.Boolean Equals(System.Object? obj)
+  METHOD System.Boolean TryGet<TValue>(FunnySharp.PatchField<T?, TValue?> field, out FunnySharp.PatchChange<TValue>& change)
+  METHOD System.Int32 GetHashCode()
+  METHOD System.String ToString()
+  PROPERTIE FunnySharp.Patch<T?> Empty
+  PROPERTIE System.Boolean IsEmpty
+  PROPERTIE System.Collections.Generic.IReadOnlyList<FunnySharp.PatchEntry> Entries
+  PROPERTIE System.Int32 Count
 CLASS FunnySharp.Result
   METHOD static FunnySharp.Result<TValue?, System.Exception> Try<TValue>(System.Func<TValue?> operation)
   METHOD static FunnySharp.Result<TValue?, TError?> Try<TValue, TError>(System.Func<TValue?> operation, System.Func<System.Exception, TError?> errorMapper)

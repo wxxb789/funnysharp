@@ -11,6 +11,7 @@ C# xUnit v3 behavioral tests for the FunnySharp core assembly. Attribute-driven 
 | Enumeration laziness asserts | `ProbeEnumerable.cs` (internal counting `IEnumerable<T>`) |
 | Decoder behavior and three-way consumer comparison | `DecoderTests.cs`, `DecoderBoundaryTests.cs`, `DecoderAsyncTests.cs`, `DecoderExceptionTests.cs`, `DecoderErrorTests.cs`, `DecoderLocationTests.cs`, `DecoderConsumerComparisonTests.cs`; shared consumers in `../Shared/DecoderComparison/` |
 | Contract behavior, capabilities, generation, shrinking, and consumer comparison | `ContractTests.cs`, `ContractCapabilityTests.cs`, `ContractGenerationTests.cs`, `ContractConsumerComparisonTests.cs`; shared consumers in `../Shared/ContractComparison/` |
+| Partial-update changes, wire semantics, candidate validation, conflicts, and consumer comparison | `PatchTests.cs`, `PatchSchemaTests.cs`, `PatchCombineTests.cs`, `PatchConsumerComparisonTests.cs`; shared consumers in `../Shared/PatchComparison/` |
 | ValueTask consumption asserts | `CountingValueTaskSource.cs` (also linked into AspNetCore.Tests) |
 | Public-surface freeze | `AdvancedPatternCurationTests.cs` (exact member lists, forbidden names) |
 | Package boundary | `PackageBoundaryTests.cs` (reflection: platform-only references) |

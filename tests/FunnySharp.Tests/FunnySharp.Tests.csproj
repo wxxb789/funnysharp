@@ -19,6 +19,7 @@
     <Compile Include="../Shared/SharedOrderSupport.cs" Link="Shared/SharedOrderSupport.cs" />
     <Compile Include="../Shared/DecoderComparison/*.cs" Link="Shared/DecoderComparison/%(Filename)%(Extension)" />
     <Compile Include="../Shared/ContractComparison/*.cs" Link="Shared/ContractComparison/%(Filename)%(Extension)" />
+    <Compile Include="../Shared/PatchComparison/*.cs" Link="Shared/PatchComparison/%(Filename)%(Extension)" />
   </ItemGroup>
 
   <ItemGroup>

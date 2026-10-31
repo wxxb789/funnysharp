@@ -12,7 +12,8 @@ standard .NET values, delegates, `Task`, `ValueTask`, and `IAsyncEnumerable<T>`.
 has zero runtime dependencies and bundles Roslyn analyzers; `FunnySharp.AspNetCore` adds optional
 ASP.NET Core Minimal API result mapping. Inspectable `Contract<T>` descriptions derive validation,
 decoding, explanation, schema metadata, deterministic generated inputs, and shrinking from one
-declared rule set.
+declared rule set. Typed `Patch<T>` changes decode allowed fields, validate the complete candidate,
+and apply immutable updates without conflating omission with explicit clearing.
 
 ## Installation
 
@@ -87,6 +88,7 @@ registration.Match(
 - **Streaming & Span Pipelines**: Fused `Choose` and running `Scan` on `IEnumerable<T>` and `IAsyncEnumerable<T>`, plus caller-buffered `ChooseTo`/`WhereTo` on `Span<T>`.
 - **Bounded Concurrency**: Source-ordered (`SelectParallelValueAsync`) or completion-ordered (`SelectParallelCompletionOrderValueAsync`) mapping, and `FirstSuccessAsync` over cold effects.
 - **Pure State Machines & Optics**: Pure `StateTransition` workflows with typed commands, and composable `Lens`/`Optional` for immutable nested updates.
+- **Typed Partial Updates**: `Patch<T>`/`PatchChange<T>`/`PatchSchema<T>` distinguish unchanged, cleared, and replaced fields, validate the complete candidate with a reused `Contract<T>`, report conflicting combines, and apply through callers' lenses.
 - **ASP.NET Core Minimal APIs**: Maps carriers and effects to caller-selected `IResult` and RFC 7807/9457 `ProblemDetails` via `FunnySharp.AspNetCore`.
 
 ## Documentation & Examples
@@ -104,6 +106,7 @@ Start with [Core Design](docs/core-design.md) for the project's design direction
 | [Release Notes](https://github.com/wxxb789/funnysharp/blob/main/docs/release-notes.md) | [Collections & Traversal](https://github.com/wxxb789/funnysharp/blob/main/docs/collections.md) | [Contributor Harness](https://github.com/wxxb789/funnysharp/blob/main/docs/harness.md) |
 | [Decoding Untrusted Input](https://github.com/wxxb789/funnysharp/blob/main/docs/decoding.md) | [Decoder Evidence](https://github.com/wxxb789/funnysharp/blob/main/docs/decoder-evidence.md) | |
 | [Inspectable Contracts](https://github.com/wxxb789/funnysharp/blob/main/docs/contracts.md) | [Contract Evidence](https://github.com/wxxb789/funnysharp/blob/main/docs/contract-evidence.md) | |
+| [Partial Updates](https://github.com/wxxb789/funnysharp/blob/main/docs/partial-updates.md) | [Partial Update Evidence](https://github.com/wxxb789/funnysharp/blob/main/docs/partial-update-evidence.md) | |
 
 Executable samples: [FunnySharp Core Examples](https://github.com/wxxb789/funnysharp/blob/main/examples/FunnySharp.Examples/Program.cs) and [ASP.NET Core Examples](https://github.com/wxxb789/funnysharp/blob/main/examples/FunnySharp.AspNetCore.Examples/Program.cs).
 

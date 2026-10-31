@@ -68,6 +68,12 @@ order. The integration forwards `Errors`, the standard `ProblemDetails` fields, 
 put application-specific data in `Extensions` rather than custom subclass properties. The compiled
 example shows this explicitly.
 
+A [partial-update schema](partial-updates.md) is not a new HTTP surface. Bind the request body as
+`JsonElement`, call `PatchSchema<T>.Decode` followed by `PatchSchema<T>.Validate` against the
+current value, and map either `DecodeError` list with the existing `Validation<...>.ToHttpResult`
+boundary. The application still chooses persistence, concurrency checks, status codes, and problem
+details. The compiled ASP.NET Core example includes a `PATCH` endpoint using this path.
+
 For `UnitResult<TError>`, the failure mapper returns a `ProblemDetails` with a status exactly like
 `Result`. Because there is no successful value, the default success result is `204 No Content`;
 supply a success mapper to select a different status, headers, or body.

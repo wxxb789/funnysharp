@@ -17,6 +17,7 @@ asserts its own behavior, and prints one success marker.
 | `FunctionGrammarSamples.cs` | Function-composition grammar samples |
 | `DecoderExamples.cs` | Decoder scalars (`Guid`, `Int32`, `NonEmptyString`), `Object`/`Field`/`NonEmptyList`, `Ensure`, automatic error paths, and accumulated errors |
 | `ContractExamples.cs` | One nested contract reused for validation, decoding, explanation, generation, shrinking, and capability/limitation extension paths |
+| `PatchExamples.cs` | Allowed-field decode, explicit clearing, candidate validation, conflict reporting, empty-patch identity, and rejected fields |
 | `ExampleAssertions.cs` | Shared asserts: `Equal`, `True`, `SequenceEqual`, `FaultIsPreserved`, `CancellationIsPreserved`, `UninitializedThrows` |
 
 ## CONVENTIONS
