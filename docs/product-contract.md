@@ -19,7 +19,9 @@ analysis, and compile-verified call sites are in [`next-stage/`](next-stage/).
   carrier. `StateChange`/`StateTransition`/`StateMachine`/`TransitionResult` are the state
   surface, and `Lens`/`Optional` are the optics surface. `Decoder<T>` is a callable input-to-
   `Validation` boundary, not another outcome carrier; `DecodeError` is its diagnostic value, and
-  the four carriers above remain the complete outcome vocabulary.
+  the four carriers above remain the complete outcome vocabulary. `Contract<T>` is an
+  inspectable constraint description, not another outcome carrier; it derives validation,
+  decoding, explanation, schema metadata, generated inputs, and shrinking for one value type.
 - No second carrier for any of these meanings may be added. `Maybe`, `Either`, `Fin`, `Try`,
   `IO`, `Reader`, `State`, `OptionAsync`, and async outcome wrappers remain out of scope.
 - One verb has one meaning. `Map`, `Bind`, `MapError`/`MapErrors`, `Filter`, `Ensure`, `Recover`/
@@ -119,9 +121,14 @@ analysis, and compile-verified call sites are in [`next-stage/`](next-stage/).
   `Validation<T, DecodeError>`, accumulates independent field and element errors with deterministic
   locations, distinguishes missing, explicit null, wrong kind, malformed, and empty input, and does
   not convert cancellation or programming exceptions into domain errors. Callers retain their
-  domain and final error types by mapping `DecodeError`; there is no serializer, schema
-  introspection, reflection binder, or async input model. Structured contract derivation is a
-  separate outcome ([Goal 0027](goals/0027-goal.md)).
+  domain and final error types by mapping `DecodeError`; the decoder itself has no serializer,
+  schema introspection, reflection binder, or async input model. Inspectable constraints are
+  delivered separately by `Contract<T>` ([Goal 0027](goals/archive/0027-goal.md)): one description drives
+  validation, decoder derivation, explanation, schema metadata, deterministic generated inputs, and
+  shrinking. Missing derivations for arbitrary predicates or transformations are explicit
+  limitations with caller-supplied extensions; generation and shrinking never invent an inverse or
+  silently reject-and-retry. Contracts describe one value type and do not establish a universal
+  application schema, serializer, or wire-format change.
 - Default and uninitialized values are explicit contracts:
   - `Option<T>` default is a valid `None`.
   - `Result<TValue, TError>`, `UnitResult<TError>`, and `Validation<TValue, TError>` defaults
@@ -229,8 +236,8 @@ analysis, and compile-verified call sites are in [`next-stage/`](next-stage/).
   layer or general union API is added.
 - Deferred capabilities stay absent from the stable surface: a general retry/backoff layer,
   `Memoize`/async-buffer carriers, k-way async merge, completion-order operators beyond the
-  recorded constrained form, typed-results/OpenAPI APIs, System.Text.Json converters, decoder
-  schema/introspection,
+  recorded constrained form, typed-results/OpenAPI APIs, System.Text.Json converters,
+  schema/introspection on `Decoder<T>` itself,
   `Either` as a non-error carrier, Option comparers/ordering, awaitable
   `Option<Task<T>>` sugar, and `net11.0` targeting. The non-empty guarantee
   (`NonEmpty<T>`) and exact-versus-truncating zip (`ZipExact`/`ZipExactOrNone`) left this

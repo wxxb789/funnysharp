@@ -254,9 +254,9 @@ several depths. The measurements are evidence, not a promise of zero allocation.
 
 ## Deliberate Boundaries
 
-- No schema, constraint introspection, derivation, generated test inputs, or general contract
-  representation. That is a separate outcome ([Goal 0027](goals/0027-goal.md)), not a property of
-  `Decoder<T>`.
+- `Decoder<T>` itself is a callable function, not a schema. Inspectable constraints, explanations,
+  schema metadata, generated inputs, and shrinking belong to [`Contract<T>`](contracts.md)
+  (delivered by Goal 0027); they are not properties of `Decoder<T>`.
 - No serializer, JSON converter, replacement JSON DOM, reflection-based binder, or
   `System.Text.Json` serialization integration. `JsonElement` is the input view; the caller owns
   parsing and lifetime.

@@ -13,14 +13,14 @@ Read [Core Design](../core-design.md) for the shared design intent when pursuing
 | [0024](archive/0024-goal.md) | Independent fail-closed audit of Goals 14-23 | [final resolution report](../audits/goal-24-resolution/report.md), [evidence index](../audits/goal-24-resolution/final-evidence-index.md) |
 | [0025](archive/0025-goal.md) | Resolution of all 69 original audit findings at the frozen `d8744` candidate | [final ledger](../audits/goal-24-resolution/findings.json), [report](../audits/goal-24-resolution/report.md) |
 | [0026](archive/0026-goal.md) | Composable decoding into trusted domain values | [decoder evidence](../decoder-evidence.md), [compiling example](../../examples/FunnySharp.Examples/DecoderExamples.cs) |
+| [0027](archive/0027-goal.md) | Interpretable contracts and honest derivation | [contract evidence](../contract-evidence.md), [compiling example](../../examples/FunnySharp.Examples/ContractExamples.cs) |
 
-The 0024/0025 final ledger records 69 `ACCEPTED_VERIFIED` rows, 0 open, the original 40 FAIL/29 UNVERIFIED origins preserved, and an independent whole-goal gate recommendation of APPROVE at product `d8744c934d86833f9817245ecc7c78b1177b8b76`. Goal 0026 is verified by the decoder tests, three-way consumer comparison, and allocation/timing evidence.
+The 0024/0025 final ledger records 69 `ACCEPTED_VERIFIED` rows, 0 open, the original 40 FAIL/29 UNVERIFIED origins preserved, and an independent whole-goal gate recommendation of APPROVE at product `d8744c934d86833f9817245ecc7c78b1177b8b76`. Goal 0026 is verified by the decoder tests, three-way consumer comparison, and allocation/timing evidence. Goal 0027 is verified by the contract tests, the contract-versus-ordinary consumer comparison, fixed expected diagnostics, generated-value properties, unsupported-derivation counterexamples, and disclosed allocation/generation costs.
 
 ## Next-Stage Goals
 
 | Goal | Outcome | Kind |
 | --- | --- | --- |
-| [0027](0027-goal.md) | Interpretable contracts and honest derivation | Product outcome |
 | [0028](0028-goal.md) | Validated, inspectable partial changes | Product outcome |
 | [0029](0029-goal.md) | Composable batched reads | Product outcome |
 | [0030](0030-goal.md) | Domain invariants and composable typed errors | Product outcome |
@@ -39,7 +39,7 @@ The 0024/0025 final ledger records 69 `ACCEPTED_VERIFIED` rows, 0 open, the orig
 
 The numbers provide a useful reading and selection order, not a requirement to finish every earlier goal before an independent outcome can be pursued. Each file names material relationships where relevant. Supply a selected file's contents to the receiving agent one at a time; planning and execution belong to that agent and its harness. Reassess a distant research goal against the capabilities and priorities present when it is selected. Research completion establishes a supported decision, including a negative decision where warranted; it does not establish that a product feature shipped. The product outcomes retain their stated acceptance conditions.
 
-The completed [0024](archive/0024-goal.md), [0025](archive/0025-goal.md), and [0026](archive/0026-goal.md) contracts are archived unchanged with the evidence linked above. The new directions deliberately permit focused reconsideration of earlier defer/reject decisions, such as inspectable changes, scope-local batched reads and incremental computation. A capability change must reconcile the affected current [product contract](../product-contract.md), [grammar](../grammar.md) and [stability inventory](../stability-inventory.md) within that goal's scope, retaining historical evidence and rationale. These prospective goals do not silently redefine the behavior of the currently shipped API.
+The completed [0024](archive/0024-goal.md), [0025](archive/0025-goal.md), [0026](archive/0026-goal.md), and [0027](archive/0027-goal.md) contracts are archived unchanged with the evidence linked above. The new directions deliberately permit focused reconsideration of earlier defer/reject decisions, such as inspectable changes, scope-local batched reads and incremental computation. A capability change must reconcile the affected current [product contract](../product-contract.md), [grammar](../grammar.md) and [stability inventory](../stability-inventory.md) within that goal's scope, retaining historical evidence and rationale. These prospective goals do not silently redefine the behavior of the currently shipped API.
 
 The shared product constraints are BCL interoperability, optional immutability, meaningful sync/async use, explicit error and cancellation semantics, a thin I/O boundary and no new core runtime dependency. Performance and expression claims concern complete, semantically equivalent consumer workflows, including adapters and type declarations. Generated or derived artifacts are not independent proof of the business specification. There are no invented speedup percentages, LOC targets or completion deadlines. Maintainer judgment and the concrete evidence in each contract determine acceptance.
 

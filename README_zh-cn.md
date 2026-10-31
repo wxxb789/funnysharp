@@ -99,6 +99,7 @@ registration.Match(
 | [快速入门 (Quick Start)](https://github.com/wxxb789/funnysharp/blob/main/docs/quick-start.md) | [静态分析器 (Roslyn Analyzers)](https://github.com/wxxb789/funnysharp/blob/main/docs/analyzers.md) | [ASP.NET Core 集成指南](https://github.com/wxxb789/funnysharp/blob/main/docs/aspnet-core.md) |
 | [发布说明](https://github.com/wxxb789/funnysharp/blob/main/docs/release-notes.md) | [集合与遍历](https://github.com/wxxb789/funnysharp/blob/main/docs/collections.md) | [开发者 Harness](https://github.com/wxxb789/funnysharp/blob/main/docs/harness.md) |
 | [不可信输入解码 (Decoding)](https://github.com/wxxb789/funnysharp/blob/main/docs/decoding.md) | [解码器证据 (Decoder Evidence)](https://github.com/wxxb789/funnysharp/blob/main/docs/decoder-evidence.md) | |
+| [可检视契约 (Inspectable Contracts)](https://github.com/wxxb789/funnysharp/blob/main/docs/contracts.md) | [契约证据 (Contract Evidence)](https://github.com/wxxb789/funnysharp/blob/main/docs/contract-evidence.md) | |
 
 可运行示例源码：[FunnySharp 核心示例](https://github.com/wxxb789/funnysharp/blob/main/examples/FunnySharp.Examples/Program.cs) 与 [ASP.NET Core 示例](https://github.com/wxxb789/funnysharp/blob/main/examples/FunnySharp.AspNetCore.Examples/Program.cs)。
 
