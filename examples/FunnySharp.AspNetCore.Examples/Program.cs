@@ -38,7 +38,7 @@ app.MapGet("/catalog/{id:int}/refresh", (HttpContext context, int id) =>
 
 app.MapMethods("/schedules/{id}", ["PATCH"], (string id, JsonElement body) =>
 {
-    if (!schedules.Find(id).TryGetValue(out var schedule) || schedule is null)
+    if (!schedules.Find(id).TryGetValue(out var schedule))
     {
         return Results.NotFound();
     }
@@ -172,49 +172,49 @@ static ProblemDetails MapDeliveryFailure(DeliveryFailure failure) =>
 
 static IResult ToValidationProblem(string title, IReadOnlyList<DecodeError> errors)
 {
-    var grouped = new Dictionary<string, List<string>>(StringComparer.Ordinal);
-    foreach (var error in errors)
-    {
-        var field = error.Path.Length == 0 ? "request" : error.Path;
-        if (!grouped.TryGetValue(field, out var messages))
-        {
-            messages = [];
-            grouped.Add(field, messages);
-        }
-
-        messages.Add(error.ToString());
-    }
-
+    var grouped = GroupMessages(
+        errors,
+        static error => error.Path.Length == 0 ? "request" : error.Path,
+        static error => error.ToString());
     return Results.ValidationProblem(
-        grouped.ToDictionary(
-            static pair => pair.Key,
-            static pair => pair.Value.ToArray(),
-            StringComparer.Ordinal),
+        grouped,
         statusCode: StatusCodes.Status400BadRequest,
         title: title);
 }
 
-static HttpValidationProblemDetails MapValidationErrors(IReadOnlyList<InputError> errors)
-{
-    var grouped = new Dictionary<string, List<string>>(StringComparer.Ordinal);
-    foreach (var error in errors)
-    {
-        if (!grouped.TryGetValue(error.Field, out var messages))
-        {
-            messages = [];
-            grouped.Add(error.Field, messages);
-        }
-
-        messages.Add(error.Message);
-    }
-
-    return new HttpValidationProblemDetails(
-        grouped.ToDictionary(static pair => pair.Key, static pair => pair.Value.ToArray(), StringComparer.Ordinal))
+static HttpValidationProblemDetails MapValidationErrors(IReadOnlyList<InputError> errors) =>
+    new(GroupMessages(
+        errors,
+        static error => error.Field,
+        static error => error.Message))
     {
         Status = StatusCodes.Status400BadRequest,
         Title = "Order validation failed",
         Type = "https://example.invalid/problems/invalid-order",
     };
+
+static Dictionary<string, string[]> GroupMessages<T>(
+    IEnumerable<T> items,
+    Func<T, string> field,
+    Func<T, string> message)
+{
+    var grouped = new Dictionary<string, List<string>>(StringComparer.Ordinal);
+    foreach (var item in items)
+    {
+        var key = field(item);
+        if (!grouped.TryGetValue(key, out var messages))
+        {
+            messages = [];
+            grouped.Add(key, messages);
+        }
+
+        messages.Add(message(item));
+    }
+
+    return grouped.ToDictionary(
+        static pair => pair.Key,
+        static pair => pair.Value.ToArray(),
+        StringComparer.Ordinal);
 }
 
 internal sealed class ProductCatalog
