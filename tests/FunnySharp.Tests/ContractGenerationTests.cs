@@ -169,6 +169,26 @@ public sealed class ContractGenerationTests
     }
 
     [Fact]
+    public void ShrinkingWideNumericRangesUsesOverflowSafeMidpoints()
+    {
+        var decimals = Contract.DecimalRange(decimal.MinValue, decimal.MaxValue);
+        var shrunkDecimals = decimals.Shrink(decimal.MaxValue);
+        Assert.True(shrunkDecimals.TryGetValue(out var decimalCandidates));
+        Assert.Contains(0m, decimalCandidates!);
+        Assert.All(
+            decimalCandidates!,
+            static candidate => Assert.InRange(
+                candidate,
+                decimal.MinValue,
+                decimal.MaxValue));
+
+        var integers = Contract.Int32Range(int.MinValue, int.MaxValue);
+        var shrunkIntegers = integers.Shrink(int.MaxValue);
+        Assert.True(shrunkIntegers.TryGetValue(out var integerCandidates));
+        Assert.Contains(-1, integerCandidates!);
+    }
+
+    [Fact]
     public void CallerGeneratedNullIsAnExplicitFailure()
     {
         var contract = Contract.String.WithGenerator(static _ => null!);

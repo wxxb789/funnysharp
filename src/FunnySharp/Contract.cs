@@ -719,7 +719,10 @@ public static class Contract
             yield return anchor;
         }
 
-        var halved = anchor + ((value - anchor) / T.CreateChecked(2));
+        // Halve each operand before adding: a wide range overflows on `value - anchor` (decimal
+        // throws) or wraps (integers), while neither half can.
+        var two = T.CreateChecked(2);
+        var halved = (value / two) + (anchor / two);
         if (halved != value && halved != anchor)
         {
             yield return halved;

@@ -177,6 +177,22 @@ public sealed class ContractTests
     }
 
     [Fact]
+    public void OneOfDecoderRejectsAValueTheContractSelectsElsewhere()
+    {
+        var contract = Contract.OneOf(
+            static value => value == 0 ? 1 : 0,
+            static element => Option<int>.Some(element.GetInt32() == 0 ? 0 : 1),
+            discriminator: null,
+            Contract.Alternative("zero", Contract.Int32Range(0, 0)),
+            Contract.Alternative("one", Contract.Int32Range(1, 1)));
+
+        using var document = JsonDocument.Parse("0");
+        var error = Assert.Single(DecodeErrors(contract, document.RootElement));
+        Assert.Equal("one", error.Path);
+        Assert.Equal(DecodeErrorKind.InvalidValue, error.Kind);
+    }
+
+    [Fact]
     public void DeferredContractGeneratesFiniteRecursiveValuesAndStopsAtTheDepthBudget()
     {
         Contract<Node>? node = null;

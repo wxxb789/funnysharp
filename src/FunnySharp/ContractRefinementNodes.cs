@@ -186,8 +186,12 @@ internal sealed class OpaqueNode<T> : ContractNode<T>
 
 internal sealed class DeferredNode<T> : ContractNode<T>
 {
+    [ThreadStatic]
+    private static HashSet<object>? inFlight;
+
     private readonly string name;
     private readonly Lazy<Contract<T>> contract;
+    private Decoder<T>? resolvedDecoder;
 
     internal DeferredNode(string name, Func<Contract<T>> factory)
     {
@@ -204,8 +208,54 @@ internal sealed class DeferredNode<T> : ContractNode<T>
     internal override ContractDescription Describe() =>
         ContractDescription.Recursive(name);
 
-    internal override Result<Decoder<T>, ContractLimitation> CreateDecoder() =>
-        contract.Value.CreateDecoder();
+    internal override Result<Decoder<T>, ContractLimitation> CreateDecoder()
+    {
+        if (Volatile.Read(ref resolvedDecoder) is { } cached)
+        {
+            return Result<Decoder<T>, ContractLimitation>.Success(cached);
+        }
+
+        var resolving = inFlight ??= new HashSet<object>(ReferenceEqualityComparer.Instance);
+        if (!resolving.Add(this))
+        {
+            // The body's decoder is still being built further up this call, so expanding it
+            // again would never terminate. Hand back a decoder that resolves the body on first
+            // use; recursive input then costs one body decoder instead of one per contract.
+            return Result<Decoder<T>, ContractLimitation>.Success(
+                new Decoder<T>(input => ResolvedDecoder().Decode(input)));
+        }
+
+        try
+        {
+            var created = contract.Value.CreateDecoder();
+            if (created.TryGetError(out var limitation))
+            {
+                return Result<Decoder<T>, ContractLimitation>.Failure(limitation);
+            }
+
+            created.TryGetValue(out var decoder);
+            Volatile.Write(ref resolvedDecoder, decoder);
+            return created;
+        }
+        finally
+        {
+            resolving.Remove(this);
+        }
+    }
+
+    private Decoder<T> ResolvedDecoder()
+    {
+        if (Volatile.Read(ref resolvedDecoder) is { } cached)
+        {
+            return cached;
+        }
+
+        var created = CreateDecoder();
+        return created.TryGetValue(out var decoder)
+            ? decoder
+            : throw new InvalidOperationException(
+                "The deferred contract '" + name + "' was decoded without a body decoder.");
+    }
 
     internal override Result<T, ContractLimitation> Generate(
         GenerationContext context,

@@ -78,24 +78,26 @@ internal sealed class OneOfNode<T> : ContractNode<T>
         }
 
         return Result<Decoder<T>, ContractLimitation>.Success(
-            new Decoder<T>(input =>
-            {
-                var selected = selectInput(input);
-                if (!selected.TryGetValue(out var index) || index < 0 || index >= decoders.Length)
+            ContractSupport.ValidatedDecoder(
+                new Decoder<T>(input =>
                 {
-                    return ContractSupport.Invalid<T>(ExpectedOneOf());
-                }
+                    var selected = selectInput(input);
+                    if (!selected.TryGetValue(out var index) || index < 0 || index >= decoders.Length)
+                    {
+                        return ContractSupport.Invalid<T>(ExpectedOneOf());
+                    }
 
-                var decoded = decoders[index].Decode(input);
-                if (!decoded.TryGetErrors(out var errors))
-                {
-                    return decoded;
-                }
+                    var decoded = decoders[index].Decode(input);
+                    if (!decoded.TryGetErrors(out var errors))
+                    {
+                        return decoded;
+                    }
 
-                return Decoder.PrefixErrors<T>(
-                    errors,
-                    DiagnosticLocation.Root.Property(alternatives[index].Label));
-            }));
+                    return Decoder.PrefixErrors<T>(
+                        errors,
+                        DiagnosticLocation.Root.Property(alternatives[index].Label));
+                }),
+                Validate));
     }
 
     internal override Result<T, ContractLimitation> Generate(

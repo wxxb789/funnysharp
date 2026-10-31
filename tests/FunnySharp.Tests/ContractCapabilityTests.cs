@@ -190,6 +190,32 @@ public sealed class ContractCapabilityTests
         Assert.True(category.Validate(value!).IsValid);
     }
 
+    [Fact]
+    public void RecursiveContractCreatesADecoderAndDecodesNestedInput()
+    {
+        Contract<Category>? category = null;
+        category = Contract.Defer(
+            "category",
+            () => Contract.Object(
+                Contract.Field("name", Contract.NonEmptyString, static (Category value) => value.Name),
+                Contract.Field(
+                    "children",
+                    Contract.List(category!, 0, 2),
+                    static (Category value) => value.Children),
+                static (name, children) => new Category(name, children)));
+
+        var created = category.CreateDecoder();
+        Assert.True(created.TryGetValue(out var decoder), "A recursive contract must create a decoder.");
+
+        using var document = JsonDocument.Parse(
+            """{ "name": "root", "children": [ { "name": "leaf", "children": [] } ] }""");
+        var decoded = decoder!.Decode(document.RootElement);
+        Assert.True(decoded.TryGetValue(out var decodedValue));
+        Assert.Equal("root", decodedValue.Name);
+        Assert.Equal("leaf", Assert.Single(decodedValue.Children).Name);
+        Assert.True(category.Validate(decodedValue).IsValid);
+    }
+
     private static Contract<int> OpaqueEvenInt() =>
         Contract.From<int>(
             "even integer",
