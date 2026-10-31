@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 
 namespace FunnySharp;
 
@@ -126,10 +127,15 @@ public readonly struct PatchChange<T> : IEquatable<PatchChange<T>>
     public override string ToString() =>
         kind switch
         {
-            PatchChangeKind.Set => $"Set({value})",
+            PatchChangeKind.Set => $"Set({FormatValue(value)})",
             PatchChangeKind.Clear => "Clear",
             _ => "Unchanged",
         };
+
+    private static string FormatValue(T? value) =>
+        value is IFormattable formattable
+            ? formattable.ToString(null, CultureInfo.InvariantCulture) ?? string.Empty
+            : value?.ToString() ?? string.Empty;
 
     /// <summary>Returns a value indicating whether two changes are structurally equal.</summary>
     /// <param name="left">The first change.</param>

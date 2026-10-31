@@ -10,8 +10,13 @@ Source identity is the Goal 0028 working tree on top of commit `af3a642`; the la
 becomes the durable identity. Measurements were taken on this host:
 
 - Ubuntu 24.04.5 LTS, Linux 7.0.0-1017-azure, 2 logical cores.
-- .NET SDK 10.0.401, runtime 10.0.12, x64.
+- .NET SDK 10.0.403, runtime 10.0.14, x64.
 - Date: 2026-10-31 (UTC).
+
+The table below is one run on the reviewed tree after `492d063`; that commit changed the patch
+decode path, so the earlier patch-consumer row was re-measured. Repeated runs reproduce the
+allocation column within a few percent; timing varied by up to an order of magnitude with host
+load and is directional only.
 
 ## Compared Consumers
 
@@ -116,16 +121,16 @@ is directional on this shared 2-core host.
 
 | Operation | Changed fields | Allocated B/op | Time ns/op |
 | --- | ---: | ---: | ---: |
-| Patch consumer: decode + validate + apply | 3 | 1106.7 | 10047.2 |
-| Ordinary consumer: parse + validate + apply | 3 | 792.0 | 2224.8 |
-| Patch validate + apply (predecoded) | 3 | 200.0 | 1403.2 |
-| Patch apply only (predecoded) | 3 | 168.0 | 172.7 |
-| Patch apply + inspect changes | 3 | 320.0 | 506.5 |
-| Ordinary direct `with` expression | 3 | 56.0 | 222.9 |
-| Patch apply only (one field) | 1 | 56.0 | 114.0 |
-| Ordinary direct `with` expression (one field) | 1 | 56.0 | 206.8 |
-| Patch apply only (empty) | 0 | 0.0 | 53.6 |
-| Ordinary identity (empty) | 0 | 0.0 | 181.9 |
+| Patch consumer: decode + validate + apply | 3 | 849.8 | 8411.5 |
+| Ordinary consumer: parse + validate + apply | 3 | 792.0 | 2405.4 |
+| Patch validate + apply (predecoded) | 3 | 200.0 | 240.7 |
+| Patch apply only (predecoded) | 3 | 168.0 | 170.9 |
+| Patch apply + inspect changes | 3 | 320.0 | 483.0 |
+| Ordinary direct `with` expression | 3 | 56.0 | 216.4 |
+| Patch apply only (one field) | 1 | 56.0 | 181.5 |
+| Ordinary direct `with` expression (one field) | 1 | 56.0 | 335.4 |
+| Patch apply only (empty) | 0 | 0.0 | 87.4 |
+| Ordinary identity (empty) | 0 | 0.0 | 307.7 |
 
 The copying result is deliberate: each changed field invokes one immutable lens setter, so a
 three-field patch allocates three candidate records where a single `with` expression allocates one.

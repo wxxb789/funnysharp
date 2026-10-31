@@ -52,7 +52,10 @@ if (created.TryGetError(out var limitation))
     throw new InvalidOperationException(limitation.ToString());
 }
 
-_ = created.TryGetValue(out var schema);
+if (!created.TryGetValue(out var schema))
+{
+    throw new InvalidOperationException("The patch schema could not be created.");
+}
 
 var current = new Schedule("Europe/Paris", 9 * 60, 17 * 60, Option.Some("front desk"));
 using var document = JsonDocument.Parse("""{"closesAt":1080,"note":null}""");
@@ -226,7 +229,7 @@ three-field schedule update shows:
 
 | Operation | Changed fields | Allocated B/op |
 | --- | ---: | ---: |
-| Patch consumer: decode + validate + apply | 3 | 1106.7 |
+| Patch consumer: decode + validate + apply | 3 | 849.8 |
 | Ordinary consumer: parse + validate + apply | 3 | 792.0 |
 | Patch validate + apply (predecoded) | 3 | 200.0 |
 | Patch apply only (predecoded) | 3 | 168.0 |

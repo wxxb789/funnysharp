@@ -1,3 +1,4 @@
+using System.Globalization;
 using FunnySharp;
 
 namespace FunnySharp.Tests;
@@ -239,6 +240,37 @@ public sealed class PatchTests
         Assert.NotEqual(first, reversed);
         Assert.False(first.TryGet(foreignField, out _));
         Assert.NotEqual(first, Patch<Profile>.Empty);
+    }
+
+    [Fact]
+    public void DiagnosticTextFormatsValuesWithTheInvariantCulture()
+    {
+        var original = CultureInfo.CurrentCulture;
+        try
+        {
+            CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo("de-DE");
+
+            var valueLens = Lens.Create<double, double>(
+                static value => value,
+                static (_, next) => next);
+            var valueField = Patch.Field(
+                "value",
+                Contract.From<double>(
+                    "a number",
+                    static value => Validation<double, string>.Valid(value)),
+                valueLens);
+            var patch = Patch<double>.Empty.With(
+                valueField,
+                PatchChange<double>.Set(1.5));
+
+            Assert.Equal("Set(1.5)", PatchChange<double>.Set(1.5).ToString());
+            Assert.Equal("value: set 1.5", patch.Entries[0].ToString());
+            Assert.Equal("{ value: set 1.5 }", patch.ToString());
+        }
+        finally
+        {
+            CultureInfo.CurrentCulture = original;
+        }
     }
 
     private sealed record Profile(string Name, int Age, Option<string> Note);

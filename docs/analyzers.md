@@ -111,10 +111,10 @@ escape hatch for a deliberate fire-and-forget is a scoped suppression:
 
 ## FS1003: Ignored TryGet Presence Result
 
-Severity: **warning**. `TryGetValue`, `TryGetError`, `TryGetErrors`, and `TryGetChange` follow
-the Try pattern: the Boolean result reports presence, success, failure, or a produced change, and
-the out value is `default` otherwise. A bare statement call loses that information and hands the
-caller a default value:
+Severity: **warning**. `TryGetValue`, `TryGetError`, `TryGetErrors`, `TryGetChange`, and `TryGet`
+follow the Try pattern: the Boolean result reports presence, success, failure, or a produced change,
+and the out value is `default` otherwise. A bare statement call loses that information and hands
+the caller a default value:
 
 <!-- documentation-sample: DocumentationSamples.Analyzers.IgnoredTryGetPresence -->
 ```csharp

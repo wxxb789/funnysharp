@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace FunnySharp;
 
 /// <summary>
@@ -50,10 +52,15 @@ public readonly struct PatchEntry : IEquatable<PatchEntry>
     public override string ToString() =>
         Kind switch
         {
-            PatchChangeKind.Set => $"{Name}: set {Value}",
+            PatchChangeKind.Set => $"{Name}: set {FormatValue(Value)}",
             PatchChangeKind.Clear => $"{Name}: clear",
             _ => $"{Name}: unchanged",
         };
+
+    private static string FormatValue(object? value) =>
+        value is IFormattable formattable
+            ? formattable.ToString(null, CultureInfo.InvariantCulture) ?? string.Empty
+            : value?.ToString() ?? string.Empty;
 
     /// <summary>Returns a value indicating whether two entries are structurally equal.</summary>
     /// <param name="left">The first entry.</param>

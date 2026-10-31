@@ -88,6 +88,23 @@ public sealed class IgnoredTryGetResultAnalyzerTests
     }
 
     [Fact]
+    public async Task IgnoredPatchTryGetIsReported()
+    {
+        await AnalyzerTestAssert.DiagnosticAsync(
+            """
+            using FunnySharp;
+            class C
+            {
+                void Use(PatchField<int, int> field, Patch<int> patch)
+                {
+                    patch.TryGet(field, out var change);
+                }
+            }
+            """,
+            "FS1003");
+    }
+
+    [Fact]
     public async Task PreDeclaredOutVariableIsReported()
     {
         await AnalyzerTestAssert.DiagnosticAsync(

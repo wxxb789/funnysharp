@@ -4,8 +4,15 @@ using FunnySharp.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.Logging;
 
 var builder = WebApplication.CreateBuilder(args);
+if (args is ["--verify"])
+{
+    builder.Logging.ClearProviders();
+}
+
 var app = builder.Build();
 var catalog = new ProductCatalog();
 var schedules = new ScheduleStore();
@@ -37,38 +44,115 @@ app.MapGet("/catalog/{id:int}/refresh", (HttpContext context, int id) =>
         () => NotFound($"Product {id} was not found.")));
 
 app.MapMethods("/schedules/{id}", ["PATCH"], (string id, JsonElement body) =>
-{
-    if (!schedules.Find(id).TryGetValue(out var schedule))
-    {
-        return Results.NotFound();
-    }
-
-    var decoded = SchedulePatch.Schema.Decode(body);
-    if (!decoded.TryGetValue(out var patch))
-    {
-        _ = decoded.TryGetErrors(out var decodeErrors);
-        return ToValidationProblem("Schedule change is invalid.", decodeErrors!);
-    }
-
-    var validated = SchedulePatch.Schema.Validate(patch, schedule);
-    if (!validated.TryGetValue(out var application))
-    {
-        _ = validated.TryGetErrors(out var validationErrors);
-        return ToValidationProblem("Schedule candidate is invalid.", validationErrors!);
-    }
-
-    schedules.Save(id, application.Candidate);
-    return Results.Ok(application.Candidate);
-});
+    PatchSchedule(id, body, schedules));
 
 if (args is ["--verify"])
 {
-    _ = SchedulePatch.Schema.Explain();
+    await VerifyPatchEndpointAsync(app, schedules);
     Console.WriteLine("FunnySharp ASP.NET Core example endpoints mapped.");
     return;
 }
 
 await app.RunAsync();
+
+static IResult PatchSchedule(string id, JsonElement body, ScheduleStore schedules)
+{
+    if (!schedules.Find(id).TryGetValue(out var schedule))
+    {
+        return Results.Problem(ScheduleNotFound(id));
+    }
+
+    return SchedulePatch.Schema.Decode(body).ToHttpResult(
+        decodeErrors => MapDecodeErrors("Schedule change is invalid.", decodeErrors),
+        patch => SchedulePatch.Schema.Validate(patch, schedule).ToHttpResult(
+            validationErrors => MapDecodeErrors("Schedule candidate is invalid.", validationErrors),
+            application =>
+            {
+                schedules.Save(id, application.Candidate);
+                return Results.Ok(ToResponse(application.Candidate));
+            }));
+}
+
+static async Task VerifyPatchEndpointAsync(WebApplication app, ScheduleStore schedules)
+{
+    var patchRoute = ((IEndpointRouteBuilder)app).DataSources
+        .SelectMany(static source => source.Endpoints)
+        .OfType<RouteEndpoint>()
+        .SingleOrDefault(static endpoint =>
+            string.Equals(endpoint.RoutePattern.RawText, "/schedules/{id}", StringComparison.Ordinal)
+            && endpoint.Metadata.GetMetadata<HttpMethodMetadata>() is { } metadata
+            && metadata.HttpMethods.Any(static method => string.Equals(method, "PATCH", StringComparison.Ordinal)));
+    if (patchRoute is null)
+    {
+        throw new InvalidOperationException("The PATCH /schedules/{id} endpoint is not mapped.");
+    }
+
+    var (acceptedStatus, acceptedBody) = await ExecuteAsync(
+        PatchScheduleJson("daily", """{"endsAt":1200,"note":null}""", schedules),
+        app.Services);
+    if (acceptedStatus != StatusCodes.Status200OK
+        || !acceptedBody.Contains("\"endsAt\":1200", StringComparison.Ordinal)
+        || !acceptedBody.Contains("\"note\":null", StringComparison.Ordinal))
+    {
+        throw new InvalidOperationException(
+            $"The accepted schedule change returned HTTP {acceptedStatus}: {acceptedBody}");
+    }
+
+    if (!schedules.Find("daily").TryGetValue(out var saved)
+        || saved.EndsAt != 1200
+        || saved.Note.IsSome)
+    {
+        throw new InvalidOperationException(
+            "The accepted schedule change did not persist the validated candidate.");
+    }
+
+    await ExpectStatusAsync(
+        StatusCodes.Status400BadRequest,
+        PatchScheduleJson("daily", """{"ownerId":"employee-7"}""", schedules),
+        app.Services);
+    await ExpectStatusAsync(
+        StatusCodes.Status400BadRequest,
+        PatchScheduleJson("daily", """{"startsAt":1200}""", schedules),
+        app.Services);
+    await ExpectStatusAsync(
+        StatusCodes.Status404NotFound,
+        PatchScheduleJson("unknown", """{"endsAt":1200}""", schedules),
+        app.Services);
+}
+
+static IResult PatchScheduleJson(string id, string json, ScheduleStore schedules)
+{
+    using var document = JsonDocument.Parse(json);
+    return PatchSchedule(id, document.RootElement, schedules);
+}
+
+static async Task ExpectStatusAsync(int expected, IResult result, IServiceProvider services)
+{
+    var (status, _) = await ExecuteAsync(result, services);
+    if (status != expected)
+    {
+        throw new InvalidOperationException(
+            $"Expected HTTP {expected} from the schedule PATCH example, but got {status}.");
+    }
+}
+
+static async Task<(int Status, string Body)> ExecuteAsync(IResult result, IServiceProvider services)
+{
+    var context = new DefaultHttpContext { RequestServices = services };
+    var body = new MemoryStream();
+    context.Response.Body = body;
+    await result.ExecuteAsync(context);
+    body.Position = 0;
+    using var reader = new StreamReader(body);
+    return (context.Response.StatusCode, await reader.ReadToEndAsync());
+}
+
+static DeliveryScheduleResponse ToResponse(DeliverySchedule schedule) =>
+    new(
+        schedule.TimeZone,
+        schedule.StartsAt,
+        schedule.EndsAt,
+        schedule.Note.TryGetValue(out var note) ? note : null);
 
 static Option<Product> FindProduct(int id) =>
     id == 42
@@ -143,6 +227,15 @@ static ProblemDetails NotFound(string detail) =>
         Detail = detail,
     };
 
+static ProblemDetails ScheduleNotFound(string id) =>
+    new()
+    {
+        Status = StatusCodes.Status404NotFound,
+        Title = "Schedule was not found",
+        Type = "https://example.invalid/problems/schedule-not-found",
+        Detail = $"Schedule '{id}' was not found.",
+    };
+
 static ProblemDetails MapOrderFailure(OrderFailure failure) =>
     new()
     {
@@ -170,17 +263,18 @@ static ProblemDetails MapDeliveryFailure(DeliveryFailure failure) =>
         Detail = $"SKU '{failure.Sku}' cannot be delivered.",
     };
 
-static IResult ToValidationProblem(string title, IReadOnlyList<DecodeError> errors)
-{
-    var grouped = GroupMessages(
+static HttpValidationProblemDetails MapDecodeErrors(
+    string title,
+    IReadOnlyList<DecodeError> errors) =>
+    new(GroupMessages(
         errors,
         static error => error.Path.Length == 0 ? "request" : error.Path,
-        static error => error.ToString());
-    return Results.ValidationProblem(
-        grouped,
-        statusCode: StatusCodes.Status400BadRequest,
-        title: title);
-}
+        static error => error.ToString()))
+    {
+        Status = StatusCodes.Status400BadRequest,
+        Title = title,
+        Type = "https://example.invalid/problems/invalid-schedule",
+    };
 
 static HttpValidationProblemDetails MapValidationErrors(IReadOnlyList<InputError> errors) =>
     new(GroupMessages(
@@ -281,6 +375,12 @@ internal sealed record DeliverySchedule(
     int StartsAt,
     int EndsAt,
     Option<string> Note);
+
+internal sealed record DeliveryScheduleResponse(
+    string TimeZone,
+    int StartsAt,
+    int EndsAt,
+    string? Note);
 
 internal static class SchedulePatch
 {
