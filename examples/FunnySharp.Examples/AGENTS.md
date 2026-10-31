@@ -16,6 +16,7 @@ asserts its own behavior, and prints one success marker.
 | `CollectionExamples.cs` | Collection/sequence examples (`Verify`/`VerifyAsync`) |
 | `FunctionGrammarSamples.cs` | Function-composition grammar samples |
 | `DecoderExamples.cs` | Decoder scalars (`Guid`, `Int32`, `NonEmptyString`), `Object`/`Field`/`NonEmptyList`, `Ensure`, automatic error paths, and accumulated errors |
+| `ContractExamples.cs` | One nested contract reused for validation, decoding, explanation, generation, shrinking, and capability/limitation extension paths |
 | `ExampleAssertions.cs` | Shared asserts: `Equal`, `True`, `SequenceEqual`, `FaultIsPreserved`, `CancellationIsPreserved`, `UninitializedThrows` |
 
 ## CONVENTIONS

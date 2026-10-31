@@ -1,7 +1,5 @@
 namespace FunnySharp.TestSupport.Decoding;
 
-internal sealed record DecodeFixture(string Name, string Json);
-
 internal static class OrderFixtures
 {
     internal static readonly DecodeFixture Valid = new(

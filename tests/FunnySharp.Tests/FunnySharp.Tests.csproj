@@ -16,7 +16,9 @@
 
   <ItemGroup>
     <Compile Include="../Shared/TestRepositoryRoot.cs" Link="Shared/TestRepositoryRoot.cs" />
+    <Compile Include="../Shared/SharedOrderSupport.cs" Link="Shared/SharedOrderSupport.cs" />
     <Compile Include="../Shared/DecoderComparison/*.cs" Link="Shared/DecoderComparison/%(Filename)%(Extension)" />
+    <Compile Include="../Shared/ContractComparison/*.cs" Link="Shared/ContractComparison/%(Filename)%(Extension)" />
   </ItemGroup>
 
   <ItemGroup>
