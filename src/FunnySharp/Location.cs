@@ -80,6 +80,13 @@ public sealed class Location
     /// </summary>
     /// <param name="name">The non-null, non-empty property or item name.</param>
     /// <returns>A new location with the name segment appended.</returns>
+    /// <remarks>
+    /// A name that contains a path separator (<c>.</c>, <c>[</c>, or <c>]</c>) renders as the
+    /// quoted <c>["name"]</c> form used for string keys, so a property named <c>a.b</c> stays
+    /// distinguishable from a property <c>a</c> followed by a nested property <c>b</c>. Ordinary
+    /// names keep the plain form. The quoted form is a diagnostic rendering, not a parseable
+    /// escape format.
+    /// </remarks>
     /// <exception cref="ArgumentNullException"><paramref name="name"/> is <see langword="null"/>.</exception>
     /// <exception cref="ArgumentException"><paramref name="name"/> is empty.</exception>
     public Location Property(string name)
@@ -236,6 +243,12 @@ public sealed class Location
         switch (segment.Kind)
         {
             case SegmentKind.Property:
+                if (RequiresQuotedPropertyName(segment.Name!))
+                {
+                    AppendQuotedKey(builder, segment.Name!);
+                    break;
+                }
+
                 if (builder.Length > 0)
                 {
                     builder.Append('.');
@@ -247,20 +260,24 @@ public sealed class Location
                 builder.Append('[').Append(segment.Index).Append(']');
                 break;
             case SegmentKind.Key:
-                builder.Append('[');
                 if (segment.Key is string text)
                 {
-                    builder.Append('"').Append(text).Append('"');
+                    AppendQuotedKey(builder, text);
                 }
                 else
                 {
-                    builder.Append(segment.Key);
+                    builder.Append('[').Append(segment.Key).Append(']');
                 }
 
-                builder.Append(']');
                 break;
         }
     }
+
+    private static bool RequiresQuotedPropertyName(string name) =>
+        name.AsSpan().IndexOfAny(".[]") >= 0;
+
+    private static void AppendQuotedKey(StringBuilder builder, string text) =>
+        builder.Append('[').Append('"').Append(text).Append('"').Append(']');
 
     private enum SegmentKind : byte
     {

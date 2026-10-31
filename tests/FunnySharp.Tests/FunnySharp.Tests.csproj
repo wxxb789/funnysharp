@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <Compile Include="../Shared/TestRepositoryRoot.cs" Link="Shared/TestRepositoryRoot.cs" />
+    <Compile Include="../Shared/DecoderComparison/*.cs" Link="Shared/DecoderComparison/%(Filename)%(Extension)" />
   </ItemGroup>
 
   <ItemGroup>

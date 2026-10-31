@@ -1,7 +1,8 @@
 # Stability Inventory
 
 FunnySharp retains the stable 0.1.0 baseline while Goal 25 prepares the next preview-minor
-audit-repair candidate, plus the tracked experimental members below. Every
+audit-repair candidate, plus the tracked experimental members below. Goal 26 adds the stable
+input-decoding family and keeps its structured location accessor experimental. Every
 experimental member carries `[Experimental("FS####")]` with the diagnostic ID recorded here, an
 entry in this inventory, no compatibility promise, and removal without a breaking-change
 process ([stability boundary](next-stage/api-decisions.md)). Stable members change only
@@ -37,13 +38,14 @@ its stability-inventory test.
 | Effects and resources | `Effect`, `Effect<T>`, `Effect<TEnvironment,T>`, `EffectResourceExtensions` | AD-7 keep | 0.1.0 |
 | State machines | `TransitionStatus`, `StateChange<TState,TOutput>`, `StateTransition<TState,TOutput>`, `StateTransitionExtensions`, `TransitionResult<TState,TOutput,TError>`, `StateMachine<TState,TEvent,TOutput,TError>`, `StateMachineExtensions` | AD-8 keep; the `Then` single-materialization redesign delivered by Goal 20 | 0.1.0; Goal 20 |
 | Optics | `Lens`, `Lens<TSource,TFocus>`, `Optional`, `Optional<TSource,TFocus>` | AD-9 keep | 0.1.0 |
+| Input decoding | `Decoder`, `Decoder<T>`, `DecodeError`, `DecodeErrorKind` | New callable decoding over BCL `JsonElement`; no schema, serializer, or runtime dependency | Goal 26 |
 | HTTP integration | `HttpResultExtensions` (`FunnySharp.AspNetCore`) | AD-10 keep; G1 `UnitResult` mapping delivered | 0.1.0; Goal 15 |
 | Compiler feedback | `FunnySharp.Analyzers`, `FunnySharp.Analyzers.CodeFixes` (shipped inside the `FunnySharp` package under `analyzers/dotnet/cs`, not separate packages) | E126/E127 adopt: in-package zero-install analyzers, all suppressible, ASCII ids, no `NotConfigurable` | Goal 21 |
 
 Deferred capabilities stay absent from the stable surface: a general retry/backoff layer
 (G8), `Memoize`/async-buffer carriers and k-way async merge, completion-order coordination
 beyond the recorded constrained form, typed-results/OpenAPI APIs (Goal 22 documents
-`.Produces*` instead), System.Text.Json converters, `Either` as a non-error carrier, Option
+`.Produces*` instead), System.Text.Json converters, decoder schema/introspection, `Either` as a non-error carrier, Option
 comparers/ordering, awaitable `Option<Task<T>>` sugar, and `net11.0` targeting. A public
 `Unit` type is rejected, not deferred (G17). The absence of these names from the public
 surface is enforced by `AdvancedPatternCurationTests`.
@@ -53,6 +55,7 @@ surface is enforced by `AdvancedPatternCurationTests`.
 | Diagnostic ID | Member | Status | Entered | Owner goal | Notes |
 | --- | --- | --- | --- | --- | --- |
 | FS0017 | `Location` (src/FunnySharp/Location.cs) | Experimental | 2026-09-20 | Goal 17 | Compositional traversal location context (decision G6: adopt experimental first; E44). |
+| FS0017 | `DecodeError`.`Location` (src/FunnySharp/DecodeError.cs) | Experimental | 2026-10-30 | Goal 26 | Structured decoder diagnostic path; the stable `Path` property renders the same location. |
 | FS0017 | `SequenceExtensions`.`Traverse` located list overloads (Option/Result/UnitResult/Validation) | Experimental | 2026-09-20 | Goal 17 | Selector receives `root.At(index)`. |
 | FS0017 | `SequenceExtensions`.`Traverse` located dictionary overloads | Experimental | 2026-09-20 | Goal 17 | Selector receives `root.Key(key)` plus key and value. |
 | FS0017 | `SequenceExtensions`.`Traverse` explicit-comparer located dictionary overloads (Option/Result/Validation) | Experimental | 2026-10-01 | Goal 25 | Same location/key/value semantics; the caller supplies an opaque source's equality policy. |

@@ -6,9 +6,20 @@ Each numbered file is an independently addressable outcome contract, written usi
 
 Read [Core Design](../core-design.md) for the shared design intent when pursuing a goal. It guides abstraction and engineering choices across the series; each goal retains its own completion contract, and prospective capabilities remain distinct from shipped behavior.
 
+## Completed And Archived
+
+| Goal | Outcome | Completion evidence |
+| --- | --- | --- |
+| [0024](archive/0024-goal.md) | Independent fail-closed audit of Goals 14-23 | [final resolution report](../audits/goal-24-resolution/report.md), [evidence index](../audits/goal-24-resolution/final-evidence-index.md) |
+| [0025](archive/0025-goal.md) | Resolution of all 69 original audit findings at the frozen `d8744` candidate | [final ledger](../audits/goal-24-resolution/findings.json), [report](../audits/goal-24-resolution/report.md) |
+| [0026](archive/0026-goal.md) | Composable decoding into trusted domain values | [decoder evidence](../decoder-evidence.md), [compiling example](../../examples/FunnySharp.Examples/DecoderExamples.cs) |
+
+The 0024/0025 final ledger records 69 `ACCEPTED_VERIFIED` rows, 0 open, the original 40 FAIL/29 UNVERIFIED origins preserved, and an independent whole-goal gate recommendation of APPROVE at product `d8744c934d86833f9817245ecc7c78b1177b8b76`. Goal 0026 is verified by the decoder tests, three-way consumer comparison, and allocation/timing evidence.
+
+## Next-Stage Goals
+
 | Goal | Outcome | Kind |
 | --- | --- | --- |
-| [0026](0026-goal.md) | Composable decoding into trusted domain values | Product outcome |
 | [0027](0027-goal.md) | Interpretable contracts and honest derivation | Product outcome |
 | [0028](0028-goal.md) | Validated, inspectable partial changes | Product outcome |
 | [0029](0029-goal.md) | Composable batched reads | Product outcome |
@@ -28,7 +39,7 @@ Read [Core Design](../core-design.md) for the shared design intent when pursuing
 
 The numbers provide a useful reading and selection order, not a requirement to finish every earlier goal before an independent outcome can be pursued. Each file names material relationships where relevant. Supply a selected file's contents to the receiving agent one at a time; planning and execution belong to that agent and its harness. Reassess a distant research goal against the capabilities and priorities present when it is selected. Research completion establishes a supported decision, including a negative decision where warranted; it does not establish that a product feature shipped. The product outcomes retain their stated acceptance conditions.
 
-The existing [0024](0024-goal.md) and [0025](0025-goal.md) contracts and all [archived goals](archive/) remain historical or existing authorities with their current status. This PR does not infer completion from their presence or rewrite their findings. The new directions deliberately permit focused reconsideration of earlier defer/reject decisions, such as inspectable changes, scope-local batched reads and incremental computation. A capability change must reconcile the affected current [product contract](../product-contract.md), [grammar](../grammar.md) and [stability inventory](../stability-inventory.md) within that goal's scope, retaining historical evidence and rationale. These prospective goals do not silently redefine the behavior of the currently shipped API.
+The completed [0024](archive/0024-goal.md), [0025](archive/0025-goal.md), and [0026](archive/0026-goal.md) contracts are archived unchanged with the evidence linked above. The new directions deliberately permit focused reconsideration of earlier defer/reject decisions, such as inspectable changes, scope-local batched reads and incremental computation. A capability change must reconcile the affected current [product contract](../product-contract.md), [grammar](../grammar.md) and [stability inventory](../stability-inventory.md) within that goal's scope, retaining historical evidence and rationale. These prospective goals do not silently redefine the behavior of the currently shipped API.
 
 The shared product constraints are BCL interoperability, optional immutability, meaningful sync/async use, explicit error and cancellation semantics, a thin I/O boundary and no new core runtime dependency. Performance and expression claims concern complete, semantically equivalent consumer workflows, including adapters and type declarations. Generated or derived artifacts are not independent proof of the business specification. There are no invented speedup percentages, LOC targets or completion deadlines. Maintainer judgment and the concrete evidence in each contract determine acceptance.
 
@@ -38,7 +49,7 @@ Validation follows the repository's current AGENTS.md: relevant evidence belongs
 
 These are selective primary references for the agreed direction, not dependencies or feature-parity checklists. The examples and API spellings in the conversation were exploratory and are not frozen by these contracts.
 
-- [Clojure spec](https://clojure.org/guides/spec), [MoonBit derivation](https://docs.moonbitlang.com/en/stable/language/derive.html) and [FsCheck](https://fscheck.github.io/FsCheck/QuickStart.html): interpretable constraints, generated inputs and shrinking (0026-0027).
+- [Clojure spec](https://clojure.org/guides/spec), [MoonBit derivation](https://docs.moonbitlang.com/en/stable/language/derive.html) and [FsCheck](https://fscheck.github.io/FsCheck/QuickStart.html): interpretable constraints, generated inputs and shrinking (0027).
 - [Ecto.Changeset](https://hexdocs.pm/ecto/Ecto.Changeset.html), [ReScript optional fields](https://rescript-lang.org/docs/manual/record/) and [null/undefined interoperation](https://rescript-lang.org/docs/manual/null-undefined-option/): precise partial changes (0028).
 - [Elixir Dataloader](https://hexdocs.pm/dataloader/Dataloader.html) and [.NET DataLoader](https://chillicream.com/docs/hotchocolate/fetching-data/batching/dataloader): batched data requirements and existing alternatives (0029).
 - [Scala opaque types](https://docs.scala-lang.org/scala3/reference/other-new-features/opaques.html), [OCaml modules](https://ocaml.org/docs/modules) and [MoonBit error handling](https://docs.moonbitlang.com/en/stable/language/error-handling.html): domain boundaries and typed composition, with host-language limits (0030).

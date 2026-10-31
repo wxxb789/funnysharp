@@ -15,13 +15,13 @@ Read [Core Design](docs/core-design.md) when shaping a goal or choosing an abstr
 ```
 funnysharp/
 ├── src/                  # 4 projects: core nupkg (zero runtime deps), Roslyn analyzers, code fixes, AspNetCore package
-├── tests/                # xUnit v3 suites + Compatibility (outside FunnySharp.slnx) + FunnySharp.Harness.Tests (F#)
+├── tests/                # xUnit v3 suites + DecoderMeasurements harness + Compatibility (outside FunnySharp.slnx) + FunnySharp.Harness.Tests (F#)
 ├── eng/                  # F# harness: root build.fsx + harness/*.fs implement every gate; release-protocol.json; evaluation/ harness
 ├── docs/                 # product contract, grammar, per-carrier guides; next-stage/ = Goal 14 evidence-set workflow; goals/ frozen contracts
 ├── benchmarks/           # BenchmarkDotNet suites; JSON receipts bound to eng/performance manifests
 ├── examples/             # executable examples + DocumentationSamples (byte-exact docs snippet contract)
 ├── .github/workflows/    # release.yml (manual release gate) + tooling.yml (3-OS PR merge gate)
-└── FunnySharp.slnx       # 13 projects; excludes tests/FunnySharp.Compatibility
+└── FunnySharp.slnx       # 14 projects; excludes tests/FunnySharp.Compatibility
 ```
 
 ## WHERE TO LOOK

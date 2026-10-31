@@ -10,6 +10,7 @@
   <Project Path="src/FunnySharp/FunnySharp.csproj" />
   <Project Path="tests/FunnySharp.Analyzers.Tests/FunnySharp.Analyzers.Tests.csproj" />
   <Project Path="tests/FunnySharp.AspNetCore.Tests/FunnySharp.AspNetCore.Tests.csproj" />
+  <Project Path="tests/FunnySharp.DecoderMeasurements/FunnySharp.DecoderMeasurements.csproj" />
   <Project Path="tests/FunnySharp.Harness.Tests/FunnySharp.Harness.Tests.fsproj" />
   <Project Path="tests/FunnySharp.Tests/FunnySharp.Tests.csproj" />
 </Solution>

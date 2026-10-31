@@ -3,7 +3,7 @@ title: "fix: Resolve the Goal 24 audit findings"
 type: fix
 date: "2026-10-01T03:03:53.580Z"
 artifact_contract: ce-unified-plan/v1
-product_contract_source: "docs/audits/goal-24/criterion-matrix.csv; docs/goals/0024-goal.md; docs/goals/archive/0013-goal.md; accepted Goals 14-23"
+product_contract_source: "docs/audits/goal-24/criterion-matrix.csv; docs/goals/archive/0024-goal.md; docs/goals/archive/0013-goal.md; accepted Goals 14-23"
 execution: code
 ---
 
@@ -119,7 +119,7 @@ Evidence lifecycle is Planned -> Failing/Missing witness -> Repair -> Real-surfa
 
 **Dependencies:** None.
 
-**Files:** docs/goals/0025-goal.md; docs/product-contract.md; docs/grammar.md; docs/release-notes.md; src/FunnySharp/FunnySharp.csproj; src/FunnySharp.AspNetCore/FunnySharp.AspNetCore.csproj.
+**Files:** docs/goals/archive/0025-goal.md; docs/product-contract.md; docs/grammar.md; docs/release-notes.md; src/FunnySharp/FunnySharp.csproj; src/FunnySharp.AspNetCore/FunnySharp.AspNetCore.csproj.
 
 **Approach:** Retain lazy value-producing Recover and partial optic composition. Complete stable operational vocabulary, including span/memory mutation, Try boundaries, FromBoolean and Identity. Record the accepted follow-up rather than changing archived goals. Prepare a 0.2.0 local preview candidate because additive APIs and changed documented concurrency behavior are not patch-release changes.
 
@@ -533,4 +533,4 @@ The live progress ledger is docs/audits/goal-24-resolution/findings.json. The ta
 
 ## Appendix
 
-Research evidence: .omo/audit-resolution/research/core-design.md, analyzer-design.md, performance-design.md, usability-design.md and release-design.md. These reports distinguish inspected historical receipts from executions; none ran product validators during planning. Source authority: docs/goals/archive/0013-goal.md and 0014-goal.md through 0023-goal.md, docs/goals/0024-goal.md, docs/product-contract.md, docs/grammar.md and docs/versioning.md.
+Research evidence: .omo/audit-resolution/research/core-design.md, analyzer-design.md, performance-design.md, usability-design.md and release-design.md. These reports distinguish inspected historical receipts from executions; none ran product validators during planning. Source authority: docs/goals/archive/0013-goal.md and 0014-goal.md through 0023-goal.md, docs/goals/archive/0024-goal.md, docs/product-contract.md, docs/grammar.md and docs/versioning.md.

@@ -123,6 +123,11 @@ return await source.TraverseValueAsync(item => new ValueTask<Option<string>>(Loo
 The wrapper makes the conversion explicit and preserves the method's normal fault and cancellation
 behavior.
 
+The decoding surface in [decoding.md](decoding.md) builds on this accumulation model:
+`Decoder<T>` returns `Validation<T, DecodeError>` and uses `Validation.Zip`/`Traverse` for
+independent fields and elements, while dependent decode steps are fail-fast. Decoder-specific
+missing, null, optional, and empty policies are documented there.
+
 ## Deliberate Boundaries
 
 Validation does not add a general discriminated-union framework, an async wrapper type, exception

@@ -4,7 +4,7 @@ module FunnySharp.Harness.ActionPins
 // checks over .github/workflows/*.yml and *.yaml: every remote `uses:` must be
 // pinned as owner/repo@<40-hex-sha> with a `# <version>` comment, local actions
 // are exempt, release.yml's `actions/*` pins stay with ReleaseProtocolTests.fs
-// (ReleaseWorkflow_HasRequiredContextsAndShaPinnedActions), and tooling.yml takes
+// (ReleaseWorkflow_HasNoPrivilegedExecutionAndShaPinnedActions), and tooling.yml takes
 // the uv version from uv.toml.
 
 open System
@@ -17,7 +17,7 @@ open FunnySharp.Harness.Repo
 let private workflowSuffixes = [ ".yml"; ".yaml" ]
 
 // release.yml's `actions/*` pins stay with ReleaseProtocolTests.fs
-// (ReleaseWorkflow_HasRequiredContextsAndShaPinnedActions); checking them here
+// (ReleaseWorkflow_HasNoPrivilegedExecutionAndShaPinnedActions); checking them here
 // would create a divergent second owner for the same pins.
 let private releaseWorkflowNames = Set.ofList [ "release.yml"; "release.yaml" ]
 let private frozenActionOwner = "actions"

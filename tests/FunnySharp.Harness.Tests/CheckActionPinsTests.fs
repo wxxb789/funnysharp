@@ -215,7 +215,7 @@ type PinCheckFixtureTests() =
         let releaseText = workflowText [ step [ "name: Checkout"; "uses: actions/checkout@v4" ] ]
         let _, findings = checkFixture [ "release.yml", releaseText ] false
         // actions/* in release.yml stays with ReleaseProtocolTests.fs
-        // (ReleaseWorkflow_HasRequiredContextsAndShaPinnedActions).
+        // (ReleaseWorkflow_HasNoPrivilegedExecutionAndShaPinnedActions).
         Assert.Empty findings
 
     [<Fact>]

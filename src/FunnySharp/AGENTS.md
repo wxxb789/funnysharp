@@ -3,12 +3,13 @@
 **Why this file:** score 31 — the repo's shipping surface; every other project exists to build, test, pack, or consume this one.
 
 ## OVERVIEW
-Functional carriers (`Option`/`Result`/`UnitResult`/`Validation`/`Effect`) plus traversal/pipeline extensions over BCL types. C# 13, net10.0, zero runtime dependencies.
+Functional carriers (`Option`/`Result`/`UnitResult`/`Validation`/`Effect`), input decoding over BCL `JsonElement`, plus traversal/pipeline extensions over BCL types. C# 13, net10.0, zero runtime dependencies.
 
 ## WHERE TO LOOK
 | Task | Location |
 |------|----------|
 | Carrier semantics | `Option.cs`, `Result.cs`, `UnitResult.cs`, `Validation.cs` |
+| Input decoding | `Decoder.cs`, `DecodeError.cs`, `DecodeErrorKind.cs` (JsonElement -> Validation; stable `Path`, experimental `Location`) |
 | Traversal matrix | `SequenceExtensions.cs` / `AsyncSequenceExtensions.cs` / `ParallelAsyncEnumerableExtensions.cs` |
 | Parallel plumbing (Channels, IValueTaskSource) | `ParallelAsyncEnumerableExtensions.cs` (680 lines, highest complexity) |
 | Optics | `Optics.cs` (`Lens`, `Optional`) |
@@ -28,4 +29,5 @@ Functional carriers (`Option`/`Result`/`UnitResult`/`Validation`/`Effect`) plus 
 - Never fold a selected null into `None` — bridges throw `ArgumentNullException` instead.
 - Span pipelines: source and destination must not overlap; capacity validated before any write.
 - No runtime dependencies — BCL only; no new PackageReference without a goal contract.
+- Decoding accepts a parsed BCL `JsonElement` only; no serializer, schema introspection, reflection binder, or async input model. Location prefixes are materialized only after a decode failure.
 - No second absence carrier (e.g. `Maybe<T>`) and no `Where` member on carrier types — frozen by `AdvancedPatternCurationTests`.

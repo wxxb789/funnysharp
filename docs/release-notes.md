@@ -20,13 +20,19 @@ section; the versioning rules and the committed public-API baseline that gate ev
 
 ## 0.2.0 (preview candidate)
 
-Goal 25 prepares this candidate; publication and final release acceptance are separate.
+Goal 25 prepares this candidate; Goal 26 adds the decoder family described below.
+Publication and final release acceptance are separate.
 The original Goal 24 audit and its missing historical evidence remain preserved.
 
 - Keyed traversal adds explicit equality-comparer overloads and preserves the publicly exposed
   comparers of supported BCL dictionaries, including empty results. Opaque sources require an
   explicit comparer to retain a nondefault equality policy. Empty string location keys are valid;
   empty property names and null keys remain invalid. Located overloads remain experimental.
+- Composable decoding adds stable `Decoder`, `Decoder<T>`, `DecodeError`, and `DecodeErrorKind`
+  over parsed `JsonElement` input. Independent field and element errors accumulate with
+  deterministic paths; missing, explicit-null, optional, malformed, and empty policies are
+  explicit; async is limited to actual validation callbacks. `DecodeError.Location` remains
+  experimental (`FS0017`). See [decoding](decoding.md).
 - `FirstSuccessAsync` retains its `Validation` result and existing signatures. Existing overloads
   use a bounded degree of 32; the required-argument timeout/provider/token/degree overload selects
   an explicit positive bound. Finite input is still eagerly snapshotted. Independent faults,

@@ -1,6 +1,6 @@
 # docs/goals/ — goal contracts
 
-Active and proposed goal contracts plus 23 archived immutable contracts; the product's completion-criteria authority.
+Active and proposed goal contracts plus 26 archived immutable contracts; the product's completion-criteria authority.
 
 ## OVERVIEW
 
@@ -8,9 +8,8 @@ Active and archived goal contracts — the authoritative completion criteria eve
 
 ## STRUCTURE
 
-- Existing: `0024-goal.md` — the independent fail-closed audit of Goals 14–23; `0025-goal.md` — its resolution contract.
-- Next-stage: `0026-goal.md` .. `0042-goal.md` — product outcomes and bounded research outcomes; see [README.md](README.md) for the index and provenance. Presence here does not imply activation or completion.
-- `archive/`: `0001-goal.md` .. `0023-goal.md` — completed goals kept as immutable reference; `0013-goal.md` additionally carries audit status / product acceptance rules.
+- Completed and archived: `archive/0001-goal.md` .. `archive/0026-goal.md` — immutable completion contracts; `archive/0013-goal.md` additionally carries audit status / product acceptance rules.
+- Next-stage: `0027-goal.md` .. `0042-goal.md` — product outcomes and bounded research outcomes; see [README.md](README.md) for the index and provenance. Presence here does not imply activation or completion.
 
 ## FORMAT (frozen)
 
@@ -24,8 +23,10 @@ Active and archived goal contracts — the authoritative completion criteria eve
 |------|----------|
 | A goal's full completion contract | line 2 of its `NNNN-goal.md` |
 | Audit / acceptance rules for completed goals | `archive/0013-goal.md` |
-| Existing audit and resolution text | `0024-goal.md`, `0025-goal.md` |
-| Next-stage goal selection | [README.md](README.md), linking `0026-goal.md` .. `0042-goal.md` |
+| Archived audit and resolution contracts | `archive/0024-goal.md`, `archive/0025-goal.md` |
+| Archived decoder contract | `archive/0026-goal.md` |
+| Completed audit/resolution/decoder evidence | `../audits/goal-24-resolution/report.md`, `../audits/goal-24-resolution/final-evidence-index.md`, `../decoder-evidence.md` |
+| Next-stage goal selection | [README.md](README.md), linking `0027-goal.md` .. `0042-goal.md` |
 | Which goal a plan or doc executes against | its `product_contract_source` / Authority line links back here |
 
 ## CONVENTIONS
