@@ -2,7 +2,9 @@
 
 FunnySharp retains the stable 0.1.0 baseline while Goal 25 prepares the next preview-minor
 audit-repair candidate, plus the tracked experimental members below. Goal 26 adds the stable
-input-decoding family and keeps its structured location accessor experimental. Every
+input-decoding family and keeps its structured location accessor experimental. Goal 27 adds the
+stable inspectable-contract family: validation, decoder derivation, explanation, schema metadata,
+deterministic generation, and shrinking from one description. Every
 experimental member carries `[Experimental("FS####")]` with the diagnostic ID recorded here, an
 entry in this inventory, no compatibility promise, and removal without a breaking-change
 process ([stability boundary](next-stage/api-decisions.md)). Stable members change only
@@ -39,13 +41,14 @@ its stability-inventory test.
 | State machines | `TransitionStatus`, `StateChange<TState,TOutput>`, `StateTransition<TState,TOutput>`, `StateTransitionExtensions`, `TransitionResult<TState,TOutput,TError>`, `StateMachine<TState,TEvent,TOutput,TError>`, `StateMachineExtensions` | AD-8 keep; the `Then` single-materialization redesign delivered by Goal 20 | 0.1.0; Goal 20 |
 | Optics | `Lens`, `Lens<TSource,TFocus>`, `Optional`, `Optional<TSource,TFocus>` | AD-9 keep | 0.1.0 |
 | Input decoding | `Decoder`, `Decoder<T>`, `DecodeError`, `DecodeErrorKind` | New callable decoding over BCL `JsonElement`; no schema, serializer, or runtime dependency | Goal 26 |
+| Inspectable contracts | `Contract`, `Contract<T>`, `ContractField<TParent,T>`, `ContractFieldSet<TParent>`, `ContractAlternative<T>`, `ContractDescription`, `ContractDescriptionKind`, `ContractFieldDescription`, `ContractFieldPresence`, `ContractAlternativeDescription`, `ContractCapabilities`, `ContractLimitation`, `ContractDerivation`, `ContractGenerationOptions` | New stable description/derivation family; one description drives validation, decoding, explanation, schema metadata, generation, and shrinking; no serializer, universal schema, test dependency, or runtime dependency | Goal 27 |
 | HTTP integration | `HttpResultExtensions` (`FunnySharp.AspNetCore`) | AD-10 keep; G1 `UnitResult` mapping delivered | 0.1.0; Goal 15 |
 | Compiler feedback | `FunnySharp.Analyzers`, `FunnySharp.Analyzers.CodeFixes` (shipped inside the `FunnySharp` package under `analyzers/dotnet/cs`, not separate packages) | E126/E127 adopt: in-package zero-install analyzers, all suppressible, ASCII ids, no `NotConfigurable` | Goal 21 |
 
 Deferred capabilities stay absent from the stable surface: a general retry/backoff layer
 (G8), `Memoize`/async-buffer carriers and k-way async merge, completion-order coordination
 beyond the recorded constrained form, typed-results/OpenAPI APIs (Goal 22 documents
-`.Produces*` instead), System.Text.Json converters, decoder schema/introspection, `Either` as a non-error carrier, Option
+`.Produces*` instead), System.Text.Json converters, schema/introspection on `Decoder<T>` itself, `Either` as a non-error carrier, Option
 comparers/ordering, awaitable `Option<Task<T>>` sugar, and `net11.0` targeting. A public
 `Unit` type is rejected, not deferred (G17). The absence of these names from the public
 surface is enforced by `AdvancedPatternCurationTests`.

@@ -10,6 +10,7 @@ VerifyOptions();
 VerifyResults();
 VerifyValidations();
 DecoderExamples.Verify();
+ContractExamples.Verify();
 UnitResultExamples.Verify();
 FunctionGrammarSamples.Verify();
 VerifyImmutableUpdates();

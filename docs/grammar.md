@@ -32,7 +32,9 @@ No second carrier for any of the
 meanings above is added: `Maybe`, `Either`, `Fin`, `Try`, `IO`, `Reader`, `OptionAsync`, and async
 outcome wrappers remain out of scope ([product contract](product-contract.md)). `Decoder<T>` is not a
 semantic outcome carrier: it is a callable input-to-`Validation` boundary, and `DecodeError` is its
-diagnostic value.
+diagnostic value. `Contract<T>` is also not an outcome carrier: it is an inspectable constraint
+description. `Validate` checks an existing value, `CreateDecoder` derives a decoder, `Generate` and
+`Shrink` derive test inputs and candidates, and `Description`/`Explain` expose metadata.
 
 ## Naming Rules
 
@@ -73,7 +75,11 @@ remain outside the stable table and are identified in the [stability inventory](
 Decoder construction (`Field`, `OptionalField`, `NullableField`, `OptionalValue`, `List`,
 `NonEmptyList`, `Object`, `From`, and the scalar factories) is documented in
 [decoding.md](decoding.md); those names are constructors, not workflow verbs, and their
-missing/null/empty policies are part of the contract.
+missing/null/empty policies are part of the contract. Contract construction (`For`, `Field`,
+`OptionalField`, `NullableField`, `Optional`, `List`, `NonEmptyList`, `Object`, `OneOf`,
+`DiscriminatedOneOf`, `Defer`, `From`, and the scalar/range factories) and derivation
+(`CreateDecoder`, `Generate`, `GenerateSamples`, `Shrink`, `Description`, `Explain`, `Ensure`,
+`ValidateWith`, and the `With*` extension methods) are documented in [contracts.md](contracts.md).
 
 ### Construction And Exception Boundaries
 
@@ -89,6 +95,10 @@ missing/null/empty policies are part of the contract.
 | `TryAsync` | Executes the boundary over a Task-returning operation. | tokenless `Func<Task<T>>` / `Func<Task>` | `Task<Result<...>>` / `Task<UnitResult<...>>` | — | The callback owns any captured token; canceled tasks and faulted OCE tasks retain their states, and a null returned Task faults rather than reaching the mapper. |
 | `TryValueAsync` | Executes the boundary over a ValueTask-returning operation. | tokenless `Func<ValueTask<T>>` / `Func<ValueTask>` | `ValueTask<Result<...>>` / `ValueTask<UnitResult<...>>` | — | Each ValueTask is consumed once; cancellation and faulted OCE are not domain failures. |
 | `Decode` | Interprets a parsed BCL `JsonElement` as a typed value and accumulates structural and domain errors. | `Decoder<T>` | `Validation<T, DecodeError>` | `DecodeAsync`, `DecodeValueAsync` (asynchronous validation only) | Single call; input is not retained; missing/null/wrong-kind/malformed/empty are distinct; callback, parse, cancellation, and programming exceptions propagate unchanged. |
+| `CreateDecoder` | Derives a decoder from a contract's declared structure or a caller-supplied decoder. | `Contract<T>` | `Result<Decoder<T>, ContractLimitation>` | — | An unavailable structure is a typed limitation; a decoded value is still checked against the contract. |
+| `Generate` | Generates one deterministic value within the caller's explicit budget. | `Contract<T>` | `Result<T, ContractLimitation>` | — | Every value is checked; missing derivations, exhausted budgets, unsatisfiable declared constraints, and caller-generator violations fail explicitly; never rejection sampling. |
+| `GenerateSamples` | Generates several values from one deterministic sequence. | `Contract<T>` | `Result<IReadOnlyList<T>, ContractLimitation>` | — | The node budget is shared across the call; every value is checked. |
+| `Shrink` | Proposes one-step smaller candidates that still satisfy the contract. | `Contract<T>` | `Result<IReadOnlyList<T>, ContractLimitation>` | — | Candidates are checked against the whole contract, including refinements; duplicates and the input are removed; at most 256 candidates. |
 
 ### Function Grammar
 
@@ -119,8 +129,8 @@ missing/null/empty policies are part of the contract.
 | `MapError` | Transforms the failure while preserving success. | `Result`, `UnitResult` | Same carrier | — | Selector skipped after success; invoked at most once. |
 | `MapErrors` | Transforms every accumulated error while preserving a valid value. | `Validation` | Same carrier | — | Selector invoked once per error in order; skipped for a valid value. |
 | `Filter` | Keeps a present value only when a predicate accepts it. | `Option` | `Option<T>` | — | Predicate skipped for `None`; a `Some` whose predicate fails becomes `None`. |
-| `Ensure` | Keeps a success only when a predicate accepts it, otherwise returns the supplied failure. | `Result`, `UnitResult`, `Decoder<T>` | Same carrier; `Decoder<T>` | — | Predicate skipped after failure; an overload takes a lazy error factory; a `Decoder` rejection is one `InvalidValue` error at the decoder's location. |
-| `Validate` | Applies an accumulating domain validation to a successfully decoded value. | `Decoder<T>` | `Decoder<T>` | — | Callback skipped after failure; every returned message becomes an ordered `InvalidValue` error at the decoder's location; callback exceptions propagate. |
+| `Ensure` | Keeps a success only when a predicate accepts it, otherwise returns the supplied failure. | `Result`, `UnitResult`, `Decoder<T>`, `Contract<T>` | Same carrier/contract; `Decoder<T>` | — | Predicate skipped after failure; an overload takes a lazy error factory; a `Decoder` rejection is one `InvalidValue` error at the decoder's location; a `Contract` rejection adds one `InvalidValue` error and makes generation unavailable until a generator is supplied. |
+| `Validate` | Applies an accumulating domain validation to a successfully decoded value, or checks an existing value against a contract. | `Decoder<T>`, `Contract<T>` | `Decoder<T>` for decoder composition; `Validation<T, DecodeError>` for a contract check | — | On a decoder: callback skipped after failure; every returned message becomes an ordered `InvalidValue` error at the decoder's location; callback exceptions propagate. On a contract: a runtime-null reference value is a `Null` error; object fields and collection elements accumulate in declaration/source order; refinement callbacks contribute messages only. |
 
 ### Fallback And Recovery
 
@@ -280,7 +290,10 @@ path), where BCL `Enumerable.Aggregate` throws `InvalidOperationException` on an
 | Operator overloads beyond `==`/`!=` | Other operators are tricks that hide control flow or cost. |
 | `Curry`/`Partial`/`Flip` beyond binary arity | A larger overload family adds no discoverability; an ordinary lambda covers uncommon shapes. |
 | `Zip` combine beyond arity 4 | Unbounded tuple towers are rejected; wider forms nest or use `Traverse`. |
-| Decoder schema/introspection | `Decoder<T>` is a callable function; structured contract derivation is a separate outcome (Goal 0027). |
+| Decoder schema/introspection | `Decoder<T>` itself is a callable function; inspectable constraints and derivations belong to `Contract<T>` ([contracts](contracts.md)), not to the decoder. |
+| Automatic cross-field generation or predicate inversion | A contract predicate is opaque; generation is unavailable until the caller supplies a generator, and generated values are checked rather than rejection-sampled. |
+| Universal schema registry or reflection binder | A contract describes one value type through explicit C# accessors and contracts; no application-wide schema or reflection layer is added. |
+| Test-framework dependency in the core package | Generation and shrinking return BCL values; FsCheck, Hedgehog, or xUnit integration belongs to the caller. |
 | Async input decoder | The in-memory `JsonElement` input is synchronous; async is only an actual validation callback (`DecodeAsync`/`DecodeValueAsync`). |
 | `TraverseParallelValueAsync` over `UnitResult<TError>` | Deferred to the concurrency goal absent a concrete consumer. |
 | Ordering parameters on `SelectParallel*` | The delivery order is the method name (decision E82); a boolean or enum parameter would make one verb carry two hidden contracts. |

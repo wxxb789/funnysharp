@@ -38,7 +38,7 @@ execution: code
 
 **Deferred to Follow-Up Work**
 
-- Schema or constraint introspection, generation, explanations, and serializer integration belong to [Goal 0027](../goals/0027-goal.md).
+- Schema or constraint introspection, generation, explanations, and serializer integration belong to [Goal 0027](../goals/archive/0027-goal.md).
 - Typed caller error hierarchies composed across modules belong to [Goal 0030](../goals/0030-goal.md).
 - ASP.NET Core endpoint mapping of decode errors belongs to [Goal 0031](../goals/0031-goal.md).
 - Partial-change omission/null/replacement semantics belong to [Goal 0028](../goals/0028-goal.md).

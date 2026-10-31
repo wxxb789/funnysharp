@@ -24,6 +24,7 @@ docs/
 | Design intent and abstraction judgment | `core-design.md` (blueprint; current behavior remains in the product contract and grammar) |
 | Feature usage: Option / Result / UnitResult / Validation | `option.md`, `result.md`, `unit-result.md`, `validation.md` |
 | Feature usage: decoding untrusted JSON | `decoding.md` |
+| Feature usage: inspectable constraints, schema, generated inputs, shrinking | `contracts.md` |
 | Feature usage: collections / concurrency / effects / pipelines | `collections.md`, `concurrency.md`, `effects.md`, `data-pipelines.md` |
 | Function grammar, state machines, immutable updates | `function-composition.md`, `state-machines.md`, `immutable-updates.md` |
 | Canonical vocabulary and naming rules | `grammar.md` |
@@ -32,6 +33,7 @@ docs/
 | ASP.NET Core integration | `aspnet-core.md` |
 | Goal 22 slice comparison and evidence | `vertical-slice-call-sites.md`, `vertical-slice-evidence.md` |
 | Decoder consumer comparison and measurements | `decoder-evidence.md` |
+| Contract consumer comparison, generated-input properties and measurements | `contract-evidence.md` |
 | Performance policy + evidence | `performance.md` |
 | Experimental-member registry | `stability-inventory.md` |
 | Versioning rules and the committed API baseline | `versioning.md` |

@@ -70,6 +70,141 @@ CLASS FunnySharp.ContainerExtensions
   METHOD static FunnySharp.Option<TElement> DequeueOrNone<TElement, TPriority>(System.Collections.Generic.PriorityQueue<TElement, TPriority> source)
   METHOD static FunnySharp.Option<TElement> PeekOrNone<TElement, TPriority>(System.Collections.Generic.PriorityQueue<TElement, TPriority> source)
   METHOD static FunnySharp.Option<TValue?> RemoveOrNone<TKey, TValue>(System.Collections.Generic.Dictionary<TKey, TValue?> source, TKey key)
+CLASS FunnySharp.Contract
+  METHOD static FunnySharp.Contract<FunnySharp.Option<T?>> Optional<T>(FunnySharp.Contract<T?> contract)
+  METHOD static FunnySharp.Contract<System.Collections.Generic.IReadOnlyList<T?>> List<T>(FunnySharp.Contract<T?> element, System.Int32 minimumLength, System.Nullable<System.Int32>? maximumLength)
+  METHOD static FunnySharp.Contract<System.Collections.Generic.IReadOnlyList<T?>> NonEmptyList<T>(FunnySharp.Contract<T?> element)
+  METHOD static FunnySharp.Contract<System.Decimal> DecimalRange(System.Decimal minimum, System.Decimal maximum)
+  METHOD static FunnySharp.Contract<System.Double> DoubleRange(System.Double minimum, System.Double maximum)
+  METHOD static FunnySharp.Contract<System.Int32> Int32Range(System.Int32 minimum, System.Int32 maximum)
+  METHOD static FunnySharp.Contract<System.Int64> Int64Range(System.Int64 minimum, System.Int64 maximum)
+  METHOD static FunnySharp.Contract<T?> Defer<T>(System.String name, System.Func<FunnySharp.Contract<T?>> factory)
+  METHOD static FunnySharp.Contract<T?> DiscriminatedOneOf<T>(System.String discriminator, System.Func<T?, System.Int32> selectValue, FunnySharp.ContractAlternative<T?>[] alternatives)
+  METHOD static FunnySharp.Contract<T?> From<T>(System.String description, System.Func<T?, FunnySharp.Validation<T?, System.String>> validate)
+  METHOD static FunnySharp.Contract<T?> OneOf<T>(System.Func<T?, System.Int32> selectValue, System.Func<System.Text.Json.JsonElement, FunnySharp.Option<System.Int32>>? selectInput, System.String? discriminator, FunnySharp.ContractAlternative<T?>[] alternatives)
+  METHOD static FunnySharp.Contract<TResult?> Object<T1, T2, T3, T4, TResult>(FunnySharp.ContractField<TResult?, T1?> first, FunnySharp.ContractField<TResult?, T2?> second, FunnySharp.ContractField<TResult?, T3?> third, FunnySharp.ContractField<TResult?, T4?> fourth, System.Func<T1?, T2?, T3?, T4?, TResult?> combine)
+  METHOD static FunnySharp.Contract<TResult?> Object<T1, T2, T3, TResult>(FunnySharp.ContractField<TResult?, T1?> first, FunnySharp.ContractField<TResult?, T2?> second, FunnySharp.ContractField<TResult?, T3?> third, System.Func<T1?, T2?, T3?, TResult?> combine)
+  METHOD static FunnySharp.Contract<TResult?> Object<T1, T2, TResult>(FunnySharp.ContractField<TResult?, T1?> first, FunnySharp.ContractField<TResult?, T2?> second, System.Func<T1?, T2?, TResult?> combine)
+  METHOD static FunnySharp.Contract<TResult?> Object<T1, TResult>(FunnySharp.ContractField<TResult?, T1?> first, System.Func<T1?, TResult?> combine)
+  METHOD static FunnySharp.ContractAlternative<T?> Alternative<T>(System.String label, FunnySharp.Contract<T?> contract)
+  METHOD static FunnySharp.ContractField<TParent?, FunnySharp.Option<T?>> NullableField<TParent, T>(System.String name, FunnySharp.Contract<T?> contract, System.Func<TParent?, FunnySharp.Option<T?>> getter)
+  METHOD static FunnySharp.ContractField<TParent?, FunnySharp.Option<T?>> OptionalField<TParent, T>(System.String name, FunnySharp.Contract<T?> contract, System.Func<TParent?, FunnySharp.Option<T?>> getter)
+  METHOD static FunnySharp.ContractField<TParent?, T?> Field<TParent, T>(System.String name, FunnySharp.Contract<T?> contract, System.Func<TParent?, T?> getter)
+  METHOD static FunnySharp.ContractFieldSet<TParent?> For<TParent>()
+  PROPERTIE FunnySharp.Contract<System.Boolean> Boolean
+  PROPERTIE FunnySharp.Contract<System.DateTime> DateTime
+  PROPERTIE FunnySharp.Contract<System.DateTimeOffset> DateTimeOffset
+  PROPERTIE FunnySharp.Contract<System.Decimal> Decimal
+  PROPERTIE FunnySharp.Contract<System.Double> Double
+  PROPERTIE FunnySharp.Contract<System.Guid> Guid
+  PROPERTIE FunnySharp.Contract<System.Int32> Int32
+  PROPERTIE FunnySharp.Contract<System.Int64> Int64
+  PROPERTIE FunnySharp.Contract<System.String> NonEmptyString
+  PROPERTIE FunnySharp.Contract<System.String> String
+CLASS FunnySharp.ContractAlternativeDescription
+  CONSTRUCTOR ctor(System.String label, FunnySharp.ContractDescription contract)
+  METHOD System.String ToString()
+  PROPERTIE FunnySharp.ContractDescription Contract
+  PROPERTIE System.String Label
+CLASS FunnySharp.ContractAlternative<T>
+  PROPERTIE FunnySharp.Contract<T?> Contract
+  PROPERTIE System.String Label
+CLASS FunnySharp.ContractCapabilities
+  PROPERTIE System.Boolean CanDecode
+  PROPERTIE System.Boolean CanGenerate
+  PROPERTIE System.Boolean CanShrink
+  PROPERTIE System.Boolean HasCompleteSchema
+  PROPERTIE System.Collections.Generic.IReadOnlyList<FunnySharp.ContractLimitation> Limitations
+ENUM FunnySharp.ContractDerivation
+  FIELD static FunnySharp.ContractDerivation Decoding = 0
+  FIELD static FunnySharp.ContractDerivation Generation = 1
+  FIELD static FunnySharp.ContractDerivation Schema = 3
+  FIELD static FunnySharp.ContractDerivation Shrinking = 2
+  FIELD System.Int32 value__
+CLASS FunnySharp.ContractDescription
+  METHOD static FunnySharp.ContractDescription Collection(FunnySharp.ContractDescription element, System.Int32 minimumLength, System.Nullable<System.Int32>? maximumLength)
+  METHOD static FunnySharp.ContractDescription Derived(FunnySharp.ContractDescription source, System.String detail)
+  METHOD static FunnySharp.ContractDescription Object(System.Collections.Generic.IReadOnlyList<FunnySharp.ContractFieldDescription> fields)
+  METHOD static FunnySharp.ContractDescription OneOf(System.String? discriminator, System.Collections.Generic.IReadOnlyList<FunnySharp.ContractAlternativeDescription> alternatives)
+  METHOD static FunnySharp.ContractDescription Opaque(System.String detail)
+  METHOD static FunnySharp.ContractDescription Optional(FunnySharp.ContractDescription element)
+  METHOD static FunnySharp.ContractDescription Range(System.String name, System.String minimum, System.String maximum)
+  METHOD static FunnySharp.ContractDescription Recursive(System.String name)
+  METHOD static FunnySharp.ContractDescription Refined(FunnySharp.ContractDescription source, System.String detail)
+  METHOD static FunnySharp.ContractDescription Scalar(System.String name)
+  METHOD System.String ToString()
+  PROPERTIE FunnySharp.ContractDescription? Element
+  PROPERTIE FunnySharp.ContractDescriptionKind Kind
+  PROPERTIE System.Collections.Generic.IReadOnlyList<FunnySharp.ContractAlternativeDescription> Alternatives
+  PROPERTIE System.Collections.Generic.IReadOnlyList<FunnySharp.ContractFieldDescription> Fields
+  PROPERTIE System.Nullable<System.Int32>? MaximumLength
+  PROPERTIE System.Nullable<System.Int32>? MinimumLength
+  PROPERTIE System.String? Detail
+  PROPERTIE System.String? Discriminator
+  PROPERTIE System.String? Maximum
+  PROPERTIE System.String? Minimum
+  PROPERTIE System.String? Name
+ENUM FunnySharp.ContractDescriptionKind
+  FIELD static FunnySharp.ContractDescriptionKind Collection = 4
+  FIELD static FunnySharp.ContractDescriptionKind Derived = 9
+  FIELD static FunnySharp.ContractDescriptionKind Object = 2
+  FIELD static FunnySharp.ContractDescriptionKind OneOf = 3
+  FIELD static FunnySharp.ContractDescriptionKind Opaque = 8
+  FIELD static FunnySharp.ContractDescriptionKind Optional = 5
+  FIELD static FunnySharp.ContractDescriptionKind Range = 1
+  FIELD static FunnySharp.ContractDescriptionKind Recursive = 6
+  FIELD static FunnySharp.ContractDescriptionKind Refined = 7
+  FIELD static FunnySharp.ContractDescriptionKind Scalar = 0
+  FIELD System.Int32 value__
+CLASS FunnySharp.ContractFieldDescription
+  CONSTRUCTOR ctor(System.String name, FunnySharp.ContractDescription contract, FunnySharp.ContractFieldPresence presence)
+  METHOD System.String ToString()
+  PROPERTIE FunnySharp.ContractDescription Contract
+  PROPERTIE FunnySharp.ContractFieldPresence Presence
+  PROPERTIE System.String Name
+ENUM FunnySharp.ContractFieldPresence
+  FIELD static FunnySharp.ContractFieldPresence MissingIsAbsence = 1
+  FIELD static FunnySharp.ContractFieldPresence MissingOrNullIsAbsence = 2
+  FIELD static FunnySharp.ContractFieldPresence Required = 0
+  FIELD System.Int32 value__
+CLASS FunnySharp.ContractFieldSet<TParent>
+  METHOD FunnySharp.ContractField<TParent?, FunnySharp.Option<T?>> NullableField<T>(System.String name, FunnySharp.Contract<T?> contract, System.Func<TParent?, FunnySharp.Option<T?>> getter)
+  METHOD FunnySharp.ContractField<TParent?, FunnySharp.Option<T?>> OptionalField<T>(System.String name, FunnySharp.Contract<T?> contract, System.Func<TParent?, FunnySharp.Option<T?>> getter)
+  METHOD FunnySharp.ContractField<TParent?, T?> Field<T>(System.String name, FunnySharp.Contract<T?> contract, System.Func<TParent?, T?> getter)
+CLASS FunnySharp.ContractField<TParent, T>
+  PROPERTIE FunnySharp.Contract<T?> Contract
+  PROPERTIE FunnySharp.ContractFieldPresence Presence
+  PROPERTIE System.String Name
+CLASS FunnySharp.ContractGenerationOptions
+  CONSTRUCTOR ctor(System.Int32 seed, System.Int32 maxDepth, System.Int32 maxCollectionLength, System.Int32 maxNodes)
+  PROPERTIE System.Int32 MaxCollectionLength
+  PROPERTIE System.Int32 MaxDepth
+  PROPERTIE System.Int32 MaxNodes
+  PROPERTIE System.Int32 Seed
+CLASS FunnySharp.ContractLimitation
+  METHOD System.Boolean Equals(FunnySharp.ContractLimitation? other)
+  METHOD System.Boolean Equals(System.Object? obj)
+  METHOD System.Int32 GetHashCode()
+  METHOD System.String ToString()
+  PROPERTIE FunnySharp.ContractDerivation Derivation
+  PROPERTIE System.String Path
+  PROPERTIE System.String Reason
+CLASS FunnySharp.Contract<T>
+  METHOD FunnySharp.Contract<T?> Ensure(System.Func<T?, System.Boolean> predicate, System.String detail)
+  METHOD FunnySharp.Contract<T?> ValidateWith(System.Func<T?, FunnySharp.Validation<T?, System.String>> validate, System.String? description)
+  METHOD FunnySharp.Contract<T?> WithDecoder(FunnySharp.Decoder<T?> decoder)
+  METHOD FunnySharp.Contract<T?> WithGenerator(System.Func<System.Random, T?> generator)
+  METHOD FunnySharp.Contract<T?> WithSchema(FunnySharp.ContractDescription schema)
+  METHOD FunnySharp.Contract<T?> WithShrinker(System.Func<T?, System.Collections.Generic.IEnumerable<T?>> shrinker)
+  METHOD FunnySharp.Contract<TBase?> Widen<TBase>(System.Func<T?, TBase?> widen, System.Func<TBase?, FunnySharp.Option<T?>> narrow, System.String mismatchDetail)
+  METHOD FunnySharp.Result<FunnySharp.Decoder<T?>, FunnySharp.ContractLimitation> CreateDecoder()
+  METHOD FunnySharp.Result<System.Collections.Generic.IReadOnlyList<T?>, FunnySharp.ContractLimitation> GenerateSamples(System.Int32 count, FunnySharp.ContractGenerationOptions options)
+  METHOD FunnySharp.Result<System.Collections.Generic.IReadOnlyList<T?>, FunnySharp.ContractLimitation> Shrink(T? value)
+  METHOD FunnySharp.Result<T?, FunnySharp.ContractLimitation> Generate(FunnySharp.ContractGenerationOptions options)
+  METHOD FunnySharp.Validation<T?, FunnySharp.DecodeError> Validate(T? value)
+  METHOD System.String Explain()
+  PROPERTIE FunnySharp.ContractCapabilities Capabilities
+  PROPERTIE FunnySharp.ContractDescription Description
 CLASS FunnySharp.DecodeError
   METHOD static FunnySharp.DecodeError Create(FunnySharp.DecodeErrorKind kind, System.String? expected, System.String? detail)
   METHOD static System.Boolean op_Equality(FunnySharp.DecodeError? left, FunnySharp.DecodeError? right)

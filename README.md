@@ -10,7 +10,9 @@ FunnySharp is a pragmatic, BCL-first C# functional programming library for C# 13
 Its Option/Result pattern supports typed error handling and railway-oriented programming on
 standard .NET values, delegates, `Task`, `ValueTask`, and `IAsyncEnumerable<T>`. The core package
 has zero runtime dependencies and bundles Roslyn analyzers; `FunnySharp.AspNetCore` adds optional
-ASP.NET Core Minimal API result mapping.
+ASP.NET Core Minimal API result mapping. Inspectable `Contract<T>` descriptions derive validation,
+decoding, explanation, schema metadata, deterministic generated inputs, and shrinking from one
+declared rule set.
 
 ## Installation
 
@@ -101,6 +103,7 @@ Start with [Core Design](docs/core-design.md) for the project's design direction
 | [Quick Start](https://github.com/wxxb789/funnysharp/blob/main/docs/quick-start.md) | [Roslyn Analyzers](https://github.com/wxxb789/funnysharp/blob/main/docs/analyzers.md) | [ASP.NET Core](https://github.com/wxxb789/funnysharp/blob/main/docs/aspnet-core.md) |
 | [Release Notes](https://github.com/wxxb789/funnysharp/blob/main/docs/release-notes.md) | [Collections & Traversal](https://github.com/wxxb789/funnysharp/blob/main/docs/collections.md) | [Contributor Harness](https://github.com/wxxb789/funnysharp/blob/main/docs/harness.md) |
 | [Decoding Untrusted Input](https://github.com/wxxb789/funnysharp/blob/main/docs/decoding.md) | [Decoder Evidence](https://github.com/wxxb789/funnysharp/blob/main/docs/decoder-evidence.md) | |
+| [Inspectable Contracts](https://github.com/wxxb789/funnysharp/blob/main/docs/contracts.md) | [Contract Evidence](https://github.com/wxxb789/funnysharp/blob/main/docs/contract-evidence.md) | |
 
 Executable samples: [FunnySharp Core Examples](https://github.com/wxxb789/funnysharp/blob/main/examples/FunnySharp.Examples/Program.cs) and [ASP.NET Core Examples](https://github.com/wxxb789/funnysharp/blob/main/examples/FunnySharp.AspNetCore.Examples/Program.cs).
 

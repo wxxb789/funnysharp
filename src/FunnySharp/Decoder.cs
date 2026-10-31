@@ -638,7 +638,7 @@ public static class Decoder
             expected,
             "the value cannot be parsed as " + expected);
 
-    private static bool TryGetFirstProperty(JsonElement input, string name, out JsonElement value)
+    internal static bool TryGetFirstProperty(JsonElement input, string name, out JsonElement value)
     {
         foreach (var property in input.EnumerateObject())
         {
@@ -671,7 +671,7 @@ public static class Decoder
         return PrefixErrors<T>(errors!, prefix);
     }
 
-    private static Validation<T, DecodeError> PrefixErrors<T>(
+    internal static Validation<T, DecodeError> PrefixErrors<T>(
         IReadOnlyList<DecodeError> errors,
         Location prefix)
     {

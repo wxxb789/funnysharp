@@ -1,10 +1,9 @@
 #pragma warning disable FS0017
 
-using System.Diagnostics;
-using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Text.Json;
 using FunnySharp;
+using static FunnySharp.TestSupport.MeasurementHarness;
 
 namespace FunnySharp.TestSupport.Decoding;
 
@@ -14,7 +13,6 @@ internal static class DecoderMeasurements
     private const int ValidIterations = 20_000;
     private const int InvalidIterations = 10_000;
     private const int PathIterations = 20_000;
-    private const int Rounds = 3;
 
     internal static void Run()
     {
@@ -82,44 +80,8 @@ internal static class DecoderMeasurements
             },
             PathIterations);
 
-    private static Measurement MeasureOperation(Func<int> operation, int iterations)
-    {
-        for (var index = 0; index < WarmupIterations; index++)
-        {
-            GC.KeepAlive(operation());
-        }
-
-        var bytesPerOperation = double.MaxValue;
-        var nanosecondsPerOperation = double.MaxValue;
-
-        for (var round = 0; round < Rounds; round++)
-        {
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
-            GC.Collect();
-
-            var bytesBefore = GC.GetAllocatedBytesForCurrentThread();
-            var checksum = 0;
-            var stopwatch = Stopwatch.StartNew();
-            for (var index = 0; index < iterations; index++)
-            {
-                checksum += operation();
-            }
-
-            stopwatch.Stop();
-            var allocated = GC.GetAllocatedBytesForCurrentThread() - bytesBefore;
-            GC.KeepAlive(checksum);
-
-            bytesPerOperation = Math.Min(
-                bytesPerOperation,
-                allocated / (double)iterations);
-            nanosecondsPerOperation = Math.Min(
-                nanosecondsPerOperation,
-                stopwatch.Elapsed.TotalMilliseconds * 1_000_000d / iterations);
-        }
-
-        return new Measurement(bytesPerOperation, nanosecondsPerOperation);
-    }
+    private static Measurement MeasureOperation(Func<int> operation, int iterations) =>
+        MeasurementHarness.Measure(operation, iterations, WarmupIterations);
 
     private static Location BuildPath(int depth)
     {
@@ -133,11 +95,4 @@ internal static class DecoderMeasurements
 
         return location;
     }
-
-    private static string Format(double value) =>
-        value.ToString("F1", CultureInfo.InvariantCulture);
-
-    private readonly record struct Measurement(
-        double BytesPerOperation,
-        double NanosecondsPerOperation);
 }
