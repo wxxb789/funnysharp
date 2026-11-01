@@ -20,6 +20,7 @@
     <Compile Include="../Shared/DecoderComparison/*.cs" Link="Shared/DecoderComparison/%(Filename)%(Extension)" />
     <Compile Include="../Shared/ContractComparison/*.cs" Link="Shared/ContractComparison/%(Filename)%(Extension)" />
     <Compile Include="../Shared/PatchComparison/*.cs" Link="Shared/PatchComparison/%(Filename)%(Extension)" />
+    <Compile Include="../Shared/BatchComparison/*.cs" Link="Shared/BatchComparison/%(Filename)%(Extension)" />
   </ItemGroup>
 
   <ItemGroup>

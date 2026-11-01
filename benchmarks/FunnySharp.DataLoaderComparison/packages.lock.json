@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "dependencies": {
+    "net10.0": {
+      "GreenDonut": {
+        "type": "Direct",
+        "requested": "[16.7.3, )",
+        "resolved": "16.7.3",
+        "contentHash": "DSJecZfxMvq0XhbbkUvS5FAaE9h5xXyDTmK30xnr31O5bfmLPDsKd3AQ35wI+PRG2lRdJhtYoiEN0MS3tl96Sg==",
+        "dependencies": {
+          "GreenDonut.Abstractions": "16.7.3",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "10.0.0",
+          "Microsoft.Extensions.ObjectPool": "10.0.0"
+        }
+      },
+      "GreenDonut.Abstractions": {
+        "type": "Transitive",
+        "resolved": "16.7.3",
+        "contentHash": "CL+NNbN5KLOoELK0PgXj1vmG1DobMzW2gU5v/R1OrErswElimDxcpYSkMbpYbHJdSSW/5NBSK+Y2wRqBpYmIhw=="
+      },
+      "Microsoft.Extensions.DependencyInjection.Abstractions": {
+        "type": "Transitive",
+        "resolved": "10.0.0",
+        "contentHash": "L3AdmZ1WOK4XXT5YFPEwyt0ep6l8lGIPs7F5OOBZc77Zqeo01Of7XXICy47628sdVl0v/owxYJTe86DTgFwKCA=="
+      },
+      "Microsoft.Extensions.ObjectPool": {
+        "type": "Transitive",
+        "resolved": "10.0.0",
+        "contentHash": "bpeCq0IYmVLACyEUMzFIOQX+zZUElG1t+nu1lSxthe7B+1oNYking7b91305+jNB6iwojp9fqTY9O+Nh7ULQxg=="
+      },
+      "funnysharp": {
+        "type": "Project"
+      }
+    }
+  }
+}

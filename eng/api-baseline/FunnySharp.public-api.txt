@@ -43,6 +43,76 @@ CLASS FunnySharp.AsyncSequenceExtensions
   METHOD static System.Threading.Tasks.ValueTask<FunnySharp.Validation<System.Collections.Generic.IReadOnlyList<TResult?>, TError?>> TraverseValueAsync<TSource, TResult, TError>(System.Collections.Generic.IAsyncEnumerable<TSource?> source, System.Func<TSource?, System.Threading.CancellationToken, System.Threading.Tasks.ValueTask<FunnySharp.Validation<TResult?, TError?>>> selector, System.Threading.CancellationToken cancellationToken)
   METHOD static System.Threading.Tasks.ValueTask<FunnySharp.Validation<System.Collections.Generic.IReadOnlyList<TResult?>, TError?>> TraverseValueAsync<TSource, TResult, TError>(System.Collections.Generic.IAsyncEnumerable<TSource?> source, System.Func<TSource?, System.Threading.Tasks.ValueTask<FunnySharp.Validation<TResult?, TError?>>> selector, System.Threading.CancellationToken cancellationToken)
   METHOD static System.Threading.Tasks.ValueTask<FunnySharp.Validation<System.Collections.Generic.IReadOnlyList<TValue?>, TError?>> SequenceAsync<TValue, TError>(System.Collections.Generic.IAsyncEnumerable<FunnySharp.Validation<TValue?, TError?>> source, System.Threading.CancellationToken cancellationToken)
+ENUM FunnySharp.BatchReadErrorKind
+  FIELD static FunnySharp.BatchReadErrorKind BatchFailure = 2
+  FIELD static FunnySharp.BatchReadErrorKind KeyFailure = 1
+  FIELD static FunnySharp.BatchReadErrorKind Missing = 0
+  FIELD static FunnySharp.BatchReadErrorKind UnexpectedResponse = 3
+  FIELD System.Int32 value__
+STRUCT FunnySharp.BatchReadError<TError>
+  METHOD static FunnySharp.BatchReadError<TError?> BatchFailure(TError? error)
+  METHOD static FunnySharp.BatchReadError<TError?> KeyFailure(TError? error)
+  METHOD static FunnySharp.BatchReadError<TError?> Missing()
+  METHOD static FunnySharp.BatchReadError<TError?> UnexpectedResponse(System.String detail)
+  METHOD static System.Boolean op_Equality(FunnySharp.BatchReadError<TError?> left, FunnySharp.BatchReadError<TError?> right)
+  METHOD static System.Boolean op_Inequality(FunnySharp.BatchReadError<TError?> left, FunnySharp.BatchReadError<TError?> right)
+  METHOD System.Boolean Equals(FunnySharp.BatchReadError<TError?> other)
+  METHOD System.Boolean Equals(System.Object? obj)
+  METHOD System.Boolean TryGetSourceError(out TError& error)
+  METHOD System.Int32 GetHashCode()
+  METHOD System.String ToString()
+  PROPERTIE FunnySharp.BatchReadErrorKind Kind
+  PROPERTIE System.String Detail
+CLASS FunnySharp.BatchRequirement
+  METHOD static FunnySharp.BatchRequirement<System.Collections.Generic.IReadOnlyList<FunnySharp.Result<TValue?, FunnySharp.BatchReadError<TError?>>>, TError?> All<TValue, TError>(System.Collections.Generic.IEnumerable<FunnySharp.BatchRequirement<TValue?, TError?>> requirements)
+  METHOD static FunnySharp.BatchRequirement<System.ValueTuple<TFirst?, TSecond?>, TError?> Zip<TFirst, TSecond, TError>(FunnySharp.BatchRequirement<TFirst?, TError?> first, FunnySharp.BatchRequirement<TSecond?, TError?> second)
+  METHOD static FunnySharp.BatchRequirement<TValue?, TError?> Failure<TValue, TError>(FunnySharp.BatchReadError<TError?> error)
+  METHOD static FunnySharp.BatchRequirement<TValue?, TError?> FromValue<TValue, TError>(TValue? value)
+  METHOD static FunnySharp.BatchRequirement<TValue?, TError?> Read<TKey, TValue, TError>(FunnySharp.BatchSource<TKey?, TValue?, TError?> source, TKey? key)
+CLASS FunnySharp.BatchRequirement<TValue, TError>
+  METHOD FunnySharp.BatchRequirement<System.ValueTuple<TValue?, TResult?>, TError?> Zip<TResult>(FunnySharp.BatchRequirement<TResult?, TError?> other)
+  METHOD FunnySharp.BatchRequirement<TResult?, TError?> Bind<TResult>(System.Func<TValue?, FunnySharp.BatchRequirement<TResult?, TError?>> binder)
+  METHOD FunnySharp.BatchRequirement<TResult?, TError?> Map<TResult>(System.Func<TValue?, TResult?> selector)
+CLASS FunnySharp.BatchScope
+  METHOD static FunnySharp.BatchScope Create(FunnySharp.BatchScopeOptions? options)
+  METHOD System.Int32 ClearCache()
+  METHOD System.Int32 Invalidate<TKey, TValue, TError>(FunnySharp.BatchSource<TKey, TValue?, TError?> source)
+  METHOD System.Int32 Invalidate<TKey, TValue, TError>(FunnySharp.BatchSource<TKey, TValue?, TError?> source, TKey key)
+  METHOD System.Threading.Tasks.ValueTask DisposeAsync()
+  METHOD System.Threading.Tasks.ValueTask<FunnySharp.Result<TValue, FunnySharp.BatchReadError<TError>>> ExecuteAsync<TValue, TError>(FunnySharp.BatchRequirement<TValue, TError> requirement, System.Threading.CancellationToken cancellationToken)
+  PROPERTIE FunnySharp.BatchScopeOptions Options
+CLASS FunnySharp.BatchScopeOptions
+  CONSTRUCTOR ctor()
+  PROPERTIE System.Boolean CacheResults
+  PROPERTIE System.Int32 MaxBatchSize
+  PROPERTIE System.Int32 MaxCachedEntries
+  PROPERTIE System.Int32 MaxConcurrentBatches
+  PROPERTIE System.Int32 MaxPendingRequests
+ENUM FunnySharp.BatchSourceEntryKind
+  FIELD static FunnySharp.BatchSourceEntryKind Failed = 2
+  FIELD static FunnySharp.BatchSourceEntryKind Found = 1
+  FIELD static FunnySharp.BatchSourceEntryKind Unset = 0
+  FIELD System.Int32 value__
+STRUCT FunnySharp.BatchSourceEntry<TKey, TValue, TError>
+  METHOD static FunnySharp.BatchSourceEntry<TKey?, TValue?, TError?> Failed(TKey? key, TError? error)
+  METHOD static FunnySharp.BatchSourceEntry<TKey?, TValue?, TError?> Found(TKey? key, TValue? value)
+  METHOD static System.Boolean op_Equality(FunnySharp.BatchSourceEntry<TKey?, TValue?, TError?> left, FunnySharp.BatchSourceEntry<TKey?, TValue?, TError?> right)
+  METHOD static System.Boolean op_Inequality(FunnySharp.BatchSourceEntry<TKey?, TValue?, TError?> left, FunnySharp.BatchSourceEntry<TKey?, TValue?, TError?> right)
+  METHOD System.Boolean Equals(FunnySharp.BatchSourceEntry<TKey?, TValue?, TError?> other)
+  METHOD System.Boolean Equals(System.Object? obj)
+  METHOD System.Boolean TryGetError(out TError& error)
+  METHOD System.Boolean TryGetValue(out TValue& value)
+  METHOD System.Int32 GetHashCode()
+  METHOD System.String ToString()
+  PROPERTIE FunnySharp.BatchSourceEntryKind Kind
+  PROPERTIE TKey? Key
+CLASS FunnySharp.BatchSource<TKey, TValue, TError>
+  CONSTRUCTOR ctor(System.String name, System.String partition, System.Collections.Generic.IEqualityComparer<TKey> keyComparer, System.Func<System.Collections.Generic.IReadOnlyList<TKey>, System.Threading.CancellationToken, System.Threading.Tasks.ValueTask<FunnySharp.Result<System.Collections.Generic.IReadOnlyList<FunnySharp.BatchSourceEntry<TKey, TValue?, TError?>>, TError?>>> fetchAsync)
+  METHOD FunnySharp.BatchSource<TKey, TValue?, TResultError?> MapError<TResultError>(System.Func<TError?, TResultError?> mapError)
+  METHOD System.String ToString()
+  PROPERTIE System.Collections.Generic.IEqualityComparer<TKey> KeyComparer
+  PROPERTIE System.String Name
+  PROPERTIE System.String Partition
 CLASS FunnySharp.CardinalityExtensions
   METHOD static FunnySharp.Option<FunnySharp.NonEmpty<T?>> ToNonEmptyOrNone<T>(System.Collections.Generic.IEnumerable<T?> source)
   METHOD static FunnySharp.Option<T?> ElementAtOrNone<T>(System.Collections.Generic.IEnumerable<T?> source, System.Int32 index)
