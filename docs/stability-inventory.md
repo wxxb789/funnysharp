@@ -6,7 +6,10 @@ input-decoding family and keeps its structured location accessor experimental. G
 stable inspectable-contract family: validation, decoder derivation, explanation, schema metadata,
 deterministic generation, and shrinking from one description. Goal 28 adds stable typed partial
 updates: three-state field changes, allowed-field decoding, complete-candidate validation, conflict
-reporting, and immutable application through caller lenses. Every
+reporting, and immutable application through caller lenses. Goal 29 adds stable explicit batched
+reads: source-owned batch delegates, typed deferred requirements, bounded execution scopes, a
+scope-local cache, and distinct missing, per-key, whole-batch, unexpected-response, exception, and
+cancellation outcomes. Every
 experimental member carries `[Experimental("FS####")]` with the diagnostic ID recorded here, an
 entry in this inventory, no compatibility promise, and removal without a breaking-change
 process ([stability boundary](next-stage/api-decisions.md)). Stable members change only
@@ -45,6 +48,7 @@ its stability-inventory test.
 | Input decoding | `Decoder`, `Decoder<T>`, `DecodeError`, `DecodeErrorKind` | New callable decoding over BCL `JsonElement`; no schema, serializer, or runtime dependency | Goal 26 |
 | Inspectable contracts | `Contract`, `Contract<T>`, `ContractField<TParent,T>`, `ContractFieldSet<TParent>`, `ContractAlternative<T>`, `ContractDescription`, `ContractDescriptionKind`, `ContractFieldDescription`, `ContractFieldPresence`, `ContractAlternativeDescription`, `ContractCapabilities`, `ContractLimitation`, `ContractDerivation`, `ContractGenerationOptions` | New stable description/derivation family; one description drives validation, decoding, explanation, schema metadata, generation, and shrinking; no serializer, universal schema, test dependency, or runtime dependency | Goal 27 |
 | Partial updates | `Patch`, `PatchChange<T>`, `PatchChangeKind`, `PatchField<T>`, `PatchField<T,TValue>`, `PatchFieldSet<T>`, `PatchFieldDescription`, `Patch<T>`, `PatchEntry`, `PatchConflict`, `PatchApplication<T>`, `PatchSchema<T>` | New stable typed change family; omission, clearing, and replacement stay distinct; validation covers the complete candidate; conflicts are explicit; no persistence, transaction, version, inverse, merge, serializer, or runtime dependency | Goal 28 |
+| Batched reads | `BatchSource<TKey,TValue,TError>`, `BatchSourceEntry<TKey,TValue,TError>`, `BatchSourceEntryKind`, `BatchRequirement<TValue,TError>`, `BatchReadError<TError>`, `BatchReadErrorKind`, `BatchScope`, `BatchScopeOptions` | New stable explicit batched-read family; the source owns the batch operation and equality/partition scope; requirements are typed, deferred, and composable; execution is bounded and scope-local with explicit cache invalidation; no ambient cache, DI, GraphQL, general scheduler, write coalescing, retry, or runtime dependency | Goal 29 |
 | HTTP integration | `HttpResultExtensions` (`FunnySharp.AspNetCore`) | AD-10 keep; G1 `UnitResult` mapping delivered | 0.1.0; Goal 15 |
 | Compiler feedback | `FunnySharp.Analyzers`, `FunnySharp.Analyzers.CodeFixes` (shipped inside the `FunnySharp` package under `analyzers/dotnet/cs`, not separate packages) | E126/E127 adopt: in-package zero-install analyzers, all suppressible, ASCII ids, no `NotConfigurable` | Goal 21 |
 

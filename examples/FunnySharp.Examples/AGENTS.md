@@ -18,6 +18,7 @@ asserts its own behavior, and prints one success marker.
 | `DecoderExamples.cs` | Decoder scalars (`Guid`, `Int32`, `NonEmptyString`), `Object`/`Field`/`NonEmptyList`, `Ensure`, automatic error paths, and accumulated errors |
 | `ContractExamples.cs` | One nested contract reused for validation, decoding, explanation, generation, shrinking, and capability/limitation extension paths |
 | `PatchExamples.cs` | Allowed-field decode, explicit clearing, candidate validation, conflict reporting, empty-patch identity, and rejected fields |
+| `BatchExamples.cs` | Explicit batch sources, independent `Zip`, dependent `Bind`, key deduplication, request association, and missing/per-key outcomes |
 | `ExampleAssertions.cs` | Shared asserts: `Equal`, `True`, `SequenceEqual`, `FaultIsPreserved`, `CancellationIsPreserved`, `UninitializedThrows` |
 
 ## CONVENTIONS

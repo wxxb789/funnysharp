@@ -12,6 +12,7 @@ Functional carriers (`Option`/`Result`/`UnitResult`/`Validation`/`Effect`), inpu
 | Input decoding | `Decoder.cs`, `DecodeError.cs`, `DecodeErrorKind.cs` (JsonElement -> Validation; stable `Path`, experimental `Location`) |
 | Inspectable contracts | `Contract.cs` plus `Contract*.cs` (one description -> validation, decoder derivation, explanation, schema, generation, shrinking; explicit limitations and caller extensions) |
 | Typed partial updates | `PatchChange.cs`, `PatchField.cs`, `Patch.cs`, `PatchSchema.cs` (three-state changes, allowed-field decode, candidate validation, conflict detection, immutable application) |
+| Batched reads | `BatchSource.cs`, `BatchRequirement.cs`, `BatchScope.cs` (explicit source batch delegates, deferred typed requirements, bounded dispatch, scope-local cache/invalidation) |
 | Traversal matrix | `SequenceExtensions.cs` / `AsyncSequenceExtensions.cs` / `ParallelAsyncEnumerableExtensions.cs` |
 | Parallel plumbing (Channels, IValueTaskSource) | `ParallelAsyncEnumerableExtensions.cs` (680 lines, highest complexity) |
 | Optics | `Optics.cs` (`Lens`, `Optional`) |
@@ -32,5 +33,6 @@ Functional carriers (`Option`/`Result`/`UnitResult`/`Validation`/`Effect`), inpu
 - Span pipelines: source and destination must not overlap; capacity validated before any write.
 - No runtime dependencies — BCL only; no new PackageReference without a goal contract.
 - Decoding accepts a parsed BCL `JsonElement` only; no serializer, schema introspection, reflection binder, or async input model. Location prefixes are materialized only after a decode failure. Patch decoding adds explicit unknown/repeated-field errors and validates the complete candidate, not only supplied fields.
+- Batched reads never infer a batch-capable source: the caller supplies the source delegate, equality policy, and partition. Missing, per-key, whole-batch, and unexpected-response outcomes stay distinct from exceptions and cancellation; scope caches are bounded and explicit.
 - Contracts never invent a predicate inverse, generator, purity proof, or complete schema. Missing derivations are explicit `ContractLimitation` values; generation never silently rejection-samples a cross-field rule, and every generated or shrunk value is checked against the contract.
 - No second absence carrier (e.g. `Maybe<T>`) and no `Where` member on carrier types — frozen by `AdvancedPatternCurationTests`.

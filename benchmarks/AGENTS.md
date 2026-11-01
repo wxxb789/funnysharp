@@ -8,6 +8,8 @@ warrants its own file (uniform one-class-per-API-slice layout).
 
 Two BenchmarkDotNet suites measuring allocation (blocking) and timing (directional);
 results are custom JSON receipts bound to the tracked manifests in `eng/performance/`.
+`FunnySharp.DataLoaderComparison` is a separate, non-shipping evidence app comparing the batched-read
+consumer with GreenDonut; it is not a benchmark gate and is never in a release artifact.
 
 ## WHERE TO LOOK
 
@@ -18,6 +20,7 @@ results are custom JSON receipts bound to the tracked manifests in `eng/performa
 | Receipt binding | `FunnySharp.Benchmarks/AllocationReceiptExporter.cs` (registered into `ManualConfig`) |
 | Competitor comparison | `FunnySharp.CompetitorBenchmarks/` — `OptionCarrierBenchmarks`, `ResultCarrierBenchmarks`; each `comparisonGroup` pairs a raw/direct baseline row with funcky / FSharp.Core competitor paths |
 | Competitor receipts | `FunnySharp.CompetitorBenchmarks/CompetitorReceiptExporter.cs` |
+| Batched-read comparison | `FunnySharp.DataLoaderComparison/` — isolated GreenDonut 16.7.3 consumer comparison; not in `FunnySharp.slnx` or any release artifact |
 | Budget policy | `eng/performance/baseline.json` (main) / `competitor-baseline.json` (competitor) — see `eng/AGENTS.md` |
 
 ## CONVENTIONS
