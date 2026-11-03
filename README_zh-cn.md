@@ -85,6 +85,7 @@ registration.Match(
 - **有界并发控制**：按源顺序（`SelectParallelValueAsync`）或完成顺序（`SelectParallelCompletionOrderValueAsync`）交付结果并行映射，以及针对冷 Effect 的 `FirstSuccessAsync` 竞争调度。
 - **纯状态机与光学元件**：基于纯 `StateTransition` 驱动强类型命令输出，并通过轻量级 `Lens`/`Optional` 完成嵌套不可变更新。
 - **强类型部分更新**：`Patch<T>`/`PatchChange<T>`/`PatchSchema<T>` 区分未提供、显式清除与替换字段，复用 `Contract<T>` 校验完整候选状态，报告合并冲突，并通过调用方提供的 Lens 应用变更。
+- **可组合批量读取**：`BatchSource<TKey,TValue,TError>` 显式声明批量数据源，`BatchRequirement<TValue,TError>` 组合独立与依赖读取，`BatchScope` 在明确的批次、准入、缓存、取消与释放边界内合并并去重请求。
 - **ASP.NET Core Minimal API 映射**：通过 `FunnySharp.AspNetCore` 将载体和 Effect 映射为调用方指定的 `IResult` 和 RFC 7807/9457 `ProblemDetails`。
 
 ## 深入文档与工程示例
@@ -103,6 +104,7 @@ registration.Match(
 | [不可信输入解码 (Decoding)](https://github.com/wxxb789/funnysharp/blob/main/docs/decoding.md) | [解码器证据 (Decoder Evidence)](https://github.com/wxxb789/funnysharp/blob/main/docs/decoder-evidence.md) | |
 | [可检视契约 (Inspectable Contracts)](https://github.com/wxxb789/funnysharp/blob/main/docs/contracts.md) | [契约证据 (Contract Evidence)](https://github.com/wxxb789/funnysharp/blob/main/docs/contract-evidence.md) | |
 | [部分更新 (Partial Updates)](https://github.com/wxxb789/funnysharp/blob/main/docs/partial-updates.md) | [部分更新证据 (Partial Update Evidence)](https://github.com/wxxb789/funnysharp/blob/main/docs/partial-update-evidence.md) | |
+| [批量读取 (Batched Reads)](https://github.com/wxxb789/funnysharp/blob/main/docs/batched-reads.md) | [批量读取证据 (Batch Evidence)](https://github.com/wxxb789/funnysharp/blob/main/docs/batch-evidence.md) | |
 
 可运行示例源码：[FunnySharp 核心示例](https://github.com/wxxb789/funnysharp/blob/main/examples/FunnySharp.Examples/Program.cs) 与 [ASP.NET Core 示例](https://github.com/wxxb789/funnysharp/blob/main/examples/FunnySharp.AspNetCore.Examples/Program.cs)。
 

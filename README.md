@@ -89,6 +89,7 @@ registration.Match(
 - **Bounded Concurrency**: Source-ordered (`SelectParallelValueAsync`) or completion-ordered (`SelectParallelCompletionOrderValueAsync`) mapping, and `FirstSuccessAsync` over cold effects.
 - **Pure State Machines & Optics**: Pure `StateTransition` workflows with typed commands, and composable `Lens`/`Optional` for immutable nested updates.
 - **Typed Partial Updates**: `Patch<T>`/`PatchChange<T>`/`PatchSchema<T>` distinguish unchanged, cleared, and replaced fields, validate the complete candidate with a reused `Contract<T>`, report conflicting combines, and apply through callers' lenses.
+- **Composable Batched Reads**: `BatchSource<TKey,TValue,TError>` supplies the only batching claim, `BatchRequirement<TValue,TError>` composes typed independent and dependent reads, and `BatchScope` groups/deduplicates keys under explicit batch, admission, cache, cancellation, and disposal bounds.
 - **ASP.NET Core Minimal APIs**: Maps carriers and effects to caller-selected `IResult` and RFC 7807/9457 `ProblemDetails` via `FunnySharp.AspNetCore`.
 
 ## Documentation & Examples
@@ -107,6 +108,7 @@ Start with [Core Design](docs/core-design.md) for the project's design direction
 | [Decoding Untrusted Input](https://github.com/wxxb789/funnysharp/blob/main/docs/decoding.md) | [Decoder Evidence](https://github.com/wxxb789/funnysharp/blob/main/docs/decoder-evidence.md) | |
 | [Inspectable Contracts](https://github.com/wxxb789/funnysharp/blob/main/docs/contracts.md) | [Contract Evidence](https://github.com/wxxb789/funnysharp/blob/main/docs/contract-evidence.md) | |
 | [Partial Updates](https://github.com/wxxb789/funnysharp/blob/main/docs/partial-updates.md) | [Partial Update Evidence](https://github.com/wxxb789/funnysharp/blob/main/docs/partial-update-evidence.md) | |
+| [Batched Reads](https://github.com/wxxb789/funnysharp/blob/main/docs/batched-reads.md) | [Batch Evidence](https://github.com/wxxb789/funnysharp/blob/main/docs/batch-evidence.md) | |
 
 Executable samples: [FunnySharp Core Examples](https://github.com/wxxb789/funnysharp/blob/main/examples/FunnySharp.Examples/Program.cs) and [ASP.NET Core Examples](https://github.com/wxxb789/funnysharp/blob/main/examples/FunnySharp.AspNetCore.Examples/Program.cs).
 

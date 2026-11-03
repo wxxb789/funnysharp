@@ -14,6 +14,7 @@ ContractExamples.Verify();
 UnitResultExamples.Verify();
 PatchExamples.Verify();
 FunctionGrammarSamples.Verify();
+await BatchExamples.VerifyAsync();
 VerifyImmutableUpdates();
 await VerifyAsynchronousFunctions();
 await VerifyAsynchronousDataPipelines();

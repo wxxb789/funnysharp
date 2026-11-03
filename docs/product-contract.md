@@ -24,7 +24,10 @@ analysis, and compile-verified call sites are in [`next-stage/`](next-stage/).
   decoding, explanation, schema metadata, generated inputs, and shrinking for one value type.
   `Patch<T>`/`PatchChange<T>`/`PatchSchema<T>` are typed partial-update descriptions over a
   caller's value type, not another outcome carrier; they compose with decoding, contracts, and
-  optics without owning persistence or execution.
+  optics without owning persistence or execution. `BatchSource<TKey, TValue, TError>`,
+  `BatchRequirement<TValue, TError>`, and `BatchScope` are explicit typed batched-read
+  descriptions and their bounded execution scope, not another outcome carrier; reads remain
+  `Result` values and the scope owns its own request buffer and cache.
 - No second carrier for any of these meanings may be added. `Maybe`, `Either`, `Fin`, `Try`,
   `IO`, `Reader`, `State`, `OptionAsync`, and async outcome wrappers remain out of scope.
 - One verb has one meaning. `Map`, `Bind`, `MapError`/`MapErrors`, `Filter`, `Ensure`, `Recover`/
@@ -145,6 +148,20 @@ analysis, and compile-verified call sites are in [`next-stage/`](next-stage/).
   No inverse patch, rollback, persistence, transaction, or universal merge promise is added.
   System.Text.Json and ASP.NET Core integration remain optional and use an explicit `JsonElement`
   boundary plus the existing caller-selected result mapping.
+- Batched reads are explicit and scope-local. A `BatchSource<TKey, TValue, TError>` is constructed
+  only when the caller supplies its batch operation, key equality policy, and tenant or
+  authorization partition; ordinary HTTP or database calls are never assumed to be batch-capable.
+  `BatchRequirement<TValue, TError>` composes value, read, `Map`, `Bind`, `Zip`, and `All`
+  descriptions without executing them. `BatchScope` groups independent reads by source and key,
+  deduplicates them in first-request order, dispatches bounded batches, waits for dependent reads
+  on their inputs, and returns each outcome to its requesting position. Missing records,
+  per-key failures, whole-batch failures, unexpected or incomplete responses, exceptions, and
+  cancellation have distinct documented outcomes. Admission, batch size, concurrent batches, and
+  retained cache entries are bounded by explicit options. The cache belongs to the scope, includes
+  missing and failed outcomes, is FIFO-bounded, and is invalidated explicitly; there is no ambient
+  cross-request cache. Cancellation and disposal request cooperative cancellation and drain started
+  source work without claiming forced termination. No DI container, GraphQL dependency, general
+  scheduler, write coalescing, implicit retry, or automatic mutation detection is added.
 - Default and uninitialized values are explicit contracts:
   - `Option<T>` default is a valid `None`.
   - `Patch<T>` default is the empty patch and `PatchChange<T>` default is `Unchanged`.

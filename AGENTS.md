@@ -18,10 +18,10 @@ funnysharp/
 ├── tests/                # xUnit v3 suites + DecoderMeasurements harness + Compatibility (outside FunnySharp.slnx) + FunnySharp.Harness.Tests (F#)
 ├── eng/                  # F# harness: root build.fsx + harness/*.fs implement every gate; release-protocol.json; evaluation/ harness
 ├── docs/                 # product contract, grammar, per-carrier guides; next-stage/ = Goal 14 evidence-set workflow; goals/ frozen contracts
-├── benchmarks/           # BenchmarkDotNet suites; JSON receipts bound to eng/performance manifests
+├── benchmarks/           # BenchmarkDotNet suites; isolated GreenDonut comparison; JSON receipts bound to eng/performance manifests
 ├── examples/             # executable examples + DocumentationSamples (byte-exact docs snippet contract)
 ├── .github/workflows/    # release.yml (manual release gate) + tooling.yml (3-OS PR merge gate)
-└── FunnySharp.slnx       # 14 projects; excludes tests/FunnySharp.Compatibility
+└── FunnySharp.slnx       # 17 projects; excludes tests/FunnySharp.Compatibility
 ```
 
 ## WHERE TO LOOK
@@ -29,6 +29,7 @@ funnysharp/
 | Task | Location | Notes |
 |------|----------|-------|
 | Carrier APIs (Option/Result/UnitResult/Validation/Effect) | `src/FunnySharp/` | one public type-family per file |
+| Batched reads (source/requirement/scope) | `src/FunnySharp/Batch*.cs`, `docs/batched-reads.md` | explicit source batch delegates; bounded scope-local cache, no ambient cache |
 | Analyzers + code fixes (FS1001-FS1005) | `src/FunnySharp.Analyzers/`, `src/FunnySharp.Analyzers.CodeFixes/` | ship inside core nupkg `analyzers/dotnet/cs` |
 | ASP.NET Core mapping | `src/FunnySharp.AspNetCore/` | separate nupkg, ~21 `HttpResultExtensions` overloads |
 | Release gate | `build.fsx` (`-p release`), `eng/release-protocol.json` | `benchmarkSkipped` mode is what CI runs |
@@ -48,6 +49,7 @@ funnysharp/
 | `UnitResult<TError>` | struct | `src/FunnySharp/UnitResult.cs` | core carrier | value-less command outcome |
 | `Validation<TValue,TError>` | struct | `src/FunnySharp/Validation.cs` | core carrier | collects all errors, deterministic order |
 | `Effect<T>` / `Effect<TEnvironment,T>` | struct | `src/FunnySharp/Effect.cs` | deferred boundary | composes via ValueTask, no DI runtime |
+| `BatchRequirement<TValue,TError>` / `BatchScope` | sealed classes | `src/FunnySharp/BatchRequirement.cs`, `src/FunnySharp/BatchScope.cs` | typed reads | deferred composition + bounded scope-local batch execution |
 | `HttpResultExtensions` | static class | `src/FunnySharp.AspNetCore/` | ~21 overloads | carriers -> `IResult`/`ProblemDetails` |
 | `Choose` / `Scan` | extensions | `src/FunnySharp/EnumerablePipelineExtensions.cs`, `AsyncEnumerablePipelineExtensions.cs` (+ `SpanPipelineExtensions.cs` for `Choose`) | fused Option filter-map, running aggregate | sync + async streams |
 | FS1001-FS1005 | analyzers | `src/FunnySharp.Analyzers/` | dogfooded everywhere | uninitialized carriers, discarded outcomes, ignored TryGet, blocked ValueTask, sync-disposed IAsyncDisposable |

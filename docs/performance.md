@@ -98,6 +98,8 @@ do not acquire a universal zero-allocation or constant-time guarantee from these
 | Partial updates | `PatchSchema<T>.Decode` | O(p + f) properties/fields plus field decoder work; a field decoder may itself allocate | Object properties visited twice: a count pass sizes the exact entry array, then a decode pass | Typed patch entries, field-validation state, and diagnostics on failure; no error list on a clean decode | No changes materialized beyond the patch | — |
 | Partial updates | `Patch<T>.ApplyTo` / `PatchSchema<T>.Validate` | O(f) setter calls and candidate copies; validation adds the candidate contract cost | — | One candidate record/object per changed field; `Changes` is materialized only when read; no application allocation when empty | Validates the complete candidate; no mutation or rollback | — |
 | Partial updates | `Patch<T>.Combine` | O(f1 * f2) ordinal name comparisons plus one merged array when disjoint (a linear name scan per left-hand entry) | — | Merged entry array; conflict entries/inspection values on failure | No partial merged patch on conflict | — |
+| Batched reads | Source construction, `FromValue`, `Read`, `Map`, `Bind`, `Zip`, `All` | O(1) per composed node; `All` enumerates its input once at construction | — | One description node per composition step; `All` snapshots its input array | Description retains only caller values, source references, and delegates; no execution state or cache | — |
+| Batched reads | `BatchScope.ExecuteAsync` | O(k + r + b) expected hashing/comparer work for k distinct keys, r returned entries, and b source batches, plus one walk of each reached plan node; bounded by the configured batch, concurrency, pending, and cache limits | Plan evaluation walks each reached node once; source responses are keyed and may be in any order | Request slots, per-key completion sources, typed cache entries, response arrays, and per-branch async machinery; greater than a hand-batched dictionary path, disclosed in [`batch-evidence.md`](batch-evidence.md) | Retains bounded pending requests and cached results; `All` retains one outcome array per input | One linked token; started batches drain on cancellation/disposal; `MaxConcurrentBatches` bounds source overlap |
 | HTTP | `FunnySharp.AspNetCore` mapping | O(1) mapping | — | Measured per outcome shape (0-168 B per call; see [`aspnet-core.md`](aspnet-core.md)) | None | Runs on the ASP.NET Core request pipeline |
 
 The zero and nonzero statements above are enforced where measured by the committed observation
@@ -106,7 +108,9 @@ rows and their budgets; families marked as excluded (unmeasured variants such as
 until a benchmark exists. Partial-update allocation and copying are disclosed in
 [partial-update-evidence.md](partial-update-evidence.md); they are excluded from the release
 benchmark table because candidate size is the caller's record/setter cost rather than a
-library-only operation.
+library-only operation. Batched-read plan composition and execution are likewise disclosed in
+[batch-evidence.md](batch-evidence.md) and excluded from the release benchmark table because
+their cost depends on the caller's plan shape, source count, and cache state.
 
 ## Regression policy
 

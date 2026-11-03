@@ -35,6 +35,9 @@ semantic outcome carrier: it is a callable input-to-`Validation` boundary, and `
 diagnostic value. `Contract<T>` is also not an outcome carrier: it is an inspectable constraint
 description. `Validate` checks an existing value, `CreateDecoder` derives a decoder, `Generate` and
 `Shrink` derive test inputs and candidates, and `Description`/`Explain` expose metadata.
+`BatchSource<TKey, TValue, TError>`, `BatchRequirement<TValue, TError>`, and `BatchScope` are an
+explicit batched-read description and its execution scope, not outcome carriers; their reads yield
+the canonical `Result` shape.
 
 ## Naming Rules
 
@@ -240,6 +243,24 @@ verbs are listed below.
 | `ApplyTo` | Applies recorded changes to a source, invoking each field setter or clear callback once in order. | `Patch<T>` | `PatchApplication<T>` | — | Creates a candidate, never mutates or clones the source itself; an empty patch preserves source identity; callback exceptions propagate with no rollback; no version check. |
 | `Combine` | Combines two patches written for the same value type. | `Patch<T>` | `Validation<Patch<T>, PatchConflict>` | — | Any field name present in both operands is a conflict, even for equal values; a conflicted combine returns no partial merged patch and chooses no merge policy; no inverse is derived. |
 | `Explain` | Renders allowed patch fields and candidate rules deterministically. | `PatchSchema<T>` | `string` | — | Field names, value descriptions, clearing policy, and the candidate contract explanation; no values or callbacks are rendered. |
+
+### Batched Reads
+
+`BatchSource<TKey, TValue, TError>`, `BatchRequirement<TValue, TError>`, and `BatchScope` are an
+explicit description/execution family, not carriers. A requirement's `Map`, `Bind`, and `Zip`
+retain their ordinary meanings over a successful value; a failure skips dependent work, and a
+source exception remains an exception. `BatchScope` owns all request buffering and result caching,
+so no operation below has ambient cross-request behavior.
+
+| Verb | Meaning | Present on | Output shape | Async forms | Key contract |
+| --- | --- | --- | --- | --- | --- |
+| `Read` | Declares one keyed read from an explicit batch-capable source. | `BatchRequirement` | `BatchRequirement<TValue, TError>` | — | The source is the only batching assumption; keys use its explicit comparer and are forwarded in first-request order. |
+| `FromValue`/`Failure` | Lifts a successful value or a typed read failure into a description without reading. | `BatchRequirement` | `BatchRequirement<TValue, TError>` | — | Construction does not execute or cache; the failure remains a `BatchReadError<TError>` outcome. |
+| `All` | Starts every independent description and keeps every outcome in input order. | `BatchRequirement` | `BatchRequirement<IReadOnlyList<Result<TValue, BatchReadError<TError>>>, TError>` | — | The input is snapshotted once; one inner failure does not short-circuit siblings and the outer result succeeds. |
+| `Zip` | Starts two descriptions independently and combines successful values. | `BatchRequirement` | `BatchRequirement<(TFirst First, TSecond Second), TError>` | — | Both start before either failure is observed; a source exception from either operand is never hidden by a sibling domain failure. |
+| `MapError` | Adapts per-key and whole-batch source errors to another typed error. | `BatchSource` | `BatchSource<TKey, TValue, TResultError>` | — | Applies only to source errors; missing and unexpected responses are unaffected, and the adapted source has its own cache identity. |
+| `ExecuteAsync` | Executes one requirement under the scope's bounds and cache. | `BatchScope` | `ValueTask<Result<TValue, BatchReadError<TError>>>` | — | One execution at a time; the caller token and scope disposal are linked and forwarded; source exceptions and cancellation are not converted to `BatchReadError`. |
+| `Invalidate`/`ClearCache` | Removes cached key results after a mutation. | `BatchScope` | `int` | — | Rejected during an active execution; invalidation is explicit and never triggers a read by itself. |
 
 ### State
 
