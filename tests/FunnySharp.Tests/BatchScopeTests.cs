@@ -339,6 +339,42 @@ public sealed class BatchScopeTests
     }
 
     [Fact]
+    public async Task CacheCapacityIsBoundedPerSource()
+    {
+        var first = new RecordingBatchSource<string, int, string>(
+            "first",
+            "tenant-a",
+            StringComparer.Ordinal,
+            static (keys, _, _) => new(Result<IReadOnlyList<BatchSourceEntry<string, int, string>>, string>.Success(
+                keys.Select(key => BatchSourceEntry<string, int, string>.Found(key, key.Length)).ToArray())));
+        var second = new RecordingBatchSource<string, int, string>(
+            "second",
+            "tenant-a",
+            StringComparer.Ordinal,
+            static (keys, _, _) => new(Result<IReadOnlyList<BatchSourceEntry<string, int, string>>, string>.Success(
+                keys.Select(key => BatchSourceEntry<string, int, string>.Found(key, key.Length)).ToArray())));
+
+        await using var scope = BatchScope.Create(new BatchScopeOptions { MaxCachedEntries = 2 });
+
+        _ = await scope.ExecuteAsync(BatchRequirement.Read(first.Source, "a"));
+        _ = await scope.ExecuteAsync(BatchRequirement.Read(first.Source, "b"));
+        _ = await scope.ExecuteAsync(BatchRequirement.Read(second.Source, "a"));
+        _ = await scope.ExecuteAsync(BatchRequirement.Read(second.Source, "b"));
+
+        // Four retained entries exceed a single shared bound of two: each source keeps its own.
+        _ = await scope.ExecuteAsync(BatchRequirement.Read(first.Source, "a"));
+        _ = await scope.ExecuteAsync(BatchRequirement.Read(second.Source, "a"));
+        Assert.Equal(2, first.InvocationCount);
+        Assert.Equal(2, second.InvocationCount);
+
+        // The per-source bound still evicts the oldest entry for the source that overflows.
+        _ = await scope.ExecuteAsync(BatchRequirement.Read(first.Source, "c"));
+        _ = await scope.ExecuteAsync(BatchRequirement.Read(first.Source, "a"));
+        Assert.Equal(4, first.InvocationCount);
+        Assert.Equal(2, second.InvocationCount);
+    }
+
+    [Fact]
     public async Task SeparateScopesDoNotShareRequestsOrCache()
     {
         var customers = new RecordingBatchSource<string, string, string>(

@@ -157,6 +157,59 @@ public sealed class BatchErrorHandlingTests
     }
 
     [Fact]
+    public async Task PerKeyBatchAndUnexpectedFailureOutcomesAreCachedWithinTheScope()
+    {
+        var perKey = new RecordingBatchSource<string, int, string>(
+            "per-key",
+            "tenant-a",
+            StringComparer.Ordinal,
+            static (keys, _, _) => new(Result<IReadOnlyList<BatchSourceEntry<string, int, string>>, string>.Success(
+            [
+                BatchSourceEntry<string, int, string>.Failed("a", "key unavailable"),
+            ])));
+        var wholeBatch = new RecordingBatchSource<string, int, string>(
+            "whole-batch",
+            "tenant-a",
+            StringComparer.Ordinal,
+            static (keys, _, _) => new(Result<IReadOnlyList<BatchSourceEntry<string, int, string>>, string>.Failure("batch unavailable")));
+        var unexpected = new RecordingBatchSource<string, int, string>(
+            "unexpected",
+            "tenant-a",
+            StringComparer.Ordinal,
+            static (keys, _, _) => new(Result<IReadOnlyList<BatchSourceEntry<string, int, string>>, string>.Success(
+            [
+                BatchSourceEntry<string, int, string>.Found("a", 1),
+                BatchSourceEntry<string, int, string>.Found("a", 2),
+            ])));
+
+        await using var scope = BatchScope.Create();
+
+        var firstKey = await scope.ExecuteAsync(BatchRequirement.Read(perKey.Source, "a"));
+        var secondKey = await scope.ExecuteAsync(BatchRequirement.Read(perKey.Source, "a"));
+        Assert.True(firstKey.TryGetError(out var firstKeyError));
+        Assert.True(secondKey.TryGetError(out var secondKeyError));
+        Assert.Equal(BatchReadErrorKind.KeyFailure, firstKeyError.Kind);
+        Assert.Equal(firstKeyError, secondKeyError);
+        Assert.Equal(1, perKey.InvocationCount);
+
+        var firstBatch = await scope.ExecuteAsync(BatchRequirement.Read(wholeBatch.Source, "a"));
+        var secondBatch = await scope.ExecuteAsync(BatchRequirement.Read(wholeBatch.Source, "a"));
+        Assert.True(firstBatch.TryGetError(out var firstBatchError));
+        Assert.True(secondBatch.TryGetError(out var secondBatchError));
+        Assert.Equal(BatchReadErrorKind.BatchFailure, firstBatchError.Kind);
+        Assert.Equal(firstBatchError, secondBatchError);
+        Assert.Equal(1, wholeBatch.InvocationCount);
+
+        var firstUnexpected = await scope.ExecuteAsync(BatchRequirement.Read(unexpected.Source, "a"));
+        var secondUnexpected = await scope.ExecuteAsync(BatchRequirement.Read(unexpected.Source, "a"));
+        Assert.True(firstUnexpected.TryGetError(out var firstUnexpectedError));
+        Assert.True(secondUnexpected.TryGetError(out var secondUnexpectedError));
+        Assert.Equal(BatchReadErrorKind.UnexpectedResponse, firstUnexpectedError.Kind);
+        Assert.Equal(firstUnexpectedError, secondUnexpectedError);
+        Assert.Equal(1, unexpected.InvocationCount);
+    }
+
+    [Fact]
     public void EntryFactoriesRejectInvalidFoundAndFailedValues()
     {
         Assert.Throws<ArgumentNullException>(

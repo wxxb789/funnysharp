@@ -161,7 +161,8 @@ Exceptions are not converted into `BatchReadError<TError>`. A source delegate ex
 branches were started, the execution awaits and observes them before propagating; `All` reports
 the first exception in branch order, and `Zip` reports an exception from either operand before a
 sibling domain failure. A later exception from a branch that already faulted is observed but is
-not surfaced separately.
+not surfaced separately. A faulted execution stops dispatching, cancels queued reads that were
+never dispatched, and drains started source batches instead of cancelling them.
 
 Cancellation is also not a data failure:
 
@@ -186,12 +187,14 @@ work, and clears the cache. It does not claim to terminate arbitrary Tasks.
 | --- | ---: | --- |
 | `MaxBatchSize` | 128 | Maximum keys in one source call. Larger request queues are split in first-request order. |
 | `MaxConcurrentBatches` | 1 | Maximum source batch calls running at once across all sources. |
-| `MaxPendingRequests` | 1024 | Maximum distinct queued or in-flight keys retained by one execution. Admission beyond this throws `InvalidOperationException` before dispatching excess work. |
+| `MaxPendingRequests` | 1024 | Maximum distinct queued or in-flight keys retained by one execution. Admission beyond this faults the execution with `InvalidOperationException`; excess work is never dispatched, and already-started source batches are drained rather than cancelled. |
 | `CacheResults` | true | Retains resolved key results for the scope lifetime, including missing and failed outcomes. |
-| `MaxCachedEntries` | 1024 | FIFO-bound on retained cache entries. The oldest entry is evicted first. |
+| `MaxCachedEntries` | 1024 | Per-source FIFO bound on retained cache entries. The oldest entry for that source is evicted first. |
 
 These limits apply to execution coordination. A plan description itself is caller-owned and is
-not bounded by the scope; `All` snapshots its input once at construction.
+not bounded by the scope; `All` snapshots its input once at construction. Because each distinct
+source instance owns its own cache table, a scope retains up to `MaxCachedEntries` per source,
+not one shared total.
 
 ## Cache Lifetime And Invalidation
 
@@ -201,7 +204,7 @@ source batches, even for the same source instance.
 
 Cached entries include successes, `Missing`, `KeyFailure`, `BatchFailure`, and
 `UnexpectedResponse`. Exceptions and cancellation are not cached. Results are evicted in insertion
-order when `MaxCachedEntries` is reached.
+order per source when `MaxCachedEntries` is reached.
 
 Mutation is not detected automatically. After changing data that a scope has already read, call:
 

@@ -244,9 +244,20 @@ internal sealed class BatchRequestTable<TKey, TValue, TError> : BatchRequestTabl
         }
 
         var token = _execution.CancellationToken;
-        for (var index = 0; index < slots.Count; index++)
+        if (slots.Count > 0)
         {
-            slots[index].Completion.TrySetCanceled(token);
+            // Complete the cancellations off the caller's thread: cancellations run inline on
+            // whatever thread calls this, and that is the caller's Cancel()/DisposeAsync() thread
+            // when the token or disposal cancelled the execution. User continuations must not
+            // block that thread.
+            ThreadPool.QueueUserWorkItem(
+                _ =>
+                {
+                    for (var index = 0; index < slots.Count; index++)
+                    {
+                        slots[index].Completion.TrySetCanceled(token);
+                    }
+                });
         }
 
         _execution.Signal();

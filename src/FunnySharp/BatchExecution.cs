@@ -265,7 +265,7 @@ internal sealed class BatchExecution
 
     private async Task DrainAsync()
     {
-        bool cancel;
+        BatchRequestTable[] tables;
         lock (_gate)
         {
             if (_pending == 0 && _inFlight == 0)
@@ -273,14 +273,18 @@ internal sealed class BatchExecution
                 return;
             }
 
-            cancel = _pending > 0;
             _draining = true;
             _ready.Clear();
+            tables = _tables.ToArray();
         }
 
-        if (cancel)
+        // Queued reads that were never dispatched cannot run once draining begins. Cancelling
+        // them is not a caller cancellation: started source batches keep the execution token and
+        // are awaited below, so a faulted execution never yanks cancellation from under work it
+        // already started.
+        for (var index = 0; index < tables.Length; index++)
         {
-            _linkedCts.Cancel();
+            tables[index].CancelQueued();
         }
 
         while (true)

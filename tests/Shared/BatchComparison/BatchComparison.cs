@@ -104,7 +104,7 @@ internal static class BatchComparison
 
         return funny.TryGetError(out var funnyError)
             && hand.TryGetError(out var handError)
-            && funnyError.Code == handError.Code;
+            && funnyError == handError;
     }
 
     private static void CompareInvocations(

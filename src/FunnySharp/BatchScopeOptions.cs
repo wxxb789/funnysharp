@@ -6,7 +6,7 @@ namespace FunnySharp;
 /// <remarks>
 /// Every option is validated when the scope is created. The defaults bound one request-sized
 /// execution: at most 128 keys per source call, one batch operation at a time, 1024 unresolved
-/// requests, and 1024 cached key results.
+/// requests, and 1024 cached key results per source.
 /// </remarks>
 public sealed class BatchScopeOptions
 {
@@ -26,9 +26,11 @@ public sealed class BatchScopeOptions
     /// <value><see langword="true"/> by default. Disable to deduplicate only unresolved requests.</value>
     public bool CacheResults { get; init; } = true;
 
-    /// <summary>Gets the maximum number of cached key results retained by the scope.</summary>
+    /// <summary>Gets the maximum number of cached key results retained per source by the scope.</summary>
     /// <value>A positive integer when <see cref="CacheResults"/> is enabled. The default is 1024.
-    /// Entries are evicted in insertion order when the bound is reached.</value>
+    /// Each distinct source instance owns its own cache table, so a scope touching several
+    /// sources retains up to this bound for each of them. Entries are evicted in insertion order
+    /// when the bound is reached.</value>
     public int MaxCachedEntries { get; init; } = 1024;
 
     internal void Validate()
