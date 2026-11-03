@@ -210,6 +210,28 @@ public sealed class BatchErrorHandlingTests
     }
 
     [Fact]
+    public async Task ComparerFailureDuringCleanupFaultsTheExecutionInsteadOfHangingIt()
+    {
+        var values = new RecordingBatchSource<string, int, string>(
+            "values",
+            "tenant-a",
+            new ThrowingEqualsComparer(),
+            static (keys, _, _) => new(Result<IReadOnlyList<BatchSourceEntry<string, int, string>>, string>.Success(
+            [
+                BatchSourceEntry<string, int, string>.Found("a", 1),
+            ])));
+
+        var scope = BatchScope.Create();
+        var execution = scope.ExecuteAsync(BatchRequirement.Read(values.Source, "a")).AsTask();
+
+        var thrown = await Assert.ThrowsAsync<InvalidOperationException>(
+            async () => await execution.WaitAsync(TimeSpan.FromSeconds(10)));
+
+        Assert.Equal("comparer failure", thrown.Message);
+        await scope.DisposeAsync();
+    }
+
+    [Fact]
     public void EntryFactoriesRejectInvalidFoundAndFailedValues()
     {
         Assert.Throws<ArgumentNullException>(
@@ -218,5 +240,12 @@ public sealed class BatchErrorHandlingTests
             () => BatchSourceEntry<string, string, string>.Found("key", null!));
         Assert.Throws<ArgumentNullException>(
             () => BatchSourceEntry<string, string, string>.Failed(null!, "error"));
+    }
+
+    private sealed class ThrowingEqualsComparer : IEqualityComparer<string>
+    {
+        public bool Equals(string? x, string? y) => throw new InvalidOperationException("comparer failure");
+
+        public int GetHashCode(string obj) => 0;
     }
 }

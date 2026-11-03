@@ -233,11 +233,8 @@ internal sealed class BatchRequestTable<TKey, TValue, TError> : BatchRequestTabl
             while (_queued.Count > 0)
             {
                 var slot = _queued.Dequeue();
-                if (_slots.Remove(slot.Key))
-                {
-                    _execution.OnSlotCompleted();
-                    slots.Add(slot);
-                }
+                RemoveSlotLocked(slot);
+                slots.Add(slot);
             }
 
             Ready = false;
@@ -286,11 +283,25 @@ internal sealed class BatchRequestTable<TKey, TValue, TError> : BatchRequestTabl
         {
             for (var index = 0; index < slots.Count; index++)
             {
-                if (_slots.Remove(slots[index].Key))
-                {
-                    _execution.OnSlotCompleted();
-                }
+                RemoveSlotLocked(slots[index]);
             }
+        }
+    }
+
+    private void RemoveSlotLocked(BatchRequestSlot<TKey, TValue, TError> slot)
+    {
+        try
+        {
+            if (_slots.Remove(slot.Key))
+            {
+                _execution.OnSlotCompleted();
+            }
+        }
+        catch (Exception)
+        {
+            // A comparer that throws cannot prove the entry absent, so it stays in the table.
+            // Every caller completes the slot task regardless, so cleanup failure cannot strand
+            // the execution; the original comparer or source exception is what the waiter sees.
         }
     }
 
