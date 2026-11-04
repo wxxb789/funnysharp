@@ -149,8 +149,9 @@ public sealed record ShippedOrder(OrderId Id, TrackingCode Tracking);
 `PlacedOrder` cannot be passed where a `ShippedOrder` is required. The ordinary alternative is a
 single record with an enum state and runtime guards inside every operation. That alternative still
 has to decide what to do when `Ship` is called on a draft, and the compiler cannot point at the
-mistake. The misuse evidence records the exact `CS1061` diagnostic for a state-specific call on the
-wrong state.
+mistake. The state-specific operation is rejected by the compiler because the member does not
+exist on the other state; the consumer comparison pins the runtime alternative with an enum-state
+guard.
 
 State types are ordinary C# records. FunnySharp does not add a union type, a state wrapper, or a
 generic transition hierarchy. Construct transitions with ordinary methods, `Result`, or the

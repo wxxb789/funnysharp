@@ -61,16 +61,19 @@ internal static class Domains
 
     internal static readonly Decoder<QuantityValue> QuantityDecoder = RequireDecoder(Quantity.CreateDecoder());
 
-    private static Decoder<T> RequireDecoder<T>(Result<Decoder<T>, ContractLimitation> created) =>
+    internal static Decoder<T> RequireDecoder<T>(Result<Decoder<T>, ContractLimitation> created) =>
         created.Match(
             static decoder => decoder,
             static limitation => throw new InvalidOperationException(limitation.ToString()));
 
-    internal static TrackingValue TrackingCode(string orderId) =>
-        Tracking.Validate("TRK-" + orderId).Match(
+    internal static T Require<T>(Validation<T, DecodeError> validation) =>
+        validation.Match(
             static value => value,
             static errors => throw new InvalidOperationException(
                 string.Join("; ", errors.Select(static error => error.ToString()))));
+
+    internal static TrackingValue TrackingCode(string orderId) =>
+        Require(Tracking.Validate("TRK-" + orderId));
 }
 
 internal sealed record PricingFailure(string Sku, int Quantity, string Code);
@@ -101,11 +104,8 @@ internal static class OrderModules
             ? Result<string, PaymentFailure>.Success("AUTH-100")
             : Result<string, PaymentFailure>.Failure(new PaymentFailure("payment-declined"));
 
-    internal static string Format(PricingFailure failure) =>
-        failure.Sku + "|" + failure.Quantity.ToString(CultureInfo.InvariantCulture);
-
-    internal static string Format(InventoryFailure failure) =>
-        failure.Sku + "|" + failure.Quantity.ToString(CultureInfo.InvariantCulture);
+    internal static string Format(string sku, int quantity) =>
+        sku + "|" + quantity.ToString(CultureInfo.InvariantCulture);
 }
 
 internal interface IWorkflowFailure
@@ -117,11 +117,8 @@ internal interface IWorkflowFailure
 
 internal static class WorkflowFailureExtensions
 {
-    internal static WorkflowFailureView ToView(
-        this IWorkflowFailure failure,
-        string detail,
-        string path = "") =>
-        new(failure.Source, failure.Code, path, detail);
+    internal static WorkflowFailureView ToView(this IWorkflowFailure failure, string detail) =>
+        new(failure.Source, failure.Code, string.Empty, detail);
 }
 
 internal abstract record OrderWorkflowError : IWorkflowFailure
@@ -131,8 +128,6 @@ internal abstract record OrderWorkflowError : IWorkflowFailure
     public abstract string Code { get; }
 
     internal abstract string Detail { get; }
-
-    internal virtual string Path => string.Empty;
 }
 
 internal sealed record RequestRejected(IReadOnlyList<DecodeError> Errors) : OrderWorkflowError
@@ -151,7 +146,7 @@ internal sealed record PricingRejected(OrderIdValue OrderId, PricingFailure Fail
 
     public override string Code => Failure.Code;
 
-    internal override string Detail => OrderModules.Format(Failure);
+    internal override string Detail => OrderModules.Format(Failure.Sku, Failure.Quantity);
 }
 
 internal sealed record InventoryRejected(OrderIdValue OrderId, InventoryFailure Failure) : OrderWorkflowError
@@ -160,7 +155,7 @@ internal sealed record InventoryRejected(OrderIdValue OrderId, InventoryFailure 
 
     public override string Code => Failure.Code;
 
-    internal override string Detail => OrderModules.Format(Failure);
+    internal override string Detail => OrderModules.Format(Failure.Sku, Failure.Quantity);
 }
 
 internal sealed record PaymentRejected(OrderIdValue OrderId, PaymentFailure Failure) : OrderWorkflowError
@@ -245,4 +240,8 @@ internal sealed record WorkflowOutcome(
     string? ReservationCode,
     string? AuthorizationCode,
     string? TrackingCode,
-    string? CancellationReason);
+    string? CancellationReason)
+{
+    internal static WorkflowOutcome Rejected(string? orderId, WorkflowFailureView failure) =>
+        new("rejected", orderId, 0, 0m, [failure], null, null, null, null);
+}

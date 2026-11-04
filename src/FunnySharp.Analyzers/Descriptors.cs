@@ -25,7 +25,7 @@ internal static class Descriptors
         category: DiagnosticIds.Category,
         defaultSeverity: DiagnosticSeverity.Error,
         isEnabledByDefault: true,
-        description: "Result<TValue, TError>, UnitResult<TError>, Validation<TValue, TError>, NonEmpty<T>, Effect<T>, Effect<TEnvironment, T>, Lens<TSource, TFocus>, and Optional<TSource, TFocus> are uninitialized in their default state, and every member that reads them throws InvalidOperationException. Use the factories (Success/Failure, Valid/Invalid, ToNonEmptyOrNone, the Effect factories, Create) instead. Option<T> (default is None) and TransitionResult (default is Undefined) are excluded because their defaults are valid.",
+        description: "Result<TValue, TError>, UnitResult<TError>, Validation<TValue, TError>, NonEmpty<T>, Effect<T>, Effect<TEnvironment, T>, Lens<TSource, TFocus>, Optional<TSource, TFocus>, and DomainValue<TValue, TTag> are uninitialized in their default state, and every member that reads them throws InvalidOperationException. Use the factories (Success/Failure, Valid/Invalid, ToNonEmptyOrNone, the Effect factories, Create) or a Domain<TValue, TTag> boundary instead. Option<T> (default is None) and TransitionResult (default is Undefined) are excluded because their defaults are valid.",
         helpLinkUri: HelpLinkBase + "#fs1001-uninitialized-semantic-carrier");
 
     /// <summary>FS1002: an outcome value was silently discarded as a statement.</summary>

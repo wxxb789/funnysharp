@@ -1,39 +1,39 @@
 using System.Text.Json;
+using FunnySharp;
 
 namespace FunnySharp.TestSupport.Domains;
 
 internal static class DomainComparison
 {
+    private static readonly IReadOnlyList<WorkflowFailureView> NoFailures = [];
+
     internal static void Verify()
     {
+        var outcomes = new Dictionary<string, WorkflowOutcome>(StringComparer.Ordinal);
+
         foreach (var fixture in DomainFixtures.All)
         {
             using var document = JsonDocument.Parse(fixture.Json);
             var root = document.RootElement;
 
-            Compare(
-                fixture.Name,
-                FunnySharpOrderWorkflow.Run(root),
-                OrdinaryOrderWorkflow.Run(root));
+            var funnySharp = FunnySharpOrderWorkflow.Run(root);
+            Compare(fixture.Name, funnySharp, OrdinaryOrderWorkflow.Run(root));
+            outcomes[fixture.Name] = funnySharp;
+
+            var funnySharpCancel = FunnySharpOrderWorkflow.RunCancel(root);
             Compare(
                 fixture.Name + ":cancel",
-                FunnySharpOrderWorkflow.RunCancel(root),
+                funnySharpCancel,
                 OrdinaryOrderWorkflow.RunCancel(root));
+            outcomes[fixture.Name + ":cancel"] = funnySharpCancel;
         }
 
-        VerifyExpected();
+        VerifyExpected(outcomes);
     }
 
     internal static bool OutcomesEqual(WorkflowOutcome left, WorkflowOutcome right) =>
-        string.Equals(left.Status, right.Status, StringComparison.Ordinal)
-        && string.Equals(left.OrderId, right.OrderId, StringComparison.Ordinal)
-        && left.Quantity == right.Quantity
-        && left.UnitPrice == right.UnitPrice
-        && string.Equals(left.ReservationCode, right.ReservationCode, StringComparison.Ordinal)
-        && string.Equals(left.AuthorizationCode, right.AuthorizationCode, StringComparison.Ordinal)
-        && string.Equals(left.TrackingCode, right.TrackingCode, StringComparison.Ordinal)
-        && string.Equals(left.CancellationReason, right.CancellationReason, StringComparison.Ordinal)
-        && left.Failures.SequenceEqual(right.Failures);
+        left.Failures.SequenceEqual(right.Failures)
+        && (left with { Failures = NoFailures }) == (right with { Failures = NoFailures });
 
     internal static string Format(WorkflowOutcome outcome) =>
         $"{outcome.Status}|{outcome.OrderId}|{outcome.Quantity}|{outcome.UnitPrice}|" +
@@ -57,9 +57,9 @@ internal static class DomainComparison
             $"ordinary: {Format(ordinary)}");
     }
 
-    private static void VerifyExpected()
+    private static void VerifyExpected(IReadOnlyDictionary<string, WorkflowOutcome> outcomes)
     {
-        var valid = Run(DomainFixtures.Valid);
+        var valid = outcomes["valid"];
         AssertOutcome(
             "valid",
             valid,
@@ -74,7 +74,7 @@ internal static class DomainComparison
                 "TRK-ORD-100",
                 null));
 
-        var validPen = Run(DomainFixtures.ValidPen);
+        var validPen = outcomes["valid-pen"];
         AssertOutcome(
             "valid-pen",
             validPen,
@@ -89,47 +89,49 @@ internal static class DomainComparison
                 "TRK-ORD-200",
                 null));
 
-        var unknownSku = Run(DomainFixtures.UnknownSku);
+        var unknownSku = outcomes["unknown-sku"];
         AssertOutcome(
             "unknown-sku",
             unknownSku,
-            Rejected("ORD-300", "pricing", "unknown-sku", string.Empty, "SKU-UNKNOWN|2"));
+            WorkflowOutcome.Rejected("ORD-300", new WorkflowFailureView("pricing", "unknown-sku", string.Empty, "SKU-UNKNOWN|2")));
 
-        var outOfStock = Run(DomainFixtures.OutOfStock);
+        var outOfStock = outcomes["out-of-stock"];
         AssertOutcome(
             "out-of-stock",
             outOfStock,
-            Rejected("ORD-400", "inventory", "insufficient-stock", string.Empty, "SKU-BOOK|9"));
+            WorkflowOutcome.Rejected("ORD-400", new WorkflowFailureView("inventory", "insufficient-stock", string.Empty, "SKU-BOOK|9")));
 
-        var paymentDeclined = Run(DomainFixtures.PaymentDeclined);
+        var paymentDeclined = outcomes["payment-declined"];
         AssertOutcome(
             "payment-declined",
             paymentDeclined,
-            Rejected("ORD-500", "payment", "payment-declined", string.Empty, "payment-declined"));
+            WorkflowOutcome.Rejected("ORD-500", new WorkflowFailureView("payment", "payment-declined", string.Empty, "payment-declined")));
 
-        var invalidOrderId = Run(DomainFixtures.InvalidOrderId);
+        var invalidOrderId = outcomes["invalid-order-id"];
         AssertOutcome(
             "invalid-order-id",
             invalidOrderId,
-            Rejected(
+            WorkflowOutcome.Rejected(
                 null,
-                "request",
-                "InvalidValue",
-                "orderId",
-                "order identifier must start with ORD-"));
+                new WorkflowFailureView(
+                    "request",
+                    nameof(DecodeErrorKind.InvalidValue),
+                    "orderId",
+                    "order identifier must start with ORD-")));
 
-        var fractional = Run(DomainFixtures.FractionalQuantity);
+        var fractional = outcomes["fractional-quantity"];
         AssertOutcome(
             "fractional-quantity",
             fractional,
-            Rejected(
+            WorkflowOutcome.Rejected(
                 null,
-                "request",
-                "Malformed",
-                "line.quantity",
-                "the value cannot be parsed as a 32-bit integer"));
+                new WorkflowFailureView(
+                    "request",
+                    nameof(DecodeErrorKind.Malformed),
+                    "line.quantity",
+                    "the value cannot be parsed as a 32-bit integer")));
 
-        var multiple = Run(DomainFixtures.MultipleInvalid);
+        var multiple = outcomes["multiple-invalid"];
         AssertOutcome(
             "multiple-invalid",
             multiple,
@@ -141,30 +143,30 @@ internal static class DomainComparison
                 [
                     new WorkflowFailureView(
                         "request",
-                        "InvalidValue",
+                        nameof(DecodeErrorKind.InvalidValue),
                         "orderId",
                         "order identifier must start with ORD-"),
-                    new WorkflowFailureView("request", "Null", "customerId", string.Empty),
-                    new WorkflowFailureView("request", "Empty", "line.sku", string.Empty),
+                    new WorkflowFailureView("request", nameof(DecodeErrorKind.Null), "customerId", string.Empty),
+                    new WorkflowFailureView("request", nameof(DecodeErrorKind.Empty), "line.sku", string.Empty),
                     new WorkflowFailureView(
                         "request",
-                        "InvalidValue",
+                        nameof(DecodeErrorKind.InvalidValue),
                         "line.quantity",
                         "value must be between 1 and 100"),
-                    new WorkflowFailureView("request", "Empty", "payment.token", string.Empty),
+                    new WorkflowFailureView("request", nameof(DecodeErrorKind.Empty), "payment.token", string.Empty),
                 ],
                 null,
                 null,
                 null,
                 null));
 
-        var rootArray = Run(DomainFixtures.RootArray);
+        var rootArray = outcomes["root-array"];
         AssertOutcome(
             "root-array",
             rootArray,
-            Rejected(null, "request", "WrongKind", string.Empty, "found Array"));
+            WorkflowOutcome.Rejected(null, new WorkflowFailureView("request", nameof(DecodeErrorKind.WrongKind), string.Empty, "found Array")));
 
-        var emptyObject = Run(DomainFixtures.EmptyObject);
+        var emptyObject = outcomes["empty-object"];
         AssertOutcome(
             "empty-object",
             emptyObject,
@@ -174,17 +176,17 @@ internal static class DomainComparison
                 0,
                 0m,
                 [
-                    new WorkflowFailureView("request", "Missing", "orderId", string.Empty),
-                    new WorkflowFailureView("request", "Missing", "customerId", string.Empty),
-                    new WorkflowFailureView("request", "Missing", "line", string.Empty),
-                    new WorkflowFailureView("request", "Missing", "payment", string.Empty),
+                    new WorkflowFailureView("request", nameof(DecodeErrorKind.Missing), "orderId", string.Empty),
+                    new WorkflowFailureView("request", nameof(DecodeErrorKind.Missing), "customerId", string.Empty),
+                    new WorkflowFailureView("request", nameof(DecodeErrorKind.Missing), "line", string.Empty),
+                    new WorkflowFailureView("request", nameof(DecodeErrorKind.Missing), "payment", string.Empty),
                 ],
                 null,
                 null,
                 null,
                 null));
 
-        var duplicate = Run(DomainFixtures.DuplicateOrderId);
+        var duplicate = outcomes["duplicate-order-id"];
         AssertOutcome(
             "duplicate-order-id",
             duplicate,
@@ -199,7 +201,7 @@ internal static class DomainComparison
                 "TRK-ORD-700",
                 null));
 
-        var extraField = Run(DomainFixtures.ExtraField);
+        var extraField = outcomes["extra-field"];
         AssertOutcome(
             "extra-field",
             extraField,
@@ -214,10 +216,9 @@ internal static class DomainComparison
                 "TRK-ORD-600",
                 null));
 
-        using var cancelDocument = JsonDocument.Parse(DomainFixtures.Valid.Json);
         AssertOutcome(
             "valid:cancel",
-            FunnySharpOrderWorkflow.RunCancel(cancelDocument.RootElement),
+            outcomes["valid:cancel"],
             new WorkflowOutcome(
                 "cancelled",
                 "ORD-100",
@@ -229,29 +230,6 @@ internal static class DomainComparison
                 null,
                 "customer-request"));
     }
-
-    private static WorkflowOutcome Run(DomainFixture fixture)
-    {
-        using var document = JsonDocument.Parse(fixture.Json);
-        return FunnySharpOrderWorkflow.Run(document.RootElement);
-    }
-
-    private static WorkflowOutcome Rejected(
-        string? orderId,
-        string source,
-        string code,
-        string path,
-        string detail) =>
-        new(
-            "rejected",
-            orderId,
-            0,
-            0m,
-            [new WorkflowFailureView(source, code, path, detail)],
-            null,
-            null,
-            null,
-            null);
 
     private static void AssertOutcome(string name, WorkflowOutcome actual, WorkflowOutcome expected)
     {

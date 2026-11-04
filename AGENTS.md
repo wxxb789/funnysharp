@@ -21,7 +21,7 @@ funnysharp/
 ├── benchmarks/           # BenchmarkDotNet suites; isolated GreenDonut comparison; JSON receipts bound to eng/performance manifests
 ├── examples/             # executable examples + DocumentationSamples (byte-exact docs snippet contract)
 ├── .github/workflows/    # release.yml (manual release gate) + tooling.yml (3-OS PR merge gate)
-└── FunnySharp.slnx       # 17 projects; excludes tests/FunnySharp.Compatibility
+└── FunnySharp.slnx       # 18 projects; excludes tests/FunnySharp.Compatibility
 ```
 
 ## WHERE TO LOOK

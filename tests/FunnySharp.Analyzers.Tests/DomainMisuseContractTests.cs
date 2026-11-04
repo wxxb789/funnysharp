@@ -63,29 +63,6 @@ public sealed class DomainMisuseContractTests
         Assert.Contains("DomainValue", diagnostic.GetMessage(), StringComparison.Ordinal);
     }
 
-    [Fact]
-    public void StateSpecificOperationsDoNotCompileOnTheWrongState()
-    {
-        var diagnostic = SingleDiagnostic("""
-            public sealed record DraftOrder;
-            public sealed record PlacedOrder
-            {
-                public void Ship()
-                {
-                }
-            }
-
-            public static class Probe
-            {
-                public static void Call(DraftOrder draft) => draft.Ship();
-            }
-            """);
-
-        Assert.Equal("CS1061", diagnostic.Id);
-        Assert.Contains("DraftOrder", diagnostic.GetMessage(), StringComparison.Ordinal);
-        Assert.Contains("Ship", diagnostic.GetMessage(), StringComparison.Ordinal);
-    }
-
     private static Diagnostic SingleDiagnostic(string source)
     {
         var compilation = AnalyzerHarness.CreateCompilation(source);

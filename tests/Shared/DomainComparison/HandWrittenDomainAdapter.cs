@@ -2,11 +2,6 @@ using FunnySharp;
 
 namespace FunnySharp.TestSupport.Domains;
 
-/// <summary>
-/// A hand-written tagged identifier used only as the comparison baseline for the generic
-/// <see cref="DomainValue{TValue, TTag}"/> wrapper. It declares its own constructor, validation,
-/// contract derivation, decoder, equality (through the record struct), and diagnostic text.
-/// </summary>
 internal readonly record struct HandWrittenOrderId
 {
     private HandWrittenOrderId(string value) => Value = value;
@@ -22,16 +17,8 @@ internal readonly record struct HandWrittenOrderId
 
     internal static Decoder<HandWrittenOrderId> Decoder { get; } = BuildDecoder();
 
-    internal static Validation<HandWrittenOrderId, DecodeError> Create(string value)
-    {
-        if (value is null)
-        {
-            return Validation<HandWrittenOrderId, DecodeError>.Invalid(
-                DecodeError.Create(DecodeErrorKind.Null));
-        }
-
-        return Underlying.Validate(value).Map(static validated => new HandWrittenOrderId(validated));
-    }
+    internal static Validation<HandWrittenOrderId, DecodeError> Create(string value) =>
+        Underlying.Validate(value).Map(static validated => new HandWrittenOrderId(validated));
 
     private static Contract<HandWrittenOrderId> BuildContract() =>
         Underlying.Widen(
@@ -42,7 +29,7 @@ internal readonly record struct HandWrittenOrderId
                 "not a hand-written order identifier");
 
     private static Decoder<HandWrittenOrderId> BuildDecoder() =>
-        Contract.CreateDecoder().Match(
-            static decoder => decoder,
-            static limitation => throw new InvalidOperationException(limitation.ToString()));
+        Domains.RequireDecoder(
+            Underlying.CreateDecoder().Map(
+                static decoder => decoder.Map(static value => new HandWrittenOrderId(value))));
 }

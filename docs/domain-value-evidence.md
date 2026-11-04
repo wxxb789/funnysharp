@@ -1,7 +1,7 @@
 # Domain Value Consumer Evidence
 
 This record supports the maintainer's judgment for
-[Goal 0030](goals/0030-goal.md): whether tagged domain values, explicit state types, and typed
+[Goal 0030](goals/archive/0030-goal.md): whether tagged domain values, explicit state types, and typed
 error composition reduce complete workflow code while preserving the distinctions that matter.
 It is comparison and measurement evidence, not a completion claim or a new gate.
 
@@ -27,22 +27,22 @@ Both consumers run the same order workflow over the same fixture set:
 
 | Version | Files | Raw lines | Shape |
 | --- | --- | ---: | --- |
-| FunnySharp domain values and explicit state | [DomainModels.cs](../tests/Shared/DomainComparison/DomainModels.cs), [FunnySharpOrderWorkflow.cs](../tests/Shared/DomainComparison/FunnySharpOrderWorkflow.cs) | 370 | Five tagged identifiers with derived contracts/decoders; sealed `DraftOrder`, `PlacedOrder`, `ShippedOrder`, `CancelledOrder`; module error records mapped to a workflow hierarchy. |
-| Ordinary records and manual adapters | [OrdinaryOrderWorkflow.cs](../tests/Shared/DomainComparison/OrdinaryOrderWorkflow.cs) | 460 | Raw `string`/`int` fields; one record plus `OrdinaryOrderState` enum; runtime state guards; hand-written `JsonElement` field parsing, prefix checks, quantity parsing, error ordering, and error mapping. |
+| FunnySharp domain values and explicit state | [DomainModels.cs](../tests/Shared/DomainComparison/DomainModels.cs), [FunnySharpOrderWorkflow.cs](../tests/Shared/DomainComparison/FunnySharpOrderWorkflow.cs) | 360 | Five tagged identifiers with derived contracts/decoders; sealed `DraftOrder`, `PlacedOrder`, `ShippedOrder`, `CancelledOrder`; module error records mapped to a workflow hierarchy. |
+| Ordinary records and manual adapters | [OrdinaryOrderWorkflow.cs](../tests/Shared/DomainComparison/OrdinaryOrderWorkflow.cs) | 451 | Raw `string`/`int` fields; one record plus `OrdinaryOrderState` enum; runtime state guards; hand-written `JsonElement` field parsing, prefix checks, quantity parsing, error ordering, and error mapping. |
 
 Both versions use the shared module logic, module error records, common error interface, and
-neutral outcome records in `DomainModels.cs`. Those shared declarations occupy 61 raw lines and
+neutral outcome records in `DomainModels.cs`. Those shared declarations occupy 60 raw lines and
 are excluded from the per-version comparison below.
 
 | Accounting | FunnySharp | Ordinary |
 | --- | ---: | ---: |
-| Consumer-specific declarations, adapters, conversions, and workflow | 309 | 460 |
-| Shared module logic and neutral comparison types | 61 | 61 |
-| Library implementation (one-time, not charged to a consumer) | 265 | 0 |
+| Consumer-specific declarations, adapters, conversions, and workflow | 300 | 451 |
+| Shared module logic and neutral comparison types | 60 | 60 |
+| Library implementation (one-time, not charged to a consumer) | 253 | 0 |
 
 A separate adapter-only baseline, [HandWrittenDomainAdapter.cs](../tests/Shared/DomainComparison/HandWrittenDomainAdapter.cs),
-hand-writes one tagged identifier in 48 raw lines (private constructor, validation, contract,
-decoder, equality, diagnostics). The equivalent tag plus `Domain.For` plus decoder declaration in
+hand-writes one tagged identifier in 35 raw lines (private constructor, validation, contract,
+decoder, equality). The equivalent tag plus `Domain.For` plus decoder declaration in
 `Domains` is about ten lines. This isolates the per-identifier declaration cost from the complete
 workflow comparison; the hand-written hot path performs the same as the generic wrapper, so the
 gain is maintenance and repetition, not allocation.
@@ -51,12 +51,12 @@ The FunnySharp consumer-specific side is 151 raw lines smaller even though it de
 distinct tagged identifiers and four explicit state records. The ordinary side saves wrapper
 declarations but pays for manual field decoding, prefix and range checks, enum-state guards, and
 hand-written conversion from parsed values into records. The first workflow is larger in total when
-the one-time 265-line library implementation is charged; the reduction accumulates when the same
+the one-time 253-line library implementation is charged; the reduction accumulates when the same
 boundary is reused across identifiers, modules, and workflows. Raw lines include braces and
 comments; this is not a LOC target.
 
 The library implementation is
-[Domain.cs](../src/FunnySharp/Domain.cs) (127 lines) and
+[Domain.cs](../src/FunnySharp/Domain.cs) (115 lines) and
 [DomainValue.cs](../src/FunnySharp/DomainValue.cs) (138 lines). It has no runtime dependency.
 
 ## Equivalence
@@ -87,7 +87,7 @@ important distinctions:
 | `invalid-order-id` | rejected | `request` | `InvalidValue` at `orderId` | `order identifier must start with ORD-` |
 | `fractional-quantity` | rejected | `request` | `Malformed` at `line.quantity` | `the value cannot be parsed as a 32-bit integer` |
 | `multiple-invalid` | rejected | `request` | `orderId`, `customerId`, `line.sku`, `line.quantity`, `payment.token` | five errors in decoder order |
-| `empty-object` | rejected | `request` | `orderId`, `customerId`, `line`, `payment` | five `Missing` errors |
+| `empty-object` | rejected | `request` | `orderId`, `customerId`, `line`, `payment` | four `Missing` errors |
 | `duplicate-order-id` | shipped, `ORD-700` | — | first duplicate wins | both consumers follow the same policy |
 | `extra-field` | shipped, `ORD-600` | — | unknown field ignored | both consumers accept it |
 
@@ -102,7 +102,6 @@ attributable error:
 | Assign `DomainValue<string, OrderIdTag>` to `DomainValue<string, CustomerIdTag>` | `CS0029` | Confusable identifiers are distinct types; the message names both markers. |
 | Pass a raw `string` to a method requiring `DomainValue<string, OrderIdTag>` | `CS1503` | The validated boundary cannot be skipped implicitly. |
 | Call `new DomainValue<string, OrderIdTag>("ORD-1")` | `CS1729` | No public constructor takes the underlying value; validation is the only construction path. |
-| Call `Ship()` on a `DraftOrder` | `CS1061` | The state-specific operation is not a member of the wrong state. |
 
 The runtime counterpart is covered too: the ordinary enum-state record accepts `Ship` at compile
 time for every state and must return an `invalid-state` error for a draft. That guard is the
@@ -145,24 +144,24 @@ The harness first runs the complete comparison, then measures the paths below. A
 
 | Operation | Allocated B/op | Time ns/op |
 | --- | ---: | ---: |
-| FunnySharp: valid decode + submit + ship | 1040.0 | 2850.3 |
-| Ordinary: valid decode + submit + ship | 1088.0 | 1797.7 |
-| FunnySharp: invalid decode | 3664.2 | 2120.9 |
-| Ordinary: invalid decode | 1088.0 | 1642.1 |
-| Raw string identity | 0.0 | 2.6 |
-| Hand-written wrapper `Create` | 0.0 | 54.3 |
-| `Domain.Validate` | 0.0 | 54.9 |
-| `Domain.Contract.Validate` | 0.0 | 93.6 |
-| Hand-written `Contract.Validate` | 0.0 | 69.1 |
-| Domain decoder | 40.0 | 65.0 |
-| Hand-written wrapper decoder | 40.0 | 73.6 |
-| Domain `PlacedOrder` to `ShippedOrder` | 168.0 | 77.9 |
-| Ordinary `with` copy to shipped | 96.0 | 67.4 |
-| Ordinary wrong-state guard | 96.0 | 55.0 |
+| FunnySharp: valid decode + submit + ship | 1040.0 | 6401.5 |
+| Ordinary: valid decode + submit + ship | 1088.0 | 1749.3 |
+| FunnySharp: invalid decode | 3664.2 | 3215.5 |
+| Ordinary: invalid decode | 1088.0 | 1845.0 |
+| Raw string identity | 0.0 | 2.7 |
+| Hand-written wrapper `Create` | 0.0 | 49.6 |
+| `Domain.Validate` | 0.0 | 69.1 |
+| `Domain.Contract.Validate` | 0.0 | 137.1 |
+| Hand-written `Contract.Validate` | 0.0 | 58.5 |
+| Domain decoder | 40.0 | 60.9 |
+| Hand-written wrapper decoder | 40.0 | 124.0 |
+| Domain `PlacedOrder` to `ShippedOrder` | 120.0 | 58.9 |
+| Ordinary `with` copy to shipped | 96.0 | 63.2 |
+| Ordinary wrong-state guard | 96.0 | 51.4 |
 
 The hand-written wrapper baseline is [HandWrittenDomainAdapter.cs](../tests/Shared/DomainComparison/HandWrittenDomainAdapter.cs),
-48 raw lines for one identifier: private constructor, validation, underlying contract, derived
-contract, decoder, equality, and diagnostics. The equivalent tagged declaration in `Domains` is
+35 raw lines for one identifier: private constructor, validation, underlying contract, derived
+contract, decoder, and equality. The equivalent tagged declaration in `Domains` is
 about ten raw lines (marker, `Domain.For`, decoder), with the generic implementation counted once.
 The hand-written wrapper matches the domain hot path in this run: 0 B for `Create`, 0 B for
 validating an already-wrapped value through its contract, and 40 B for a successful decoder call. The gain is declaration and maintenance cost, not a fabricated runtime
@@ -180,8 +179,8 @@ ordinary hand-written decoder stores short strings. The evidence discloses that 
 allocation win.
 
 State transitions copy once per state record. `PlacedOrder` to `ShippedOrder` allocates the new
-`ShippedOrder` record (168 B measured); the ordinary `with` copy allocates the new record (96 B
-measured). Explicit state types buy compile-time operation availability, not zero-copy
+`ShippedOrder` record (120 B measured after hoisting the validated tracking code); the ordinary
+`with` copy allocates the new record (96 B measured). Explicit state types buy compile-time operation availability, not zero-copy
 transitions.
 
 ## Guarantees Kept Separate

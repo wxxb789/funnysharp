@@ -46,14 +46,8 @@ internal static class DomainExamples
 
     internal static void Verify()
     {
-        var orderId = OrderIds.Validate("ORD-100").Match(
-            static value => value,
-            static errors => throw new InvalidOperationException(
-                string.Join("; ", errors.Select(static error => error.ToString()))));
-        var customerId = CustomerIds.Validate("CUS-100").Match(
-            static value => value,
-            static errors => throw new InvalidOperationException(
-                string.Join("; ", errors.Select(static error => error.ToString()))));
+        var orderId = Require(OrderIds.Validate("ORD-100"));
+        var customerId = Require(CustomerIds.Validate("CUS-100"));
 
         ExampleAssertions.Equal("ORD-100", orderId.Value);
         ExampleAssertions.Equal("CUS-100", customerId.Value);
@@ -83,10 +77,7 @@ internal static class DomainExamples
             """);
         var placed = decoded.Submit();
         ExampleAssertions.True(placed.TryGetValue(out var placedOrder), "A valid order must be placed.");
-        var shipped = placedOrder!.Ship(TrackingCodes.Validate("TRK-ORD-100").Match(
-            static value => value,
-            static errors => throw new InvalidOperationException(
-                string.Join("; ", errors.Select(static error => error.ToString())))));
+        var shipped = placedOrder!.Ship(Require(TrackingCodes.Validate("TRK-ORD-100")));
         ExampleAssertions.Equal("TRK-ORD-100", shipped.Tracking.Value);
         ExampleAssertions.Equal(12.50m, shipped.UnitPrice);
 
@@ -116,7 +107,11 @@ internal static class DomainExamples
         ExampleAssertions.Equal("payment", paymentError!.Source);
         ExampleAssertions.Equal("payment-declined", paymentError.Code);
 
+        // A default wrapper is uninitialized by design; FS1001 reports every default creation of
+        // a carrier with no valid default, so this deliberate probe is suppressed.
+#pragma warning disable FS1001
         var defaultValue = default(DomainValue<int, QuantityTag>);
+#pragma warning restore FS1001
         ExampleAssertions.True(!defaultValue.IsInitialized, "A default domain value must be uninitialized.");
         ExampleAssertions.Throws<InvalidOperationException>(() => _ = defaultValue.Value);
 
@@ -127,11 +122,7 @@ internal static class DomainExamples
     private static DraftOrder Decode(string json)
     {
         using var document = JsonDocument.Parse(json);
-        var decoded = DraftDecoder.Decode(document.RootElement);
-        return decoded.Match(
-            static value => value,
-            static errors => throw new InvalidOperationException(
-                string.Join("; ", errors.Select(static error => error.ToString()))));
+        return Require(DraftDecoder.Decode(document.RootElement));
     }
 
     private static readonly Decoder<DraftOrder> DraftDecoder = BuildDecoder();
@@ -159,6 +150,12 @@ internal static class DomainExamples
         domain.CreateDecoder().Match(
             static decoder => decoder,
             static limitation => throw new InvalidOperationException(limitation.ToString()));
+
+    private static T Require<T>(Validation<T, DecodeError> validation) =>
+        validation.Match(
+            static value => value,
+            static errors => throw new InvalidOperationException(
+                string.Join("; ", errors.Select(static error => error.ToString()))));
 
     private sealed record DraftLine(
         DomainValue<string, SkuTag> Sku,

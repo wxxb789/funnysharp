@@ -1,10 +1,10 @@
-namespace FunnySharp.TestSupport.Domains;
+using FunnySharp.TestSupport;
 
-internal sealed record DomainFixture(string Name, string Json);
+namespace FunnySharp.TestSupport.Domains;
 
 internal static class DomainFixtures
 {
-    internal static readonly DomainFixture Valid = new(
+    internal static readonly DecodeFixture Valid = new(
         "valid",
         """
         {
@@ -15,7 +15,7 @@ internal static class DomainFixtures
         }
         """);
 
-    internal static readonly DomainFixture ValidPen = new(
+    internal static readonly DecodeFixture ValidPen = new(
         "valid-pen",
         """
         {
@@ -26,7 +26,7 @@ internal static class DomainFixtures
         }
         """);
 
-    internal static readonly DomainFixture UnknownSku = new(
+    internal static readonly DecodeFixture UnknownSku = new(
         "unknown-sku",
         """
         {
@@ -37,7 +37,7 @@ internal static class DomainFixtures
         }
         """);
 
-    internal static readonly DomainFixture OutOfStock = new(
+    internal static readonly DecodeFixture OutOfStock = new(
         "out-of-stock",
         """
         {
@@ -48,7 +48,7 @@ internal static class DomainFixtures
         }
         """);
 
-    internal static readonly DomainFixture PaymentDeclined = new(
+    internal static readonly DecodeFixture PaymentDeclined = new(
         "payment-declined",
         """
         {
@@ -59,7 +59,7 @@ internal static class DomainFixtures
         }
         """);
 
-    internal static readonly DomainFixture InvalidOrderId = new(
+    internal static readonly DecodeFixture InvalidOrderId = new(
         "invalid-order-id",
         """
         {
@@ -70,7 +70,7 @@ internal static class DomainFixtures
         }
         """);
 
-    internal static readonly DomainFixture InvalidCustomerId = new(
+    internal static readonly DecodeFixture InvalidCustomerId = new(
         "invalid-customer-id",
         """
         {
@@ -81,7 +81,7 @@ internal static class DomainFixtures
         }
         """);
 
-    internal static readonly DomainFixture EmptySku = new(
+    internal static readonly DecodeFixture EmptySku = new(
         "empty-sku",
         """
         {
@@ -92,7 +92,7 @@ internal static class DomainFixtures
         }
         """);
 
-    internal static readonly DomainFixture ZeroQuantity = new(
+    internal static readonly DecodeFixture ZeroQuantity = new(
         "zero-quantity",
         """
         {
@@ -103,7 +103,7 @@ internal static class DomainFixtures
         }
         """);
 
-    internal static readonly DomainFixture MissingQuantity = new(
+    internal static readonly DecodeFixture MissingQuantity = new(
         "missing-quantity",
         """
         {
@@ -114,7 +114,7 @@ internal static class DomainFixtures
         }
         """);
 
-    internal static readonly DomainFixture WrongKindQuantity = new(
+    internal static readonly DecodeFixture WrongKindQuantity = new(
         "wrong-kind-quantity",
         """
         {
@@ -125,7 +125,7 @@ internal static class DomainFixtures
         }
         """);
 
-    internal static readonly DomainFixture FractionalQuantity = new(
+    internal static readonly DecodeFixture FractionalQuantity = new(
         "fractional-quantity",
         """
         {
@@ -136,7 +136,7 @@ internal static class DomainFixtures
         }
         """);
 
-    internal static readonly DomainFixture NullCustomerId = new(
+    internal static readonly DecodeFixture NullCustomerId = new(
         "null-customer-id",
         """
         {
@@ -147,11 +147,11 @@ internal static class DomainFixtures
         }
         """);
 
-    internal static readonly DomainFixture RootArray = new("root-array", "[]");
+    internal static readonly DecodeFixture RootArray = new("root-array", "[]");
 
-    internal static readonly DomainFixture EmptyObject = new("empty-object", "{}");
+    internal static readonly DecodeFixture EmptyObject = new("empty-object", "{}");
 
-    internal static readonly DomainFixture MultipleInvalid = new(
+    internal static readonly DecodeFixture MultipleInvalid = new(
         "multiple-invalid",
         """
         {
@@ -162,7 +162,7 @@ internal static class DomainFixtures
         }
         """);
 
-    internal static readonly DomainFixture ExtraField = new(
+    internal static readonly DecodeFixture ExtraField = new(
         "extra-field",
         """
         {
@@ -174,7 +174,7 @@ internal static class DomainFixtures
         }
         """);
 
-    internal static readonly DomainFixture DuplicateOrderId = new(
+    internal static readonly DecodeFixture DuplicateOrderId = new(
         "duplicate-order-id",
         """
         {
@@ -186,7 +186,7 @@ internal static class DomainFixtures
         }
         """);
 
-    internal static readonly IReadOnlyList<DomainFixture> All =
+    internal static readonly IReadOnlyList<DecodeFixture> All =
     [
         Valid,
         ValidPen,

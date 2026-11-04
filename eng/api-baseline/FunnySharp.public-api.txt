@@ -344,7 +344,6 @@ CLASS FunnySharp.Domain<TValue, TTag>
   METHOD FunnySharp.Result<FunnySharp.Decoder<FunnySharp.DomainValue<TValue, TTag>>, FunnySharp.ContractLimitation> CreateDecoder()
   METHOD FunnySharp.Validation<FunnySharp.DomainValue<TValue, TTag>, FunnySharp.DecodeError> Validate(TValue value)
   PROPERTIE FunnySharp.Contract<FunnySharp.DomainValue<TValue, TTag>> Contract
-  PROPERTIE System.String Name
 CLASS FunnySharp.Effect
   METHOD static FunnySharp.Effect<FunnySharp.Result<TValue?, TError?>> FromResult<TValue, TError>(FunnySharp.Result<TValue?, TError?> result)
   METHOD static FunnySharp.Effect<T?> FromSync<T>(System.Func<System.Threading.CancellationToken, T?> operation)

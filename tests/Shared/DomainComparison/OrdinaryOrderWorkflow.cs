@@ -47,7 +47,7 @@ internal sealed record OrdinaryPricingRejected(string OrderId, PricingFailure Fa
 
     public override string Code => Failure.Code;
 
-    internal override string Detail => OrderModules.Format(Failure);
+    internal override string Detail => OrderModules.Format(Failure.Sku, Failure.Quantity);
 }
 
 internal sealed record OrdinaryInventoryRejected(string OrderId, InventoryFailure Failure)
@@ -57,7 +57,7 @@ internal sealed record OrdinaryInventoryRejected(string OrderId, InventoryFailur
 
     public override string Code => Failure.Code;
 
-    internal override string Detail => OrderModules.Format(Failure);
+    internal override string Detail => OrderModules.Format(Failure.Sku, Failure.Quantity);
 }
 
 internal sealed record OrdinaryPaymentRejected(string OrderId, PaymentFailure Failure)
@@ -228,16 +228,7 @@ internal static class OrdinaryOrderWorkflow
     private static WorkflowOutcome ModuleRejected(
         string? orderId,
         OrdinaryWorkflowError error) =>
-        new(
-            "rejected",
-            orderId,
-            0,
-            0m,
-            [error.ToView(error.Detail)],
-            null,
-            null,
-            null,
-            null);
+        WorkflowOutcome.Rejected(orderId, error.ToView(error.Detail));
 
     private static Result<OrdinaryOrder, OrdinaryWorkflowError> Submit(OrdinaryDraftOrder draft)
     {

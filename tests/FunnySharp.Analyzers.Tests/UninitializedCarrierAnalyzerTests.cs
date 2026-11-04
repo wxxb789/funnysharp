@@ -121,6 +121,7 @@ public sealed class UninitializedCarrierAnalyzerTests
     [InlineData("Effect<Env, int>")]
     [InlineData("Lens<int, string>")]
     [InlineData("Optional<int, string>")]
+    [InlineData("DomainValue<int, string>")]
     public async Task EveryCarrierWithoutAValidDefaultIsReported(string typeText)
     {
         await AnalyzerTestAssert.DiagnosticAsync(
@@ -144,6 +145,7 @@ public sealed class UninitializedCarrierAnalyzerTests
     [InlineData("Effect<Env, int>")]
     [InlineData("Lens<int, string>")]
     [InlineData("Optional<int, string>")]
+    [InlineData("DomainValue<int, string>")]
     public async Task EmptyInitializersDoNotInitializeNondefaultableCarriers(string typeText)
     {
         foreach (var creation in new[] { $"new {typeText} {{ }}", $"new {typeText}() {{ }}", "new() { }" })

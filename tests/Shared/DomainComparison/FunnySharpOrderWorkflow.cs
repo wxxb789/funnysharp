@@ -66,16 +66,7 @@ internal static class FunnySharpOrderWorkflow
     private static WorkflowOutcome ModuleRejected(
         DomainValue<string, OrderIdTag> orderId,
         OrderWorkflowError error) =>
-        new(
-            "rejected",
-            orderId.Value,
-            0,
-            0m,
-            [error.ToView(error.Detail)],
-            null,
-            null,
-            null,
-            null);
+        WorkflowOutcome.Rejected(orderId.Value, error.ToView(error.Detail));
 
     private static WorkflowOutcome Shipped(ShippedOrder order) =>
         new(

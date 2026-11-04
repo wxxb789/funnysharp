@@ -2,7 +2,6 @@ using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text.Json;
-using FunnySharp.TestSupport.Domains;
 using static FunnySharp.TestSupport.MeasurementHarness;
 
 namespace FunnySharp.TestSupport.Domains;
@@ -58,42 +57,38 @@ internal static class DomainMeasurements
         Console.WriteLine("| Identifier operation | Allocated B/op | Time ns/op |");
         Console.WriteLine("| --- | ---: | ---: |");
         var orderId = "ORD-100";
-        WriteValue(
+        WriteRow(
             "Raw string identity",
             Measure(() => orderId.Length, ValueIterations));
-        WriteValue(
+        WriteRow(
             "Hand-written wrapper Create",
             Measure(
                 () => HandWrittenOrderId.Create(orderId).IsValid ? 1 : 0,
                 ValueIterations));
-        WriteValue(
+        WriteRow(
             "Domain.Validate",
             Measure(
                 () => Domains.OrderId.Validate(orderId).IsValid ? 1 : 0,
                 ValueIterations));
-        var domainOrderId = Domains.OrderId.Validate(orderId).Match(
-            static value => value,
-            static errors => throw new InvalidOperationException(errors[0].ToString()));
-        var handWrittenOrderId = HandWrittenOrderId.Create(orderId).Match(
-            static value => value,
-            static errors => throw new InvalidOperationException(errors[0].ToString()));
-        WriteValue(
+        var domainOrderId = Domains.Require(Domains.OrderId.Validate(orderId));
+        var handWrittenOrderId = Domains.Require(HandWrittenOrderId.Create(orderId));
+        WriteRow(
             "Domain.Contract.Validate",
             Measure(
                 () => Domains.OrderId.Contract.Validate(domainOrderId).IsValid ? 1 : 0,
                 ValueIterations));
-        WriteValue(
+        WriteRow(
             "Hand-written Contract.Validate",
             Measure(
                 () => HandWrittenOrderId.Contract.Validate(handWrittenOrderId).IsValid ? 1 : 0,
                 ValueIterations));
         using var orderIdDocument = JsonDocument.Parse("\"ORD-100\"");
-        WriteValue(
+        WriteRow(
             "Domain decoder",
             Measure(
                 () => Domains.OrderIdDecoder.Decode(orderIdDocument.RootElement).IsValid ? 1 : 0,
                 ValueIterations));
-        WriteValue(
+        WriteRow(
             "Hand-written wrapper decoder",
             Measure(
                 () => HandWrittenOrderId.Decoder.Decode(orderIdDocument.RootElement).IsValid ? 1 : 0,
@@ -117,17 +112,18 @@ internal static class DomainMeasurements
             "AUTH-100",
             null,
             null);
-        WriteState(
+        var tracking = Domains.TrackingCode("ORD-100");
+        WriteRow(
             "Domain placed -> shipped",
-            Measure(() => placed.Ship(Domains.TrackingCode("ORD-100")).Quantity.Value, WorkflowIterations));
-        WriteState(
+            Measure(() => placed.Ship(tracking).Quantity.Value, WorkflowIterations));
+        WriteRow(
             "Ordinary placed -> shipped",
             Measure(
                 () => ordinaryPlaced.Ship("TRK-ORD-100").Match(
                     static value => value.Quantity,
                     static error => error.Code.Length),
                 WorkflowIterations));
-        WriteState(
+        WriteRow(
             "Ordinary wrong-state guard",
             Measure(
                 () => ordinaryPlaced.Cancel("customer-request").Match(
@@ -140,14 +136,8 @@ internal static class DomainMeasurements
             "Allocations are per complete mapped operation. Timing is directional on this host.");
     }
 
-    private static DraftOrder DecodeDraft(JsonElement input)
-    {
-        var decoded = FunnySharpOrderWorkflow.DraftDecoder.Decode(input);
-        return decoded.Match(
-            static value => value,
-            static errors => throw new InvalidOperationException(
-                string.Join("; ", errors.Select(static error => error.ToString()))));
-    }
+    private static DraftOrder DecodeDraft(JsonElement input) =>
+        Domains.Require(FunnySharpOrderWorkflow.DraftDecoder.Decode(input));
 
     private static int Digest(WorkflowOutcome outcome) =>
         outcome.Status.Length
@@ -166,14 +156,7 @@ internal static class DomainMeasurements
                 $"| {name} | {scenario} | {Format(measurement.BytesPerOperation)} | " +
                 $"{Format(measurement.NanosecondsPerOperation)} |"));
 
-    private static void WriteValue(string name, Measurement measurement) =>
-        Console.WriteLine(
-            string.Create(
-                CultureInfo.InvariantCulture,
-                $"| {name} | {Format(measurement.BytesPerOperation)} | " +
-                $"{Format(measurement.NanosecondsPerOperation)} |"));
-
-    private static void WriteState(string name, Measurement measurement) =>
+    private static void WriteRow(string name, Measurement measurement) =>
         Console.WriteLine(
             string.Create(
                 CultureInfo.InvariantCulture,

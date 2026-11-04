@@ -8,6 +8,7 @@
   <ItemGroup>
     <ProjectReference Include="../../src/FunnySharp/FunnySharp.csproj" />
     <Compile Include="../Shared/MeasurementHarness.cs" Link="Shared/MeasurementHarness.cs" />
+    <Compile Include="../Shared/SharedOrderSupport.cs" Link="Shared/SharedOrderSupport.cs" />
     <Compile Include="../Shared/DomainComparison/*.cs" Link="Shared/DomainComparison/%(Filename)%(Extension)" />
   </ItemGroup>
 </Project>

@@ -61,7 +61,6 @@ public sealed class Domain<TValue, TTag>
     internal Domain(Contract<TValue> contract, string name)
     {
         underlying = contract;
-        Name = name;
         Contract = contract.Widen(
             static value => DomainValue<TValue, TTag>.FromValidated(value),
             static value => value.TryGetValue(out var raw)
@@ -69,9 +68,6 @@ public sealed class Domain<TValue, TTag>
                 : Option.None<TValue>(),
             "not a validated " + name);
     }
-
-    /// <summary>Gets the non-empty human-readable boundary name used in diagnostics.</summary>
-    public string Name { get; }
 
     /// <summary>
     /// Gets the contract for the tagged value.
@@ -112,16 +108,8 @@ public sealed class Domain<TValue, TTag>
     /// null, wrong-kind, malformed, empty, and invalid-value diagnostics are preserved. The tag is
     /// added only after the underlying decode and contract validation succeed.
     /// </remarks>
-    public Result<Decoder<DomainValue<TValue, TTag>>, ContractLimitation> CreateDecoder()
-    {
-        var created = underlying.CreateDecoder();
-        if (created.TryGetError(out var limitation))
-        {
-            return Result<Decoder<DomainValue<TValue, TTag>>, ContractLimitation>.Failure(limitation);
-        }
-
-        created.TryGetValue(out var decoder);
-        return Result<Decoder<DomainValue<TValue, TTag>>, ContractLimitation>.Success(
-            decoder!.Map(static value => DomainValue<TValue, TTag>.FromValidated(value)));
-    }
+    public Result<Decoder<DomainValue<TValue, TTag>>, ContractLimitation> CreateDecoder() =>
+        underlying.CreateDecoder().Map(
+            static decoder => decoder.Map(
+                static value => DomainValue<TValue, TTag>.FromValidated(value)));
 }
