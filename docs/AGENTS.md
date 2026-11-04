@@ -1,6 +1,6 @@
 # docs/ — FunnySharp documentation tree
 
-Earned: score ~22 — 29 hand-written guides/contracts plus 4 doc-workflow subtrees. Everything here is hand-written prose except `next-stage/inventory/generated/` (machine dumps).
+Earned: score ~22 — 31 hand-written guides/contracts plus 4 doc-workflow subtrees. Everything here is hand-written prose except `next-stage/inventory/generated/` (machine dumps).
 
 ## OVERVIEW
 
@@ -11,7 +11,7 @@ Hand-written guides and contracts for the FunnySharp public surface — usage, g
 ```
 docs/
 ├── *.md                 # hand-written guides + contracts (lowercase-hyphen, one topic per file)
-├── goals/               # goal contracts (0030-0042) + immutable archive (0001-0029)
+├── goals/               # goal contracts (0031-0042) + immutable archive (0001-0030)
 ├── next-stage/          # Goal 14 capability-decision evidence set (own AGENTS.md)
 ├── plans/               # ce-unified-plan/v1 design-time plans (own AGENTS.md)
 └── release-evidence/    # historical release-run records — never edited
@@ -27,6 +27,7 @@ docs/
 | Feature usage: inspectable constraints, schema, generated inputs, shrinking | `contracts.md` |
 | Feature usage: typed, validated partial updates | `partial-updates.md`, `partial-update-evidence.md` |
 | Feature usage: explicit batched reads | `batched-reads.md`, `batch-evidence.md` |
+| Feature usage: tagged domain values, explicit state, typed errors | `domain-values.md`, `domain-value-evidence.md` |
 | Feature usage: collections / concurrency / effects / pipelines | `collections.md`, `concurrency.md`, `effects.md`, `data-pipelines.md` |
 | Function grammar, state machines, immutable updates | `function-composition.md`, `state-machines.md`, `immutable-updates.md` |
 | Canonical vocabulary and naming rules | `grammar.md` |

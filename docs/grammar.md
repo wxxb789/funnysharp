@@ -37,7 +37,10 @@ description. `Validate` checks an existing value, `CreateDecoder` derives a deco
 `Shrink` derive test inputs and candidates, and `Description`/`Explain` expose metadata.
 `BatchSource<TKey, TValue, TError>`, `BatchRequirement<TValue, TError>`, and `BatchScope` are an
 explicit batched-read description and its execution scope, not outcome carriers; their reads yield
-the canonical `Result` shape.
+the canonical `Result` shape. `DomainValue<TValue, TTag>` is a validated tagged value and
+`Domain<TValue, TTag>` is its validation, decoding, contract, and explanation boundary; neither is
+an outcome carrier. Explicit state variants and typed module-error hierarchies are ordinary C#
+record types over the canonical carriers, not new library carriers.
 
 ## Naming Rules
 
@@ -243,6 +246,23 @@ verbs are listed below.
 | `ApplyTo` | Applies recorded changes to a source, invoking each field setter or clear callback once in order. | `Patch<T>` | `PatchApplication<T>` | — | Creates a candidate, never mutates or clones the source itself; an empty patch preserves source identity; callback exceptions propagate with no rollback; no version check. |
 | `Combine` | Combines two patches written for the same value type. | `Patch<T>` | `Validation<Patch<T>, PatchConflict>` | — | Any field name present in both operands is a conflict, even for equal values; a conflicted combine returns no partial merged patch and chooses no merge policy; no inverse is derived. |
 | `Explain` | Renders allowed patch fields and candidate rules deterministically. | `PatchSchema<T>` | `string` | — | Field names, value descriptions, clearing policy, and the candidate contract explanation; no values or callbacks are rendered. |
+
+### Domain Values
+
+`Domain<TValue, TTag>` groups an underlying `Contract<TValue>` with a compile-time marker.
+`DomainValue<TValue, TTag>` stores a value that passed that boundary. Construction is not a
+pipeline verb: `Domain.Validate` checks and wraps an existing value, `Domain.CreateDecoder`
+derives a decoder, and `Domain.Contract` exposes the tagged contract through
+`Contract<T>.Widen`. Read with `Value` (throws when uninitialized) or `TryGetValue` (returns
+`false`). State-specific types and typed module-error hierarchies remain ordinary C# records, so
+their operations and pattern matches use the normal language grammar rather than new verbs.
+
+| Member | Meaning | Present on | Output shape | Key contract |
+| --- | --- | --- | --- | --- |
+| `Validate` | Checks an underlying value and wraps it when the boundary accepts it. | `Domain<TValue, TTag>` | `Validation<DomainValue<TValue, TTag>, DecodeError>` | The underlying contract runs once; errors keep their order, kind, and path; a runtime null is a `Null` error. |
+| `CreateDecoder` | Derives the tagged decoder from the underlying contract's decoder. | `Domain<TValue, TTag>` | `Result<Decoder<DomainValue<TValue, TTag>>, ContractLimitation>` | The tag is added only after the underlying decode and validation succeed; an unavailable decoder is a typed limitation. |
+| `Contract` | Exposes the tagged contract derived through `Contract<T>.Widen`. | `Domain<TValue, TTag>` | `Contract<DomainValue<TValue, TTag>>` | Validation, decoding, generation, shrinking, and description stay aligned with the underlying rule where available; an uninitialized wrapper is rejected. |
+| `Value` / `TryGetValue` | Reads the validated underlying value. | `DomainValue<TValue, TTag>` | `TValue` / `bool` + out payload | `Value` throws for an uninitialized wrapper; `TryGetValue` returns `false`; there is no implicit conversion and no public constructor accepting the underlying value. |
 
 ### Batched Reads
 

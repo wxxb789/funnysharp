@@ -6,7 +6,9 @@ interpretations from that description: validation, decoding through
 test inputs, and shrinking. The compiling example is
 [examples/FunnySharp.Examples/ContractExamples.cs](../examples/FunnySharp.Examples/ContractExamples.cs);
 the consumer comparison and measured costs are in
-[contract-evidence.md](contract-evidence.md).
+[contract-evidence.md](contract-evidence.md). [Domain values](domain-values.md) derive a tagged
+contract from one underlying contract through `Contract<T>.Widen`; the same rule then drives
+validation, decoding, generation, shrinking, description, and patch fields.
 
 A contract is metadata plus callable behavior, not a serializer, a universal application schema, or
 proof of a business invariant. Arbitrary predicates and transformations are welcome, but their

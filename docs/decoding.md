@@ -6,7 +6,9 @@ not a schema, serializer, or reflection layer. The compiling examples are in
 [examples/FunnySharp.Examples/DecoderExamples.cs](../examples/FunnySharp.Examples/DecoderExamples.cs);
 the three-way consumer comparison is in
 [tests/Shared/DecoderComparison](../tests/Shared/DecoderComparison/), with its evidence in
-[decoder-evidence.md](decoder-evidence.md).
+[decoder-evidence.md](decoder-evidence.md). A decoded value can be wrapped in a tagged,
+validated boundary; [domain-values.md](domain-values.md) shows `Domain<TValue,TTag>.CreateDecoder`
+reusing the same diagnostics.
 
 ## API Shape
 

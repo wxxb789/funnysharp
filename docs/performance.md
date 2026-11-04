@@ -110,7 +110,11 @@ until a benchmark exists. Partial-update allocation and copying are disclosed in
 benchmark table because candidate size is the caller's record/setter cost rather than a
 library-only operation. Batched-read plan composition and execution are likewise disclosed in
 [batch-evidence.md](batch-evidence.md) and excluded from the release benchmark table because
-their cost depends on the caller's plan shape, source count, and cache state.
+their cost depends on the caller's plan shape, source count, and cache state. Domain-value
+validation, wrapping, and derived-contract costs depend on the caller's underlying contract and are
+disclosed in [domain-value-evidence.md](domain-value-evidence.md); the tagged wrapper itself adds
+no allocation over the underlying value, and the family is excluded from the release benchmark
+table.
 
 ## Regression policy
 
