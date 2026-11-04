@@ -36,10 +36,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os:
-          - ubuntu-latest
-          - windows-2025
-          - macos-15
+        # Pull requests run the operating systems GitHub can always schedule.
+        # macOS also runs on pushes to main and manual dispatch; tooling-gate
+        # treats a queue-cancelled macOS leg there as runner unavailability,
+        # so an unavailable macOS runner never blocks a pull request.
+        os: ${{ github.event_name == 'pull_request' && fromJSON('["ubuntu-latest","windows-2025"]') || fromJSON('["ubuntu-latest","windows-2025","macos-15"]') }}
     steps:
       - name: Checkout
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
