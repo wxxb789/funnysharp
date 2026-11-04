@@ -3,6 +3,9 @@
 - `tooling.yml`: push/PR automatic **light checks only** — incremental harness build,
   documentation snippets and Git action pins. No tests, pre-check or benchmarks.
   Its aggregate `tooling-gate` is the required check for ordinary PR merges.
+  The gate requires ubuntu and windows success. A macOS leg cancelled before any
+  runner picked it up is reported as a warning instead of a failure, because that
+  is runner unavailability; a macOS leg that ran and failed still blocks the merge.
 - `release.yml`: **manual workflow_dispatch only** — canonical package build,
   full tests, platform consumers, trimming and AOT. Benchmarks are not run in CI.
 

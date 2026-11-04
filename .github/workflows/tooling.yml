@@ -32,7 +32,7 @@ jobs:
   tooling:
     name: tooling (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 45
+    timeout-minutes: 15
     strategy:
       fail-fast: false
       matrix:
@@ -76,18 +76,69 @@ jobs:
           retention-days: 7
 
   # One required aggregate check instead of three required matrix contexts.
+  # A macOS job cancelled before any runner picked it up is reported as a warning:
+  # that is runner unavailability, not a code failure, and it must not block merges.
+  # A macOS job that did run and failed still fails this gate.
   tooling-gate:
     name: tooling-gate
     needs: tooling
     if: always()
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    permissions:
+      contents: read
+      actions: read
     steps:
       - name: Require the tooling matrix
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           result="${{ needs.tooling.result }}"
-          if [ "$result" != "success" ]; then
-            echo "::error::tooling matrix outcome was '$result'; tooling-gate requires success."
+          if [ "$result" = "success" ]; then
+            echo "tooling matrix succeeded."
+            exit 0
+          fi
+
+          jobs=$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}/jobs?per_page=100" \
+            --jq '.jobs[] | select(.name | startswith("tooling (")) | [.name, .conclusion, (.runner_name // ""), (.steps | length)] | join("|")')
+          if [ -z "$jobs" ]; then
+            echo "::error::could not read any tooling matrix job results."
             exit 1
           fi
-          echo "tooling matrix succeeded."
+
+          fail=0
+          macos_unavailable=0
+          while IFS='|' read -r name conclusion runner steps; do
+            case "$name" in
+              "tooling (ubuntu-latest)"|"tooling (windows-2025)")
+                if [ "$conclusion" != "success" ]; then
+                  echo "::error::$name concluded '$conclusion'; both required operating systems must pass."
+                  fail=1
+                fi
+                ;;
+              "tooling (macos-15)")
+                if [ "$conclusion" = "success" ]; then
+                  :
+                elif [ "$conclusion" = "cancelled" ] && [ -z "$runner" ] && [ "$steps" = "0" ]; then
+                  macos_unavailable=1
+                  echo "::warning::tooling (macos-15) was cancelled before any runner picked it up; treating this as runner unavailability, not a code failure."
+                else
+                  echo "::error::tooling (macos-15) concluded '$conclusion'; a dispatched macOS check must pass."
+                  fail=1
+                fi
+                ;;
+              *)
+                echo "::error::unexpected tooling matrix job '$name'."
+                fail=1
+                ;;
+            esac
+          done <<< "$jobs"
+
+          if [ "$fail" -ne 0 ]; then
+            exit 1
+          fi
+          if [ "$macos_unavailable" -eq 1 ]; then
+            echo "tooling matrix passed on ubuntu and windows; macOS was skipped because no runner became available."
+          else
+            echo "tooling matrix succeeded."
+          fi
