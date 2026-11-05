@@ -29,9 +29,10 @@ The diagnostic ids never collide with the experimental-member ids the compiler g
 ## FS1001: Uninitialized Semantic Carrier
 
 Severity: **error**. `Result<TValue, TError>`, `UnitResult<TError>`, `Validation<TValue, TError>`,
-`NonEmpty<T>`, `Effect<T>`, `Effect<TEnvironment, T>`, `Lens<TSource, TFocus>`, and
-`Optional<TSource, TFocus>` are uninitialized in their default state, and every member that reads
-them throws `InvalidOperationException` (only `ToString` returns diagnostic text). A default or
+`NonEmpty<T>`, `Effect<T>`, `Effect<TEnvironment, T>`, `Lens<TSource, TFocus>`,
+`Optional<TSource, TFocus>`, and `DomainValue<TValue, TTag>` are uninitialized in their default
+state, and every member that reads them throws `InvalidOperationException` (only `ToString`
+returns diagnostic text). A default or
 parameterless-`new` value of one of these types can never produce a legitimate outcome, so the
 analyzer reports the creation site instead of waiting for the run-time throw:
 

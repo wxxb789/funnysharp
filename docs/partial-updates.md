@@ -10,7 +10,10 @@ the consumer comparison and measured costs are in
 [partial-update-evidence.md](partial-update-evidence.md).
 
 A patch is a description, not a carrier and not a persistence command. It composes with the
-existing `Decoder`, `Contract`, `Validation`, `Lens`, and `Option` vocabulary. It does not
+existing `Decoder`, `Contract`, `Validation`, `Lens`, and `Option` vocabulary. A tagged
+`Domain<TValue,TTag>.Contract` can be used directly as a field contract, so an allowed replacement
+is validated by the same domain rule as the complete candidate (see
+[domain-values.md](domain-values.md)). It does not
 execute storage, open a transaction, or promise that an update is safe under concurrent writers.
 
 ## API Shape

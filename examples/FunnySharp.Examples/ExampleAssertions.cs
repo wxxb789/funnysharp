@@ -49,6 +49,21 @@ internal static class ExampleAssertions
         }
     }
 
+    internal static void Throws<TException>(Action action)
+        where TException : Exception
+    {
+        try
+        {
+            action();
+        }
+        catch (TException)
+        {
+            return;
+        }
+
+        throw new InvalidOperationException($"Expected {typeof(TException).Name}.");
+    }
+
     internal static void UninitializedThrows(Func<object?> read)
     {
         try

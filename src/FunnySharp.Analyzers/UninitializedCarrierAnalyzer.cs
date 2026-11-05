@@ -13,8 +13,9 @@ using Microsoft.CodeAnalysis.Operations;
 /// <remarks>
 /// <c>Result&lt;TValue, TError&gt;</c>, <c>UnitResult&lt;TError&gt;</c>,
 /// <c>Validation&lt;TValue, TError&gt;</c>, <c>NonEmpty&lt;T&gt;</c>, <c>Effect&lt;T&gt;</c>,
-/// <c>Effect&lt;TEnvironment, T&gt;</c>, <c>Lens&lt;TSource, TFocus&gt;</c>, and
-/// <c>Optional&lt;TSource, TFocus&gt;</c> are uninitialized in their default state and every member
+/// <c>Effect&lt;TEnvironment, T&gt;</c>, <c>Lens&lt;TSource, TFocus&gt;</c>,
+/// <c>Optional&lt;TSource, TFocus&gt;</c>, and <c>DomainValue&lt;TValue, TTag&gt;</c> are
+/// uninitialized in their default state and every member
 /// that reads them throws <c>InvalidOperationException</c>; only <c>ToString</c> tolerates them.
 /// <c>Option&lt;T&gt;</c> (default is <c>None</c>) and <c>TransitionResult</c> (default is
 /// <c>Undefined</c>) are deliberately not reported. Array creation is not reported: array elements

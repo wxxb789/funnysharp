@@ -19,7 +19,8 @@ asserts its own behavior, and prints one success marker.
 | `ContractExamples.cs` | One nested contract reused for validation, decoding, explanation, generation, shrinking, and capability/limitation extension paths |
 | `PatchExamples.cs` | Allowed-field decode, explicit clearing, candidate validation, conflict reporting, empty-patch identity, and rejected fields |
 | `BatchExamples.cs` | Explicit batch sources, independent `Zip`, dependent `Bind`, key deduplication, request association, and missing/per-key outcomes |
-| `ExampleAssertions.cs` | Shared asserts: `Equal`, `True`, `SequenceEqual`, `FaultIsPreserved`, `CancellationIsPreserved`, `UninitializedThrows` |
+| `DomainExamples.cs` | Tagged identifiers, validated construction/decoding, explicit draft/placed/shipped states, and typed module-error composition |
+| `ExampleAssertions.cs` | Shared asserts: `Equal`, `True`, `SequenceEqual`, `Throws`, `FaultIsPreserved`, `CancellationIsPreserved`, `UninitializedThrows` |
 
 ## CONVENTIONS
 

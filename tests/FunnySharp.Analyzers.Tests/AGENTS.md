@@ -14,6 +14,7 @@ xUnit v3 tests for the 5 shipped analyzers + 2 code fixes, compiling real built 
 | Code fixes | `CodeFixTests.cs` |
 | Packaging invariants | `AnalyzerPackagingTests.cs` |
 | Dogfood invariant | `ExampleProjectsAnalyzeCleanTests.cs` |
+| Compile-time domain misuse diagnostics | `DomainMisuseContractTests.cs` (confusable tags, raw values, private construction) |
 
 ## CONVENTIONS
 - Harness builds in-memory `CSharpCompilation`s referencing the REAL built assemblies; asserts sources compile error-free first, filters suppressed diagnostics, prefers Latest language version.

@@ -13,6 +13,7 @@ C# xUnit v3 behavioral tests for the FunnySharp core assembly. Attribute-driven 
 | Contract behavior, capabilities, generation, shrinking, and consumer comparison | `ContractTests.cs`, `ContractCapabilityTests.cs`, `ContractGenerationTests.cs`, `ContractConsumerComparisonTests.cs`; shared consumers in `../Shared/ContractComparison/` |
 | Partial-update changes, wire semantics, candidate validation, conflicts, and consumer comparison | `PatchTests.cs`, `PatchSchemaTests.cs`, `PatchCombineTests.cs`, `PatchConsumerComparisonTests.cs`; shared consumers in `../Shared/PatchComparison/` |
 | Batched read requirements, source contract, scope bounds/cache, cancellation, and consumer comparison | `BatchRequirementTests.cs`, `BatchScopeTests.cs`, `BatchErrorHandlingTests.cs`, `BatchCancellationTests.cs`, `BatchSourceTests.cs`, `BatchConsumerComparisonTests.cs`; shared consumers in `../Shared/BatchComparison/` |
+| Domain value boundary, default/null/deserialization/patch behavior, and workflow comparison | `DomainValueTests.cs`, `DomainConsumerComparisonTests.cs`; shared consumers in `../Shared/DomainComparison/` |
 | ValueTask consumption asserts | `CountingValueTaskSource.cs` (also linked into AspNetCore.Tests) |
 | Public-surface freeze | `AdvancedPatternCurationTests.cs` (exact member lists, forbidden names) |
 | Package boundary | `PackageBoundaryTests.cs` (reflection: platform-only references) |

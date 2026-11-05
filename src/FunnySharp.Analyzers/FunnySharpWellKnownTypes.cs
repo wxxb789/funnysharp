@@ -38,7 +38,8 @@ internal sealed class FunnySharpWellKnownTypes
         "FunnySharp.Effect`1",
         "FunnySharp.Effect`2",
         "FunnySharp.Lens`2",
-        "FunnySharp.Optional`2");
+        "FunnySharp.Optional`2",
+        "FunnySharp.DomainValue`2");
 
     // One bound table per compilation serves every analyzer that shares that compilation; the
     // weak key never lets the cached table outlive the compilation.

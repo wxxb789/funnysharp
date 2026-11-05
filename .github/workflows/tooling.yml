@@ -32,14 +32,15 @@ jobs:
   tooling:
     name: tooling (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 45
+    timeout-minutes: 10
     strategy:
       fail-fast: false
       matrix:
-        os:
-          - ubuntu-latest
-          - windows-2025
-          - macos-15
+        # Pull requests run the operating systems GitHub can always schedule.
+        # macOS also runs on pushes to main and manual dispatch; tooling-gate
+        # treats a queue-cancelled macOS leg there as runner unavailability,
+        # so an unavailable macOS runner never blocks a pull request.
+        os: ${{ github.event_name == 'pull_request' && fromJSON('["ubuntu-latest","windows-2025"]') || fromJSON('["ubuntu-latest","windows-2025","macos-15"]') }}
     steps:
       - name: Checkout
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
@@ -76,18 +77,92 @@ jobs:
           retention-days: 7
 
   # One required aggregate check instead of three required matrix contexts.
+  # Runner-infrastructure cancellations are warnings, not code failures: a job
+  # cancelled before any runner picked it up, or one GitHub never reports
+  # complete after its last step succeeded. A leg that ran and failed still
+  # fails this gate.
   tooling-gate:
     name: tooling-gate
     needs: tooling
     if: always()
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    permissions:
+      contents: read
+      actions: read
     steps:
       - name: Require the tooling matrix
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           result="${{ needs.tooling.result }}"
-          if [ "$result" != "success" ]; then
-            echo "::error::tooling matrix outcome was '$result'; tooling-gate requires success."
+          if [ "$result" = "success" ]; then
+            echo "tooling matrix succeeded."
+            exit 0
+          fi
+
+          # GitHub can leave a finished job without reporting completion (the
+          # runner dies after its last step) or cancel a job before a runner
+          # picks it up. Both are infrastructure, not code failures. The API
+          # row carries every step conclusion so the gate can tell them apart.
+          jobs=$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}/jobs?per_page=100" \
+            --jq '.jobs[] | select(.name | startswith("tooling (")) | [.name, .conclusion, (.runner_name // ""), (.steps | length), ([.steps[].conclusion] | join(","))] | join("|")')
+          if [ -z "$jobs" ]; then
+            echo "::error::could not read any tooling matrix job results."
             exit 1
           fi
-          echo "tooling matrix succeeded."
+
+          fail=0
+          infra=0
+          required=0
+          while IFS='|' read -r name conclusion runner steps step_results; do
+            case "$name" in
+              "tooling (ubuntu-latest)"|"tooling (windows-2025)")
+                required=$((required + 1))
+                required_leg=1
+                ;;
+              "tooling (macos-15)")
+                required_leg=0
+                ;;
+              *)
+                echo "::error::unexpected tooling matrix job '$name'."
+                fail=1
+                continue
+                ;;
+            esac
+
+            if [ "$conclusion" = "success" ]; then
+              continue
+            fi
+
+            # A cancelled job is infrastructure when it never started a step,
+            # or when every step it did run finished successfully. A required
+            # leg still needs at least one successfully completed step.
+            all_steps_ok=1
+            if [ -n "$step_results" ] && printf '%s' "$step_results" | tr ',' '\n' | grep -qvx 'success'; then
+              all_steps_ok=0
+            fi
+            if [ "$conclusion" = "cancelled" ] \
+              && { [ "$steps" = "0" ] || [ "$all_steps_ok" -eq 1 ]; } \
+              && { [ "$required_leg" -eq 0 ] || [ "$steps" -gt 0 ]; }; then
+              infra=$((infra + 1))
+              echo "::warning::$name was cancelled by the runner ($steps step(s): ${step_results:-none}); treating it as infrastructure, not a code failure."
+              continue
+            fi
+
+            echo "::error::$name concluded '$conclusion' ($steps step(s): ${step_results:-none})."
+            fail=1
+          done <<< "$jobs"
+
+          if [ "$required" -lt 2 ]; then
+            echo "::error::the required operating systems did not both report a result."
+            fail=1
+          fi
+          if [ "$fail" -ne 0 ]; then
+            exit 1
+          fi
+          if [ "$infra" -ne 0 ]; then
+            echo "tooling matrix passed with $infra infrastructure-cancelled leg(s)."
+          else
+            echo "tooling matrix succeeded."
+          fi

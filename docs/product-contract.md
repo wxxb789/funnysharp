@@ -27,7 +27,11 @@ analysis, and compile-verified call sites are in [`next-stage/`](next-stage/).
   optics without owning persistence or execution. `BatchSource<TKey, TValue, TError>`,
   `BatchRequirement<TValue, TError>`, and `BatchScope` are explicit typed batched-read
   descriptions and their bounded execution scope, not another outcome carrier; reads remain
-  `Result` values and the scope owns its own request buffer and cache.
+  `Result` values and the scope owns its own request buffer and cache. `DomainValue<TValue, TTag>`
+  is a validated, phantom-tagged value and `Domain<TValue, TTag>` is its construction, validation,
+  decoding, contract, and explanation boundary; neither is an outcome carrier, and neither adds a
+  new failure or absence channel. Explicit state variants and typed module-error hierarchies stay
+  ordinary C# records over `Result`/`Validation`; no union type is added.
 - No second carrier for any of these meanings may be added. `Maybe`, `Either`, `Fin`, `Try`,
   `IO`, `Reader`, `State`, `OptionAsync`, and async outcome wrappers remain out of scope.
 - One verb has one meaning. `Map`, `Bind`, `MapError`/`MapErrors`, `Filter`, `Ensure`, `Recover`/
@@ -148,6 +152,19 @@ analysis, and compile-verified call sites are in [`next-stage/`](next-stage/).
   No inverse patch, rollback, persistence, transaction, or universal merge promise is added.
   System.Text.Json and ASP.NET Core integration remain optional and use an explicit `JsonElement`
   boundary plus the existing caller-selected result mapping.
+- Domain values are opt-in, tagged, validated boundaries. `Domain<TValue, TTag>` groups one
+  `Contract<TValue>` with a compile-time marker; `DomainValue<TValue, TTag>` stores the validated
+  value, structural equality, and an explicit initialization state. Validation and decoding use
+  the existing `DecodeError` categories and paths; `Domain<TValue, TTag>.Contract` derives the
+  tagged contract through `Contract<T>.Widen`, so validation, decoding, generation, shrinking, and
+  description stay aligned where those interpretations exist. Marker types have no runtime
+  instance. The boundary guarantees only that the wrapped value satisfied its contract when it was
+  created: it does not copy mutable payloads, prove a stored row unchanged, establish
+  authorization, or promise exactly-once execution. No implicit conversion erases the tag, no
+  `System.Text.Json` converter ships, and no general discriminated-union or source-generation
+  system is added. Explicit state variants are ordinary consumer record types; state-specific
+  operations are compiler-checked by their absence on other states, while typed errors remain
+  `Result`/`Validation` values with caller-defined hierarchies.
 - Batched reads are explicit and scope-local. A `BatchSource<TKey, TValue, TError>` is constructed
   only when the caller supplies its batch operation, key equality policy, and tenant or
   authorization partition; ordinary HTTP or database calls are never assumed to be batch-capable.
@@ -165,6 +182,9 @@ analysis, and compile-verified call sites are in [`next-stage/`](next-stage/).
 - Default and uninitialized values are explicit contracts:
   - `Option<T>` default is a valid `None`.
   - `Patch<T>` default is the empty patch and `PatchChange<T>` default is `Unchanged`.
+  - `DomainValue<TValue, TTag>` default is uninitialized, not a valid domain value;
+    `Value` throws and `TryGetValue` returns `false`. The only valid construction paths are the
+    caller's `Domain<TValue, TTag>` validation or a decoder derived from it.
   - `Result<TValue, TError>`, `UnitResult<TError>`, and `Validation<TValue, TError>` defaults
     must not masquerade as legitimate domain outcomes; uninitialized access is a programming
     error with an explicit diagnostic, and Goal 15 owns the mechanism.

@@ -4,6 +4,9 @@
 workflows. They make a transition's next state, emitted output commands, invalid events, explicit
 failures, and missing handlers visible in ordinary C# types. The compiling approval-workflow
 example is in [examples/FunnySharp.Examples/Program.cs](../examples/FunnySharp.Examples/Program.cs).
+For a workflow whose states carry different data and support different operations, ordinary sealed
+records are the native alternative to one state record with runtime guards; see
+[domain-values.md](domain-values.md#explicit-state-variants).
 
 ## State Changes And Transitions
 

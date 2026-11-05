@@ -13,6 +13,7 @@ DecoderExamples.Verify();
 ContractExamples.Verify();
 UnitResultExamples.Verify();
 PatchExamples.Verify();
+DomainExamples.Verify();
 FunctionGrammarSamples.Verify();
 await BatchExamples.VerifyAsync();
 VerifyImmutableUpdates();

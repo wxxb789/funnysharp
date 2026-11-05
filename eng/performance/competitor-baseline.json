@@ -79,6 +79,8 @@
       "src/FunnySharp/DecodeError.cs",
       "src/FunnySharp/DecodeErrorKind.cs",
       "src/FunnySharp/Decoder.cs",
+      "src/FunnySharp/Domain.cs",
+      "src/FunnySharp/DomainValue.cs",
       "src/FunnySharp/Effect.cs",
       "src/FunnySharp/EffectResourceExtensions.cs",
       "src/FunnySharp/EnumerablePipelineExtensions.cs",
