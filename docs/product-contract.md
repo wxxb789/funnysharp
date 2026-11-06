@@ -222,8 +222,10 @@ analysis, and compile-verified call sites are in [`next-stage/`](next-stage/).
   or distributed orchestrator is added.
 - HTTP integration stays a separate package with explicit caller-selected mapping. There is no
   DI registration, middleware, global error policy, or exception handler, and domain code stays
-  HTTP-free. First-party typed-results/OpenAPI APIs are deferred; the vertical slice documents and
-  tests `.Produces*` usage instead.
+  HTTP-free. Caller-selected typed-result mapping returns ASP.NET Core `Results<...>` unions so
+  endpoint metadata and OpenAPI declarations come from the selected typed results. The library
+  does not synthesize response declarations from runtime `ProblemDetails.Status` values; callers
+  declare possible statuses with `.Produces*` or select status-specific typed results.
 - Serialization of carriers is caller policy today. No `System.Text.Json` converter ships until a
   goal fixes the wire contract and verifies trimming and Native AOT behavior; callers use DTOs,
   and `JsonSerializerOptions.Strict` is the recommended executable form of a DTO-only policy. The

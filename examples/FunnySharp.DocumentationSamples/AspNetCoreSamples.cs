@@ -2,6 +2,7 @@ using FunnySharp;
 using FunnySharp.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FunnySharp.DocumentationSamples;
@@ -25,6 +26,51 @@ internal static class AspNetCoreSamples
         IResult optionResult = option.ToHttpResult(NotFound);
         IResult resultResult = result.ToHttpResult(Conflict);
         IResult validationResult = validation.ToHttpResult(MapValidationFailure);
+        // </snippet>
+    }
+
+    private static void MapTypedOutcomes(WebApplication app)
+    {
+        // <snippet DocumentationSamples.AspNetCore.TypedOutcomes>
+        app.MapGet("/products/{id:int}", (int id) =>
+            FindProduct(id).ToHttpResults(() => TypedResults.NotFound(NotFound())));
+
+        app.MapPost("/orders", (CreateOrderRequest request) =>
+            ValidateOrder(request).ToHttpResults(
+                errors => TypedResults.ValidationProblem(GroupValidation(errors)),
+                order => TypedResults.Created($"/orders/{order.Id}", order)));
+        // </snippet>
+    }
+
+    private static void MapTypedFailurePolicy(WebApplication app)
+    {
+        // <snippet DocumentationSamples.AspNetCore.TypedFailurePolicy>
+        app.MapGet("/orders/{id}/typed", (string id) =>
+            FindOrder(id).ToHttpResults(MapOrderFailure));
+
+        app.MapGet("/orders/{id}/dynamic", (string id) =>
+                FindOrder(id).ToHttpResults(error => TypedResults.Problem(Conflict(error))))
+            .ProducesProblem(StatusCodes.Status409Conflict);
+        // </snippet>
+    }
+
+    private static void MapTypedEffectOutcome(WebApplication app, Catalog catalog)
+    {
+        // <snippet DocumentationSamples.AspNetCore.TypedEffectOutcome>
+        app.MapGet("/catalog/{id:int}/refresh", async (HttpContext context, int id) =>
+        {
+            var product = await LoadProductEffect(id).RunAsync(catalog, context.RequestAborted);
+            return product.ToHttpResults(() => TypedResults.NotFound(NotFound()));
+        });
+        // </snippet>
+    }
+
+    private static void MapTypedAsyncOutcome(WebApplication app)
+    {
+        // <snippet DocumentationSamples.AspNetCore.TypedAsyncOutcome>
+        app.MapGet("/inventory/{sku}", (string sku, CancellationToken cancellationToken) =>
+            GetStockAsync(sku, cancellationToken).ToHttpResultsAsync(
+                error => TypedResults.NotFound(NotFound(error))));
         // </snippet>
     }
 
@@ -119,6 +165,48 @@ internal static class AspNetCoreSamples
         Detail = error.Code,
     };
 
+    private static Option<Product> FindProduct(int id) =>
+        id > 0 ? Option.Some(new Product(id)) : Option.None<Product>();
+
+    private static Validation<Order, ReservationError> ValidateOrder(CreateOrderRequest request) =>
+        request.Quantity > 0
+            ? Validation<Order, ReservationError>.Valid(new Order("ORD-1"))
+            : Validation<Order, ReservationError>.Invalid(
+                new ReservationError("range", "quantity", "Quantity must be positive."));
+
+    private static Result<Order, ReservationError> FindOrder(string id) =>
+        id == "ORD-1"
+            ? Result<Order, ReservationError>.Success(new Order(id))
+            : Result<Order, ReservationError>.Failure(
+                new ReservationError("not-found", "order", "Order was not found."));
+
+    private static Results<NotFound<ProblemDetails>, Conflict<ProblemDetails>> MapOrderFailure(
+        ReservationError error) =>
+        error.Code == "conflict"
+            ? TypedResults.Conflict(Conflict(error))
+            : TypedResults.NotFound(NotFound(error));
+
+    private static Task<Result<Product, ReservationError>> GetStockAsync(
+        string sku,
+        CancellationToken cancellationToken) =>
+        Task.FromResult(Result<Product, ReservationError>.Failure(
+            new ReservationError("not-found", "sku", "SKU was not found.")));
+
+    private static Dictionary<string, string[]> GroupValidation(IReadOnlyList<ReservationError> errors) =>
+        errors
+            .GroupBy(static error => error.Field, StringComparer.Ordinal)
+            .ToDictionary(
+                static group => group.Key,
+                static group => group.Select(static error => error.Message).ToArray(),
+                StringComparer.Ordinal);
+
+    private static ProblemDetails NotFound(ReservationError error) => new()
+    {
+        Status = StatusCodes.Status404NotFound,
+        Title = "Not found",
+        Detail = error.Code,
+    };
+
     private static HttpValidationProblemDetails MapValidationFailure(
         IReadOnlyList<ReservationError> errors)
     {
@@ -141,6 +229,10 @@ internal static class AspNetCoreSamples
             Status = StatusCodes.Status400BadRequest,
         };
     }
+
+    private sealed record CreateOrderRequest(int Quantity);
+
+    private sealed record Order(string Id);
 
     private sealed record Product(int Id);
 

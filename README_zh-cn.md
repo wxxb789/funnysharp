@@ -87,7 +87,7 @@ registration.Match(
 - **强类型部分更新**：`Patch<T>`/`PatchChange<T>`/`PatchSchema<T>` 区分未提供、显式清除与替换字段，复用 `Contract<T>` 校验完整候选状态，报告合并冲突，并通过调用方提供的 Lens 应用变更。
 - **可组合批量读取**：`BatchSource<TKey,TValue,TError>` 显式声明批量数据源，`BatchRequirement<TValue,TError>` 组合独立与依赖读取，`BatchScope` 在明确的批次、准入、缓存、取消与释放边界内合并并去重请求。
 - **带标签的领域值 (Tagged Domain Values)**：`DomainValue<TValue,TTag>`/`Domain<TValue,TTag>` 区分易混标识符、在构造时验证，并由同一规则集派生契约与解码；显式状态类型与类型化模块错误记录保持为普通 C#。
-- **ASP.NET Core Minimal API 映射**：通过 `FunnySharp.AspNetCore` 将载体和 Effect 映射为调用方指定的 `IResult` 和 RFC 7807/9457 `ProblemDetails`。
+- **ASP.NET Core Minimal API 映射**：通过 `FunnySharp.AspNetCore` 将载体和 Effect 映射为调用方指定的 `IResult`、类型化 `Results<...>` 联合和 RFC 7807/9457 `ProblemDetails`，保留端点与 OpenAPI 元数据。
 
 ## 深入文档与工程示例
 
@@ -102,6 +102,7 @@ registration.Match(
 | [版本控制规范 (Versioning Policy)](https://github.com/wxxb789/funnysharp/blob/main/docs/versioning.md) | [函数组合 (Function Composition)](https://github.com/wxxb789/funnysharp/blob/main/docs/function-composition.md) | [不可变更新 (Immutable Updates)](https://github.com/wxxb789/funnysharp/blob/main/docs/immutable-updates.md) |
 | [快速入门 (Quick Start)](https://github.com/wxxb789/funnysharp/blob/main/docs/quick-start.md) | [静态分析器 (Roslyn Analyzers)](https://github.com/wxxb789/funnysharp/blob/main/docs/analyzers.md) | [ASP.NET Core 集成指南](https://github.com/wxxb789/funnysharp/blob/main/docs/aspnet-core.md) |
 | [发布说明](https://github.com/wxxb789/funnysharp/blob/main/docs/release-notes.md) | [集合与遍历](https://github.com/wxxb789/funnysharp/blob/main/docs/collections.md) | [开发者 Harness](https://github.com/wxxb789/funnysharp/blob/main/docs/harness.md) |
+| [类型化 ASP.NET 结果](https://github.com/wxxb789/funnysharp/blob/main/docs/aspnet-core.md) | [类型化边界证据 (Typed Boundary Evidence)](https://github.com/wxxb789/funnysharp/blob/main/docs/aspnet-core-evidence.md) | |
 | [不可信输入解码 (Decoding)](https://github.com/wxxb789/funnysharp/blob/main/docs/decoding.md) | [解码器证据 (Decoder Evidence)](https://github.com/wxxb789/funnysharp/blob/main/docs/decoder-evidence.md) | |
 | [可检视契约 (Inspectable Contracts)](https://github.com/wxxb789/funnysharp/blob/main/docs/contracts.md) | [契约证据 (Contract Evidence)](https://github.com/wxxb789/funnysharp/blob/main/docs/contract-evidence.md) | |
 | [部分更新 (Partial Updates)](https://github.com/wxxb789/funnysharp/blob/main/docs/partial-updates.md) | [部分更新证据 (Partial Update Evidence)](https://github.com/wxxb789/funnysharp/blob/main/docs/partial-update-evidence.md) | |

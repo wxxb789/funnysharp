@@ -1,19 +1,27 @@
+using System.Net.Http.Json;
 using System.Text.Json;
 using FunnySharp;
 using FunnySharp.AspNetCore;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Http.Metadata;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddOpenApi();
 if (args is ["--verify"])
 {
     builder.Logging.ClearProviders();
+    builder.WebHost.UseUrls("http://127.0.0.1:0");
 }
 
 var app = builder.Build();
+app.MapOpenApi();
 var catalog = new ProductCatalog();
 var schedules = new ScheduleStore();
 
@@ -46,9 +54,51 @@ app.MapGet("/catalog/{id:int}/refresh", (HttpContext context, int id) =>
 app.MapMethods("/schedules/{id}", ["PATCH"], (string id, JsonElement body) =>
     PatchSchedule(id, body, schedules));
 
+app.MapGet("/typed/products/{id:int}", (int id) =>
+    FindProduct(id).ToHttpResults(() => TypedNotFound($"Product {id} was not found.")));
+
+app.MapGet("/typed/orders/{id}", (string id) =>
+    FindOrder(id).ToHttpResults(MapOrderFailureTyped));
+
+app.MapPost("/typed/orders", (CreateOrderRequest request) =>
+    ValidateOrder(request).ToHttpResults(
+        TypedValidationProblem,
+        order => TypedResults.Created($"/orders/{order.Id}", order)));
+
+app.MapPost("/typed/orders/strict", (CreateOrderRequest request) =>
+    ValidateOrder(request).ToHttpResults(TypedUnprocessableValidation));
+
+app.MapGet("/typed/inventory/{sku}", (string sku, CancellationToken cancellationToken) =>
+    GetInventoryAsync(sku, cancellationToken).ToHttpResultsAsync(MapInventoryFailureTyped));
+
+app.MapGet("/typed/deliveries/{sku}", (string sku, CancellationToken cancellationToken) =>
+    GetDeliveryAsync(sku, cancellationToken).ToHttpResultsAsync(
+        MapDeliveryFailureTyped,
+        delivery => TypedResults.Accepted($"/deliveries/{delivery.Sku}", delivery)));
+
+app.MapDelete("/typed/carts/{id}", (string id) =>
+    CancelOrder(id).ToHttpResults(MapOrderFailureTyped));
+
+app.MapGet("/typed/catalog/{id:int}/refresh", async (HttpContext context, int id) =>
+{
+    var product = await LoadProductEffect(id).RunAsync(catalog, context.RequestAborted);
+    return product.ToHttpResults(() => TypedNotFound($"Product {id} was not found."));
+});
+
 if (args is ["--verify"])
 {
-    await VerifyPatchEndpointAsync(app, schedules);
+    await app.StartAsync();
+    try
+    {
+        await VerifyPatchEndpointAsync(app, schedules);
+        await VerifyTypedEndpointsAsync(app);
+        await VerifyOpenApiAsync(app);
+    }
+    finally
+    {
+        await app.StopAsync();
+    }
+
     Console.WriteLine("FunnySharp ASP.NET Core example endpoints mapped.");
     return;
 }
@@ -118,6 +168,218 @@ static async Task VerifyPatchEndpointAsync(WebApplication app, ScheduleStore sch
         StatusCodes.Status404NotFound,
         PatchScheduleJson("unknown", """{"endsAt":1200}""", schedules),
         app.Services);
+}
+
+static async Task VerifyTypedEndpointsAsync(WebApplication app)
+{
+    VerifyProduces(
+        app,
+        "/typed/products/{id:int}",
+        (StatusCodes.Status200OK, typeof(Product)),
+        (StatusCodes.Status404NotFound, typeof(ProblemDetails)));
+    VerifyProduces(
+        app,
+        "/typed/orders/{id}",
+        (StatusCodes.Status200OK, typeof(Order)),
+        (StatusCodes.Status404NotFound, typeof(ProblemDetails)));
+    VerifyProduces(
+        app,
+        "/typed/orders",
+        (StatusCodes.Status201Created, typeof(Order)),
+        (StatusCodes.Status400BadRequest, typeof(HttpValidationProblemDetails)));
+    VerifyProduces(
+        app,
+        "/typed/orders/strict",
+        (StatusCodes.Status200OK, typeof(Order)),
+        (StatusCodes.Status422UnprocessableEntity, typeof(HttpValidationProblemDetails)));
+    VerifyProduces(
+        app,
+        "/typed/inventory/{sku}",
+        (StatusCodes.Status200OK, typeof(Inventory)),
+        (StatusCodes.Status404NotFound, typeof(ProblemDetails)));
+    VerifyProduces(
+        app,
+        "/typed/deliveries/{sku}",
+        (StatusCodes.Status202Accepted, typeof(Delivery)),
+        (StatusCodes.Status409Conflict, typeof(ProblemDetails)));
+    VerifyProduces(
+        app,
+        "/typed/carts/{id}",
+        (StatusCodes.Status204NoContent, typeof(void)),
+        (StatusCodes.Status404NotFound, typeof(ProblemDetails)));
+    VerifyProduces(
+        app,
+        "/typed/catalog/{id:int}/refresh",
+        (StatusCodes.Status200OK, typeof(Product)),
+        (StatusCodes.Status404NotFound, typeof(ProblemDetails)));
+
+    using var client = new HttpClient { BaseAddress = new Uri(app.Urls.Single()) };
+
+    using var product = await client.GetAsync("/typed/products/42");
+    RequireStatus(product, StatusCodes.Status200OK, "GET /typed/products/42");
+    if (await product.Content.ReadFromJsonAsync<Product>() is not { Id: 42 })
+    {
+        throw new InvalidOperationException("The typed product endpoint returned an unexpected body.");
+    }
+
+    using var missingProduct = await client.GetAsync("/typed/products/7");
+    RequireStatus(missingProduct, StatusCodes.Status404NotFound, "GET /typed/products/7");
+
+    using var order = await client.GetAsync("/typed/orders/ORD-42");
+    RequireStatus(order, StatusCodes.Status200OK, "GET /typed/orders/ORD-42");
+    if (await order.Content.ReadFromJsonAsync<Order>() is not { Id: "ORD-42" })
+    {
+        throw new InvalidOperationException("The typed order endpoint returned an unexpected body.");
+    }
+
+    using var missingOrder = await client.GetAsync("/typed/orders/unknown");
+    RequireStatus(missingOrder, StatusCodes.Status404NotFound, "GET /typed/orders/unknown");
+
+    using var created = await client.PostAsJsonAsync(
+        "/typed/orders",
+        new CreateOrderRequest("book", 2));
+    RequireStatus(created, StatusCodes.Status201Created, "POST /typed/orders");
+    if (await created.Content.ReadFromJsonAsync<Order>() is not { Id: "ORD-43" })
+    {
+        throw new InvalidOperationException("The typed create endpoint returned an unexpected body.");
+    }
+
+    using var invalid = await client.PostAsJsonAsync(
+        "/typed/orders",
+        new CreateOrderRequest(string.Empty, 0));
+    RequireStatus(invalid, StatusCodes.Status400BadRequest, "POST /typed/orders (invalid)");
+    using (var invalidDocument = JsonDocument.Parse(
+        await invalid.Content.ReadAsStringAsync()))
+    {
+        var errors = invalidDocument.RootElement.GetProperty("errors");
+        if (!errors.TryGetProperty("sku", out _) || !errors.TryGetProperty("quantity", out _))
+        {
+            throw new InvalidOperationException(
+                "The typed validation endpoint did not disclose both accumulated field errors.");
+        }
+    }
+
+    using var strict = await client.PostAsJsonAsync(
+        "/typed/orders/strict",
+        new CreateOrderRequest(string.Empty, 0));
+    RequireStatus(strict, StatusCodes.Status422UnprocessableEntity, "POST /typed/orders/strict");
+    using (var strictDocument = JsonDocument.Parse(
+        await strict.Content.ReadAsStringAsync()))
+    {
+        if (strictDocument.RootElement.GetProperty("status").GetInt32() != StatusCodes.Status422UnprocessableEntity)
+        {
+            throw new InvalidOperationException(
+                "The caller-selected 422 response did not preserve its ProblemDetails status.");
+        }
+    }
+
+    using var inventory = await client.GetAsync("/typed/inventory/book");
+    RequireStatus(inventory, StatusCodes.Status200OK, "GET /typed/inventory/book");
+
+    using var missingInventory = await client.GetAsync("/typed/inventory/unknown");
+    RequireStatus(missingInventory, StatusCodes.Status404NotFound, "GET /typed/inventory/unknown");
+
+    using var delivery = await client.GetAsync("/typed/deliveries/book");
+    RequireStatus(delivery, StatusCodes.Status202Accepted, "GET /typed/deliveries/book");
+
+    using var missingDelivery = await client.GetAsync("/typed/deliveries/unknown");
+    RequireStatus(missingDelivery, StatusCodes.Status409Conflict, "GET /typed/deliveries/unknown");
+
+    using var canceled = await client.DeleteAsync("/typed/carts/ORD-42");
+    RequireStatus(canceled, StatusCodes.Status204NoContent, "DELETE /typed/carts/ORD-42");
+
+    using var missingCart = await client.DeleteAsync("/typed/carts/unknown");
+    RequireStatus(missingCart, StatusCodes.Status404NotFound, "DELETE /typed/carts/unknown");
+
+    using var refreshed = await client.GetAsync("/typed/catalog/42/refresh");
+    RequireStatus(refreshed, StatusCodes.Status200OK, "GET /typed/catalog/42/refresh");
+
+    using var missingRefresh = await client.GetAsync("/typed/catalog/7/refresh");
+    RequireStatus(missingRefresh, StatusCodes.Status404NotFound, "GET /typed/catalog/7/refresh");
+}
+
+static void VerifyProduces(
+    WebApplication app,
+    string route,
+    params (int Status, Type? Type)[] expected)
+{
+    var endpoint = ((IEndpointRouteBuilder)app).DataSources
+        .SelectMany(static source => source.Endpoints)
+        .OfType<RouteEndpoint>()
+        .SingleOrDefault(candidate =>
+            string.Equals(candidate.RoutePattern.RawText, route, StringComparison.Ordinal));
+    if (endpoint is null)
+    {
+        throw new InvalidOperationException($"The typed endpoint '{route}' is not mapped.");
+    }
+
+    var actual = endpoint.Metadata
+        .OfType<IProducesResponseTypeMetadata>()
+        .Select(static metadata => (metadata.StatusCode, metadata.Type))
+        .OrderBy(static metadata => metadata.StatusCode)
+        .ToArray();
+    var sortedExpected = expected
+        .OrderBy(static item => item.Status)
+        .ToArray();
+    if (!sortedExpected.SequenceEqual(actual))
+    {
+        throw new InvalidOperationException(
+            $"The typed endpoint '{route}' published [{string.Join(", ", actual)}] "
+            + $"instead of [{string.Join(", ", sortedExpected)}].");
+    }
+}
+
+static void RequireStatus(HttpResponseMessage response, int expected, string operation)
+{
+    if ((int)response.StatusCode != expected)
+    {
+        throw new InvalidOperationException(
+            $"The typed endpoint '{operation}' returned HTTP {(int)response.StatusCode} "
+            + $"instead of {expected}.");
+    }
+}
+
+static async Task VerifyOpenApiAsync(WebApplication app)
+{
+    using var client = new HttpClient { BaseAddress = new Uri(app.Urls.Single()) };
+    using var document = JsonDocument.Parse(await client.GetStringAsync("/openapi/v1.json"));
+    var paths = document.RootElement.GetProperty("paths");
+
+    VerifyOpenApiResponse(paths, "/typed/orders/{id}", "get", "200", "application/json", "Order");
+    VerifyOpenApiResponse(paths, "/typed/orders/{id}", "get", "404", "application/json", "ProblemDetails");
+    VerifyOpenApiResponse(paths, "/typed/orders", "post", "201", "application/json", "Order");
+    VerifyOpenApiResponse(
+        paths,
+        "/typed/orders",
+        "post",
+        "400",
+        "application/problem+json",
+        "HttpValidationProblemDetails");
+}
+
+static void VerifyOpenApiResponse(
+    JsonElement paths,
+    string path,
+    string method,
+    string status,
+    string contentType,
+    string schema)
+{
+    if (!paths.TryGetProperty(path, out var item)
+        || !item.TryGetProperty(method, out var operation)
+        || !operation.TryGetProperty("responses", out var responses)
+        || !responses.TryGetProperty(status, out var response)
+        || !response.TryGetProperty("content", out var content)
+        || !content.TryGetProperty(contentType, out var media)
+        || !media.TryGetProperty("schema", out var schemaElement)
+        || !schemaElement.TryGetProperty("$ref", out var reference)
+        || reference.GetString() is not { } referenceValue
+        || !referenceValue.EndsWith("/" + schema, StringComparison.Ordinal))
+    {
+        throw new InvalidOperationException(
+            $"The OpenAPI document did not declare {method.ToUpperInvariant()} {path} "
+            + $"{status} as {contentType} {schema}.");
+    }
 }
 
 static IResult PatchScheduleJson(string id, string json, ScheduleStore schedules)
@@ -286,6 +548,40 @@ static HttpValidationProblemDetails MapValidationErrors(IReadOnlyList<InputError
         Title = "Order validation failed",
         Type = "https://example.invalid/problems/invalid-order",
     };
+
+static NotFound<ProblemDetails> TypedNotFound(string detail) =>
+    TypedResults.NotFound(NotFound(detail));
+
+static NotFound<ProblemDetails> MapOrderFailureTyped(OrderFailure failure) =>
+    TypedResults.NotFound(MapOrderFailure(failure));
+
+static NotFound<ProblemDetails> MapInventoryFailureTyped(InventoryFailure failure) =>
+    TypedResults.NotFound(MapInventoryFailure(failure));
+
+static Conflict<ProblemDetails> MapDeliveryFailureTyped(DeliveryFailure failure) =>
+    TypedResults.Conflict(MapDeliveryFailure(failure));
+
+static ValidationProblem TypedValidationProblem(IReadOnlyList<InputError> errors) =>
+    TypedResults.ValidationProblem(
+        GroupMessages(
+            errors,
+            static error => error.Field,
+            static error => error.Message),
+        title: "Order validation failed",
+        type: "https://example.invalid/problems/invalid-order");
+
+static UnprocessableEntity<HttpValidationProblemDetails> TypedUnprocessableValidation(
+    IReadOnlyList<InputError> errors) =>
+    TypedResults.UnprocessableEntity(new HttpValidationProblemDetails(
+        GroupMessages(
+            errors,
+            static error => error.Field,
+            static error => error.Message))
+    {
+        Status = StatusCodes.Status422UnprocessableEntity,
+        Title = "Order validation failed",
+        Type = "https://example.invalid/problems/invalid-order",
+    });
 
 static Dictionary<string, string[]> GroupMessages<T>(
     IEnumerable<T> items,
