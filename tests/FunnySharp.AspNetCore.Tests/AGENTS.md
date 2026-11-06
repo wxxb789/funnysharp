@@ -3,13 +3,15 @@
 **Why this file:** score 22 — in-process ASP.NET Core suite (TestHost + real Kestrel) for the HTTP mapping packages; distinct domain (HTTP semantics, typed metadata).
 
 ## OVERVIEW
-xUnit v3 tests for the FunnySharp.AspNetCore package via `Microsoft.AspNetCore.TestHost` and real Kestrel; 6 test files.
+xUnit v3 tests for the FunnySharp.AspNetCore package via `Microsoft.AspNetCore.TestHost` and real Kestrel; 8 test files.
 
 ## WHERE TO LOOK
 | Task | Location |
 |------|----------|
 | Result -> HTTP mapping (white-box) | `HttpResultExtensionsTests.cs` (676 lines) |
 | UnitResult mapping | `UnitResultHttpResultExtensionsTests.cs` |
+| Shared HTTP contract coverage | `ContractHttpResultTests.cs` |
+| Stable HTTP contract invariants | `StableHttpContractTests.cs` |
 | Cancellation over a real server | `KestrelCancellationTests.cs` (nested `KestrelApplication : IAsyncDisposable`) |
 | Typed mapping behavior, async, cancellation, and faults | `TypedHttpResultExtensionsTests.cs` |
 | Typed endpoint metadata and dynamic `ProblemHttpResult` | `TypedHttpResultMetadataTests.cs` |

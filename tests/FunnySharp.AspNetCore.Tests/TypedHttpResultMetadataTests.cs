@@ -19,6 +19,8 @@ public sealed class TypedHttpResultMetadataTests
     {
         await using var host = await TestApplication.StartAsync(app =>
         {
+            app.MapGet("/metadata/option", () =>
+                Option.Some(new Payload("option", 1)).ToHttpResults(NotFoundAbsence));
             app.MapGet("/metadata/result", () =>
                 Result<Payload, DomainError>.Success(new Payload("result", 2))
                     .ToHttpResults(NotFoundFailure));
@@ -29,6 +31,7 @@ public sealed class TypedHttpResultMetadataTests
                     .ToHttpResults(InvalidValidation));
         });
 
+        AssertProduces(host.Application, "/metadata/option", [(200, typeof(Payload)), (404, typeof(ProblemDetails))]);
         AssertProduces(host.Application, "/metadata/result", [(200, typeof(Payload)), (404, typeof(ProblemDetails))]);
         AssertProduces(host.Application, "/metadata/unit", [(204, typeof(void)), (409, typeof(ProblemDetails))]);
         AssertProduces(
@@ -122,6 +125,22 @@ public sealed class TypedHttpResultMetadataTests
         Assert.Equal(["application/json"], unprocessable.ContentTypes);
     }
 
+    [Fact]
+    public async Task IResultTypedMapperPublishesOnlyTheTypedSuccessDeclaration()
+    {
+        await using var host = await TestApplication.StartAsync(app =>
+            app.MapGet("/metadata/erased", () =>
+                Result<Payload, DomainError>.Failure(new DomainError("erased", StatusCodes.Status404NotFound))
+                    .ToHttpResults(ErasedFailure)));
+
+        AssertProduces(host.Application, "/metadata/erased", [(200, typeof(Payload))]);
+
+        using var response = await host.Client.GetAsync(
+            "/metadata/erased",
+            TestContext.Current.CancellationToken);
+        Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+    }
+
     private static IReadOnlyList<IProducesResponseTypeMetadata> Produces(WebApplication app, string route)
     {
         var endpoint = ((IEndpointRouteBuilder)app).DataSources
@@ -171,6 +190,9 @@ public sealed class TypedHttpResultMetadataTests
             Title = "Dynamic problem",
             Detail = error.Code,
         });
+
+    private static IResult ErasedFailure(DomainError error) =>
+        Results.NotFound(Problem(error.Code, error.Status));
 
     private static NotFound<ProblemDetails> NotFoundAbsence() =>
         TypedResults.NotFound(Problem("absent", StatusCodes.Status404NotFound));

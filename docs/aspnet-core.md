@@ -186,8 +186,11 @@ an ordinary method with an explicit union return type, which names the status po
 of at every endpoint.
 
 The helper does not reduce the mapping logic: the caller still chooses status, body, and error
-disclosure. It removes repeated union construction and the chance that an endpoint accidentally
-falls back to `IResult`, which is the information loss this boundary addresses.
+disclosure. It removes repeated union construction and infers the union from the selected mappers'
+static return types. The union argument is the mapper's static result type: a mapper declared as
+`IResult` (for example `Results.NotFound(...)` or a legacy `static IResult` helper) makes its branch
+run without contributing a response declaration. Select `TypedResults.*` or a status-specific typed
+result when the endpoint should publish that response.
 
 ## Effects And Cancellation
 
@@ -255,7 +258,7 @@ carrier outcome. Only the mapping call is measured: no result is executed and no
 | HTTP mapping overhead - success | 4.440 ns | 5.045 ns | 1.14x | 24 B | 24 B |
 | HTTP mapping overhead - typed failure | 22.942 ns | 27.182 ns | 1.18x | 168 B | 168 B |
 <!-- performance-table:end aspnet-core -->
-## Limits And Deliberate Boundaries
+## Deliberate Boundaries
 
 - The integration package adds no serializer. The example and tests exercise ASP.NET Core's
   default `System.Text.Json` reflection path with ordinary records. Source-generated serializer

@@ -218,8 +218,15 @@ public sealed class TypedHttpResultExtensionsTests
             app.MapGet("/typed/task/validation", () =>
                 Task.FromResult(Validation<Payload, InputError>.Valid(new Payload("task-validation", 8)))
                     .ToHttpResultsAsync(InvalidValidation));
+            app.MapGet("/typed/task/validation/invalid", () =>
+                Task.FromResult(Validation<Payload, InputError>.InvalidMany(
+                        [new InputError("sku", "A SKU is required.")]))
+                    .ToHttpResultsAsync(InvalidValidation));
             app.MapGet("/typed/task/unit", () =>
                 Task.FromResult(UnitResult<DomainError>.Success()).ToHttpResultsAsync(ConflictFailure));
+            app.MapGet("/typed/task/unit/failure", () =>
+                Task.FromResult(UnitResult<DomainError>.Failure(new DomainError("task-conflict")))
+                    .ToHttpResultsAsync(ConflictFailure));
         });
 
         Assert.Equal(HttpStatusCode.OK, await StatusAsync(host, "/typed/task/option"));
@@ -227,7 +234,9 @@ public sealed class TypedHttpResultExtensionsTests
         Assert.Equal(HttpStatusCode.OK, await StatusAsync(host, "/typed/task/result"));
         Assert.Equal(HttpStatusCode.NotFound, await StatusAsync(host, "/typed/task/result/failure"));
         Assert.Equal(HttpStatusCode.OK, await StatusAsync(host, "/typed/task/validation"));
+        Assert.Equal(HttpStatusCode.BadRequest, await StatusAsync(host, "/typed/task/validation/invalid"));
         Assert.Equal(HttpStatusCode.NoContent, await StatusAsync(host, "/typed/task/unit"));
+        Assert.Equal(HttpStatusCode.Conflict, await StatusAsync(host, "/typed/task/unit/failure"));
     }
 
     [Fact]
@@ -247,15 +256,24 @@ public sealed class TypedHttpResultExtensionsTests
             app.MapGet("/typed/value-task/validation", () =>
                 ValueTask.FromResult(Validation<Payload, InputError>.Valid(new Payload("value-task-validation", 11)))
                     .ToHttpResultsAsync(InvalidValidation));
+            app.MapGet("/typed/value-task/validation/invalid", () =>
+                ValueTask.FromResult(Validation<Payload, InputError>.InvalidMany(
+                        [new InputError("sku", "A SKU is required.")]))
+                    .ToHttpResultsAsync(InvalidValidation));
             app.MapGet("/typed/value-task/unit", () =>
                 ValueTask.FromResult(UnitResult<DomainError>.Success()).ToHttpResultsAsync(ConflictFailure));
+            app.MapGet("/typed/value-task/unit/failure", () =>
+                ValueTask.FromResult(UnitResult<DomainError>.Failure(new DomainError("value-task-conflict")))
+                    .ToHttpResultsAsync(ConflictFailure));
         });
 
         Assert.Equal(HttpStatusCode.OK, await StatusAsync(host, "/typed/value-task/option"));
         Assert.Equal(HttpStatusCode.OK, await StatusAsync(host, "/typed/value-task/result"));
         Assert.Equal(HttpStatusCode.NotFound, await StatusAsync(host, "/typed/value-task/result/failure"));
         Assert.Equal(HttpStatusCode.OK, await StatusAsync(host, "/typed/value-task/validation"));
+        Assert.Equal(HttpStatusCode.BadRequest, await StatusAsync(host, "/typed/value-task/validation/invalid"));
         Assert.Equal(HttpStatusCode.NoContent, await StatusAsync(host, "/typed/value-task/unit"));
+        Assert.Equal(HttpStatusCode.Conflict, await StatusAsync(host, "/typed/value-task/unit/failure"));
     }
 
     [Fact]
@@ -382,6 +400,38 @@ public sealed class TypedHttpResultExtensionsTests
             Result<int, string>.Failure("failed").ToHttpResults(NullFailure));
 
         Assert.Equal("The HTTP result mapper returned null.", exception.Message);
+    }
+
+    [Fact]
+    public async Task TypedMappingsRejectUninitializedCarriers()
+    {
+        static NotFound<ProblemDetails> Failure(string _) =>
+            TypedResults.NotFound(new ProblemDetails { Status = StatusCodes.Status404NotFound });
+
+        static ValidationProblem Invalid(IReadOnlyList<string> _) =>
+            TypedResults.ValidationProblem(new Dictionary<string, string[]>());
+
+        var result = default(Result<int, string>);
+        var validation = default(Validation<int, string>);
+        var unit = default(UnitResult<string>);
+
+        Assert.Throws<InvalidOperationException>(() => result.ToHttpResults(Failure));
+        Assert.Throws<InvalidOperationException>(() => validation.ToHttpResults(Invalid));
+        Assert.Throws<InvalidOperationException>(() => unit.ToHttpResults(Failure));
+
+        await Assert.ThrowsAsync<InvalidOperationException>(
+            () => Task.FromResult(result).ToHttpResultsAsync(Failure));
+        await Assert.ThrowsAsync<InvalidOperationException>(
+            () => Task.FromResult(validation).ToHttpResultsAsync(Invalid));
+        await Assert.ThrowsAsync<InvalidOperationException>(
+            () => Task.FromResult(unit).ToHttpResultsAsync(Failure));
+
+        await Assert.ThrowsAsync<InvalidOperationException>(
+            () => ValueTask.FromResult(result).ToHttpResultsAsync(Failure).AsTask());
+        await Assert.ThrowsAsync<InvalidOperationException>(
+            () => ValueTask.FromResult(validation).ToHttpResultsAsync(Invalid).AsTask());
+        await Assert.ThrowsAsync<InvalidOperationException>(
+            () => ValueTask.FromResult(unit).ToHttpResultsAsync(Failure).AsTask());
     }
 
     [Theory]

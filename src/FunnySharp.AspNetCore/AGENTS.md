@@ -9,7 +9,7 @@ Two public static classes. `HttpResultExtensions` has ~21 overloads mapping `Opt
 | Task | Location |
 |------|----------|
 | Existing `IResult` mapping | `HttpResultExtensions.cs` (664 lines) |
-| Typed result unions and metadata | `TypedHttpResultExtensions.cs` (876 lines) |
+| Typed result unions and metadata | `TypedHttpResultExtensions.cs` (24 overloads; shared sync/Task/ValueTask cores) |
 | Behavioral coverage | `tests/FunnySharp.AspNetCore.Tests` (TestHost + Kestrel; typed tests in `TypedHttpResult*.cs`) |
 
 ## CONVENTIONS

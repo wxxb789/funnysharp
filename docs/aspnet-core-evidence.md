@@ -93,10 +93,12 @@ Raw source-line accounting, including braces and line wrapping; this is not a LO
 
 The helper does not relocate the mapping decision: every version still calls the same
 `MapFailure`, which owns status, body, and error disclosure. It removes the repeated union return
-type and `Match<Results<...>>` generic argument, and it cannot silently infer `IResult` for the
-endpoint. The first-endpoint saving is 11 raw lines over the ordinary form and 4 over the explicit
-`Match` form; each additional endpoint saves 11 or 4 respectively. The shared mapper remains
-explicit, so a multi-status policy stays named once rather than being hidden in the adapter.
+type and `Match<Results<...>>` generic argument and infers the union from the selected mappers'
+static result types. A mapper whose declared return type is `IResult` still erases that branch's
+declarations; see the limits below. The first-endpoint saving is 11 raw lines over the ordinary
+form and 4 over the explicit `Match` form; each additional endpoint saves 11 or 4 respectively.
+The shared mapper remains explicit, so a multi-status policy stays named once rather than being
+hidden in the adapter.
 
 For a single-failure endpoint the default success mapper saves the success branch as well; the
 compiled examples in
@@ -121,8 +123,11 @@ The executable consumer
 [Program.cs](../examples/FunnySharp.AspNetCore.Examples/Program.cs) starts Kestrel on an ephemeral
 loopback port under `--verify` and issues real HTTP requests for the success and failure paths.
 It checks the returned bodies, the 400 accumulated validation errors, the caller-selected 422
-status, the 204 no-content response, and the composed effect's `RequestAborted` path. The command
-prints `FunnySharp ASP.NET Core example endpoints mapped.` only after those checks pass.
+status, the 204 no-content response, and the effect-composed route's 200 and 404 responses.
+Cancellation is covered by `TypedAsyncMappingPropagatesCancellationAndFaultsWithoutConvertingThem`
+and the existing `ClientDisconnectCancelsRequestAbortedAndForwardsItsExactTokenToEffect`, not by
+this example. The command prints `FunnySharp ASP.NET Core example endpoints mapped.` only after
+those checks pass.
 
 ## Endpoint Metadata
 
@@ -190,6 +195,11 @@ fault behavior as the existing mapping helpers:
   `ProblemDetails` body write `application/json`. A `problem+json` response with a dynamic status
   requires `ProblemHttpResult` plus caller-declared `.Produces*` metadata, or another caller-owned
   typed result.
+- **Mapper return type:** the union type argument is the mapper's static return type. A mapper
+  declared as `IResult` (for example `Results.NotFound(...)` or a legacy `static IResult` helper)
+  produces `Results<..., IResult>`; that branch still runs but contributes no response
+  declaration. Select `TypedResults.*` or a status-specific typed result when the declaration
+  matters.
 - **Trimming and Native AOT:** the integration assembly is marked trimmable, but this goal did not
   run trimming or Native AOT. Typed-result metadata and serialization remain framework and
   application responsibilities; the passing narrow consumer does not establish AOT behavior.
@@ -227,7 +237,8 @@ dotnet fsi build.fsx -- -p verify-api-baseline
 
 Observed results:
 
-- ASP.NET Core test project: 50 passed, 0 failed, 0 skipped.
+- ASP.NET Core test project: 51 passed, 0 failed, 0 skipped. The run post-dates the
+  simplification and the restored metadata/failure-path coverage.
 - Example verification: `FunnySharp ASP.NET Core example endpoints mapped.`
 - Documentation snippets: 60 snippets across 11 primary guides.
 - API baseline: the typed surface is recorded in

@@ -33,7 +33,7 @@ public static class TypedHttpResultExtensions
         where TNone : IResult
     {
         ArgumentNullException.ThrowIfNull(none);
-        return ToHttpResultsCore(option, none);
+        return ToHttpResultsCore(option, none, static value => TypedResults.Ok(value));
     }
 
     /// <summary>
@@ -71,7 +71,7 @@ public static class TypedHttpResultExtensions
     /// <param name="failure">Maps failure to a caller-selected typed result.</param>
     /// <returns>A typed result union containing the success and failure result types.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="failure"/> is null.</exception>
-    /// <exception cref="InvalidOperationException">The selected mapper returns null.</exception>
+    /// <exception cref="InvalidOperationException">The selected mapper returns null, or the outcome is uninitialized.</exception>
     /// <remarks>Only the selected outcome mapper runs; mapper exceptions propagate unchanged.</remarks>
     public static Results<Ok<TValue>, TFailure> ToHttpResults<TValue, TError, TFailure>(
         this Result<TValue, TError> result,
@@ -79,7 +79,7 @@ public static class TypedHttpResultExtensions
         where TFailure : IResult
     {
         ArgumentNullException.ThrowIfNull(failure);
-        return ToHttpResultsCore(result, failure);
+        return ToHttpResultsCore(result, failure, static value => TypedResults.Ok(value));
     }
 
     /// <summary>
@@ -94,7 +94,7 @@ public static class TypedHttpResultExtensions
     /// <param name="success">Maps a successful value to a caller-selected typed result.</param>
     /// <returns>A typed result union containing the selected result types.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="failure"/> or <paramref name="success"/> is null.</exception>
-    /// <exception cref="InvalidOperationException">The selected mapper returns null.</exception>
+    /// <exception cref="InvalidOperationException">The selected mapper returns null, or the outcome is uninitialized.</exception>
     /// <remarks>Only the selected outcome mapper runs; mapper exceptions propagate unchanged.</remarks>
     public static Results<TSuccess, TFailure> ToHttpResults<TValue, TError, TSuccess, TFailure>(
         this Result<TValue, TError> result,
@@ -118,7 +118,7 @@ public static class TypedHttpResultExtensions
     /// <param name="invalid">Maps the complete ordered error list to a caller-selected typed result.</param>
     /// <returns>A typed result union containing the valid and invalid result types.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="invalid"/> is null.</exception>
-    /// <exception cref="InvalidOperationException">The selected mapper returns null.</exception>
+    /// <exception cref="InvalidOperationException">The selected mapper returns null, or the outcome is uninitialized.</exception>
     /// <remarks>Only the selected outcome mapper runs; mapper exceptions propagate unchanged.</remarks>
     public static Results<Ok<TValue>, TInvalid> ToHttpResults<TValue, TError, TInvalid>(
         this Validation<TValue, TError> validation,
@@ -126,7 +126,7 @@ public static class TypedHttpResultExtensions
         where TInvalid : IResult
     {
         ArgumentNullException.ThrowIfNull(invalid);
-        return ToHttpResultsCore(validation, invalid);
+        return ToHttpResultsCore(validation, invalid, static value => TypedResults.Ok(value));
     }
 
     /// <summary>
@@ -141,7 +141,7 @@ public static class TypedHttpResultExtensions
     /// <param name="valid">Maps a valid value to a caller-selected typed result.</param>
     /// <returns>A typed result union containing the selected result types.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="invalid"/> or <paramref name="valid"/> is null.</exception>
-    /// <exception cref="InvalidOperationException">The selected mapper returns null.</exception>
+    /// <exception cref="InvalidOperationException">The selected mapper returns null, or the outcome is uninitialized.</exception>
     /// <remarks>Only the selected outcome mapper runs; mapper exceptions propagate unchanged.</remarks>
     public static Results<TValid, TInvalid> ToHttpResults<TValue, TError, TValid, TInvalid>(
         this Validation<TValue, TError> validation,
@@ -164,7 +164,7 @@ public static class TypedHttpResultExtensions
     /// <param name="failure">Maps failure to a caller-selected typed result.</param>
     /// <returns>A typed result union containing the success and failure result types.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="failure"/> is null.</exception>
-    /// <exception cref="InvalidOperationException">The selected mapper returns null.</exception>
+    /// <exception cref="InvalidOperationException">The selected mapper returns null, or the outcome is uninitialized.</exception>
     /// <remarks>Only the selected outcome mapper runs; mapper exceptions propagate unchanged.</remarks>
     public static Results<NoContent, TFailure> ToHttpResults<TError, TFailure>(
         this UnitResult<TError> result,
@@ -172,7 +172,7 @@ public static class TypedHttpResultExtensions
         where TFailure : IResult
     {
         ArgumentNullException.ThrowIfNull(failure);
-        return ToHttpResultsCore(result, failure);
+        return ToHttpResultsCore(result, failure, static () => TypedResults.NoContent());
     }
 
     /// <summary>
@@ -186,7 +186,7 @@ public static class TypedHttpResultExtensions
     /// <param name="success">Maps success to a caller-selected typed result.</param>
     /// <returns>A typed result union containing the selected result types.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="failure"/> or <paramref name="success"/> is null.</exception>
-    /// <exception cref="InvalidOperationException">The selected mapper returns null.</exception>
+    /// <exception cref="InvalidOperationException">The selected mapper returns null, or the outcome is uninitialized.</exception>
     /// <remarks>Only the selected outcome mapper runs; mapper exceptions propagate unchanged.</remarks>
     public static Results<TSuccess, TFailure> ToHttpResults<TError, TSuccess, TFailure>(
         this UnitResult<TError> result,
@@ -221,7 +221,7 @@ public static class TypedHttpResultExtensions
     {
         ArgumentNullException.ThrowIfNull(option);
         ArgumentNullException.ThrowIfNull(none);
-        return ToHttpResultsAsyncCore(option, none);
+        return ToHttpResultsAsyncCore(option, none, static value => TypedResults.Ok(value));
     }
 
     /// <summary>
@@ -263,7 +263,7 @@ public static class TypedHttpResultExtensions
     /// <param name="failure">Maps failure to a caller-selected typed result.</param>
     /// <returns>A task that produces the typed result union.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="result"/> or <paramref name="failure"/> is null.</exception>
-    /// <exception cref="InvalidOperationException">The selected mapper returns null.</exception>
+    /// <exception cref="InvalidOperationException">The selected mapper returns null, or the outcome is uninitialized.</exception>
     /// <remarks>
     /// The input is awaited once; faults and cancellation propagate unchanged, and only the selected
     /// outcome mapper runs.
@@ -275,7 +275,7 @@ public static class TypedHttpResultExtensions
     {
         ArgumentNullException.ThrowIfNull(result);
         ArgumentNullException.ThrowIfNull(failure);
-        return ToHttpResultsAsyncCore(result, failure);
+        return ToHttpResultsAsyncCore(result, failure, static value => TypedResults.Ok(value));
     }
 
     /// <summary>
@@ -290,7 +290,7 @@ public static class TypedHttpResultExtensions
     /// <param name="success">Maps a successful value to a caller-selected typed result.</param>
     /// <returns>A task that produces the typed result union.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="result"/>, <paramref name="failure"/>, or <paramref name="success"/> is null.</exception>
-    /// <exception cref="InvalidOperationException">The selected mapper returns null.</exception>
+    /// <exception cref="InvalidOperationException">The selected mapper returns null, or the outcome is uninitialized.</exception>
     /// <remarks>
     /// The input is awaited once; faults and cancellation propagate unchanged, and only the selected
     /// outcome mapper runs.
@@ -318,7 +318,7 @@ public static class TypedHttpResultExtensions
     /// <param name="invalid">Maps the complete ordered error list to a caller-selected typed result.</param>
     /// <returns>A task that produces the typed result union.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="validation"/> or <paramref name="invalid"/> is null.</exception>
-    /// <exception cref="InvalidOperationException">The selected mapper returns null.</exception>
+    /// <exception cref="InvalidOperationException">The selected mapper returns null, or the outcome is uninitialized.</exception>
     /// <remarks>
     /// The input is awaited once; faults and cancellation propagate unchanged, and only the selected
     /// outcome mapper runs.
@@ -330,7 +330,7 @@ public static class TypedHttpResultExtensions
     {
         ArgumentNullException.ThrowIfNull(validation);
         ArgumentNullException.ThrowIfNull(invalid);
-        return ToHttpResultsAsyncCore(validation, invalid);
+        return ToHttpResultsAsyncCore(validation, invalid, static value => TypedResults.Ok(value));
     }
 
     /// <summary>
@@ -345,7 +345,7 @@ public static class TypedHttpResultExtensions
     /// <param name="valid">Maps a valid value to a caller-selected typed result.</param>
     /// <returns>A task that produces the typed result union.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="validation"/>, <paramref name="invalid"/>, or <paramref name="valid"/> is null.</exception>
-    /// <exception cref="InvalidOperationException">The selected mapper returns null.</exception>
+    /// <exception cref="InvalidOperationException">The selected mapper returns null, or the outcome is uninitialized.</exception>
     /// <remarks>
     /// The input is awaited once; faults and cancellation propagate unchanged, and only the selected
     /// outcome mapper runs.
@@ -372,7 +372,7 @@ public static class TypedHttpResultExtensions
     /// <param name="failure">Maps failure to a caller-selected typed result.</param>
     /// <returns>A task that produces the typed result union.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="result"/> or <paramref name="failure"/> is null.</exception>
-    /// <exception cref="InvalidOperationException">The selected mapper returns null.</exception>
+    /// <exception cref="InvalidOperationException">The selected mapper returns null, or the outcome is uninitialized.</exception>
     /// <remarks>
     /// The input is awaited once; faults and cancellation propagate unchanged, and only the selected
     /// outcome mapper runs.
@@ -384,7 +384,7 @@ public static class TypedHttpResultExtensions
     {
         ArgumentNullException.ThrowIfNull(result);
         ArgumentNullException.ThrowIfNull(failure);
-        return ToHttpResultsAsyncCore(result, failure);
+        return ToHttpResultsAsyncCore(result, failure, static () => TypedResults.NoContent());
     }
 
     /// <summary>
@@ -398,7 +398,7 @@ public static class TypedHttpResultExtensions
     /// <param name="success">Maps success to a caller-selected typed result.</param>
     /// <returns>A task that produces the typed result union.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="result"/>, <paramref name="failure"/>, or <paramref name="success"/> is null.</exception>
-    /// <exception cref="InvalidOperationException">The selected mapper returns null.</exception>
+    /// <exception cref="InvalidOperationException">The selected mapper returns null, or the outcome is uninitialized.</exception>
     /// <remarks>
     /// The input is awaited once; faults and cancellation propagate unchanged, and only the selected
     /// outcome mapper runs.
@@ -436,7 +436,7 @@ public static class TypedHttpResultExtensions
         where TNone : IResult
     {
         ArgumentNullException.ThrowIfNull(none);
-        return ToHttpResultsAsyncCore(option, none);
+        return ToHttpResultsAsyncCore(option, none, static value => TypedResults.Ok(value));
     }
 
     /// <summary>
@@ -477,7 +477,7 @@ public static class TypedHttpResultExtensions
     /// <param name="failure">Maps failure to a caller-selected typed result.</param>
     /// <returns>A value task that produces the typed result union.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="failure"/> is null.</exception>
-    /// <exception cref="InvalidOperationException">The selected mapper returns null.</exception>
+    /// <exception cref="InvalidOperationException">The selected mapper returns null, or the outcome is uninitialized.</exception>
     /// <remarks>
     /// The input is awaited once; faults and cancellation propagate unchanged, and only the selected
     /// outcome mapper runs.
@@ -488,7 +488,7 @@ public static class TypedHttpResultExtensions
         where TFailure : IResult
     {
         ArgumentNullException.ThrowIfNull(failure);
-        return ToHttpResultsAsyncCore(result, failure);
+        return ToHttpResultsAsyncCore(result, failure, static value => TypedResults.Ok(value));
     }
 
     /// <summary>
@@ -503,7 +503,7 @@ public static class TypedHttpResultExtensions
     /// <param name="success">Maps a successful value to a caller-selected typed result.</param>
     /// <returns>A value task that produces the typed result union.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="failure"/> or <paramref name="success"/> is null.</exception>
-    /// <exception cref="InvalidOperationException">The selected mapper returns null.</exception>
+    /// <exception cref="InvalidOperationException">The selected mapper returns null, or the outcome is uninitialized.</exception>
     /// <remarks>
     /// The input is awaited once; faults and cancellation propagate unchanged, and only the selected
     /// outcome mapper runs.
@@ -530,7 +530,7 @@ public static class TypedHttpResultExtensions
     /// <param name="invalid">Maps the complete ordered error list to a caller-selected typed result.</param>
     /// <returns>A value task that produces the typed result union.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="invalid"/> is null.</exception>
-    /// <exception cref="InvalidOperationException">The selected mapper returns null.</exception>
+    /// <exception cref="InvalidOperationException">The selected mapper returns null, or the outcome is uninitialized.</exception>
     /// <remarks>
     /// The input is awaited once; faults and cancellation propagate unchanged, and only the selected
     /// outcome mapper runs.
@@ -541,7 +541,7 @@ public static class TypedHttpResultExtensions
         where TInvalid : IResult
     {
         ArgumentNullException.ThrowIfNull(invalid);
-        return ToHttpResultsAsyncCore(validation, invalid);
+        return ToHttpResultsAsyncCore(validation, invalid, static value => TypedResults.Ok(value));
     }
 
     /// <summary>
@@ -556,7 +556,7 @@ public static class TypedHttpResultExtensions
     /// <param name="valid">Maps a valid value to a caller-selected typed result.</param>
     /// <returns>A value task that produces the typed result union.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="invalid"/> or <paramref name="valid"/> is null.</exception>
-    /// <exception cref="InvalidOperationException">The selected mapper returns null.</exception>
+    /// <exception cref="InvalidOperationException">The selected mapper returns null, or the outcome is uninitialized.</exception>
     /// <remarks>
     /// The input is awaited once; faults and cancellation propagate unchanged, and only the selected
     /// outcome mapper runs.
@@ -582,7 +582,7 @@ public static class TypedHttpResultExtensions
     /// <param name="failure">Maps failure to a caller-selected typed result.</param>
     /// <returns>A value task that produces the typed result union.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="failure"/> is null.</exception>
-    /// <exception cref="InvalidOperationException">The selected mapper returns null.</exception>
+    /// <exception cref="InvalidOperationException">The selected mapper returns null, or the outcome is uninitialized.</exception>
     /// <remarks>
     /// The input is awaited once; faults and cancellation propagate unchanged, and only the selected
     /// outcome mapper runs.
@@ -593,7 +593,7 @@ public static class TypedHttpResultExtensions
         where TFailure : IResult
     {
         ArgumentNullException.ThrowIfNull(failure);
-        return ToHttpResultsAsyncCore(result, failure);
+        return ToHttpResultsAsyncCore(result, failure, static () => TypedResults.NoContent());
     }
 
     /// <summary>
@@ -607,7 +607,7 @@ public static class TypedHttpResultExtensions
     /// <param name="success">Maps success to a caller-selected typed result.</param>
     /// <returns>A value task that produces the typed result union.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="failure"/> or <paramref name="success"/> is null.</exception>
-    /// <exception cref="InvalidOperationException">The selected mapper returns null.</exception>
+    /// <exception cref="InvalidOperationException">The selected mapper returns null, or the outcome is uninitialized.</exception>
     /// <remarks>
     /// The input is awaited once; faults and cancellation propagate unchanged, and only the selected
     /// outcome mapper runs.
@@ -624,19 +624,6 @@ public static class TypedHttpResultExtensions
         return ToHttpResultsAsyncCore(result, failure, success);
     }
 
-    private static Results<Ok<T>, TNone> ToHttpResultsCore<T, TNone>(
-        Option<T> option,
-        Func<TNone> none)
-        where TNone : IResult
-    {
-        if (option.TryGetValue(out var value))
-        {
-            return TypedResults.Ok(value!);
-        }
-
-        return RequireResult(none());
-    }
-
     private static Results<TSome, TNone> ToHttpResultsCore<T, TSome, TNone>(
         Option<T> option,
         Func<TNone> none,
@@ -650,20 +637,6 @@ public static class TypedHttpResultExtensions
         }
 
         return RequireResult(none());
-    }
-
-    private static Results<Ok<TValue>, TFailure> ToHttpResultsCore<TValue, TError, TFailure>(
-        Result<TValue, TError> result,
-        Func<TError, TFailure> failure)
-        where TFailure : IResult
-    {
-        if (result.TryGetValue(out var value))
-        {
-            return TypedResults.Ok(value!);
-        }
-
-        _ = result.TryGetError(out var error);
-        return RequireResult(failure(error!));
     }
 
     private static Results<TSuccess, TFailure> ToHttpResultsCore<TValue, TError, TSuccess, TFailure>(
@@ -682,20 +655,6 @@ public static class TypedHttpResultExtensions
         return RequireResult(failure(error!));
     }
 
-    private static Results<Ok<TValue>, TInvalid> ToHttpResultsCore<TValue, TError, TInvalid>(
-        Validation<TValue, TError> validation,
-        Func<IReadOnlyList<TError>, TInvalid> invalid)
-        where TInvalid : IResult
-    {
-        if (validation.TryGetValue(out var value))
-        {
-            return TypedResults.Ok(value!);
-        }
-
-        _ = validation.TryGetErrors(out var errors);
-        return RequireResult(invalid(errors!));
-    }
-
     private static Results<TValid, TInvalid> ToHttpResultsCore<TValue, TError, TValid, TInvalid>(
         Validation<TValue, TError> validation,
         Func<IReadOnlyList<TError>, TInvalid> invalid,
@@ -710,19 +669,6 @@ public static class TypedHttpResultExtensions
 
         _ = validation.TryGetErrors(out var errors);
         return RequireResult(invalid(errors!));
-    }
-
-    private static Results<NoContent, TFailure> ToHttpResultsCore<TError, TFailure>(
-        UnitResult<TError> result,
-        Func<TError, TFailure> failure)
-        where TFailure : IResult
-    {
-        if (result.TryGetError(out var error))
-        {
-            return RequireResult(failure(error!));
-        }
-
-        return TypedResults.NoContent();
     }
 
     private static Results<TSuccess, TFailure> ToHttpResultsCore<TError, TSuccess, TFailure>(
@@ -740,12 +686,6 @@ public static class TypedHttpResultExtensions
         return RequireResult(success());
     }
 
-    private static async Task<Results<Ok<T>, TNone>> ToHttpResultsAsyncCore<T, TNone>(
-        Task<Option<T>> option,
-        Func<TNone> none)
-        where TNone : IResult =>
-        ToHttpResultsCore(await option.ConfigureAwait(false), none);
-
     private static async Task<Results<TSome, TNone>> ToHttpResultsAsyncCore<T, TSome, TNone>(
         Task<Option<T>> option,
         Func<TNone> none,
@@ -753,12 +693,6 @@ public static class TypedHttpResultExtensions
         where TSome : IResult
         where TNone : IResult =>
         ToHttpResultsCore(await option.ConfigureAwait(false), none, some);
-
-    private static async Task<Results<Ok<TValue>, TFailure>> ToHttpResultsAsyncCore<TValue, TError, TFailure>(
-        Task<Result<TValue, TError>> result,
-        Func<TError, TFailure> failure)
-        where TFailure : IResult =>
-        ToHttpResultsCore(await result.ConfigureAwait(false), failure);
 
     private static async Task<Results<TSuccess, TFailure>> ToHttpResultsAsyncCore<TValue, TError, TSuccess, TFailure>(
         Task<Result<TValue, TError>> result,
@@ -768,12 +702,6 @@ public static class TypedHttpResultExtensions
         where TFailure : IResult =>
         ToHttpResultsCore(await result.ConfigureAwait(false), failure, success);
 
-    private static async Task<Results<Ok<TValue>, TInvalid>> ToHttpResultsAsyncCore<TValue, TError, TInvalid>(
-        Task<Validation<TValue, TError>> validation,
-        Func<IReadOnlyList<TError>, TInvalid> invalid)
-        where TInvalid : IResult =>
-        ToHttpResultsCore(await validation.ConfigureAwait(false), invalid);
-
     private static async Task<Results<TValid, TInvalid>> ToHttpResultsAsyncCore<TValue, TError, TValid, TInvalid>(
         Task<Validation<TValue, TError>> validation,
         Func<IReadOnlyList<TError>, TInvalid> invalid,
@@ -781,12 +709,6 @@ public static class TypedHttpResultExtensions
         where TValid : IResult
         where TInvalid : IResult =>
         ToHttpResultsCore(await validation.ConfigureAwait(false), invalid, valid);
-
-    private static async Task<Results<NoContent, TFailure>> ToHttpResultsAsyncCore<TError, TFailure>(
-        Task<UnitResult<TError>> result,
-        Func<TError, TFailure> failure)
-        where TFailure : IResult =>
-        ToHttpResultsCore(await result.ConfigureAwait(false), failure);
 
     private static async Task<Results<TSuccess, TFailure>> ToHttpResultsAsyncCore<TError, TSuccess, TFailure>(
         Task<UnitResult<TError>> result,
@@ -796,12 +718,6 @@ public static class TypedHttpResultExtensions
         where TFailure : IResult =>
         ToHttpResultsCore(await result.ConfigureAwait(false), failure, success);
 
-    private static async ValueTask<Results<Ok<T>, TNone>> ToHttpResultsAsyncCore<T, TNone>(
-        ValueTask<Option<T>> option,
-        Func<TNone> none)
-        where TNone : IResult =>
-        ToHttpResultsCore(await option.ConfigureAwait(false), none);
-
     private static async ValueTask<Results<TSome, TNone>> ToHttpResultsAsyncCore<T, TSome, TNone>(
         ValueTask<Option<T>> option,
         Func<TNone> none,
@@ -809,12 +725,6 @@ public static class TypedHttpResultExtensions
         where TSome : IResult
         where TNone : IResult =>
         ToHttpResultsCore(await option.ConfigureAwait(false), none, some);
-
-    private static async ValueTask<Results<Ok<TValue>, TFailure>> ToHttpResultsAsyncCore<TValue, TError, TFailure>(
-        ValueTask<Result<TValue, TError>> result,
-        Func<TError, TFailure> failure)
-        where TFailure : IResult =>
-        ToHttpResultsCore(await result.ConfigureAwait(false), failure);
 
     private static async ValueTask<Results<TSuccess, TFailure>> ToHttpResultsAsyncCore<TValue, TError, TSuccess, TFailure>(
         ValueTask<Result<TValue, TError>> result,
@@ -824,12 +734,6 @@ public static class TypedHttpResultExtensions
         where TFailure : IResult =>
         ToHttpResultsCore(await result.ConfigureAwait(false), failure, success);
 
-    private static async ValueTask<Results<Ok<TValue>, TInvalid>> ToHttpResultsAsyncCore<TValue, TError, TInvalid>(
-        ValueTask<Validation<TValue, TError>> validation,
-        Func<IReadOnlyList<TError>, TInvalid> invalid)
-        where TInvalid : IResult =>
-        ToHttpResultsCore(await validation.ConfigureAwait(false), invalid);
-
     private static async ValueTask<Results<TValid, TInvalid>> ToHttpResultsAsyncCore<TValue, TError, TValid, TInvalid>(
         ValueTask<Validation<TValue, TError>> validation,
         Func<IReadOnlyList<TError>, TInvalid> invalid,
@@ -837,12 +741,6 @@ public static class TypedHttpResultExtensions
         where TValid : IResult
         where TInvalid : IResult =>
         ToHttpResultsCore(await validation.ConfigureAwait(false), invalid, valid);
-
-    private static async ValueTask<Results<NoContent, TFailure>> ToHttpResultsAsyncCore<TError, TFailure>(
-        ValueTask<UnitResult<TError>> result,
-        Func<TError, TFailure> failure)
-        where TFailure : IResult =>
-        ToHttpResultsCore(await result.ConfigureAwait(false), failure);
 
     private static async ValueTask<Results<TSuccess, TFailure>> ToHttpResultsAsyncCore<TError, TSuccess, TFailure>(
         ValueTask<UnitResult<TError>> result,

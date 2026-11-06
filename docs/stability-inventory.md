@@ -57,11 +57,12 @@ its stability-inventory test.
 
 Deferred capabilities stay absent from the stable surface: a general retry/backoff layer
 (G8), `Memoize`/async-buffer carriers and k-way async merge, completion-order coordination
-beyond the recorded constrained form, typed-results/OpenAPI APIs (Goal 22 documents
-`.Produces*` instead), System.Text.Json converters, schema/introspection on `Decoder<T>` itself, `Either` as a non-error carrier, Option
+beyond the recorded constrained form, library-synthesized response declarations from runtime
+`ProblemDetails.Status`, System.Text.Json converters, schema/introspection on `Decoder<T>` itself, `Either` as a non-error carrier, Option
 comparers/ordering, awaitable `Option<Task<T>>` sugar, and `net11.0` targeting. A public
-`Unit` type is rejected, not deferred (G17). The absence of these names from the public
-surface is enforced by `AdvancedPatternCurationTests`.
+`Unit` type is rejected, not deferred (G17). The absence of these named carriers and operators
+from the public surface is enforced by `AdvancedPatternCurationTests`; caller-selected
+typed-result mapping is present by design.
 
 ## Experimental surface
 

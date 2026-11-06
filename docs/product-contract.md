@@ -292,7 +292,8 @@ analysis, and compile-verified call sites are in [`next-stage/`](next-stage/).
   layer or general union API is added.
 - Deferred capabilities stay absent from the stable surface: a general retry/backoff layer,
   `Memoize`/async-buffer carriers, k-way async merge, completion-order operators beyond the
-  recorded constrained form, typed-results/OpenAPI APIs, System.Text.Json converters,
+  recorded constrained form, library-synthesized response declarations from runtime
+  `ProblemDetails.Status`, System.Text.Json converters,
   schema/introspection on `Decoder<T>` itself,
   `Either` as a non-error carrier, Option comparers/ordering, awaitable
   `Option<Task<T>>` sugar, and `net11.0` targeting. The non-empty guarantee
