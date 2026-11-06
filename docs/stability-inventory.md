@@ -52,16 +52,17 @@ its stability-inventory test.
 | Partial updates | `Patch`, `PatchChange<T>`, `PatchChangeKind`, `PatchField<T>`, `PatchField<T,TValue>`, `PatchFieldSet<T>`, `PatchFieldDescription`, `Patch<T>`, `PatchEntry`, `PatchConflict`, `PatchApplication<T>`, `PatchSchema<T>` | New stable typed change family; omission, clearing, and replacement stay distinct; validation covers the complete candidate; conflicts are explicit; no persistence, transaction, version, inverse, merge, serializer, or runtime dependency | Goal 28 |
 | Batched reads | `BatchSource<TKey,TValue,TError>`, `BatchSourceEntry<TKey,TValue,TError>`, `BatchSourceEntryKind`, `BatchRequirement<TValue,TError>`, `BatchReadError<TError>`, `BatchReadErrorKind`, `BatchScope`, `BatchScopeOptions` | New stable explicit batched-read family; the source owns the batch operation and equality/partition scope; requirements are typed, deferred, and composable; execution is bounded and scope-local with explicit cache invalidation; no ambient cache, DI, GraphQL, general scheduler, write coalescing, retry, or runtime dependency | Goal 29 |
 | Domain values | `Domain`, `Domain<TValue,TTag>`, `DomainValue<TValue,TTag>` | New stable tagged validated-value family; one underlying `Contract<TValue>` drives validation, decoding, generation, shrinking, description, and patch integration for a compile-time marker; default wrappers are uninitialized and rejected; no outcome carrier, union system, serializer, source generator, persistence, authorization, or concurrency guarantee | Goal 30 |
-| HTTP integration | `HttpResultExtensions` (`FunnySharp.AspNetCore`) | AD-10 keep; G1 `UnitResult` mapping delivered | 0.1.0; Goal 15 |
+| HTTP integration | `HttpResultExtensions`, `TypedHttpResultExtensions` (`FunnySharp.AspNetCore`) | AD-10 keep; G1 `UnitResult` mapping delivered; caller-selected typed result unions delivered | 0.1.0; Goal 15; Goal 31 |
 | Compiler feedback | `FunnySharp.Analyzers`, `FunnySharp.Analyzers.CodeFixes` (shipped inside the `FunnySharp` package under `analyzers/dotnet/cs`, not separate packages) | E126/E127 adopt: in-package zero-install analyzers, all suppressible, ASCII ids, no `NotConfigurable` | Goal 21 |
 
 Deferred capabilities stay absent from the stable surface: a general retry/backoff layer
 (G8), `Memoize`/async-buffer carriers and k-way async merge, completion-order coordination
-beyond the recorded constrained form, typed-results/OpenAPI APIs (Goal 22 documents
-`.Produces*` instead), System.Text.Json converters, schema/introspection on `Decoder<T>` itself, `Either` as a non-error carrier, Option
+beyond the recorded constrained form, library-synthesized response declarations from runtime
+`ProblemDetails.Status`, System.Text.Json converters, schema/introspection on `Decoder<T>` itself, `Either` as a non-error carrier, Option
 comparers/ordering, awaitable `Option<Task<T>>` sugar, and `net11.0` targeting. A public
-`Unit` type is rejected, not deferred (G17). The absence of these names from the public
-surface is enforced by `AdvancedPatternCurationTests`.
+`Unit` type is rejected, not deferred (G17). The absence of these named carriers and operators
+from the public surface is enforced by `AdvancedPatternCurationTests`; caller-selected
+typed-result mapping is present by design.
 
 ## Experimental surface
 

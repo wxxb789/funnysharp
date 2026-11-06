@@ -95,7 +95,7 @@ dotnet fsi build.fsx -- -p format             # formatter gate (C# only; F# is n
 dotnet fsi build.fsx -- -p verify-tooling     # local pre-check
 # release protocol (CI runs this with -SkipBenchmarks)
 dotnet fsi build.fsx -- -p release -SkipBenchmarks
-# docs snippets byte-compare (11 primary guides, 56 snippets)
+# docs snippets byte-compare (11 primary guides, 60 snippets)
 dotnet fsi build.fsx -- -p verify-docs-snippets
 # benchmark + performance verify
 dotnet run --project benchmarks/FunnySharp.Benchmarks -c Release -- --filter '*' --artifacts <dir>

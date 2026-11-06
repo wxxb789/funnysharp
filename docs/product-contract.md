@@ -222,8 +222,10 @@ analysis, and compile-verified call sites are in [`next-stage/`](next-stage/).
   or distributed orchestrator is added.
 - HTTP integration stays a separate package with explicit caller-selected mapping. There is no
   DI registration, middleware, global error policy, or exception handler, and domain code stays
-  HTTP-free. First-party typed-results/OpenAPI APIs are deferred; the vertical slice documents and
-  tests `.Produces*` usage instead.
+  HTTP-free. Caller-selected typed-result mapping returns ASP.NET Core `Results<...>` unions so
+  endpoint metadata and OpenAPI declarations come from the selected typed results. The library
+  does not synthesize response declarations from runtime `ProblemDetails.Status` values; callers
+  declare possible statuses with `.Produces*` or select status-specific typed results.
 - Serialization of carriers is caller policy today. No `System.Text.Json` converter ships until a
   goal fixes the wire contract and verifies trimming and Native AOT behavior; callers use DTOs,
   and `JsonSerializerOptions.Strict` is the recommended executable form of a DTO-only policy. The
@@ -290,7 +292,8 @@ analysis, and compile-verified call sites are in [`next-stage/`](next-stage/).
   layer or general union API is added.
 - Deferred capabilities stay absent from the stable surface: a general retry/backoff layer,
   `Memoize`/async-buffer carriers, k-way async merge, completion-order operators beyond the
-  recorded constrained form, typed-results/OpenAPI APIs, System.Text.Json converters,
+  recorded constrained form, library-synthesized response declarations from runtime
+  `ProblemDetails.Status`, System.Text.Json converters,
   schema/introspection on `Decoder<T>` itself,
   `Either` as a non-error carrier, Option comparers/ordering, awaitable
   `Option<Task<T>>` sugar, and `net11.0` targeting. The non-empty guarantee

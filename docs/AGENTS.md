@@ -11,7 +11,7 @@ Hand-written guides and contracts for the FunnySharp public surface — usage, g
 ```
 docs/
 ├── *.md                 # hand-written guides + contracts (lowercase-hyphen, one topic per file)
-├── goals/               # goal contracts (0031-0042) + immutable archive (0001-0030)
+├── goals/               # goal contracts (0032-0042) + immutable archive (0001-0031)
 ├── next-stage/          # Goal 14 capability-decision evidence set (own AGENTS.md)
 ├── plans/               # ce-unified-plan/v1 design-time plans (own AGENTS.md)
 └── release-evidence/    # historical release-run records — never edited
@@ -33,7 +33,7 @@ docs/
 | Canonical vocabulary and naming rules | `grammar.md` |
 | Product boundaries (authoritative contract) | `product-contract.md` |
 | Analyzer diagnostics FS1001-FS1005 | `analyzers.md` |
-| ASP.NET Core integration | `aspnet-core.md` |
+| ASP.NET Core integration | `aspnet-core.md`, `aspnet-core-evidence.md` |
 | Goal 22 slice comparison and evidence | `vertical-slice-call-sites.md`, `vertical-slice-evidence.md` |
 | Decoder consumer comparison and measurements | `decoder-evidence.md` |
 | Contract consumer comparison, generated-input properties and measurements | `contract-evidence.md` |

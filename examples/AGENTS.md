@@ -13,21 +13,23 @@ and a minimal-API app for the ASP.NET Core bridges. All are in `FunnySharp.slnx`
 | Project | Role | Own file |
 | --- | --- | --- |
 | `FunnySharp.Examples/` | Compiling examples of the public core API, including batched reads; release-protocol step `examples` | `FunnySharp.Examples/AGENTS.md` |
-| `FunnySharp.DocumentationSamples/` | Source of truth for docs code snippets (56 regions) | `FunnySharp.DocumentationSamples/AGENTS.md` |
+| `FunnySharp.DocumentationSamples/` | Source of truth for docs code snippets (60 regions) | `FunnySharp.DocumentationSamples/AGENTS.md` |
 | `FunnySharp.AspNetCore.Examples/` | Minimal-API dogfood app for the ASP.NET Core bridges | covered below |
 
 ## FunnySharp.AspNetCore.Examples (inline)
 
-- `Program.cs` maps 8 minimal-API endpoints exercising every
-  `FunnySharp.AspNetCore` bridge: `Option.ToHttpResult`, `Result`/`UnitResult.ToHttpResult`,
-  `Validation.ToHttpResult` (→ `HttpValidationProblemDetails`), `ToHttpResultAsync`,
-  `Effect.ToHttpResultAsync`, and a `PATCH` endpoint binding `JsonElement` to a
-  `PatchSchema<T>`. Failures map to `ProblemDetails` (404/409/400). The PATCH path maps both
-  `DecodeError` lists through `Validation<...>.ToHttpResult`.
-- `--verify` asserts the PATCH route is mapped, invokes the same handler with accepted, unknown,
-  cross-field-invalid, and missing-schedule bodies, then prints
-  `FunnySharp ASP.NET Core example endpoints mapped.` and exits without running the host — that
-  is the release-protocol step `aspnetcore-examples`.
+- `Program.cs` maps the existing `IResult` bridges (`Option`/`Result`/`UnitResult`/`Validation`,
+  `ToHttpResultAsync`, `Effect.ToHttpResultAsync`, and a `PATCH` endpoint binding `JsonElement`
+  to `PatchSchema<T>`) and typed `ToHttpResults`/`ToHttpResultsAsync` endpoints returning
+  `Results<...>`. Typed failures use status-specific typed results (404/409/422), validation
+  uses `ValidationProblem`/`UnprocessableEntity<HttpValidationProblemDetails>`, and the effect
+  route passes `context.RequestAborted` explicitly.
+- `--verify` starts an ephemeral loopback Kestrel host, checks the PATCH cases, typed endpoint
+  metadata, actual success/failure HTTP responses, and the generated OpenAPI document, then
+  prints `FunnySharp ASP.NET Core example endpoints mapped.` That is the release-protocol step
+  `aspnetcore-examples`.
+- The OpenAPI package is an example-only dependency; the shipping integration package still has
+  only the framework reference and `FunnySharp`.
 - Deviates from ASP.NET defaults: plain `Microsoft.NET.Sdk` + `FrameworkReference
   Microsoft.AspNetCore.App`, NOT `Microsoft.NET.Sdk.Web`.
 
@@ -37,7 +39,7 @@ and a minimal-API app for the ASP.NET Core bridges. All are in `FunnySharp.slnx`
   `PrivateAssets="all"` — every example must build with ZERO FunnySharp analyzer
   diagnostics (dogfooding the shipped analyzer package).
 - Success is an exact stdout marker, not just exit code 0.
-- All three are in `FunnySharp.slnx`; `IsPackable=false`; `TreatWarningsAsErrors` applies.
+- All three are in `FunnySharp.slnx`; `IsPackable=false`; `TreatWarningsAsErrors` applies. The ASP.NET Core example also commits its `packages.lock.json` for the OpenAPI verification package.
 
 ## ANTI-PATTERNS
 

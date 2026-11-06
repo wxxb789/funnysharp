@@ -38,6 +38,7 @@
       "src/FunnySharp.Analyzers/packages.lock.json",
       "src/FunnySharp.AspNetCore/FunnySharp.AspNetCore.csproj",
       "src/FunnySharp.AspNetCore/HttpResultExtensions.cs",
+      "src/FunnySharp.AspNetCore/TypedHttpResultExtensions.cs",
       "src/FunnySharp.AspNetCore/packages.lock.json",
       "src/FunnySharp/AsyncCardinalityExtensions.cs",
       "src/FunnySharp/AsyncEnumerablePipelineExtensions.cs",

@@ -91,7 +91,7 @@ registration.Match(
 - **Typed Partial Updates**: `Patch<T>`/`PatchChange<T>`/`PatchSchema<T>` distinguish unchanged, cleared, and replaced fields, validate the complete candidate with a reused `Contract<T>`, report conflicting combines, and apply through callers' lenses.
 - **Composable Batched Reads**: `BatchSource<TKey,TValue,TError>` supplies the only batching claim, `BatchRequirement<TValue,TError>` composes typed independent and dependent reads, and `BatchScope` groups/deduplicates keys under explicit batch, admission, cache, cancellation, and disposal bounds.
 - **Tagged Domain Values**: `DomainValue<TValue,TTag>`/`Domain<TValue,TTag>` keep confusable identifiers distinct, validate construction, and derive contract/decoder behavior from one rule set; explicit state types and typed module-error records stay ordinary C#.
-- **ASP.NET Core Minimal APIs**: Maps carriers and effects to caller-selected `IResult` and RFC 7807/9457 `ProblemDetails` via `FunnySharp.AspNetCore`.
+- **ASP.NET Core Minimal APIs**: Maps carriers and effects to caller-selected `IResult`, typed `Results<...>` unions, and RFC 7807/9457 `ProblemDetails` via `FunnySharp.AspNetCore`, preserving endpoint and OpenAPI metadata.
 
 ## Documentation & Examples
 
@@ -106,6 +106,7 @@ Start with [Core Design](docs/core-design.md) for the project's design direction
 | [Versioning Policy](https://github.com/wxxb789/funnysharp/blob/main/docs/versioning.md) | [Function Composition](https://github.com/wxxb789/funnysharp/blob/main/docs/function-composition.md) | [Immutable Updates](https://github.com/wxxb789/funnysharp/blob/main/docs/immutable-updates.md) |
 | [Quick Start](https://github.com/wxxb789/funnysharp/blob/main/docs/quick-start.md) | [Roslyn Analyzers](https://github.com/wxxb789/funnysharp/blob/main/docs/analyzers.md) | [ASP.NET Core](https://github.com/wxxb789/funnysharp/blob/main/docs/aspnet-core.md) |
 | [Release Notes](https://github.com/wxxb789/funnysharp/blob/main/docs/release-notes.md) | [Collections & Traversal](https://github.com/wxxb789/funnysharp/blob/main/docs/collections.md) | [Contributor Harness](https://github.com/wxxb789/funnysharp/blob/main/docs/harness.md) |
+| [Typed ASP.NET Outcomes](https://github.com/wxxb789/funnysharp/blob/main/docs/aspnet-core.md) | [Typed Boundary Evidence](https://github.com/wxxb789/funnysharp/blob/main/docs/aspnet-core-evidence.md) | |
 | [Decoding Untrusted Input](https://github.com/wxxb789/funnysharp/blob/main/docs/decoding.md) | [Decoder Evidence](https://github.com/wxxb789/funnysharp/blob/main/docs/decoder-evidence.md) | |
 | [Inspectable Contracts](https://github.com/wxxb789/funnysharp/blob/main/docs/contracts.md) | [Contract Evidence](https://github.com/wxxb789/funnysharp/blob/main/docs/contract-evidence.md) | |
 | [Partial Updates](https://github.com/wxxb789/funnysharp/blob/main/docs/partial-updates.md) | [Partial Update Evidence](https://github.com/wxxb789/funnysharp/blob/main/docs/partial-update-evidence.md) | |

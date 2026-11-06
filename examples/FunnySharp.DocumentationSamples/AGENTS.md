@@ -13,7 +13,7 @@ extracted from this project and byte-compared against `docs/*.md` — edit here,
 | --- | --- |
 | Snippet verifier | `eng/harness/DocsSnippets.fs` via `dotnet fsi build.fsx -- -p verify-docs-snippets` |
 | Sample files | one per guide area: `AnalyzerSamples`, `AspNetCoreSamples`, `CollectionsSamples`, `ConcurrencySamples`, `EffectSamples`, `FunctionCompositionSamples`, `ImmutableUpdateSamples`, `QuickStartSamples`, `StateMachineSamples`, `UnitResultSamples`, `ValidationSamples` |
-| Region markers | `// <snippet DocumentationSamples.<Area>.<Name>>` … `// </snippet>` — 56 regions total; the marker is the consumed interface |
+| Region markers | `// <snippet DocumentationSamples.<Area>.<Name>>` … `// </snippet>` — 60 regions total; the marker is the consumed interface |
 | Docs counterpart | fenced `csharp` blocks tagged `<!-- documentation-sample: ... -->` in the 11 primary guides |
 
 ## CONVENTIONS

@@ -45,7 +45,8 @@ it is not needed outside an ASP.NET Core application.
   [analyzers.md](analyzers.md).
 - **Performance** — per-operation cost policy and allocation budgets. See
   [performance.md](performance.md).
-- **ASP.NET Core** — `ToHttpResult` and `ToHttpResultAsync` mapping for Minimal APIs. See
+- **ASP.NET Core** — `ToHttpResult`/`ToHttpResultAsync` and caller-selected typed
+  `ToHttpResults`/`ToHttpResultsAsync` mapping for Minimal APIs. See
   [aspnet-core.md](aspnet-core.md).
 
 ## Carriers
