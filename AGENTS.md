@@ -15,13 +15,13 @@ Read [Core Design](docs/core-design.md) when shaping a goal or choosing an abstr
 ```
 funnysharp/
 ├── src/                  # 4 projects: core nupkg (zero runtime deps), Roslyn analyzers, code fixes, AspNetCore package
-├── tests/                # xUnit v3 suites + DecoderMeasurements harness + Compatibility (outside FunnySharp.slnx) + FunnySharp.Harness.Tests (F#)
+├── tests/                # xUnit v3 suites + measurement harnesses + Compatibility (outside FunnySharp.slnx) + FunnySharp.Harness.Tests (F#)
 ├── eng/                  # F# harness: root build.fsx + harness/*.fs implement every gate; release-protocol.json; evaluation/ harness
 ├── docs/                 # product contract, grammar, per-carrier guides; next-stage/ = Goal 14 evidence-set workflow; goals/ frozen contracts
 ├── benchmarks/           # BenchmarkDotNet suites; isolated GreenDonut comparison; JSON receipts bound to eng/performance manifests
 ├── examples/             # executable examples + DocumentationSamples (byte-exact docs snippet contract)
 ├── .github/workflows/    # release.yml (manual release gate) + tooling.yml (3-OS PR merge gate)
-└── FunnySharp.slnx       # 18 projects; excludes tests/FunnySharp.Compatibility
+└── FunnySharp.slnx       # 19 projects; excludes tests/FunnySharp.Compatibility
 ```
 
 ## WHERE TO LOOK
@@ -29,6 +29,7 @@ funnysharp/
 | Task | Location | Notes |
 |------|----------|-------|
 | Carrier APIs (Option/Result/UnitResult/Validation/Effect) | `src/FunnySharp/` | one public type-family per file |
+| Reusable checks | `src/FunnySharp/CheckExtensions.cs`, `docs/checks.md` | value-preserving `Check`; ordered independent `CheckAll`; no `Validation.Bind` |
 | Batched reads (source/requirement/scope) | `src/FunnySharp/Batch*.cs`, `docs/batched-reads.md` | explicit source batch delegates; bounded scope-local cache, no ambient cache |
 | Tagged domain values | `src/FunnySharp/Domain*.cs`, `docs/domain-values.md` | phantom marker, validated boundary, derived contract/decoder; no union/serializer/runtime dependency |
 | Analyzers + code fixes (FS1001-FS1005) | `src/FunnySharp.Analyzers/`, `src/FunnySharp.Analyzers.CodeFixes/` | ship inside core nupkg `analyzers/dotnet/cs` |
@@ -49,6 +50,7 @@ funnysharp/
 | `Result<TValue,TError>` | struct | `src/FunnySharp/Result.cs` | core carrier | success/typed failure, fail-fast |
 | `UnitResult<TError>` | struct | `src/FunnySharp/UnitResult.cs` | core carrier | value-less command outcome |
 | `Validation<TValue,TError>` | struct | `src/FunnySharp/Validation.cs` | core carrier | collects all errors, deterministic order |
+| `CheckExtensions` | static class | `src/FunnySharp/CheckExtensions.cs` | check workflow | fail-fast value retention + independent error accumulation; Task/ValueTask forms |
 | `Effect<T>` / `Effect<TEnvironment,T>` | struct | `src/FunnySharp/Effect.cs` | deferred boundary | composes via ValueTask, no DI runtime |
 | `BatchRequirement<TValue,TError>` / `BatchScope` | sealed classes | `src/FunnySharp/BatchRequirement.cs`, `src/FunnySharp/BatchScope.cs` | typed reads | deferred composition + bounded scope-local batch execution |
 | `HttpResultExtensions` | static class | `src/FunnySharp.AspNetCore/` | ~21 overloads | carriers -> `IResult`/`ProblemDetails` |
@@ -73,6 +75,7 @@ funnysharp/
 - NEVER add `Maybe<T>` (second absence carrier), `Where` on carriers, or AD-6..AD-9 type names - frozen by `AdvancedPatternCurationTests`.
 - NEVER make `src/FunnySharp` depend on ASP.NET Core (goal 0001) or add any runtime dependency.
 - NEVER sync-block on async work (goal 0009); use the `...Async`/ValueTask variants.
+- NEVER add `Bind`/`SelectMany` to `Validation` to share check syntax; dependent rules stay on fail-fast `Check`, `Bind`, or ordinary control flow.
 - NEVER hand-edit machine-generated dirs: `docs/next-stage/inventory/generated/`, `docs/goals/archive/`, `docs/release-evidence/`, `docs/next-stage/call-sites-code/`, `docs/next-stage/review/` (append only).
 - NEVER treat tooling.yml CI as the release gate - only release.yml contexts gate a release.
 - Deliberate-misuse test snippets must wrap in `#pragma warning disable FS100x`; example projects must build with zero FS#### diagnostics.

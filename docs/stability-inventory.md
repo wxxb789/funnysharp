@@ -38,6 +38,7 @@ its stability-inventory test.
 | Fail-fast value outcome | `Result`, `Result<TValue,TError>`, `ResultExtensions` | AD-2 keep; default/uninitialized-state redesign delivered | 0.1.0; Goal 15 |
 | Fail-fast no-value outcome | `UnitResult`, `UnitResult<TError>`, `UnitResultExtensions` | G1 adopt | Goal 15 (fourth carrier), Goals 16–17 (grammar, traversal) |
 | Accumulating validation | `Validation`, `Validation<TValue,TError>`, `ValidationExtensions` | AD-3 keep; default/uninitialized-state redesign delivered | 0.1.0; Goal 15 |
+| Reusable checks | `CheckExtensions` | New stable check family; value-preserving fail-fast `Check` and ordered independent-rule `CheckAll`; no new carrier, `Validation.Bind`, parallel rule execution, retry, caching, or runtime dependency | Goal 32 |
 | Function grammar | `FunctionExtensions` | AD-4 keep; `ComposeValueAsync` rename delivered | 0.1.0; Goal 16 |
 | Pipelines | `EnumerablePipelineExtensions`, `AsyncEnumerablePipelineExtensions`, `SpanPipelineExtensions` | AD-5 keep | 0.1.0 |
 | Sequences and traversal | `SequenceExtensions`, `AsyncSequenceExtensions` (located overloads are experimental, below) | AD-5 keep; G4 narrow `Scan` | 0.1.0; Goal 17 |

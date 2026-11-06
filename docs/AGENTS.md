@@ -1,6 +1,6 @@
 # docs/ — FunnySharp documentation tree
 
-Earned: score ~22 — 31 hand-written guides/contracts plus 4 doc-workflow subtrees. Everything here is hand-written prose except `next-stage/inventory/generated/` (machine dumps).
+Earned: score ~22 — 40 hand-written guides/contracts plus 4 doc-workflow subtrees. Everything here is hand-written prose except `next-stage/inventory/generated/` (machine dumps).
 
 ## OVERVIEW
 
@@ -11,7 +11,7 @@ Hand-written guides and contracts for the FunnySharp public surface — usage, g
 ```
 docs/
 ├── *.md                 # hand-written guides + contracts (lowercase-hyphen, one topic per file)
-├── goals/               # goal contracts (0032-0042) + immutable archive (0001-0031)
+├── goals/               # goal contracts (0033-0042) + immutable archive (0001-0032)
 ├── next-stage/          # Goal 14 capability-decision evidence set (own AGENTS.md)
 ├── plans/               # ce-unified-plan/v1 design-time plans (own AGENTS.md)
 └── release-evidence/    # historical release-run records — never edited
@@ -23,11 +23,13 @@ docs/
 |------|----------|
 | Design intent and abstraction judgment | `core-design.md` (blueprint; current behavior remains in the product contract and grammar) |
 | Feature usage: Option / Result / UnitResult / Validation | `option.md`, `result.md`, `unit-result.md`, `validation.md` |
+| Feature usage: reusable value-preserving and accumulating checks | `checks.md` |
 | Feature usage: decoding untrusted JSON | `decoding.md` |
 | Feature usage: inspectable constraints, schema, generated inputs, shrinking | `contracts.md` |
 | Feature usage: typed, validated partial updates | `partial-updates.md`, `partial-update-evidence.md` |
 | Feature usage: explicit batched reads | `batched-reads.md`, `batch-evidence.md` |
 | Feature usage: tagged domain values, explicit state, typed errors | `domain-values.md`, `domain-value-evidence.md` |
+| Check consumer comparison and measurements | `check-evidence.md` |
 | Feature usage: collections / concurrency / effects / pipelines | `collections.md`, `concurrency.md`, `effects.md`, `data-pipelines.md` |
 | Function grammar, state machines, immutable updates | `function-composition.md`, `state-machines.md`, `immutable-updates.md` |
 | Canonical vocabulary and naming rules | `grammar.md` |
@@ -62,6 +64,7 @@ docs/
 - NEVER hand-edit `next-stage/inventory/generated/` (machine dumps), anything under `goals/archive/`, or `release-evidence/` (immutable/historical).
 - No guide ships code that does not compile — examples are built and dogfooded against the shipped analyzers.
 - Do not introduce a second carrier name or a verb meaning that contradicts `product-contract.md` / `grammar.md`; those two files are the authority.
+- Do not add `Bind`/`SelectMany` to `Validation` to share check syntax. Dependent rules belong to fail-fast `Check`, `Bind`, or ordinary control flow; `CheckAll` is only for independent rules over one original value.
 
 ## COMMANDS
 

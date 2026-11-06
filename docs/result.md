@@ -36,6 +36,13 @@ composition. There is no `Where` alias because a Boolean predicate cannot create
 The generic `Pipe` extension already accepts Result-returning standard delegates, so no
 Result-specific pipeline or delegate hierarchy is required.
 
+`Check` runs a caller-supplied fallible no-value operation against a success and retains the exact
+successful value; it is not a predicate guard or a value-changing binder. `CheckAll` applies an
+ordered set of independent no-value checks to the same value and returns a `Validation` containing
+that value or every error in rule order. Both operations have Task- and ValueTask-returning forms
+with explicit cancellation overloads. See [Reusable checks](checks.md) for their empty-rule,
+already-failed, callback, ordering, and asynchronous semantics.
+
 ## Option Interop
 
 `Option<T>.ToResult(error)` and `Option<T>.ToResult(errorFactory)` convert presence to success and

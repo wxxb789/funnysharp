@@ -7,7 +7,7 @@ signature and its contract.
 
 This file is the authoritative verb reference. The per-feature guides
 ([option.md](option.md), [result.md](result.md), [unit-result.md](unit-result.md),
-[validation.md](validation.md), [decoding.md](decoding.md), [function-composition.md](function-composition.md),
+[validation.md](validation.md), [checks.md](checks.md), [decoding.md](decoding.md), [function-composition.md](function-composition.md),
 [data-pipelines.md](data-pipelines.md), [effects.md](effects.md),
 [concurrency.md](concurrency.md), [immutable-updates.md](immutable-updates.md),
 [state-machines.md](state-machines.md), and [aspnet-core.md](aspnet-core.md)) carry the detailed
@@ -139,6 +139,8 @@ verbs are listed below.
 | `MapErrors` | Transforms every accumulated error while preserving a valid value. | `Validation` | Same carrier | — | Selector invoked once per error in order; skipped for a valid value. |
 | `Filter` | Keeps a present value only when a predicate accepts it. | `Option` | `Option<T>` | — | Predicate skipped for `None`; a `Some` whose predicate fails becomes `None`. |
 | `Ensure` | Keeps a success only when a predicate accepts it, otherwise returns the supplied failure. | `Result`, `UnitResult`, `Decoder<T>`, `Contract<T>` | Same carrier/contract; `Decoder<T>` | — | Predicate skipped after failure; an overload takes a lazy error factory; a `Decoder` rejection is one `InvalidValue` error at the decoder's location; a `Contract` rejection adds one `InvalidValue` error and makes generation unavailable until a generator is supplied. |
+| `Check` | Runs a fallible no-value check against a success value and retains that exact value. | `Result` | Same `Result<TValue, TError>` | `CheckAsync`, `CheckValueAsync` | Delegate guarded at entry; skipped after failure; the check result supplies only the failure; no value factory or reconstruction; distinct from `Ensure` (predicate) and `Bind` (value-changing). |
+| `CheckAll` | Runs an ordered set of independent no-value checks against one active value and accumulates every error. | `Result`, `Validation` | `Validation<TValue, TError>` | `CheckAllAsync`, `CheckAllValueAsync` | Rules snapshotted once; every rule runs after a typed failure; inactive input skips enumeration and callbacks; empty rules retain the value; errors in rule order; dependent rules use `Check`/`Bind`, and no `Validation.Bind` is added. |
 | `Validate` | Applies an accumulating domain validation to a successfully decoded value, checks an existing value against a contract, or checks a complete patch candidate against a contract. | `Decoder<T>`, `Contract<T>`, `PatchSchema<T>` | `Decoder<T>` for decoder composition; `Validation<T, DecodeError>` for a contract check; `Validation<PatchApplication<T>, DecodeError>` for a patch | — | On a decoder: callback skipped after failure; every returned message becomes an ordered `InvalidValue` error at the decoder's location; callback exceptions propagate. On a contract: a runtime-null reference value is a `Null` error; object fields and collection elements accumulate in declaration/source order; refinement callbacks contribute messages only. A patch schema validates the applied candidate, so unchanged fields and cross-field rules participate. |
 
 ### Fallback And Recovery

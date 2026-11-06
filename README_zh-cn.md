@@ -87,6 +87,7 @@ registration.Match(
 - **强类型部分更新**：`Patch<T>`/`PatchChange<T>`/`PatchSchema<T>` 区分未提供、显式清除与替换字段，复用 `Contract<T>` 校验完整候选状态，报告合并冲突，并通过调用方提供的 Lens 应用变更。
 - **可组合批量读取**：`BatchSource<TKey,TValue,TError>` 显式声明批量数据源，`BatchRequirement<TValue,TError>` 组合独立与依赖读取，`BatchScope` 在明确的批次、准入、缓存、取消与释放边界内合并并去重请求。
 - **带标签的领域值 (Tagged Domain Values)**：`DomainValue<TValue,TTag>`/`Domain<TValue,TTag>` 区分易混标识符、在构造时验证，并由同一规则集派生契约与解码；显式状态类型与类型化模块错误记录保持为普通 C#。
+- **可复用检查 (Reusable Checks)**：`Result.Check` 在无值业务检查成功后保留原始成功值；`CheckAll` 对同一值按顺序执行独立检查并累积全部错误，提供 Task/ValueTask 与取消感知形式。
 - **ASP.NET Core Minimal API 映射**：通过 `FunnySharp.AspNetCore` 将载体和 Effect 映射为调用方指定的 `IResult`、类型化 `Results<...>` 联合和 RFC 7807/9457 `ProblemDetails`，保留端点与 OpenAPI 元数据。
 
 ## 深入文档与工程示例
@@ -108,6 +109,7 @@ registration.Match(
 | [部分更新 (Partial Updates)](https://github.com/wxxb789/funnysharp/blob/main/docs/partial-updates.md) | [部分更新证据 (Partial Update Evidence)](https://github.com/wxxb789/funnysharp/blob/main/docs/partial-update-evidence.md) | |
 | [批量读取 (Batched Reads)](https://github.com/wxxb789/funnysharp/blob/main/docs/batched-reads.md) | [批量读取证据 (Batch Evidence)](https://github.com/wxxb789/funnysharp/blob/main/docs/batch-evidence.md) | |
 | [领域值与状态 (Domain Values & State)](https://github.com/wxxb789/funnysharp/blob/main/docs/domain-values.md) | [领域值证据 (Domain Value Evidence)](https://github.com/wxxb789/funnysharp/blob/main/docs/domain-value-evidence.md) | |
+| [可复用检查 (Reusable Checks)](https://github.com/wxxb789/funnysharp/blob/main/docs/checks.md) | [检查证据 (Check Evidence)](https://github.com/wxxb789/funnysharp/blob/main/docs/check-evidence.md) | |
 
 可运行示例源码：[FunnySharp 核心示例](https://github.com/wxxb789/funnysharp/blob/main/examples/FunnySharp.Examples/Program.cs) 与 [ASP.NET Core 示例](https://github.com/wxxb789/funnysharp/blob/main/examples/FunnySharp.AspNetCore.Examples/Program.cs)。
 
