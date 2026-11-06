@@ -208,27 +208,11 @@ internal static class AspNetCoreSamples
     };
 
     private static HttpValidationProblemDetails MapValidationFailure(
-        IReadOnlyList<ReservationError> errors)
-    {
-        var grouped = new Dictionary<string, List<string>>(StringComparer.Ordinal);
-
-        foreach (var error in errors)
-        {
-            if (!grouped.TryGetValue(error.Field, out var messages))
-            {
-                messages = [];
-                grouped.Add(error.Field, messages);
-            }
-
-            messages.Add(error.Message);
-        }
-
-        return new HttpValidationProblemDetails(
-            grouped.ToDictionary(static pair => pair.Key, static pair => pair.Value.ToArray(), StringComparer.Ordinal))
+        IReadOnlyList<ReservationError> errors) =>
+        new(GroupValidation(errors))
         {
             Status = StatusCodes.Status400BadRequest,
         };
-    }
 
     private sealed record CreateOrderRequest(int Quantity);
 

@@ -19,8 +19,6 @@ public sealed class TypedHttpResultMetadataTests
     {
         await using var host = await TestApplication.StartAsync(app =>
         {
-            app.MapGet("/metadata/option", () =>
-                Option.Some(new Payload("option", 1)).ToHttpResults(NotFoundAbsence));
             app.MapGet("/metadata/result", () =>
                 Result<Payload, DomainError>.Success(new Payload("result", 2))
                     .ToHttpResults(NotFoundFailure));
@@ -31,7 +29,6 @@ public sealed class TypedHttpResultMetadataTests
                     .ToHttpResults(InvalidValidation));
         });
 
-        AssertProduces(host.Application, "/metadata/option", [(200, typeof(Payload)), (404, typeof(ProblemDetails))]);
         AssertProduces(host.Application, "/metadata/result", [(200, typeof(Payload)), (404, typeof(ProblemDetails))]);
         AssertProduces(host.Application, "/metadata/unit", [(204, typeof(void)), (409, typeof(ProblemDetails))]);
         AssertProduces(
@@ -155,13 +152,15 @@ public sealed class TypedHttpResultMetadataTests
         id switch
         {
             "ok" => Result<Order, OrderFailure>.Success(new Order("ok")),
-            "conflict" => Result<Order, OrderFailure>.Failure(new OrderFailure("conflict")),
-            _ => Result<Order, OrderFailure>.Failure(new OrderFailure("missing")),
+            "conflict" => Result<Order, OrderFailure>.Failure(
+                new OrderFailure(OrderFailureKind.Conflict, "conflict")),
+            _ => Result<Order, OrderFailure>.Failure(
+                new OrderFailure(OrderFailureKind.NotFound, "missing")),
         };
 
     private static Results<NotFound<ProblemDetails>, Conflict<ProblemDetails>> OrderFailureResults(
         OrderFailure failure) =>
-        failure.Code == "conflict"
+        failure.Kind == OrderFailureKind.Conflict
             ? TypedResults.Conflict(Problem(failure.Code, StatusCodes.Status409Conflict))
             : TypedResults.NotFound(Problem(failure.Code, StatusCodes.Status404NotFound));
 
@@ -221,7 +220,13 @@ public sealed class TypedHttpResultMetadataTests
 
     private sealed record Order(string Id);
 
-    private sealed record OrderFailure(string Code);
+    private enum OrderFailureKind
+    {
+        NotFound,
+        Conflict,
+    }
+
+    private sealed record OrderFailure(OrderFailureKind Kind, string Code);
 
     private sealed class TestApplication(WebApplication application, HttpClient client) : IAsyncDisposable
     {

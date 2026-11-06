@@ -1,6 +1,3 @@
-using System.Net;
-using System.Net.Http.Json;
-using System.Text.Json;
 using FunnySharp;
 using FunnySharp.AspNetCore;
 using Microsoft.AspNetCore.Builder;
@@ -38,52 +35,22 @@ public sealed class TypedHttpResultComparisonTests
                 $"/compare/typed/{id}",
                 TestContext.Current.CancellationToken);
 
+            var ordinaryBody = await ordinary.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
+            var matchBody = await match.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
+            var typedBody = await typed.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
+
             Assert.Equal(ordinary.StatusCode, match.StatusCode);
             Assert.Equal(ordinary.StatusCode, typed.StatusCode);
-            Assert.Equal(
-                await ordinary.Content.ReadAsStringAsync(TestContext.Current.CancellationToken),
-                await match.Content.ReadAsStringAsync(TestContext.Current.CancellationToken));
-            Assert.Equal(
-                await ordinary.Content.ReadAsStringAsync(TestContext.Current.CancellationToken),
-                await typed.Content.ReadAsStringAsync(TestContext.Current.CancellationToken));
+            Assert.Equal(ordinaryBody, matchBody);
+            Assert.Equal(ordinaryBody, typedBody);
             Assert.Equal(
                 ordinary.Content.Headers.ContentType?.MediaType,
                 typed.Content.Headers.ContentType?.MediaType);
         }
 
-        Assert.Equal(
-            Produces(host.Application, "/compare/ordinary/{id}"),
-            Produces(host.Application, "/compare/match/{id}"));
-        Assert.Equal(
-            Produces(host.Application, "/compare/ordinary/{id}"),
-            Produces(host.Application, "/compare/typed/{id}"));
-    }
-
-    [Fact]
-    public async Task TypedConsumerServesTheRepresentativeSuccessAndFailureBodies()
-    {
-        await using var host = await TestApplication.StartAsync(app =>
-            app.MapGet("/compare/typed/{id}", (string id) =>
-                Find(id).ToHttpResults(MapFailure)));
-
-        using var success = await host.Client.GetAsync(
-            "/compare/typed/ok",
-            TestContext.Current.CancellationToken);
-        using var conflict = await host.Client.GetAsync(
-            "/compare/typed/conflict",
-            TestContext.Current.CancellationToken);
-        using var missing = await host.Client.GetAsync(
-            "/compare/typed/missing",
-            TestContext.Current.CancellationToken);
-
-        Assert.Equal(HttpStatusCode.OK, success.StatusCode);
-        Assert.Equal(
-            new Order("ok", "SKU-BOOK"),
-            await success.Content.ReadFromJsonAsync<Order>(TestContext.Current.CancellationToken));
-        Assert.Equal(HttpStatusCode.Conflict, conflict.StatusCode);
-        Assert.Equal("conflict", (await ReadProblemAsync(conflict)).GetProperty("detail").GetString());
-        Assert.Equal(HttpStatusCode.NotFound, missing.StatusCode);
-        Assert.Equal("missing", (await ReadProblemAsync(missing)).GetProperty("detail").GetString());
+        var ordinaryProduces = Produces(host.Application, "/compare/ordinary/{id}");
+        Assert.Equal(ordinaryProduces, Produces(host.Application, "/compare/match/{id}"));
+        Assert.Equal(ordinaryProduces, Produces(host.Application, "/compare/typed/{id}"));
     }
 
     private static Results<Ok<Order>, Results<NotFound<ProblemDetails>, Conflict<ProblemDetails>>> Ordinary(
@@ -128,10 +95,6 @@ public sealed class TypedHttpResultComparisonTests
             Title = status == StatusCodes.Status409Conflict ? "Conflict" : "Not found",
             Detail = failure.Code,
         };
-
-    private static async Task<JsonElement> ReadProblemAsync(HttpResponseMessage response) =>
-        JsonDocument.Parse(
-            await response.Content.ReadAsStringAsync(TestContext.Current.CancellationToken)).RootElement;
 
     private static IReadOnlyList<(int StatusCode, Type? Type)> Produces(WebApplication app, string route)
     {

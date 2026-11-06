@@ -1,4 +1,6 @@
+using System.Globalization;
 using System.Net.Http.Json;
+using System.Net.Mime;
 using System.Text.Json;
 using FunnySharp;
 using FunnySharp.AspNetCore;
@@ -125,13 +127,9 @@ static IResult PatchSchedule(string id, JsonElement body, ScheduleStore schedule
 
 static async Task VerifyPatchEndpointAsync(WebApplication app, ScheduleStore schedules)
 {
-    var patchRoute = ((IEndpointRouteBuilder)app).DataSources
-        .SelectMany(static source => source.Endpoints)
-        .OfType<RouteEndpoint>()
-        .SingleOrDefault(static endpoint =>
-            string.Equals(endpoint.RoutePattern.RawText, "/schedules/{id}", StringComparison.Ordinal)
-            && endpoint.Metadata.GetMetadata<HttpMethodMetadata>() is { } metadata
-            && metadata.HttpMethods.Any(static method => string.Equals(method, "PATCH", StringComparison.Ordinal)));
+    var patchRoute = FindRouteEndpoint(app, "/schedules/{id}", static endpoint =>
+        endpoint.Metadata.GetMetadata<HttpMethodMetadata>() is { } metadata
+        && metadata.HttpMethods.Any(static method => string.Equals(method, "PATCH", StringComparison.Ordinal)));
     if (patchRoute is null)
     {
         throw new InvalidOperationException("The PATCH /schedules/{id} endpoint is not mapped.");
@@ -303,11 +301,7 @@ static void VerifyProduces(
     string route,
     params (int Status, Type? Type)[] expected)
 {
-    var endpoint = ((IEndpointRouteBuilder)app).DataSources
-        .SelectMany(static source => source.Endpoints)
-        .OfType<RouteEndpoint>()
-        .SingleOrDefault(candidate =>
-            string.Equals(candidate.RoutePattern.RawText, route, StringComparison.Ordinal));
+    var endpoint = FindRouteEndpoint(app, route);
     if (endpoint is null)
     {
         throw new InvalidOperationException($"The typed endpoint '{route}' is not mapped.");
@@ -329,6 +323,17 @@ static void VerifyProduces(
     }
 }
 
+static RouteEndpoint? FindRouteEndpoint(
+    WebApplication app,
+    string route,
+    Func<RouteEndpoint, bool>? filter = null) =>
+    ((IEndpointRouteBuilder)app).DataSources
+        .SelectMany(static source => source.Endpoints)
+        .OfType<RouteEndpoint>()
+        .SingleOrDefault(endpoint =>
+            string.Equals(endpoint.RoutePattern.RawText, route, StringComparison.Ordinal)
+            && (filter is null || filter(endpoint)));
+
 static void RequireStatus(HttpResponseMessage response, int expected, string operation)
 {
     if ((int)response.StatusCode != expected)
@@ -345,40 +350,59 @@ static async Task VerifyOpenApiAsync(WebApplication app)
     using var document = JsonDocument.Parse(await client.GetStringAsync("/openapi/v1.json"));
     var paths = document.RootElement.GetProperty("paths");
 
-    VerifyOpenApiResponse(paths, "/typed/orders/{id}", "get", "200", "application/json", "Order");
-    VerifyOpenApiResponse(paths, "/typed/orders/{id}", "get", "404", "application/json", "ProblemDetails");
-    VerifyOpenApiResponse(paths, "/typed/orders", "post", "201", "application/json", "Order");
+    VerifyOpenApiResponse(
+        paths,
+        "/typed/orders/{id}",
+        "get",
+        StatusCodes.Status200OK,
+        MediaTypeNames.Application.Json,
+        typeof(Order));
+    VerifyOpenApiResponse(
+        paths,
+        "/typed/orders/{id}",
+        "get",
+        StatusCodes.Status404NotFound,
+        MediaTypeNames.Application.Json,
+        typeof(ProblemDetails));
     VerifyOpenApiResponse(
         paths,
         "/typed/orders",
         "post",
-        "400",
+        StatusCodes.Status201Created,
+        MediaTypeNames.Application.Json,
+        typeof(Order));
+    VerifyOpenApiResponse(
+        paths,
+        "/typed/orders",
+        "post",
+        StatusCodes.Status400BadRequest,
         "application/problem+json",
-        "HttpValidationProblemDetails");
+        typeof(HttpValidationProblemDetails));
 }
 
 static void VerifyOpenApiResponse(
     JsonElement paths,
     string path,
     string method,
-    string status,
+    int status,
     string contentType,
-    string schema)
+    Type schema)
 {
+    var statusKey = status.ToString(CultureInfo.InvariantCulture);
     if (!paths.TryGetProperty(path, out var item)
         || !item.TryGetProperty(method, out var operation)
         || !operation.TryGetProperty("responses", out var responses)
-        || !responses.TryGetProperty(status, out var response)
+        || !responses.TryGetProperty(statusKey, out var response)
         || !response.TryGetProperty("content", out var content)
         || !content.TryGetProperty(contentType, out var media)
         || !media.TryGetProperty("schema", out var schemaElement)
         || !schemaElement.TryGetProperty("$ref", out var reference)
         || reference.GetString() is not { } referenceValue
-        || !referenceValue.EndsWith("/" + schema, StringComparison.Ordinal))
+        || !referenceValue.EndsWith("/" + schema.Name, StringComparison.Ordinal))
     {
         throw new InvalidOperationException(
             $"The OpenAPI document did not declare {method.ToUpperInvariant()} {path} "
-            + $"{status} as {contentType} {schema}.");
+            + $"{statusKey} as {contentType} {schema.Name}.");
     }
 }
 
@@ -561,27 +585,25 @@ static NotFound<ProblemDetails> MapInventoryFailureTyped(InventoryFailure failur
 static Conflict<ProblemDetails> MapDeliveryFailureTyped(DeliveryFailure failure) =>
     TypedResults.Conflict(MapDeliveryFailure(failure));
 
-static ValidationProblem TypedValidationProblem(IReadOnlyList<InputError> errors) =>
-    TypedResults.ValidationProblem(
-        GroupMessages(
-            errors,
-            static error => error.Field,
-            static error => error.Message),
-        title: "Order validation failed",
-        type: "https://example.invalid/problems/invalid-order");
+static ValidationProblem TypedValidationProblem(IReadOnlyList<InputError> errors)
+{
+    var problem = MapValidationErrors(errors);
+    return TypedResults.ValidationProblem(
+        problem.Errors,
+        problem.Detail,
+        problem.Instance,
+        problem.Title,
+        problem.Type,
+        problem.Extensions);
+}
 
 static UnprocessableEntity<HttpValidationProblemDetails> TypedUnprocessableValidation(
-    IReadOnlyList<InputError> errors) =>
-    TypedResults.UnprocessableEntity(new HttpValidationProblemDetails(
-        GroupMessages(
-            errors,
-            static error => error.Field,
-            static error => error.Message))
-    {
-        Status = StatusCodes.Status422UnprocessableEntity,
-        Title = "Order validation failed",
-        Type = "https://example.invalid/problems/invalid-order",
-    });
+    IReadOnlyList<InputError> errors)
+{
+    var problem = MapValidationErrors(errors);
+    problem.Status = StatusCodes.Status422UnprocessableEntity;
+    return TypedResults.UnprocessableEntity(problem);
+}
 
 static Dictionary<string, string[]> GroupMessages<T>(
     IEnumerable<T> items,

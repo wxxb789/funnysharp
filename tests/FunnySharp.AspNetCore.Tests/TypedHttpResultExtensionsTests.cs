@@ -34,9 +34,10 @@ public sealed class TypedHttpResultExtensionsTests
             await some.Content.ReadFromJsonAsync<Payload>(TestContext.Current.CancellationToken));
         Assert.Equal(HttpStatusCode.NotFound, none.StatusCode);
         Assert.Equal("application/json", none.Content.Headers.ContentType?.MediaType);
+        using var noneProblem = await ReadProblemAsync(none);
         Assert.Equal(
             "option-absent",
-            (await ReadProblemAsync(none)).GetProperty("detail").GetString());
+            noneProblem.RootElement.GetProperty("detail").GetString());
     }
 
     [Fact]
@@ -85,7 +86,8 @@ public sealed class TypedHttpResultExtensionsTests
             await success.Content.ReadFromJsonAsync<Payload>(TestContext.Current.CancellationToken));
         Assert.Equal(HttpStatusCode.NotFound, failure.StatusCode);
         Assert.Equal("application/json", failure.Content.Headers.ContentType?.MediaType);
-        Assert.Equal("missing", (await ReadProblemAsync(failure)).GetProperty("detail").GetString());
+        using var failureProblem = await ReadProblemAsync(failure);
+        Assert.Equal("missing", failureProblem.RootElement.GetProperty("detail").GetString());
     }
 
     [Fact]
@@ -131,7 +133,8 @@ public sealed class TypedHttpResultExtensionsTests
         Assert.Empty(await success.Content.ReadAsByteArrayAsync(TestContext.Current.CancellationToken));
         Assert.Null(success.Content.Headers.ContentType);
         Assert.Equal(HttpStatusCode.Conflict, failure.StatusCode);
-        Assert.Equal("busy", (await ReadProblemAsync(failure)).GetProperty("detail").GetString());
+        using var failureProblem = await ReadProblemAsync(failure);
+        Assert.Equal("busy", failureProblem.RootElement.GetProperty("detail").GetString());
     }
 
     [Fact]
@@ -430,9 +433,9 @@ public sealed class TypedHttpResultExtensionsTests
         return response.StatusCode;
     }
 
-    private static async Task<JsonElement> ReadProblemAsync(HttpResponseMessage response) =>
+    private static async Task<JsonDocument> ReadProblemAsync(HttpResponseMessage response) =>
         JsonDocument.Parse(
-            await response.Content.ReadAsStringAsync(TestContext.Current.CancellationToken)).RootElement;
+            await response.Content.ReadAsStringAsync(TestContext.Current.CancellationToken));
 
     private static NotFound<ProblemDetails> NotFoundAbsence() =>
         TypedResults.NotFound(new ProblemDetails

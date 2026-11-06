@@ -631,12 +631,10 @@ public static class TypedHttpResultExtensions
     {
         if (option.TryGetValue(out var value))
         {
-            Results<Ok<T>, TNone> present = TypedResults.Ok(value!);
-            return present;
+            return TypedResults.Ok(value!);
         }
 
-        Results<Ok<T>, TNone> absent = RequireResult(none());
-        return absent;
+        return RequireResult(none());
     }
 
     private static Results<TSome, TNone> ToHttpResultsCore<T, TSome, TNone>(
@@ -648,12 +646,10 @@ public static class TypedHttpResultExtensions
     {
         if (option.TryGetValue(out var value))
         {
-            Results<TSome, TNone> present = RequireResult(some(value!));
-            return present;
+            return RequireResult(some(value!));
         }
 
-        Results<TSome, TNone> absent = RequireResult(none());
-        return absent;
+        return RequireResult(none());
     }
 
     private static Results<Ok<TValue>, TFailure> ToHttpResultsCore<TValue, TError, TFailure>(
@@ -663,13 +659,11 @@ public static class TypedHttpResultExtensions
     {
         if (result.TryGetValue(out var value))
         {
-            Results<Ok<TValue>, TFailure> successful = TypedResults.Ok(value!);
-            return successful;
+            return TypedResults.Ok(value!);
         }
 
         _ = result.TryGetError(out var error);
-        Results<Ok<TValue>, TFailure> failed = RequireResult(failure(error!));
-        return failed;
+        return RequireResult(failure(error!));
     }
 
     private static Results<TSuccess, TFailure> ToHttpResultsCore<TValue, TError, TSuccess, TFailure>(
@@ -681,13 +675,11 @@ public static class TypedHttpResultExtensions
     {
         if (result.TryGetValue(out var value))
         {
-            Results<TSuccess, TFailure> successful = RequireResult(success(value!));
-            return successful;
+            return RequireResult(success(value!));
         }
 
         _ = result.TryGetError(out var error);
-        Results<TSuccess, TFailure> failed = RequireResult(failure(error!));
-        return failed;
+        return RequireResult(failure(error!));
     }
 
     private static Results<Ok<TValue>, TInvalid> ToHttpResultsCore<TValue, TError, TInvalid>(
@@ -697,13 +689,11 @@ public static class TypedHttpResultExtensions
     {
         if (validation.TryGetValue(out var value))
         {
-            Results<Ok<TValue>, TInvalid> valid = TypedResults.Ok(value!);
-            return valid;
+            return TypedResults.Ok(value!);
         }
 
         _ = validation.TryGetErrors(out var errors);
-        Results<Ok<TValue>, TInvalid> invalidResult = RequireResult(invalid(errors!));
-        return invalidResult;
+        return RequireResult(invalid(errors!));
     }
 
     private static Results<TValid, TInvalid> ToHttpResultsCore<TValue, TError, TValid, TInvalid>(
@@ -715,13 +705,11 @@ public static class TypedHttpResultExtensions
     {
         if (validation.TryGetValue(out var value))
         {
-            Results<TValid, TInvalid> validResult = RequireResult(valid(value!));
-            return validResult;
+            return RequireResult(valid(value!));
         }
 
         _ = validation.TryGetErrors(out var errors);
-        Results<TValid, TInvalid> invalidResult = RequireResult(invalid(errors!));
-        return invalidResult;
+        return RequireResult(invalid(errors!));
     }
 
     private static Results<NoContent, TFailure> ToHttpResultsCore<TError, TFailure>(
@@ -731,12 +719,10 @@ public static class TypedHttpResultExtensions
     {
         if (result.TryGetError(out var error))
         {
-            Results<NoContent, TFailure> failed = RequireResult(failure(error!));
-            return failed;
+            return RequireResult(failure(error!));
         }
 
-        Results<NoContent, TFailure> successful = TypedResults.NoContent();
-        return successful;
+        return TypedResults.NoContent();
     }
 
     private static Results<TSuccess, TFailure> ToHttpResultsCore<TError, TSuccess, TFailure>(
@@ -748,12 +734,10 @@ public static class TypedHttpResultExtensions
     {
         if (result.TryGetError(out var error))
         {
-            Results<TSuccess, TFailure> failed = RequireResult(failure(error!));
-            return failed;
+            return RequireResult(failure(error!));
         }
 
-        Results<TSuccess, TFailure> successful = RequireResult(success());
-        return successful;
+        return RequireResult(success());
     }
 
     private static async Task<Results<Ok<T>, TNone>> ToHttpResultsAsyncCore<T, TNone>(
