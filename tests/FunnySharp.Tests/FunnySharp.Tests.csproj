@@ -24,6 +24,7 @@
     <Compile Include="../Shared/DomainComparison/*.cs" Link="Shared/DomainComparison/%(Filename)%(Extension)" />
     <Compile Include="../Shared/CheckComparison/*.cs" Link="Shared/CheckComparison/%(Filename)%(Extension)" />
     <Compile Include="../Shared/FallibleReduction/*.cs" Link="Shared/FallibleReduction/%(Filename)%(Extension)" />
+    <Compile Include="../Shared/SummaryComparison/*.cs" Link="Shared/SummaryComparison/%(Filename)%(Extension)" />
   </ItemGroup>
 
   <ItemGroup>

@@ -8,7 +8,7 @@ signature and its contract.
 This file is the authoritative verb reference. The per-feature guides
 ([option.md](option.md), [result.md](result.md), [unit-result.md](unit-result.md),
 [validation.md](validation.md), [checks.md](checks.md), [decoding.md](decoding.md), [function-composition.md](function-composition.md),
-[data-pipelines.md](data-pipelines.md), [fallible-reduction.md](fallible-reduction.md), [effects.md](effects.md),
+[data-pipelines.md](data-pipelines.md), [fallible-reduction.md](fallible-reduction.md), [one-pass-summaries.md](one-pass-summaries.md), [effects.md](effects.md),
 [concurrency.md](concurrency.md), [immutable-updates.md](immutable-updates.md),
 [state-machines.md](state-machines.md), and [aspnet-core.md](aspnet-core.md)) carry the detailed
 contracts and performance evidence; the rows below stay one line each.
@@ -39,7 +39,9 @@ description. `Validate` checks an existing value, `CreateDecoder` derives a deco
 explicit batched-read description and its execution scope, not outcome carriers; their reads yield
 the canonical `Result` shape. `DomainValue<TValue, TTag>` is a validated tagged value and
 `Domain<TValue, TTag>` is its validation, decoding, contract, and explanation boundary; neither is
-an outcome carrier. Explicit state variants and typed module-error hierarchies are ordinary C#
+an outcome carrier. `Summary<TSource, TState, TResult>` is a reusable sequence-summary description,
+not an outcome carrier; evaluation returns the caller-selected result and adds no failure or
+absence channel. Explicit state variants and typed module-error hierarchies are ordinary C#
 record types over the canonical carriers, not new library carriers.
 
 ## Naming Rules
@@ -186,6 +188,23 @@ verbs are listed below.
 | `AggregateResult` | Folds a sequence through a fallible accumulator, stopping at the first typed failure. | `IEnumerable<T>`, `IAsyncEnumerable<T>` | `Result<TAccumulate,TError>`; async source `ValueTask<Result<TAccumulate,TError>>` | `AggregateResultAsync` (sync step), `AggregateResultValueAsync` (`ValueTask` step; tokenless and cancellation-aware) | Eager; one enumeration; empty input returns the supplied seed; a failed step returns its error and makes no later source request or step call; no materialization; source/step exceptions, cancellation, and disposal keep normal .NET semantics; mutable accumulators are not rolled back. |
 | `Aggregate` | Folds a nonempty sequence without a separate seed. | `NonEmpty<T>` | `T` | — | Starts from `First`, visits `Rest` once in order, and propagates callback exceptions; seeded non-fallible folds remain BCL operations. |
 | `ToReadOnlyList` | Materializes the nonempty sequence into a fresh read-only list. | `NonEmpty<T>` | `IReadOnlyList<T>` | — | Copies `First` followed by `Rest`; the list and wrapper are allocated and do not alias the nonempty value's state. |
+
+### One-Pass Summaries
+
+`Summary<TSource, TState, TResult>` is a reusable sequence-summary description, not a carrier. A
+leaf summary holds a seed or seed factory, an accumulate delegate, and a result delegate; a composed
+summary holds component descriptions and no top-level seed or accumulate delegate. Evaluating either
+shape creates state local to that call. `Summary<TSource>` supplies the built-in factories and
+`Summary.Zip` composes independent descriptions. Summaries are total folds: every component observes
+every source item, so there is no early-exit or partial-result protocol.
+
+| Member | Meaning | Output shape | Key contract |
+| --- | --- | --- | --- |
+| `Create` | Defines an independent summary over a seed or seed factory. | `Summary<TSource, TState, TState>` or `Summary<TSource, TState, TResult>` | A value seed is not cloned; a seed factory runs once per component per evaluation; delegates are validated eagerly. |
+| `Count`/`Sum`/`Min`/`Max` | Supplies the built-in count, checked sum, and extrema summaries. | `Summary<TSource, ...>` | `Count`/`Sum` use checked source-order arithmetic; empty `Sum` is zero; extrema are `Option<TKey>`, skip null keys, and retain the first tied key. |
+| `Zip` | Combines two to four independent summaries into one evaluation. | Summary of a flat tuple state and result | Components initialize, accumulate, and finalize in operand order; each keeps its own typed state. |
+| `MapResult` | Projects the final result once. | Summary with the projected result | Runs after traversal, or immediately for an empty source; a component exception prevents it. |
+| `Evaluate`/`EvaluateAsync` | Runs the summary over a BCL sequence. | `TResult` / `ValueTask<TResult>` | Eager, one enumeration, source order, no materialization or cache; empty input makes no accumulate call; the async form forwards the exact token to the enumerator only and never blocks. |
 
 ### Immediate Span And Memory Pipelines
 

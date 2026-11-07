@@ -21,7 +21,7 @@ funnysharp/
 ├── benchmarks/           # BenchmarkDotNet suites; isolated GreenDonut comparison; JSON receipts bound to eng/performance manifests
 ├── examples/             # executable examples + DocumentationSamples (byte-exact docs snippet contract)
 ├── .github/workflows/    # release.yml (manual release gate) + tooling.yml (3-OS PR merge gate)
-└── FunnySharp.slnx       # 20 projects; excludes tests/FunnySharp.Compatibility
+└── FunnySharp.slnx       # 21 projects; excludes tests/FunnySharp.Compatibility
 ```
 
 ## WHERE TO LOOK
@@ -31,6 +31,7 @@ funnysharp/
 | Carrier APIs (Option/Result/UnitResult/Validation/Effect) | `src/FunnySharp/` | one public type-family per file |
 | Reusable checks | `src/FunnySharp/CheckExtensions.cs`, `docs/checks.md` | value-preserving `Check`; ordered independent `CheckAll`; no `Validation.Bind` |
 | Fallible reduction | `src/FunnySharp/FallibleReductionExtensions.cs`, `src/FunnySharp/AsyncFallibleReductionExtensions.cs`, `docs/fallible-reduction.md` | seeded `Result` fold; first failure stops source enumeration; sync/async source forms |
+| One-pass summaries | `src/FunnySharp/Summary.cs`, `src/FunnySharp/SummaryPlan.cs`, `src/FunnySharp/ExtremumPolicy.cs`, `docs/one-pass-summaries.md` | independent count/sum/extrema/domain summaries; `Zip`/`MapResult`; one traversal, local component state; sync calculation reused for async acquisition |
 | Batched reads (source/requirement/scope) | `src/FunnySharp/Batch*.cs`, `docs/batched-reads.md` | explicit source batch delegates; bounded scope-local cache, no ambient cache |
 | Tagged domain values | `src/FunnySharp/Domain*.cs`, `docs/domain-values.md` | phantom marker, validated boundary, derived contract/decoder; no union/serializer/runtime dependency |
 | Analyzers + code fixes (FS1001-FS1005) | `src/FunnySharp.Analyzers/`, `src/FunnySharp.Analyzers.CodeFixes/` | ship inside core nupkg `analyzers/dotnet/cs` |
@@ -57,6 +58,7 @@ funnysharp/
 | `HttpResultExtensions` | static class | `src/FunnySharp.AspNetCore/` | ~21 overloads | carriers -> `IResult`/`ProblemDetails` |
 | `Choose` / `Scan` | extensions | `src/FunnySharp/EnumerablePipelineExtensions.cs`, `AsyncEnumerablePipelineExtensions.cs` (+ `SpanPipelineExtensions.cs` for `Choose`) | fused Option filter-map, running aggregate; sync + async streams |
 | `AggregateResult` | extensions | `src/FunnySharp/FallibleReductionExtensions.cs`, `AsyncFallibleReductionExtensions.cs` | fallible seeded fold; first typed failure stops source consumption |
+| `Summary` / `Summary<...>` | factory + description | `src/FunnySharp/Summary.cs`, `src/FunnySharp/SummaryPlan.cs` | reusable independent summaries; `Zip`/`MapResult`; one traversal; checked built-ins; total folds |
 | FS1001-FS1005 | analyzers | `src/FunnySharp.Analyzers/` | dogfooded everywhere | uninitialized carriers, discarded outcomes, ignored TryGet, blocked ValueTask, sync-disposed IAsyncDisposable |
 
 (Ref counts unmeasured - LSP symbol census not run at root; roles from subtree digests.)
@@ -68,7 +70,7 @@ funnysharp/
 - Tests: xUnit v3 (`xunit.v3` 4.0.0), attribute-only, self-executing exes; zero skipped tests is an invariant.
 - Naming contract: `...Async` suffix on async members; `OrNone` for absence-translating bridges; file name = primary type; file-scoped namespaces.
 - Restores are locked: `packages.lock.json` committed everywhere.
-- Docs: lowercase-hyphen filenames; guides close with `## Deliberate Boundaries`; 11 primary guides carry byte-exact `documentation-sample:` snippets mirrored in `examples/FunnySharp.DocumentationSamples`.
+- Docs: lowercase-hyphen filenames; guides close with `## Deliberate Boundaries`; 12 primary guides carry byte-exact `documentation-sample:` snippets mirrored in `examples/FunnySharp.DocumentationSamples`.
 - Shared test source (`tests/Shared/`) links via Compile-include, never ProjectReference.
 - Development gates run through the F# harness: `dotnet fsi build.fsx -- -p <pipeline> [args]` (see [docs/harness.md](docs/harness.md)).
 
@@ -79,6 +81,7 @@ funnysharp/
 - NEVER sync-block on async work (goal 0009); use the `...Async`/ValueTask variants.
 - NEVER add `Bind`/`SelectMany` to `Validation` to share check syntax; dependent rules stay on fail-fast `Check`, `Bind`, or ordinary control flow.
 - NEVER make `AggregateResult` continue source enumeration after a typed failure, materialize intermediate results, clone/roll back caller accumulators, or add automatic parallel reduction.
+- NEVER add a public typeclass/summary-interface hierarchy, automatic parallelism, LINQ replacement, compile-time fusion, or an early-exit/partial-result protocol to `Summary`; every component observes every source item, and `EvaluateAsync` changes only input acquisition.
 - NEVER hand-edit machine-generated dirs: `docs/next-stage/inventory/generated/`, `docs/goals/archive/`, `docs/release-evidence/`, `docs/next-stage/call-sites-code/`, `docs/next-stage/review/` (append only).
 - NEVER treat tooling.yml CI as the release gate - only release.yml contexts gate a release.
 - Deliberate-misuse test snippets must wrap in `#pragma warning disable FS100x`; example projects must build with zero FS#### diagnostics.
@@ -101,7 +104,7 @@ dotnet fsi build.fsx -- -p format             # formatter gate (C# only; F# is n
 dotnet fsi build.fsx -- -p verify-tooling     # local pre-check
 # release protocol (CI runs this with -SkipBenchmarks)
 dotnet fsi build.fsx -- -p release -SkipBenchmarks
-# docs snippets byte-compare (11 primary guides, 60 snippets)
+# docs snippets byte-compare (12 primary guides, 65 snippets)
 dotnet fsi build.fsx -- -p verify-docs-snippets
 # benchmark + performance verify
 dotnet run --project benchmarks/FunnySharp.Benchmarks -c Release -- --filter '*' --artifacts <dir>

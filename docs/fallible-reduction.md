@@ -70,7 +70,7 @@ any enumeration. The seed is deliberately not validated.
 | Collect every successful value, failing fast | `Sequence` / `Traverse` |
 | Collect every independent error | `Validation.Sequence` / `Validation.Traverse` |
 | Observe a running aggregate after each item | `Scan` / `ScanValueAsync` |
-| Reuse several summaries in one pass | Goal 0034 is the separate composite-summary outcome |
+| Reuse several summaries in one pass | [`Summary`](one-pass-summaries.md) composition with `Zip`/`Evaluate`/`EvaluateAsync` |
 
 `AggregateResult` is fail-fast only. It has no accumulating mode: a fold is sequential and
 dependent, and independent error accumulation is already expressed by `Validation` traversal or

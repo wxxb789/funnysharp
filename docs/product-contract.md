@@ -30,7 +30,9 @@ analysis, and compile-verified call sites are in [`next-stage/`](next-stage/).
   `Result` values and the scope owns its own request buffer and cache. `DomainValue<TValue, TTag>`
   is a validated, phantom-tagged value and `Domain<TValue, TTag>` is its construction, validation,
   decoding, contract, and explanation boundary; neither is an outcome carrier, and neither adds a
-  new failure or absence channel. Explicit state variants and typed module-error hierarchies stay
+  new failure or absence channel. `Summary<TSource, TState, TResult>` is a reusable sequence-summary
+  description, not an outcome carrier; evaluating it returns the caller's result type and adds no
+  failure or absence channel. Explicit state variants and typed module-error hierarchies stay
   ordinary C# records over `Result`/`Validation`; no union type is added.
 - No second carrier for any of these meanings may be added. `Maybe`, `Either`, `Fin`, `Try`,
   `IO`, `Reader`, `State`, `OptionAsync`, and async outcome wrappers remain out of scope.
@@ -212,6 +214,22 @@ analysis, and compile-verified call sites are in [`next-stage/`](next-stage/).
   isolated, or rolled back. There is no automatic parallel reduction without algebraic
   assumptions, and no transaction/rollback, retry, new stream hierarchy, async wrapper, or
   accumulating `Validation` mode.
+- One-pass sequence summaries extend the BCL sequence surface without adding a carrier.
+  A leaf `Summary<TSource, TState, TResult>` holds a seed or seed factory, an accumulate delegate,
+  and a result delegate; `Summary<TSource>` supplies `Count`, `Sum`, `Min`, and `Max` factories, and
+  `Summary.Zip` composes two to four descriptions into one flat tuple without a top-level seed or
+  accumulator.
+  `Evaluate` traverses an `IEnumerable<TSource>` once in source order; `EvaluateAsync` reuses the
+  same synchronous calculation over an `IAsyncEnumerable<TSource>` and forwards the exact token to
+  the enumerator only. Each component has its own typed state; a value seed is not cloned and a
+  seed factory runs once per component per evaluation. Empty input returns seed-derived results
+  without accumulate calls; extrema are `Option<TKey>` and skip null keys; `Count` and `Sum` use
+  checked arithmetic in source order. Source, delegate, selector, comparer, and disposal exceptions
+  and cancellation keep ordinary .NET semantics. Summaries are total folds: every component sees
+  every source item, and no early-completion, partial-result, or skip protocol exists. There is no
+  public typeclass hierarchy, automatic parallelism, LINQ replacement, compile-time fusion,
+  materialization/cache, or exception-to-result conversion. Single fallible short-circuiting
+  remains `AggregateResult`; mutable state isolation, cloning, and rollback remain caller-owned.
 - Effects are thin `readonly struct` wrappers over standard delegates. They defer execution until
   `RunAsync`, return `ValueTask`, and make an optional caller-owned environment, cancellation, and
   resource lifetime explicit without changing normal .NET exception or cancellation semantics.

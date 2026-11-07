@@ -791,6 +791,25 @@ DELEGATE FunnySharp.StateTransition<TState, TOutput>
   METHOD FunnySharp.StateChange<TState?, TOutput?> EndInvoke(System.IAsyncResult result)
   METHOD FunnySharp.StateChange<TState?, TOutput?> Invoke(TState? state)
   METHOD System.IAsyncResult BeginInvoke(TState? state, System.AsyncCallback callback, System.Object object)
+CLASS FunnySharp.Summary
+  METHOD static FunnySharp.Summary<TSource, System.ValueTuple<TFirstState, TSecondState, TThirdState, TFourthState>, System.ValueTuple<TFirstResult, TSecondResult, TThirdResult, TFourthResult>> Zip<TSource, TFirstState, TFirstResult, TSecondState, TSecondResult, TThirdState, TThirdResult, TFourthState, TFourthResult>(FunnySharp.Summary<TSource, TFirstState, TFirstResult> first, FunnySharp.Summary<TSource, TSecondState, TSecondResult> second, FunnySharp.Summary<TSource, TThirdState, TThirdResult> third, FunnySharp.Summary<TSource, TFourthState, TFourthResult> fourth)
+  METHOD static FunnySharp.Summary<TSource, System.ValueTuple<TFirstState, TSecondState, TThirdState>, System.ValueTuple<TFirstResult, TSecondResult, TThirdResult>> Zip<TSource, TFirstState, TFirstResult, TSecondState, TSecondResult, TThirdState, TThirdResult>(FunnySharp.Summary<TSource, TFirstState, TFirstResult> first, FunnySharp.Summary<TSource, TSecondState, TSecondResult> second, FunnySharp.Summary<TSource, TThirdState, TThirdResult> third)
+  METHOD static FunnySharp.Summary<TSource, System.ValueTuple<TFirstState, TSecondState>, System.ValueTuple<TFirstResult, TSecondResult>> Zip<TSource, TFirstState, TFirstResult, TSecondState, TSecondResult>(FunnySharp.Summary<TSource, TFirstState, TFirstResult> first, FunnySharp.Summary<TSource, TSecondState, TSecondResult> second)
+  METHOD static FunnySharp.Summary<TSource?, TState?, TResult?> Create<TSource, TState, TResult>(System.Func<TState?> seedFactory, System.Func<TState?, TSource?, TState?> accumulate, System.Func<TState?, TResult?> result)
+  METHOD static FunnySharp.Summary<TSource?, TState?, TResult?> Create<TSource, TState, TResult>(TState? seed, System.Func<TState?, TSource?, TState?> accumulate, System.Func<TState?, TResult?> result)
+  METHOD static FunnySharp.Summary<TSource?, TState?, TState?> Create<TSource, TState>(System.Func<TState?> seedFactory, System.Func<TState?, TSource?, TState?> accumulate)
+  METHOD static FunnySharp.Summary<TSource?, TState?, TState?> Create<TSource, TState>(TState? seed, System.Func<TState?, TSource?, TState?> accumulate)
+CLASS FunnySharp.Summary<TSource>
+  METHOD static FunnySharp.Summary<TSource?, FunnySharp.Option<TKey>, FunnySharp.Option<TKey>> Max<TKey>(System.Func<TSource?, TKey> selector)
+  METHOD static FunnySharp.Summary<TSource?, FunnySharp.Option<TKey>, FunnySharp.Option<TKey>> Min<TKey>(System.Func<TSource?, TKey> selector)
+  METHOD static FunnySharp.Summary<TSource?, FunnySharp.Option<TKey?>, FunnySharp.Option<TKey?>> Max<TKey>(System.Func<TSource?, TKey?> selector, System.Collections.Generic.IComparer<TKey?> comparer)
+  METHOD static FunnySharp.Summary<TSource?, FunnySharp.Option<TKey?>, FunnySharp.Option<TKey?>> Min<TKey>(System.Func<TSource?, TKey?> selector, System.Collections.Generic.IComparer<TKey?> comparer)
+  METHOD static FunnySharp.Summary<TSource?, System.Int32, System.Int32> Count()
+  METHOD static FunnySharp.Summary<TSource?, TNumber, TNumber> Sum<TNumber>(System.Func<TSource?, TNumber> selector)
+CLASS FunnySharp.Summary<TSource, TState, TResult>
+  METHOD FunnySharp.Summary<TSource?, TState?, TResultNext?> MapResult<TResultNext>(System.Func<TResult?, TResultNext?> selector)
+  METHOD System.Threading.Tasks.ValueTask<TResult?> EvaluateAsync(System.Collections.Generic.IAsyncEnumerable<TSource?> source, System.Threading.CancellationToken cancellationToken)
+  METHOD TResult? Evaluate(System.Collections.Generic.IEnumerable<TSource?> source)
 STRUCT FunnySharp.TransitionResult<TState, TOutput, TError>
   METHOD static FunnySharp.TransitionResult<TState?, TOutput?, TError?> Applied(FunnySharp.StateChange<TState?, TOutput?> change)
   METHOD static FunnySharp.TransitionResult<TState?, TOutput?, TError?> Failed(TError? error)

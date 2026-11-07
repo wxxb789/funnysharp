@@ -18,5 +18,6 @@
   <Project Path="tests/FunnySharp.DomainMeasurements/FunnySharp.DomainMeasurements.csproj" />
   <Project Path="tests/FunnySharp.Harness.Tests/FunnySharp.Harness.Tests.fsproj" />
   <Project Path="tests/FunnySharp.PatchMeasurements/FunnySharp.PatchMeasurements.csproj" />
+  <Project Path="tests/FunnySharp.SummaryMeasurements/FunnySharp.SummaryMeasurements.csproj" />
   <Project Path="tests/FunnySharp.Tests/FunnySharp.Tests.csproj" />
 </Solution>

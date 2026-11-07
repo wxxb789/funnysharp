@@ -69,7 +69,7 @@ execution: code
 
 **Deferred to Follow-Up Work**
 
-- Composable reusable summaries belong to [Goal 0034](../goals/0034-goal.md).
+- Composable reusable summaries belong to [Goal 0034](../goals/archive/0034-goal.md).
 - Accumulating independent item errors remains `Validation` traversal or `CheckAll`, not a
   fallible fold.
 - General retry, backoff, scheduling, transaction, compensation, and rollback remain absent.

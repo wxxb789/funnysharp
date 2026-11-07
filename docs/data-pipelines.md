@@ -46,6 +46,11 @@ the asynchronous-source forms do the same for `IAsyncEnumerable<T>`. It returns 
 accumulator or failure rather than a sequence of accumulators, and it makes no later source
 request after the failure. See [fallible reduction](fallible-reduction.md).
 
+Independent count, sum, extrema, and domain summaries compose into one typed result with
+`Summary.Zip` and one `Evaluate`/`EvaluateAsync` call. Each component keeps its own local state, the
+source is traversed once, and the same synchronous calculation is reusable when only input
+acquisition is asynchronous. See [one-pass summaries](one-pass-summaries.md).
+
 ## Span And Memory
 
 Span and memory operations execute immediately. They do not return deferred sequences, retain
