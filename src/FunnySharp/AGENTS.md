@@ -10,6 +10,7 @@ Functional carriers (`Option`/`Result`/`UnitResult`/`Validation`/`Effect`), inpu
 |------|----------|
 | Carrier semantics | `Option.cs`, `Result.cs`, `UnitResult.cs`, `Validation.cs` |
 | Reusable checks | `CheckExtensions.cs` (value-preserving `Check`, ordered independent `CheckAll`; Task/ValueTask forms) |
+| Fallible reduction | `FallibleReductionExtensions.cs`, `AsyncFallibleReductionExtensions.cs` (seeded `Result` fold; first failure stops source enumeration; sync/async source forms) |
 | Input decoding | `Decoder.cs`, `DecodeError.cs`, `DecodeErrorKind.cs` (JsonElement -> Validation; stable `Path`, experimental `Location`) |
 | Inspectable contracts | `Contract.cs` plus `Contract*.cs` (one description -> validation, decoder derivation, explanation, schema, generation, shrinking; explicit limitations and caller extensions) |
 | Typed partial updates | `PatchChange.cs`, `PatchField.cs`, `Patch.cs`, `PatchSchema.cs` (three-state changes, allowed-field decode, candidate validation, conflict detection, immutable application) |
@@ -39,4 +40,5 @@ Functional carriers (`Option`/`Result`/`UnitResult`/`Validation`/`Effect`), inpu
 - Contracts never invent a predicate inverse, generator, purity proof, or complete schema. Missing derivations are explicit `ContractLimitation` values; generation never silently rejection-samples a cross-field rule, and every generated or shrunk value is checked against the contract.
 - No second absence carrier (e.g. `Maybe<T>`) and no `Where` member on carrier types — frozen by `AdvancedPatternCurationTests`.
 - Never add `Bind`/`SelectMany` to `Validation` to share check syntax; `CheckAll` only applies independent rules to one input. Dependent work stays on fail-fast `Check`, `Bind`, or ordinary control flow.
+- Fallible reduction never materializes intermediate results, continues source enumeration after a typed failure, clones or rolls back caller accumulators, or adds automatic parallel reduction. Exceptions and cancellation are never converted to `Result` failures.
 - Domain values never become a second outcome channel: no union/`Either` system, no implicit conversions, no public constructor, no serializer, and no storage/authorization/exactly-once claim. `Domain.Contract` must derive through `Contract.Widen`, not a parallel rule engine.

@@ -1,6 +1,6 @@
 # docs/ — FunnySharp documentation tree
 
-Earned: score ~22 — 40 hand-written guides/contracts plus 4 doc-workflow subtrees. Everything here is hand-written prose except `next-stage/inventory/generated/` (machine dumps).
+Earned: score ~22 — 43 hand-written guides/contracts plus 4 doc-workflow subtrees. Everything here is hand-written prose except `next-stage/inventory/generated/` (machine dumps).
 
 ## OVERVIEW
 
@@ -11,7 +11,7 @@ Hand-written guides and contracts for the FunnySharp public surface — usage, g
 ```
 docs/
 ├── *.md                 # hand-written guides + contracts (lowercase-hyphen, one topic per file)
-├── goals/               # goal contracts (0033-0042) + immutable archive (0001-0032)
+├── goals/               # goal contracts (0034-0042) + immutable archive (0001-0033)
 ├── next-stage/          # Goal 14 capability-decision evidence set (own AGENTS.md)
 ├── plans/               # ce-unified-plan/v1 design-time plans (own AGENTS.md)
 └── release-evidence/    # historical release-run records — never edited
@@ -24,6 +24,7 @@ docs/
 | Design intent and abstraction judgment | `core-design.md` (blueprint; current behavior remains in the product contract and grammar) |
 | Feature usage: Option / Result / UnitResult / Validation | `option.md`, `result.md`, `unit-result.md`, `validation.md` |
 | Feature usage: reusable value-preserving and accumulating checks | `checks.md` |
+| Feature usage: short-circuiting fallible sequence reduction | `fallible-reduction.md`, `fallible-reduction-evidence.md` |
 | Feature usage: decoding untrusted JSON | `decoding.md` |
 | Feature usage: inspectable constraints, schema, generated inputs, shrinking | `contracts.md` |
 | Feature usage: typed, validated partial updates | `partial-updates.md`, `partial-update-evidence.md` |

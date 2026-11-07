@@ -1,6 +1,6 @@
 # FunnySharp.Tests
 
-**Why this file:** score 31 — primary xUnit v3 suite (98 test/helper files) for the core library.
+**Why this file:** score 31 — primary xUnit v3 suite (101 test/helper files) for the core library.
 
 ## OVERVIEW
 C# xUnit v3 behavioral tests for the FunnySharp core assembly. Attribute-driven only: `[Fact]` / `[Theory]` + `[InlineData]`; no collections, traits, or member/class data.
@@ -15,6 +15,7 @@ C# xUnit v3 behavioral tests for the FunnySharp core assembly. Attribute-driven 
 | Batched read requirements, source contract, scope bounds/cache, cancellation, and consumer comparison | `BatchRequirementTests.cs`, `BatchScopeTests.cs`, `BatchErrorHandlingTests.cs`, `BatchCancellationTests.cs`, `BatchSourceTests.cs`, `BatchConsumerComparisonTests.cs`; shared consumers in `../Shared/BatchComparison/` |
 | Domain value boundary, default/null/deserialization/patch behavior, and workflow comparison | `DomainValueTests.cs`, `DomainConsumerComparisonTests.cs`; shared consumers in `../Shared/DomainComparison/` |
 | Check fail-fast/accumulating behavior, callback ledger, async cancellation/faults, and consumer comparison | `CheckTests.cs`, `CheckAsyncTests.cs`, `CheckAllAsyncTests.cs`, `CheckConsumerComparisonTests.cs`; shared consumers in `../Shared/CheckComparison/` |
+| Fallible reduction semantics, source consumption/disposal, async tokens/cancellation, and Aggregate-over-Result comparison | `FallibleReductionTests.cs`, `FallibleReductionAsyncTests.cs`, `FallibleReductionComparisonTests.cs`; shared probes/consumers in `../Shared/FallibleReduction/` |
 | ValueTask consumption asserts | `CountingValueTaskSource.cs` (also linked into AspNetCore.Tests) |
 | Public-surface freeze | `AdvancedPatternCurationTests.cs` (exact member lists, forbidden names) |
 | Package boundary | `PackageBoundaryTests.cs` (reflection: platform-only references) |

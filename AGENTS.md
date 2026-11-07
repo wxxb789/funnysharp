@@ -21,7 +21,7 @@ funnysharp/
 ├── benchmarks/           # BenchmarkDotNet suites; isolated GreenDonut comparison; JSON receipts bound to eng/performance manifests
 ├── examples/             # executable examples + DocumentationSamples (byte-exact docs snippet contract)
 ├── .github/workflows/    # release.yml (manual release gate) + tooling.yml (3-OS PR merge gate)
-└── FunnySharp.slnx       # 19 projects; excludes tests/FunnySharp.Compatibility
+└── FunnySharp.slnx       # 20 projects; excludes tests/FunnySharp.Compatibility
 ```
 
 ## WHERE TO LOOK
@@ -30,6 +30,7 @@ funnysharp/
 |------|----------|-------|
 | Carrier APIs (Option/Result/UnitResult/Validation/Effect) | `src/FunnySharp/` | one public type-family per file |
 | Reusable checks | `src/FunnySharp/CheckExtensions.cs`, `docs/checks.md` | value-preserving `Check`; ordered independent `CheckAll`; no `Validation.Bind` |
+| Fallible reduction | `src/FunnySharp/FallibleReductionExtensions.cs`, `src/FunnySharp/AsyncFallibleReductionExtensions.cs`, `docs/fallible-reduction.md` | seeded `Result` fold; first failure stops source enumeration; sync/async source forms |
 | Batched reads (source/requirement/scope) | `src/FunnySharp/Batch*.cs`, `docs/batched-reads.md` | explicit source batch delegates; bounded scope-local cache, no ambient cache |
 | Tagged domain values | `src/FunnySharp/Domain*.cs`, `docs/domain-values.md` | phantom marker, validated boundary, derived contract/decoder; no union/serializer/runtime dependency |
 | Analyzers + code fixes (FS1001-FS1005) | `src/FunnySharp.Analyzers/`, `src/FunnySharp.Analyzers.CodeFixes/` | ship inside core nupkg `analyzers/dotnet/cs` |
@@ -54,7 +55,8 @@ funnysharp/
 | `Effect<T>` / `Effect<TEnvironment,T>` | struct | `src/FunnySharp/Effect.cs` | deferred boundary | composes via ValueTask, no DI runtime |
 | `BatchRequirement<TValue,TError>` / `BatchScope` | sealed classes | `src/FunnySharp/BatchRequirement.cs`, `src/FunnySharp/BatchScope.cs` | typed reads | deferred composition + bounded scope-local batch execution |
 | `HttpResultExtensions` | static class | `src/FunnySharp.AspNetCore/` | ~21 overloads | carriers -> `IResult`/`ProblemDetails` |
-| `Choose` / `Scan` | extensions | `src/FunnySharp/EnumerablePipelineExtensions.cs`, `AsyncEnumerablePipelineExtensions.cs` (+ `SpanPipelineExtensions.cs` for `Choose`) | fused Option filter-map, running aggregate | sync + async streams |
+| `Choose` / `Scan` | extensions | `src/FunnySharp/EnumerablePipelineExtensions.cs`, `AsyncEnumerablePipelineExtensions.cs` (+ `SpanPipelineExtensions.cs` for `Choose`) | fused Option filter-map, running aggregate; sync + async streams |
+| `AggregateResult` | extensions | `src/FunnySharp/FallibleReductionExtensions.cs`, `AsyncFallibleReductionExtensions.cs` | fallible seeded fold; first typed failure stops source consumption |
 | FS1001-FS1005 | analyzers | `src/FunnySharp.Analyzers/` | dogfooded everywhere | uninitialized carriers, discarded outcomes, ignored TryGet, blocked ValueTask, sync-disposed IAsyncDisposable |
 
 (Ref counts unmeasured - LSP symbol census not run at root; roles from subtree digests.)
@@ -76,6 +78,7 @@ funnysharp/
 - NEVER make `src/FunnySharp` depend on ASP.NET Core (goal 0001) or add any runtime dependency.
 - NEVER sync-block on async work (goal 0009); use the `...Async`/ValueTask variants.
 - NEVER add `Bind`/`SelectMany` to `Validation` to share check syntax; dependent rules stay on fail-fast `Check`, `Bind`, or ordinary control flow.
+- NEVER make `AggregateResult` continue source enumeration after a typed failure, materialize intermediate results, clone/roll back caller accumulators, or add automatic parallel reduction.
 - NEVER hand-edit machine-generated dirs: `docs/next-stage/inventory/generated/`, `docs/goals/archive/`, `docs/release-evidence/`, `docs/next-stage/call-sites-code/`, `docs/next-stage/review/` (append only).
 - NEVER treat tooling.yml CI as the release gate - only release.yml contexts gate a release.
 - Deliberate-misuse test snippets must wrap in `#pragma warning disable FS100x`; example projects must build with zero FS#### diagnostics.

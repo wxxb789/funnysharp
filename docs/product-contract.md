@@ -200,6 +200,18 @@ analysis, and compile-verified call sites are in [`next-stage/`](next-stage/).
   `Validation` does not gain a monadic `Bind` to share syntax. The asynchronous forms follow the
   existing `Task`/`ValueTask` naming, single-consumption, fault, and exact-token-forwarding
   conventions; rule execution is sequential and never blocks.
+- Short-circuiting fallible reduction extends the BCL sequence surface without adding a carrier.
+  `AggregateResult` folds an `IEnumerable<T>` through a caller-supplied seeded
+  `Result`-returning accumulator and returns the final accumulator or the first typed failure.
+  `AggregateResultAsync` and `AggregateResultValueAsync` provide the same contract over
+  `IAsyncEnumerable<T>`, with normal `ValueTask`, cancellation-token, and disposal semantics.
+  Empty input returns the exact supplied seed. A typed failure stops source enumeration: no later
+  source `MoveNext`/`MoveNextAsync` or step call, and the acquired enumerator is disposed. Source
+  and step exceptions and uninitialized step results are never converted into domain errors;
+  cancellation remains cancellation. Mutable accumulators are caller-owned and are not cloned,
+  isolated, or rolled back. There is no automatic parallel reduction without algebraic
+  assumptions, and no transaction/rollback, retry, new stream hierarchy, async wrapper, or
+  accumulating `Validation` mode.
 - Effects are thin `readonly struct` wrappers over standard delegates. They defer execution until
   `RunAsync`, return `ValueTask`, and make an optional caller-owned environment, cancellation, and
   resource lifetime explicit without changing normal .NET exception or cancellation semantics.
