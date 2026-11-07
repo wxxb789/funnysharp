@@ -43,6 +43,12 @@ that value or every error in rule order. Both operations have Task- and ValueTas
 with explicit cancellation overloads. See [Reusable checks](checks.md) for their empty-rule,
 already-failed, callback, ordering, and asynchronous semantics.
 
+`AggregateResult` folds a sequence through a seeded `Result`-returning accumulator and stops
+consuming the source at the first typed failure; `AggregateResultAsync` and
+`AggregateResultValueAsync` provide the asynchronous-source forms. Empty input returns the exact
+seed. This is source-level short-circuiting: `Enumerable.Aggregate` over `Result` skips the step
+after failure but keeps requesting source items. See [Fallible reduction](fallible-reduction.md).
+
 ## Option Interop
 
 `Option<T>.ToResult(error)` and `Option<T>.ToResult(errorFactory)` convert presence to success and

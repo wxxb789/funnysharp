@@ -23,6 +23,7 @@
     <Compile Include="../Shared/BatchComparison/*.cs" Link="Shared/BatchComparison/%(Filename)%(Extension)" />
     <Compile Include="../Shared/DomainComparison/*.cs" Link="Shared/DomainComparison/%(Filename)%(Extension)" />
     <Compile Include="../Shared/CheckComparison/*.cs" Link="Shared/CheckComparison/%(Filename)%(Extension)" />
+    <Compile Include="../Shared/FallibleReduction/*.cs" Link="Shared/FallibleReduction/%(Filename)%(Extension)" />
   </ItemGroup>
 
   <ItemGroup>

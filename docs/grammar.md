@@ -8,7 +8,7 @@ signature and its contract.
 This file is the authoritative verb reference. The per-feature guides
 ([option.md](option.md), [result.md](result.md), [unit-result.md](unit-result.md),
 [validation.md](validation.md), [checks.md](checks.md), [decoding.md](decoding.md), [function-composition.md](function-composition.md),
-[data-pipelines.md](data-pipelines.md), [effects.md](effects.md),
+[data-pipelines.md](data-pipelines.md), [fallible-reduction.md](fallible-reduction.md), [effects.md](effects.md),
 [concurrency.md](concurrency.md), [immutable-updates.md](immutable-updates.md),
 [state-machines.md](state-machines.md), and [aspnet-core.md](aspnet-core.md)) carry the detailed
 contracts and performance evidence; the rows below stay one line each.
@@ -183,7 +183,8 @@ verbs are listed below.
 | `WhereNotNull` | Filters nulls in one deferred pass. | `IEnumerable<T?>`, `IAsyncEnumerable<T?>` (class and struct overloads) | Same sequence carrier without nulls | — (bare verb; no callback exists) | Deferred; single pass per consumer enumeration; source order; no caching or intermediate collection. |
 | `Choose` | Fused Option-aware filter-map. | `IEnumerable<T>`, `IAsyncEnumerable<T>` (bare verb) | `IEnumerable<TResult>` / `IAsyncEnumerable<TResult>` | `ChooseValueAsync` (cancellation-aware chooser receives the enumeration token) | Deferred; single pass per consumer enumeration; source order; no intermediate collection or caching. |
 | `Scan` | Running aggregate: yields the accumulator after each element. | `IEnumerable<T>`, `IAsyncEnumerable<T>` (bare verb) | Sequence of accumulators | `ScanValueAsync` (cancellation-aware accumulator receives the enumeration token) | Deferred; the seed is never yielded; an empty source yields nothing; for a non-empty source the last value equals `Aggregate`/`AggregateAsync`; accumulator exceptions propagate unchanged. |
-| `Aggregate` | Folds a nonempty sequence without a separate seed. | `NonEmpty<T>` | `T` | — | Starts from `First`, visits `Rest` once in order, and propagates callback exceptions; seeded folds remain BCL operations. |
+| `AggregateResult` | Folds a sequence through a fallible accumulator, stopping at the first typed failure. | `IEnumerable<T>`, `IAsyncEnumerable<T>` | `Result<TAccumulate,TError>`; async source `ValueTask<Result<TAccumulate,TError>>` | `AggregateResultAsync` (sync step), `AggregateResultValueAsync` (`ValueTask` step; tokenless and cancellation-aware) | Eager; one enumeration; empty input returns the supplied seed; a failed step returns its error and makes no later source request or step call; no materialization; source/step exceptions, cancellation, and disposal keep normal .NET semantics; mutable accumulators are not rolled back. |
+| `Aggregate` | Folds a nonempty sequence without a separate seed. | `NonEmpty<T>` | `T` | — | Starts from `First`, visits `Rest` once in order, and propagates callback exceptions; seeded non-fallible folds remain BCL operations. |
 | `ToReadOnlyList` | Materializes the nonempty sequence into a fresh read-only list. | `NonEmpty<T>` | `IReadOnlyList<T>` | — | Copies `First` followed by `Rest`; the list and wrapper are allocated and do not alias the nonempty value's state. |
 
 ### Immediate Span And Memory Pipelines

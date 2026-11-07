@@ -11,7 +11,7 @@ asserts its own behavior, and prints one success marker.
 
 | File | Role |
 | --- | --- |
-| `Program.cs` (858 LOC) | Top-level runner; prints `FunnySharp examples passed.` |
+| `Program.cs` (860 LOC) | Top-level runner; prints `FunnySharp examples passed.` |
 | `UnitResultExamples.cs` | `Verify()` / `VerifyAsync()` — UnitResult surface incl. `ExampleAssertions.UninitializedThrows` pinning `The unit result has not been initialized.` |
 | `CollectionExamples.cs` | Collection/sequence examples (`Verify`/`VerifyAsync`) |
 | `FunctionGrammarSamples.cs` | Function-composition grammar samples |
@@ -21,6 +21,7 @@ asserts its own behavior, and prints one success marker.
 | `BatchExamples.cs` | Explicit batch sources, independent `Zip`, dependent `Bind`, key deduplication, request association, and missing/per-key outcomes |
 | `DomainExamples.cs` | Tagged identifiers, validated construction/decoding, explicit draft/placed/shipped states, and typed module-error composition |
 | `CheckExamples.cs` | Value-preserving `Check`, ordered independent `CheckAll`, empty/already-failed behavior, and Task/ValueTask forms |
+| `FallibleReductionExamples.cs` | Seeded `Result`-returning fold, empty seed, first failure, mutable-accumulator no-rollback, and sync/async source forms |
 | `ExampleAssertions.cs` | Shared asserts: `Equal`, `True`, `SequenceEqual`, `Throws`, `FaultIsPreserved`, `CancellationIsPreserved`, `UninitializedThrows` |
 
 ## CONVENTIONS

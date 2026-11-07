@@ -40,6 +40,12 @@ or `ToListAsync(token)`. The exact token is forwarded to the source and to a can
 chooser or accumulator; the operator does not inspect it eagerly. Source, delegate, cancellation,
 and disposal failures flow through normal `await foreach` behavior without wrapping.
 
+Fallible reduction is the eager counterpart for a sequence that must stop at the first typed
+failure: `AggregateResult` folds an `IEnumerable<T>` through a `Result`-returning accumulator, and
+the asynchronous-source forms do the same for `IAsyncEnumerable<T>`. It returns one final
+accumulator or failure rather than a sequence of accumulators, and it makes no later source
+request after the failure. See [fallible reduction](fallible-reduction.md).
+
 ## Span And Memory
 
 Span and memory operations execute immediately. They do not return deferred sequences, retain

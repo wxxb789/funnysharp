@@ -11,7 +11,10 @@ reads: source-owned batch delegates, typed deferred requirements, bounded execut
 scope-local cache, and distinct missing, per-key, whole-batch, unexpected-response, exception, and
 cancellation outcomes. Goal 30 adds stable tagged domain values: one underlying contract drives
 validation, decoding, generation, shrinking, description, and patch integration for a distinct
-marker type, with uninitialized defaults rejected. Every
+marker type, with uninitialized defaults rejected. Goal 32 adds reusable checks that preserve the
+exact input value or accumulate ordered independent errors. Goal 33 adds stable short-circuiting
+fallible reduction: a seeded `Result`-returning fold over synchronous and asynchronous BCL
+sequences that stops source enumeration at the first typed failure. Every
 experimental member carries `[Experimental("FS####")]` with the diagnostic ID recorded here, an
 entry in this inventory, no compatibility promise, and removal without a breaking-change
 process ([stability boundary](next-stage/api-decisions.md)). Stable members change only
@@ -39,6 +42,7 @@ its stability-inventory test.
 | Fail-fast no-value outcome | `UnitResult`, `UnitResult<TError>`, `UnitResultExtensions` | G1 adopt | Goal 15 (fourth carrier), Goals 16–17 (grammar, traversal) |
 | Accumulating validation | `Validation`, `Validation<TValue,TError>`, `ValidationExtensions` | AD-3 keep; default/uninitialized-state redesign delivered | 0.1.0; Goal 15 |
 | Reusable checks | `CheckExtensions` | New stable check family; value-preserving fail-fast `Check` and ordered independent-rule `CheckAll`; no new carrier, `Validation.Bind`, parallel rule execution, retry, caching, or runtime dependency | Goal 32 |
+| Fallible reduction | `FallibleReductionExtensions`, `AsyncFallibleReductionExtensions` | New stable seeded `Result`-returning fold family; synchronous and asynchronous BCL sequences; a typed failure stops source enumeration; no new carrier, stream hierarchy, rollback/transaction claim, automatic parallel reduction, retry, async wrapper, or runtime dependency | Goal 33 |
 | Function grammar | `FunctionExtensions` | AD-4 keep; `ComposeValueAsync` rename delivered | 0.1.0; Goal 16 |
 | Pipelines | `EnumerablePipelineExtensions`, `AsyncEnumerablePipelineExtensions`, `SpanPipelineExtensions` | AD-5 keep | 0.1.0 |
 | Sequences and traversal | `SequenceExtensions`, `AsyncSequenceExtensions` (located overloads are experimental, below) | AD-5 keep; G4 narrow `Scan` | 0.1.0; Goal 17 |
