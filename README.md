@@ -94,6 +94,7 @@ registration.Match(
 - **Reusable Checks**: `Result.Check` keeps the exact successful value after a fallible no-value business check; `CheckAll` applies an ordered set of independent checks to the same value and accumulates every error, with Task/ValueTask and cancellation-aware forms.
 - **Short-Circuiting Fallible Reduction**: `AggregateResult` folds an enumerable through a seeded `Result`-returning accumulator and returns the final accumulator or the first failure without reading later source items; asynchronous-source forms preserve the same contract with cancellation and disposal.
 - **Composable One-Pass Summaries**: `Summary` definitions for count, checked sum, extrema, and domain-specific state compose with `Zip`/`MapResult` into one typed result and one traversal; `EvaluateAsync` reuses the same synchronous calculation for asynchronous input acquisition with exact-token, cancellation, and disposal semantics.
+- **Cardinality-Checked Keyed Joins**: `LookupIndex`/`UniqueLookupIndex` state the equality policy and uniqueness scope explicitly; `JoinExactlyOne` either returns one output per source row in source order or the structured duplicate/missing failures with lookup and source positions; `JoinExactlyOneResults` streams one honest outcome per row without a Cartesian expansion.
 - **ASP.NET Core Minimal APIs**: Maps carriers and effects to caller-selected `IResult`, typed `Results<...>` unions, and RFC 7807/9457 `ProblemDetails` via `FunnySharp.AspNetCore`, preserving endpoint and OpenAPI metadata.
 
 ## Documentation & Examples
@@ -118,6 +119,7 @@ Start with [Core Design](docs/core-design.md) for the project's design direction
 | [Reusable Checks](https://github.com/wxxb789/funnysharp/blob/main/docs/checks.md) | [Check Evidence](https://github.com/wxxb789/funnysharp/blob/main/docs/check-evidence.md) | |
 | [Fallible Reduction](https://github.com/wxxb789/funnysharp/blob/main/docs/fallible-reduction.md) | [Fallible Reduction Evidence](https://github.com/wxxb789/funnysharp/blob/main/docs/fallible-reduction-evidence.md) | |
 | [One-Pass Summaries](https://github.com/wxxb789/funnysharp/blob/main/docs/one-pass-summaries.md) | [Summary Evidence](https://github.com/wxxb789/funnysharp/blob/main/docs/one-pass-summaries-evidence.md) | |
+| [Cardinality Joins](https://github.com/wxxb789/funnysharp/blob/main/docs/cardinality-joins.md) | [Join Evidence](https://github.com/wxxb789/funnysharp/blob/main/docs/cardinality-joins-evidence.md) | |
 
 Executable samples: [FunnySharp Core Examples](https://github.com/wxxb789/funnysharp/blob/main/examples/FunnySharp.Examples/Program.cs) and [ASP.NET Core Examples](https://github.com/wxxb789/funnysharp/blob/main/examples/FunnySharp.AspNetCore.Examples/Program.cs).
 

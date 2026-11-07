@@ -232,6 +232,7 @@ the library adds no locks, cloning, or snapshotting.
 | One final non-fallible fold | BCL `Aggregate`, `NonEmpty<T>.Aggregate` |
 | Collect every successful value or independent error | `Sequence`/`Traverse` or `Validation` traversal |
 | Cardinality or one extrema only | `Count`, `Sum`, `MinOrNone`, `MaxOrNone` |
+| Exactly one keyed match per input row, with structured failures | [`JoinExactlyOne`](cardinality-joins.md) |
 
 A summary is a good fit when several independent calculations share an expensive, single-pass, or
 asynchronous source. A single summary over a cheap in-memory array is usually clearer as the

@@ -4,11 +4,6 @@ module FunnySharp.Harness.DocsSnippets
 // itself the behaviour-equivalent port of the authoritative PowerShell verifier
 // at examples/FunnySharp.DocumentationSamples/VerifyDocumentationSnippets.ps1.
 //
-// The console contract: on success one stdout line
-//   Verified <n> C# documentation snippets across 12 primary guides.
-// and exit 0; on any failure every failure line goes to stderr prefixed
-// 'error: ' and the exit code is 1. Nothing is ever written.
-//
 // PowerShell semantics reproduced deliberately:
 //   * region keys and compared lines are case-insensitive (-eq/-ne);
 //   * an inclusive range whose upper bound is below its lower bound descends
@@ -30,10 +25,10 @@ open System.Text
 open System.Text.RegularExpressions
 open FunnySharp.Harness.Repo
 
-/// The twelve primary guides, in the fixed verifier order. No directory discovery.
 let primaryGuides: string list =
     [ "analyzers.md"
       "aspnet-core.md"
+      "cardinality-joins.md"
       "collections.md"
       "concurrency.md"
       "effects.md"

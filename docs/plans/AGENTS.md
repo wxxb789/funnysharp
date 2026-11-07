@@ -1,10 +1,10 @@
 # docs/plans/ — ce-unified-plan/v1 design-time plans
 
-Earned: score ~9 (distinct domain) — 7 plans, ~3,300 lines, all carrying the rigid `ce-unified-plan/v1` artifact contract.
+Earned: score ~9 (distinct domain) — 8 plans, ~4,000 lines, all carrying the rigid `ce-unified-plan/v1` artifact contract.
 
 ## OVERVIEW
 
-Design-time plans for the Option abstraction, release-acceptance restoration, uv tooling, the Goal 17 collection surface, and Goal 26 decoding — how shipped features were planned and verified.
+Design-time plans for the Option abstraction, release-acceptance restoration, uv tooling, the Goal 17 collection surface, Goal 26 decoding, and the Goal 33-35 sequence features — how shipped features were planned and verified.
 
 ## WHERE TO LOOK
 
@@ -17,6 +17,7 @@ Design-time plans for the Option abstraction, release-acceptance restoration, uv
 | `2026-10-30-1156-feat-composable-decoding-plan.md` | Goal 26 decoder surface, error model, three-way consumer comparison, and measurements |
 | `2026-11-07-0519-feat-fallible-reduction-plan.md` | Goal 33 seeded fallible fold, source short-circuit semantics, async-source path, reference comparison, and measurements |
 | `2026-11-07-1807-feat-one-pass-summaries-plan.md` | Goal 34 reusable count/sum/extrema/domain summaries, `Zip`/`MapResult`, one-pass and async evaluation, MapAccum non-adoption, reference comparison, and measurements |
+| `2026-11-08-0144-feat-strict-cardinality-joins-plan.md` | Goal 35 strict-cardinality keyed lookups and exactly-one joins: many and unique indexes, complete-input versus matched-key uniqueness, buffered and streaming shapes, structured positions, comparison, and measurements |
 
 ## CONVENTIONS (ce-unified-plan/v1 — every new plan follows it)
 

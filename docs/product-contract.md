@@ -32,7 +32,11 @@ analysis, and compile-verified call sites are in [`next-stage/`](next-stage/).
   decoding, contract, and explanation boundary; neither is an outcome carrier, and neither adds a
   new failure or absence channel. `Summary<TSource, TState, TResult>` is a reusable sequence-summary
   description, not an outcome carrier; evaluating it returns the caller's result type and adds no
-  failure or absence channel. Explicit state variants and typed module-error hierarchies stay
+  failure or absence channel. `LookupIndex<TKey, TValue>` and `UniqueLookupIndex<TKey, TValue>` are
+  materialized keyed-association descriptions, not outcome carriers; their keyed reads return
+  `Option`/`Result` values, their buffered joins return `Validation`, their streaming join yields
+  `Result` outcomes, and `LookupError<TKey>` is only their diagnostic value. Explicit state
+  variants and typed module-error hierarchies stay
   ordinary C# records over `Result`/`Validation`; no union type is added.
 - No second carrier for any of these meanings may be added. `Maybe`, `Either`, `Fin`, `Try`,
   `IO`, `Reader`, `State`, `OptionAsync`, and async outcome wrappers remain out of scope.
@@ -230,6 +234,23 @@ analysis, and compile-verified call sites are in [`next-stage/`](next-stage/).
   public typeclass hierarchy, automatic parallelism, LINQ replacement, compile-time fusion,
   materialization/cache, or exception-to-result conversion. Single fallible short-circuiting
   remains `AggregateResult`; mutable state isolation, cloning, and rollback remain caller-owned.
+- Cardinality-checked keyed lookups and joins extend the BCL sequence surface without adding a
+  carrier. `LookupIndex<TKey, TValue>` retains every occurrence of a key in lookup-source order
+  under an explicit comparer and exposes `GetMany`, `GetZeroOrOne`, and `GetExactlyOne`;
+  `UniqueLookupIndex<TKey, TValue>` proves at most one value per key over the complete indexed
+  input and exposes `GetOption`. `ToUniqueLookupIndex`, `RequireUniqueKeys`, and the raw buffered
+  `JoinExactlyOne` validate duplicate and null keys over the complete lookup input and report
+  structured `LookupError<TKey>` values with lookup and source positions; the buffered join
+  returns no partial output on failure and accumulates every structural error, lookup errors
+  before source errors. `JoinExactlyOneResults` yields one outcome per source row, checks
+  duplicates only for matched keys, may emit successes before a later failure, and makes no
+  complete-input or all-or-nothing promise. Success preserves source order and yields one output per
+  source row; duplicate keys never expand output, and explicit one-to-many expansion uses
+  `GetMany` plus ordinary LINQ. Null keys are structural failures, the equality policy is always
+  explicit or `EqualityComparer<TKey>.Default`, and no dictionary interface is claimed to reveal
+  its comparer. The index retains caller values by reference under a documented snapshot/lifetime
+  contract. No SQL provider, ORM query translator, DataFrame universe, database-level integrity
+  guarantee, many-to-many join, async mirror, or new carrier is added.
 - Effects are thin `readonly struct` wrappers over standard delegates. They defer execution until
   `RunAsync`, return `ValueTask`, and make an optional caller-owned environment, cancellation, and
   resource lifetime explicit without changing normal .NET exception or cancellation semantics.

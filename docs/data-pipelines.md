@@ -51,6 +51,12 @@ Independent count, sum, extrema, and domain summaries compose into one typed res
 source is traversed once, and the same synchronous calculation is reusable when only input
 acquisition is asynchronous. See [one-pass summaries](one-pass-summaries.md).
 
+Keyed association code can state its cardinality explicitly. A `LookupIndex` materializes a
+lookup sequence under an explicit comparer; `JoinExactlyOne` either returns one output per source
+row in source order or the structured duplicate/missing failures with lookup and source positions,
+while `JoinExactlyOneResults` streams one outcome per row. See
+[cardinality joins](cardinality-joins.md).
+
 ## Span And Memory
 
 Span and memory operations execute immediately. They do not return deferred sequences, retain
