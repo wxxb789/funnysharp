@@ -431,31 +431,4 @@ internal static class FallibleReductionMeasurements
         }
     }
 
-    private sealed class AsyncArraySequence<T>(IReadOnlyList<T> items) : IAsyncEnumerable<T>
-    {
-        public IAsyncEnumerator<T> GetAsyncEnumerator(
-            CancellationToken cancellationToken = default) =>
-            new Enumerator(items);
-
-        private sealed class Enumerator(IReadOnlyList<T> items) : IAsyncEnumerator<T>
-        {
-            private int index = -1;
-
-            public T Current => items[index];
-
-            public ValueTask<bool> MoveNextAsync()
-            {
-                if (index + 1 >= items.Count)
-                {
-                    index = items.Count;
-                    return ValueTask.FromResult(false);
-                }
-
-                index++;
-                return ValueTask.FromResult(true);
-            }
-
-            public ValueTask DisposeAsync() => ValueTask.CompletedTask;
-        }
-    }
 }

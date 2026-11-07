@@ -14,7 +14,10 @@ validation, decoding, generation, shrinking, description, and patch integration 
 marker type, with uninitialized defaults rejected. Goal 32 adds reusable checks that preserve the
 exact input value or accumulate ordered independent errors. Goal 33 adds stable short-circuiting
 fallible reduction: a seeded `Result`-returning fold over synchronous and asynchronous BCL
-sequences that stops source enumeration at the first typed failure. Every
+sequences that stops source enumeration at the first typed failure. Goal 34 adds stable one-pass
+sequence summaries: independently defined count, sum, extrema, and domain summaries compose into
+one typed result with one traversal, local per-component state, and the same calculation reused
+for synchronous or asynchronous input acquisition. Every
 experimental member carries `[Experimental("FS####")]` with the diagnostic ID recorded here, an
 entry in this inventory, no compatibility promise, and removal without a breaking-change
 process ([stability boundary](next-stage/api-decisions.md)). Stable members change only
@@ -42,6 +45,7 @@ its stability-inventory test.
 | Fail-fast no-value outcome | `UnitResult`, `UnitResult<TError>`, `UnitResultExtensions` | G1 adopt | Goal 15 (fourth carrier), Goals 16–17 (grammar, traversal) |
 | Accumulating validation | `Validation`, `Validation<TValue,TError>`, `ValidationExtensions` | AD-3 keep; default/uninitialized-state redesign delivered | 0.1.0; Goal 15 |
 | Reusable checks | `CheckExtensions` | New stable check family; value-preserving fail-fast `Check` and ordered independent-rule `CheckAll`; no new carrier, `Validation.Bind`, parallel rule execution, retry, caching, or runtime dependency | Goal 32 |
+| One-pass summaries | `Summary`, `Summary<TSource>`, `Summary<TSource,TState,TResult>` | New stable reusable summary-description family; independent count/sum/min/max and domain summaries compose with `Zip`/`MapResult`; one traversal with local per-component state; synchronous calculation reused for asynchronous acquisition; checked source-order count/sum, `Option` extrema, seed-factory isolation; no new carrier, typeclass hierarchy, automatic parallel evaluation, LINQ replacement, early-exit protocol, compile-time fusion, or runtime dependency | Goal 34 |
 | Fallible reduction | `FallibleReductionExtensions`, `AsyncFallibleReductionExtensions` | New stable seeded `Result`-returning fold family; synchronous and asynchronous BCL sequences; a typed failure stops source enumeration; no new carrier, stream hierarchy, rollback/transaction claim, automatic parallel reduction, retry, async wrapper, or runtime dependency | Goal 33 |
 | Function grammar | `FunctionExtensions` | AD-4 keep; `ComposeValueAsync` rename delivered | 0.1.0; Goal 16 |
 | Pipelines | `EnumerablePipelineExtensions`, `AsyncEnumerablePipelineExtensions`, `SpanPipelineExtensions` | AD-5 keep | 0.1.0 |

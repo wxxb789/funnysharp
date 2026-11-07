@@ -5,6 +5,7 @@ using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Exporters;
 using BenchmarkDotNet.Loggers;
 using BenchmarkDotNet.Reports;
+using BenchmarkSummary = BenchmarkDotNet.Reports.Summary;
 
 namespace FunnySharp.Benchmarks;
 
@@ -27,13 +28,13 @@ internal abstract class ReceiptExporterCore : IExporter
 
     public string Name => name;
 
-    public void ExportToLog(Summary summary, ILogger logger)
+    public void ExportToLog(BenchmarkSummary summary, ILogger logger)
     {
         var path = GetReceiptPath(summary);
         logger.WriteLineInfo($"{logPrefix}: {path}");
     }
 
-    public IEnumerable<string> ExportToFiles(Summary summary, ILogger consoleLogger)
+    public IEnumerable<string> ExportToFiles(BenchmarkSummary summary, ILogger consoleLogger)
     {
         var path = GetReceiptPath(summary);
         var repositoryRoot = FindRepositoryRoot();
@@ -125,13 +126,13 @@ internal abstract class ReceiptExporterCore : IExporter
         return [path];
     }
 
-    private static string GetReceiptPath(Summary summary)
+    private static string GetReceiptPath(BenchmarkSummary summary)
     {
         var benchmarkClass = summary.BenchmarksCases.Select(benchmark => benchmark.Descriptor.Type.Name).Distinct().Single();
         return Path.Combine(summary.ResultsDirectoryPath, $"{benchmarkClass}-performance-receipt.json");
     }
 
-    private static ReportEvidence[] GetReportEvidence(Summary summary)
+    private static ReportEvidence[] GetReportEvidence(BenchmarkSummary summary)
     {
         var benchmarkType = summary.BenchmarksCases.Select(benchmark => benchmark.Descriptor.Type).Distinct().Single();
         var prefix = benchmarkType.FullName ?? benchmarkType.Name;

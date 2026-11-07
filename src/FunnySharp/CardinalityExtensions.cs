@@ -358,7 +358,7 @@ public static class CardinalityExtensions
                 continue;
             }
 
-            if (!found || comparer.Compare(item, minimum!) < 0)
+            if (ExtremumPolicy.Replaces(found, item, minimum!, comparer, selectLargest: false))
             {
                 minimum = item;
                 found = true;
@@ -423,7 +423,7 @@ public static class CardinalityExtensions
                 continue;
             }
 
-            if (!found || comparer.Compare(item, maximum!) > 0)
+            if (ExtremumPolicy.Replaces(found, item, maximum!, comparer, selectLargest: true))
             {
                 maximum = item;
                 found = true;

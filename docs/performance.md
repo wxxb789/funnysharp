@@ -114,7 +114,10 @@ their cost depends on the caller's plan shape, source count, and cache state. Do
 validation, wrapping, and derived-contract costs depend on the caller's underlying contract and are
 disclosed in [domain-value-evidence.md](domain-value-evidence.md); the tagged wrapper itself adds
 no allocation over the underlying value, and the family is excluded from the release benchmark
-table.
+table. One-pass summary composition allocates per-evaluation component state and depends on the
+caller's delegates, so its state size, delegate, allocation, and large-value rows are disclosed in
+[one-pass-summaries-evidence.md](one-pass-summaries-evidence.md) and excluded from the release
+benchmark table.
 
 ## Regression policy
 
