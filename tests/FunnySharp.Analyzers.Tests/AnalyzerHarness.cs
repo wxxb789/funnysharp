@@ -209,6 +209,19 @@ internal static class AnalyzerHarness
                 references,
                 names,
                 prefix: "Microsoft.");
+            // AddOpenApi/MapOpenApi live in the Microsoft.AspNetCore.OpenApi package, not the
+            // shared framework directory scanned above; the ASP.NET Core examples call them, so
+            // pull the package assemblies the test project itself restores.
+            AddDirectoryReferences(
+                AppContext.BaseDirectory,
+                references,
+                names,
+                prefix: "Microsoft.AspNetCore.OpenApi");
+            AddDirectoryReferences(
+                AppContext.BaseDirectory,
+                references,
+                names,
+                prefix: "Microsoft.OpenApi");
         }
 
         return references.ToImmutableArray();
