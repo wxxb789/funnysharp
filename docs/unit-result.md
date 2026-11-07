@@ -34,6 +34,11 @@ the `To*` conversion family alongside `Option<T>.ToResult` and
 `Result<TValue, TError>.ToUnitResult`. The naming rule is recorded in
 [Functional API Grammar](grammar.md).
 
+`UnitResult<TError>` is also the natural result of a fallible business check. `Result.Check` and
+`Result.CheckAll` consume these checks directly and retain the original successful value, so a
+value-preserving fail-fast workflow no longer needs `ToResult(() => originalValue)`. See
+[Reusable checks](checks.md).
+
 A delete-or-notify command shows the shape: a precondition, a delete, and an idempotent recovery when
 the delete fails.
 

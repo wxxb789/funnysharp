@@ -9,6 +9,7 @@ Functional carriers (`Option`/`Result`/`UnitResult`/`Validation`/`Effect`), inpu
 | Task | Location |
 |------|----------|
 | Carrier semantics | `Option.cs`, `Result.cs`, `UnitResult.cs`, `Validation.cs` |
+| Reusable checks | `CheckExtensions.cs` (value-preserving `Check`, ordered independent `CheckAll`; Task/ValueTask forms) |
 | Input decoding | `Decoder.cs`, `DecodeError.cs`, `DecodeErrorKind.cs` (JsonElement -> Validation; stable `Path`, experimental `Location`) |
 | Inspectable contracts | `Contract.cs` plus `Contract*.cs` (one description -> validation, decoder derivation, explanation, schema, generation, shrinking; explicit limitations and caller extensions) |
 | Typed partial updates | `PatchChange.cs`, `PatchField.cs`, `Patch.cs`, `PatchSchema.cs` (three-state changes, allowed-field decode, candidate validation, conflict detection, immutable application) |
@@ -37,4 +38,5 @@ Functional carriers (`Option`/`Result`/`UnitResult`/`Validation`/`Effect`), inpu
 - Batched reads never infer a batch-capable source: the caller supplies the source delegate, equality policy, and partition. Missing, per-key, whole-batch, and unexpected-response outcomes stay distinct from exceptions and cancellation; scope caches are bounded and explicit.
 - Contracts never invent a predicate inverse, generator, purity proof, or complete schema. Missing derivations are explicit `ContractLimitation` values; generation never silently rejection-samples a cross-field rule, and every generated or shrunk value is checked against the contract.
 - No second absence carrier (e.g. `Maybe<T>`) and no `Where` member on carrier types — frozen by `AdvancedPatternCurationTests`.
+- Never add `Bind`/`SelectMany` to `Validation` to share check syntax; `CheckAll` only applies independent rules to one input. Dependent work stays on fail-fast `Check`, `Bind`, or ordinary control flow.
 - Domain values never become a second outcome channel: no union/`Either` system, no implicit conversions, no public constructor, no serializer, and no storage/authorization/exactly-once claim. `Domain.Contract` must derive through `Contract.Widen`, not a parallel rule engine.

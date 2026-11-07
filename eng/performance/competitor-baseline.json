@@ -56,6 +56,7 @@
       "src/FunnySharp/BatchSourceEntry.cs",
       "src/FunnySharp/BatchSourceEntryKind.cs",
       "src/FunnySharp/CardinalityExtensions.cs",
+      "src/FunnySharp/CheckExtensions.cs",
       "src/FunnySharp/ConcurrentEffectExtensions.cs",
       "src/FunnySharp/ContainerExtensions.cs",
       "src/FunnySharp/Contract.cs",

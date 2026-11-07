@@ -22,6 +22,10 @@
   <ItemGroup>
     <PackageReference Include="xunit.v3" Version="4.0.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.14.0" />
+    <!-- The ASP.NET Core examples call AddOpenApi/MapOpenApi. Those extensions ship in a
+         package, not the Microsoft.AspNetCore.App shared framework, so the harness needs the
+         same assembly the example project references to compile those sources. -->
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.12" />
   </ItemGroup>
 
   <ItemGroup>

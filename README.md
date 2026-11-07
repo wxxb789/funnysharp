@@ -91,6 +91,7 @@ registration.Match(
 - **Typed Partial Updates**: `Patch<T>`/`PatchChange<T>`/`PatchSchema<T>` distinguish unchanged, cleared, and replaced fields, validate the complete candidate with a reused `Contract<T>`, report conflicting combines, and apply through callers' lenses.
 - **Composable Batched Reads**: `BatchSource<TKey,TValue,TError>` supplies the only batching claim, `BatchRequirement<TValue,TError>` composes typed independent and dependent reads, and `BatchScope` groups/deduplicates keys under explicit batch, admission, cache, cancellation, and disposal bounds.
 - **Tagged Domain Values**: `DomainValue<TValue,TTag>`/`Domain<TValue,TTag>` keep confusable identifiers distinct, validate construction, and derive contract/decoder behavior from one rule set; explicit state types and typed module-error records stay ordinary C#.
+- **Reusable Checks**: `Result.Check` keeps the exact successful value after a fallible no-value business check; `CheckAll` applies an ordered set of independent checks to the same value and accumulates every error, with Task/ValueTask and cancellation-aware forms.
 - **ASP.NET Core Minimal APIs**: Maps carriers and effects to caller-selected `IResult`, typed `Results<...>` unions, and RFC 7807/9457 `ProblemDetails` via `FunnySharp.AspNetCore`, preserving endpoint and OpenAPI metadata.
 
 ## Documentation & Examples
@@ -112,6 +113,7 @@ Start with [Core Design](docs/core-design.md) for the project's design direction
 | [Partial Updates](https://github.com/wxxb789/funnysharp/blob/main/docs/partial-updates.md) | [Partial Update Evidence](https://github.com/wxxb789/funnysharp/blob/main/docs/partial-update-evidence.md) | |
 | [Batched Reads](https://github.com/wxxb789/funnysharp/blob/main/docs/batched-reads.md) | [Batch Evidence](https://github.com/wxxb789/funnysharp/blob/main/docs/batch-evidence.md) | |
 | [Domain Values & State](https://github.com/wxxb789/funnysharp/blob/main/docs/domain-values.md) | [Domain Value Evidence](https://github.com/wxxb789/funnysharp/blob/main/docs/domain-value-evidence.md) | |
+| [Reusable Checks](https://github.com/wxxb789/funnysharp/blob/main/docs/checks.md) | [Check Evidence](https://github.com/wxxb789/funnysharp/blob/main/docs/check-evidence.md) | |
 
 Executable samples: [FunnySharp Core Examples](https://github.com/wxxb789/funnysharp/blob/main/examples/FunnySharp.Examples/Program.cs) and [ASP.NET Core Examples](https://github.com/wxxb789/funnysharp/blob/main/examples/FunnySharp.AspNetCore.Examples/Program.cs).
 

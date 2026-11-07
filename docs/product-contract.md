@@ -190,6 +190,16 @@ analysis, and compile-verified call sites are in [`next-stage/`](next-stage/).
     error with an explicit diagnostic, and Goal 15 owns the mechanism.
   - `TransitionResult<...>` default is `Undefined`, a meaningful machine status.
   - Uninitialized `Effect` and optics values fail explicitly when used.
+- Reusable checks extend the existing outcome carriers without adding a carrier. `Result.Check`
+  accepts a caller-supplied no-value `UnitResult` operation and retains the exact successful
+  input value on success; it is not a predicate guard or a value-changing `Bind`.
+  `Result.CheckAll` and `Validation.CheckAll` apply an ordered, snapshotted set of independent
+  no-value checks to one active value and accumulate their errors in rule order. An inactive
+  input is not enumerated or checked. Empty rules retain the value, and dependent rules use
+  `Check`, `Bind`, or ordinary control flow rather than being evaluated as independent.
+  `Validation` does not gain a monadic `Bind` to share syntax. The asynchronous forms follow the
+  existing `Task`/`ValueTask` naming, single-consumption, fault, and exact-token-forwarding
+  conventions; rule execution is sequential and never blocks.
 - Effects are thin `readonly struct` wrappers over standard delegates. They defer execution until
   `RunAsync`, return `ValueTask`, and make an optional caller-owned environment, cancellation, and
   resource lifetime explicit without changing normal .NET exception or cancellation semantics.

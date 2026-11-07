@@ -32,10 +32,17 @@ nest or use `Traverse`, and unbounded tuple towers are rejected. `Map` and `MapE
 their selector at entry and let selector exceptions escape unchanged. `Map` invokes its selector
 once for a valid value; invalid `MapErrors` invokes its selector once per stored error.
 
+`CheckAll` adds an ordered set of independent no-value business checks to a valid validation. It
+runs every rule against the same valid value, accumulates each failed rule's error in rule order,
+and leaves an invalid validation's existing error snapshot untouched without running a rule. The
+operation is not a `Bind`/`SelectMany` and cannot feed one rule's success into a later dependent
+rule; use fail-fast `Check` or `Bind` for that workflow. The synchronous, Task, and ValueTask forms
+are documented in [Reusable checks](checks.md).
+
 There is deliberately no `Bind`, `SelectMany`, or `ZipWith`. A later dependent check cannot be
 evaluated independently of an earlier valid value, so it cannot honestly participate in
-independent error accumulation. Use ordinary C# control flow, or use fail-fast `Result` for that
-workflow.
+independent error accumulation. Use ordinary C# control flow, or use fail-fast `Result.Check` or
+`Result.Bind` for that workflow.
 
 `InvalidMany(IEnumerable<TError>)` rejects a null or empty sequence, enumerates the source exactly
 once, and takes an immutable snapshot of its contents. Later mutations of the input collection do
