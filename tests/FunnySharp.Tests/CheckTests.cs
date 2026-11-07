@@ -60,8 +60,10 @@ public sealed class CheckTests
             () => { _ = uninitialized.Check(_ => UnitResult<string>.Success()); });
         Assert.Throws<ArgumentNullException>(
             () => { _ = uninitialized.Check(null!); });
+#pragma warning disable FS1001 // Intentional runtime misuse witness.
         Assert.Throws<InvalidOperationException>(
             () => { _ = success.Check(_ => default); });
+#pragma warning restore FS1001
     }
 
     [Fact]
@@ -279,6 +281,7 @@ public sealed class CheckTests
         var result = Result<int, string>.Success(1);
         var calls = 0;
 
+#pragma warning disable FS1001 // Intentional runtime misuse witness.
         Assert.Throws<InvalidOperationException>(() =>
         {
             _ = result.CheckAll(
@@ -287,6 +290,7 @@ public sealed class CheckTests
                 _ => { calls++; return UnitResult<string>.Success(); },
             ]);
         });
+#pragma warning restore FS1001
         Assert.Equal(1, calls);
 
         Assert.Throws<ArgumentNullException>(() => { _ = result.CheckAll(null!); });

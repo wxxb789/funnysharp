@@ -166,6 +166,10 @@ public static class CheckExtensions
     /// <typeparam name="TError">The failure value type.</typeparam>
     /// <param name="result">The result to check.</param>
     /// <param name="check">The asynchronous no-value business check to run for a successful result.</param>
+    /// <returns>
+    /// A task that produces the original result when the check succeeds, the check's typed failure
+    /// when it fails, and the observed awaitable's fault or cancellation state otherwise.
+    /// </returns>
     /// <remarks>
     /// The delegate is guarded synchronously. An already-failed result returns an
     /// already-completed failed task without invoking the check or inspecting a cancellation token.
@@ -174,10 +178,12 @@ public static class CheckExtensions
     /// a failed check produces its typed error.
     /// <para>
     /// Synchronous exceptions from the delegate, a null returned task, and an uninitialized unit
-    /// result are represented by the returned task. Faults and cancellation retain their normal
-    /// asynchronous status and are not converted to typed carrier failures. A faulted task that
-    /// contains an <see cref="OperationCanceledException"/> remains faulted; only a canceled task
-    /// produces cancellation.
+    /// result are represented by the returned task. A synchronously thrown
+    /// <see cref="OperationCanceledException"/> produces cancellation carrying that same exception
+    /// instance. Faults and cancellation retain their normal asynchronous status and are not
+    /// converted to typed carrier failures. A faulted task that contains an
+    /// <see cref="OperationCanceledException"/> remains faulted; a canceled task produces
+    /// cancellation with its token.
     /// </para>
     /// </remarks>
     /// <exception cref="ArgumentNullException"><paramref name="check"/> is null.</exception>
@@ -205,10 +211,14 @@ public static class CheckExtensions
     /// <param name="result">The result to check.</param>
     /// <param name="check">The asynchronous no-value business check to run for a successful result.</param>
     /// <param name="cancellationToken">The token forwarded unchanged to <paramref name="check"/>.</param>
+    /// <returns>
+    /// A task with the same success, failure, fault, and cancellation contract as the tokenless
+    /// overload; the token changes only what is forwarded to <paramref name="check"/>.
+    /// </returns>
     /// <remarks>
     /// The token is forwarded unchanged and is not inspected independently. An already-failed
     /// result returns an already-completed failed task without invoking the check or inspecting
-    /// the token. See <c>CheckAsync</c>
+    /// the token. See <see cref="CheckAsync{TValue, TError}(Result{TValue, TError}, Func{TValue, Task{UnitResult{TError}}})"/>
     /// for the callback, fault, cancellation, and null-task behavior.
     /// </remarks>
     /// <exception cref="ArgumentNullException"><paramref name="check"/> is null.</exception>
@@ -236,12 +246,22 @@ public static class CheckExtensions
     /// <typeparam name="TError">The failure value type.</typeparam>
     /// <param name="result">The result to check.</param>
     /// <param name="check">The no-value business check to run for a successful result.</param>
+    /// <returns>
+    /// A value task that produces the original result when the check succeeds, the check's typed
+    /// failure when it fails, and the observed awaitable's fault or cancellation state otherwise.
+    /// </returns>
     /// <remarks>
     /// The delegate is guarded synchronously. An already-failed result returns an
     /// already-completed failed value task without invoking the check. A successful result invokes
     /// the check once and observes the returned value task once. A synchronously completed check
-    /// result is interpreted without creating a task. Faults, cancellation, null tasks, and
-    /// uninitialized check results follow the same rules as the task-returning overload.
+    /// result is interpreted without creating a task.
+    /// <para>
+    /// A callback fault or cancellation surfaces through the returned value task; a synchronously
+    /// thrown <see cref="OperationCanceledException"/> produces cancellation with that exception.
+    /// An uninitialized unit result faults the returned value task with
+    /// <see cref="InvalidOperationException"/>. Faults and cancellation are never converted to
+    /// typed carrier failures.
+    /// </para>
     /// </remarks>
     /// <exception cref="ArgumentNullException"><paramref name="check"/> is null.</exception>
     /// <exception cref="InvalidOperationException"><paramref name="result"/> is the default value; thrown synchronously.</exception>
@@ -270,9 +290,13 @@ public static class CheckExtensions
     /// <param name="result">The result to check.</param>
     /// <param name="check">The no-value business check to run for a successful result.</param>
     /// <param name="cancellationToken">The token forwarded unchanged to <paramref name="check"/>.</param>
+    /// <returns>
+    /// A value task with the same success, failure, fault, and cancellation contract as the
+    /// tokenless overload.
+    /// </returns>
     /// <remarks>
     /// The token is forwarded unchanged and is not inspected independently. See
-    /// <c>CheckValueAsync</c>
+    /// <see cref="CheckValueAsync{TValue, TError}(Result{TValue, TError}, Func{TValue, ValueTask{UnitResult{TError}}})"/>
     /// for the single-consumption, fault, cancellation, and already-failed behavior.
     /// </remarks>
     /// <exception cref="ArgumentNullException"><paramref name="check"/> is null.</exception>
@@ -318,7 +342,10 @@ public static class CheckExtensions
     /// reached check faults or cancels, and later checks are not invoked; no partial validation is
     /// returned. A faulted task containing an <see cref="OperationCanceledException"/> remains
     /// faulted. Callback exceptions are represented by the returned task, while rule-source
-    /// materialization exceptions are thrown synchronously.
+    /// materialization exceptions are thrown synchronously. A reached check that returns an
+    /// uninitialized <see cref="UnitResult{TError}"/> faults the returned task with
+    /// <see cref="InvalidOperationException"/> and prevents later checks; that programming error is
+    /// delivered asynchronously, so a caller must observe the returned task to see it.
     /// </para>
     /// </remarks>
     /// <exception cref="ArgumentNullException"><paramref name="checks"/> is null; thrown synchronously.</exception>
@@ -332,7 +359,13 @@ public static class CheckExtensions
 
         if (result.TryGetValue(out var value))
         {
-            return CheckAllAsyncCore(value!, Snapshot(checks));
+            var snapshot = Snapshot(checks);
+            return RunAsyncChecks(
+                    value!,
+                    snapshot,
+                    CancellationToken.None,
+                    InvokeTask)
+                .AsTask();
         }
 
         result.TryGetError(out var error);
@@ -352,7 +385,7 @@ public static class CheckExtensions
     /// <remarks>
     /// The token is forwarded unchanged to each reached check and is not inspected independently.
     /// Already-failed, empty-rule, callback, fault, cancellation, and rule-order behavior matches
-    /// <c>CheckAllAsync</c>.
+    /// <see cref="CheckAllAsync{TValue, TError}(Result{TValue, TError}, IEnumerable{Func{TValue, Task{UnitResult{TError}}}})"/>.
     /// </remarks>
     /// <exception cref="ArgumentNullException"><paramref name="checks"/> is null; thrown synchronously.</exception>
     /// <exception cref="ArgumentException">The checks snapshot contains a null check element; thrown synchronously.</exception>
@@ -366,7 +399,13 @@ public static class CheckExtensions
 
         if (result.TryGetValue(out var value))
         {
-            return CheckAllAsyncCore(value!, Snapshot(checks), cancellationToken);
+            var snapshot = Snapshot(checks);
+            return RunAsyncChecks(
+                    value!,
+                    snapshot,
+                    cancellationToken,
+                    InvokeTaskWithToken)
+                .AsTask();
         }
 
         result.TryGetError(out var error);
@@ -402,7 +441,13 @@ public static class CheckExtensions
             return Task.FromResult(validation);
         }
 
-        return CheckAllAsyncCore(value!, Snapshot(checks));
+        var snapshot = Snapshot(checks);
+        return RunAsyncChecks(
+                value!,
+                snapshot,
+                CancellationToken.None,
+                InvokeTask)
+            .AsTask();
     }
 
     /// <summary>
@@ -435,7 +480,13 @@ public static class CheckExtensions
             return Task.FromResult(validation);
         }
 
-        return CheckAllAsyncCore(value!, Snapshot(checks), cancellationToken);
+        var snapshot = Snapshot(checks);
+        return RunAsyncChecks(
+                value!,
+                snapshot,
+                cancellationToken,
+                InvokeTaskWithToken)
+            .AsTask();
     }
 
     /// <summary>
@@ -466,7 +517,12 @@ public static class CheckExtensions
 
         if (result.TryGetValue(out var value))
         {
-            return CheckAllValueAsyncCore(value!, Snapshot(checks));
+            var snapshot = Snapshot(checks);
+            return RunAsyncChecks(
+                value!,
+                snapshot,
+                CancellationToken.None,
+                InvokeValue);
         }
 
         result.TryGetError(out var error);
@@ -500,7 +556,12 @@ public static class CheckExtensions
 
         if (result.TryGetValue(out var value))
         {
-            return CheckAllValueAsyncCore(value!, Snapshot(checks), cancellationToken);
+            var snapshot = Snapshot(checks);
+            return RunAsyncChecks(
+                value!,
+                snapshot,
+                cancellationToken,
+                InvokeValueWithToken);
         }
 
         result.TryGetError(out var error);
@@ -537,7 +598,12 @@ public static class CheckExtensions
             return ValueTask.FromResult(validation);
         }
 
-        return CheckAllValueAsyncCore(value!, Snapshot(checks));
+        var snapshot = Snapshot(checks);
+        return RunAsyncChecks(
+            value!,
+            snapshot,
+            CancellationToken.None,
+            InvokeValue);
     }
 
     /// <summary>
@@ -570,7 +636,12 @@ public static class CheckExtensions
             return ValueTask.FromResult(validation);
         }
 
-        return CheckAllValueAsyncCore(value!, Snapshot(checks), cancellationToken);
+        var snapshot = Snapshot(checks);
+        return RunAsyncChecks(
+            value!,
+            snapshot,
+            cancellationToken,
+            InvokeValueWithToken);
     }
 
     private static Result<TValue, TError> CheckedOrFailure<TValue, TError>(
@@ -641,18 +712,13 @@ public static class CheckExtensions
             }
         }
 
-        if (task.IsCanceled)
-        {
-            return CanceledTask<Result<TValue, TError>>(task);
-        }
-
-        if (task.IsFaulted)
-        {
-            return FaultedTask<Result<TValue, TError>>(task);
-        }
-
-        return new CheckTaskState<TValue, TError>(result).Continue(task);
+        return CheckPending(result, task);
     }
+
+    private static Task<Result<TValue, TError>> CheckPending<TValue, TError>(
+        Result<TValue, TError> result,
+        Task<UnitResult<TError>> task) =>
+        Result.TransformTask(task, unit => CheckedOrFailure(result, unit));
 
     private static ValueTask<Result<TValue, TError>> CompleteValueTask<TValue, TError>(
         Result<TValue, TError> result,
@@ -676,120 +742,17 @@ public static class CheckExtensions
             CheckTask(result, AsTask(task)));
     }
 
-    private static Task<Validation<TValue, TError>> CheckAllAsyncCore<TValue, TError>(
+    private static ValueTask<Validation<TValue, TError>> RunAsyncChecks<TValue, TError, TCheck>(
         TValue value,
-        Func<TValue, Task<UnitResult<TError>>>[] checks)
+        TCheck[] checks,
+        CancellationToken cancellationToken,
+        Func<TCheck, TValue, CancellationToken, ValueTask<UnitResult<TError>>> invoke)
     {
         List<TError>? errors = null;
 
         for (var index = 0; index < checks.Length; index++)
         {
-            var task = Invoke(checks[index], value);
-
-            if (task is null)
-            {
-                return Task.FromException<Validation<TValue, TError>>(
-                    new NullReferenceException("The check returned a null task."));
-            }
-
-            if (task.IsCompletedSuccessfully)
-            {
-                try
-                {
-                    AddError(task.GetAwaiter().GetResult(), ref errors);
-                }
-                catch (Exception exception)
-                {
-                    return Result.FromException<Validation<TValue, TError>>(exception);
-                }
-
-                continue;
-            }
-
-            if (task.IsCanceled)
-            {
-                return CanceledTask<Validation<TValue, TError>>(task);
-            }
-
-            if (task.IsFaulted)
-            {
-                return FaultedTask<Validation<TValue, TError>>(task);
-            }
-
-            return new CheckAllState<TValue, TError>(
-                    value,
-                    checks.Length,
-                    index,
-                    errors,
-                    next => AsValueTask(checks[next](value)))
-                .Continue(task);
-        }
-
-        return Task.FromResult(BuildValidation(value, errors));
-    }
-
-    private static Task<Validation<TValue, TError>> CheckAllAsyncCore<TValue, TError>(
-        TValue value,
-        Func<TValue, CancellationToken, Task<UnitResult<TError>>>[] checks,
-        CancellationToken cancellationToken)
-    {
-        List<TError>? errors = null;
-
-        for (var index = 0; index < checks.Length; index++)
-        {
-            var task = Invoke(checks[index], value, cancellationToken);
-
-            if (task is null)
-            {
-                return Task.FromException<Validation<TValue, TError>>(
-                    new NullReferenceException("The check returned a null task."));
-            }
-
-            if (task.IsCompletedSuccessfully)
-            {
-                try
-                {
-                    AddError(task.GetAwaiter().GetResult(), ref errors);
-                }
-                catch (Exception exception)
-                {
-                    return Result.FromException<Validation<TValue, TError>>(exception);
-                }
-
-                continue;
-            }
-
-            if (task.IsCanceled)
-            {
-                return CanceledTask<Validation<TValue, TError>>(task);
-            }
-
-            if (task.IsFaulted)
-            {
-                return FaultedTask<Validation<TValue, TError>>(task);
-            }
-
-            return new CheckAllState<TValue, TError>(
-                    value,
-                    checks.Length,
-                    index,
-                    errors,
-                    next => AsValueTask(checks[next](value, cancellationToken)))
-                .Continue(task);
-        }
-
-        return Task.FromResult(BuildValidation(value, errors));
-    }
-
-    private static ValueTask<Validation<TValue, TError>> CheckAllValueAsyncCore<TValue, TError>(
-        TValue value,
-        Func<TValue, ValueTask<UnitResult<TError>>>[] checks)
-    {
-        List<TError>? errors = null;
-
-        for (var index = 0; index < checks.Length; index++)
-        {
-            var task = Invoke(checks[index], value);
+            var task = invoke(checks[index], value, cancellationToken);
 
             if (task.IsCompletedSuccessfully)
             {
@@ -836,80 +799,13 @@ public static class CheckExtensions
             }
 
             return new ValueTask<Validation<TValue, TError>>(
-                new CheckAllState<TValue, TError>(
+                new CheckAllState<TValue, TError, TCheck>(
                         value,
-                        checks.Length,
+                        checks,
                         index,
                         errors,
-                        next => checks[next](value))
-                    .Continue(asTask));
-        }
-
-        return ValueTask.FromResult(BuildValidation(value, errors));
-    }
-
-    private static ValueTask<Validation<TValue, TError>> CheckAllValueAsyncCore<TValue, TError>(
-        TValue value,
-        Func<TValue, CancellationToken, ValueTask<UnitResult<TError>>>[] checks,
-        CancellationToken cancellationToken)
-    {
-        List<TError>? errors = null;
-
-        for (var index = 0; index < checks.Length; index++)
-        {
-            var task = Invoke(checks[index], value, cancellationToken);
-
-            if (task.IsCompletedSuccessfully)
-            {
-                try
-                {
-                    AddError(task.Result, ref errors);
-                }
-                catch (Exception exception)
-                {
-                    return new ValueTask<Validation<TValue, TError>>(
-                        Result.FromException<Validation<TValue, TError>>(exception));
-                }
-
-                continue;
-            }
-
-            var asTask = AsTask(task);
-
-            if (asTask.IsCompletedSuccessfully)
-            {
-                try
-                {
-                    AddError(asTask.GetAwaiter().GetResult(), ref errors);
-                }
-                catch (Exception exception)
-                {
-                    return new ValueTask<Validation<TValue, TError>>(
-                        Result.FromException<Validation<TValue, TError>>(exception));
-                }
-
-                continue;
-            }
-
-            if (asTask.IsCanceled)
-            {
-                return new ValueTask<Validation<TValue, TError>>(
-                    CanceledTask<Validation<TValue, TError>>(asTask));
-            }
-
-            if (asTask.IsFaulted)
-            {
-                return new ValueTask<Validation<TValue, TError>>(
-                    FaultedTask<Validation<TValue, TError>>(asTask));
-            }
-
-            return new ValueTask<Validation<TValue, TError>>(
-                new CheckAllState<TValue, TError>(
-                        value,
-                        checks.Length,
-                        index,
-                        errors,
-                        next => checks[next](value, cancellationToken))
+                        cancellationToken,
+                        invoke)
                     .Continue(asTask));
         }
 
@@ -1004,6 +900,30 @@ public static class CheckExtensions
         }
     }
 
+    private static ValueTask<UnitResult<TError>> InvokeTask<TValue, TError>(
+        Func<TValue, Task<UnitResult<TError>>> check,
+        TValue value,
+        CancellationToken _) =>
+        AsValueTask(Invoke(check, value));
+
+    private static ValueTask<UnitResult<TError>> InvokeTaskWithToken<TValue, TError>(
+        Func<TValue, CancellationToken, Task<UnitResult<TError>>> check,
+        TValue value,
+        CancellationToken cancellationToken) =>
+        AsValueTask(Invoke(check, value, cancellationToken));
+
+    private static ValueTask<UnitResult<TError>> InvokeValue<TValue, TError>(
+        Func<TValue, ValueTask<UnitResult<TError>>> check,
+        TValue value,
+        CancellationToken _) =>
+        Invoke(check, value);
+
+    private static ValueTask<UnitResult<TError>> InvokeValueWithToken<TValue, TError>(
+        Func<TValue, CancellationToken, ValueTask<UnitResult<TError>>> check,
+        TValue value,
+        CancellationToken cancellationToken) =>
+        Invoke(check, value, cancellationToken);
+
     private static Task<T> AsTask<T>(ValueTask<T> task)
     {
         try
@@ -1052,27 +972,13 @@ public static class CheckExtensions
         return completion.Task;
     }
 
-    private static CancellationToken GetCancellationToken(Task task)
-    {
-        try
-        {
-            task.GetAwaiter().GetResult();
-        }
-        catch (OperationCanceledException cancellation)
-        {
-            return cancellation.CancellationToken;
-        }
-
-        return CancellationToken.None;
-    }
-
     private static void CompleteFailure<T>(
         TaskCompletionSource<T> completion,
         Exception exception)
     {
         if (exception is OperationCanceledException cancellation)
         {
-            completion.TrySetCanceled(cancellation.CancellationToken);
+            completion.TrySetFromTask(Result.FromException<T>(cancellation));
         }
         else
         {
@@ -1080,72 +986,12 @@ public static class CheckExtensions
         }
     }
 
-    private sealed class CheckTaskState<TValue, TError>
-    {
-        private readonly Result<TValue, TError> result;
-        private readonly TaskCompletionSource<Result<TValue, TError>> completion =
-            new(TaskCreationOptions.RunContinuationsAsynchronously);
-
-        internal CheckTaskState(Result<TValue, TError> result)
-        {
-            this.result = result;
-        }
-
-        internal Task<Result<TValue, TError>> Continue(Task<UnitResult<TError>> task)
-        {
-            try
-            {
-                _ = task.ContinueWith(
-                    static (completed, state) =>
-                        ((CheckTaskState<TValue, TError>)state!).Complete(completed),
-                    this,
-                    CancellationToken.None,
-                    TaskContinuationOptions.ExecuteSynchronously,
-                    TaskScheduler.Default);
-            }
-            catch (Exception exception)
-            {
-                CompleteFailure(completion, exception);
-            }
-
-            return completion.Task;
-        }
-
-        private void Complete(Task<UnitResult<TError>> task)
-        {
-            try
-            {
-                if (task.IsCanceled)
-                {
-                    completion.TrySetCanceled(GetCancellationToken(task));
-                    return;
-                }
-
-                if (task.IsFaulted)
-                {
-                    completion.TrySetException(task.Exception!.InnerExceptions);
-                    return;
-                }
-
-                completion.TrySetResult(
-                    CheckedOrFailure(result, task.GetAwaiter().GetResult()));
-            }
-            catch (OperationCanceledException cancellation)
-            {
-                completion.TrySetCanceled(cancellation.CancellationToken);
-            }
-            catch (Exception exception)
-            {
-                completion.TrySetException(exception);
-            }
-        }
-    }
-
-    private sealed class CheckAllState<TValue, TError>
+    private sealed class CheckAllState<TValue, TError, TCheck>
     {
         private readonly TValue value;
-        private readonly int checkCount;
-        private readonly Func<int, ValueTask<UnitResult<TError>>> invoke;
+        private readonly TCheck[] checks;
+        private readonly CancellationToken cancellationToken;
+        private readonly Func<TCheck, TValue, CancellationToken, ValueTask<UnitResult<TError>>> invoke;
         private readonly TaskCompletionSource<Validation<TValue, TError>> completion =
             new(TaskCreationOptions.RunContinuationsAsynchronously);
 
@@ -1154,15 +1000,17 @@ public static class CheckExtensions
 
         internal CheckAllState(
             TValue value,
-            int checkCount,
+            TCheck[] checks,
             int index,
             List<TError>? errors,
-            Func<int, ValueTask<UnitResult<TError>>> invoke)
+            CancellationToken cancellationToken,
+            Func<TCheck, TValue, CancellationToken, ValueTask<UnitResult<TError>>> invoke)
         {
             this.value = value;
-            this.checkCount = checkCount;
+            this.checks = checks;
             this.index = index;
             this.errors = errors;
+            this.cancellationToken = cancellationToken;
             this.invoke = invoke;
         }
 
@@ -1190,7 +1038,8 @@ public static class CheckExtensions
 
             if (task.IsCanceled)
             {
-                completion.TrySetCanceled(GetCancellationToken(task));
+                completion.TrySetFromTask(
+                    CanceledTask<Validation<TValue, TError>>(task));
                 return;
             }
 
@@ -1202,7 +1051,7 @@ public static class CheckExtensions
 
             _ = task.ContinueWith(
                 static (completed, state) =>
-                    ((CheckAllState<TValue, TError>)state!).OnCompleted(completed),
+                    ((CheckAllState<TValue, TError, TCheck>)state!).OnCompleted(completed),
                 this,
                 CancellationToken.None,
                 TaskContinuationOptions.ExecuteSynchronously,
@@ -1215,7 +1064,8 @@ public static class CheckExtensions
             {
                 if (task.IsCanceled)
                 {
-                    completion.TrySetCanceled(GetCancellationToken(task));
+                    completion.TrySetFromTask(
+                        CanceledTask<Validation<TValue, TError>>(task));
                     return;
                 }
 
@@ -1235,45 +1085,53 @@ public static class CheckExtensions
 
         private void Resume(Task<UnitResult<TError>> task)
         {
-            var check = task.GetAwaiter().GetResult();
-            AddError(check, ref errors);
-
-            for (var next = index + 1; next < checkCount; next++)
+            try
             {
-                index = next;
-                var taskNext = invoke(next);
+                var check = task.GetAwaiter().GetResult();
+                AddError(check, ref errors);
 
-                if (taskNext.IsCompletedSuccessfully)
+                for (var next = index + 1; next < checks.Length; next++)
                 {
-                    AddError(taskNext.Result, ref errors);
-                    continue;
-                }
+                    index = next;
+                    var taskNext = invoke(checks[next], value, cancellationToken);
 
-                var asTask = AsTask(taskNext);
+                    if (taskNext.IsCompletedSuccessfully)
+                    {
+                        AddError(taskNext.Result, ref errors);
+                        continue;
+                    }
 
-                if (asTask.IsCompletedSuccessfully)
-                {
-                    AddError(asTask.GetAwaiter().GetResult(), ref errors);
-                    continue;
-                }
+                    var asTask = AsTask(taskNext);
 
-                if (asTask.IsCanceled)
-                {
-                    completion.TrySetCanceled(GetCancellationToken(asTask));
+                    if (asTask.IsCompletedSuccessfully)
+                    {
+                        AddError(asTask.GetAwaiter().GetResult(), ref errors);
+                        continue;
+                    }
+
+                    if (asTask.IsCanceled)
+                    {
+                        completion.TrySetFromTask(
+                            CanceledTask<Validation<TValue, TError>>(asTask));
+                        return;
+                    }
+
+                    if (asTask.IsFaulted)
+                    {
+                        completion.TrySetException(asTask.Exception!.InnerExceptions);
+                        return;
+                    }
+
+                    Observe(asTask);
                     return;
                 }
 
-                if (asTask.IsFaulted)
-                {
-                    completion.TrySetException(asTask.Exception!.InnerExceptions);
-                    return;
-                }
-
-                Observe(asTask);
-                return;
+                completion.TrySetResult(BuildValidation(value, errors));
             }
-
-            completion.TrySetResult(BuildValidation(value, errors));
+            catch (Exception exception)
+            {
+                CompleteFailure(completion, exception);
+            }
         }
     }
 }

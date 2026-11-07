@@ -118,9 +118,15 @@ The async forms observe the normal `Task` and `ValueTask` contracts:
   partial validation is returned. A canceled awaitable produces cancellation with its token. A
   faulted awaitable remains faulted, including a faulted `OperationCanceledException`; faults and
   cancellation are never converted to typed carrier failures.
+- A callback that throws `OperationCanceledException` synchronously produces cancellation carrying
+  that same exception instance. A canceled awaitable produces cancellation with its token, and the
+  awaiting caller observes an `OperationCanceledException` of the same type and message whether the
+  awaitable was already completed when it was observed or completed later.
 - A synchronous callback exception is represented by the returned awaitable rather than thrown to
   the caller. A null returned `Task` faults the returned operation with `NullReferenceException`.
-  An uninitialized check result faults it with `InvalidOperationException`.
+  An uninitialized check result faults it with `InvalidOperationException`; the asynchronous forms
+  deliver that programming error through the returned awaitable, so later rules do not run and the
+  caller must observe the result to see it.
 - Rule source materialization is eager: null rules, null source, and enumeration faults are
   synchronous argument errors before the returned awaitable exists.
 - The operations never block on asynchronous work. A pending check leaves the returned awaitable
@@ -136,7 +142,9 @@ choice for bounded concurrency.
 success. `CheckAll` snapshots the rule sequence into an array so callbacks cannot observe later
 mutation, and creates one list for errors only after a rule fails. The returned validation owns a
 private read-only error snapshot. Async forms add the normal task and state-machine costs; a rule set
-that completes synchronously does not allocate a task for the result of `CheckAllValueAsync`.
+that completes synchronously does not allocate a task for the result of `CheckAllValueAsync`. A rule
+set that suspends at a pending rule allocates one continuation state object, its completion source,
+and one continuation task for the remainder of the run.
 
 The [evidence record](check-evidence.md) compares complete fail-fast and accumulating consumers
 against `Bind` plus `UnitResult.ToResult` and existing `Validation.Zip` composition, including

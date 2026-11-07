@@ -10,8 +10,8 @@ Source identity is the Goal 0032 working tree on top of commit `4c8b1e6`; the la
 becomes the durable identity. Measurements were taken on this host:
 
 - Ubuntu 24.04.5 LTS, Linux 7.0.0-1017-azure, 4 logical cores.
-- .NET SDK 10.0.401, runtime 10.0.12, x64.
-- Date: 2026-11-06 (UTC).
+- .NET SDK 10.0.401, runtime 10.0.12, x64; Release build.
+- Date: 2026-11-07 (UTC).
 
 Allocation is the blocking comparison; timing is directional on this shared host.
 
@@ -119,34 +119,39 @@ allocation uses `GC.GetTotalAllocatedBytes(precise: true)`. Timing is the minimu
 
 | Operation | Allocated B/op | Time ns/op |
 | --- | ---: | ---: |
-| Fail-fast, current `Bind` + `UnitResult.ToResult`, all pass | 496.0 | 353.4 |
-| Fail-fast, `Check`, all pass | 0.0 | 160.7 |
-| Fail-fast, current `Bind` + `UnitResult.ToResult`, first fails | 316.7 | 352.4 |
-| Fail-fast, `Check`, first fails | 80.0 | 117.0 |
-| Accumulate, current `Validation.Zip`, all pass | 256.1 | 58.4 |
-| Accumulate, `CheckAll`, all pass | 48.0 | 274.7 |
-| Accumulate, current `Validation.Zip`, all fail | 712.0 | 229.4 |
-| Accumulate, `CheckAll`, all fail | 304.0 | 316.7 |
+| Fail-fast, current `Bind` + `UnitResult.ToResult`, all pass | 496.0 | 377.6 |
+| Fail-fast, `Check`, all pass | 0.0 | 175.8 |
+| Fail-fast, current `Bind` + `UnitResult.ToResult`, first fails | 400.0 | 334.7 |
+| Fail-fast, `Check`, first fails | 104.0 | 158.8 |
+| Accumulate, current `Validation.Zip`, all pass | 255.5 | 56.4 |
+| Accumulate, `CheckAll`, all pass | 48.0 | 337.3 |
+| Accumulate, current `Validation.Zip`, all fail | 712.0 | 241.8 |
+| Accumulate, `CheckAll`, all fail | 304.0 | 266.7 |
 | Accumulate, current `Validation.Zip`, empty rules | 0.0 | 16.5 |
-| Accumulate, `CheckAll`, empty rules | 0.0 | 46.8 |
-| Accumulate, current `Validation.Zip`, already failed | 56.0 | 37.3 |
-| Accumulate, `CheckAll`, already failed | 56.0 | 41.4 |
-| Rule array with three reused delegates | 48.0 | 15.1 |
-| Three-rule delegate snapshot | 240.0 | 43.7 |
+| Accumulate, `CheckAll`, empty rules | 0.0 | 37.4 |
+| Accumulate, current `Validation.Zip`, already failed | 56.0 | 46.2 |
+| Accumulate, `CheckAll`, already failed | 56.0 | 37.7 |
+| Rule array with three reused delegates | 48.0 | 14.9 |
+| Three-rule delegate snapshot | 240.0 | 45.6 |
 
 | Async operation | Allocated B/op | Time ns/op |
 | --- | ---: | ---: |
-| Fail-fast, current `BindAsync` + awaited `UnitResult.ToResult`, all pass | 1390.7 | 654.1 |
-| Fail-fast, `CheckAsync`, all pass | 592.0 | 553.6 |
-| Accumulate, current await + `Validation.Zip`, all pass | 400.0 | 515.6 |
-| Accumulate, `CheckAllAsync`, all pass | 416.0 | 646.1 |
-| Accumulate, value-task current await + `Validation.Zip`, all pass | 72.0 | 697.4 |
-| Accumulate, `CheckAllValueAsync`, all pass | 88.0 | 618.0 |
-| Accumulate, current await + `Validation.Zip`, empty rules | 88.0 | 176.7 |
-| Accumulate, `CheckAllAsync`, empty rules | 128.0 | 203.0 |
-| Accumulate, `CheckAllValueAsync`, empty rules | 40.0 | 207.0 |
-| Accumulate, current await + `Validation.Zip`, already failed | 144.0 | 192.6 |
-| Accumulate, `CheckAllAsync`, already failed | 144.0 | 149.1 |
+| Fail-fast, current `BindAsync` + awaited `UnitResult.ToResult`, all pass | 1261.7 | 336.5 |
+| Fail-fast, `CheckAsync`, all pass | 592.0 | 432.4 |
+| Accumulate, current await + `Validation.Zip`, all pass | 400.0 | 482.1 |
+| Accumulate, `CheckAllAsync`, all pass | 376.0 | 814.3 |
+| Accumulate, value-task current await + `Validation.Zip`, all pass | 72.0 | 683.6 |
+| Accumulate, `CheckAllValueAsync`, all pass | 48.0 | 631.7 |
+| Accumulate, current await + `Validation.Zip`, empty rules | 88.0 | 169.5 |
+| Accumulate, `CheckAllAsync`, empty rules | 88.0 | 289.8 |
+| Accumulate, value-task current await + `Validation.Zip`, empty rules | 0.0 | 172.4 |
+| Accumulate, `CheckAllValueAsync`, empty rules | 0.0 | 242.3 |
+| Accumulate, current await + `Validation.Zip`, already failed | 144.0 | 178.2 |
+| Accumulate, `CheckAllAsync`, already failed | 144.0 | 139.3 |
+| Accumulate, current await + `Validation.Zip`, one pending rule | 664.0 | 944.3 |
+| Accumulate, `CheckAllAsync`, one pending rule | 744.0 | 648.3 |
+| Accumulate, value-task current await + `Validation.Zip`, one pending rule | 544.0 | 1234.9 |
+| Accumulate, `CheckAllValueAsync`, one pending rule | 584.0 | 831.4 |
 
 The failure rows include the `CheckError` records and interpolated detail strings constructed by
 the failing business rules; the all-pass rows do not. Repeated runs varied by up to roughly 25% on
@@ -154,10 +159,20 @@ the current-idiom rows that allocate adapter closures and factories; the row sho
 representative run. `Check` on a successful path is allocation-free. `CheckAll` snapshots a
 three-rule sequence into one array (measured separately at 48 B for an array of three reused
 delegates; creating the three method-group delegates as well costs 240 B). It creates error storage
-only after a rule fails. The async accumulation rows are within 16 B of the current composition on
-the all-pass paths and slightly higher on the task empty-rule path; `CheckAllValueAsync` is lower on
-the empty-rule path. No universal allocation win is claimed: the observed benefit is the smaller
-consumer and the absence of value reconstruction for fail-fast checks.
+only after a rule fails. The async accumulation rows allocate 24 B less than the current composition
+on the all-pass paths (376 B against 400 B for `Task`, 48 B against 72 B for `ValueTask`) and the
+same on both empty-rule paths (88 B for `Task`, 0 B for `ValueTask`). No universal allocation win is
+claimed: the observed benefit is the smaller consumer and the absence of value reconstruction for
+fail-fast checks.
+
+Every rule in the default fixtures completes synchronously, so the rows above never enter the
+pending continuation state. The four `one pending rule` rows exist to disclose that path: the first
+rule returns an incomplete awaitable that the fixture completes after the call. There the
+accumulation overloads allocate a state object, a `TaskCompletionSource`, its task, and one
+continuation task per pending rule, measured at 744 B against 664 B for the awaited composition
+(`Task`) and 584 B against 544 B for the awaited composition (`ValueTask`). That is the cost of
+resuming the ordered rule loop without blocking or boxing the remaining rules; a rule set that
+completes synchronously does not pay it.
 
 The value-task paths consume each supplied `ValueTask` once. The dedicated tests use
 [CountingValueTaskSource.cs](../tests/FunnySharp.Tests/CountingValueTaskSource.cs) to assert the
@@ -165,7 +180,14 @@ single `GetResult` consumption for both completed and pending check results.
 
 Timing is directional. The repository's performance budgets and benchmark receipts remain the
 blocking performance gate; this goal did not start the heavy benchmark suite and makes no new
-timing claim.
+timing claim. The same table does show a real per-call CPU cost on the accumulating success path:
+`CheckAll` measured 337.3 ns/op against 56.4 ns/op for the `Validation.Zip` composition in the
+Release run recorded above; repeated runs on this host varied in both directions but stayed at
+roughly 5 to 6 times, well above the run-to-run variance. The all-fail path is within noise (266.7
+against 241.8). That gap comes from the rule snapshot plus the carrier plumbing, not from extra
+business work. `CheckAll` is chosen for the value-preserving API shape -- the same input value or
+every ordered error without adapters or unused pairs -- not for speed; a caller whose accumulating
+validation is throughput-bound should keep `Validation.Zip`.
 
 ## Semantic Independence
 

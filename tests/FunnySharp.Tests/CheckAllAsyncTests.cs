@@ -257,6 +257,7 @@ public sealed class CheckAllAsyncTests
                 return Task.FromResult(UnitResult<string>.Success());
             },
         ]);
+#pragma warning disable FS1001 // Intentional runtime misuse witness.
         var uninitialized = Result<int, string>.Success(1).CheckAllAsync(
         [
             _ => Task.FromResult(default(UnitResult<string>)),
@@ -266,6 +267,7 @@ public sealed class CheckAllAsyncTests
                 return Task.FromResult(UnitResult<string>.Success());
             },
         ]);
+#pragma warning restore FS1001
 
         await Assert.ThrowsAsync<NullReferenceException>(() => nullTask);
         await Assert.ThrowsAsync<InvalidOperationException>(() => uninitialized);
@@ -514,6 +516,48 @@ public sealed class CheckAllAsyncTests
     }
 
     [Fact]
+    public async Task CheckAllAsyncContinuationPreservesTheOriginalCancellationException()
+    {
+        using var cancellationSource = new CancellationTokenSource();
+        var cancellation = new OperationCanceledException("rule canceled", cancellationSource.Token);
+        var pending = new TaskCompletionSource<UnitResult<string>>();
+        var thirdCalls = 0;
+
+        var task = Result<int, string>.Success(1).CheckAllAsync(
+        [
+            _ => pending.Task,
+            _ => throw cancellation,
+            _ =>
+            {
+                thirdCalls++;
+                return Task.FromResult(UnitResult<string>.Success());
+            },
+        ]);
+        var value = Result<int, string>.Success(1).CheckAllValueAsync(
+        [
+            _ => new ValueTask<UnitResult<string>>(pending.Task),
+            _ => throw cancellation,
+            _ =>
+            {
+                thirdCalls++;
+                return ValueTask.FromResult(UnitResult<string>.Success());
+            },
+        ]).AsTask();
+
+        pending.SetResult(UnitResult<string>.Success());
+
+        Assert.Same(
+            cancellation,
+            await Assert.ThrowsAnyAsync<OperationCanceledException>(() => task));
+        Assert.Same(
+            cancellation,
+            await Assert.ThrowsAnyAsync<OperationCanceledException>(() => value));
+        Assert.True(task.IsCanceled);
+        Assert.True(value.IsCanceled);
+        Assert.Equal(0, thirdCalls);
+    }
+
+    [Fact]
     public async Task CheckAllValueAsyncPendingFaultAndCancellationPreserveTheirStates()
     {
         var expected = new InvalidOperationException("pending fault");
@@ -631,6 +675,78 @@ public sealed class CheckAllAsyncTests
         Assert.True(validation.TryGetErrors(out var errors));
         Assert.Equal(["existing"], errors);
         Assert.Equal(0, checks.EnumeratorCount);
+    }
+
+    [Fact]
+    public void CheckAllValueAsyncRejectsNullRulesAndArgumentsSynchronously()
+    {
+        Assert.Throws<ArgumentNullException>(
+            () => { _ = Result<int, string>.Success(1).CheckAllValueAsync(null!); });
+        Assert.Throws<ArgumentNullException>(
+            () => { _ = Validation<int, string>.Valid(1).CheckAllValueAsync(null!); });
+
+        var nullResultRule = new Func<int, ValueTask<UnitResult<string>>>[] { null! };
+        Assert.Throws<ArgumentException>(
+            () => { _ = Result<int, string>.Success(1).CheckAllValueAsync(nullResultRule); });
+        Assert.Throws<ArgumentException>(
+            () => { _ = Validation<int, string>.Valid(1).CheckAllValueAsync(nullResultRule); });
+    }
+
+    [Fact]
+    public void CheckAllValueAsyncRuleEnumerationFaultsBeforeInvokingCallbacks()
+    {
+        var calls = 0;
+
+        Assert.Throws<InvalidOperationException>(() =>
+        {
+            _ = Result<int, string>.Success(1)
+                .CheckAllValueAsync(ThrowingValueRules(() => calls++));
+        });
+        Assert.Throws<InvalidOperationException>(() =>
+        {
+            _ = Validation<int, string>.Valid(1)
+                .CheckAllValueAsync(ThrowingValueRules(() => calls++));
+        });
+        Assert.Equal(0, calls);
+    }
+
+    [Fact]
+    public async Task CheckAllValueAsyncFailedInputDoesNotValidateNullRuleElements()
+    {
+        var checks = new ProbeEnumerable<Func<int, ValueTask<UnitResult<string>>>>([null!]);
+        var result = Result<int, string>.Failure("existing");
+
+        var validation = await result.CheckAllValueAsync(checks);
+
+        Assert.True(validation.TryGetErrors(out var errors));
+        Assert.Equal(["existing"], errors);
+        Assert.Equal(0, checks.EnumeratorCount);
+    }
+
+    [Fact]
+    public void CheckAllValueAsyncRejectsUninitializedReceivers()
+    {
+#pragma warning disable FS1001 // Intentional uninitialized receiver witness.
+        Result<int, string> uninitializedResult = default;
+        Validation<int, string> uninitializedValidation = default;
+#pragma warning restore FS1001
+        var rules = Array.Empty<Func<int, ValueTask<UnitResult<string>>>>();
+
+        Assert.Throws<InvalidOperationException>(
+            () => { _ = uninitializedResult.CheckAllValueAsync(rules); });
+        Assert.Throws<InvalidOperationException>(
+            () => { _ = uninitializedValidation.CheckAllValueAsync(rules); });
+    }
+
+    private static IEnumerable<Func<int, ValueTask<UnitResult<string>>>> ThrowingValueRules(
+        Action onInvoked)
+    {
+        yield return _ =>
+        {
+            onInvoked();
+            return ValueTask.FromResult(UnitResult<string>.Success());
+        };
+        throw new InvalidOperationException("source failure");
     }
 
     [Fact]

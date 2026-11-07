@@ -38,6 +38,8 @@ internal static class CheckMeasurements
         var stockAsync = taskRules[0];
         var permissionAsync = taskRules[1];
         var fraudAsync = taskRules[2];
+        var stockValueAsync = valueRules[0];
+        var permissionValueAsync = valueRules[1];
 
         Console.WriteLine("| Operation | Allocated B/op | Time ns/op |");
         Console.WriteLine("| --- | ---: | ---: |");
@@ -194,6 +196,13 @@ internal static class CheckMeasurements
                     emptyTaskRules)),
                 AsyncIterations));
         Write(
+            "Accumulate, value-task current await + Validation.Zip, empty rules",
+            await MeasureAsync(
+                async () => Digest(await OrdinaryCheckConsumer.AccumulateValueAsync(
+                    validInput,
+                    emptyValueRules)),
+                AsyncIterations));
+        Write(
             "Accumulate, CheckAllValueAsync, empty rules",
             await MeasureAsync(
                 async () => Digest(await FunnySharpCheckConsumer.AccumulateValueAsync(
@@ -213,6 +222,84 @@ internal static class CheckMeasurements
                 async () => Digest(await FunnySharpCheckConsumer.AccumulateAsync(
                     failedInput,
                     taskRules)),
+                AsyncIterations));
+        Write(
+            "Accumulate, current await + Validation.Zip, one pending rule",
+            await MeasureAsync(
+                async () =>
+                {
+                    var pending = new TaskCompletionSource<UnitResult<CheckError>>();
+                    var pendingRules = new[]
+                    {
+                        (Func<CheckOrder, Task<UnitResult<CheckError>>>)(_ => pending.Task),
+                        stockAsync,
+                        permissionAsync,
+                    };
+                    var accumulating = OrdinaryCheckConsumer.AccumulateAsync(
+                        validInput,
+                        pendingRules);
+                    pending.SetResult(UnitResult<CheckError>.Success());
+                    return Digest(await accumulating);
+                },
+                AsyncIterations));
+        Write(
+            "Accumulate, CheckAllAsync, one pending rule",
+            await MeasureAsync(
+                async () =>
+                {
+                    var pending = new TaskCompletionSource<UnitResult<CheckError>>();
+                    var pendingRules = new[]
+                    {
+                        (Func<CheckOrder, Task<UnitResult<CheckError>>>)(_ => pending.Task),
+                        stockAsync,
+                        permissionAsync,
+                    };
+                    var accumulating = FunnySharpCheckConsumer.AccumulateAsync(
+                        validInput,
+                        pendingRules);
+                    pending.SetResult(UnitResult<CheckError>.Success());
+                    return Digest(await accumulating);
+                },
+                AsyncIterations));
+        Write(
+            "Accumulate, value-task current await + Validation.Zip, one pending rule",
+            await MeasureAsync(
+                async () =>
+                {
+                    var pending = new TaskCompletionSource<UnitResult<CheckError>>();
+                    var pendingRules = new[]
+                    {
+                        (Func<CheckOrder, ValueTask<UnitResult<CheckError>>>)(
+                            _ => new ValueTask<UnitResult<CheckError>>(pending.Task)),
+                        stockValueAsync,
+                        permissionValueAsync,
+                    };
+                    var accumulating = OrdinaryCheckConsumer.AccumulateValueAsync(
+                        validInput,
+                        pendingRules);
+                    pending.SetResult(UnitResult<CheckError>.Success());
+                    return Digest(await accumulating);
+                },
+                AsyncIterations));
+        Write(
+            "Accumulate, CheckAllValueAsync, one pending rule",
+            await MeasureAsync(
+                async () =>
+                {
+                    var pending = new TaskCompletionSource<UnitResult<CheckError>>();
+                    var pendingRules = new[]
+                    {
+                        (Func<CheckOrder, ValueTask<UnitResult<CheckError>>>)(
+                            _ => new ValueTask<UnitResult<CheckError>>(pending.Task)),
+                        stockValueAsync,
+                        permissionValueAsync,
+                    };
+                    var accumulating = FunnySharpCheckConsumer.AccumulateValueAsync(
+                        validInput,
+                        pendingRules);
+                    pending.SetResult(UnitResult<CheckError>.Success());
+                    return Digest(await accumulating);
+                },
                 AsyncIterations));
 
         Console.WriteLine();

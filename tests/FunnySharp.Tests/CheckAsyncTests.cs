@@ -272,8 +272,10 @@ public sealed class CheckAsyncTests
     {
         var nullTask = Result<int, string>.Success(1).CheckAsync(
             _ => (Task<UnitResult<string>>)null!);
+#pragma warning disable FS1001 // Intentional runtime misuse witness.
         var uninitialized = Result<int, string>.Success(1).CheckAsync(
             _ => Task.FromResult(default(UnitResult<string>)));
+#pragma warning restore FS1001
         var defaultValueTask = Result<int, string>.Success(1).CheckValueAsync(
             _ => default(ValueTask<UnitResult<string>>)).AsTask();
 
