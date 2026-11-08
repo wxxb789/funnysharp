@@ -16,7 +16,7 @@ open FunnySharp.Harness.Tests.Support
 
 let private samplesDirectory = Path.Combine("examples", "FunnySharp.DocumentationSamples")
 let private guideUnderTest = "unit-result.md"
-let private successLine = "Verified 68 C# documentation snippets across 13 primary guides."
+let private successLine = "Verified 72 C# documentation snippets across 14 primary guides."
 let private emptyRegionName = "DocumentationSamples.UnitResult.DeleteOrNotify"
 let private emptyRegionSample = "UnitResultSamples.cs"
 

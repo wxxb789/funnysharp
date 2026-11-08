@@ -66,10 +66,31 @@ internal static class MeasurementHarness
         return new Measurement(bytesPerOperation, nanosecondsPerOperation);
     }
 
-    internal static async Task<Measurement> MeasureAsync(
+    internal static Task<Measurement> MeasureAsync(
         Func<Task<int>> operation,
         int iterations,
-        int warmupIterations)
+        int warmupIterations) =>
+        MeasureAsyncCore(
+            operation,
+            iterations,
+            warmupIterations,
+            static () => GC.GetTotalAllocatedBytes(precise: true));
+
+    internal static Task<Measurement> MeasureAsyncThread(
+        Func<Task<int>> operation,
+        int iterations,
+        int warmupIterations) =>
+        MeasureAsyncCore(
+            operation,
+            iterations,
+            warmupIterations,
+            static () => GC.GetAllocatedBytesForCurrentThread());
+
+    private static async Task<Measurement> MeasureAsyncCore(
+        Func<Task<int>> operation,
+        int iterations,
+        int warmupIterations,
+        Func<long> readAllocatedBytes)
     {
         for (var index = 0; index < warmupIterations; index++)
         {
@@ -85,7 +106,7 @@ internal static class MeasurementHarness
             GC.WaitForPendingFinalizers();
             GC.Collect();
 
-            var bytesBefore = GC.GetTotalAllocatedBytes(precise: true);
+            var bytesBefore = readAllocatedBytes();
             var checksum = 0;
             var stopwatch = Stopwatch.StartNew();
             for (var index = 0; index < iterations; index++)
@@ -94,7 +115,7 @@ internal static class MeasurementHarness
             }
 
             stopwatch.Stop();
-            var allocated = GC.GetTotalAllocatedBytes(precise: true) - bytesBefore;
+            var allocated = readAllocatedBytes() - bytesBefore;
             GC.KeepAlive(checksum);
 
             bytesPerOperation = Math.Min(bytesPerOperation, allocated / (double)iterations);

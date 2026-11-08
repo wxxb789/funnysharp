@@ -117,6 +117,12 @@ Malformed JSON text fails in `JsonDocument.Parse` before a decoder is called. Th
 an input-boundary exception, not a `DecodeError`. The decoder's error model starts from a valid
 JSON tree.
 
+`Decoder.List` is also the field-extraction step for a nested import. A decoded record can carry
+its own child lists, and [`Expand`/`ExpandAligned`/`ExpandCartesian`](nested-data-reshaping.md) turn
+those typed children into rows; the decoder supplies `[recordIndex]` property paths for field
+failures, while the expansion supplies the record position for null and unequal-length failures
+and the `RowOrigin` for caller-rejection positions.
+
 ## Error Model
 
 `DecodeErrorKind` distinguishes the cases a consumer usually needs to handle differently:

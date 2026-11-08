@@ -34,6 +34,7 @@ let primaryGuides: string list =
       "effects.md"
       "function-composition.md"
       "immutable-updates.md"
+      "nested-data-reshaping.md"
       "one-pass-summaries.md"
       "state-machines.md"
       "unit-result.md"

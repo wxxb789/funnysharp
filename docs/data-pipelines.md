@@ -57,6 +57,11 @@ row in source order or the structured duplicate/missing failures with lookup and
 while `JoinExactlyOneResults` streams one outcome per row. See
 [cardinality joins](cardinality-joins.md).
 
+Nested records become typed rows through `Expand`, `ExpandAligned`, and the separately named
+`ExpandCartesian`. The operations retain the parent value, carry record/element provenance, reject
+unequal aligned lengths instead of truncating, and return no partial rows on failure. See
+[nested data reshaping](nested-data-reshaping.md).
+
 ## Span And Memory
 
 Span and memory operations execute immediately. They do not return deferred sequences, retain

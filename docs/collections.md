@@ -159,6 +159,12 @@ Result<IReadOnlyList<(string First, int Second)>, string> strict = skus.ZipExact
 - Both forms buffer the common-prefix pairs, including on mismatch. For input lengths n and m,
   work is O(n + m) and pair storage is O(min(n, m)); success also creates a read-only wrapper.
 
+Per-record aligned expansion is the nested-data equivalent: `ExpandAligned` compares the two child
+lists of each parent record and reports a `ChildCountMismatch` with the record and both counts,
+while `ExpandCartesian` is the separately named explicit product. See
+[nested data reshaping](nested-data-reshaping.md). `ZipExact` remains the whole-sequence
+combination primitive for two already-flat sequences.
+
 ## Container and Parse Bridges
 
 Container Try-pattern operations and parse failures become options instead of sentinel values
