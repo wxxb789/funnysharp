@@ -154,7 +154,7 @@ row is full-JIT and allocation is attributed consistently. Synchronous allocatio
 | Operation | Allocated B/op | Time ns/op |
 | --- | ---: | ---: |
 | Index build - ordinary `ToDictionary` | 31,016.4 | 36,746.0 |
-| Index build - hand-indexed with positions | 204,432.4 | 60,560.0 |
+| Index build - hand-indexed streaming three dictionaries | 204,512.4 | 55,896.0 |
 | Index build - `LookupIndex` | 147,808.4 | 48,395.0 |
 | Index build - `UniqueLookupIndex` | 147,832.4 | 52,167.0 |
 | Join success - ordinary | 72,032.4 | 78,110.0 |
@@ -167,10 +167,11 @@ row is full-JIT and allocation is attributed consistently. Synchronous allocatio
 | Join duplicate - hand-indexed | 204,672.4 | 109,977.0 |
 | Join duplicate - `JoinExactlyOne` raw | 148,312.4 | 107,530.0 |
 | Join many failures - `JoinExactlyOne` raw | 238,144.4 | 151,513.0 |
-| Streaming success - hand-indexed collect | 278,296.4 | 113,289.0 |
-| Streaming success - `JoinExactlyOneResults` collect | 238,136.4 | 188,629.0 |
-| Streaming matched duplicate - hand-indexed collect | 278,456.4 | 119,346.0 |
-| Streaming matched duplicate - `JoinExactlyOneResults` collect | 238,120.4 | 190,391.0 |
+| Streaming success - hand-indexed collect | 278,296.4 | 105,197.0 |
+| Streaming success - `JoinExactlyOne` consumer | 221,808.4 | 169,566.0 |
+| Streaming matched duplicate - hand-indexed collect | 278,456.4 | 109,572.0 |
+| Streaming matched duplicate - `JoinExactlyOne` consumer | 221,848.4 | 169,300.0 |
+| Streaming raw `JoinExactlyOneResults` + `ToArray` (disclosure) | 238,136.4 | 170,880.0 |
 | Empty - hand-indexed join | 288.4 | 113.0 |
 | Empty - `JoinExactlyOne` raw | 272.4 | 180.0 |
 
@@ -179,18 +180,22 @@ measurement, presizing and the validation consolidation changed the affected row
 `LookupIndex` and `UniqueLookupIndex` each -16,512.0 B; raw join success -24,864.0 B and missing
 -24,928.0 B; prebuilt unique success -8,352.0 B and missing -8,416.0 B; duplicate raw -49,472.0 B.
 The final row-error centralization accounts for 64.0 B in the missing and duplicate rows.
-Ordinary, hand-indexed, and empty rows are unchanged. The streaming comparison charges index
-construction to both shapes (see the streaming bullet), so those four rows were re-measured after
-that correction; their allocation values are the ones shown above.
+Ordinary, hand-indexed join, and empty rows are unchanged. The hand-indexed index-build row now
+measures the streaming three-dictionary build (204,512.4 B) rather than the buffered
+two-dictionary build. The streaming comparison now measures both consumers through the same
+`IReadOnlyList<StreamOutcome>` representation, so the streaming rows and the raw-API disclosure
+row were re-measured after that correction; their allocation values are the ones shown above.
 
 ## Interpretation
 
 - **Index cost is disclosed, not hidden.** An ordinary single dictionary over 1,024 unique
-  customers allocates 31,016.4 B. The complete safe hand-indexed form allocates 204,432.4 B because
-  it keeps the customer dictionary plus a first-position dictionary. `LookupIndex` allocates
-  147,808.4 B: one key dictionary plus one flat entry per value, with no per-key list object and no
-  second position table. `UniqueLookupIndex` adds 24 B for the wrapper over the same storage. The
-  presized entry list accounts for the lower index allocation relative to the earlier build.
+  customers allocates 31,016.4 B. The hand-indexed streaming shape allocates 204,512.4 B for three
+  dictionaries: the customer dictionary, a first-position dictionary, and a second-position
+  dictionary that stays empty on unique input but still allocates its object. `LookupIndex`
+  allocates 147,808.4 B: one key dictionary plus one flat entry per value, with no per-key list
+  object and no second position table. `UniqueLookupIndex` adds 24 B for the wrapper over the same
+  storage. The presized entry list accounts for the lower index allocation relative to the earlier
+  build.
 - **The buffered raw join pays for the index it validates.** The ordinary success path allocates
   72,032.4 B but cannot report a duplicate or missing position. The hand-indexed complete safe
   form allocates 253,896.4 B. `JoinExactlyOne` raw allocates 197,128.4 B, 56,768.0 B less than the
@@ -206,13 +211,21 @@ that correction; their allocation values are the ones shown above.
   about 49,056.0 B more than the one-missing raw row, or roughly 48 B per additional failure. It
   still allocates no output buffer.
 - **Streaming is cheaper than the complete hand-indexed shape when both build their index.**
-  Charging index construction inside the measured delegate on both sides, collecting 1,024
-  successful outcomes allocates 238,136.4 B through `JoinExactlyOneResults` versus 278,296.4 B in
-  the hand-indexed streaming consumer, which keeps two dictionaries plus a first- and
-  second-position table and a materialized outcome list. The matched-duplicate row is 238,120.4 B
-  versus 278,456.4 B. The roughly 40,160 B gap is the hand-indexed consumer's extra position
-  dictionaries and separate outcome list; the streaming join builds one index, allocates outcomes
-  lazily, and allocates no output buffer of its own.
+  Both streaming rows measure consumers that return the same `IReadOnlyList<StreamOutcome>`
+  representation, so the comparison is like-for-like. Collecting 1,024 successful outcomes
+  allocates 221,808.4 B through the `JoinExactlyOneResults` consumer versus 278,296.4 B in the
+  hand-indexed streaming consumer, a 56,488.0 B gap. The matched-duplicate row is 221,848.4 B
+  versus 278,456.4 B, a 56,608.0 B gap. The gap is the index structure: the hand streaming build
+  allocates 204,512.4 B for its three dictionaries versus 147,808.4 B for one `LookupIndex`
+  structure, a 56,704.0 B difference. Both sides return the same 1,024-reference outcome
+  representation and allocate the same per-row `StreamOutcome` and `JoinedOrder` objects; the
+  remaining 216.0 B in the success row is the `Select`/`ToArray` pipeline versus the hand
+  consumer's presized `List<StreamOutcome>`. The duplicate row is 120.0 B wider because the
+  duplicate input adds one duplicate-position entry to the hand index and one value slot to
+  `LookupIndex`. The disclosure row isolates the raw-API representation cost: collecting the 1,024
+  `Result<JoinedOrder, LookupError<string>>` structs (about 56 B per row) allocates 238,136.4 B,
+  16,328.0 B more than the consumer row's `StreamOutcome` projection. It is not used for the
+  cross-consumer comparison.
 - **The ordinary form is the cheap happy path, not a complete relation contract.** It allocates
   125,096.0 B less than the raw buffered join on success, but on a duplicate or missing row it
   throws `ArgumentException` or `KeyNotFoundException` with no key, lookup position, or source
