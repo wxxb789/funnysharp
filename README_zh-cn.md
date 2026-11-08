@@ -90,6 +90,7 @@ registration.Match(
 - **可复用检查 (Reusable Checks)**：`Result.Check` 在无值业务检查成功后保留原始成功值；`CheckAll` 对同一值按顺序执行独立检查并累积全部错误，提供 Task/ValueTask 与取消感知形式。
 - **短路式可错归约 (Fallible Reduction)**：`AggregateResult` 通过带种子的 `Result` 累加器折叠序列，返回最终累加值或首个领域失败，失败后不再读取后续源项；异步源形式保持相同契约，并保留取消与释放语义。
 - **可组合单趟汇总 (One-Pass Summaries)**：独立的计数、受检求和、极值与领域特定状态汇总通过 `Zip`/`MapResult` 组合为单一类型化结果并只遍历一次；`EvaluateAsync` 在仅输入获取为异步时复用同一同步计算，并保持精确令牌、取消与释放语义。
+- **基数校验的键连接 (Cardinality-Checked Keyed Joins)**：`LookupIndex`/`UniqueLookupIndex` 显式声明相等策略与唯一性范围；`JoinExactlyOne` 要么按源顺序为每一行返回一个输出，要么返回带查找位置与源位置的结构化重复键/缺失键失败；`JoinExactlyOneResults` 逐行流式返回诚实的结果，且不会产生笛卡尔展开。
 - **ASP.NET Core Minimal API 映射**：通过 `FunnySharp.AspNetCore` 将载体和 Effect 映射为调用方指定的 `IResult`、类型化 `Results<...>` 联合和 RFC 7807/9457 `ProblemDetails`，保留端点与 OpenAPI 元数据。
 
 ## 深入文档与工程示例
@@ -114,6 +115,7 @@ registration.Match(
 | [可复用检查 (Reusable Checks)](https://github.com/wxxb789/funnysharp/blob/main/docs/checks.md) | [检查证据 (Check Evidence)](https://github.com/wxxb789/funnysharp/blob/main/docs/check-evidence.md) | |
 | [可错归约 (Fallible Reduction)](https://github.com/wxxb789/funnysharp/blob/main/docs/fallible-reduction.md) | [归约证据 (Fallible Reduction Evidence)](https://github.com/wxxb789/funnysharp/blob/main/docs/fallible-reduction-evidence.md) | |
 | [单趟汇总 (One-Pass Summaries)](https://github.com/wxxb789/funnysharp/blob/main/docs/one-pass-summaries.md) | [汇总证据 (Summary Evidence)](https://github.com/wxxb789/funnysharp/blob/main/docs/one-pass-summaries-evidence.md) | |
+| [基数连接 (Cardinality Joins)](https://github.com/wxxb789/funnysharp/blob/main/docs/cardinality-joins.md) | [连接证据 (Join Evidence)](https://github.com/wxxb789/funnysharp/blob/main/docs/cardinality-joins-evidence.md) | |
 
 可运行示例源码：[FunnySharp 核心示例](https://github.com/wxxb789/funnysharp/blob/main/examples/FunnySharp.Examples/Program.cs) 与 [ASP.NET Core 示例](https://github.com/wxxb789/funnysharp/blob/main/examples/FunnySharp.AspNetCore.Examples/Program.cs)。
 

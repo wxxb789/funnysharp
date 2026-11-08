@@ -54,6 +54,14 @@ Contracts:
   singleton from multiple items. The distinction is deliberate and documented instead of
   collapsed into convenient but lossy absence.
 
+`SingleOrNone` deliberately collapses zero and multiple into one absence. When keyed association
+code must distinguish "no match" from "ambiguous match", use the
+[strict keyed joins](cardinality-joins.md) family: `LookupIndex.GetZeroOrOne` and `GetExactlyOne`
+report a duplicate key with both lookup positions, `UniqueLookupIndex` proves at most one value per
+key over the complete lookup input, and `JoinExactlyOne` enforces the relation for every source
+row. The `*OrNone` family is unchanged; it remains the at-most-one accessor where the reason for
+absence is not needed.
+
 Async mirrors on `IAsyncEnumerable<T>`: `FirstOrNoneAsync`, `LastOrNoneAsync`,
 `SingleOrNoneAsync`, `ElementAtOrNoneAsync`, `MinOrNoneAsync`, `MaxOrNoneAsync`, and
 `ToNonEmptyOrNoneAsync` mirror the capability set without the predicate/comparer overload

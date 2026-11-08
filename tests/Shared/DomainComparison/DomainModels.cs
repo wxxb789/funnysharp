@@ -66,14 +66,8 @@ internal static class Domains
             static decoder => decoder,
             static limitation => throw new InvalidOperationException(limitation.ToString()));
 
-    internal static T Require<T>(Validation<T, DecodeError> validation) =>
-        validation.Match(
-            static value => value,
-            static errors => throw new InvalidOperationException(
-                string.Join("; ", errors.Select(static error => error.ToString()))));
-
     internal static TrackingValue TrackingCode(string orderId) =>
-        Require(Tracking.Validate("TRK-" + orderId));
+        ValidationUnwrap.Require(Tracking.Validate("TRK-" + orderId));
 }
 
 internal sealed record PricingFailure(string Sku, int Quantity, string Code);

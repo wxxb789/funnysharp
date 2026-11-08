@@ -13,7 +13,7 @@ and a minimal-API app for the ASP.NET Core bridges. All are in `FunnySharp.slnx`
 | Project | Role | Own file |
 | --- | --- | --- |
 | `FunnySharp.Examples/` | Compiling examples of the public core API, including batched reads; release-protocol step `examples` | `FunnySharp.Examples/AGENTS.md` |
-| `FunnySharp.DocumentationSamples/` | Source of truth for docs code snippets (65 regions) | `FunnySharp.DocumentationSamples/AGENTS.md` |
+| `FunnySharp.DocumentationSamples/` | Source of truth for docs code snippets (68 regions) | `FunnySharp.DocumentationSamples/AGENTS.md` |
 | `FunnySharp.AspNetCore.Examples/` | Minimal-API dogfood app for the ASP.NET Core bridges | covered below |
 
 ## FunnySharp.AspNetCore.Examples (inline)

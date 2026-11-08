@@ -71,6 +71,7 @@ any enumeration. The seed is deliberately not validated.
 | Collect every independent error | `Validation.Sequence` / `Validation.Traverse` |
 | Observe a running aggregate after each item | `Scan` / `ScanValueAsync` |
 | Reuse several summaries in one pass | [`Summary`](one-pass-summaries.md) composition with `Zip`/`Evaluate`/`EvaluateAsync` |
+| Require exactly one keyed match per input row | [`JoinExactlyOne`](cardinality-joins.md) |
 
 `AggregateResult` is fail-fast only. It has no accumulating mode: a fold is sequential and
 dependent, and independent error accumulation is already expressed by `Validation` traversal or

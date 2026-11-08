@@ -446,6 +446,39 @@ CLASS FunnySharp.Location
   METHOD System.Int32 GetHashCode()
   METHOD System.String ToString()
   PROPERTIE FunnySharp.Location Root
+ENUM FunnySharp.LookupErrorKind
+  FIELD static FunnySharp.LookupErrorKind DuplicateKey = 1
+  FIELD static FunnySharp.LookupErrorKind MissingKey = 2
+  FIELD static FunnySharp.LookupErrorKind NullKey = 0
+  FIELD System.Int32 value__
+STRUCT FunnySharp.LookupError<TKey>
+  METHOD static FunnySharp.LookupError<TKey> DuplicateKey(TKey key, System.Int32 firstLookupSourceIndex, System.Int32 lookupSourceIndex, System.Nullable<System.Int32>? sourceIndex)
+  METHOD static FunnySharp.LookupError<TKey> MissingKey(TKey key, System.Nullable<System.Int32>? sourceIndex)
+  METHOD static FunnySharp.LookupError<TKey> NullLookupKey(System.Int32 lookupSourceIndex)
+  METHOD static FunnySharp.LookupError<TKey> NullSourceKey(System.Int32 sourceIndex)
+  METHOD System.Boolean Equals(FunnySharp.LookupError<TKey> other)
+  METHOD System.Boolean Equals(System.Object? obj)
+  METHOD System.Int32 GetHashCode()
+  METHOD System.String ToString()
+  PROPERTIE FunnySharp.LookupErrorKind Kind
+  PROPERTIE System.Nullable<System.Int32>? FirstLookupSourceIndex
+  PROPERTIE System.Nullable<System.Int32>? LookupSourceIndex
+  PROPERTIE System.Nullable<System.Int32>? SourceIndex
+  PROPERTIE TKey? Key
+CLASS FunnySharp.LookupExtensions
+  METHOD static FunnySharp.Validation<FunnySharp.LookupIndex<TKey, TValue?>, FunnySharp.LookupError<TKey>> ToLookupIndex<TKey, TValue>(System.Collections.Generic.IEnumerable<TValue?> source, System.Func<TValue?, TKey> keySelector, System.Collections.Generic.IEqualityComparer<TKey>? comparer)
+  METHOD static FunnySharp.Validation<FunnySharp.UniqueLookupIndex<TKey, TValue?>, FunnySharp.LookupError<TKey>> ToUniqueLookupIndex<TKey, TValue>(System.Collections.Generic.IEnumerable<TValue?> source, System.Func<TValue?, TKey> keySelector, System.Collections.Generic.IEqualityComparer<TKey>? comparer)
+  METHOD static FunnySharp.Validation<System.Collections.Generic.IReadOnlyList<TResult?>, FunnySharp.LookupError<TKey>> JoinExactlyOne<TSource, TKey, TValue, TResult>(System.Collections.Generic.IEnumerable<TSource?> source, FunnySharp.UniqueLookupIndex<TKey, TValue?> lookup, System.Func<TSource?, TKey> sourceKeySelector, System.Func<TSource?, TValue?, TResult?> combine)
+  METHOD static FunnySharp.Validation<System.Collections.Generic.IReadOnlyList<TResult?>, FunnySharp.LookupError<TKey>> JoinExactlyOne<TSource, TLookup, TKey, TResult>(System.Collections.Generic.IEnumerable<TSource?> source, System.Collections.Generic.IEnumerable<TLookup?> lookupSource, System.Func<TSource?, TKey> sourceKeySelector, System.Func<TLookup?, TKey> lookupKeySelector, System.Func<TSource?, TLookup?, TResult?> combine, System.Collections.Generic.IEqualityComparer<TKey>? comparer)
+  METHOD static System.Collections.Generic.IEnumerable<FunnySharp.Result<TResult?, FunnySharp.LookupError<TKey>>> JoinExactlyOneResults<TSource, TKey, TValue, TResult>(System.Collections.Generic.IEnumerable<TSource?> source, FunnySharp.LookupIndex<TKey, TValue?> lookup, System.Func<TSource?, TKey> sourceKeySelector, System.Func<TSource?, TValue?, TResult?> combine)
+CLASS FunnySharp.LookupIndex<TKey, TValue>
+  METHOD FunnySharp.Result<FunnySharp.Option<TValue?>, FunnySharp.LookupError<TKey>> GetZeroOrOne(TKey key)
+  METHOD FunnySharp.Result<TValue?, FunnySharp.LookupError<TKey>> GetExactlyOne(TKey key)
+  METHOD FunnySharp.Validation<FunnySharp.UniqueLookupIndex<TKey, TValue?>, FunnySharp.LookupError<TKey>> RequireUniqueKeys()
+  METHOD System.Collections.Generic.IReadOnlyList<TValue?> GetMany(TKey key)
+  PROPERTIE System.Collections.Generic.IEqualityComparer<TKey> Comparer
+  PROPERTIE System.Int32 DistinctCount
+  PROPERTIE System.Int32 EntryCount
 STRUCT FunnySharp.NonEmpty<T>
   METHOD System.Collections.Generic.IReadOnlyList<T?> ToReadOnlyList()
   METHOD System.String ToString()
@@ -840,6 +873,10 @@ DELEGATE FunnySharp.TryOperation<T>
   METHOD System.Boolean EndInvoke(out T& value, System.IAsyncResult result)
   METHOD System.Boolean Invoke(out T& value)
   METHOD System.IAsyncResult BeginInvoke(out T& value, System.AsyncCallback callback, System.Object object)
+CLASS FunnySharp.UniqueLookupIndex<TKey, TValue>
+  METHOD FunnySharp.Option<TValue?> GetOption(TKey key)
+  PROPERTIE System.Collections.Generic.IEqualityComparer<TKey> Comparer
+  PROPERTIE System.Int32 Count
 CLASS FunnySharp.UnitResult
   METHOD static FunnySharp.UnitResult<System.Exception> Try(System.Action operation)
   METHOD static FunnySharp.UnitResult<TError> Success<TError>()

@@ -8,7 +8,7 @@ signature and its contract.
 This file is the authoritative verb reference. The per-feature guides
 ([option.md](option.md), [result.md](result.md), [unit-result.md](unit-result.md),
 [validation.md](validation.md), [checks.md](checks.md), [decoding.md](decoding.md), [function-composition.md](function-composition.md),
-[data-pipelines.md](data-pipelines.md), [fallible-reduction.md](fallible-reduction.md), [one-pass-summaries.md](one-pass-summaries.md), [effects.md](effects.md),
+[data-pipelines.md](data-pipelines.md), [fallible-reduction.md](fallible-reduction.md), [one-pass-summaries.md](one-pass-summaries.md), [cardinality-joins.md](cardinality-joins.md), [effects.md](effects.md),
 [concurrency.md](concurrency.md), [immutable-updates.md](immutable-updates.md),
 [state-machines.md](state-machines.md), and [aspnet-core.md](aspnet-core.md)) carry the detailed
 contracts and performance evidence; the rows below stay one line each.
@@ -41,7 +41,11 @@ the canonical `Result` shape. `DomainValue<TValue, TTag>` is a validated tagged 
 `Domain<TValue, TTag>` is its validation, decoding, contract, and explanation boundary; neither is
 an outcome carrier. `Summary<TSource, TState, TResult>` is a reusable sequence-summary description,
 not an outcome carrier; evaluation returns the caller-selected result and adds no failure or
-absence channel. Explicit state variants and typed module-error hierarchies are ordinary C#
+absence channel. `LookupIndex<TKey, TValue>` and `UniqueLookupIndex<TKey, TValue>` are materialized
+keyed-association descriptions, not outcome carriers; their reads return `Option`/`Result` values,
+their buffered joins return `Validation`, and their streaming join yields `Result` outcomes.
+`LookupError<TKey>` is their diagnostic value. Explicit state
+variants and typed module-error hierarchies are ordinary C#
 record types over the canonical carriers, not new library carriers.
 
 ## Naming Rules
@@ -70,6 +74,10 @@ record types over the canonical carriers, not new library carriers.
   `SingleOrNone`, `ElementAtOrNone`, `MinOrNone`/`MaxOrNone`, `ToNonEmptyOrNone`, `DequeueOrNone`,
   `PopOrNone`, `PeekOrNone`, `IndexOfOrNone`, `RemoveOrNone`, the generic `ParseOrNone`, and the named
   `Parse*OrNone` bridges); keyed lookups use `GetOption`; value conversion uses `ToOption`.
+- Cardinality-constrained keyed lookups put the cardinality in the name (`GetMany`,
+  `GetZeroOrOne`, `GetExactlyOne`), and an exactly-one join is named `JoinExactlyOne`. The
+  streaming per-row form is `JoinExactlyOneResults`. No boolean or enum cardinality parameter
+  hides the contract from the call site.
 - LINQ `Select`/`SelectMany` exist only where `Bind` exists (never `Where`) and stay secondary to
   the member-centric vocabulary. `Bind` does not imply a LINQ bridge: `UnitResult` has none.
 - No aliases, no competitor naming, no naming concessions.
@@ -205,6 +213,25 @@ every source item, so there is no early-exit or partial-result protocol.
 | `Zip` | Combines two to four independent summaries into one evaluation. | Summary of a flat tuple state and result | Components initialize, accumulate, and finalize in operand order; each keeps its own typed state. |
 | `MapResult` | Projects the final result once. | Summary with the projected result | Runs after traversal, or immediately for an empty source; a component exception prevents it. |
 | `Evaluate`/`EvaluateAsync` | Runs the summary over a BCL sequence. | `TResult` / `ValueTask<TResult>` | Eager, one enumeration, source order, no materialization or cache; empty input makes no accumulate call; the async form forwards the exact token to the enumerator only and never blocks. |
+
+### Strict Keyed Joins
+
+`LookupIndex<TKey, TValue>` retains every occurrence of a key in lookup-source order under an
+explicit comparer; `UniqueLookupIndex<TKey, TValue>` proves at most one value per key over the
+complete indexed input. The buffered join validates the complete lookup input before success and
+returns no partial output on failure. The streaming join checks uniqueness only for matched keys
+and yields one outcome per source row. Neither shape claims the other's guarantee.
+
+| Member | Meaning | Present on | Output shape | Key contract |
+| --- | --- | --- | --- | --- |
+| `ToLookupIndex`/`ToUniqueLookupIndex` | Builds a many-occurrence or complete-input-unique index in one enumeration. | `IEnumerable<TValue>` | `Validation<LookupIndex<...>, LookupError<TKey>>` / `Validation<UniqueLookupIndex<...>, LookupError<TKey>>` | Explicit comparer or `EqualityComparer<TKey>.Default`; null lookup keys are `NullKey` failures with positions; duplicate keys are retained for the many index and reported for the unique index. |
+| `GetMany` | Reads every value for a key in lookup-source order. | `LookupIndex` | `IReadOnlyList<TValue>` | Explicit one-to-many read; empty for an absent key; no uniqueness check. |
+| `GetZeroOrOne` | Reads a matched key that permits zero or one value. | `LookupIndex` | `Result<Option<TValue>, LookupError<TKey>>` | Zero is `Success(None)`; multiple is `DuplicateKey` with both lookup positions; `Option` rejects a present null value. |
+| `GetExactlyOne` | Reads a key that must have exactly one value. | `LookupIndex` | `Result<TValue, LookupError<TKey>>` | Missing is a failure without a source position; multiple is `DuplicateKey`; a null value is a successful payload. |
+| `GetOption` | Reads a key on a proven unique index. | `UniqueLookupIndex` | `Option<TValue>` | Absence is `None`; multiple is impossible; a present null value is rejected by `Option`. |
+| `RequireUniqueKeys` | Validates at most one value per key over the complete retained index. | `LookupIndex` | `Validation<UniqueLookupIndex<TKey,TValue>, LookupError<TKey>>` | Every occurrence after the first is reported with its position; the wrapper shares the index storage. |
+| `JoinExactlyOne` | Enriches every source row with exactly one lookup match. | `IEnumerable<TSource>` plus a raw lookup sequence or `UniqueLookupIndex` | `Validation<IReadOnlyList<TResult>, LookupError<TKey>>` | Buffered; complete-input uniqueness for the raw form; one output per source row in source order on success; no outputs on failure; lookup errors precede source errors. |
+| `JoinExactlyOneResults` | Yields one independent outcome per source row. | `IEnumerable<TSource>` plus `LookupIndex` | `IEnumerable<Result<TResult, LookupError<TKey>>>` | Deferred; matched-key uniqueness only; failures are items; earlier successes may precede a later failure; no all-or-nothing claim. |
 
 ### Immediate Span And Memory Pipelines
 
@@ -381,7 +408,11 @@ path), where BCL `Enumerable.Aggregate` throws `InvalidOperationException` on an
 | Concurrent container `*OrNone` bridges | `ConcurrentQueue`/`ConcurrentStack`/`ConcurrentDictionary` already expose Try-pattern members; wrapping them adds no safety. |
 | A second seeded fold | BCL `Aggregate`/`AggregateAsync` stays canonical; only the seedless `NonEmpty<T>.Aggregate` adds the cannot-be-empty guarantee. |
 | `NonEmpty<T>` as a collection | It implements no `IEnumerable` and no indexer; materialize with `ToReadOnlyList()` or use LINQ over `Rest`. |
-| Duplicate-key dictionary building | BCL `ToLookup`/`GroupBy` distinguish duplicates without loss; no duplicate-sensitive builder is added. |
+| A general duplicate-sensitive dictionary builder | BCL `ToLookup`/`GroupBy` remain the ordinary duplicate-tolerant shapes; `LookupIndex` is a cardinality contract with source positions, not a replacement dictionary. It retains duplicates for `GetMany`/`GetZeroOrOne` or rejects them under `RequireUniqueKeys`/`JoinExactlyOne`; it never silently picks one. |
+| A many-to-many or one-to-many join | Duplicate lookup keys never multiply output rows; explicit one-to-many expansion uses `GetMany` plus ordinary LINQ, and no Cartesian product is inferred. |
+| A zero-or-one buffered join | `UniqueLookupIndex.GetOption` and `LookupIndex.GetZeroOrOne` express zero-or-one lookup; a join has no single natural absent-row output shape (dropping rows would break the output-count promise). |
+| Async index or join mirrors | Index construction and joins are in-memory calculations after the caller acquires data; async acquisition remains the caller's boundary. |
+| A dictionary-input index factory | `IReadOnlyDictionary<TKey, TValue>` does not reveal its equality policy; callers pass its pairs as a sequence and state the comparer explicitly. |
 
 ## Forbidden Mechanisms
 

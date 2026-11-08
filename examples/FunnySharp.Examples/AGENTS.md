@@ -11,7 +11,7 @@ asserts its own behavior, and prints one success marker.
 
 | File | Role |
 | --- | --- |
-| `Program.cs` (862 LOC) | Top-level runner; prints `FunnySharp examples passed.` |
+| `Program.cs` (863 LOC) | Top-level runner; prints `FunnySharp examples passed.` |
 | `UnitResultExamples.cs` | `Verify()` / `VerifyAsync()` — UnitResult surface incl. `ExampleAssertions.UninitializedThrows` pinning `The unit result has not been initialized.` |
 | `CollectionExamples.cs` | Collection/sequence examples (`Verify`/`VerifyAsync`) |
 | `FunctionGrammarSamples.cs` | Function-composition grammar samples |
@@ -23,6 +23,7 @@ asserts its own behavior, and prints one success marker.
 | `CheckExamples.cs` | Value-preserving `Check`, ordered independent `CheckAll`, empty/already-failed behavior, and Task/ValueTask forms |
 | `FallibleReductionExamples.cs` | Seeded `Result`-returning fold, empty seed, first failure, mutable-accumulator no-rollback, and sync/async source forms |
 | `SummaryExamples.cs` | Independent count/sum/extrema/category summaries, one-pass typed report, empty extrema, mutable-state isolation, overflow, and sync/async reuse |
+| `JoinExamples.cs` | Complete-input duplicate and missing failures with positions, explicit comparer, prebuilt unique index, cardinality-checked reads, and streaming partial output with later failures |
 | `ExampleAssertions.cs` | Shared asserts: `Equal`, `True`, `SequenceEqual`, `Throws`, `FaultIsPreserved`, `CancellationIsPreserved`, `UninitializedThrows` |
 
 ## CONVENTIONS

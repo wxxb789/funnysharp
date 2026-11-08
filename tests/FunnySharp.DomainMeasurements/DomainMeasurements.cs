@@ -70,8 +70,8 @@ internal static class DomainMeasurements
             Measure(
                 () => Domains.OrderId.Validate(orderId).IsValid ? 1 : 0,
                 ValueIterations));
-        var domainOrderId = Domains.Require(Domains.OrderId.Validate(orderId));
-        var handWrittenOrderId = Domains.Require(HandWrittenOrderId.Create(orderId));
+        var domainOrderId = ValidationUnwrap.Require(Domains.OrderId.Validate(orderId));
+        var handWrittenOrderId = ValidationUnwrap.Require(HandWrittenOrderId.Create(orderId));
         WriteRow(
             "Domain.Contract.Validate",
             Measure(
@@ -137,7 +137,7 @@ internal static class DomainMeasurements
     }
 
     private static DraftOrder DecodeDraft(JsonElement input) =>
-        Domains.Require(FunnySharpOrderWorkflow.DraftDecoder.Decode(input));
+        ValidationUnwrap.Require(FunnySharpOrderWorkflow.DraftDecoder.Decode(input));
 
     private static int Digest(WorkflowOutcome outcome) =>
         outcome.Status.Length

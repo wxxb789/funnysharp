@@ -99,7 +99,10 @@ do not acquire a universal zero-allocation or constant-time guarantee from these
 | Partial updates | `Patch<T>.ApplyTo` / `PatchSchema<T>.Validate` | O(f) setter calls and candidate copies; validation adds the candidate contract cost | — | One candidate record/object per changed field; `Changes` is materialized only when read; no application allocation when empty | Validates the complete candidate; no mutation or rollback | — |
 | Partial updates | `Patch<T>.Combine` | O(f1 * f2) ordinal name comparisons plus one merged array when disjoint (a linear name scan per left-hand entry) | — | Merged entry array; conflict entries/inspection values on failure | No partial merged patch on conflict | — |
 | Batched reads | Source construction, `FromValue`, `Read`, `Map`, `Bind`, `Zip`, `All` | O(1) per composed node; `All` enumerates its input once at construction | — | One description node per composition step; `All` snapshots its input array | Description retains only caller values, source references, and delegates; no execution state or cache | — |
-| Batched reads | `BatchScope.ExecuteAsync` | O(k + r + b) expected hashing/comparer work for k distinct keys, r returned entries, and b source batches, plus one walk of each reached plan node; bounded by the configured batch, concurrency, pending, and cache limits | Plan evaluation walks each reached node once; source responses are keyed and may be in any order | Request slots, per-key completion sources, typed cache entries, response arrays, and per-branch async machinery; greater than a hand-batched dictionary path, disclosed in [`batch-evidence.md`](batch-evidence.md) | Retains bounded pending requests and cached results; `All` retains one outcome array per input | One linked token; started batches drain on cancellation/disposal; `MaxConcurrentBatches` bounds source overlap |
+| Batched reads | `BatchScope.ExecuteAsync` | O(k + r + b) expected hashing/comparer work for k distinct keys, r returned entries, and b source batches, plus one walk of each reached plan node; bounded by the configured batch, concurrency, pending, and cache limits | Plan evaluation walks each reached node once; source responses are keyed and may be in any order | Request slots, per-key completion sources, typed cache entries, response arrays, and per-branch async machinery; greater than a hand-batched dictionary path, disclosed in [`batch-evidence.md`](batch-evidence.md) | Retains bounded pending requests and cached results; `All` retains one outcome array per input | One linked token; started batches drain on cancellation/disposal; `MaxConcurrentBatches` b… |
+| Strict joins | `ToLookupIndex`, `GetMany`, `GetZeroOrOne`, `GetExactlyOne`, `RequireUniqueKeys` | O(n) expected hashing/index construction; O(1) expected key read plus group-size work for `GetMany`; O(n) complete-index uniqueness scan | Lookup source once at construction; keyed reads do not enumerate it | One key dictionary plus one flat entry per retained value; `GetMany` allocates the returned array; `RequireUniqueKeys` allocates only on failure | Buffers the lookup snapshot; no hidden source cache | — |
+| Strict joins | `JoinExactlyOne` | O(n + m) expected for n lookup entries and m source rows, plus output/error materialization and the complete uniqueness scan | Lookup source once; source once | Unique index plus output list and exact-size array on success; error list and `Validation` snapshot on failure; disclosed in [`cardinality-joins-evidence.md`](cardinality-joins-evidence.md) | Buffers the complete index; no partial output on failure | — |
+| Strict joins | `JoinExactlyOneResults` | O(m) expected per source enumeration after the index is built, plus per-row outcome construction | Source once per consumer enumeration; prebuilt index not re-enumerated | One `Result` value per reached row; no library-owned output buffer | Streams one outcome per source row; no all-or-nothing promise | — |
 | HTTP | `FunnySharp.AspNetCore` mapping | O(1) mapping | — | Measured per outcome shape (0-168 B per call; see [`aspnet-core.md`](aspnet-core.md)) | None | Runs on the ASP.NET Core request pipeline |
 
 The zero and nonzero statements above are enforced where measured by the committed observation
@@ -117,6 +120,9 @@ no allocation over the underlying value, and the family is excluded from the rel
 table. One-pass summary composition allocates per-evaluation component state and depends on the
 caller's delegates, so its state size, delegate, allocation, and large-value rows are disclosed in
 [one-pass-summaries-evidence.md](one-pass-summaries-evidence.md) and excluded from the release
+benchmark table. Strict keyed join index, output, and error-storage costs depend on the lookup
+cardinality, duplicate rate, and failure count, so they are disclosed in
+[cardinality-joins-evidence.md](cardinality-joins-evidence.md) and excluded from the release
 benchmark table.
 
 ## Regression policy
@@ -237,6 +243,8 @@ Each topic guide carries the generated measurement table for its benchmark famil
 - [`state-machines.md`](state-machines.md) — state transitions, composition, and replay.
 - [`aspnet-core.md`](aspnet-core.md) — carrier-to-`IResult` mapping for successful, failed,
   absent, and no-value outcomes.
+- [`cardinality-joins.md`](cardinality-joins.md) — strict join index, output, and error-storage
+  costs (feature evidence; excluded from the release benchmark table).
 
 ## Reproduction
 

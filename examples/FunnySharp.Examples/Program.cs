@@ -12,6 +12,7 @@ VerifyValidations();
 CheckExamples.Verify();
 FallibleReductionExamples.Verify();
 SummaryExamples.Verify();
+JoinExamples.Verify();
 DecoderExamples.Verify();
 ContractExamples.Verify();
 UnitResultExamples.Verify();
