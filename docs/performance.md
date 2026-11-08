@@ -93,6 +93,10 @@ do not acquire a universal zero-allocation or constant-time guarantee from these
 | State machines | `Then` composition | O(1) per composition; O(steps) evaluation, iterative | — | One composition node per `Then`; pooled scratch; one exact-size output array per evaluation | Single-materialization: outputs concatenate once | — |
 | State machines | `OrElse` | O(1) | — | Zero | None | — |
 | State machines | `Replay` | O(events) | History enumerated once | One output list | One final outputs array | — |
+| Domain programs | `DomainProgram.Update`, `OrElse` | O(1) plus the caller's update; `OrElse` adds one route check per preceding program | One update per call | `Update` itself is zero; `OrElse` composition allocates one fallback closure per call; one `StateChange` and output snapshot from the caller's update; disclosed in [`domain-programs-evidence.md`](domain-programs-evidence.md) | `OrElse` returns the first defined result; no buffering | — |
+| Domain programs | `Lift` | O(1) per message plus one route, one child update, one command-lifter call per output, and one setter | Route once; getter/child update once; lifter per child output; setter once | One composition closure per lift; per applied child update, one child `StateChange` + output snapshot plus the parent `StateChange` + mapped output array; disclosed in [`domain-programs-evidence.md`](domain-programs-evidence.md) | Child substate passed by reference; the parent is copied only by the caller's setter | — |
+| Domain programs | `ProgramSimulation.Deliver`, `Reply`, `FailCommand` | O(1) plus the update and pending removal | One update per delivery; a reply validates the emitted sequence; pending removal scans pending commands | One delivery record per delivery, one emitted-command value per command plus its pending entry, one failure record per failure; disclosed in [`domain-programs-evidence.md`](domain-programs-evidence.md) | Retains the full transcript; not a bounded production event store | — |
+| Domain programs | `ProgramSimulation.Replay` | O(m) update work for m recorded messages | Recorded messages once; stops at the first non-applied result | The update's own snapshots; replay adds no command execution or transcript record | Uses the existing `StateMachine.Replay`; never executes commands | — |
 | Optics | `Lens`, `Optional` `Get`/`Set` | O(1) + caller delegate | — | Zero beyond the caller's delegates | None | — |
 | Partial updates | `Patch<T>.With` construction | O(f) copy for f recorded fields; building an f-field patch copies the growing entry array, O(f²) total | — | One entry object plus a copied entry array per `With` | Retains ordered field bindings and replacement values | — |
 | Partial updates | `PatchSchema<T>.Decode` | O(p + f) properties/fields plus field decoder work; a field decoder may itself allocate | Object properties visited twice: a count pass sizes the exact entry array, then a decode pass | Typed patch entries, field-validation state, and diagnostics on failure; no error list on a clean decode | No changes materialized beyond the patch | — |
@@ -130,7 +134,11 @@ benchmark table. Nested expansion and alignment costs depend on the parent/child
 provenance form, and the failure count; the import and per-shape allocations, per-row origin,
 per-row `Location`, and rendered-error costs are disclosed in
 [nested-data-reshaping-evidence.md](nested-data-reshaping-evidence.md) and excluded from the
-release benchmark table.
+release benchmark table. Domain-program composition, dispatch, state-copying, and simulation
+transcript costs depend on the child shape, route chain, and transcript size; the measured
+direct-switch comparison is disclosed in
+[domain-programs-evidence.md](domain-programs-evidence.md) and excluded from the release benchmark
+table.
 
 ## Regression policy
 
@@ -254,6 +262,8 @@ Each topic guide carries the generated measurement table for its benchmark famil
   costs (feature evidence; excluded from the release benchmark table).
 - [`nested-data-reshaping.md`](nested-data-reshaping.md) — expansion, alignment, provenance, and
   rendered-location costs (feature evidence; excluded from the release benchmark table).
+- [`domain-programs.md`](domain-programs.md) — composition, dispatch, state-copying, and
+  simulation transcript costs (feature evidence; excluded from the release benchmark table).
 
 ## Reproduction
 

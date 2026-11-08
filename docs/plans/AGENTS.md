@@ -1,10 +1,10 @@
 # docs/plans/ — ce-unified-plan/v1 design-time plans
 
-Earned: score ~9 (distinct domain) — 9 plans, ~4,400 lines, all carrying the rigid `ce-unified-plan/v1` artifact contract.
+Earned: score ~9 (distinct domain) — 10 plans, ~5,000 lines, all carrying the rigid `ce-unified-plan/v1` artifact contract.
 
 ## OVERVIEW
 
-Design-time plans for the Option abstraction, release-acceptance restoration, uv tooling, the Goal 17 collection surface, Goal 26 decoding, the Goal 33-35 sequence features, and Goal 36 nested reshaping — how shipped features were planned and verified.
+Design-time plans for the Option abstraction, release-acceptance restoration, uv tooling, the Goal 17 collection surface, Goal 26 decoding, the Goal 33-35 sequence features, Goal 36 nested reshaping, and Goal 37 domain programs — how shipped features were planned and verified.
 
 ## WHERE TO LOOK
 
@@ -19,6 +19,7 @@ Design-time plans for the Option abstraction, release-acceptance restoration, uv
 | `2026-11-07-1807-feat-one-pass-summaries-plan.md` | Goal 34 reusable count/sum/extrema/domain summaries, `Zip`/`MapResult`, one-pass and async evaluation, MapAccum non-adoption, reference comparison, and measurements |
 | `2026-11-08-0144-feat-strict-cardinality-joins-plan.md` | Goal 35 strict-cardinality keyed lookups and exactly-one joins: many and unique indexes, complete-input versus matched-key uniqueness, buffered and streaming shapes, structured positions, comparison, and measurements |
 | `2026-11-08-1345-feat-nested-data-reshaping-plan.md` | Goal 36 typed nested-data expansion: single, aligned, and explicit Cartesian shapes, null/empty/unequal/rejection policies, by-value provenance, sync/async sources, comparison, and measurements |
+| `2026-11-08-1544-feat-domain-programs-simulation-plan.md` | Goal 37 composable domain programs: pure `Update`, parent-aware `Lift`, `OrElse`/`Replay`, explicit-time deterministic simulation, late/duplicate/stale/rejected/failure scenarios, direct-switch comparison, and measurements |
 
 ## CONVENTIONS (ce-unified-plan/v1 — every new plan follows it)
 

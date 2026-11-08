@@ -8,7 +8,7 @@ signature and its contract.
 This file is the authoritative verb reference. The per-feature guides
 ([option.md](option.md), [result.md](result.md), [unit-result.md](unit-result.md),
 [validation.md](validation.md), [checks.md](checks.md), [decoding.md](decoding.md), [function-composition.md](function-composition.md),
-[data-pipelines.md](data-pipelines.md), [fallible-reduction.md](fallible-reduction.md), [one-pass-summaries.md](one-pass-summaries.md), [cardinality-joins.md](cardinality-joins.md), [nested-data-reshaping.md](nested-data-reshaping.md), [effects.md](effects.md),
+[data-pipelines.md](data-pipelines.md), [fallible-reduction.md](fallible-reduction.md), [one-pass-summaries.md](one-pass-summaries.md), [cardinality-joins.md](cardinality-joins.md), [nested-data-reshaping.md](nested-data-reshaping.md), [domain-programs.md](domain-programs.md), [effects.md](effects.md),
 [concurrency.md](concurrency.md), [immutable-updates.md](immutable-updates.md),
 [state-machines.md](state-machines.md), and [aspnet-core.md](aspnet-core.md)) carry the detailed
 contracts and performance evidence; the rows below stay one line each.
@@ -47,7 +47,11 @@ their buffered joins return `Validation`, and their streaming join yields `Resul
 `LookupError<TKey>` is their diagnostic value. `RowOrigin` and `CartesianRowOrigin` are
 provenance values passed to a nested-data expansion callback, and `NestedRowError`/
 `NestedRowErrorKind` are that expansion's diagnostic values; none of them is an outcome carrier.
-Explicit state
+`DomainProgram<TModel, TMessage, TCommand, TError>` is a pure business-program description over the
+state-machine surface, and `ProgramSimulation<TModel, TMessage, TCommand, TError>` is its explicit
+single-threaded deterministic driver; neither is an outcome carrier. `EmittedCommand<TCommand>`,
+`SimulationDelivery<...>`, and `CommandExecutionFailure<TCommand, TError>` are execution and
+transcript diagnostic values. Explicit state
 variants and typed module-error hierarchies are ordinary C#
 record types over the canonical carriers, not new library carriers.
 
@@ -84,6 +88,12 @@ record types over the canonical carriers, not new library carriers.
 - Nested-data expansion puts the relation in the name: `Expand` is one row per child,
   `ExpandAligned` is exact position-wise pairing, and `ExpandCartesian` is the explicit product.
   No boolean or enum mode parameter changes aligned behavior into Cartesian behavior.
+- `Lift` embeds a child program into a parent model. The relation is in the method: the route
+  returns `Option<TChildMessage>`, and no boolean, enum, or mode parameter changes one child into
+  several or turns a single route into a broadcast. `Deliver`, `Reply`, and `FailCommand` name the
+  simulation's explicit message, correlated reply, and command-execution-failure operations.
+  `FailCommand` is not `TransitionStatus.Failed`. `AdvanceTo`/`AdvanceBy` move an explicit clock;
+  no ambient time or random source is read.
 - LINQ `Select`/`SelectMany` exist only where `Bind` exists (never `Where`) and stay secondary to
   the member-centric vocabulary. `Bind` does not imply a LINQ bridge: `UnitResult` has none.
 - No aliases, no competitor naming, no naming concessions.
@@ -165,7 +175,7 @@ verbs are listed below.
 | --- | --- | --- | --- | --- | --- |
 | `Recover` | Lazily replaces a failure with a successful value produced from its error. | `Result` | `Result<TValue, TError>` (success-shaped) | — | Callback validated at entry, skipped after success, and invoked at most once after failure. |
 | `RecoverWith` | Lazily replaces a failure with another value of the same carrier. | `Result`, `UnitResult` | Same carrier | — | Callback validated at entry and skipped after success; `UnitResult` has no plain `Recover` because its success has no value payload. |
-| `OrElse` | Returns the first value when it is present, otherwise an eager fallback. | `Option`, `StateMachine` | `Option<T>`; machine | — | Fallback skipped for `Some`; on machines, the fallback runs only when the first returns `Undefined`. |
+| `OrElse` | Returns the first value when it is present, otherwise an eager fallback. | `Option`, `StateMachine`, `DomainProgram` | `Option<T>`; machine; program | — | Fallback skipped for `Some`; on machines and programs, the fallback runs only when the first returns `Undefined`. |
 | `OrElseWith` | Returns the first value when present, otherwise invokes a fallback factory. | `Option` | `Option<T>` | — | Factory validated at entry and invoked only for `None`. |
 | `GetValueOr` | Returns the contained value or an eager non-null fallback. | `Option` | `T` (non-null) | — | Fallback validated before the option is examined. |
 | `GetValueOrElse` | Returns the contained value or invokes a fallback factory. | `Option` | `T` (non-null) | — | Factory invoked only for `None`; a null factory result is rejected. |
@@ -364,8 +374,30 @@ so no operation below has ambient cross-request behavior.
 | `To` | Constructs a state change and snapshots its outputs. | `StateChange<TState, TOutput>` | `StateChange<TState, TOutput>` | — | The output array is cloned; a null array is rejected, individual nullable outputs are retained. |
 | `Applied`/`Rejected`/`Failed`/`Undefined` | Explicitly constructs one of the four transition statuses. | `TransitionResult` | `TransitionResult<TState, TOutput, TError>` | — | `Applied` requires a non-null state change; rejected/failed errors stay typed; `Undefined` is the meaningful default, not a caught exception. |
 | `Then` | Composes two transitions; the first runs once and its state feeds the second. | `StateTransition` | `StateTransition` | — | Outputs are concatenated in execution order; the second transition is not run after a first-transition exception. |
-| `OrElse` | Falls back to a second machine only when the first returns `Undefined`. | `StateMachine` | `StateMachine` | — | `Applied`, `Rejected`, and `Failed` pass through unchanged. |
-| `Replay` | Applies a machine to an event history in order. | `StateMachine` + `IEnumerable<TEvent>` | `TransitionResult` (final state, output history) | — | Stops at the first non-applied result and preserves its status; an empty history succeeds with the initial state. |
+| `OrElse` | Falls back to a second machine or program only when the first returns `Undefined`. | `StateMachine`, `DomainProgram` | `StateMachine`; `DomainProgram` | — | `Applied`, `Rejected`, and `Failed` pass through unchanged. |
+| `Replay` | Applies a machine or program to a recorded history in order. | `StateMachine` + `IEnumerable<TEvent>`; `DomainProgram`; `ProgramSimulation` | `TransitionResult` (final state, output history) | — | Stops at the first non-applied result and preserves its status; an empty history succeeds with the initial state. `DomainProgram` delegates to the same operation; `ProgramSimulation` replays its recorded delivery messages and never executes or re-records commands. |
+
+### Domain Programs
+
+`DomainProgram<TModel, TMessage, TCommand, TError>` is a pure business-program description over
+the state-machine surface. `Update` is the state-machine step under business-program names;
+`Lift` embeds a child program into a parent model through a substate getter, a parent setter, an
+`Option` route, and a parent-aware command lifter. `ProgramSimulation<...>` is an explicit
+single-threaded deterministic driver. It never executes a command, reads ambient time or randomness,
+schedules work, or persists state. The simulation's command sequence is execution correlation; a
+domain request version inside a command/reply is stale-response correlation. `EmittedCommand`,
+`SimulationDelivery`, and `CommandExecutionFailure` are transcript/diagnostic values, not carriers.
+
+| Verb | Meaning | Present on | Output shape | Async forms | Key contract |
+| --- | --- | --- | --- | --- | --- |
+| `Create` | Wraps a pure state-machine update as a business program. | `DomainProgram` factory | `DomainProgram<...>` | — | Validates the delegate; does not invoke it. The default program is uninitialized and every operation fails explicitly. |
+| `Update` | Runs the pure program once for a model and message. | `DomainProgram` | `TransitionResult<TModel, TCommand, TError>` | — | One invocation; no model mutation, command execution, clock, random source, or exception conversion. |
+| `Lift` | Embeds a child program into a parent model. | `DomainProgram` | `DomainProgram<TParentModel, TParentMessage, TParentCommand, TError>` | — | `Option.None` route yields `Undefined` without touching the child; an applied child change runs the command lifter once per output with the parent model, then the setter once; rejected/failed/undefined pass through; shared `TError`. |
+| `Deliver` | Delivers one message to the simulation. | `ProgramSimulation` | `TransitionResult<...>` | — | Recorded; never deduplicated; `Applied` updates the model and appends commands, non-applied leaves both unchanged. |
+| `Reply` | Delivers an external reply correlated to an emitted command. | `ProgramSimulation` | `TransitionResult<...>` | — | The sequence must have been emitted; duplicate and late replies are allowed and the program decides; an unknown sequence is a driver error. |
+| `FailCommand` | Records an external command execution failure. | `ProgramSimulation` | `CommandExecutionFailure<TCommand, TError>` | — | The sequence must be emitted and pending; removes it from pending and leaves the model unchanged; distinct from `Rejected` and `Failed`; failing a completed command is a driver error. |
+| `AdvanceTo`/`AdvanceBy` | Moves the explicit simulation clock. | `ProgramSimulation` | `void` | — | Forward only; a backwards instant or negative interval is rejected. |
+| `Replay` | Replays the recorded delivery messages through the pure program. | `ProgramSimulation` | `TransitionResult<...>` | — | Same stop-at-first-non-applied semantics as `StateMachine.Replay`; never executes or re-records commands or failures; does not change the transcript. |
 
 ## Fallible Composition Is `Bind`
 
@@ -443,12 +475,23 @@ path), where BCL `Enumerable.Aggregate` throws `InvalidOperationException` on an
 | Span or `JsonElement` child views | A span cannot cross an asynchronous source, and a borrowed `JsonElement` view cannot outlive its document; child lists are materialized typed values. |
 | Async nested selector or combine callbacks | Asynchronous work belongs to acquisition; typed values are reshaped synchronously, so no borrowed value crosses an await. |
 | More than two parallel child sequences | Two sequences establish aligned versus Cartesian semantics; wider shapes compose an intermediate record or use `ZipExact` at the call site. |
+| Automatic command execution or a library in-process executor | Commands are values; the caller's ordinary `while`/`await` loop owns execution, ordering, failure mapping, and cancellation. A library adapter would need a stop/continue and failure-to-message policy the surface does not own. |
+| Durable event sourcing, snapshots, distributed recovery, exactly-once effects, or automatic transactions | The simulation transcript is a test and inspection record, not a production event store; persistence and recovery belong to the application. |
+| Actor runtime, mailbox, or custom scheduler | The simulation is a single-threaded explicit driver; it has no mailbox, admission, scheduling, retry, or concurrency policy. Goal 0038 owns concurrent delivery. |
+| Ambient time or randomness | Time is an explicit `DateTimeOffset` on the simulation and an input through messages or state; randomness is the caller's seeded `Random`, which the library never consumes. |
+| Deep payload copying or serialization | The simulation and replay retain caller values by reference; reproducibility is claimed for value-immutable messages and models, not for arbitrary mutable graphs. |
+| Transcript replay that continues after expected rejections | `Replay` keeps the existing stop-at-first-non-applied meaning; the simulation transcript records later steps. A second replay policy would be a second verb meaning. |
+| Error mapping in `Lift`, command fan-out, or broadcast | Child and parent share `TError`; each child command maps to one parent command; one parent message routes to at most one child. These remain caller policy. |
+| A universal application program representation | `DomainProgram` is an opt-in description for one workflow; ordinary C# and the existing state-machine surface remain valid without it. |
+| Async or concurrent simulation delivery | The simulation is synchronous and not thread-safe; asynchronous execution is the caller's boundary, and concurrent per-key delivery belongs to Goal 0038. |
 
 ## Forbidden Mechanisms
 
 - No reflection.
 - No dynamic dispatch.
 - No hidden scheduling.
+- No ambient clock or random source; time and randomness are explicit inputs.
+- No automatic command execution; commands are values.
 - No higher-kinded-type or typeclass simulation.
 - No operator tricks; the only operators anywhere are `==`/`!=` on the carriers.
 - No magical implicit conversions on normal paths.
