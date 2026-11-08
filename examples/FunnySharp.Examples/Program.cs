@@ -39,6 +39,7 @@ await FunctionGrammarSamples.VerifyAsync();
 await VerifyEffects();
 await VerifyConcurrentOrderWorkflow();
 await VerifyCompletionOrderWorkflow();
+await KeyedConcurrencyExamples.VerifyAsync();
 await VerifyStateMachines();
 
 Console.WriteLine("FunnySharp examples passed.");

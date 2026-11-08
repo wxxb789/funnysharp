@@ -12,6 +12,7 @@
   <Project Path="tests/FunnySharp.AspNetCore.Tests/FunnySharp.AspNetCore.Tests.csproj" />
   <Project Path="tests/FunnySharp.CheckMeasurements/FunnySharp.CheckMeasurements.csproj" />
   <Project Path="tests/FunnySharp.FallibleReductionMeasurements/FunnySharp.FallibleReductionMeasurements.csproj" />
+  <Project Path="tests/FunnySharp.KeyedConcurrencyMeasurements/FunnySharp.KeyedConcurrencyMeasurements.csproj" />
   <Project Path="tests/FunnySharp.JoinMeasurements/FunnySharp.JoinMeasurements.csproj" />
   <Project Path="tests/FunnySharp.NestedDataMeasurements/FunnySharp.NestedDataMeasurements.csproj" />
   <Project Path="tests/FunnySharp.ProgramMeasurements/FunnySharp.ProgramMeasurements.csproj" />

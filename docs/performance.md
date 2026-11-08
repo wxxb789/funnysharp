@@ -88,6 +88,7 @@ do not acquire a universal zero-allocation or constant-time guarantee from these
 | Effects | `EffectResourceExtensions` scopes | Constant coordination plus acquisition/use/disposal work | — | Construction captures the resource/use effects; pending execution has async machinery | Releases the acquired resource once, including failure/cancellation | Token forwarded; natural C# disposal-fault precedence |
 | Concurrency | `SelectParallelValueAsync`, `SelectParallelCompletionOrderValueAsync` | O(n * p) conservative bookkeeping bound plus source/selector work | Source enumerated once | Channel, admission window, and started-work list bounded by p; per-item tasks/observers | Streams with backpressure; indexed list lookup/removal can scan the window | BCL async coordination; linked cancellation; elapsed parallelism is not an algorithmic bound |
 | Concurrency | Parallel traversal | O(n * p + k log k + e) coordination/finalization plus source/selector work | Once | Active-work list bounded by p, growing indexed outcome list, final carrier-specific buffers | Sorts retained outcomes by index before materializing values or errors | Bounded admission and cancel-and-drain |
+| Concurrency | `SelectParallelByKeyCompletionOrderValueAsync` | O(n * maxConcurrency) conservative coordination bound: dictionary, per-key FIFO, ready-queue work, and a linear started-work-list removal scan bounded by `maxConcurrency`, plus source/selector work per reached item | Source enumerated once per enumeration | Per-key FIFO/ready state, bounded pending permits, started-work list, delivery channel, and per-item tuples bounded by `maxConcurrency + maxBufferedItems` | Retains only live key state; a hot key can occupy the pending buffer and delay source reading | Feature evidence in [keyed-concurrency-evidence.md](keyed-concurrency-evidence.md); excluded from the release benchmark table because scheduling and skew are measured by the feature harness |
 | Concurrency | `FirstSuccessAsync` | O(n) finite snapshot/final ordered pass plus O(started work) indexed completion accounting | Cold inputs snapshotted once | O(n) snapshot/outcome storage and coordination bounded by p (default 32) | Stops admission after selection and drains candidates/observers/callbacks; returns Validation or propagates independent faults | Cooperative TimeProvider timeout is not a hard cleanup deadline; 32 is compatibility policy, not measured optimal parallelism |
 | State machines | `StateChange.To` | O(outputs) snapshot | — | Params array plus snapshot copy plus read-only view (visible per-step semantics) | Snapshot per change | — |
 | State machines | `Then` composition | O(1) per composition; O(steps) evaluation, iterative | — | One composition node per `Then`; pooled scratch; one exact-size output array per evaluation | Single-materialization: outputs concatenate once | — |
@@ -138,7 +139,10 @@ release benchmark table. Domain-program composition, dispatch, state-copying, an
 transcript costs depend on the child shape, route chain, and transcript size; the measured
 direct-switch comparison is disclosed in
 [domain-programs-evidence.md](domain-programs-evidence.md) and excluded from the release benchmark
-table.
+table. Bounded per-key processing allocation and timing depend on key cardinality, skew, and
+delivery-channel state; the complete-consumer comparison is disclosed in
+[keyed-concurrency-evidence.md](keyed-concurrency-evidence.md) and excluded from the release
+benchmark table.
 
 ## Regression policy
 
@@ -252,8 +256,8 @@ Each topic guide carries the generated measurement table for its benchmark famil
 - [`data-pipelines.md`](data-pipelines.md) — sequence, span, and async-stream pipelines.
 - [`collections.md`](collections.md) — cardinality-safe collection operations.
 - [`effects.md`](effects.md) — effect construction, composition, and `RunAsync`.
-- [`concurrency.md`](concurrency.md) — bounded parallel mapping, parallel traversal, and
-  first-success coordination.
+- [`concurrency.md`](concurrency.md) — bounded parallel mapping, parallel traversal,
+  first-success coordination, and bounded per-key processing.
 - [`immutable-updates.md`](immutable-updates.md) — lens and optional updates.
 - [`state-machines.md`](state-machines.md) — state transitions, composition, and replay.
 - [`aspnet-core.md`](aspnet-core.md) — carrier-to-`IResult` mapping for successful, failed,

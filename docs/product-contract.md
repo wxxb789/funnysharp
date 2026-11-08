@@ -287,10 +287,11 @@ analysis, and compile-verified call sites are in [`next-stage/`](next-stage/).
   requires a goal with `TimeProvider`, explicit cancellation, cap/jitter rules, and measured
   comparison against a hand-written loop.
 - Concurrency remains BCL-first and explicit. Bounded parallel mapping streams
-  `IAsyncEnumerable<T>` results with `Channel` backpressure and linked operation cancellation in
-  two named delivery orders: `SelectParallelValueAsync` yields source order and
-  `SelectParallelCompletionOrderValueAsync` yields completion order; the delivery order is part
-  of the method name, never a boolean or enum parameter. Parallel traversal materializes ordered
+  `IAsyncEnumerable<T>` results with `Channel` backpressure and linked operation cancellation; the
+  mapping family exposes two named delivery orders: `SelectParallelValueAsync` yields source order
+  and `SelectParallelCompletionOrderValueAsync` yields completion order, while bounded per-key
+  processing adds its own explicitly named completion-order form. The delivery order is part of
+  the method name, never a boolean or enum parameter. Parallel traversal materializes ordered
   values and distinguishes Option/Result fail-fast behavior from Validation accumulation.
   First-success coordination accepts only cold `Effect<Result<TValue, TError>>` values, drains
   all started work, uses typed failures only for explicit `Result` failures, and supports
@@ -299,9 +300,22 @@ analysis, and compile-verified call sites are in [`next-stage/`](next-stage/).
   order; that race contract is documented explicitly at the method and in the concurrency guide.
   The core provides no naked started-Task racing API, unbounded fan-out, scheduler, fiber runtime,
   or alternative concurrency carrier. Completion-order coordination is limited to
-  `IAsyncEnumerable<T>` and cold effects. Goal 20 comparisons against pinned competitor packages
-  run only in an isolated, non-shipping benchmark project; those results are performance evidence
-  and never API-compatibility or Goal 22 acceptance evidence.
+  `IAsyncEnumerable<T>` and cold effects. Bounded per-key processing extends the same surface:
+  `SelectParallelByKeyCompletionOrderValueAsync` runs one operation at a time for a caller-selected
+  key over an async source, bounds started operations by `maxConcurrency` and unstarted source items
+  by `maxBufferedItems`, forwards one linked operation token to the source enumerator and the
+  token-aware selector (the tokenless overload's callback cannot observe it), and yields
+  `(Key, Source, Result<TResult, TError>)` outcomes in completion order across keys and source order
+  within a key. Key equality is an explicit comparer or `EqualityComparer<TKey>.Default`; a null key
+  is a key-selector programming fault, not a domain value. Typed failures are delivered outcomes,
+  while source, key-selector, and callback exceptions remain terminal. Inactive key state is released
+  when its active operation and pending queue are gone; a hot key may consume the declared pending
+  buffer and delay source reading for other keys, and a non-cooperative callback is awaited rather
+  than forcibly terminated. No scheduler, actor runtime, distributed coordinator, durable queue,
+  implicit retry, exactly-once delivery, or global source-order promise is added. Goal 20
+  comparisons against pinned competitor packages run only in an isolated, non-shipping benchmark
+  project; those results are performance evidence and never API-compatibility or Goal 22 acceptance
+  evidence.
 - State remains pure. `StateChange`, `StateTransition`, and `StateMachine` model next state,
   emitted commands, rejection, failure, and undefined handling without executing effects; callers
   own persistence, event storage, and command execution.
@@ -388,8 +402,9 @@ analysis, and compile-verified call sites are in [`next-stage/`](next-stage/).
   layer or general union API is added.
 - Deferred capabilities stay absent from the stable surface: a general retry/backoff layer,
   `Memoize`/async-buffer carriers, k-way async merge, completion-order operators beyond the
-  recorded constrained form, library-synthesized response declarations from runtime
-  `ProblemDetails.Status`, System.Text.Json converters,
+  recorded constrained forms (including the bounded per-key form adopted by Goal 38),
+  library-synthesized response declarations from runtime `ProblemDetails.Status`,
+  System.Text.Json converters,
   schema/introspection on `Decoder<T>` itself,
   `Either` as a non-error carrier, Option comparers/ordering, awaitable
   `Option<Task<T>>` sugar, and `net11.0` targeting. The non-empty guarantee

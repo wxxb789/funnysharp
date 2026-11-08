@@ -135,6 +135,85 @@ The pre-existing `SequenceAsync`, `TraverseAsync`, and `TraverseValueAsync` oper
 sequential. Choose a parallel method only when concurrent source work is intentional and its
 bounded, cancellation, and ordering behavior is appropriate for the workflow.
 
+## Bounded Per-Key Processing
+
+`SelectParallelByKeyCompletionOrderValueAsync` runs one asynchronous operation per source item
+with two explicit bounds: `maxConcurrency` started operations, and `maxBufferedItems` source items
+read but not yet started. Operations for different keys run concurrently; operations for the same
+key run one at a time, in source order. The callback returns the canonical
+`Result<TResult, TError>`, so each successful value or typed failure is delivered as an item rather
+than disappearing inside background work.
+
+<!-- documentation-sample: DocumentationSamples.Concurrency.SelectParallelByKey -->
+```csharp
+var processed = accountEvents.SelectParallelByKeyCompletionOrderValueAsync(
+    accountEvent => accountEvent.AccountId,
+    maxConcurrency: 4,
+    maxBufferedItems: 8,
+    (accountEvent, cancellationToken) =>
+        ApplyAccountEventAsync(accountEvent, cancellationToken));
+
+await foreach (var (accountId, accountEvent, outcome) in processed.WithCancellation(cancellationToken))
+{
+    Observe(accountId, accountEvent.Sequence, outcome);
+}
+```
+
+Construction validates arguments and captures delegates but does not enumerate the source, invoke
+the key selector, or invoke the operation. Each enumeration creates one linked operation token,
+which is forwarded to the source enumerator and the token-aware operation overload. The tokenless
+overload's callback does not receive that token. The element is a tuple of the key
+observed for that exact source item, the source item, and the returned `Result`.
+
+The operation delegate returns `ValueTask<Result<TResult, TError>>`. An `async` lambda can target it
+directly; a named `Task`-returning method must be wrapped explicitly with
+`new ValueTask<Result<TResult, TError>>(task)` so the carrier conversion stays visible.
+
+`maxConcurrency` counts started but not yet delivered operations. A completed operation keeps its
+slot until the enumerator reads its outcome, so a slow consumer applies backpressure instead of
+allowing completed results to accumulate without bound. `maxBufferedItems` counts source items
+read but not yet started; it must be at least one because an item's key is known only after the
+item has been read. The producer acquires one buffer permit before each source move and releases
+it when the item starts. The coordinator therefore retains at most
+`maxConcurrency + maxBufferedItems` source items. A measurement that counts source items before the
+consumer's delivery counter advances can observe one extra item during that handoff; the
+coordinator bound itself is exact. Key state exists only while a key owns an active operation or a
+buffered item, and is removed when both are gone. A large or unbounded key cardinality cannot
+create an unbounded per-key queue or dictionary; a hot key can consume the declared buffer, which
+then stops source reading.
+
+The key selector is invoked once per read item. Equal keys are determined by the supplied
+`IEqualityComparer<TKey>`, or by `EqualityComparer<TKey>.Default` when it is omitted. A null key is a
+key-selector programming error: it stops admission, cancels and drains started work, disposes the
+source, and throws `ArgumentNullException` naming the key selector. A null source, key selector, or
+operation is rejected at construction.
+
+Results are delivered in operation-completion order. Within one key, results are always in source
+order because the next operation for that key is admitted only after its predecessor has completed
+and its outcome has been read by the enumerator. The successor can start during `MoveNextAsync`,
+before the `await foreach` body runs for the predecessor's outcome; it never starts before the
+predecessor's callback completed. Across keys, concurrently completing operations have no specified
+relative order; global source order is not promised. A typed `Failure` is a completed
+outcome and does not stop the key or the stream; the next item for that key may start after the
+failure completes and is read. An uninitialized `Result` is a programming fault, not a domain
+failure.
+
+Ready keys start in FIFO order of becoming ready, and a completing key re-joins the tail. This is
+fair progress among admitted work, not a strict round-robin or latency guarantee. With
+`maxConcurrency: 1`, one hot key can occupy the only slot until its buffered queue is drained. A
+hot key can also fill the pending buffer and delay reading a later key in the source even when an
+active slot is free. Both are partition-induced blocking created by the declared bounds and the
+input order; they are not hidden behind a larger implicit buffer.
+
+Dispose an enumeration when stopping early. Cleanup stops admission, drops buffered items that
+never started, cancels the linked token, waits for every started operation and its observer,
+observes faults, disposes the source enumerator once, and only then completes. A callback that
+ignores the token is awaited; it cannot be forcibly terminated. A source, key-selector, or callback
+exception is terminal: outcomes already buffered in the delivery channel are yielded before the
+terminal failure, pending items are dropped, and the first fault is propagated after started work
+drains. A queue of independent callbacks is not a scheduler, retry policy, process supervisor, or
+exactly-once delivery mechanism.
+
 ## First Successful Effect
 
 `FirstSuccessAsync` coordinates a non-empty `IEnumerable<Effect<Result<TValue, TError>>>`.
@@ -263,3 +342,17 @@ and allocation figures for the recorded environment.
 These measurements are directional. `Task.Yield` models scheduler handoff, not production I/O, and
 three measured iterations on a virtualized host produce wide confidence intervals for the smallest
 cases. Rerun on representative hardware and workloads before making latency or capacity decisions.
+
+## Deliberate Boundaries
+
+The concurrency surface is explicit and BCL-first. It does not add a scheduler, fiber runtime,
+actor system, process supervisor, distributed coordinator, durable queue, exactly-once delivery
+guarantee, implicit retry, backoff, circuit breaker, or second execution runtime. Per-key ordering
+is local to one enumeration; it is not a global source-order guarantee across keys, and completion
+order between concurrent keys is unspecified. A hot key, a full buffer, a slow consumer, and
+source order can delay work for other keys; the declared bounds are the only admission promise.
+Cancellation and disposal are cooperative and wait for started operations, including a
+non-cooperative callback. A typed `Result.Failure` is a delivered outcome, not a stream failure;
+unexpected exceptions and source faults remain terminal. The operation does not persist, deduplicate,
+or retry worked items, and it does not provide a replayable event log. Callers that need those
+properties own them outside this coordinator.

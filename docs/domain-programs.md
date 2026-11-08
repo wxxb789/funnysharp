@@ -392,8 +392,8 @@ This surface is not a workflow engine, actor runtime, mailbox, scheduler, persis
 event-sourcing framework, distributed orchestrator, or exactly-once effect system. It does not add
 durable event storage, snapshots, serialization, distributed recovery, automatic transactions,
 retries, compensation, automatic command execution, ambient time or randomness, deep payload
-copying, a universal application program representation, or Goal 0038 concurrency. The simulation is
-single-threaded and not thread-safe; its transcript retains every delivery and emitted command and
+copying, a universal application program representation, or concurrent simulation delivery. The
+simulation is single-threaded and not thread-safe; its transcript retains every delivery and emitted command and
 is not a bounded production event store. `Replay` stops at the first non-applied result, exactly
 like the existing state-machine replay; the simulation transcript is the record of later steps. A
 consumer that needs a second replay policy or a failure-to-message execution adapter must supply it

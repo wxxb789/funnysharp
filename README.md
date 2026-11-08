@@ -86,7 +86,7 @@ registration.Match(
 - **Function Composition**: Standard delegate helpers (`Pipe`, `Compose`, `Curry`, `Tap`) plus async forms (`ComposeValueAsync`, `TapValueAsync`).
 - **Collections & Traversal**: Safe cardinality access (`FirstOrNone`, `SingleOrNone`), `NonEmpty<T>`, one-pass `Partition`, exact-length `ZipExact`, and carrier-aware `Sequence`/`Traverse`.
 - **Streaming & Span Pipelines**: Fused `Choose` and running `Scan` on `IEnumerable<T>` and `IAsyncEnumerable<T>`, plus caller-buffered `ChooseTo`/`WhereTo` on `Span<T>`.
-- **Bounded Concurrency**: Source-ordered (`SelectParallelValueAsync`) or completion-ordered (`SelectParallelCompletionOrderValueAsync`) mapping, and `FirstSuccessAsync` over cold effects.
+- **Bounded Concurrency**: Source-ordered (`SelectParallelValueAsync`) or completion-ordered (`SelectParallelCompletionOrderValueAsync`) mapping, bounded per-key processing with explicit admission and buffering limits (`SelectParallelByKeyCompletionOrderValueAsync`), and `FirstSuccessAsync` over cold effects.
 - **Pure State Machines & Optics**: Pure `StateTransition` workflows with typed commands, and composable `Lens`/`Optional` for immutable nested updates.
 - **Domain Programs & Deterministic Simulation**: `DomainProgram` composes pure business updates with parent-aware `Lift` and `OrElse`; `ProgramSimulation` drives late, duplicate, stale, rejected, and command-failure scenarios with explicit time, seeded randomness, ordered commands, and correlated replies while never executing effects.
 - **Typed Partial Updates**: `Patch<T>`/`PatchChange<T>`/`PatchSchema<T>` distinguish unchanged, cleared, and replaced fields, validate the complete candidate with a reused `Contract<T>`, report conflicting combines, and apply through callers' lenses.

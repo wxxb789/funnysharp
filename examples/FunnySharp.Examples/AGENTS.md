@@ -26,6 +26,7 @@ asserts its own behavior, and prints one success marker.
 | `JoinExamples.cs` | Complete-input duplicate and missing failures with positions, explicit comparer, prebuilt unique index, cardinality-checked reads, and streaming partial output with later failures |
 | `NestedDataExamples.cs` | Decode-and-expand import, empty lines, rejection by origin, aligned mismatch versus BCL truncation, Cartesian-versus-aligned counts, and async expansion parity |
 | `DomainProgramExamples.cs` | Lifted inventory/payment children with a parent cancellation decision, ordered commands and correlation, late/duplicate/stale replies, explicit time/randomness, command-failure distinction, replay purity, child reuse, and the ordinary async execution loop |
+| `KeyedConcurrencyExamples.cs` | Per-account serialization with cross-account overlap, typed failure continuation, per-key source order, and explicit admission/buffering bounds |
 | `ExampleAssertions.cs` | Shared asserts: `Equal`, `True`, `SequenceEqual`, `Throws`, `FaultIsPreserved`, `CancellationIsPreserved`, `UninitializedThrows` |
 
 ## CONVENTIONS

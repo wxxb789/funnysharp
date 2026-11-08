@@ -82,7 +82,7 @@ registration.Match(
 - **内置 Roslyn 静态分析器**：打包于核心包中（`FS1001` 拦截未初始化载体、`FS1002` 拦截丢弃的返回值、`FS1003` 检查忽略 `TryGet*` 布尔值的用法、`FS1004` 拦截 `ValueTask` 同步阻塞、`FS1005` 拦截异步资源同步释放）。
 - **函数组合体系**：标准委托高阶扩展（`Pipe`、`Compose`、`Curry`、`Tap`）以及原生异步变体（`ComposeValueAsync`、`TapValueAsync`）。
 - **数据流与切片管道**：为 `IEnumerable<T>` 与 `IAsyncEnumerable<T>` 提供单趟融合 `Choose` 与流式 `Scan`，为 `Span<T>` 提供调用方自持缓冲的 `ChooseTo`/`WhereTo`。
-- **有界并发控制**：按源顺序（`SelectParallelValueAsync`）或完成顺序（`SelectParallelCompletionOrderValueAsync`）交付结果并行映射，以及针对冷 Effect 的 `FirstSuccessAsync` 竞争调度。
+- **有界并发控制**：按源顺序（`SelectParallelValueAsync`）或完成顺序（`SelectParallelCompletionOrderValueAsync`）交付结果并行映射，带显式准入与缓冲上限的按键有界处理（`SelectParallelByKeyCompletionOrderValueAsync`），以及针对冷 Effect 的 `FirstSuccessAsync` 竞争调度。
 - **纯状态机与光学元件**：基于纯 `StateTransition` 驱动强类型命令输出，并通过轻量级 `Lens`/`Optional` 完成嵌套不可变更新。
 - **领域程序与确定性模拟**：`DomainProgram` 通过父模型感知的 `Lift` 与 `OrElse` 组合纯业务更新；`ProgramSimulation` 以显式时间、可播种随机数、有序命令和关联回复驱动迟到、重复、过期版本、拒绝与命令失败场景，且从不执行副作用。
 - **强类型部分更新**：`Patch<T>`/`PatchChange<T>`/`PatchSchema<T>` 区分未提供、显式清除与替换字段，复用 `Contract<T>` 校验完整候选状态，报告合并冲突，并通过调用方提供的 Lens 应用变更。
