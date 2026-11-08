@@ -7,6 +7,7 @@ using System.Threading;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis.Operations;
 
 namespace FunnySharp.FusedExecution.Generator;
 
@@ -302,7 +303,7 @@ internal static class FusionTransform
 
             foreach (var node in syntax.DescendantNodes())
             {
-                if (GetWrittenTarget(node) is not { } target)
+                if (GetWrittenTarget(node, semanticModel) is not { } target)
                 {
                     continue;
                 }
@@ -324,19 +325,35 @@ internal static class FusionTransform
         return false;
     }
 
-    private static ExpressionSyntax? GetWrittenTarget(SyntaxNode node) => node switch
-    {
-        AssignmentExpressionSyntax assignment => assignment.Left,
-        PrefixUnaryExpressionSyntax prefix
-            when prefix.IsKind(SyntaxKind.PreIncrementExpression)
-                || prefix.IsKind(SyntaxKind.PreDecrementExpression) => prefix.Operand,
-        PostfixUnaryExpressionSyntax postfix
-            when postfix.IsKind(SyntaxKind.PostIncrementExpression)
-                || postfix.IsKind(SyntaxKind.PostDecrementExpression) => postfix.Operand,
-        ArgumentSyntax argument when !argument.RefKindKeyword.IsKind(SyntaxKind.None) =>
-            argument.Expression,
-        _ => null,
-    };
+    private static ExpressionSyntax? GetWrittenTarget(SyntaxNode node, SemanticModel semanticModel) =>
+        node switch
+        {
+            AssignmentExpressionSyntax assignment => assignment.Left,
+            PrefixUnaryExpressionSyntax prefix
+                when prefix.IsKind(SyntaxKind.PreIncrementExpression)
+                    || prefix.IsKind(SyntaxKind.PreDecrementExpression) => prefix.Operand,
+            PostfixUnaryExpressionSyntax postfix
+                when postfix.IsKind(SyntaxKind.PostIncrementExpression)
+                    || postfix.IsKind(SyntaxKind.PostDecrementExpression) => postfix.Operand,
+            ArgumentSyntax argument when IsWritableRefArgument(argument, semanticModel) =>
+                argument.Expression,
+            _ => null,
+        };
+
+    /// <summary>
+    /// Only 'ref' and 'out' arguments hand the callee a writable alias. 'in' and 'ref readonly'
+    /// arguments are reads: the callee cannot assign the field through them, so an inspection
+    /// helper receiving the description as 'in' must not disqualify the declaration.
+    /// </summary>
+    private static bool IsWritableRefArgument(ArgumentSyntax argument, SemanticModel semanticModel) =>
+        semanticModel.GetOperation(argument) switch
+        {
+            IArgumentOperation { Parameter: { } parameter } =>
+                parameter.RefKind is RefKind.Ref or RefKind.Out,
+            // Unbound arguments keep their explicit keyword; 'ref'/'out' stay conservative writes.
+            _ => argument.RefKindKeyword.IsKind(SyntaxKind.RefKeyword)
+                || argument.RefKindKeyword.IsKind(SyntaxKind.OutKeyword),
+        };
 
     private static bool IsEnumerableOfT(ITypeSymbol type) =>
         type is INamedTypeSymbol named

@@ -709,6 +709,119 @@ public sealed class GeneratorTests
     }
 
     [Fact]
+    public void InArgumentReadDoesNotRejectFusion()
+    {
+        const string source = """
+            using System.Collections.Generic;
+            using FunnySharp;
+
+            public sealed record Line(int Quantity, decimal Price);
+
+            public static partial class Sample
+            {
+                public static readonly Summary<Line, (int First, decimal Second), (int First, decimal Second)> Stats =
+                    Summary.Zip(
+                        Summary<Line>.Count(),
+                        Summary<Line>.Sum(static line => line.Quantity * line.Price));
+
+                public static readonly Summary<Line, (int First, decimal Second), (int First, decimal Second)> Snapshot =
+                    Inspect(in Stats);
+
+                static Sample()
+                {
+                    InspectReadOnly(ref Stats);
+                }
+
+                private static Summary<Line, (int First, decimal Second), (int First, decimal Second)> Inspect(
+                    in Summary<Line, (int First, decimal Second), (int First, decimal Second)> stats) => stats;
+
+                private static void InspectReadOnly(
+                    ref readonly Summary<Line, (int First, decimal Second), (int First, decimal Second)> stats)
+                {
+                }
+
+                [FusedSummary(nameof(Stats))]
+                public static partial (int First, decimal Second) Evaluate(IEnumerable<Line> source);
+            }
+            """;
+
+        var (result, output) = GeneratorHarness.RunWithCompilation(source);
+
+        AssertCompiles(result, output);
+        Assert.Contains(
+            "static decimal __FusedSelector1(",
+            GeneratedText(result),
+            StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void RefAndOutArgumentsStillReportFs3904()
+    {
+        const string refSource = """
+            using System.Collections.Generic;
+            using FunnySharp;
+
+            public sealed record Line(int Quantity, decimal Price);
+
+            public static partial class Sample
+            {
+                public static readonly Summary<Line, (int First, decimal Second), (int First, decimal Second)> Stats =
+                    Summary.Zip(
+                        Summary<Line>.Count(),
+                        Summary<Line>.Sum(static line => line.Quantity));
+
+                static Sample()
+                {
+                    Touch(ref Stats);
+                }
+
+                private static void Touch(
+                    ref Summary<Line, (int First, decimal Second), (int First, decimal Second)> stats)
+                {
+                }
+
+                [FusedSummary(nameof(Stats))]
+                public static partial (int First, decimal Second) Evaluate(IEnumerable<Line> source);
+            }
+            """;
+        const string outSource = """
+            using System.Collections.Generic;
+            using FunnySharp;
+
+            public sealed record Line(int Quantity, decimal Price);
+
+            public static partial class Sample
+            {
+                public static readonly Summary<Line, (int First, decimal Second), (int First, decimal Second)> Stats =
+                    Summary.Zip(
+                        Summary<Line>.Count(),
+                        Summary<Line>.Sum(static line => line.Quantity));
+
+                static Sample()
+                {
+                    Initialize(out Stats);
+                }
+
+                private static void Initialize(
+                    out Summary<Line, (int First, decimal Second), (int First, decimal Second)> stats) =>
+                    stats = default;
+
+                [FusedSummary(nameof(Stats))]
+                public static partial (int First, decimal Second) Evaluate(IEnumerable<Line> source);
+            }
+            """;
+
+        foreach (var source in new[] { refSource, outSource })
+        {
+            var result = GeneratorHarness.Run(source);
+
+            Assert.True(
+                result.Diagnostics.Any(static diagnostic => diagnostic.Id == "FS3904"),
+                source);
+        }
+    }
+
+    [Fact]
     public void StaticConstructorWritingAnotherFieldStillFuses()
     {
         const string source = """
