@@ -118,6 +118,26 @@ public sealed class IncrementalObserverTests
     }
 
     [Fact]
+    public void ForeignGraphNodesAreRejectedWithoutChangingObserverCounts()
+    {
+        var graph = new IncrementalGraph();
+        var other = new IncrementalGraph();
+        var foreign = other.Input("foreign", 1);
+
+        Assert.Throws<ArgumentException>(() =>
+        {
+            using var registration = graph.Observe(foreign, static _ => { });
+        });
+        Assert.Throws<ArgumentException>(() =>
+        {
+            using var registration = graph.ObserveChanges(foreign, static _ => { });
+        });
+
+        Assert.Equal(0, graph.ObserverCount);
+        Assert.Equal(0, other.ObserverCount);
+    }
+
+    [Fact]
     public void RepeatedUpdatesDoNotGrowTheGraphOrObservers()
     {
         var graph = new IncrementalGraph();

@@ -91,6 +91,11 @@ graph.Batch(() =>
   comparer; `SetChanged(value)` publishes unconditionally for caller-mutated storage such as a
   `List<T>` mutated in place. The mutable-list test demonstrates that plain `Set` after an in-place
   mutation is a deliberate cutoff, not an implicit mutation detector.
+- `Input<T>.PendingOrPublishedValue` returns the staged value while a publication is pending and
+  the published value otherwise. Several edits to the same input inside one batch compose through
+  it; reading `Value` would let the later edit overwrite the earlier staged one.
+- `Observe`/`ObserveChanges` validate graph ownership like node construction does: a node from
+  another graph throws `ArgumentException` before any observer or count is registered.
 - Observers and node creation are rejected during a commit. Observer exceptions propagate; values
   are already consistent, but later observers in that commit do not run and no rollback is claimed.
 - The graph is single-threaded. There is no ambient cache, task scheduler, background work,

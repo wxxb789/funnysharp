@@ -22,6 +22,13 @@ public sealed class Input<T> : IncrementalNode<T>
 
     internal bool IsPending { get; private set; }
 
+    /// <summary>
+    /// The value a pending publication would install, or the current published value when nothing is
+    /// staged. Use this to compose several edits to the same input inside one batch; reading
+    /// <see cref="IncrementalNode{T}.Value"/> instead would silently drop every earlier staged edit.
+    /// </summary>
+    public T PendingOrPublishedValue => IsPending ? _pendingValue : Value;
+
     /// <summary>Publishes a value when the configured input equality finds a difference.</summary>
     public void Set(T value) => Graph.PublishInput(this, value, force: false);
 
