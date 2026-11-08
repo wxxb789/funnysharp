@@ -47,9 +47,9 @@ internal static class JoinMeasurements
                         return byId.Count;
                     })),
             (
-                "Index build - hand-indexed with positions",
+                "Index build - hand-indexed streaming three dictionaries",
                 MeasureRow(
-                    () => CountHandIndex(customers))),
+                    () => CountHandStreamingIndex(customers))),
             (
                 "Index build - LookupIndex",
                 MeasureRow(
@@ -107,17 +107,21 @@ internal static class JoinMeasurements
                 MeasureRow(
                     () => HandIndexedStreamingConsumer.Stream(uniqueInput).Count)),
             (
-                "Streaming success - JoinExactlyOneResults collect",
+                "Streaming success - JoinExactlyOne consumer",
                 MeasureRow(
-                    () => CountStreaming(orders, customers))),
+                    () => FunnySharpJoinConsumer.Stream(uniqueInput).Count)),
             (
                 "Streaming matched duplicate - hand-indexed collect",
                 MeasureRow(
                     () => HandIndexedStreamingConsumer.Stream(duplicateInput).Count)),
             (
-                "Streaming matched duplicate - JoinExactlyOneResults collect",
+                "Streaming matched duplicate - JoinExactlyOne consumer",
                 MeasureRow(
-                    () => CountStreaming(duplicateOrders, duplicateCustomers))),
+                    () => FunnySharpJoinConsumer.Stream(duplicateInput).Count)),
+            (
+                "Streaming raw JoinExactlyOneResults + ToArray (disclosure)",
+                MeasureRow(
+                    () => CountRawStreaming(orders, customers))),
             (
                 "Empty - hand-indexed join",
                 MeasureRow(
@@ -157,10 +161,11 @@ internal static class JoinMeasurements
         customers.ToUniqueLookupIndex(static customer => customer.Id, Comparer)
             .Require();
 
-    private static int CountHandIndex(IReadOnlyList<JoinCustomer> customers)
+    private static int CountHandStreamingIndex(IReadOnlyList<JoinCustomer> customers)
     {
         var byId = new Dictionary<string, JoinCustomer>(Comparer);
         var firstIndices = new Dictionary<string, int>(Comparer);
+        var secondIndices = new Dictionary<string, int>(Comparer);
 
         for (var index = 0; index < customers.Count; index++)
         {
@@ -169,9 +174,13 @@ internal static class JoinMeasurements
             {
                 firstIndices[customer.Id] = index;
             }
+            else
+            {
+                secondIndices.TryAdd(customer.Id, index);
+            }
         }
 
-        return byId.Count;
+        return byId.Count + firstIndices.Count + secondIndices.Count;
     }
 
     private static int CountJoinOutputs(
@@ -214,7 +223,7 @@ internal static class JoinMeasurements
                 static (order, customer) => new JoinedOrder(order.Id, customer.Name))
             .Match(static _ => 0, static errors => errors.Count);
 
-    private static int CountStreaming(
+    private static int CountRawStreaming(
         IReadOnlyList<JoinOrder> orders,
         IReadOnlyList<JoinCustomer> customers) =>
         orders.JoinExactlyOneResults(
