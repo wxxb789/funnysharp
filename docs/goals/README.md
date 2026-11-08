@@ -25,6 +25,9 @@ Read [Core Design](../core-design.md) for the shared design intent when pursuing
 | [0036](archive/0036-goal.md) | Typed nested data reshaping and provenance | [reshaping evidence](../nested-data-reshaping-evidence.md), [compiling example](../../examples/FunnySharp.Examples/NestedDataExamples.cs), [comparison tests](../../tests/FunnySharp.Tests/NestedDataComparisonTests.cs) |
 | [0037](archive/0037-goal.md) | Composable domain programs and deterministic simulation | [program evidence](../domain-programs-evidence.md), [compiling example](../../examples/FunnySharp.Examples/DomainProgramExamples.cs), [comparison tests](../../tests/FunnySharp.Tests/ProgramComparisonTests.cs) |
 | [0038](archive/0038-goal.md) | Bounded concurrency with per-key ordering | [keyed concurrency evidence](../keyed-concurrency-evidence.md), [compiling example](../../examples/FunnySharp.Examples/KeyedConcurrencyExamples.cs), [comparison tests](../../tests/FunnySharp.Tests/KeyedConcurrencyComparisonTests.cs) |
+| [0039](archive/0039-goal.md) | Feasibility of compile-time fused execution: ADAPT a summary-only opt-in generator; decoder fusion deferred; no public capability changed | [evidence](../compile-time-fused-execution-evidence.md), [plan](../plans/2026-11-08-1201-feat-compile-time-fused-execution-plan.md) |
+
+Goal 0039 is a research outcome: it records an executable summary generator and decoder fast path, 76 parity checks, two measurement runs, and an ADAPT recommendation for the summary subset only. It shipped no public capability, package, grammar, or API-baseline change; the evidence record carries the supported subset, non-adoptions, and a later product goal's conditions.
 
 The 0024/0025 final ledger records 69 `ACCEPTED_VERIFIED` rows, 0 open, the original 40 FAIL/29 UNVERIFIED origins preserved, and an independent whole-goal gate recommendation of APPROVE at product `d8744c934d86833f9817245ecc7c78b1177b8b76`. Goal 0026 is verified by the decoder tests, three-way consumer comparison, and allocation/timing evidence. Goal 0027 is verified by the contract tests, the contract-versus-ordinary consumer comparison, fixed expected diagnostics, generated-value properties, unsupported-derivation counterexamples, and disclosed allocation/generation costs. Goal 0028 is verified by the patch tests, the patch-versus-ordinary consumer comparison, fixed expected wire errors, candidate-validation and conflict boundaries, the ASP.NET Core PATCH handler example whose `--verify` mode asserts the mapped route and invokes the handler with parsed `JsonElement` bodies, and disclosed copying/allocation costs. Goal 0029 is verified by the batch requirement, scope, error, cancellation, and source tests; the deterministic batched-versus-hand-batched consumer comparison with exact invocation sequences; the order-enrichment example; and the FunnySharp-versus-hand-batched-versus-GreenDonut consumer, allocation, and directional timing evidence.
 
@@ -32,7 +35,6 @@ The 0024/0025 final ledger records 69 `ACCEPTED_VERIFIED` rows, 0 open, the orig
 
 | Goal | Outcome | Kind |
 | --- | --- | --- |
-| [0039](0039-goal.md) | Feasibility of compile-time fused execution | Research outcome |
 | [0040](0040-goal.md) | Feasibility of incremental domain computation | Research outcome |
 | [0041](0041-goal.md) | Feasibility of reusable tree transformations | Research outcome |
 | [0042](0042-goal.md) | Feasibility of inspectable named operation plans | Research outcome |
