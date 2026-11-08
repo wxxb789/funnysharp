@@ -167,10 +167,10 @@ row is full-JIT and allocation is attributed consistently. Synchronous allocatio
 | Join duplicate - hand-indexed | 204,672.4 | 109,977.0 |
 | Join duplicate - `JoinExactlyOne` raw | 148,312.4 | 107,530.0 |
 | Join many failures - `JoinExactlyOne` raw | 238,144.4 | 151,513.0 |
-| Streaming success - hand-indexed collect | 278,296.4 | 121,976.0 |
-| Streaming success - `JoinExactlyOneResults` collect | 90,328.4 | 124,036.0 |
-| Streaming matched duplicate - hand-indexed collect | 278,456.4 | 146,729.0 |
-| Streaming matched duplicate - `JoinExactlyOneResults` collect | 90,296.4 | 125,725.0 |
+| Streaming success - hand-indexed collect | 278,296.4 | 113,289.0 |
+| Streaming success - `JoinExactlyOneResults` collect | 238,136.4 | 188,629.0 |
+| Streaming matched duplicate - hand-indexed collect | 278,456.4 | 119,346.0 |
+| Streaming matched duplicate - `JoinExactlyOneResults` collect | 238,120.4 | 190,391.0 |
 | Empty - hand-indexed join | 288.4 | 113.0 |
 | Empty - `JoinExactlyOne` raw | 272.4 | 180.0 |
 
@@ -179,7 +179,9 @@ measurement, presizing and the validation consolidation changed the affected row
 `LookupIndex` and `UniqueLookupIndex` each -16,512.0 B; raw join success -24,864.0 B and missing
 -24,928.0 B; prebuilt unique success -8,352.0 B and missing -8,416.0 B; duplicate raw -49,472.0 B.
 The final row-error centralization accounts for 64.0 B in the missing and duplicate rows.
-Ordinary, hand-indexed, streaming, and empty rows are unchanged.
+Ordinary, hand-indexed, and empty rows are unchanged. The streaming comparison charges index
+construction to both shapes (see the streaming bullet), so those four rows were re-measured after
+that correction; their allocation values are the ones shown above.
 
 ## Interpretation
 
@@ -203,11 +205,14 @@ Ordinary, hand-indexed, streaming, and empty rows are unchanged.
   materializes an unused output list. The many-failure row is 238,144.4 B for 1,024 missing rows,
   about 49,056.0 B more than the one-missing raw row, or roughly 48 B per additional failure. It
   still allocates no output buffer.
-- **Streaming is materially cheaper than the complete hand-indexed shape.** Collecting 1,024
-  successful outcomes allocates 90,328.4 B through `JoinExactlyOneResults` versus 278,296.4 B in
-  the hand-indexed streaming consumer, which keeps two dictionaries and a materialized outcome
-  list. The matched-duplicate row is 90,296.4 B versus 278,456.4 B. The streaming shape reuses the
-  prebuilt index and allocates no output buffer of its own.
+- **Streaming is cheaper than the complete hand-indexed shape when both build their index.**
+  Charging index construction inside the measured delegate on both sides, collecting 1,024
+  successful outcomes allocates 238,136.4 B through `JoinExactlyOneResults` versus 278,296.4 B in
+  the hand-indexed streaming consumer, which keeps two dictionaries plus a first- and
+  second-position table and a materialized outcome list. The matched-duplicate row is 238,120.4 B
+  versus 278,456.4 B. The roughly 40,160 B gap is the hand-indexed consumer's extra position
+  dictionaries and separate outcome list; the streaming join builds one index, allocates outcomes
+  lazily, and allocates no output buffer of its own.
 - **The ordinary form is the cheap happy path, not a complete relation contract.** It allocates
   125,096.0 B less than the raw buffered join on success, but on a duplicate or missing row it
   throws `ArgumentException` or `KeyNotFoundException` with no key, lookup position, or source
@@ -233,7 +238,7 @@ impossible or genuinely exceptional, `ToDictionary` plus an indexed read remains
 allocates less; the index and error machinery are not earned there. The buffered join also adds an
 index-validation boundary that a caller must handle, and its combine callback can run for earlier
 rows before a later missing row is found. The streaming shape is the better fit when partial output
-is wanted and matched-key uniqueness is sufficient; it is materially cheaper than the hand-indexed
+is wanted and matched-key uniqueness is sufficient; it is cheaper than the hand-indexed
 streaming form but does not claim complete-input validation. The maintainer should keep the family
 only where the structured, position-bearing failure contract is the actual requirement; the
 evidence does not support replacing ordinary dictionary lookups generally.

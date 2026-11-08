@@ -35,8 +35,6 @@ internal static class JoinMeasurements
         var emptyInput = CreateInput("empty", [], []);
 
         var uniqueIndex = BuildUnique(customers);
-        var manyIndex = BuildMany(customers);
-        var duplicateIndex = BuildMany(duplicateCustomers);
 
         var rows = new (string Name, Measurement Value)[]
         {
@@ -111,7 +109,7 @@ internal static class JoinMeasurements
             (
                 "Streaming success - JoinExactlyOneResults collect",
                 MeasureRow(
-                    () => CountStreaming(orders, manyIndex))),
+                    () => CountStreaming(orders, customers))),
             (
                 "Streaming matched duplicate - hand-indexed collect",
                 MeasureRow(
@@ -119,7 +117,7 @@ internal static class JoinMeasurements
             (
                 "Streaming matched duplicate - JoinExactlyOneResults collect",
                 MeasureRow(
-                    () => CountStreaming(duplicateOrders, duplicateIndex))),
+                    () => CountStreaming(duplicateOrders, duplicateCustomers))),
             (
                 "Empty - hand-indexed join",
                 MeasureRow(
@@ -157,11 +155,6 @@ internal static class JoinMeasurements
     private static UniqueLookupIndex<string, JoinCustomer> BuildUnique(
         IReadOnlyList<JoinCustomer> customers) =>
         customers.ToUniqueLookupIndex(static customer => customer.Id, Comparer)
-            .Require();
-
-    private static LookupIndex<string, JoinCustomer> BuildMany(
-        IReadOnlyList<JoinCustomer> customers) =>
-        customers.ToLookupIndex(static customer => customer.Id, Comparer)
             .Require();
 
     private static int CountHandIndex(IReadOnlyList<JoinCustomer> customers)
@@ -223,9 +216,9 @@ internal static class JoinMeasurements
 
     private static int CountStreaming(
         IReadOnlyList<JoinOrder> orders,
-        LookupIndex<string, JoinCustomer> index) =>
+        IReadOnlyList<JoinCustomer> customers) =>
         orders.JoinExactlyOneResults(
-                index,
+                customers.ToLookupIndex(static customer => customer.Id, Comparer).Require(),
                 static order => order.CustomerId!,
                 static (order, customer) => new JoinedOrder(order.Id, customer.Name))
             .ToArray()
