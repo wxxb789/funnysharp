@@ -35,7 +35,10 @@ analysis, and compile-verified call sites are in [`next-stage/`](next-stage/).
   failure or absence channel. `LookupIndex<TKey, TValue>` and `UniqueLookupIndex<TKey, TValue>` are
   materialized keyed-association descriptions, not outcome carriers; their keyed reads return
   `Option`/`Result` values, their buffered joins return `Validation`, their streaming join yields
-  `Result` outcomes, and `LookupError<TKey>` is only their diagnostic value. Explicit state
+  `Result` outcomes, and `LookupError<TKey>` is only their diagnostic value. `RowOrigin` and
+  `CartesianRowOrigin` are provenance values passed to a nested-data expansion callback, and
+  `NestedRowError`/`NestedRowErrorKind` are that expansion's diagnostic values; none is an outcome
+  carrier, and expansion returns `Validation`. Explicit state
   variants and typed module-error hierarchies stay
   ordinary C# records over `Result`/`Validation`; no union type is added.
 - No second carrier for any of these meanings may be added. `Maybe`, `Either`, `Fin`, `Try`,
@@ -251,6 +254,23 @@ analysis, and compile-verified call sites are in [`next-stage/`](next-stage/).
   its comparer. The index retains caller values by reference under a documented snapshot/lifetime
   contract. No SQL provider, ORM query translator, DataFrame universe, database-level integrity
   guarantee, many-to-many join, async mirror, or new carrier is added.
+- Nested data reshaping extends the typed record and sequence surface without adding a carrier.
+  `Expand` yields one row per nested child while retaining the parent value; `ExpandAligned` pairs
+  two child sequences by index and reports unequal lengths as a `ChildCountMismatch` carrying the
+  record and both counts; `ExpandCartesian` is the separate explicit product. Each operation
+  enumerates the parent source once, buffers the complete row list, returns no rows plus every
+  structural failure on failure, and returns an exact-size `IReadOnlyList<TResult>` on success.
+  `RowOrigin` and `CartesianRowOrigin` are readonly provenance values passed to the combine
+  callback; a caller that needs only the record position of a structural failure ignores them, and
+  the library allocates no per-row path string or `Location` object. `NestedRowError` carries the
+  record position, and both counts for an aligned mismatch. Child selectors and combine callbacks
+  are synchronous; async forms change only parent acquisition and forward the exact token to the
+  enumerator. JSON field extraction,
+  missing/null policy, and stable paths remain `Decoder`'s contract. Null child lists are
+  failures, empty lists are valid zero-row records, unequal aligned lengths are never truncated,
+  and rejected items remain an explicit caller policy located by the origin. No new carrier,
+  serializer, reflection binder, DataFrame engine, streaming partial-output shape,
+  span-retaining view, async row callback, or inferred Cartesian product is added.
 - Effects are thin `readonly struct` wrappers over standard delegates. They defer execution until
   `RunAsync`, return `ValueTask`, and make an optional caller-owned environment, cancellation, and
   resource lifetime explicit without changing normal .NET exception or cancellation semantics.

@@ -103,6 +103,9 @@ do not acquire a universal zero-allocation or constant-time guarantee from these
 | Strict joins | `ToLookupIndex`, `GetMany`, `GetZeroOrOne`, `GetExactlyOne`, `RequireUniqueKeys` | O(n) expected hashing/index construction; O(1) expected key read plus group-size work for `GetMany`; O(n) complete-index uniqueness scan | Lookup source once at construction; keyed reads do not enumerate it | One key dictionary plus one flat entry per retained value; `GetMany` allocates the returned array; `RequireUniqueKeys` allocates only on failure | Buffers the lookup snapshot; no hidden source cache | — |
 | Strict joins | `JoinExactlyOne` | O(n + m) expected for n lookup entries and m source rows, plus output/error materialization and the complete uniqueness scan | Lookup source once; source once | Unique index plus output list and exact-size array on success; error list and `Validation` snapshot on failure; disclosed in [`cardinality-joins-evidence.md`](cardinality-joins-evidence.md) | Buffers the complete index; no partial output on failure | — |
 | Strict joins | `JoinExactlyOneResults` | O(m) expected per source enumeration after the index is built, plus per-row outcome construction | Source once per consumer enumeration; prebuilt index not re-enumerated | One `Result` value per reached row; no library-owned output buffer | Streams one outcome per source row; no all-or-nothing promise | — |
+| Nested reshaping | `Expand` | O(n + r) for n parent records and r total children, plus one combine call per row; null/mismatch checks are O(1) per record | Parent source once; child lists read in place | Output list plus exact-size array on success; error list plus a read-only `Validation` wrapper (no copy) on failure; origin passed by value, no per-row allocation; disclosed in [`nested-data-reshaping-evidence.md`](nested-data-reshaping-evidence.md) | Buffers all rows; no partial output on failure | — |
+| Nested reshaping | `ExpandAligned` | O(n + r) plus two child-count reads per record; a length mismatch contributes one error and no rows | Parent source once; both child lists read in place | Same as `Expand`; mismatch adds one struct error; no per-row `Location` or string | Buffers all rows; no partial output on failure | — |
+| Nested reshaping | `ExpandCartesian` | O(n + r1 * r2) plus one combine call per product row | Parent source once; both child lists read in place | Same as `Expand`; product size is the caller's intended relation | Buffers all rows; no partial output on failure | — |
 | HTTP | `FunnySharp.AspNetCore` mapping | O(1) mapping | — | Measured per outcome shape (0-168 B per call; see [`aspnet-core.md`](aspnet-core.md)) | None | Runs on the ASP.NET Core request pipeline |
 
 The zero and nonzero statements above are enforced where measured by the committed observation
@@ -123,7 +126,11 @@ caller's delegates, so its state size, delegate, allocation, and large-value row
 benchmark table. Strict keyed join index, output, and error-storage costs depend on the lookup
 cardinality, duplicate rate, and failure count, so they are disclosed in
 [cardinality-joins-evidence.md](cardinality-joins-evidence.md) and excluded from the release
-benchmark table.
+benchmark table. Nested expansion and alignment costs depend on the parent/child shapes, the
+provenance form, and the failure count; the import and per-shape allocations, per-row origin,
+per-row `Location`, and rendered-error costs are disclosed in
+[nested-data-reshaping-evidence.md](nested-data-reshaping-evidence.md) and excluded from the
+release benchmark table.
 
 ## Regression policy
 
@@ -245,6 +252,8 @@ Each topic guide carries the generated measurement table for its benchmark famil
   absent, and no-value outcomes.
 - [`cardinality-joins.md`](cardinality-joins.md) — strict join index, output, and error-storage
   costs (feature evidence; excluded from the release benchmark table).
+- [`nested-data-reshaping.md`](nested-data-reshaping.md) — expansion, alignment, provenance, and
+  rendered-location costs (feature evidence; excluded from the release benchmark table).
 
 ## Reproduction
 

@@ -4,7 +4,7 @@
 
 ## OVERVIEW
 
-The compiled source of every `csharp` code block in the 13 primary guides. Snippets are
+The compiled source of every `csharp` code block in the 14 primary guides. Snippets are
 extracted from this project and byte-compared against `docs/*.md` — edit here, then the doc.
 
 ## WHERE TO LOOK
@@ -12,9 +12,9 @@ extracted from this project and byte-compared against `docs/*.md` — edit here,
 | Need | Location |
 | --- | --- |
 | Snippet verifier | `eng/harness/DocsSnippets.fs` via `dotnet fsi build.fsx -- -p verify-docs-snippets` |
-| Sample files | one per guide area: `AnalyzerSamples`, `AspNetCoreSamples`, `CardinalityJoinSamples`, `CollectionsSamples`, `ConcurrencySamples`, `EffectSamples`, `FunctionCompositionSamples`, `ImmutableUpdateSamples`, `OnePassSummarySamples`, `QuickStartSamples`, `StateMachineSamples`, `UnitResultSamples`, `ValidationSamples` |
-| Region markers | `// <snippet DocumentationSamples.<Area>.<Name>>` … `// </snippet>` — 68 regions total; the marker is the consumed interface |
-| Docs counterpart | fenced `csharp` blocks tagged `<!-- documentation-sample: ... -->` in the 13 primary guides |
+| Sample files | one per guide area: `AnalyzerSamples`, `AspNetCoreSamples`, `CardinalityJoinSamples`, `CollectionsSamples`, `ConcurrencySamples`, `EffectSamples`, `FunctionCompositionSamples`, `ImmutableUpdateSamples`, `NestedDataSamples`, `OnePassSummarySamples`, `QuickStartSamples`, `StateMachineSamples`, `UnitResultSamples`, `ValidationSamples` |
+| Region markers | `// <snippet DocumentationSamples.<Area>.<Name>>` … `// </snippet>` — 72 regions total; the marker is the consumed interface |
+| Docs counterpart | fenced `csharp` blocks tagged `<!-- documentation-sample: ... -->` in the 14 primary guides |
 
 ## CONVENTIONS
 

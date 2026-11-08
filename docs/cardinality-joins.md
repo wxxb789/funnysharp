@@ -242,5 +242,6 @@ so a Cartesian product is never inferred. It provides no async `IAsyncEnumerable
 mirror; asynchronous acquisition remains the caller's boundary. It does not infer an opaque
 dictionary comparer, accept a dictionary as proof of its equality policy, clone or freeze retained
 values, roll back combine calls, retry a failed row, cache the source, or convert cancellation and
-programming exceptions into `LookupError` values. Nested output reshaping and provenance belong to
-Goal 0036; this family combines flat caller records only.
+programming exceptions into `LookupError` values. This family combines flat caller records only;
+nested child expansion, exact parallel alignment, explicit Cartesian expansion, and row provenance
+are separate in [nested data reshaping](nested-data-reshaping.md).

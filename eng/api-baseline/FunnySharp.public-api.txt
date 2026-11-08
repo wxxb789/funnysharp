@@ -130,6 +130,14 @@ CLASS FunnySharp.CardinalityExtensions
   METHOD static FunnySharp.Option<T?> MinOrNone<T>(System.Collections.Generic.IEnumerable<T?> source, System.Collections.Generic.IComparer<T?> comparer)
   METHOD static FunnySharp.Option<T?> SingleOrNone<T>(System.Collections.Generic.IEnumerable<T?> source)
   METHOD static FunnySharp.Option<T?> SingleOrNone<T>(System.Collections.Generic.IEnumerable<T?> source, System.Func<T?, System.Boolean> predicate)
+STRUCT FunnySharp.CartesianRowOrigin
+  METHOD System.Boolean Equals(FunnySharp.CartesianRowOrigin other)
+  METHOD System.Boolean Equals(System.Object? obj)
+  METHOD System.Int32 GetHashCode()
+  METHOD System.String ToString()
+  PROPERTIE System.Int32 FirstElementIndex
+  PROPERTIE System.Int32 RecordIndex
+  PROPERTIE System.Int32 SecondElementIndex
 CLASS FunnySharp.CheckExtensions
   METHOD static FunnySharp.Result<TValue?, TError?> Check<TValue, TError>(FunnySharp.Result<TValue?, TError?> result, System.Func<TValue?, FunnySharp.UnitResult<TError?>> check)
   METHOD static FunnySharp.Validation<TValue?, TError?> CheckAll<TValue, TError>(FunnySharp.Result<TValue?, TError?> result, System.Collections.Generic.IEnumerable<System.Func<TValue?, FunnySharp.UnitResult<TError?>>> checks)
@@ -479,6 +487,32 @@ CLASS FunnySharp.LookupIndex<TKey, TValue>
   PROPERTIE System.Collections.Generic.IEqualityComparer<TKey> Comparer
   PROPERTIE System.Int32 DistinctCount
   PROPERTIE System.Int32 EntryCount
+CLASS FunnySharp.NestedDataExtensions
+  METHOD static FunnySharp.Validation<System.Collections.Generic.IReadOnlyList<TResult?>, FunnySharp.NestedRowError> Expand<TParent, TChild, TResult>(System.Collections.Generic.IEnumerable<TParent?> records, System.Func<TParent?, System.Collections.Generic.IReadOnlyList<TChild?>> children, System.Func<TParent?, TChild?, FunnySharp.RowOrigin, TResult?> combine)
+  METHOD static FunnySharp.Validation<System.Collections.Generic.IReadOnlyList<TResult?>, FunnySharp.NestedRowError> ExpandAligned<TParent, TFirst, TSecond, TResult>(System.Collections.Generic.IEnumerable<TParent?> records, System.Func<TParent?, System.Collections.Generic.IReadOnlyList<TFirst?>> firstChildren, System.Func<TParent?, System.Collections.Generic.IReadOnlyList<TSecond?>> secondChildren, System.Func<TParent?, TFirst?, TSecond?, FunnySharp.RowOrigin, TResult?> combine)
+  METHOD static FunnySharp.Validation<System.Collections.Generic.IReadOnlyList<TResult?>, FunnySharp.NestedRowError> ExpandCartesian<TParent, TFirst, TSecond, TResult>(System.Collections.Generic.IEnumerable<TParent?> records, System.Func<TParent?, System.Collections.Generic.IReadOnlyList<TFirst?>> firstChildren, System.Func<TParent?, System.Collections.Generic.IReadOnlyList<TSecond?>> secondChildren, System.Func<TParent?, TFirst?, TSecond?, FunnySharp.CartesianRowOrigin, TResult?> combine)
+  METHOD static System.Threading.Tasks.ValueTask<FunnySharp.Validation<System.Collections.Generic.IReadOnlyList<TResult?>, FunnySharp.NestedRowError>> ExpandAlignedAsync<TParent, TFirst, TSecond, TResult>(System.Collections.Generic.IAsyncEnumerable<TParent?> records, System.Func<TParent?, System.Collections.Generic.IReadOnlyList<TFirst?>> firstChildren, System.Func<TParent?, System.Collections.Generic.IReadOnlyList<TSecond?>> secondChildren, System.Func<TParent?, TFirst?, TSecond?, FunnySharp.RowOrigin, TResult?> combine, System.Threading.CancellationToken cancellationToken)
+  METHOD static System.Threading.Tasks.ValueTask<FunnySharp.Validation<System.Collections.Generic.IReadOnlyList<TResult?>, FunnySharp.NestedRowError>> ExpandAsync<TParent, TChild, TResult>(System.Collections.Generic.IAsyncEnumerable<TParent?> records, System.Func<TParent?, System.Collections.Generic.IReadOnlyList<TChild?>> children, System.Func<TParent?, TChild?, FunnySharp.RowOrigin, TResult?> combine, System.Threading.CancellationToken cancellationToken)
+  METHOD static System.Threading.Tasks.ValueTask<FunnySharp.Validation<System.Collections.Generic.IReadOnlyList<TResult?>, FunnySharp.NestedRowError>> ExpandCartesianAsync<TParent, TFirst, TSecond, TResult>(System.Collections.Generic.IAsyncEnumerable<TParent?> records, System.Func<TParent?, System.Collections.Generic.IReadOnlyList<TFirst?>> firstChildren, System.Func<TParent?, System.Collections.Generic.IReadOnlyList<TSecond?>> secondChildren, System.Func<TParent?, TFirst?, TSecond?, FunnySharp.CartesianRowOrigin, TResult?> combine, System.Threading.CancellationToken cancellationToken)
+STRUCT FunnySharp.NestedRowError
+  METHOD static FunnySharp.NestedRowError ChildCountMismatch(System.Int32 recordIndex, System.Int32 firstElementCount, System.Int32 secondElementCount)
+  METHOD static FunnySharp.NestedRowError NullChildSequence(System.Int32 recordIndex)
+  METHOD static FunnySharp.NestedRowError NullFirstChildSequence(System.Int32 recordIndex)
+  METHOD static FunnySharp.NestedRowError NullSecondChildSequence(System.Int32 recordIndex)
+  METHOD System.Boolean Equals(FunnySharp.NestedRowError other)
+  METHOD System.Boolean Equals(System.Object? obj)
+  METHOD System.Int32 GetHashCode()
+  METHOD System.String ToString()
+  PROPERTIE FunnySharp.NestedRowErrorKind Kind
+  PROPERTIE System.Int32 RecordIndex
+  PROPERTIE System.Nullable<System.Int32>? FirstElementCount
+  PROPERTIE System.Nullable<System.Int32>? SecondElementCount
+ENUM FunnySharp.NestedRowErrorKind
+  FIELD static FunnySharp.NestedRowErrorKind ChildCountMismatch = 3
+  FIELD static FunnySharp.NestedRowErrorKind NullChildSequence = 0
+  FIELD static FunnySharp.NestedRowErrorKind NullFirstChildSequence = 1
+  FIELD static FunnySharp.NestedRowErrorKind NullSecondChildSequence = 2
+  FIELD System.Int32 value__
 STRUCT FunnySharp.NonEmpty<T>
   METHOD System.Collections.Generic.IReadOnlyList<T?> ToReadOnlyList()
   METHOD System.String ToString()
@@ -753,6 +787,13 @@ STRUCT FunnySharp.Result<TValue, TError>
   METHOD TResult? Match<TResult>(System.Func<TValue?, TResult?> success, System.Func<TError?, TResult?> failure)
   PROPERTIE System.Boolean IsFailure
   PROPERTIE System.Boolean IsSuccess
+STRUCT FunnySharp.RowOrigin
+  METHOD System.Boolean Equals(FunnySharp.RowOrigin other)
+  METHOD System.Boolean Equals(System.Object? obj)
+  METHOD System.Int32 GetHashCode()
+  METHOD System.String ToString()
+  PROPERTIE System.Int32 ElementIndex
+  PROPERTIE System.Int32 RecordIndex
 CLASS FunnySharp.SequenceExtensions
   METHOD static FunnySharp.Option<System.Collections.Generic.IReadOnlyDictionary<TKey, TResult?>> Traverse<TKey, TValue, TResult>(System.Collections.Generic.IReadOnlyDictionary<TKey, TValue?> source, FunnySharp.Location root, System.Func<FunnySharp.Location, TKey, TValue?, FunnySharp.Option<TResult?>> selector)
   METHOD static FunnySharp.Option<System.Collections.Generic.IReadOnlyDictionary<TKey, TResult?>> Traverse<TKey, TValue, TResult>(System.Collections.Generic.IReadOnlyDictionary<TKey, TValue?> source, FunnySharp.Location root, System.Func<FunnySharp.Location, TKey, TValue?, FunnySharp.Option<TResult?>> selector, System.Collections.Generic.IEqualityComparer<TKey> comparer)

@@ -24,6 +24,7 @@ asserts its own behavior, and prints one success marker.
 | `FallibleReductionExamples.cs` | Seeded `Result`-returning fold, empty seed, first failure, mutable-accumulator no-rollback, and sync/async source forms |
 | `SummaryExamples.cs` | Independent count/sum/extrema/category summaries, one-pass typed report, empty extrema, mutable-state isolation, overflow, and sync/async reuse |
 | `JoinExamples.cs` | Complete-input duplicate and missing failures with positions, explicit comparer, prebuilt unique index, cardinality-checked reads, and streaming partial output with later failures |
+| `NestedDataExamples.cs` | Decode-and-expand import, empty lines, rejection by origin, aligned mismatch versus BCL truncation, Cartesian-versus-aligned counts, and async expansion parity |
 | `ExampleAssertions.cs` | Shared asserts: `Equal`, `True`, `SequenceEqual`, `Throws`, `FaultIsPreserved`, `CancellationIsPreserved`, `UninitializedThrows` |
 
 ## CONVENTIONS

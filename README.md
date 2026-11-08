@@ -120,6 +120,7 @@ Start with [Core Design](docs/core-design.md) for the project's design direction
 | [Fallible Reduction](https://github.com/wxxb789/funnysharp/blob/main/docs/fallible-reduction.md) | [Fallible Reduction Evidence](https://github.com/wxxb789/funnysharp/blob/main/docs/fallible-reduction-evidence.md) | |
 | [One-Pass Summaries](https://github.com/wxxb789/funnysharp/blob/main/docs/one-pass-summaries.md) | [Summary Evidence](https://github.com/wxxb789/funnysharp/blob/main/docs/one-pass-summaries-evidence.md) | |
 | [Cardinality Joins](https://github.com/wxxb789/funnysharp/blob/main/docs/cardinality-joins.md) | [Join Evidence](https://github.com/wxxb789/funnysharp/blob/main/docs/cardinality-joins-evidence.md) | |
+| [Nested Data Reshaping](https://github.com/wxxb789/funnysharp/blob/main/docs/nested-data-reshaping.md) | [Reshaping Evidence](https://github.com/wxxb789/funnysharp/blob/main/docs/nested-data-reshaping-evidence.md) | |
 
 Executable samples: [FunnySharp Core Examples](https://github.com/wxxb789/funnysharp/blob/main/examples/FunnySharp.Examples/Program.cs) and [ASP.NET Core Examples](https://github.com/wxxb789/funnysharp/blob/main/examples/FunnySharp.AspNetCore.Examples/Program.cs).
 

@@ -8,7 +8,7 @@ signature and its contract.
 This file is the authoritative verb reference. The per-feature guides
 ([option.md](option.md), [result.md](result.md), [unit-result.md](unit-result.md),
 [validation.md](validation.md), [checks.md](checks.md), [decoding.md](decoding.md), [function-composition.md](function-composition.md),
-[data-pipelines.md](data-pipelines.md), [fallible-reduction.md](fallible-reduction.md), [one-pass-summaries.md](one-pass-summaries.md), [cardinality-joins.md](cardinality-joins.md), [effects.md](effects.md),
+[data-pipelines.md](data-pipelines.md), [fallible-reduction.md](fallible-reduction.md), [one-pass-summaries.md](one-pass-summaries.md), [cardinality-joins.md](cardinality-joins.md), [nested-data-reshaping.md](nested-data-reshaping.md), [effects.md](effects.md),
 [concurrency.md](concurrency.md), [immutable-updates.md](immutable-updates.md),
 [state-machines.md](state-machines.md), and [aspnet-core.md](aspnet-core.md)) carry the detailed
 contracts and performance evidence; the rows below stay one line each.
@@ -44,7 +44,10 @@ not an outcome carrier; evaluation returns the caller-selected result and adds n
 absence channel. `LookupIndex<TKey, TValue>` and `UniqueLookupIndex<TKey, TValue>` are materialized
 keyed-association descriptions, not outcome carriers; their reads return `Option`/`Result` values,
 their buffered joins return `Validation`, and their streaming join yields `Result` outcomes.
-`LookupError<TKey>` is their diagnostic value. Explicit state
+`LookupError<TKey>` is their diagnostic value. `RowOrigin` and `CartesianRowOrigin` are
+provenance values passed to a nested-data expansion callback, and `NestedRowError`/
+`NestedRowErrorKind` are that expansion's diagnostic values; none of them is an outcome carrier.
+Explicit state
 variants and typed module-error hierarchies are ordinary C#
 record types over the canonical carriers, not new library carriers.
 
@@ -78,6 +81,9 @@ record types over the canonical carriers, not new library carriers.
   `GetZeroOrOne`, `GetExactlyOne`), and an exactly-one join is named `JoinExactlyOne`. The
   streaming per-row form is `JoinExactlyOneResults`. No boolean or enum cardinality parameter
   hides the contract from the call site.
+- Nested-data expansion puts the relation in the name: `Expand` is one row per child,
+  `ExpandAligned` is exact position-wise pairing, and `ExpandCartesian` is the explicit product.
+  No boolean or enum mode parameter changes aligned behavior into Cartesian behavior.
 - LINQ `Select`/`SelectMany` exist only where `Bind` exists (never `Where`) and stay secondary to
   the member-centric vocabulary. `Bind` does not imply a LINQ bridge: `UnitResult` has none.
 - No aliases, no competitor naming, no naming concessions.
@@ -232,6 +238,25 @@ and yields one outcome per source row. Neither shape claims the other's guarante
 | `RequireUniqueKeys` | Validates at most one value per key over the complete retained index. | `LookupIndex` | `Validation<UniqueLookupIndex<TKey,TValue>, LookupError<TKey>>` | Every occurrence after the first is reported with its position; the wrapper shares the index storage. |
 | `JoinExactlyOne` | Enriches every source row with exactly one lookup match. | `IEnumerable<TSource>` plus a raw lookup sequence or `UniqueLookupIndex` | `Validation<IReadOnlyList<TResult>, LookupError<TKey>>` | Buffered; complete-input uniqueness for the raw form; one output per source row in source order on success; no outputs on failure; lookup errors precede source errors. |
 | `JoinExactlyOneResults` | Yields one independent outcome per source row. | `IEnumerable<TSource>` plus `LookupIndex` | `IEnumerable<Result<TResult, LookupError<TKey>>>` | Deferred; matched-key uniqueness only; failures are items; earlier successes may precede a later failure; no all-or-nothing claim. |
+
+### Nested Data Reshaping
+
+`RowOrigin` and `CartesianRowOrigin` identify the parent record and nested element positions passed
+to an expansion combine callback. `NestedRowError` is the structural diagnostic for a null child
+list or an unequal aligned pair. The operations are eager and all-or-nothing: the parent source is
+enumerated once, rows and errors are buffered, success returns an exact-size array, and failure
+returns no rows plus every structural error in record order. The child list is `IReadOnlyList<T>`
+and is read during the call; null is a failure, empty is a valid zero-row record, and unequal
+aligned lengths are a `ChildCountMismatch` with both counts.
+
+| Verb | Meaning | Present on | Output shape | Async forms | Key contract |
+| --- | --- | --- | --- | --- | --- |
+| `Expand` | Yields one row per nested child, retaining the parent value. | `IEnumerable<TParent>` | `Validation<IReadOnlyList<TResult>, NestedRowError>` | `ExpandAsync` over `IAsyncEnumerable<TParent>` | Record order then child order; one child selector call per record; null child list is `NullChildSequence`; empty contributes no rows; no partial output. |
+| `ExpandAligned` | Pairs two child sequences position by position and requires equal lengths. | `IEnumerable<TParent>` | `Validation<IReadOnlyList<TResult>, NestedRowError>` | `ExpandAlignedAsync` | Record order then increasing index; one output per index; unequal lengths is one `ChildCountMismatch` with both counts; never a product; no partial output. |
+| `ExpandCartesian` | Yields the explicit product of two child sequences. | `IEnumerable<TParent>` | `Validation<IReadOnlyList<TResult>, NestedRowError>` | `ExpandCartesianAsync` | Record order, first index, second index; unequal lengths are valid; output count is `first * second`; the relation is in the name, never a flag; no partial output. |
+
+All async forms forward the exact caller token to `GetAsyncEnumerator` only, never block, and keep
+source, selector, combine, cancellation, and disposal exceptions unchanged.
 
 ### Immediate Span And Memory Pipelines
 
@@ -413,6 +438,11 @@ path), where BCL `Enumerable.Aggregate` throws `InvalidOperationException` on an
 | A zero-or-one buffered join | `UniqueLookupIndex.GetOption` and `LookupIndex.GetZeroOrOne` express zero-or-one lookup; a join has no single natural absent-row output shape (dropping rows would break the output-count promise). |
 | Async index or join mirrors | Index construction and joins are in-memory calculations after the caller acquires data; async acquisition remains the caller's boundary. |
 | A dictionary-input index factory | `IReadOnlyDictionary<TKey, TValue>` does not reveal its equality policy; callers pass its pairs as a sequence and state the comparer explicitly. |
+| A streaming nested expansion | The expansion family buffers rows and returns no partial output; partial rows would require a second failure ledger and are composed record by record by the caller. |
+| Automatic Cartesian expansion | `ExpandAligned` pairs by index and rejects unequal lengths; `ExpandCartesian` is a separate explicit name, so no operation infers a product from data. |
+| Span or `JsonElement` child views | A span cannot cross an asynchronous source, and a borrowed `JsonElement` view cannot outlive its document; child lists are materialized typed values. |
+| Async nested selector or combine callbacks | Asynchronous work belongs to acquisition; typed values are reshaped synchronously, so no borrowed value crosses an await. |
+| More than two parallel child sequences | Two sequences establish aligned versus Cartesian semantics; wider shapes compose an intermediate record or use `ZipExact` at the call site. |
 
 ## Forbidden Mechanisms
 

@@ -26,6 +26,7 @@
     <Compile Include="../Shared/FallibleReduction/*.cs" Link="Shared/FallibleReduction/%(Filename)%(Extension)" />
     <Compile Include="../Shared/SummaryComparison/*.cs" Link="Shared/SummaryComparison/%(Filename)%(Extension)" />
     <Compile Include="../Shared/JoinComparison/*.cs" Link="Shared/JoinComparison/%(Filename)%(Extension)" />
+    <Compile Include="../Shared/NestedDataComparison/*.cs" Link="Shared/NestedDataComparison/%(Filename)%(Extension)" />
     <Compile Include="../Shared/ValidationUnwrap.cs" Link="Shared/ValidationUnwrap.cs" />
   </ItemGroup>
 

@@ -116,6 +116,7 @@ registration.Match(
 | [可错归约 (Fallible Reduction)](https://github.com/wxxb789/funnysharp/blob/main/docs/fallible-reduction.md) | [归约证据 (Fallible Reduction Evidence)](https://github.com/wxxb789/funnysharp/blob/main/docs/fallible-reduction-evidence.md) | |
 | [单趟汇总 (One-Pass Summaries)](https://github.com/wxxb789/funnysharp/blob/main/docs/one-pass-summaries.md) | [汇总证据 (Summary Evidence)](https://github.com/wxxb789/funnysharp/blob/main/docs/one-pass-summaries-evidence.md) | |
 | [基数连接 (Cardinality Joins)](https://github.com/wxxb789/funnysharp/blob/main/docs/cardinality-joins.md) | [连接证据 (Join Evidence)](https://github.com/wxxb789/funnysharp/blob/main/docs/cardinality-joins-evidence.md) | |
+| [嵌套数据重塑 (Nested Data Reshaping)](https://github.com/wxxb789/funnysharp/blob/main/docs/nested-data-reshaping.md) | [重塑证据 (Reshaping Evidence)](https://github.com/wxxb789/funnysharp/blob/main/docs/nested-data-reshaping-evidence.md) | |
 
 可运行示例源码：[FunnySharp 核心示例](https://github.com/wxxb789/funnysharp/blob/main/examples/FunnySharp.Examples/Program.cs) 与 [ASP.NET Core 示例](https://github.com/wxxb789/funnysharp/blob/main/examples/FunnySharp.AspNetCore.Examples/Program.cs)。
 
