@@ -21,7 +21,7 @@ funnysharp/
 ├── benchmarks/           # BenchmarkDotNet suites; isolated GreenDonut comparison; JSON receipts bound to eng/performance manifests
 ├── examples/             # executable examples + DocumentationSamples (byte-exact docs snippet contract)
 ├── .github/workflows/    # release.yml (manual release gate) + tooling.yml (3-OS PR merge gate)
-└── FunnySharp.slnx       # 25 projects; excludes tests/FunnySharp.Compatibility
+└── FunnySharp.slnx       # 29 projects; excludes tests/FunnySharp.Compatibility
 ```
 
 ## WHERE TO LOOK
@@ -44,6 +44,7 @@ funnysharp/
 | Performance verification | `build.fsx` (`-p verify-performance`), `eng/performance/` | allocation budgets block; timing directional |
 | Goal evaluation | `build.fsx` (`-p eval-*`), `eng/evaluation/` | 5 task areas, style-neutral Contract.cs seam |
 | Capability decisions | `docs/next-stage/` | Goal 14 evidence set; later goals append only |
+| Compile-time fusion research | `docs/compile-time-fused-execution-evidence.md` | Goal 39 ADAPT summary-only; no public capability shipped |
 | Design intent and abstraction judgment | `docs/core-design.md` | enduring direction for goal-driven work |
 | Authoritative contracts | `docs/product-contract.md`, `docs/grammar.md` | boundaries + verb vocabulary |
 | PR merge gate | `.github/workflows/tooling.yml` | required `tooling-gate`; light 3-OS checks |

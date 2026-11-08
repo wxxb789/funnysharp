@@ -1,6 +1,6 @@
 # docs/plans/ — ce-unified-plan/v1 design-time plans
 
-Earned: score ~9 (distinct domain) — 10 plans, ~5,000 lines, all carrying the rigid `ce-unified-plan/v1` artifact contract.
+Earned: score ~9 (distinct domain) — 14 plans, ~5,700 lines, all carrying the rigid `ce-unified-plan/v1` artifact contract.
 
 ## OVERVIEW
 
@@ -21,6 +21,7 @@ Design-time plans for the Option abstraction, release-acceptance restoration, uv
 | `2026-11-08-1345-feat-nested-data-reshaping-plan.md` | Goal 36 typed nested-data expansion: single, aligned, and explicit Cartesian shapes, null/empty/unequal/rejection policies, by-value provenance, sync/async sources, comparison, and measurements |
 | `2026-11-08-1544-feat-domain-programs-simulation-plan.md` | Goal 37 composable domain programs: pure `Update`, parent-aware `Lift`, `OrElse`/`Replay`, explicit-time deterministic simulation, late/duplicate/stale/rejected/failure scenarios, direct-switch comparison, and measurements |
 | `2026-11-08-1716-feat-bounded-concurrency-ordering-plan.md` | Goal 38 bounded per-key concurrency: API shape, key equality, null keys, delivery order, hot-key fairness, explicit admission/buffer bounds, state release, cleanup semantics, competent BCL comparison, and measurements |
+| `2026-11-08-1201-feat-compile-time-fused-execution-plan.md` | Goal 39 compile-time fused execution research: bounded summary/decoder subset, static field recognition, diagnostics, semantic preservation, comparison, generation/build cost, and ADAPT summary-only decision |
 
 ## CONVENTIONS (ce-unified-plan/v1 — every new plan follows it)
 
