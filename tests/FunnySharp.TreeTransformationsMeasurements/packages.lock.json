@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "dependencies": {
+    "net10.0": {
+      "funnysharp": {
+        "type": "Project"
+      },
+      "funnysharp.treetransformations": {
+        "type": "Project",
+        "dependencies": {
+          "FunnySharp": "[0.2.0, )"
+        }
+      }
+    }
+  }
+}
