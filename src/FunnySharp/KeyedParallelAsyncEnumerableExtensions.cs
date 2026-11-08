@@ -417,6 +417,15 @@ public static class KeyedParallelAsyncEnumerableExtensions
                 {
                     if (!operationCancellation!.IsCancellationRequested)
                     {
+                        // Stop admission before the fault becomes observable to delivery
+                        // handling. A success already buffered in the channel is still drained,
+                        // and that drain releases a concurrency slot; without this flag the pump
+                        // would start another callback after the terminal source fault.
+                        lock (gate)
+                        {
+                            stopAdmission = true;
+                        }
+
                         Interlocked.CompareExchange(ref terminalFailure, exception, null);
                         try
                         {
@@ -681,8 +690,14 @@ public static class KeyedParallelAsyncEnumerableExtensions
                 // second fault can otherwise be lost when its observer removes the work entry
                 // before cleanup snapshots the started list, and cleanup initiated by disposal or
                 // caller cancellation has no primary failure of its own to recover.
+                //
+                // A terminal callback fault also stops admission immediately: outcomes already
+                // buffered in the delivery channel are still drained, and draining a success
+                // releases a concurrency slot. Without this flag the pump would start another
+                // callback after the fault, before cleanup runs.
                 lock (gate)
                 {
+                    stopAdmission = true;
                     callbackFailures.Add(exception);
                 }
 

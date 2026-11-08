@@ -936,6 +936,187 @@ public sealed class KeyedConcurrencyTests
     }
 
     [Fact]
+    public async Task BufferedSuccessAfterTerminalCallbackFaultDoesNotStartAPendingCallback()
+    {
+        var fault = new InvalidOperationException("terminal callback fault");
+        var cStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var dStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var eRead = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var cGate = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var terminalRecorded = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var eStarts = 0;
+        var source = AsyncValues(
+            new Item("A", 1),
+            new Item("B", 1),
+            new Item("C", 1),
+            new Item("D", 1),
+            new Item("E", 1));
+
+        var pipeline = source.SelectParallelByKeyCompletionOrderValueAsync(
+            item =>
+            {
+                if (item.Key == "E")
+                {
+                    eRead.TrySetResult();
+                }
+
+                return item.Key;
+            },
+            3,
+            5,
+            async (item, cancellationToken) =>
+            {
+                switch (item.Key)
+                {
+                    case "C":
+                        cStarted.TrySetResult();
+                        await cGate.Task.ConfigureAwait(false);
+                        cancellationToken.Register(() => terminalRecorded.TrySetResult());
+                        throw fault;
+                    case "D":
+                        dStarted.TrySetResult();
+                        break;
+                    case "E":
+                        // Ignores the token, so cancellation alone cannot prevent this start.
+                        Interlocked.Increment(ref eStarts);
+                        break;
+                }
+
+                return Result<int, string>.Success(item.Sequence);
+            });
+
+        await using var enumerator = pipeline.GetAsyncEnumerator();
+        var firstPull = PullAsync(enumerator);
+
+        // A, B, and C start. Reading A releases a slot, which starts D, leaving E
+        // pending when C's callback faults.
+        await cStarted.Task.WaitAsync(GateTimeout);
+        Assert.True(await firstPull.WaitAsync(GateTimeout));
+        Assert.Equal("A", enumerator.Current.Key);
+        await dStarted.Task.WaitAsync(GateTimeout);
+        await eRead.Task.WaitAsync(GateTimeout);
+
+        cGate.SetResult();
+        await terminalRecorded.Task.WaitAsync(GateTimeout);
+
+        // B and D were buffered before the fault. Draining them releases concurrency
+        // slots; E must not be started from those releases.
+        Assert.True(await PullAsync(enumerator).WaitAsync(GateTimeout));
+        Assert.Equal("B", enumerator.Current.Key);
+        Assert.True(enumerator.Current.Outcome.IsSuccess);
+        Assert.Equal(0, Volatile.Read(ref eStarts));
+
+        Assert.True(await PullAsync(enumerator).WaitAsync(GateTimeout));
+        Assert.Equal("D", enumerator.Current.Key);
+        Assert.True(enumerator.Current.Outcome.IsSuccess);
+        Assert.Equal(0, Volatile.Read(ref eStarts));
+
+        var actual = await Assert.ThrowsAsync<InvalidOperationException>(
+            () => PullAsync(enumerator).WaitAsync(GateTimeout));
+        Assert.Same(fault, actual);
+        Assert.Equal(0, Volatile.Read(ref eStarts));
+        Assert.Equal(1, source.DisposeCount);
+    }
+
+    [Fact]
+    public async Task BufferedSuccessAfterTerminalSourceFaultDoesNotStartAPendingTokenlessCallback()
+    {
+        var fault = new IOException("terminal source fault");
+        var dStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var eRead = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var faultArrived = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var faultGate = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var terminalRecorded = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var eStarts = 0;
+        var source = new ControlledAsyncEnumerable<Item>(
+            [
+                new Item("A", 1),
+                new Item("B", 1),
+                new Item("C", 1),
+                new Item("D", 1),
+                new Item("E", 1),
+                new Item("F", 1),
+            ],
+            beforeYield: async (index, cancellationToken) =>
+            {
+                if (index < 5)
+                {
+                    return;
+                }
+
+                cancellationToken.Register(() => terminalRecorded.TrySetResult());
+                faultArrived.TrySetResult();
+                await faultGate.Task.ConfigureAwait(false);
+                throw fault;
+            });
+
+        var pipeline = source.SelectParallelByKeyCompletionOrderValueAsync(
+            item =>
+            {
+                if (item.Key == "E")
+                {
+                    eRead.TrySetResult();
+                }
+
+                return item.Key;
+            },
+            3,
+            5,
+            async item =>
+            {
+                switch (item.Key)
+                {
+                    case "D":
+                        dStarted.TrySetResult();
+                        break;
+                    case "E":
+                        // The tokenless overload gives this callback no token to observe.
+                        Interlocked.Increment(ref eStarts);
+                        break;
+                }
+
+                return Result<int, string>.Success(item.Sequence);
+            });
+
+        await using var enumerator = pipeline.GetAsyncEnumerator();
+        var firstPull = PullAsync(enumerator);
+
+        // A, B, and C start. Reading A releases a slot, which starts D, leaving E
+        // pending when the source faults.
+        Assert.True(await firstPull.WaitAsync(GateTimeout));
+        Assert.Equal("A", enumerator.Current.Key);
+        await dStarted.Task.WaitAsync(GateTimeout);
+        await eRead.Task.WaitAsync(GateTimeout);
+        await faultArrived.Task.WaitAsync(GateTimeout);
+
+        faultGate.SetResult();
+        await terminalRecorded.Task.WaitAsync(GateTimeout);
+
+        // B, C, and D were buffered before the fault. Draining them releases
+        // concurrency slots; E must not be started from those releases.
+        Assert.True(await PullAsync(enumerator).WaitAsync(GateTimeout));
+        Assert.Equal("B", enumerator.Current.Key);
+        Assert.True(enumerator.Current.Outcome.IsSuccess);
+        Assert.Equal(0, Volatile.Read(ref eStarts));
+
+        Assert.True(await PullAsync(enumerator).WaitAsync(GateTimeout));
+        Assert.Equal("C", enumerator.Current.Key);
+        Assert.True(enumerator.Current.Outcome.IsSuccess);
+        Assert.Equal(0, Volatile.Read(ref eStarts));
+
+        Assert.True(await PullAsync(enumerator).WaitAsync(GateTimeout));
+        Assert.Equal("D", enumerator.Current.Key);
+        Assert.True(enumerator.Current.Outcome.IsSuccess);
+        Assert.Equal(0, Volatile.Read(ref eStarts));
+
+        var actual = await Assert.ThrowsAsync<IOException>(
+            () => PullAsync(enumerator).WaitAsync(GateTimeout));
+        Assert.Same(fault, actual);
+        Assert.Equal(0, Volatile.Read(ref eStarts));
+        Assert.Equal(1, source.DisposeCount);
+    }
+
+    [Fact]
     public async Task SourceDisposeFaultIsRetainedAfterCleanCompletion()
     {
         var expected = new IOException("source dispose fault");
