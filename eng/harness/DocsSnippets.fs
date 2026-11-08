@@ -31,6 +31,7 @@ let primaryGuides: string list =
       "cardinality-joins.md"
       "collections.md"
       "concurrency.md"
+      "domain-programs.md"
       "effects.md"
       "function-composition.md"
       "immutable-updates.md"

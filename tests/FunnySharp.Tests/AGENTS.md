@@ -1,6 +1,6 @@
 # FunnySharp.Tests
 
-**Why this file:** score 31 — primary xUnit v3 suite (105 test/helper files) for the core library.
+**Why this file:** score 31 — primary xUnit v3 suite (110 test/helper files) for the core library.
 
 ## OVERVIEW
 C# xUnit v3 behavioral tests for the FunnySharp core assembly. Attribute-driven only: `[Fact]` / `[Theory]` + `[InlineData]`; no collections, traits, or member/class data.
@@ -19,6 +19,7 @@ C# xUnit v3 behavioral tests for the FunnySharp core assembly. Attribute-driven 
 | One-pass summary semantics, empty extrema, checked sum, seed isolation, async reuse/cancellation, and composed-versus-separate comparison | `SummaryTests.cs`, `SummaryAsyncTests.cs`, `SummaryComparisonTests.cs`; shared consumers/MapAccum assessment in `../Shared/SummaryComparison/`, probes in `../Shared/FallibleReduction/` |
 | Strict keyed lookup/join semantics, positions, complete-input versus matched-key uniqueness, streaming partial output, and three-consumer comparison | `LookupIndexTests.cs`, `JoinTests.cs`, `JoinStreamingTests.cs`, `JoinComparisonTests.cs`; shared consumers/fixtures/probes in `../Shared/JoinComparison/` |
 | Nested reshaping values, single/aligned/Cartesian expansion, null/empty/unequal policies, async parity, and three-consumer import comparison | `NestedDataErrorTests.cs`, `NestedDataExpansionTests.cs`, `NestedDataAlignmentTests.cs`, `NestedDataAsyncTests.cs`, `NestedDataComparisonTests.cs`; shared consumers/fixtures in `../Shared/NestedDataComparison/` |
+| Domain program update/lift/replay, simulation time/correlation/failure, late/duplicate/stale scenarios, and direct-switch comparison | `DomainProgramTests.cs`, `DomainProgramLiftTests.cs`, `ProgramSimulationTests.cs`, `ProgramComparisonTests.cs`; shared order workflow/fixtures in `../Shared/ProgramComparison/` |
 | ValueTask consumption asserts | `CountingValueTaskSource.cs` (also linked into AspNetCore.Tests) |
 | Public-surface freeze | `AdvancedPatternCurationTests.cs` (exact member lists, forbidden names) |
 | Package boundary | `PackageBoundaryTests.cs` (reflection: platform-only references) |

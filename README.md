@@ -88,6 +88,7 @@ registration.Match(
 - **Streaming & Span Pipelines**: Fused `Choose` and running `Scan` on `IEnumerable<T>` and `IAsyncEnumerable<T>`, plus caller-buffered `ChooseTo`/`WhereTo` on `Span<T>`.
 - **Bounded Concurrency**: Source-ordered (`SelectParallelValueAsync`) or completion-ordered (`SelectParallelCompletionOrderValueAsync`) mapping, and `FirstSuccessAsync` over cold effects.
 - **Pure State Machines & Optics**: Pure `StateTransition` workflows with typed commands, and composable `Lens`/`Optional` for immutable nested updates.
+- **Domain Programs & Deterministic Simulation**: `DomainProgram` composes pure business updates with parent-aware `Lift` and `OrElse`; `ProgramSimulation` drives late, duplicate, stale, rejected, and command-failure scenarios with explicit time, seeded randomness, ordered commands, and correlated replies while never executing effects.
 - **Typed Partial Updates**: `Patch<T>`/`PatchChange<T>`/`PatchSchema<T>` distinguish unchanged, cleared, and replaced fields, validate the complete candidate with a reused `Contract<T>`, report conflicting combines, and apply through callers' lenses.
 - **Composable Batched Reads**: `BatchSource<TKey,TValue,TError>` supplies the only batching claim, `BatchRequirement<TValue,TError>` composes typed independent and dependent reads, and `BatchScope` groups/deduplicates keys under explicit batch, admission, cache, cancellation, and disposal bounds.
 - **Tagged Domain Values**: `DomainValue<TValue,TTag>`/`Domain<TValue,TTag>` keep confusable identifiers distinct, validate construction, and derive contract/decoder behavior from one rule set; explicit state types and typed module-error records stay ordinary C#.
@@ -121,6 +122,7 @@ Start with [Core Design](docs/core-design.md) for the project's design direction
 | [One-Pass Summaries](https://github.com/wxxb789/funnysharp/blob/main/docs/one-pass-summaries.md) | [Summary Evidence](https://github.com/wxxb789/funnysharp/blob/main/docs/one-pass-summaries-evidence.md) | |
 | [Cardinality Joins](https://github.com/wxxb789/funnysharp/blob/main/docs/cardinality-joins.md) | [Join Evidence](https://github.com/wxxb789/funnysharp/blob/main/docs/cardinality-joins-evidence.md) | |
 | [Nested Data Reshaping](https://github.com/wxxb789/funnysharp/blob/main/docs/nested-data-reshaping.md) | [Reshaping Evidence](https://github.com/wxxb789/funnysharp/blob/main/docs/nested-data-reshaping-evidence.md) | |
+| [Domain Programs & Simulation](https://github.com/wxxb789/funnysharp/blob/main/docs/domain-programs.md) | [Domain Program Evidence](https://github.com/wxxb789/funnysharp/blob/main/docs/domain-programs-evidence.md) | |
 
 Executable samples: [FunnySharp Core Examples](https://github.com/wxxb789/funnysharp/blob/main/examples/FunnySharp.Examples/Program.cs) and [ASP.NET Core Examples](https://github.com/wxxb789/funnysharp/blob/main/examples/FunnySharp.AspNetCore.Examples/Program.cs).
 

@@ -38,7 +38,12 @@ analysis, and compile-verified call sites are in [`next-stage/`](next-stage/).
   `Result` outcomes, and `LookupError<TKey>` is only their diagnostic value. `RowOrigin` and
   `CartesianRowOrigin` are provenance values passed to a nested-data expansion callback, and
   `NestedRowError`/`NestedRowErrorKind` are that expansion's diagnostic values; none is an outcome
-  carrier, and expansion returns `Validation`. Explicit state
+  carrier, and expansion returns `Validation`. `DomainProgram<TModel, TMessage, TCommand, TError>`
+  is a pure business-program description over the state-machine surface, and
+  `ProgramSimulation<TModel, TMessage, TCommand, TError>` is its explicit single-threaded
+  deterministic driver; neither is an outcome carrier. `EmittedCommand<TCommand>`,
+  `SimulationDelivery<...>`, and `CommandExecutionFailure<TCommand, TError>` are execution and
+  transcript diagnostic values. Explicit state
   variants and typed module-error hierarchies stay
   ordinary C# records over `Result`/`Validation`; no union type is added.
 - No second carrier for any of these meanings may be added. `Maybe`, `Either`, `Fin`, `Try`,
@@ -299,8 +304,18 @@ analysis, and compile-verified call sites are in [`next-stage/`](next-stage/).
   and never API-compatibility or Goal 22 acceptance evidence.
 - State remains pure. `StateChange`, `StateTransition`, and `StateMachine` model next state,
   emitted commands, rejection, failure, and undefined handling without executing effects; callers
-  own persistence, event storage, and command execution. No workflow engine, actor system, STM,
-  or distributed orchestrator is added.
+  own persistence, event storage, and command execution.
+  `DomainProgram<TModel, TMessage, TCommand, TError>` is an opt-in pure business-program
+  description over that surface: `Update` is the same
+  pure step, `Lift` embeds a child program into a parent substate through an explicit `Option`
+  route and a parent-aware command lifter, and `OrElse`/`Replay` keep their existing meanings.
+  `ProgramSimulation<TModel, TMessage, TCommand, TError>` is an explicit single-threaded
+  deterministic driver that records messages, emitted commands, deliveries, and command execution
+  failures; it never executes a command, reads ambient time or randomness, persists state, or
+  schedules work. `EmittedCommand`, `SimulationDelivery`, and `CommandExecutionFailure` are
+  execution/diagnostic values, not outcome carriers. No durable event sourcing, distributed
+  recovery, exactly-once effect, automatic transaction, workflow engine, actor system, mailbox,
+  STM, scheduler, or distributed orchestrator is added.
 - HTTP integration stays a separate package with explicit caller-selected mapping. There is no
   DI registration, middleware, global error policy, or exception handler, and domain code stays
   HTTP-free. Caller-selected typed-result mapping returns ASP.NET Core `Results<...>` unions so

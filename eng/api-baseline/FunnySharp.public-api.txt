@@ -154,6 +154,14 @@ CLASS FunnySharp.CheckExtensions
   METHOD static System.Threading.Tasks.ValueTask<FunnySharp.Validation<TValue?, TError?>> CheckAllValueAsync<TValue, TError>(FunnySharp.Result<TValue?, TError?> result, System.Collections.Generic.IEnumerable<System.Func<TValue?, System.Threading.Tasks.ValueTask<FunnySharp.UnitResult<TError?>>>> checks)
   METHOD static System.Threading.Tasks.ValueTask<FunnySharp.Validation<TValue?, TError?>> CheckAllValueAsync<TValue, TError>(FunnySharp.Validation<TValue?, TError?> validation, System.Collections.Generic.IEnumerable<System.Func<TValue?, System.Threading.CancellationToken, System.Threading.Tasks.ValueTask<FunnySharp.UnitResult<TError?>>>> checks, System.Threading.CancellationToken cancellationToken)
   METHOD static System.Threading.Tasks.ValueTask<FunnySharp.Validation<TValue?, TError?>> CheckAllValueAsync<TValue, TError>(FunnySharp.Validation<TValue?, TError?> validation, System.Collections.Generic.IEnumerable<System.Func<TValue?, System.Threading.Tasks.ValueTask<FunnySharp.UnitResult<TError?>>>> checks)
+STRUCT FunnySharp.CommandExecutionFailure<TCommand, TError>
+  METHOD System.Boolean Equals(FunnySharp.CommandExecutionFailure<TCommand?, TError?> other)
+  METHOD System.Boolean Equals(System.Object? obj)
+  METHOD System.Int32 GetHashCode()
+  METHOD System.String ToString()
+  PROPERTIE FunnySharp.EmittedCommand<TCommand?> Command
+  PROPERTIE System.DateTimeOffset At
+  PROPERTIE TError? Error
 CLASS FunnySharp.ConcurrentEffectExtensions
   METHOD static System.Threading.Tasks.ValueTask<FunnySharp.Validation<TValue?, TError?>> FirstSuccessAsync<TValue, TError>(System.Collections.Generic.IEnumerable<FunnySharp.Effect<FunnySharp.Result<TValue?, TError?>>> effects, System.Threading.CancellationToken cancellationToken)
   METHOD static System.Threading.Tasks.ValueTask<FunnySharp.Validation<TValue?, TError?>> FirstSuccessAsync<TValue, TError>(System.Collections.Generic.IEnumerable<FunnySharp.Effect<FunnySharp.Result<TValue?, TError?>>> effects, System.TimeSpan timeout, System.Threading.CancellationToken cancellationToken)
@@ -358,6 +366,14 @@ CLASS FunnySharp.Decoder<T>
   METHOD System.Threading.Tasks.ValueTask<FunnySharp.Validation<T?, FunnySharp.DecodeError>> DecodeValueAsync(System.Text.Json.JsonElement input, System.Func<T?, System.Threading.CancellationToken, System.Threading.Tasks.ValueTask<FunnySharp.Validation<T?, System.String>>> validate, System.Threading.CancellationToken cancellationToken)
 CLASS FunnySharp.Domain
   METHOD static FunnySharp.Domain<TValue, TTag> For<TValue, TTag>(FunnySharp.Contract<TValue> contract, System.String name)
+CLASS FunnySharp.DomainProgram
+  METHOD static FunnySharp.DomainProgram<TModel, TMessage, TCommand, TError> Create<TModel, TMessage, TCommand, TError>(FunnySharp.StateMachine<TModel, TMessage, TCommand, TError> update)
+STRUCT FunnySharp.DomainProgram<TModel, TMessage, TCommand, TError>
+  METHOD FunnySharp.DomainProgram<TModel?, TMessage?, TCommand?, TError?> OrElse(FunnySharp.DomainProgram<TModel?, TMessage?, TCommand?, TError?> fallback)
+  METHOD FunnySharp.DomainProgram<TParentModel?, TParentMessage?, TParentCommand?, TError?> Lift<TParentModel, TParentMessage, TParentCommand>(System.Func<TParentModel?, TModel?> getChild, System.Func<TParentModel?, TModel?, TParentModel?> setChild, System.Func<TParentMessage?, FunnySharp.Option<TMessage?>> route, System.Func<TParentModel?, TCommand?, TParentCommand?> liftCommand)
+  METHOD FunnySharp.StateMachine<TModel?, TMessage?, TCommand?, TError?> AsStateMachine()
+  METHOD FunnySharp.TransitionResult<TModel?, TCommand?, TError?> Replay(TModel? initialModel, System.Collections.Generic.IEnumerable<TMessage?> messages)
+  METHOD FunnySharp.TransitionResult<TModel?, TCommand?, TError?> Update(TModel? model, TMessage? message)
 STRUCT FunnySharp.DomainValue<TValue, TTag>
   METHOD static System.Boolean op_Equality(FunnySharp.DomainValue<TValue, TTag> left, FunnySharp.DomainValue<TValue, TTag> right)
   METHOD static System.Boolean op_Inequality(FunnySharp.DomainValue<TValue, TTag> left, FunnySharp.DomainValue<TValue, TTag> right)
@@ -406,6 +422,14 @@ STRUCT FunnySharp.Effect<TEnvironment, T>
   METHOD FunnySharp.Effect<TEnvironment?, TResult?> Map<TResult>(System.Func<T?, TResult?> selector)
   METHOD FunnySharp.Effect<TEnvironment?, TResult?> Select<TResult>(System.Func<T?, TResult?> selector)
   METHOD System.Threading.Tasks.ValueTask<T?> RunAsync(TEnvironment? environment, System.Threading.CancellationToken cancellationToken)
+STRUCT FunnySharp.EmittedCommand<TCommand>
+  METHOD System.Boolean Equals(FunnySharp.EmittedCommand<TCommand?> other)
+  METHOD System.Boolean Equals(System.Object? obj)
+  METHOD System.Int32 GetHashCode()
+  METHOD System.String ToString()
+  PROPERTIE System.DateTimeOffset EmittedAt
+  PROPERTIE System.Int64 Sequence
+  PROPERTIE TCommand? Command
 CLASS FunnySharp.EnumerablePipelineExtensions
   METHOD static System.Collections.Generic.IEnumerable<T> WhereNotNull<T>(System.Collections.Generic.IEnumerable<System.Nullable<T>?> source)
   METHOD static System.Collections.Generic.IEnumerable<T> WhereNotNull<T>(System.Collections.Generic.IEnumerable<T?> source)
@@ -727,6 +751,24 @@ STRUCT FunnySharp.Patch<T>
   PROPERTIE System.Boolean IsEmpty
   PROPERTIE System.Collections.Generic.IReadOnlyList<FunnySharp.PatchEntry> Entries
   PROPERTIE System.Int32 Count
+CLASS FunnySharp.ProgramSimulation<TModel, TMessage, TCommand, TError>
+  CONSTRUCTOR ctor(FunnySharp.DomainProgram<TModel?, TMessage?, TCommand?, TError?> program, TModel? initialModel, System.DateTimeOffset startedAt, System.Random? random)
+  METHOD FunnySharp.CommandExecutionFailure<TCommand?, TError?> FailCommand(System.Int64 commandSequence, TError? error)
+  METHOD FunnySharp.CommandExecutionFailure<TCommand?, TError?> FailCommand(System.Int64 commandSequence, TError? error, System.DateTimeOffset at)
+  METHOD FunnySharp.TransitionResult<TModel?, TCommand?, TError?> Deliver(TMessage? message)
+  METHOD FunnySharp.TransitionResult<TModel?, TCommand?, TError?> Deliver(TMessage? message, System.DateTimeOffset at)
+  METHOD FunnySharp.TransitionResult<TModel?, TCommand?, TError?> Replay()
+  METHOD FunnySharp.TransitionResult<TModel?, TCommand?, TError?> Reply(System.Int64 commandSequence, TMessage? message)
+  METHOD FunnySharp.TransitionResult<TModel?, TCommand?, TError?> Reply(System.Int64 commandSequence, TMessage? message, System.DateTimeOffset at)
+  METHOD System.Void AdvanceBy(System.TimeSpan by)
+  METHOD System.Void AdvanceTo(System.DateTimeOffset at)
+  PROPERTIE System.Collections.Generic.IReadOnlyList<FunnySharp.CommandExecutionFailure<TCommand?, TError?>> CommandFailures
+  PROPERTIE System.Collections.Generic.IReadOnlyList<FunnySharp.EmittedCommand<TCommand?>> EmittedCommands
+  PROPERTIE System.Collections.Generic.IReadOnlyList<FunnySharp.EmittedCommand<TCommand?>> PendingCommands
+  PROPERTIE System.Collections.Generic.IReadOnlyList<FunnySharp.SimulationDelivery<TModel?, TMessage?, TCommand?, TError?>> Deliveries
+  PROPERTIE System.DateTimeOffset Now
+  PROPERTIE System.Random? Random
+  PROPERTIE TModel? Model
 CLASS FunnySharp.Result
   METHOD static FunnySharp.Result<TValue?, System.Exception> Try<TValue>(System.Func<TValue?> operation)
   METHOD static FunnySharp.Result<TValue?, TError?> Try<TValue, TError>(System.Func<TValue?> operation, System.Func<System.Exception, TError?> errorMapper)
@@ -825,6 +867,15 @@ CLASS FunnySharp.SequenceExtensions
   METHOD static FunnySharp.Validation<System.Collections.Generic.IReadOnlyList<TResult>, TError> Traverse<TSource, TResult, TError>(System.Collections.Generic.IEnumerable<TSource> source, System.Func<System.Int32, TSource, FunnySharp.Validation<TResult, TError>> selector)
   METHOD static FunnySharp.Validation<System.Collections.Generic.IReadOnlyList<TResult>, TError> Traverse<TSource, TResult, TError>(System.Collections.Generic.IEnumerable<TSource> source, System.Func<TSource, FunnySharp.Validation<TResult, TError>> selector)
   METHOD static FunnySharp.Validation<System.Collections.Generic.IReadOnlyList<TValue>, TError> Sequence<TValue, TError>(System.Collections.Generic.IEnumerable<FunnySharp.Validation<TValue, TError>> source)
+STRUCT FunnySharp.SimulationDelivery<TModel, TMessage, TCommand, TError>
+  METHOD System.Boolean Equals(FunnySharp.SimulationDelivery<TModel?, TMessage?, TCommand?, TError?> other)
+  METHOD System.Boolean Equals(System.Object? obj)
+  METHOD System.Int32 GetHashCode()
+  METHOD System.String ToString()
+  PROPERTIE FunnySharp.TransitionResult<TModel?, TCommand?, TError?> Result
+  PROPERTIE System.DateTimeOffset At
+  PROPERTIE System.Nullable<System.Int64>? CommandSequence
+  PROPERTIE TMessage? Message
 CLASS FunnySharp.SpanPipelineExtensions
   METHOD static System.Memory<T?> SelectInPlace<T>(System.Memory<T?> source, System.Func<T?, T?> selector)
   METHOD static System.Memory<T?> WhereInPlace<T>(System.Memory<T?> source, System.Func<T?, System.Boolean> predicate)

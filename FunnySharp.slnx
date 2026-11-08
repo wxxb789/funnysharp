@@ -14,6 +14,7 @@
   <Project Path="tests/FunnySharp.FallibleReductionMeasurements/FunnySharp.FallibleReductionMeasurements.csproj" />
   <Project Path="tests/FunnySharp.JoinMeasurements/FunnySharp.JoinMeasurements.csproj" />
   <Project Path="tests/FunnySharp.NestedDataMeasurements/FunnySharp.NestedDataMeasurements.csproj" />
+  <Project Path="tests/FunnySharp.ProgramMeasurements/FunnySharp.ProgramMeasurements.csproj" />
   <Project Path="tests/FunnySharp.BatchMeasurements/FunnySharp.BatchMeasurements.csproj" />
   <Project Path="tests/FunnySharp.ContractMeasurements/FunnySharp.ContractMeasurements.csproj" />
   <Project Path="tests/FunnySharp.DecoderMeasurements/FunnySharp.DecoderMeasurements.csproj" />

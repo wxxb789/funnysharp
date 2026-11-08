@@ -84,6 +84,7 @@ registration.Match(
 - **数据流与切片管道**：为 `IEnumerable<T>` 与 `IAsyncEnumerable<T>` 提供单趟融合 `Choose` 与流式 `Scan`，为 `Span<T>` 提供调用方自持缓冲的 `ChooseTo`/`WhereTo`。
 - **有界并发控制**：按源顺序（`SelectParallelValueAsync`）或完成顺序（`SelectParallelCompletionOrderValueAsync`）交付结果并行映射，以及针对冷 Effect 的 `FirstSuccessAsync` 竞争调度。
 - **纯状态机与光学元件**：基于纯 `StateTransition` 驱动强类型命令输出，并通过轻量级 `Lens`/`Optional` 完成嵌套不可变更新。
+- **领域程序与确定性模拟**：`DomainProgram` 通过父模型感知的 `Lift` 与 `OrElse` 组合纯业务更新；`ProgramSimulation` 以显式时间、可播种随机数、有序命令和关联回复驱动迟到、重复、过期版本、拒绝与命令失败场景，且从不执行副作用。
 - **强类型部分更新**：`Patch<T>`/`PatchChange<T>`/`PatchSchema<T>` 区分未提供、显式清除与替换字段，复用 `Contract<T>` 校验完整候选状态，报告合并冲突，并通过调用方提供的 Lens 应用变更。
 - **可组合批量读取**：`BatchSource<TKey,TValue,TError>` 显式声明批量数据源，`BatchRequirement<TValue,TError>` 组合独立与依赖读取，`BatchScope` 在明确的批次、准入、缓存、取消与释放边界内合并并去重请求。
 - **带标签的领域值 (Tagged Domain Values)**：`DomainValue<TValue,TTag>`/`Domain<TValue,TTag>` 区分易混标识符、在构造时验证，并由同一规则集派生契约与解码；显式状态类型与类型化模块错误记录保持为普通 C#。
@@ -117,6 +118,7 @@ registration.Match(
 | [单趟汇总 (One-Pass Summaries)](https://github.com/wxxb789/funnysharp/blob/main/docs/one-pass-summaries.md) | [汇总证据 (Summary Evidence)](https://github.com/wxxb789/funnysharp/blob/main/docs/one-pass-summaries-evidence.md) | |
 | [基数连接 (Cardinality Joins)](https://github.com/wxxb789/funnysharp/blob/main/docs/cardinality-joins.md) | [连接证据 (Join Evidence)](https://github.com/wxxb789/funnysharp/blob/main/docs/cardinality-joins-evidence.md) | |
 | [嵌套数据重塑 (Nested Data Reshaping)](https://github.com/wxxb789/funnysharp/blob/main/docs/nested-data-reshaping.md) | [重塑证据 (Reshaping Evidence)](https://github.com/wxxb789/funnysharp/blob/main/docs/nested-data-reshaping-evidence.md) | |
+| [领域程序与模拟 (Domain Programs & Simulation)](https://github.com/wxxb789/funnysharp/blob/main/docs/domain-programs.md) | [领域程序证据 (Domain Program Evidence)](https://github.com/wxxb789/funnysharp/blob/main/docs/domain-programs-evidence.md) | |
 
 可运行示例源码：[FunnySharp 核心示例](https://github.com/wxxb789/funnysharp/blob/main/examples/FunnySharp.Examples/Program.cs) 与 [ASP.NET Core 示例](https://github.com/wxxb789/funnysharp/blob/main/examples/FunnySharp.AspNetCore.Examples/Program.cs)。
 

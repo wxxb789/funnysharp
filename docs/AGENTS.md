@@ -1,6 +1,6 @@
 # docs/ — FunnySharp documentation tree
 
-Earned: score ~22 — 49 hand-written guides/contracts plus 4 doc-workflow subtrees. Everything here is hand-written prose except `next-stage/inventory/generated/` (machine dumps).
+Earned: score ~22 — 51 hand-written guides/contracts plus 4 doc-workflow subtrees. Everything here is hand-written prose except `next-stage/inventory/generated/` (machine dumps).
 
 ## OVERVIEW
 
@@ -11,7 +11,7 @@ Hand-written guides and contracts for the FunnySharp public surface — usage, g
 ```
 docs/
 ├── *.md                 # hand-written guides + contracts (lowercase-hyphen, one topic per file)
-├── goals/               # goal contracts (0037-0042) + immutable archive (0001-0036)
+├── goals/               # goal contracts (0038-0042) + immutable archive (0001-0037)
 ├── next-stage/          # Goal 14 capability-decision evidence set (own AGENTS.md)
 ├── plans/               # ce-unified-plan/v1 design-time plans (own AGENTS.md)
 └── release-evidence/    # historical release-run records — never edited
@@ -28,6 +28,7 @@ docs/
 | Feature usage: composable one-pass count/sum/extrema/domain summaries | `one-pass-summaries.md`, `one-pass-summaries-evidence.md` |
 | Feature usage: cardinality-checked keyed lookups and exactly-one joins | `cardinality-joins.md`, `cardinality-joins-evidence.md` |
 | Feature usage: typed nested-data expansion, alignment, Cartesian distinction, and provenance | `nested-data-reshaping.md`, `nested-data-reshaping-evidence.md` |
+| Feature usage: composable domain programs and deterministic simulation | `domain-programs.md`, `domain-programs-evidence.md` |
 | Feature usage: decoding untrusted JSON | `decoding.md` |
 | Feature usage: inspectable constraints, schema, generated inputs, shrinking | `contracts.md` |
 | Feature usage: typed, validated partial updates | `partial-updates.md`, `partial-update-evidence.md` |
@@ -58,7 +59,7 @@ docs/
 
 - Guides are prose with compiling examples; the intro links the example source (`examples/FunnySharp.Examples/Program.cs` or `examples/FunnySharp.AspNetCore.Examples`).
 - Body shape: `## API Shape` first, semantic sections, closing `## Deliberate Boundaries` / `## Deliberate Exclusions` stating what the API intentionally does NOT do.
-- Snippet contract — the 14 primary guides (`analyzers`, `aspnet-core`, `cardinality-joins`, `collections`, `concurrency`, `effects`, `function-composition`, `immutable-updates`, `nested-data-reshaping`, `one-pass-summaries`, `quick-start`, `state-machines`, `unit-result`, `validation`): each `<!-- documentation-sample: DocumentationSamples.<Area>.<Name> -->` fenced `csharp` block must byte-match the `// <snippet ...>` region in `examples/FunnySharp.DocumentationSamples`. Change both sides together; the verifier fails on any line mismatch, missing, duplicate, or unused region.
+- Snippet contract — the 15 primary guides (`analyzers`, `aspnet-core`, `cardinality-joins`, `collections`, `concurrency`, `domain-programs`, `effects`, `function-composition`, `immutable-updates`, `nested-data-reshaping`, `one-pass-summaries`, `quick-start`, `state-machines`, `unit-result`, `validation`): each `<!-- documentation-sample: DocumentationSamples.<Area>.<Name> -->` fenced `csharp` block must byte-match the `// <snippet ...>` region in `examples/FunnySharp.DocumentationSamples`. Change both sides together; the verifier fails on any line mismatch, missing, duplicate, or unused region.
 - Non-snippet guides (e.g. `option.md`, `result.md`, `grammar.md`) link compiling examples without the byte-match contract.
 - `performance.md` consolidates policy; per-topic measurement tables are generated from benchmark receipts and verified against `eng/performance/baseline.json` budgets. Allocation is blocking evidence; timing is directional.
 - `stability-inventory.md` records every `[Experimental("FS####")]` member and its diagnostic ID; stable members change only through a later accepted goal.
@@ -73,7 +74,7 @@ docs/
 ## COMMANDS
 
 ```bash
-# docs snippet verification (14 primary guides, byte-exact)
+# docs snippet verification (15 primary guides, byte-exact)
 dotnet fsi build.fsx -- -p verify-docs-snippets
 # committed public-API baseline comparison
 dotnet fsi build.fsx -- -p verify-api-baseline

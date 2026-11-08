@@ -21,7 +21,7 @@ funnysharp/
 ├── benchmarks/           # BenchmarkDotNet suites; isolated GreenDonut comparison; JSON receipts bound to eng/performance manifests
 ├── examples/             # executable examples + DocumentationSamples (byte-exact docs snippet contract)
 ├── .github/workflows/    # release.yml (manual release gate) + tooling.yml (3-OS PR merge gate)
-└── FunnySharp.slnx       # 23 projects; excludes tests/FunnySharp.Compatibility
+└── FunnySharp.slnx       # 24 projects; excludes tests/FunnySharp.Compatibility
 ```
 
 ## WHERE TO LOOK
@@ -34,6 +34,7 @@ funnysharp/
 | One-pass summaries | `src/FunnySharp/Summary.cs`, `src/FunnySharp/SummaryPlan.cs`, `src/FunnySharp/ExtremumPolicy.cs`, `docs/one-pass-summaries.md` | independent count/sum/extrema/domain summaries; `Zip`/`MapResult`; one traversal, local component state; sync calculation reused for async acquisition |
 | Cardinality-checked keyed joins | `src/FunnySharp/LookupError.cs`, `LookupErrorKind.cs`, `LookupIndex.cs`, `UniqueLookupIndex.cs`, `LookupExtensions.cs`, `docs/cardinality-joins.md` | explicit comparer; many and complete-input-unique indexes; structured null/duplicate/missing positions; buffered all-or-nothing and streaming per-row shapes; no Cartesian join |
 | Typed nested data reshaping | `src/FunnySharp/NestedDataExtensions.cs`, `RowOrigin.cs`, `CartesianRowOrigin.cs`, `NestedRowError.cs`, `NestedRowErrorKind.cs`, `docs/nested-data-reshaping.md` | single/aligned/explicit-Cartesian expansion; null/empty/unequal/rejection policies; by-value provenance; sync + async parent sources; no serializer or DataFrame layer |
+| Composable domain programs and simulation | `src/FunnySharp/DomainProgram.cs`, `ProgramSimulation.cs`, `EmittedCommand.cs`, `SimulationDelivery.cs`, `CommandExecutionFailure.cs`, `docs/domain-programs.md` | pure business-program description over `StateMachine`; `Lift`/`OrElse`/`Replay`; explicit-time single-threaded simulation with ordered commands, correlation, and execution failures; no runtime or scheduler |
 | Batched reads (source/requirement/scope) | `src/FunnySharp/Batch*.cs`, `docs/batched-reads.md` | explicit source batch delegates; bounded scope-local cache, no ambient cache |
 | Tagged domain values | `src/FunnySharp/Domain*.cs`, `docs/domain-values.md` | phantom marker, validated boundary, derived contract/decoder; no union/serializer/runtime dependency |
 | Analyzers + code fixes (FS1001-FS1005) | `src/FunnySharp.Analyzers/`, `src/FunnySharp.Analyzers.CodeFixes/` | ship inside core nupkg `analyzers/dotnet/cs` |
@@ -63,6 +64,7 @@ funnysharp/
 | `Summary` / `Summary<...>` | factory + description | `src/FunnySharp/Summary.cs`, `src/FunnySharp/SummaryPlan.cs` | reusable independent summaries; `Zip`/`MapResult`; one traversal; checked built-ins; total folds |
 | `LookupIndex` / `UniqueLookupIndex` / `LookupError` | keyed association + diagnostic | `src/FunnySharp/LookupIndex.cs`, `UniqueLookupIndex.cs`, `LookupError.cs`, `LookupExtensions.cs` | explicit comparer; source-ordered occurrences; complete-input or matched-key uniqueness; positions; no expansion |
 | `Expand` / `ExpandAligned` / `ExpandCartesian` / `RowOrigin` | sequence expansion + provenance | `src/FunnySharp/NestedDataExtensions.cs`, `RowOrigin.cs`, `CartesianRowOrigin.cs`, `NestedRowError.cs` | one row per child, exact positional pairing, explicit product; buffered all-or-nothing `Validation`; record/element positions; null child lists fail, empty lists yield no rows |
+| `DomainProgram` / `Lift` / `ProgramSimulation` | pure business program + deterministic driver | `src/FunnySharp/DomainProgram.cs`, `ProgramSimulation.cs`, `EmittedCommand.cs`, `SimulationDelivery.cs`, `CommandExecutionFailure.cs` | pure `Update`; substate getter/setter, `Option` route, parent-aware command lift; explicit time, caller random, replies, ordered commands, correlated deliveries, execution failures; no command execution |
 | FS1001-FS1005 | analyzers | `src/FunnySharp.Analyzers/` | dogfooded everywhere | uninitialized carriers, discarded outcomes, ignored TryGet, blocked ValueTask, sync-disposed IAsyncDisposable |
 
 (Ref counts unmeasured - LSP symbol census not run at root; roles from subtree digests.)
@@ -74,7 +76,7 @@ funnysharp/
 - Tests: xUnit v3 (`xunit.v3` 4.0.0), attribute-only, self-executing exes; zero skipped tests is an invariant.
 - Naming contract: `...Async` suffix on async members; `OrNone` for absence-translating bridges; file name = primary type; file-scoped namespaces.
 - Restores are locked: `packages.lock.json` committed everywhere.
-- Docs: lowercase-hyphen filenames; guides close with `## Deliberate Boundaries`; 14 primary guides carry byte-exact `documentation-sample:` snippets mirrored in `examples/FunnySharp.DocumentationSamples`.
+- Docs: lowercase-hyphen filenames; guides close with `## Deliberate Boundaries`; 15 primary guides carry byte-exact `documentation-sample:` snippets mirrored in `examples/FunnySharp.DocumentationSamples`.
 - Shared test source (`tests/Shared/`) links via Compile-include, never ProjectReference.
 - Development gates run through the F# harness: `dotnet fsi build.fsx -- -p <pipeline> [args]` (see [docs/harness.md](docs/harness.md)).
 
@@ -88,6 +90,7 @@ funnysharp/
 - NEVER add a public typeclass/summary-interface hierarchy, automatic parallelism, LINQ replacement, compile-time fusion, or an early-exit/partial-result protocol to `Summary`; every component observes every source item, and `EvaluateAsync` changes only input acquisition.
 - NEVER let strict joins expand duplicate lookup keys into multiple output rows, infer a comparer from a dictionary interface, or claim complete-input uniqueness from the streaming shape; `GetMany` is the explicit expansion primitive.
 - NEVER treat a null child list as empty, truncate unequal `ExpandAligned` lengths, infer a Cartesian product from data, or return partial nested rows; `ExpandCartesian` is the explicit product.
+- NEVER execute commands during `DomainProgram.Replay` or `ProgramSimulation.Replay`, read ambient time/randomness in the simulation, add a scheduler/actor/persistence layer, or make `Lift` copy the parent outside the caller's setter; commands are values and the simulation is an explicit single-threaded test driver.
 - NEVER hand-edit machine-generated dirs: `docs/next-stage/inventory/generated/`, `docs/goals/archive/`, `docs/release-evidence/`, `docs/next-stage/call-sites-code/`, `docs/next-stage/review/` (append only).
 - NEVER treat tooling.yml CI as the release gate - only release.yml contexts gate a release.
 - Deliberate-misuse test snippets must wrap in `#pragma warning disable FS100x`; example projects must build with zero FS#### diagnostics.
@@ -110,7 +113,7 @@ dotnet fsi build.fsx -- -p format             # formatter gate (C# only; F# is n
 dotnet fsi build.fsx -- -p verify-tooling     # local pre-check
 # release protocol (CI runs this with -SkipBenchmarks)
 dotnet fsi build.fsx -- -p release -SkipBenchmarks
-# docs snippets byte-compare (14 primary guides, 72 snippets)
+# docs snippets byte-compare (15 primary guides, 80 snippets)
 dotnet fsi build.fsx -- -p verify-docs-snippets
 # benchmark + performance verify
 dotnet run --project benchmarks/FunnySharp.Benchmarks -c Release -- --filter '*' --artifacts <dir>

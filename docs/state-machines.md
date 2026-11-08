@@ -79,6 +79,13 @@ does not swallow exceptions from the event history or machine. For a pure machin
 event values is enough to reproduce its workflow state without adding persistence, event sourcing,
 concurrency control, or a workflow runtime to the library.
 
+The opt-in [domain programs](domain-programs.md) guide builds on this surface. `DomainProgram`
+names the business-program roles and adds parent-aware `Lift` composition, while
+`ProgramSimulation` provides an explicit deterministic transcript with command ordering,
+correlation, and execution-failure records. That layer is still a pure update plus a
+single-threaded test driver; it is not a workflow engine, actor runtime, scheduler, or persistence
+layer.
+
 ## Async Boundary
 
 State machines intentionally have no async executor. Model an output as a command value, let the
@@ -136,7 +143,8 @@ a raw loop writes plain values into one caller-owned array and materializes noth
 ## Deliberate Boundaries
 
 This surface is not a workflow engine, actor system, scheduler, persistence layer, distributed
-orchestrator, or general discriminated-union framework. It does not add retries, serialization,
-event storage, compensation, concurrency rules, an asynchronous state-machine type, or implicit
-effect execution. Use ordinary .NET services at the explicit output-execution boundary when those
-capabilities are needed.
+orchestrator, or general discriminated-union framework. The opt-in `DomainProgram` and
+`ProgramSimulation` layer adds pure composition and a deterministic test driver, not a runtime. It
+does not add retries, serialization, event storage, compensation, concurrency rules, an
+asynchronous state-machine type, or implicit effect execution. Use ordinary .NET services at the
+explicit output-execution boundary when those capabilities are needed.
