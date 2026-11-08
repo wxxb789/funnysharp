@@ -1,10 +1,10 @@
 # docs/plans/ — ce-unified-plan/v1 design-time plans
 
-Earned: score ~9 (distinct domain) — 14 plans, ~5,700 lines, all carrying the rigid `ce-unified-plan/v1` artifact contract.
+Earned: score ~9 (distinct domain) — 14 plans, ~6,000 lines, all carrying the rigid `ce-unified-plan/v1` artifact contract.
 
 ## OVERVIEW
 
-Design-time plans for the Option abstraction, release-acceptance restoration, uv tooling, the Goal 17 collection surface, Goal 26 decoding, the Goal 33-35 sequence features, Goal 36 nested reshaping, Goal 37 domain programs, and Goal 38 bounded per-key concurrency — how shipped features were planned and verified.
+Design-time plans for the Option abstraction, release-acceptance restoration, uv tooling, the Goal 17 collection surface, Goal 26 decoding, the Goal 33-35 sequence features, Goal 36 nested reshaping, Goal 37 domain programs, Goal 38 bounded per-key concurrency, Goal 39 compile-time fusion, and Goal 40 incremental computation — how shipped features were planned and verified.
 
 ## WHERE TO LOOK
 
@@ -22,6 +22,7 @@ Design-time plans for the Option abstraction, release-acceptance restoration, uv
 | `2026-11-08-1544-feat-domain-programs-simulation-plan.md` | Goal 37 composable domain programs: pure `Update`, parent-aware `Lift`, `OrElse`/`Replay`, explicit-time deterministic simulation, late/duplicate/stale/rejected/failure scenarios, direct-switch comparison, and measurements |
 | `2026-11-08-1716-feat-bounded-concurrency-ordering-plan.md` | Goal 38 bounded per-key concurrency: API shape, key equality, null keys, delivery order, hot-key fairness, explicit admission/buffer bounds, state release, cleanup semantics, competent BCL comparison, and measurements |
 | `2026-11-08-1201-feat-compile-time-fused-execution-plan.md` | Goal 39 compile-time fused execution research: bounded summary/decoder subset, static field recognition, diagnostics, semantic preservation, comparison, generation/build cost, and ADAPT summary-only decision |
+| `2026-11-08-1428-feat-incremental-domain-computation-plan.md` | Goal 40 incremental domain computation research: static graph prototype, staged publication, purity/cutoff/error/observer semantics, node-versus-collection treatment, shared pricing workload, full/hand/graph/cache comparison, and ADAPT static-subset decision |
 
 ## CONVENTIONS (ce-unified-plan/v1 — every new plan follows it)
 

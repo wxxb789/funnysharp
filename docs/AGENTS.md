@@ -11,7 +11,7 @@ Hand-written guides and contracts for the FunnySharp public surface — usage, g
 ```
 docs/
 ├── *.md                 # hand-written guides + contracts (lowercase-hyphen, one topic per file)
-├── goals/               # goal contracts (0040-0042) + immutable archive (0001-0039)
+├── goals/               # goal contracts (0041-0042) + immutable archive (0001-0040)
 ├── next-stage/          # Goal 14 capability-decision evidence set (own AGENTS.md)
 ├── plans/               # ce-unified-plan/v1 design-time plans (own AGENTS.md)
 └── release-evidence/    # historical release-run records — never edited
@@ -44,6 +44,7 @@ docs/
 | ASP.NET Core integration | `aspnet-core.md`, `aspnet-core-evidence.md` |
 | Goal 22 slice comparison and evidence | `vertical-slice-call-sites.md`, `vertical-slice-evidence.md` |
 | Compile-time fused execution research (0039) | `compile-time-fused-execution-evidence.md`, `plans/2026-11-08-1201-feat-compile-time-fused-execution-plan.md` |
+| Incremental domain computation research (0040) | `incremental-domain-computation-evidence.md`, `plans/2026-11-08-1428-feat-incremental-domain-computation-plan.md` |
 | Decoder consumer comparison and measurements | `decoder-evidence.md` |
 | Contract consumer comparison, generated-input properties and measurements | `contract-evidence.md` |
 | Batch consumer, GreenDonut comparison, and measurements | `batch-evidence.md` |

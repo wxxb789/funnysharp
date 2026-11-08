@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="xunit.v3" Version="4.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../src/FunnySharp/FunnySharp.csproj" />
+    <ProjectReference Include="../FunnySharp.Incremental/FunnySharp.Incremental.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="../Shared/IncrementalComparison/*.cs" Link="Shared/IncrementalComparison/%(Filename)%(Extension)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+</Project>
