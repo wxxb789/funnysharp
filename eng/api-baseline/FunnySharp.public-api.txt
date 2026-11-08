@@ -456,6 +456,9 @@ CLASS FunnySharp.FunctionExtensions
   METHOD static System.Threading.Tasks.ValueTask<T?> TapValueAsync<T>(T? value, System.Func<T?, System.Threading.Tasks.ValueTask> observer)
   METHOD static T? Tap<T>(T? value, System.Action<T?> observer)
   METHOD static TResult? Pipe<T, TResult>(T? value, System.Func<T?, TResult?> function)
+CLASS FunnySharp.KeyedParallelAsyncEnumerableExtensions
+  METHOD static System.Collections.Generic.IAsyncEnumerable<System.ValueTuple<TKey, TSource?, FunnySharp.Result<TResult?, TError?>>> SelectParallelByKeyCompletionOrderValueAsync<TSource, TKey, TResult, TError>(System.Collections.Generic.IAsyncEnumerable<TSource?> source, System.Func<TSource?, TKey> keySelector, System.Int32 maxConcurrency, System.Int32 maxBufferedItems, System.Func<TSource?, System.Threading.CancellationToken, System.Threading.Tasks.ValueTask<FunnySharp.Result<TResult?, TError?>>> selector, System.Collections.Generic.IEqualityComparer<TKey>? comparer)
+  METHOD static System.Collections.Generic.IAsyncEnumerable<System.ValueTuple<TKey, TSource?, FunnySharp.Result<TResult?, TError?>>> SelectParallelByKeyCompletionOrderValueAsync<TSource, TKey, TResult, TError>(System.Collections.Generic.IAsyncEnumerable<TSource?> source, System.Func<TSource?, TKey> keySelector, System.Int32 maxConcurrency, System.Int32 maxBufferedItems, System.Func<TSource?, System.Threading.Tasks.ValueTask<FunnySharp.Result<TResult?, TError?>>> selector, System.Collections.Generic.IEqualityComparer<TKey>? comparer)
 CLASS FunnySharp.Lens
   METHOD static FunnySharp.Lens<T, T> Identity<T>()
   METHOD static FunnySharp.Lens<TSource?, TFocus?> Create<TSource, TFocus>(System.Func<TSource?, TFocus?> get, System.Func<TSource?, TFocus?, TSource?> set)

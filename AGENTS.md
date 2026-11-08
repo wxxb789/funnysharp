@@ -21,7 +21,7 @@ funnysharp/
 ├── benchmarks/           # BenchmarkDotNet suites; isolated GreenDonut comparison; JSON receipts bound to eng/performance manifests
 ├── examples/             # executable examples + DocumentationSamples (byte-exact docs snippet contract)
 ├── .github/workflows/    # release.yml (manual release gate) + tooling.yml (3-OS PR merge gate)
-└── FunnySharp.slnx       # 24 projects; excludes tests/FunnySharp.Compatibility
+└── FunnySharp.slnx       # 25 projects; excludes tests/FunnySharp.Compatibility
 ```
 
 ## WHERE TO LOOK
@@ -35,6 +35,7 @@ funnysharp/
 | Cardinality-checked keyed joins | `src/FunnySharp/LookupError.cs`, `LookupErrorKind.cs`, `LookupIndex.cs`, `UniqueLookupIndex.cs`, `LookupExtensions.cs`, `docs/cardinality-joins.md` | explicit comparer; many and complete-input-unique indexes; structured null/duplicate/missing positions; buffered all-or-nothing and streaming per-row shapes; no Cartesian join |
 | Typed nested data reshaping | `src/FunnySharp/NestedDataExtensions.cs`, `RowOrigin.cs`, `CartesianRowOrigin.cs`, `NestedRowError.cs`, `NestedRowErrorKind.cs`, `docs/nested-data-reshaping.md` | single/aligned/explicit-Cartesian expansion; null/empty/unequal/rejection policies; by-value provenance; sync + async parent sources; no serializer or DataFrame layer |
 | Composable domain programs and simulation | `src/FunnySharp/DomainProgram.cs`, `ProgramSimulation.cs`, `EmittedCommand.cs`, `SimulationDelivery.cs`, `CommandExecutionFailure.cs`, `docs/domain-programs.md` | pure business-program description over `StateMachine`; `Lift`/`OrElse`/`Replay`; explicit-time single-threaded simulation with ordered commands, correlation, and execution failures; no runtime or scheduler |
+| Bounded per-key concurrency | `src/FunnySharp/KeyedParallelAsyncEnumerableExtensions.cs`, `docs/concurrency.md` | one active operation per caller key; explicit `maxConcurrency` and `maxBufferedItems`; completion-order outcomes across keys; lifecycle release and drain; no global source order or scheduler |
 | Batched reads (source/requirement/scope) | `src/FunnySharp/Batch*.cs`, `docs/batched-reads.md` | explicit source batch delegates; bounded scope-local cache, no ambient cache |
 | Tagged domain values | `src/FunnySharp/Domain*.cs`, `docs/domain-values.md` | phantom marker, validated boundary, derived contract/decoder; no union/serializer/runtime dependency |
 | Analyzers + code fixes (FS1001-FS1005) | `src/FunnySharp.Analyzers/`, `src/FunnySharp.Analyzers.CodeFixes/` | ship inside core nupkg `analyzers/dotnet/cs` |
@@ -65,6 +66,7 @@ funnysharp/
 | `LookupIndex` / `UniqueLookupIndex` / `LookupError` | keyed association + diagnostic | `src/FunnySharp/LookupIndex.cs`, `UniqueLookupIndex.cs`, `LookupError.cs`, `LookupExtensions.cs` | explicit comparer; source-ordered occurrences; complete-input or matched-key uniqueness; positions; no expansion |
 | `Expand` / `ExpandAligned` / `ExpandCartesian` / `RowOrigin` | sequence expansion + provenance | `src/FunnySharp/NestedDataExtensions.cs`, `RowOrigin.cs`, `CartesianRowOrigin.cs`, `NestedRowError.cs` | one row per child, exact positional pairing, explicit product; buffered all-or-nothing `Validation`; record/element positions; null child lists fail, empty lists yield no rows |
 | `DomainProgram` / `Lift` / `ProgramSimulation` | pure business program + deterministic driver | `src/FunnySharp/DomainProgram.cs`, `ProgramSimulation.cs`, `EmittedCommand.cs`, `SimulationDelivery.cs`, `CommandExecutionFailure.cs` | pure `Update`; substate getter/setter, `Option` route, parent-aware command lift; explicit time, caller random, replies, ordered commands, correlated deliveries, execution failures; no command execution |
+| `SelectParallelByKeyCompletionOrderValueAsync` | extension | `src/FunnySharp/KeyedParallelAsyncEnumerableExtensions.cs` | per-key serialized bounded processing | one started operation per key, `maxConcurrency`/`maxBufferedItems` bounds, explicit comparer, typed result delivery, completion-order cross-key outcomes |
 | FS1001-FS1005 | analyzers | `src/FunnySharp.Analyzers/` | dogfooded everywhere | uninitialized carriers, discarded outcomes, ignored TryGet, blocked ValueTask, sync-disposed IAsyncDisposable |
 
 (Ref counts unmeasured - LSP symbol census not run at root; roles from subtree digests.)
@@ -113,7 +115,7 @@ dotnet fsi build.fsx -- -p format             # formatter gate (C# only; F# is n
 dotnet fsi build.fsx -- -p verify-tooling     # local pre-check
 # release protocol (CI runs this with -SkipBenchmarks)
 dotnet fsi build.fsx -- -p release -SkipBenchmarks
-# docs snippets byte-compare (15 primary guides, 80 snippets)
+# docs snippets byte-compare (15 primary guides, 81 snippets)
 dotnet fsi build.fsx -- -p verify-docs-snippets
 # benchmark + performance verify
 dotnet run --project benchmarks/FunnySharp.Benchmarks -c Release -- --filter '*' --artifacts <dir>

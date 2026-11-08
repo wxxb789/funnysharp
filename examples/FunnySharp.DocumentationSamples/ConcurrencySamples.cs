@@ -68,6 +68,26 @@ internal static class ConcurrencySamples
         // </snippet>
     }
 
+
+    private static async Task SelectParallelByKeyAsync(
+        IAsyncEnumerable<AccountEvent> accountEvents,
+        CancellationToken cancellationToken)
+    {
+        // <snippet DocumentationSamples.Concurrency.SelectParallelByKey>
+        var processed = accountEvents.SelectParallelByKeyCompletionOrderValueAsync(
+            accountEvent => accountEvent.AccountId,
+            maxConcurrency: 4,
+            maxBufferedItems: 8,
+            (accountEvent, cancellationToken) =>
+                ApplyAccountEventAsync(accountEvent, cancellationToken));
+
+        await foreach (var (accountId, accountEvent, outcome) in processed.WithCancellation(cancellationToken))
+        {
+            Observe(accountId, accountEvent.Sequence, outcome);
+        }
+        // </snippet>
+    }
+
     private static Task<ShippingQuote> GetShippingQuoteAsync(Order order, CancellationToken cancellationToken) =>
         Task.FromResult(new ShippingQuote(order.Id));
 
@@ -81,9 +101,27 @@ internal static class ConcurrencySamples
         CancellationToken cancellationToken) =>
         Task.FromResult(Result<ShippingQuote, QuoteError>.Success(new ShippingQuote(carrier)));
 
+    private static ValueTask<Result<decimal, AccountError>> ApplyAccountEventAsync(
+        AccountEvent accountEvent,
+        CancellationToken cancellationToken) =>
+        ValueTask.FromResult(accountEvent.Amount < 0
+            ? Result<decimal, AccountError>.Failure(new AccountError("insufficient-funds"))
+            : Result<decimal, AccountError>.Success(accountEvent.Amount));
+
     private static void Process(ShippingQuote quote)
     {
     }
+
+    private static void Observe(
+        string accountId,
+        int sequence,
+        Result<decimal, AccountError> outcome)
+    {
+    }
+
+    private sealed record AccountEvent(string AccountId, int Sequence, decimal Amount);
+
+    private sealed record AccountError(string Code);
 
     private sealed record Order(string Id);
 

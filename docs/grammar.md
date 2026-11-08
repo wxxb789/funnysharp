@@ -72,6 +72,10 @@ record types over the canonical carriers, not new library carriers.
   `SelectParallelValueAsync` yields source order and
   `SelectParallelCompletionOrderValueAsync` yields completion order; no boolean or enum ordering
   parameter hides the contract from the call site.
+- The per-key operation names the key dimension and its cross-key delivery order:
+  `SelectParallelByKeyCompletionOrderValueAsync` yields completion order across keys and source order
+  within a key. Its key equality policy is an explicit comparer or the documented default, and a
+  null key is a key-selector fault, never a domain value.
 - A `CancellationToken` is always an explicit parameter and is forwarded unchanged.
 - Eager absence fallbacks are plain parameters (`OrElse`, `GetValueOr`); lazy absence fallbacks
   are factories (`OrElseWith`, `GetValueOrElse`). Recovery callbacks are lazy in both forms:
@@ -285,6 +289,7 @@ source, selector, combine, cancellation, and disposal exceptions unchanged.
 | `SelectParallelValueAsync` | Bounded parallel mapping of an async stream. | `IAsyncEnumerable<T>` | `IAsyncEnumerable<TResult>` | cancellation-aware selector receives a linked operation token | Ordered streaming with `Channel` backpressure; one linked operation token per enumeration; cooperative drain on early disposal. |
 | `SelectParallelCompletionOrderValueAsync` | Bounded parallel mapping of an async stream, delivered as selectors complete. | `IAsyncEnumerable<T>` | `IAsyncEnumerable<TResult>` | cancellation-aware selector receives a linked operation token | Same bounded backpressure, one-token, and drain contract as `SelectParallelValueAsync`; results arrive in completion order (concurrent completions in unspecified relative order); the delivery order is named, never a parameter. |
 | `TraverseParallelValueAsync` | Bounded parallel traversal, materialized. | `IAsyncEnumerable<T>` | `ValueTask<carrier<IReadOnlyList<T>>>` | (± token) | Ordered values; `Option`/`Result` fail fast, `Validation` accumulates; bounded fan-out only. |
+| `SelectParallelByKeyCompletionOrderValueAsync` | Bounded concurrent processing with one operation at a time per key. | `IAsyncEnumerable<TSource>` | `IAsyncEnumerable<(TKey Key, TSource Source, Result<TResult, TError> Outcome)>` | cancellation-aware selector receives one linked operation token | At most `maxConcurrency` started and `maxBufferedItems` unstarted items; explicit comparer or default equality; null key is a programming fault; completion order across keys and source order within a key; typed failures are delivered outcomes; no global source-order promise. |
 | `FirstSuccessAsync` | Bounded first-success selection over cold effects. | `Effect<Result<TValue, TError>>` | `ValueTask<Validation<TValue, TError>>` | (± `TimeProvider`, token; explicit-degree overload) | Finite input snapshotted once; legacy degree 32 or explicit positive bound; each observed candidate accounted once; drains all admitted work and propagates independent faults even after a winner; all typed failures produce `Invalid` in input order; coordinator-owned timeout only. |
 
 ### Conversion Bridges
@@ -477,13 +482,13 @@ path), where BCL `Enumerable.Aggregate` throws `InvalidOperationException` on an
 | More than two parallel child sequences | Two sequences establish aligned versus Cartesian semantics; wider shapes compose an intermediate record or use `ZipExact` at the call site. |
 | Automatic command execution or a library in-process executor | Commands are values; the caller's ordinary `while`/`await` loop owns execution, ordering, failure mapping, and cancellation. A library adapter would need a stop/continue and failure-to-message policy the surface does not own. |
 | Durable event sourcing, snapshots, distributed recovery, exactly-once effects, or automatic transactions | The simulation transcript is a test and inspection record, not a production event store; persistence and recovery belong to the application. |
-| Actor runtime, mailbox, or custom scheduler | The simulation is a single-threaded explicit driver; it has no mailbox, admission, scheduling, retry, or concurrency policy. Goal 0038 owns concurrent delivery. |
+| Actor runtime, mailbox, or custom scheduler | The simulation is a single-threaded explicit driver; it has no mailbox, admission, scheduling, retry, or concurrency policy. Concurrent per-key stream processing is a separate async-stream surface, not a simulation mode. |
 | Ambient time or randomness | Time is an explicit `DateTimeOffset` on the simulation and an input through messages or state; randomness is the caller's seeded `Random`, which the library never consumes. |
 | Deep payload copying or serialization | The simulation and replay retain caller values by reference; reproducibility is claimed for value-immutable messages and models, not for arbitrary mutable graphs. |
 | Transcript replay that continues after expected rejections | `Replay` keeps the existing stop-at-first-non-applied meaning; the simulation transcript records later steps. A second replay policy would be a second verb meaning. |
 | Error mapping in `Lift`, command fan-out, or broadcast | Child and parent share `TError`; each child command maps to one parent command; one parent message routes to at most one child. These remain caller policy. |
 | A universal application program representation | `DomainProgram` is an opt-in description for one workflow; ordinary C# and the existing state-machine surface remain valid without it. |
-| Async or concurrent simulation delivery | The simulation is synchronous and not thread-safe; asynchronous execution is the caller's boundary, and concurrent per-key delivery belongs to Goal 0038. |
+| Async or concurrent simulation delivery | The simulation is synchronous and not thread-safe; asynchronous execution is the caller's boundary. Concurrent per-key stream processing is a separate async-stream surface, not a second simulation policy. |
 
 ## Forbidden Mechanisms
 

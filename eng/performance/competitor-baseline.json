@@ -96,6 +96,7 @@
       "src/FunnySharp/FallibleReductionExtensions.cs",
       "src/FunnySharp/FunctionExtensions.cs",
       "src/FunnySharp/FunnySharp.csproj",
+      "src/FunnySharp/KeyedParallelAsyncEnumerableExtensions.cs",
       "src/FunnySharp/Location.cs",
       "src/FunnySharp/LookupError.cs",
       "src/FunnySharp/LookupErrorKind.cs",
