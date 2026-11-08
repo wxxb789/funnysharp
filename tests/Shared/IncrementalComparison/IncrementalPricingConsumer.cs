@@ -73,15 +73,14 @@ internal sealed class IncrementalPricingConsumer : IPricingConsumer
 
     public void SetProductCost(int productIndex, decimal unitCost)
     {
-        var current = _productInputs[productIndex].Value;
-        _productInputs[productIndex].Set(current with { UnitCost = unitCost });
+        var input = _productInputs[productIndex];
+        input.Set(input.PendingOrPublishedValue with { UnitCost = unitCost });
     }
 
     public void SetOrderQuantity(int orderIndex, int lineIndex, int quantity)
     {
-        var current = _orderInputs[orderIndex].Value;
-        _orderInputs[orderIndex].Set(
-            PricingFixtures.ReplaceQuantity(current, lineIndex, quantity));
+        var input = _orderInputs[orderIndex];
+        input.Set(PricingFixtures.ReplaceQuantity(input.PendingOrPublishedValue, lineIndex, quantity));
     }
 
     public void Batch(Action action) => _graph.Batch(action);

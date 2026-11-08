@@ -147,6 +147,66 @@ internal static class IncrementalPricingComparison
             "graph batch statistics");
 
         ResetAll(full, hand, graph, collection);
+        full.Batch(() =>
+        {
+            full.SetOrderQuantity(9, 0, 7);
+            full.SetOrderQuantity(9, 1, 8);
+        });
+        hand.Batch(() =>
+        {
+            hand.SetOrderQuantity(9, 0, 7);
+            hand.SetOrderQuantity(9, 1, 8);
+        });
+        graph.Batch(() =>
+        {
+            graph.SetOrderQuantity(9, 0, 7);
+            graph.SetOrderQuantity(9, 1, 8);
+        });
+        collection.Batch(() =>
+        {
+            collection.SetOrderQuantity(9, 0, 7);
+            collection.SetOrderQuantity(9, 1, 8);
+        });
+        var sameOrderBatchQuotes = full.Evaluate();
+        AssertSame(sameOrderBatchQuotes, hand, "same-order batch hand");
+        AssertSame(sameOrderBatchQuotes, graph, "same-order batch graph");
+        AssertSame(sameOrderBatchQuotes, collection, "same-order batch collection");
+        AssertWork(full, 512, 1024, 8192, "full same-order batch");
+        AssertWork(hand, 0, 1, 8, "hand same-order batch");
+        AssertWork(graph, 0, 1, 8, "graph same-order batch");
+        AssertWork(collection, 0, 1024, 8192, "collection same-order batch");
+
+        ResetAll(full, hand, graph, collection);
+        full.Batch(() =>
+        {
+            full.SetOrderQuantity(11, 2, 9);
+            full.SetOrderQuantity(12, 3, 10);
+        });
+        hand.Batch(() =>
+        {
+            hand.SetOrderQuantity(11, 2, 9);
+            hand.SetOrderQuantity(12, 3, 10);
+        });
+        graph.Batch(() =>
+        {
+            graph.SetOrderQuantity(11, 2, 9);
+            graph.SetOrderQuantity(12, 3, 10);
+        });
+        collection.Batch(() =>
+        {
+            collection.SetOrderQuantity(11, 2, 9);
+            collection.SetOrderQuantity(12, 3, 10);
+        });
+        var crossOrderBatchQuotes = full.Evaluate();
+        AssertSame(crossOrderBatchQuotes, hand, "cross-order batch hand");
+        AssertSame(crossOrderBatchQuotes, graph, "cross-order batch graph");
+        AssertSame(crossOrderBatchQuotes, collection, "cross-order batch collection");
+        AssertWork(full, 512, 1024, 8192, "full cross-order batch");
+        AssertWork(hand, 0, 2, 16, "hand cross-order batch");
+        AssertWork(graph, 0, 2, 16, "graph cross-order batch");
+        AssertWork(collection, 0, 1024, 8192, "collection cross-order batch");
+
+        ResetAll(full, hand, graph, collection);
         full.SetOrderQuantity(7, 0, 0);
         hand.SetOrderQuantity(7, 0, 0);
         graph.SetOrderQuantity(7, 0, 0);

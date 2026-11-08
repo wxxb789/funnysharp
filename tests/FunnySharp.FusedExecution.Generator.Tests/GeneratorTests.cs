@@ -606,6 +606,145 @@ public sealed class GeneratorTests
         Assert.Contains(result.Diagnostics, static diagnostic => diagnostic.Id == "FS3904");
     }
 
+    [Fact]
+    public void ParameterlessAttributedMethodReportsFs3903AndOtherDeclarationsStillFuse()
+    {
+        const string source = """
+            using System.Collections.Generic;
+            using FunnySharp;
+
+            public sealed record Line(int Quantity, decimal Price);
+
+            public static partial class Sample
+            {
+                public static readonly Summary<Line, (int First, decimal Second), (int First, decimal Second)> Stats =
+                    Summary.Zip(
+                        Summary<Line>.Count(),
+                        Summary<Line>.Sum(static line => line.Quantity * line.Price));
+
+                [FusedSummary(nameof(Stats))]
+                public static partial (int First, decimal Second) Evaluate(IEnumerable<Line> source);
+
+                [FusedSummary(nameof(Stats))]
+                public static partial (int First, decimal Second) EvaluateEveryLine();
+            }
+            """;
+
+        var result = GeneratorHarness.Run(source);
+
+        Assert.Contains(result.Diagnostics, static diagnostic => diagnostic.Id == "FS3903");
+        Assert.DoesNotContain(result.Diagnostics, static diagnostic => diagnostic.Id == "CS8785");
+        Assert.Contains(
+            result.Results.SelectMany(static item => item.GeneratedSources),
+            static item => item.HintName.Contains("Sample.Evaluate.", StringComparison.Ordinal));
+        Assert.Contains(
+            "static decimal __FusedSelector1(",
+            GeneratedText(result),
+            StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void StaticConstructorReassignmentReportsFs3904()
+    {
+        const string source = """
+            using System.Collections.Generic;
+            using FunnySharp;
+
+            public sealed record Line(int Quantity, decimal Price);
+
+            public static partial class Sample
+            {
+                public static readonly Summary<Line, (int First, decimal Second), (int First, decimal Second)> Stats =
+                    Summary.Zip(
+                        Summary<Line>.Count(),
+                        Summary<Line>.Sum(static line => line.Quantity));
+
+                static Sample()
+                {
+                    Stats = Summary.Zip(
+                        Summary<Line>.Count(),
+                        Summary<Line>.Sum(static line => line.Price));
+                }
+
+                [FusedSummary(nameof(Stats))]
+                public static partial (int First, decimal Second) Evaluate(IEnumerable<Line> source);
+            }
+            """;
+
+        var result = GeneratorHarness.Run(source);
+
+        Assert.Contains(result.Diagnostics, static diagnostic => diagnostic.Id == "FS3904");
+        Assert.DoesNotContain("__FusedSelector", GeneratedText(result), StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void FieldInitializerReassignmentReportsFs3904()
+    {
+        const string source = """
+            using System.Collections.Generic;
+            using FunnySharp;
+
+            public sealed record Line(int Quantity, decimal Price);
+
+            public static partial class Sample
+            {
+                public static readonly Summary<Line, (int First, decimal Second), (int First, decimal Second)> Stats =
+                    Summary.Zip(
+                        Summary<Line>.Count(),
+                        Summary<Line>.Sum(static line => line.Quantity));
+
+                public static readonly Summary<Line, (int First, decimal Second), (int First, decimal Second)> Replacement =
+                    Stats = Summary.Zip(
+                        Summary<Line>.Count(),
+                        Summary<Line>.Sum(static line => line.Price));
+
+                [FusedSummary(nameof(Stats))]
+                public static partial (int First, decimal Second) Evaluate(IEnumerable<Line> source);
+            }
+            """;
+
+        var result = GeneratorHarness.Run(source);
+
+        Assert.Contains(result.Diagnostics, static diagnostic => diagnostic.Id == "FS3904");
+    }
+
+    [Fact]
+    public void StaticConstructorWritingAnotherFieldStillFuses()
+    {
+        const string source = """
+            using System.Collections.Generic;
+            using FunnySharp;
+
+            public sealed record Line(int Quantity, decimal Price);
+
+            public static partial class Sample
+            {
+                private static readonly int Offset;
+
+                static Sample()
+                {
+                    Offset = 100;
+                }
+
+                public static readonly Summary<Line, (int First, int Second), (int First, int Second)> Stats =
+                    Summary.Zip(
+                        Summary<Line>.Count(),
+                        Summary<Line>.Sum(static line => line.Quantity + Offset));
+
+                [FusedSummary(nameof(Stats))]
+                public static partial (int First, int Second) Evaluate(IEnumerable<Line> source);
+            }
+            """;
+
+        var (result, output) = GeneratorHarness.RunWithCompilation(source);
+
+        AssertCompiles(result, output);
+        Assert.Contains(
+            "__FusedSelector1(",
+            GeneratedText(result),
+            StringComparison.Ordinal);
+    }
+
     private static string GeneratedText(GeneratorDriverRunResult result) =>
         string.Join(
             "\n",

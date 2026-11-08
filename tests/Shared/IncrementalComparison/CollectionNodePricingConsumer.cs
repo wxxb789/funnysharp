@@ -59,13 +59,13 @@ internal sealed class CollectionNodePricingConsumer : IPricingConsumer
 
     public void SetProductCost(int productIndex, decimal unitCost)
     {
-        var current = _productInputs[productIndex].Value;
-        _productInputs[productIndex].Set(current with { UnitCost = unitCost });
+        var input = _productInputs[productIndex];
+        input.Set(input.PendingOrPublishedValue with { UnitCost = unitCost });
     }
 
     public void SetOrderQuantity(int orderIndex, int lineIndex, int quantity)
     {
-        var current = _ordersInput.Value;
+        var current = _ordersInput.PendingOrPublishedValue;
         var replacement = PricingFixtures.CloneOrders(current);
         replacement[orderIndex] = PricingFixtures.ReplaceQuantity(
             replacement[orderIndex],
@@ -79,14 +79,14 @@ internal sealed class CollectionNodePricingConsumer : IPricingConsumer
     public void AddOrder(Order order)
     {
         ArgumentNullException.ThrowIfNull(order);
-        var current = _ordersInput.Value;
+        var current = _ordersInput.PendingOrPublishedValue;
         var replacement = PricingFixtures.CloneOrders(current);
         _ordersInput.Set([.. replacement, order]);
     }
 
     public void RemoveLastOrder()
     {
-        var current = _ordersInput.Value;
+        var current = _ordersInput.PendingOrPublishedValue;
 
         if (current.Count == 0)
         {

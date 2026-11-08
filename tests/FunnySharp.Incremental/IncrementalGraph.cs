@@ -241,7 +241,7 @@ public sealed class IncrementalGraph
         bool invokeImmediately)
     {
         ThrowIfCallbackActive("register an observer");
-        ArgumentNullException.ThrowIfNull(node);
+        ValidateSource(node, nameof(node));
         ArgumentNullException.ThrowIfNull(observer);
 
         var registration = new ObserverRegistration<T>(node, observer)

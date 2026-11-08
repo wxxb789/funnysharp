@@ -64,8 +64,10 @@ public static partial (int Count, decimal Total, Option<decimal> Min, Option<dec
 public static partial Validation<OrderInput, DecodeError> Decode(JsonElement input);
 ```
 
-- The named field must be `static readonly` with an inline initializer. Helper-built descriptions,
-  variables, and runtime-composed delegates are not analyzed.
+- The named field must be `static readonly` with an inline initializer, and nothing else in the type
+  may write it. Helper-built descriptions, variables, and runtime-composed delegates are not
+  analyzed; a write from a static constructor or another field initializer is rejected because the
+  delegated path would use the replacement while the generated method kept the initializer's shape.
 - Every unsupported construct produces an error diagnostic and the build fails; the generator
   never silently substitutes a different guarantee. Recognizer rejections (`FS3901`, `FS3902`,
   `FS3904`) also emit a throwing body; method-shape rejections (`FS3903`) emit no implementation,
@@ -105,6 +107,7 @@ public static partial Validation<OrderInput, DecodeError> Decode(JsonElement inp
 | Nested `Decoder.Object`, lists of objects | `FS3902`; a fallback-based fast path cannot preserve nested combine invocation counts |
 | Combine bodies that are not object creation | `FS3902`; no arbitrary callback is inlined |
 | Named `Zip`/`Object` arguments, named `Field`/`OptionalField`/`NullableField` arguments, helper-built fields, mutable fields | `FS3901`/`FS3902`/`FS3904` |
+| Write to the description field from a static constructor or another field initializer | `FS3904`; the runtime field would no longer match the generated shape |
 | Attribute on a local function, accessor, constructor, or operator | `FS3903`; no generated implementation |
 | `scoped` parameter, extension `this` parameter, or by-ref return | `FS3903`; the generated signature cannot reproduce the modifier |
 | Contract validation generation | Not prototyped; see the non-adoption above |

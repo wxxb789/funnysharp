@@ -61,7 +61,7 @@ internal static class FusionTransform
         if (methodProblem is not null)
         {
             diagnostics.Add(FusionDiagnostics.InvalidMethodAt(methodSyntax, methodProblem));
-            return new FusionRequest(HintName(method), null, diagnostics.ToImmutable());
+            return new FusionRequest(HintName(method, methodSyntax), null, diagnostics.ToImmutable());
         }
 
         var fieldName = ReadAttributeFieldName(context.Attributes[0]);
@@ -71,7 +71,7 @@ internal static class FusionTransform
                 methodSyntax,
                 "The fused attribute requires one non-empty field-name argument, normally nameof(Field)."));
             return new FusionRequest(
-                HintName(method),
+                HintName(method, methodSyntax),
                 BuildThrowingMethod(method, methodSyntax, "FS3903"),
                 diagnostics.ToImmutable());
         }
@@ -84,7 +84,7 @@ internal static class FusionTransform
                 methodSyntax,
                 $"No field named '{fieldName}' exists on '{containingType.Name}'."));
             return new FusionRequest(
-                HintName(method),
+                HintName(method, methodSyntax),
                 BuildThrowingMethod(method, methodSyntax, "FS3904"),
                 diagnostics.ToImmutable());
         }
@@ -95,7 +95,7 @@ internal static class FusionTransform
                 methodSyntax,
                 $"Field '{fieldName}' must be static readonly so the generated shape and the runtime path cannot diverge."));
             return new FusionRequest(
-                HintName(method),
+                HintName(method, methodSyntax),
                 BuildThrowingMethod(method, methodSyntax, "FS3904"),
                 diagnostics.ToImmutable());
         }
@@ -106,7 +106,18 @@ internal static class FusionTransform
                 methodSyntax,
                 $"Field '{fieldName}' must have an inline initializer; helper-built descriptions are not statically analyzable."));
             return new FusionRequest(
-                HintName(method),
+                HintName(method, methodSyntax),
+                BuildThrowingMethod(method, methodSyntax, "FS3904"),
+                diagnostics.ToImmutable());
+        }
+
+        if (IsWrittenOutsideInitializer(field, initializer, context.SemanticModel.Compilation))
+        {
+            diagnostics.Add(FusionDiagnostics.InvalidFieldAt(
+                methodSyntax,
+                $"Field '{fieldName}' is written outside its inline initializer, for example by a static constructor or another field initializer; the generated method would keep the initializer's shape while the delegated path used the replacement."));
+            return new FusionRequest(
+                HintName(method, methodSyntax),
                 BuildThrowingMethod(method, methodSyntax, "FS3904"),
                 diagnostics.ToImmutable());
         }
@@ -126,7 +137,7 @@ internal static class FusionTransform
                 kind == FusionKind.Summary ? "FS3901" : "FS3902");
         }
 
-        return new FusionRequest(HintName(method), source, diagnostics.ToImmutable());
+        return new FusionRequest(HintName(method, methodSyntax), source, diagnostics.ToImmutable());
     }
 
     private static string? ValidateMethod(
@@ -273,6 +284,60 @@ internal static class FusionTransform
         return null;
     }
 
+    /// <summary>
+    /// The field's own initializer is the only write site the generated method is derived from. A
+    /// static constructor or another field initializer may legally assign a static readonly field,
+    /// which would replace that description at runtime; such a write is rejected instead of silently
+    /// producing a method that no longer matches the field's value.
+    /// </summary>
+    private static bool IsWrittenOutsideInitializer(
+        IFieldSymbol field,
+        ExpressionSyntax initializer,
+        Compilation compilation)
+    {
+        foreach (var reference in field.ContainingType.DeclaringSyntaxReferences)
+        {
+            var syntax = reference.GetSyntax();
+            var semanticModel = compilation.GetSemanticModel(syntax.SyntaxTree);
+
+            foreach (var node in syntax.DescendantNodes())
+            {
+                if (GetWrittenTarget(node) is not { } target)
+                {
+                    continue;
+                }
+
+                if (target.SyntaxTree == initializer.SyntaxTree
+                    && initializer.Span.Contains(target.Span))
+                {
+                    continue;
+                }
+
+                var symbol = semanticModel.GetSymbolInfo(target).Symbol;
+                if (SymbolEqualityComparer.Default.Equals(symbol, field))
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    private static ExpressionSyntax? GetWrittenTarget(SyntaxNode node) => node switch
+    {
+        AssignmentExpressionSyntax assignment => assignment.Left,
+        PrefixUnaryExpressionSyntax prefix
+            when prefix.IsKind(SyntaxKind.PreIncrementExpression)
+                || prefix.IsKind(SyntaxKind.PreDecrementExpression) => prefix.Operand,
+        PostfixUnaryExpressionSyntax postfix
+            when postfix.IsKind(SyntaxKind.PostIncrementExpression)
+                || postfix.IsKind(SyntaxKind.PostDecrementExpression) => postfix.Operand,
+        ArgumentSyntax argument when !argument.RefKindKeyword.IsKind(SyntaxKind.None) =>
+            argument.Expression,
+        _ => null,
+    };
+
     private static bool IsEnumerableOfT(ITypeSymbol type) =>
         type is INamedTypeSymbol named
         && named.OriginalDefinition.ToDisplayString() == "System.Collections.Generic.IEnumerable<T>";
@@ -280,8 +345,13 @@ internal static class FusionTransform
     private static bool IsJsonElement(ITypeSymbol type) =>
         type.ToDisplayString() == "System.Text.Json.JsonElement";
 
-    private static string HintName(IMethodSymbol method)
+    private static string HintName(IMethodSymbol method, SyntaxNode node)
     {
+        if (method.Parameters.Length == 0)
+        {
+            return FallbackHintName(method, node);
+        }
+
         var name = method.ContainingType.ToDisplayString()
             + "."
             + method.Name
