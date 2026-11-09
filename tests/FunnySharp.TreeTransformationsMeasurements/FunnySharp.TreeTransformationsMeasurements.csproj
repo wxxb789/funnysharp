@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <IsPackable>false</IsPackable>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+    <TieredCompilation>false</TieredCompilation>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../src/FunnySharp/FunnySharp.csproj" />
+    <ProjectReference Include="../FunnySharp.TreeTransformations/FunnySharp.TreeTransformations.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="../Shared/MeasurementHarness.cs" Link="Shared/MeasurementHarness.cs" />
+    <Compile Include="../Shared/TestRepositoryRoot.cs" Link="Shared/TestRepositoryRoot.cs" />
+    <Compile Include="../Shared/TreeComparison/*.cs" Link="Shared/TreeComparison/%(Filename)%(Extension)" />
+  </ItemGroup>
+</Project>
