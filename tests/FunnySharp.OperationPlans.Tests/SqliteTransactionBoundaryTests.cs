@@ -41,11 +41,8 @@ public sealed class SqliteTransactionBoundaryTests
 
             Assert.Equal(0L, await SqliteTestSupport.CountAsync(reader, "orders"));
 
-            var busy = Assert.Throws<SqliteException>(
-                () => SqliteTestSupport
-                    .ExecuteAsync(reader, "INSERT INTO orders(customer_id, total_cents, status) VALUES('C-100', 100, 'pending');")
-                    .GetAwaiter()
-                    .GetResult());
+            var busy = await Assert.ThrowsAsync<SqliteException>(
+                () => SqliteTestSupport.ExecuteAsync(reader, "INSERT INTO orders(customer_id, total_cents, status) VALUES('C-100', 100, 'pending');"));
 
             Assert.Equal(5, busy.SqliteErrorCode);
 
