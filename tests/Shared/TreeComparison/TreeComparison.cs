@@ -128,15 +128,51 @@ internal static class TreeComparison
             });
 
         var dag = ConfigFixtures.CreateDag();
-        var treeVisit = TreeTraversal.Traverse(dag, adapter, (node, depth, path) => TreeVisitDecision.Continue);
+        var treeDagPaths = new List<string>();
+        var treeVisit = TreeTraversal.Traverse(
+            dag,
+            adapter,
+            (node, depth, path) =>
+            {
+                treeDagPaths.Add(path.ToPath().ToString());
+                return TreeVisitDecision.Continue;
+            });
+        var dagPaths = new List<string>();
         var dagVisit = TreeTraversal.Traverse(
             dag,
             adapter,
-            (node, depth, path) => TreeVisitDecision.Continue,
+            (node, depth, path) =>
+            {
+                dagPaths.Add(path.ToPath().ToString());
+                return TreeVisitDecision.Continue;
+            },
             new TreeTraversalOptions<ConfigNode> { Shape = TreeShape.Dag });
 
         Check(treeVisit.VisitedNodes == 8, "DAG tree-mode visits every occurrence");
+        Check(
+            treeDagPaths.SequenceEqual(
+            [
+                string.Empty,
+                "items",
+                "items[0]",
+                "items[0].value",
+                "items[0].other",
+                "items[1]",
+                "items[1].value",
+                "items[1].other",
+            ]),
+            "DAG tree-mode paths visit both occurrences");
         Check(dagVisit.VisitedNodes == 5 && dagVisit.DuplicateVisits == 1, "DAG mode visits once");
+        Check(
+            dagPaths.SequenceEqual(
+            [
+                string.Empty,
+                "items",
+                "items[0]",
+                "items[0].value",
+                "items[0].other",
+            ]),
+            "DAG mode visits the first occurrence only");
 
         var equalDistinct = ConfigFixtures.CreateEqualDistinctDag();
         var referenceVisit = TreeTraversal.Traverse(
@@ -166,7 +202,7 @@ internal static class TreeComparison
         Check(referenceVisit.VisitedNodes == 6, "reference identity keeps equal-distinct nodes");
         Check(
             recordVisit.VisitedNodes == 5 && recordVisit.DuplicateVisits == 1,
-            "record equality compares child-list references; only the shared leaf deduplicates");
+            "record equality compares child-list references; only the equal-distinct leaves deduplicate");
         Check(
             nameVisit.VisitedNodes == 4 && nameVisit.DuplicateVisits == 1,
             "caller-supplied equality deduplicates distinct nodes");
@@ -264,10 +300,15 @@ internal static class TreeComparison
             dag,
             adapter,
             (node, original, rewritten, path) => ChangeValueLeaf(node, original, rewritten, adapter));
+        var dagCallbackPaths = new List<string>();
         var dagMode = TreeRewrite.RewriteBottomUp(
             dag,
             adapter,
-            (node, original, rewritten, path) => ChangeValueLeaf(node, original, rewritten, adapter),
+            (node, original, rewritten, path) =>
+            {
+                dagCallbackPaths.Add(path.ToPath().ToString());
+                return ChangeValueLeaf(node, original, rewritten, adapter);
+            },
             new TreeTraversalOptions<ConfigNode> { Shape = TreeShape.Dag });
 
         var treeItems = treeMode.Root.Children[0];
@@ -275,6 +316,16 @@ internal static class TreeComparison
         Check(!ReferenceEquals(treeItems.Children[0], treeItems.Children[1]), "tree mode duplicates shared node");
         Check(ReferenceEquals(dagItems.Children[0], dagItems.Children[1]), "DAG mode preserves sharing");
         Check(dagMode.VisitedNodes == 5 && dagMode.DuplicateVisits == 1, "DAG rewrite counts");
+        Check(
+            dagCallbackPaths.SequenceEqual(
+            [
+                "items[0].value",
+                "items[0].other",
+                "items[0]",
+                "items",
+                string.Empty,
+            ]),
+            "DAG rewrite callback paths visit the first occurrence only");
     }
 
     private static ConfigNode ChangeValueLeaf(
@@ -361,6 +412,25 @@ internal static class TreeComparison
         var mutableEdit = mutableValue.Replace(mutableValue.Current with { Value = "9" }).ToRoot();
         Check(mutableEdit.Root.Children[0].Children[0].Children.Count == 2, "zipper sees mutable child list");
         Check(mutableEdit.Root.Children[0].Children[1].Children.Count == 2, "zipper shares mutable sibling list");
+        Check(mutableEdit.Root.Children[0].Children[1].Children[0].Value == "1", "zipper leaves unaffected occurrence unchanged");
+        Check(
+            ReferenceEquals(mutableEdit.Root.Children[0].Children[1].Children[0], mutableChildren[0]),
+            "zipper keeps the original unaffected leaf");
+
+        var dag = ConfigFixtures.CreateDag();
+        var shared = dag.Children[0].Children[0];
+        var dagZipper = Zipper<ConfigNode>.FromRoot(dag, adapter);
+        var dagValue = dagZipper
+            .Down(TreePathSegment.Named("items")).GetValueOrDefault()!
+            .Down(0).GetValueOrDefault()!
+            .Down(TreePathSegment.Named("value")).GetValueOrDefault()!;
+        var dagEdit = dagValue.Replace(dagValue.Current with { Value = "2" }).ToRoot();
+        Check(dagEdit.Root.Children[0].Children[0].Children[0].Value == "2", "zipper edits the first DAG occurrence");
+        Check(dagEdit.Root.Children[0].Children[1].Children[0].Value == "1", "zipper leaves the second DAG occurrence unchanged");
+        Check(ReferenceEquals(dagEdit.Root.Children[0].Children[1], shared), "zipper keeps the second DAG occurrence shared");
+        Check(
+            ReferenceEquals(dagEdit.Root.Children[0].Children[1].Children[0], shared.Children[0]),
+            "zipper keeps the second DAG occurrence's original leaf");
     }
 
     private static void VerifySingleOverride()
@@ -453,6 +523,14 @@ internal static class TreeComparison
                 overrides[34],
                 TreePath.Parse("services[1].endpoints[0].port").ToLocation()),
             ConfigErrors.Duplicate(overrides[36]),
+            ConfigErrors.Path(
+                overrides[37],
+                overrides[37].Path[1],
+                TreePath.Parse("services.service-0").ToLocation()),
+            ConfigErrors.Path(
+                overrides[38],
+                overrides[38].Path[3],
+                TreePath.Parse("services[0].limits[0]").ToLocation()),
         };
 
         var (editors, results) = ApplyAll(baseTree, overrides);
@@ -464,12 +542,12 @@ internal static class TreeComparison
             CompareErrors(expectedErrors, errors!, $"mixed {editors[index].Name}");
         }
 
-        AssertStats(editors[0], 3_275, 189, 2_448, 33, 4, "mixed");
-        AssertStats(editors[1], 3_275, 189, 2_448, 33, 4, "mixed");
-        AssertStats(editors[2], 6_349, 114, 359, 33, 4, "mixed");
-        AssertStats(editors[3], 3_275, 189, 2_448, 33, 4, "mixed");
-        AssertStats(editors[4], 3_275, 189, 2_448, 33, 4, "mixed");
-        AssertStats(editors[5], 3_275, 3_074, 0, 33, 4, "mixed");
+        AssertStats(editors[0], 3_281, 189, 2_448, 33, 6, "mixed");
+        AssertStats(editors[1], 3_281, 189, 2_448, 33, 6, "mixed");
+        AssertStats(editors[2], 6_355, 114, 359, 33, 6, "mixed");
+        AssertStats(editors[3], 3_281, 189, 2_448, 33, 6, "mixed");
+        AssertStats(editors[4], 3_281, 189, 2_448, 33, 6, "mixed");
+        AssertStats(editors[5], 3_281, 3_074, 0, 33, 6, "mixed");
     }
 
     private static void VerifyFailFast()

@@ -93,6 +93,8 @@ internal static class ConfigFixtures
             Override("services[1].endpoints[0].port", "70000"),
             Override("services[2].limits.timeout", "200"),
             Override("services[2].limits.timeout", "201"),
+            Override("services.service-0.name", "service-0"),
+            Override("services[0].limits[0]", "20"),
         };
 
         return overrides;

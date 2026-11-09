@@ -81,6 +81,28 @@ public sealed class ZipperTests
         Assert.Equal(2, reconstructed.Root.Children[0].Children[0].Children.Count);
         Assert.Equal(2, reconstructed.Root.Children[0].Children[1].Children.Count);
         Assert.Same(shared, reconstructed.Root.Children[0].Children[1]);
+        Assert.Equal("1", reconstructed.Root.Children[0].Children[1].Children[0].Value);
+        Assert.Same(mutableChildren[0], reconstructed.Root.Children[0].Children[1].Children[0]);
+    }
+
+    [Fact]
+    public void SharedDagEditLeavesTheOtherOccurrenceUntouched()
+    {
+        var dag = ConfigFixtures.CreateDag();
+        var shared = dag.Children[0].Children[0];
+        var zipper = Zipper<ConfigNode>.FromRoot(dag, ConfigTreeAdapter.Instance);
+        var value = zipper
+            .Down(TreePathSegment.Named("items")).GetValueOrDefault()!
+            .Down(0).GetValueOrDefault()!
+            .Down(TreePathSegment.Named("value")).GetValueOrDefault()!;
+        var reconstructed = value.Replace(value.Current with { Value = "2" }).ToRoot();
+
+        Assert.Equal("2", reconstructed.Root.Children[0].Children[0].Children[0].Value);
+        Assert.Equal("1", reconstructed.Root.Children[0].Children[1].Children[0].Value);
+        Assert.Same(shared, reconstructed.Root.Children[0].Children[1]);
+        Assert.Same(shared.Children[0], reconstructed.Root.Children[0].Children[1].Children[0]);
+        Assert.NotSame(shared, reconstructed.Root.Children[0].Children[0]);
+        Assert.Equal("1", dag.Children[0].Children[0].Children[0].Value);
     }
 
     [Fact]

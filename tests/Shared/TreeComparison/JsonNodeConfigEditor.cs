@@ -176,30 +176,7 @@ internal sealed class JsonNodeConfigEditor : IConfigEditor
         {
             _visited++;
             var segment = item.Path[index];
-            var children = target!.AsObject()["children"]!.AsArray();
-            JsonNode? next = null;
-
-            if (segment.Kind == TreePathSegmentKind.Index)
-            {
-                if (segment.Index < children.Count)
-                {
-                    next = children[segment.Index];
-                }
-            }
-            else
-            {
-                foreach (var child in children)
-                {
-                    if (string.Equals(
-                            child!.AsObject()["name"]!.GetValue<string>(),
-                            segment.Name,
-                            StringComparison.Ordinal))
-                    {
-                        next = child;
-                        break;
-                    }
-                }
-            }
+            var next = FindChild(target!, segment);
 
             if (next is null)
             {
@@ -230,30 +207,7 @@ internal sealed class JsonNodeConfigEditor : IConfigEditor
         {
             _visited++;
             var segment = item.Path[index];
-            var children = target!.AsObject()["children"]!.AsArray();
-            JsonNode? next = null;
-
-            if (segment.Kind == TreePathSegmentKind.Index)
-            {
-                if (segment.Index < children.Count)
-                {
-                    next = children[segment.Index];
-                }
-            }
-            else
-            {
-                foreach (var child in children)
-                {
-                    if (string.Equals(
-                            child!.AsObject()["name"]!.GetValue<string>(),
-                            segment.Name,
-                            StringComparison.Ordinal))
-                    {
-                        next = child;
-                        break;
-                    }
-                }
-            }
+            var next = FindChild(target!, segment);
 
             if (next is null)
             {
@@ -266,6 +220,37 @@ internal sealed class JsonNodeConfigEditor : IConfigEditor
         }
 
         _visited++;
+        return null;
+    }
+
+    private static JsonNode? FindChild(JsonNode node, TreePathSegment segment)
+    {
+        var nodeObject = node.AsObject();
+        var children = nodeObject["children"]!.AsArray();
+
+        if (nodeObject["indexed"]!.GetValue<bool>())
+        {
+            return segment.Kind == TreePathSegmentKind.Index && segment.Index < children.Count
+                ? children[segment.Index]
+                : null;
+        }
+
+        if (segment.Kind != TreePathSegmentKind.Name)
+        {
+            return null;
+        }
+
+        foreach (var child in children)
+        {
+            if (string.Equals(
+                    child!.AsObject()["name"]!.GetValue<string>(),
+                    segment.Name,
+                    StringComparison.Ordinal))
+            {
+                return child;
+            }
+        }
+
         return null;
     }
 

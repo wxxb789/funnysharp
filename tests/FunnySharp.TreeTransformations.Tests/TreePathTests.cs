@@ -36,6 +36,18 @@ public sealed class TreePathTests
         Assert.Equal("services[3]", appended.ToString());
     }
 
+    [Fact]
+    public void SegmentsExposesAReadOnlyView()
+    {
+        var path = TreePath.Parse("services[3].port");
+
+        Assert.Null(path.Segments as TreePathSegment[]);
+        var segments = Assert.IsAssignableFrom<IList<TreePathSegment>>(path.Segments);
+        Assert.Equal(TreePathSegment.Named("services"), segments[0]);
+        Assert.Throws<NotSupportedException>(() => segments[0] = TreePathSegment.Named("other"));
+        Assert.Equal("services[3].port", path.ToString());
+    }
+
     [Theory]
     [InlineData("services[")]
     [InlineData("services..port")]

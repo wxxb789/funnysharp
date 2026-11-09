@@ -85,18 +85,19 @@ Both are assessed and excluded rather than silently ignored.
 
 | Implementation | Shape | Why it is fair |
 | --- | --- | --- |
-| Direct recursion | Recursive path resolution, ancestor rebuild, and full validation over `ConfigNode`. | Direct, competent C#; no adapter, no generic library. It is the honest baseline for an application that already uses recursion. |
-| Hand-written iterative visitor and rewrite | Explicit-stack path resolution, ancestor rebuild with arrays, and pre-order validation. | The competent stack-safe hand-written form and the comparison's competent hand-written rewrite; no generic adapter or delegate dispatch. It is the documented-pattern candidate. |
+| Direct recursion | Recursive path resolution, ancestor rebuild, and full validation over `ConfigNode`. | Direct, competent C#; pays the shared 46-line adapter for child-index and segment mapping but no generic library. It is the honest baseline for an application that already uses recursion. |
+| Hand-written iterative visitor and rewrite | Explicit-stack path resolution, ancestor rebuild with arrays, and pre-order validation. | The competent stack-safe hand-written form and the comparison's competent hand-written rewrite; pays the shared 46-line adapter for segment mapping but no generic core or delegate dispatch. It is the documented-pattern candidate. |
 | Generic full rewrite | `TreeRewrite.RewriteBottomUp` over the adapter, applying overrides by path, plus traversal validation. | Pays the adapter, path-view, delegate, and full-traversal costs. It is the honest generic "rewrite the tree" candidate and shows the union-rebuild shape. |
 | Generic path rewrite | `TreeRewrite.RewriteAt` per override over the adapter, plus `TreeTraversal.Traverse` validation. | The narrow generic candidate; it pays the adapter but not a full rewrite. |
 | Zipper | `Zipper` navigation by path, `Replace`, and `ToRoot`, plus traversal validation. | The zipper candidate with explicit navigation, edit, and root reconstruction; it pays frame allocation and reconstruction. |
-| `System.Text.Json.Nodes.JsonNode` | Parse the base JSON into a mutable `JsonNode`, resolve and edit paths, serialize, and validate the JSON tree. | The relevant existing .NET tree API for JSON-backed configuration. It pays parse/serialize and a bridge to the typed model; it is not a typed tree. |
+| `System.Text.Json.Nodes.JsonNode` | Parse the base JSON into a mutable `JsonNode`, resolve and edit paths, validate JSON leaves, and convert back to the typed tree. | The relevant existing .NET tree API for JSON-backed configuration. It pays a fresh parse, JSON validation, and the typed conversion bridge; it is not a typed tree. |
 
 Shared models, fixtures, path syntax, value rules, canonical digest, and verifier are not charged
 to any consumer. Every consumer uses the same base tree, override list, value rules, error order,
-and complete operation (apply plus validate). Every consumer is charged its own adapter, path
-resolution, rebuild, validation, and any parse/serialize bridge. `JsonNode` is parsed fresh for
-each persistent apply so the original tree is not mutated; that cost belongs to the alternative.
+and complete operation (apply plus validate). Every typed consumer is charged the shared 46-line
+adapter, its path resolution, rebuild, and validation; `JsonNode` pays its parse and typed
+conversion instead. `JsonNode` is parsed fresh for each persistent apply so the original tree is
+not mutated; that cost belongs to the alternative.
 
 Assessed and not measured as competitors:
 
@@ -161,10 +162,10 @@ the comparer and accept that two distinct equal nodes become one visit/one rewri
   failures and effective-tree validation failures accumulate through
   `Validation<ConfigNode, ConfigError>` in override order then document order; strict mode returns
   the first `Result<ConfigNode, ConfigError>` failure and stops.
-- `Location` is the existing experimental (`FS0017`) path carrier; the prototype and tests use it
-  with an explicit suppression and disclose that a future public shape would need to promote or
-  replace it. Paths are built from segments, not concatenated application strings; a failure at
-  `services[3].endpoints[0].port` is produced compositionally.
+- `Location` is the existing experimental (`FS0017`) path carrier; the prototype and shared
+  comparison code use it with an explicit suppression and disclose that a future public shape would
+  need to promote or replace it. Paths are built from segments, not concatenated application
+  strings; a failure at `services[3].endpoints[0].port` is produced compositionally.
 - `Result` and `Validation` are reused as the outcome vocabulary; no new carrier is introduced.
 
 ### Zipper semantics
@@ -185,11 +186,11 @@ the comparer and accept that two distinct equal nodes become one visit/one rewri
 ### Adapter and consumer-code accounting
 
 The generic adapter is `Children(node)`, `Rebuild(node, children)`, `ChildIndex(node, segment)`,
-`Label(node)`, and `Identity`. The adapter is charged to every generic consumer and to the
-prototype's own line count. The hand-written consumers pay their own model-specific traversal and
-rebuild code instead. The evidence reports raw source lines for the prototype, each consumer, each
-adapter, the shared fixtures, and the verifier; lines include braces and comments and are not a LOC
-target.
+`Label(node)`, and `Identity`. The adapter is charged to every typed consumer and to the
+prototype's own line count. The hand-written consumers pay the same shared adapter for child-index
+and segment mapping in addition to their own model-specific traversal and rebuild code. The
+evidence reports raw source lines for the prototype, each consumer including the shared adapter,
+the shared fixtures, and the verifier; lines include braces and comments and are not a LOC target.
 
 ### Measurement protocol
 
@@ -197,7 +198,8 @@ target.
   Release build, `TieredCompilation=false`, UTC date. Allocation is the blocking comparison; timing
   is directional on this shared host.
 - **Workloads:** (a) one valid path override, (b) 32 valid overrides, (c) a mixed overlay with a
-  missing path, a section target, an invalid value, and a duplicate path, (d) full validation of the
+  missing path, a section target, an invalid value, a duplicate path, and two wrong-kind segments
+  (a name under an indexed section, an index under a named section), (d) full validation of the
   3,074-node tree, (e) a deep chain at 1,000 / 5,000 / 10,000 / 20,000 / 50,000 / 100,000 levels,
   (f) a shared DAG with duplicate occurrences, (g) a cyclic graph, and (h) a mutable child-list
   fixture.
@@ -254,7 +256,8 @@ hierarchy, a general AST optimizer, automatic persistence, an ambient tree cache
 - **R8:** Implement six complete consumers against the same workload: recursive, iterative,
   generic full rewrite, generic path rewrite, zipper, and `JsonNode`. Each
   applies the overlay, validates the effective tree, accumulates errors in the fixed order, and
-  reports visited/rebuilt/shared/error counts. The generic consumers include the adapter.
+  reports visited/rebuilt/shared/error counts. Every typed consumer includes the shared adapter;
+  the `JsonNode` consumer pays a parse and typed conversion instead.
 - **R9:** Add a shared verifier that checks exact effective trees, canonical digests, error kinds and
   paths/order, traversal order, short-circuit counts, rebuilt/shared/visited counts, structural
   sharing by reference, mutable-list aliasing, DAG duplicate visits and sharing, cycle rejection,
@@ -320,7 +323,7 @@ hierarchy, a general AST optimizer, automatic persistence, an ambient tree cache
   `TreeComparison.Verify`. The base tree is 64 services with eight endpoints and four fields per
   endpoint; overrides are deterministic; the deep chain, DAG, cycle, and mutable-list fixtures are
   separate. The recursive consumer uses recursion; the iterative consumer uses explicit stacks;
-  the generic consumers use the adapter; the zipper consumer uses `Zipper`; the `JsonNode`
+  every typed consumer uses the shared adapter; the zipper consumer uses `Zipper`; the `JsonNode`
   consumer parses, edits, and converts a uniform JSON tree.
 - **Execution note:** every consumer returns the same `Validation`/`Result` shape and resets stats
   per operation. The shared canonicalizer is not charged to any consumer. The `JsonNode` consumer

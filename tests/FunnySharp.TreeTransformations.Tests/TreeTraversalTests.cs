@@ -81,16 +81,49 @@ public sealed class TreeTraversalTests
     public void DagModeVisitsEachDistinctNodeOnce()
     {
         var dag = ConfigFixtures.CreateDag();
+        var treePaths = new List<string>();
         var tree = TreeTraversal.Traverse(
             dag,
             ConfigTreeAdapter.Instance,
-            (node, depth, path) => TreeVisitDecision.Continue);
+            (node, depth, path) =>
+            {
+                treePaths.Add(path.ToPath().ToString());
+                return TreeVisitDecision.Continue;
+            });
+        var distinctPaths = new List<string>();
         var distinct = TreeTraversal.Traverse(
             dag,
             ConfigTreeAdapter.Instance,
-            (node, depth, path) => TreeVisitDecision.Continue,
+            (node, depth, path) =>
+            {
+                distinctPaths.Add(path.ToPath().ToString());
+                return TreeVisitDecision.Continue;
+            },
             new TreeTraversalOptions<ConfigNode> { Shape = TreeShape.Dag });
 
+        Assert.Equal(
+            new[]
+            {
+                string.Empty,
+                "items",
+                "items[0]",
+                "items[0].value",
+                "items[0].other",
+                "items[1]",
+                "items[1].value",
+                "items[1].other",
+            },
+            treePaths);
+        Assert.Equal(
+            new[]
+            {
+                string.Empty,
+                "items",
+                "items[0]",
+                "items[0].value",
+                "items[0].other",
+            },
+            distinctPaths);
         Assert.Equal(8, tree.VisitedNodes);
         Assert.Equal(5, distinct.VisitedNodes);
         Assert.Equal(1, distinct.DuplicateVisits);

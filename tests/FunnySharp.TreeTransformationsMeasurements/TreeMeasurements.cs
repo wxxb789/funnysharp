@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.Globalization;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using FunnySharp.TestSupport;
 using FunnySharp.TestSupport.TreeComparison;
@@ -77,12 +78,36 @@ internal static class TreeMeasurements
         var entries = new (string Name, string[] Paths)[]
         {
             ("Prototype", [Path.Combine(root, "tests/FunnySharp.TreeTransformations")]),
-            ("Adapter", [Path.Combine(root, "tests/Shared/TreeComparison/ConfigTreeAdapter.cs")]),
-            ("Direct recursion", [Path.Combine(root, "tests/Shared/TreeComparison/RecursiveConfigEditor.cs")]),
-            ("Iterative explicit stack", [Path.Combine(root, "tests/Shared/TreeComparison/IterativeConfigEditor.cs")]),
-            ("Generic full rewrite", [Path.Combine(root, "tests/Shared/TreeComparison/GenericFullConfigEditor.cs")]),
-            ("Generic path rewrite", [Path.Combine(root, "tests/Shared/TreeComparison/GenericPathConfigEditor.cs")]),
-            ("Zipper", [Path.Combine(root, "tests/Shared/TreeComparison/ZipperConfigEditor.cs")]),
+            (
+                "Direct recursion",
+                [
+                    Path.Combine(root, "tests/Shared/TreeComparison/RecursiveConfigEditor.cs"),
+                    Path.Combine(root, "tests/Shared/TreeComparison/ConfigTreeAdapter.cs"),
+                ]),
+            (
+                "Hand-written iterative visitor and rewrite",
+                [
+                    Path.Combine(root, "tests/Shared/TreeComparison/IterativeConfigEditor.cs"),
+                    Path.Combine(root, "tests/Shared/TreeComparison/ConfigTreeAdapter.cs"),
+                ]),
+            (
+                "Generic full rewrite",
+                [
+                    Path.Combine(root, "tests/Shared/TreeComparison/GenericFullConfigEditor.cs"),
+                    Path.Combine(root, "tests/Shared/TreeComparison/ConfigTreeAdapter.cs"),
+                ]),
+            (
+                "Generic path rewrite",
+                [
+                    Path.Combine(root, "tests/Shared/TreeComparison/GenericPathConfigEditor.cs"),
+                    Path.Combine(root, "tests/Shared/TreeComparison/ConfigTreeAdapter.cs"),
+                ]),
+            (
+                "Zipper",
+                [
+                    Path.Combine(root, "tests/Shared/TreeComparison/ZipperConfigEditor.cs"),
+                    Path.Combine(root, "tests/Shared/TreeComparison/ConfigTreeAdapter.cs"),
+                ]),
             ("JsonNode", [Path.Combine(root, "tests/Shared/TreeComparison/JsonNodeConfigEditor.cs")]),
             (
                 "Shared workload and verifier",
@@ -113,7 +138,7 @@ internal static class TreeMeasurements
     {
         WriteApplyStats("Single valid override", [SingleOverride]);
         WriteApplyStats("32 valid overrides", ValidOverrides);
-        WriteApplyStats("Mixed overlay (four errors)", MixedOverrides);
+        WriteApplyStats("Mixed overlay (six errors)", MixedOverrides);
 
         Console.WriteLine("## Work: full validation");
         Console.WriteLine();
@@ -356,44 +381,21 @@ internal static class TreeMeasurements
         return changed ? ConfigTreeAdapter.Instance.Rebuild(node, rewritten) : node;
     }
 
-    private static int Checksum(IConfigEditor editor, IReadOnlyList<ConfigOverride> overrides)
-    {
-        var result = editor.Apply(overrides);
+    private static int Checksum(IConfigEditor editor, IReadOnlyList<ConfigOverride> overrides) =>
+        ResultChecksum(editor.Apply(overrides));
 
+    private static int ValidationChecksum(IConfigEditor editor) =>
+        ResultChecksum(editor.Validate());
+
+    private static int ResultChecksum(Validation<ConfigNode, ConfigError> result)
+    {
         if (result.TryGetValue(out var tree))
         {
-            return unchecked((int)ConfigKernel.Digest(tree));
+            return RuntimeHelpers.GetHashCode(tree);
         }
 
         result.TryGetErrors(out var errors);
-        var hash = 17;
-
-        foreach (var error in errors!)
-        {
-            hash = unchecked((hash * 31) + StringComparer.Ordinal.GetHashCode(error.Path));
-        }
-
-        return hash;
-    }
-
-    private static int ValidationChecksum(IConfigEditor editor)
-    {
-        var result = editor.Validate();
-
-        if (result.TryGetValue(out var tree))
-        {
-            return unchecked((int)ConfigKernel.Digest(tree));
-        }
-
-        result.TryGetErrors(out var errors);
-        var hash = 17;
-
-        foreach (var error in errors!)
-        {
-            hash = unchecked((hash * 31) + StringComparer.Ordinal.GetHashCode(error.Path));
-        }
-
-        return hash;
+        return errors!.Count;
     }
 
     private static int Iterations(string consumer, string scenario) => consumer switch
