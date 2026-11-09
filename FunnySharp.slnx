@@ -30,6 +30,9 @@
   <Project Path="tests/FunnySharp.TreeTransformations/FunnySharp.TreeTransformations.csproj" />
   <Project Path="tests/FunnySharp.TreeTransformations.Tests/FunnySharp.TreeTransformations.Tests.csproj" />
   <Project Path="tests/FunnySharp.TreeTransformationsMeasurements/FunnySharp.TreeTransformationsMeasurements.csproj" />
+  <Project Path="tests/FunnySharp.OperationPlans/FunnySharp.OperationPlans.csproj" />
+  <Project Path="tests/FunnySharp.OperationPlans.Tests/FunnySharp.OperationPlans.Tests.csproj" />
+  <Project Path="tests/FunnySharp.OperationPlansMeasurements/FunnySharp.OperationPlansMeasurements.csproj" />
   <Project Path="tests/FunnySharp.Harness.Tests/FunnySharp.Harness.Tests.fsproj" />
   <Project Path="tests/FunnySharp.PatchMeasurements/FunnySharp.PatchMeasurements.csproj" />
   <Project Path="tests/FunnySharp.SummaryMeasurements/FunnySharp.SummaryMeasurements.csproj" />
