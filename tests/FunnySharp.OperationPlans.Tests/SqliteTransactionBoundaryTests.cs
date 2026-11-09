@@ -17,6 +17,7 @@ public sealed class SqliteTransactionBoundaryTests
             {
                 DataSource = path,
                 DefaultTimeout = 1,
+                Pooling = false,
             }.ToString();
 
             await using (var setup = new SqliteConnection(connectionString))

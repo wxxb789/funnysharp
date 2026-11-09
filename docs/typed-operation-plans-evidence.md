@@ -21,12 +21,12 @@ transaction belongs to one storage adapter; the plan cannot cover the external g
 ambient `TransactionScope` does not roll this provider's commands back. No public capability,
 package, grammar, product-contract, stability-inventory, or API-baseline change occurred.
 
-Source identity is this Goal 0042 working tree on top of commit `4149d0a`; the landing commit
+Source identity is this Goal 0042 working tree on top of commit `7c2e28d`; the landing commit
 becomes the durable identity. Measurements were taken on this host:
 
 - Ubuntu 24.04.5 LTS, Linux 7.0.0-1017-azure x86_64, 4 logical cores.
 - .NET SDK 10.0.401, runtime 10.0.12 x64; Release build; `TieredCompilation=false`.
-- Dates: 2026-11-09 UTC. The two final runs started at 14:27:21 and 14:27:43.
+- Dates: 2026-11-09 UTC. The two final runs started at 15:31:54 and 15:32:32.
 - SQLite provider: `Microsoft.Data.Sqlite` 10.0.12; EF Core provider:
   `Microsoft.EntityFrameworkCore.Sqlite` 10.0.12.
 
@@ -423,10 +423,15 @@ dotnet run --project tests/FunnySharp.OperationPlansMeasurements/FunnySharp.Oper
 The harness first runs the complete comparison (1,612 checks), then prints the environment,
 workload descriptors, source volume, inspection cost, work ledger, and complete-operation
 allocation. The database is created and seeded before each measured operation and disposed after;
-its allocation and time are outside the snapshot. The measured operation is the consumer's complete
-business operation from transaction open to commit or rollback, including the gateway call and the
-failure/cancellation machinery. The harness was run twice in isolation; no test suite or other
-heavy process ran concurrently.
+its allocation and time are outside the snapshot. Each sandbox is a unique in-memory database with
+`Pooling=False`, so its native database is destroyed when the sandbox connection is disposed rather
+than retained by a connection pool; setup and teardown remain outside the snapshot. The measured
+operation is the consumer's complete business operation from transaction open to commit or
+rollback, including the gateway call and the failure/cancellation machinery. The two final runs were
+made in isolation; no test suite or other heavy process ran concurrently with them. Two earlier
+invocations (15:30:35 and 15:31:11 UTC) were discarded because some EF Core allocation rows carried
+transient offsets of up to 324.9 B/op that did not reproduce; the plan and direct rows were
+identical. The 15:31:54 and 15:32:32 runs below reproduced every allocation row exactly.
 
 ### Consumer Source Volume
 
@@ -438,8 +443,8 @@ Raw lines, braces and comments included; this is not a LOC target.
 | Typed plan consumer | 725 | `PlanOrderConsumer` 137, `SqlitePlanTransaction` 22, `OrderOperations` 285, `ShopSql` 281. |
 | Direct await consumer | 1,048 | `DirectOrderConsumer` 234, `NamedStep` 140, `ComparisonDescriptors` 108, `OrderOperations` 285, `ShopSql` 281. |
 | EF Core consumer | 1,014 | `EfShopDbContext` 197, `EfOrderConsumer` 569, `NamedStep` 140, `ComparisonDescriptors` 108. |
-| Shared workload and verifier | 1,471 | `OperationComparison` 988, `OrderPricing` 98, `ShopSchema` 88, `ShopFixtures` 66, `SimulatedPaymentGateway` 107, `OrderModels` 56, `SqliteSandbox` 39, `IOrderConsumer` 20, `OrderEnvironment` 9. |
-| Tests | 742 | Construction, execution, SQLite boundary, ambient-scope, and comparison tests. |
+| Shared workload and verifier | 1,472 | `OperationComparison` 988, `OrderPricing` 98, `ShopSchema` 88, `ShopFixtures` 66, `SimulatedPaymentGateway` 107, `OrderModels` 56, `SqliteSandbox` 40, `IOrderConsumer` 20, `OrderEnvironment` 9. |
+| Tests | 740 | Construction, execution, SQLite boundary, ambient-scope, and comparison tests. |
 | Measurement harness | 470 | Environment, line counts, inspection, work ledger, and per-operation loop. |
 
 The plan and direct rows each include the shared raw SQL helpers they use; the direct and EF rows
@@ -464,77 +469,77 @@ adapter argument only when several workflows share the same transaction/state/me
 
 | Operation | Allocated B/op | Time ns/op |
 | --- | ---: | ---: |
-| Plan build + Describe (9 steps) | 4,200.0 | 3,462.4 / 3,412.7 |
-| Cached plan Describe | 0.0 | 5.9 / 6.4 |
-| Static direct descriptor access | 0.0 | 3.7 / 3.9 |
+| Plan build + Describe (9 steps) | 4,200.0 | 6,541.2 / 3,520.1 |
+| Cached plan Describe | 0.0 | 11.2 / 5.3 |
+| Static direct descriptor access | 0.0 | 6.8 / 3.6 |
 
-Construction is 4,200 bytes and about 3.5 microseconds per build; a static plan pays this once, and
-`Describe` then costs zero bytes. The static direct descriptor array costs zero per access. The plan
-therefore does not add per-operation traceability cost when cached, but the traceability is not
-free: it is a 584-line core plus a one-time construction, and the plan's `Create` validation runs
-once rather than per operation. The direct pattern's one-time descriptor array plus validator is
-108 lines; its `NamedStep` helper is 140 lines.
+Construction is 4,200 bytes and 3.5-6.5 microseconds per build on this host, depending on load; a
+static plan pays this once, and `Describe` then costs zero bytes. The static direct descriptor array
+costs zero per access. The plan therefore does not add per-operation traceability cost when cached,
+but the traceability is not free: it is a 584-line core plus a one-time construction, and the
+plan's `Create` validation runs once rather than per operation. The direct pattern's one-time
+descriptor array plus validator is 108 lines; its `NamedStep` helper is 140 lines.
 
 ### Allocation And Directional Time, Run 1
 
 | Scenario | Consumer | Allocated B/op | Time ns/op |
 | --- | --- | ---: | ---: |
-| happy path | Typed plan | 22,968.0 | 242,136.9 |
-| happy path | Direct await | 23,832.0 | 244,620.2 |
-| happy path | EF Core transaction | 253,069.0 | 2,497,196.4 |
-| small order | Typed plan | 14,696.0 | 191,168.7 |
-| small order | Direct await | 15,376.0 | 157,670.8 |
-| small order | EF Core transaction | 160,697.9 | 1,567,131.6 |
-| credit limit | Typed plan | 15,728.0 | 177,083.8 |
-| credit limit | Direct await | 15,824.0 | 175,182.4 |
-| credit limit | EF Core transaction | 150,224.1 | 1,256,625.1 |
-| stock shortfall | Typed plan | 16,424.0 | 188,190.9 |
-| stock shortfall | Direct await | 16,608.0 | 197,715.1 |
-| stock shortfall | EF Core transaction | 146,909.0 | 1,298,057.7 |
-| payment decline | Typed plan | 19,248.0 | 211,182.5 |
-| payment decline | Direct await | 19,608.0 | 211,402.8 |
-| payment decline | EF Core transaction | 202,921.9 | 1,967,850.9 |
-| outbox fault | Typed plan | 21,856.0 | 253,568.4 |
-| outbox fault | Direct await | 22,392.0 | 254,146.8 |
-| outbox fault | EF Core transaction | 221,285.0 | 2,156,799.2 |
-| cancel before start | Typed plan | 4,216.0 | 14,817.6 |
-| cancel before start | Direct await | 3,992.0 | 14,182.4 |
-| cancel before start | EF Core transaction | 512.0 | 3,108.2 |
-| cancel between steps | Typed plan | 22,248.0 | 268,542.8 |
-| cancel between steps | Direct await | 22,784.0 | 257,455.1 |
-| cancel between steps | EF Core transaction | 236,917.0 | 2,301,610.7 |
+| happy path | Typed plan | 22,968.0 | 368,537.7 |
+| happy path | Direct await | 23,832.0 | 287,428.5 |
+| happy path | EF Core transaction | 253,069.0 | 3,506,725.8 |
+| small order | Typed plan | 14,696.0 | 203,181.4 |
+| small order | Direct await | 15,376.0 | 232,129.6 |
+| small order | EF Core transaction | 160,697.9 | 1,937,536.2 |
+| credit limit | Typed plan | 15,728.0 | 217,537.9 |
+| credit limit | Direct await | 15,824.0 | 195,582.7 |
+| credit limit | EF Core transaction | 150,224.1 | 1,790,890.4 |
+| stock shortfall | Typed plan | 16,424.0 | 214,177.6 |
+| stock shortfall | Direct await | 16,608.0 | 211,632.4 |
+| stock shortfall | EF Core transaction | 146,909.0 | 1,661,464.6 |
+| payment decline | Typed plan | 19,248.0 | 284,678.6 |
+| payment decline | Direct await | 19,608.0 | 165,413.6 |
+| payment decline | EF Core transaction | 202,921.9 | 2,235,957.3 |
+| outbox fault | Typed plan | 21,856.0 | 250,005.6 |
+| outbox fault | Direct await | 22,392.0 | 230,888.2 |
+| outbox fault | EF Core transaction | 221,285.0 | 2,507,607.5 |
+| cancel before start | Typed plan | 4,216.0 | 18,878.2 |
+| cancel before start | Direct await | 3,992.0 | 18,968.3 |
+| cancel before start | EF Core transaction | 512.0 | 2,478.9 |
+| cancel between steps | Typed plan | 22,248.0 | 255,379.2 |
+| cancel between steps | Direct await | 22,784.0 | 291,332.0 |
+| cancel between steps | EF Core transaction | 236,921.9 | 3,090,244.3 |
 
 ### Allocation And Directional Time, Run 2
 
 | Scenario | Consumer | Allocated B/op | Time ns/op |
 | --- | --- | ---: | ---: |
-| happy path | Typed plan | 22,968.0 | 243,935.6 |
-| happy path | Direct await | 23,832.0 | 244,212.7 |
-| happy path | EF Core transaction | 253,069.0 | 2,520,337.6 |
-| small order | Typed plan | 14,696.0 | 190,315.4 |
-| small order | Direct await | 15,376.0 | 188,121.5 |
-| small order | EF Core transaction | 160,697.9 | 1,510,725.0 |
-| credit limit | Typed plan | 15,728.0 | 175,601.4 |
-| credit limit | Direct await | 15,824.0 | 173,714.8 |
-| credit limit | EF Core transaction | 150,224.1 | 1,257,809.7 |
-| stock shortfall | Typed plan | 16,424.0 | 188,193.9 |
-| stock shortfall | Direct await | 16,608.0 | 198,648.9 |
-| stock shortfall | EF Core transaction | 146,909.0 | 1,303,311.4 |
-| payment decline | Typed plan | 19,248.0 | 212,658.3 |
-| payment decline | Direct await | 19,608.0 | 214,147.4 |
-| payment decline | EF Core transaction | 202,921.9 | 1,905,436.3 |
-| outbox fault | Typed plan | 21,856.0 | 252,812.4 |
-| outbox fault | Direct await | 22,392.0 | 251,116.6 |
-| outbox fault | EF Core transaction | 221,285.0 | 2,157,556.9 |
-| cancel before start | Typed plan | 4,216.0 | 15,762.7 |
-| cancel before start | Direct await | 3,992.0 | 13,919.2 |
-| cancel before start | EF Core transaction | 512.0 | 2,587.4 |
-| cancel between steps | Typed plan | 22,248.0 | 271,692.2 |
-| cancel between steps | Direct await | 22,784.0 | 259,846.0 |
-| cancel between steps | EF Core transaction | 236,917.0 | 2,298,586.8 |
+| happy path | Typed plan | 22,968.0 | 196,648.4 |
+| happy path | Direct await | 23,832.0 | 197,842.8 |
+| happy path | EF Core transaction | 253,069.0 | 2,411,351.4 |
+| small order | Typed plan | 14,696.0 | 135,808.0 |
+| small order | Direct await | 15,376.0 | 135,702.4 |
+| small order | EF Core transaction | 160,697.9 | 1,457,905.7 |
+| credit limit | Typed plan | 15,728.0 | 125,622.0 |
+| credit limit | Direct await | 15,824.0 | 124,052.5 |
+| credit limit | EF Core transaction | 150,224.1 | 1,222,326.1 |
+| stock shortfall | Typed plan | 16,424.0 | 145,654.0 |
+| stock shortfall | Direct await | 16,608.0 | 146,721.7 |
+| stock shortfall | EF Core transaction | 146,909.0 | 1,283,802.2 |
+| payment decline | Typed plan | 19,248.0 | 161,966.4 |
+| payment decline | Direct await | 19,608.0 | 162,124.6 |
+| payment decline | EF Core transaction | 202,921.9 | 1,914,350.8 |
+| outbox fault | Typed plan | 21,856.0 | 201,278.4 |
+| outbox fault | Direct await | 22,392.0 | 199,629.3 |
+| outbox fault | EF Core transaction | 221,285.0 | 2,103,830.0 |
+| cancel before start | Typed plan | 4,216.0 | 13,827.1 |
+| cancel before start | Direct await | 3,992.0 | 13,503.3 |
+| cancel before start | EF Core transaction | 512.0 | 2,211.7 |
+| cancel between steps | Typed plan | 22,248.0 | 193,244.1 |
+| cancel between steps | Direct await | 22,784.0 | 192,745.8 |
+| cancel between steps | EF Core transaction | 236,921.9 | 2,268,622.5 |
 
 The plan, direct, and EF allocation rows reproduce exactly across the two runs; timing varies by
-roughly 1.0-1.2x on the shared host and has no consistent direction; allocation is the blocking
+roughly 1.0-1.9x on the shared host and has no consistent direction; allocation is the blocking
 comparison.
 
 ### Headline
@@ -546,12 +551,12 @@ comparison.
   The pre-cancel row is 4,216 B for the plan versus 3,992 B for direct (5.6% higher) because the
   plan's executor and adapter are still present when no step runs. The differences are small and
   do not establish a runtime advantage.
-- **Timing has no direction.** Run 1's happy path is 242 &micro;s for the plan versus 245 &micro;s
-  for direct and 2.50 ms for EF Core; run 2 is 244 &micro;s versus 244 &micro;s and 2.52 ms. The
+- **Timing has no direction.** Run 1's happy path is 369 &micro;s for the plan versus 287 &micro;s
+  for direct and 3.51 ms for EF Core; run 2 is 197 &micro;s versus 198 &micro;s and 2.41 ms. The
   plan and direct swap order across scenarios and runs. Timing is directional only.
-- **The EF Core transaction abstraction is a different layer.** It is 9-11x the plan's allocation
-  and 7-10x its time on the database-operation rows; the EF pre-cancel row is lower because it
-  opens no transaction. Its code is 1,014 raw lines, smaller than the plan's 1,081
+- **The EF Core transaction abstraction is a different layer.** It is 8.9-11.0x the plan's
+  allocation and roughly 8-12x its time on the database-operation rows; the EF pre-cancel row is
+  lower because it opens no transaction. Its code is 1,014 raw lines, smaller than the plan's 1,081
   unique solution and the direct's 1,048, because EF owns mapping, change tracking, and SQL
   generation. It does not expose named operation inspection; the consumer still provides the
   descriptor array and named-step helper. The EF comparison shows what an existing persistence
@@ -745,7 +750,7 @@ Conditions for a later reconsideration:
 - The in-memory measurement database is not durable. The file-database tests prove transaction
   visibility and commit failure for this provider, but they are not a production durability,
   crash-recovery, or latency benchmark.
-- The plan's construction row (4,200 B / ~3.5 µs) is a per-build cost; a static plan pays it once,
+- The plan's construction row (4,200 B / 3.5-6.5 µs) is a per-build cost; a static plan pays it once,
   and cached `Describe` is zero bytes. The direct static descriptor array is zero per access. The
   plan's core lines, not its per-operation describe, are the traceability cost.
 - The plan's `TState` uses nullable fields for prior results; the failure carries `TError?`. The
@@ -768,7 +773,7 @@ Conditions for a later reconsideration:
 - The SQLite `SQLITE_BUSY` observation depends on the one-second busy timeout and the default
   rollback journal; WAL mode and a different timeout change the concurrency behavior.
 - The measurement host is shared (4 cores, 8 GB, external load observed); timing is directional
-  and the two runs show roughly 1.0-1.2x timing spread. Allocation is stable across the two runs.
+  and the two runs show roughly 1.0-1.9x timing spread. Allocation is stable across the two runs.
 - The plan's shared diagnostic vocabulary (`OperationInfo`, `OperationSuccess`, `RunFailure`) is
   in the non-shipping core; no public API is proposed. The line counts double-count the raw SQL
   and alternative helpers as disclosed; they are not a LOC target.
@@ -793,9 +798,9 @@ Conditions for a later reconsideration:
 
 Final gate results for this working tree:
 
-- `dotnet fsi build.fsx -- -p build`: exit 0; 0 warnings, 0 errors (8.04 s).
-- `dotnet fsi build.fsx -- -p test`: exit 0; 3,000 passed, 0 failed, 0 skipped (32.35 s) on a
-  quiet host, including 28/28 in `FunnySharp.OperationPlans.Tests`.
+- `dotnet fsi build.fsx -- -p build`: exit 0; 0 warnings, 0 errors (68.91 s).
+- `dotnet fsi build.fsx -- -p test`: exit 0; 3,000 passed, 0 failed, 0 skipped (33.26 s), including
+  28/28 in `FunnySharp.OperationPlans.Tests`.
 - `dotnet fsi build.fsx -- -p format`: exit 0; C# formatting clean. The formatter reports the known
   F# project skip (`eng/harness` and `tests/FunnySharp.Harness.Tests` are not C#/VB).
 - `dotnet fsi build.fsx -- -p verify-docs-snippets`: exit 0; 81 snippets across 15 primary guides.
@@ -805,8 +810,8 @@ Final gate results for this working tree:
   exit 0; examples passed.
 - `dotnet restore FunnySharp.slnx --locked-mode`: exit 0; the EF Core provider and its transitive
   SQLite packages restore from the committed lock files.
-- Measurement harness, run 1 at 2026-11-09 14:27:21 UTC: exit 0; 1,612 parity checks; tables above.
-- Measurement harness, run 2 at 2026-11-09 14:27:43 UTC: exit 0; 1,612 parity checks; tables above.
+- Measurement harness, run 1 at 2026-11-09 15:31:54 UTC: exit 0; 1,612 parity checks; tables above.
+- Measurement harness, run 2 at 2026-11-09 15:32:32 UTC: exit 0; 1,612 parity checks; tables above.
 
 Run the harness with:
 

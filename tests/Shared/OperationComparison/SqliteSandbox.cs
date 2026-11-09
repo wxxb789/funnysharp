@@ -19,6 +19,7 @@ internal sealed class SqliteSandbox : IAsyncDisposable
         {
             DataSource = $"file:operation-{Guid.NewGuid():N}?mode=memory&cache=shared",
             DefaultTimeout = 5,
+            Pooling = false,
         };
 
         var connection = new SqliteConnection(builder.ConnectionString);
