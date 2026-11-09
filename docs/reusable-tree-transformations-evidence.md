@@ -10,24 +10,24 @@ tree/DAG/cycle and mutable-content semantics, and two isolated measurement runs.
 **Decision: REJECT a public tree traversal, rewrite, or zipper capability; retain the documented
 iterative path-edit pattern.** The hand-written iterative consumer is the smallest complete
 stack-safe solution: 359 raw lines with no adapter, generic core, or cycle-detection bookkeeping.
-The generic path consumer plus its adapter is 245 raw lines, a 114-line per-consumer saving that
-does not repay the 1,653-line prototype on the disclosed workload; the generic full rewrite (285
+The generic path consumer plus its adapter is 251 raw lines, a 108-line per-consumer saving that
+does not repay the 1,648-line prototype on the disclosed workload; the generic full rewrite (289
 lines with adapter) visits every node, and the zipper (272 lines with adapter) allocates a cursor
 and frame per navigation step. The recursive form is shorter (286 lines) but stack-unsafe; the
 `JsonNode` form is the largest (434 lines) and copies the whole document. On a single override the
-generic path allocated 5,104 B and took ~530 &micro;s versus 4,184 B and ~352 &micro;s for the hand
-iterative; the generic full allocated 474,886 B and took ~1.37 ms; the zipper 5,464 B and ~529
-&micro;s; `JsonNode` 5.16 MB and ~10.1 ms. The recursive form was lowest at 3,760 B and ~334 &micro;s
-but exited 134 at 100,000 sections; the hand iterative, generic path, and zipper completed that
-depth. The measured allocation and depth results below confirm the direction. The smallest useful
-capability is the pattern, not a library type.
+generic path allocated 5,104 B and took ~536-561 &micro;s versus 4,184 B and ~348-350 &micro;s for
+the hand iterative; the generic full allocated 573,230 B and took ~1.38-1.44 ms; the zipper
+5,464 B and ~538-582 &micro;s; `JsonNode` 5.16 MB and ~9.8-10.5 ms. The recursive form was lowest at
+3,760 B and ~333-337 &micro;s but exited 134 at 100,000 sections; the hand iterative, generic path,
+and zipper completed that depth. The measured allocation and depth results below confirm the
+direction. The smallest useful capability is the pattern, not a library type.
 
 Source identity is this Goal 0041 working tree on top of commit `6abddb9`; the landing commit
 becomes the durable identity. Measurements were taken on this host:
 
 - Ubuntu 24.04.5 LTS, Linux 7.0.0-1017-azure x86_64, 4 logical cores.
 - .NET SDK 10.0.401, runtime 10.0.12 x64; Release build; `TieredCompilation=false`.
-- Dates: 2026-11-08 UTC. The two final runs started at 16:16:46 and 16:17:11.
+- Dates: 2026-11-08 UTC. The two final runs started at 18:18:13 and 18:18:29.
 
 Allocation is the blocking comparison; timing is directional on this shared host.
 
@@ -187,7 +187,7 @@ Command:
 dotnet run --project tests/FunnySharp.TreeTransformationsMeasurements/FunnySharp.TreeTransformationsMeasurements.csproj -c Release
 ```
 
-The harness first runs the complete comparison (765 checks), then measures the precreated base
+The harness first runs the complete comparison (769 checks), then measures the precreated base
 tree. Allocation is from `GC.GetAllocatedBytesForCurrentThread`; time is the best of three internal
 rounds after warmup. Two complete process runs are shown; the work ledger and depth results are
 deterministic and identical in both runs. Timing is directional on this shared host; allocation is
@@ -215,8 +215,8 @@ nodes; `Rebuilt` counts new nodes; `Shared` counts sibling references copied wit
 | 32 valid overrides | `JsonNode` | 3,258 | 3,074 | 0 | 32 | 0 | valid |
 | Mixed overlay | Direct recursion | 3,275 | 189 | 2,448 | 33 | 4 | invalid |
 | Mixed overlay | Iterative explicit stack | 3,275 | 189 | 2,448 | 33 | 4 | invalid |
-| Mixed overlay | Generic full rewrite | 6,353 | 114 | 359 | 33 | 4 | invalid |
-| Mixed overlay | Generic path rewrite | 3,263 | 189 | 2,448 | 33 | 4 | invalid |
+| Mixed overlay | Generic full rewrite | 6,349 | 114 | 359 | 33 | 4 | invalid |
+| Mixed overlay | Generic path rewrite | 3,275 | 189 | 2,448 | 33 | 4 | invalid |
 | Mixed overlay | Zipper | 3,275 | 189 | 2,448 | 33 | 4 | invalid |
 | Mixed overlay | `JsonNode` | 3,275 | 3,074 | 0 | 33 | 4 | invalid |
 | Full validation | Direct recursion | 3,074 | 0 | 0 | 0 | 0 | valid |
@@ -231,91 +231,104 @@ references. The 32 overrides rebuild 184 nodes and share 2,380 references sequen
 rewrite rebuilds the union once (112 nodes) and shares 358. The full rewrite's lower rebuild count
 is real, but its per-node traversal, rewritten arrays, and path objects cost more allocation and
 time (below). The `JsonNode` consumer rebuilds all 3,074 typed nodes because it converts the whole
-JSON tree back; it preserves no reference sharing. The generic path consumer's mixed-overlay
-`Visited` is 3,263 rather than 3,275 because a failed `RewriteAt` does not add the failed path's
-visits to the consumer ledger; the rebuilt/shared/applied/error counts match.
+JSON tree back; it preserves no reference sharing. `Visited` now charges every consumer the
+resolution nodes it actually examined: an early failure charges its resolved prefix, not the whole
+attempted path. The mixed-overlay row is therefore 3,275 for direct recursion, iterative, generic
+path, zipper, and `JsonNode`; the generic full rewrite is 6,349, exactly one full rewrite (3,074)
+above them. The generic path rewrite's previously published 12-node deficit (3,263) and the generic
+full rewrite's 4-node overcharge (6,353) are both removed; no gap changed sign, and the
+rebuilt/shared/applied/error counts are unchanged.
 
 ### Allocation and directional time, run 1
 
 | Scenario | Consumer | Allocated B/op | Time ns/op |
 | --- | --- | ---: | ---: |
-| Single valid override | Direct recursion | 3,760.4 | 333,819.0 |
-| Single valid override | Iterative explicit stack | 4,184.4 | 351,156.0 |
-| Single valid override | Generic full rewrite | 474,886.0 | 1,468,910.0 |
-| Single valid override | Generic path rewrite | 5,103.6 | 535,311.0 |
-| Single valid override | Zipper | 5,463.6 | 525,526.0 |
-| Single valid override | `JsonNode` | 5,162,051.2 | 10,234,910.0 |
-| 32 valid overrides | Direct recursion | 36,824.4 | 369,361.0 |
-| 32 valid overrides | Iterative explicit stack | 41,520.4 | 382,372.0 |
-| 32 valid overrides | Generic full rewrite | 483,222.0 | 1,385,825.0 |
-| 32 valid overrides | Generic path rewrite | 47,151.6 | 560,374.0 |
-| 32 valid overrides | Zipper | 57,967.6 | 566,566.0 |
-| 32 valid overrides | `JsonNode` | 5,199,338.4 | 9,850,215.0 |
-| Mixed overlay | Direct recursion | 39,240.4 | 115,331.0 |
-| Mixed overlay | Iterative explicit stack | 44,440.4 | 128,316.0 |
-| Mixed overlay | Generic full rewrite | 484,990.0 | 1,135,025.0 |
-| Mixed overlay | Generic path rewrite | 50,871.6 | 308,052.0 |
-| Mixed overlay | Zipper | 62,447.6 | 310,211.0 |
-| Mixed overlay | `JsonNode` | 5,202,818.8 | 9,611,675.0 |
-| Full validation | Direct recursion | 2,496.1 | 329,620.0 |
-| Full validation | Iterative explicit stack | 2,776.1 | 351,565.4 |
-| Full validation | Generic full rewrite | 3,543.6 | 521,148.0 |
-| Full validation | Generic path rewrite | 3,537.5 | 520,986.8 |
-| Full validation | Zipper | 3,537.5 | 522,894.4 |
-| Full validation | `JsonNode` | 4,351,376.8 | 8,070,998.0 |
+| Single valid override | Direct recursion | 3,760.4 | 337,239.0 |
+| Single valid override | Iterative explicit stack | 4,184.4 | 347,530.0 |
+| Single valid override | Generic full rewrite | 573,230.0 | 1,384,585.0 |
+| Single valid override | Generic path rewrite | 5,103.6 | 536,046.0 |
+| Single valid override | Zipper | 5,463.6 | 537,866.0 |
+| Single valid override | `JsonNode` | 5,162,052.0 | 9,794,340.0 |
+| 32 valid overrides | Direct recursion | 36,824.4 | 380,893.0 |
+| 32 valid overrides | Iterative explicit stack | 41,520.4 | 385,453.0 |
+| 32 valid overrides | Generic full rewrite | 581,566.0 | 1,452,275.0 |
+| 32 valid overrides | Generic path rewrite | 47,151.6 | 567,050.0 |
+| 32 valid overrides | Zipper | 57,967.6 | 581,077.0 |
+| 32 valid overrides | `JsonNode` | 5,199,339.2 | 9,972,215.0 |
+| Mixed overlay | Direct recursion | 39,272.4 | 121,173.0 |
+| Mixed overlay | Iterative explicit stack | 44,472.4 | 125,977.0 |
+| Mixed overlay | Generic full rewrite | 583,382.0 | 1,194,845.0 |
+| Mixed overlay | Generic path rewrite | 50,919.6 | 313,047.0 |
+| Mixed overlay | Zipper | 62,327.6 | 320,665.0 |
+| Mixed overlay | `JsonNode` | 5,202,826.8 | 9,633,790.0 |
+| Full validation | Direct recursion | 2,496.1 | 333,331.4 |
+| Full validation | Iterative explicit stack | 2,776.1 | 345,721.2 |
+| Full validation | Generic full rewrite | 3,543.6 | 528,897.0 |
+| Full validation | Generic path rewrite | 3,537.5 | 523,680.2 |
+| Full validation | Zipper | 3,537.5 | 523,269.2 |
+| Full validation | `JsonNode` | 4,351,376.8 | 8,111,770.0 |
 
 ### Allocation and directional time, run 2
 
 | Scenario | Consumer | Allocated B/op | Time ns/op |
 | --- | --- | ---: | ---: |
-| Single valid override | Direct recursion | 3,760.4 | 334,596.0 |
-| Single valid override | Iterative explicit stack | 4,184.4 | 352,704.0 |
-| Single valid override | Generic full rewrite | 474,886.0 | 1,370,075.0 |
-| Single valid override | Generic path rewrite | 5,103.6 | 529,731.0 |
-| Single valid override | Zipper | 5,463.6 | 529,320.0 |
-| Single valid override | `JsonNode` | 5,162,082.0 | 10,084,135.0 |
-| 32 valid overrides | Direct recursion | 36,824.4 | 370,712.0 |
-| 32 valid overrides | Iterative explicit stack | 41,520.4 | 383,801.0 |
-| 32 valid overrides | Generic full rewrite | 483,222.0 | 1,425,020.0 |
-| 32 valid overrides | Generic path rewrite | 47,151.6 | 563,072.0 |
-| 32 valid overrides | Zipper | 57,967.6 | 576,020.0 |
-| 32 valid overrides | `JsonNode` | 5,199,390.4 | 10,101,320.0 |
-| Mixed overlay | Direct recursion | 39,240.4 | 115,654.0 |
-| Mixed overlay | Iterative explicit stack | 44,440.4 | 131,043.0 |
-| Mixed overlay | Generic full rewrite | 484,990.0 | 1,166,125.0 |
-| Mixed overlay | Generic path rewrite | 50,871.6 | 311,405.0 |
-| Mixed overlay | Zipper | 62,447.6 | 315,541.0 |
-| Mixed overlay | `JsonNode` | 5,202,822.8 | 9,744,820.0 |
-| Full validation | Direct recursion | 2,496.1 | 329,634.4 |
-| Full validation | Iterative explicit stack | 2,776.1 | 351,540.4 |
-| Full validation | Generic full rewrite | 3,543.6 | 525,601.0 |
-| Full validation | Generic path rewrite | 3,537.5 | 523,654.4 |
-| Full validation | Zipper | 3,537.5 | 518,817.8 |
-| Full validation | `JsonNode` | 4,351,376.8 | 8,094,890.0 |
+| Single valid override | Direct recursion | 3,760.4 | 332,953.0 |
+| Single valid override | Iterative explicit stack | 4,184.4 | 349,157.0 |
+| Single valid override | Generic full rewrite | 573,230.0 | 1,436,940.0 |
+| Single valid override | Generic path rewrite | 5,103.6 | 561,137.0 |
+| Single valid override | Zipper | 5,463.6 | 581,847.0 |
+| Single valid override | `JsonNode` | 5,162,050.4 | 10,476,500.0 |
+| 32 valid overrides | Direct recursion | 36,824.4 | 375,257.0 |
+| 32 valid overrides | Iterative explicit stack | 41,520.4 | 379,943.0 |
+| 32 valid overrides | Generic full rewrite | 581,566.0 | 1,487,850.0 |
+| 32 valid overrides | Generic path rewrite | 47,151.6 | 601,299.0 |
+| 32 valid overrides | Zipper | 57,967.6 | 597,131.0 |
+| 32 valid overrides | `JsonNode` | 5,199,372.4 | 9,997,280.0 |
+| Mixed overlay | Direct recursion | 39,272.4 | 120,820.0 |
+| Mixed overlay | Iterative explicit stack | 44,472.4 | 128,013.0 |
+| Mixed overlay | Generic full rewrite | 583,382.0 | 1,221,405.0 |
+| Mixed overlay | Generic path rewrite | 50,919.6 | 344,402.0 |
+| Mixed overlay | Zipper | 62,327.6 | 338,582.0 |
+| Mixed overlay | `JsonNode` | 5,202,818.0 | 9,560,890.0 |
+| Full validation | Direct recursion | 2,496.1 | 332,280.0 |
+| Full validation | Iterative explicit stack | 2,776.1 | 349,500.8 |
+| Full validation | Generic full rewrite | 3,543.6 | 555,051.0 |
+| Full validation | Generic path rewrite | 3,537.5 | 558,985.2 |
+| Full validation | Zipper | 3,537.5 | 549,728.8 |
+| Full validation | `JsonNode` | 4,351,376.8 | 8,044,422.0 |
 
 The allocation rows reproduce across the two runs except small `JsonNode` parse-buffer variance
-(about 31 B/op). Directional timing varies by a few percent.
+(about 33 B/op). Directional timing varies by a few percent. The generic full rewrite's allocation
+rose from the previous run (474,886/483,222/484,990 B) to 573,230/581,566/583,382 B because
+`TreePath` now caches an `Array.AsReadOnly` wrapper per instance and the full rewrite creates a
+`TreePath` for every visited node; the wrapper is the price of not exposing the mutable segment
+array from `TreePath.Segments`. The zipper's mixed-overlay row fell by 120 B because `Zipper.Path`
+no longer copies its owned segment array; the recursive, iterative, and generic-path mixed rows
+moved by 32-48 B from the wrapper and the actual resolution-prefix accounting.
 
 ### Headline
 
-- **Single valid override:** the recursive form is lowest (3,760 B, ~334 &micro;s); the hand
-  iterative is 11% higher (4,184 B, ~352 &micro;s); the generic path is 22% higher than the hand
-  iterative (5,104 B, ~530 &micro;s); the zipper is 31% higher (5,464 B, ~529 &micro;s); the generic
-  full is 113x the hand iterative (474,886 B, ~1.37 ms); `JsonNode` is 1,234x (5.16 MB, ~10.1 ms).
-- **32 valid overrides:** the recursive form is lowest (36,824 B, ~371 &micro;s); the hand iterative
-  is 13% higher (41,520 B, ~384 &micro;s); the generic path is 14% higher than the hand iterative
-  (47,152 B, ~563 &micro;s); the zipper is 40% higher (57,968 B, ~576 &micro;s); the generic full is
-  11.6x (483,222 B, ~1.43 ms); `JsonNode` is 125x (5.20 MB, ~10.1 ms).
-- **Full validation:** the recursive/hand iterative forms allocate 2.5-2.8 KB and take ~330-352
-  &micro;s; the generic path, zipper, and full rewrite allocate 3.5 KB and take ~520 &micro;s;
-  `JsonNode` allocates 4.35 MB and takes ~8.1 ms. Validation dominates the complete operation's
-  time; the apply-side path edit difference is smaller than the validation floor.
+- **Single valid override:** the recursive form is lowest (3,760 B, ~333-337 &micro;s); the hand
+  iterative is 11% higher (4,184 B, ~348-350 &micro;s); the generic path is 22% higher than the hand
+  iterative (5,104 B, ~536-561 &micro;s); the zipper is 31% higher (5,464 B, ~538-582 &micro;s); the
+  generic full is 137x the hand iterative (573,230 B, ~1.38-1.44 ms); `JsonNode` is 1,234x
+  (5.16 MB, ~9.8-10.5 ms).
+- **32 valid overrides:** the recursive form is lowest (36,824 B, ~375-381 &micro;s); the hand
+  iterative is 13% higher (41,520 B, ~380-385 &micro;s); the generic path is 14% higher than the
+  hand iterative (47,152 B, ~567-601 &micro;s); the zipper is 40% higher (57,968 B,
+  ~581-597 &micro;s); the generic full is 14.0x (581,566 B, ~1.45-1.49 ms); `JsonNode` is 125x
+  (5.20 MB, ~10.0 ms).
+- **Full validation:** the recursive/hand iterative forms allocate 2.5-2.8 KB and take
+  ~332-350 &micro;s; the generic path, zipper, and full rewrite allocate 3.5 KB and take
+  ~524-559 &micro;s; `JsonNode` allocates 4.35 MB and takes ~8.0-8.1 ms. Validation dominates the
+  complete operation's time; the apply-side path edit difference is smaller than the validation
+  floor.
 - **The full rewrite's lower rebuild count does not lower its cost:** it rebuilds 112 nodes versus
-  the sequential 184, but its per-node callback, rewritten array, and path object make it 11-113x
+  the sequential 184, but its per-node callback, rewritten array, and path object make it 14-137x
   the hand iterative's allocation and ~4x its time on the complete operation.
 - **The zipper's cursor is not free:** navigation allocates a cursor and frame per step; the single
   and batch rows are 31-40% above the hand iterative, and the 100,000-section path is 2.0x the
-  iterative allocation and 3.2x its time.
+  iterative allocation and 3.3-3.9x its time.
 - **The `JsonNode` alternative is a full-document tool:** a fresh parse, JSON validation, and typed
   conversion copy the whole tree; it is the largest consumer and the highest allocation by three
   orders of magnitude.
@@ -346,9 +359,9 @@ allocation only.
 
 | Consumer | Result | Allocated B run 1 | Time ms run 1 | Allocated B run 2 | Time ms run 2 |
 | --- | --- | ---: | ---: | ---: | ---: |
-| Iterative explicit stack | ok | 18,789,416 | 13.4 | 18,789,416 | 13.6 |
-| Generic path rewrite | ok | 29,021,816 | 32.8 | 29,021,816 | 37.1 |
-| Zipper | ok | 37,821,736 | 45.0 | 37,821,736 | 43.6 |
+| Iterative explicit stack | ok | 18,789,416 | 13.5 | 18,789,416 | 13.3 |
+| Generic path rewrite | ok | 29,021,816 | 38.6 | 29,021,816 | 36.4 |
+| Zipper | ok | 37,821,736 | 52.1 | 37,821,736 | 43.5 |
 
 The iterative form is the cheapest deep path. The generic path pays the `RewriteAt` frame array and
 the traversal validation; the zipper pays a cursor and frame per navigation step plus reconstruction.
@@ -379,21 +392,21 @@ mutable child list is visible through every root that shares it; sharing is not 
 
 | Artifact | Raw lines | Notes |
 | --- | ---: | --- |
-| Prototype | 1,653 | Adapter, path types, iterative traversal, bottom-up/path rewrites, zipper, options, diagnostics; research-only |
+| Prototype | 1,648 | Adapter, path types, iterative traversal, bottom-up/path rewrites, zipper, options, diagnostics; research-only |
 | Adapter | 46 | Children, rebuild, child index, segment, label, identity for `ConfigNode` |
 | Direct recursion | 286 | Recursive resolve, rebuild, and validation; shortest typed consumer, stack-unsafe at depth |
 | Hand-written iterative visitor and rewrite | 359 | Explicit-stack resolve, rebuild, and validation; no adapter or generic core |
-| Generic full rewrite | 239 + 46 adapter = 285 | Full traversal, path lookup per node, union rebuild, traversal validation |
-| Generic path rewrite | 199 + 46 adapter = 245 | Path rewrite per override plus traversal validation |
+| Generic full rewrite | 243 + 46 adapter = 289 | Full traversal, path lookup per node, union rebuild, traversal validation |
+| Generic path rewrite | 205 + 46 adapter = 251 | Path rewrite per override plus traversal validation |
 | Zipper | 226 + 46 adapter = 272 | Navigate, replace, reconstruct, traversal validation |
 | `JsonNode` | 434 | Parse, resolve, edit, validate JSON, convert to typed nodes |
-| Shared workload and verifier | 1,337 | Models, fixtures, rules, canonicalizer, diagnostics, six-consumer verifier; not charged |
-| Tests | 604 | Prototype and consumer semantics plus the shared comparison |
+| Shared workload and verifier | 1,376 | Models, fixtures, rules, canonicalizer, diagnostics, six-consumer verifier; not charged |
+| Tests | 873 | Prototype and consumer semantics plus the shared comparison |
 
-Raw lines include braces and XML comments; this is not a LOC target. The prototype's 1,653 lines
+Raw lines include braces and XML comments; this is not a LOC target. The prototype's 1,648 lines
 are the price of the generic adapter/traversal/rewrite/zipper family; the path rewrite alone is a
 smaller fraction, but it still depends on the adapter and the traversal validation. The generic
-path consumer's 114-line saving versus the hand-written iterative consumer is real per consumer;
+path consumer's 108-line saving versus the hand-written iterative consumer is real per consumer;
 it is not repaid by one application, and the generic form additionally pays the traversal's
 cycle-detection set and the adapter at runtime.
 
@@ -404,8 +417,8 @@ cycle-detection set and the adapter at runtime.
 - Persistent, path-addressed edits to a typed tree with full validation. Resolve each path
   iteratively, edit the leaf, rebuild only the ancestors, and share every sibling by reference.
 - Deep trees. The explicit stack and ancestor loop are stack-safe at 100,000 sections (iterative
-  18.8 MB/13.6 ms; generic path 29.0 MB/37.1 ms; zipper 37.8 MB/43.6 ms). The recursive reference
-  succeeds through 50,000 and exits 134 at 100,000 on this host.
+  18.8 MB/13.3-13.5 ms; generic path 29.0 MB/36.4-38.6 ms; zipper 37.8 MB/43.5-52.1 ms). The
+  recursive reference succeeds through 50,000 and exits 134 at 100,000 on this host.
 - DAG occurrences. A path edit changes one occurrence and leaves the other occurrence sharing the
   original node; the full traversal can optionally deduplicate by an explicit identity comparer.
 - Explicit cycle rejection. An ancestor set turns a cycle into a typed diagnostic; a path-directed
@@ -424,33 +437,35 @@ cycle-detection set and the adapter at runtime.
 remains preferable:**
 
 - Shallow one-off trees. A recursive `with` rewrite is the shortest (286 lines) and fastest form
-  (3,760 B/~334 &micro;s single; 36,824 B/~371 &micro;s batch); the stack risk is irrelevant below
-  the observed depth. The hand iterative form is the stack-safe choice (4,184 B/~352 &micro;s;
-  41,520 B/~384 &micro;s).
+  (3,760 B/~333-337 &micro;s single; 36,824 B/~375-381 &micro;s batch); the stack risk is irrelevant
+  below the observed depth. The hand iterative form is the stack-safe choice (4,184 B/~348-350
+  &micro;s; 41,520 B/~380-385 &micro;s).
 - A single localized edit with no full-tree validation. The path-directed iterative edit is
-  O(depth) (4,184 B/~352 &micro;s single); the generic full rewrite is O(nodes) and allocated
-  474,886 B/~1.37 ms; the generic path rewrite and zipper were 5,104 B/~530 &micro;s and
-  5,464 B/~529 &micro;s.
+  O(depth) (4,184 B/~348-350 &micro;s single); the generic full rewrite is O(nodes) and allocated
+  573,230 B/~1.38-1.44 ms; the generic path rewrite and zipper were 5,104 B/~536-561 &micro;s and
+  5,464 B/~538-582 &micro;s.
 - Whole-tree transformations with no path addressing. A direct recursive `with` rewrite or a
   hand-written visitor is simpler than the adapter, path views, and options. The generic full
   rewrite's lower union rebuild count (112 versus the sequential 184) did not offset its per-node
-  rewritten arrays and path objects: 474,886 B/~1.37 ms single and 483,222 B/~1.43 ms batch.
+  rewritten arrays and path objects: 573,230 B/~1.38-1.44 ms single and 581,566 B/~1.45-1.49 ms
+  batch.
 - JSON documents. `System.Text.Json.Nodes.JsonNode` is the existing .NET tree API; it is convenient
   when the application already owns a mutable JSON document, but a fresh parse and typed conversion
-  copy the whole tree and do not preserve typed-node sharing (5.16 MB/~10.1 ms single; 5.20 MB/
-  ~10.1 ms batch; 4.35 MB/~8.1 ms validation; 434 lines).
+  copy the whole tree and do not preserve typed-node sharing (5.16 MB/~9.8-10.5 ms single; 5.20 MB/
+  ~10.0 ms batch; 4.35 MB/~8.0-8.1 ms validation; 434 lines).
 - Expression trees. `System.Linq.Expressions.ExpressionVisitor` already supplies the generic
   expression-tree rewrite; a configuration adapter to `Expression` is not a fair comparison and a
   replacement adds no capability.
 - Interactive navigation. A zipper is defensible when a caller repeatedly moves around one tree
   and reuses the cursor; for a batch of path edits, the immutable frame chain allocates per step
-  and `ToRoot` rebuilds the path (5,464 B/~529 &micro;s single; 57,968 B/~576 &micro;s batch;
-  37.8 MB/43.6 ms at 100,000 sections), while the path-directed iterative rewrite is smaller and
-  faster (4,184 B/~352 &micro;s; 41,520 B/~384 &micro;s; 18.8 MB/13.6 ms).
+  and `ToRoot` rebuilds the path (5,464 B/~538-582 &micro;s single; 57,968 B/~581-597 &micro;s
+  batch; 37.8 MB/43.5-52.1 ms at 100,000 sections), while the path-directed iterative rewrite is
+  smaller and faster (4,184 B/~348-350 &micro;s; 41,520 B/~380-385 &micro;s; 18.8 MB/13.3-13.5 ms).
 - Applications that already have a competent iterative visitor. The generic adapter, path views,
   and options add a learning and allocation surface without changing the domain algorithm: the
-  generic path rewrite allocated 5,104 B/~530 &micro;s single and 47,152 B/~563 &micro;s batch versus
-  4,184 B/~352 &micro;s and 41,520 B/~384 &micro;s, and the prototype is 1,653 lines.
+  generic path rewrite allocated 5,104 B/~536-561 &micro;s single and 47,152 B/~567-601 &micro;s
+  batch versus 4,184 B/~348-350 &micro;s and 41,520 B/~380-385 &micro;s, and the prototype is 1,648
+  lines.
 
 ## Maintainer Judgment
 
@@ -459,18 +474,18 @@ documented application pattern, not a library type:
 
 - The hand-written iterative consumer is the smallest complete stack-safe solution (359 lines) and
   needs no adapter, generic core, or cycle-detection bookkeeping. The recursive form (286 lines) is
-  shorter and was the lowest allocation/time on shallow trees (3,760 B/~334 &micro;s single;
-  36,824 B/~371 &micro;s batch) but exited 134 at 100,000 sections; the hand-written iterative form
-  is the documented stack-safe pattern (4,184 B/~352 &micro;s single; 41,520 B/~384 &micro;s batch;
-  18.8 MB/13.6 ms at 100,000 sections).
-- The generic path consumer plus adapter (245 lines) saves 114 lines per consumer versus the
-  hand-written iterative form, but the prototype is 1,653 lines and the generic path still pays the
-  adapter and traversal at runtime: 5,104 B/~530 &micro;s versus 4,184 B/~352 &micro;s for a single
-  override and 47,152 B/~563 &micro;s versus 41,520 B/~384 &micro;s for 32. The generic full rewrite
-  (285 lines) visits every node and allocates a rewritten array per node (474,886 B/~1.37 ms single;
-  483,222 B/~1.43 ms batch); the zipper (272 lines) allocates a cursor and frame per navigation step
-  (5,464 B/~529 &micro;s single; 57,968 B/~576 &micro;s batch; 37.8 MB/43.6 ms at 100,000 sections).
-  None repays its core on this workload.
+  shorter and was the lowest allocation/time on shallow trees (3,760 B/~333-337 &micro;s single;
+  36,824 B/~375-381 &micro;s batch) but exited 134 at 100,000 sections; the hand-written iterative
+  form is the documented stack-safe pattern (4,184 B/~348-350 &micro;s single; 41,520 B/~380-385
+  &micro;s batch; 18.8 MB/13.3-13.5 ms at 100,000 sections).
+- The generic path consumer plus adapter (251 lines) saves 108 lines per consumer versus the
+  hand-written iterative form, but the prototype is 1,648 lines and the generic path still pays the
+  adapter and traversal at runtime: 5,104 B/~536-561 &micro;s versus 4,184 B/~348-350 &micro;s for a
+  single override and 47,152 B/~567-601 &micro;s versus 41,520 B/~380-385 &micro;s for 32. The
+  generic full rewrite (289 lines) visits every node and allocates a rewritten array per node
+  (573,230 B/~1.38-1.44 ms single; 581,566 B/~1.45-1.49 ms batch); the zipper (272 lines) allocates
+  a cursor and frame per navigation step (5,464 B/~538-582 &micro;s single; 57,968 B/~581-597
+  &micro;s batch; 37.8 MB/43.5-52.1 ms at 100,000 sections). None repays its core on this workload.
 - The existing .NET `JsonNode` alternative is the largest consumer (434 lines) and copies the whole
   document; it is a JSON-document tool, not a typed persistent-tree mechanism.
 - Structural sharing is a discipline, not a library guarantee: return the original node when the
@@ -544,14 +559,14 @@ Conditions for a later reconsideration:
 
 Final gate results for this working tree:
 
-- `dotnet fsi build.fsx -- -p build`: exit 0; 0 warnings, 0 errors (6:26.73).
-- `dotnet fsi build.fsx -- -p test`: PENDING.
-- `dotnet fsi build.fsx -- -p format`: PENDING.
+- `dotnet fsi build.fsx -- -p build`: exit 0; 0 warnings, 0 errors (0:06.35 incremental).
+- `dotnet fsi build.fsx -- -p test`: exit 0; 2,963 passed, 0 failed, 0 skipped (37.1 s).
+- `dotnet fsi build.fsx -- -p format`: exit 0; C# formatting clean.
 - `dotnet fsi build.fsx -- -p verify-docs-snippets`: PENDING.
 - `dotnet fsi build.fsx -- -p verify-api-baseline`: PENDING.
 - `dotnet run --project examples/FunnySharp.Examples/FunnySharp.Examples.csproj -c Release`: PENDING.
-- Measurement harness, run 1 at 2026-11-08 16:16:46 UTC: exit 0; 765 parity checks; tables above.
-- Measurement harness, run 2 at 2026-11-08 16:17:11 UTC: exit 0; 765 parity checks; tables above.
+- Measurement harness, run 1 at 2026-11-08 18:18:13 UTC: exit 0; 769 parity checks; tables above.
+- Measurement harness, run 2 at 2026-11-08 18:18:29 UTC: exit 0; 769 parity checks; tables above.
 
 Run the harness with:
 

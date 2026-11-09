@@ -1,7 +1,3 @@
-#pragma warning disable FS0017
-
-using FunnySharp;
-
 namespace FunnySharp.TreeTransformations;
 
 /// <summary>

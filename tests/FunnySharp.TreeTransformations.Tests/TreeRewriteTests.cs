@@ -88,21 +88,13 @@ public sealed class TreeRewriteTests
                     return node with { Value = "9" };
                 }
 
-                var changed = false;
-
-                for (var index = 0; index < original.Count; index++)
-                {
-                    if (!ReferenceEquals(original[index], rewritten[index]))
-                    {
-                        changed = true;
-                        break;
-                    }
-                }
-
-                return changed ? ConfigTreeAdapter.Instance.Rebuild(node, rewritten) : node;
+                return AnyRewritten(original, rewritten)
+                    ? ConfigTreeAdapter.Instance.Rebuild(node, rewritten)
+                    : node;
             });
 
         Assert.Equal(8, result.VisitedNodes);
+        Assert.Equal(3, result.MaxDepth);
         Assert.Equal("9", result.Root.Children[1].Children[0].Children[0].Value);
         Assert.Same(small.Children[0], result.Root.Children[0]);
         Assert.Same(small.Children[2], result.Root.Children[2]);
@@ -120,18 +112,9 @@ public sealed class TreeRewriteTests
                 return node with { Value = "2" };
             }
 
-            var changed = false;
-
-            for (var index = 0; index < original.Count; index++)
-            {
-                if (!ReferenceEquals(original[index], rewritten[index]))
-                {
-                    changed = true;
-                    break;
-                }
-            }
-
-            return changed ? ConfigTreeAdapter.Instance.Rebuild(node, rewritten) : node;
+            return AnyRewritten(original, rewritten)
+                ? ConfigTreeAdapter.Instance.Rebuild(node, rewritten)
+                : node;
         }
 
         var treeMode = TreeRewrite.RewriteBottomUp(
@@ -148,6 +131,7 @@ public sealed class TreeRewriteTests
         Assert.Same(dagMode.Root.Children[0].Children[0], dagMode.Root.Children[0].Children[1]);
         Assert.Equal(5, dagMode.VisitedNodes);
         Assert.Equal(1, dagMode.DuplicateVisits);
+        Assert.Equal(3, dagMode.MaxDepth);
     }
 
     [Fact]
@@ -159,7 +143,48 @@ public sealed class TreeRewriteTests
             () => TreeRewrite.RewriteBottomUp(
                 cycle,
                 ConfigTreeAdapter.Instance,
-                (node, original, rewritten, path) => node));
+                (node, original, rewritten, path) => node,
+                new TreeTraversalOptions<ConfigNode> { CyclePolicy = TreeCyclePolicy.Stop }));
+    }
+
+    [Fact]
+    public void CustomIdentityDagRewriteDeduplicates()
+    {
+        var dag = ConfigFixtures.CreateEqualDistinctDag();
+        ConfigNode Rewrite(ConfigNode node, IReadOnlyList<ConfigNode> original, IReadOnlyList<ConfigNode> rewritten)
+        {
+            if (!node.IsSection && node.Name == "value" && node.Value == "1")
+            {
+                return node with { Value = "2" };
+            }
+
+            return AnyRewritten(original, rewritten)
+                ? ConfigTreeAdapter.Instance.Rebuild(node, rewritten)
+                : node;
+        }
+
+        var reference = TreeRewrite.RewriteBottomUp(
+            dag,
+            ConfigTreeAdapter.Instance,
+            (node, original, rewritten, path) => Rewrite(node, original, rewritten));
+        var custom = TreeRewrite.RewriteBottomUp(
+            dag,
+            ConfigTreeAdapter.Instance,
+            (node, original, rewritten, path) => Rewrite(node, original, rewritten),
+            new TreeTraversalOptions<ConfigNode>
+            {
+                Shape = TreeShape.Dag,
+                Identity = EqualityComparer<ConfigNode>.Default,
+            });
+
+        Assert.Equal(6, reference.VisitedNodes);
+        Assert.Equal(0, reference.DuplicateVisits);
+        Assert.Equal(5, custom.VisitedNodes);
+        Assert.Equal(1, custom.DuplicateVisits);
+        Assert.Equal(3, custom.MaxDepth);
+        Assert.Same(
+            custom.Root.Children[0].Children[0].Children[0],
+            custom.Root.Children[0].Children[1].Children[0]);
     }
 
     [Fact]
@@ -175,5 +200,20 @@ public sealed class TreeRewriteTests
             () => TreeRewrite.RewriteAt(small, ConfigTreeAdapter.Instance, null!, node => node));
         Assert.Throws<ArgumentNullException>(
             () => TreeRewrite.RewriteAt(small, ConfigTreeAdapter.Instance, TreePath.Root, (Func<ConfigNode, ConfigNode>)null!));
+    }
+
+    private static bool AnyRewritten(
+        IReadOnlyList<ConfigNode> original,
+        IReadOnlyList<ConfigNode> rewritten)
+    {
+        for (var index = 0; index < original.Count; index++)
+        {
+            if (!ReferenceEquals(original[index], rewritten[index]))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

@@ -46,10 +46,10 @@ internal sealed class GenericFullConfigEditor : IConfigEditor
             }
 
             var resolved = TreeRewrite.Resolve(_base, ConfigTreeAdapter.Instance, item.Path);
-            _visited += item.Path.Count + 1;
 
             if (resolved.TryGetError(out var editError))
             {
+                _visited += ConfigResolution.Visited(item.Path, editError.Location);
                 errors.Add(ConfigErrors.Path(item, editError.Kind, editError.Location));
                 _errors++;
                 continue;
@@ -59,6 +59,8 @@ internal sealed class GenericFullConfigEditor : IConfigEditor
             {
                 throw new InvalidOperationException("Resolve returned neither a node nor an error.");
             }
+
+            _visited += ConfigResolution.Visited(item.Path);
 
             if (resolvedNode.Node.IsSection)
             {
@@ -104,10 +106,10 @@ internal sealed class GenericFullConfigEditor : IConfigEditor
             }
 
             var resolved = TreeRewrite.Resolve(_base, ConfigTreeAdapter.Instance, item.Path);
-            _visited += item.Path.Count + 1;
 
             if (resolved.TryGetError(out var editError))
             {
+                _visited += ConfigResolution.Visited(item.Path, editError.Location);
                 _errors++;
                 return Result<ConfigNode, ConfigError>.Failure(
                     ConfigErrors.Path(item, editError.Kind, editError.Location));
@@ -117,6 +119,8 @@ internal sealed class GenericFullConfigEditor : IConfigEditor
             {
                 throw new InvalidOperationException("Resolve returned neither a node nor an error.");
             }
+
+            _visited += ConfigResolution.Visited(item.Path);
 
             if (resolvedNode.Node.IsSection)
             {

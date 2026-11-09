@@ -88,13 +88,17 @@ public sealed class ConfigEditorTests
     [Fact]
     public void JsonNodeRoundTripsEscapedValues()
     {
-        var baseTree = ConfigNode.Section("root", ConfigNode.Leaf("note", "a\"b\\c"));
+        var baseTree = ConfigNode.Section(
+            "root",
+            ConfigNode.Leaf("note", "a\"b\\c"),
+            ConfigNode.Leaf("target", "1"));
         var editor = new JsonNodeConfigEditor(baseTree);
-        var item = new ConfigOverride("note", TreePath.Parse("note"), "next");
+        var item = new ConfigOverride("target", TreePath.Parse("target"), "2");
         var result = editor.Apply(new[] { item });
 
         Assert.True(result.TryGetValue(out var actualTree));
-        Assert.Equal("next", actualTree!.Children[0].Value);
+        Assert.Equal("a\"b\\c", actualTree!.Children[0].Value);
+        Assert.Equal("2", actualTree.Children[1].Value);
         Assert.True(editor.Validate().TryGetValue(out _));
     }
 

@@ -66,12 +66,15 @@ public sealed class TreeTraversalTests
                 ConfigTreeAdapter.Instance,
                 (node, depth, path) => TreeVisitDecision.Continue,
                 new TreeTraversalOptions<ConfigNode> { MaxNodes = 0 }));
-        Assert.Throws<TreeTraversalLimitException>(
+        var limit = Assert.Throws<TreeTraversalLimitException>(
             () => TreeTraversal.Traverse(
                 small,
                 ConfigTreeAdapter.Instance,
                 (node, depth, path) => TreeVisitDecision.Continue,
                 new TreeTraversalOptions<ConfigNode> { MaxNodes = 3 }));
+
+        Assert.Equal(3, limit.Limit);
+        Assert.Equal("items[0]", limit.Location.ToString());
     }
 
     [Fact]
@@ -94,15 +97,39 @@ public sealed class TreeTraversalTests
     }
 
     [Fact]
+    public void PostOrderStopsAfterChildrenAndReportsDepth()
+    {
+        var small = ConfigFixtures.CreateSmall();
+        var names = new List<string>();
+        var result = TreeTraversal.Traverse(
+            small,
+            ConfigTreeAdapter.Instance,
+            (node, depth, path) =>
+            {
+                names.Add(node.Name);
+                return node.Name == "first" ? TreeVisitDecision.Stop : TreeVisitDecision.Continue;
+            },
+            new TreeTraversalOptions<ConfigNode> { Order = TreeVisitOrder.PostOrder });
+
+        Assert.Equal(new[] { "a", "x", "first" }, names);
+        Assert.True(result.Stopped);
+        Assert.False(result.CycleDetected);
+        Assert.Equal(3, result.VisitedNodes);
+        Assert.Equal(3, result.MaxDepth);
+    }
+
+    [Fact]
     public void CycleThrowsOrStops()
     {
         var (cycle, _) = ConfigFixtures.CreateCycle();
 
-        Assert.Throws<TreeCycleException>(
+        var cycleError = Assert.Throws<TreeCycleException>(
             () => TreeTraversal.Traverse(
                 cycle,
                 ConfigTreeAdapter.Instance,
                 (node, depth, path) => TreeVisitDecision.Continue));
+
+        Assert.Equal("root", cycleError.Location.ToString());
 
         var stopped = TreeTraversal.Traverse(
             cycle,

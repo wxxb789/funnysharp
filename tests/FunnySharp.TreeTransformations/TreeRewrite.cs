@@ -1,7 +1,5 @@
 #pragma warning disable FS0017
 
-using FunnySharp;
-
 namespace FunnySharp.TreeTransformations;
 
 /// <summary>
@@ -75,13 +73,6 @@ public static class TreeRewrite
                 {
                     duplicateVisits++;
                     Pop(ref stackCount, stack, ref pathLength);
-
-                    if (stackCount == 0)
-                    {
-                        rootResult = existing;
-                        break;
-                    }
-
                     Deliver(ref stack, stackCount, existing);
                     continue;
                 }
@@ -326,18 +317,25 @@ public static class TreeRewrite
             static (kind, location) => PathError(kind, location));
     }
 
-    private static TreeEditError PathError(TreePath path, int failingIndex, TreePathSegment segment) =>
-        PathError(
+    private static TreeEditError PathError(TreePath path, int failingIndex, TreePathSegment segment)
+    {
+        var location = Location.Root;
+
+        for (var index = 0; index <= failingIndex; index++)
+        {
+            location = path[index].AppendTo(location);
+        }
+
+        return new(
             segment.Kind == TreePathSegmentKind.Name
                 ? TreeEditErrorKind.PathNotFound
                 : TreeEditErrorKind.IndexOutOfRange,
-            LocationAt(path, failingIndex));
+            location,
+            $"The path segment at '{location}' did not resolve.");
+    }
 
     private static TreeEditError PathError(TreeEditErrorKind kind, Location location) =>
         new(kind, location, $"The path segment at '{location}' did not resolve.");
-
-    private static Location LocationAt(TreePath path, int failingIndex) =>
-        TreePath.FromSegments(path.Segments.Take(failingIndex + 1)).ToLocation();
 
     private static TNode Finish<TNode>(
         TNode node,

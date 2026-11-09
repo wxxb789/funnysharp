@@ -211,8 +211,6 @@ internal static class ConfigFixtures
         return (root, leaf);
     }
 
-    internal static ConfigOverride CreateCycleOverride() => Override("value", "2");
-
     internal static (ConfigNode Root, ConfigNode Shared, List<ConfigNode> MutableChildren) CreateMutableShared()
     {
         var mutableChildren = new List<ConfigNode> { ConfigNode.Leaf("value", "1") };

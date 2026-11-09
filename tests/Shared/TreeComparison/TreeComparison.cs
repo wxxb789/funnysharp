@@ -120,7 +120,12 @@ internal static class TreeComparison
                 adapter,
                 (node, depth, path) => TreeVisitDecision.Continue,
                 new TreeTraversalOptions<ConfigNode> { MaxNodes = 3 }),
-            "node limit");
+            "node limit",
+            static exception =>
+            {
+                Check(exception.Limit == 3, "node limit bound");
+                Check(exception.Location.ToString() == "items[0]", "node limit location");
+            });
 
         var dag = ConfigFixtures.CreateDag();
         var treeVisit = TreeTraversal.Traverse(dag, adapter, (node, depth, path) => TreeVisitDecision.Continue);
@@ -461,8 +466,8 @@ internal static class TreeComparison
 
         AssertStats(editors[0], 3_275, 189, 2_448, 33, 4, "mixed");
         AssertStats(editors[1], 3_275, 189, 2_448, 33, 4, "mixed");
-        AssertStats(editors[2], 6_353, 114, 359, 33, 4, "mixed");
-        AssertStats(editors[3], 3_263, 189, 2_448, 33, 4, "mixed");
+        AssertStats(editors[2], 6_349, 114, 359, 33, 4, "mixed");
+        AssertStats(editors[3], 3_275, 189, 2_448, 33, 4, "mixed");
         AssertStats(editors[4], 3_275, 189, 2_448, 33, 4, "mixed");
         AssertStats(editors[5], 3_275, 3_074, 0, 33, 4, "mixed");
     }
@@ -552,7 +557,8 @@ internal static class TreeComparison
         var adapter = ConfigTreeAdapter.Instance;
         CheckThrows<TreeCycleException>(
             () => TreeTraversal.Traverse(cycle, adapter, (node, depth, path) => TreeVisitDecision.Continue),
-            "cycle throws");
+            "cycle throws",
+            static exception => Check(exception.Location.ToString() == "root", "cycle location"));
         var stopped = TreeTraversal.Traverse(
             cycle,
             adapter,
@@ -565,7 +571,8 @@ internal static class TreeComparison
                 cycle,
                 adapter,
                 (node, original, rewritten, path) => node),
-            "cycle rewrite throws");
+            "cycle rewrite throws",
+            static exception => Check(exception.Location.ToString() == "root", "cycle rewrite location"));
 
         var edit = TreeRewrite.RewriteAt(cycle, adapter, TreePath.Parse("value"), node => node with { Value = "2" });
         Check(edit.TryGetValue(out var rewrite), "cycle finite path edit");
@@ -746,15 +753,19 @@ internal static class TreeComparison
         Check(actual == expected, $"{description} {editor.Name} stats {actual} expected {expected}");
     }
 
-    private static void CheckThrows<TException>(Action action, string description)
+    private static void CheckThrows<TException>(
+        Action action,
+        string description,
+        Action<TException>? assert = null)
         where TException : Exception
     {
         try
         {
             action();
         }
-        catch (TException)
+        catch (TException exception)
         {
+            assert?.Invoke(exception);
             Check(true, description);
             return;
         }

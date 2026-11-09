@@ -1,5 +1,3 @@
-using FunnySharp;
-
 namespace FunnySharp.TreeTransformations;
 
 /// <summary>

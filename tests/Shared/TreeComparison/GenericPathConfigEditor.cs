@@ -54,6 +54,9 @@ internal sealed class GenericPathConfigEditor : IConfigEditor
 
             if (result.TryGetError(out var error))
             {
+                _visited += error.Kind is ConfigErrorKind.PathNotFound or ConfigErrorKind.IndexOutOfRange
+                    ? ConfigResolution.Visited(item.Path, error.Location)
+                    : ConfigResolution.Visited(item.Path);
                 errors.Add(error);
                 _errors++;
                 continue;
@@ -102,6 +105,9 @@ internal sealed class GenericPathConfigEditor : IConfigEditor
 
             if (result.TryGetError(out var error))
             {
+                _visited += error.Kind is ConfigErrorKind.PathNotFound or ConfigErrorKind.IndexOutOfRange
+                    ? ConfigResolution.Visited(item.Path, error.Location)
+                    : ConfigResolution.Visited(item.Path);
                 _errors++;
                 return Result<ConfigNode, ConfigError>.Failure(error);
             }

@@ -17,8 +17,13 @@ namespace FunnySharp.TreeTransformations;
 public sealed class TreePath : IEquatable<TreePath>
 {
     private readonly TreePathSegment[] _segments;
+    private readonly IReadOnlyList<TreePathSegment> _segmentsView;
 
-    private TreePath(TreePathSegment[] segments) => _segments = segments;
+    private TreePath(TreePathSegment[] segments)
+    {
+        _segments = segments;
+        _segmentsView = Array.AsReadOnly(segments);
+    }
 
     /// <summary>Gets the empty path that addresses the root.</summary>
     public static TreePath Root { get; } = new([]);
@@ -32,7 +37,7 @@ public sealed class TreePath : IEquatable<TreePath>
     public TreePathSegment this[int index] => _segments[index];
 
     /// <summary>Gets the segments in root-to-leaf order.</summary>
-    public IReadOnlyList<TreePathSegment> Segments => _segments;
+    public IReadOnlyList<TreePathSegment> Segments => _segmentsView;
 
     /// <summary>Creates a path from segments, copying the sequence.</summary>
     /// <param name="segments">The non-null segment sequence.</param>

@@ -1,7 +1,5 @@
 #pragma warning disable FS0017
 
-using FunnySharp;
-
 namespace FunnySharp.TreeTransformations;
 
 /// <summary>
@@ -56,7 +54,7 @@ public sealed class Zipper<TNode>
                 frame = frame.Previous;
             }
 
-            return TreePath.FromSegments(segments);
+            return TreePath.FromOwnedSegments(segments);
         }
     }
 
@@ -189,14 +187,7 @@ public sealed class Zipper<TNode>
             }
             else
             {
-                var newChildren = new TNode[frame.Children.Count];
-
-                for (var index = 0; index < newChildren.Length; index++)
-                {
-                    newChildren[index] = frame.Children[index];
-                }
-
-                newChildren[frame.Index] = current;
+                var newChildren = ReplaceChild(frame.Children, frame.Index, current);
                 shared += frame.Children.Count - 1;
                 current = _adapter.Rebuild(frame.Parent, newChildren);
                 rebuilt++;
@@ -249,17 +240,24 @@ public sealed class Zipper<TNode>
             return (frame.Parent, frame.Children);
         }
 
-        var newChildren = new TNode[frame.Children.Count];
-
-        for (var index = 0; index < newChildren.Length; index++)
-        {
-            newChildren[index] = frame.Children[index];
-        }
-
-        newChildren[frame.Index] = _current;
+        var newChildren = ReplaceChild(frame.Children, frame.Index, _current);
         var parent = _adapter.Rebuild(frame.Parent, newChildren);
 
         return (parent, _adapter.Children(parent));
+    }
+
+    private static TNode[] ReplaceChild(IReadOnlyList<TNode> children, int index, TNode value)
+    {
+        var newChildren = new TNode[children.Count];
+
+        for (var childIndex = 0; childIndex < newChildren.Length; childIndex++)
+        {
+            newChildren[childIndex] = children[childIndex];
+        }
+
+        newChildren[index] = value;
+
+        return newChildren;
     }
 
     private sealed class Frame
