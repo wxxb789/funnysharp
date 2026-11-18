@@ -21,6 +21,6 @@ Default-branch merge rules require only `tooling-gate`, bound to GitHub Actions,
 with strict up-to-date checks and zero bypass actors. Verify the remote ruleset;
 local YAML edits do not change branch protection.
 
-Manual release contexts `release / win-x64`, `release / linux-x64`,
-`release / osx-arm64`, and `release / osx-x64-consumer` must pass for release
-acceptance. They are not required checks for ordinary PR merges.
+Manual release contexts `release / win-x64`, `release / linux-x64`, and
+`release / osx-arm64` must pass for release acceptance. They are not required
+checks for ordinary PR merges.

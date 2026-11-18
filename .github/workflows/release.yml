@@ -144,7 +144,7 @@ jobs:
   osx-arm64:
     name: release / osx-arm64
     needs: win-x64
-    runs-on: macos-14
+    runs-on: macos-26
     timeout-minutes: 35
     steps:
       - name: Checkout
@@ -201,59 +201,10 @@ jobs:
           if-no-files-found: error
           retention-days: 7
 
-  osx-x64-consumer:
-    name: release / osx-x64-consumer
-    needs: win-x64
-    runs-on: macos-15-intel
-    timeout-minutes: 20
-    steps:
-      - name: Checkout
-        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
-        with:
-          ref: ${{ env.CANDIDATE_SHA }}
-
-      - name: Setup .NET
-        uses: actions/setup-dotnet@67a3573c9a986a3f9c594539f4ab511d57bb3ce9 # v4
-        with:
-          global-json-file: global.json
-
-      - name: Record runtime provenance
-        shell: bash
-        run: |
-          dotnet --info
-          printf 'CANDIDATE_SHA=%s\nRUNNER_OS=%s\nRUNNER_ARCH=%s\nIMAGE_OS=%s\nIMAGE_VERSION=%s\n' "$CANDIDATE_SHA" "$RUNNER_OS" "$RUNNER_ARCH" "${ImageOS:-}" "${ImageVersion:-}"
-
-
-      - name: Download canonical candidate
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
-        with:
-          artifact-ids: ${{ needs.win-x64.outputs.candidate-artifact || 'missing' }}
-          merge-multiple: true
-          path: artifacts/canonical-win
-
-      - name: Run bounded canonical-package smoke
-        shell: bash
-        run: >
-          dotnet fsi build.fsx -- -p compatibility
-          -PackageDirectory artifacts/canonical-win/packages
-          -OutputDirectory artifacts/canonical-consumer/osx-x64
-          -RuntimeIdentifier osx-x64
-          -PackageFeed "$COMPATIBILITY_FEED"
-          -Scenario CoreSmoke,AspNetCoreSmoke
-
-      - name: Upload macOS x64 evidence
-        if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
-        with:
-          name: release-evidence-osx-x64-${{ github.run_id }}-${{ github.run_attempt }}
-          path: artifacts/canonical-consumer/osx-x64
-          if-no-files-found: error
-          retention-days: 7
-
   publish-nuget:
     name: release / publish-nuget
     if: ${{ inputs.publish && github.ref == 'refs/heads/main' }}
-    needs: [win-x64, linux-x64, osx-arm64, osx-x64-consumer]
+    needs: [win-x64, linux-x64, osx-arm64]
     runs-on: ubuntu-latest
     timeout-minutes: 10
     environment: nuget

@@ -360,9 +360,8 @@ analysis, and compile-verified call sites are in [`next-stage/`](next-stage/).
 ## Package And Dependency Boundary
 
 - `FunnySharp` and `FunnySharp.AspNetCore` are the two shipping packages and target `net10.0`.
-- The required release matrix treats Windows x64, Linux x64, and macOS arm64 as full supported
-  hosts. Intel macOS is a required bounded package-consumer smoke. Every required host consumes the
-  exact canonical package hashes produced by the Windows full job.
+- The required release matrix covers Windows x64, Linux x64, and macOS arm64.
+  Linux and macOS consume the canonical packages produced by the Windows job.
 - Release evidence records the exact SDK, runtime, operating system, architecture, RID, workflow
   revision, package hashes, and loaded assembly hashes. Passing one host does not imply another.
 - `src/FunnySharp/FunnySharp.csproj` has no `PackageReference`. Its runtime surface is limited to
@@ -463,8 +462,8 @@ before and after the attempt, and retains command results and logs in a new atte
 An isolated NuGet cache prevents stale package consumption. Actual builds, tests, API and snippet
 checks, package consumers and allocation budgets establish correctness; custom file fingerprints
 and independent evidence replay are not release requirements. Manual release acceptance
-requires four passing contexts: `release / win-x64`, `release / linux-x64`,
-`release / osx-arm64`, and `release / osx-x64-consumer`. Ordinary PR merges require
+requires three passing contexts: `release / win-x64`, `release / linux-x64`, and
+`release / osx-arm64`. Ordinary PR merges require
 the automatic `tooling-gate` instead; passing it does not imply release acceptance.
 
 The evidence must also show that:

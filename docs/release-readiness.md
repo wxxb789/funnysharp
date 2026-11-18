@@ -45,10 +45,9 @@ The manually dispatched release workflow reports these contexts:
 
 - `release / win-x64`: build, tests, examples and canonical packages.
 - `release / linux-x64`: source/platform checks and canonical package consumption.
-- `release / osx-arm64`: source/platform checks and canonical package consumption.
-- `release / osx-x64-consumer`: bounded canonical-package smoke on Intel macOS.
+- `release / osx-arm64`: source/platform checks and canonical package consumption on `macos-26`.
 
-These contexts run only on manual dispatch. All four must pass for release
+These contexts run only on manual dispatch. All three must pass for release
 acceptance; a failed or missing manual release check blocks release, not an
 ordinary PR merge. Cross-platform consumers use the downloaded canonical packages
 directly; no custom package or loaded-DLL checksum comparison is needed.
@@ -85,7 +84,7 @@ Select the package owner and a scope allowing the intended operation for both
 store a NuGet API key in GitHub.
 
 Dispatch `release` on `main` with `publish` enabled. The default is gate-only.
-After all four platform jobs pass, `release / publish-nuget` requests a temporary
+After all three platform jobs pass, `release / publish-nuget` requests a temporary
 credential and pushes the canonical packages in dependency order. Verify both
 exact versions on NuGet.org and restore the ASP.NET Core package from the public
 feed in a clean consumer to confirm that its core dependency resolves.
