@@ -45,6 +45,9 @@ The original Goal 24 audit and its missing historical evidence remain preserved.
   underscore assignments, and recognize conservatively proven completed, single-use ValueTasks.
 - Reconciliation OpenAPI now declares the existing typed 500 problem outcome. Slice verification
   uses an attempt-local NuGet configuration for its isolated consumer restores.
+- Typed ASP.NET Core result mappers preserve the methods that `Results<T1, T2>` needs for
+  endpoint metadata discovery in trimmed apps. Generic wrappers in trimmed apps must pass
+  through the same public and non-public method preservation requirements.
 - Current grammar preserves lazy value-producing `Recover` and partial `Lens`/`Optional`
   composition. Fresh final-candidate performance, compatibility, and release evidence must be
   verified independently; prior numeric observations are not proof for changed shipping bytes.

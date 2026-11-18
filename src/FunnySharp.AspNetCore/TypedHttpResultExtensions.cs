@@ -1,4 +1,5 @@
 using FunnySharp;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 
@@ -16,6 +17,10 @@ namespace FunnySharp.AspNetCore;
 /// </remarks>
 public static class TypedHttpResultExtensions
 {
+    // Results<T1, T2> uses reflection to populate endpoint metadata for both result types.
+    private const DynamicallyAccessedMemberTypes ResultMetadataMethods =
+        DynamicallyAccessedMemberTypes.PublicMethods | DynamicallyAccessedMemberTypes.NonPublicMethods;
+
     /// <summary>
     /// Maps an option to a typed <see cref="Ok{TValue}"/> or a caller-selected absence result.
     /// </summary>
@@ -27,7 +32,9 @@ public static class TypedHttpResultExtensions
     /// <exception cref="ArgumentNullException"><paramref name="none"/> is null.</exception>
     /// <exception cref="InvalidOperationException">The selected mapper returns null.</exception>
     /// <remarks>Only the selected outcome mapper runs; mapper exceptions propagate unchanged.</remarks>
-    public static Results<Ok<T>, TNone> ToHttpResults<T, TNone>(
+    public static Results<Ok<T>, TNone> ToHttpResults<
+        T,
+        [DynamicallyAccessedMembers(ResultMetadataMethods)] TNone>(
         this Option<T> option,
         Func<TNone> none)
         where TNone : IResult
@@ -49,7 +56,10 @@ public static class TypedHttpResultExtensions
     /// <exception cref="ArgumentNullException"><paramref name="none"/> or <paramref name="some"/> is null.</exception>
     /// <exception cref="InvalidOperationException">The selected mapper returns null.</exception>
     /// <remarks>Only the selected outcome mapper runs; mapper exceptions propagate unchanged.</remarks>
-    public static Results<TSome, TNone> ToHttpResults<T, TSome, TNone>(
+    public static Results<TSome, TNone> ToHttpResults<
+        T,
+        [DynamicallyAccessedMembers(ResultMetadataMethods)] TSome,
+        [DynamicallyAccessedMembers(ResultMetadataMethods)] TNone>(
         this Option<T> option,
         Func<TNone> none,
         Func<T, TSome> some)
@@ -73,7 +83,10 @@ public static class TypedHttpResultExtensions
     /// <exception cref="ArgumentNullException"><paramref name="failure"/> is null.</exception>
     /// <exception cref="InvalidOperationException">The selected mapper returns null, or the outcome is uninitialized.</exception>
     /// <remarks>Only the selected outcome mapper runs; mapper exceptions propagate unchanged.</remarks>
-    public static Results<Ok<TValue>, TFailure> ToHttpResults<TValue, TError, TFailure>(
+    public static Results<Ok<TValue>, TFailure> ToHttpResults<
+        TValue,
+        TError,
+        [DynamicallyAccessedMembers(ResultMetadataMethods)] TFailure>(
         this Result<TValue, TError> result,
         Func<TError, TFailure> failure)
         where TFailure : IResult
@@ -96,7 +109,11 @@ public static class TypedHttpResultExtensions
     /// <exception cref="ArgumentNullException"><paramref name="failure"/> or <paramref name="success"/> is null.</exception>
     /// <exception cref="InvalidOperationException">The selected mapper returns null, or the outcome is uninitialized.</exception>
     /// <remarks>Only the selected outcome mapper runs; mapper exceptions propagate unchanged.</remarks>
-    public static Results<TSuccess, TFailure> ToHttpResults<TValue, TError, TSuccess, TFailure>(
+    public static Results<TSuccess, TFailure> ToHttpResults<
+        TValue,
+        TError,
+        [DynamicallyAccessedMembers(ResultMetadataMethods)] TSuccess,
+        [DynamicallyAccessedMembers(ResultMetadataMethods)] TFailure>(
         this Result<TValue, TError> result,
         Func<TError, TFailure> failure,
         Func<TValue, TSuccess> success)
@@ -120,7 +137,10 @@ public static class TypedHttpResultExtensions
     /// <exception cref="ArgumentNullException"><paramref name="invalid"/> is null.</exception>
     /// <exception cref="InvalidOperationException">The selected mapper returns null, or the outcome is uninitialized.</exception>
     /// <remarks>Only the selected outcome mapper runs; mapper exceptions propagate unchanged.</remarks>
-    public static Results<Ok<TValue>, TInvalid> ToHttpResults<TValue, TError, TInvalid>(
+    public static Results<Ok<TValue>, TInvalid> ToHttpResults<
+        TValue,
+        TError,
+        [DynamicallyAccessedMembers(ResultMetadataMethods)] TInvalid>(
         this Validation<TValue, TError> validation,
         Func<IReadOnlyList<TError>, TInvalid> invalid)
         where TInvalid : IResult
@@ -143,7 +163,11 @@ public static class TypedHttpResultExtensions
     /// <exception cref="ArgumentNullException"><paramref name="invalid"/> or <paramref name="valid"/> is null.</exception>
     /// <exception cref="InvalidOperationException">The selected mapper returns null, or the outcome is uninitialized.</exception>
     /// <remarks>Only the selected outcome mapper runs; mapper exceptions propagate unchanged.</remarks>
-    public static Results<TValid, TInvalid> ToHttpResults<TValue, TError, TValid, TInvalid>(
+    public static Results<TValid, TInvalid> ToHttpResults<
+        TValue,
+        TError,
+        [DynamicallyAccessedMembers(ResultMetadataMethods)] TValid,
+        [DynamicallyAccessedMembers(ResultMetadataMethods)] TInvalid>(
         this Validation<TValue, TError> validation,
         Func<IReadOnlyList<TError>, TInvalid> invalid,
         Func<TValue, TValid> valid)
@@ -166,7 +190,9 @@ public static class TypedHttpResultExtensions
     /// <exception cref="ArgumentNullException"><paramref name="failure"/> is null.</exception>
     /// <exception cref="InvalidOperationException">The selected mapper returns null, or the outcome is uninitialized.</exception>
     /// <remarks>Only the selected outcome mapper runs; mapper exceptions propagate unchanged.</remarks>
-    public static Results<NoContent, TFailure> ToHttpResults<TError, TFailure>(
+    public static Results<NoContent, TFailure> ToHttpResults<
+        TError,
+        [DynamicallyAccessedMembers(ResultMetadataMethods)] TFailure>(
         this UnitResult<TError> result,
         Func<TError, TFailure> failure)
         where TFailure : IResult
@@ -188,7 +214,10 @@ public static class TypedHttpResultExtensions
     /// <exception cref="ArgumentNullException"><paramref name="failure"/> or <paramref name="success"/> is null.</exception>
     /// <exception cref="InvalidOperationException">The selected mapper returns null, or the outcome is uninitialized.</exception>
     /// <remarks>Only the selected outcome mapper runs; mapper exceptions propagate unchanged.</remarks>
-    public static Results<TSuccess, TFailure> ToHttpResults<TError, TSuccess, TFailure>(
+    public static Results<TSuccess, TFailure> ToHttpResults<
+        TError,
+        [DynamicallyAccessedMembers(ResultMetadataMethods)] TSuccess,
+        [DynamicallyAccessedMembers(ResultMetadataMethods)] TFailure>(
         this UnitResult<TError> result,
         Func<TError, TFailure> failure,
         Func<TSuccess> success)
@@ -214,7 +243,9 @@ public static class TypedHttpResultExtensions
     /// The input is awaited once; faults and cancellation propagate unchanged, and only the selected
     /// outcome mapper runs.
     /// </remarks>
-    public static Task<Results<Ok<T>, TNone>> ToHttpResultsAsync<T, TNone>(
+    public static Task<Results<Ok<T>, TNone>> ToHttpResultsAsync<
+        T,
+        [DynamicallyAccessedMembers(ResultMetadataMethods)] TNone>(
         this Task<Option<T>> option,
         Func<TNone> none)
         where TNone : IResult
@@ -240,7 +271,10 @@ public static class TypedHttpResultExtensions
     /// The input is awaited once; faults and cancellation propagate unchanged, and only the selected
     /// outcome mapper runs.
     /// </remarks>
-    public static Task<Results<TSome, TNone>> ToHttpResultsAsync<T, TSome, TNone>(
+    public static Task<Results<TSome, TNone>> ToHttpResultsAsync<
+        T,
+        [DynamicallyAccessedMembers(ResultMetadataMethods)] TSome,
+        [DynamicallyAccessedMembers(ResultMetadataMethods)] TNone>(
         this Task<Option<T>> option,
         Func<TNone> none,
         Func<T, TSome> some)
@@ -268,7 +302,10 @@ public static class TypedHttpResultExtensions
     /// The input is awaited once; faults and cancellation propagate unchanged, and only the selected
     /// outcome mapper runs.
     /// </remarks>
-    public static Task<Results<Ok<TValue>, TFailure>> ToHttpResultsAsync<TValue, TError, TFailure>(
+    public static Task<Results<Ok<TValue>, TFailure>> ToHttpResultsAsync<
+        TValue,
+        TError,
+        [DynamicallyAccessedMembers(ResultMetadataMethods)] TFailure>(
         this Task<Result<TValue, TError>> result,
         Func<TError, TFailure> failure)
         where TFailure : IResult
@@ -295,7 +332,11 @@ public static class TypedHttpResultExtensions
     /// The input is awaited once; faults and cancellation propagate unchanged, and only the selected
     /// outcome mapper runs.
     /// </remarks>
-    public static Task<Results<TSuccess, TFailure>> ToHttpResultsAsync<TValue, TError, TSuccess, TFailure>(
+    public static Task<Results<TSuccess, TFailure>> ToHttpResultsAsync<
+        TValue,
+        TError,
+        [DynamicallyAccessedMembers(ResultMetadataMethods)] TSuccess,
+        [DynamicallyAccessedMembers(ResultMetadataMethods)] TFailure>(
         this Task<Result<TValue, TError>> result,
         Func<TError, TFailure> failure,
         Func<TValue, TSuccess> success)
@@ -323,7 +364,10 @@ public static class TypedHttpResultExtensions
     /// The input is awaited once; faults and cancellation propagate unchanged, and only the selected
     /// outcome mapper runs.
     /// </remarks>
-    public static Task<Results<Ok<TValue>, TInvalid>> ToHttpResultsAsync<TValue, TError, TInvalid>(
+    public static Task<Results<Ok<TValue>, TInvalid>> ToHttpResultsAsync<
+        TValue,
+        TError,
+        [DynamicallyAccessedMembers(ResultMetadataMethods)] TInvalid>(
         this Task<Validation<TValue, TError>> validation,
         Func<IReadOnlyList<TError>, TInvalid> invalid)
         where TInvalid : IResult
@@ -350,7 +394,11 @@ public static class TypedHttpResultExtensions
     /// The input is awaited once; faults and cancellation propagate unchanged, and only the selected
     /// outcome mapper runs.
     /// </remarks>
-    public static Task<Results<TValid, TInvalid>> ToHttpResultsAsync<TValue, TError, TValid, TInvalid>(
+    public static Task<Results<TValid, TInvalid>> ToHttpResultsAsync<
+        TValue,
+        TError,
+        [DynamicallyAccessedMembers(ResultMetadataMethods)] TValid,
+        [DynamicallyAccessedMembers(ResultMetadataMethods)] TInvalid>(
         this Task<Validation<TValue, TError>> validation,
         Func<IReadOnlyList<TError>, TInvalid> invalid,
         Func<TValue, TValid> valid)
@@ -377,7 +425,9 @@ public static class TypedHttpResultExtensions
     /// The input is awaited once; faults and cancellation propagate unchanged, and only the selected
     /// outcome mapper runs.
     /// </remarks>
-    public static Task<Results<NoContent, TFailure>> ToHttpResultsAsync<TError, TFailure>(
+    public static Task<Results<NoContent, TFailure>> ToHttpResultsAsync<
+        TError,
+        [DynamicallyAccessedMembers(ResultMetadataMethods)] TFailure>(
         this Task<UnitResult<TError>> result,
         Func<TError, TFailure> failure)
         where TFailure : IResult
@@ -403,7 +453,10 @@ public static class TypedHttpResultExtensions
     /// The input is awaited once; faults and cancellation propagate unchanged, and only the selected
     /// outcome mapper runs.
     /// </remarks>
-    public static Task<Results<TSuccess, TFailure>> ToHttpResultsAsync<TError, TSuccess, TFailure>(
+    public static Task<Results<TSuccess, TFailure>> ToHttpResultsAsync<
+        TError,
+        [DynamicallyAccessedMembers(ResultMetadataMethods)] TSuccess,
+        [DynamicallyAccessedMembers(ResultMetadataMethods)] TFailure>(
         this Task<UnitResult<TError>> result,
         Func<TError, TFailure> failure,
         Func<TSuccess> success)
@@ -430,7 +483,9 @@ public static class TypedHttpResultExtensions
     /// The input is awaited once; faults and cancellation propagate unchanged, and only the selected
     /// outcome mapper runs.
     /// </remarks>
-    public static ValueTask<Results<Ok<T>, TNone>> ToHttpResultsAsync<T, TNone>(
+    public static ValueTask<Results<Ok<T>, TNone>> ToHttpResultsAsync<
+        T,
+        [DynamicallyAccessedMembers(ResultMetadataMethods)] TNone>(
         this ValueTask<Option<T>> option,
         Func<TNone> none)
         where TNone : IResult
@@ -455,7 +510,10 @@ public static class TypedHttpResultExtensions
     /// The input is awaited once; faults and cancellation propagate unchanged, and only the selected
     /// outcome mapper runs.
     /// </remarks>
-    public static ValueTask<Results<TSome, TNone>> ToHttpResultsAsync<T, TSome, TNone>(
+    public static ValueTask<Results<TSome, TNone>> ToHttpResultsAsync<
+        T,
+        [DynamicallyAccessedMembers(ResultMetadataMethods)] TSome,
+        [DynamicallyAccessedMembers(ResultMetadataMethods)] TNone>(
         this ValueTask<Option<T>> option,
         Func<TNone> none,
         Func<T, TSome> some)
@@ -482,7 +540,10 @@ public static class TypedHttpResultExtensions
     /// The input is awaited once; faults and cancellation propagate unchanged, and only the selected
     /// outcome mapper runs.
     /// </remarks>
-    public static ValueTask<Results<Ok<TValue>, TFailure>> ToHttpResultsAsync<TValue, TError, TFailure>(
+    public static ValueTask<Results<Ok<TValue>, TFailure>> ToHttpResultsAsync<
+        TValue,
+        TError,
+        [DynamicallyAccessedMembers(ResultMetadataMethods)] TFailure>(
         this ValueTask<Result<TValue, TError>> result,
         Func<TError, TFailure> failure)
         where TFailure : IResult
@@ -508,7 +569,11 @@ public static class TypedHttpResultExtensions
     /// The input is awaited once; faults and cancellation propagate unchanged, and only the selected
     /// outcome mapper runs.
     /// </remarks>
-    public static ValueTask<Results<TSuccess, TFailure>> ToHttpResultsAsync<TValue, TError, TSuccess, TFailure>(
+    public static ValueTask<Results<TSuccess, TFailure>> ToHttpResultsAsync<
+        TValue,
+        TError,
+        [DynamicallyAccessedMembers(ResultMetadataMethods)] TSuccess,
+        [DynamicallyAccessedMembers(ResultMetadataMethods)] TFailure>(
         this ValueTask<Result<TValue, TError>> result,
         Func<TError, TFailure> failure,
         Func<TValue, TSuccess> success)
@@ -535,7 +600,10 @@ public static class TypedHttpResultExtensions
     /// The input is awaited once; faults and cancellation propagate unchanged, and only the selected
     /// outcome mapper runs.
     /// </remarks>
-    public static ValueTask<Results<Ok<TValue>, TInvalid>> ToHttpResultsAsync<TValue, TError, TInvalid>(
+    public static ValueTask<Results<Ok<TValue>, TInvalid>> ToHttpResultsAsync<
+        TValue,
+        TError,
+        [DynamicallyAccessedMembers(ResultMetadataMethods)] TInvalid>(
         this ValueTask<Validation<TValue, TError>> validation,
         Func<IReadOnlyList<TError>, TInvalid> invalid)
         where TInvalid : IResult
@@ -561,7 +629,11 @@ public static class TypedHttpResultExtensions
     /// The input is awaited once; faults and cancellation propagate unchanged, and only the selected
     /// outcome mapper runs.
     /// </remarks>
-    public static ValueTask<Results<TValid, TInvalid>> ToHttpResultsAsync<TValue, TError, TValid, TInvalid>(
+    public static ValueTask<Results<TValid, TInvalid>> ToHttpResultsAsync<
+        TValue,
+        TError,
+        [DynamicallyAccessedMembers(ResultMetadataMethods)] TValid,
+        [DynamicallyAccessedMembers(ResultMetadataMethods)] TInvalid>(
         this ValueTask<Validation<TValue, TError>> validation,
         Func<IReadOnlyList<TError>, TInvalid> invalid,
         Func<TValue, TValid> valid)
@@ -587,7 +659,9 @@ public static class TypedHttpResultExtensions
     /// The input is awaited once; faults and cancellation propagate unchanged, and only the selected
     /// outcome mapper runs.
     /// </remarks>
-    public static ValueTask<Results<NoContent, TFailure>> ToHttpResultsAsync<TError, TFailure>(
+    public static ValueTask<Results<NoContent, TFailure>> ToHttpResultsAsync<
+        TError,
+        [DynamicallyAccessedMembers(ResultMetadataMethods)] TFailure>(
         this ValueTask<UnitResult<TError>> result,
         Func<TError, TFailure> failure)
         where TFailure : IResult
@@ -612,7 +686,10 @@ public static class TypedHttpResultExtensions
     /// The input is awaited once; faults and cancellation propagate unchanged, and only the selected
     /// outcome mapper runs.
     /// </remarks>
-    public static ValueTask<Results<TSuccess, TFailure>> ToHttpResultsAsync<TError, TSuccess, TFailure>(
+    public static ValueTask<Results<TSuccess, TFailure>> ToHttpResultsAsync<
+        TError,
+        [DynamicallyAccessedMembers(ResultMetadataMethods)] TSuccess,
+        [DynamicallyAccessedMembers(ResultMetadataMethods)] TFailure>(
         this ValueTask<UnitResult<TError>> result,
         Func<TError, TFailure> failure,
         Func<TSuccess> success)
@@ -624,7 +701,10 @@ public static class TypedHttpResultExtensions
         return ToHttpResultsAsyncCore(result, failure, success);
     }
 
-    private static Results<TSome, TNone> ToHttpResultsCore<T, TSome, TNone>(
+    private static Results<TSome, TNone> ToHttpResultsCore<
+        T,
+        [DynamicallyAccessedMembers(ResultMetadataMethods)] TSome,
+        [DynamicallyAccessedMembers(ResultMetadataMethods)] TNone>(
         Option<T> option,
         Func<TNone> none,
         Func<T, TSome> some)
@@ -639,7 +719,11 @@ public static class TypedHttpResultExtensions
         return RequireResult(none());
     }
 
-    private static Results<TSuccess, TFailure> ToHttpResultsCore<TValue, TError, TSuccess, TFailure>(
+    private static Results<TSuccess, TFailure> ToHttpResultsCore<
+        TValue,
+        TError,
+        [DynamicallyAccessedMembers(ResultMetadataMethods)] TSuccess,
+        [DynamicallyAccessedMembers(ResultMetadataMethods)] TFailure>(
         Result<TValue, TError> result,
         Func<TError, TFailure> failure,
         Func<TValue, TSuccess> success)
@@ -655,7 +739,11 @@ public static class TypedHttpResultExtensions
         return RequireResult(failure(error!));
     }
 
-    private static Results<TValid, TInvalid> ToHttpResultsCore<TValue, TError, TValid, TInvalid>(
+    private static Results<TValid, TInvalid> ToHttpResultsCore<
+        TValue,
+        TError,
+        [DynamicallyAccessedMembers(ResultMetadataMethods)] TValid,
+        [DynamicallyAccessedMembers(ResultMetadataMethods)] TInvalid>(
         Validation<TValue, TError> validation,
         Func<IReadOnlyList<TError>, TInvalid> invalid,
         Func<TValue, TValid> valid)
@@ -671,7 +759,10 @@ public static class TypedHttpResultExtensions
         return RequireResult(invalid(errors!));
     }
 
-    private static Results<TSuccess, TFailure> ToHttpResultsCore<TError, TSuccess, TFailure>(
+    private static Results<TSuccess, TFailure> ToHttpResultsCore<
+        TError,
+        [DynamicallyAccessedMembers(ResultMetadataMethods)] TSuccess,
+        [DynamicallyAccessedMembers(ResultMetadataMethods)] TFailure>(
         UnitResult<TError> result,
         Func<TError, TFailure> failure,
         Func<TSuccess> success)
@@ -686,7 +777,10 @@ public static class TypedHttpResultExtensions
         return RequireResult(success());
     }
 
-    private static async Task<Results<TSome, TNone>> ToHttpResultsAsyncCore<T, TSome, TNone>(
+    private static async Task<Results<TSome, TNone>> ToHttpResultsAsyncCore<
+        T,
+        [DynamicallyAccessedMembers(ResultMetadataMethods)] TSome,
+        [DynamicallyAccessedMembers(ResultMetadataMethods)] TNone>(
         Task<Option<T>> option,
         Func<TNone> none,
         Func<T, TSome> some)
@@ -694,7 +788,11 @@ public static class TypedHttpResultExtensions
         where TNone : IResult =>
         ToHttpResultsCore(await option.ConfigureAwait(false), none, some);
 
-    private static async Task<Results<TSuccess, TFailure>> ToHttpResultsAsyncCore<TValue, TError, TSuccess, TFailure>(
+    private static async Task<Results<TSuccess, TFailure>> ToHttpResultsAsyncCore<
+        TValue,
+        TError,
+        [DynamicallyAccessedMembers(ResultMetadataMethods)] TSuccess,
+        [DynamicallyAccessedMembers(ResultMetadataMethods)] TFailure>(
         Task<Result<TValue, TError>> result,
         Func<TError, TFailure> failure,
         Func<TValue, TSuccess> success)
@@ -702,7 +800,11 @@ public static class TypedHttpResultExtensions
         where TFailure : IResult =>
         ToHttpResultsCore(await result.ConfigureAwait(false), failure, success);
 
-    private static async Task<Results<TValid, TInvalid>> ToHttpResultsAsyncCore<TValue, TError, TValid, TInvalid>(
+    private static async Task<Results<TValid, TInvalid>> ToHttpResultsAsyncCore<
+        TValue,
+        TError,
+        [DynamicallyAccessedMembers(ResultMetadataMethods)] TValid,
+        [DynamicallyAccessedMembers(ResultMetadataMethods)] TInvalid>(
         Task<Validation<TValue, TError>> validation,
         Func<IReadOnlyList<TError>, TInvalid> invalid,
         Func<TValue, TValid> valid)
@@ -710,7 +812,10 @@ public static class TypedHttpResultExtensions
         where TInvalid : IResult =>
         ToHttpResultsCore(await validation.ConfigureAwait(false), invalid, valid);
 
-    private static async Task<Results<TSuccess, TFailure>> ToHttpResultsAsyncCore<TError, TSuccess, TFailure>(
+    private static async Task<Results<TSuccess, TFailure>> ToHttpResultsAsyncCore<
+        TError,
+        [DynamicallyAccessedMembers(ResultMetadataMethods)] TSuccess,
+        [DynamicallyAccessedMembers(ResultMetadataMethods)] TFailure>(
         Task<UnitResult<TError>> result,
         Func<TError, TFailure> failure,
         Func<TSuccess> success)
@@ -718,7 +823,10 @@ public static class TypedHttpResultExtensions
         where TFailure : IResult =>
         ToHttpResultsCore(await result.ConfigureAwait(false), failure, success);
 
-    private static async ValueTask<Results<TSome, TNone>> ToHttpResultsAsyncCore<T, TSome, TNone>(
+    private static async ValueTask<Results<TSome, TNone>> ToHttpResultsAsyncCore<
+        T,
+        [DynamicallyAccessedMembers(ResultMetadataMethods)] TSome,
+        [DynamicallyAccessedMembers(ResultMetadataMethods)] TNone>(
         ValueTask<Option<T>> option,
         Func<TNone> none,
         Func<T, TSome> some)
@@ -726,7 +834,11 @@ public static class TypedHttpResultExtensions
         where TNone : IResult =>
         ToHttpResultsCore(await option.ConfigureAwait(false), none, some);
 
-    private static async ValueTask<Results<TSuccess, TFailure>> ToHttpResultsAsyncCore<TValue, TError, TSuccess, TFailure>(
+    private static async ValueTask<Results<TSuccess, TFailure>> ToHttpResultsAsyncCore<
+        TValue,
+        TError,
+        [DynamicallyAccessedMembers(ResultMetadataMethods)] TSuccess,
+        [DynamicallyAccessedMembers(ResultMetadataMethods)] TFailure>(
         ValueTask<Result<TValue, TError>> result,
         Func<TError, TFailure> failure,
         Func<TValue, TSuccess> success)
@@ -734,7 +846,11 @@ public static class TypedHttpResultExtensions
         where TFailure : IResult =>
         ToHttpResultsCore(await result.ConfigureAwait(false), failure, success);
 
-    private static async ValueTask<Results<TValid, TInvalid>> ToHttpResultsAsyncCore<TValue, TError, TValid, TInvalid>(
+    private static async ValueTask<Results<TValid, TInvalid>> ToHttpResultsAsyncCore<
+        TValue,
+        TError,
+        [DynamicallyAccessedMembers(ResultMetadataMethods)] TValid,
+        [DynamicallyAccessedMembers(ResultMetadataMethods)] TInvalid>(
         ValueTask<Validation<TValue, TError>> validation,
         Func<IReadOnlyList<TError>, TInvalid> invalid,
         Func<TValue, TValid> valid)
@@ -742,7 +858,10 @@ public static class TypedHttpResultExtensions
         where TInvalid : IResult =>
         ToHttpResultsCore(await validation.ConfigureAwait(false), invalid, valid);
 
-    private static async ValueTask<Results<TSuccess, TFailure>> ToHttpResultsAsyncCore<TError, TSuccess, TFailure>(
+    private static async ValueTask<Results<TSuccess, TFailure>> ToHttpResultsAsyncCore<
+        TError,
+        [DynamicallyAccessedMembers(ResultMetadataMethods)] TSuccess,
+        [DynamicallyAccessedMembers(ResultMetadataMethods)] TFailure>(
         ValueTask<UnitResult<TError>> result,
         Func<TError, TFailure> failure,
         Func<TSuccess> success)
