@@ -73,3 +73,23 @@ dotnet fsi build.fsx -- -p release -AttemptId local-full-1
 # Consume an existing package set
 dotnet fsi build.fsx -- -p compatibility -PackageDirectory <packages> -OutputDirectory artifacts/compatibility-local -RuntimeIdentifier <rid>
 ```
+
+## Publish to NuGet.org
+
+Configure the GitHub environment `nuget` to allow only the `main` branch and set
+its `NUGET_USER` variable to the NuGet.org profile name, not the email address.
+In [NuGet.org Trusted Publishing](https://learn.microsoft.com/en-us/nuget/nuget-org/trusted-publishing),
+register `wxxb789/funnysharp`, workflow file `release.yml`, and environment `nuget`.
+Select the package owner and a scope allowing the intended operation for both
+`FunnySharp` and `FunnySharp.AspNetCore` (for example, glob `FunnySharp*`). Do not
+store a NuGet API key in GitHub.
+
+Dispatch `release` on `main` with `publish` enabled. The default is gate-only.
+After all four platform jobs pass, `release / publish-nuget` requests a temporary
+credential and pushes the canonical packages in dependency order. Verify both
+exact versions on NuGet.org and restore the ASP.NET Core package from the public
+feed in a clean consumer to confirm that its core dependency resolves.
+
+If a push fails after NuGet.org accepts one of the files, check the registry and
+publish only the missing files from the same run's canonical artifact. Do not
+rebuild that version or rerun the full release after a package has been accepted.
