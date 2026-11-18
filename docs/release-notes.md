@@ -13,7 +13,7 @@ section; the versioning rules and the committed public-API baseline that gate ev
 | SDK | `10.0.400` feature band with same-band patch roll-forward | `global.json` |
 | Runtime | `Microsoft.NETCore.App` 10.0.x and `Microsoft.AspNetCore.App` 10.0.x | release-run environment capture |
 | Package consumers | the packed packages build, run, and publish in consumer projects that reference the `.nupkg` files rather than the projects | `tests/FunnySharp.Compatibility` scenarios through the `compatibility` pipeline |
-| Release-gate platforms | `win-x64`, `linux-x64`, `osx-arm64`, and a bounded `osx-x64` consumer smoke | `.github/workflows/release.yml` contexts |
+| Release-gate platforms | `win-x64`, `linux-x64`, and `osx-arm64` | `.github/workflows/release.yml` contexts |
 | Trimming | supported: both packages declare `IsTrimmable=true` and a full-mode trimmed consumer publish runs clean | `CoreTrimmed` and `AspNetCoreTrimmed` scenarios |
 | Native AOT | a `PublishAot=true` consumer publish runs clean; the packages make no `IsAotCompatible` claim | `CoreNativeAot` and `AspNetCoreNativeAot` scenarios |
 | Dependencies | BCL-first: the core package declares no runtime package dependency and embeds its analyzers as build assets; the ASP.NET Core package depends only on the matching `FunnySharp` package and uses the `Microsoft.AspNetCore.App` shared framework | `.nuspec` inspection of the packed packages |

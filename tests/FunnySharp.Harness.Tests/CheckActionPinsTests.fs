@@ -301,5 +301,5 @@ type ToolingWorkflowStructureTests() =
     member this.WorkflowDoesNotShadowRequiredReleaseContexts() =
         let text = this.ToolingText()
 
-        for jobId in [ "win-x64"; "linux-x64"; "osx-arm64"; "osx-x64-consumer" ] do
+        for jobId in [ "win-x64"; "linux-x64"; "osx-arm64" ] do
             Assert.DoesNotContain("\n  " + jobId + ":\n", text)
