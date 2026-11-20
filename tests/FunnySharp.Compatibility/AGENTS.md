@@ -16,7 +16,7 @@ The `Run-Compatibility.ps1` orchestrator was replaced by `eng/harness/Compatibil
 ## WHERE TO LOOK
 | Task | Location |
 |------|----------|
-| Orchestration, scenarios, safety checks | `eng/harness/Compatibility.fs` via `dotnet fsi build.fsx -- -p compatibility` (CoreTrimmed, CoreNativeAot, AspNetCoreTrimmed, AspNetCoreNativeAot) |
+| Orchestration, scenarios, safety checks | `eng/harness/Compatibility.fs` via `dotnet fsi build.fsx -- -p compatibility` (CoreTrimmed, CoreNativeAot, AspNetCoreTrimmed, AspNetCoreNativeAot and their `Net11` counterparts) |
 | Web-surface asserts | `FunnySharp.Compatibility.AspNetCore/Program.cs` (`AssertStatusAsync`, `ProblemDetails` helpers, source-gen `CompatibilityJsonContext`) |
 
 ## CONVENTIONS

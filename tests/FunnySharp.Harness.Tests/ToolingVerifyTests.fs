@@ -15,7 +15,10 @@ let private greenOutput step root =
         let assemblies =
             testAssemblyRelativePaths
             |> List.map (fun relative ->
-                sprintf "%s (net10.0|x64) passed (1.2s)" (Path.GetFullPath(Path.Combine(root, relative))))
+                let targetFramework =
+                    if relative.Contains("net11.0", StringComparison.Ordinal) then "net11.0" else "net10.0"
+
+                sprintf "%s (%s|x64) passed [+12/x0/?0] (1.2s)" (Path.GetFullPath(Path.Combine(root, relative))) targetFramework)
         String.concat "\n" assemblies
         + "\nTest run summary: Passed!\n  total: 12\n  failed: 0\n  succeeded: 12\n  skipped: 0\n"
     | "examples" -> CoreExampleMarker

@@ -117,12 +117,12 @@ public sealed class TypedHttpResultMetadataTests
 
         var notFound = Produces(host.Application, "/metadata/not-found")
             .Single(static item => item.StatusCode == 404);
-        Assert.Equal(["application/json"], notFound.ContentTypes);
+        Assert.Equal(FrameworkProblemContentTypes.StatusResultMediaTypes, notFound.ContentTypes);
 
         var unprocessable = Produces(host.Application, "/metadata/unprocessable")
             .Single(static item => item.StatusCode == 422);
         Assert.Equal(typeof(HttpValidationProblemDetails), unprocessable.Type);
-        Assert.Equal(["application/json"], unprocessable.ContentTypes);
+        Assert.Equal(FrameworkProblemContentTypes.StatusResultMediaTypes, unprocessable.ContentTypes);
     }
 
     [Fact]

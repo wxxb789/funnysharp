@@ -1,5 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <!-- Clear the repository-wide single-target default so the shipping package multi-targets
+         both supported runtime lanes. -->
+    <TargetFramework></TargetFramework>
+    <TargetFrameworks>net10.0;net11.0</TargetFrameworks>
     <IsPackable>true</IsPackable>
     <PackageId>FunnySharp.AspNetCore</PackageId>
     <VersionPrefix>0.2.0</VersionPrefix>
@@ -25,9 +29,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <!-- Pin the SDK's implicit trim-tasks reference so locked restores evaluate identically on
+    <!-- Pin each lane's implicit trim-tasks reference so locked restores evaluate identically on
          every SDK patch; the implicit floor otherwise follows the runner's installed SDK. -->
-    <PackageReference Include="Microsoft.NET.ILLink.Tasks" Version="10.0.12" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.NET.ILLink.Tasks" Version="10.0.12" Condition="'$(TargetFramework)' == 'net10.0'" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.NET.ILLink.Tasks" Version="11.0.0" Condition="'$(TargetFramework)' == 'net11.0'" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup>

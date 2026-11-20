@@ -263,10 +263,7 @@ let private versionKey (name: string) : VersionPart list =
     flushText ()
     List.ofSeq parts
 
-let private fileNameOf (path: string) : string =
-    match Path.GetFileName path with
-    | null -> path
-    | name -> name
+let private fileNameOf (path: string) : string = Path.GetFileName path
 
 let private newestVersionDir (parent: string) : string option =
     if not (Directory.Exists parent) then

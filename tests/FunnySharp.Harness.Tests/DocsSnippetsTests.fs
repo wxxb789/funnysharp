@@ -40,9 +40,7 @@ let private stageFixtureTree (root: string) : FixtureTree =
     for source in
         Directory.GetFiles(Path.Combine(repo, samplesDirectory), "*.cs")
         |> Array.sort do
-        match Path.GetFileName source with
-        | null -> ()
-        | name -> File.Copy(source, Path.Combine(samples, name))
+        File.Copy(source, Path.Combine(samples, Path.GetFileName source))
 
     // A region under a build directory must be excluded from the scan: if it
     // were picked up, every otherwise-valid fixture tree would fail with an

@@ -168,10 +168,7 @@ let private versionShape = Regex @"^\d+\.\d+\.\d+[A-Za-z0-9.\-+]*$"
 
 let private sortedPackages (feed: string) : string list =
     Directory.GetFiles(feed, "*.nupkg")
-    |> Array.map (fun path ->
-        match Path.GetFileName path with
-        | null -> path
-        | name -> name)
+    |> Array.map Path.GetFileName
     |> Array.sortWith (fun left right -> String.CompareOrdinal(left, right))
     |> List.ofArray
 
@@ -371,9 +368,7 @@ let private parseArgs (argv: string list) : Result<CliOptions, string> =
 
 let private jsonOptions = JsonSerializerOptions(WriteIndented = true)
 
-let private jstr (value: string) : JsonValue =
-    Option.ofObj (JsonValue.Create value)
-    |> Option.defaultWith (fun () -> failwith "JsonValue.Create returned null for a string")
+let private jstr (value: string) : JsonValue = JsonValue.Create value
 
 let private jint (value: int) : JsonValue = JsonValue.Create value
 

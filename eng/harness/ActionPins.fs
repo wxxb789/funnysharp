@@ -256,15 +256,9 @@ let private checkToolingPins
     List.ofSeq findings
 
 /// The file name of a path, with the repository-relative fallback for a null result.
-let private fileNameOf (path: string) : string =
-    match Path.GetFileName path with
-    | null -> path
-    | name -> name
+let private fileNameOf (path: string) : string = Path.GetFileName path
 
-let private extensionOf (path: string) : string =
-    match Path.GetExtension path with
-    | null -> ""
-    | extension -> extension
+let private extensionOf (path: string) : string = Path.GetExtension path
 
 /// The workflow files to scan, sorted by name.
 let private workflowFiles (workflowsDirectory: string) : string list =

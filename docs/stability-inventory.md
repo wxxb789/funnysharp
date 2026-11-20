@@ -88,7 +88,7 @@ Deferred capabilities stay absent from the stable surface: a general retry/backo
 (G8), `Memoize`/async-buffer carriers and k-way async merge, completion-order coordination
 beyond the recorded constrained form, library-synthesized response declarations from runtime
 `ProblemDetails.Status`, System.Text.Json converters, schema/introspection on `Decoder<T>` itself, `Either` as a non-error carrier, Option
-comparers/ordering, awaitable `Option<Task<T>>` sugar, and `net11.0` targeting. A public
+comparers/ordering, awaitable `Option<Task<T>>` sugar. A public
 `Unit` type is rejected, not deferred (G17). The absence of these named carriers and operators
 from the public surface is enforced by `AdvancedPatternCurationTests`; caller-selected
 typed-result mapping is present by design.

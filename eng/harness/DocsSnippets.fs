@@ -147,10 +147,7 @@ let private commonIndent (content: string list) : int =
 
 let private iterSourceFiles (samplesRoot: string) : string list =
     Directory.EnumerateFiles(samplesRoot, "*", SearchOption.AllDirectories)
-    |> Seq.filter (fun path ->
-        match Path.GetFileName path with
-        | null -> false
-        | name -> name.EndsWith(".cs", StringComparison.Ordinal))
+    |> Seq.filter (fun path -> Path.GetFileName(path).EndsWith(".cs", StringComparison.Ordinal))
     |> Seq.filter (fun path -> not (buildDirectoryPattern.IsMatch path))
     |> Seq.filter File.Exists
     |> Seq.sortWith (fun left right -> String.CompareOrdinal(left, right))

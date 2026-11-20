@@ -359,7 +359,8 @@ analysis, and compile-verified call sites are in [`next-stage/`](next-stage/).
 
 ## Package And Dependency Boundary
 
-- `FunnySharp` and `FunnySharp.AspNetCore` are the two shipping packages and target `net10.0`.
+- `FunnySharp` and `FunnySharp.AspNetCore` are the two shipping packages and target `net10.0`
+  and `net11.0`, with matching per-lane package assets.
 - The required release matrix covers Windows x64, Linux x64, and macOS arm64.
   Linux and macOS consume the canonical packages produced by the Windows job.
 - Release evidence records the exact SDK, runtime, operating system, architecture, RID, workflow
@@ -387,9 +388,9 @@ analysis, and compile-verified call sites are in [`next-stage/`](next-stage/).
 
 - Public APIs require a later goal with usage, behavior, and verification evidence; no
   speculative feature API is added.
-- General discriminated unions remain out of scope. FunnySharp stays on `net10.0` until .NET 11
-  is generally available and its language/runtime contracts are stable; preview targeting does
-  not count as supported release evidence.
+- General discriminated unions remain out of scope. Once .NET 11 was generally available with
+  stable language and runtime contracts, the runtime-support goal added `net11.0` targeting
+  alongside `net10.0`; preview targeting still does not count as supported release evidence.
 - A later goal may reconsider native C# unions only after the .NET 11 SDK and runtime are generally
   available, the language and metadata contracts are stable, and representative FunnySharp usage
   can be compared with the focused `Option`, `Result`, `UnitResult`, and `Validation` types.
@@ -406,7 +407,7 @@ analysis, and compile-verified call sites are in [`next-stage/`](next-stage/).
   System.Text.Json converters,
   schema/introspection on `Decoder<T>` itself,
   `Either` as a non-error carrier, Option comparers/ordering, awaitable
-  `Option<Task<T>>` sugar, and `net11.0` targeting. The non-empty guarantee
+  `Option<Task<T>>` sugar. The non-empty guarantee
   (`NonEmpty<T>`) and exact-versus-truncating zip (`ZipExact`/`ZipExactOrNone`) left this
   list when Goal 17 adopted them as stable after proving their safety value (decision E72's
   adoption condition); the current tier assignment of every capability is the
@@ -427,14 +428,16 @@ analysis, and compile-verified call sites are in [`next-stage/`](next-stage/).
 - `IsTrimmable` and `IsAotCompatible` are package claims, not warning switches. Both shipping
   projects set `IsTrimmable` because full-root trim analysis and representative execution pass.
   They do not set `IsAotCompatible` for the limitation below.
-- Full-assembly Native AOT rooting is not a supported claim for this release. With the .NET 10.0.11
-  compiler, rooting every member of the open generic `Option`, `Result`, and `Validation` surfaces
-  causes artificial, recursively nested `ValueTuple` instantiations that the compiler cannot
-  materialize. Representative closed generic consumers are still published and executed, but the
-  packages do not set `IsAotCompatible` until a future toolchain can analyze the complete surface or
-  the API changes under a separately accepted goal.
+- Full-assembly Native AOT rooting is not a supported claim for this release. Rooting every
+  member of the open generic `Option`, `Result`, and `Validation` surfaces causes artificial,
+  recursively nested `ValueTuple` instantiations that the compiler cannot materialize; that limit
+  was recorded with the .NET 10.0.11 compiler and is not re-characterized here. Representative
+  closed generic consumers are still published and executed on both lanes, but the packages do
+  not set `IsAotCompatible` until a future toolchain can analyze the complete surface or the API
+  changes under a separately accepted goal.
 - Compatibility evidence is specific to the recorded SDK, runtime patch, RID, and package hashes.
-  The required Windows, Linux, and macOS jobs are independent gates; unexercised architectures,
+  The required Windows, Linux, and macOS jobs are independent gates, and each job covers both
+  supported target framework lanes; unexercised architectures,
   later runtimes, and unexercised ASP.NET Core features are not implied by a passing result.
 
 Platform references used for this policy:
@@ -472,8 +475,8 @@ The evidence must also show that:
 - the executable examples compile in the release build and run successfully as usage evidence;
 - packing produces `FunnySharp.0.1.0.nupkg`, `FunnySharp.0.1.0.snupkg`,
   `FunnySharp.AspNetCore.0.1.0.nupkg`, and `FunnySharp.AspNetCore.0.1.0.snupkg`;
-- each package contains a `lib/net10.0` assembly and the repository README;
-- the `FunnySharp` package dependency group for `net10.0` is empty;
-- the `FunnySharp.AspNetCore` package has only a `FunnySharp` dependency plus the
-  `Microsoft.AspNetCore.App` framework reference; and
+- each package contains usable `lib/net10.0` and `lib/net11.0` assemblies and the repository README;
+- every `FunnySharp` dependency group is empty in both lanes;
+- every `FunnySharp.AspNetCore` dependency group has only the matching `FunnySharp` dependency,
+  and each lane's framework reference group declares only `Microsoft.AspNetCore.App`; and
 - exactly `FunnySharp` and `FunnySharp.AspNetCore` projects are packable.

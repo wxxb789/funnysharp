@@ -9,6 +9,7 @@ open System.Collections.Generic
 open System.Globalization
 open System.IO
 open System.Reflection
+open System.Runtime.Loader
 open System.Text
 open System.Text.RegularExpressions
 open FunnySharp.Harness.Repo
@@ -153,13 +154,19 @@ let getPublicApiText (assemblyPaths: string list) (root: string) : string list =
         @ [ getSharedFrameworkDirectory "Microsoft.AspNetCore.App" root ]
         |> List.distinct
 
-    let resolver =
-        ResolveEventHandler(fun _ eventArgs ->
-            let requested = eventArgs.Name
+    let lines = ResizeArray<string>()
 
-            if String.IsNullOrEmpty requested then
-                Unchecked.defaultof<Assembly>
-            else
+    for assemblyPath in
+        List.sortWith (fun left right -> StringComparer.OrdinalIgnoreCase.Compare(left, right)) assemblyPaths do
+        // One collectible context per assembly: the two lanes carry the same assembly identity,
+        // and a single load context cannot hold two copies of it.
+        let loadContext =
+            new AssemblyLoadContext("api-baseline-" + Guid.NewGuid().ToString("N"), isCollectible = true)
+
+        loadContext.add_Resolving(fun _ eventArgs ->
+            match eventArgs.Name with
+            | null -> Unchecked.defaultof<Assembly>
+            | requested ->
                 let simpleName =
                     match AssemblyName(requested).Name with
                     | null -> ""
@@ -172,20 +179,16 @@ let getPublicApiText (assemblyPaths: string list) (root: string) : string list =
                         let candidate = Path.Combine(directory, simpleName + ".dll")
 
                         if simpleName <> "" && File.Exists candidate then
-                            Assembly.LoadFrom candidate
+                            loadContext.LoadFromAssemblyPath candidate
                         else
                             tryDirectories rest
 
                 tryDirectories searchDirectories)
 
-    AppDomain.CurrentDomain.add_AssemblyResolve resolver
-
-    try
-        let lines = ResizeArray<string>()
-
-        for assemblyPath in
-            List.sortWith (fun left right -> StringComparer.OrdinalIgnoreCase.Compare(left, right)) assemblyPaths do
-            let assembly = Assembly.LoadFrom assemblyPath
+        try
+            // LoadFromStream leaves no file lock, so callers may rewrite the assembly bytes later.
+            use assemblyStream = File.OpenRead assemblyPath
+            let assembly = loadContext.LoadFromStream assemblyStream
 
             let types =
                 assembly.GetExportedTypes()
@@ -307,10 +310,10 @@ let getPublicApiText (assemblyPaths: string list) (root: string) : string list =
                       "EVENT", events ] do
                     for memberText in members do
                         lines.Add("  " + memberKind + " " + memberText)
+        finally
+            loadContext.Unload()
 
-        List.ofSeq lines
-    finally
-        AppDomain.CurrentDomain.remove_AssemblyResolve resolver
+    List.ofSeq lines
 
 /// The directory, relative to the repository root, that holds the committed baselines.
 [<Literal>]
@@ -324,15 +327,16 @@ let baselineDirectory (repositoryRoot: string) : string =
 let baselineFileName (repositoryRoot: string) (assemblySimpleName: string) : string =
     Path.Combine(baselineDirectory repositoryRoot, assemblySimpleName + ".public-api.txt")
 
-/// The two shipping assemblies: (simpleName, absolute path) for FunnySharp and
-/// FunnySharp.AspNetCore at src/<name>/bin/Release/net10.0/<name>.dll, in that
-/// fixed order.
+/// The shipping assemblies: (simpleName, absolute path) for FunnySharp and
+/// FunnySharp.AspNetCore at src/<name>/bin/Release/<tfm>/<name>.dll, in package order
+/// then lane order. Both lanes are checked against the same committed baseline.
 let shippingAssemblies (repositoryRoot: string) : (string * string) list =
-    let assemblyPath (name: string) : string =
-        Path.Combine(repositoryRoot, sprintf "src/%s/bin/Release/net10.0/%s.dll" name name)
+    let assemblyPath (name: string) (targetFramework: string) : string =
+        Path.Combine(repositoryRoot, sprintf "src/%s/bin/Release/%s/%s.dll" name targetFramework name)
 
-    [ "FunnySharp", assemblyPath "FunnySharp"
-      "FunnySharp.AspNetCore", assemblyPath "FunnySharp.AspNetCore" ]
+    [ for name in [ "FunnySharp"; "FunnySharp.AspNetCore" ] do
+          for targetFramework in [ "net10.0"; "net11.0" ] do
+              yield name, assemblyPath name targetFramework ]
 
 /// Lines present in one rendering but not the other, rendered as "- <line>"
 /// (expected only) and "+ <line>" (actual only), in the order the lines appear.

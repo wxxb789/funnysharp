@@ -4,6 +4,9 @@
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+    <!-- Clear the repository-wide single-target default: the ASP.NET Core suite runs on both lanes. -->
+    <TargetFramework></TargetFramework>
+    <TargetFrameworks>net10.0;net11.0</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>

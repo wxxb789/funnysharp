@@ -33,7 +33,7 @@ public sealed class TypedHttpResultExtensionsTests
             new Payload("some", 1),
             await some.Content.ReadFromJsonAsync<Payload>(TestContext.Current.CancellationToken));
         Assert.Equal(HttpStatusCode.NotFound, none.StatusCode);
-        Assert.Equal("application/json", none.Content.Headers.ContentType?.MediaType);
+        Assert.Equal(FrameworkProblemContentTypes.StatusResultMediaType, none.Content.Headers.ContentType?.MediaType);
         using var noneProblem = await ReadProblemAsync(none);
         Assert.Equal(
             "option-absent",
@@ -85,7 +85,7 @@ public sealed class TypedHttpResultExtensionsTests
             new Payload("result", 3),
             await success.Content.ReadFromJsonAsync<Payload>(TestContext.Current.CancellationToken));
         Assert.Equal(HttpStatusCode.NotFound, failure.StatusCode);
-        Assert.Equal("application/json", failure.Content.Headers.ContentType?.MediaType);
+        Assert.Equal(FrameworkProblemContentTypes.StatusResultMediaType, failure.Content.Headers.ContentType?.MediaType);
         using var failureProblem = await ReadProblemAsync(failure);
         Assert.Equal("missing", failureProblem.RootElement.GetProperty("detail").GetString());
     }

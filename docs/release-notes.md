@@ -9,13 +9,13 @@ section; the versioning rules and the committed public-API baseline that gate ev
 
 | Item | Statement | Verified by |
 | --- | --- | --- |
-| Target framework | `net10.0` only; `net11.0` waits for general availability | `Directory.Build.props`, `global.json` |
-| SDK | `10.0.400` feature band with same-band patch roll-forward | `global.json` |
-| Runtime | `Microsoft.NETCore.App` 10.0.x and `Microsoft.AspNetCore.App` 10.0.x | release-run environment capture |
-| Package consumers | the packed packages build, run, and publish in consumer projects that reference the `.nupkg` files rather than the projects | `tests/FunnySharp.Compatibility` scenarios through the `compatibility` pipeline |
+| Target framework | `net10.0` and `net11.0`, with matching package assets for each lane | `src/FunnySharp/FunnySharp.csproj`, `src/FunnySharp.AspNetCore/FunnySharp.AspNetCore.csproj`, `global.json` |
+| SDK | `11.0.100` feature band with same-band patch roll-forward | `global.json` |
+| Runtime | `Microsoft.NETCore.App` and `Microsoft.AspNetCore.App` 10.0.x and 11.0.x | release-run compatibility evidence (`compatibility-results.json`) |
+| Package consumers | the packed packages build, run, and publish in consumer projects that reference the `.nupkg` files rather than the projects, for both lanes | `tests/FunnySharp.Compatibility` scenarios through the `compatibility` pipeline |
 | Release-gate platforms | `win-x64`, `linux-x64`, and `osx-arm64` | `.github/workflows/release.yml` contexts |
-| Trimming | supported: both packages declare `IsTrimmable=true` and a full-mode trimmed consumer publish runs clean | `CoreTrimmed` and `AspNetCoreTrimmed` scenarios |
-| Native AOT | a `PublishAot=true` consumer publish runs clean; the packages make no `IsAotCompatible` claim | `CoreNativeAot` and `AspNetCoreNativeAot` scenarios |
+| Trimming | supported on both lanes: both packages declare `IsTrimmable=true` and a full-mode trimmed consumer publish runs clean | `CoreTrimmed`, `CoreTrimmedNet11`, `AspNetCoreTrimmed`, and `AspNetCoreTrimmedNet11` scenarios |
+| Native AOT | a `PublishAot=true` consumer publish runs clean on both lanes; the packages make no `IsAotCompatible` claim | `CoreNativeAot`, `CoreNativeAotNet11`, `AspNetCoreNativeAot`, and `AspNetCoreNativeAotNet11` scenarios |
 | Dependencies | BCL-first: the core package declares no runtime package dependency and embeds its analyzers as build assets; the ASP.NET Core package depends only on the matching `FunnySharp` package and uses the `Microsoft.AspNetCore.App` shared framework | `.nuspec` inspection of the packed packages |
 
 ## 0.2.0 (preview candidate)
@@ -94,5 +94,5 @@ performance-relevant.
 
 Deliberately absent from `0.1.0`, and unchanged by it: general discriminated unions, a second
 absence carrier, a `Where` member on carriers, a retry/backoff policy layer, System.Text.Json
-converters, typed-results/OpenAPI APIs, `net11.0` targeting, and any competitor compatibility
+converters, typed-results/OpenAPI APIs, and any competitor compatibility
 surface. See the [product contract](product-contract.md) for the source of each boundary.

@@ -429,10 +429,7 @@ type VerticalSliceToolTests() =
         Assert.Equal<Set<string>>(
             expectedProjects,
             restores
-            |> List.map (fun command ->
-                match Path.GetFileNameWithoutExtension command.[2] with
-                | null -> failwith "restore project path has no file name"
-                | name -> name)
+            |> List.map (fun command -> Path.GetFileNameWithoutExtension command.[2])
             |> Set.ofList
         )
 

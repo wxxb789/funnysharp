@@ -1,6 +1,7 @@
 # Quick Start
 
-FunnySharp is a pragmatic, BCL-first functional programming library for `net10.0`. It builds
+FunnySharp is a pragmatic, BCL-first functional programming library for `net10.0` and
+`net11.0`. It builds
 `Option`, `Result`, `UnitResult`, and `Validation` on ordinary C# values, delegates, `Task`,
 `ValueTask`, cancellation, and the standard collection types instead of introducing a runtime, a
 dependency-injection container, or a parallel type hierarchy. This page introduces each surface in

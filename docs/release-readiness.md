@@ -12,8 +12,8 @@ checksums of evidence files. This checklist makes no candidate-specific PASS cla
 - [ ] Release build succeeds with warnings treated as errors.
 - [ ] Product and harness tests pass; no tests are silently skipped.
 - [ ] Both examples, formatting, documentation snippets, and public API baseline pass.
-- [ ] Package layout/dependencies and package-only consumers pass, including
-  matching-host trimming and Native AOT scenarios.
+- [ ] Package layout/dependencies and package-only consumers pass on both supported target
+  framework lanes, including matching-host trimming and Native AOT scenarios.
 
 ## Performance
 
@@ -43,9 +43,9 @@ pins. It does not run product tests, package consumers, trimming or Native AOT.
 
 The manually dispatched release workflow reports these contexts:
 
-- `release / win-x64`: build, tests, examples and canonical packages.
-- `release / linux-x64`: source/platform checks and canonical package consumption.
-- `release / osx-arm64`: source/platform checks and canonical package consumption on `macos-26`.
+- `release / win-x64`: build, tests, examples and canonical packages for `net10.0` and `net11.0`.
+- `release / linux-x64`: source/platform checks and canonical package consumption for both lanes.
+- `release / osx-arm64`: source/platform checks and canonical package consumption for both lanes on `macos-26`.
 
 These contexts run only on manual dispatch. All three must pass for release
 acceptance; a failed or missing manual release check blocks release, not an

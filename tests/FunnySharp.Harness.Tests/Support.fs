@@ -51,10 +51,7 @@ let writeUvPin (root: string) : unit =
     File.WriteAllText(Path.Combine(root, "uv.toml"), "required-version = \"==0.12.16\"\n", utf8NoBom)
 
 /// The file name of a path, with the path itself as the null fallback.
-let fileName (path: string) : string =
-    match Path.GetFileName path with
-    | null -> path
-    | name -> name
+let fileName (path: string) : string = Path.GetFileName path
 
 /// The 1-based line number of the first line containing the needle.
 let lineOf (text: string) (needle: string) : int =

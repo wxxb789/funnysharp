@@ -18,6 +18,8 @@
 
 ## Runtime Support
 
-- [ ] After .NET 11 reaches GA, add `net11.0` targeting and the full supported-runtime validation
+- [x] After .NET 11 reached GA, add `net11.0` targeting and the full supported-runtime validation
   matrix: restore, build, tests, package assets, package-consumer smoke, trimming, Native AOT, and
   documented support evidence. Do not introduce .NET 11 Preview support into the current release.
+  Delivered with both lanes for the core and ASP.NET Core packages; see
+  [Runtime Support Evidence](docs/net11-runtime-support-evidence.md).

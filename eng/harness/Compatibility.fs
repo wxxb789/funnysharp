@@ -25,26 +25,29 @@ let mutable hostRuntimeIdentifier = RuntimeInformation.RuntimeIdentifier
 let mutable hostOsSupported =
     OperatingSystem.IsWindows() || OperatingSystem.IsLinux() || OperatingSystem.IsMacOS()
 
-/// One consumer scenario: the project to publish, the app assembly name, and the
-/// MSBuild properties that turn trimming / Native AOT on.
+/// One consumer scenario: the project to publish, the app assembly name, the target
+/// framework lane, and the MSBuild properties that turn trimming / Native AOT on.
 type ScenarioDefinition =
     { Name: string
       Project: string
       AssemblyName: string
+      TargetFramework: string
       PublishProperties: string list }
 
-/// The default scenario set, in the order the PowerShell original runs them.
-let defaultScenarios =
-    [ "CoreTrimmed"; "CoreNativeAot"; "AspNetCoreTrimmed"; "AspNetCoreNativeAot" ]
+/// The supported runtime lanes every compatibility run covers.
+let targetFrameworks = [ "net10.0"; "net11.0" ]
 
-let private knownScenarioNames =
-    Set.ofList
-        [ "CoreSmoke"
-          "CoreTrimmed"
-          "CoreNativeAot"
-          "AspNetCoreSmoke"
-          "AspNetCoreTrimmed"
-          "AspNetCoreNativeAot" ]
+/// The default scenario set: both package surfaces, trimming and Native AOT, in both lanes.
+let defaultScenarios =
+    [ "CoreTrimmed"; "CoreTrimmedNet11"
+      "CoreNativeAot"; "CoreNativeAotNet11"
+      "AspNetCoreTrimmed"; "AspNetCoreTrimmedNet11"
+      "AspNetCoreNativeAot"; "AspNetCoreNativeAotNet11" ]
+
+let private smokeScenarios =
+    [ "CoreSmoke"; "CoreSmokeNet11"; "AspNetCoreSmoke"; "AspNetCoreSmokeNet11" ]
+
+let private knownScenarioNames = Set.ofList (defaultScenarios @ smokeScenarios)
 
 /// Every accepted scenario name mapped to its consumer project under
 /// <paramref name="repositoryRoot"/>.
@@ -72,24 +75,31 @@ let scenarioDefinitions (repositoryRoot: string) : Map<string, ScenarioDefinitio
           "-p:IsAotCompatible=true"
           "-p:RootShippingAssemblies=false" ]
 
-    let definition name project assemblyName props =
+    let definition name project assemblyName targetFramework props =
         { Name = name
           Project = project
           AssemblyName = assemblyName
+          TargetFramework = targetFramework
           PublishProperties = props }
 
-    let core name props =
-        definition name coreProject "FunnySharp.Compatibility.Core" props
+    let core name targetFramework props =
+        definition name coreProject "FunnySharp.Compatibility.Core" targetFramework props
 
-    let aspNetCore name props =
-        definition name aspNetCoreProject "FunnySharp.Compatibility.AspNetCore" props
+    let aspNetCore name targetFramework props =
+        definition name aspNetCoreProject "FunnySharp.Compatibility.AspNetCore" targetFramework props
 
-    [ "CoreSmoke", core "CoreSmoke" []
-      "CoreTrimmed", core "CoreTrimmed" trimmed
-      "CoreNativeAot", core "CoreNativeAot" nativeAot
-      "AspNetCoreSmoke", aspNetCore "AspNetCoreSmoke" []
-      "AspNetCoreTrimmed", aspNetCore "AspNetCoreTrimmed" trimmed
-      "AspNetCoreNativeAot", aspNetCore "AspNetCoreNativeAot" nativeAot ]
+    [ "CoreSmoke", core "CoreSmoke" "net10.0" []
+      "CoreSmokeNet11", core "CoreSmokeNet11" "net11.0" []
+      "CoreTrimmed", core "CoreTrimmed" "net10.0" trimmed
+      "CoreTrimmedNet11", core "CoreTrimmedNet11" "net11.0" trimmed
+      "CoreNativeAot", core "CoreNativeAot" "net10.0" nativeAot
+      "CoreNativeAotNet11", core "CoreNativeAotNet11" "net11.0" nativeAot
+      "AspNetCoreSmoke", aspNetCore "AspNetCoreSmoke" "net10.0" []
+      "AspNetCoreSmokeNet11", aspNetCore "AspNetCoreSmokeNet11" "net11.0" []
+      "AspNetCoreTrimmed", aspNetCore "AspNetCoreTrimmed" "net10.0" trimmed
+      "AspNetCoreTrimmedNet11", aspNetCore "AspNetCoreTrimmedNet11" "net11.0" trimmed
+      "AspNetCoreNativeAot", aspNetCore "AspNetCoreNativeAot" "net10.0" nativeAot
+      "AspNetCoreNativeAotNet11", aspNetCore "AspNetCoreNativeAotNet11" "net11.0" nativeAot ]
     |> Map.ofList
 
 // ---- process runner (injectable so tests never touch the SDK) ----
@@ -145,10 +155,7 @@ let private usageFail (message: string) : Result<unit, HarnessError> =
 /// The five XML text escapes, delegating to the same framework call the PowerShell original used
 /// (SecurityElement.Escape escapes &, <, >, " and ' in one pass, so an already-escaped entity is
 /// escaped again exactly as before).
-let private escapeXml (value: string) : string =
-    match System.Security.SecurityElement.Escape value with
-    | null -> value
-    | escaped -> escaped
+let private escapeXml (value: string) : string = System.Security.SecurityElement.Escape value
 
 /// Resolve a directory path to its canonical, symlink-free form, mirroring
 /// PowerShell's Resolve-Path for the artifacts directory.
@@ -230,7 +237,24 @@ let private resetDirectory (artifactsDirectory: string) (path: string) : unit =
 
     Directory.CreateDirectory path |> ignore
 
-let validatePackage (path: string) (expectedId: string) (expectedVersion: string) (coreVersion: string) : unit =
+/// The archived entries the package gate requires for one package, in lane order.
+let private requiredPackageEntries (expectedId: string) : string list =
+    let lanes =
+        targetFrameworks
+        |> List.collect (fun targetFramework ->
+            [ sprintf "lib/%s/%s.dll" targetFramework expectedId
+              sprintf "lib/%s/%s.xml" targetFramework expectedId ])
+
+    if expectedId = "FunnySharp" then
+        lanes
+        @ [ "analyzers/dotnet/cs/FunnySharp.Analyzers.dll"
+            "analyzers/dotnet/cs/FunnySharp.Analyzers.CodeFixes.dll" ]
+    else
+        lanes
+
+/// Validate one packed package against the two-lane contract and return the verified
+/// assembly/metadata entries. Rejects a package that drops either lane's DLL or metadata.
+let validatePackage (path: string) (expectedId: string) (expectedVersion: string) (coreVersion: string) : string list =
     use archive = ZipFile.OpenRead path
     let requiredEntry name =
         match archive.GetEntry name with
@@ -250,29 +274,52 @@ let validatePackage (path: string) (expectedId: string) (expectedVersion: string
         | null -> ""
         | value -> value.Value
     if text "id" <> expectedId || text "version" <> expectedVersion then invalidOp "Package nuspec identity does not match its filename."
-    for entry in [ "README.md"; sprintf "lib/net10.0/%s.dll" expectedId; sprintf "lib/net10.0/%s.xml" expectedId ] do
+    for entry in "README.md" :: requiredPackageEntries expectedId do
         requiredEntry entry |> ignore
     if text "readme" <> "README.md" || text "license" <> "MIT"
        || (elements "license" |> List.exists (fun item -> attribute "type" item <> "expression")) then
         invalidOp "Package must declare its README and MIT license."
     let dependencyGroups = elements "dependencies" |> List.collect (fun item -> item.Elements() |> Seq.toList)
-    if dependencyGroups.Length <> 1 || attribute "targetFramework" dependencyGroups.[0] <> "net10.0" then
-        invalidOp "Package must have exactly one net10.0 dependency group."
-    let dependencies = dependencyGroups.[0].Elements() |> Seq.toList
+    let dependencyFrameworks = dependencyGroups |> List.map (attribute "targetFramework") |> Set.ofList
+    if dependencyGroups.Length <> targetFrameworks.Length
+       || dependencyFrameworks <> Set.ofList targetFrameworks then
+        invalidOp (
+            sprintf "Package must have exactly the dependency groups for %s." (String.concat ", " targetFrameworks)
+        )
+    for group in dependencyGroups do
+        let lane = attribute "targetFramework" group
+        let dependencies = group.Elements() |> Seq.toList
+        if expectedId = "FunnySharp" then
+            if not dependencies.IsEmpty then
+                invalidOp (sprintf "FunnySharp must have no runtime dependencies in its %s group." lane)
+        else if dependencies.Length <> 1 || attribute "id" dependencies.[0] <> "FunnySharp"
+                || attribute "version" dependencies.[0] <> coreVersion then
+            invalidOp (
+                sprintf
+                    "FunnySharp.AspNetCore must depend only on the candidate FunnySharp version in its %s group."
+                    lane
+            )
     let frameworkGroups = elements "frameworkReferences" |> List.collect (fun item -> item.Elements() |> Seq.toList)
     if expectedId = "FunnySharp" then
-        if not dependencies.IsEmpty || not frameworkGroups.IsEmpty then invalidOp "FunnySharp must have no runtime dependencies or framework references."
-        for entry in [ "analyzers/dotnet/cs/FunnySharp.Analyzers.dll"; "analyzers/dotnet/cs/FunnySharp.Analyzers.CodeFixes.dll" ] do
-            requiredEntry entry |> ignore
+        if not frameworkGroups.IsEmpty then invalidOp "FunnySharp must have no framework references."
     else
-        if dependencies.Length <> 1 || attribute "id" dependencies.[0] <> "FunnySharp"
-           || attribute "version" dependencies.[0] <> coreVersion then
-            invalidOp "FunnySharp.AspNetCore must depend only on the candidate FunnySharp version."
-        if frameworkGroups.Length <> 1 || attribute "targetFramework" frameworkGroups.[0] <> "net10.0" then
-            invalidOp "FunnySharp.AspNetCore must have one net10.0 framework reference group."
-        let references = frameworkGroups.[0].Elements() |> Seq.toList
-        if references.Length <> 1 || attribute "name" references.[0] <> "Microsoft.AspNetCore.App" then
-            invalidOp "FunnySharp.AspNetCore must reference only Microsoft.AspNetCore.App."
+        let frameworkFrameworks = frameworkGroups |> List.map (attribute "targetFramework") |> Set.ofList
+        if frameworkGroups.Length <> targetFrameworks.Length
+           || frameworkFrameworks <> Set.ofList targetFrameworks then
+            invalidOp (
+                sprintf
+                    "FunnySharp.AspNetCore must have one framework reference group per lane: %s."
+                    (String.concat ", " targetFrameworks)
+            )
+        for group in frameworkGroups do
+            let references = group.Elements() |> Seq.toList
+            if references.Length <> 1 || attribute "name" references.[0] <> "Microsoft.AspNetCore.App" then
+                invalidOp (
+                    sprintf
+                        "FunnySharp.AspNetCore must reference only Microsoft.AspNetCore.App in its %s group."
+                        (attribute "targetFramework" group)
+                )
+    requiredPackageEntries expectedId
 
 let isolatedNuGetPackagesDirectory (artifactsDirectory: string) (_outputDirectory: string) : string =
     // Native AOT package assets exceed Windows path limits under nested attempt directories.
@@ -284,10 +331,7 @@ let private packageVersion (packageDirectory: string) (packageId: string) : Resu
 
     let matching =
         Directory.GetFiles packageDirectory
-        |> Array.choose (fun path ->
-            match Path.GetFileName path with
-            | null -> None
-            | name -> Some name)
+        |> Array.map Path.GetFileName
         |> Array.filter (fun name -> pattern.IsMatch name)
 
     if matching.Length <> 1 then
@@ -309,7 +353,7 @@ let private validatePackageInventory (packageDirectory: string) (version: string
             let extension = Path.GetExtension path
             String.Equals(extension, ".nupkg", StringComparison.OrdinalIgnoreCase)
             || String.Equals(extension, ".snupkg", StringComparison.OrdinalIgnoreCase))
-        |> Array.choose (fun path -> Path.GetFileName path |> Option.ofObj)
+        |> Array.map Path.GetFileName
         |> Set.ofArray
     if actual <> expected then
         usageFail (
@@ -356,17 +400,21 @@ type private ScenarioResult =
       Outcome: string
       StartedAtUtc: string
       FinishedAtUtc: string
+      TargetFramework: string
       RuntimeIdentifier: string
       PackageFeed: string
       Project: string
       PublishProperties: string list
       CorePackageVersion: string
       AspNetCorePackageVersion: string
+      SelectedPackageAssets: string list
+      RuntimeFrameworks: (string * string) list
       Error: string option }
 
 type private Evidence =
     { SchemaVersion: int
       Succeeded: bool
+      SdkVersion: string
       RuntimeIdentifier: string
       PackageFeed: string
       CorePackageVersion: string
@@ -375,9 +423,7 @@ type private Evidence =
 
 let private jsonOptions = JsonSerializerOptions(WriteIndented = true)
 
-let private jstr (value: string) : JsonValue =
-    Option.ofObj (JsonValue.Create value)
-    |> Option.defaultWith (fun () -> failwith "JsonValue.Create returned null for a string")
+let private jstr (value: string) : JsonValue = JsonValue.Create value
 
 let private jint (value: int) : JsonValue = JsonValue.Create value
 
@@ -395,6 +441,17 @@ let private stringArray (values: string list) : JsonArray =
 
     array
 
+let private runtimeFrameworksArray (values: (string * string) list) : JsonArray =
+    let array = JsonArray()
+
+    for name, version in values do
+        let item = JsonObject()
+        item.["Name"] <- jstr name
+        item.["Version"] <- jstr version
+        array.Add(item)
+
+    array
+
 let private optionalString (value: string option) : JsonNode =
     match value with
     | Some text -> jstr text :> JsonNode
@@ -406,12 +463,15 @@ let private scenarioJson (result: ScenarioResult) : JsonNode =
     node.["Outcome"] <- jstr result.Outcome
     node.["StartedAtUtc"] <- jstr result.StartedAtUtc
     node.["FinishedAtUtc"] <- jstr result.FinishedAtUtc
+    node.["TargetFramework"] <- jstr result.TargetFramework
     node.["RuntimeIdentifier"] <- jstr result.RuntimeIdentifier
     node.["PackageFeed"] <- jstr result.PackageFeed
     node.["Project"] <- jstr result.Project
     node.["PublishProperties"] <- stringArray result.PublishProperties
     node.["CorePackageVersion"] <- jstr result.CorePackageVersion
     node.["AspNetCorePackageVersion"] <- jstr result.AspNetCorePackageVersion
+    node.["SelectedPackageAssets"] <- stringArray result.SelectedPackageAssets
+    node.["RuntimeFrameworks"] <- runtimeFrameworksArray result.RuntimeFrameworks
     node.["Error"] <- optionalString result.Error
     node :> JsonNode
 
@@ -419,6 +479,7 @@ let private evidenceJson (evidence: Evidence) : JsonObject =
     let node = JsonObject()
     node.["SchemaVersion"] <- jint evidence.SchemaVersion
     node.["Succeeded"] <- jbool evidence.Succeeded
+    node.["SdkVersion"] <- jstr evidence.SdkVersion
     node.["RuntimeIdentifier"] <- jstr evidence.RuntimeIdentifier
     node.["PackageFeed"] <- jstr evidence.PackageFeed
     node.["CorePackageVersion"] <- jstr evidence.CorePackageVersion
@@ -433,6 +494,61 @@ let private evidenceJson (evidence: Evidence) : JsonObject =
 
 // ---- scenario execution ----
 
+/// Read an optional string property without treating a missing or non-string value as an error.
+let private jsonStringOrEmpty (element: JsonElement) (name: string) : string =
+    let mutable value = Unchecked.defaultof<JsonElement>
+
+    if element.ValueKind = JsonValueKind.Object && element.TryGetProperty(name, &value)
+       && value.ValueKind = JsonValueKind.String then
+        match value.GetString() with
+        | null -> ""
+        | text -> text
+    else
+        ""
+
+/// The SDK the repository pins in global.json, or the empty string when it is not declared.
+let private globalJsonSdkVersion (repositoryRoot: string) : string =
+    let path = Path.Combine(repositoryRoot, "global.json")
+
+    if not (File.Exists path) then
+        ""
+    else
+        try
+            use document = JsonDocument.Parse(File.ReadAllText path)
+            let mutable sdk = Unchecked.defaultof<JsonElement>
+
+            if document.RootElement.TryGetProperty("sdk", &sdk) then
+                jsonStringOrEmpty sdk "version"
+            else
+                ""
+        with _ ->
+            ""
+
+/// The runtime frameworks a self-contained publish records in its runtimeconfig.json.
+let private readRuntimeFrameworks (publishDirectory: string) (assemblyName: string) : (string * string) list =
+    let path = Path.Combine(publishDirectory, assemblyName + ".runtimeconfig.json")
+
+    if not (File.Exists path) then
+        []
+    else
+        try
+            use document = JsonDocument.Parse(File.ReadAllText path)
+            let options = document.RootElement.GetProperty("runtimeOptions")
+
+            [ "frameworks"; "includedFrameworks" ]
+            |> List.choose (fun name ->
+                let mutable value = Unchecked.defaultof<JsonElement>
+
+                if options.TryGetProperty(name, &value) && value.ValueKind = JsonValueKind.Array then
+                    Some value
+                else
+                    None)
+            |> List.collect (fun array ->
+                [ for item in array.EnumerateArray() ->
+                      jsonStringOrEmpty item "name", jsonStringOrEmpty item "version" ])
+        with _ ->
+            []
+
 type private Context =
     { RepositoryRoot: string
       ArtifactsDirectory: string
@@ -440,8 +556,11 @@ type private Context =
       NuGetConfigPath: string
       RuntimeIdentifier: string
       PackageFeed: string
+      SdkVersion: string
       CoreVersion: string
       AspNetCoreVersion: string
+      CorePackageAssets: string list
+      AspNetCorePackageAssets: string list
       Definitions: Map<string, ScenarioDefinition>
       Environment: (string * string) list }
 
@@ -482,18 +601,26 @@ let private runScenario
     let intermediateDirectory = Path.Combine(scenarioRoot, "obj")
     let binaryDirectory = Path.Combine(scenarioRoot, "bin")
     let startedAt = DateTimeOffset.UtcNow
+    let mutable runtimeFrameworks : (string * string) list = []
 
     let build (outcome: string) (error: string option) =
         { Scenario = name
           Outcome = outcome
           StartedAtUtc = startedAt.ToString("O", CultureInfo.InvariantCulture)
           FinishedAtUtc = DateTimeOffset.UtcNow.ToString("O", CultureInfo.InvariantCulture)
+          TargetFramework = definition.TargetFramework
           RuntimeIdentifier = context.RuntimeIdentifier
           PackageFeed = context.PackageFeed
           Project = definition.Project
           PublishProperties = definition.PublishProperties
           CorePackageVersion = context.CoreVersion
           AspNetCorePackageVersion = context.AspNetCoreVersion
+          SelectedPackageAssets =
+            if definition.AssemblyName = "FunnySharp.Compatibility.Core" then
+                context.CorePackageAssets
+            else
+                context.AspNetCorePackageAssets
+          RuntimeFrameworks = runtimeFrameworks
           Error = error }
 
     try
@@ -501,7 +628,8 @@ let private runScenario
         let separator = string Path.DirectorySeparatorChar
 
         let commonProperties =
-            [ sprintf "-p:FunnySharpPackageVersion=%s" context.CoreVersion
+            [ sprintf "-p:TargetFramework=%s" definition.TargetFramework
+              sprintf "-p:FunnySharpPackageVersion=%s" context.CoreVersion
               sprintf "-p:FunnySharpAspNetCorePackageVersion=%s" context.AspNetCoreVersion
               "-p:SelfContained=true"
               sprintf "-p:BaseIntermediateOutputPath=%s%s" intermediateDirectory separator
@@ -538,6 +666,8 @@ let private runScenario
              @ definition.PublishProperties)
 
         invokePublishedApplication context stdout publishDirectory definition.AssemblyName
+
+        runtimeFrameworks <- readRuntimeFrameworks publishDirectory definition.AssemblyName
 
         build "Passed" None
     with ex ->
@@ -712,12 +842,17 @@ let private prepare
             Path.Combine(packageDirectory, sprintf "FunnySharp.AspNetCore.%s.nupkg" aspNetCoreVersion)
 
 
-        do!
+        let! coreAssets =
             try
-                validatePackage corePackagePath "FunnySharp" coreVersion coreVersion
-                validatePackage aspNetCorePackagePath "FunnySharp.AspNetCore" aspNetCoreVersion coreVersion
-                Ok ()
-            with ex -> usageFail ex.Message
+                Ok(validatePackage corePackagePath "FunnySharp" coreVersion coreVersion)
+            with ex ->
+                usageError ex.Message
+
+        let! aspNetCoreAssets =
+            try
+                Ok(validatePackage aspNetCorePackagePath "FunnySharp.AspNetCore" aspNetCoreVersion coreVersion)
+            with ex ->
+                usageError ex.Message
 
         Directory.CreateDirectory outputFull |> ignore
         let outputRoot = resolveDirectoryPath outputFull
@@ -733,8 +868,11 @@ let private prepare
               NuGetConfigPath = nugetConfigPath
               RuntimeIdentifier = runtimeIdentifier
               PackageFeed = packageFeed
+              SdkVersion = globalJsonSdkVersion repositoryRoot
               CoreVersion = coreVersion
               AspNetCoreVersion = aspNetCoreVersion
+              CorePackageAssets = coreAssets
+              AspNetCorePackageAssets = aspNetCoreAssets
               Definitions = scenarioDefinitions repositoryRoot
               Environment = [ ("NUGET_PACKAGES", nugetPackagesDirectory) ] }
     }
@@ -748,6 +886,7 @@ let private execute (context: Context) (stdout: TextWriter) (stderr: TextWriter)
     let evidence =
         { SchemaVersion = 1
           Succeeded = succeeded
+          SdkVersion = context.SdkVersion
           RuntimeIdentifier = context.RuntimeIdentifier
           PackageFeed = context.PackageFeed
           CorePackageVersion = context.CoreVersion

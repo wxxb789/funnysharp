@@ -69,11 +69,13 @@ type ApiBaselineTests() =
         )
 
     [<Fact>]
-    member _.ShippingAssemblies_AreTheTwoFixedPathsInOrder(): unit =
+    member _.ShippingAssemblies_AreBothLaneFixedPathsInOrder(): unit =
         let shipping = shippingAssemblies "/repo"
-        Assert.Equal(2, shipping.Length)
+        Assert.Equal(4, shipping.Length)
         Assert.Equal("FunnySharp", fst shipping.[0])
-        Assert.Equal("FunnySharp.AspNetCore", fst shipping.[1])
+        Assert.Equal("FunnySharp", fst shipping.[1])
+        Assert.Equal("FunnySharp.AspNetCore", fst shipping.[2])
+        Assert.Equal("FunnySharp.AspNetCore", fst shipping.[3])
 
         Assert.Equal(
             Path.Combine("/repo", "src/FunnySharp/bin/Release/net10.0/FunnySharp.dll"),
@@ -81,8 +83,18 @@ type ApiBaselineTests() =
         )
 
         Assert.Equal(
-            Path.Combine("/repo", "src/FunnySharp.AspNetCore/bin/Release/net10.0/FunnySharp.AspNetCore.dll"),
+            Path.Combine("/repo", "src/FunnySharp/bin/Release/net11.0/FunnySharp.dll"),
             snd shipping.[1]
+        )
+
+        Assert.Equal(
+            Path.Combine("/repo", "src/FunnySharp.AspNetCore/bin/Release/net10.0/FunnySharp.AspNetCore.dll"),
+            snd shipping.[2]
+        )
+
+        Assert.Equal(
+            Path.Combine("/repo", "src/FunnySharp.AspNetCore/bin/Release/net11.0/FunnySharp.AspNetCore.dll"),
+            snd shipping.[3]
         )
 
     // The missing-baseline branch is decided from the file system before any

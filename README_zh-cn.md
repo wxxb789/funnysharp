@@ -1,12 +1,12 @@
-# FunnySharp: 面向 C# 与 .NET 10 的实用主义、BCL 优先函数式编程库
+# FunnySharp: 面向 C# 与 .NET 10/11 的实用主义、BCL 优先函数式编程库
 
-[![NuGet FunnySharp](https://img.shields.io/nuget/v/FunnySharp.svg?style=flat-square&label=FunnySharp)](https://www.nuget.org/packages/FunnySharp) [![NuGet FunnySharp.AspNetCore](https://img.shields.io/nuget/v/FunnySharp.AspNetCore.svg?style=flat-square&label=FunnySharp.AspNetCore)](https://www.nuget.org/packages/FunnySharp.AspNetCore) [![Target Framework](https://img.shields.io/badge/.NET-10.0-512BD4?style=flat-square&logo=dotnet)](https://dotnet.microsoft.com/) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](LICENSE)
+[![NuGet FunnySharp](https://img.shields.io/nuget/v/FunnySharp.svg?style=flat-square&label=FunnySharp)](https://www.nuget.org/packages/FunnySharp) [![NuGet FunnySharp.AspNetCore](https://img.shields.io/nuget/v/FunnySharp.AspNetCore.svg?style=flat-square&label=FunnySharp.AspNetCore)](https://www.nuget.org/packages/FunnySharp.AspNetCore) [![Target Framework](https://img.shields.io/badge/.NET-10.0%20%7C%2011.0-512BD4?style=flat-square&logo=dotnet)](https://dotnet.microsoft.com/) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](LICENSE)
 
 [English](README.md) | [简体中文](README_zh-cn.md)
 
-![FunnySharp 概览：通过 Option 处理值存在性，通过 Result 与 UnitResult 实现遇错即止，通过 Validation 确定性累积错误，以及针对 .NET 10 的 BCL 优先设计](docs/assets/funnysharp-overview.webp)
+![FunnySharp 概览：通过 Option 处理值存在性，通过 Result 与 UnitResult 实现遇错即止，通过 Validation 确定性累积错误，以及针对 .NET 10 与 .NET 11 的 BCL 优先设计](docs/assets/funnysharp-overview.webp)
 
-FunnySharp 是面向 C# 13 与 .NET 10 的实用主义、BCL 优先 C# 函数式编程库。
+FunnySharp 是面向 C# 13 与 .NET 10、.NET 11 运行时的实用主义、BCL 优先 C# 函数式编程库。
 其 Option/Result 模式支持强类型错误处理与铁路导向编程（Railway-Oriented Programming，ROP），
 基于标准 .NET 值、委托、`Task`、`ValueTask` 与 `IAsyncEnumerable<T>`。核心包没有运行时依赖，
 并随包附带 Roslyn 静态分析器；独立的 `FunnySharp.AspNetCore` 包提供可选的 ASP.NET Core Minimal API 结果映射。
@@ -125,9 +125,9 @@ registration.Match(
 ## 性能、兼容性与开发验证
 
 - **实测性能基准**：严苛的内存分配预算（`eng/performance/baseline.json`）对回归实施拦截；云端计时数据仅作方向性参考。
-- **裁剪与 AOT 支持**：两款发布包均标记 `IsTrimmable=true` 并通过完整根分析验证。由于 .NET 10 编译器对开放泛型 `ValueTuple` 实例化的限制，不设置 `IsAotCompatible`；Native AOT 通过代表性封闭泛型消费者场景验证。
+- **裁剪与 AOT 支持**：两款发布包均标记 `IsTrimmable=true` 并通过完整根分析验证。由于编译器对开放泛型 `ValueTuple` 实例化的限制，不设置 `IsAotCompatible`；Native AOT 通过代表性封闭泛型消费者场景验证。
 - **版本演进策略**：`0.x` 是预览候选版本，次版本更新可能按文档中的版本规则引入不兼容变更；`1.0.0` 起提供大版本兼容性承诺。
-- **开发者工具要求**：要求本地安装 .NET SDK `10.0.400`（`rollForward: latestPatch`）。门禁通过 F# harness 执行：
+- **开发者工具要求**：要求本地安装 .NET SDK `11.0.100`（`rollForward: latestPatch`）。门禁通过 F# harness 执行：
 
 ```bash
 dotnet fsi build.fsx -- -p build                 # Build solution FunnySharp.slnx
