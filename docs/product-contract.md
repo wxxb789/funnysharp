@@ -443,7 +443,7 @@ analysis, and compile-verified call sites are in [`next-stage/`](next-stage/).
 Platform references used for this policy:
 
 - [.NET support policy](https://dotnet.microsoft.com/en-us/platform/support/policy/dotnet-core)
-- [.NET 11 preview downloads](https://dotnet.microsoft.com/en-us/download/dotnet/11.0)
+- [.NET 11 downloads](https://dotnet.microsoft.com/en-us/download/dotnet/11.0)
 - [C# union proposal](https://github.com/dotnet/csharplang/blob/main/proposals/csharp-15.0/unions.md)
 - [C# union language-design tracking issue](https://github.com/dotnet/csharplang/issues/9662)
 - [Prepare .NET libraries for trimming](https://learn.microsoft.com/en-us/dotnet/core/deploying/trimming/prepare-libraries-for-trimming)

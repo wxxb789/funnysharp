@@ -133,4 +133,4 @@ dotnet fsi build.fsx -- -p eval-verify --task <area> --style <style> --run-dir <
 - `docs/next-stage/decision-record.md` is a pinned Goal 14 baseline - later goals append, never modify.
 - Heavy tests, full pre-check/release, package/platform/AOT checks, evaluation cohorts and benchmarks run only on explicit human request. Do not auto-run them in CI or Agent iterations. Daily checks use incremental project builds and small relevant tests.
 - Timing is informational until a fixed-hardware runner exists; allocation budgets apply to manually requested measurements.
-- No .NET 11 preview support; `net11.0` targeting waits for GA (TODO.md).
+- .NET 11 support ships as stable `net11.0` alongside `net10.0`; .NET 11 preview targeting remains unsupported (TODO.md).
