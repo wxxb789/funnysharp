@@ -48,8 +48,9 @@ pwsh -NoLogo -NoProfile -File Q:/repos/cockpit/local/fs-bench/Invoke-OfflineGate
 | Package-only compatibility, 8 scenarios | pass | `logs/11-compatibility.*`, `compatibility-run/compatibility-results.json` |
 
 `compatibility-results.json` records, for every scenario, the SDK (`11.0.100`), the selected
-package assets, the target framework, the RID (`win-x64`), and the runtime frameworks found in the
-published `runtimeconfig.json`.
+package assets for the scenario's lane, the target framework, the RID (`win-x64`), and the runtime
+the consumer resolved: the shared frameworks in the published `runtimeconfig.json`, or the runtime
+packs in the restore graph for Native AOT publishes, which have no `runtimeconfig.json`.
 
 ## Package Assets And Dependency Groups
 

@@ -524,12 +524,85 @@ let private globalJsonSdkVersion (repositoryRoot: string) : string =
         with _ ->
             ""
 
-/// The runtime frameworks a self-contained publish records in its runtimeconfig.json.
-let private readRuntimeFrameworks (publishDirectory: string) (assemblyName: string) : (string * string) list =
+/// The version a restore graph resolved for a download dependency, e.g. "[10.0.15, 10.0.15]" to "10.0.15".
+let private restoreGraphVersion (value: string) : string =
+    value.Trim().TrimStart('[').TrimEnd(']').Split(',')
+    |> Array.tryHead
+    |> Option.map (fun part -> part.Trim())
+    |> Option.defaultValue ""
+
+/// The runtime packs a Native AOT publish resolved for its lane, in framework order. Native
+/// AOT publishes carry no runtimeconfig.json, so the restore graph is their runtime evidence:
+/// each framework reference resolves its AOT runtime pack where the SDK publishes one and its
+/// regular runtime pack otherwise.
+let private readRuntimePacks
+    (assetsPath: string)
+    (targetFramework: string)
+    (runtimeIdentifier: string)
+    : (string * string) list =
+    if not (File.Exists assetsPath) then
+        []
+    else
+        try
+            use document = JsonDocument.Parse(File.ReadAllText assetsPath)
+            let mutable project = Unchecked.defaultof<JsonElement>
+            let mutable frameworks = Unchecked.defaultof<JsonElement>
+            let mutable framework = Unchecked.defaultof<JsonElement>
+
+            if not (
+                document.RootElement.TryGetProperty("project", &project)
+                && project.ValueKind = JsonValueKind.Object
+                && project.TryGetProperty("frameworks", &frameworks)
+                && frameworks.ValueKind = JsonValueKind.Object
+                && frameworks.TryGetProperty(targetFramework, &framework)
+                && framework.ValueKind = JsonValueKind.Object
+            ) then
+                []
+            else
+                let dependencies =
+                    let mutable value = Unchecked.defaultof<JsonElement>
+
+                    if framework.TryGetProperty("downloadDependencies", &value) && value.ValueKind = JsonValueKind.Array then
+                        [ for item in value.EnumerateArray() -> jsonStringOrEmpty item "name", jsonStringOrEmpty item "version" ]
+                    else
+                        []
+
+                let runtimePack (frameworkName: string) =
+                    [ frameworkName + ".Runtime.NativeAOT." + runtimeIdentifier
+                      frameworkName + ".Runtime." + runtimeIdentifier ]
+                    |> List.tryPick (fun candidate ->
+                        dependencies
+                        |> List.tryFind (fun (name, _) -> name = candidate)
+                        |> Option.map (fun (name, version) -> name, restoreGraphVersion version))
+
+                let mutable references = Unchecked.defaultof<JsonElement>
+
+                if not (
+                    framework.TryGetProperty("frameworkReferences", &references)
+                    && references.ValueKind = JsonValueKind.Object
+                ) then
+                    []
+                else
+                    [ for reference in references.EnumerateObject() -> runtimePack reference.Name ]
+                    |> List.choose id
+                    |> List.sortBy (fun (name, _) ->
+                        if name.StartsWith("Microsoft.NETCore.App", StringComparison.Ordinal) then 0 else 1)
+        with _ ->
+            []
+
+/// The runtime frameworks a publish ran on: its runtimeconfig.json, or, when a Native AOT
+/// publish has none, the runtime packs its restore graph resolved for the lane.
+let private readRuntimeFrameworks
+    (publishDirectory: string)
+    (intermediateDirectory: string)
+    (targetFramework: string)
+    (runtimeIdentifier: string)
+    (assemblyName: string)
+    : (string * string) list =
     let path = Path.Combine(publishDirectory, assemblyName + ".runtimeconfig.json")
 
     if not (File.Exists path) then
-        []
+        readRuntimePacks (Path.Combine(intermediateDirectory, "project.assets.json")) targetFramework runtimeIdentifier
     else
         try
             use document = JsonDocument.Parse(File.ReadAllText path)
@@ -589,6 +662,28 @@ let private invokePublishedApplication
     if exitCode <> 0 then
         failwithf "Published application exited with code %d." exitCode
 
+/// The package assets one scenario selected: its own TargetFramework entries from every
+/// package it consumes, plus the direct package's lane-independent analyzer assets. ASP.NET
+/// Core consumers select the transitive core lane assets; the core analyzers are not part of
+/// that transitive selection.
+let private selectedPackageAssets
+    (definition: ScenarioDefinition)
+    (corePackageAssets: string list)
+    (aspNetCorePackageAssets: string list)
+    : string list =
+    let lane = sprintf "lib/%s/" definition.TargetFramework
+
+    let laneAssets (assets: string list) =
+        assets |> List.filter (fun entry -> entry.StartsWith(lane, StringComparison.Ordinal))
+
+    if definition.AssemblyName = "FunnySharp.Compatibility.Core" then
+        corePackageAssets
+        |> List.filter (fun entry ->
+            entry.StartsWith(lane, StringComparison.Ordinal)
+            || entry.StartsWith("analyzers/", StringComparison.Ordinal))
+    else
+        laneAssets aspNetCorePackageAssets @ laneAssets corePackageAssets
+
 let private runScenario
     (context: Context)
     (stdout: TextWriter)
@@ -615,11 +710,7 @@ let private runScenario
           PublishProperties = definition.PublishProperties
           CorePackageVersion = context.CoreVersion
           AspNetCorePackageVersion = context.AspNetCoreVersion
-          SelectedPackageAssets =
-            if definition.AssemblyName = "FunnySharp.Compatibility.Core" then
-                context.CorePackageAssets
-            else
-                context.AspNetCorePackageAssets
+          SelectedPackageAssets = selectedPackageAssets definition context.CorePackageAssets context.AspNetCorePackageAssets
           RuntimeFrameworks = runtimeFrameworks
           Error = error }
 
@@ -667,7 +758,13 @@ let private runScenario
 
         invokePublishedApplication context stdout publishDirectory definition.AssemblyName
 
-        runtimeFrameworks <- readRuntimeFrameworks publishDirectory definition.AssemblyName
+        runtimeFrameworks <-
+            readRuntimeFrameworks
+                publishDirectory
+                intermediateDirectory
+                definition.TargetFramework
+                context.RuntimeIdentifier
+                definition.AssemblyName
 
         build "Passed" None
     with ex ->

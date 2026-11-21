@@ -3,6 +3,7 @@ module FunnySharp.Harness.Tests.CompatibilityTests
 open System
 open System.IO
 open System.IO.Compression
+open System.Runtime.InteropServices
 open System.Text.Json
 open Xunit
 open FunnySharp.Harness.Compatibility
@@ -85,7 +86,32 @@ let private writeSymbolsPackage directory id =
     for lane in defaultLanes do
         add (sprintf "lib/%s/%s.pdb" lane id) "symbols"
 
-let private runFixture failure mutatePackages =
+/// The selected package assets and runtime frameworks of the first scenario in a results document.
+let private scenarioFields (results: string) : string list * (string * string) list =
+    use document = JsonDocument.Parse results
+    let scenario = document.RootElement.GetProperty("Scenarios")[0]
+
+    let assets =
+        [ for asset in scenario.GetProperty("SelectedPackageAssets").EnumerateArray() do
+              match asset.GetString() with
+              | null -> ()
+              | path -> yield path ]
+
+    let stringProperty (element: JsonElement) (name: string) : string =
+        match element.GetProperty(name).GetString() with
+        | null -> ""
+        | value -> value
+
+    let runtime =
+        [ for framework in scenario.GetProperty("RuntimeFrameworks").EnumerateArray() ->
+              stringProperty framework "Name", stringProperty framework "Version" ]
+
+    assets, runtime
+
+/// Runs one scenario against fixture packages. The fake SDK command publishes the smoke
+/// executable and emulates the publish's runtime evidence: a runtimeconfig.json for trimmed
+/// publishes and a restore-graph runtime pack entry for Native AOT, which publishes none.
+let private runFixtureFor scenario failure mutatePackages =
     use temp = new TempDirectory()
     File.WriteAllText(Path.Combine(temp.Path, "FunnySharp.slnx"), "")
     File.WriteAllText(
@@ -102,28 +128,90 @@ let private runFixture failure mutatePackages =
     let previous = processRunner
     let previousSupported = hostOsSupported
     hostOsSupported <- true
+
+    let optionValue (name: string) (args: string list) =
+        let index = args |> List.findIndex ((=) name)
+        args.[index + 1]
+
+    let propertyValue (prefix: string) (args: string list) =
+        args
+        |> List.pick (fun argument ->
+            if argument.StartsWith(prefix, StringComparison.Ordinal) then
+                Some(argument.Substring prefix.Length)
+            else
+                None)
+
     processRunner <- fun _ env args ->
         calls.Add args
         let cache = env |> List.find (fun (key, _) -> key = "NUGET_PACKAGES") |> snd
         Assert.StartsWith(Path.Combine(temp.Path, "artifacts", "nuget"), cache)
+
         if args.Head = "dotnet" && args.[1] = "publish" then
-            let index = args |> List.findIndex ((=) "--output")
-            let directory = args.[index + 1]
-            Directory.CreateDirectory directory |> ignore
+            let publishDirectory = optionValue "--output" args
+            Directory.CreateDirectory publishDirectory |> ignore
+
+            let project =
+                args |> List.find (fun argument -> argument.EndsWith(".csproj", StringComparison.Ordinal))
+
+            let assemblyName = Path.GetFileNameWithoutExtension project
             let suffix = if OperatingSystem.IsWindows() then ".exe" else ""
-            File.WriteAllText(Path.Combine(directory, "FunnySharp.Compatibility.Core" + suffix), "app")
+            File.WriteAllText(Path.Combine(publishDirectory, assemblyName + suffix), "app")
+            let targetFramework = propertyValue "-p:TargetFramework=" args
+            let runtimeIdentifier = optionValue "--runtime" args
+            let runtimeVersion = if targetFramework = "net11.0" then "11.0.0" else "10.0.15"
+            let isCore = assemblyName.EndsWith(".Core", StringComparison.Ordinal)
+
+            if args |> List.contains "-p:PublishAot=true" then
+                let pack name =
+                    sprintf "{\"name\": \"%s\", \"version\": \"[%s, %s]\"}" name runtimeVersion runtimeVersion
+
+                let dependencies =
+                    [ pack ("Microsoft.AspNetCore.App.Runtime." + runtimeIdentifier)
+                      pack ("Microsoft.NETCore.App.Runtime.NativeAOT." + runtimeIdentifier)
+                      pack ("Microsoft.NETCore.App.Runtime." + runtimeIdentifier)
+                      pack ("Microsoft.WindowsDesktop.App.Runtime." + runtimeIdentifier) ]
+
+                let references =
+                    if isCore then
+                        "{\"Microsoft.NETCore.App\": {}}"
+                    else
+                        "{\"Microsoft.AspNetCore.App\": {}, \"Microsoft.NETCore.App\": {}}"
+
+                let assets =
+                    sprintf
+                        "{\"project\": {\"frameworks\": {\"%s\": {\"frameworkReferences\": %s, \"downloadDependencies\": [%s]}}}}"
+                        targetFramework
+                        references
+                        (String.concat ", " dependencies)
+
+                let intermediate = propertyValue "-p:BaseIntermediateOutputPath=" args
+                Directory.CreateDirectory intermediate |> ignore
+                File.WriteAllText(Path.Combine(intermediate, "project.assets.json"), assets)
+            else
+                let frameworks =
+                    [ yield sprintf "{\"name\": \"Microsoft.NETCore.App\", \"version\": \"%s\"}" runtimeVersion
+                      if not isCore then
+                          yield sprintf "{\"name\": \"Microsoft.AspNetCore.App\", \"version\": \"%s\"}" runtimeVersion ]
+
+                File.WriteAllText(
+                    Path.Combine(publishDirectory, assemblyName + ".runtimeconfig.json"),
+                    sprintf "{\"runtimeOptions\": {\"includedFrameworks\": [%s]}}" (String.concat ", " frameworks)
+                )
+
         if (args.Head = "dotnet" && args.[1] = failure) || (args.Head <> "dotnet" && failure = "run") then 8 else 0
     try
         let output = Path.Combine(temp.Path, "artifacts", "compatibility")
         use stdout = new StringWriter()
         use stderr = new StringWriter()
-        let code = mainWith stdout stderr temp.Path [ "-RepositoryRoot"; temp.Path; "-PackageDirectory"; packages; "-OutputDirectory"; output; "-Scenario"; "CoreSmoke" ]
+        let code = mainWith stdout stderr temp.Path [ "-RepositoryRoot"; temp.Path; "-PackageDirectory"; packages; "-OutputDirectory"; output; "-Scenario"; scenario ]
         let resultsPath = Path.Combine(output, "compatibility-results.json")
         let summary = if File.Exists resultsPath then File.ReadAllText resultsPath else stderr.ToString()
         code, calls |> Seq.toList, summary
     finally
         processRunner <- previous
         hostOsSupported <- previousSupported
+
+let private runFixture failure mutatePackages = runFixtureFor "CoreSmoke" failure mutatePackages
 
 type CompatibilityTests() =
     [<Fact>]
@@ -146,6 +234,55 @@ type CompatibilityTests() =
             scenario.GetProperty("SelectedPackageAssets").EnumerateArray()
             |> Seq.choose (fun item -> item.GetString() |> Option.ofObj)
         )
+
+    [<Fact>]
+    member _.SelectedPackageAssetsRecordOnlyTheScenarioLane() =
+        let check scenario expected =
+            let code, calls, summary = runFixtureFor scenario "" ignore
+            Assert.Equal(0, code)
+            Assert.Equal(3, calls.Length)
+            let assets, _ = scenarioFields summary
+            Assert.Equal<string list>(expected, assets)
+
+        check
+            "CoreSmokeNet11"
+            [ "lib/net11.0/FunnySharp.dll"
+              "lib/net11.0/FunnySharp.xml"
+              "analyzers/dotnet/cs/FunnySharp.Analyzers.dll"
+              "analyzers/dotnet/cs/FunnySharp.Analyzers.CodeFixes.dll" ]
+
+        check
+            "AspNetCoreSmoke"
+            [ "lib/net10.0/FunnySharp.AspNetCore.dll"
+              "lib/net10.0/FunnySharp.AspNetCore.xml"
+              "lib/net10.0/FunnySharp.dll"
+              "lib/net10.0/FunnySharp.xml" ]
+
+    [<Fact>]
+    member _.RuntimeFrameworksRecordRuntimePacksForNativeAot() =
+        let runtimeIdentifier = RuntimeInformation.RuntimeIdentifier
+
+        let check scenario expected =
+            let code, _, summary = runFixtureFor scenario "" ignore
+            Assert.Equal(0, code)
+            let _, runtime = scenarioFields summary
+            Assert.Equal<(string * string) list>(expected, runtime)
+
+        check "CoreTrimmed" [ "Microsoft.NETCore.App", "10.0.15" ]
+
+        check
+            "CoreNativeAot"
+            [ "Microsoft.NETCore.App.Runtime.NativeAOT." + runtimeIdentifier, "10.0.15" ]
+
+        check
+            "AspNetCoreNativeAot"
+            [ "Microsoft.NETCore.App.Runtime.NativeAOT." + runtimeIdentifier, "10.0.15"
+              "Microsoft.AspNetCore.App.Runtime." + runtimeIdentifier, "10.0.15" ]
+
+        check
+            "AspNetCoreNativeAotNet11"
+            [ "Microsoft.NETCore.App.Runtime.NativeAOT." + runtimeIdentifier, "11.0.0"
+              "Microsoft.AspNetCore.App.Runtime." + runtimeIdentifier, "11.0.0" ]
 
     [<Theory>]
     [<InlineData("restore", 1)>]
