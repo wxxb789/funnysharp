@@ -10,7 +10,11 @@ type MarkerContractTests() =
     let testLog root =
         MarkerContract.CanonicalTestLog + "\n" +
         (testAssemblyRelativePaths
-         |> List.map (fun relative -> sprintf "%s (net10.0|x64) passed (1762 tests)" (Path.GetFullPath(Path.Combine(root, relative))))
+         |> List.map (fun relative ->
+             let targetFramework =
+                 if relative.Contains("net11.0", StringComparison.Ordinal) then "net11.0" else "net10.0"
+
+             sprintf "%s (%s|x64) passed (1762 tests)" (Path.GetFullPath(Path.Combine(root, relative))) targetFramework)
          |> String.concat "\n")
 
     [<Fact>]

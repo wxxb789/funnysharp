@@ -3,7 +3,7 @@
 **Why this file:** score 31 — the repo's shipping surface; every other project exists to build, test, pack, or consume this one.
 
 ## OVERVIEW
-Functional carriers (`Option`/`Result`/`UnitResult`/`Validation`/`Effect`), input decoding over BCL `JsonElement`, plus traversal/pipeline extensions over BCL types. C# 13, net10.0, zero runtime dependencies.
+Functional carriers (`Option`/`Result`/`UnitResult`/`Validation`/`Effect`), input decoding over BCL `JsonElement`, plus traversal/pipeline extensions over BCL types. C# 13, net10.0/net11.0, zero runtime dependencies.
 
 ## WHERE TO LOOK
 | Task | Location |

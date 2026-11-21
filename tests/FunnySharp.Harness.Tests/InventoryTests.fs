@@ -8,6 +8,7 @@ module FunnySharp.Harness.Tests.InventoryTests
 open System
 open System.IO
 open System.Text
+open System.Text.Json
 open System.Text.RegularExpressions
 open Xunit
 open FunnySharp.Harness.Inventory
@@ -114,10 +115,7 @@ let private pathVariable () : string =
     | null -> ""
     | value -> value
 
-let private fileNameOf (path: string) : string =
-    match Path.GetFileName path with
-    | null -> path
-    | name -> name
+let private fileNameOf (path: string) : string = Path.GetFileName path
 
 let private touch (path: string) : unit =
     match Path.GetDirectoryName path with
@@ -166,6 +164,16 @@ let private realPath (path: string) : string =
 
 let private repoRelative (relativePath: string) : string =
     Path.Combine(repositoryRoot (), relativePath)
+
+/// The SDK pin this repository's global.json declares. The fixture creates exactly that SDK so
+/// global.json-pin resolution can be exercised without depending on the installed SDKs.
+let private pinnedSdkVersion () : string =
+    let path = Path.Combine(repositoryRoot (), "global.json")
+    use document = JsonDocument.Parse(File.ReadAllText path)
+
+    document.RootElement.GetProperty("sdk").GetProperty("version").GetString()
+    |> Option.ofObj
+    |> Option.defaultValue ""
 
 let private argAfter (flag: string) (argv: string list) : string =
     argv |> List.skipWhile ((<>) flag) |> List.tail |> List.head
@@ -221,6 +229,7 @@ type private Fixture() =
     let fsbin = Path.Combine(temp, "fsbin")
     let aspnetbin = Path.Combine(temp, "aspnetbin")
     let dotnetRoot = Path.Combine(temp, "dotnet")
+    let sdkVersion = pinnedSdkVersion ()
 
     do
         for rel in baselineFiles do
@@ -242,7 +251,7 @@ type private Fixture() =
         )
         |> ignore
 
-        Directory.CreateDirectory(Path.Combine(dotnetRoot, "sdk", "10.0.400", "Roslyn", "bincore"))
+        Directory.CreateDirectory(Path.Combine(dotnetRoot, "sdk", sdkVersion, "Roslyn", "bincore"))
         |> ignore
 
     member _.Temp = temp
@@ -251,6 +260,8 @@ type private Fixture() =
     member _.Fsbin = fsbin
     member _.Aspnetbin = aspnetbin
     member _.DotnetRoot = dotnetRoot
+    member _.SdkVersion = sdkVersion
+    member _.RoslynDir = Path.Combine(dotnetRoot, "sdk", sdkVersion, "Roslyn", "bincore")
 
     member _.Env =
         Map.ofList
@@ -352,7 +363,7 @@ type TargetTableTests() =
         let asp = fixture.Aspnetbin
         let baseline = fixture.Baseline
         let refDir = fixture.Ref
-        let rosl = Path.Combine(fixture.DotnetRoot, "sdk", "10.0.400", "Roslyn", "bincore")
+        let rosl = fixture.RoslynDir
         let af = Path.Combine(fixture.DotnetRoot, "shared", "Microsoft.AspNetCore.App", "10.0.11")
 
         let head () =
@@ -539,7 +550,7 @@ type EnvironmentResolutionTests() =
         |> ignore
 
         Assert.Equal(
-            Some(Path.Combine(fixture.DotnetRoot, "sdk", "10.0.400", "Roslyn", "bincore")),
+            Some(fixture.RoslynDir),
             (fixture.Inputs()).RoslynDir
         )
 

@@ -1,12 +1,13 @@
-# FunnySharp: Pragmatic, BCL-First Functional Programming for C# and .NET 10
+# FunnySharp: Pragmatic, BCL-First Functional Programming for C# and .NET 10/11
 
-[![NuGet FunnySharp](https://img.shields.io/nuget/v/FunnySharp.svg?style=flat-square&label=FunnySharp)](https://www.nuget.org/packages/FunnySharp) [![NuGet FunnySharp.AspNetCore](https://img.shields.io/nuget/v/FunnySharp.AspNetCore.svg?style=flat-square&label=FunnySharp.AspNetCore)](https://www.nuget.org/packages/FunnySharp.AspNetCore) [![Target Framework](https://img.shields.io/badge/.NET-10.0-512BD4?style=flat-square&logo=dotnet)](https://dotnet.microsoft.com/) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](LICENSE)
+[![NuGet FunnySharp](https://img.shields.io/nuget/v/FunnySharp.svg?style=flat-square&label=FunnySharp)](https://www.nuget.org/packages/FunnySharp) [![NuGet FunnySharp.AspNetCore](https://img.shields.io/nuget/v/FunnySharp.AspNetCore.svg?style=flat-square&label=FunnySharp.AspNetCore)](https://www.nuget.org/packages/FunnySharp.AspNetCore) [![Target Framework](https://img.shields.io/badge/.NET-10.0%20%7C%2011.0-512BD4?style=flat-square&logo=dotnet)](https://dotnet.microsoft.com/) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](LICENSE)
 
 [English](README.md) | [简体中文](README_zh-cn.md)
 
-![FunnySharp overview: presence via Option, fail-fast via Result and UnitResult, deterministic error accumulation via Validation, and BCL-first design for .NET 10](docs/assets/funnysharp-overview.webp)
+![FunnySharp overview: presence via Option, fail-fast via Result and UnitResult, deterministic error accumulation via Validation, and BCL-first design for .NET 10 and .NET 11](docs/assets/funnysharp-overview.webp)
 
-FunnySharp is a pragmatic, BCL-first C# functional programming library for C# 13 and .NET 10.
+FunnySharp is a pragmatic, BCL-first C# functional programming library for C# 13 and the
+.NET 10 and .NET 11 runtimes.
 Its Option/Result pattern supports typed error handling and railway-oriented programming on
 standard .NET values, delegates, `Task`, `ValueTask`, and `IAsyncEnumerable<T>`. The core package
 has zero runtime dependencies and bundles Roslyn analyzers; `FunnySharp.AspNetCore` adds optional
@@ -129,9 +130,9 @@ Executable samples: [FunnySharp Core Examples](https://github.com/wxxb789/funnys
 ## Performance, Compatibility & Verification
 
 - **Evidence-Based Performance**: Operation bounds and allocation budgets (`eng/performance/baseline.json`) block release regressions; hosted timing is directional.
-- **Trimming & AOT**: Both packages set `IsTrimmable=true` with full-rooting verification. Due to open generic `ValueTuple` compiler limits in .NET 10, packages do not set `IsAotCompatible`; Native AOT is validated on representative closed generic usages.
+- **Trimming & AOT**: Both packages set `IsTrimmable=true` with full-rooting verification. Due to open generic `ValueTuple` compiler limits, packages do not set `IsAotCompatible`; Native AOT is validated on representative closed generic usages.
 - **Versioning**: `0.x` releases are preview candidates; minor versions may break callers under the documented versioning rules. `1.0.0` begins the major-version compatibility promise.
-- **Contributor Tooling**: Requires .NET SDK `10.0.400` (`rollForward: latestPatch`). Verification runs through the F# harness:
+- **Contributor Tooling**: Requires .NET SDK `11.0.100` (`rollForward: latestPatch`). Verification runs through the F# harness:
 
 ```bash
 dotnet fsi build.fsx -- -p build --project src/FunnySharp/FunnySharp.csproj --no-restore

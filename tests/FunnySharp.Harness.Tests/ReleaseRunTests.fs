@@ -38,9 +38,15 @@ let private runFixtureWithTest (dirty: bool) (change: bool) (exitCode: int) (pub
             let output =
                 if exe = "test" then
                     let summary = sprintf "Test run summary: Passed!\ntotal: 2 failed: 0 succeeded: %d skipped: %d\n" (if skipped then 1 else 2) (if skipped then 1 else 0)
-                    summary + (FunnySharp.Harness.ToolingVerify.testAssemblyRelativePaths
-                        |> List.map (fun relative -> sprintf "%s (net10.0|x64) passed (1 test)" (Path.GetFullPath(Path.Combine(temp.Path, relative))))
-                        |> String.concat "\n")
+
+                    summary
+                    + (FunnySharp.Harness.ToolingVerify.testAssemblyRelativePaths
+                       |> List.map (fun relative ->
+                           let targetFramework =
+                               if relative.Contains("net11.0", StringComparison.Ordinal) then "net11.0" else "net10.0"
+
+                           sprintf "%s (%s|x64) passed (1 test)" (Path.GetFullPath(Path.Combine(temp.Path, relative))) targetFramework)
+                       |> String.concat "\n")
                 else "ok"
             { ok with ExitCode = exitCode; Stdout = output }
     let http (url: string) : HttpResponse =

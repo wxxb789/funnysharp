@@ -3,25 +3,77 @@ module FunnySharp.Harness.Tests.CompatibilityTests
 open System
 open System.IO
 open System.IO.Compression
+open System.Runtime.InteropServices
 open System.Text.Json
 open Xunit
 open FunnySharp.Harness.Compatibility
 open FunnySharp.Harness.Tests.Support
 
-let private writePackage directory id dependencies analyzers =
+let private defaultLanes = [ "net10.0"; "net11.0" ]
+
+let private laneEntries (lanes: string list) (id: string) : string list =
+    [ for lane in lanes do
+          yield sprintf "lib/%s/%s.dll" lane id
+          yield sprintf "lib/%s/%s.xml" lane id ]
+
+let private analyzerEntries =
+    [ "analyzers/dotnet/cs/FunnySharp.Analyzers.dll"
+      "analyzers/dotnet/cs/FunnySharp.Analyzers.CodeFixes.dll" ]
+
+/// Builds one package from explicit content entries, per-lane dependency groups, and the
+/// lanes that carry the ASP.NET Core framework reference, so a test can drop or misdeclare
+/// any single required lane asset or metadata group.
+let private writePackage
+    directory
+    (id: string)
+    (contentEntries: string list)
+    (dependencyGroups: (string * string) list)
+    (frameworkLanes: string list)
+    =
     let path = Path.Combine(directory, id + ".1.0.0.nupkg")
     use archive = ZipFile.Open(path, ZipArchiveMode.Create)
     let add name text =
         let entry = archive.CreateEntry name
         use writer = new StreamWriter(entry.Open())
         writer.Write(text: string)
-    let frameworks = if id = "FunnySharp.AspNetCore" then "<frameworkReferences><group targetFramework=\"net10.0\"><frameworkReference name=\"Microsoft.AspNetCore.App\"/></group></frameworkReferences>" else ""
-    add (id + ".nuspec") (sprintf "<package><metadata><id>%s</id><version>1.0.0</version><readme>README.md</readme><license type=\"expression\">MIT</license><dependencies><group targetFramework=\"net10.0\">%s</group></dependencies>%s</metadata></package>" id dependencies frameworks)
-    for name in [ "README.md"; sprintf "lib/net10.0/%s.dll" id; sprintf "lib/net10.0/%s.xml" id ] do add name "content"
-    if analyzers then
-        add "analyzers/dotnet/cs/FunnySharp.Analyzers.dll" "analyzer"
-        add "analyzers/dotnet/cs/FunnySharp.Analyzers.CodeFixes.dll" "fixes"
+    let dependenciesXml =
+        dependencyGroups
+        |> List.map (fun (lane, inner) -> sprintf "<group targetFramework=\"%s\">%s</group>" lane inner)
+        |> String.concat ""
+    let frameworksXml =
+        if id = "FunnySharp.AspNetCore" then
+            frameworkLanes
+            |> List.map (fun lane ->
+                sprintf "<group targetFramework=\"%s\"><frameworkReference name=\"Microsoft.AspNetCore.App\"/></group>" lane)
+            |> String.concat ""
+            |> sprintf "<frameworkReferences>%s</frameworkReferences>"
+        else
+            ""
+    add (id + ".nuspec") (sprintf "<package><metadata><id>%s</id><version>1.0.0</version><readme>README.md</readme><license type=\"expression\">MIT</license><dependencies>%s</dependencies>%s</metadata></package>" id dependenciesXml frameworksXml)
+    for name in "README.md" :: contentEntries do
+        add name "content"
     path
+
+let private corePackageEntries (lanes: string list) (analyzers: bool) : string list =
+    laneEntries lanes "FunnySharp" @ (if analyzers then analyzerEntries else [])
+
+let private aspNetCorePackageEntries (lanes: string list) : string list =
+    laneEntries lanes "FunnySharp.AspNetCore"
+
+let private laneDependencyGroups (version: string) : (string * string) list =
+    [ for lane in defaultLanes -> lane, sprintf "<dependency id=\"FunnySharp\" version=\"%s\"/>" version ]
+
+let private writeValidPackages directory =
+    writePackage directory "FunnySharp" (corePackageEntries defaultLanes true) [ for lane in defaultLanes -> lane, "" ] []
+    |> ignore
+
+    writePackage
+        directory
+        "FunnySharp.AspNetCore"
+        (aspNetCorePackageEntries defaultLanes)
+        (laneDependencyGroups "1.0.0")
+        defaultLanes
+    |> ignore
 
 let private writeSymbolsPackage directory id =
     let path = Path.Combine(directory, id + ".1.0.0.snupkg")
@@ -31,15 +83,44 @@ let private writeSymbolsPackage directory id =
         use writer = new StreamWriter(entry.Open())
         writer.Write(text: string)
     add (id + ".nuspec") (sprintf "<package><metadata><id>%s</id><version>1.0.0</version></metadata></package>" id)
-    add (sprintf "lib/net10.0/%s.pdb" id) "symbols"
+    for lane in defaultLanes do
+        add (sprintf "lib/%s/%s.pdb" lane id) "symbols"
 
-let private runFixture failure mutatePackages =
+/// The selected package assets and runtime frameworks of the first scenario in a results document.
+let private scenarioFields (results: string) : string list * (string * string) list =
+    use document = JsonDocument.Parse results
+    let scenario = document.RootElement.GetProperty("Scenarios")[0]
+
+    let assets =
+        [ for asset in scenario.GetProperty("SelectedPackageAssets").EnumerateArray() do
+              match asset.GetString() with
+              | null -> ()
+              | path -> yield path ]
+
+    let stringProperty (element: JsonElement) (name: string) : string =
+        match element.GetProperty(name).GetString() with
+        | null -> ""
+        | value -> value
+
+    let runtime =
+        [ for framework in scenario.GetProperty("RuntimeFrameworks").EnumerateArray() ->
+              stringProperty framework "Name", stringProperty framework "Version" ]
+
+    assets, runtime
+
+/// Runs one scenario against fixture packages. The fake SDK command publishes the smoke
+/// executable and emulates the publish's runtime evidence: a runtimeconfig.json for trimmed
+/// publishes and a restore-graph runtime pack entry for Native AOT, which publishes none.
+let private runFixtureFor scenario failure mutatePackages =
     use temp = new TempDirectory()
     File.WriteAllText(Path.Combine(temp.Path, "FunnySharp.slnx"), "")
+    File.WriteAllText(
+        Path.Combine(temp.Path, "global.json"),
+        "{\"sdk\":{\"version\":\"11.0.100\",\"rollForward\":\"latestPatch\"}}"
+    )
     let packages = Path.Combine(temp.Path, "packages")
     Directory.CreateDirectory packages |> ignore
-    writePackage packages "FunnySharp" "" true |> ignore
-    writePackage packages "FunnySharp.AspNetCore" "<dependency id=\"FunnySharp\" version=\"1.0.0\"/>" false |> ignore
+    writeValidPackages packages
     for id in [ "FunnySharp"; "FunnySharp.AspNetCore" ] do
         writeSymbolsPackage packages id
     mutatePackages packages
@@ -47,28 +128,90 @@ let private runFixture failure mutatePackages =
     let previous = processRunner
     let previousSupported = hostOsSupported
     hostOsSupported <- true
+
+    let optionValue (name: string) (args: string list) =
+        let index = args |> List.findIndex ((=) name)
+        args.[index + 1]
+
+    let propertyValue (prefix: string) (args: string list) =
+        args
+        |> List.pick (fun argument ->
+            if argument.StartsWith(prefix, StringComparison.Ordinal) then
+                Some(argument.Substring prefix.Length)
+            else
+                None)
+
     processRunner <- fun _ env args ->
         calls.Add args
         let cache = env |> List.find (fun (key, _) -> key = "NUGET_PACKAGES") |> snd
         Assert.StartsWith(Path.Combine(temp.Path, "artifacts", "nuget"), cache)
+
         if args.Head = "dotnet" && args.[1] = "publish" then
-            let index = args |> List.findIndex ((=) "--output")
-            let directory = args.[index + 1]
-            Directory.CreateDirectory directory |> ignore
+            let publishDirectory = optionValue "--output" args
+            Directory.CreateDirectory publishDirectory |> ignore
+
+            let project =
+                args |> List.find (fun argument -> argument.EndsWith(".csproj", StringComparison.Ordinal))
+
+            let assemblyName = Path.GetFileNameWithoutExtension project
             let suffix = if OperatingSystem.IsWindows() then ".exe" else ""
-            File.WriteAllText(Path.Combine(directory, "FunnySharp.Compatibility.Core" + suffix), "app")
+            File.WriteAllText(Path.Combine(publishDirectory, assemblyName + suffix), "app")
+            let targetFramework = propertyValue "-p:TargetFramework=" args
+            let runtimeIdentifier = optionValue "--runtime" args
+            let runtimeVersion = if targetFramework = "net11.0" then "11.0.0" else "10.0.15"
+            let isCore = assemblyName.EndsWith(".Core", StringComparison.Ordinal)
+
+            if args |> List.contains "-p:PublishAot=true" then
+                let pack name =
+                    sprintf "{\"name\": \"%s\", \"version\": \"[%s, %s]\"}" name runtimeVersion runtimeVersion
+
+                let dependencies =
+                    [ pack ("Microsoft.AspNetCore.App.Runtime." + runtimeIdentifier)
+                      pack ("Microsoft.NETCore.App.Runtime.NativeAOT." + runtimeIdentifier)
+                      pack ("Microsoft.NETCore.App.Runtime." + runtimeIdentifier)
+                      pack ("Microsoft.WindowsDesktop.App.Runtime." + runtimeIdentifier) ]
+
+                let references =
+                    if isCore then
+                        "{\"Microsoft.NETCore.App\": {}}"
+                    else
+                        "{\"Microsoft.AspNetCore.App\": {}, \"Microsoft.NETCore.App\": {}}"
+
+                let assets =
+                    sprintf
+                        "{\"project\": {\"frameworks\": {\"%s\": {\"frameworkReferences\": %s, \"downloadDependencies\": [%s]}}}}"
+                        targetFramework
+                        references
+                        (String.concat ", " dependencies)
+
+                let intermediate = propertyValue "-p:BaseIntermediateOutputPath=" args
+                Directory.CreateDirectory intermediate |> ignore
+                File.WriteAllText(Path.Combine(intermediate, "project.assets.json"), assets)
+            else
+                let frameworks =
+                    [ yield sprintf "{\"name\": \"Microsoft.NETCore.App\", \"version\": \"%s\"}" runtimeVersion
+                      if not isCore then
+                          yield sprintf "{\"name\": \"Microsoft.AspNetCore.App\", \"version\": \"%s\"}" runtimeVersion ]
+
+                File.WriteAllText(
+                    Path.Combine(publishDirectory, assemblyName + ".runtimeconfig.json"),
+                    sprintf "{\"runtimeOptions\": {\"includedFrameworks\": [%s]}}" (String.concat ", " frameworks)
+                )
+
         if (args.Head = "dotnet" && args.[1] = failure) || (args.Head <> "dotnet" && failure = "run") then 8 else 0
     try
         let output = Path.Combine(temp.Path, "artifacts", "compatibility")
         use stdout = new StringWriter()
         use stderr = new StringWriter()
-        let code = mainWith stdout stderr temp.Path [ "-RepositoryRoot"; temp.Path; "-PackageDirectory"; packages; "-OutputDirectory"; output; "-Scenario"; "CoreSmoke" ]
+        let code = mainWith stdout stderr temp.Path [ "-RepositoryRoot"; temp.Path; "-PackageDirectory"; packages; "-OutputDirectory"; output; "-Scenario"; scenario ]
         let resultsPath = Path.Combine(output, "compatibility-results.json")
         let summary = if File.Exists resultsPath then File.ReadAllText resultsPath else stderr.ToString()
         code, calls |> Seq.toList, summary
     finally
         processRunner <- previous
         hostOsSupported <- previousSupported
+
+let private runFixture failure mutatePackages = runFixtureFor "CoreSmoke" failure mutatePackages
 
 type CompatibilityTests() =
     [<Fact>]
@@ -82,6 +225,64 @@ type CompatibilityTests() =
         Assert.Contains("--no-restore", calls.[1])
         use document = JsonDocument.Parse summary
         Assert.True(document.RootElement.GetProperty("Succeeded").GetBoolean())
+        Assert.Equal("11.0.100", document.RootElement.GetProperty("SdkVersion").GetString())
+        let scenario = document.RootElement.GetProperty("Scenarios")[0]
+        Assert.Equal("net10.0", scenario.GetProperty("TargetFramework").GetString())
+
+        Assert.Contains(
+            "lib/net10.0/FunnySharp.dll",
+            scenario.GetProperty("SelectedPackageAssets").EnumerateArray()
+            |> Seq.choose (fun item -> item.GetString() |> Option.ofObj)
+        )
+
+    [<Fact>]
+    member _.SelectedPackageAssetsRecordOnlyTheScenarioLane() =
+        let check scenario expected =
+            let code, calls, summary = runFixtureFor scenario "" ignore
+            Assert.Equal(0, code)
+            Assert.Equal(3, calls.Length)
+            let assets, _ = scenarioFields summary
+            Assert.Equal<string list>(expected, assets)
+
+        check
+            "CoreSmokeNet11"
+            [ "lib/net11.0/FunnySharp.dll"
+              "lib/net11.0/FunnySharp.xml"
+              "analyzers/dotnet/cs/FunnySharp.Analyzers.dll"
+              "analyzers/dotnet/cs/FunnySharp.Analyzers.CodeFixes.dll" ]
+
+        check
+            "AspNetCoreSmoke"
+            [ "lib/net10.0/FunnySharp.AspNetCore.dll"
+              "lib/net10.0/FunnySharp.AspNetCore.xml"
+              "lib/net10.0/FunnySharp.dll"
+              "lib/net10.0/FunnySharp.xml" ]
+
+    [<Fact>]
+    member _.RuntimeFrameworksRecordRuntimePacksForNativeAot() =
+        let runtimeIdentifier = RuntimeInformation.RuntimeIdentifier
+
+        let check scenario expected =
+            let code, _, summary = runFixtureFor scenario "" ignore
+            Assert.Equal(0, code)
+            let _, runtime = scenarioFields summary
+            Assert.Equal<(string * string) list>(expected, runtime)
+
+        check "CoreTrimmed" [ "Microsoft.NETCore.App", "10.0.15" ]
+
+        check
+            "CoreNativeAot"
+            [ "Microsoft.NETCore.App.Runtime.NativeAOT." + runtimeIdentifier, "10.0.15" ]
+
+        check
+            "AspNetCoreNativeAot"
+            [ "Microsoft.NETCore.App.Runtime.NativeAOT." + runtimeIdentifier, "10.0.15"
+              "Microsoft.AspNetCore.App.Runtime." + runtimeIdentifier, "10.0.15" ]
+
+        check
+            "AspNetCoreNativeAotNet11"
+            [ "Microsoft.NETCore.App.Runtime.NativeAOT." + runtimeIdentifier, "11.0.0"
+              "Microsoft.AspNetCore.App.Runtime." + runtimeIdentifier, "11.0.0" ]
 
     [<Theory>]
     [<InlineData("restore", 1)>]
@@ -131,25 +332,91 @@ type CompatibilityTests() =
     member _.InvalidPackageContentsRejectBeforeRunningConsumers() =
         let mutate packages =
             File.Delete(Path.Combine(packages, "FunnySharp.1.0.0.nupkg"))
-            writePackage packages "FunnySharp" "<dependency id=\"Other\" version=\"1.0.0\"/>" true |> ignore
+            writePackage packages "FunnySharp" (corePackageEntries defaultLanes true) [ for lane in defaultLanes -> lane, "<dependency id=\"Other\" version=\"1.0.0\"/>" ] []
+            |> ignore
         let code, calls, error = runFixture "" mutate
         Assert.Equal(2, code)
         Assert.Empty calls
         Assert.Contains("no runtime dependencies", error)
 
     [<Theory>]
+    [<InlineData("missing-net10-dll")>]
+    [<InlineData("missing-net10-xml")>]
+    [<InlineData("missing-net11-dll")>]
+    [<InlineData("missing-net11-xml")>]
+    [<InlineData("missing-net11-dependency-group")>]
+    [<InlineData("missing-net11-framework-reference")>]
+    [<InlineData("wrong-net11-dependency-version")>]
+    member _.PackageMissingEitherLaneAssetOrMetadataRejects(case) =
+        let mutate packages =
+            let coreEntries = corePackageEntries defaultLanes true
+            let coreEntriesWithout entry = coreEntries |> List.filter ((<>) entry)
+
+            let rewriteCore entries groups =
+                File.Delete(Path.Combine(packages, "FunnySharp.1.0.0.nupkg"))
+                writePackage packages "FunnySharp" entries groups [] |> ignore
+
+            let rewriteAspNetCore groups frameworks =
+                File.Delete(Path.Combine(packages, "FunnySharp.AspNetCore.1.0.0.nupkg"))
+
+                writePackage packages "FunnySharp.AspNetCore" (aspNetCorePackageEntries defaultLanes) groups frameworks
+                |> ignore
+
+            match case with
+            | "missing-net10-dll" ->
+                rewriteCore (coreEntriesWithout "lib/net10.0/FunnySharp.dll") [ for lane in defaultLanes -> lane, "" ]
+            | "missing-net10-xml" ->
+                rewriteCore (coreEntriesWithout "lib/net10.0/FunnySharp.xml") [ for lane in defaultLanes -> lane, "" ]
+            | "missing-net11-dll" ->
+                rewriteCore (coreEntriesWithout "lib/net11.0/FunnySharp.dll") [ for lane in defaultLanes -> lane, "" ]
+            | "missing-net11-xml" ->
+                rewriteCore (coreEntriesWithout "lib/net11.0/FunnySharp.xml") [ for lane in defaultLanes -> lane, "" ]
+            | "missing-net11-dependency-group" -> rewriteCore coreEntries [ "net10.0", "" ]
+            | "missing-net11-framework-reference" -> rewriteAspNetCore (laneDependencyGroups "1.0.0") [ "net10.0" ]
+            | "wrong-net11-dependency-version" ->
+                rewriteAspNetCore
+                    [ "net10.0", "<dependency id=\"FunnySharp\" version=\"1.0.0\"/>"
+                      "net11.0", "<dependency id=\"FunnySharp\" version=\"2.0.0\"/>" ]
+                    defaultLanes
+            | _ -> invalidArg "case" case
+
+        let code, calls, error = runFixture "" mutate
+        Assert.Equal(2, code)
+        Assert.Empty calls
+        Assert.NotEmpty error
+
+    [<Theory>]
     [<InlineData("", false)>]
     [<InlineData("<dependency id=\"Other\" version=\"1.0.0\"/>", true)>]
     member _.MissingAnalyzersOrRuntimeDependencyRejectsCorePackage(dependencies, analyzers) =
         use temp = new TempDirectory()
-        let path = writePackage temp.Path "FunnySharp" dependencies analyzers
-        Assert.Throws<InvalidOperationException>(fun () -> validatePackage path "FunnySharp" "1.0.0" "1.0.0") |> ignore
+
+        let path =
+            writePackage
+                temp.Path
+                "FunnySharp"
+                (corePackageEntries defaultLanes analyzers)
+                [ for lane in defaultLanes -> lane, dependencies ]
+                []
+
+        Assert.Throws<InvalidOperationException>(fun () -> validatePackage path "FunnySharp" "1.0.0" "1.0.0" |> ignore)
+        |> ignore
 
     [<Fact>]
     member _.WrongAspNetCoreDependencyRejectsPackage() =
         use temp = new TempDirectory()
-        let path = writePackage temp.Path "FunnySharp.AspNetCore" "<dependency id=\"FunnySharp\" version=\"2.0.0\"/>" false
-        Assert.Throws<InvalidOperationException>(fun () -> validatePackage path "FunnySharp.AspNetCore" "1.0.0" "1.0.0") |> ignore
+
+        let path =
+            writePackage
+                temp.Path
+                "FunnySharp.AspNetCore"
+                (aspNetCorePackageEntries defaultLanes)
+                (laneDependencyGroups "2.0.0")
+                defaultLanes
+
+        Assert.Throws<InvalidOperationException>(fun () ->
+            validatePackage path "FunnySharp.AspNetCore" "1.0.0" "1.0.0" |> ignore)
+        |> ignore
 
     [<Fact>]
     member _.RejectsOutputOutsideArtifactsBeforeRunningCommands() =

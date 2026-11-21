@@ -124,8 +124,9 @@ produces a caller-selected 422. Error grouping and disclosure remain application
 Status-specific typed results publish their real response declarations:
 `NotFound<ProblemDetails>` publishes 404 with `ProblemDetails`; `ValidationProblem` publishes 400
 with `HttpValidationProblemDetails`; `NoContent` publishes 204 with no body. The content type is
-the one written by that typed result. In particular, `TypedResults.NotFound(problem)` writes
-`application/json`, while `TypedResults.Problem(problem)` writes `application/problem+json`.
+the one written by that typed result. On .NET 10, `TypedResults.NotFound(problem)` writes
+`application/json`; on .NET 11 it writes `application/problem+json`.
+`TypedResults.Problem(problem)` writes `application/problem+json` on both lanes.
 
 `ProblemHttpResult` carries a runtime `ProblemDetails.Status`. ASP.NET Core cannot know that value
 when it builds endpoint metadata, so it publishes no response declaration for that result. The

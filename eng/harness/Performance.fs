@@ -106,10 +106,7 @@ let private arrayItems (element: JsonElement) : JsonElement list =
 let private formatInteger (value: decimal) : string =
     value.ToString("0", CultureInfo.InvariantCulture)
 
-let private fileNameOf (path: string) : string =
-    match Path.GetFileName path with
-    | null -> path
-    | name -> name
+let private fileNameOf (path: string) : string = Path.GetFileName path
 
 let private distinctIgnoreCase (values: string list) : string list =
     let seen = HashSet<string>(StringComparer.OrdinalIgnoreCase)

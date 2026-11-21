@@ -8,7 +8,7 @@ suppressible through the standard mechanisms. The code fixes reference
 `Microsoft.CodeAnalysis.Workspaces`, which the IDE provides, and are loaded only there.
 
 The analyzer assembly targets `netstandard2.0` against Roslyn 4.14 and therefore requires an SDK
-that ships Roslyn 4.14 or newer (the .NET 10 SDK). The analyzers are versioned with the package
+that ships Roslyn 4.14 or newer (the .NET 10 and .NET 11 SDKs). The analyzers are versioned with the package
 itself: no separate package, no separate version, and new rules are tracked in
 `src/FunnySharp.Analyzers/AnalyzerReleases.Unshipped.md` until the release containing them ships.
 
@@ -231,7 +231,7 @@ here so the boundary is deliberate:
 - Versioning: the rules ride the package version, and a rule is tracked in
   `src/FunnySharp.Analyzers/AnalyzerReleases.Unshipped.md` until the package version containing
   it ships, when it moves to `AnalyzerReleases.Shipped.md` with that version. The Roslyn
-  reference floor is 4.14 (the .NET 10 SDK); raising it is a deliberate, recorded decision.
+  reference floor is 4.14 (the .NET 10 and .NET 11 SDKs); raising it is a deliberate, recorded decision.
 - Historical Goal 21 maintenance surface at delivery: 932 analyzer/code-fix lines of code across 10 files,
   five diagnostics, two code fixes, and 73 tests (1,577 test lines) covering every reported form,
   every quiet form, the suppressions, both fixes, the embedding invariant, and the clean analysis

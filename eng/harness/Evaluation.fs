@@ -47,11 +47,8 @@ let private tailLines (count: int) (text: string) : string =
 
 /// Python's Path(x).name, tolerant of a trailing separator.
 let private pathName (path: string) : string =
-    let trimmed = path.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)
-
-    match Path.GetFileName trimmed with
-    | null -> ""
-    | name -> name
+    path.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)
+    |> Path.GetFileName
 
 // ---- consumer-side LOC -----------------------------------------------------
 
@@ -144,10 +141,7 @@ let private nupkgName =
 
 let private sortedNupkgs (feedDir: string) : string list =
     Directory.GetFiles(feedDir, "*.nupkg")
-    |> Array.map (fun path ->
-        match Path.GetFileName path with
-        | null -> path
-        | name -> name)
+    |> Array.map Path.GetFileName
     |> Array.sortWith (fun left right -> String.CompareOrdinal(left, right))
     |> List.ofArray
 
@@ -247,9 +241,7 @@ let private sortedCsFiles (directory: string) : string list =
 
 let private jsonOptions = JsonSerializerOptions(WriteIndented = true)
 
-let private jstr (value: string) : JsonValue =
-    Option.ofObj (JsonValue.Create value)
-    |> Option.defaultWith (fun () -> failwith "JsonValue.Create returned null for a string")
+let private jstr (value: string) : JsonValue = JsonValue.Create value
 
 let private jint (value: int) : JsonValue = JsonValue.Create value
 
@@ -573,10 +565,7 @@ let private runVerify
         Directory.CreateDirectory buildDir |> ignore
 
         for item in Directory.GetFiles templateDir do
-            let name =
-                match Path.GetFileName item with
-                | null -> item
-                | value -> value
+            let name = Path.GetFileName item
 
             File.Copy(item, Path.Combine(buildDir, name), true)
 

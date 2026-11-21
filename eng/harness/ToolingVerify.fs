@@ -28,8 +28,9 @@ let notRunSteps: string list =
       "compatibility" ]
 
 let testAssemblyRelativePaths: string list =
-    [ "tests/FunnySharp.Tests/bin/Release/net10.0/FunnySharp.Tests.dll"
-      "tests/FunnySharp.AspNetCore.Tests/bin/Release/net10.0/FunnySharp.AspNetCore.Tests.dll" ]
+    [ for targetFramework in [ "net10.0"; "net11.0" ] do
+          yield sprintf "tests/FunnySharp.Tests/bin/Release/%s/FunnySharp.Tests.dll" targetFramework
+          yield sprintf "tests/FunnySharp.AspNetCore.Tests/bin/Release/%s/FunnySharp.AspNetCore.Tests.dll" targetFramework ]
 
 [<Literal>]
 let CoreExampleMarker = "FunnySharp examples passed."
@@ -189,8 +190,10 @@ let private stripAnsi (text: string) : string =
     ansiEscapePattern.Replace(text, "")
 
 let private testAssemblyPattern (assembly: string) : Regex =
+    // Microsoft.Testing.Platform appends a `[+passed/failed/skipped]` counter group before the
+    // duration in newer SDKs; the legacy `passed (duration)` shape stays accepted.
     Regex(
-        @"^\s*" + Regex.Escape assembly + @"\s+\(net10\.0\|[^)]*\)\s+passed\s+\([^)]*\)\s*$",
+        @"^\s*" + Regex.Escape assembly + @"\s+\((?:net10|net11)\.0\|[^)]*\)\s+passed\s+(?:\[[^\]]*\]\s+)?\([^)]*\)\s*$",
         RegexOptions.IgnoreCase ||| RegexOptions.Multiline
     )
 

@@ -6,7 +6,7 @@
 
 ## OVERVIEW
 
-FunnySharp: pragmatic, BCL-first functional-programming library whose shipping code is C# 13 / .NET 10 (`net10.0`). F# appears only in the development harness (root `build.fsx`, `eng/harness/*.fs`, `tests/FunnySharp.Harness.Tests/`) - it never ships. Feature APIs land only when a goal defines behavior plus verification evidence.
+FunnySharp: pragmatic, BCL-first functional-programming library whose shipping code is C# 13 / .NET 10 and .NET 11 (`net10.0`; `net11.0`). F# appears only in the development harness (root `build.fsx`, `eng/harness/*.fs`, `tests/FunnySharp.Harness.Tests/`) - it never ships. Feature APIs land only when a goal defines behavior plus verification evidence.
 
 Read [Core Design](docs/core-design.md) when shaping a goal or choosing an abstraction. It supplies the shared design intent and trade-off judgment; the product contract, grammar, and selected goal retain their existing authority over shipped behavior and completion.
 
@@ -74,7 +74,7 @@ funnysharp/
 
 ## CONVENTIONS
 
-- SDK pinned `10.0.400` (`global.json`, `rollForward: latestPatch`); test runner `Microsoft.Testing.Platform`.
+- SDK pinned `11.0.100` (`global.json`, `rollForward: latestPatch`); test runner `Microsoft.Testing.Platform`.
 - Root `Directory.Build.props`: `ImplicitUsings`, `Nullable`, `TreatWarningsAsErrors`, `Deterministic` all on - a warning is a build failure.
 - Tests: xUnit v3 (`xunit.v3` 4.0.0), attribute-only, self-executing exes; zero skipped tests is an invariant.
 - Naming contract: `...Async` suffix on async members; `OrNone` for absence-translating bridges; file name = primary type; file-scoped namespaces.
@@ -133,4 +133,4 @@ dotnet fsi build.fsx -- -p eval-verify --task <area> --style <style> --run-dir <
 - `docs/next-stage/decision-record.md` is a pinned Goal 14 baseline - later goals append, never modify.
 - Heavy tests, full pre-check/release, package/platform/AOT checks, evaluation cohorts and benchmarks run only on explicit human request. Do not auto-run them in CI or Agent iterations. Daily checks use incremental project builds and small relevant tests.
 - Timing is informational until a fixed-hardware runner exists; allocation budgets apply to manually requested measurements.
-- No .NET 11 preview support; `net11.0` targeting waits for GA (TODO.md).
+- .NET 11 support ships as stable `net11.0` alongside `net10.0`; .NET 11 preview targeting remains unsupported (TODO.md).
